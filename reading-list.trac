@@ -140,7 +140,7 @@ Please add: System FC, GADTs, kind polymorphism etc
 
  * [http://www.haskell.org/ghc/docs/papers/lazy-functional-state-threads.ps.gz Lazy Functional State Threads], John Launchbury and Simon Peyton Jones. PLDI 1993. A follow-up on "Imperative Functional Programming" paper.
 
- * [http://simonmar.github.io/bib/papers/async.pdf Asynchronous Exceptions in Haskell], Simon Marlow, Simon Peyton Jones, Andrew Moran and John Reppy, 2006.
+ * [http://simonmar.github.io/bib/papers/async.pdf Asynchronous Exceptions in Haskell], Simon Marlow, Simon Peyton Jones, Andrew Moran and John Reppy. PLDI 2001.
 
   * [http://www.haskell.org/ghc/docs/papers/except_ps.gz A semantics for imprecise exceptions], Simon Peyton Jones, Alastair Reid, Tony Hoare and Simon Marlow, PLDI '99.
 
