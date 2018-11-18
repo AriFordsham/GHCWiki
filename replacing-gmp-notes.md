@@ -1,3 +1,6 @@
+
+The information on this page predates the [wiki:Design/IntegerGmp2](design/integer-gmp2) re-engineering effort and is therefore partially obsolete
+
 # Replacing GMP: Bignum libraries, Licensing and Implementation
 
 #### Table of Contents
