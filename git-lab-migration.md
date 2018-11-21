@@ -27,12 +27,11 @@ can also provide:
   do this)
 - Checks for inconsistent submodule changes.
 
-> >
-> > There are a few possible ways this can be accomplished with what
-> > GitLab provides:
+  There are a few possible ways this can be accomplished with what
+  GitLab provides:
 
-- Assuming all code goes through MRs: as a CI pipeline job
-- with a [ custom hook](https://github.com/gitlabhq/gitlabhq/blob/667c0a909bde1cf71f21d8ec9768e98b1c489030/doc/hooks/custom_hooks.md)
+  - Assuming all code goes through MRs: as a CI pipeline job
+  - with a [ custom hook](https://github.com/gitlabhq/gitlabhq/blob/667c0a909bde1cf71f21d8ec9768e98b1c489030/doc/hooks/custom_hooks.md)
 
 - Code and commit message style checks (this is probably best done as a
   CI pipeline)
