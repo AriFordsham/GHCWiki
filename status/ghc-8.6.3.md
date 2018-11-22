@@ -1,4 +1,4 @@
-# GHC plans for 8.6.2
+# GHC plans for 8.6.3
 
 
 This page is our road-map for what will be in 8.6.  
@@ -9,7 +9,7 @@ If you believe your favorite thing belongs in this list, but isn't there, please
 ## Dates
 
 
-Release in mid-October 2018.
+Release in early December 2018.
 
 ## Libraries Status
 
