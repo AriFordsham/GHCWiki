@@ -10,8 +10,9 @@ I've created this wiki page to track my learning/research as I try to improve my
   * its LHS is a metavar of level L,
   * its RHS has no skolems of any level greater than L,
   * its RHS has no type family applications containing metavars with level greater than L,
-  * the domain of the substitution induced by the givens in {{{inert_eqs}}} does not contain a skolem with level <= L, and
+  * the domain of the substitution induced by the givens in {{{inert_eqs}}} at levels greater than L does not contain a skolem with level <= L, and
   * that same substitution domain is immutable (e.g. no metavars, no fsks, no potential for additional equalities)."
+* Note that that last conjunct depends on givens from levels less than or equal L, b/c if they were to mutate, they might interact with givens greater than L and create new such given equalities.
 
 = 20181105 -- revises 20181104
 
