@@ -1,6 +1,21 @@
 
 I've created this wiki page to track my learning/research as I try to improve my feature request that I made in the comments of [\#15009](https://gitlab.haskell.org//ghc/ghc/issues/15009).
 
+# 20181125 -- wanted on the RHS
+
+- We should not float `w :: alpha[L] ~ <RHS>` if the RHS contains a type family application that in turn contains a metavar of a level greater than L. To float `w`, we'd first promote all RHS metavars to level L. But since they are arguments of a type family, we should not promote them prematurely: it's possible the type family could later reduce in a way that ignores/eliminates those metavars.
+
+  - (TODO I don't think the [ existing GHC code](https://github.com/ghc/ghc/blob/ghc-8.6/compiler/typecheck/TcSimplify.hs#L2200) checks for this. Should it?)
+- The `inert_eqs` field of the GHC internal data structure contains the `CTyEqCan` constraints of an inert set. That's where we'd find the candidates for floating and it's also where we'd find the given equalities we'd need to check. There are other fields of that data structure that we'd require to not have any givens, before floating anything.
+- I'd summarize the idea as "We can float an `CTyEqCan` constraint from level K if:
+
+  - its LHS is a metavar of level L,
+  - its RHS has no skolems of any level greater than L,
+  - its RHS has no type family applications containing metavars with level greater than L,
+  - the domain of the substitution induced by the givens in `inert_eqs` at levels greater than L does not contain a skolem with level \<= L, and
+  - that same substitution domain is immutable (e.g. no metavars, no fsks, no potential for additional equalities)."
+- Note that that last conjunct depends on givens from levels less than or equal L, b/c if they were to mutate, they might interact with givens greater than L and create new such given equalities.
+
 # 20181105 -- revises 20181104
 
 
