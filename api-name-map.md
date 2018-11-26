@@ -1,0 +1,43 @@
+## Name Map for use with the GHC API
+
+
+The `ParsedSource`, together with [ApiAnnotations](api-annotations) provide an accurate view of the source code for a module.  Together with supporting libraries such as `ghc-exactprint`, this allows tool writers to make changes to the source, by manipulating the `ParsedSource`, and then using `ghc-exactprint` to generate haskell source code reflecting the changes made, but with nothing else changed. So it preserves layout, comments and so on.
+
+
+The `ParsedSource` serves as input to the renamer, generating a different AST, which has most names resolved (except the ones for overloaded record fields).  But in the process, it is changed sufficiently that it can no longer be used as an accurate reflection of the original source code, in terms of layout, comments and so on.
+
+
+So the problem a tool writer faces is that they have the `ParsedSource` which accurately represents the original source, and should be changed to modify the original source, and the ASTs from the renamer and typechecker which fully capture the `Name` information for every identifier in the module.
+
+
+Many manipulations require access to this later stage information, but as things stand now (GHC 8.6.2) there is no simple way to tie up a `RdrName` from the `ParsedSource` with a `Name` in the `RenamedSource`.
+
+### Possible Solutions
+
+#### A. Use `GlobalRdrEnv`.
+
+
+This is a mapping from an `OccName` to the various `Name`s it represents in the source, each represented in a `GlobalRdrElt`.
+
+
+The problem with this is that the index to the `GlobalRdrEnv` table is a hash of the text of the `OccName`, and so has no location information. i.e. we cannot distinguish between a variable in different occurrences. And nothing in the `GlobalRdrElt` identifies any of the original usage locations.
+
+#### B. Extend the `GlobalRdrEnv` mapping to include the missing information.
+
+
+Since every `RdrName` of interest is `Located`, it would be enough to add a list of occurrence `SrcSpan`s in the `GlobalRdrElt`.
+
+#### C. Create a separate table mapping each `RdrName` occurrence `SrcSpan` to the corresponding `Name`.
+
+
+This is the approach currently used in `HaRe`, and is presented for inclusion in the GHC API as [ https://phabricator.haskell.org/D5330](https://phabricator.haskell.org/D5330)
+
+### Discussion
+
+
+AZ opinions:
+
+
+Option A is not viable. Option B could work, but would have to be subject to a `DynFlag` otherwise the space penalty would be prohibitive for normal usage.
+Option C is a "bolt-on", but is known to do the job.
+ 
