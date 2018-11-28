@@ -17,19 +17,36 @@ main = do
     peek p >>= putStrLn
 }}}
 
-If we were to implement the above naively, then the garbage collector might collect whatever `p` points to right after `poke p a`, and the subsequent `peek` ends up dereferencing a dangling pointer. This is bad.
+If we were to implement the above, we would have to decide how to manage the lifecycle of the allocated memory. But none of the options is great:
 
-A somewhat obvious solution is to change `allocaBytes` to have a different type: instead of `allocaBytes :: Int -> IO (Ptr a)`, we make it `allocaBytes :: Int -> (Ptr a -> IO b) -> IO b`. This is basically the tried-and-tested bracket pattern, allowing us to inject some sort of magical construct after the payload code that makes sure that whatever the pointer points to is held onto until the pointer itself is garbage collected. That magical construct is the `touch#` primop, which essentially says "I will need this value to be alive until at least this point". So `allocaBytes` can be implemented as the moral equivalent of:
+- We can allocate unmanaged memory through `malloc()` and just use that; it will stay alive until the process exits. This is undesirable because we're leaking memory.
+- We can allocate unmanaged memory through `malloc()` and leave the responsibility for cleaning up to the caller. The existing `mallocBytes` function does exactly that, but it is often undesirable because it is brittle; we want something that automatically cleans up after itself.
+- We can allocate managed memory and thus leave cleanup to the GC. The problem with this is that we're not retaining any references that the GC can follow, so our allocated memory becomes eligible for GC right after we return from `allocaBytes`.
+
+A somewhat obvious solution is to change `allocaBytes` to have a different type: instead of `allocaBytes :: Int -> IO (Ptr a)`, we make it `allocaBytes :: Int -> (Ptr a -> IO b) -> IO b`. This is the tried-and-tested bracket pattern, allowing us to run deallocation code after the payload action has finished. A simple implementation might look like this:
 
 {{{#!haskell
 allocaBytes n action = do
-    p <- allocateMemory n
+    p <- mallocBytes n
     retval <- action p
-    touch# p
+    free p
     return retval
 }}}
 
-Great! However, as evidenced by #14346, there is a problem. The correctness of the above code hinges on the presence of `touch#` (without it, the GC is free to pick up whatever `p` points to before `action p` finishes), but GHC's optimizer doesn't actually know this. Specifically, if `action` can be proven to never return, then the dead code elimination optimization will happily delete the `touch#` and `return` parts, and we're back at square 1.
+And this would actually work. However, `malloc` isn't very efficient compared to the Haskell heap, so ideally, we would want to have the cake and eat it by allocating from the Haskell heap, while still keeping the memory alive until the action has finished. This means that we need a magical token that tells the GC that the memory we allocated is still alive, and which we can place in a strategic position right after the action. 
+
+That magical construct is the `touch#` primop, which essentially says "I will need this value to be alive until at least this point". So `allocaBytes` can be implemented as the moral equivalent of:
+
+{{{#!haskell
+allocaBytes n action = do
+    a <- newByteArray n
+    p <- addressOf a
+    retval <- action p
+    touch# a
+    return retval
+}}}
+
+Great! However, as evidenced by #14346, there is a problem. The correctness of the above code hinges on the presence of `touch#` (without it, the GC is free to pick up `a` before `action p` finishes), but GHC's optimizer doesn't actually know this. Specifically, if `action` can be proven to never return, then the dead code elimination optimization will happily delete the `touch#` and `return` parts, and we're back at square 1.
 
 The first workaround for this was to add a `NOINLINE` pragma on `allocaBytes` - without inlining `allocaBytes`, the dead code elimination stops at the function boundary, and cannot proceed to removing `touch#`, because:
 
