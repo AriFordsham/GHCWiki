@@ -5,10 +5,15 @@
 # Summary of tasks to be completed
 
 
-... as discussed by Richard and Simon. This page is mostly for our own notes, but others are welcome to read it.
+Tasks discussed by Richard and Simon. This page is mostly for our own notes, but others are welcome to read it.
 
 
-Oct 18:
+Nov 18
+
+- [\#15977](https://gitlab.haskell.org//ghc/ghc/issues/15977): restructure typechecking modules
+
+
+Oct 18: (SLPJ note Nov 18: I think all this is done as part of the Monster Kind Patch)
 
 - New module `KcTyClsDecls` that pulls from `TcTyClsDecls` and `TcHsType`.
 - Remove `get_class_tvs` from `kcTyClGroup`, in favor of tracking AT TcTyCons in the class TcTyCon
@@ -17,7 +22,7 @@ Oct 18:
 
 Aug 18:
 
-- [\#15742](https://gitlab.haskell.org//ghc/ghc/issues/15742): nail down inferred/specified/required
+- [\#15743](https://gitlab.haskell.org//ghc/ghc/issues/15743): nail down inferred/specified/required
 - [\#15497](https://gitlab.haskell.org//ghc/ghc/issues/15497): coercion quantification and [ Phab:D5054](https://phabricator.haskell.org/D5054)
 - [\#15621](https://gitlab.haskell.org//ghc/ghc/issues/15621), [\#14185](https://gitlab.haskell.org//ghc/ghc/issues/14185): using implication constraints to improve error messages
 - [\#15579](https://gitlab.haskell.org//ghc/ghc/issues/15579): `topNormaliseType`; also [\#14729](https://gitlab.haskell.org//ghc/ghc/issues/14729)
