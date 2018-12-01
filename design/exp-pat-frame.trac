@@ -1,0 +1,121 @@
+= The ExpPatFrame Parser Refactoring
+
+This page outlines a new design for the expression/pattern parser and the motivation for it.
+
+== The Problem
+
+There are places in the grammar where we do not know whether we are parsing an expression or a pattern without infinite lookahead (which we do not have in `happy`):
+
+1. View patterns:
+{{{#!hs
+     f (Con a b     ) = ...  -- 'Con a b' is a pattern
+     f (Con a b -> x) = ...  -- 'Con a b' is an expression
+}}}
+
+2. do-notation:
+{{{#!hs
+     do { Con a b <- x } -- 'Con a b' is a pattern
+     do { Con a b }      -- 'Con a b' is an expression
+}}}
+
+3. Guards:
+{{{#!hs
+     x | True <- p && q = ...  -- 'True' is a pattern
+     x | True           = ...  -- 'True' is an expression
+}}}
+
+4. Top-level value/function declarations (FunBind/PatBind):
+{{{#!hs
+     f !a         -- TH splice
+     f !a = ...   -- function declaration
+}}}
+   Until we encounter the `=` sign, we don't know if it's a top-level TemplateHaskell splice where `!` is an infix operator, or if it's a function declaration where `!` is a strictness annotation.
+
+The approach GHC uses is to parse patterns as expressions and rejig later. This turns out to be suboptimal:
+
+  * We can't handle corner cases. For instance, the following function declaration LHS is not a valid expression (see #1087):
+{{{#!hs
+      !a + !b = ...
+}}}
+
+  * There are points in the pipeline where the representation is awfully incorrect. For instance,
+{{{#!hs
+      f !a b !c = ...
+}}}
+    is first parsed as
+{{{#!hs
+      (f ! a b) ! c = ...
+}}}
+
+  * We have to extend HsExpr with pattern-specific constructs: `EAsPat`, `EViewPat`, `ELazyPat`, etc. It isn't particularly elegant and we don't want such constructors to show up in GHC API.
+
+== Backtracking with Parser Combinators
+
+One might think we could avoid this issue by using a backtracking parser and doing something along the lines of `try pExpr <|> pPat`. I proposed this in a ghc-devs thread: https://mail.haskell.org/pipermail/ghc-devs/2018-October/016291.html. The situation turned out to be more complex. As there can be patterns inside expressions (e.g. via `case`, `let`, `do`) and expressions inside patterns (e.g. view patterns), naive backtracking would be devastating to performance (asymptotically).
+
+== Common Structure
+
+There are common syntactic elements of expressions and patterns (e.g. both of them must have balanced parentheses), and we can capture this common structure in an intermediate data type, `ExpPatFrame`:
+
+{{{#!hs
+data ExpPatFrame
+  = FrameVar RdrName
+    -- ^ Identifier: Just, map, BS.length
+  | FrameIPVar HsIPName
+    -- ^ Implicit parameter: ?x
+  | FrameOverLabel FastString
+    -- ^ Overloaded label: #label
+  | FrameTuple [LTupArgFrame] Boxity
+    -- ^ Tuple (section): (a,b) (a,b,c) (a,,) (,a,)
+  | FrameViewPat LExpPatFrame LExpPatFrame
+    -- ^ View pattern: e -> p
+  | FrameTySig LExpPatFrame (LHsSigWcType GhcPs)
+    -- ^ Type signature: x :: ty
+  | FrameAsPat LExpPatFrame LExpPatFrame
+    -- ^ As-pattern: x@(D a b)
+  ...
+}}}
+
+`ExpPatFrame` is a union of all syntactic elements between expressions and patterns, so it includes both expression-specific constructs (e.g. overloaded labels) and pattern-specific constructs (e.g. view/as patterns).
+
+As soon as we have parsed far enough to decide whether it is an expression or a pattern, we can convert to `HsExpr` or `HsPat` accordingly. In the future we might want to extend 'ExpPatFrame' (expression/pattern frame) to `ExpPatTyFrame` (expression/pattern/type frame), because with Dependent Haskell (or even smaller features, such as visible dependent quantification in terms) we will have types inside expressions and expressions inside types.
+
+The nice thing about having a dedicated type such as `ExpPatFrame` is keeping parsing concerns local to the parser: no matter what hacky intermediate structures we add to `ExpPatFrame`, we can keep `HsExpr` and `HsPat` clean.
+
+== Implementation Plan
+
+Initially I (int-index) tried to do the refactoring and fix #1087 simultaneously, and I have a semi-working proof-of-concept passing (almost all) tests: https://github.com/serokell/ghc/commit/39c5db2d77c96d4b0962f581b60908343edf8624
+
+This prototype also revealed that doing the `ExpPatFrame` refactoring allows for better error messages in some cases. Compare:
+
+{{{
+GHCi, version 8.4.3: http://www.haskell.org/ghc/  :? for help
+Prelude> foo# = ()
+
+<interactive>:1:6: error:
+   parse error on input '='
+   Perhaps you need a 'let' in a 'do' block?
+   e.g. 'let x = 5' instead of 'x = 5'
+}}}
+
+and
+
+{{{
+GHCi, version 8.7.20181026: http://www.haskell.org/ghc/  :? for help
+Prelude> foo # = ()
+
+<interactive>:1:5: error:
+   Operator is missing a right-hand side argument: #
+Prelude> foo# = ()
+
+<interactive>:2:4: error:
+   Operator is missing a right-hand side argument: #
+   Perhaps you meant to enable MagicHash?
+}}}
+
+However, after a few hellish rebases, I decided to split this effort into many smaller patches. Here's the new plan:
+
+1. Introduce `ExpPatFrame` with as little churn as possible.
+2. Use it to clean up the definition of `HsExpr`, removing `EAsPat`, `EWildPat`, `EViewPat`, `ELazyPat`. Perhaps also `HsArrApp` and `HsArrForm`.
+3. Use it as the basis for fixing #1087
+4. Investigate its viability for term/type parser unification
