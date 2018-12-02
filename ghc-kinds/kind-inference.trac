@@ -2,7 +2,7 @@
 
 This page summarises several alternative designs for doing kind inference for
 types and classes, under `-XPolyKinds`.
-Though originally written with respect to #9200, there are more issues at play here. Relevant other tickets: #9201, #9427, #14451, #14847, #15142, and (to a lesser extent) #12088, which is all about instances.
+Though originally written with respect to #9200, there are more issues at play here. Relevant other tickets: #9201, #9427, #14451, #14668, #14847, #15142, and (to a lesser extent) #12088, which is all about instances.
 
 See also GhcKinds/KindInference/Examples for a growing set of examples to consider when evaluating any new algorithm.
 
