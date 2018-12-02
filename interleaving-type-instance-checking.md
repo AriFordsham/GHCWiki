@@ -4,6 +4,10 @@ This page is to track the discussions on
 - [\#11348](https://gitlab.haskell.org//ghc/ghc/issues/11348)
 - [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088)
 - [\#12239](https://gitlab.haskell.org//ghc/ghc/issues/12239)
+- [\#12643](https://gitlab.haskell.org//ghc/ghc/issues/12643)
+- [\#14668](https://gitlab.haskell.org//ghc/ghc/issues/14668)
+- [\#15561](https://gitlab.haskell.org//ghc/ghc/issues/15561)
+- [\#15987](https://gitlab.haskell.org//ghc/ghc/issues/15987)
 
 
 The essential problem is that type-checking declarations can depend on `type instance`s so we must be careful to process `type instance`s in the correct order. When necessary interleaving the instances with other declarations.

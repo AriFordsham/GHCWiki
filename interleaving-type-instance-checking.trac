@@ -2,6 +2,10 @@ This page is to track the discussions on
  * #11348
  * #12088
  * #12239
+ * #12643
+ * #14668
+ * #15561
+ * #15987
 
 The essential problem is that type-checking declarations can depend on `type instance`s so we must be careful to process `type instance`s in the correct order. When necessary interleaving the instances with other declarations.
 
