@@ -376,6 +376,9 @@ However, this can't always be done when multiplicities are involved: the multipl
 
 To prevent this, we guard this reduction with the condition that the multiplicity component of the coercion is a reflexivity coercion.
 
+
+I (aspiwack) believe we are only checking whether the coercion is syntactically a reflexivity coercion. This is probably over conservative as coercions are not necessarily fully simplified. We probably need a finer grained test, otherwise this will cause performance regressions.
+
 #### CPR worker/wrapper split
 
 ##### Case multiplicity
