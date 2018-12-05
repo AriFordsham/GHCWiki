@@ -15,8 +15,10 @@ Description of the implementation strategy: [[LinearTypes/Implementation]]
 Some motivating examples in the wiki: [[LinearTypes/Examples]]
 
 Talks:
-* [https://www.youtube.com/watch?v=o0z-qlb5xbI Arnaud Spiwack at Popl 2018]
+* [https://skillsmatter.com/skillscasts/10637-distributed-programming-with-linear-types Arnaud Spiwack at Haskell Exchange 2018], speaking about some of the goals and vision for Linear Types in Haskell
+* [https://www.youtube.com/watch?v=o0z-qlb5xbI Arnaud Spiwack at Popl 2018], laying out the theory of Linear Haskell
 * [https://www.youtube.com/watch?v=t0mhvd3-60Y Simon Peyton Jones at Curry On 2018], longer but covers more ground.
+* [https://skillsmatter.com/skillscasts/11067-keynote-linear-haskell-practical-linearity-in-a-higher-order-polymorphic-language Simon Peyton Jones at Haskell Exchange 2018], similar to the Curry On talk, but Arnaud speaks inaudibly in the background from time to time
 
 == Implementation ==
 
