@@ -82,6 +82,56 @@ Notice that that `forall a. C a =>` in the type signature for `method` is comple
 
 There may be code in the wild that previously depended on the assumption that reifying a class would put these redundant tyvars/class contexts at the front of each method's type signature, so it's possible that there may be breakage because of this.
 
+=== Changes to unused import warnings ===
+
+GHC 8.8 tightened up the implementation of its unused import warning algorithm to more closely match the specification in wiki:Commentary/Compiler/UnusedImports, as GHC 8.0 inadvertently introduced a [https://ghc.haskell.org/trac/ghc/ticket/13064 regression] that caused it to stray from this specification. As a result, some programs which compile without warnings on GHC 8.0 through 8.6 will now produce warnings on GHC 8.8. A good example that illustrates this is this one:
+
+{{{#!hs
+{-# OPTIONS_GHC -Wunused-imports #-}
+module T13064 where
+
+import Control.Applicative
+import Prelude (IO, pure)   -- Import of 'pure' is redundant
+
+foo :: IO ()
+foo = () <$ pure ()
+}}}
+
+This produces no warnings on 8.0–8.6, but does warn on GHC 8.8:
+
+{{{
+T13064.hs:5:1: warning: [-Wunused-imports (in -Wextra)]
+    The import of ‘pure’ from module ‘Prelude’ is redundant
+}}}
+
+To summarize the reasoning from wiki:Commentary/Compiler/UnusedImports, if an identifier `f` is imported from two different locations, once from `import A` and once from `import B (f)`, then GHC will mark the explicit import from `B` as redundant, since catch-all imports like `import A` "dominate" explicit imports like `import B (f)`.
+
+If one wishes to keep this sort of compiling without any warnings on both GHC 8.8 and previous versions, there are two options. One is to make both imports catch-all:
+
+{{{#!hs
+{-# OPTIONS_GHC -Wunused-imports #-}
+module T13064 where
+
+import Control.Applicative
+import Prelude
+
+foo :: IO ()
+foo = () <$ pure ()
+}}}
+
+Alternatively, one can use `pure` qualified to avoid GHC warning about it:
+
+{{{#!hs
+{-# OPTIONS_GHC -Wunused-imports #-}
+module T13064 where
+
+import Control.Applicative
+import Prelude (IO, pure)
+
+foo :: IO ()
+foo = () <$ Prelude.pure ()
+}}}
+
 === Additions to the `-Wcompat` warning group
 
 As part of [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0030-remove-star-kind.rst this GHC proposal], the uses of `*` that rely on the `StarIsType` extension now produce a warning:
