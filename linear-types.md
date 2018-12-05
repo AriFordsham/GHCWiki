@@ -22,8 +22,10 @@ Some motivating examples in the wiki: [LinearTypes/Examples](linear-types/exampl
 
 Talks:
 
-- [ Arnaud Spiwack at Popl 2018](https://www.youtube.com/watch?v=o0z-qlb5xbI)
+- [ Arnaud Spiwack at Haskell Exchange 2018](https://skillsmatter.com/skillscasts/10637-distributed-programming-with-linear-types), speaking about some of the goals and vision for Linear Types in Haskell
+- [ Arnaud Spiwack at Popl 2018](https://www.youtube.com/watch?v=o0z-qlb5xbI), laying out the theory of Linear Haskell
 - [ Simon Peyton Jones at Curry On 2018](https://www.youtube.com/watch?v=t0mhvd3-60Y), longer but covers more ground.
+- [ Simon Peyton Jones at Haskell Exchange 2018](https://skillsmatter.com/skillscasts/11067-keynote-linear-haskell-practical-linearity-in-a-higher-order-polymorphic-language), similar to the Curry On talk, but Arnaud speaks inaudibly in the background from time to time
 
 ## Implementation
 
