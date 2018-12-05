@@ -7,8 +7,10 @@ The current implementation can be reviewed on [ Phabricator](https://phabricator
 
 The implementation is supported by a [ document formalising (a simplified version) of linear core](https://ghc.haskell.org/trac/ghc/attachment/wiki/LinearTypes/Implementation/minicore.pdf). This is more complete than the paper. It is work in progress.
 
+## Summary of the syntactic changes
 
-The linear types branch adds a new extension `-XLinearTypes`. This allows to write programs using the linear arrow `a ->. b` and the multiplicity-polymorphic arrow `a -->.(m) b`, where `m` is any type which belongs to the new Multiplicity kind, with two types `One` and `Omega`.  The linear arrow ⊸ is available when compiling with UnicodeSyntax. The final syntax is not decided yet and subject to change.
+
+The linear types branch adds a new extension `-XLinearTypes`. This allows to write programs using the linear arrow `a ->. b` and the multiplicity-polymorphic arrow `a -->.(m) b`, where `m` is any type which belongs to the new Multiplicity kind, with two types `One` and `Omega`.  The linear arrow `⊸` is available when compiling with `-XUnicodeSyntax`. The final syntax is not decided yet and subject to change.
 
 
 Example:
@@ -21,13 +23,16 @@ id x = x
 
 is the linear identity function.
 
-## funTyCon and unrestrictedFunTyCon
+### funTyCon and unrestrictedFunTyCon
 
 
-In the current GHC, `funTyCon` is the `(->)` type, of kind `forall {a b :: RuntimeRep}. TYPE a -> TYPE b -> Type`.
+In the GHC, prior to linear types, `funTyCon` is the `(->)` type, of kind `forall {a b :: RuntimeRep}. TYPE a -> TYPE b -> Type`.
 
 
 In the linear types branch, `funTyCon` refers to a new primitive type called `FUN`, of kind `forall (m :: Multiplicity) -> forall {a b :: RuntimeRep}. TYPE a -> TYPE b -> Type`. The `(->)` arrow is represented by `unrestrictedFunTyCon` and is a type synonym for `FUN 'Omega`. Note that the kind of `(->)` stays the same. `(->)` is moved from `TysPrim` to `TysWiredIn`.
+
+
+There is no `(->.)` (linear arrow) type constructor yet. It will eventually be defined as a type synonym in `TysWiredIn` like `(->)`.
 
 
 The additional multiplicity parameter to `funTyCon` is the main principle behind the implementation. The rest of the implementation is essentially correctly propagating and calculating linearity information whenever a `FunTy` is created.
@@ -43,16 +48,9 @@ In binders, where we stored a type, we now store a pair of type and multiplicity
 
 We need to distinguish `a -> b`, `a ->. b` and `a -->.(m) b` in the surface syntax. The `HsFunTy` constructor has an extra field containing `HsArrow`, which stores this information:
 
-```wiki
-data HsArrow pass
-  = HsUnrestrictedArrow
-    -- ^ a -> b
-  | HsLinearArrow
-    -- ^ a ->. b
-  | HsExplicitMult (LHsType pass)
-    -- ^ a -->.(m) b (very much including `a -->.(Omega) b`! This is how the
-    -- programmer wrote it). It is stored as an `HsType` so as to preserve the
-    -- syntax as written in the program.
+```
+dataHsArrow pass
+  =HsUnrestrictedArrow-- ^ a -> b|HsLinearArrow-- ^ a ->. b|HsExplicitMult(LHsType pass)-- ^ a -->.(m) b (very much including `a -->.(Omega) b`! This is how the-- programmer wrote it). It is stored as an `HsType` so as to preserve the-- syntax as written in the program.
 ```
 
 ## Data Constructors are polymorphic
