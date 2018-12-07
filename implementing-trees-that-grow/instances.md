@@ -132,6 +132,55 @@ Actually, in the common case where GHC does not use any extension fields for a c
 type instance XK (GhcPass p) = GhcExt PlaceHolder
 ```
 
+### Plan G
+
+
+Let's focus on `Outputable` for now. The underlying problem is that to have a *single* pretty printer that does a good job of printing *every instantation* of `HsExpr x` is really hard:
+
+- There are many, many fields within `HsExpr`, of type `X1 x`, `X2 x`, ... `X100 x`, where the `Xi` are all type functions. So a truly-generic pretty-printer for `HsExpr` would have to take 100 pretty-printers as its arguments.
+
+- It'd be difficult to do layout that worked regardless of the way in which the type was instantiated.
+
+
+Here's a way to get very small instance contexts, at the cost of writing a GHC-specific pretty-printer.  (Leaving the challenge of a truly generic pretty printer for another day.)
+
+```wiki
+data ThePass p where
+  ThePassPs :: ThePass GhcPs
+  ThePassRn :: ThePass GhcRn
+  ThePassTc :: ThePass GhcTc
+
+class GhcPassC p where
+  thePass :: ThePass p
+
+data HsExpr p
+  = HsVar (XVar p) Int
+  | ...
+
+type instance XVar (GhcPass p) = GhcXVar p
+type family GhcXVar p where
+  GhcXVar GhcPs = RdrName
+  GhcXVar GhcRn = Name
+  GhcXVar GhcTc = Id
+
+instance (GhcPassC p => Outputable (HsExpr (GhcPass p)) where
+   ppr (HsVar x i) = ppr i <+> case (thePass @p) of
+                                 ThePassPs -> ppr x -- RdrName
+                                 ThePassRn -> ppr x -- Name
+                                 ThePassTc -> ppr x -- Id
+```
+
+
+So every `Outputable` instance takes `GhcPassC p` as a context, which is just a simple data contructor.  Then we dispatch
+on that constructor when we want to pretty-print that piece.
+
+
+This would be a huge step forward over the pretty printer GHC has had for ages, where the pass-specific structures are
+entirely un-printable.  And it'd be simple and efficient.
+
+
+I have no idea how this would affect `Data`.
+
 ## Outdated/Infeasible Plans
 
 ### PLAN C (Infeasible)
