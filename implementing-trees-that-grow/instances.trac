@@ -147,6 +147,97 @@ entirely un-printable.  And it'd be simple and efficient.
 
 I have no idea how this would affect `Data`.
 
+=== Plan H ===
+
+The performance issue of Plan A presumably comes from the fact that we have instance search running every time we are typechecking an instance with a large constraint set. That is:
+
+{{{#!hs
+type LargeConstraintSet p =
+  ( Outputable (XIPBinds    p)
+  , Outputable (XViaStrategy p)
+  , ...
+  , ...
+  , ...
+  , ... -- and so on, for each extension field
+  )
+
+instance LargeConstraintSet p => Outputable (HsExpr p)
+instance LargeConstraintSet p => Outputable (HsPat p)
+instance LargeConstraintSet p => Outputable (HsType p)
+instance LargeConstraintSet p => Outputable (HsBinds p)
+instance (LargeConstraintSet idL, LargeConstraintSet idR, Outputable body) => Outputable (StmtLR idL idR body)
+...
+}}}
+
+Every time we add something to the `LargeConstraintSet`, typechecking each of these instances slows down. 
+
+Instead, we could create a single constraint, `OutputableX`, and hide the large constraint set inside it:
+
+{{{#!hs
+class OutputableX p where
+  withOutputableX :: (LargeConstraintSet p => r) -> r
+}}}
+
+and then
+
+{{{#!hs
+instance OutputableX p => Outputable (HsExpr p)
+instance OutputableX p => Outputable (HsPat p)
+instance OutputableX p => Outputable (HsType p)
+instance OutputableX p => Outputable (HsBinds p)
+instance (OutputableX idL, OutputableX idR, OutputableX body) => Outputable (StmtLR idL idR body)
+}}}
+
+becomes fast, as it only has one constraint: `OutputableX`. Operationally, we have `LargeConstraintSet p` stored inside `OutputableX`, but for the typechecker, this is hidden information.
+
+We will have only three instances of `OutputableX`, defined as follows:
+
+{{{#!hs
+instance OutputableX (GhcPass 'Parsed) where
+  withOutputableX r = r
+
+instance OutputableX (GhcPass 'Renamed) where
+  withOutputableX r = r
+
+instance OutputableX (GhcPass 'Typechecked) where
+  withOutputableX r = r
+}}}
+
+Therefore, we have to do instance resolution for `LargeConstraintSet` only once per pass (to define the above instances).
+
+Now, whenever a piece of code needs something from the large constraint set, it calls `withOutputableX` explicitly:
+
+{{{
+-  ppr (IPBinds ds bs) = pprDeeperList vcat (map ppr bs)
++  ppr (IPBinds ds bs) = withOutputableX @p $
++                        pprDeeperList vcat (map ppr bs)
+}}}
+
+Inside `withOutputableX @idL`, we have `LargeConstraintSet idL` in context.
+
+=== Plan H* ===
+
+Plan H relies on the assumption that calls to `withOutputableX` will not lead to the same kind of performance degradation. This is an untested, but hopefully true assumption. In case it proves to be wrong, we can augment this plan by having separate methods for each constraint:
+
+{{{#!hs
+class OutputableX p where
+  withOutputableXIPBinds :: (Outputable (XIPBinds p => r) -> r
+  withOutputableXViaStrategy :: (Outputable (XViaStrategy p => r) -> r
+  ...
+  ...
+  ... -- and so on, for each extension field
+}}}
+
+With Plan H*, the code will be asking only for the constraint that it actually needs:
+
+{{{
+-  ppr (IPBinds ds bs) = pprDeeperList vcat (map ppr bs)
++  ppr (IPBinds ds bs) = withOutputableXIPBinds @p $
++                        pprDeeperList vcat (map ppr bs)
+}}}
+
+This means that we're not dealing with `LargeConstraintSet` at all, we're working with individual parts of it.
+
 == Outdated/Infeasible Plans ==
 
 === PLAN C (Infeasible)  ===
