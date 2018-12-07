@@ -205,7 +205,7 @@ classOutputableX p where
 and then
 
 ```
-instanceOutputableX p =>Outputable(HsExpr p)instanceOutputableX p =>Outputable(HsPat p)instanceOutputableX p =>Outputable(HsType p)instanceOutputableX p =>Outputable(HsBinds p)instance(OutputableX idL,OutputableX idR,OutputableX body)=>Outputable(StmtLR idL idR body)
+instanceOutputableX p =>Outputable(HsExpr p)instanceOutputableX p =>Outputable(HsPat p)instanceOutputableX p =>Outputable(HsType p)instanceOutputableX p =>Outputable(HsBinds p)instance(OutputableX idL,OutputableX idR,Outputable body)=>Outputable(StmtLR idL idR body)
 ```
 
 
