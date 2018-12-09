@@ -1,3 +1,5 @@
+= Linux distribution version matrix
+
 ||= Distribution          =||= Release date =||= gcc =||= binutils =||= libc      =||= gmp =||= ncurses =||= tinfo =||= Comments =||= Has bindist =||
 || RedHat 6                ||                || 4.4   || 2.20       || glibc 2.12  || 4.3   || 5.7       ||         ||            ||               ||
 || RedHat 7                ||                || 4.8   || 2.25       || glibc 2.17  || 6.0   || 5.9       ||         ||            ||               ||
