@@ -152,6 +152,16 @@
 <th></th>
 <th></th>
 <th></th></tr>
+<tr><th> Ubuntu Cosmic (18.10)   </th>
+<th> Oct 2018       </th>
+<th> 8.2   </th>
+<th> 2.31       </th>
+<th> glibc 2.28  </th>
+<th> 6.0   </th>
+<th> 6.1       </th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>**Debian**</th>
 <th></th>
 <th></th>
