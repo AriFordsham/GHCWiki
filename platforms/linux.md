@@ -1,3 +1,5 @@
+# Linux distribution version matrix
+
 <table><tr><th> Distribution          </th>
 <th> Release date </th>
 <th> gcc </th>
@@ -9,6 +11,16 @@
 <th> Comments </th>
 <th> Has bindist 
 </th></tr>
+<tr><th>**RedHat/Centos**</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th> RedHat 6                </th>
 <th></th>
 <th> 4.4   </th>
@@ -26,6 +38,16 @@
 <th> glibc 2.17  </th>
 <th> 6.0   </th>
 <th> 5.9       </th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>**Fedora**</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th></tr>
@@ -67,6 +89,16 @@
 <th> glibc 2.27  </th>
 <th> 6.1   </th>
 <th> 6.1       </th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>**Ubuntu**</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th></tr>
@@ -120,6 +152,26 @@
 <th></th>
 <th></th>
 <th></th></tr>
+<tr><th> Ubuntu Cosmic (18.10)   </th>
+<th> Oct 2018       </th>
+<th> 8.2   </th>
+<th> 2.31       </th>
+<th> glibc 2.28  </th>
+<th> 6.0   </th>
+<th> 6.1       </th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>**Debian**</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th> Debian Wheezy (7)       </th>
 <th> May 2013       </th>
 <th> 4.7   </th>
@@ -150,12 +202,33 @@
 <th> 6.0       </th>
 <th> 5       </th>
 <th></th>
-<th></th></tr>
+<th> x             
+</th></tr>
 <tr><th> Debian Buster (10)      </th>
 <th></th>
 <th></th>
 <th></th>
 <th> glibc       </th>
+<th> 6.1   </th>
+<th> 6.1       </th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th>**Alpine**</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
+<tr><th> Alpine 3.8              </th>
+<th> Dec 2018       </th>
+<th> 6.4   </th>
+<th> 2.30       </th>
+<th> musl 1.1    </th>
 <th> 6.1   </th>
 <th> 6.1       </th>
 <th></th>
