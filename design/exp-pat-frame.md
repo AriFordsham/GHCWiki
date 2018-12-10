@@ -120,6 +120,64 @@ data StmtLR idL idR body
 
 Imagine we're parsing a `HsExpr GhcPrePs` – it will contain `LHsLocalBinds GhcPrePs` and `LPat GhcPrePs`. Converting them to `GhcPs` is extra code and extra runtime – we don't want that. Instead, in `ExpPatFrame` we store `LHsLocalBinds GhcPs` and `LPat GhcPs` in corresponding places. Therefore, `ExpPatFrame` does not constitute a proper pass: we pre-parse little fragments that store `GhcPs` subtrees and then convert these fragments to `HsExpr GhcPs`, `HsPat GhcPs`, or `HsPat GhcPs`.
 
+### Embedding Common Terms
+
+
+We (simonpj, int-index, goldfire, and I (Shayan)) had an email discussion to overview the design space and the results are documented as the following.
+
+
+0) The process of parsing includes two subprocesses of parsing ambiguous bits into small in-between datatypes (in linear time), and then resolving ambiguities and converting (in linear time) from the in-between datatypes to the relevant `HsSyn` types of `GhsPs` pass. 
+
+
+1) Q) What are the other, besides the ones involved D5408, noticeable ambiguities that could benefit from an in-between datatype?
+
+>
+> A)There are \[other\] ambiguities when parsing data declarations, resolved them with an intermediate data type, too, in `D5180`. 
+
+>
+> For example the following definition of `TyEl`:
+
+```
+dataTyEl=TyElOprRdrName|TyElOpd(HsTypeGhcPs)|TyElTilde|TyElBang|TyElUnpackedness([AddAnn],SourceText,SrcUnpackedness)|TyElDocPrevHsDocString
+```
+
+
+2) I proposed to consider the possibility of defining a common core "pre-expression" where expressions, patterns and commands are made of.
+
+>
+> It would possibly help to define the three as a composition of the common core and the bits specific them.
+> Then we can have declarations similar to
+
+```
+dataHsTerm trm
+   =...-- the common term constructs as in your `ExpPatFrame`dataHsExpr x
+  =TermE(HsTerm(HsExpr x))|...-- the other constructors specific  to expressionsdataPat x
+  =TermP(HsTerm(Pat x))|......-- same for commands
+```
+
+>
+> There are different possible variations to above, but this is essentially to say
+
+>
+> HsExpr = Common Core + Other expression-specific constructs
+
+>
+> Pat = Common Core + Other pattern-specific constructs
+
+>
+> (Notice one can split things up all the way to achieve one
+> datatype-per-constructor, but a couple of years ago we've found it
+> overkilling)
+
+>
+> We identified the following pros and cons.
+
+>
+> Pros are that there will be fewer constructors, and more importantly, parts that look the same may be pretty-printed (or possibly renamed, desugared, ...) the same.
+
+>
+> Cons are that there will be one more matching to go under `TermX` constructor and such nesting has a (possibly negligible) performance impact.
+
 ## Minimizing `ExpPatFrame`
 
 
