@@ -82,6 +82,106 @@ As soon as we have parsed far enough to decide whether it is an expression or a 
 
 The nice thing about having a dedicated type such as `ExpPatFrame` is keeping parsing concerns local to the parser: no matter what hacky intermediate structures we add to `ExpPatFrame`, we can keep `HsExpr` and `HsPat` clean.
 
+## Trees that Grow
+
+
+During the discussion of [ Phab:D5408](https://phabricator.haskell.org/D5408), an alternative plan came up: create a new GHC pass, `GhcPrePs`, and extend `HsExpr GhcPrePs` with pattern-specific and command-specific constructors. Then disambiguate during the conversion from `GhcPrePs` to `GhcPs`.
+
+
+The reason this design does not work is that some parts of `HsExpr` should be disambiguated much sooner than we parse an expression in its entirety. We have:
+
+```wiki
+data HsExpr p
+    ...
+  | HsLet ...
+                (LHsLocalBinds p)
+                ...
+
+data Match p body
+  = Match {
+        ...
+        m_pats :: [LPat p],
+        ...
+  }
+
+data GRHSs p body
+  = GRHSs {
+      ...
+      grhssLocalBinds :: LHsLocalBinds p
+    }
+
+data StmtLR idL idR body
+  ...
+  | BindStmt
+             (LPat idL)
+             ...
+```
+
+
+Imagine we're parsing a `HsExpr GhcPrePs` – it will contain `LHsLocalBinds GhcPrePs` and `LPat GhcPrePs`. Converting them to `GhcPs` is extra code and extra runtime – we don't want that. Instead, in `ExpPatFrame` we store `LHsLocalBinds GhcPs` and `LPat GhcPs` in corresponding places. Therefore, `ExpPatFrame` does not constitute a proper pass: we pre-parse little fragments that store `GhcPs` subtrees and then convert these fragments to `HsExpr GhcPs`, `HsPat GhcPs`, or `HsPat GhcPs`.
+
+## Minimizing `ExpPatFrame`
+
+
+We'd like to keep `ExpPatFrame` as small as possible. It means that instead of duplicating all of `HsExpr` and `HsPat` constructors in it, we'd rather embed them directly when unambiguous. For example, patterns cannot contain `if`, `case`, or `do`, so we'd rather have this:
+
+```wiki
+data ExpPatFrame
+  = ...
+  | ...
+  | FrameExpr (HsExpr GhcPs)
+```
+
+
+than this:
+
+```wiki
+data ExpPatFrame
+  = ...
+  | ...
+  | ...
+  | FrameIf LExpPatFrame LExpPatFrame LExpPatFrame
+    -- ^ If-expression: if p then x else y
+  | FrameMultiIf [LFrameGRHS]
+    -- ^ Multi-way if-expression: if | p = x \n | q = x
+  | FrameCase LExpPatFrame [LFrameMatch]
+    -- ^ Case-expression: case x of { p1 -> e1; p2 -> e2 }
+  | FrameDo (HsStmtContext Name) [LFrameStmt]
+    -- ^ Do-expression: do { s1; a <- s2; s3 }
+  ...
+
+
+data FrameStmt
+  = ...
+  | ...
+  | ...
+  | FrameBindStmt (LPat GhcPs) LExpPatFrame
+    -- ^ Binding statement: p <- e
+  | FrameBodyStmt LExpPatFrame
+    -- ^ Body statement: e
+  | FrameLetStmt (LHsLocalBinds GhcPs)
+    -- ^ Let statement: let p = t
+  ...
+```
+
+
+Unfortunately, while `do` or `let` cannot be used in patterns, they can be used in commands, so we end up duplicating most of `HsExpr` constructors for the sake of `HsCmd`. If not for this, we'd be able to make `ExpPatFrame` smaller.
+
+
+Nevertheless, in the final iteration we will include constructors for unambiguous cases:
+
+```wiki
+data ExpPatFrame
+  = ...
+  | ...
+  | FrameExpr (HsExpr GhcPs) -- unambiguously an expression
+  | FramePat (HsPat GhcPs) -- unambiguously a pattern
+  | FrameCommand (HsCmd GhcPs) -- unambiguously a command
+```
+
+
+Hopefully, this will allow us to remove at least some duplication, even if not much.
+
 ## Implementation Plan
 
 
