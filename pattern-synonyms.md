@@ -314,8 +314,8 @@ Example, using [ViewPatterns](view-patterns):
 The first part as is before and describes the expansion of the synonym in patterns. The second part describes the expansion in expressions.
 
 ```wiki
-   fac 0 = 0
    fac (Succ n) = Succ n * fac n 
+   fac 0 = 1
 ```
 
 ## Associated pattern synonyms
