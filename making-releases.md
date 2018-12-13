@@ -53,6 +53,9 @@ In the `AC_INIT` line of `configure.ac`, set the version number. A few lines bel
 
 It's also good practice to update the `config.guess` and `config.sub` files scattered about the tree (currently in the root, `libraries/base`, and `libraries/integer-gmp`) from upstream ([ config.guess](https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD), [ config.sub](https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD)).
 
+
+You may also want to update the `llvm-targets` file: `utils/llvm-targets/gen-data-layout.sh > llvm-targets`. Note that non-Apple `clang` releases lack the iOS targets so be sure to preserve these.
+
 ## Tagging the release
 
 
