@@ -146,7 +146,7 @@
 <th> Apr 2018       </th>
 <th> 7.2   </th>
 <th> 2.30       </th>
-<th> glibc 2.26  </th>
+<th> glibc 2.27  </th>
 <th> 6.0   </th>
 <th> 6.1       </th>
 <th></th>
@@ -206,9 +206,9 @@
 </th></tr>
 <tr><th> Debian Buster (10)      </th>
 <th></th>
-<th></th>
-<th></th>
-<th> glibc       </th>
+<th> 8.2   </th>
+<th> 2.31       </th>
+<th> glibc 2.27  </th>
 <th> 6.1   </th>
 <th> 6.1       </th>
 <th></th>
