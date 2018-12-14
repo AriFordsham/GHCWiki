@@ -146,7 +146,7 @@
 <th> Apr 2018       </th>
 <th> 7.2   </th>
 <th> 2.30       </th>
-<th> glibc 2.26  </th>
+<th> glibc 2.27  </th>
 <th> 6.0   </th>
 <th> 6.1       </th>
 <th></th>
