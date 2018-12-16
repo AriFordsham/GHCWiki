@@ -11,7 +11,7 @@ GhcRtsHcOpts += -g3
 }}}
 This enables debug information for GHC's boot libraries (e.g. `base`, `bytestring`, etc.) as well as the runtime system. This will allow `gdb` to make sense of your program.
 
-If you would also like to enable the runtime's unwind support (e.g. allowing use of `GHC.ExecutionStack`), you will need to install `libdw` and its development headers, and pass `--enable-dwarf-unwind` to GHC's `configure` script. Note that this is currently only on x86_64 Linux (although i386 may also work; other platforms will need more implementation). In addition to `GHC.ExecutionStack`, this also enables a  `SIGUSR2` signal handler which dumps a stacktrace to standard error. This can be quite handy while debugging "hung" processes.
+If you would also like to enable the runtime's unwind support (e.g. allowing use of `GHC.ExecutionStack`), you will need to install `libdw` and its development headers, and pass `--enable-dwarf-unwind` to GHC's `configure` script. Note that this is currently only on x86_64 Linux (although i386 may also work; other platforms will need more implementation). In addition to `GHC.ExecutionStack`, this also enables a  `SIGQUIT (`SIGUSR2` before GHC 8.4) signal handler which dumps a stacktrace to standard error. This can be quite handy while debugging "hung" processes.
 
 Note that there may be some stack frame types that aren't quite reported correctly. Ben suspects that stack overflow frames may be among these but hasn't been able to confirm this; if you see a stack trace strangely truncated do let him know.
 
@@ -38,7 +38,7 @@ If you are prepared to accept the potential for segfaults, GHC 8.0.1 now provide
  * the DWARF output is more correct, meaning that external tools should have less trouble working with GHC's output
  * GHC's runtime system has support for DWARF stack unwinding on Linux, x86_64 and i386 via `libdw`. This is exposed in two ways,
     * A stack trace will be provided on stderr when runtime system panics
-    * A stack trace will be dumped to stderr when the program receives the `SIGUSR2` signal
+    * A stack trace will be dumped to stderr when the program receives the `SIGUSR2` signal (edit: `SIGQUIT` with GHC >= 8.4)
     * A stack trace can be requested from Haskell code with the `GHC.ExecutionStack` module
 
 All of this requires that the program is compiled with GHC's `-g` flag. To get reliable output, the program's dependencies must also be compiled with `-g`.
