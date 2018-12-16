@@ -23,6 +23,32 @@ safe to use, inspecting Haskell programs like this is still very much
 execution is definitely a good idea. We hope that some experience will
 help us improve the situation.
 
+## Features
+
+
+There main components to GHC's DWARF support are:
+
+- The generation of debugging symbols in generated object code when `-g` is passed to GHC
+
+  - This enables seeing and using them in tools like `gdb`, `valgrind`, `perf` etc.
+- "stack unwinding" support: The GHC runtime being able to print stack traces:
+
+  - when it crashes
+  - when requested by sending a signal to the RTS
+  - via the `GHC.ExecutionStack` API
+
+
+You can read more about them on [DWARF/Status](dwarf/status).
+
+
+On using these features:
+
+- Stack unwinding support is enabled by passing `--enable-dwarf-unwind` at GHC build-configuration time.
+- Debugging symbols are generated when you compile Haskell modules to object files by passing `-g`.
+- `--enable-dwarf-unwind` and -`g` are technically independent (`-g` can be useful for other tools even when GHC's own stack unwinding support is disabled), but stack unwinding support in GHC when `-g` was not given to compiled code is quite useless because there won't be much content in printed stack traces (details on that below).
+- The debugging symbols can be stripped (removed) after the build using e.g. the Unix `strip` tool.
+- When using `Cabal`, `-g` passed to GHC is controlled by the `--enable-debug-info` flag, and stripping of debugging symbols controlled by `--enable-library-stripping` and `--enable-executable-stripping`.
+
 ## Basic Set-Up
 
 
@@ -410,6 +436,11 @@ a bit:
 > I remember correctly.)
 
 - Windows situation completely unclear.
+
+
+Performance problems:
+
+- Potential slowdown bug: "Using -g causes differences in generated core" - [\#15960](https://gitlab.haskell.org//ghc/ghc/issues/15960)
 
 ## Design decisions
 
