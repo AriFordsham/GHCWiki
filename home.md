@@ -32,15 +32,15 @@ Top-most is the request's title and description. These can be edited by pressing
 
 The next pane summarises your merge request, showing the the source and target branches.
 
-![request-summary](uploads/471cbd681403e81fd4344fc0b7f0d764/request-summary.png)
+![request-summary](uploads/a6b259498530ea48964a11c2539447d2/request-summary.png)
 
 The next pane shows the status of the merge request's continuous integration builds. If the build has failed you can click on the red *X* icon to see the build log.
 
-![pipeline](uploads/42af0ea556d0a56101cd7555d7549972/pipeline.png)
+![pipeline](uploads/3e1bf21a870eef5608665f9d6e6a48de/pipeline.png)
 
 At the bottom of the page is the code review interface, consisting of several tabs:
 
-![code-review](uploads/26d9c561516f09a3e73ade9201f8f5fb/code-review.png)
+![code-review](uploads/f90d8a2f0a3716669546ae1fd43480c1/code-review.png)
 
 The *Discussion* tab shows a summary of the comments left on the change. This includes comments left in-line in the code, as well as those independent of the code. 
 
