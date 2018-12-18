@@ -17,7 +17,10 @@ $ ghc -precompilation-deps /tmp/pre-deps -I/an/include/path -i/a/module/path -pa
 
 And GHC would write the result of its dependency analysis `/tmp/pre-deps` in a structured format (presumably JSON). This analysis would compute for each module
 
- * the module pragmas of that module; this includes, for instance, `{-# OPTIONS_GHC #-}` pragmas (which may, for instance, add dependencies on plugins or preprocessors) and `-plugin` pragmas
+ * the module pragmas of that module; this includes,
+    * language pragmas (which build tools like `cabal-install` might want to metadata consistency check)
+    * `{-# OPTIONS_GHC #-}` pragmas which may,  add dependencies on plugins (with `-plugin`) or preprocessors (with `-pgmf`)
+    * module-level `{-# DEPRECATED #-}` pragmas
  * the module's direct `import`s. These may be of two varieties:
     * source files (e.g. `.hs`, `.lhs`, or `.hs-boot` files). In this case the result will include the path where the source file was found.
     * compiled modules from an external package. In this case the result will include the package ID where the module was found (and possibly the module name?)
