@@ -132,7 +132,6 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
 
  * '''PowerPC'''
    * AIX: [mailto:audreyt@audreyt.org Audrey Tang]
-   * Linux: [mailto:desrt@desrt.ca Ryan Lortie], [mailto:erikd@mega-nerd.com Erik de Castro Lopo]
    * Gentoo Linux packages (32 and 64bit): [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/powerpc packages: [mailto:kaol@debian.org Kari Pahula]
    * MacOS X: [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller],[mailto:naur@post11.tele.dk Thorkil Naur]
