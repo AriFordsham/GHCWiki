@@ -29,7 +29,7 @@ To consider the concrete case of `cabal-install`: the tool would start a fresh b
 
 == Post-compilation dependencies
 
-The second flag, which we call `-fpostcompilation-deps <file>`, allows the build manager to gain knowledge about the files which GHC looked at during a build. For instance, while building a module the build tool might call
+The second flag, which we call `-fpostcompilation-deps <file>`, allows the build manager to gain knowledge about the files which GHC looked at during a build. For instance, to build `Module1` the build tool might call
 
 {{{
 $ ghc -c -fpostcompilation-deps /tmp/post-deps -I/an/include/path -i/a/module/path -package a-package Module1
