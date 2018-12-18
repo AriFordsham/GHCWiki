@@ -1,0 +1,28 @@
+Currently many build systems use `ghc`'s `--make` to manage builds.  However, there are reasons to believe that GHC's single-shot mode is to be preferred over `--make`:
+
+ * GHC's parallel compilation support (`-j`) scales relatively poorly to high core counts without runtime system tuning
+ * Build managers may be in a position to do fine-grained recompilation checking beyond what GHC does.
+
+Consequently, while GHC's single-shot does require more work in the form of repeated interface file loads (something which could be optimised in the future), single-shot mode may result in improved overall compilation performance in real-world settings.
+
+However, it is currently challenging for external build managers to provide effective recompilation avoidance when using single-shot mode as GHC offers no way for external tools to gain knowledge of dependencies needed by GHC during compilation. This proposal introduces two command-line flags which aim to solve this issue.
+
+== Pre-compilation dependencies
+
+The first flag, which we call `-precompilation-deps <file>`, is a new compiler mode allowing the user to query GHC for the set of dependencies GHC would need to build a given module(s). For instance, the build tool might call,
+
+{{{
+$ ghc -precompilation-deps /tmp/pre-deps -I/an/include/path -i/a/module/path -package a-package Module1 Module2 
+}}}
+
+And GHC would write the result of its dependency analysis `/tmp/pre-deps` in a structured format (presumably JSON). This analysis would compute for each module
+
+ * the module pragmas of that module; this includes, for instance, `-pgmf` pragmas and `-plugin` pragmas
+ * the module's direct `import`s. These may be of two varieties:
+
+   * source files (e.g. `.hs`, `.lhs`, or `.hs-boot` files). In this case the result will include the path where the source file was found.
+   * compiled modules from an external package. In this case the result will include the package ID where the module was found (and possibly the module name?)
+
+   In both cases GHC will include a list of paths where GHC looked for the import before finding it. This list can be efficiently represented as a globbing pattern.
+
+   
