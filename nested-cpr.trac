@@ -23,13 +23,13 @@ Tickets with example of code that would benefit from nested CPR:
 
 
 === Tickets ===
-Use Keyword = `CPR` to ensure that a ticket ends up on these lists.
+Use Keyword = `CPRAnalysis` to ensure that a ticket ends up on these lists.
 
 '''Open Tickets:'''
-[[TicketQuery(status=new|patch,keywords=~CPR)]]
+[[TicketQuery(status=new|patch,keywords=~CPRAnalysis)]]
 
 '''Closed Tickets:'''
-[[TicketQuery(status=closed,keywords=~CPR)]]
+[[TicketQuery(status=closed,keywords=~CPRAnalysis)]]
 
 === Related testcases ===
 

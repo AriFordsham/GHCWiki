@@ -28,7 +28,7 @@ Tickets with example of code that would benefit from nested CPR:
 ### Tickets
 
 
-Use Keyword = `CPR` to ensure that a ticket ends up on these lists.
+Use Keyword = `CPRAnalysis` to ensure that a ticket ends up on these lists.
 
 **Open Tickets:**
 
@@ -40,77 +40,22 @@ Use Keyword = `CPR` to ensure that a ticket ends up on these lists.
 <td>Needless reboxing of values when returning from a tight loop</td></tr>
 <tr><th>[\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387)</th>
 <td>Optimizer misses unboxing opportunity</td></tr>
-<tr><th>[\#3427](https://gitlab.haskell.org//ghc/ghc/issues/3427)</th>
-<td>control what sort of entity a deprecated pragma applies to</td></tr>
 <tr><th>[\#5075](https://gitlab.haskell.org//ghc/ghc/issues/5075)</th>
 <td>CPR optimisation for sum types if only one constructor is used</td></tr>
 <tr><th>[\#8598](https://gitlab.haskell.org//ghc/ghc/issues/8598)</th>
 <td>IO hack in demand analyzer gets in the way of CPR</td></tr>
 <tr><th>[\#8655](https://gitlab.haskell.org//ghc/ghc/issues/8655)</th>
 <td>Evaluate know-to-terminate-soon thunks</td></tr>
-<tr><th>[\#11671](https://gitlab.haskell.org//ghc/ghc/issues/11671)</th>
-<td>Allow labels starting with uppercase with OverloadedLabels</td></tr>
 <tr><th>[\#12364](https://gitlab.haskell.org//ghc/ghc/issues/12364)</th>
 <td>Demand analysis for sum types</td></tr>
-<tr><th>[\#12928](https://gitlab.haskell.org//ghc/ghc/issues/12928)</th>
-<td>Too easy to trigger CUSK condition using TH</td></tr>
-<tr><th>[\#14032](https://gitlab.haskell.org//ghc/ghc/issues/14032)</th>
-<td>Can't splice TH quote with infix declaration for name in two different namespaces</td></tr>
 <tr><th>[\#14259](https://gitlab.haskell.org//ghc/ghc/issues/14259)</th>
 <td>Worker/Wrapper for sum return</td></tr>
-<tr><th>[\#14602](https://gitlab.haskell.org//ghc/ghc/issues/14602)</th>
-<td>Implement the pattern synonym construction function signatures proposal</td></tr>
-<tr><th>[\#15219](https://gitlab.haskell.org//ghc/ghc/issues/15219)</th>
-<td>Implement UnliftedNewtypes proposal</td></tr>
-<tr><th>[\#15364](https://gitlab.haskell.org//ghc/ghc/issues/15364)</th>
-<td>Replace the atomicModifyMutVar\# primop</td></tr>
-<tr><th>[\#15530](https://gitlab.haskell.org//ghc/ghc/issues/15530)</th>
-<td>Type applications in patterns</td></tr>
-<tr><th>[\#15610](https://gitlab.haskell.org//ghc/ghc/issues/15610)</th>
-<td>GHCi command to list instances a (possibly compound) type belongs to</td></tr>
-<tr><th>[\#15656](https://gitlab.haskell.org//ghc/ghc/issues/15656)</th>
-<td>Extend -Wall with incomplete-uni-patterns and incomplete-record-updates</td></tr>
 <tr><th>[\#16040](https://gitlab.haskell.org//ghc/ghc/issues/16040)</th>
 <td>Unboxing-Related Performance Issue with Polymorphic Functions</td></tr>
-<tr><th>[\#16232](https://gitlab.haskell.org//ghc/ghc/issues/16232)</th>
-<td>Add setField to HasField</td></tr>
 <tr><th>[\#16335](https://gitlab.haskell.org//ghc/ghc/issues/16335)</th>
 <td>Make CPR Analysis more aggressive for inductive cases</td></tr></table>
 
-**Closed Tickets:**
-
-<table><tr><th>[\#2893](https://gitlab.haskell.org//ghc/ghc/issues/2893)</th>
-<td>Implement "Quantified constraints" proposal</td></tr>
-<tr><th>[\#7401](https://gitlab.haskell.org//ghc/ghc/issues/7401)</th>
-<td>Can't derive instance for Eq when datatype has no constructor, while it is trivial do do so.</td></tr>
-<tr><th>[\#7414](https://gitlab.haskell.org//ghc/ghc/issues/7414)</th>
-<td>plugins always trigger recompilation</td></tr>
-<tr><th>[\#9793](https://gitlab.haskell.org//ghc/ghc/issues/9793)</th>
-<td>Some as-patterns could be accepted in pattern synonyms</td></tr>
-<tr><th>[\#10843](https://gitlab.haskell.org//ghc/ghc/issues/10843)</th>
-<td>Allow do blocks without dollar signs as arguments</td></tr>
-<tr><th>[\#12045](https://gitlab.haskell.org//ghc/ghc/issues/12045)</th>
-<td>Visible kind application</td></tr>
-<tr><th>[\#13126](https://gitlab.haskell.org//ghc/ghc/issues/13126)</th>
-<td>Support for hexadecimal floats</td></tr>
-<tr><th>[\#14268](https://gitlab.haskell.org//ghc/ghc/issues/14268)</th>
-<td>Implement Explicit Foralls Proposal</td></tr>
-<tr><th>[\#14324](https://gitlab.haskell.org//ghc/ghc/issues/14324)</th>
-<td>Consider deprecating STM invariant mechanism</td></tr>
-<tr><th>[\#14473](https://gitlab.haskell.org//ghc/ghc/issues/14473)</th>
-<td>Implement Underscores in Numeric Literals Proposal (NumericUnderscores extension)</td></tr>
-<tr><th>[\#14709](https://gitlab.haskell.org//ghc/ghc/issues/14709)</th>
-<td>Extend the plugin mechanism to access program representation</td></tr>
-<tr><th>[\#15178](https://gitlab.haskell.org//ghc/ghc/issues/15178)</th>
-<td>Implement DerivingVia</td></tr>
-<tr><th>[\#15195](https://gitlab.haskell.org//ghc/ghc/issues/15195)</th>
-<td>Merge -XPolyKinds with -XTypeInType</td></tr>
-<tr><th>[\#15645](https://gitlab.haskell.org//ghc/ghc/issues/15645)</th>
-<td>TypeChecking of Monad patterns incorrect with RebindableSyntax and OverloadedStrings</td></tr>
-<tr><th>[\#15658](https://gitlab.haskell.org//ghc/ghc/issues/15658)</th>
-<td>strange inferred kind with TypeInType</td></tr>
-<tr><th>[\#16326](https://gitlab.haskell.org//ghc/ghc/issues/16326)</th>
-<td>Implement visible dependent quantification</td></tr></table>
+**Closed Tickets:**No results
 
 ### Related testcases
 
