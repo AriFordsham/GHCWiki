@@ -46,6 +46,7 @@
   - [Inlining](inlining)
   - [FloatOut](float-out)
   - [FloatInwards](float-inwards)
+  - [CPR analysis](nested-cpr)
   - [SpecConstr](spec-constr)
   - [Specialise](specialise)
   - [Late lambda lifting](late-lam-lift)
