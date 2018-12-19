@@ -1,5 +1,5 @@
 
-This is nomeata’s notepad about the nested CPR information:
+This is a status page for CPR analysis, especially Nested CPR
 
 
 See also sub-pages:
@@ -24,6 +24,38 @@ Tickets with example of code that would benefit from nested CPR:
 
 - [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600), [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387) (see [below](nested-cpr#motivating-examples) for an analysis)
 - (Maybe) [ this thread on ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2016-March/011623.html)
+
+### Tickets
+
+
+Use Keyword = `CPRAnalysis` to ensure that a ticket ends up on these lists.
+
+**Open Tickets:**
+
+<table><tr><th>[\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600)</th>
+<td>Optimisation: CPR the results of IO</td></tr>
+<tr><th>[\#1885](https://gitlab.haskell.org//ghc/ghc/issues/1885)</th>
+<td>Improve CPR analysis</td></tr>
+<tr><th>[\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289)</th>
+<td>Needless reboxing of values when returning from a tight loop</td></tr>
+<tr><th>[\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387)</th>
+<td>Optimizer misses unboxing opportunity</td></tr>
+<tr><th>[\#5075](https://gitlab.haskell.org//ghc/ghc/issues/5075)</th>
+<td>CPR optimisation for sum types if only one constructor is used</td></tr>
+<tr><th>[\#8598](https://gitlab.haskell.org//ghc/ghc/issues/8598)</th>
+<td>IO hack in demand analyzer gets in the way of CPR</td></tr>
+<tr><th>[\#8655](https://gitlab.haskell.org//ghc/ghc/issues/8655)</th>
+<td>Evaluate know-to-terminate-soon thunks</td></tr>
+<tr><th>[\#12364](https://gitlab.haskell.org//ghc/ghc/issues/12364)</th>
+<td>Demand analysis for sum types</td></tr>
+<tr><th>[\#14259](https://gitlab.haskell.org//ghc/ghc/issues/14259)</th>
+<td>Worker/Wrapper for sum return</td></tr>
+<tr><th>[\#16040](https://gitlab.haskell.org//ghc/ghc/issues/16040)</th>
+<td>Unboxing-Related Performance Issue with Polymorphic Functions</td></tr>
+<tr><th>[\#16335](https://gitlab.haskell.org//ghc/ghc/issues/16335)</th>
+<td>Make CPR Analysis more aggressive for inductive cases</td></tr></table>
+
+**Closed Tickets:**No results
 
 ### Related testcases
 

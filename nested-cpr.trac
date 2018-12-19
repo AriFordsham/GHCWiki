@@ -1,4 +1,4 @@
-This is nomeata’s notepad about the nested CPR information:
+This is a status page for CPR analysis, especially Nested CPR
 
 See also sub-pages:
  * [wiki:NestedCPR/AdvancedConverges]
@@ -20,6 +20,16 @@ Tickets with example of code that would benefit from nested CPR:
 
  * #1600, #2289, #2387 (see [wiki:.#Motivatingexamples below] for an analysis)
  * (Maybe) [https://mail.haskell.org/pipermail/ghc-devs/2016-March/011623.html this thread on ghc-devs]
+
+
+=== Tickets ===
+Use Keyword = `CPRAnalysis` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~CPRAnalysis)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~CPRAnalysis)]]
 
 === Related testcases ===
 
