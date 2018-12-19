@@ -43,6 +43,7 @@
    * [wiki:Inlining]
    * [wiki:FloatOut]
    * [wiki:FloatInwards]
+   * [wiki:NestedCPR CPR analysis]
    * [wiki:SpecConstr]
    * [wiki:Specialise]
    * [wiki:LateLamLift Late lambda lifting]
