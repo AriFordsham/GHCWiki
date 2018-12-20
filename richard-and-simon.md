@@ -13,10 +13,9 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - [ Proposal 103: treat kind and type variables identically in forall](https://github.com/ghc-proposals/ghc-proposals/pull/103) (depends on Proposal 83)
 - Add curly-braces for scoping but no type application (nothing depends on this)
 - Scoping only with explicit foralls (perhaps best after Proposal 83, because explicit kind-forall needs TypeInType).  Subsumes [\#14548](https://gitlab.haskell.org//ghc/ghc/issues/14548).
-- Fix [\#14451](https://gitlab.haskell.org//ghc/ghc/issues/14451) (SCC analysis of type declarations)
 - All or nothing rule applies to kind variables too (edited)
 
-- [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088): scc for kind inference: we know what to do, it's just a question of doing it.
+- [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088): SCC for kind inference: we know what to do, it's just a question of doing it. See also [\#7503](https://gitlab.haskell.org//ghc/ghc/issues/7503), [\#14451](https://gitlab.haskell.org//ghc/ghc/issues/14451)
 
 # Refactoring of existing stuff that we'd like to get done
 
