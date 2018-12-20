@@ -1,11 +1,13 @@
 
 Tasks discussed by Richard and Simon. This page is mostly for our own notes, but others are welcome to read it.
 
-# To discuss
-
-- How to fix [\#11719](https://gitlab.haskell.org//ghc/ghc/issues/11719). We can't ever infer a type variable to have a higher-rank kind (as would seem necessary in this example). But perhaps we should type-check type patterns in a different manner than ordinary types, just like `tcPat` is distinct from `tcExpr`. Then, we could use bidirectional type-checking to get things to work out. This is a pretty significant refactor, though. Is it worth it? Or do we just wait until we have dependent types?
-
 # Roadmap of new stuff we want to get done
+
+
+These things are all either new features, or significant refactorings.  All aimed at "filling out" what Haskell does to be simple and consistent.
+
+
+We should be clear about the dependencies between items on this list.
 
 - [ Proposal 83: collapse PolyKinds and TypeInType](https://github.com/ghc-proposals/ghc-proposals/pull/83)
 - [ Proposal 81: Visible dependent quantification](https://github.com/ghc-proposals/ghc-proposals/pull/81)
@@ -42,6 +44,8 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - Homogeneous flattener ([\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919), [\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643)).  [ Phab:D3848](https://phabricator.haskell.org/D3848).   [ Phab:D4451](https://phabricator.haskell.org/D4451) is a patch to D3848 that fixes performance
 
 - [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715): constraint vs \*
+
+- How to fix [\#11719](https://gitlab.haskell.org//ghc/ghc/issues/11719). We can't ever infer a type variable to have a higher-rank kind (as would seem necessary in this example). But perhaps we should type-check type patterns in a different manner than ordinary types, just like `tcPat` is distinct from `tcExpr`. Then, we could use bidirectional type-checking to get things to work out. This is a pretty significant refactor, though. Is it worth it? Or do we just wait until we have dependent types?
 
 # Fuller list
 
