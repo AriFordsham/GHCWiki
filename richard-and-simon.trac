@@ -1,74 +1,53 @@
-= To discuss
-
-* How to fix #11719. We can't ever infer a type variable to have a higher-rank kind (as would seem necessary in this example). But perhaps we should type-check type patterns in a different manner than ordinary types, just like `tcPat` is distinct from `tcExpr`. Then, we could use bidirectional type-checking to get things to work out. This is a pretty significant refactor, though. Is it worth it? Or do we just wait until we have dependent types?
-
-= Summary of tasks to be completed
-
 Tasks discussed by Richard and Simon. This page is mostly for our own notes, but others are welcome to read it.
 
-Nov 18
-* #15977: restructure typechecking modules
+= Roadmap of new stuff we want to get done
 
-Oct 18: (SLPJ note Nov 18: I think all this is done as part of the Monster Kind Patch)
-* New module `KcTyClsDecls` that pulls from `TcTyClsDecls` and `TcHsType`.
-* Remove `get_class_tvs` from `kcTyClGroup`, in favor of tracking AT TcTyCons in the class TcTyCon
-* Remove all the work in `tcTyClTyVars`. It's redundant. `correct_binders` is done by `mk_req_tcb` in `generalise`, `reportFloatingKvs` is irrelevant for CUSKS (should move to `generalise` or `checkValidTyCon`), and `findDupTyVarTvs` can move to `generalise`.
+These things are all either new features, or significant refactorings.  All aimed at "filling out" what Haskell does to be simple and consistent.
 
-Aug 18:
-* #15743: nail down inferred/specified/required
-* #15497: coercion quantification and Phab:D5054
+We should be clear about the dependencies between items on this list.
+
+* [https://github.com/ghc-proposals/ghc-proposals/pull/81 Proposal 81: Visible dependent quantification].  Just syntax!  Lets you say `forall a -> ty` in types.  See [wiki:GhcKinds/KindInference] and [wiki:GhcKinds/KindInference/Examples].
+
+* [https://github.com/ghc-proposals/ghc-proposals/pull/99 Proposal 99: explicit specificity].  Lets us write `T :: forall {k} (a :: k).blah`.
+
+* [https://github.com/ghc-proposals/ghc-proposals/pull/179 Proposal 179: tweak printing of foralls]
+
+* [https://github.com/ghc-proposals/ghc-proposals/pull/54 Proposal 54: top-level kind signatures for type constuctors] (depends on Proposal 81)
+
+* [https://github.com/ghc-proposals/ghc-proposals/pull/103 Proposal 103: treat kind and type variables identically in forall] (depends on Proposal 83). Includes applying the "forall-or-nothing rule" to kind variables. The proposal says "wait until two releases after Proposal 83 is done (which was in 8.6)".  So we can do this in HEAD as soon as 8.8 forks.  Subsumes #14548.
+
+* #12088: SCC for kind inference: we know what to do, it's just a question of doing it. See also #7503, #14451.  This will be much easier once Proposal 54 is done.
+
+* [https://github.com/ghc-proposals/ghc-proposals/pull/126 Proposal 126: Type applications in patterns].
+
+= Refactoring of existing stuff that we'd like to get done
+
+* #15977: restructure typechecking modules. New module `KcTyClsDecls` that pulls from `TcTyClsDecls` and `TcHsType`.
+* #14873: make `typeKind` monadic in the type checker
+* #15809: use level numbers for generalisation
+* #8095: coercion zapping
+
+* #14164: comments, invariant, asserts (Richard)
+* #15577: surprising coercions: see comment:5
 * #15621, #14185: using implication constraints to improve error messages
 * #15579: `topNormaliseType`; also #14729
-* `zonkPromote`: the remaining ones are there for a reason; but Simon still unhappy; see RAE/SLPJ Slack channel 31 Aug; and #15588 and #15589.  Stuff about "fully-known type variables".
-* #15479: refactoring `tcHsType`
-* #15577: surprising coercions
-* #14887: telescopes
+* `zonkPromote`: the remaining ones are there for a reason; but Simon still unhappy; see RAE/SLPJ Slack channel 31 Aug; and #15588, #15141, and #15589.  Stuff about "fully-known type variables".
 * #15474: (small) `Any` etc.
-
-July 18:
-* #14164: comments, invariant, asserts (Richard)
-* #14873: make `typeKind` monadic in the type checker
-* #15346: `pushCoDataCon` is wrong somehow
 * #15192: `GRefl`: still looking into perf changes
-* #8095: coercion zapping
-* Better floatEqualites based on level numbers
+* Better floatEqualites based on level numbers?
 
-'''Type declarations and signatures''' (Dec 17)
+* #15479: refactoring `tcHsType` (Simon is not 100% convinced)
 
-* (May 18).  Simon is very suspicious about `zonkPromote` and friends.  Revisit this once we get rid of `decideKindGeneralisationPlan`.  #15141 is a good starting point.
+= I'm unsure of the status of these things
 
 * (May 18) #14040, which I think is not fixed.  But it’s somehow linked to #15076.  And that in turn is caused by #14880.  Which Richard has a patch for that doesn’t quite work yet.  And the fix might cure #14887
 
-* (May 18): #15122
-
-* (May 18): #15142: `getInitialKinds` simplification
-
-* Let's fix #14880!
- * `uo_thing`, #9173, #13601
-
-* [https://github.com/ghc-proposals/ghc-proposals/pull/83 Proposal 83: collapse PolyKinds and TypeInType]
-* [https://github.com/ghc-proposals/ghc-proposals/pull/81 Proposal 81: Visible dependent quantification]
-* [https://github.com/ghc-proposals/ghc-proposals/pull/54 Proposal 54: CUSKs (depends on Proposal 81)]
-* [https://github.com/ghc-proposals/ghc-proposals/pull/103 Proposal 103: treat kind and type variables identically in forall] (depends on Proposal 83)
-* Add curly-braces for scoping but no type application (nothing depends on this)
-* Scoping only with explicit foralls (perhaps best after Proposal 83, because explicit kind-forall needs TypeInType).  Subsumes #14548.
-* Fix #14451 (SCC analysis of type declarations)
-* All or nothing rule applies to kind variables too (edited)
-
-
-'''Big things'''
  * Homogeneous flattener (#12919, #13643).  Phab:D3848.   Phab:D4451 is a patch to D3848 that fixes performance
- * Phab:4049 is the bump-TcLevel-in-type-sigs patch (Trac #14066), which is based on D3848.
+
  * #11715: constraint vs *
 
- * #12088: scc for kind inference (lower priority)
 
-
-'''Little things'''
- * BUGS
-
-
-
+* How to fix #11719. We can't ever infer a type variable to have a higher-rank kind (as would seem necessary in this example). But perhaps we should type-check type patterns in a different manner than ordinary types, just like `tcPat` is distinct from `tcExpr`. Then, we could use bidirectional type-checking to get things to work out. This is a pretty significant refactor, though. Is it worth it? Or do we just wait until we have dependent types?
 
 = Fuller list =
 
