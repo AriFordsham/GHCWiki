@@ -265,6 +265,26 @@ I (aspiwack) introduced a second list at a time where there wasn't a corresponde
 
 == Core
 
+
+=== Core Lint
+
+Core variables are changed to carry a multiplicity. The multiplicity annotation on the case, as in the paper, is the multiplicity of the case-binder.
+
+In Core, non-recursive lets are changed compared to the paper (see Core-to-core passes below): instead of carrying a multiplicity, their multiplicity is type-checked as is they were inline at the usage point. To represent this, variables, in actuality, either carry a multiplicity (`Regular`) or they are what we've been calling in the code, an alias-like variable (`Alias`). (recursive let binders always have multiplicity `Omega`)
+
+The linter is modified in two ways to account for linearity. First the main loop (`lintCoreExpr`) returns a usage environment in addition to a type. This is like the surface-language type checker. In addition, the environment in the `LintM` monad is modified to carry a mapping from alias-like variables to the usage environment of their right-hand side.
+
+When a variable `x` is linted, if `x` is `Regular`, then it emits the usage environment `[x :-> 1]`. If it's `Alias`, it instead retrieves it's right-hand side usage environment from the `LintM` environment, and emits that instead.
+
+=== FunTyCon
+
+`FunTy` is a special case of a `Type`. It is a fully applied function type constructor, so now a function type constructor with five arguments.
+This special case is constructed in `mkTyConApp`. The problems come when a `FunTy` is deconstructed, for example `repSplitTyConApp_maybe`, if this
+list is not the right length then you get some very confusing errors. The place which was hardest to track down was in `Coercion` where `decomposeFunCo`
+had some magic numbers corresponding to the the position of the types of the function arguments.
+
+Look for `Note [Function coercions]` and grep for lists of exactly length 5 if you modify this for whatever reason.
+
 === FunCo
 
 FunCo is modified to take an extra coercion argument which corresponds to coercions between multiplicities. This was added because there was a point to where `mkTyConAppCo` took a coercion as an argument and needed
@@ -273,7 +293,14 @@ has been commented out for now.
 
 A noteworthy consequence of having an extra argument to `FunTyCon` and `FunCo`, is that some hand-written numbers in the code must change. Indeed, the injectivity of type constructors (that `C a ~ C b` implies `a ~ b`) is implemented by projecting an argument referred by number. This works for `FunCo` too. And it is made use of directly in the code, where the field number is manually written. These field numbers had to be changed. A more robust solution would be to name the projections which are used in the code, and define them close to the definition of `FunCo`.
 
-=== Rebuilding expressions in the optimiser
+==== `splitFunTy` and `mkFunTy`.
+
+The core of the implementation is a change to `splitFunTy`. As the arrow now has an associated multiplicity, `splitFunTy` must also return the multiplicity of the arrow. Many changes to the compiler arise from situations where
+either `splitFunTy` is called and then we must keep track of the additional information it returns. Further, when there is a call to `mkFunTy`, we must also supply a multiplicity.
+
+=== Core to core passes
+
+==== Rebuilding expressions in the optimiser
 
 There are situations in the optimiser where lets more through cases when case of case is applied.
 
@@ -340,29 +367,6 @@ For now, I leave warnings and this message to my future self.
 
 For an in-depth discussion see: https://github.com/tweag/ghc/issues/78 and https://github.com/tweag/ghc/pull/87
 
-
-=== FunTyCon
-
-`FunTy` is a special case of a `Type`. It is a fully applied function type constructor, so now a function type constructor with five arguments.
-This special case is constructed in `mkTyConApp`. The problems come when a `FunTy` is deconstructed, for example `repSplitTyConApp_maybe`, if this
-list is not the right length then you get some very confusing errors. The place which was hardest to track down was in `Coercion` where `decomposeFunCo`
-had some magic numbers corresponding to the the position of the types of the function arguments.
-
-Look for `Note [Function coercions]` and grep for lists of exactly length 5 if you modify this for whatever reason.
-
-==== `splitFunTy` and `mkFunTy`.
-
-The core of the implementation is a change to `splitFunTy`. As the arrow now has an associated multiplicity, `splitFunTy` must also return the multiplicity of the arrow. Many changes to the compiler arise from situations where
-either `splitFunTy` is called and then we must keep track of the additional information it returns. Further, when there is a call to `mkFunTy`, we must also supply a multiplicity.
-
-
-=== Core Lint
-
-TODO - this is described somewhat in the minicore document but it is not finished. In particular, join points are not implemented at all. This hasn't been a problem as the only linearity has been from data constructors
-which are never made into join points.
-
-
-=== Core to core passes
 
 ==== Pushing function-type coercions
 
