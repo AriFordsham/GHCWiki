@@ -12,7 +12,7 @@ Authors or the implementation are:
 - Arnaud Spiwack
 
 
-The implementation is supported by a [ document formalising (a simplified version) of linear core](https://ghc.haskell.org/trac/ghc/attachment/wiki/LinearTypes/Implementation/minicore.pdf). This is more complete than the paper. It is work in progress.
+The implementation is supported by a [ document formalising (a simplified version) of linear core](https://ghc.haskell.org/trac/ghc/attachment/wiki/LinearTypes/Implementation/minicore.2.pdf). This is more complete than the paper. It is work in progress.
 
 ## Very high-level summary
 
@@ -29,6 +29,9 @@ id x = x
 
 
 is the linear identity function.
+
+
+The syntax is all temporary.
 
 ### funTyCon and unrestrictedFunTyCon
 
@@ -51,6 +54,93 @@ The data type for multiplicities is defined in `compiler/basicTypes/Multiplicity
 In binders, where we stored a type, we now store a pair of type and multiplicity. This is achieved with data type `Scaled` which stores a type together with a multiplicity (it's a convention similar to `Located` for storing source locations).
 
 ## Frontend
+
+### Typechecking
+
+
+The internal representation of a multiplicity is called `Mult`. Its (slightly simplified) definition is as follows:
+
+```
+dataMult=Zero|One|Omega|MultAddMultMult|MultMulMultMult|MultThingType
+```
+
+
+Each constructor represents how many times a variable is allowed to be used.
+
+
+The checking algorithm is as follows:
+
+- The typechecking monad is enriched with an extra writer-like state called the *usage environment*, which is a mapping from variables to multiplicities.
+- The usage environment output by `u v` is `U1 + p * U2` where
+
+  - `U1` is the usage environment output by `u`
+  - `U2` is the usage environment output by `v`
+  - `u :: _ -->.(p) _`
+- Adding a new variable `x` with multiplicity `p` to the context to typecheck `u` is performed as
+
+  - `x` is added to the context
+  - `u` is typechecked in that context
+  - The usage `q` of `x` is retrieved from the output usage environment
+  - It is checked that `q <= p`
+  - `x` is removed from the output usage environment
+
+
+Concretely, there are precisely two places where we check how often variables are used.
+
+1. In `TcEnv.tc_extend_local_env`, which is the function which brings local variables into scope. Upon exiting a binder, we call `tcSubMult` (via `check_binder`) to ensure that the variable usage is compatible with the declared multiplicity (if no multiplicity was declared, a fresh existential multiplicity variable is created instead).
+
+  - `tcSubMult` emits constraints of the form `π ⩽ ρ`. In `check_binder` there is a call to `submultMaybe` which checks for obvious cases before we delegate to `tcSubMult` which decomposes multiplication and addition constraints
+
+> >
+> > before calling `tcEqMult` in order to check for precise equality of types. This function will also do unification of variables.
+
+1. In `tc_sub_type_ds`, In the `FunTy` case, we unify the arrow multiplicity which can lead to the unification of multiplicity variables.
+
+  - `tc_sub_type_ds` emits constraints of the form `π = ρ`, this is achieved by a call to `tcEqMult` which just calls `rigToType` on the `Rig`s before checking for equality using `tc_sub_type_ds` recursively.
+
+
+A better implementation would probably emit a real constraint `pi <= rho` and then add logic for solving it to the constraint solver. The current ad-hoc approach reduces the task of checking the relation to checking certain equality constraints.
+
+
+In order to use the normal unification machinery, we eventually call `tc_sub_type_ds` but before that we check for domain specific rules we want to implement such as `1 <= p` which is achieved by calls to `submult` or `submultMaybe`.
+
+
+The `Zero` multiplicity is an avatar of the type checking algorithm, and doesn't correspond to a user-facing multiplicity. We will probably take it out in a separate type.
+
+#### Solving constraints
+
+
+Constraint solving is not completely designed yet. The current implementation follows very simple rules, to get the implementation off the ground. Basically both equality and inequality constraints are treated as syntactic equality unification (as opposed, in particular, to unification up to laws of multiplicities as in the proposal). There are few other rules (described below) which are necessary to type even simple linear programs:
+
+##### The 1 \<= p rule
+
+
+Given the current domain, it is true that `1` is the smallest element. As such, we assume `1` is smaller than everything which allows more functions to type check.
+
+
+This is implemented by making sure to call `submult` on the multiplicities before passing them to the normal unifier which knows nothing special about multiplicities. This can be seen at both
+`tc_extend_local_env` and `tc_sub_type_ds`. At the moment we also get much better error messages by doing this short circuiting.
+
+##### Complex constraints
+
+
+Multiplication and addition are approximated.
+
+- A constraint of the form `p1 * p2 <= q` is solved as `p1 <= q` and `p2 <= q`.
+- A constraint of the form `p1 + p2 <= q` is solved as `Omega <= q`
+
+### Defaulting
+
+
+Unsolved multiplicity variables are defaulted to ω by the following functions:
+
+
+Calls to `isMultiplicityVar` are used in places where we do defaulting.
+
+1. `TcSimplify.defaultTyVarTcS`
+1. `TcMType.defaultTyVar`
+
+### HsType
 
 
 We need to distinguish `a -> b`, `a ->. b` and `a -->.(m) b` in the surface syntax. The `HsFunTy` constructor has an extra field containing `HsArrow`, which stores this information:
@@ -191,69 +281,42 @@ If you don't eliminate it then you will get a linker error like
 [ I (Matthew) made the matching more robust](https://github.com/tweag/ghc/pull/92/commits/c18ab3d533dbc871f5afe8fe4d2a9d8f8213f8b4) in the two places in base by using a function as the argument to `magicDict` rather than a data constructor
 as the builtin rule only uses that information for the type of the function.
 
-### Typechecking
+### Do-notation/rebindable syntax
 
 
-The internal representation of a multiplicity is called `Mult`. Its (slightly simplified) definition is as follows:
-
-```
-dataMult=Zero|One|Omega|MultAddMultMult|MultMulMultMult|MultThingType
-```
+Type-checking of the do notation relies on typing templates (`SyntaxOpType`). The type of `(>>=)` (in particular), in the context, is matched against its template, returning the type.
 
 
-Each constructor represents how many times a variable is allowed to be used. There are precisely two places where we check how often variables are used.
-
-1. In `TcEnv.tc_extend_local_env`, which is the function which brings local variables into scope. Upon exiting a binder, we call `tcSubMult` (via `check_binder`) to ensure that the variable usage is compatible with the declared multiplicity (if no multiplicity was declared, a fresh existential multiplicity variable is created instead).
-
-  - `tcSubMult` emits constraints of the form `π ⩽ ρ`. In `check_binder` there is a call to `submultMaybe` which checks for obvious cases before we delegate to `tcSubMult` which decomposes multiplication and addition constraints
-
-> >
-> > before calling `tcEqMult` in order to check for precise equality of types. This function will also do unification of variables.
-
-1. In `tc_sub_type_ds`, In the `FunTy` case, we unify the arrow multiplicity which can lead to the unification of multiplicity variables.
-
-  - `tc_sub_type_ds` emits constraints of the form `π = ρ`, this is achieved by a call to `tcEqMult` which just calls `rigToType` on the `Rig`s before checking for equality using `tc_sub_type_ds` recursively.
+In order to support `(>>=)` operators with varying multiplicities, function templates (`SynFun`) now return their multiplicity. Specifically `SyntaxOpType` now returns a second list of all the multiplicities (from left to right) which it computed.
 
 
-A better implementation would probably emit a real constraint `pi <= rho` and then add logic for solving it to the constraint solver. The current ad-hoc approach reduces the task of checking the relation to checking certain equality constraints.
-
-
-In order to use the normal unification machinery, we eventually call `tc_sub_type_ds` but before that we check for domain specific rules we want to implement such as `1 <= p` which is achieved by calls to `submult` or `submultMaybe`.
-
-#### Solving constraints
-
-
-Constraint solving is not completely designed yet. The current implementation follows very simple rules, to get the implementation off the ground. Basically both equality and inequality constraints are treated as syntactic equality unification (as opposed, in particular, to unification up to laws of multiplicities as in the proposal). There are few other rules (described below) which are necessary to type even simple linear programs:
-
-##### The 1 \<= p rule
-
-
-Given the current domain, it is true that `1` is the smallest element. As such, we assume `1` is smaller than everything which allows more functions to type check.
-
-
-This is implemented by making sure to call `submult` on the multiplicities before passing them to the normal unifier which knows nothing special about multiplicities. This can be seen at both
-`tc_extend_local_env` and `tc_sub_type_ds`. At the moment we also get much better error messages by doing this short circuiting.
-
-##### Complex constraints
-
-
-Multiplication and addition are approximated.
-
-- A constraint of the form `p1 * p2 <= q` is solved as `p1 <= q` and `p2 <= q`.
-- A constraint of the form `p1 + p2 <= q` is solved as `Omega <= q`
-
-### Defaulting
-
-
-Unsolved multiplicity variables are defaulted to ω by the following functions:
-
-
-Calls to `isMultiplicityVar` are used in places where we do defaulting.
-
-1. `TcSimplify.defaultTyVarTcS`
-1. `TcMType.defaultTyVar`
+I (aspiwack) introduced a second list at a time where there wasn't a correspondence between types and multiplicities. It could be changed to return multiplicities as types in the main list. It's not much of a simplification, though.
 
 ## Core
+
+### Core Lint
+
+
+Core variables are changed to carry a multiplicity. The multiplicity annotation on the case, as in the paper, is the multiplicity of the case-binder.
+
+
+In Core, non-recursive lets are changed compared to the paper (see Core-to-core passes below): instead of carrying a multiplicity, their multiplicity is type-checked as is they were inline at the usage point. To represent this, variables, in actuality, either carry a multiplicity (`Regular`) or they are what we've been calling in the code, an alias-like variable (`Alias`). (recursive let binders always have multiplicity `Omega`)
+
+
+The linter is modified in two ways to account for linearity. First the main loop (`lintCoreExpr`) returns a usage environment in addition to a type. This is like the surface-language type checker. In addition, the environment in the `LintM` monad is modified to carry a mapping from alias-like variables to the usage environment of their right-hand side.
+
+
+When a variable `x` is linted, if `x` is `Regular`, then it emits the usage environment `[x :-> 1]`. If it's `Alias`, it instead retrieves it's right-hand side usage environment from the `LintM` environment, and emits that instead.
+
+### FunTyCon
+
+`FunTy` is a special case of a `Type`. It is a fully applied function type constructor, so now a function type constructor with five arguments.
+This special case is constructed in `mkTyConApp`. The problems come when a `FunTy` is deconstructed, for example `repSplitTyConApp_maybe`, if this
+list is not the right length then you get some very confusing errors. The place which was hardest to track down was in `Coercion` where `decomposeFunCo`
+had some magic numbers corresponding to the the position of the types of the function arguments.
+
+
+Look for `Note [Function coercions]` and grep for lists of exactly length 5 if you modify this for whatever reason.
 
 ### FunCo
 
@@ -265,7 +328,18 @@ has been commented out for now.
 
 A noteworthy consequence of having an extra argument to `FunTyCon` and `FunCo`, is that some hand-written numbers in the code must change. Indeed, the injectivity of type constructors (that `C a ~ C b` implies `a ~ b`) is implemented by projecting an argument referred by number. This works for `FunCo` too. And it is made use of directly in the code, where the field number is manually written. These field numbers had to be changed. A more robust solution would be to name the projections which are used in the code, and define them close to the definition of `FunCo`.
 
-### Rebuilding expressions in the optimiser
+#### `splitFunTy` and `mkFunTy`.
+
+
+The core of the implementation is a change to `splitFunTy`. As the arrow now has an associated multiplicity, `splitFunTy` must also return the multiplicity of the arrow. Many changes to the compiler arise from situations where
+either `splitFunTy` is called and then we must keep track of the additional information it returns. Further, when there is a call to `mkFunTy`, we must also supply a multiplicity.
+
+### Core to core passes
+
+#### Rebuilding expressions in the optimiser
+
+
+This subsection is somewhat out of date because let-binders now have alias-like quality to be able to float out. However, everything here still apply for the case-of-case transformation.
 
 
 There are situations in the optimiser where lets more through cases when case of case is applied.
@@ -331,29 +405,6 @@ For now, I leave warnings and this message to my future self.
 
 
 For an in-depth discussion see: [ https://github.com/tweag/ghc/issues/78](https://github.com/tweag/ghc/issues/78) and [ https://github.com/tweag/ghc/pull/87](https://github.com/tweag/ghc/pull/87)
-
-### FunTyCon
-
-`FunTy` is a special case of a `Type`. It is a fully applied function type constructor, so now a function type constructor with five arguments.
-This special case is constructed in `mkTyConApp`. The problems come when a `FunTy` is deconstructed, for example `repSplitTyConApp_maybe`, if this
-list is not the right length then you get some very confusing errors. The place which was hardest to track down was in `Coercion` where `decomposeFunCo`
-had some magic numbers corresponding to the the position of the types of the function arguments.
-
-
-Look for `Note [Function coercions]` and grep for lists of exactly length 5 if you modify this for whatever reason.
-
-#### `splitFunTy` and `mkFunTy`.
-
-
-The core of the implementation is a change to `splitFunTy`. As the arrow now has an associated multiplicity, `splitFunTy` must also return the multiplicity of the arrow. Many changes to the compiler arise from situations where
-either `splitFunTy` is called and then we must keep track of the additional information it returns. Further, when there is a call to `mkFunTy`, we must also supply a multiplicity.
-
-### Core Lint
-
-TODO - this is described somewhat in the minicore document but it is not finished. In particular, join points are not implemented at all. This hasn't been a problem as the only linearity has been from data constructors
-which are never made into join points.
-
-### Core to core passes
 
 #### Pushing function-type coercions
 
