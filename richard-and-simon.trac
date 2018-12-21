@@ -16,6 +16,8 @@ We should be clear about the dependencies between items on this list.
 
 * #12088: SCC for kind inference: we know what to do, it's just a question of doing it. See also #7503, #14451.  This will be much easier once Proposal 54 is done.
 
+* [https://github.com/ghc-proposals/ghc-proposals/pull/126 Type applications in patterns].
+
 = Refactoring of existing stuff that we'd like to get done
 
 * #15977: restructure typechecking modules. New module `KcTyClsDecls` that pulls from `TcTyClsDecls` and `TcHsType`.
