@@ -7,9 +7,13 @@ These things are all either new features, or significant refactorings.  All aime
 We should be clear about the dependencies between items on this list.
 
 * [https://github.com/ghc-proposals/ghc-proposals/pull/81 Proposal 81: Visible dependent quantification].  Just syntax!  Lets you say `forall a -> ty` in types.  See [wiki:GhcKinds/KindInference] and [wiki:GhcKinds/KindInference/Examples].
-* [https://github.com/ghc-proposals/ghc-proposals/pull/54 Proposal 54: top-level kind signatures for type constuctors (depends on Proposal 81)]
-* [https://github.com/ghc-proposals/ghc-proposals/pull/103 Proposal 103: treat kind and type variables identically in forall] (depends on Proposal 83)
+
+* [https://github.com/ghc-proposals/ghc-proposals/pull/54 Proposal 54: top-level kind signatures for type constuctors] (depends on Proposal 81)
+
+* [https://github.com/ghc-proposals/ghc-proposals/pull/103 Proposal 103: treat kind and type variables identically in forall] (depends on Proposal 83).  The proposal says "wait until two releases after Proposal 83 is done (which was in 8.6)".  So we can do this in HEAD as soon as 8.8 forks.
+
 * Add curly-braces for scoping but no type application (nothing depends on this)
+
 * Scoping only with explicit foralls (perhaps best after Proposal 83, because explicit kind-forall needs TypeInType).  Subsumes #14548.
 * All or nothing rule applies to kind variables too (edited)
 
