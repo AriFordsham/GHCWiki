@@ -17,7 +17,7 @@ We should be clear about the dependencies between items on this list.
 
 - [ Proposal 103: treat kind and type variables identically in forall](https://github.com/ghc-proposals/ghc-proposals/pull/103) (depends on Proposal 83). Includes applying the "forall-or-nothing rule" to kind variables. The proposal says "wait until two releases after Proposal 83 is done (which was in 8.6)".  So we can do this in HEAD as soon as 8.8 forks.  Subsumes [\#14548](https://gitlab.haskell.org//ghc/ghc/issues/14548).
 
-- [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088): SCC for kind inference: we know what to do, it's just a question of doing it. See also [\#7503](https://gitlab.haskell.org//ghc/ghc/issues/7503), [\#14451](https://gitlab.haskell.org//ghc/ghc/issues/14451)
+- [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088): SCC for kind inference: we know what to do, it's just a question of doing it. See also [\#7503](https://gitlab.haskell.org//ghc/ghc/issues/7503), [\#14451](https://gitlab.haskell.org//ghc/ghc/issues/14451).  This will be much easier once Proposal 54 is done.
 
 # Refactoring of existing stuff that we'd like to get done
 
