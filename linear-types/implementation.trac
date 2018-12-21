@@ -20,6 +20,10 @@ id x = x
 }}}
 is the linear identity function.
 
+{{{#!box note
+The syntax is all temporary.
+}}}
+
 === funTyCon and unrestrictedFunTyCon
 
 In the GHC, prior to linear types, `funTyCon` is the `(->)` type, of kind `forall {a b :: RuntimeRep}. TYPE a -> TYPE b -> Type`.
@@ -35,6 +39,80 @@ The data type for multiplicities is defined in `compiler/basicTypes/Multiplicity
 In binders, where we stored a type, we now store a pair of type and multiplicity. This is achieved with data type `Scaled` which stores a type together with a multiplicity (it's a convention similar to `Located` for storing source locations).
 
 == Frontend
+
+=== Typechecking
+
+The internal representation of a multiplicity is called `Mult`. Its (slightly simplified) definition is as follows:
+
+{{{
+#!haskell
+data Mult = Zero
+          | One
+          | Omega
+          | MultAdd Mult Mult
+          | MultMul Mult Mult
+          | MultThing Type
+}}}
+
+Each constructor represents how many times a variable is allowed to be used.
+
+The checking algorithm is as follows:
+- The typechecking monad is enriched with an extra writer-like state called the ''usage environment'', which is a mapping from variables to multiplicities.
+- The usage environment output by `u v` is `U1 + p * U2` where
+   * `U1` is the usage environment output by `u`
+   * `U2` is the usage environment output by `v`
+   * `u :: _ -->.(p) _`
+- Adding a new variable `x` with multiplicity `p` to the context to typecheck `u` is performed as
+   * `x` is added to the context
+   * `u` is typechecked in that context
+   * The usage `q` of `x` is retrieved from the output usage environment
+   * It is checked that `q <= p`
+   * `x` is removed from the output usage environment
+
+Concretely, there are precisely two places where we check how often variables are used.
+
+1. In `TcEnv.tc_extend_local_env`, which is the function which brings local variables into scope. Upon exiting a binder, we call `tcSubMult` (via `check_binder`) to ensure that the variable usage is compatible with the declared multiplicity (if no multiplicity was declared, a fresh existential multiplicity variable is created instead).
+    - `tcSubMult` emits constraints of the form `π ⩽ ρ`. In `check_binder` there is a call to `submultMaybe` which checks for obvious cases before we delegate to `tcSubMult` which decomposes multiplication and addition constraints
+       before calling `tcEqMult` in order to check for precise equality of types. This function will also do unification of variables.
+2. In `tc_sub_type_ds`, In the `FunTy` case, we unify the arrow multiplicity which can lead to the unification of multiplicity variables.
+    - `tc_sub_type_ds` emits constraints of the form `π = ρ`, this is achieved by a call to `tcEqMult` which just calls `rigToType` on the `Rig`s before checking for equality using `tc_sub_type_ds` recursively.
+
+A better implementation would probably emit a real constraint `pi <= rho` and then add logic for solving it to the constraint solver. The current ad-hoc approach reduces the task of checking the relation to checking certain equality constraints.
+
+In order to use the normal unification machinery, we eventually call `tc_sub_type_ds` but before that we check for domain specific rules we want to implement such as `1 <= p` which is achieved by calls to `submult` or `submultMaybe`.
+
+{{{#!box note
+The `Zero` multiplicity is an avatar of the type checking algorithm, and doesn't correspond to a user-facing multiplicity. We will probably take it out in a separate type.
+}}}
+
+==== Solving constraints
+
+Constraint solving is not completely designed yet. The current implementation follows very simple rules, to get the implementation off the ground. Basically both equality and inequality constraints are treated as syntactic equality unification (as opposed, in particular, to unification up to laws of multiplicities as in the proposal). There are few other rules (described below) which are necessary to type even simple linear programs:
+
+===== The 1 <= p rule
+
+Given the current domain, it is true that `1` is the smallest element. As such, we assume `1` is smaller than everything which allows more functions to type check.
+
+This is implemented by making sure to call `submult` on the multiplicities before passing them to the normal unifier which knows nothing special about multiplicities. This can be seen at both
+`tc_extend_local_env` and `tc_sub_type_ds`. At the moment we also get much better error messages by doing this short circuiting.
+
+===== Complex constraints
+
+Multiplication and addition are approximated.
+
+* A constraint of the form `p1 * p2 <= q` is solved as `p1 <= q` and `p2 <= q`.
+* A constraint of the form `p1 + p2 <= q` is solved as `Omega <= q`
+
+=== Defaulting
+
+Unsolved multiplicity variables are defaulted to ω by the following functions:
+
+Calls to `isMultiplicityVar` are used in places where we do defaulting.
+
+1. `TcSimplify.defaultTyVarTcS`
+2. `TcMType.defaultTyVar`
+
+=== HsType
 
 We need to distinguish `a -> b`, `a ->. b` and `a -->.(m) b` in the surface syntax. The `HsFunTy` constructor has an extra field containing `HsArrow`, which stores this information:
 
@@ -174,60 +252,6 @@ If you don't eliminate it then you will get a linker error like
 
 [https://github.com/tweag/ghc/pull/92/commits/c18ab3d533dbc871f5afe8fe4d2a9d8f8213f8b4 I (Matthew) made the matching more robust] in the two places in base by using a function as the argument to `magicDict` rather than a data constructor
 as the builtin rule only uses that information for the type of the function.
-
-
-=== Typechecking
-
-The internal representation of a multiplicity is called `Mult`. Its (slightly simplified) definition is as follows:
-
-{{{
-#!haskell
-data Mult = Zero
-          | One
-          | Omega
-          | MultAdd Mult Mult
-          | MultMul Mult Mult
-          | MultThing Type
-}}}
-
-Each constructor represents how many times a variable is allowed to be used. There are precisely two places where we check how often variables are used.
-
-1. In `TcEnv.tc_extend_local_env`, which is the function which brings local variables into scope. Upon exiting a binder, we call `tcSubMult` (via `check_binder`) to ensure that the variable usage is compatible with the declared multiplicity (if no multiplicity was declared, a fresh existential multiplicity variable is created instead).
-    - `tcSubMult` emits constraints of the form `π ⩽ ρ`. In `check_binder` there is a call to `submultMaybe` which checks for obvious cases before we delegate to `tcSubMult` which decomposes multiplication and addition constraints
-       before calling `tcEqMult` in order to check for precise equality of types. This function will also do unification of variables.
-2. In `tc_sub_type_ds`, In the `FunTy` case, we unify the arrow multiplicity which can lead to the unification of multiplicity variables.
-    - `tc_sub_type_ds` emits constraints of the form `π = ρ`, this is achieved by a call to `tcEqMult` which just calls `rigToType` on the `Rig`s before checking for equality using `tc_sub_type_ds` recursively.
-
-A better implementation would probably emit a real constraint `pi <= rho` and then add logic for solving it to the constraint solver. The current ad-hoc approach reduces the task of checking the relation to checking certain equality constraints.
-
-In order to use the normal unification machinery, we eventually call `tc_sub_type_ds` but before that we check for domain specific rules we want to implement such as `1 <= p` which is achieved by calls to `submult` or `submultMaybe`.
-
-==== Solving constraints
-
-Constraint solving is not completely designed yet. The current implementation follows very simple rules, to get the implementation off the ground. Basically both equality and inequality constraints are treated as syntactic equality unification (as opposed, in particular, to unification up to laws of multiplicities as in the proposal). There are few other rules (described below) which are necessary to type even simple linear programs:
-
-===== The 1 <= p rule
-
-Given the current domain, it is true that `1` is the smallest element. As such, we assume `1` is smaller than everything which allows more functions to type check.
-
-This is implemented by making sure to call `submult` on the multiplicities before passing them to the normal unifier which knows nothing special about multiplicities. This can be seen at both
-`tc_extend_local_env` and `tc_sub_type_ds`. At the moment we also get much better error messages by doing this short circuiting.
-
-===== Complex constraints
-
-Multiplication and addition are approximated.
-
-* A constraint of the form `p1 * p2 <= q` is solved as `p1 <= q` and `p2 <= q`.
-* A constraint of the form `p1 + p2 <= q` is solved as `Omega <= q`
-
-=== Defaulting
-
-Unsolved multiplicity variables are defaulted to ω by the following functions:
-
-Calls to `isMultiplicityVar` are used in places where we do defaulting.
-
-1. `TcSimplify.defaultTyVarTcS`
-2. `TcMType.defaultTyVar`
 
 == Core
 
