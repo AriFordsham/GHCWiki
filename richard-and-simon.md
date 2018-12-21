@@ -19,7 +19,7 @@ We should be clear about the dependencies between items on this list.
 
 - [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088): SCC for kind inference: we know what to do, it's just a question of doing it. See also [\#7503](https://gitlab.haskell.org//ghc/ghc/issues/7503), [\#14451](https://gitlab.haskell.org//ghc/ghc/issues/14451).  This will be much easier once Proposal 54 is done.
 
-- [ Type applications in patterns](https://github.com/ghc-proposals/ghc-proposals/pull/126).
+- [ Proposal 126: Type applications in patterns](https://github.com/ghc-proposals/ghc-proposals/pull/126).
 
 # Refactoring of existing stuff that we'd like to get done
 
