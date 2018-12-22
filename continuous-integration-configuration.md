@@ -1,7 +1,7 @@
 # GitLab runner configuration
 
-A sample configuration
-```
+A sample configuration:
+```toml
 concurrent = 1                     <---- Set
 check_interval = 0
 
@@ -9,7 +9,7 @@ check_interval = 0
   session_timeout = 1800
 
 [[runners]]
-  name = "centriq.haskell.org"
+  name = "centriq.haskell.org"     <---- Set
   url = "https://gitlab.staging.haskell.org/"
   token = "TOKEN"                  <---- Set
   executor = "docker"
