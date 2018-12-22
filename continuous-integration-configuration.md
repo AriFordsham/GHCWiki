@@ -2,19 +2,19 @@
 
 A sample configuration:
 ```toml
-concurrent = 1                     <---- Set
+concurrent = 1                    # <---- Set
 check_interval = 0
 
 [session_server]
   session_timeout = 1800
 
 [[runners]]
-  name = "centriq.haskell.org"     <---- Set
+  name = "centriq.haskell.org"    # <---- Set
   url = "https://gitlab.staging.haskell.org/"
-  token = "TOKEN"                  <---- Set
+  token = "TOKEN"                 # <---- Set
   executor = "docker"
-  environment = ["CPUS=16"]        <---- Set
-  output_limit = 16000             <---- Set
+  environment = ["CPUS=16"]       # <---- Set
+  output_limit = 16000            # <---- Set
   [runners.docker]
     tls_verify = false
     image = "ghcci/aarch64-linux-deb9:0.1"
