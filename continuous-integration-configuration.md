@@ -43,6 +43,8 @@ Install `gitlab-runner` according to
 
 ## Windows configuration
 
+Note: In the case of Windows builders it is important that we run only one build per machine. Unfortunately concurrent builds are simply too fragile under Windows' file locking semantics.
+
 Start with Windows Server GCE image.
 
 Install [Git for Windows](https://git-scm.com/download/win). When prompted
