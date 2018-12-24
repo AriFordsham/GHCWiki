@@ -61,7 +61,7 @@ In binders, where we stored a type, we now store a pair of type and multiplicity
 The internal representation of a multiplicity is called `Mult`. Its (slightly simplified) definition is as follows:
 
 ```
-dataMult=Zero|One|Omega|MultAddMultMult|MultMulMultMult|MultThingType
+dataMult=One|Omega|MultAddMultMult|MultMulMultMult|MultThingType
 ```
 
 
@@ -70,7 +70,7 @@ Each constructor represents how many times a variable is allowed to be used.
 
 The checking algorithm is as follows:
 
-- The typechecking monad is enriched with an extra writer-like state called the *usage environment*, which is a mapping from variables to multiplicities.
+- The typechecking monad is enriched with an extra writer-like state called the *usage environment*, which is a mapping from variables to multiplicities. Variables not present in the usage environment are considered to have usage Zero (which is not a multiplicity).
 - The usage environment output by `u v` is `U1 + p * U2` where
 
   - `U1` is the usage environment output by `u`
@@ -104,13 +104,10 @@ A better implementation would probably emit a real constraint `pi <= rho` and th
 
 In order to use the normal unification machinery, we eventually call `tc_sub_type_ds` but before that we check for domain specific rules we want to implement such as `1 <= p` which is achieved by calls to `submult` or `submultMaybe`.
 
-
-The `Zero` multiplicity is an avatar of the type checking algorithm, and doesn't correspond to a user-facing multiplicity. We will probably take it out in a separate type.
-
 #### Solving constraints
 
 
-Constraint solving is not completely designed yet. The current implementation follows very simple rules, to get the implementation off the ground. Basically both equality and inequality constraints are treated as syntactic equality unification (as opposed, in particular, to unification up to laws of multiplicities as in the proposal). There are few other rules (described below) which are necessary to type even simple linear programs:
+Constraint solving is not completely designed yet. The current implementation follows very simple rules, to get the implementation off the ground. Basically both equality and subsumption constraints are treated as syntactic equality unification (as opposed, in particular, to unification up to laws of multiplicities as in the proposal). There are few other rules (described below) which are necessary to type even simple linear programs:
 
 ##### The 1 \<= p rule
 
