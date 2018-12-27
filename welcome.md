@@ -24,7 +24,7 @@ This is all that should be necessary; a quick `git pull origin master`
 should verify that everything works as expected.
 
 
-# Continuous integration status
+# Continuous integration
 
 Continuous integration is now provided by GitLab's native continuous
 integration infrastructure. We currently test a variety of
