@@ -95,7 +95,6 @@ are two ways to submit a merge request:
 
  * if you have push access you can push a branch directly to
    `git@gitlab.haskell.org:ghc/ghc.git` and open merge request.
-
    In this case please do follow the usual branch naming conventions:
 
      * prefix all branch names with `wip/`
