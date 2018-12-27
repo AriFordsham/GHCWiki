@@ -78,14 +78,14 @@ dependent differentials.
 Under GitLab's model a merge request is a git branch consisting of
 one or more patches. Larger changes can be handled in one of two ways:
 
- a. a set of dependent merge requests, each of which to be squashed when
+ 1. a set of dependent merge requests, each of which to be squashed when
     merged.
 
- b. a single branch with each atomic change made in a single, buildable
+ 2. a single branch with each atomic change made in a single, buildable
     commit
 
 Due to the difficulty of maintaining dependent merge requests, I would
-recommend that contributors making larger changes use method (b).
+recommend that contributors making larger changes use method (2).
 
 
 # Submitting your merge request for review
