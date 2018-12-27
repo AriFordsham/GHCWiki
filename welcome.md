@@ -71,7 +71,7 @@ If a build fails at an earlier phase no further phases will be run.
 
 # Structuring your merge request
 
-With the move to GitLab GHC is moving to a model similar to that used by
+With the transition to GitLab GHC is moving to a model similar to that used by
 GitHub. If you have a Differential on Phabricator we will finish review there.
 However, please post new patches as merge requests on GitLab.
 
