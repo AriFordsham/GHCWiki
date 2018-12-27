@@ -1,3 +1,5 @@
+Welcome to GHC's GitLab instance.
+
 # Getting started
 
 To get started on GitLab you will first want to either [create a new account](https://gitlab.haskell.org/users/sign_in)
