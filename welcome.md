@@ -134,6 +134,9 @@ those who are familiar with GitHub but haven't yet used GitLab:
  * Merge requests can require approvals from particular users before
    considered as mergable
 
+ * Merge requests can be placed in "merge when CI passes" state, which
+   will cause merge requests to be merged as soon as they are green
+
 From this point moving forward all changes to GHC will be merged via
 GitLab's merge requests facilities and must pass CI before being merged.
 To ensure that GHC's git history remains linear `ghc/ghc` will use GitLab's
