@@ -168,7 +168,7 @@ please do let me know and I can raise the matter with GitLab.
 We would like to acknowledge several parties for their contributions to
 this effort:
 
- * [Packet.net](https://www.packet.com/) and Google X for their generous donation of hosting for
+ * [Packet.net](https://www.packet.com/) and [Google X](https://x.company/) for their generous donation of hosting for
    continuous integration and web hosting
 
  * [GitLab](https://gitlab.com/) and their [Open Source program](https://gitlab.com/gitlab-com/gitlab-oss) for many productive discussions,
