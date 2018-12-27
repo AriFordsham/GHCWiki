@@ -115,6 +115,7 @@ are two ways to submit a merge request:
 In either case after you have pushed your branch [open a merge request](https://gitlab.haskell.org/ghc/ghc/merge_requests/new)
 against `ghc/ghc` [2].
 
+Note that your commit messages are what will end up in the repository's revision history. Consequently it is important that you 
 
 # Reviewing and merging merge requests
 
