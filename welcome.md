@@ -136,12 +136,12 @@ those who are familiar with GitHub but haven't yet used GitLab:
 
 From this point moving forward all changes to GHC will be merged via
 GitLab's merge requests facilities and must pass CI before being merged.
-To ensure that GHC's git history remains linear ghc/ghc will use GitLab's
+To ensure that GHC's git history remains linear `ghc/ghc` will use GitLab's
 "fast-forward without a merge commit" merge strategy. Consequently you
-will be asked to rebase merge
-requests which are not fast-forwards before merging (a
-convenient "Rebase" will appear if the rebase can be carried out without
-conflicts.
+will be asked to rebase merge requests which are not fast-forward merges
+before merging (a convenient "Rebase" button will appear if the rebase
+can be carried out without conflicts.
+
 
 
 # Status of the Trac migration
