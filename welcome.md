@@ -77,8 +77,8 @@ However, please post new patches as merge requests on GitLab.
 
 Note that Phabricator and GitLab have quite different models for
 handling patches. Under Phabricator a Differential is a single patch
-with no further structure; larger changes are broken up by way of
-dependent differentials.
+with no further structure; larger changes can be composed of multiple
+dependent Differentials.
 
 Under GitLab's model a merge request is a git branch consisting of
 one or more patches. Larger changes can be handled in one of two ways:
