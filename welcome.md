@@ -1,16 +1,12 @@
 # Getting started
 
-To get started on GitLab you will first want to either [create a new account][1]
-[1] or login with your GitHub credentials [2].
+To get started on GitLab you will first want to either [create a new account](https://gitlab.haskell.org/users/sign_in)
+or [login with your GitHub credentials](https://gitlab.haskell.org/users/auth/github).
 
-Once you have an account you should add an SSH key [3] so that you can push
+Once you have an account you should [add an SSH key](https://gitlab.haskell.org/profile/keys) so that you can push
 to your repositories. If you currently have commit rights to GHC notify me
-(Ben Gamari) of your user name so I can grant you similar rights in GitLab.
+(@bgamari) of your user name so I can grant you similar rights in GitLab.
 
-
-[1] https://gitlab.haskell.org/users/sign_in
-[2] https://gitlab.haskell.org/users/auth/github
-[3] https://gitlab.haskell.org/profile/keys
 
 
 # Updating your development environment
@@ -19,8 +15,10 @@ You can updated existing working directory (with the usual upstream
 remote name of `origin`) for the new upstream repository location by
 running the following:
 
-    git remote set-url origin https://gitlab.haskell.org/ghc/ghc.git
-    git remote set-url --push origin git@gitlab.haskell.org:ghc/ghc
+```bash
+git remote set-url origin https://gitlab.haskell.org/ghc/ghc.git
+git remote set-url --push origin git@gitlab.haskell.org:ghc/ghc
+```
 
 This is all that should be necessary; a quick `git pull origin master`
 should verify that everything works as expected.
@@ -31,7 +29,7 @@ should verify that everything works as expected.
 Continuous integration is now provided by GitLab's native continuous
 integration infrastructure. We currently test a variety of
 configurations, including many that neither Phabricator nor
-CircleCI/Appveyor previously tested (see [1] for an example run):
+CircleCI/Appveyor previously tested (e.g. see this [example run](https://gitlab.haskell.org/ghc/ghc/pipelines/568)):
 
  * With the make build system:
     * x86_64/Linux on Fedora 27, Debian 8, and Debian 9
@@ -66,9 +64,6 @@ builds occur in three stages:
 If a build fails at an earlier phase no further phases will be run.
 
 
-[1] https://gitlab.haskell.org/ghc/ghc/pipelines/568
-
-
 # Structuring your merge request
 
 With the move to GitLab GHC is moving to a model similar to that used by
@@ -99,7 +94,7 @@ Depending upon whether you have push rights to the GHC repository there
 are two ways to submit a merge request:
 
  * if you have push access you can push a branch directly to
-   git@gitlab.haskell.org:ghc/ghc.git and open merge request.
+   `git@gitlab.haskell.org:ghc/ghc.git` and open merge request.
 
    In this case please do follow the usual branch naming conventions:
 
@@ -108,21 +103,18 @@ are two ways to submit a merge request:
      * if you are fixing a particular ticket consider using the name
        `wip/TNNNN`
 
- * if not you can create a fork using the "Fork" button on the project
-   page [1] and push your branch there
+ * if not you can [create a fork](https://gitlab.haskell.org/ghc/ghc/forks/new) using the "Fork" button on the project
+   page and push your branch there
 
-In either case after you have pushed your branch open a merge request
-against ghc/ghc [2].
-
-[1] https://gitlab.haskell.org/ghc/ghc/forks/new
-[2] https://gitlab.haskell.org/ghc/ghc/merge_requests/new
+In either case after you have pushed your branch [open a merge request](https://gitlab.haskell.org/ghc/ghc/merge_requests/new)
+against `ghc/ghc` [2].
 
 
 # Reviewing and merging merge requests
 
 As always, all contributors are encouraged to help review proposed
 changes. If you are unfamiliar with GitLab's review interface please see
-GitLab's user documentation [1]. Here are a few quick highlights for
+GitLab's [user documentation](https://gitlab.com/help/user/discussions/index.md#discussions). Here are a few quick highlights for
 those who are familiar with GitHub but haven't yet used GitLab:
 
  * As with GitHub, GitLab supports both inline and out-of-line comments.
@@ -147,8 +139,6 @@ requests which are not fast-forwards before merging (a
 convenient "Rebase" will appear if the rebase can be carried out without
 conflicts.
 
-[1] https://gitlab.com/help/user/discussions/index.md#discussions
-
 
 # Status of the Trac migration
 
@@ -157,25 +147,20 @@ of a holiday break. Hopefully by mid-January we will be able to move
 forward on this part of the migration; I will share more details about
 this as they develop.
 
-In the meantime, users of Trac should check and possibly update the
-email address associated with their account [1].  This address will be
+In the meantime, Trac users should [check and possibly update](https://ghc.haskell.org/trac/ghc/prefs) the
+email address associated with their account.  This address will be
 used to correlate Trac users with their GitLab equivalents so the
 correctness of this address will be important in preserving attribution
 information during the Trac import.
-
-[1] https://ghc.haskell.org/trac/ghc/prefs
 
 
 # Next steps
 
 GitLab upstream has been incredibly supportive of our transition effort
 and has expressed interest in assisting us with issues that we encounter.
-Our current requests can be found on our transition's tracking ticket [1].
+Our current requests can be found on our [migration effort's tracking ticket](https://gitlab.com/gitlab-org/gitlab-ce/issues/55039).
 If you find any additional bugs or workflows that could be improved
 please do let me know and I can raise the matter with GitLab.
-
-
-[1] https://gitlab.com/gitlab-org/gitlab-ce/issues/55039
 
 
 # Acknowledgments
@@ -183,12 +168,12 @@ please do let me know and I can raise the matter with GitLab.
 We would like to acknowledge several parties for their contributions to
 this effort:
 
- * Packet.net and Google X for their generous donation of hosting for
+ * [Packet.net](https://www.packet.com/) and Google X for their generous donation of hosting for
    continuous integration and web hosting
 
- * GitLab and their Open Source program for many productive discussions,
+ * [GitLab](https://gitlab.com/) and their [Open Source program](https://gitlab.com/gitlab-com/gitlab-oss) for many productive discussions,
    their generous support, and the GitLab Ultimate license used by
-   gitlab.haskell.org.
+   `gitlab.haskell.org`.
 
  * Davean Scies for his help procuring the hosting services that power
    our continuous integration.
