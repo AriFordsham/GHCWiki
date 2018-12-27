@@ -1,4 +1,4 @@
-Welcome to GHC's GitLab instance. This is intended to be a short getting started guide and status update for GHC's migration to GitLab.
+Welcome to GHC's GitLab instance. This is intended to be a short getting started guide and status update for GHC's migration to GitLab and began as a thread on [ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2018-December/016716.html).
 
 # Getting started
 
