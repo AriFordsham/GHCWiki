@@ -1,0 +1,194 @@
+I am happy to announce that CI on GHC's GitLab instance [1] is now
+stable. At this point https://gitlab.haskell.org/ghc/ghc.git is to be
+considered the official upstream repository of GHC.
+
+[1] https://gitlab.haskell.org/
+
+
+# Getting started
+
+To get started on GitLab you will first want to create a new account
+[1].
+
+
+[1] 
+
+
+# Updating your development environment
+
+You can updated existing working directory (with the usual upstream
+remote name of `origin`) for the new upstream repository location by
+running the following:
+
+    git remote set-url origin git@gitlab.haskell.org:ghc/ghc
+    git remote set-url --push origin https://gitlab.haskell.org/ghc/ghc.git
+
+
+# Continuous integration status
+
+Continuous integration is now provided by GitLab's native continuous
+integration infrastructure. We currently test a variety of
+configurations, including many that neither Phabricator nor
+CircleCI/Appveyor previously tested:
+
+ * With the make build system:
+    * x86_64/Linux on Fedora 27, Debian 8, and Debian 9
+    * i386/Linux on Debian 9
+    * aarch64/Linux on Debian 9 (currently broken due to a variety of
+      issues)
+    * x86_64/Windows
+    * x86_64/Darwin
+    * x86_64/Linux on Debian 9 in a few special configurations:
+        * unregisterised (still a bit fragile due to #16085)
+        * integer-simple
+        * building GHC with -fllvm
+ * With Hadrian:
+    * x86_64/Linux on Debian 9
+    * x86_64/Windows (currently broken due to #15950)
+
+The remaining issues will be sorted out in due time. Note that to s
+
+To make the best use of our limited computational resources
+our CI builds occur in three stages:
+
+ * lint: the style and correctness checkers which would previously be
+   run by `arc lint` and `git push`
+
+ * build: Debian 9 Linux x86_64 built with make and Hadrian
+
+ * full-build: the remaining configurations
+
+If a build fails at an earlier phase no further phases will be run.
+
+
+# Structuring your merge request
+
+With the move to GitLab GHC is moving to a model similar to that used by
+GitHub. If you have a Differential on Phabricator we will finish review there.
+However, please post new patches as merge requests on GitLab.
+
+Note that Phabricator and GitLab have quite different models for
+handling patches. Under Phabricator a Differential is a single patch
+with no further structure; larger changes are broken up by way of
+dependent differentials.
+
+Under GitLab's model a merge request is a git branch consisting of
+one or more patches. Larger changes can be handled in one of two ways:
+
+ a. a set of dependent merge requests, each of which to be squashed when
+    merged.
+
+ b. a single branch with each atomic change made in a single, buildable
+    commit
+
+Due to the difficulty of maintaining dependent merge requests, I would
+recommend that contributors making larger changes use method (b).
+
+
+# Submitting your merge request for review
+
+Depending upon whether you have push rights to the GHC repository there
+are two ways to submit a merge request:
+
+ * if you have push access you can push a branch directly to
+   git@gitlab.haskell.org:ghc/ghc.git and open merge request.
+
+   In this case please do follow the usual branch naming conventions:
+
+     * prefix all branch names with `wip/`
+
+     * if you are fixing a particular ticket consider using the name
+       `wip/TNNNN`
+
+ * if not you can create a fork using the "Fork" button on the project
+   page [1] and push your branch there
+
+In either case after you have pushed your branch open a merge request
+against ghc/ghc [2].
+
+[1] https://gitlab.haskell.org/ghc/ghc/forks/new
+[2] https://gitlab.haskell.org/ghc/ghc/merge_requests/new
+
+
+# Reviewing and merging merge requests
+
+As always, all contributors are encouraged to help review proposed
+changes. If you are unfamiliar with GitLab's review interface please see
+GitLab's user documentation [1]. Here are a few quick highlights for
+those who haven't used GitLab but are familiar with GitHub:
+
+ * As with GitHub, GitLab supports both inline and out-of-line comments.
+
+ * Comments that are actionable (known as "discussions") can be marked
+   as resolved and collapsed.
+
+ * Comments can be left on both changed and unchanged lines
+
+ * Revisions of a merge request can be viewed and compared using the
+   two drop-down menus at the top of the Changes tab
+
+ * Merge requests can require approvals from particular users before
+   considered as mergable
+
+From this point moving forward all changes to GHC will be merged via
+GitLab's merge requests facilities and must pass CI before being merged.
+To ensure that GHC's git history remains linear ghc/ghc will use GitLab's
+"fast-forward without a merge commit" merge strategy. Consequently you
+will be asked to rebase merge
+requests which are not fast-forwards before merging (a
+convenient "Rebase" will appear if the rebase can be carried out without
+conflicts.
+
+[1] https://gitlab.com/help/user/discussions/index.md#discussions
+
+
+# Next steps
+
+Tobias will be continuing work on the Trac ticket migration after a bit
+of a holiday break. Hopefully by mid-January we will be able to move
+forward on this part of the migration; I will share more details about
+this as they develop.
+
+GitLab upstream has been incredibly supportive of our transition effort
+and has expressed interest in assisting us with issues that we encounter.
+Our current requests can be found on our transition's tracking ticket [1].
+If you find any additional bugs or workflows that could be improved
+please do let me know and I can raise the matter with GitLab.
+
+
+[1] https://gitlab.com/gitlab-org/gitlab-ce/issues/55039
+
+
+# Acknowledgments
+
+We would like to acknowledge several parties for their contributions to
+this effort:
+
+ * Packet.net and Google X for their generous donation of hosting for
+   continuous integration and web hosting
+
+ * GitLab and their Open Source program for many productive discussions,
+   their generous support, and the GitLab Ultimate license used by
+   gitlab.haskell.org.
+
+ * Davean Scies for his help procuring the hosting to drive our
+   continuous integration services.
+
+Finally, thanks to all contributors for their patience during this
+transition; it has been a long process which has stolen a significant
+amount of attention from other matters. My apologies we have been a bit
+less responsive than usual in code review and ticket triage over the
+past few months. Regardless, I am hopeful that this wait will be
+worthwhile.
+
+
+# Final thoughts
+
+This is not only a milestone for the GitLab migration but also for GHC
+itself. For the first time GHC has fully-automated testing and release
+generation across the full range of Tier 1 configurations it supports,
+with passing CI in all cases.
+
+We are very excited to begin this next chapter of GHC's development and
+are looking forward to hearing how we can improve our new
+infrastructure. Onward and upwards!
