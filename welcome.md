@@ -1,4 +1,4 @@
-Welcome to GHC's GitLab instance.
+Welcome to GHC's GitLab instance. This is intended to be a short getting started guide and status update for GHC's migration to GitLab.
 
 # Getting started
 
