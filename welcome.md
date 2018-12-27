@@ -1,17 +1,16 @@
-I am happy to announce that CI on GHC's GitLab instance [1] is now
-stable. At this point https://gitlab.haskell.org/ghc/ghc.git is to be
-considered the official upstream repository of GHC.
-
-[1] https://gitlab.haskell.org/
-
-
 # Getting started
 
-To get started on GitLab you will first want to create a new account
-[1].
+To get started on GitLab you will first want to either [create a new account][1]
+[1] or login with your GitHub credentials [2].
+
+Once you have an account you should add an SSH key [3] so that you can push
+to your repositories. If you currently have commit rights to GHC notify me
+(Ben Gamari) of your user name so I can grant you similar rights in GitLab.
 
 
-[1] 
+[1] https://gitlab.haskell.org/users/sign_in
+[2] https://gitlab.haskell.org/users/auth/github
+[3] https://gitlab.haskell.org/profile/keys
 
 
 # Updating your development environment
@@ -20,8 +19,11 @@ You can updated existing working directory (with the usual upstream
 remote name of `origin`) for the new upstream repository location by
 running the following:
 
-    git remote set-url origin git@gitlab.haskell.org:ghc/ghc
-    git remote set-url --push origin https://gitlab.haskell.org/ghc/ghc.git
+    git remote set-url origin https://gitlab.haskell.org/ghc/ghc.git
+    git remote set-url --push origin git@gitlab.haskell.org:ghc/ghc
+
+This is all that should be necessary; a quick `git pull origin master`
+should verify that everything works as expected.
 
 
 # Continuous integration status
@@ -29,7 +31,7 @@ running the following:
 Continuous integration is now provided by GitLab's native continuous
 integration infrastructure. We currently test a variety of
 configurations, including many that neither Phabricator nor
-CircleCI/Appveyor previously tested:
+CircleCI/Appveyor previously tested (see [1] for an example run):
 
  * With the make build system:
     * x86_64/Linux on Fedora 27, Debian 8, and Debian 9
@@ -46,10 +48,13 @@ CircleCI/Appveyor previously tested:
     * x86_64/Linux on Debian 9
     * x86_64/Windows (currently broken due to #15950)
 
-The remaining issues will be sorted out in due time. Note that to s
+We also run a slightly larger set of jobs on a nightly basis. Note that
+binary distributions are saved from most builds and are available for
+download for a few weeks (we may put in place a longer retention policy
+for some builds in the future).
 
-To make the best use of our limited computational resources
-our CI builds occur in three stages:
+To make the best use of our limited computational resources our CI
+builds occur in three stages:
 
  * lint: the style and correctness checkers which would previously be
    run by `arc lint` and `git push`
@@ -59,6 +64,9 @@ our CI builds occur in three stages:
  * full-build: the remaining configurations
 
 If a build fails at an earlier phase no further phases will be run.
+
+
+[1] https://gitlab.haskell.org/ghc/ghc/pipelines/568
 
 
 # Structuring your merge request
@@ -115,7 +123,7 @@ against ghc/ghc [2].
 As always, all contributors are encouraged to help review proposed
 changes. If you are unfamiliar with GitLab's review interface please see
 GitLab's user documentation [1]. Here are a few quick highlights for
-those who haven't used GitLab but are familiar with GitHub:
+those who are familiar with GitHub but haven't yet used GitLab:
 
  * As with GitHub, GitLab supports both inline and out-of-line comments.
 
@@ -142,12 +150,23 @@ conflicts.
 [1] https://gitlab.com/help/user/discussions/index.md#discussions
 
 
-# Next steps
+# Status of the Trac migration
 
 Tobias will be continuing work on the Trac ticket migration after a bit
 of a holiday break. Hopefully by mid-January we will be able to move
 forward on this part of the migration; I will share more details about
 this as they develop.
+
+In the meantime, users of Trac should check and possibly update the
+email address associated with their account [1].  This address will be
+used to correlate Trac users with their GitLab equivalents so the
+correctness of this address will be important in preserving attribution
+information during the Trac import.
+
+[1] https://ghc.haskell.org/trac/ghc/prefs
+
+
+# Next steps
 
 GitLab upstream has been incredibly supportive of our transition effort
 and has expressed interest in assisting us with issues that we encounter.
@@ -171,10 +190,14 @@ this effort:
    their generous support, and the GitLab Ultimate license used by
    gitlab.haskell.org.
 
- * Davean Scies for his help procuring the hosting to drive our
-   continuous integration services.
+ * Davean Scies for his help procuring the hosting services that power
+   our continuous integration.
 
-Finally, thanks to all contributors for their patience during this
+ * Matthew Pickering, Alp Mestangullari, Tobias Dammers for their work
+   in setting up the new instance, sorting out the details of the
+   migration, and debugging problems when they arose
+
+Finally, thanks to GHC's contributors for their patience during this
 transition; it has been a long process which has stolen a significant
 amount of attention from other matters. My apologies we have been a bit
 less responsive than usual in code review and ticket triage over the
@@ -192,3 +215,4 @@ with passing CI in all cases.
 We are very excited to begin this next chapter of GHC's development and
 are looking forward to hearing how we can improve our new
 infrastructure. Onward and upwards!
+
