@@ -11,7 +11,7 @@ to your repositories. If you currently have commit rights to GHC notify me
 
 # Updating your development environment
 
-You can updated existing working directory (with the usual upstream
+You can updated existing working directory (assuming the usual upstream
 remote name of `origin`) for the new upstream repository location by
 running the following:
 
