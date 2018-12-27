@@ -51,6 +51,11 @@ binary distributions are saved from most builds and are available for
 download for a few weeks (we may put in place a longer retention policy
 for some builds in the future).
 
+There are admittedly a few kinks that we are still working out,
+particularly in the case of Windows (specifically the long build times
+seen on Windows). If you suspect you are seeing spurious build failures
+do let us know.
+
 To make the best use of our limited computational resources our CI
 builds occur in three stages:
 
