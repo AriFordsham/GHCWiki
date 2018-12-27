@@ -200,11 +200,10 @@ worthwhile.
 # Final thoughts
 
 This is not only a milestone for the GitLab migration but also for GHC
-itself. For the first time GHC has fully-automated testing and release
-generation across the full range of Tier 1 configurations it supports,
-with passing CI in all cases.
+itself. For the first time GHC has fully-automated testing, proposed
+patch CI, and release generation across the full range of Tier 1
+configurations it supports, with passing builds in all cases.
 
 We are very excited to begin this next chapter of GHC's development and
-are looking forward to hearing how we can improve our new
-infrastructure. Onward and upwards!
-
+are looking forward to your feedback on how we can further improve our
+new infrastructure. Onward and upwards!
