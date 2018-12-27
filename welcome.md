@@ -165,6 +165,19 @@ information during the Trac import.
 
 # Next steps
 
+
+We are actively working on cleaning up a few remaining issues with CI:
+
+ * build times are still very long on Windows, despite the fact that we
+   are only building the `quick` build flavour on that platform;
+   consequently GitLab CI Windows builds do sometimes timeout
+   when we are faced with long build queues.
+
+ * we at times run low on disk space on our Windows builder runners,
+   resulting in occasional spurious build failures
+
+ * Appveyor builds generally never finish
+
 GitLab upstream has been incredibly supportive of our transition effort
 and has expressed interest in assisting us with issues that we encounter.
 Our current requests can be found on our [migration effort's tracking ticket](https://gitlab.com/gitlab-org/gitlab-ce/issues/55039).
