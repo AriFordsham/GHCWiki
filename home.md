@@ -14,7 +14,7 @@ Submitting a patch for incorporation into the tree is done by creating a *merge 
 
 To open a merge request:
 
-1. Push you branch. You may push either to your fork or the primary `ghc/ghc` project.
+1. Push your branch. You may push either to your fork or the primary `ghc/ghc` project.
 2. Starting from the [GHC GitLab project](https://gitlab.staging.haskell.org/ghc/ghc) click on the *Merge Requests* link in the left navigational bar.
 3. Click on the green *New Merge Request* button on the top right corner of the Merge Requests page
 4. In the left drop-down of the *Source branch* pane select the project to which you pushed your branch.
