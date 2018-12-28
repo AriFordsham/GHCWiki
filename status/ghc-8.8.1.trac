@@ -30,7 +30,7 @@ Below are the major highlights of 8.8.
  * A safer and more efficient `with#` combinator to control object lifetime (#14375)
  * Improved compilation time for type-family-heavy programs (#8095, Phab:D4766)
  * More efficient code generation for nested closures (#14461)
- * Next iteration of [[wiki:ImplementingTreesThatGrow|Trees That Grow]]
+ * Next iteration of [[wiki:ImplementingTreesThatGrow|Trees That Grow]] (tickets/patches for this?)
  * Continued focus on performance:
     * Some possible tickets: #15418, #15455, #14980, #14013, #15488, #15519, #14062, #14035, #15176, #15304
     * New codelayout algorithm for the NCG: #15124
