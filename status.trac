@@ -14,7 +14,7 @@ We release GHC on multiple platforms; the [wiki:Platforms platforms page] gives 
 For fun: the release plans for previous releases:
 
   * [wiki:Status/GHC-8.6.3 GHC 8.6.3] (current major release)
-  * [wiki:Status/GHC-8.6.2 GHC 8.6.1]
+  * [wiki:Status/GHC-8.6.2 GHC 8.6.2]
   * [wiki:Status/GHC-8.6.1 GHC 8.6.1]
   * [wiki:Status/GHC-8.4.4 GHC 8.4.4]
   * [wiki:Status/GHC-8.4.3 GHC 8.4.3]
