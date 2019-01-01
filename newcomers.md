@@ -12,11 +12,11 @@ If you have any questions along the way don't hesitate to reach out to the commu
 
 ```
 # needed only once, URL rewrite rule is persisted in ${HOME}/.gitconfig
-git config --global url."git://github.com/ghc/packages-".insteadOf git://github.com/ghc/packages/
+git config --global url."git://gitlab.haskell.org/ghc/packages-".insteadOf git://gitlab.haskell.org/ghc/packages/
 # (if you already cloned using ssh, you'll need this rule instead to make submodules work:)
-# git config --global url."git@github.com:ghc/packages-".insteadOf git@github.com:ghc/packages/
+# git config --global url."git@gitlab.haskell.org:ghc/packages-".insteadOf git@gitlab.haskell.org:ghc/packages/
 # clone GHC's main Git repository (creates './ghc' folder in CWD)
-git clone --recursive git://github.com/ghc/ghc
+git clone --recursive git://gitlab.haskell.org/ghc/ghc
 cd ghc/
 
 # configure build

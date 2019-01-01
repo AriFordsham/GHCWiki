@@ -10,19 +10,19 @@ If you have any questions along the way don't hesitate to reach out to the commu
 [wiki:Building/Preparation Prepare] your machine, [wiki:Building/GettingTheSources clone] the git repo, and [wiki:Building/QuickStart] GHC. For the short, short version, which may or may not work for your machine, you can try this (note that [https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools building older versions of GHC may require having an older version of GHC on your path]):
 
 {{{#!comment
--- Note: when this page got mentioned on reddit, git.haskell.org couldn't handle the load, so we now tell newcomers to clone from github, even though it requires one more initial step.
-git clone --recursive git://git.haskell.org/ghc.git
+-- Note: when this page got mentioned on reddit, git.haskell.org couldn't handle the load, so we used to tell newcomers to clone from github, even though it requires one more initial step. Now it's gitlab:
+git clone --recursive git://gitlab.haskell.org/ghc.git
 }}}
 
 {{{
 #!sh
 # needed only once, URL rewrite rule is persisted in ${HOME}/.gitconfig
-git config --global url."git://github.com/ghc/packages-".insteadOf git://github.com/ghc/packages/
+git config --global url."git://gitlab.haskell.org/ghc/packages-".insteadOf git://gitlab.haskell.org/ghc/packages/
 # (if you already cloned using ssh, you'll need this rule instead to make submodules work:)
-# git config --global url."git@github.com:ghc/packages-".insteadOf git@github.com:ghc/packages/
+# git config --global url."git@gitlab.haskell.org:ghc/packages-".insteadOf git@gitlab.haskell.org:ghc/packages/
 
 # clone GHC's main Git repository (creates './ghc' folder in CWD)
-git clone --recursive git://github.com/ghc/ghc
+git clone --recursive git://gitlab.haskell.org/ghc/ghc
 cd ghc/
 
 # configure build
