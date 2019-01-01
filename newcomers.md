@@ -11,10 +11,6 @@ If you have any questions along the way don't hesitate to reach out to the commu
 [Prepare](building/preparation) your machine, [clone](building/getting-the-sources) the git repo, and [Building/QuickStart](building/quick-start) GHC. For the short, short version, which may or may not work for your machine, you can try this (note that [ building older versions of GHC may require having an older version of GHC on your path](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools)):
 
 ```
-# needed only once, URL rewrite rule is persisted in ${HOME}/.gitconfig
-git config --global url."git://gitlab.haskell.org/ghc/packages-".insteadOf git://gitlab.haskell.org/ghc/packages/
-# (if you already cloned using ssh, you'll need this rule instead to make submodules work:)
-# git config --global url."git@gitlab.haskell.org:ghc/packages-".insteadOf git@gitlab.haskell.org:ghc/packages/
 # clone GHC's main Git repository (creates './ghc' folder in CWD)
 git clone --recursive git://gitlab.haskell.org/ghc/ghc
 cd ghc/
