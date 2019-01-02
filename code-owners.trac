@@ -134,9 +134,8 @@ For a full description of GHC support for various platforms, see [wiki:Platforms
    * AIX: [mailto:audreyt@audreyt.org Audrey Tang]
    * Gentoo Linux packages (32 and 64bit): [mailto:haskell@gentoo.org Gentoo Haskell team]
    * Debian GNU/Linux/powerpc packages: [mailto:kaol@debian.org Kari Pahula]
-   * MacOS X: [mailto:wolfgang.thaller@gmx.net Wolfgang Thaller],[mailto:naur@post11.tele.dk Thorkil Naur]
    * Fedora packages: [mailto:haskell-devel@lists.fedoraproject.org Fedora Haskell SIG] (until F12)
-   * openSUSE Linux packages: [mailto:peter.trommler@th-nuernberg.de Peter Trommler]
+   * openSUSE Linux packages (64 bit): [mailto:peter.trommler@th-nuernberg.de Peter Trommler]
 
  * '''Sparc'''
    * Solaris: Position open
