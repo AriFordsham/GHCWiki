@@ -47,7 +47,6 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 || x86-64             || OpenBSD         || amd64-unknown-openbsd    || Yes        || Yes       || No             || [wiki:Building/Preparation/OpenBSD Preparing and Building OpenBSD] ||
 || x86-64             || DragonFly       || x86_64-portbld-dragonfly || Yes        || Yes       || Yes            || ||
 || PowerPC            || Linux           || powerpc-unknown-linux    || Yes        || Yes       || Yes            || ||
-|| PowerPC            || MacOS X         || powerpc-apple-darwin     || Yes        || Yes       || Yes            || ||
 || PowerPC64          || Linux           || powerpc64-unknown-linux  || Yes        || Yes       || Yes            || ||
 || PowerPC64le        || Linux           || powerpc64le-unknown-linux|| Yes        || Yes       || Yes            || ||
 || Sparc              || Linux           || sparc-unknown-linux      || Yes        || Yes       || No             || ||

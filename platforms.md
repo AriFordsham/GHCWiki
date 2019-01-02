@@ -143,13 +143,6 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> Yes       </th>
 <th> Yes            </th>
 <th></th></tr>
-<tr><th> PowerPC            </th>
-<th> MacOS X         </th>
-<th> powerpc-apple-darwin     </th>
-<th> Yes        </th>
-<th> Yes       </th>
-<th> Yes            </th>
-<th></th></tr>
 <tr><th> PowerPC64          </th>
 <th> Linux           </th>
 <th> powerpc64-unknown-linux  </th>
