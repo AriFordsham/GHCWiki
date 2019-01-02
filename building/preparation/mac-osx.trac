@@ -3,7 +3,7 @@
 1. Install Apple's command line tools
   - Install the latest command line tools from http://developer.apple.com/downloads '''or'''
   - install XCode, launch XCode, open Preferences, select "Downloads" and install the command line tools
-2. Install Homebrew http://brew.sh
+2. Install Homebrew http://brew.sh (or Macports https://www.macports.org - in which case the necessary utilities would be installed via `sudo port install automake autoconf python3`, etc.)
 3. `brew install autoconf automake python3`
 4. Install a recent GHC version using your method of choice
 5. Install the necessary GHC tools
