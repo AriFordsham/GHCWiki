@@ -8,67 +8,11 @@ If you have any questions along the way don't hesitate to reach out to the commu
 
 ## First steps
 
-[Prepare](building/preparation) your machine, [clone](building/getting-the-sources) the git repo, and [Building/QuickStart](building/quick-start) GHC. For the short, short version, which may or may not work for your machine, you can try this (note that [ building older versions of GHC may require having an older version of GHC on your path](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools)):
-
-```
-# clone GHC's main Git repository (creates './ghc' folder in CWD)
-# Note: you can connect to GitLab using SSH, if you register to GitLab and upload your SSH key.
-# In that case the following line would have "git:" instead of "https:"
-git clone --recursive https://gitlab.haskell.org/ghc/ghc
-cd ghc/
-
-# Note: unless you want to build the latest development version of GHC, you would need to change
-# the branch to one of the stable releases. You can learn what branches are available via command
-# git branch -a
-# The following commented line shows how to switch to the latest stable release of GHC-8.6.x:
-# git checkout ghc-8.6
-# If you changed the branches above, you have to update the submodules, using
-# the following commented-out line:
-# git submodule update --init
-# configure build
-cp mk/build.mk.sample mk/build.mk
-
-## edit mk/build.mk to remove the comment marker # on the line "BuildFlavour = devel2"
-
-./boot
-./configure
-# NOTE: On Windows you need to download some binary distributables before being able to build
-# This only has to be done once and can be done by adding a flag to the call to configure:
-./configure --enable-tarballs-autodownload
-
-# build GHC
-make -j8 # parallelize to at most 8 parallel jobs; adapt to actual number of cpu cores
-```
-
->
-> If your machine has all the prerequisites, this might just work. Expect it all to take roughly between 30 minutes and a couple of hours, depending on your CPU speed, and the number of jobs you can run in parallel.
+- See [Building/QuickStart](building/quick-start) to get started building GHC. Expect it all to take roughly between 30 minutes and a couple of hours, depending on your CPU speed, and the number of jobs you can run in parallel. Note that [ building older versions of GHC may require having an older version of GHC on your path](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools).
 
 - While you are waiting for your build to finish, orient yourself to the general architecture of GHC. This [ article](http://www.aosabook.org/en/ghc.html) is written by two of the chief architects of GHC, Simon Marlow and Simon Peyton-Jones, is excellent and current (2012).
 
 - After a successful build, you should have your brand new compiler in `./inplace/bin/ghc-stage2`. (GHCi is launched with `./inplace/bin/ghc-stage2 --interactive`). Try it out.
-
-## Fast rebuilding
-
-
-There are 4 things to remember:
-
-1. Select `BuildFlavour = devel2` in your `mk/build.mk` file (copy `mk/build.mk.sample` to `mk/build.mk` first), to
-  [make GHC build more quickly](building/using#how-to-make-ghc-build-quickly).
-
-1. Don't run `make` directly in the ghc root directory (unless you just pulled in changes from others). Instead, first
-  change to the directory (`compiler`, `utils`, `ghc` or `libraries`) where you're making your changes.
-  See [Building a single sub-component](building/using#).
-
-1. Set `stage=2` in your `mk/build.mk` file, to
-  [freeze the stage 1 compiler](building/using#freezing-stage-1).
-  This makes sure that only the
-  [stage-2](building/architecture/idiom/stages) compiler will be
-  rebuilt after this.
-
-1. While in the sub-component directory, use `make fast`[skip dependency building](building/using#skip-dependency-building) (except after pulling in changes from others).
-
-
-A good first sanity check is to twiddle some error message in the code, just to see that changed error message pop up when you compile a file. Write some Haskell code with an error in it, and look at the error message. Search through the code for that error message. Change the message, rebuild ghc (run `make fast` in the `ghc` directory), and recompile your file again with `./inplace/bin/ghc-stage2`. If you see the changed message, you're good to go.
 
 ## Finding a ticket
 
