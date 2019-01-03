@@ -1,13 +1,24 @@
-# Quick Start to just building GHC
+# Quick Start: building and installing GHC
 
 
-Below are quick instructions for **just building and installing GHC**. If you are an aspiring GHC developer, read the [Newcomers](newcomers) page instead.
+If you are an aspiring GHC developer, you may want to read the [Newcomers](newcomers) page first.
 
 
-The following instructions assume that you have [got the sources](building/getting-the-sources) and [installed the necessary tools](building/preparation).  In particular for Windows users, all the commands below must be executed in the MinGW shell, not Command Prompt or PowerShell.
+To build GHC, first get the sources by cloning GHC's main Git repository or via an alternative method (see [Getting the Sources](building/getting-the-sources) for more details). Note: you can connect to GitLab using SSH, if you register to GitLab and upload your SSH key. In that case the following line would have "git:" instead of "https:"
+
+```
+git clone --recursive https://gitlab.haskell.org/ghc/ghc
+cd ghc/
+```
 
 
-Optionally, you customize your build by creating the file `mk/build.mk` using `mk/build.mk.sample` as a template.
+Unless you want to build the latest development version of GHC, [checkout a stable release](building/quick-start#).
+
+
+Next, make sure to [install the necessary tools](building/preparation). For Windows users, all the commands below must be executed in the MinGW shell, not Command Prompt or PowerShell.
+
+
+Optionally, you can customize your build by creating the file `mk/build.mk` using `mk/build.mk.sample` as a template and e.g. removing the comment marker \# on the line "BuildFlavour = devel2".
 
 
 If you obtained the repository via `git clone --recursive`, you will need to first run:
@@ -23,7 +34,7 @@ Next, run the `./configure` script followed by `make` to start the build:
 
 ```
 $ ./configure # Windows users must append "--enable-tarballs-autodownload"
-$ make
+$ make -j8 # Use 8 parallel jobs; adapt to actual number of cpu cores
 ```
 
 <sub>On Windows you need to download some binary distributables before being able to build.  This only has to be done once and can be done by adding the `--enable-tarballs-autodownload` flag to the call to `./configure`.</sub>
@@ -47,6 +58,22 @@ $ make install
 
 
 You may need to use `sudo`.
+
+## Check out a Stable Release
+
+
+You can learn what branches are available via ```git branch -a```. You can e.g. switch to the latest stable release of GHC-8.6.x:
+
+```
+git checkout ghc-8.6
+```
+
+
+You'll then have to update the git submodules:
+
+```
+git submodule update --init
+```
 
 ## More information
 
