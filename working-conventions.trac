@@ -1,4 +1,4 @@
-= Working on GHC =
+= Contributing to GHC =
 
 {{{#!comment
 
@@ -9,6 +9,8 @@ Please don't duplicate stuff that can easily be found in the sidebar. That inclu
 
 GHC is a BSD-licensed open-source project, and we welcome your help in making it better. This page and the side bar on the left have pointers to information you'll need.
 
+ * [#Newcomers Information for newcomers]. This the first stop for those people who say, "I want to contribute to GHC, but I don't know quite where to begin." Begin here.
+
  * [wiki:WorkingConventions/FixingBugs How to contribute a patch to GHC]. For [wiki:WorkingConventions/AddingFeatures adding features], there are a few extra steps to follow.
 
  * [http://haskell.org/haskellwiki/Library_submissions How to propose a change to the libraries]
@@ -17,7 +19,7 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
 
  * '''Using Git''': read [wiki:WorkingConventions/Git how to use git with GHC]. Information about our submodule setup is in [wiki:WorkingConventions/Git/Submodules], and some useful Git tricks are in [wiki:WorkingConventions/Git/Tricks].
 
- * '''Using Phabricator''': we use Phabricator as a code review tool; here are [wiki:Phabricator our Phabricator guidance notes].
+ * '''Using Phabricator''': we used to use Phabricator as a code review tool; here are [wiki:Phabricator our Phabricator guidance notes].
 
  * '''Releases and branches''': Our conventions for making releases and how the branches are managed: [wiki:WorkingConventions/Releases Releases]
 
@@ -42,3 +44,55 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
  * If you use Emacs, see [wiki:Emacs] for some useful stuff to put in your `.emacs` file.
 
  * If you have lots of Haskell installations, you may find Edsko's blog post [http://www.edsko.net/2013/02/10/comprehensive-haskell-sandboxes/ Comprehensive Haskell Sandboxes] useful.
+
+[=#Newcomers]
+== Newcomers to GHC ==
+
+While the [wiki:Building building guide], [wiki:WorkingConventions working conventions], [wiki:Commentary commentary] and [wiki:Debugging debugging] pages (always linked from the left sidebar) have great information that can come in handy while you're working on your first, or first several patches, this section is intended to have the details you will need to get rolling.
+
+If you have any questions along the way don't hesitate to reach out to the community. There are people on the [[MailingListsAndIRC|mailing lists and IRC]] who will gladly help you (although you may need to be patient). Don't forget that all GHC developers are still learning; your question is never too silly to ask.
+
+
+=== First steps ===
+
+* See [wiki:Building/QuickStart] to get started building GHC. Expect it all to take roughly between 30 minutes and a couple of hours, depending on your CPU speed, and the number of jobs you can run in parallel. Note that [https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools building older versions of GHC may require having an older version of GHC on your path].
+
+* While you are waiting for your build to finish, orient yourself to the general architecture of GHC. This [http://www.aosabook.org/en/ghc.html article] is written by two of the chief architects of GHC, Simon Marlow and Simon Peyton-Jones, is excellent and current (2012).
+
+* After a successful build, you should have your brand new compiler in `./inplace/bin/ghc-stage2`. (GHCi is launched with `./inplace/bin/ghc-stage2 --interactive`). Try it out.
+
+=== Finding a ticket ===
+
+Now that you can build GHC, let's get hacking. But first, you'll need to identify a goal. GHC's Trac tickets are a great place to find starting points. You are encouraged to ask for a starting point on IRC or the `ghc-devs` [[MailingListsAndIRC|mailing list]]. There someone familiar with the process can help you find a ticket that matches your expertise and help you when you get stuck.
+
+If you want to get a taste for possible starting tasks, below is a list of tickets that appear to be "low-hanging fruit" -- things that might be reasonable for a newcomer to GHC hacking. Of course, we can't ever be sure of how hard a task is before doing it, so apologies if one of these is too hard.
+
+You can add tickets to this list by giving them the `newcomer` Trac keyword.
+
+**Bugs:**
+[[TicketQuery(status=infoneeded,status=new,keywords=~newcomer,owner=,type=bug)]]
+**Feature requests:**
+[[TicketQuery(status=infoneeded,status=new,keywords=~newcomer,owner=,type=feature request)]]
+**Tasks:**
+[[TicketQuery(status=infoneeded,status=new,keywords=~newcomer,owner=,type=task)]]
+
+=== Advice ===
+
+* Read up on the steps you are expected to take for [wiki:WorkingConventions/FixingBugs contributing a patch to GHC].
+
+* Need help? You can email the [http://www.haskell.org/mailman/listinfo/ghc-devs ghc-devs] list, or ask on IRC in `#ghc`.
+
+* Don't get scared. GHC is a big codebase, but it makes sense when you stare at it long enough!
+
+* Don't hesitate to ask questions. We have all been beginners at some point and understand that diving in to GHC can be a challenge. Asking questions will help you make better use of your hacking time.
+
+* Be forewarned that many pages on the GHC Wiki are somewhat out-of-date. Always check the last modification date. Email `ghc-devs` if you're not sure.
+
+* You may want to look at these "how it went for me" blog posts.
+ - [http://rawgit.com/gibiansky/4c54f767bf21a6954b23/raw/67c62c5555f40c6fb67b124307725df168201361/exp.html Hacking on GHC (is not that hard)] by Andrew Gibiansky
+ - [http://anniecherkaev.com/projects/contributing-to-ghc Contributing to GHC] by Annie Cherkaev
+ - [https://medium.com/@zw3rk/contributing-to-ghc-290653b63147 Contributing to GHC via Phabricator] by Moritz Angermann
+
+* There is a blog post series by Stephen Diehl that provides an overview of many important data structures and contains links to other sources of information: [http://www.stephendiehl.com/posts/ghc_01.html Dive into GHC]
+
+Happy hacking!
