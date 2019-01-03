@@ -25,8 +25,7 @@ cd ghc/
 # Note: unless you want to build the latest development version of GHC, you would need to change
 # the branch to one of the stable releases. You can learn what branches are available via command
 # git branch -a
-# The following commented line shows how to switch
-# to the latest stable release of GHC-8.6.x:
+# The following commented line shows how to switch to the latest stable release of GHC-8.6.x:
 # git checkout ghc-8.6
 
 # If you changed the branches above, you have to update the submodules, using
