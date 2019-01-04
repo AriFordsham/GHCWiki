@@ -25,10 +25,11 @@ We should be clear about the dependencies between items on this list.
 
 # Refactoring of existing stuff that we'd like to get done
 
+- [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): coercion zapping.  Nearly done!  But not quite.  And will be valuable for everyone.
+
 - [\#15977](https://gitlab.haskell.org//ghc/ghc/issues/15977): restructure typechecking modules. New module `KcTyClsDecls` that pulls from `TcTyClsDecls` and `TcHsType`.
 - [\#14873](https://gitlab.haskell.org//ghc/ghc/issues/14873): make `typeKind` monadic in the type checker
 - [\#15809](https://gitlab.haskell.org//ghc/ghc/issues/15809): use level numbers for generalisation
-- [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): coercion zapping
 
 - [\#14164](https://gitlab.haskell.org//ghc/ghc/issues/14164): comments, invariant, asserts (Richard)
 - [\#15577](https://gitlab.haskell.org//ghc/ghc/issues/15577): surprising coercions: see comment:5
