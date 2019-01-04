@@ -12,7 +12,7 @@ what.
 See also 
 
 - The [GHC Team](team-ghc) page, which includes a list of committers.
-- The [working on GHC](working-conventions) page, which tell you how we work together.
+- The [Contributing to GHC](contributing) page, which tells you how we work together.
 
 ## What it means to "own" part of GHC
 
