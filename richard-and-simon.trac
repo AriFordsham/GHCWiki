@@ -22,10 +22,11 @@ We should be clear about the dependencies between items on this list.
 
 = Refactoring of existing stuff that we'd like to get done
 
+* #8095: coercion zapping.  Nearly done!  But not quite.  And will be valuable for everyone.
+
 * #15977: restructure typechecking modules. New module `KcTyClsDecls` that pulls from `TcTyClsDecls` and `TcHsType`.
 * #14873: make `typeKind` monadic in the type checker
 * #15809: use level numbers for generalisation
-* #8095: coercion zapping
 
 * #14164: comments, invariant, asserts (Richard)
 * #15577: surprising coercions: see comment:5
@@ -50,6 +51,8 @@ We should be clear about the dependencies between items on this list.
 * How to fix #11719. We can't ever infer a type variable to have a higher-rank kind (as would seem necessary in this example). But perhaps we should type-check type patterns in a different manner than ordinary types, just like `tcPat` is distinct from `tcExpr`. Then, we could use bidirectional type-checking to get things to work out. This is a pretty significant refactor, though. Is it worth it? Or do we just wait until we have dependent types?
 
 = Fuller list =
+
+* #12564: type family calls on the LHS of type instance equations.  Vladislav cares about this, and something looks do-able.
 
 * Deliver on #13959 (`substTyVar` etc)
 * Change flattener to be homogeneous (#12919, #13643)
