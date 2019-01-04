@@ -1,7 +1,7 @@
 # The GHC Commentary - Coding Style Guidelines for the compiler
 
 
-This is a rough description of some of the coding practices and style that we use for Haskell code inside `compiler`.  For run-time system code see the [Coding Style Guidelines for RTS C code](commentary/rts/conventions).  Also see the wiki page on [Working Conventions](working-conventions) for issues related to version control, workflow, testing, bug tracking and other miscellany.
+This is a rough description of some of the coding practices and style that we use for Haskell code inside `compiler`.  For run-time system code see the [Coding Style Guidelines for RTS C code](commentary/rts/conventions).  Also see the wiki page on [Contributing](contributing) for issues related to version control, workflow, testing, bug tracking and other miscellany.
 
 ## General Style
 
