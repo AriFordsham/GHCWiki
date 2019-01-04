@@ -6,7 +6,7 @@
 This part of the guide is about ''using'' the build system, that is,
 how to interact with the build system when you're developing some part
 of GHC, its libraries or tools.  The section aims to be comprehensive;
-for a quick start, read [wiki:Newcomers] first.
+for a quick start, read [wiki:Contributing] first.
 
 
 == Booting, configuring, cleaning ==
