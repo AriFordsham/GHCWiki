@@ -54,6 +54,8 @@ We should be clear about the dependencies between items on this list.
 
 # Fuller list
 
+- [\#12564](https://gitlab.haskell.org//ghc/ghc/issues/12564): type family calls on the LHS of type instance equations.  Vladislav cares about this, and something looks do-able.
+
 - Deliver on [\#13959](https://gitlab.haskell.org//ghc/ghc/issues/13959) (`substTyVar` etc)
 - Change flattener to be homogeneous ([\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919), [\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643))
 - Sort out `mkCastTy`
