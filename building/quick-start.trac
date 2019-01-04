@@ -1,6 +1,6 @@
 = Quick Start: building and installing GHC =
 
-If you are an aspiring GHC developer, you may want to read the [wiki:Newcomers Newcomers] page first.
+If you are an aspiring GHC developer, you may want to read the [wiki:Contributing Contributing] page first.
 
 To build GHC, first make sure to:
   [wiki:Building/Preparation Prepare your machine]
