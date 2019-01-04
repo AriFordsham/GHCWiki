@@ -4,7 +4,7 @@
 Suppose you want to start contributing to GHC: what should you read by way of background?  Here is an annotated list.  Please add to it as you come across useful material. When you do so, please consider adding a link to a place where you are reasonably confident the resource will be available in 10 or 20 years. [ doi](http://doi.org/) purports to enable such links.
 
 
-You can ask questions on `ghc-devs@haskell.org`. People are friendly.  See also [working on GHC](working-conventions) and [The GHC Team](team-ghc).
+You can ask questions on `ghc-devs@haskell.org`. People are friendly.  See also [contributing to GHC](contributing) and [The GHC Team](team-ghc).
 
 
 See also [ Stephen Deihl's Haskell implementation reading list](http://www.stephendiehl.com/posts/essential_compilers.html).
