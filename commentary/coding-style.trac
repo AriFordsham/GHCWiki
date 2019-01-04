@@ -2,7 +2,7 @@
 
 = The GHC Commentary - Coding Style Guidelines for the compiler = 
 
-This is a rough description of some of the coding practices and style that we use for Haskell code inside {{{compiler}}}.  For run-time system code see the [wiki:Commentary/Rts/Conventions Coding Style Guidelines for RTS C code].  Also see the wiki page on [wiki:WorkingConventions Working Conventions] for issues related to version control, workflow, testing, bug tracking and other miscellany.
+This is a rough description of some of the coding practices and style that we use for Haskell code inside {{{compiler}}}.  For run-time system code see the [wiki:Commentary/Rts/Conventions Coding Style Guidelines for RTS C code].  Also see the wiki page on [wiki:Contributing] for issues related to version control, workflow, testing, bug tracking and other miscellany.
 
 == General Style ==
 
