@@ -103,7 +103,7 @@ Even when we disable inlining bindings which only occur once in the body can sti
 
 ## Further reading
 
-- [ Compilation by Transformation in Non-Strict Functional Languages](https://research.microsoft.com/en-us/um/people/simonpj/papers/santos-thesis.ps.gz) (a.k.a. the Santos' thesis): basic source of information about core-to-core transformations. Describes local transformations, full laziness, static argument transformation and many others. Note: Santos' description of inlining is superseeded by "Secrets of the GHC inliner" (see below).
+- [ Compilation by Transformation in Non-Strict Functional Languages](https://www.microsoft.com/en-us/research/publication/compilation-transformation-non-strict-functional-languages/) (a.k.a. the Santos' thesis): basic source of information about core-to-core transformations. Describes local transformations, full laziness, static argument transformation and many others. Note: Santos' description of inlining is superseeded by "Secrets of the GHC inliner" (see below).
 
 - [ Let-floating: moving bindings to give faster programs](http://research.microsoft.com/pubs/67060/float.ps.gz), Simon Peyton Jones, Will Partain, and Andre Santos, ICFP 1996. Describes the let floating and full laziness optimisation passes. It mostly repeats Santos' thesis.
 
