@@ -63,7 +63,7 @@ The Trac bug report system has various fields. Here's how to fill them in:
 - **Priority**, **Milestone**, **Assign to**, **Difficulty**, **Test case**, **Blocking**, **Blocked by**:  these are all for use by GHC developers; please don't fill these in.
 
 
-See also [GHC working conventions](working-conventions).
+See also [GHC working conventions](contributing).
  
 
 ## Full description: what information to provide in the body of your bug report
