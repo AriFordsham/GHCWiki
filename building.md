@@ -14,7 +14,7 @@ can extend it, modify it, and use it to build your code.
 - [Setting up your system for building GHC](building/preparation) (including platform specific instructions)
 - [Getting the sources](building/getting-the-sources) (here's the [list of Git repositories](repositories) that we use)
 - [Quick Start: just build GHC](building/quick-start)
-- Newcomers should also go to [Newcomers](newcomers).
+- Newcomers should also go to [Contributing](contributing).
 
 **More detailed information about using the build system**
 

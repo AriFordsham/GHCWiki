@@ -1,6 +1,6 @@
 {{{#!comment
 
-Let's keep this page for information about manually building and installing of GHC only. Any information that developers need to make changes to GHC (excluding the build system) is better linked to from [wiki:Newcomers] and [wiki:WorkingConventions]. Information about automatic builders is all under [wiki:Status] and [wiki:Infrastructure].
+Let's keep this page for information about manually building and installing of GHC only. Any information that developers need to make changes to GHC (excluding the build system) is better linked to from [wiki:Contributing]. Information about automatic builders is all under [wiki:Status] and [wiki:Infrastructure].
 
 Links to platform specific preparation and build instructions are all grouped on the [wiki:Building/Preparation] page.
 }}}
@@ -20,7 +20,7 @@ can extend it, modify it, and use it to build your code.
  * [wiki:Building/Preparation Setting up your system for building GHC] (including platform specific instructions)
  * [wiki:Building/GettingTheSources Getting the sources] (here's the [wiki:Repositories list of Git repositories] that we use)
  * [wiki:Building/QuickStart Quick Start: just build GHC]
- * Newcomers should also go to [wiki:Newcomers Newcomers].
+ * Newcomers should also go to [wiki:Contributing Contributing].
 
 '''More detailed information about using the build system'''
 
