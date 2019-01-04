@@ -12,4 +12,4 @@ Other build system files are in {{{rules/}}} and {{{mk/}}}.
 
 == Coding Style ==
 
-The [wiki:WorkingConventions Coding style guidelines] may be found on the wiki.
+The [wiki:Contributing#Workingconventions Coding style guidelines] may be found on the wiki.
