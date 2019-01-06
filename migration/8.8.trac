@@ -179,5 +179,105 @@ If GHC is complaining about type synonyms not being passed enough arguments or a
 
 --------------------------------
 == Library changes
+=== `template-haskell-2.15.0.0`
 
-TODO
+The Template Haskell AST has changed to accommodate the [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0015-type-level-type-applications.rst Visible kind application] and [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0007-instance-foralls.rst More explicit foralls] proposals, both of which debut in GHC 8.8. At a glance, the breaking API changes are as follows:
+
+{{{#!diff
+ data Dec
+  = ...
+- | DataInstD Cxt                     Name [Type] (Maybe Kind) [Con] [DerivClause]
++ | DataInstD Cxt (Maybe [TyVarBndr]) Type        (Maybe Kind) [Con] [DerivClause]
+- | NewtypeInstD Cxt                     Name [Type] (Maybe Kind) Con [DerivClause]
++ | NewtypeInstD Cxt (Maybe [TyVarBndr]) Type        (Maybe Kind) Con [DerivClause]
+- | TySynInstD Name TySynEqn
++ | TySynInstD TySynEqn
+
+ data TySynEqn =
+-   TySynEqn                     [Type] Type
++   TySynEqn (Maybe [TyVarBndr]) Type   Type
+
+ data Pragma
+  = ...
+- | RuleP                     String [RuleBndr] Exp Exp Phases
++ | RuleP (Maybe [TyVarBndr]) String [RuleBndr] Exp Exp Phases
+
+ tySynInstD ::
+-    Name -> TySynEqnQ -> DecQ
++            TySynEqnQ -> DecQ
+
+ tySynEqn ::
+-                           [TypeQ] -> TypeQ -> TySynEqnQ
++   (Maybe [TyVarBndrQ]) -> TypeQ   -> TypeQ -> TySynEqnQ
+}}}
+
+Here are the reasons why each of these had to change, and how one can accommodate these changes:
+
+* `DataInstD`, `NewtypeInstD`, and `TySynEqn` each gained a field of type type `Maybe [TyVarBndr]` to support the [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0007-instance-foralls.rst More explicit foralls] proposal, which allows writing type family instances and `RULES` with explicit `forall`s (binding type variables) at the front. (If you don't care about this feature, it's perfectly fine to use `Nothing` here, since that omits the `forall` entirely.)
+* Because of the [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0015-type-level-type-applications.rst Visible kind application] proposal, type family instances can feature richer arguments than before. For example, this is an example of a type family one can write using visible kind applications:
+
+  {{{#!hs
+  type family Foo (a :: k) :: k where
+    Foo @Bool a = a
+    Foo @Char a = a
+  }}}
+
+  As a result, the AST forms for type family instances needed to be updated to support these new forms of arguments. It was decided to migrate away from the old style using `[Type]` to store each individual type argument, since this doesn't encode enough information to tell whether an argument is applied using visible kind application or not. Instead, a single `Type` is used. For instance, this is how the `Foo @Bool a = a` equation is encoded:
+
+  {{{#!hs
+  TySynEqn Nothing (ConT ''Foo `AppKindT` ConT ''Bool `AppT` VarT a) (VarT a)
+  }}}
+
+  Note that the name of the type family, `Foo`, is now present on the left-hand side! This was not the case before, as previously only the //arguments// were included in a `TySynEqn`. This means that the `Name` field in `TySynInstD` is now wholly redundant (as that same `Name` is present in the `TynSynEqn`), so the `Name` field was removed from `TySynInstD`.
+
+  Similar changes were made to `DataInstD` and `NewtypeInstD`. Their `Name` and `[Type]` fields (representing the data family name and left-hand-side arguments, respectively) were removed in favor of a single `Type` representing the data family name applied to its arguments.
+
+  One consequence of this change is that retrieving the `Name` from a type or data family instance is no longer as straightforward as it used to be, as the `Name` is now inside of the left-hand side `Type` field. Similarly, the type arguments of the instance are also sprinkled throughout the LHS `Type` field. One may find the following utility function useful to retrieve the `Name` and arguments:
+
+  {{{#!hs
+  {-# LANGUAGE CPP #-}
+
+  -- | An argument to a type, either a normal type ('TANormal') or a visible
+  -- kind application ('TyArg').
+  --
+  -- 'TypeArg' is useful when decomposing an application of a 'Type' to its
+  -- arguments (e.g., in 'unfoldType').
+  data TypeArg
+    = TANormal Type -- Normal arguments
+    | TyArg    Kind -- Visible kind applications
+
+  -- | Decompose an applied type into its individual components. For example, this:
+  --
+  -- @
+  -- Proxy \@Type Char
+  -- @
+  --
+  -- would be unfolded to this:
+  --
+  -- @
+  -- ('ConT' ''Proxy, ['TyArg' ('ConT' ''Type), 'TANormal' ('ConT' ''Char)])
+  -- @
+  unfoldType :: Type -> (Type, [TypeArg])
+  unfoldType = go []
+    where
+      go :: [TypeArg] -> Type -> (Type, [TypeArg])
+      go acc (ForallT _ _ ty) = go acc ty
+      go acc (AppT ty1 ty2)   = go (TANormal ty2:acc) ty1
+      go acc (SigT ty _)      = go acc ty
+  #if __GLASGOW_HASKELL__ >= 800
+      go acc (ParensT ty)     = go acc ty
+  #endif
+  #if __GLASGOW_HASKELL__ >= 807
+      go acc (AppKindT ty ki) = go (TyArg ki:acc) ty
+  #endif
+      go acc ty               = (ty, acc)
+
+  famInstLHSName :: Type -> Maybe Name
+  famInstLHSName t =
+    case unfoldType t of
+      (ConT n, _) -> Just n
+      (_,      _) -> Nothing
+  }}}
+* Because of the bullet point above, it was no longer possible to keep the old type signature of `tySynEqn` since it lacks a `Type` containing the `Name` of the type family. For this reason, it was decided to just make a breaking change to the type of `tySynEqn` (and similarly for `tySynInstD`, which is almost always used in conjunction with `tySynEqn`).
+
+  Note that neither of the type signatures for `dataInstD` nor `newtypeInstD` had to change since the data family `Name` was already an argument, so these functions happen to have enough information to stay backwards compatible even in the face of these AST changes.
