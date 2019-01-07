@@ -4,7 +4,7 @@ This is GHC's GitLab instance. GitLab will replace Trac and Phabricator as the c
 
 If you had a Trac account then you likely already have a GitLab account as a result of the Trac import. This account will have a username of the form `trac-$TRAC_USERNAME`. Contact @bgamari with your email address to have a password reset email sent. Once you have gained access to this account you may change your username to remove the `trac-` prefix
 
-If you do not have a Trac account (or would prefer to start from scratch with a new account) you can [log in](https://gitlab.staging.haskell.org/users/auth/github) using your GitHub account or [create](https://gitlab.staging.haskell.org/users/sign_in) a new GitLab account.
+If you do not have a Trac account (or would prefer to start from scratch with a new account) you can [log in](https://gitlab.haskell.org/users/auth/github) using your GitHub account or [create](https://gitlab.haskell.org/users/sign_in) a new GitLab account.
 
 # Merge requests
 
@@ -15,7 +15,7 @@ Submitting a patch for incorporation into the tree is done by creating a *merge 
 To open a merge request:
 
 1. Push your branch. You may push either to your fork or the primary `ghc/ghc` project.
-2. Starting from the [GHC GitLab project](https://gitlab.staging.haskell.org/ghc/ghc) click on the *Merge Requests* link in the left navigational bar.
+2. Starting from the [GHC GitLab project](https://gitlab.haskell.org/ghc/ghc) click on the *Merge Requests* link in the left navigational bar.
 3. Click on the green *New Merge Request* button on the top right corner of the Merge Requests page
 4. In the left drop-down of the *Source branch* pane select the project to which you pushed your branch.
 5. In the right drop-down of the *Source branch* pane select the name of your branch.
@@ -65,7 +65,7 @@ In particular, fields have been translated as follows:
 | Reported by      | Ticket author         |
 | Owned by         | Ticket owner          |
 | Priority         | Ticket weight         |
-| Milestone        | [Milestone](https://gitlab.staging.haskell.org/ghc/ghc/milestones) |
+| Milestone        | [Milestone](https://gitlab.haskell.org/ghc/ghc/milestones) |
 | Component        | Metadata block        |
 | Version          | Metadata block        |
 | Keywords         | Tags (selectively)    |
@@ -79,5 +79,5 @@ In particular, fields have been translated as follows:
 | Related tickets  | Related tickets       |
 | Differential Revs | Metadata block       |
 | Wiki page         | Metadata block       |
-| Attachments       | Either attachments or [Snippets](https://gitlab.staging.haskell.org/ghc/ghc/snippets) |
+| Attachments       | Either attachments or [Snippets](https://gitlab.haskell.org/ghc/ghc/snippets) |
 | State             | Ticket state and tags |
