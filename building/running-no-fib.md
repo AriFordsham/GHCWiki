@@ -157,6 +157,11 @@ To tweak things, add settings to your `mk/build.mk` (see [Commentary/SourceTree]
 It is often not necessary (or even useful) to do a full nofib run to assess performance changes. For example, you can tell whether compilation time has consistently increased by compiling a single file - a large one, and preferably not one of the perf tests 
 because those contain repeated patterns and aren't indicative of typical code.  You can use [nofib/spectral/simple/Main.hs](/trac/ghc/browser/ghc/nofib/spectral/simple/Main.hs) for this purpose.
 
+### Stability wrt. GC paramerisations
+
+
+Don't try to play around with large Gen 0 or Gen 1 heaps, they make benchmarks highly unstable wrt. small changes in allocations, caused by i.e. a new optimisation that you want to test, leading into a world of pain with unexplicable improvements and regressions. Benchmarks were carefully adjusted to show 'reasonable' behavior for such small changes (e.g. less allocations should lead to improvements in productivity). The details are in [\#15999](https://gitlab.haskell.org//ghc/ghc/issues/15999). This is also very important when adding new benchmarks.
+
 ### Measuring backend performance
 
 
