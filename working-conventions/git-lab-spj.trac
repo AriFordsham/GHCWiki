@@ -1,6 +1,6 @@
 = The big picture =
 
-* A '''merge request'' (MR) a set of changes that you want to have merged into HEAD.
+* A '''merge request''' (MR) a set of changes that you want to have merged into HEAD.
 
 * Every MR has an associated '''GIT branch'''.  It is this branch that will be ultimately merged into HEAD.
 
