@@ -21,7 +21,7 @@ git clone --recursive git://git.haskell.org/ghc.git
 
 
 (Obviously, the clone URL can be replaced by any of the supported `ghc.git` URLs as listed on [ http://git.haskell.org/ghc.git](http://git.haskell.org/ghc.git))
-See [getting the sources](building/getting-the-sources) for more ways of getting the sources (e.g., from the GitHub mirror)
+See [getting the sources](building/getting-the-sources) for more ways of getting the sources (e.g., from the GitHub mirror), and specifically this [note on using forks](building/getting-the-sources#using-a-fork-of-ghc).
 
 ## Updating an existing GHC source tree clone
 
