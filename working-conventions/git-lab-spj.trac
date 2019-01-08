@@ -12,7 +12,7 @@
 
 == Making a change to HEAD ==
 
-You never commit diretly to HEAD.  Rather, follow this workflow.
+You never commit directly to HEAD.  Rather, follow this workflow.
 
 * Create a branch, e.g. `wip/spj-wibbles` or `wip/T16224`:
 {{{
@@ -56,7 +56,7 @@ $ git push --force origin wip/spj-wibbles
 
 * The title and description of a MR do not form part of the Git repo's history.  Only the commit messages in the patches do.  So make sure that each patch has a good commit message!  The title and description of the MR signpost the readers through the review process.
 
-* When commenting on a MR, use "Start review", not "Add comment".  The latter sends an email for each comment.  But a "review" is a set of comments, and hte recipients get one email for the whole thing.
+* When commenting on a MR, use "Start review", not "Add comment".  The latter sends an email for each comment.  But a "review" is a set of comments, and the recipients get one email for the whole thing.
 
 * To see all merge requests, click on "Merge requests" ''in the left-hand nav column''.  The similar icon in the black menu bar at the top doesn't seem to do anything useful.
 
