@@ -11,7 +11,7 @@ GhcRtsHcOpts += -g3
 }}}
 This enables debug information for GHC's boot libraries (e.g. `base`, `bytestring`, etc.) as well as the runtime system. This will allow `gdb` to make sense of your program.
 
-If you would also like to enable the runtime's unwind support (e.g. allowing use of `GHC.ExecutionStack`), you will need to install `libdw` and its development headers, and pass `--enable-dwarf-unwind` to GHC's `configure` script. Note that this is currently only on x86_64 Linux (although i386 may also work; other platforms will need more implementation). In addition to `GHC.ExecutionStack`, this also enables a  `SIGQUIT (`SIGUSR2` before GHC 8.4) signal handler which dumps a stacktrace to standard error. This can be quite handy while debugging "hung" processes.
+If you would also like to enable the runtime's unwind support (e.g. allowing use of `GHC.ExecutionStack`), you will need to install `libdw` and its development headers, and pass `--enable-dwarf-unwind` to GHC's `configure` script. Note that this is currently only on x86_64 Linux (although i386 may also work; other platforms will need more implementation). In addition to `GHC.ExecutionStack`, this also enables a  `SIGQUIT` (`SIGUSR2` before GHC 8.4) signal handler which dumps a stacktrace to standard error. This can be quite handy while debugging "hung" processes.
 
 Note that there may be some stack frame types that aren't quite reported correctly. Ben suspects that stack overflow frames may be among these but hasn't been able to confirm this; if you see a stack trace strangely truncated do let him know.
 
