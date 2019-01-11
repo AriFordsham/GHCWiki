@@ -1,13 +1,13 @@
 # Backpack
 
 
-This is the launch page for Backpack, actively maintained by Edward (as of Nov 2017). 
+This is the launch page for Backpack, actively maintained by Edward (as of Jan 2019). 
 
 
 Backpack is a system for retrofitting Haskell with an applicative, mix-in module system. It has been implemented in GHC 8.2 and cabal-install 2.0, but it is [ not supported by Stack](https://github.com/commercialhaskell/stack/issues/2540).
 
 
-The documentation for how to use Backpack is a bit scattered about at this point, but here are useful, up-to-date (as of 2017-04-02, prior to GHC 8.2's release) references:
+The documentation for how to use Backpack is a bit scattered about at this point, but here are useful, up-to-date (as of 2019-01-11) references:
 
 - This pair of blog posts: Try Backpack, [ ghc --backpack](http://blog.ezyang.com/2016/10/try-backpack-ghc-backpack/) and [ Cabal packages](http://blog.ezyang.com/2017/01/try-backpack-cabal-packages/) have up-to-date tutorials for using the main features of Backpack, with and without Cabal.
 
@@ -17,12 +17,14 @@ The documentation for how to use Backpack is a bit scattered about at this point
 
 - Edward Z. Yang's [ thesis](https://github.com/ezyang/thesis/releases) contains detailed information about the specification and implementation of Backpack. We also have an older [ paper draft](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/backpack-2016.pdf) which was submitted to ICFP'16. History nuts can also read the original [ POPL paper](http://plv.mpi-sws.org/backpack/) but note that Backpack has changed dramatically since then.
 
-- Hackage does not yet support uploads of Backpack-using packages. [ next.hackage](http://next.hackage.haskell.org:8080/) is a Hackage instances running a development branch of Hackage that can handle Backpack; for now, Backpack-enabled packages should be uploaded here.
+- Hackage supports uploads of Backpack using packages. For an example, see [ https://hackage.haskell.org/package/unpacked-containers](https://hackage.haskell.org/package/unpacked-containers)
 
 
 You might find it useful to find some code using Backpack.  Here are the biggest examples worth looking at:
 
-- [ backpack-str](https://github.com/haskell-backpack/backpack-str) defines a signature and implementations for strings. It is quite comprehensive, and the packages are available on next.hackage.
+- [ unpacked-containers](https://hackage.haskell.org/package/unpacked-containers) supplies unpacked sets and maps, using Backpack's ability to unpack through signatures.
+
+- [ backpack-str](https://github.com/haskell-backpack/backpack-str) defines a signature and implementations for strings. It is quite comprehensive.
 
 - [ coda](https://github.com/ekmett/coda) parametrizes over a few core data types including notions of "delta". It takes advantage of zero-cost abstraction, which lets it split into multiple data types, while still ensuring they are UNPACKed in the end.
 
@@ -41,9 +43,9 @@ Some more out-of-date documents:
 
 **Can I use this with Stack?** No, Backpack requires support from the package manager, and Stack integration has not been implemented yet.
 
-**Can I use this with Template Haskell?** Yes, but you need GHC 8.2.2; GHC 8.2.1 has a critical bug which means that most real-world uses of TH will not work. See [ this issue](https://github.com/haskell/cabal/issues/4755) and [ this issue](https://github.com/haskell/cabal/issues/4865) for two examples of this occurring in the wild.
+**Can I use this with Template Haskell?** Yes. Note that there is currently one known issue about TH with Backpack, which you may be affected by: [ https://github.com/haskell/cabal/issues/5634](https://github.com/haskell/cabal/issues/5634)
 
-**Can I use this with the C preprocessor?** No, this is buggy (you'll get an error `<command line>: unknown package: hole`). See [\#14525](https://gitlab.haskell.org//ghc/ghc/issues/14525) for the issue and a patch.
+**Can I use this with the C preprocessor?** Yes; this used to be buggy but the fix is released in the latest version of GHC.
 
 **Make sure cabal-version is recent enough.** ([ \#4448](https://github.com/haskell/cabal/issues/4448)) If you set the `cabal-version` of your package too low, you may get this error:
 
