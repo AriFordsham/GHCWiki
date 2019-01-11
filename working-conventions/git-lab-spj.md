@@ -78,6 +78,8 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
 - Comment if you like. Then, at the bottom-right of the windowette that contains the discussion, you'll see another button with a right-pointing arrow inside a speech bubble. Click that to go to the next unresolved discussion. In this way, the unresolved discussions can be navigated like a singly linked list.
 
+- The table-of-contents on the left is useful, but it takes up a lot of visual space. To hide it, press the button with the three horizontal lines to the left of the words "Changes between", right below the tabs where you choose between, e.g., Discussion and Changes.
+
 ## Transitioning an old repo
 
 ```wiki
