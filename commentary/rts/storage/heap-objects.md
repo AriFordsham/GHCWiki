@@ -131,7 +131,7 @@ The payload consists of a mixture of pointers and non-pointers, described by a b
 (for a 64-bit word size, the size is given 6 bits instead of 5).  
 
 
-The size field gives the size of the payload, and each bit of the bitmap is 1 if the corresponding word of payload contains a pointer to a live object.
+The size field gives the size of the payload, and each bit of the bitmap is 0 if the corresponding word of payload contains a pointer to a live object.
 
 
 The macros `MK_SMALL_BITMAP`, `BITMAP_SIZE`, and `BITMAP_BITS` in [InfoTables.h](/trac/ghc/browser/includes/rts/storage/InfoTables.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/InfoTables.h) provide ways to conveniently operate on small bitmaps.
