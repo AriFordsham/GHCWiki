@@ -32,7 +32,7 @@
    * [wiki:TemplateHaskell]
    * [wiki:LevityPolymorphism]
    * [wiki:TypeFunctions Type families]
-   * #11715, #11621: `Constraint` vs `*`
+   * #16148, #11715, #11621: `Constraint` vs `*`.  #16148 is about improving inference for tuples and foralls.
    * [wiki:Commentary/Compiler/GenericDeriving Generic deriving]
    * [wiki:DerivingInstances Deriving generally]
    * [wiki:Typeable]
