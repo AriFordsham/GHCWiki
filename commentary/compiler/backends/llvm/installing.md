@@ -23,6 +23,7 @@ For instructions on building GHC go [ here](http://hackage.haskell.org/trac/ghc/
 <th>**7.2**</th>
 <th>**7.0**</th></tr>
 <tr><th> LLVM version </th>
+<th> 7.0 </th>
 <th> 6.0 </th>
 <th> 5.0 </th>
 <th> 3.9 </th>
@@ -33,8 +34,7 @@ For instructions on building GHC go [ here](http://hackage.haskell.org/trac/ghc/
 <th> ?? </th>
 <th> 2.9 </th>
 <th> 2.7 
-</th>
-<th></th></tr></table>
+</th></tr></table>
 
 
 The above table lists the versions of the LLVM tools that are known to work with various GHC versions. These are not hard requirements in the sense that GHC will not immediately error if you use a different LLVM version than what is listed, but it is highly likely that using a different LLVM version can cause problems.
