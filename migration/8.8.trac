@@ -161,21 +161,44 @@ GHC can now detect more uses of literal values that do not lie within the expect
 * Negative `Natural` literals (from `Numeric.Natural`), such as `(-123) :: Natural`.
 * Empty `Natural` enumerations, such as `[10..3] :: [Natural]`.
 
-=== Stricter checks on uses of unsaturated type synonyms ===
+=== Stricter type synonym validity-checking ===
 
-Previously, GHC would accept some uses of type synonyms which did not have all of their arguments supplied without requiring the `LiberalTypeSynonyms` extension. Starting with version 8.8, GHC is stricter about requiring the extension in these cases.
+Previous versions of GHC would permit code that should require certain language extensions to be enabled even when those extensions weren't actually on. Here are two notable examples:
 
-For example, this code requires `LiberalTypeSynonyms` in GHC 8.8:
+1. Previously, GHC would accept some uses of type synonyms which did not have all of their arguments supplied without requiring the `LiberalTypeSynonyms` extension. Starting with version 8.8, GHC is stricter about requiring the extension in these cases.
 
-{{{
-type Generic i o = forall x. i x -> o x
-type Id x = x
+   For example, this code requires `LiberalTypeSynonyms` in GHC 8.8:
 
-foo :: Generic Id Id
-foo = undefined
-}}}
+   {{{#!hs
+   type Generic i o = forall x. i x -> o x
+   type Id x = x
+   
+   foo :: Generic Id Id
+   foo = undefined
+   }}}
 
-If GHC is complaining about type synonyms not being passed enough arguments or an 'illegal polymorphic type', try enabling `LiberalTypeSynonyms` in that module.
+   If GHC is complaining about type synonyms not being passed enough arguments or an 'illegal polymorphic type', try enabling `LiberalTypeSynonyms` in that module.
+2. Previously, it was possible to sneak in impredicative types through clever use of type synonyms. For instance, this code used to compile even without the `ImpredicativeTypes` extension enabled!
+
+   {{{#!hs
+   {-# LANGUAGE RankNTypes #-}
+   
+   type Foo x = forall a. a -> a
+   type Bar x = Int -> Foo x
+   
+   f :: [Bar ()] -- Impredicative!
+   f = []
+   }}}
+
+   GHC will now properly reject this:
+
+   {{{
+       • Illegal polymorphic type: forall a. a -> a
+         GHC doesn't yet support impredicative polymorphism
+       • In the expansion of type synonym ‘Foo’
+         In the expansion of type synonym ‘Bar’
+         In the type signature: f :: [Bar ()]
+   }}}
 
 --------------------------------
 == Library changes
