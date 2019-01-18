@@ -1,0 +1,21 @@
+= Demand analysis =
+
+This page summarises the state of play for GHC's demand analysis (aka strictness analysis).
+
+See also
+
+* [wiki:NestedCPR CPR analysis status page].  CPR analysis is integrated with demand analysis.
+* [wiki:LateDmd Late demand analysis]: notes on the final run of the demand analyser, late in the pipeline.
+
+* Rather out-of-date commentary: [wiki:Commentary/Compiler/StrictnessAnalysis]
+
+
+== Tickets ==
+
+Use Keyword = `DemandAnalysis` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~DemandAnalysis)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~DemandAnalysis)]]
