@@ -5,6 +5,7 @@ This page summarises the state of play for GHC's demand analysis (aka strictness
 See also
 
 * [wiki:NestedCPR CPR analysis status page].  CPR analysis is integrated with demand analysis.
+* [wiki:LateDmd Late demand analysis]: notes on the final run of the demand analyser, late in the pipeline.
 
 * Rather out-of-date commentary: [wiki:Commentary/Compiler/StrictnessAnalysis]
 
