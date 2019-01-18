@@ -46,6 +46,7 @@
   - [Inlining](inlining)
   - [FloatOut](float-out)
   - [FloatInwards](float-inwards)
+  - [Demand analysis](demand-analysis)
   - [CPR analysis](nested-cpr)
   - [SpecConstr](spec-constr)
   - [Specialise](specialise)
