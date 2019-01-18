@@ -1,0 +1,14 @@
+= The mighty simplifier =
+
+This page summarises the state of play for GHC's simplifier, including inlining heuristics.
+
+
+== Tickets ==
+
+Use Keyword = `Simplifier` to ensure that a ticket ends up on these lists.
+
+'''Open Tickets:'''
+[[TicketQuery(status=new|patch,keywords=~Simplifier)]]
+
+'''Closed Tickets:'''
+[[TicketQuery(status=closed,keywords=~Simplifier)]]
