@@ -43,6 +43,7 @@
 
 - **Optimisation**
 
+  - [The mighty simplifier](simplifier)
   - [Inlining](inlining)
   - [FloatOut](float-out)
   - [FloatInwards](float-inwards)
