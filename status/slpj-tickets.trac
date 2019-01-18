@@ -43,6 +43,7 @@
    * [wiki:Inlining]
    * [wiki:FloatOut]
    * [wiki:FloatInwards]
+   * [wiki:DemandAnalysis Demand analysis]
    * [wiki:NestedCPR CPR analysis]
    * [wiki:SpecConstr]
    * [wiki:Specialise]
