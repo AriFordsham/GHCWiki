@@ -1,5 +1,12 @@
+# CPR analysis
+
 
 This is a status page for CPR analysis, especially Nested CPR
+
+
+Akio has a patch in progress, currently stalled
+
+- [ https://phabricator.haskell.org/D4244](https://phabricator.haskell.org/D4244)
 
 
 See also sub-pages:
