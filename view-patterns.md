@@ -236,7 +236,7 @@ Then we could write patterns like this:
 ```
 
 
-This parses 3 bits to get the value of `n`, and then parses `n` bits to get the value of `val`.  Note that this example uses the left-to-right scoping in the inner tuple: the first component is jused in the view expression in the second.
+This parses 3 bits to get the value of `n`, and then parses `n` bits to get the value of `val`.  Note that this example uses the left-to-right scoping in the inner tuple: the first component is used in the view expression in the second.
 
 #### N+k patterns
 
