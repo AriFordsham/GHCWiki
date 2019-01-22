@@ -69,7 +69,7 @@ Finally, the *Changes* tab shows the patch itself. This view may be restricted t
 
 Currently we merge MRs with the aid of @marge-bot. Marge is a robot who will look after your patch, ensuring it remains up-to-date with `master` while being a candidate for merge.
 
-After your MR has been reviewed and approved by a GHC developer you can flag your it for merge by assigning it to @merge-bot using the "Assignee" field in the right sidebar:
+After your MR has been reviewed and approved by a GHC developer you can flag your it for merge by assigning it to @marge-bot using the "Assignee" field in the right sidebar:
 
 ![assigning-marge](uploads/50ccd3f10f6eaf3172a7dca081413660/assigning-marge.png)
 
