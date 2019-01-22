@@ -1,5 +1,20 @@
 This is GHC's GitLab instance. GitLab will replace Trac and Phabricator as the center of GHC's development community.
 
+<!--
+To generate images with borders:
+```
+mkdir -p shadow
+rm shadow/*
+for i in *.png; do 
+        nix run nixpkgs.imagemagick -c \
+                convert $i -bordercolor white -border 50 \
+                \( +clone -background black -shadow 80x5+2+2 \) \
+                +swap -background white -layers merge +repage \
+                shadow/$i
+done
+```
+-->
+
 # Logging in
 
 If you had a Trac account then you likely already have a GitLab account as a result of the Trac import. This account will have a username of the form `trac-$TRAC_USERNAME`. Contact @bgamari with your email address to have a password reset email sent. Once you have gained access to this account you may change your username to remove the `trac-` prefix
@@ -8,7 +23,7 @@ If you do not have a Trac account (or would prefer to start from scratch with a 
 
 # Merge requests
 
-Submitting a patch for incorporation into the tree is done by creating a *merge request*. The merge request serves as a place to conduct code review, collect continuous integration logs, and 
+Submitting a patch for incorporation into the tree is done by creating a *merge request*. The merge request serves as a place to conduct code review, collect continuous integration results, and eventually merge your patch.
 
 ## Opening a merge request
 
@@ -49,6 +64,13 @@ The *Commits* tab lists the commits being proposed for merge. These may be click
 The *Pipelines* tab provides a more detailed overview on the state of the various continuous integration jobs associated with the merge request.
 
 Finally, the *Changes* tab shows the patch itself. This view may be restricted to changes made by a single commit by selecting the commit in the *Commits* tab. Moreover, one may view previous iterations of the merge request using the two drop-down menus at the top of the tab. To leave an inline comment click on a line in the patch.
+
+## Merging your merge request
+
+Currently we merge MRs with the aid of @marge-bot. Marge is a robot who will look after your patch, ensuring it remains up-to-date with `master` while being a candidate for merge.
+
+After your MR has been reviewed and approved by a GHC developer you can flag your it for merge by assigning it to @merge-bot using the "Assignee" field in the right sidebar.
+
 
 # Tickets
 
