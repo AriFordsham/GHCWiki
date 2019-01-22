@@ -69,37 +69,12 @@ Finally, the *Changes* tab shows the patch itself. This view may be restricted t
 
 Currently we merge MRs with the aid of @marge-bot. Marge is a robot who will look after your patch, ensuring it remains up-to-date with `master` while being a candidate for merge.
 
-After your MR has been reviewed and approved by a GHC developer you can flag your it for merge by assigning it to @merge-bot using the "Assignee" field in the right sidebar.
+After your MR has been reviewed and approved by a GHC developer you can flag your it for merge by assigning it to @merge-bot using the "Assignee" field in the right sidebar:
 
+![assigning-marge](uploads/50ccd3f10f6eaf3172a7dca081413660/assigning-marge.png)
 
 # Tickets
 
 ## Migration from Trac
 
-All tickets, their comments, and attachments previously present on [Trac](https://ghc.haskell.org/trac/ghc/) have been migrated to GitLab. During this import authorship, formatting, and insofar as is possible, metadata was preserved. Some Trac metadata fields have no analogue in GitLab. Changes in these fields are represented in GitLab by collapsed-by-default *Trac metadata* blocks.
-
-In particular, fields have been translated as follows:
-
-| Trac field       | GitLab representation |
-| :--------------- | :-------------------- |
-| Title            | Ticket title          |
-| Description      | Ticket description    |
-| Reported by      | Ticket author         |
-| Owned by         | Ticket owner          |
-| Priority         | Ticket weight         |
-| Milestone        | [Milestone](https://gitlab.haskell.org/ghc/ghc/milestones) |
-| Component        | Metadata block        |
-| Version          | Metadata block        |
-| Keywords         | Tags (selectively)    |
-| Cc               | Metadata block        |
-| Operating System | Metadata block        |
-| Architecture     | Metadata block        |
-| Type of failure  | Metadata block        |
-| Test Case        | Metadata block        |
-| Blocked by       | Metadata block        |
-| Blocking         | Metadata block        |
-| Related tickets  | Related tickets       |
-| Differential Revs | Metadata block       |
-| Wiki page         | Metadata block       |
-| Attachments       | Either attachments or [Snippets](https://gitlab.haskell.org/ghc/ghc/snippets) |
-| State             | Ticket state and tags |
+Most of the tickets here were carried over from GHC's previous Trac installation. See the [wiki](tickets-from-trac) for details about this migration.
