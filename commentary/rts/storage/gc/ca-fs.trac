@@ -1,6 +1,6 @@
 = GHC Commentary: Garbage Collecting CAFs =
 
-Files: [[GhcFile(rts/sm/GC.c)]], function scavange_srt in [[GhcFile(rts/sm/Scav.h)]]
+Files: [[GhcFile(rts/sm/GC.c)]], function `scavenge_fun_srt`/`scavenge_thunk_srt` in [[GhcFile(rts/sm/Scav.c)]]
 
 A '''static closure''' is a heap object that is allocated statically, once and for all, at compile time. It lives at a fixed address.
 
