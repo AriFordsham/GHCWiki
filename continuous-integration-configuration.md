@@ -30,6 +30,18 @@ check_interval = 0
 
 ```
 
+## Linux configuration
+
+It is [necessary](https://gitlab.com/gitlab-org/gitlab-runner/issues/2980#note_131320536) to ensure that the Docker cache is periodically cleaned:
+```bash
+$ cat | sudo tee /etc/cron.daily/gitlab-clear-docker-cache <<EOF
+#!/bin/sh -e
+
+/usr/share/gitlab-runner/clear-docker-cache
+EOF
+$ chmod ug+rx /etc/cron.daily/gitlab-clear-docker-cache
+```
+
 ## Darwin configuration
 
 Install Homebrew.
