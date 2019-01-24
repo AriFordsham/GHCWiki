@@ -39,7 +39,7 @@ $ cat | sudo tee /etc/cron.daily/gitlab-clear-docker-cache <<EOF
 
 /usr/share/gitlab-runner/clear-docker-cache
 EOF
-$ chmod ug+rx /etc/cron.daily/gitlab-clear-docker-cache
+$ sudo chmod ug+rx /etc/cron.daily/gitlab-clear-docker-cache
 ```
 
 ## Darwin configuration
