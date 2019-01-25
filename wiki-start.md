@@ -25,7 +25,7 @@ Please help us improve the information on the GHC developer's wiki. You can easi
 
 - [Building and Porting GHC](building)
 
-- [Working on GHC ](working-conventions)
+- [Working on GHC ](contributing)
 
 - [The GHC Commentary](commentary)
   Documentation on the design, architecture, and implementation of GHC itself, with references to the actual source code. 
