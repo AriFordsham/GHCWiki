@@ -16,6 +16,7 @@ See also sub-pages:
 - [NestedCPR/better-ho-cardinality](nested-cpr/better-ho-cardinality)
 - [NestedCPR/wave4main](nested-cpr/wave4main)
 - [NestedCPR/Akio2017](nested-cpr/akio2017) tracks \@akio's attempt at rebasing and finishing this work after [SequentCore](sequent-core) is in HEAD.
+- [NestedCPR/SplitOffCPR](nested-cpr/split-off-cpr) collects arguments for why CPR should be split off from the demand analyser
 
 ### Related tickets
 
