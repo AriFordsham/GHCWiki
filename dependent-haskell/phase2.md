@@ -183,7 +183,7 @@ class(co :: k1 ~# k2,(a |> co)~# b)=> a ~~ b
 where the superclass `(a |> co) ~# b` refers to `co`, so we add `co :: k1 ~# k2` into the superclass, otherwise we get `co` out of scope.
 
 
-This definition is, however, wrong, as we cannot have existential variables in superclass. (Skip to the solution to these problems by searching for "Plan of record".)
+This definition is, however, wrong, as we cannot have existential variables in superclass.
 
 **Problem with existential variables in superclass.** Let's consider the example
 
