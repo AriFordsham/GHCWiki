@@ -1,8 +1,12 @@
 = OverloadedRecordFields =
 
-The `OverloadedRecordFields` family of extensions for GHC allow multiple record datatypes to share the same field names, and make it possible for type information to disambiguate selectors. For more information, see:
+The Overloaded Record Fields family of extensions for GHC allow multiple record datatypes to share the same field names, and make it possible for type information to disambiguate selectors. In the design as implemented, there is no single `OverloadedRecordFields` extension, but there are extensions for `DuplicateRecordFields` and `OverloadedLabels`.
 
- * [https://github.com/ghc-proposals/ghc-proposals/pull/6 GHC proposal for OverloadedRecordFields] (2016 - most up to date)
+For more information, see:
+
+ * GHC proposals (most up to date):
+    * [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0042-record-set-field.rst Adding setField to HasField] (2018, not yet implemented)
+    * [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0002-overloaded-record-fields.rst Adding HasField class, changes to OverloadedLabels] (2016, implemented in GHC 8.2 without `IsLabel x (r -> a)` instance)
  * [wiki:Records/OverloadedRecordFields/Redesign Redesigned variant involving three extensions] (2015)
     * Part 1: [wiki:Records/OverloadedRecordFields/DuplicateRecordFields DuplicateRecordFields] (in GHC 8.0)
     * Part 2: [wiki:Records/OverloadedRecordFields/OverloadedLabels OverloadedLabels] (in GHC 8.0)
