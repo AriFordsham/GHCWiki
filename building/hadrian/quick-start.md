@@ -39,7 +39,7 @@ $ hadrian\build.bat -c -j
 On other systems:
 
 ```
-$ hadrian/build.sh -c -j
+$ ./hadrian/build.sh -c -j
 ```
 
 
