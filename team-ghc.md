@@ -340,7 +340,7 @@ In order to see emails below, **you must login**.
   - **Committer since**: always.
   - **Main areas of interest**: renamer, type checker, optimiser.
 
-- [ Tamar Christina](http://blog.zhox.com)
+- [ Tamar Christina](https://hub.zhox.com)
 
   - N/A - Cambridge, UK
   - **Trac**: Phyx-; **email**: tamar@…; **github**: [ https://github.com/Mistuke](https://github.com/Mistuke)
