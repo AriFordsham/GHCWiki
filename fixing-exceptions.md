@@ -1,6 +1,10 @@
 
 See the [root page for exceptions](exceptions)
 
+
+As of Jan 2019, this is rather obsolete. [\#14998](https://gitlab.haskell.org//ghc/ghc/issues/14998) figured out that we don't really need the whole `ExnStr` business and that the benefits of making `catch#``strictApply1Dmd` in its argument doesn't bring any performance benefits.
+There probably still are some good ideas on this page, just ignore the bits about `ExnStr`. Joining the demand types of the two arguments to `catch#` like two alts of a case sounds reasonable, though. SG
+
 ## Fixing demand analysis for exceptions
 
 
