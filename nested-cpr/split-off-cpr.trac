@@ -17,7 +17,7 @@ Cons
 
 Joachim was probably the first to realise this, but CPR analysis is a forward analysis: https://ghc.haskell.org/trac/ghc/ticket/12364#comment:3. That led to a reeeeeeally complicated, duplicated `Case` case in his take on nested CPR analysis: https://phabricator.haskell.org/D4244#inline-35408. For that reason, I feel strongly about splitting off CPR before we try this again.
 
-Note that this isn't an issue for non-nested CPR (at least I couldn't come up an example). The idea is the following:
+Note that this isn't an issue for non-nested CPR (at least I couldn't come up with an example). But `Note [CPR in a product case alternative]` seems we already suffer in a similar way. The idea is the following:
 
 {{{
 module Foo where
