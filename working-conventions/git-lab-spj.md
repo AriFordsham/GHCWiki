@@ -43,6 +43,33 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
 - Someone with commit right can then click "merge" on that MR.  Even then it has to pass CI before it lands in HEAD.
 
+# GitLab model
+
+
+This section summarises what I understand about GitLab's semantics: what things there are and how they relate to each other.
+
+- **Groups.**  Example, the [ GHC group](https://gitlab.haskell.org/ghc)
+
+  - A group contains:
+
+    - *Members*, each of whom is a *user*.
+    - *Projects*
+    - *Sub-groups*
+  - As "sub-groups" suggests, groups can nest.   For example [ GHC packages group](https://gitlab.haskell.org/ghc/packages) is a sub-group of the [ GHC group](https://gitlab.haskell.org/ghc)
+
+- **Projects.** Example: the  [ GHC project](https://gitlab.haskell.org/ghc/ghc).  A *project* has
+
+  - A *git repository*
+  - A *wiki*
+  - An *issue tracker*
+  - An *owner*, who is either a group or a user. **Question**: exactly one owner?
+    A project can accept merge requests.
+
+- **Users.**
+
+  - A user can be a *member* of (a) groups and (b) projects.
+  - There are a few flavours of membership ("reporter", "developer", "maintainer", and "owner") which all imply different sets of permissions, [ documented here](https://docs.gitlab.com/ee/user/permissions.html). 
+
 # GitLab notes
 
 ## Gitlab tips

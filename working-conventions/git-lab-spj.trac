@@ -39,6 +39,29 @@ $ git push --force origin wip/spj-wibbles
 
 * Someone with commit right can then click "merge" on that MR.  Even then it has to pass CI before it lands in HEAD.
 
+= GitLab model =
+
+This section summarises what I understand about GitLab's semantics: what things there are and how they relate to each other.
+
+* '''Groups.'''  Example, the [https://gitlab.haskell.org/ghc GHC group]
+  * A group contains:
+    * ''Members'', each of whom is a ''user''.
+    * ''Projects''
+    * ''Sub-groups''
+  * As "sub-groups" suggests, groups can nest.   For example [https://gitlab.haskell.org/ghc/packages GHC packages group] is a sub-group of the [https://gitlab.haskell.org/ghc GHC group]
+
+* '''Projects.''' Example: the  [https://gitlab.haskell.org/ghc/ghc GHC project].  A ''project'' has
+  * A ''git repository''
+  * A ''wiki''
+  * An ''issue tracker''
+  * An ''owner'', who is either a group or a user. '''Question''': exactly one owner?
+  A project can accept merge requests.
+
+* '''Users.'''
+  * A user can be a ''member'' of (a) groups and (b) projects.
+  * There are a few flavours of membership ("reporter", "developer", "maintainer", and "owner") which all imply different sets of permissions, [https://docs.gitlab.com/ee/user/permissions.html documented here]. 
+
+
 = GitLab notes =
 
 == Gitlab tips ==
