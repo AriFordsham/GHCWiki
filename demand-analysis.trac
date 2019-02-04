@@ -6,7 +6,7 @@ See also
 
 * [wiki:NestedCPR CPR analysis status page].  CPR analysis is integrated with demand analysis.
 * [wiki:LateDmd Late demand analysis]: notes on the final run of the demand analyser, late in the pipeline.
-
+* [wiki:DemandAnalysis/SplitOffUsage]: WIP. Some examples and arguments for why we should consider splitting off usage analysis from strictness analysis
 * Rather out-of-date commentary: [wiki:Commentary/Compiler/StrictnessAnalysis]
 
 
