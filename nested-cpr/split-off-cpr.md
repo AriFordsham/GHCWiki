@@ -55,7 +55,7 @@ Take [ this binding](https://github.com/ghc/ghc/blob/a5373c1fe172dee31e07bcb7c7f
 Or the whole [ lazy_fv business](https://github.com/ghc/ghc/blob/a5373c1fe172dee31e07bcb7c7f6caff1035e6ba/compiler/stranal/DmdAnal.hs#L1029). Do I have to pay attention/re-read related notes when all I do is hunting down a bug in CPR analysis? Assume this hack is just necessary because we do usage and strictness analysis in the same pass. Does this have side-effects on the precision of CPR analysis? I really can't tell without spending a few hours to fully understand this through reading notes and printf debugging.
 
 
-Beyond better CPR, does the [ weird additional non-virgin run](https://github.com/ghc/ghc/blob/a5373c1fe172dee31e07bcb7c7f6caff1035e6ba/compiler/stranal/DmdAnal.hs#L73) improve any strictness or usage info or could we drop it when CPR is split off? I sure hope so (implying there's no information flowing from CPR -\> Strictness), but we can't know until we try out.
+Beyond better CPR, does the [ weird additional non-virgin run](https://github.com/ghc/ghc/blob/a5373c1fe172dee31e07bcb7c7f6caff1035e6ba/compiler/stranal/DmdAnal.hs#L73) due to `Note [CPR for thunks]` and `Note [Optimistic CPR in the "virgin" ase]` improve any strictness or usage info or could we drop it when CPR is split off? I sure hope so (implying there's no information flowing from CPR -\> Strictness), but we can't know until we try out.
 
 
 The point I'm trying to make: Any benefits to interleaving the analyses I could think of don't make up for the nasty side-effects of the interleaving. I don't see the principle behind it.
