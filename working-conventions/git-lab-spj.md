@@ -89,6 +89,7 @@ This section summarises what I understand about GitLab's semantics: what things 
   - Select the branch (drop-down menu box near the top left; initially labelled *master*).
   - In the left-hand-column menu bar, from "Repository" select "Commits"
   - Click on the title of the top-most commit
+
     You should then see something like "1 merge request!128 WIP: Add an AnonArgFlag to FunTy" near the top, if there is an active MR from this branch.
 
 ## Merge requests
