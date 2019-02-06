@@ -83,6 +83,14 @@ This section summarises what I understand about GitLab's semantics: what things 
 
 - For projects you care about (e.g. [ https://gitlab.haskell.org/ghc/ghc](https://gitlab.haskell.org/ghc/ghc)), click on "Watch" (there's a little bell icon) about four rows down from the top. Then you'll get notifications of what changes.
 
+- **From branch name to merge request**.  Say you are on branch `wip/T16185`, and you know you (or someone) has submitted a MR based on that branch. How can you find the MR?
+
+  - Go to the [ GHC project page](https://gitlab.haskell.org/ghc/ghc)
+  - Select the branch (drop-down menu box near the top left; initially labelled *master*).
+  - In the left-hand-column menu bar, from "Repository" select "Commits"
+  - Click on the title of the top-most commit
+    You should then see something like "1 merge request!128 WIP: Add an AnonArgFlag to FunTy" near the top, if there is an active MR from this branch.
+
 ## Merge requests
 
 - The title and description of a MR do not form part of the Git repo's history.  Only the commit messages in the patches do.  So make sure that each patch has a good commit message!  The title and description of the MR signpost the readers through the review process.
