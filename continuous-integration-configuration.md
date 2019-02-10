@@ -88,6 +88,12 @@ gitlab-runner install --user ".\gitlab" --password ...
 ```
 Register the runner.
 
+### Optimisation
+
+* To improve IO performance disable creation of 8.3 filenames: `fsutil 8dot3name set 1`.
+* To improve IO performance disable last-accessed timestaping: `fsutil behavior set disablelastaccess 1`.
+
+Reboot to ensure changes take effect.
 
 ## AArch64 configuration
 
