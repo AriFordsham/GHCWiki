@@ -219,7 +219,7 @@ with some basic GHC-specific types defined as
 
 ```
 {-# OPTIONS_GHC -Wall -fno-warn-unticked-promoted-constructors #-}{-# LANGUAGE TypeFamilies , DataKinds, EmptyDataDeriving, EmptyCase #-}moduleBasicGHCTypeswhere-- ------------------------------------------------ GHC-Specific Declarations-- ----------------------------------------------dataPhase=Ps|Rn|TcdataGHC(p ::Phase)dataNoExt=NoExtdataNoNewConnoNewCon::NoNewCon-> a
-noNewCon x =case x of{}dataRdrName-- = the definition of RdrNamedataName-- = the definition of NamedataId-- = the definition of IddataType-- = the definition of SrcSpandataUnboundVar-- = the definition of UnboundVardataSrcSpan-- = the definition of SrcSpanderivingEqdataLocated a =LSrcSpan a
+noNewCon x =case x of{}dataRdrName-- = the definition of RdrNamedataName-- = the definition of NamedataId-- = the definition of IddataType-- = the definition of TypedataUnboundVar-- = the definition of UnboundVardataSrcSpan-- = the definition of SrcSpanderivingEqdataLocated a =LSrcSpan a
 
 noSrcSpan::SrcSpannoSrcSpan=...-- an empty SrcSpantypefamilyXAppGHC(p ::Phase)typeinstanceXAppGHCPs=NoExttypeinstanceXAppGHCRn=NoExttypeinstanceXAppGHCTc=TypetypefamilyXNewGHC(p ::Phase)typeinstanceXNewGHCPs=NoNewContypeinstanceXNewGHCRn=UnboundVartypeinstanceXNewGHCTc=UnboundVartypefamilyXIdGHC(p ::Phase)typeinstanceXIdGHCPs=RdrNametypeinstanceXIdGHCRn=NametypeinstanceXIdGHCTc=Id-- NB: if GHC later wants to add extension fields to (say)-- XAbs, we can just redefine XAbs (GHC p) to be more like-- the XApp case
 ```
