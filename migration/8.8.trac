@@ -200,6 +200,55 @@ Previous versions of GHC would permit code that should require certain language 
          In the type signature: f :: [Bar ()]
    }}}
 
+=== Type variable visibility in poly-kinded class methods ===
+
+Previous versions of GHC were somewhat ambiguous about whether poly-kinded type class methods would make their kind variables be available for visible type application or not. This is best explained by examples. Consider the following two classes:
+
+{{{#!hs
+class C1 (a :: k) b where
+  p1 :: Proxy a -> Proxy b
+
+class C2 (a :: k) (b :: Type) where
+  p2 :: Proxy a -> Proxy b
+}}}
+
+On previous versions of GHC, the kind of `a` is //not// available for visible type application in `p1`, but it //is// available for visible type application in `p2`:
+
+{{{
+λ> :type +v p1
+p1
+  :: forall {k1} {k2} (a :: k1) (b :: k2).
+     C1 a b =>
+     Proxy a -> Proxy b
+λ> :type +v p2
+p2 :: forall k (a :: k) b. C2 a b => Proxy a -> Proxy b
+}}}
+
+GHC 8.8 has cleaned up this infelicity, so now both `p1` and `p2` treat the kind of `a` as being available for visible type application:
+
+{{{
+λ> :type +v p1
+p1
+  :: forall {k1} k2 (a :: k2) (b :: k1). C1 a b => Proxy a -> Proxy b
+λ> :type +v p2
+p2 :: forall k (a :: k) b. C2 a b => Proxy a -> Proxy b
+}}}
+
+There is a possibility that existing code will break due to this change. For example, the following code typechecks on old GHCs due to the aforementioned quirk of how GHC inferred the kind of `a`:
+
+{{{
+class C (a :: k) b where
+  p :: Proxy a -> Proxy b
+
+p' :: forall k (a :: k) b. C a b => Proxy a -> Proxy b
+p' = p @a
+}}}
+
+This will no longer typecheck on GHC 8.8. Two possible ways of fixing this are:
+
+1. Change `class C (a :: k) b` to `class C a b` (this is backwards-compatible with old GHCs).
+2. Change `p' = p @a` to `p' = p @k @a` (this is not backwards-compatible with old GHCs).
+
 --------------------------------
 == Library changes
 === `template-haskell-2.15.0.0`
