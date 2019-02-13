@@ -1,16 +1,42 @@
-# The big picture
+# GitLab's model
 
-- A **merge request** (MR) a set of changes that you want to have merged into HEAD.
 
-- Every MR has an associated **GIT branch**.  It is this branch that will be ultimately merged into HEAD.
+Here's a summary of the things in GitLab's universe, what they mean, and how they relate to each other.
 
-- An **issue** is GitLab's name for a Trac ticket.
+- **Groups.**  Example, the [ GHC group](https://gitlab.haskell.org/ghc)
+
+  - A group contains:
+
+    - *Members*, each of whom is a *user*.
+    - *Projects*
+    - *Sub-groups*
+  - As "sub-groups" suggests, groups can nest.   For example [ GHC packages group](https://gitlab.haskell.org/ghc/packages) is a sub-group of the [ GHC group](https://gitlab.haskell.org/ghc)
+
+- **Projects.** Example: the  [ GHC project](https://gitlab.haskell.org/ghc/ghc).  A *project* has
+
+  - A *git repository*
+  - A *wiki*
+  - An *issue tracker*
+  - An *owner*, who is either a group or a user. **Question**: exactly one owner?
+    A project can accept merge requests.
+
+- **Users.**
+
+  - A user can be a *member* of (a) groups and (b) projects.
+  - There are a few flavours of membership ("reporter", "developer", "maintainer", and "owner") which all imply different sets of permissions, [ documented here](https://docs.gitlab.com/ee/user/permissions.html). 
+
+- A **merge request** (MR) is a set of one or more commits that you want to have merged into master.
+
+  - Every MR has an associated **GIT branch**.  It is this branch that will be ultimately merged into master.
+  - The branch may have multiple commits; these are all merged individually onto master.
 
 - A **review** is a set of comments on a MR.  Always comment on MRs using a review, else the recipients get one email per comment, which is terrible.
 
+- An **issue** is GitLab's name for a Trac ticket.
+
 # Workflows
 
-## Making a change to HEAD
+## Making a change to the master repository
 
 
 You never commit directly to HEAD.  Rather, follow this workflow.
@@ -41,36 +67,23 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
 - Before trying to commit to HEAD, you should tidy up the MR by squashing it into one (or more in unusual cases) patch, with a good commit message.
 
-- Someone with commit right can then click "merge" on that MR.  Even then it has to pass CI before it lands in HEAD.
-
-# GitLab model
-
-
-This section summarises what I understand about GitLab's semantics: what things there are and how they relate to each other.
-
-- **Groups.**  Example, the [ GHC group](https://gitlab.haskell.org/ghc)
-
-  - A group contains:
-
-    - *Members*, each of whom is a *user*.
-    - *Projects*
-    - *Sub-groups*
-  - As "sub-groups" suggests, groups can nest.   For example [ GHC packages group](https://gitlab.haskell.org/ghc/packages) is a sub-group of the [ GHC group](https://gitlab.haskell.org/ghc)
-
-- **Projects.** Example: the  [ GHC project](https://gitlab.haskell.org/ghc/ghc).  A *project* has
-
-  - A *git repository*
-  - A *wiki*
-  - An *issue tracker*
-  - An *owner*, who is either a group or a user. **Question**: exactly one owner?
-    A project can accept merge requests.
-
-- **Users.**
-
-  - A user can be a *member* of (a) groups and (b) projects.
-  - There are a few flavours of membership ("reporter", "developer", "maintainer", and "owner") which all imply different sets of permissions, [ documented here](https://docs.gitlab.com/ee/user/permissions.html). 
+- Someone with commit rights can then click "merge" on that MR.  Even then it has to pass CI before it lands in HEAD.
 
 # GitLab notes
+
+## Merge requests
+
+- The title and description of a MR do not form part of the Git repo's history.  Only the commit messages in the patches do.  So make sure that each patch has a good commit message!  The title and description of the MR signpost the readers through the review process.
+
+- To see all merge requests, click on "Merge requests" *in the left-hand nav column*.  The similar icon in the black menu bar at the top doesn't seem to do anything useful.
+
+- To see more code surrounding a diff, there are some light grey "..." icons at the top and bottom of the line-number column. Click to show more.
+
+- **Work in progress Merge Requests**.  A MR can be a "work in progress" (WIP) MR.
+
+  - WIP MRs are identified simply by having a title beginning "WIP:" or "\[WIP\]".
+  - The "merge" button is disabled for WIP MRs, so they can't be accidentally merged.
+    Details [ here](https://docs.gitlab.com/ee/user/project/merge_requests/work_in_progress_merge_requests.html)
 
 ## Gitlab tips
 
@@ -92,17 +105,7 @@ This section summarises what I understand about GitLab's semantics: what things 
 
     You should then see something like "1 merge request!128 WIP: Add an AnonArgFlag to FunTy" near the top, if there is an active MR from this branch.
 
-## Merge requests
-
-- The title and description of a MR do not form part of the Git repo's history.  Only the commit messages in the patches do.  So make sure that each patch has a good commit message!  The title and description of the MR signpost the readers through the review process.
-
-- When commenting on a MR, use "Start review", not "Add comment".  The latter sends an email for each comment.  But a "review" is a set of comments, and the recipients get one email for the whole thing.
-
-- To see all merge requests, click on "Merge requests" *in the left-hand nav column*.  The similar icon in the black menu bar at the top doesn't seem to do anything useful.
-
-- To see more code surrounding a diff, there are some light grey "..." icons at the top and bottom of the line-number column. Click to show more.
-
-## Reviewing comments
+## Reviewing a MR
 
 - Click on the Changes tab in the MR
 
@@ -115,6 +118,20 @@ This section summarises what I understand about GitLab's semantics: what things 
 - Comment if you like. Then, at the bottom-right of the windowette that contains the discussion, you'll see another button with a right-pointing arrow inside a speech bubble. Click that to go to the next unresolved discussion. In this way, the unresolved discussions can be navigated like a singly linked list.
 
 - The table-of-contents on the left is useful, but it takes up a lot of visual space. To hide it, press the button with the three horizontal lines to the left of the words "Changes between", right below the tabs where you choose between, e.g., Discussion and Changes.
+
+- When commenting on a MR, use "Start review", not "Add comment".  The latter sends an email for each comment.  But a "review" is a set of comments, and the recipients get one email for the whole thing.
+
+## GitLab "quick actions"
+
+
+Quick actions are textual shortcuts for common actions on issues, epics, merge requests, and commits that are usually done by clicking buttons or dropdowns in GitLab's UI.
+
+- You can enter these commands while creating a new issue or merge request, or in comments of issues, epics, merge requests, and commits.
+- Each command should be on a separate line in order to be properly detected and executed.
+- Once executed, the commands are removed from the text body and not visible to anyone else.
+
+
+There's a [ full list here](https://docs.gitlab.com/ee/user/project/quick_actions.html).
 
 ## Transitioning an old repo
 
