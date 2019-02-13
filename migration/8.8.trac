@@ -200,7 +200,7 @@ Previous versions of GHC would permit code that should require certain language 
          In the type signature: f :: [Bar ()]
    }}}
 
-=== Type variable visibility in poly-kinded class methods ===
+=== Kind variable visibility in poly-kinded class methods ===
 
 Previous versions of GHC were somewhat ambiguous about whether poly-kinded type class methods would make their kind variables be available for visible type application or not. This is best explained by examples. Consider the following two classes:
 
@@ -234,7 +234,7 @@ p1
 p2 :: forall k (a :: k) b. C2 a b => Proxy a -> Proxy b
 }}}
 
-There is a possibility that existing code will break due to this change. For example, the following code typechecks on old GHCs due to the aforementioned quirk of how GHC inferred the kind of `a`:
+There is a possibility that existing code will break due to this change. For example, the following code typechecks on old GHCs due to the aforementioned quirk of how GHC infers the kind of `a`:
 
 {{{
 class C (a :: k) b where
