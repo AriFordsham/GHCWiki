@@ -71,6 +71,20 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
 # GitLab notes
 
+## Merge requests
+
+- The title and description of a MR do not form part of the Git repo's history.  Only the commit messages in the patches do.  So make sure that each patch has a good commit message!  The title and description of the MR signpost the readers through the review process.
+
+- To see all merge requests, click on "Merge requests" *in the left-hand nav column*.  The similar icon in the black menu bar at the top doesn't seem to do anything useful.
+
+- To see more code surrounding a diff, there are some light grey "..." icons at the top and bottom of the line-number column. Click to show more.
+
+- **Work in progress Merge Requests**.  A MR can be a "work in progress" (WIP) MR.
+
+  - WIP MRs are identified simply by having a title beginning "WIP:" or "\[WIP\]".
+  - The "merge" button is disabled for WIP MRs, so they can't be accidentally merged.
+    Details [ here](https://docs.gitlab.com/ee/user/project/merge_requests/work_in_progress_merge_requests.html)
+
 ## Gitlab tips
 
 - **Markup**. In GitLab markup:
@@ -90,14 +104,6 @@ You never commit directly to HEAD.  Rather, follow this workflow.
   - Click on the title of the top-most commit
 
     You should then see something like "1 merge request!128 WIP: Add an AnonArgFlag to FunTy" near the top, if there is an active MR from this branch.
-
-## Merge requests
-
-- The title and description of a MR do not form part of the Git repo's history.  Only the commit messages in the patches do.  So make sure that each patch has a good commit message!  The title and description of the MR signpost the readers through the review process.
-
-- To see all merge requests, click on "Merge requests" *in the left-hand nav column*.  The similar icon in the black menu bar at the top doesn't seem to do anything useful.
-
-- To see more code surrounding a diff, there are some light grey "..." icons at the top and bottom of the line-number column. Click to show more.
 
 ## Reviewing a MR
 
