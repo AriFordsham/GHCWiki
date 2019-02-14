@@ -91,6 +91,22 @@ $ git push --force origin wip/spj-wibbles
   * Click on the title of the top-most commit[[BR]][[BR]]
   You should then see something like "1 merge request!128 WIP: Add an AnonArgFlag to FunTy" near the top, if there is an active MR from this branch.
 
+  Actually, git reports this when you push the branch too, if you remember to look.  E.g. 
+{{{
+bash$ git push --force
+Counting objects: 80, done.
+Delta compression using up to 32 threads.
+Compressing objects: 100% (80/80), done.
+Writing objects: 100% (80/80), 25.29 KiB | 0 bytes/s, done.
+Total 80 (delta 75), reused 0 (delta 0)
+remote: 
+remote: View merge request for wip/T15952-2:     <-- Here --------
+remote:   https://gitlab.haskell.org/ghc/ghc/merge_requests/206        
+remote: 
+To git@gitlab.haskell.org:ghc/ghc
+ + 5f84b0c...5c1f268 HEAD -> wip/T15952-2 (forced update)
+}}}
+
 
 
 
