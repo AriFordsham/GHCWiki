@@ -28,6 +28,7 @@ We should be clear about the dependencies between items on this list.
 - [\#15579](https://gitlab.haskell.org//ghc/ghc/issues/15579): `topNormaliseType`; also [\#14729](https://gitlab.haskell.org//ghc/ghc/issues/14729), [\#15549](https://gitlab.haskell.org//ghc/ghc/issues/15549).  This is high priority: it's an outright bug causing Lint failures; it's not hard; and fixing it will close three tickets.
 
 - [\#16082](https://gitlab.haskell.org//ghc/ghc/issues/16082), [\#16292](https://gitlab.haskell.org//ghc/ghc/issues/16292): underscores in types
+- [\#16320](https://gitlab.haskell.org//ghc/ghc/issues/16320): tidy up printing of foralls
 
 - [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): coercion zapping.  Nearly done!  But not quite.  And will be valuable for everyone.
 
