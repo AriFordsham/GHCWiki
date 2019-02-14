@@ -1,6 +1,6 @@
 [[PageOutline]]
 
-= GHC 8.8.x Migration Guide =
+= GHC 8.10.x Migration Guide =
 
 This guide summarises the changes you may need to make to your code to migrate from GHC 8.8 to GHC 8.10. This guide complements the GHC 8.10.x release notes which should be consulted as well.
 
