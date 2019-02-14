@@ -116,7 +116,7 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 > Writing objects: 100% (80/80), 25.29 KiB | 0 bytes/s, done.
 > Total 80 (delta 75), reused 0 (delta 0)
 > remote: 
-> remote: View merge request for wip/T15952-2:           <--------------- Here
+> remote: View merge request for wip/T15952-2:     <-- Here --------
 > remote:   https://gitlab.haskell.org/ghc/ghc/merge_requests/206        
 > remote: 
 > To git@gitlab.haskell.org:ghc/ghc
