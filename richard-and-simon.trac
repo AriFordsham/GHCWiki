@@ -6,7 +6,7 @@ These things are all either new features, or significant refactorings.  All aime
 
 We should be clear about the dependencies between items on this list.
 
-* [https://github.com/ghc-proposals/ghc-proposals/pull/81 Proposal 81: Visible dependent quantification].  Just syntax!  Lets you say `forall a -> ty` in types.  See [wiki:GhcKinds/KindInference] and [wiki:GhcKinds/KindInference/Examples].
+* [https://github.com/ghc-proposals/ghc-proposals/pull/81 Proposal 81: Visible dependent quantification].  Just syntax!  Lets you say `forall a -> ty` in types.  See [wiki:GhcKinds/KindInference] and [wiki:GhcKinds/KindInference/Examples].  #16326
 
 * [https://github.com/ghc-proposals/ghc-proposals/pull/99 Proposal 99: explicit specificity].  Lets us write `T :: forall {k} (a :: k).blah`.
 
