@@ -41,8 +41,9 @@ $ git checkout -b wip/spj-wibbles
 
 * Push it to the main repo (or your private repo)
 {{{
-$ git push origin wip/spj-wibbles
+$ git push -u origin wip/spj-wibbles
 }}}
+  The `-u` flag arranges that your private branch will now track the remote branch.
 
 * Create a merge request.  [https://gitlab.haskell.org/ghc/ghc/wikis/home#opening-a-merge-request More details on this process are here].
 

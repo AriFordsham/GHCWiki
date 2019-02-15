@@ -50,8 +50,10 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 - Push it to the main repo (or your private repo)
 
   ```wiki
-  $ git push origin wip/spj-wibbles
+  $ git push -u origin wip/spj-wibbles
   ```
+
+  The `-u` flag arranges that your private branch will now track the remote branch.
 
 - Create a merge request.  [ More details on this process are here](https://gitlab.haskell.org/ghc/ghc/wikis/home#opening-a-merge-request).
 
