@@ -50,8 +50,10 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 - Push it to the main repo (or your private repo)
 
   ```wiki
-  $ git push origin wip/spj-wibbles
+  $ git push -u origin wip/spj-wibbles
   ```
+
+  The `-u` flag arranges that your private branch will now track the remote branch.
 
 - Create a merge request.  [ More details on this process are here](https://gitlab.haskell.org/ghc/ghc/wikis/home#opening-a-merge-request).
 
@@ -65,9 +67,12 @@ You never commit directly to HEAD.  Rather, follow this workflow.
   $ git push --force origin wip/spj-wibbles
   ```
 
-- Before trying to commit to HEAD, you should tidy up the MR by squashing it into one (or more in unusual cases) patch, with a good commit message.
+- Before trying to commit to master, you should tidy up the MR by squashing it into one (or more in unusual cases) patch, with a good commit message.
 
-- Someone with commit rights can then click "merge" on that MR.  Even then it has to pass CI before it lands in HEAD.
+- When you are ready to commit to master, you do this by **assigning to Marge**.  Go to "Edit" the MR, and set the "Assignee" to "Marge".   That's all you have to do.  Marge will rebase you patch on master, validate, and commit.
+
+>
+> In particular, **do not click the "Merge if passes tests" button**. That bypasses Marge and confuses her.
 
 # GitLab notes
 
