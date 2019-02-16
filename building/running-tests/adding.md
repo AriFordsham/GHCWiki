@@ -309,7 +309,7 @@ There are a number of predefined lists of the ways meeting various criteria:
 
 In some cases you may want to re-use the same stdout file for multiple tests. You can accomplish this using the `use_specs` function.
 
-- **use_specs**             allows one to override files based on suffixes. e.g. `'stdout'`, `'stderr'`, `'asm'`, `'prof.sample'`, etc. You must also include this file as `extra_files`.  Example `use_specs({'stdout' : 'prof002.stdout'})` to make the test re-use `prof002.stdout`.
+- **use_specs**             allows one to override files based on suffixes. e.g. `'stdout'`, `'stderr'`, `'asm'`, `'prof.sample'`, etc.  Example `use_specs({'stdout' : 'prof002.stdout'})` to make the test re-use `prof002.stdout`.
 
 
 To use more than one modifier on a test, just put them in a list.
