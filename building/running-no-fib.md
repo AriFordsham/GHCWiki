@@ -1,5 +1,9 @@
 # The NoFib Benchmark Suite
 
+**Note** the up to date documentation is in the [ https://gitlab.haskell.org/ghc/nofib/blob/master/README.md](https://gitlab.haskell.org/ghc/nofib/blob/master/README.md)
+
+---
+
 
 The NoFib benchmark suite is a collection of (mostly old) Haskell programs that we use for benchmarking GHC. 
 
