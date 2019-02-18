@@ -19,7 +19,7 @@ Running NoFib requires the `time` utility to be present on the system path. On U
 To get a local copy of NoFib:
 
 ```wiki
-  $ git clone http://git.haskell.org/nofib.git
+  $ git clone https://gitlab.haskell.org/ghc/nofib.git
 ```
 
 ## Benchmarking
