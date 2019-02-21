@@ -378,6 +378,9 @@ In summary:
 
 - Tests which measure the performance of the *program*, not the compiler, should be used in conjunction with a **compile_and_run** test.
 
+
+See [Running Performance Tests](building/running-tests/performance-tests) on how to run these tests.
+
 ### The \<test-fn\> field
 
 *\<test-fn\>* is a function which describes how the test should be
