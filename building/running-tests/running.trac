@@ -79,6 +79,24 @@ By default tests clean up after themselves. If you want to keep the temporary fi
 $ make CLEANUP=0
 }}}
 
+== Performance Test Baselines ==
+
+The test runner establishes baseline values (i.e. expected values) for performance tests based on previous runs of the test suit (on previous git commits). Ideally you should run the relevant performance tests on the previous commit before running the performance tests on the current commit:
+
+{{{
+$ git checkout my_branch~1
+$ ./hadrian/build.sh test --only-perf
+$ git checkout my_branch
+$ ./hadrian/build.sh test --only-perf
+}}}
+
+Alternatively, the test runner will automatically search older commits and will try to make use metrics recorded by CI which must first be fetched with this command:
+
+{{{
+$ git fetch https://gitlab.haskell.org/ghc/ghc-performance-notes.git refs/notes/perf:refs/notes/ci/perf
+}}}
+
+See here for [Building/RunningTests/PerformanceTests more details on performance tests].
 
 == Additional Packages ==
 
