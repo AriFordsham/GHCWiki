@@ -1,6 +1,6 @@
 # Docker images
 
-All of the Linux builders are run in Docker containers. The images for these builds can be found in the https://gitlab.haskell.org/ghc/ci-images project.
+All of the Linux builders are run in Docker containers. The images for these builds can be found in the [ghc/ci-images](https://gitlab.haskell.org/ghc/ci-images) project.
 
 # GitLab runner configuration
 
