@@ -4,6 +4,17 @@ All of the Linux builders are run in Docker containers. The images for these bui
 
 # GitLab runner configuration
 
+## NixOS
+
+See the `ci-worker.nix` expression in the `ghc-servers` repository. This module can be dropped in `/etc/nixos/` and the following added to `/etc/nixos/configuration.nix`:
+```nix
+    import = [
+      (import ./ghc-ci-worker.nix {name = "NAME"; cores = CORES; token = "TOKEN";})
+    ];
+```
+where `NAME` is a descriptive name, `CORES` is the core count of the machine, and `TOKEN` is a runner token produced by `gitlab-runner register`.
+
+## Non-NixOS
 A sample configuration:
 ```toml
 concurrent = 1                    # <---- Set
