@@ -123,6 +123,7 @@ $ make deps
 $ make build_simple
 $ make out/helper-images/prebuilt-arm64.tar.xz
 ```
+Currently we then just run `out/binaries/gitlab-runner run` in a `tmux` session.
 
 Also relevant: https://gitlab.com/gitlab-org/gitlab-runner/merge_requests/725
 
