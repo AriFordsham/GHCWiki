@@ -43,6 +43,20 @@ The following job tags are currently defined:
  * `x86_64-darwin`
  * `x86_64-windows`
  * `docker`: supports Docker-in-Docker (used by the ghc/ci-images builds)
+ * `lint`: a separate set of x86-64/Linux runner registrations to ensure that linters can always run with minimal latency
+
+## Configuring docker-in-docker
+
+```
+ sudo gitlab-runner register -n \
+   --url https://gitlab.haskell.org/ \
+   --registration-token REGISTRATION_TOKEN \
+   --executor docker \
+   --description "Docker-in-Docker runner" \
+   --docker-image "docker:stable" \
+   --docker-privileged
+```
+See <https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-executor>.
 
 ## Linux configuration
 
