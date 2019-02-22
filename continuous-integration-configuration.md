@@ -30,6 +30,16 @@ check_interval = 0
 
 ```
 
+## Job tags
+
+The following job tags are currently defined:
+
+ * `x86_64-linux`
+ * `aarch64-linux`
+ * `x86_64-darwin`
+ * `x86_64-windows`
+ * `docker`: supports Docker-in-Docker (used by the ghc/ci-images builds)
+
 ## Linux configuration
 
 It is [necessary](https://gitlab.com/gitlab-org/gitlab-runner/issues/2980#note_131320536) to ensure that the Docker cache is periodically cleaned:
