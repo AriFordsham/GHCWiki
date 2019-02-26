@@ -23,7 +23,7 @@ Here's a summary of the things in GitLab's universe, what they mean, and how the
 - **Users.**
 
   - A user can be a *member* of (a) groups and (b) projects.
-  - There are a few flavours of membership ("reporter", "developer", "maintainer", and "owner") which all imply different sets of permissions, [ documented here](https://docs.gitlab.com/ee/user/permissions.html). 
+  - There are a few flavours of membership, called "roles".  These include "reporter", "developer", "maintainer", and "owner"; which all imply different sets of permissions, [ documented here](https://docs.gitlab.com/ee/user/permissions.html). 
 
 - A **merge request** (MR) is a set of one or more commits that you want to have merged into master.
 
@@ -78,7 +78,7 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
 ## Merge requests
 
-- The title and description of a MR do not form part of the Git repo's history.  Only the commit messages in the patches do.  So make sure that each patch has a good commit message!  The title and description of the MR signpost the readers through the review process.
+- **The title and description of a MR** do not form part of the Git repo's history.  Only the commit messages in the patches do.  So make sure that each patch has a good commit message!  The title and description of the MR signpost the readers through the review process.
 
 - To see all merge requests, click on "Merge requests" *in the left-hand nav column*.  The similar icon in the black menu bar at the top doesn't seem to do anything useful.
 
@@ -89,6 +89,15 @@ You never commit directly to HEAD.  Rather, follow this workflow.
   - WIP MRs are identified simply by having a title beginning "WIP:" or "\[WIP\]".
   - The "merge" button is disabled for WIP MRs, so they can't be accidentally merged.
     Details [ here](https://docs.gitlab.com/ee/user/project/merge_requests/work_in_progress_merge_requests.html)
+
+- **Approvers**. A MR requires at least one approver to press the "Approve" button before a MR will be merged.   The approvers for a MR are drawn from three sources:
+
+  - A small per-project list of super-developers.
+  - The [ code owners file](https://gitlab.haskell.org/ghc/ghc/blob/master/CODEOWNERS): if your patch touches code listed in this file, the corresponding users become approvers for that MR.
+  - Per-MR approvers, which you as MR author can add.  *From what list?*****
+
+
+Per MR approvers: chosen from developer.
 
 ## Gitlab tips
 
