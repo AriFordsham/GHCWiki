@@ -18,7 +18,7 @@ Here's a summary of the things in GitLab's universe, what they mean, and how the
 
 * '''Users.'''
   * A user can be a ''member'' of (a) groups and (b) projects.
-  * There are a few flavours of membership ("reporter", "developer", "maintainer", and "owner") which all imply different sets of permissions, [https://docs.gitlab.com/ee/user/permissions.html documented here]. 
+  * There are a few flavours of membership, called "roles".  These include "reporter", "developer", "maintainer", and "owner"; which all imply different sets of permissions, [https://docs.gitlab.com/ee/user/permissions.html documented here]. 
 
 * A '''merge request''' (MR) is a set of one or more commits that you want to have merged into master.
   * Every MR has an associated '''GIT branch'''.  It is this branch that will be ultimately merged into master.
