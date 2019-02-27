@@ -7,6 +7,78 @@ This guide summarises the changes you may need to make to your code to migrate f
 ----------------------------------
 == Compiler changes
 
+=== Implicit kind variable changes
+
+GHC 8.10 implements [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0024-no-kind-vars.rst proposal 24], which means that GHC is much less likely to implicitly quantify kind variables than it used to be. Here are some examples of code which will no longer work with GHC 8.10:
+
+* Kind variables are no longer implicitly quantified when an explicit `forall` is used at the beginning of a function's type signature. For instance, the following will no longer work:
+
+  {{{#!hs
+  {-# LANGUAGE PolyKinds #-}
+  {-# LANGUAGE ScopedTypeVariables #-}
+
+  f :: forall (a :: k). Proxy a
+  f = Proxy
+  }}}
+  {{{
+  error: Not in scope: type variable ‘k’
+    |
+  6 | f :: forall (a :: k). Proxy a
+    |                   ^
+  }}}
+
+  This is because `k` is implicitly quantified in the kind of `a`. Here are two potential ways to migrate this code:
+
+  1. If you are using GHC 8.0 or later, you can simply quantify `k` explicitly:
+
+     {{{#!hs
+     f :: forall k (a :: k). Proxy a
+     f = Proxy
+     }}}
+
+  Note that GHC 8.0, 8.2, and 8.4 require enabling the `TypeInType` extension in order to do this. On GHC 8.6 or later, however, explicitly quantifying kind variables simply requires the `PolyKinds` extension.
+  2. If you need to support versions of GHC older than 8.0, you may find the following piece of `CPP` useful:
+
+     {{{#!hs
+     #if __GLASGOW_HASKELL__ >= 800
+     # define KVS(kvs) kvs
+     #else
+     # define KVS(kvs)
+     #endif
+     
+     f :: forall KVS(k) (a :: k). Proxy a
+     f = Proxy
+     }}}
+* Kind variables are no longer implicitly quantified in data constructor declarations:
+
+  {{{#!hs
+  data T a        = T1 (S (a :: k) | forall (b::k). T2 (S b)  -- no longer accepted
+  data T (a :: k) = T1 (S (a :: k) | forall (b::k). T2 (S b)  -- still accepted
+  }}}
+
+  As the above examples show, code that breaks because of this change can generally be fixed by adding explicit kind signatures to the type variable binders of the data type itself.
+
+* Implicitly quantified kind variables are no longer put in front of other variables:
+
+  {{{#!hs
+  f :: Proxy (a :: k) -> Proxy (b :: j)
+  }}}
+  {{{
+  ghci> :t +v f   -- old order:
+  f :: forall k j (a :: k) (b :: j). Proxy a -> Proxy b
+
+  ghci> :t +v f   -- new order:
+  f :: forall k (a :: k) j (b :: j). Proxy a -> Proxy b
+  }}}
+
+  This is a breaking change for users of `TypeApplications`. If you wish to restore the old order, then explicitly quantify the type variables:
+* In type synonyms and type family equations, free variables on the right-hand side are no longer implicitly quantified unless used in an //outermost// kind annotation:
+
+  {{{#!hs
+  type T = Just (Nothing :: Maybe a)         -- no longer accepted
+  type T = Just Nothing :: Maybe (Maybe a)   -- still accepted
+  }}}
+
 === New RecordWildCards warnings
 
 GHC 8.10 introduces two new flags, `-Wunused-record-wildcards` and `-Wredundant-record-wildcards`, which are implied by `-Wall`. This means that certain programs that use `RecordWildCards` will trigger warnings that did not do so previously. For instance, the following program emits no warnings on old versions of GHC, but will warn with GHC 8.10:
