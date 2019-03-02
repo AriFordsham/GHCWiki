@@ -1,6 +1,6 @@
 # Docker images
 
-All of the Linux builders are run in Docker containers. The images for these builds can be found in the [ghc/ci-images](https://gitlab.haskell.org/ghc/ci-images) project. They are generated via GitLab Pipelines and pushed to the `gitlab.haskell.org/ghc/ci-images` Docker repository.
+All of the Linux builders are run in Docker containers. The images for these builds can be found in the ghc/ci-images> project. They are generated via GitLab Pipelines and pushed to the `gitlab.haskell.org/ghc/ci-images` Docker repository.
 
 # GitLab runner configuration
 
@@ -156,3 +156,27 @@ Also relevant: https://gitlab.com/gitlab-org/gitlab-runner/merge_requests/725
 ## Current Runners
 
 See the [Google Doc](https://docs.google.com/spreadsheets/d/1_UncQmtD5PkinLgq4DSB4Y5dy7PhOPPjPp6qnhZNA9w/edit#gid=0)
+
+
+## Head.hackage builds
+
+In addition to building GHC itself, we also provide CI jobs which build a subset of Hackage using the ghc/head.hackage> patchset. This builds can be triggered in one of three ways:
+
+ * By manually running the CI job
+ * By pushing to an MR bearing the ~user-facing label
+ * Via the scheduled nightly builds
+
+The `head.hackage` CI infrastructure is built on the Nix infrastructure in the `head.hackage` repository. The overall flow of control looks like this:
+
+ 1. The  ghc/ghc> pipeline's `hackage` job is triggered
+ 2. The `hackage` job triggers a pipeline of the ghc/head.hackage> project using a job trigger token owned by @head.hackage, passing its pipeline ID via the `GHC_PIPELINE_ID` variable
+ 3. The ghc/head.hackage> job uses the value of `GHC_PIPELINE_ID` and an access token owned by @head.hackage to lookup the job ID of the pipeline's `x86_64-fedora27` job
+ 4. The ghc/head.hackage> job fetches the binary distribution of the GHC `x86_64-fedora27` job
+ 5. The ghc/head.hackage> job uses [ghc-artefact-nix](https://github.com/mpickering/ghc-artefact-nix) to install the bindist
+ 6. The ghc/head.hackage> job uses `scripts/build-all.nix` to build a subset of Hackage (identified by the `testedPackages` attribute) using the bindist
+ 7. The ghc/head.hackage> job uses `scripts/summary.py` to produce a summary of the build results. This includes:
+    1. a `dot` graph showing the package dependency graph and their failures
+    2. a tarball containing the build log files
+    3. log output showing abbreviated logs of failed builds
+    
+    (1) and (2) are then uploaded as artifacts.
