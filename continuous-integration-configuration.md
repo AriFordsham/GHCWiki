@@ -170,7 +170,7 @@ The `head.hackage` CI infrastructure is built on the Nix infrastructure in the `
 
  1. The  ghc/ghc> pipeline's `hackage` job is triggered
  2. The `hackage` job triggers a pipeline of the ghc/head.hackage> project using a job trigger token owned by @head.hackage, passing its pipeline ID via the `GHC_PIPELINE_ID` variable
- 3. The ghc/head.hackage> job uses the value of `GHC_PIPELINE_ID` and an access token owned by @head.hackage to lookup the job ID of the pipeline's `x86_64-fedora27` job
+ 3. The ghc/head.hackage> job uses the value of `GHC_PIPELINE_ID` to lookup the job ID of the pipeline's `x86_64-fedora27` job
  4. The ghc/head.hackage> job fetches the binary distribution of the GHC `x86_64-fedora27` job
  5. The ghc/head.hackage> job uses [ghc-artefact-nix](https://github.com/mpickering/ghc-artefact-nix) to install the bindist
  6. The ghc/head.hackage> job uses `scripts/build-all.nix` to build a subset of Hackage (identified by the `testedPackages` attribute) using the bindist
