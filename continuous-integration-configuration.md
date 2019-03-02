@@ -180,3 +180,5 @@ The `head.hackage` CI infrastructure is built on the Nix infrastructure in the `
     3. log output showing abbreviated logs of failed builds
     
     (1) and (2) are then uploaded as artifacts.
+
+Note that this currently requires a patched GitLab installation (see https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/25712)
