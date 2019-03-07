@@ -52,17 +52,7 @@ We should be clear about the dependencies between items on this list.
 
 - Homogeneous flattener ([\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919), [\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643)).  [ Phab:D3848](https://phabricator.haskell.org/D3848).   [ Phab:D4451](https://phabricator.haskell.org/D4451) is a patch to D3848 that fixes performance
 
-- [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715): constraint vs \*
-
-- How to fix [\#11719](https://gitlab.haskell.org//ghc/ghc/issues/11719). We can't ever infer a type variable to have a higher-rank kind (as would seem necessary in this example). But perhaps we should type-check type patterns in a different manner than ordinary types, just like `tcPat` is distinct from `tcExpr`. Then, we could use bidirectional type-checking to get things to work out. This is a pretty significant refactor, though. Is it worth it? Or do we just wait until we have dependent types?
-
-# Fuller list
-
-- [\#12564](https://gitlab.haskell.org//ghc/ghc/issues/12564): type family calls on the LHS of type instance equations.  Vladislav cares about this, and something looks do-able.
-
-- Deliver on [\#13959](https://gitlab.haskell.org//ghc/ghc/issues/13959) (`substTyVar` etc)
-- Change flattener to be homogeneous ([\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919), [\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643))
-- Sort out `mkCastTy`
+- [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715): constraint vs \*.  Plus the `mkCastTy` mess ([\#15918](https://gitlab.haskell.org//ghc/ghc/issues/15918)).  On the latter point at some time we wrote these notes:
 
   - Implement KPush in `splitTyConApp`. ([\#13650](https://gitlab.haskell.org//ghc/ghc/issues/13650))
   - Some invariants to make sure of: No nested `CastTy`s. No `AppTy (TyConApp ... |> co) ty`. No reflexive coercions.
@@ -74,8 +64,18 @@ We should be clear about the dependencies between items on this list.
     Left g : t1 ~ s1
     ```
 
-> >
-> > There is more work to do to make this homogeneous.
+> > >
+> > > There is more work to do to make this homogeneous.
+
+- How to fix [\#11719](https://gitlab.haskell.org//ghc/ghc/issues/11719). We can't ever infer a type variable to have a higher-rank kind (as would seem necessary in this example). But perhaps we should type-check type patterns in a different manner than ordinary types, just like `tcPat` is distinct from `tcExpr`. Then, we could use bidirectional type-checking to get things to work out. This is a pretty significant refactor, though. Is it worth it? Or do we just wait until we have dependent types?
+
+# Fuller list
+
+- [\#12564](https://gitlab.haskell.org//ghc/ghc/issues/12564): type family calls on the LHS of type instance equations.  Vladislav cares about this, and something looks do-able.
+
+- Deliver on [\#13959](https://gitlab.haskell.org//ghc/ghc/issues/13959) (`substTyVar` etc)
+- Change flattener to be homogeneous ([\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919), [\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643))
+- Sort out `mkCastTy`
 
 - Implement homogeneous as per Stephanie's paper
 
