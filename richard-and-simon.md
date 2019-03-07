@@ -9,7 +9,7 @@ These things are all either new features, or significant refactorings.  All aime
 
 We should be clear about the dependencies between items on this list.
 
-- `tcSyntaxOp` simplification: [\#14963](https://gitlab.haskell.org//ghc/ghc/issues/14963). See [comment:11:ticket:14963](https://gitlab.haskell.org//ghc/ghc/issues/14963)
+- `tcSyntaxOp` simplification: [\#14963](https://gitlab.haskell.org//ghc/ghc/issues/14963). See [comment:11:ticket:14963](https://gitlab.haskell.org//ghc/ghc/issues/14963). But we have a new and simpler plan, sketched in our Slack channel.
 
 - DONE[ Proposal 81: Visible dependent quantification](https://github.com/ghc-proposals/ghc-proposals/pull/81).  Just syntax!  Lets you say `forall a -> ty` in types.  See [GhcKinds/KindInference](ghc-kinds/kind-inference) and [GhcKinds/KindInference/Examples](ghc-kinds/kind-inference/examples).  [\#16326](https://gitlab.haskell.org//ghc/ghc/issues/16326).
 
