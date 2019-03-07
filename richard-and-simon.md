@@ -9,15 +9,15 @@ These things are all either new features, or significant refactorings.  All aime
 
 We should be clear about the dependencies between items on this list.
 
-- [ Proposal 81: Visible dependent quantification](https://github.com/ghc-proposals/ghc-proposals/pull/81).  Just syntax!  Lets you say `forall a -> ty` in types.  See [GhcKinds/KindInference](ghc-kinds/kind-inference) and [GhcKinds/KindInference/Examples](ghc-kinds/kind-inference/examples).  [\#16326](https://gitlab.haskell.org//ghc/ghc/issues/16326)
+- DONE[ Proposal 81: Visible dependent quantification](https://github.com/ghc-proposals/ghc-proposals/pull/81).  Just syntax!  Lets you say `forall a -> ty` in types.  See [GhcKinds/KindInference](ghc-kinds/kind-inference) and [GhcKinds/KindInference/Examples](ghc-kinds/kind-inference/examples).  [\#16326](https://gitlab.haskell.org//ghc/ghc/issues/16326).
 
-- [ Proposal 99: explicit specificity](https://github.com/ghc-proposals/ghc-proposals/pull/99).  Lets us write `T :: forall {k} (a :: k).blah`.
+- [ Proposal 99: explicit specificity](https://github.com/ghc-proposals/ghc-proposals/pull/99).  Lets us write `T :: forall {k} (a :: k).blah`.  Vlad will work on this.
 
 - [ Proposal 179: tweak printing of foralls](https://github.com/ghc-proposals/ghc-proposals/pull/179)
 
 - [ Proposal 54: top-level kind signatures for type constuctors](https://github.com/ghc-proposals/ghc-proposals/pull/54) (depends on Proposal 81)
 
-- [ Proposal 103: treat kind and type variables identically in forall](https://github.com/ghc-proposals/ghc-proposals/pull/103) (depends on Proposal 83). Includes applying the "forall-or-nothing rule" to kind variables. The proposal says "wait until two releases after Proposal 83 is done (which was in 8.6)".  So we can do this in HEAD as soon as 8.8 forks.  Subsumes [\#14548](https://gitlab.haskell.org//ghc/ghc/issues/14548).
+- DONE[ Proposal 103: treat kind and type variables identically in forall](https://github.com/ghc-proposals/ghc-proposals/pull/103) (depends on Proposal 83). Includes applying the "forall-or-nothing rule" to kind variables. The proposal says "wait until two releases after Proposal 83 is done (which was in 8.6)".  So we can do this in HEAD as soon as 8.8 forks.  Subsumes [\#14548](https://gitlab.haskell.org//ghc/ghc/issues/14548).
 
 - [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088): SCC for kind inference: we know what to do, it's just a question of doing it. See also [\#7503](https://gitlab.haskell.org//ghc/ghc/issues/7503), [\#14451](https://gitlab.haskell.org//ghc/ghc/issues/14451).  This will be much easier once Proposal 54 is done.
 
