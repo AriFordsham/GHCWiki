@@ -40,6 +40,9 @@ The `primops.txt.pp` file is processed first by CPP, and then by the `genprimopc
   functions for each of the PrimOps, so that they are accessible from byte-code, and
   so that the [byte-code interpreter](commentary/rts/interpreter) doesn't need to implement any PrimOps at all: it
   just invokes the compiled ones from `GHC.PrimopWrappers`.
+  Note that we compile that module without optimisations. Doing strictness analysis + WW
+  on that module would introduce `absentError`s for the bindings of `prefetchValue0#`,
+  introducing a hidden dependency on `base`.
 
 - `libraries/ghc-prim/dist-install/build/autogen/GHC/Prim.hs`, a generated source file containing dummy declarations for
   all the PrimOps, solely so that Haddock can include documentation for `GHC.Prim`
