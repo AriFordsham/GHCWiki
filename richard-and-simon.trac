@@ -6,7 +6,7 @@ These things are all either new features, or significant refactorings.  All aime
 
 We should be clear about the dependencies between items on this list.
 
-* `tcSyntaxOp` simplification: #14963. See comment:11:ticket:14963
+* `tcSyntaxOp` simplification: #14963. See comment:11:ticket:14963. But we have a new and simpler plan, sketched in our Slack channel.
 
 * DONE [https://github.com/ghc-proposals/ghc-proposals/pull/81 Proposal 81: Visible dependent quantification].  Just syntax!  Lets you say `forall a -> ty` in types.  See [wiki:GhcKinds/KindInference] and [wiki:GhcKinds/KindInference/Examples].  #16326.
 
