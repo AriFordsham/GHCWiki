@@ -32,7 +32,7 @@ However, now that GHC is smart enough to recognize that `MkFoo2` is unreachable,
 
 {{{
     Pattern match is redundant
-    In an equation for ‘f’: f (MkFoo2 _) = ...
+    In an equation for ‘f’: f (MkFoo2 v) = ...
 }}}
 
 As a result, some code which compiled without warnings on previous versions of GHC may emit warnings on GHC 8.8.
