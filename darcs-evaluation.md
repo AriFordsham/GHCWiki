@@ -815,7 +815,7 @@ Posts/blogs:
 
 ### Download in other formats:
 
-- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=62&format=txt)
+- [Plain Text](DarcsEvaluation?version=62&format=txt)
 
 ---
 

@@ -1,5 +1,5 @@
 
-The proposal is the same as [ Edsko's Frontend Plugin Proposal](https://ghc.haskell.org/trac/ghc/wiki/FrontendPluginsProposal) with minor changes.
+The proposal is the same as [ Edsko's Frontend Plugin Proposal](FrontendPluginsProposal) with minor changes.
 
 - Instead of implementing it as a different kind of plugin this solution uses the pre-existing [ plugin system](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/extending_ghc.html#compiler-plugins). Since typechecker plugins have been introduced to the plugin architecture, it seems a better solution to extend the pre-existing support than to create a new kind of plugin.
 - It extend this to cover interface loading as well.
@@ -25,6 +25,6 @@ The ideal solution would be to **extract the information about the source code**
 
 [ Compiler Plugins](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/extending_ghc.html#compiler-plugins) would be the best to use, but currently they are only able to access the core reprsentation and install type checker plugins, which are not good for tools that want to analyze/manipulate the code at the source level.
 
-[ Compiler hooks](https://ghc.haskell.org/trac/ghc/wiki/Ghc/Hooks) could be used, but they cannot be controlled by simply configuring GHC at runtime. In order to install new hooks, the tool developer would have to create an alternative compiler executable and users would have to replace their GHC executable with the altered one. This means that it is unlikely that multiple tools could be used together.
+[ Compiler hooks](Ghc/Hooks) could be used, but they cannot be controlled by simply configuring GHC at runtime. In order to install new hooks, the tool developer would have to create an alternative compiler executable and users would have to replace their GHC executable with the altered one. This means that it is unlikely that multiple tools could be used together.
 
 [ Frontend plugins](https://downloads.haskell.org/~ghc/master/users-guide/extending_ghc.html#frontend-plugins) are not applicable, because their usage changes the major mode of the compiler. So if the tool developer wants to go on with the compilation procedure, he must replicate what GHC would do if the frontend plugin was not used. Furthermore, it can't be inserted into a normal build environment, since using the --frontend flag clashes with other mode flags like --make or --interactive. If the build environment already uses these flags, the frontend flag cannot be simply added. Some walkarounds can be used (like creating a wrapper for GHC), but they suffer from the same problems as using compiler hooks. Also check [ https://ghc.haskell.org/trac/ghc/ticket/14018](https://ghc.haskell.org/trac/ghc/ticket/14018)

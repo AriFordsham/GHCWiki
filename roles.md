@@ -419,7 +419,7 @@ First, we gather all of the free variables in the type family's kind and mark ea
 ### The type family equations
 
 
-Next, we descend into each defining equation of the type family and inspect the left-hand and right-hand sides. The right-hand sides are analyzed just like the fields of a data constructor; see the [ Role inference](https://ghc.haskell.org/trac/ghc/wiki/Roles#Roleinference) section above for more details. From the right-hand sides, we learn that the roles of `e`, `f`, and `g` should be (at least) `representational`.
+Next, we descend into each defining equation of the type family and inspect the left-hand and right-hand sides. The right-hand sides are analyzed just like the fields of a data constructor; see the [ Role inference](Roles#Roleinference) section above for more details. From the right-hand sides, we learn that the roles of `e`, `f`, and `g` should be (at least) `representational`.
 
 
 The more interesting analysis comes when inspecting the left-hand sides. We want to mark any type variable that is *scrutinized* as `nominal`. By "scrutinized", we mean a variable that is being used in a non-parametric fashion. For instance, we want to rule out scenarios like this one:

@@ -1,1 +1,1 @@
-**This page redirects to: **[wiki:Commentary/Packages/PackageNamespacesProposal](/trac/ghc/wiki/Commentary/Packages/PackageNamespacesProposal)
+**This page redirects to: **[wiki:Commentary/Packages/PackageNamespacesProposal](Commentary/Packages/PackageNamespacesProposal)

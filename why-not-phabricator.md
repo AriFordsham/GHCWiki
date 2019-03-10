@@ -145,7 +145,7 @@ Compare this to a Github workflow, where you just push your updated branch (with
 
 ## References
 
-1. [ Help! I'm getting a strange error when running arc that I didn't get yesterday](https://ghc.haskell.org/trac/ghc/wiki/Phabricator#HelpImgettingastrangeerrorwhenrunningarcthatIdidntgetyesterday)
+1. [ Help! I'm getting a strange error when running arc that I didn't get yesterday](Phabricator#HelpImgettingastrangeerrorwhenrunningarcthatIdidntgetyesterday)
 1. [ "I think the amout of contributions would increase significantly if GHC migrated to GitHub and started accepting pull requests." (Sep 2014 @ reddit)](https://www.reddit.com/r/haskell/comments/2hes8m/the_ghc_source_code_contains_1088_todos_please/ckrzyec)
 1. [ "a little phrustrated" (Jul 2014 @ ghc-devs)](https://mail.haskell.org/pipermail/ghc-devs/2014-July/005614.html)
 1. [ "Phabricator for patches and code review" (Jun 2014 @ ghc-devs)](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/4829/focus=4861)

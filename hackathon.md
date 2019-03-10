@@ -122,14 +122,14 @@ you want you can wait until then and there should be plenty of time to
 get a working build before Friday.  It's probably a good idea to make
 sure that your machine has the relevant tools, though:
 
-> [ http://hackage.haskell.org/trac/ghc/wiki/Building/Prerequisites](http://hackage.haskell.org/trac/ghc/wiki/Building/Prerequisites)
+> [ Building/Prerequisites](Building/Prerequisites)
 
 
 If you're keen to set up a build beforehand, here's where to look to
 find out how to do it.  I've been moving the build system documentation
 onto the wiki, the top of which is here:
 
-> [ http://hackage.haskell.org/trac/ghc/wiki/Building](http://hackage.haskell.org/trac/ghc/wiki/Building)
+> [ Building](Building)
 
 
 In particular, the section "Quick start for developers" should have

@@ -348,7 +348,7 @@ Examples:
 
 ## See Also
 
-- [ https://ghc.haskell.org/trac/ghc/wiki/ReadingList\#TypeEqualities](https://ghc.haskell.org/trac/ghc/wiki/ReadingList#TypeEqualities)
+- [ ReadingList\#TypeEqualities](ReadingList#TypeEqualities)
 - [ https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/jfp06.pdf](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/jfp06.pdf)
 - [TypeFunctions](type-functions)
 - [TypeFunctionsStatus](type-functions-status)

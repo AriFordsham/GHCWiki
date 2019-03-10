@@ -1,1 +1,1 @@
-**This page redirects to: **[wiki:Commentary/Packages/PackageReorg](/trac/ghc/wiki/Commentary/Packages/PackageReorg)
+**This page redirects to: **[wiki:Commentary/Packages/PackageReorg](Commentary/Packages/PackageReorg)

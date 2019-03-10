@@ -1,1 +1,1 @@
-**This page redirects to: **[wiki:Commentary/Packages/PackageCompatibilityProposal](/trac/ghc/wiki/Commentary/Packages/PackageCompatibilityProposal)
+**This page redirects to: **[wiki:Commentary/Packages/PackageCompatibilityProposal](Commentary/Packages/PackageCompatibilityProposal)

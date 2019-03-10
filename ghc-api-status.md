@@ -207,7 +207,7 @@ There are also a few non-functional requirements:
 - Haskell-cafe question: [ How to get the typechecked AST?](http://www.haskell.org/pipermail/haskell-cafe/2008-May/042616.html)
 - [ Porting HaRe to the GHC API](http://www.cs.kent.ac.uk/pubs/2005/2266/) Technical report describing some difficulties with the current API.
 - [ GHC as a Library](http://www.haskell.org/haskellwiki/GHC/As_a_library), the Haskell Wiki page
-- [ GHC Commentary on the GHC API](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/API) (may be outdated)
+- [ GHC Commentary on the GHC API](Commentary/Compiler/API) (may be outdated)
 - [ hint, an attempt to provide a simplified and stable subset of the GHC API](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/hint-0.2.1)
 
 ## Various Ideas, Comments, Questions

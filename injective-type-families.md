@@ -13,7 +13,7 @@ September 2015 but later stalled and was left unfinished.  Partial
 implementation is available as  [ Phab:D1287](https://phabricator.haskell.org/D1287) and on the
 wip/T10832-generalised-injectivity branch. The relevant Trac ticket is
 [\#10832](https://gitlab.haskell.org//ghc/ghc/issues/10832). See
-[ this section below](https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies#TypeCinjectivityaka.generalizedinjectivity) for full details.
+[ this section below](InjectiveTypeFamilies#TypeCinjectivityaka.generalizedinjectivity) for full details.
 
 
 Other tickets related to further development of injective type families: [\#10833](https://gitlab.haskell.org//ghc/ghc/issues/10833), [\#11511](https://gitlab.haskell.org//ghc/ghc/issues/11511).

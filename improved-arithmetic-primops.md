@@ -21,7 +21,7 @@ To make arithmetic safer: [ http://article.gmane.org/gmane.comp.lang.haskell.ghc
 ## How do I add a new primop?
 
 
-See the guide at [ https://ghc.haskell.org/trac/ghc/wiki/Commentary/PrimOps\#AddinganewPrimOp](https://ghc.haskell.org/trac/ghc/wiki/Commentary/PrimOps#AddinganewPrimOp)
+See the guide at [ Commentary/PrimOps\#AddinganewPrimOp](Commentary/PrimOps#AddinganewPrimOp)
 
 
 I need to add *inline* primops since `addIntC#` & co. are all inline.
@@ -34,7 +34,7 @@ So, I only need to touch these files:
 
 There's also a tutorial on adding an *out-of-line* primop, but some
 bits of it may be useful (e.g., building GHC after making changes):
-[ https://ghc.haskell.org/trac/ghc/wiki/AddingNewPrimitiveOperations](https://ghc.haskell.org/trac/ghc/wiki/AddingNewPrimitiveOperations)
+[ AddingNewPrimitiveOperations](AddingNewPrimitiveOperations)
 
 ## Where is C-- generated?
 

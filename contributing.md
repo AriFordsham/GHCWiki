@@ -50,7 +50,7 @@ If you have any questions along the way don't hesitate to reach out to the commu
 
 ### First steps
 
-- See [Building/QuickStart](building/quick-start) to get started building GHC. Expect it all to take roughly between 30 minutes and a couple of hours, depending on your CPU speed, and the number of jobs you can run in parallel. Note that [ building older versions of GHC may require having an older version of GHC on your path](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools).
+- See [Building/QuickStart](building/quick-start) to get started building GHC. Expect it all to take roughly between 30 minutes and a couple of hours, depending on your CPU speed, and the number of jobs you can run in parallel. Note that [ building older versions of GHC may require having an older version of GHC on your path](Building/Preparation/Tools).
 
 - While you are waiting for your build to finish, orient yourself to the general architecture of GHC. This [ article](http://www.aosabook.org/en/ghc.html) is written by two of the chief architects of GHC, Simon Marlow and Simon Peyton-Jones, is excellent and current (2012).
 
