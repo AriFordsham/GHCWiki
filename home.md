@@ -1,4 +1,6 @@
-This is GHC's GitLab instance. GitLab has replaced Trac and Phabricator as the center of GHC's development community. You may wish to see the [table of contents](./index) to get a sense for what is available in this Wiki.
+This is GHC's GitLab instance. GitLab has replaced Trac and Phabricator as the center of GHC's development community.
+
+You may wish to see the [table of contents](./index) to get a sense for what is available in this Wiki.
 
 <!--
 To generate images with borders:
