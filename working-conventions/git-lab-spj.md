@@ -3,6 +3,8 @@
 
 Here's a summary of the things in GitLab's universe, what they mean, and how they relate to each other.
 
+- **Wiki**. The [GHCI wiki index is here](https://gitlab.haskell.org/ghc/ghc/wikis/index)
+
 - **Groups.**  Example, the [ GHC group](https://gitlab.haskell.org/ghc)
 
   - A group contains:
@@ -32,7 +34,9 @@ Here's a summary of the things in GitLab's universe, what they mean, and how the
 
 - A **review** is a set of comments on a MR.  Always comment on MRs using a review, else the recipients get one email per comment, which is terrible.
 
-- An **issue** is GitLab's name for a Trac ticket.
+- An **issue** is GitLab's name for a Trac "ticket".
+
+- A **label** is GitLab's name for a Trac "keyword".
 
 # Workflows
 
