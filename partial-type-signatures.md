@@ -42,7 +42,7 @@ community.
 
 ## Issues
 
-Add the label "partial type sigs" to indicate that an issue is relevant to this page.
+Add the label ~"partial type sigs" to indicate that an issue is relevant to this page.
 
 Click on the label to see all the associated issues, both open and closed.
 
