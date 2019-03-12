@@ -111,6 +111,8 @@ You never commit directly to HEAD.  Rather, follow this workflow.
   - `#3553` links to issue 3553
   - `!883` links to merge request 883
 
+  The [full markdown guide](https://about.gitlab.com/handbook/product/technical-writing/markdown-guide/).
+
 - **Zooming**.  If you zoom your browser too much, stuff starts disappearing from the top menu bar; e.g. your picture and the settings linked to it. You have to zoom out.
 
 - **Notifications**.  For projects you care about (e.g. [ https://gitlab.haskell.org/ghc/ghc](https://gitlab.haskell.org/ghc/ghc)), click on "Watch" (there's a little bell icon) about four rows down from the top. Then you'll get notifications of what changes.
