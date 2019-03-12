@@ -79,9 +79,13 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
 # GitLab notes
 
+## Issues
+
+- **To see what merge request is open for this issue** look down the status panels to one that says "Related Merge Request(s)" ([example](https://gitlab.haskell.org/ghc/ghc/issues/16344)).  This list should include the MR that fixes the issue, if indeed there is such a MR.
+
 ## Merge requests
 
-- To see all merge requests, click on "Merge requests" *in the left-hand nav column*.  The similar icon in the black menu bar at the top doesn't seem to do anything useful.
+- **To see all merge requests**, click on "Merge requests" *in the left-hand navigation panel*.  The similar icon in the black menu bar at the top doesn't seem to do anything useful.
 
 - **The title and description of a MR** do not form part of the Git repo's history.  Only the commit messages in the patches do.  So make sure that each patch has a good commit message!  The title and description of the MR signpost the readers through the review process.
 
