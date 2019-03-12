@@ -87,7 +87,9 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
 - **The status of a MR** is in the panels near the top.  
 
-  Ignore *"Fast-forward merge is not possible. Rebase the source branch onto the target branch or merge target branch into source branch to allow this merge request to be merged."*  Marge will do that for you.
+  * *Relevant issue*. To see what ticket this MR is for, look down the status boxes to find one with "Mentions" in it (the panel is probably about the merge status of the MR).  The parent ticket should appear in that list.
+
+  * Ignore *"Fast-forward merge is not possible. Rebase the source branch onto the target branch or merge target branch into source branch to allow this merge request to be merged."*  Marge will do that for you.
 
 - **Work in progress Merge Requests**.  A MR can be a "work in progress" (WIP) MR.
 
