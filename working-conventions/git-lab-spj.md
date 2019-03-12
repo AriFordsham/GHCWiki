@@ -112,6 +112,8 @@ This section summarises what I understand about GitLab's semantics: what things 
 
 - Back on the "Changes" tab of the MR above, you'll see a button labeled "0/49 discussions resolved". There is a small button with an arrow in it to the right of that. It warps you to the first unresolved discussion (i.e. comment I've made during my review)
 
+- To see more code surrounding a diff, there are some light grey "..." icons at the top and bottom of the line-number column. Click to show more.
+
 - Comment if you like. Then, at the bottom-right of the windowette that contains the discussion, you'll see another button with a right-pointing arrow inside a speech bubble. Click that to go to the next unresolved discussion. In this way, the unresolved discussions can be navigated like a singly linked list.
 
 - The table-of-contents on the left is useful, but it takes up a lot of visual space. To hide it, press the button with the three horizontal lines to the left of the words "Changes between", right below the tabs where you choose between, e.g., Discussion and Changes.
