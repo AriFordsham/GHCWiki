@@ -50,17 +50,17 @@ $wf n# = (# n#+ #1, n# +# 2# #)
 
 f :: Int -> (Int, Int)
 f (Int# n) = case $wf n of
-  (# p, q #) -> (Int# p, Int# q)
+  (# a, b #) -> (Int# a, Int# b)
 {-# INLINE f #-}
 
 -- wrapper for g's strict argument omitted
 g :: Int -> Int
 g (Int# n) = case f n of
-  (# p, _ #) -> Int# p
+  (# a, _ #) -> Int# a
 {-# NOINLINE g #-}
 ```
 
-Note how `g` didn't have the CPR property and thus there will be no useful wrapper to split off (module strictness). Any call site of `g` matching on it's result has to go through an `Int` instead of a direct `Int#`.
+Note how `g` didn't have the CPR property and thus there will be no useful wrapper to split off (modulo strictness). Any call site of `g` matching on it's result has to go through an `Int` instead of a direct `Int#`.
 
 What happens if we analyse the `case` expression in a forward manner instead? We first analyse the scrutinee and unleash the nested CPR signature `m(tm(t),tm(t))` of `f`. This tells us that we really pattern match on a constructed pair of constructed `Int`s. Now in the single case alternative, not only do we know that the case binder has the CPR property, but also that *the pair's components* have it, including `a`. This is enough to see that `g` has the CPR property:
 
@@ -71,12 +71,12 @@ $wf n# = (# n#+ #1, n# +# 2# #)
 
 f :: Int -> (Int, Int)
 f (Int# n) = case $wf n of
-  (# p, q #) -> (Int# p, Int# q)
+  (# a, b #) -> (Int# a, Int# b)
 {-# INLINE f #-}
 
 $wg :: Int# -> Int#
 $wg n# = case f n# of
-  (# p, _ #) -> p
+  (# a, _ #) -> a
 {-# NOINLINE $wg #-}
 
 g :: Int -> Int
