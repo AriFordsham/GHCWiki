@@ -40,8 +40,9 @@ This document attempts to describe our design and our
 point of view in the hope to get some feedback from the GHC developers
 community.
 
-## Tickets
+## Issues
 
+Add the label "partial type sigs" to indicate that an issue is relevant to this page.
 
 
 Use Keyword = `PartialTypeSignatures` to ensure that a ticket ends up on these lists.
