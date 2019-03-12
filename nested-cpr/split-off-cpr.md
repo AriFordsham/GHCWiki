@@ -6,7 +6,7 @@ This page collects some illustrative arguments. Here's the summary:
 
 Pro
 
-- Demand Analysis is a backwards analysis, CPR is a forward analysis
+- Demand Analysis is a backwards analysis, CPR is a forward analysis. This notion of direction stems from the abstract evaluation of `case` expressions. See [Forward vs. Backward Analysis](#forward-vs-backward-analysis)
 - Separation of concerns: Strictness/usage analysis is independent of CPR, while CPR relies on strictness info to be present. Makes you ask at every line of code "Is this relevant to CPR?" + Virgin run
 
 
@@ -28,7 +28,7 @@ Note that this isn't an issue for non-nested CPR (at least I couldn't come up wi
 module Foo where
 
 f :: Int -> (Int, Int)
-f n = (n+1, n+2)
+f !n = (n+1, n+2)
 {-# NOINLINE f #-}
 
 g :: Int -> Int
@@ -41,8 +41,50 @@ g n = case f n of
 Imagine we'd do nested CPR. The current approach would compute a CPR signature for `f` of `m(tm(t),tm(t))`, stating that it constructs a pair of constructed (and terminating) `Int`s.
 
 
-So far, so good! Now look at the call site in `g`. The demand analyser handles the `case` backwards, because there might be worthwhile strictness info to be unleashed on the scrutinee. However, that's bad for CPR when the scrutinee is an application, as the example demonstrates: At the time we see `a` in the alt of the case, we don't know that `a` really has the CPR property once we WW'd `f`. Hence, `g` itself doesn't have the CPR property, rendering the whole business of CPRing `f` useless (harmful, even).
+So far, so good! Now look at the call site in `g`. The demand analyser handles the `case` backwards, because there might be worthwhile strictness info to be unleashed on the scrutinee. However, that's bad for CPR when the scrutinee is an application, as the example demonstrates: At the time we see `a` in the alt of the case, we don't know that `a` really has the CPR property once we WW'd `f`. Hence, `g` itself doesn't have the CPR property, rendering the whole business of CPRing `f` useless:
 
+```
+$wf :: Int# -> (# Int#, Int# #)
+$wf n# = (# n#+ #1, n# +# 2# #)
+{-# NOINLINE $wf #-}
+
+f :: Int -> (Int, Int)
+f (Int# n) = case $wf n of
+  (# p, q #) -> (Int# p, Int# q)
+{-# INLINE f #-}
+
+-- wrapper for g's strict argument omitted
+g :: Int -> Int
+g (Int# n) = case f n of
+  (# p, _ #) -> Int# p
+{-# NOINLINE g #-}
+```
+
+Note how `g` didn't have the CPR property and thus there will be no useful wrapper to split off (module strictness). Any call site of `g` matching on it's result has to go through an `Int` instead of a direct `Int#`.
+
+What happens if we analyse the `case` expression in a forward manner instead? We first analyse the scrutinee and unleash the nested CPR signature `m(tm(t),tm(t))` of `f`. This tells us that we really pattern match on a constructed pair of constructed `Int`s. Now in the single case alternative, not only do we know that the case binder has the CPR property, but also that *the pair's components* have it, including `a`. This is enough to see that `g` has the CPR property:
+
+```
+$wf :: Int# -> (# Int#, Int# #)
+$wf n# = (# n#+ #1, n# +# 2# #)
+{-# NOINLINE $wf #-}
+
+f :: Int -> (Int, Int)
+f (Int# n) = case $wf n of
+  (# p, q #) -> (Int# p, Int# q)
+{-# INLINE f #-}
+
+$wg :: Int# -> Int#
+$wg n# = case f n# of
+  (# p, _ #) -> p
+{-# NOINLINE $wg #-}
+
+g :: Int -> Int
+g (Int# n) = case $wg n of p -> Int# p
+{-# INLINE g #-}
+```
+
+`g`'s wrapper will now successfully inline at call sites and all is well.
 
 Note that for CPR for sum types to be useful, we need at least nested CPR of depth 2, which has all the same problems ([https://ghc.haskell.org/trac/ghc/ticket/12364\#comment:3](https://ghc.haskell.org/trac/ghc/ticket/12364#comment:3)) wrt. termination and analysis "direction".
 
