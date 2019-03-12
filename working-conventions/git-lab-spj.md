@@ -85,7 +85,7 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
 - **The title and description of a MR** do not form part of the Git repo's history.  Only the commit messages in the patches do.  So make sure that each patch has a good commit message!  The title and description of the MR signpost the readers through the review process.
 
-- The **status** of a MR is in the panels near the top.  
+- **The status of a MR** is in the panels near the top.  
 
   Ignore *"Fast-forward merge is not possible. Rebase the source branch onto the target branch or merge target branch into source branch to allow this merge request to be merged."*  Marge will do that for you.
 
