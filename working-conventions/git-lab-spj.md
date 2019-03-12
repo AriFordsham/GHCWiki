@@ -75,8 +75,7 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
 - When you are ready to commit to master, you do this by **assigning to Marge**.  Go to "Edit" the MR, and set the "Assignee" to "Marge".   That's all you have to do.  Marge will rebase you patch on master, validate, and commit.
 
->
-> In particular, **do not click the "Merge if passes tests" button**. That bypasses Marge and confuses her.
+  In particular, **do not click the "Merge if passes tests" button**. That bypasses Marge and confuses her.
 
 # GitLab notes
 
