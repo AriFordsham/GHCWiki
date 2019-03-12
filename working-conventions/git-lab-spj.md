@@ -82,11 +82,13 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
 ## Merge requests
 
-- **The title and description of a MR** do not form part of the Git repo's history.  Only the commit messages in the patches do.  So make sure that each patch has a good commit message!  The title and description of the MR signpost the readers through the review process.
-
 - To see all merge requests, click on "Merge requests" *in the left-hand nav column*.  The similar icon in the black menu bar at the top doesn't seem to do anything useful.
 
-- To see more code surrounding a diff, there are some light grey "..." icons at the top and bottom of the line-number column. Click to show more.
+- **The title and description of a MR** do not form part of the Git repo's history.  Only the commit messages in the patches do.  So make sure that each patch has a good commit message!  The title and description of the MR signpost the readers through the review process.
+
+- The **status** of a MR is in the panels near the top.  
+
+  Ignore *"Fast-forward merge is not possible. Rebase the source branch onto the target branch or merge target branch into source branch to allow this merge request to be merged."*  Marge will do that for you.
 
 - **Work in progress Merge Requests**.  A MR can be a "work in progress" (WIP) MR.
 
@@ -101,7 +103,7 @@ You never commit directly to HEAD.  Rather, follow this workflow.
   - Per-MR approvers, which you as MR author can add.  *From what list?*****
 
 
-Per MR approvers: chosen from developer.
+
 
 ## Gitlab tips
 
@@ -150,6 +152,8 @@ Per MR approvers: chosen from developer.
 - You also may want to go to your preferences page (accessible via the Settings button that appears under your picture at the very top-right of the screen -- Preferences is fourth from the bottom in the vertical navbar to the left of your settings screen) and choose a Fluid layout width.
 
 - Back on the "Changes" tab of the MR above, you'll see a button labeled "0/49 discussions resolved". There is a small button with an arrow in it to the right of that. It warps you to the first unresolved discussion (i.e. comment I've made during my review)
+
+- To see more code surrounding a diff, there are some light grey "..." icons at the top and bottom of the line-number column. Click to show more.
 
 - Comment if you like. Then, at the bottom-right of the windowette that contains the discussion, you'll see another button with a right-pointing arrow inside a speech bubble. Click that to go to the next unresolved discussion. In this way, the unresolved discussions can be navigated like a singly linked list.
 
