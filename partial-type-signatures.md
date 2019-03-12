@@ -42,7 +42,7 @@ community.
 
 ## Issues
 
-Add the label "partial type sigs" to indicate that an issue is relevant to this page.
+Add the label ~"partial type sigs" to indicate that an issue is relevant to this page.
 
 
 Use Keyword = `PartialTypeSignatures` to ensure that a ticket ends up on these lists.
