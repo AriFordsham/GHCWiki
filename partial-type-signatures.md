@@ -40,10 +40,15 @@ This document attempts to describe our design and our
 point of view in the hope to get some feedback from the GHC developers
 community.
 
-## Tickets
+## Issues
 
+Add the label "partial type sigs" to indicate that an issue is relevant to this page.
 
-Use Keyword = `PartialTypeSignatures` to ensure that a ticket ends up on these lists.
+Click on the label to see all the associated issues, both open and closed.
+
+## Trac tickets
+
+Snapshot of the Trac tickets labelled with `PartialTypeSignatures` when we migraged to GitLab. This should be irrelevant (look at "Issues" above), but I'm leaving it here until the labelling of GitLab issues is robust.
 
 **Open Tickets:**
 
