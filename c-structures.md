@@ -34,7 +34,7 @@ I propose to extend the definition of marshallable foreign types with the follow
 >
 > a type **T t'<sub>1</sub>** ... **t'<sub>n</sub>** where **T** is defined by data declaration
 >
-> > *data***T a<sub>1</sub>** ... **a<sub>n</sub>** = **C t<sub>1</sub>** ... **t<sub>k</sub>**
+> > *data* **T a<sub>1</sub>** ... **a<sub>n</sub>** = **C t<sub>1</sub>** ... **t<sub>k</sub>**
 >
 >
 > and
