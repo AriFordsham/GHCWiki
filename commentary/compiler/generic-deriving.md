@@ -534,7 +534,7 @@ data DecidedStrictness = DecidedLazy
 ```
 
 
-Why did we need to add `FixityI`? Because `Fixity` does not promote. Yet, we wanted to expose `Fixity` to the user, not `FixityI`. Note that the meta-data classes remained mostly unchanged (aside from some enhancements to [ Datatype](https://ghc.haskell.org/trac/ghc/ticket/10030) and [ Selector](https://ghc.haskell.org/trac/ghc/ticket/10716)):
+Why did we need to add `FixityI`? Because `Fixity` does not promote. Yet, we wanted to expose `Fixity` to the user, not `FixityI`. Note that the meta-data classes remained mostly unchanged (aside from some enhancements to [ Datatype](https://gitlab.haskell.org/ghc/ghc/issues/10030) and [ Selector](https://gitlab.haskell.org/ghc/ghc/issues/10716)):
 
 ```wiki
 class Datatype d where
@@ -635,7 +635,7 @@ classSelector s where
 ```
 
 
-This design draws much inspiration from the way Template Haskell handles strictness as of GHC 8.0 (see [ here](https://ghc.haskell.org/trac/ghc/ticket/10697) for what motivated the change). We make a distinction between the *source* strictness annotations and the strictness GHC actually *decides* during compilation. To illustrate the difference, consider the following data type:
+This design draws much inspiration from the way Template Haskell handles strictness as of GHC 8.0 (see [ here](https://gitlab.haskell.org/ghc/ghc/issues/10697) for what motivated the change). We make a distinction between the *source* strictness annotations and the strictness GHC actually *decides* during compilation. To illustrate the difference, consider the following data type:
 
 ```
 dataT=T{-# UNPACK #-}!Int!IntIntderivingGeneric

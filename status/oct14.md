@@ -69,6 +69,6 @@ However, we still need help with it all. GHC is a community project, and as you 
 
 \[PTS\] [ https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
 
-\[HEAPALLOCED\] [ https://ghc.haskell.org/trac/ghc/ticket/8199](https://ghc.haskell.org/trac/ghc/ticket/8199)
+\[HEAPALLOCED\] [ https://gitlab.haskell.org/ghc/ghc/issues/8199](https://gitlab.haskell.org/ghc/ghc/issues/8199)
 
 \[PHAB\] [ https://ghc.haskell.org/trac/ghc/wiki/Phabricator](https://ghc.haskell.org/trac/ghc/wiki/Phabricator)

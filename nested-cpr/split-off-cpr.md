@@ -19,7 +19,7 @@ Cons
 ## Forward vs. Backward analysis
 
 
-Joachim was probably the first to realise this, but CPR analysis is a forward analysis: [ https://ghc.haskell.org/trac/ghc/ticket/12364\#comment:3](https://ghc.haskell.org/trac/ghc/ticket/12364#comment:3). That led to a reeeeeeally complicated, duplicated `Case` case in his take on nested CPR analysis: [ https://phabricator.haskell.org/D4244\#inline-35408](https://phabricator.haskell.org/D4244#inline-35408). For that reason, I feel strongly about splitting off CPR before we try this again.
+Joachim was probably the first to realise this, but CPR analysis is a forward analysis: [ https://gitlab.haskell.org/ghc/ghc/issues/12364\#comment:3](https://gitlab.haskell.org/ghc/ghc/issues/12364#comment:3). That led to a reeeeeeally complicated, duplicated `Case` case in his take on nested CPR analysis: [ https://phabricator.haskell.org/D4244\#inline-35408](https://phabricator.haskell.org/D4244#inline-35408). For that reason, I feel strongly about splitting off CPR before we try this again.
 
 
 Note that this isn't an issue for non-nested CPR (at least I couldn't come up with an example). But `Note [CPR in a product case alternative]` seems we already suffer in a similar way. The idea is the following:
@@ -86,7 +86,7 @@ g (Int# n) = case $wg n of p -> Int# p
 
 `g`'s wrapper will now successfully inline at call sites and all is well.
 
-Note that for CPR for sum types to be useful, we need at least nested CPR of depth 2, which has all the same problems ([ https://ghc.haskell.org/trac/ghc/ticket/12364\#comment:3](https://ghc.haskell.org/trac/ghc/ticket/12364#comment:3)) wrt. termination and analysis "direction".
+Note that for CPR for sum types to be useful, we need at least nested CPR of depth 2, which has all the same problems ([ https://gitlab.haskell.org/ghc/ghc/issues/12364\#comment:3](https://gitlab.haskell.org/ghc/ghc/issues/12364#comment:3)) wrt. termination and analysis "direction".
 
 ## Separation of concerns
 
@@ -103,4 +103,4 @@ Beyond better CPR, does the [ weird additional non-virgin run](https://github.co
 The point I'm trying to make: Any benefits to interleaving the analyses I could think of don't make up for the nasty side-effects of the interleaving. I don't see the principle behind it.
 
 
-Note that the same argument probably applies to splitting usage and strictness analysis. The latter doesn't need the LetUp case (we even give up precision for that) and it necessitates the strange lazy_fv business ([ yuck](https://ghc.haskell.org/trac/ghc/ticket/14816#comment:13)). But we'll leave that for another time.
+Note that the same argument probably applies to splitting usage and strictness analysis. The latter doesn't need the LetUp case (we even give up precision for that) and it necessitates the strange lazy_fv business ([ yuck](https://gitlab.haskell.org/ghc/ghc/issues/14816#comment:13)). But we'll leave that for another time.

@@ -62,7 +62,7 @@ We also split the overall work into multiple smaller patches, by working on a se
 
 
 Overall, the implementation follows TtG paper with some details captured below.
-Further details can be found in the patch description, and also there is a related [ ticket](https://ghc.haskell.org/trac/ghc/ticket/14429).
+Further details can be found in the patch description, and also there is a related [ ticket](https://gitlab.haskell.org/ghc/ghc/issues/14429).
 
 ## General Plan
 

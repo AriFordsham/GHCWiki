@@ -227,10 +227,10 @@ Email Threads:
 
 Tickets:
 
-- "Inferring Safe mode with GeneralizedNewtypeDeriving is wrong" -- [ https://ghc.haskell.org/trac/ghc/ticket/8827](https://ghc.haskell.org/trac/ghc/ticket/8827)
-- "GeneralizedNewtypeDeriving is still not Safe" -- [ https://ghc.haskell.org/trac/ghc/ticket/8745](https://ghc.haskell.org/trac/ghc/ticket/8745)
-- "Require -XIncoherentInstances to write role annotations on class definitions" -- [ https://ghc.haskell.org/trac/ghc/ticket/8773](https://ghc.haskell.org/trac/ghc/ticket/8773)
-- "Incoherent instances without -XIncoherentInstances" -- [ https://ghc.haskell.org/trac/ghc/ticket/8338](https://ghc.haskell.org/trac/ghc/ticket/8338)
+- "Inferring Safe mode with GeneralizedNewtypeDeriving is wrong" -- [ https://gitlab.haskell.org/ghc/ghc/issues/8827](https://gitlab.haskell.org/ghc/ghc/issues/8827)
+- "GeneralizedNewtypeDeriving is still not Safe" -- [ https://gitlab.haskell.org/ghc/ghc/issues/8745](https://gitlab.haskell.org/ghc/ghc/issues/8745)
+- "Require -XIncoherentInstances to write role annotations on class definitions" -- [ https://gitlab.haskell.org/ghc/ghc/issues/8773](https://gitlab.haskell.org/ghc/ghc/issues/8773)
+- "Incoherent instances without -XIncoherentInstances" -- [ https://gitlab.haskell.org/ghc/ghc/issues/8338](https://gitlab.haskell.org/ghc/ghc/issues/8338)
 
 ## Roles Overview
 

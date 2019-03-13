@@ -11,7 +11,7 @@ Add a new bookmark/entry, with
 
 ```wiki
 Name: GHC ticket
-Location: http://ghc.haskell.org/trac/ghc/ticket/%s
+Location: https://gitlab.haskell.org/ghc/ghc/issues/%s
 Keyword: ghc
 ```
 

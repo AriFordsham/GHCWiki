@@ -160,7 +160,7 @@ Possible modifications to the proposal include:
 This proposal has been extensively discussed on [ haskell-cafe](https://mail.haskell.org/pipermail/haskell-cafe/2015-September/121217.html) and on [ reddit](https://www.reddit.com/r/haskell/comments/447bnw/does_argument_do_have_a_future/).
 
 
-On the mailing list I see roughly 13 people in favor of the proposal and 12 people against it. Some major opinions (mostly copied from [ bgmari's summary](https://ghc.haskell.org/trac/ghc/ticket/10843#comment:12)).
+On the mailing list I see roughly 13 people in favor of the proposal and 12 people against it. Some major opinions (mostly copied from [ bgmari's summary](https://gitlab.haskell.org/ghc/ghc/issues/10843#comment:12)).
 
 ## Pros
 

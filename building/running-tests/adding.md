@@ -214,7 +214,7 @@ There are many pre-defined functions which can be used in this field:
 - **only_ways(ways)**       do this test certain ways only
 - **extra_ways(ways)**      add some ways which would normally be disabled
 
-- **expect_broken(bug)** this test is a expected not to work due to the indicated trac bug number
+- **expect_broken(bug)** this test is a expected not to work due to the indicated issue number
 - **expect_broken_for(bug, ways)** as expect_broken, but only for the indicated ways
 
 - **set_stdin(file)**       use a different file for stdin

@@ -65,7 +65,7 @@ Anyone know what could be wrong here?
 [\#1346](https://gitlab.haskell.org//ghc/ghc/issues/1346), the bug tracking having bootstrapping working again, has had its milestone changed from 6.10.1 to 6.12, as the build system overhaul has grown into too large of a project and 6.10 needs to be released before it will be completed.
 
 
-And so that basically takes renewed bootstrapping off the table. This project is back to starting from an unregisterised 6.6, working up to an unregisterised 6.10, then a registerised 6.10, and then (assuming the code generator back-end overhaul that is planned for 6.10 still goes through. I don't know the status of it. Anyone have the Trac number for it?) in the long term to a full native codegen 6.10.
+And so that basically takes renewed bootstrapping off the table. This project is back to starting from an unregisterised 6.6, working up to an unregisterised 6.10, then a registerised 6.10, and then (assuming the code generator back-end overhaul that is planned for 6.10 still goes through. I don't know the status of it. Anyone have the ticket number for it?) in the long term to a full native codegen 6.10.
 
 ## Hackathon?
 

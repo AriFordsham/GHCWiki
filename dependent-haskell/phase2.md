@@ -268,7 +268,7 @@ class(a :: k1 ~~ b :: k2)where
 ```
 
 
-with inlining. However, this means constraints need to be strict so we know the definition terminates, which is important for the consistency of the coercion language. In other words, we need to change the representation of constraint. Right now, we have`Constraint` be like `TYPE LiftedRep` (i.e. `Type`). This suggestion would make it be like `TYPE UnliftedRep`. However, strict constraints clash with deferred type errors, as deferred type errors make use of the laziness. Richard argues that deferred type errors are already in conflict with `TypeInType`. See [ this ticket](https://ghc.haskell.org/trac/ghc/ticket/11197/).
+with inlining. However, this means constraints need to be strict so we know the definition terminates, which is important for the consistency of the coercion language. In other words, we need to change the representation of constraint. Right now, we have`Constraint` be like `TYPE LiftedRep` (i.e. `Type`). This suggestion would make it be like `TYPE UnliftedRep`. However, strict constraints clash with deferred type errors, as deferred type errors make use of the laziness. Richard argues that deferred type errors are already in conflict with `TypeInType`. See [ this ticket](https://gitlab.haskell.org/ghc/ghc/issues/11197/).
 
 
 Another option is to drop heterogeneous equality. It turns out we can still define hetero-datatype. In source, we write

@@ -22,7 +22,8 @@ Here are some things to check:
 
 - **All tickets**: 
 
-  - Check for duplicates (Google search with "site:hackage.haskell.org" is usually better than using Trac's search).
+  - Check for duplicates (Google search with "site:gitlab.haskell.org" may be
+    better than GitLab's search)
   - Tidy up the description: add markup if necessary, link to related information and/or other tickets
   - Check that the ticket is categorised correctly, including
 

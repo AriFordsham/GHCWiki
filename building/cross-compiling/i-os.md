@@ -63,7 +63,7 @@ BuildFlavour  = perf-cross
 ```
 
 
-(requires [ https://ghc.haskell.org/trac/ghc/ticket/8700](https://ghc.haskell.org/trac/ghc/ticket/8700))
+(requires [ https://gitlab.haskell.org/ghc/ghc/issues/8700](https://gitlab.haskell.org/ghc/ghc/issues/8700))
 
 ### 5. Configure & build
 

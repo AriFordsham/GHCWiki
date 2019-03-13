@@ -99,7 +99,7 @@ The most recent variant of Nicolas' original Core transformation can be found
 here: [ https://github.com/sgraf812/ghc/tree/llf](https://github.com/sgraf812/ghc/tree/llf).
 
 
-In July 2018, [ Sebastian argued](https://ghc.haskell.org/trac/ghc/ticket/9476#comment:15)
+In July 2018, [ Sebastian argued](https://gitlab.haskell.org/ghc/ghc/issues/9476#comment:15)
 that it's probably a good idea to reimplement the transformation on STG instead
 of Core, the promising implementation of which is available
 [ here](https://github.com/sgraf812/ghc/tree/9b9260c1d45d127edf9ebdfe04a3daaff24a9dea/compiler/simplStg/StgLiftLams).

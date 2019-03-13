@@ -1,7 +1,7 @@
 # Helpful Local Import Error Messages
 
 
-Issue raised here: [ https://ghc.haskell.org/trac/ghc/ticket/11418](https://ghc.haskell.org/trac/ghc/ticket/11418)
+Issue raised here: [ https://gitlab.haskell.org/ghc/ghc/issues/11418](https://gitlab.haskell.org/ghc/ghc/issues/11418)
 
 ## The problem
 

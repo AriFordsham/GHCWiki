@@ -145,7 +145,7 @@ These notes are based on the updated implementation at [ https://phabricator.has
 ## Extension: Grooming the CallStack
 
 
-Joachim Breitner suggests in [ https://ghc.haskell.org/trac/ghc/ticket/11049](https://ghc.haskell.org/trac/ghc/ticket/11049) that it would be nice to allow users to hide portions of the CallStack that correspond to internal library modules, presenting only the portions that the author deems "interesting". Following is Joachim's description of the extension.
+Joachim Breitner suggests in [ https://gitlab.haskell.org/ghc/ghc/issues/11049](https://gitlab.haskell.org/ghc/ghc/issues/11049) that it would be nice to allow users to hide portions of the CallStack that correspond to internal library modules, presenting only the portions that the author deems "interesting". Following is Joachim's description of the extension.
 
 ---
 

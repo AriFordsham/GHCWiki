@@ -1,7 +1,7 @@
 # Warning
 
 
-This page is very old. It was create at the same time as [ https://ghc.haskell.org/trac/ghc/ticket/3123](https://ghc.haskell.org/trac/ghc/ticket/3123)
+This page is very old. It was create at the same time as [ https://gitlab.haskell.org/ghc/ghc/issues/3123](https://gitlab.haskell.org/ghc/ghc/issues/3123)
 
 # Inlining
 

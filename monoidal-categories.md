@@ -1,4 +1,4 @@
-[ Trac ticket](https://ghc.haskell.org/trac/ghc/ticket/9596)
+[ Trac ticket](https://gitlab.haskell.org/ghc/ghc/issues/9596)
 
 [ Phabricator differential](https://phabricator.haskell.org/D212)
 

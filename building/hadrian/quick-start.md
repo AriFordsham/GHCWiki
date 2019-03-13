@@ -147,7 +147,7 @@ currently supports several many others, among which the important ones described
 
 - `--progress-info=STYLE`: choose how build progress info is printed. There are four settings: `none`, `brief` (one line per build command; this is the default setting), `normal` (typically a box per build command), and `unicorn` (when `normal` just won't do).
 
-- `--split-objects`: generate split objects, which are switched off by default. Due to a GHC [ bug](https://ghc.haskell.org/trac/ghc/ticket/11315), you need a full clean rebuild when using this flag.
+- `--split-objects`: generate split objects, which are switched off by default. Due to a GHC [ bug](https://gitlab.haskell.org/ghc/ghc/issues/11315), you need a full clean rebuild when using this flag.
 
 - `--verbose`: run Hadrian in verbose mode. In particular this prints diagnostic messages by Shake oracles, useful when debugging hadrian.
 

@@ -1,7 +1,7 @@
 # Support for deriving `Functor`, `Foldable`, and `Traversable` instances
 
 
-GHC 6.12.1 introduces an extension to the `deriving` mechanism allowing for automatic derivation of `Functor`, `Foldable`, and `Traversable` instances using the `DeriveFunctor`, `DeriveFoldable`, and `DeriveTraversable` extensions, respectively. Twan van Laarhoven [ first proposed this feature](https://mail.haskell.org/pipermail/haskell-prime/2007-March/002137.html) in 2007, and [ opened a related GHC Trac ticket](https://ghc.haskell.org/trac/ghc/ticket/2953) in 2009.
+GHC 6.12.1 introduces an extension to the `deriving` mechanism allowing for automatic derivation of `Functor`, `Foldable`, and `Traversable` instances using the `DeriveFunctor`, `DeriveFoldable`, and `DeriveTraversable` extensions, respectively. Twan van Laarhoven [ first proposed this feature](https://mail.haskell.org/pipermail/haskell-prime/2007-March/002137.html) in 2007, and [opened a related GHC ticket](https://gitlab.haskell.org/ghc/ghc/ticket/2953) in 2009.
 
 ## Example
 
@@ -147,7 +147,7 @@ removes all such types from consideration.
 ```
 
 
-In addition to `foldr`, `DeriveFoldable` also generates a definition for `foldMap` as of GHC 7.8.1 (addressing [ \#7436](https://ghc.haskell.org/trac/ghc/ticket/7436)). The pseudo-definition for `$(foldMap)` would look something like this:
+In addition to `foldr`, `DeriveFoldable` also generates a definition for `foldMap` as of GHC 7.8.1 (addressing [ \#7436](https://gitlab.haskell.org/ghc/ghc/issues/7436)). The pseudo-definition for `$(foldMap)` would look something like this:
 
 ```wiki
   $(foldMap 'a 'b)         = \x -> mempty     -- when b does not contain a
@@ -370,12 +370,12 @@ dataHigherKinded f a whereHigherKinded:: f a ->HigherKinded f (f a)
 In this example, the last type variable is instantiated with `f a`, which contains one type variable `f` applied to another type variable `a`. We would *not* fold over the argument of type `f a` in this case, because the last type variable should be *simple*, i.e., contain only a single variable without any application.
 
 
-For the original discussion on this proposal, see [ \#10447](https://ghc.haskell.org/trac/ghc/ticket/10447).
+For the original discussion on this proposal, see [ \#10447](https://gitlab.haskell.org/ghc/ghc/issues/10447).
 
 ## Alternative strategy for deriving `Foldable` and `Traversable`
 
 
-We adapt the algorithms for `-XDeriveFoldable` and `-XDeriveTraversable` based on that of `-XDeriveFunctor`. However, there is an important difference between deriving the former two typeclasses and the latter one (as of GHC 8.2, addressing [ Trac \#11174](https://ghc.haskell.org/trac/ghc/ticket/11174)), which is best illustrated by the following scenario:
+We adapt the algorithms for `-XDeriveFoldable` and `-XDeriveTraversable` based on that of `-XDeriveFunctor`. However, there is an important difference between deriving the former two typeclasses and the latter one (as of GHC 8.2, addressing [ Trac \#11174](https://gitlab.haskell.org/ghc/ghc/issues/11174)), which is best illustrated by the following scenario:
 
 ```
 dataWithInt a =WithInt a Int#deriving(Functor,Foldable,Traversable)
@@ -403,7 +403,7 @@ instanceTraversableWithIntwhere
 
 This is unsatisfying for two reasons:
 
-1. The `Traversable` instance doesn't typecheck! `Int#` is of kind `#`, but `pure` expects an argument whose type is of kind `*`. This effectively prevents `Traversable` from being derived for any datatype with an unlifted argument type (see [ Trac \#11174](https://ghc.haskell.org/trac/ghc/ticket/11174)).
+1. The `Traversable` instance doesn't typecheck! `Int#` is of kind `#`, but `pure` expects an argument whose type is of kind `*`. This effectively prevents `Traversable` from being derived for any datatype with an unlifted argument type (see [ Trac \#11174](https://gitlab.haskell.org/ghc/ghc/issues/11174)).
 
 1. The generated code contains superfluous expressions. By the `Monoid` laws, we can reduce `f a <> mempty` to `f a`, and by the `Applicative` laws, we can reduce `fmap WithInt (f a) <*> pure i` to `fmap (\b -> WithInt b i) (f a)`.
 
@@ -467,7 +467,7 @@ fmap f (Bar a)=(\b ->Bar b)(fmap f a)
 There are more classes in `base` that we could derive!
 
 
-In particular, the `Bifunctor` class (born from the [ bifunctors](http://hackage.haskell.org/package/bifunctors) library) [ was added](https://ghc.haskell.org/trac/ghc/ticket/9682) to `base` in GHC 7.10, and the `Bifoldable` and `Bitraversable` classes (also from `bifunctors`) [ were added](https://ghc.haskell.org/trac/ghc/ticket/10448) to `base` in GHC 8.2. All three classes could be derived in much the same way as their cousins `Functor`, `Foldable`, and `Traversable`. The existing algorithms would simply need to be adapted to accommodate two type parameters instead of one. The [ Data.Bifunctor.TH](http://hackage.haskell.org/package/bifunctors-5.3/docs/Data-Bifunctor-TH.html) module from the `bifunctors` library demonstrates an implementation of the following proposal using Template Haskell.
+In particular, the `Bifunctor` class (born from the [ bifunctors](http://hackage.haskell.org/package/bifunctors) library) [ was added](https://gitlab.haskell.org/ghc/ghc/issues/9682) to `base` in GHC 7.10, and the `Bifoldable` and `Bitraversable` classes (also from `bifunctors`) [ were added](https://gitlab.haskell.org/ghc/ghc/issues/10448) to `base` in GHC 8.2. All three classes could be derived in much the same way as their cousins `Functor`, `Foldable`, and `Traversable`. The existing algorithms would simply need to be adapted to accommodate two type parameters instead of one. The [ Data.Bifunctor.TH](http://hackage.haskell.org/package/bifunctors-5.3/docs/Data-Bifunctor-TH.html) module from the `bifunctors` library demonstrates an implementation of the following proposal using Template Haskell.
 
 
 In GHC 8.0, higher-order versions of the `Eq`, `Ord`, `Read`, and `Show` typeclasses were added to `base` in the `Data.Functor.Classes` module (which originally lived in the `transformers` library). These classes are generalized to work over datatypes indexed by one type parameter (for `Eq1`, `Ord1`, `Read1`, and `Show1`) or by two type parameters (`Eq2`, `Ord2`, `Read2`, and `Show2`). Haskell programmers have been able to derive `Eq`, `Ord`, `Read`, and `Show` for a long time, so it wouldn't be hard at all to envision a deriving mechanism for `Eq1`, `Eq2`, and friends which takes advantage of tricks that `DeriveFunctor` uses. The [ deriving-compat](http://hackage.haskell.org/package/deriving-compat-0.3) library demonstrates proofs-of-concept for deriving [ Eq1/2](http://hackage.haskell.org/package/deriving-compat-0.3/docs/Data-Eq-Deriving.html), [ Ord1/2](http://hackage.haskell.org/package/deriving-compat-0.3/docs/Data-Ord-Deriving.html), [ Read1/2](http://hackage.haskell.org/package/deriving-compat-0.3/docs/Text-Read-Deriving.html), and [ Show1/2](http://hackage.haskell.org/package/deriving-compat-0.3/docs/Text-Show-Deriving.html) using Template Haskell.

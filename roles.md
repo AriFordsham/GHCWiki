@@ -297,7 +297,7 @@ Currently, the type constructors for all type families and data families all con
 ## Examples we cannot write today
 
 
-This example ([ courtesy of glguy](https://ghc.haskell.org/trac/ghc/ticket/8177#comment:32)) will not typecheck:
+This example ([ courtesy of glguy](https://gitlab.haskell.org/ghc/ghc/issues/8177#comment:32)) will not typecheck:
 
 ```
 -- | Family of N-ary operator types.typefamilyOp n a b whereOp'Z     a b = b
@@ -311,7 +311,7 @@ coerceOp= coerce
 Since the role signature for `Op` is `type role Op nominal nominal nominal`. But in an ideal world, the role signature for `Op` would be inferred as `type role Op nominal representational representational`. After all, neither `a` nor `b` is "scrutinized" in any sense, so it feels perfectly safe to coerce them freely. **RAE:** "feels"? Let's prove it! **End RAE**
 
 
-Another example ([ courtesy of int-index](https://ghc.haskell.org/trac/ghc/ticket/8177#comment:33)) is:
+Another example ([ courtesy of int-index](https://gitlab.haskell.org/ghc/ghc/issues/8177#comment:33)) is:
 
 ```
 -- represents effect methods for some monad `m`datafamilyEffDict(eff :: k)(m ::Type->Type)-- Note this matches on `eff`, not `m`dataStateEff s
@@ -324,7 +324,7 @@ datainstanceEffDict(StateEff s) m =StateDict{ _state :: forall a .(s ->(a,s))-> 
 Again, `coerceDict` will not typecheck due to the role of `m` in `EffDict` being `nominal`. But there's no good reason why this *must* be the case—we ought to be able to tell GHC to allow `m` to have `representational role`. (Of course, this would prevent any `EffDict` instance from using `m` at a `nominal` role, but them's the breaks.)
 
 
-Additionally, we might like to have roles for *associated* type families. For instance, consider this example ([ courtesy of dmcclean](https://ghc.haskell.org/trac/ghc/ticket/8177#comment:20)):
+Additionally, we might like to have roles for *associated* type families. For instance, consider this example ([ courtesy of dmcclean](https://gitlab.haskell.org/ghc/ghc/issues/8177#comment:20)):
 
 ```
 dataVariant=DQuantity|DUnitPrefixabilitydataDimensionclassKnownVariant(var ::Variant)wheredataDimensional var ::Dimension->*->*instanceKnownVariantDQuantitywherenewtypeDimensionalDQuantity d v =Quantity' v

@@ -96,7 +96,7 @@ Do such constraints just pile on extra junk?
 ### Strictness
 
 
-Unlike a true `newtype`, pattern matching on the constructor *must* force the contents to maintain type safety.  In particular, matching on the constructor reveals an existential and/or type information. As Dan Doel found, and pumpkin relayed in [ https://ghc.haskell.org/trac/ghc/ticket/1965\#comment:16](https://ghc.haskell.org/trac/ghc/ticket/1965#comment:16), we have to be careful not to reveal such information without forcing the evidence. Since we're using the newtype optimization, the evidence is in the contained field itself.
+Unlike a true `newtype`, pattern matching on the constructor *must* force the contents to maintain type safety.  In particular, matching on the constructor reveals an existential and/or type information. As Dan Doel found, and pumpkin relayed in [ https://gitlab.haskell.org/ghc/ghc/issues/1965\#comment:16](https://gitlab.haskell.org/ghc/ghc/issues/1965#comment:16), we have to be careful not to reveal such information without forcing the evidence. Since we're using the newtype optimization, the evidence is in the contained field itself.
 
 *SLPJ: I do not understand this paragraph.  Remember, we propose no change to the source language semantics*.
 

@@ -161,7 +161,7 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
  
 \[Builders\] [ https://ghc.haskell.org/trac/ghc/wiki/Builder](https://ghc.haskell.org/trac/ghc/wiki/Builder)
 
-\[HEAPALLOCED\] [ https://ghc.haskell.org/trac/ghc/ticket/8199](https://ghc.haskell.org/trac/ghc/ticket/8199)
+\[HEAPALLOCED\] [ https://gitlab.haskell.org/ghc/ghc/issues/8199](https://gitlab.haskell.org/ghc/ghc/issues/8199)
  
 \[RLIMITS\] [ http://ezyang.com/rlimits.html](http://ezyang.com/rlimits.html)
 

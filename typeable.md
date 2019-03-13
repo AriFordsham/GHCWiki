@@ -410,7 +410,7 @@ Implementing the "fast comparison" idea above will require putting more code in 
 ### What about structure information?
 
 
-Related but different issue: [ https://ghc.haskell.org/trac/ghc/ticket/7897](https://ghc.haskell.org/trac/ghc/ticket/7897)
+Related but different issue: [ https://gitlab.haskell.org/ghc/ghc/issues/7897](https://gitlab.haskell.org/ghc/ghc/issues/7897)
 
 ---
 

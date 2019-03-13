@@ -8,7 +8,7 @@
 The NoFib benchmark suite is a collection of (mostly old) Haskell programs that we use for benchmarking GHC. 
 
 
-Trac [\#5793](https://gitlab.haskell.org//ghc/ghc/issues/5793) is about improving NoFib.
+Issue #5793 is about improving NoFib.
 
 ## Prerequisites
 
@@ -159,7 +159,7 @@ To tweak things, add settings to your `mk/build.mk` (see [Commentary/SourceTree]
 
 
 It is often not necessary (or even useful) to do a full nofib run to assess performance changes. For example, you can tell whether compilation time has consistently increased by compiling a single file - a large one, and preferably not one of the perf tests 
-because those contain repeated patterns and aren't indicative of typical code.  You can use [nofib/spectral/simple/Main.hs](/trac/ghc/browser/ghc/nofib/spectral/simple/Main.hs) for this purpose.
+because those contain repeated patterns and aren't indicative of typical code.  You can use [nofib/spectral/simple/Main.hs](https://gitlab.haskell.org/ghc/nofib/blob/master/spectral/simple/Main.hs) for this purpose.
 
 ### Stability wrt. GC paramerisations
 
