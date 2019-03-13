@@ -6,7 +6,7 @@ This page collects some illustrative arguments. Here's the summary:
 
 Pro
 
-- Demand Analysis is a backwards analysis, CPR is a forward analysis. This notion of direction stems from the abstract evaluation of `case` expressions. See [Forward vs. Backward Analysis](#forward-vs-backward-analysis)
+- Demand Analysis is a backwards analysis, CPR is a forward analysis. This notion of direction stems from the order in which we analyse the parts of a `case` expression. Forward -> scrutinee first, Backward -> alts first. See [Forward vs. Backward Analysis](#forward-vs-backward-analysis)
 - Separation of concerns: Strictness/usage analysis is independent of CPR, while CPR relies on strictness info to be present. Makes you ask at every line of code "Is this relevant to CPR?" + Virgin run
 
 
