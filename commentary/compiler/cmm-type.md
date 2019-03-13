@@ -239,8 +239,9 @@ Like other high level assembly languages, all variables in C-- are machine regis
 
 C-- and Cmm hide the actual number of registers available on a particular machine by assuming an "infinite" supply of registers.  A backend, such as the NCG or C compiler on GHC, will later optimise the number of registers used and assign the Cmm variables to actual machine registers; the NCG temporarily stores any overflow in a small memory stack called the *spill stack*, while the C compiler relies on C's own runtime system.  Haskell handles Cmm registers with three data types: `LocalReg`, `GlobalReg` and `CmmReg`.  `LocalReg`s and `GlobalRegs` are collected together in a single `Cmm` data type:
 
-```
-dataCmmReg=CmmLocalLocalReg|CmmGlobalGlobalRegderiving(Eq)
+```haskell
+data CmmReg = CmmLocal LocalReg | CmmGlobal GlobalReg
+     deriving(Eq)
 ```
 
 #### Local Registers
@@ -248,8 +249,8 @@ dataCmmReg=CmmLocalLocalReg|CmmGlobalGlobalRegderiving(Eq)
 
 Local Registers exist within the scope of a Procedure:
 
-```
-dataLocalReg=LocalReg!UniqueMachRep
+```haskell
+data LocalReg = LocalReg !Unique MachRep
 ```
 
 
