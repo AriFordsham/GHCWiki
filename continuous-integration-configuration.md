@@ -47,7 +47,7 @@ check_interval = 0
 
 Also add a cron job to prune things:
 ```bash
-echo "@daily docker system prune -a" | sudo tee /etc/cron.d/docker-prune
+echo "@daily root docker volume prune -f" | sudo tee /etc/cron.d/docker-prune
 ```
 
 ## Job tags
