@@ -12,6 +12,8 @@ See:
 
 In comment:10 of [\#5059](https://gitlab.haskell.org/ghc/ghc/issues/5059), Max notes that SAT provides 20-30% wins in nofib, wow! 
 
+Also see #9374
+
 ## Tickets
 
 
