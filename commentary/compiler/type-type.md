@@ -23,7 +23,7 @@ Even when considering only types (not kinds, sorts, coercions) you need to know 
 
 - The "typechecker view" regards the type as a Haskell type, complete with implicit parameters, class constraints, and the like.  For example:
 
-  ```wiki
+  ```haskell
     forall a. (Eq a, ?x::Int) => a -> Int
   ```
 
@@ -31,7 +31,7 @@ Even when considering only types (not kinds, sorts, coercions) you need to know 
 
 - The "core view" regards the type as a Core-language type, where class and implicit parameter constraints are treated as function arguments:
 
-  ```wiki
+  ```haskell
     forall a. Eq a -> Int -> a -> Int
   ```
 
@@ -40,7 +40,7 @@ Even when considering only types (not kinds, sorts, coercions) you need to know 
 
 The data type `Type` represents type synonym applications in un-expanded form.  E.g.
 
-```wiki
+```haskell
 type T a = a -> a
 f :: T Int
 ```
@@ -51,7 +51,7 @@ Here `f`'s type doesn't look like a function type, but it really is.  The functi
 
 Now, other functions use `coreView` to expand where necessary, thus:
 
-```wiki
+```haskell
   splitFunTy_maybe :: Type -> Maybe (Type,Type)
   splitFunTy_maybe ty | Just ty' <- coreView ty = splitFunTy_maybe ty'
   splitFunTy_maybe (FunTy t1 t2) = Just (t1,t2)
@@ -61,7 +61,7 @@ Now, other functions use `coreView` to expand where necessary, thus:
 
 Notice the first line, which uses the view, and recurses when the view 'fires'.  Since `coreView` is non-recursive, GHC will inline it, and the optimiser will ultimately produce something like:
 
-```wiki
+```haskell
   splitFunTy_maybe :: Type -> Maybe (Type,Type)
   splitFunTy_maybe (PredTy p)    = splitFunTy_maybe (predTypeRep p)
   splitFunTy_maybe (NoteTy _ ty) = splitFunTy_maybe ty
@@ -74,7 +74,7 @@ Notice the first line, which uses the view, and recurses when the view 'fires'. 
 
 Here, then is the representation of types (see [compiler/types/TyCoRep.hs](/trac/ghc/browser/ghc/compiler/types/TyCoRep.hs) for more details):
 
-```wiki
+```haskell
 type TyVar = Var
 
 data Type = TyVarTy TyVar			-- Type variable
@@ -101,14 +101,14 @@ Type variables are represented by the `TyVar` constructor of the [data type Var]
 
 In Haskell we write 
 
-```wiki
+```haskell
 f :: forall a. Num a => a -> a
 ```
 
 
 but in Core the `=>` is represented by an ordinary `FunTy`. So f's type looks like this:
 
-```wiki
+```haskell
    ForAllTy a (TyConApp num [TyVarTy a] `FunTy` TyVarTy a `FunTy` TyVarTy a)
 where
    a   :: TyVar
@@ -118,14 +118,14 @@ where
 
 Nevertheless, we can tell when a function argument is actually a predicate (and hence should be displayed with `=>`, etc), using 
 
-```wiki
+```haskell
 isPredTy :: Type -> Bool
 ```
 
 
 The various forms of predicate can be extracted thus:
 
-```wiki
+```haskell
 classifyPredType :: Type -> PredTree
 
 data PredTree = ClassPred Class [Type]   -- Class predicates e.g. (Num a)
@@ -171,35 +171,35 @@ Some primitive types are unboxed, such as `Int#`, whereas some are boxed but unl
 Examples of type classifications:
 
 <table><tr><th></th>
-<th>**Primitive**</th>
-<th>**Boxed**</th>
-<th>**Lifted**</th>
-<th>**Algebraic**</th></tr>
-<tr><th>`Int#`</th>
+<th><em>Primitive</em></th>
+<th><em>Boxed</em></th>
+<th><em>Lifted</em></th>
+<th><em>Algebraic</em></th></tr>
+<tr><th><tt>Int#</tt></th>
 <th> Yes             </th>
 <th> No        </th>
 <th> No          </th>
 <th> No                
 </th></tr>
-<tr><th>`ByteArray#`</th>
+<tr><th><tt>ByteArray#</tt></th>
 <th> Yes             </th>
 <th> Yes        </th>
 <th> No          </th>
 <th> No                
 </th></tr>
-<tr><th>`(# a, b #)`</th>
+<tr><th><tt>(# a, b #)</tt></th>
 <th> Yes             </th>
 <th> No        </th>
 <th> No          </th>
 <th> Yes        
 </th></tr>
-<tr><th>`(  a, b  )`</th>
+<tr><th><tt>(  a, b  )</tt></th>
 <th> No             </th>
 <th> Yes        </th>
 <th> Yes          </th>
 <th> Yes        
 </th></tr>
-<tr><th>`[a]`</th>
+<tr><th><tt>[a]</tt></th>
 <th> No             </th>
 <th> Yes        </th>
 <th> Yes          </th>
