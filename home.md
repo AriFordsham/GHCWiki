@@ -19,9 +19,11 @@ done
 
 # Logging in
 
-If you had a Trac account then you likely already have a GitLab account as a result of the Trac import. This account will have a username of the form `trac-$TRAC_USERNAME`. Contact @bgamari with your email address to have a password reset email sent. Once you have gained access to this account you may change your username to remove the `trac-` prefix
+If you had a Trac account then you likely already have a GitLab account as a result of the Trac import. This account will have a username of the form `trac-$TRAC_USERNAME`. You can reset your password with the [Forgot your password?](https://gitlab.haskell.org/users/password/new) dialogue. Once you have gained access to this account you may change your username to remove the `trac-` prefix
 
 If you do not have a Trac account (or would prefer to start from scratch with a new account) you can [log in](https://gitlab.haskell.org/users/auth/github) using your GitHub account or [create](https://gitlab.haskell.org/users/sign_in) a new GitLab account.
+
+As a last resort, please contact @bgamari with your email address. 
 
 # Merge requests
 
