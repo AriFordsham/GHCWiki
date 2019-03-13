@@ -137,7 +137,7 @@ The basic idea is as follows:
 - Finally, GHC calls `tcPluginStop` after constraint solving is finished, allowing the plugin to dispose of any resources it has allocated (e.g. terminating the SMT solver process).
 
 
-The `Ct` type, representing constraints, is defined in [ TcRnTypes](https://ghc.haskell.org/trac/ghc/browser/ghc/compiler/typecheck/TcRnTypes.lhs#L932). A constraint is essentially a triple of a type (of kind `Constraint`, e.g. an equality or fully applied typeclass), an evidence term of that type (which will be a metavariable, for wanted constraints) and an original source location.
+The `Ct` type, representing constraints, is defined in [ TcRnTypes](https://gitlab.haskell.org/ghc/compiler/blob/master/typecheck/TcRnTypes.lhs#L932). A constraint is essentially a triple of a type (of kind `Constraint`, e.g. an equality or fully applied typeclass), an evidence term of that type (which will be a metavariable, for wanted constraints) and an original source location.
 
 
 Plugin code runs in the `TcPluginM` monad defined in `TcRnTypes` as a wrapper around `TcM` (and hence around `IO`). Eventually the `TcPluginM` monad will supply wrappers for `TcM` functions that are appropriate for use in a plugin. Initially, plugins will need to rely on `unsafeTcPluginTcM :: TcM a -> TcPluginM a` if a wrapper is not available.
