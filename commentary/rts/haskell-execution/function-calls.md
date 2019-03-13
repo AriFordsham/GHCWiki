@@ -11,7 +11,7 @@ First, we need some terminology:
 
 - The **arity** of a function is the number of lambdas statically used in [the lambda-form of its definition](commentary/compiler/stg-syn-type).  Note that arity is not deducible from the type.  Example:
 
-  ```wiki
+  ```haskell
   f :: Bool -> Bool -> Bool
   f = \x -> case x of 
                  True  -> not
