@@ -11,12 +11,12 @@ question is never too silly to ask.
 
 The path to a successful merge request looks like this:
 
-- Installing Prerequisites
-- Getting The Code
-- Building GHC
-- Finding a task to work on
-- Working with the code
-- Submitting Your Code
+- [Installing Prerequisites](#installing-prerequisites)
+- [Getting The Code](#getting-the-code)
+- [Building GHC](#building-ghc)
+- [Finding a task to work on](#finding-a-task-to-work-on)
+- [Working with the code](#working-with-the-code)
+- [Submitting Your Code](#submitting-your-code)
 
 ## Installing Prerequisites
 
