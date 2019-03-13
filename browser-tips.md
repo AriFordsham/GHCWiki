@@ -12,7 +12,7 @@ Add a new bookmark/entry, with
 
 ```wiki
 Name: [#] GHC ticket
-Location/URL: http://ghc.haskell.org/trac/ghc/ticket/%s
+Location/URL: https://gitlab.haskell.org/ghc/ghc/issues/%s
 Keyword: #
 ```
 
@@ -27,13 +27,18 @@ Add a new bookmark/entry, with
 
 ```wiki
 Name: [t] GHC ticket search
-Location/URL: http://www.google.com/search?q=%s site:ghc.haskell.org/trac/ghc/ticket
+Location/URL: https://gitlab.haskell.org/ghc/ghc/issues?scope=all&utf8=%E2%9C%93&state=opened&search=%s
 Keyword: t
 ```
 
+Now typing `t <query>` into the title bar jumps directly to GitLab's issue
+search.
 
-Now typing `t <query>` into the title bar searches the GHC ticket
-database using Google, which is much faster than Trac's search.
+Alternatively, you can use Google to perform the search:
+
+```
+Location/URL: https://www.google.com/search?q=%s site:gitlab.haskell.org/ghc/ghc/issues
+```
 
 ## Searching the wiki
 
@@ -42,7 +47,7 @@ Add a new bookmark/entry, with
 
 ```wiki
 Name: [w] GHC wiki search
-Location/URL: http://www.google.com/search?q=%s site:ghc.haskell.org/trac/ghc/wiki
+Location/URL: http://www.google.com/search?q=%s site:gitlab.haskell.org/ghc/ghc/wikis
 Keyword: w
 ```
 

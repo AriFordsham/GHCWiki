@@ -116,7 +116,7 @@ and lead to further optimisation.  Example:
 These kind of code snippets are extremely helpful to illustrate the point in a
 concrete way.  Other ways of making the comment concrete are:
 
-- Cite a particular Trac ticket that this bit of code deals with
+- Cite a particular ticket that this bit of code deals with
 - Cite a test case in the test suite that illustrates it
 
 ### Longer comments or architectural commentary
@@ -206,7 +206,7 @@ List imports in the following order:
   ```
 
 
-Import library modules from the [boot packages](commentary/libraries) only (boot packages are those packages in the file [packages](/trac/ghc/browser/packages)[](/trac/ghc/export/HEAD/ghc/packages) that have a '-' in the "tag" column). Use `#defines `in `HsVersions.h` when the modules names differ between versions of GHC.  For code inside `#ifdef GHCI`, don't worry about GHC versioning issues, because this code is only ever compiled by the this very version of GHC.
+Import library modules from the [boot packages](commentary/libraries) only (boot packages are those packages in the file [packages](/ghc/ghc/blob/master/packages) that have a '-' in the "tag" column). Use `#defines `in `HsVersions.h` when the modules names differ between versions of GHC.  For code inside `#ifdef GHCI`, don't worry about GHC versioning issues, because this code is only ever compiled by the this very version of GHC.
 
 **Do not use explicit import lists**, except to resolve name clashes.  There are several reasons for this:
 

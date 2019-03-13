@@ -13,7 +13,7 @@ This is for non-.NET platforms, since .NET uses
 
 I should warn the reader that I, in writing this piece, am a rank
 amateur in many of the involved issues, including working with the
-GHC compiler, darcs, and trac. Hence, I will often digress in various
+GHC compiler, git, and gitlab. Hence, I will often digress in various
 directions, reflecting that this is a learning experience for me.
 
 ## Why do I want to add new primitive operations to GHC Haskell?
