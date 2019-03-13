@@ -143,30 +143,29 @@ These functions are defined in module `Type`.
 
 GHC uses the following nomenclature for types:
 
-<table><tr><th>**Unboxed**</th>
-<td>A type is unboxed iff its representation is other than a pointer. Unboxed types are also unlifted.
-</td></tr></table>
+<dl>
+<dt>Unboxed</dt>
+<dd>A type is unboxed iff its representation is other than a pointer. Unboxed types are also unlifted.</dd>
 
-<table><tr><th>**Lifted**</th>
-<td>A type is lifted iff it has bottom as an element. Closures always have lifted types:  i.e. any let-bound identifier in Core must have a lifted type.  Operationally, a lifted object is one that can be entered. Only lifted types may be unified with a type variable.
-</td></tr></table>
+<dt>Lifted</dt>
+<dd>A type is lifted iff it has bottom as an element. Closures always have lifted types:  i.e. any let-bound identifier in Core must have a lifted type.  Operationally, a lifted object is one that can be entered. Only lifted types may be unified with a type variable.</dd>
 
-<table><tr><th>**Data**</th>
-<td>A type declared with **`data`**.  Also boxed tuples.
-</td></tr></table>
+<dt>Data</dt>
+<dd>A type declared with **`data`**.  Also boxed tuples.</dd>
 
-<table><tr><th>**Algebraic**</th>
-<td>An algebraic data type is a data type with one or more constructors, whether declared with `data` or `newtype`.   An algebraic type is one that can be deconstructed        with a case expression.  "Algebraic" is **NOT** the same as "lifted",  because unboxed (and thus unlifted) tuples count as "algebraic".
-</td></tr></table>
+<dt>Algebraic</dt>
+<dd>An algebraic data type is a data type with one or more constructors, whether declared with `data` or `newtype`.   An algebraic type is one that can be deconstructed        with a case expression.  "Algebraic" is **NOT** the same as "lifted",  because unboxed (and thus unlifted) tuples count as "algebraic".</dd>
 
-<table><tr><th>**Primitive**</th>
-<td>a type is primitive iff it is a built-in type that can't be expressed        in Haskell.
+<dt>Primitive</dt>
+<dd>a type is primitive iff it is a built-in type that can't be expressed in Haskell.
   
-Currently, all primitive types are unlifted, but that's not necessarily the case.  (E.g. Int could be primitive.)
-</td></tr></table>
+Currently, all primitive types are unlifted, but that's not necessarily the case.  (E.g. Int could be primitive.)</dd>
+</dl>
 
->
-> Some primitive types are unboxed, such as Int\#, whereas some are boxed but unlifted (such as `ByteArray#`).  The only primitive types that we classify as algebraic are the unboxed tuples.
+
+
+
+Some primitive types are unboxed, such as `Int#`, whereas some are boxed but unlifted (such as `ByteArray#`).  The only primitive types that we classify as algebraic are the unboxed tuples.
 
 
 Examples of type classifications:
