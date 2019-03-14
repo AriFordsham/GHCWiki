@@ -55,7 +55,7 @@ for something, add your email to the CC field of the ticket.
 
 
 Several of these tickets would make good tasks for a fledgling GHC 
-hacker.  e.g.  [http://hackage.haskell.org/trac/ghc/ticket/2362](http://hackage.haskell.org/trac/ghc/ticket/2362) (allow 
+hacker.  e.g.  [https://gitlab.haskell.org/ghc/ghc/issues/2362](https://gitlab.haskell.org/ghc/ghc/issues/2362) (allow 
 full import syntax in GHCi) has a lot of support, and is a nice 
 self-contained task (but not a small one).
 

@@ -45,7 +45,7 @@ If `integer-simple` is indeed fast enough, then I think that it solves all of th
 ### Introduction
 
 
-This task was started following [Task \#601](http://hackage.haskell.org/trac/ghc/ticket/601), while these Notes were requested by [Simon Peyton-Jones](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010676.html).
+This task was started following [Task \#601](https://gitlab.haskell.org/ghc/ghc/issues/601), while these Notes were requested by [Simon Peyton-Jones](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010676.html).
 
 
 GHC currently implements the Integer and Fractional types by using the [The GNU MP Bignum Library](http://swox.com/gmp/) (GMP) which supports arbitrary precision mathematical calculations.  GMP is fast, memory efficient, and offers many high level signed integer functions (140 of them), as well as many rational and floating point arithmetic functions.  The current GHC implementation only uses those functions necessary for the Prelude.  
@@ -90,7 +90,7 @@ There are several problems with the current GMP implementation:
 1. Memory Structure; Simultaneous Access to GMP by Foreign (C) code in the Same Binary
 
 >
-> In the current GMP implementation, GMP is configured to use GHC's GC memory and GMP can only have one allocator for memory.  Since any single binary containing Haskell code compiled with GHC contains the RTS and GMP, C code--including foreign calls to GMP from Haskell code (say you need a GMP function that is not a primitive)--in the same binary cannot use GMP.  This problem was noted in [bug Ticket \#311](http://hackage.haskell.org/trac/ghc/ticket/311).  The Simon Peyton-Jones suggested that a simple renaming of GHC-GMP functions would solve this problem and Bulat Ziganshin suggested simply using an automated tool to do this.  See [Replacement for GMP](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010679.html).  Different function names would make GMP into a separate, custom GHC library leaving the C part of the program free to use GMP.
+> In the current GMP implementation, GMP is configured to use GHC's GC memory and GMP can only have one allocator for memory.  Since any single binary containing Haskell code compiled with GHC contains the RTS and GMP, C code--including foreign calls to GMP from Haskell code (say you need a GMP function that is not a primitive)--in the same binary cannot use GMP.  This problem was noted in [bug Ticket \#311](https://gitlab.haskell.org/ghc/ghc/issues/311).  The Simon Peyton-Jones suggested that a simple renaming of GHC-GMP functions would solve this problem and Bulat Ziganshin suggested simply using an automated tool to do this.  See [Replacement for GMP](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010679.html).  Different function names would make GMP into a separate, custom GHC library leaving the C part of the program free to use GMP.
 
 >
 > GHC does not have a custom-modified version of GMP (in fact, GHC uses the system build of GMP if that is available).  The memory configuration of GMP uses GMP's [Custom Allocation](http://swox.com/gmp/manual/Custom-Allocation.html#Custom-Allocation) routines.  Alternative libraries may not have this facility built in.

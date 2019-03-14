@@ -275,7 +275,7 @@ The steps to be undertaken are:
 1. Modify ./compiler/codeGen/CgPrimOp.hs, code for each primop (above) must be added to complete the primop addition.
 
   1. The code, basically, links the primops to the Cmm MachOps (that, in turn, are read by the code generators)
-  1. It looks like some Cmm extensions will have to be added to ensure alignment and pass vectorization information onto the back ends, the necessary MachOps will be determined after the first vertical stack is completed (using the "Double" as a model).  There may be some reuse from the existing MachOps.  There is some discussion to these extensions (or similar ones) on the original [Patch 3557 Documentation](http://hackage.haskell.org/trac/ghc/ticket/3557)
+  1. It looks like some Cmm extensions will have to be added to ensure alignment and pass vectorization information onto the back ends, the necessary MachOps will be determined after the first vertical stack is completed (using the "Double" as a model).  There may be some reuse from the existing MachOps.  There is some discussion to these extensions (or similar ones) on the original [Patch 3557 Documentation](https://gitlab.haskell.org/ghc/ghc/issues/3557)
 
 
 Example of modification to ./compiler/prelude/primops.txt.pp to add one of the additional Float operations:

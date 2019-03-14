@@ -40,10 +40,10 @@ A couple of people have asked about this
 - [Commentary/Compiler/GenericDeriving\#Digression](Commentary/Compiler/GenericDeriving#Digression)
 - [http://www.reddit.com/r/haskell/comments/u7oxb/is_it_possible_to_datakindlift_a_data_family/](http://www.reddit.com/r/haskell/comments/u7oxb/is_it_possible_to_datakindlift_a_data_family/)
 
-## [\#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) (proper handling of infix promoted constructors)
+## [\#5682](https://gitlab.haskell.org/ghc/ghc/issues/5682) (proper handling of infix promoted constructors)
 
 
-Bug report [\#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) shows a
+Bug report [\#5682](https://gitlab.haskell.org/ghc/ghc/issues/5682) shows a
 problem in parsing promoted infix datatypes.
 
 **Future work:** handle kind operators properly in the parser.

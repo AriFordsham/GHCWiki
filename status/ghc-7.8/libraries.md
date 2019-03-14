@@ -298,7 +298,7 @@ Common tasks:
 - TODO Deprecated functions since at least GHC 7.4:
 
   ```
-  moduleControl.Concurrent.Chan{-# DEPRECATED unGetChan "if you need this operation, use Control.Concurrent.STM.TChan instead.  See http://hackage.haskell.org/trac/ghc/ticket/4154 for details" #-}-- deprecated in 7.0{-# DEPRECATED isEmptyChan "if you need this operation, use Control.Concurrent.STM.TChan instead. See http://hackage.haskell.org/trac/ghc/ticket/4154 for details" #-}-- deprecated in 7.0moduleData.Typeable.Internal{-# DEPRECATED tyConString "renamed to tyConName; tyConModule and tyConPackage are also available." #-}-- deprecated in 7.4moduleDebug.Trace{-# DEPRECATED putTraceMsg "Use Debug.Trace.traceIO" #-}-- deprecated in 7.4moduleGHC.Exts{-# DEPRECATED traceEvent "Use Debug.Trace.traceEvent or Debug.Trace.traceEventIO" #-}-- deprecated in 7.4
+  moduleControl.Concurrent.Chan{-# DEPRECATED unGetChan "if you need this operation, use Control.Concurrent.STM.TChan instead.  See https://gitlab.haskell.org/ghc/ghc/issues/4154 for details" #-}-- deprecated in 7.0{-# DEPRECATED isEmptyChan "if you need this operation, use Control.Concurrent.STM.TChan instead. See https://gitlab.haskell.org/ghc/ghc/issues/4154 for details" #-}-- deprecated in 7.0moduleData.Typeable.Internal{-# DEPRECATED tyConString "renamed to tyConName; tyConModule and tyConPackage are also available." #-}-- deprecated in 7.4moduleDebug.Trace{-# DEPRECATED putTraceMsg "Use Debug.Trace.traceIO" #-}-- deprecated in 7.4moduleGHC.Exts{-# DEPRECATED traceEvent "Use Debug.Trace.traceEvent or Debug.Trace.traceEventIO" #-}-- deprecated in 7.4
   ```
 
 - TODO upload a non-candidate to hackage at latest when GHC 7.8.1 is released
