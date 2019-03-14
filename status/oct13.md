@@ -139,26 +139,26 @@ As ever, there is a ton of stuff in the future for us to do. If you want somethi
 # References
 
 
-\[CTF-wiki\] Closed type families with overlapping equations - [http://ghc.haskell.org/trac/ghc/wiki/NewAxioms](http://ghc.haskell.org/trac/ghc/wiki/NewAxioms)
+\[CTF-wiki\] Closed type families with overlapping equations - [https://gitlab.haskell.org/trac/ghc/wiki/NewAxioms](https://gitlab.haskell.org/trac/ghc/wiki/NewAxioms)
 
 \[CTF-paper\] Closed type families with overlapping equations, Richard Eisenberg, Dimitrios Vytiniotis, Simon Peyton Jones, Stephanie Weirich, POPL 2014 - [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
 
-\[KD\] Kinds without Data - [http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
+\[KD\] Kinds without Data - [https://gitlab.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](https://gitlab.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
 
 \[NewTH1\] Runtime codegen with typed Template Haskell - [http://gmainland.blogspot.com/2013/05/type-safe-runtime-code-generation-with.html](http://gmainland.blogspot.com/2013/05/type-safe-runtime-code-generation-with.html)
 
-\[NewTH2\] Major proposed Template Haskell revision - [http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges)
+\[NewTH2\] Major proposed Template Haskell revision - [https://gitlab.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](https://gitlab.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges)
 
-\[NTC\] Newtype wrappers - [http://ghc.haskell.org/trac/ghc/wiki/NewtypeWrappers](http://ghc.haskell.org/trac/ghc/wiki/NewtypeWrappers)
+\[NTC\] Newtype wrappers - [https://gitlab.haskell.org/trac/ghc/wiki/NewtypeWrappers](https://gitlab.haskell.org/trac/ghc/wiki/NewtypeWrappers)
 
-\[[PrimBool](prim-bool)\] New comparison primitives - [http://ghc.haskell.org/trac/ghc/wiki/PrimBool](http://ghc.haskell.org/trac/ghc/wiki/PrimBool)
+\[[PrimBool](prim-bool)\] New comparison primitives - [https://gitlab.haskell.org/trac/ghc/wiki/PrimBool](https://gitlab.haskell.org/trac/ghc/wiki/PrimBool)
 
-\[ORF\] Overloaded record fields - [http://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/Plan](http://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/Plan)
+\[ORF\] Overloaded record fields - [https://gitlab.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/Plan](https://gitlab.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/Plan)
 
-\[PS\] Pattern synonyms - [http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms](http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms)
+\[PS\] Pattern synonyms - [https://gitlab.haskell.org/trac/ghc/wiki/PatternSynonyms](https://gitlab.haskell.org/trac/ghc/wiki/PatternSynonyms)
 
-\[Roles-wiki\] Roles - [http://ghc.haskell.org/trac/ghc/wiki/Roles](http://ghc.haskell.org/trac/ghc/wiki/Roles)
+\[Roles-wiki\] Roles - [https://gitlab.haskell.org/trac/ghc/wiki/Roles](https://gitlab.haskell.org/trac/ghc/wiki/Roles)
 
 \[Roles-paper\] Generative Type Abstraction and Type-level Computation, Stephanie Wirich, Dimitrios Vytiniotis, Simon Peyton Jones, and Steve Zdancewic, POPL 2011 - [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
 
-\[TA\] Explicit type application - [http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication](http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication)
+\[TA\] Explicit type application - [https://gitlab.haskell.org/trac/ghc/wiki/ExplicitTypeApplication](https://gitlab.haskell.org/trac/ghc/wiki/ExplicitTypeApplication)

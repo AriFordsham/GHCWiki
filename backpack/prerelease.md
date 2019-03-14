@@ -1,6 +1,6 @@
 # Backpack pre-release
 
-**This page is out of date; Backpack is released in GHC 8.2! See [https://ghc.haskell.org/trac/ghc/wiki/Backpack](https://ghc.haskell.org/trac/ghc/wiki/Backpack)**
+**This page is out of date; Backpack is released in GHC 8.2! See [https://gitlab.haskell.org/trac/ghc/wiki/Backpack](https://gitlab.haskell.org/trac/ghc/wiki/Backpack)**
 
 
 If you would like to try out our new Backpack support in GHC, we invite you to download and install a pre-release version of GHC with various Backpack: [http://web.stanford.edu/\~ezyang/backpack/](http://web.stanford.edu/~ezyang/backpack/) You can build the sources using  the instructions in [Building/QuickStart](building/quick-start), and there are also some binary distributions available.

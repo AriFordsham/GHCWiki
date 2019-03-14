@@ -25,7 +25,7 @@ Send pull requests to [https://github.com/gregwebs/ghc-docker-dev](https://githu
 ## Fedora
 
 
-Install the [required tools](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools) using the following command for Fedora 22 and later (for earlier versions of Fedora, use `yum` instead of `dnf`):
+Install the [required tools](https://gitlab.haskell.org/trac/ghc/wiki/Building/Preparation/Tools) using the following command for Fedora 22 and later (for earlier versions of Fedora, use `yum` instead of `dnf`):
 
 ```wiki
    sudo dnf install glibc-devel ncurses-devel gmp-devel autoconf automake libtool gcc gcc-c++ make perl python ghc happy alex git
@@ -121,7 +121,7 @@ For [validating patches](testing-patches) :
 ## Arch
 
 
-Install the [required tools](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools):
+Install the [required tools](https://gitlab.haskell.org/trac/ghc/wiki/Building/Preparation/Tools):
 
 ```wiki
    sudo pacman -S ghc ghc-static perl gcc make happy alex cabal-install autoconf automake python python-sphinx libedit numactl

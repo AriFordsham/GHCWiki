@@ -30,7 +30,7 @@ TH, being a GHC extension and potentially unsafe, and also allowing arbitrary IO
 See for example [SO: Why does Template Haskell allow arbitrary IO operations during compilation?](http://stackoverflow.com/questions/13785753/why-does-template-haskell-allow-arbitrary-io-operations-during-compilation) and [SO: What's so bad about Template Haskell?](http://stackoverflow.com/questions/10857030/whats-so-bad-about-template-haskell)
 
 
-Here is a blog entry that takes this critique into account with a [Major proposed revision of Template Haskell](https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges), which is the evolution of [New directions for Template Haskell](https://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal).
+Here is a blog entry that takes this critique into account with a [Major proposed revision of Template Haskell](https://gitlab.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges), which is the evolution of [New directions for Template Haskell](https://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal).
 
 
 Yesod, is probably one of the more prominent larger users of TH and Michael Snoyman has layed out the reasoning here: [http://www.yesodweb.com/blog/2011/04/yesod-template-haskell](http://www.yesodweb.com/blog/2011/04/yesod-template-haskell)

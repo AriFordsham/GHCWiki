@@ -163,7 +163,7 @@ set -xl MACOSX_DEPLOYMENT_TARGET 10.7
 
 
 See the Linux page for instructions on running Docker
-[https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Linux\#Docker](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Linux#Docker)
+[https://gitlab.haskell.org/trac/ghc/wiki/Building/Preparation/Linux\#Docker](https://gitlab.haskell.org/trac/ghc/wiki/Building/Preparation/Linux#Docker)
 
 ## VMWare / Virtualbox
 

@@ -27,7 +27,7 @@ there are a few new features which will likely appear,
 - **Indexed `Typeable` representations**. While GHC has long supported runtime type reflection through the `Typeable` typeclass, its current incarnation requires care to use, providing little in the way of type-safety. For this reason the implementation of types like `Data.Dynamic` must be implemented in terms of `unsafeCoerce` with no compiler verification.
 
 >
-> GHC 8.2 will address this by introducing [indexed type representations](typeable), leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/) for an description of the proposal and the [Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for the current status of the implementation.
+> GHC 8.2 will address this by introducing [indexed type representations](typeable), leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/) for an description of the proposal and the [Wiki](https://gitlab.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for the current status of the implementation.
 
 - **Backpack**: Backpack has merged with GHC, Cabal and cabal-install, allowing you to write libraries which are parametrized by signatures, letting users decide how to instantiate them at a later point in time. If you want to just play around with the signature language, there is a new major mode `ghc --backpack`; at the Cabal syntax level, there are two new fields `signatures` and `mixins` which permit you to define parametrized packages, and instantiate them in a flexible way. More details are on the [Backpack wiki page](backpack).
 
@@ -35,7 +35,7 @@ there are a few new features which will likely appear,
 
 - **New `base` classes**: The `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base` library.
 
-- **Unboxed sums**: GHC 8.2 has a new language extension, `UnboxedSums`, that enables unboxed representation for non-recursive sum types. GHC 8.2 doesn't use unboxed sums automatically, but the extension comes with new syntax, so users can manually unpack sums. More details can be found in [the wiki page](https://ghc.haskell.org/trac/ghc/wiki/UnpackedSumTypes).
+- **Unboxed sums**: GHC 8.2 has a new language extension, `UnboxedSums`, that enables unboxed representation for non-recursive sum types. GHC 8.2 doesn't use unboxed sums automatically, but the extension comes with new syntax, so users can manually unpack sums. More details can be found in [the wiki page](https://gitlab.haskell.org/trac/ghc/wiki/UnpackedSumTypes).
 
 ## Runtime system
 
@@ -46,7 +46,7 @@ there are a few new features which will likely appear,
 - **More robust DWARF output**: GHC's support for DWARF debugging information has been gradually stabilizing over the last few releases. While GHC 8.0 was a significant improvement over 7.10, a number of infelicities in the implementation rendered it unsafe for production use. GHC 8.2 will hopefully be the first release where DWARF debugging can be considered stable.
 
 >
-> With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [DWARF status page](https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status) for futher information.
+> With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [DWARF status page](https://gitlab.haskell.org/trac/ghc/wiki/DWARF/80Status) for futher information.
 
 - **Better support for NUMA machines**: Machines with non-uniform memory access costs are becoming more and more common as core counts continue to increase. The runtime system is now better equipped to efficiently run on such systems.
 

@@ -63,12 +63,12 @@ However, we still need help with it all. GHC is a community project, and as you 
 
 \[AMP\] [https://github.com/quchen/articles/blob/master/applicative_monad.md](https://github.com/quchen/articles/blob/master/applicative_monad.md)
  
-\[ORF\] [https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields](https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields)
+\[ORF\] [https://gitlab.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields](https://gitlab.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields)
 
 \[FC\] System FC with Explicit Kind Equality - [http://www.seas.upenn.edu/\~eir/papers/2013/fckinds/fckinds-extended.pdf](http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf)
 
-\[PTS\] [https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
+\[PTS\] [https://gitlab.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://gitlab.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
 
 \[HEAPALLOCED\] [https://gitlab.haskell.org/ghc/ghc/issues/8199](https://gitlab.haskell.org/ghc/ghc/issues/8199)
 
-\[PHAB\] [https://ghc.haskell.org/trac/ghc/wiki/Phabricator](https://ghc.haskell.org/trac/ghc/wiki/Phabricator)
+\[PHAB\] [https://gitlab.haskell.org/trac/ghc/wiki/Phabricator](https://gitlab.haskell.org/trac/ghc/wiki/Phabricator)
