@@ -610,9 +610,9 @@ In short, I still think there is a useful extra static guarantee that we could g
 
 The following links are to discussions of similar topics:
 
-- [http://hackage.haskell.org/trac/ghc/ticket/1380](http://hackage.haskell.org/trac/ghc/ticket/1380)
+- [https://gitlab.haskell.org/ghc/ghc/issues/1380](https://gitlab.haskell.org/ghc/ghc/issues/1380)
 
-- [http://hackage.haskell.org/trac/ghc/ticket/1338\#comment:29](http://hackage.haskell.org/trac/ghc/ticket/1338#comment:29)
+- [https://gitlab.haskell.org/ghc/ghc/issues/1338\#comment:29](https://gitlab.haskell.org/ghc/ghc/issues/1338#comment:29)
 
 - [http://hackage.haskell.org/package/jail](http://hackage.haskell.org/package/jail)
 

@@ -47,7 +47,7 @@ A couple of people have asked about this
 ## [\#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) (proper handling of infix promoted constructors)
 
 
-Bug report [\#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) shows a
+Bug report [\#5682](https://gitlab.haskell.org/ghc/ghc/issues/5682) shows a
 problem in parsing promoted infix datatypes.
 
 **Future work:** handle kind operators properly in the parser.

@@ -173,7 +173,7 @@ literals benefit from statically allocated compact representation).
 Somewhat related discussions:
 
 ```wiki
-http://hackage.haskell.org/trac/ghc/ticket/5218
+https://gitlab.haskell.org/ghc/ghc/issues/5218
 http://www.serpentine.com/blog/2012/09/12/the-case-of-the-mysterious-explosion-in-space/
 http://www.mail-archive.com/haskell-cafe@haskell.org/msg101412.html
 ```

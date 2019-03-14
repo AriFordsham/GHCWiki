@@ -95,7 +95,7 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 - Can we improve the homeomorphic embedding so that append xs xs is not embedded in append xs ys? **Done**
 
-- [http://hackage.haskell.org/trac/ghc/ticket/2598](http://hackage.haskell.org/trac/ghc/ticket/2598)
+- [https://gitlab.haskell.org/ghc/ghc/issues/2598](https://gitlab.haskell.org/ghc/ghc/issues/2598)
 
 ## Current status
 

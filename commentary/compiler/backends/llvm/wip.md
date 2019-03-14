@@ -76,4 +76,4 @@ It would be nice to get rid of proc point splitting. This is one of the goals fo
 At the moment in the LLVM backend we always pass around the pinned STG registers as arguments for every Cmm function. A huge amount of the time though we aren't storing anything in the STG registers, they are dead really. If we can treat the correctly as dead then LLVM will have more free registers and the allocator should do a better job. We need to change the STG -\> Cmm code generator to attach register liveness information at function exit points (e.g calls, jumps, returns).
 
 
-e.g This [bug (\#4308)](http://hackage.haskell.org/trac/ghc/ticket/4308) is as a result of this problem.
+e.g This [bug (\#4308)](https://gitlab.haskell.org/ghc/ghc/issues/4308) is as a result of this problem.
