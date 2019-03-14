@@ -108,7 +108,7 @@ The `Location` type is abstract, but has functions to:
 ## Implementation Details
 
 
-These notes are based on the updated implementation at [ https://phabricator.haskell.org/D1422](https://phabricator.haskell.org/D1422). 
+These notes are based on the updated implementation at [https://phabricator.haskell.org/D1422](https://phabricator.haskell.org/D1422). 
 
 - The major difference between the current implementation and the initial proposal is in the handling of bare occurrences of `?location :: Location`. Instead of solving such occurrences for the current source location, we treat them as regular implicit parameters and resolve them to the binding in the context (if there is no binder we default the occurrence to the empty call-stack). Constraints that arise from a function call are solved as above, by pushing the current call-site onto the stack in the context.
 
@@ -145,7 +145,7 @@ These notes are based on the updated implementation at [ https://phabricator.has
 ## Extension: Grooming the CallStack
 
 
-Joachim Breitner suggests in [ https://gitlab.haskell.org/ghc/ghc/issues/11049](https://gitlab.haskell.org/ghc/ghc/issues/11049) that it would be nice to allow users to hide portions of the CallStack that correspond to internal library modules, presenting only the portions that the author deems "interesting". Following is Joachim's description of the extension.
+Joachim Breitner suggests in [https://gitlab.haskell.org/ghc/ghc/issues/11049](https://gitlab.haskell.org/ghc/ghc/issues/11049) that it would be nice to allow users to hide portions of the CallStack that correspond to internal library modules, presenting only the portions that the author deems "interesting". Following is Joachim's description of the extension.
 
 ---
 
@@ -322,7 +322,7 @@ freeze the CallStack, so the push from `do_this` is ignored.
 # Alternate Proposal
 
 
-Richard E asks on [ ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2016-January/011068.html) why we use ImplicitParams instead of a nullary type class. Indeed, the name of the implicit parameter is not strictly necessary, in `base` we use `?callStack` as a convention to ensure the callstacks are propagated correctly. So why use ImplicitParams at all, instead we could write
+Richard E asks on [ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2016-January/011068.html) why we use ImplicitParams instead of a nullary type class. Indeed, the name of the implicit parameter is not strictly necessary, in `base` we use `?callStack` as a convention to ensure the callstacks are propagated correctly. So why use ImplicitParams at all, instead we could write
 
 ```wiki
 undefined :: AppendsCallStack => a

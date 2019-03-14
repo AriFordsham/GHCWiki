@@ -13,7 +13,7 @@ This is achieved is as follows: an import is unused if it can be deleted without
 
 ## Motivation
 
-[ Snoyman reports](http://www.yesodweb.com/blog/2016/05/are-unused-import-warnings-harmful) (with [ reddit discussion](https://www.reddit.com/r/haskell/comments/4jvtmh/are_unused_import_warnings_harmful/)) a common CPP anti-pattern in cross-GHC code:
+[Snoyman reports](http://www.yesodweb.com/blog/2016/05/are-unused-import-warnings-harmful) (with [reddit discussion](https://www.reddit.com/r/haskell/comments/4jvtmh/are_unused_import_warnings_harmful/)) a common CPP anti-pattern in cross-GHC code:
 
 ```wiki
 #if MIN_VERSION_base(4,8,0)

@@ -3,8 +3,8 @@
 
 Here's a summary of words you will see while working on GHC on Windows. Some other helpful background can be found on
 
-- the [ How does msys2 differ from Cygwin](https://github.com/msys2/msys2/wiki/How-does-MSYS2-differ-from-Cygwin) article on the msys2 wiki.
-- This [ Stack Overflow question](http://stackoverflow.com/questions/25019057/how-are-msys-msys2-and-msysgit-related-to-each-other) discussing the relationship between msys and msys2
+- the [How does msys2 differ from Cygwin](https://github.com/msys2/msys2/wiki/How-does-MSYS2-differ-from-Cygwin) article on the msys2 wiki.
+- This [Stack Overflow question](http://stackoverflow.com/questions/25019057/how-are-msys-msys2-and-msysgit-related-to-each-other) discussing the relationship between msys and msys2
 
 
 Good luck.
@@ -25,7 +25,7 @@ Good luck.
 The **msys2 distribution** is built upon the **`msys2` runtime**, which is a fork of the **Cygwin runtime**. The runtime provides basic POSIX APIs, making it possible to run software written to run on a POSIX-like system on Windows.
 
 
-The msys2 and Cygwin runtimes used to differ strongly, but have been converging (see [ https://github.com/Alexpux/MSYS2-packages/blob/master/msys2-runtime/PKGBUILD](https://github.com/Alexpux/MSYS2-packages/blob/master/msys2-runtime/PKGBUILD) for the current patches). Most of the remaining differences are to make the provided environment a bit closer to Windows than Cygwin's behavior.
+The msys2 and Cygwin runtimes used to differ strongly, but have been converging (see [https://github.com/Alexpux/MSYS2-packages/blob/master/msys2-runtime/PKGBUILD](https://github.com/Alexpux/MSYS2-packages/blob/master/msys2-runtime/PKGBUILD) for the current patches). Most of the remaining differences are to make the provided environment a bit closer to Windows than Cygwin's behavior.
 
 ## msys2 (the toolchain)
 
@@ -47,7 +47,7 @@ Cygwin is also a distribution built upon the `Cygwin` runtime providing a Linux-
 
 ## `Mingw-w64`
 
-`Mingw-w64` is a compiler toolchain based upon `gcc` targeting Windows systems which is packaged with the `msys2` distribution. It started as a fork of the `mingw` toolchain. A fair amount of useful information about `mingw-w64` can be found on the project's [ wiki](https://sourceforge.net/p/mingw-w64/wiki2/Home/).
+`Mingw-w64` is a compiler toolchain based upon `gcc` targeting Windows systems which is packaged with the `msys2` distribution. It started as a fork of the `mingw` toolchain. A fair amount of useful information about `mingw-w64` can be found on the project's [wiki](https://sourceforge.net/p/mingw-w64/wiki2/Home/).
 
 
 Executables produced with the `mingw-w64` toolchain will link only against `msvcrt` and a few native Windows libraries (e.g. `ntdll` and `kernel32`).
@@ -70,7 +70,7 @@ The Microsoft Visual C runtime. This is the `libc` of the Windows world.
 
 ## `mintty`
 
-`mintty` is a terminal emulator shipped with the `msys2` distribution (and Cygwin). It's not so great; you probably want to use something else (e.g. [ ConEmu](https://conemu.github.io/).
+`mintty` is a terminal emulator shipped with the `msys2` distribution (and Cygwin). It's not so great; you probably want to use something else (e.g. [ConEmu](https://conemu.github.io/).
 
 ## Linux on Windows
 

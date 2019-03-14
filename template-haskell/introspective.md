@@ -1,7 +1,7 @@
 # Introspective Template Haskell
 
 
-This page is to record the design and reactions to a proposal Richard originally posted to the ghc-devs mailing list [ here](https://mail.haskell.org/pipermail/ghc-devs/2015-November/010402.html) (although much of this is copied below). The bottom line is that this has received some, but not universal, support. However, due to time constraints, Richard will not be implementing this in the near future. Is someone else willing?
+This page is to record the design and reactions to a proposal Richard originally posted to the ghc-devs mailing list [here](https://mail.haskell.org/pipermail/ghc-devs/2015-November/010402.html) (although much of this is copied below). The bottom line is that this has received some, but not universal, support. However, due to time constraints, Richard will not be implementing this in the near future. Is someone else willing?
 
 
 Ticket: [\#11081](https://gitlab.haskell.org//ghc/ghc/issues/11081)
@@ -42,4 +42,4 @@ And, tantalizingly, the flexibility in splices might allow us to splice in \*Cor
 
 - Currently, every release of GHC breaks all the TH code out there. This proposal eliminates that problem, or, more accurately, moves it to one place: the template-haskell package. Downstream users would be insulated. (Counterpoint: this insulation is directly achievable today by creating a compatibility shim around template-haskell. th-desugar could be called such a compatibility shim, although it does more than just achieve compatibility.)
 
-- It was suggested [ here](https://mail.haskell.org/pipermail/ghc-devs/2015-November/010411.html) that this change would obviate haskell-src-exts. I (Richard) am not familiar enough with haskell-src-exts workflows to comment.
+- It was suggested [here](https://mail.haskell.org/pipermail/ghc-devs/2015-November/010411.html) that this change would obviate haskell-src-exts. I (Richard) am not familiar enough with haskell-src-exts workflows to comment.

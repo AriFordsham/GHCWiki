@@ -3,12 +3,12 @@
 
 This is Ben Gamari's plan for moving ahead with the type-indexed `Typeable`
 scheme, described most recently in
-[ A reflection on types](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/).
+[A reflection on types](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/).
 
 ## Status
 
 
-A branch with the current state of things can be found [ here](https://github.com/ghc/ghc/compare/master...bgamari:wip/ttypeable). There is also an intermittently-updated Phabricator differential, [ Phab:D2010](https://phabricator.haskell.org/D2010). It's still rather preliminary however it does give you a working stage2 compiler with functional type-indexed type representations and what I believe is a pretty reasonable set of interfaces, described below.
+A branch with the current state of things can be found [here](https://github.com/ghc/ghc/compare/master...bgamari:wip/ttypeable). There is also an intermittently-updated Phabricator differential, [Phab:D2010](https://phabricator.haskell.org/D2010). It's still rather preliminary however it does give you a working stage2 compiler with functional type-indexed type representations and what I believe is a pretty reasonable set of interfaces, described below.
 
 
 There are a number of tasks outstanding. These involve only Ben,
@@ -435,7 +435,7 @@ fromDyn::Typeable a =>Dynamic-> a -> a
 
 
 Ben Pierce also
-[ suggested](https://ghc.haskell.org/trac/ghc/wiki/TypeableT#Data.Dynamic) this
+[suggested](https://ghc.haskell.org/trac/ghc/wiki/TypeableT#Data.Dynamic) this
 variant of `Dynamic`, which models a value of dynamic type "inside" of a known
 functor. He p
 

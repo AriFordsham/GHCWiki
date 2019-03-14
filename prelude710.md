@@ -1,7 +1,7 @@
 # The GHC 7.10 Prelude
 
 
-The [ Core Libraries Committee](https://wiki.haskell.org/Core_Libraries_Committee) (CLC) is responsible for developing the core libraries that ship with GHC.  This is an important but painstaking task, and we owe the CLC a big vote of thanks for taking it on.
+The [Core Libraries Committee](https://wiki.haskell.org/Core_Libraries_Committee) (CLC) is responsible for developing the core libraries that ship with GHC.  This is an important but painstaking task, and we owe the CLC a big vote of thanks for taking it on.
 
 
 For over a year the CLC has been working on integrating the `Foldable` and `Traversable` classes (shipped in `base` in GHC 7.8) into the core libraries, and into the Prelude in particular.  Detailed planning for GHC 7.10 started in the autumn of 2014, and the CLC went ahead with this integration.  Then we had a failure of communication.  
@@ -19,7 +19,7 @@ This is an extremely unfortunate situation.  On the one hand we are at RC2 for G
 We need to decide what to do now.  A small group of us met by Skype and we've decided to do this:
 
 - Push back GHC 7.10's release by at least a month (in part due to this, but also to address an unrelated showstopping bug)
-- Invite input from the Haskell community on which of two approaches to adopt via a [ survey](https://goo.gl/forms/XP1W2JdfpX) through February 21st.
+- Invite input from the Haskell community on which of two approaches to adopt via a [survey](https://goo.gl/forms/XP1W2JdfpX) through February 21st.
 - Ask Simon Marlow and Simon Peyton Jones to decide which approach to follow for GHC 7.10.
 
 ## The two alternative approaches
@@ -37,7 +37,7 @@ We discussed many alternatives, but ended up with two simple ones:
 > In the process of doing so, extend `Foldable` in such a way that we can do this without changing the semantics of existing programs or suffering performance regressions.
 
 >
-> While this is a divergence from Haskell 2010, for the most part code that compiles with Haskell 2010 continues to compile under this scheme. The [ Applicative-Monad proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal) is also a divergence from Haskell 2010, but by way of contrast it is one that requires active changes in user code for it to continue to compile.
+> While this is a divergence from Haskell 2010, for the most part code that compiles with Haskell 2010 continues to compile under this scheme. The [Applicative-Monad proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal) is also a divergence from Haskell 2010, but by way of contrast it is one that requires active changes in user code for it to continue to compile.
 
 >
 > The generalised types are almost entirely backward compatible.  However the `Foldable` class (in particular) may evolve further.
@@ -47,7 +47,7 @@ We discussed many alternatives, but ended up with two simple ones:
 
 Regardless of which plan is chosen the GHC 7.10 base libraries will
 
-- Incorporate the [ Applicative-Monad proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal)
+- Incorporate the [Applicative-Monad proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal)
 - Include `Data.Traversable` and `Data.Foldable` as in 7.8, but evolved somewhat. 
 
 ## The plan for GHC 7.12
@@ -74,7 +74,7 @@ This discussion only covers what will ship with GHC 7.10. The expectation is tha
 ## What next?
 
 
-We're actively seeking feedback via a survey at [ https://goo.gl/forms/XP1W2JdfpX](https://goo.gl/forms/XP1W2JdfpX) through February 21st.
+We're actively seeking feedback via a survey at [https://goo.gl/forms/XP1W2JdfpX](https://goo.gl/forms/XP1W2JdfpX) through February 21st.
 
 
 Once the feedback is collected, Simon Peyton Jones and Simon Marlow will make a final decision.

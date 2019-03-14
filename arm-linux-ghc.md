@@ -9,7 +9,7 @@ Everything from here to the "Original Page" heading is for the revival in July 2
 I have an unregisterised GHC 6.8 build for the N810.
 
 
-You can get the N810 GHC packages at: [ ftp://ripplelabs.com/pub/ghc-debs/](ftp://ripplelabs.com/pub/ghc-debs/)
+You can get the N810 GHC packages at: [ftp://ripplelabs.com/pub/ghc-debs/](ftp://ripplelabs.com/pub/ghc-debs/)
 
 
 Some other packages are required that are available elsewhere, such as gcc.
@@ -444,7 +444,7 @@ My goal is to create a registerised port of GHC to the nokia 770.
 
 There is currently an unregisterised build available for Maemo 1.x. This project is temporarily on hold while two big transitions take place:
 
-1. Maemo 2.0 supports the new EABI standard which affects a bunch of things (done) (for more info see [ http://wiki.debian.org/ArmEabiPort](http://wiki.debian.org/ArmEabiPort) )
+1. Maemo 2.0 supports the new EABI standard which affects a bunch of things (done) (for more info see [http://wiki.debian.org/ArmEabiPort](http://wiki.debian.org/ArmEabiPort) )
 1. GHC 6.6 release (soon)
 
 ## Setting up the build environment
@@ -453,7 +453,7 @@ There is currently an unregisterised build available for Maemo 1.x. This project
 I have been using the standard maemo cross-development environment. Instructions for setting
 up this environment can be found here:
 
-[ http://www.maemo.org/platform/docs/tutorials/Maemo_tutorial.html\#settingup](http://www.maemo.org/platform/docs/tutorials/Maemo_tutorial.html#settingup)
+[http://www.maemo.org/platform/docs/tutorials/Maemo_tutorial.html\#settingup](http://www.maemo.org/platform/docs/tutorials/Maemo_tutorial.html#settingup)
 
 ## Changes to standard procedure
 
@@ -545,7 +545,7 @@ code will be broken.
 
 (1) get the testsuite that corresponds to your release, for example:
 
-[ http://haskell.org/ghc/dist/ghc-testsuite-6.4.2.tar.gz](http://haskell.org/ghc/dist/ghc-testsuite-6.4.2.tar.gz)
+[http://haskell.org/ghc/dist/ghc-testsuite-6.4.2.tar.gz](http://haskell.org/ghc/dist/ghc-testsuite-6.4.2.tar.gz)
 
 
 (2) untar it in the ghc-6.4.2 directory.

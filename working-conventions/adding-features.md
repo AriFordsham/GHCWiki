@@ -1,11 +1,11 @@
 # How to contribute a new feature to GHC
 
 
-We welcome your involvement in making GHC able to do more. Here's how to do it. Note that proposals for a change to the libraries (including base) should be send to the [ libraries mailinglist](http://haskell.org/haskellwiki/Library_submissions).
+We welcome your involvement in making GHC able to do more. Here's how to do it. Note that proposals for a change to the libraries (including base) should be send to the [libraries mailinglist](http://haskell.org/haskellwiki/Library_submissions).
 
-1. Open a [ feature request](https://ghc.haskell.org/trac/ghc/newticket?type=feature+request)**ticket** on Trac.
+1. Open a [feature request](https://ghc.haskell.org/trac/ghc/newticket?type=feature+request)**ticket** on Trac.
 
-  - *Alternatively*: Create a Pull Request on [ GitHub (ghc-proposals)](https://github.com/ghc-proposals/ghc-proposals/). 
+  - *Alternatively*: Create a Pull Request on [GitHub (ghc-proposals)](https://github.com/ghc-proposals/ghc-proposals/). 
 1. Write down the **specification** of the feature and create a Wiki [page](proposal) for it. Specifying before implementing is obviously a good idea; and it makes it possible for others to comment on your design before you invest heavily in building the feature.
 1. Get **feedback** by emailing a suitable list (`ghc-devs` for nitty-gritty GHC internals, `glasgow-haskell-users` for user-visible features). Often you'll get useful ideas. Update the wiki page as needed. 
 1. Put a link and a **summary** to the discussion in the Trac ticket.
@@ -13,7 +13,7 @@ We welcome your involvement in making GHC able to do more. Here's how to do it. 
 1. Follow the instructions for **[contributing a patch](working-conventions/fixing-bugs)**.
 1. Include updates to the **user manual** that documents your feature. For features that introduce a new flag, at least two sections need to be updated:
 
-  - The [ flag reference](https://downloads.haskell.org/~ghc/master/users-guide/flags.html) section generated from the modules in `utils/mkUserGuidePart/Options/`.
+  - The [flag reference](https://downloads.haskell.org/~ghc/master/users-guide/flags.html) section generated from the modules in `utils/mkUserGuidePart/Options/`.
   - The flag descriptions in `docs/users_guide/using.rst` provide a detailed explanation of each flags' usage. 
 1. Add a section to the latest **release notes** (`docs/users_guide/<version>-notes.rst` or `libraries/base/changelog.md`).
 

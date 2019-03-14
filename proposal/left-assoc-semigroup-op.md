@@ -1,15 +1,15 @@
 # Left-Associative `Semigroup` Operator Alias
 
 
-Mailing list discussion in progress on [ on {libraries,ghc-devs}\@haskell.org](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/12030)
+Mailing list discussion in progress on [on {libraries,ghc-devs}\@haskell.org](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/12030)
 
 
-related reddit discussion on [ /r/haskell](https://www.reddit.com/r/haskell/comments/4mtf5t/proposal_leftassociative_semigroup_operator_alias/)
+related reddit discussion on [/r/haskell](https://www.reddit.com/r/haskell/comments/4mtf5t/proposal_leftassociative_semigroup_operator_alias/)
 
 ## Problem
 
 
-With the implementation of [ prime:Libraries/Proposals/SemigroupMonoid](https://prime.haskell.org/intertrac/Libraries/Proposals/SemigroupMonoid), `Semigroup` will become a superclass of `Monoid`, and consequently `Semigroup((<>))` will be re-exported alongside `Monoid` from the `Prelude` module.
+With the implementation of [prime:Libraries/Proposals/SemigroupMonoid](https://prime.haskell.org/intertrac/Libraries/Proposals/SemigroupMonoid), `Semigroup` will become a superclass of `Monoid`, and consequently `Semigroup((<>))` will be re-exported alongside `Monoid` from the `Prelude` module.
 
 ```
 -- reduced/simplified definitionclassSemigroup a where(<>):: a -> a -> a
@@ -38,7 +38,7 @@ However, there are a few popular pretty-printing modules which already define a 
 ```
 
 
-On the other hand, the popular [ hackage:ansi-wl-pprint](http://hackage.haskell.org/package/ansi-wl-pprint) package does use right-associative operators:
+On the other hand, the popular [hackage:ansi-wl-pprint](http://hackage.haskell.org/package/ansi-wl-pprint) package does use right-associative operators:
 
 ```
 moduleText.PrettyPrint.ANSI.Leijenwhereinfixr6<>infixr6<+>
@@ -47,13 +47,13 @@ moduleText.PrettyPrint.ANSI.Leijenwhereinfixr6<>infixr6<+>
 
 Other pretty printers also using a `infixr 6 <>, <+>` definition:
 
-- [ hackage:annotated-wl-pprint](http://hackage.haskell.org/package/annotated-wl-pprint)
-- [ hackage:mainland-pretty](http://hackage.haskell.org/package/mainland-pretty)
+- [hackage:annotated-wl-pprint](http://hackage.haskell.org/package/annotated-wl-pprint)
+- [hackage:mainland-pretty](http://hackage.haskell.org/package/mainland-pretty)
 
 ### Changing `<>`'s associativity in pretty-printing APIs
 
 
-Changing the fixity of `pretty`'s `<>` would however results in a semantic change for code which relies on the relative fixity between `<+>` and `<>` as was [ pointed out by Duncan back in 2011](https://mail.haskell.org/pipermail/libraries/2011-November/017066.html) already:
+Changing the fixity of `pretty`'s `<>` would however results in a semantic change for code which relies on the relative fixity between `<+>` and `<>` as was [pointed out by Duncan back in 2011](https://mail.haskell.org/pipermail/libraries/2011-November/017066.html) already:
 
 >
 > So I was preparing to commit this change in base and validating ghc when I discovered a more subtle issue in the pretty package:
@@ -89,7 +89,7 @@ However, there also seems to be a legitimate use-case for a left-associative `<>
 
 ## Alternative Suggestions
 
-[ David Terei suggests among other things](https://github.com/haskell/pretty/issues/30#issuecomment-161146748) to
+[David Terei suggests among other things](https://github.com/haskell/pretty/issues/30#issuecomment-161146748) to
 
 >
 > Switch `<>` to infixr ~~6~~7 and `<+>` to infixr ~~5~~6, some code can still break, but arguably code relying on unintuitive semantics (since somewhat odd `<>` and `<+>` have same precedence when both treat empty as identity).

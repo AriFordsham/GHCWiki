@@ -185,7 +185,7 @@ Typically on Unix systems the default for `--prefix` is
 On Windows in order to build GHC and to be able to create a binary
 distribution package some extra binaries are needed. These binaries
 only have to be downloaded once. This flag serves as
-[ consent](https://phabricator.haskell.org/D339#7799) to allow the
+[consent](https://phabricator.haskell.org/D339#7799) to allow the
 automatic download of dependencies if they are missing.  It is
 fine to leave the flag in even if you already have the tarballs.
 </td></tr></table>
@@ -308,7 +308,7 @@ longer to build libraries this way, though.
 (default: `NO`)
 
 When set to `YES`, dependencies on the ghc executable will be turned into
-order-only dependencies (c.f. [ relevant make documentation](http://www.gnu.org/software/make/manual/html_node/Prerequisite-Types.html)).
+order-only dependencies (c.f. [relevant make documentation](http://www.gnu.org/software/make/manual/html_node/Prerequisite-Types.html)).
 What this means in practice is that less needless recompilation will be
 done while you are making changes to ghc's sources, but for certain types
 of changes it means the build will fail. 

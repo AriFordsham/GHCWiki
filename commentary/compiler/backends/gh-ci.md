@@ -151,7 +151,7 @@ Before the scrutinee is entered, the stack is arranged like this:
 The scrutinee value is then entered. The case continuation(s) expect the stack to look the same, with the returned HNF in a suitable return register, R1, D1, F1 etc.
 
 
-A machine code return knows whether it is doing a vectored or direct return, and, if the former, which vector element it is. So, for a direct return we jump to `Sp[0]`, and for a vectored return, jump to `((CodePtr*)(Sp[0]))[ - ITBL_LENGTH - vector number ]`. This is (of course) the scheme that compiled code has been using all along.
+A machine code return knows whether it is doing a vectored or direct return, and, if the former, which vector element it is. So, for a direct return we jump to `Sp[0]`, and for a vectored return, jump to `((CodePtr*)(Sp[0]))[- ITBL_LENGTH - vector number ]`. This is (of course) the scheme that compiled code has been using all along.
 
 
 An interpreted return will, as described just above, have examined the itbl immediately beneath the return value it has just pushed, and found it not to be one of the ret_REP_ctoi_info set, so it knows this must be a return to machine code. It needs to pop the return value, currently on the stack, into R1/F1/D1, and jump through the info table. Unfortunately the first part cannot be accomplished directly since we are not in Haskellised-C world.

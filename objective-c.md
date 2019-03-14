@@ -51,16 +51,16 @@ We also have some basic ideas for type-safe usage of Objective-C above the FFI l
 
 ## Background and related work
 
-- [ The Haskell 98 Foreign Function Interface 1.0](http://www.cse.unsw.edu.au/~chak/haskell/ffi/ffi/ffi.html)
-- [ Objective-C 2.0 Runtime Programming Guide](http://developer.apple.com/mac/library/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html)
-- [ Objective-C 2.0 Runtime Reference](https://developer.apple.com/documentation/Cocoa/Reference/ObjCRuntimeRef/Reference/reference.html)
-- [ Chicken scheme objc egg](http://chicken.wiki.br/objc)
-- [ Tim Scheffler's three part article series on writing a Cocoa app in Haskell](http://tscheff.blogspot.com/2010/03/cocoa-application-almost-completely.html)
+- [The Haskell 98 Foreign Function Interface 1.0](http://www.cse.unsw.edu.au/~chak/haskell/ffi/ffi/ffi.html)
+- [Objective-C 2.0 Runtime Programming Guide](http://developer.apple.com/mac/library/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html)
+- [Objective-C 2.0 Runtime Reference](https://developer.apple.com/documentation/Cocoa/Reference/ObjCRuntimeRef/Reference/reference.html)
+- [Chicken scheme objc egg](http://chicken.wiki.br/objc)
+- [Tim Scheffler's three part article series on writing a Cocoa app in Haskell](http://tscheff.blogspot.com/2010/03/cocoa-application-almost-completely.html)
 
 ## Development team
 
-- [ Manuel M. T. Chakravarty](http://www.cse.unsw.edu.au/~chak/)
-- [ André Pang](http://algorithm.com.au/)
+- [Manuel M. T. Chakravarty](http://www.cse.unsw.edu.au/~chak/)
+- [André Pang](http://algorithm.com.au/)
 
 
 Please send us any suggestions or comments that you might have.

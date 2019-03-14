@@ -38,7 +38,7 @@ type family App (f :: k1 -> k2) (a :: k1) :: k2
 
 We typically want to use (a) when we are not interested in types, only kinds.
 For instance, consider the following type family, which is a variant of the
-[ type-level literals module](https://github.com/ghc/packages-base/blob/master/GHC/TypeLits.hs):
+[type-level literals module](https://github.com/ghc/packages-base/blob/master/GHC/TypeLits.hs):
 
 ```wiki
 type family SingRep (k :: ☐)
@@ -130,7 +130,7 @@ id @Int 2
 
 
 The idea is to provide access to the explicit types in the core language
-(system [ FC-pro](http://dreixel.net/research/pdf/ghp.pdf))
+(system [FC-pro](http://dreixel.net/research/pdf/ghp.pdf))
 directly from the source language syntax.
 
 ## How many arguments, and their order

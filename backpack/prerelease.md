@@ -1,22 +1,22 @@
 # Backpack pre-release
 
-**This page is out of date; Backpack is released in GHC 8.2! See [ https://ghc.haskell.org/trac/ghc/wiki/Backpack](https://ghc.haskell.org/trac/ghc/wiki/Backpack)**
+**This page is out of date; Backpack is released in GHC 8.2! See [https://ghc.haskell.org/trac/ghc/wiki/Backpack](https://ghc.haskell.org/trac/ghc/wiki/Backpack)**
 
 
-If you would like to try out our new Backpack support in GHC, we invite you to download and install a pre-release version of GHC with various Backpack: [ http://web.stanford.edu/\~ezyang/backpack/](http://web.stanford.edu/~ezyang/backpack/) You can build the sources using  the instructions in [Building/QuickStart](building/quick-start), and there are also some binary distributions available.
+If you would like to try out our new Backpack support in GHC, we invite you to download and install a pre-release version of GHC with various Backpack: [http://web.stanford.edu/\~ezyang/backpack/](http://web.stanford.edu/~ezyang/backpack/) You can build the sources using  the instructions in [Building/QuickStart](building/quick-start), and there are also some binary distributions available.
 
 
 Source distributions:
 
-- [ ghc-7.11.20150312-src.tar.bz2](http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-src.tar.bz2). This provides the compiler and a minimal set of libraries. For more information on building, see the [building guide](building).
-- [ ghc-7.11.20150312-testsuite.tar.bz2](http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-testsuite.tar.bz2). If you unpack this tarball on top of the above then you will be able to run the testsuite.
-- [ ghc-7.11.20150312-windows-extra-src.tar.bz2](http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-windows-extra-src.tar.bz2). This provides extra build tools which are a requirement for building on Windows. Simply unpack this tarball on top of the regular source distribution.
+- [ghc-7.11.20150312-src.tar.bz2](http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-src.tar.bz2). This provides the compiler and a minimal set of libraries. For more information on building, see the [building guide](building).
+- [ghc-7.11.20150312-testsuite.tar.bz2](http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-testsuite.tar.bz2). If you unpack this tarball on top of the above then you will be able to run the testsuite.
+- [ghc-7.11.20150312-windows-extra-src.tar.bz2](http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-windows-extra-src.tar.bz2). This provides extra build tools which are a requirement for building on Windows. Simply unpack this tarball on top of the regular source distribution.
 
 
 Binary distributions:
 
-- [ ghc-7.11.20150312-x86_64-unknown-linux.tar.bz2](http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-x86_64-unknown-linux.tar.bz2). Generic amd64 Linux. This is a complete build, including interactive system, profiling libraries and documentation. It was made on a Arch Linux system and requires libgmp.so.10 (typically GMP 5.x). 
-- [ ghc-7.11.20150312-x86_64-unknown-mingw32.tar.bz2](http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-x86_64-unknown-mingw32.tar.bz2). Windows 64bit. This is a complete build. It also includes support for compiling C++ files. 
+- [ghc-7.11.20150312-x86_64-unknown-linux.tar.bz2](http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-x86_64-unknown-linux.tar.bz2). Generic amd64 Linux. This is a complete build, including interactive system, profiling libraries and documentation. It was made on a Arch Linux system and requires libgmp.so.10 (typically GMP 5.x). 
+- [ghc-7.11.20150312-x86_64-unknown-mingw32.tar.bz2](http://web.stanford.edu/~ezyang/backpack/ghc-7.11.20150312-x86_64-unknown-mingw32.tar.bz2). Windows 64bit. This is a complete build. It also includes support for compiling C++ files. 
 
 ## Examples
 
@@ -169,7 +169,7 @@ In general, to import a subset of the interface of a module, you create an hsig 
 ## Type classes
 
 
-In this example, we'll develop a sorted list of integers (akin to `Data.Map`) which requires the integers in question to have the moral equivalent of `Ord` instance. However, instead of using the `Ord` type-class (for which we can only have one), we'll use a module signature instead (in the style of [ modular type classes](http://www.mpi-sws.org/~dreyer/papers/mtc/main-long.pdf)). This will let us support multiple orderings for the integers, without having to write our list data structure twice and without having to cast integers into an alternate data type. (Note: this example can be generalized to handle arbitrary data types, but for simplicity this example is hard-coded for integers.)
+In this example, we'll develop a sorted list of integers (akin to `Data.Map`) which requires the integers in question to have the moral equivalent of `Ord` instance. However, instead of using the `Ord` type-class (for which we can only have one), we'll use a module signature instead (in the style of [modular type classes](http://www.mpi-sws.org/~dreyer/papers/mtc/main-long.pdf)). This will let us support multiple orderings for the integers, without having to write our list data structure twice and without having to cast integers into an alternate data type. (Note: this example can be generalized to handle arbitrary data types, but for simplicity this example is hard-coded for integers.)
 
 
 The first step is to define an interface for implementations of comparison functions on integers. In our case, it's very simple: a specialized version of `compare` under name `cmp`:

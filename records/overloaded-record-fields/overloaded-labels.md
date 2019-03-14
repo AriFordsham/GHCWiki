@@ -1,12 +1,12 @@
 # `OverloadedLabels`
 
 
-This page describes the `OverloadedLabels` extension, as implemented in [ Phab:D1331](https://phabricator.haskell.org/D1331) and included in GHC 8.0. Note that the [ latest proposal for OverloadedRecordFields](https://github.com/ghc-proposals/ghc-proposals/pull/6) proposes changes to `OverloadedLabels` from what is described here.
+This page describes the `OverloadedLabels` extension, as implemented in [Phab:D1331](https://phabricator.haskell.org/D1331) and included in GHC 8.0. Note that the [latest proposal for OverloadedRecordFields](https://github.com/ghc-proposals/ghc-proposals/pull/6) proposes changes to `OverloadedLabels` from what is described here.
 
 ### Digression: implicit parameters
 
 
-First, let's review Haskell's existing and long-standing *[ implicit parameters](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/other-type-extensions.html#implicit-parameters)*.
+First, let's review Haskell's existing and long-standing *[implicit parameters](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/other-type-extensions.html#implicit-parameters)*.
 Here is how they work in GHC today.
 
 - There is a class `IP` defined thus in `GHC.IP`:
@@ -26,7 +26,7 @@ Here is how they work in GHC today.
 
 - The pretty printer displays the constraint `IP x t` as `?x::t`.
 
-- The functional dependency `x->a` on class `IP` implements the inference rules for implicit parameters. (See the [ orginal paper](http://galois.com/wp-content/uploads/2014/08/pub_JL_ImplicitParameters.pdf).)
+- The functional dependency `x->a` on class `IP` implements the inference rules for implicit parameters. (See the [orginal paper](http://galois.com/wp-content/uploads/2014/08/pub_JL_ImplicitParameters.pdf).)
 
 - There is some magic with implicit-parameter bindings, of form `let ?x = e in ...`, which in effect brings into scope a local instance declaration for `IP`.
 
@@ -95,7 +95,7 @@ Note that the `#x` form only behaves specially if you have `OverloadedLabels` or
 The downside of the `#x` syntax is that uses of lenses like `foo^.bar.baz` become something like `foo ^. #bar . #baz` or `foo ^. xx #bar . xx #baz` (if we need a combinator `xx` to turn an implicit value into a lens). However, this can be mitigated to some extent by users by making their own definitions `bar = xx #bar; baz = xx #baz`.
 
 
-Sadly the `#x` syntax clashes with [ hsc2hs](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/hsc2hs.html#idp35055056), so users will have to write `##x` in `.hsc` files. But we don't see a better alternative.
+Sadly the `#x` syntax clashes with [hsc2hs](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/hsc2hs.html#idp35055056), so users will have to write `##x` in `.hsc` files. But we don't see a better alternative.
 
 ### Reflections
 
@@ -119,7 +119,7 @@ f i u l = #inRange (l,u) i
 
 Note that this example has nothing to do with records, which is part of the point.
 Perhaps `IsLabel` will find other uses.
-It is rather reminiscent of Carlos Camaro's [ System CT](http://homepages.dcc.ufmg.br/~camarao/CT/).
+It is rather reminiscent of Carlos Camaro's [System CT](http://homepages.dcc.ufmg.br/~camarao/CT/).
 
 ## Implementation
 

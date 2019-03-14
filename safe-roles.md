@@ -61,7 +61,7 @@ Separately, I'll add the observation that if roles were widely understood by lib
 **RAE** This doesn't make sense to me. The roles are set at definition time, yet that extension looks like it would happen at the use site. Perhaps I'm misunderstanding. **End RAE**
 
 
-7) **Safe Haskell Specific** -- Many of the above approaches could be adopted in a Safe Haskell specific manner. This isn't ideal as it makes safe-inference harder and Safe Haskell less likely to remain viable going forward. [ Richard suggests one such idea](https://mail.haskell.org/pipermail/haskell-cafe/2015-April/118999.html).
+7) **Safe Haskell Specific** -- Many of the above approaches could be adopted in a Safe Haskell specific manner. This isn't ideal as it makes safe-inference harder and Safe Haskell less likely to remain viable going forward. [Richard suggests one such idea](https://mail.haskell.org/pipermail/haskell-cafe/2015-April/118999.html).
 
 
 8) **Warn when representational and constructors not exported** -- This would be similar to 5, but rather than switch a types default for roles to nominal when its constructors aren't exported, we simply warn the user.
@@ -75,7 +75,7 @@ Option 3 seems like a good choice that matches well with the expectations of dev
 We'd want some new syntax for allowing the old behavior (Role syntax doesn't apply as this restriction or non-restriction of constructors in scope is somewhat orthogonal to roles. I.e., it applies to the polymorphic type, while roles apply to the type parameters).
 
 
-However, it can get tricky. Take this [ example](https://mail.haskell.org/pipermail/glasgow-haskell-users/2013-October/024368.html):
+However, it can get tricky. Take this [example](https://mail.haskell.org/pipermail/glasgow-haskell-users/2013-October/024368.html):
 
 ```wiki
 module A where
@@ -209,28 +209,28 @@ Due to both the type-safety and abstraction issues, GND was considered unsafe in
 
 Userguide:
 
-- [ https://downloads.haskell.org/\~ghc/latest/docs/html/users_guide/roles.html](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/roles.html)
+- [https://downloads.haskell.org/\~ghc/latest/docs/html/users_guide/roles.html](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/roles.html)
 
 
 GHC Wiki:
 
-- [ Roles](Roles)
-- [ Roles2](Roles2)
+- [Roles](Roles)
+- [Roles2](Roles2)
 
 
 Email Threads:
 
-- "Default Roles" -- [ https://mail.haskell.org/pipermail/glasgow-haskell-users/2013-October/024360.html](https://mail.haskell.org/pipermail/glasgow-haskell-users/2013-October/024360.html)
-- "Role Signatures in Libraries" -- [ https://mail.haskell.org/pipermail/libraries/2013-November/021707.html](https://mail.haskell.org/pipermail/libraries/2013-November/021707.html)
-- "We need to add role annotations for 7.8" -- [ https://mail.haskell.org/pipermail/libraries/2014-March/022321.html](https://mail.haskell.org/pipermail/libraries/2014-March/022321.html)
+- "Default Roles" -- [https://mail.haskell.org/pipermail/glasgow-haskell-users/2013-October/024360.html](https://mail.haskell.org/pipermail/glasgow-haskell-users/2013-October/024360.html)
+- "Role Signatures in Libraries" -- [https://mail.haskell.org/pipermail/libraries/2013-November/021707.html](https://mail.haskell.org/pipermail/libraries/2013-November/021707.html)
+- "We need to add role annotations for 7.8" -- [https://mail.haskell.org/pipermail/libraries/2014-March/022321.html](https://mail.haskell.org/pipermail/libraries/2014-March/022321.html)
 
 
 Tickets:
 
-- "Inferring Safe mode with GeneralizedNewtypeDeriving is wrong" -- [ https://gitlab.haskell.org/ghc/ghc/issues/8827](https://gitlab.haskell.org/ghc/ghc/issues/8827)
-- "GeneralizedNewtypeDeriving is still not Safe" -- [ https://gitlab.haskell.org/ghc/ghc/issues/8745](https://gitlab.haskell.org/ghc/ghc/issues/8745)
-- "Require -XIncoherentInstances to write role annotations on class definitions" -- [ https://gitlab.haskell.org/ghc/ghc/issues/8773](https://gitlab.haskell.org/ghc/ghc/issues/8773)
-- "Incoherent instances without -XIncoherentInstances" -- [ https://gitlab.haskell.org/ghc/ghc/issues/8338](https://gitlab.haskell.org/ghc/ghc/issues/8338)
+- "Inferring Safe mode with GeneralizedNewtypeDeriving is wrong" -- [https://gitlab.haskell.org/ghc/ghc/issues/8827](https://gitlab.haskell.org/ghc/ghc/issues/8827)
+- "GeneralizedNewtypeDeriving is still not Safe" -- [https://gitlab.haskell.org/ghc/ghc/issues/8745](https://gitlab.haskell.org/ghc/ghc/issues/8745)
+- "Require -XIncoherentInstances to write role annotations on class definitions" -- [https://gitlab.haskell.org/ghc/ghc/issues/8773](https://gitlab.haskell.org/ghc/ghc/issues/8773)
+- "Incoherent instances without -XIncoherentInstances" -- [https://gitlab.haskell.org/ghc/ghc/issues/8338](https://gitlab.haskell.org/ghc/ghc/issues/8338)
 
 ## Roles Overview
 

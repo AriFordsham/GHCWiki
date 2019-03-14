@@ -301,7 +301,7 @@ The Haskell source code in GHC is free of tabs now. Keep it this way. This is ac
 
 In order to avoid angering this git hook, you should set your editor to indent using spaces rather than tabs:
 
-- In Emacs, add `(setq-default indent-tabs-mode nil)` to your `.emacs` file ([ more discussion](http://cscs.umich.edu/~rlr/Misc/emacs_tabs.htm))
+- In Emacs, add `(setq-default indent-tabs-mode nil)` to your `.emacs` file ([more discussion](http://cscs.umich.edu/~rlr/Misc/emacs_tabs.htm))
 - In Sublime Text, save the following to files at `Packages/User/Haskell.sublime-settings` and `Packages/User/Literate Haskell.sublime-settings`:
 
 ```wiki

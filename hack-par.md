@@ -11,13 +11,13 @@ Location : St Andrews
 ## Participants
 
 
-Vladimir Janjic (Host), [ Hans-Wolfgang Loidl](http://www.macs.hw.ac.uk/~hwloidl/), [ Kevin Hammond](http://www.cs.st-andrews.ac.uk/~kh/), Mustafa Aswad, [ Henrique Ferreiro](http://www.madsgroup.org/staff/henrique/), [ Philip W Trinder](http://www.macs.hw.ac.uk/~trinder/), Patrick Maier, Abyd Al Zain, Mischa Dieterle, Thomas Horstmeyer, [ Jost Berthold](http://www.mathematik.uni-marburg.de/~berthold/), Christoph Herrmann, [ Simon Marlow](http://www.haskell.org/~simonmar/) (virtual),
+Vladimir Janjic (Host), [Hans-Wolfgang Loidl](http://www.macs.hw.ac.uk/~hwloidl/), [Kevin Hammond](http://www.cs.st-andrews.ac.uk/~kh/), Mustafa Aswad, [Henrique Ferreiro](http://www.madsgroup.org/staff/henrique/), [Philip W Trinder](http://www.macs.hw.ac.uk/~trinder/), Patrick Maier, Abyd Al Zain, Mischa Dieterle, Thomas Horstmeyer, [Jost Berthold](http://www.mathematik.uni-marburg.de/~berthold/), Christoph Herrmann, [Simon Marlow](http://www.haskell.org/~simonmar/) (virtual),
 
 ## Source code
 
 
 Important: if you can, please prepare a setup of the latest sources in advance.
-A darcs repository has been set up on the server in Marburg, please read here how to get a working setup: [ Repository Briefing](http://james.mathematik.uni-marburg.de:8080/EdenWiki/DarcsRepoCheatSheet).
+A darcs repository has been set up on the server in Marburg, please read here how to get a working setup: [Repository Briefing](http://james.mathematik.uni-marburg.de:8080/EdenWiki/DarcsRepoCheatSheet).
 
 
 You should contact Mischa (dieterle\@mathematik...) in order to get access, or check out read-only via http (which is of course not what we want later).
@@ -32,11 +32,11 @@ An [Agenda Proposal](agenda-proposal) is now on a separate page.
 
 - Short overview sessions on implementation internals (KH: these should not all be on the first afternoon!):
 
-  - [ GUM](http://www.macs.hw.ac.uk/~dsg/gph/) (Mustafa)
-  - [ Eden](http://www.mathematik.uni-marburg.de/~eden/) (Jost)
-  - [ Globus](http://www.globus.org/) (Abyd)
+  - [GUM](http://www.macs.hw.ac.uk/~dsg/gph/) (Mustafa)
+  - [Eden](http://www.mathematik.uni-marburg.de/~eden/) (Jost)
+  - [Globus](http://www.globus.org/) (Abyd)
   - Migration/Load Balancing (Vladimir)
-  - [ ghc](http://haskell.org/ghc) HEAD developments (Simon)
+  - [ghc](http://haskell.org/ghc) HEAD developments (Simon)
   - GUM/Eden Compilation and Debugging (Vladimir?)
 - GUM-6 port
 - Merging GUM and Eden implementations
@@ -58,7 +58,7 @@ An [Agenda Proposal](agenda-proposal) is now on a separate page.
   - Integration with GHC/SMP
   - Integrating migration
   - Globus interface
-  - pre-SCSCP [ GAP](http://www.gap-system.org/) interface
+  - pre-SCSCP [GAP](http://www.gap-system.org/) interface
   - Micro-kernel/substrate approach to the RTS
 - Nominating people in charge of sub-projects
 
@@ -245,7 +245,7 @@ Ticketing: use GHC TRAC - HWL to organise
 Communication: skype (share account names), mailing list (common for parallel haskell - Patrick to organise)
 
 
-KH: I have created a new twitter account - [ parallelhaskell](http://twitter.com/parallelhaskell)
+KH: I have created a new twitter account - [parallelhaskell](http://twitter.com/parallelhaskell)
 
 ### What we did and what is still to do
 

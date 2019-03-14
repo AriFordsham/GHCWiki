@@ -286,7 +286,7 @@ case-of-known-constructor, if we scrutinize `x` again.
 # Exploiting nullary constructors
 
 
-Joachim [ writes](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009831.html): The current proposed layout for a
+Joachim [writes](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009831.html): The current proposed layout for a
 
 ```wiki
     data D a = D a {-# UNPACK #-} !(Maybe a) would be

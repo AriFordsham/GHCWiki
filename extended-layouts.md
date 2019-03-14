@@ -18,9 +18,9 @@ Note that `{ ; }` is **either** exactly what it is **or** the whitespace notatio
 
 The monoid layout offers whitespace notation for monoids. It is intended to offer an alternative to `do`-notation exploits where libraries have added `Monad` instances to their actually non-monadic types only to be able use the whitespace notation. Typical examples are:
 
-- [ blaze-html](http://hackage.haskell.org/package/blaze-html)
-- [ Data.Binary.Put](http://hackage.haskell.org/packages/archive/binary/0.5.0.2/doc/html/Data-Binary-Put.html)
-- [ Data.Cereal.Put](http://hackage.haskell.org/packages/archive/cereal/0.3.5.0/doc/html/Data-Serialize-Put.html)
+- [blaze-html](http://hackage.haskell.org/package/blaze-html)
+- [Data.Binary.Put](http://hackage.haskell.org/packages/archive/binary/0.5.0.2/doc/html/Data-Binary-Put.html)
+- [Data.Cereal.Put](http://hackage.haskell.org/packages/archive/cereal/0.3.5.0/doc/html/Data-Serialize-Put.html)
 
 
 These examples usually have a "dead" type variable which is used exclusively for defining the monad instance and is later set to `()` for all functions using this type. To build up the desired data type either `mappend` or a variation (e.g. `Append` for blaze-html) is used. This so called "Monad" is therefor actually a hidden monoid with the clear intention to abuse the current `do`-notation. With this extension the correct `Monoid` instance can be used instead.

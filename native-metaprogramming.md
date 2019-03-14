@@ -65,7 +65,7 @@ extra fields and constructors (I refer to these as annotations).
 For example, compare the following representations of lambda terms with n-ary
 tuples.
 
-[ Annotation free variant](https://github.com/shayan-najd/NativeMetaprogramming/blob/master/Comparison/Unannotated.hs):
+[Annotation free variant](https://github.com/shayan-najd/NativeMetaprogramming/blob/master/Comparison/Unannotated.hs):
 
 ```
 dataExp id
@@ -73,7 +73,7 @@ dataExp id
   |Abs id (Exp id)|App(Exp id)(Exp id)|Tpl[Exp id]
 ```
 
-[ Annotated Variant](https://github.com/shayan-najd/NativeMetaprogramming/blob/master/Comparison/Annotated.hs):
+[Annotated Variant](https://github.com/shayan-najd/NativeMetaprogramming/blob/master/Comparison/Annotated.hs):
 
 ```
 dataExp id
@@ -148,7 +148,7 @@ In addition to above, we identified that
 1. ASTs are regular (mutually recursive) datatypes, e.g., Haskell98 ADTs
   with no polymorphic recursion, and nodes of function type (see, for example,
   McBride's
-  [ definition](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf))
+  [definition](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf))
 
 1. Annotated ASTs should be at least as large as their non-annotated variants:
   an AST after adding annotations should be able to carry at least the same
@@ -167,7 +167,7 @@ In addition to above, we identified that
 
 We compared multiple different solutions on how to reuse the same parametric
 datatype for representing both annotated and annotation-free variants.
-(see an old relevant [ wiki entry](https://github.com/shayan-najd/NativeMetaprogramming/wiki/Extensions-&-Annotations)).
+(see an old relevant [wiki entry](https://github.com/shayan-najd/NativeMetaprogramming/wiki/Extensions-&-Annotations)).
 
 
 When comparing these, soon I realised that the problem is an instance of
@@ -252,24 +252,24 @@ datatype to stand for extensions, and each extension is projected out of it by a
 
 
 We explain details of the extensible datatypes, the tool, and the
-possible encoding separately [ here](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf) and [ here](https://arxiv.org/abs/1610.04799).
+possible encoding separately [here](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf) and [here](https://arxiv.org/abs/1610.04799).
 
 #### Current Status
 
 
 I have implemented an extensible variant of HsSyn AST in GHC, which can be found
-[ here](https://github.com/shayan-najd/NativeMetaprogramming/blob/master/HsSyn/SyntaxExtensibleAutoSplitted.hs).
+[here](https://github.com/shayan-najd/NativeMetaprogramming/blob/master/HsSyn/SyntaxExtensibleAutoSplitted.hs).
 
 
 I have also extracted a stand-alone parser for Haskell from GHC, and from that
 I have extracted a stand-alone implementation of Haskell AST.  They can both be
-found [ here](https://github.com/shayan-najd/HsParser).
+found [here](https://github.com/shayan-najd/HsParser).
 
 #### Next Steps
 
 
 We, the GHC developers, have to discuss the details of the work in details, as changes to the `HsSyn` AST affect the entire code base.
-I present the work at Haskell Implementors Workshop at Nara, Japan (recorded [ here](https://www.youtube.com/watch?v=DSWoGdfYt68)), and from then, I hope we can start further serious discussions about this.
+I present the work at Haskell Implementors Workshop at Nara, Japan (recorded [here](https://www.youtube.com/watch?v=DSWoGdfYt68)), and from then, I hope we can start further serious discussions about this.
 Specifically, we have to find a simple way to do all this massive refactoring required for extracting the `HsSyn` AST and the parser as separate packages, 
 
 1. without risking introducing bugs,

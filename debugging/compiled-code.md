@@ -3,7 +3,7 @@
 
 If you're working on a GHC port, tweaking the runtime, or modifying
 the code generator, at some point you will have to become familiar
-with how to use [ gdb](http://www.gnu.org/software/gdb/) for debugging
+with how to use [gdb](http://www.gnu.org/software/gdb/) for debugging
 crashes in GHC-compiled programs.
 
 

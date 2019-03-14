@@ -1,7 +1,7 @@
 # GHC Status Report, October 2013
 
 
-A big event occurred earlier this year in July: the news that Ian Lynagh would be leaving Well-Typed - and consequently, GHC HQ - to move onto new challenges. Ian worked on GHC for 7 years full-time, helped write our new build system, redesigned large parts of the compiler, and fixed innumerable other issues over the course of his work with us. [ According to some statistics](https://github.com/ghc/ghc/graphs/contributors) for the past 7 years or so, Ian quite clearly is one of the biggest contributors we've ever had. And we should take the time to say what is rightfully deserved: **thank you for everything you've done for us, Ian**!
+A big event occurred earlier this year in July: the news that Ian Lynagh would be leaving Well-Typed - and consequently, GHC HQ - to move onto new challenges. Ian worked on GHC for 7 years full-time, helped write our new build system, redesigned large parts of the compiler, and fixed innumerable other issues over the course of his work with us. [According to some statistics](https://github.com/ghc/ghc/graphs/contributors) for the past 7 years or so, Ian quite clearly is one of the biggest contributors we've ever had. And we should take the time to say what is rightfully deserved: **thank you for everything you've done for us, Ian**!
 
 
 While Ian has not completely disappeared, GHC and Haskell are not his day-job anymore. As a result, this means everyone - including you, our friend and reader - have a huge opportunity to help continue making GHC even better. Luckily, the past few months of activity points towards a tremendous surge in community involvement. GHC is a community project, and the community is what keeps us afloat. **A great thanks goes to all those who have helped us come so far**!
@@ -48,7 +48,7 @@ The GHC 7.8 release is in its final stages, and will be released in late Novembe
       In an equation for ‛f’: f x = _
   ```
 
-  GHC now tells us that the term `f` has a hole of type `a`, and there is a term `x :: a` in scope. So the definition is clear: `f x = x`. Holes are originally a concept borrowed from [ Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php), and we hope they will be useful to Haskell programmers too!
+  GHC now tells us that the term `f` has a hole of type `a`, and there is a term `x :: a` in scope. So the definition is clear: `f x = x`. Holes are originally a concept borrowed from [Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php), and we hope they will be useful to Haskell programmers too!
 
 - **New Template Haskell** - Geoffrey Mainland implemented support for New Template Haskell, fixing a lot of long-standing bugs with the TH implementation, while making it significantly more expressive, including support for typed quotes, pattern splices and more. This allows us to write for example a typed, staged power function. For details and examples, you can see Geoff's blog \[NewTH1\] and the GHC wiki pages describing the design \[NewTH2\].
 
@@ -110,7 +110,7 @@ After the 7.8 release, there are some improvements scheduled we plan on integrat
 
 - **Git management changes** - For a long time, GHC has used a loosely coupled set of repositories during development. However, as we've added more contributors, this practice has become increasingly problematic, preventing us from using useful tools like `git bisect` to track down bugs. Our plans after the 7.8 release are to sort this out, and hopefully have stable, reproducible GHC builds for all.
 
-- **Continuous Integration overhaul** - GHC has historically been very spotty about continuous integration. Part of the problem is our git management, mentioned above. In the 7.10 timeframe, we hope to spend a significant amount of time overhauling our buildbots and machines. To this end, [ Rackspace](http://rackspace.com) has graciously donated services as part of its Open Source support initiatives.
+- **Continuous Integration overhaul** - GHC has historically been very spotty about continuous integration. Part of the problem is our git management, mentioned above. In the 7.10 timeframe, we hope to spend a significant amount of time overhauling our buildbots and machines. To this end, [Rackspace](http://rackspace.com) has graciously donated services as part of its Open Source support initiatives.
 
 
 But we're not sure what else might happen. It's a great time to step up to the plate and do something fun!
@@ -123,7 +123,7 @@ In the past several months, GHC has seen a surge of community involvement, and a
 
 Amongst those who have rolled up their sleeves and helped us recently:
 
-- **Herbert Valerio Riedel** has stepped up to the plate to help maintain [ http://ghc.haskell.org](http://ghc.haskell.org), all of our git repositories, and has become increasingly involved in library maintenance and development.
+- **Herbert Valerio Riedel** has stepped up to the plate to help maintain [http://ghc.haskell.org](http://ghc.haskell.org), all of our git repositories, and has become increasingly involved in library maintenance and development.
 - **Takano Akio** has submitted many great bug reports and patches recently, and has a keen eye for reproducing challenging or tricky bugs.
 - **Reid Barton** has submitted some excellent patches to fix some awkward bugs, and help us as we move towards Android cross compiler support.
 - **Kazu Yamamoto** helped Andreas Voellmy in the improvements to the I/O manager, and has been extremely helpful in pointing out and reproducing bugs, and helping us find solutions.
@@ -139,26 +139,26 @@ As ever, there is a ton of stuff in the future for us to do. If you want somethi
 # References
 
 
-\[CTF-wiki\] Closed type families with overlapping equations - [ http://ghc.haskell.org/trac/ghc/wiki/NewAxioms](http://ghc.haskell.org/trac/ghc/wiki/NewAxioms)
+\[CTF-wiki\] Closed type families with overlapping equations - [http://ghc.haskell.org/trac/ghc/wiki/NewAxioms](http://ghc.haskell.org/trac/ghc/wiki/NewAxioms)
 
-\[CTF-paper\] Closed type families with overlapping equations, Richard Eisenberg, Dimitrios Vytiniotis, Simon Peyton Jones, Stephanie Weirich, POPL 2014 - [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
+\[CTF-paper\] Closed type families with overlapping equations, Richard Eisenberg, Dimitrios Vytiniotis, Simon Peyton Jones, Stephanie Weirich, POPL 2014 - [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
 
-\[KD\] Kinds without Data - [ http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
+\[KD\] Kinds without Data - [http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
 
-\[NewTH1\] Runtime codegen with typed Template Haskell - [ http://gmainland.blogspot.com/2013/05/type-safe-runtime-code-generation-with.html](http://gmainland.blogspot.com/2013/05/type-safe-runtime-code-generation-with.html)
+\[NewTH1\] Runtime codegen with typed Template Haskell - [http://gmainland.blogspot.com/2013/05/type-safe-runtime-code-generation-with.html](http://gmainland.blogspot.com/2013/05/type-safe-runtime-code-generation-with.html)
 
-\[NewTH2\] Major proposed Template Haskell revision - [ http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges)
+\[NewTH2\] Major proposed Template Haskell revision - [http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](http://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges)
 
-\[NTC\] Newtype wrappers - [ http://ghc.haskell.org/trac/ghc/wiki/NewtypeWrappers](http://ghc.haskell.org/trac/ghc/wiki/NewtypeWrappers)
+\[NTC\] Newtype wrappers - [http://ghc.haskell.org/trac/ghc/wiki/NewtypeWrappers](http://ghc.haskell.org/trac/ghc/wiki/NewtypeWrappers)
 
-\[[PrimBool](prim-bool)\] New comparison primitives - [ http://ghc.haskell.org/trac/ghc/wiki/PrimBool](http://ghc.haskell.org/trac/ghc/wiki/PrimBool)
+\[[PrimBool](prim-bool)\] New comparison primitives - [http://ghc.haskell.org/trac/ghc/wiki/PrimBool](http://ghc.haskell.org/trac/ghc/wiki/PrimBool)
 
-\[ORF\] Overloaded record fields - [ http://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/Plan](http://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/Plan)
+\[ORF\] Overloaded record fields - [http://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/Plan](http://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/Plan)
 
-\[PS\] Pattern synonyms - [ http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms](http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms)
+\[PS\] Pattern synonyms - [http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms](http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms)
 
-\[Roles-wiki\] Roles - [ http://ghc.haskell.org/trac/ghc/wiki/Roles](http://ghc.haskell.org/trac/ghc/wiki/Roles)
+\[Roles-wiki\] Roles - [http://ghc.haskell.org/trac/ghc/wiki/Roles](http://ghc.haskell.org/trac/ghc/wiki/Roles)
 
-\[Roles-paper\] Generative Type Abstraction and Type-level Computation, Stephanie Wirich, Dimitrios Vytiniotis, Simon Peyton Jones, and Steve Zdancewic, POPL 2011 - [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
+\[Roles-paper\] Generative Type Abstraction and Type-level Computation, Stephanie Wirich, Dimitrios Vytiniotis, Simon Peyton Jones, and Steve Zdancewic, POPL 2011 - [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
 
-\[TA\] Explicit type application - [ http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication](http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication)
+\[TA\] Explicit type application - [http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication](http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication)

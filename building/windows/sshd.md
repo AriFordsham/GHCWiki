@@ -44,4 +44,4 @@ While on CygWin setting up `sshd` is taken care of by the provided `ssh-host-con
   # NB: if you need to tweak env-vars such as PATH or MSYSTEM, use ~/.bashrc or ~/.bash_profile
   ```
 
-TODO evaluate alternative script at [ https://gist.github.com/samhocevar/00eec26d9e9988d080ac](https://gist.github.com/samhocevar/00eec26d9e9988d080ac)
+TODO evaluate alternative script at [https://gist.github.com/samhocevar/00eec26d9e9988d080ac](https://gist.github.com/samhocevar/00eec26d9e9988d080ac)

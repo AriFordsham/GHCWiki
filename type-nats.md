@@ -47,14 +47,14 @@ Closed Tickets:
 
 ## Source Code
 
-- [ type-nats branch of GHC](http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=ghc.git;a=shortlog;h=refs/heads/type-nats)
-- [ type-nats branch of the base library](http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=packages/base.git;a=shortlog;h=refs/heads/type-nats)
-- [ type nats branch of template-haskell](http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=packages/template-haskell.git;a=shortlog;h=refs/heads/type-nats)
+- [type-nats branch of GHC](http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=ghc.git;a=shortlog;h=refs/heads/type-nats)
+- [type-nats branch of the base library](http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=packages/base.git;a=shortlog;h=refs/heads/type-nats)
+- [type nats branch of template-haskell](http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=packages/template-haskell.git;a=shortlog;h=refs/heads/type-nats)
 - Also, there is a type-nats branch for 'haddock'.
 
 ## XXX: Cleanup
 
 - [Natural Numbers: From Values to Types](type-nats/naturals)
-- More advanced example: [ https://github.com/yav/memory-arrays/tree/master](https://github.com/yav/memory-arrays/tree/master)
+- More advanced example: [https://github.com/yav/memory-arrays/tree/master](https://github.com/yav/memory-arrays/tree/master)
 - [Examples](type-nats/examples)
-- [ Axioms for type-level type operators](http://github.com/yav/tc-solver/blob/master/docs/axioms.md)
+- [Axioms for type-level type operators](http://github.com/yav/tc-solver/blob/master/docs/axioms.md)

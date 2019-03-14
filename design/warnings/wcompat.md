@@ -102,7 +102,7 @@ in their cabal files to silence compatibility warnings:
      ghc-options: -Wno-compat
 ```
 
-However, as [ previously](https://mail.haskell.org/pipermail/ghc-devs/2016-January/010955.html|stated),
+However, as [previously](https://mail.haskell.org/pipermail/ghc-devs/2016-January/010955.html|stated),
 `-Wall` is intended for use during development. Therefore, we discourage the use of `-Wall`
 in released projects.
 </td></tr></table>

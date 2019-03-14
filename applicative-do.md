@@ -4,10 +4,10 @@
 This is a proposal to add support to GHC for desugaring do-notation into Applicative expressions where possible.
 
 
-It's described in some detail in the paper: [ Desugaring Haskell’s do-notation Into Applicative Operations](https://www.microsoft.com/en-us/research/publication/desugaring-haskells-do-notation-into-applicative-operations/) (ICFP'16).
+It's described in some detail in the paper: [Desugaring Haskell’s do-notation Into Applicative Operations](https://www.microsoft.com/en-us/research/publication/desugaring-haskells-do-notation-into-applicative-operations/) (ICFP'16).
 
 
-An implementation was merged for GHC8: [ https://github.com/ghc/ghc/commit/8ecf6d8f7dfee9e5b1844cd196f83f00f3b6b879](https://github.com/ghc/ghc/commit/8ecf6d8f7dfee9e5b1844cd196f83f00f3b6b879).
+An implementation was merged for GHC8: [https://github.com/ghc/ghc/commit/8ecf6d8f7dfee9e5b1844cd196f83f00f3b6b879](https://github.com/ghc/ghc/commit/8ecf6d8f7dfee9e5b1844cd196f83f00f3b6b879).
 
 
 See also [RecursiveDo](recursive-do)
@@ -102,7 +102,7 @@ For a type that is a `Monad`, `ApplicativeDo` implements the same semantics as t
 1. Some Monads have the property that Applicative bind is more
   efficient than Monad bind.  Sometimes this is *really
   important*, such as when the Applicative bind is 
-  concurrent whereas the Monad bind is sequential (c.f. [ Haxl](https://github.com/facebook/Haxl)).  For
+  concurrent whereas the Monad bind is sequential (c.f. [Haxl](https://github.com/facebook/Haxl)).  For
   these monads we would like the do-notation to desugar to
   Applicative bind where possible, to take advantage of the improved
   behaviour but without forcing the user to explicitly choose.
@@ -276,7 +276,7 @@ Note that this isn't the only good way to translate this expression, this is als
 ## Syntax & spec
 
 
-There's a toy implementation which includes the syntax, desugaring, transformation and some examples here: [ https://github.com/simonmar/ado/blob/52ba028cad68af578bcdfb3f1c5b905f5b9c5617/adosim.hs](https://github.com/simonmar/ado/blob/52ba028cad68af578bcdfb3f1c5b905f5b9c5617/adosim.hs)
+There's a toy implementation which includes the syntax, desugaring, transformation and some examples here: [https://github.com/simonmar/ado/blob/52ba028cad68af578bcdfb3f1c5b905f5b9c5617/adosim.hs](https://github.com/simonmar/ado/blob/52ba028cad68af578bcdfb3f1c5b905f5b9c5617/adosim.hs)
 
 
 Syntax: 
@@ -421,8 +421,8 @@ Note that there's no matching on "return" during desugaring, the
 
 ## Related proposals
 
-- [ Max's proposal on haskell-cafe](http://www.haskell.org/pipermail/haskell-cafe/2011-September/095153.html)
-- [ Control.Applicative.QQ.ADo](http://hackage.haskell.org/package/applicative-quoters-0.1.0.7/docs/Control-Applicative-QQ-ADo.html)
+- [Max's proposal on haskell-cafe](http://www.haskell.org/pipermail/haskell-cafe/2011-September/095153.html)
+- [Control.Applicative.QQ.ADo](http://hackage.haskell.org/package/applicative-quoters-0.1.0.7/docs/Control-Applicative-QQ-ADo.html)
 
 ## Implementation
 
@@ -430,7 +430,7 @@ Note that there's no matching on "return" during desugaring, the
 The implementation is tricky, because we want to do a transformation that affects type checking (and renaming, because we might be using `RebindableSyntax`), but we still want type errors in terms of the original source code.  Therefore we calculate everything necessary to do the transformation during renaming, but leave enough information behind to reconstruct the original source code for the purposes of error messages.
 
 
-See comments in [ https://phabricator.haskell.org/D729](https://phabricator.haskell.org/D729) for more details.
+See comments in [https://phabricator.haskell.org/D729](https://phabricator.haskell.org/D729) for more details.
 
 ### Tricky case
 

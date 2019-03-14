@@ -15,7 +15,7 @@ See also [Simon PJ's long blog post](/trac/ghc/blog/simonpj/StaticPointers).
 The `distributed-process` package [\[2](static-pointers/old#)\] implements a framework for distributed computing. This in general requires sending computations remotely, i.e. sending closures. The `distributed-static` package [\[3](static-pointers/old#)\] provides the facilities to represent closures in a way that can be shared remotely, under certain limitations. These facilities include means to represent closures, as well as combinators to build new closure representations from existing ones.
 
 
-A closure is a code pointer paired with an environment. The -XStaticPointers language extension offers first class support in the compiler for creating a portable representation of the pointer part of the closure. In order to retain compatibility with previous representations of code pointers used in `distributed-static` (which have the advantage of not requiring a compiler extension), work has been put into generalizing `distributed-static` \[ [4](static-pointers/old#), [5](static-pointers/old#) \] in order to make the combinators defined there generic in the pointer representation. 
+A closure is a code pointer paired with an environment. The -XStaticPointers language extension offers first class support in the compiler for creating a portable representation of the pointer part of the closure. In order to retain compatibility with previous representations of code pointers used in `distributed-static` (which have the advantage of not requiring a compiler extension), work has been put into generalizing `distributed-static` \[[4](static-pointers/old#), [5](static-pointers/old#) \] in order to make the combinators defined there generic in the pointer representation. 
 
 ### `Closure a` values
 
@@ -286,7 +286,7 @@ data GlobalName = GlobalName String String String String
 ```
 
 
-A GlobalName holds the information about a top-level value that the desugarer fills in when replacing a `static` form. It augments the information provided by `Language.Haskell.TH.Syntax.Name` with the information in the `installed_package_id` field. This field is [ Cabal:Distribution.Package.InstalledPackageId](http://hackage.haskell.org/package/Cabal-1.20.0.2/docs/Distribution-Package.html#t:InstalledPackageId) and it would be needed to identify the package when multiple variations of it are installed.
+A GlobalName holds the information about a top-level value that the desugarer fills in when replacing a `static` form. It augments the information provided by `Language.Haskell.TH.Syntax.Name` with the information in the `installed_package_id` field. This field is [Cabal:Distribution.Package.InstalledPackageId](http://hackage.haskell.org/package/Cabal-1.20.0.2/docs/Distribution-Package.html#t:InstalledPackageId) and it would be needed to identify the package when multiple variations of it are installed.
 
 
 The installed package id could be useful to locate the symbol if the dynamic dependencies of a program were not known when linking. However, the field is an empty string for all `static` forms requiring floating or pointing to identifiers in the current package. So its usefulness is very limited and we are considering to remove it.
@@ -298,12 +298,12 @@ The `static` forms can be created in GHCi, but floating of expressions is not im
 
 ## References
 
-\[1\] Jeff Epstein, Andrew P. Black, and Simon Peyton-Jones. Towards Haskell in the cloud. SIGPLAN Not., 46(12):118–129, September 2011. ISSN 0362-1340. [ pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf)
+\[1\] Jeff Epstein, Andrew P. Black, and Simon Peyton-Jones. Towards Haskell in the cloud. SIGPLAN Not., 46(12):118–129, September 2011. ISSN 0362-1340. [pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf)
 
-\[2\] [ https://hackage.haskell.org/package/distributed-process](https://hackage.haskell.org/package/distributed-process)
+\[2\] [https://hackage.haskell.org/package/distributed-process](https://hackage.haskell.org/package/distributed-process)
 
-\[3\] [ https://hackage.haskell.org/package/distributed-static](https://hackage.haskell.org/package/distributed-static)
+\[3\] [https://hackage.haskell.org/package/distributed-static](https://hackage.haskell.org/package/distributed-static)
 
-\[4\] [ https://github.com/tweag/distributed-static/commits/globalnames](https://github.com/tweag/distributed-static/commits/globalnames)
+\[4\] [https://github.com/tweag/distributed-static/commits/globalnames](https://github.com/tweag/distributed-static/commits/globalnames)
 
-\[5\] [ https://github.com/tweag/distributed-process/commits/generic-static4](https://github.com/tweag/distributed-process/commits/generic-static4)
+\[5\] [https://github.com/tweag/distributed-process/commits/generic-static4](https://github.com/tweag/distributed-process/commits/generic-static4)

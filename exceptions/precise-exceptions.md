@@ -14,7 +14,7 @@ See
 
 David helpfully divides exceptions into
 
-- **Imprecise**: just as described by [ A Semantics for Imprecise Exceptions](https://www.microsoft.com/en-us/research/publication/a-semantics-for-imprecise-exceptions/).  An imprecise exception can be raised anywhere, by `raise# :: Exception -> a`, or by failures like divide-by-zero.  (I'm going to ignore the structure of exception values, call them all `Exception`.)
+- **Imprecise**: just as described by [A Semantics for Imprecise Exceptions](https://www.microsoft.com/en-us/research/publication/a-semantics-for-imprecise-exceptions/).  An imprecise exception can be raised anywhere, by `raise# :: Exception -> a`, or by failures like divide-by-zero.  (I'm going to ignore the structure of exception values, call them all `Exception`.)
 
 >
 > As discussed in the paper, an imprecise exception is a disaster scenario, not an alternative return.  We can catch them (in the IO monad) and try some alternative action.
@@ -33,7 +33,7 @@ Asynchronous exceptions are an orthogonal concept: the notion of precision doesn
 ## The semantics of precise exceptions
 
 
-One way to give a semantics to precise exceptions is by using an operational semantics, as described in [ Tackling the awkward squad](https://www.microsoft.com/en-us/research/publication/tackling-awkward-squad-monadic-inputoutput-concurrency-exceptions-foreign-language-calls-haskell/).  But GHC does not reflect that operational semantics internally; instead it expresses IO using state-token-passing.  That makes an awkward discontinuity when tryign to reason about GHC optimisations.
+One way to give a semantics to precise exceptions is by using an operational semantics, as described in [Tackling the awkward squad](https://www.microsoft.com/en-us/research/publication/tackling-awkward-squad-monadic-inputoutput-concurrency-exceptions-foreign-language-calls-haskell/).  But GHC does not reflect that operational semantics internally; instead it expresses IO using state-token-passing.  That makes an awkward discontinuity when tryign to reason about GHC optimisations.
 
 
 Another, suggested by David, is this: regard the IO monad as if it were implemented by an exception monad:

@@ -26,7 +26,7 @@ G |- forall a:g1.g2 : (forall a:t1.t2) ~ (forall b:t3.t4[b |> sym g1/a])
 1. The ICFP'13 paper allows the binding of coercion variables in types. That is, we can have `forall c:phi.t` as a type. However, the need for this in practice was slight, and so it was removed from the implementation.
 
 
-With the simpler (asymmetrical) forall-coercion rule above, one of the primary motivations for heterogeneous equality was removed. And so, in [ A Specification for Dependent Types in Haskell](https://cs.brynmawr.edu/~rae/papers/2017/dep-haskell-spec/dep-haskell-spec.pdf) (ICFP'17), we use more of a mixed economy of heterogeneity: a coercion can still related two types of different kinds, but coercion *variables* must be homogeneous. That is, if `c :: t1 ~# t2`, then `t1` and `t2` have equal (that is, alpha-equivalent) kinds. But if a coercion `g` relates `t1` and `t2`, then `t1` and `t2` might have different kinds `k1` and `k2`. However, we can always extract a proof that `k1 ~# k2` from `g`.
+With the simpler (asymmetrical) forall-coercion rule above, one of the primary motivations for heterogeneous equality was removed. And so, in [A Specification for Dependent Types in Haskell](https://cs.brynmawr.edu/~rae/papers/2017/dep-haskell-spec/dep-haskell-spec.pdf) (ICFP'17), we use more of a mixed economy of heterogeneity: a coercion can still related two types of different kinds, but coercion *variables* must be homogeneous. That is, if `c :: t1 ~# t2`, then `t1` and `t2` have equal (that is, alpha-equivalent) kinds. But if a coercion `g` relates `t1` and `t2`, then `t1` and `t2` might have different kinds `k1` and `k2`. However, we can always extract a proof that `k1 ~# k2` from `g`.
 
 
 We propose to make this change to GHC too.
@@ -78,7 +78,7 @@ Some things follow from this:
 > `promoteCoercion` is a function that transforms one coercion (tree) into another; it is no longer a coercion constructor (i.e. the existing `KindCo` vanishes).
 
 
-Summarising (details in  [ A specification of dependent types for Haskell](https://cs.brynmawr.edu/~rae/papers/2017/dep-haskell-spec/dep-haskell-spec.pdf)):
+Summarising (details in  [A specification of dependent types for Haskell](https://cs.brynmawr.edu/~rae/papers/2017/dep-haskell-spec/dep-haskell-spec.pdf)):
 
 - A coercion *variable* (which has a type `t1 ~# t2`) must be homogeneous
 - A *coercion* can be heterogeneous.  It does not have a type.
@@ -86,7 +86,7 @@ Summarising (details in  [ A specification of dependent types for Haskell](https
 ### A small wrinkle: we need coercion quantification back
 
 
-If `~#` is homogeneous in Core, then how do we support heterogeneous equality in Haskell? Heterogeneous equality is important in Haskell to support, for example, the new `TypeRep` (see [ the paper](https://repository.brynmawr.edu/cgi/viewcontent.cgi?article=1002&context=compsci_pubs)).   Easy: just use an equality between the kinds and then one between the types. But it's not so easy in practice. Examine the definition of `:~~:`:
+If `~#` is homogeneous in Core, then how do we support heterogeneous equality in Haskell? Heterogeneous equality is important in Haskell to support, for example, the new `TypeRep` (see [the paper](https://repository.brynmawr.edu/cgi/viewcontent.cgi?article=1002&context=compsci_pubs)).   Easy: just use an equality between the kinds and then one between the types. But it's not so easy in practice. Examine the definition of `:~~:`:
 
 ```
 -- this version is wrong!data(:~~:):: forall k1 k2. k1 -> k2 ->TypewhereMkHEq:: forall k1 k2 (a :: k1)(b :: k2).(k1 ~# k2)->(a ~# b)-> a :~~: b
@@ -268,7 +268,7 @@ class(a :: k1 ~~ b :: k2)where
 ```
 
 
-with inlining. However, this means constraints need to be strict so we know the definition terminates, which is important for the consistency of the coercion language. In other words, we need to change the representation of constraint. Right now, we have`Constraint` be like `TYPE LiftedRep` (i.e. `Type`). This suggestion would make it be like `TYPE UnliftedRep`. However, strict constraints clash with deferred type errors, as deferred type errors make use of the laziness. Richard argues that deferred type errors are already in conflict with `TypeInType`. See [ this ticket](https://gitlab.haskell.org/ghc/ghc/issues/11197/).
+with inlining. However, this means constraints need to be strict so we know the definition terminates, which is important for the consistency of the coercion language. In other words, we need to change the representation of constraint. Right now, we have`Constraint` be like `TYPE LiftedRep` (i.e. `Type`). This suggestion would make it be like `TYPE UnliftedRep`. However, strict constraints clash with deferred type errors, as deferred type errors make use of the laziness. Richard argues that deferred type errors are already in conflict with `TypeInType`. See [this ticket](https://gitlab.haskell.org/ghc/ghc/issues/11197/).
 
 
 Another option is to drop heterogeneous equality. It turns out we can still define hetero-datatype. In source, we write

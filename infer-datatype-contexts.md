@@ -1,7 +1,7 @@
 # Infer DatatypeContexts
 
 
-Haskell prime has decided to [ depricate DatatypeContexts](https://ghc.haskell.org/trac/haskell-prime/wiki/NoDatatypeContexts).
+Haskell prime has decided to [depricate DatatypeContexts](https://ghc.haskell.org/trac/haskell-prime/wiki/NoDatatypeContexts).
 
 
 Running Example:
@@ -132,4 +132,4 @@ How can you get a value of type `HasEq a`.
 ## Related
 
 [\#8026](https://gitlab.haskell.org//ghc/ghc/issues/8026)
-[ http://www.haskell.org/pipermail/haskell-prime/2010-July/003249.html](http://www.haskell.org/pipermail/haskell-prime/2010-July/003249.html)
+[http://www.haskell.org/pipermail/haskell-prime/2010-July/003249.html](http://www.haskell.org/pipermail/haskell-prime/2010-July/003249.html)

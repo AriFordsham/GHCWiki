@@ -48,4 +48,4 @@ The only incompatible pair of equations is `F Bool` and `F a`. Why? Let's consid
 This is perhaps somewhat subtle, but it seems to be the right way to do it.
 
 
-The ideas discussed here stem from posts by AntC, Andy Adams-Moran, and Richard on Richard's [ blog post](http://typesandkinds.wordpress.com/2013/04/29/coincident-overlap-in-type-families/) on the subject.
+The ideas discussed here stem from posts by AntC, Andy Adams-Moran, and Richard on Richard's [blog post](http://typesandkinds.wordpress.com/2013/04/29/coincident-overlap-in-type-families/) on the subject.

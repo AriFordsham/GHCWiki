@@ -1,7 +1,7 @@
 # The new [HsSyn](implementing-trees-that-grow/hs-syn) based on Trees That Grow (TTG)
 
 
-This page gives an overview of the new design of `HsSyn`, based on the ideas in [ Trees That Grow](https://www.microsoft.com/en-us/research/publication/trees-that-grow/) --- call it "TTG `HsSyn`".
+This page gives an overview of the new design of `HsSyn`, based on the ideas in [Trees That Grow](https://www.microsoft.com/en-us/research/publication/trees-that-grow/) --- call it "TTG `HsSyn`".
 
 
 The overall objectives of TTG `HsSyn` are:

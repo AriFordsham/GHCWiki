@@ -81,4 +81,4 @@ The specialiser also interacts with rewrite rules in ways I'm not entirely sure 
 ## Status
 
 
-There is a preliminary patch set [ here](https://github.com/bgamari/ghc/tree/wip/rule-context).
+There is a preliminary patch set [here](https://github.com/bgamari/ghc/tree/wip/rule-context).

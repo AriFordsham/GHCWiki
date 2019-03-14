@@ -513,7 +513,7 @@ Unfortunately, not only indices blow out, the length of replicated arrays may al
 ## Concrete implementation of replicated arrays
 
 
-The DPH library is built on the [ vector](http://hackage.haskell.org/package/vector) package (that provides high-performance sequential arrays).  This package heavily relies on a cheap representation of sliced arrays — i.e., arrays of which a subarray is extracted.  Such array slices are not copied, but represented by a reference to the original array together with markers for the start and end of the slice.
+The DPH library is built on the [vector](http://hackage.haskell.org/package/vector) package (that provides high-performance sequential arrays).  This package heavily relies on a cheap representation of sliced arrays — i.e., arrays of which a subarray is extracted.  Such array slices are not copied, but represented by a reference to the original array together with markers for the start and end of the slice.
 
 ### Replicating and slicing
 

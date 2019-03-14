@@ -61,7 +61,7 @@ Since every `RdrName` of interest is `Located`, it would be enough to add a list
 #### C. Create a separate table mapping each `RdrName` occurrence `SrcSpan` to the corresponding `Name`.
 
 
-This is the approach currently used in `HaRe`, and is presented for inclusion in the GHC API as [ https://phabricator.haskell.org/D5330](https://phabricator.haskell.org/D5330)
+This is the approach currently used in `HaRe`, and is presented for inclusion in the GHC API as [https://phabricator.haskell.org/D5330](https://phabricator.haskell.org/D5330)
 
 #### D. Modify the `RenamedSource` AST so that it also fully represents the parsed source file, when used with the API Annotations.
 

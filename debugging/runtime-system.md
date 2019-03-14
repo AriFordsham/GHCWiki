@@ -51,7 +51,7 @@ This doesn't come up very often, to be honest.  If it happens then you need to t
 ### Some malloc'd memory has not been free'd
 
 
-Fortunately this one is quite easy.  Compile the program with `-debug`, and run it under [ Valgrind](http://valgrind.org/), with the options `--leak-check=full --show-reachable=yes`, to get a full report on leaking memory and where it was allocated from.  Some leaks are expected: for example, we don't release the heap data structures during shutdown of a standalone program, because there might be outstanding foreign calls referring to data in the heap.
+Fortunately this one is quite easy.  Compile the program with `-debug`, and run it under [Valgrind](http://valgrind.org/), with the options `--leak-check=full --show-reachable=yes`, to get a full report on leaking memory and where it was allocated from.  Some leaks are expected: for example, we don't release the heap data structures during shutdown of a standalone program, because there might be outstanding foreign calls referring to data in the heap.
 
 ### Some blocks allocated from the block allocator have not been freed
 

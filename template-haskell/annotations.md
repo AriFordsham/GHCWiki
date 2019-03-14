@@ -6,7 +6,7 @@ Currently [wiki:/Annotations](annotations) are only usable from the GHC API.  Ou
 # Motivation
 
 
-As a main use-case we will consider the [ http://hackage.haskell.org/package/hflags](http://hackage.haskell.org/package/hflags) library.
+As a main use-case we will consider the [http://hackage.haskell.org/package/hflags](http://hackage.haskell.org/package/hflags) library.
 
 
 The goal of the library is to:
@@ -69,7 +69,7 @@ Of course, this whole approach can be debated and maybe we should instead explic
 How is this implemented in HFlags currently?  By using typeclasses.
 
 
-The FlagData ([ https://github.com/errge/hflags/blob/v0.4/HFlags.hs\#L129](https://github.com/errge/hflags/blob/v0.4/HFlags.hs#L129)) datatype contains all the information we need to know about a flag.  Then for every flag we create a new fake datatype that implements the Flag class ([ https://github.com/errge/hflags/blob/v0.4/HFlags.hs\#L149](https://github.com/errge/hflags/blob/v0.4/HFlags.hs#L149)).  In `initHFlags` we simply call template haskell reify on the Flag class.  This gives us our "fake" instances and their `getFlagData` method can be used to query the needed flag data for `--help` generation, parsing, etc.  This can be seen in at [ https://github.com/errge/hflags/blob/v0.4/HFlags.hs\#L397](https://github.com/errge/hflags/blob/v0.4/HFlags.hs#L397).
+The FlagData ([https://github.com/errge/hflags/blob/v0.4/HFlags.hs\#L129](https://github.com/errge/hflags/blob/v0.4/HFlags.hs#L129)) datatype contains all the information we need to know about a flag.  Then for every flag we create a new fake datatype that implements the Flag class ([https://github.com/errge/hflags/blob/v0.4/HFlags.hs\#L149](https://github.com/errge/hflags/blob/v0.4/HFlags.hs#L149)).  In `initHFlags` we simply call template haskell reify on the Flag class.  This gives us our "fake" instances and their `getFlagData` method can be used to query the needed flag data for `--help` generation, parsing, etc.  This can be seen in at [https://github.com/errge/hflags/blob/v0.4/HFlags.hs\#L397](https://github.com/errge/hflags/blob/v0.4/HFlags.hs#L397).
 
 
 This is ugly: we are abusing the reification of types and instances to send messages to ourselves between modules.  There should be an explicit way to do that.  This is requested in [\#7867](https://gitlab.haskell.org//ghc/ghc/issues/7867).

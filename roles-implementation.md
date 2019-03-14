@@ -27,7 +27,7 @@ instantiations lead to representationally equal types.) Any two types are
 
 Every coercion proves an equality at a certain role. There are subtle rules
 governing what compositions are allowed. See
-[ the core spec](http://github.com/ghc/ghc/blob/master/docs/core-spec/core-spec.pdf?raw=true) for the details, or look at `coercionRole`. To facilitate this,
+[the core spec](http://github.com/ghc/ghc/blob/master/docs/core-spec/core-spec.pdf?raw=true) for the details, or look at `coercionRole`. To facilitate this,
 a few of the `Coercion` constructors needed to be changed:
 
 - `Refl` now takes a role and a type, proving reflexive equality at the given role.

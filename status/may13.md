@@ -133,16 +133,16 @@ Three connected projects concerned cross-compilation
 Thanks to Ian Lynagh for making it easy for us with integration, makefile refactoring and patience, and to David Terei for LLVM assistance.
 
 
-\[TYH\] Type holes [ Type Holes](http://www.haskell.org/haskellwiki/GHC/TypeHoles)
+\[TYH\] Type holes [Type Holes](http://www.haskell.org/haskellwiki/GHC/TypeHoles)
 
 \[OL\] Overloaded lists [overloaded lists](overloaded-lists)
 
-\[KD\] Kinds without data [ http://hackage.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://hackage.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
+\[KD\] Kinds without data [http://hackage.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://hackage.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
 
-\[OTF\] Overlapping type family instances [ http://hackage.haskell.org/trac/ghc/wiki/NewAxioms](http://hackage.haskell.org/trac/ghc/wiki/NewAxioms)
+\[OTF\] Overlapping type family instances [http://hackage.haskell.org/trac/ghc/wiki/NewAxioms](http://hackage.haskell.org/trac/ghc/wiki/NewAxioms)
 
-\[CG\] The new codegen is nearly ready to go live [ http://hackage.haskell.org/trac/ghc/blog/newcg-update](http://hackage.haskell.org/trac/ghc/blog/newcg-update)
+\[CG\] The new codegen is nearly ready to go live [http://hackage.haskell.org/trac/ghc/blog/newcg-update](http://hackage.haskell.org/trac/ghc/blog/newcg-update)
 
-\[PIO\] The results are amazing [ https://twitter.com/bos31337/status/284701554458640384](https://twitter.com/bos31337/status/284701554458640384)\] 
+\[PIO\] The results are amazing [https://twitter.com/bos31337/status/284701554458640384](https://twitter.com/bos31337/status/284701554458640384)\] 
 
-\[IOS\] Building for Apple iOS targets [ http://hackage.haskell.org/trac/ghc/wiki/Building/CrossCompiling/iOS](http://hackage.haskell.org/trac/ghc/wiki/Building/CrossCompiling/iOS)
+\[IOS\] Building for Apple iOS targets [http://hackage.haskell.org/trac/ghc/wiki/Building/CrossCompiling/iOS](http://hackage.haskell.org/trac/ghc/wiki/Building/CrossCompiling/iOS)

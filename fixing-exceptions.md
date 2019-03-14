@@ -36,7 +36,7 @@ Furthermore, for the sake of readability, I uniformly substitute `Either a b` in
 By a **precise** exception, I mean an exception produced by `raiseIO#` (the primop version of `throwIO`).
 
 
-By an **imprecise** exception, I basically mean an exception produced by `throw` (as described in [ A Semantics for Imprecise Exceptions](https://www.microsoft.com/en-us/research/publication/a-semantics-for-imprecise-exceptions/)).
+By an **imprecise** exception, I basically mean an exception produced by `throw` (as described in [A Semantics for Imprecise Exceptions](https://www.microsoft.com/en-us/research/publication/a-semantics-for-imprecise-exceptions/)).
 
 ### Semantics of precise exceptions
 

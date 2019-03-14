@@ -2,7 +2,7 @@
 The next version (7.10) of GHC is slated to have a drastically changed Prelude,
 driven by the (aptly) named Burning Bridges Proposal (BBP), ticket [9586](https://gitlab.haskell.org//ghc/ghc/issues/9586). This proposal generalises
 many list operations, e.g. foldr, so they are overloaded - typically becoming members of
-either Foldable or Traversable.  A complete list pf changes is given at the foot of this page.  Gershom has made [ a wiki page that describes the change in more detail](https://wiki.haskell.org/Foldable_Traversable_In_Prelude).
+either Foldable or Traversable.  A complete list pf changes is given at the foot of this page.  Gershom has made [a wiki page that describes the change in more detail](https://wiki.haskell.org/Foldable_Traversable_In_Prelude).
 
 
 This message comes very late in the release process, but we would urge caution before changing.
@@ -170,9 +170,9 @@ Many moons ago a similar generalization of the Prelude was considered.  That tim
 
 ## Links
 
-- [ http://neilmitchell.blogspot.co.uk/2014/10/how-to-rewrite-prelude.html](http://neilmitchell.blogspot.co.uk/2014/10/how-to-rewrite-prelude.html)
-- [ http://neilmitchell.blogspot.co.uk/2014/10/why-traversablefoldable-should-not-be.html](http://neilmitchell.blogspot.co.uk/2014/10/why-traversablefoldable-should-not-be.html)
-- [ http://www.yesodweb.com/blog/2014/10/classy-base-prelude](http://www.yesodweb.com/blog/2014/10/classy-base-prelude), [ http://www.reddit.com/r/haskell/comments/2if0fu/on_concerns_about_haskells_prelude_favoring/](http://www.reddit.com/r/haskell/comments/2if0fu/on_concerns_about_haskells_prelude_favoring/)
+- [http://neilmitchell.blogspot.co.uk/2014/10/how-to-rewrite-prelude.html](http://neilmitchell.blogspot.co.uk/2014/10/how-to-rewrite-prelude.html)
+- [http://neilmitchell.blogspot.co.uk/2014/10/why-traversablefoldable-should-not-be.html](http://neilmitchell.blogspot.co.uk/2014/10/why-traversablefoldable-should-not-be.html)
+- [http://www.yesodweb.com/blog/2014/10/classy-base-prelude](http://www.yesodweb.com/blog/2014/10/classy-base-prelude), [http://www.reddit.com/r/haskell/comments/2if0fu/on_concerns_about_haskells_prelude_favoring/](http://www.reddit.com/r/haskell/comments/2if0fu/on_concerns_about_haskells_prelude_favoring/)
 
 ## Raw diff of changes to base from 7.8 to 7.10
 

@@ -2,8 +2,8 @@
 
 
 The implementation has been prototyped in GHC 7.2.1, see
-[ http://www.haskell.org/pipermail/glasgow-haskell-users/2011-December/021298.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2011-December/021298.html), and SPJ's observations/possible improvements and caveats
-[ http://www.haskell.org/pipermail/glasgow-haskell-users/2012-January/021744.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2012-January/021744.html)
+[http://www.haskell.org/pipermail/glasgow-haskell-users/2011-December/021298.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2011-December/021298.html), and SPJ's observations/possible improvements and caveats
+[http://www.haskell.org/pipermail/glasgow-haskell-users/2012-January/021744.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2012-January/021744.html)
 
 
 A cut-down prototype is attached to this page. (The ugliest hacks removed.)
@@ -76,7 +76,7 @@ That is: the `r{ ... }` constraint is added by the desugarer (and will be furthe
 ### Option Three: Mixed In-situ and Declared ORF
 
 >
-> (See discussion at [ http://www.haskell.org/pipermail/glasgow-haskell-users/2012-March/022061.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2012-March/022061.html) "My main complaint against DORF is that having to write fieldLabel declarations for every field you want to use is onerous.")
+> (See discussion at [http://www.haskell.org/pipermail/glasgow-haskell-users/2012-March/022061.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2012-March/022061.html) "My main complaint against DORF is that having to write fieldLabel declarations for every field you want to use is onerous.")
 
 
 There may be some (perhaps most) of the field names in a record type that appear only in that record type. Then this:
@@ -231,7 +231,7 @@ Haskell's existing update syntax is desugarred to a call to `set`:
 It is crucial to this proposal that we can implement a polymorphic field update function (`set`). There's a number of tricky requirements considered below.
 
 
-In amongst the discussion of dot notation for field selection, there have been aspersions cast on Haskell's current record update syntax.  [ http://www.haskell.org/pipermail/haskell-cafe/2012-February/099314.html](http://www.haskell.org/pipermail/haskell-cafe/2012-February/099314.html)
+In amongst the discussion of dot notation for field selection, there have been aspersions cast on Haskell's current record update syntax.  [http://www.haskell.org/pipermail/haskell-cafe/2012-February/099314.html](http://www.haskell.org/pipermail/haskell-cafe/2012-February/099314.html)
 
 
 If we can support update as just a function, there's a chance we can then turn to the syntactic sugar. (For example, the application programmer can develop update idioms to suit their purpose, as just overloaded functions.)

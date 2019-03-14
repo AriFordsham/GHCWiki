@@ -1,7 +1,7 @@
 # Proposal: Syntax-Free Type Directed Name Resolution
 
 
-The original [ TDNR proposal](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) was fairly controversial, with almost all of the objections related to the new dot syntax. However, TDNR can be implemented without any changes to the syntax of Haskell and without adding any new operators.
+The original [TDNR proposal](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) was fairly controversial, with almost all of the objections related to the new dot syntax. However, TDNR can be implemented without any changes to the syntax of Haskell and without adding any new operators.
 
 # Disambiguation
 
@@ -27,7 +27,7 @@ However, these would greatly complicate the implementation, and the above defini
 # Example
 
 
-Adapted from [ TDNR](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution):
+Adapted from [TDNR](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution):
 
 ```
 {-# LANGUAGE TDNR #-}moduleFoowhereimportButton(Button, reset )importCanvas(Canvas, reset )
@@ -52,5 +52,5 @@ Activating this extension would have no effect on existing programs. It will onl
 - TDNR only allows the compiler to qualify bear names, makes no changes to the type system, and applies to all names.
 
 >
-> AntC: This section should also compare to [ Records/OverloadedRecordFields/DuplicateRecordFields](Records/OverloadedRecordFields/DuplicateRecordFields).
-> See the discussion starting [ https://mail.haskell.org/pipermail/glasgow-haskell-users/2016-May/026225.html](https://mail.haskell.org/pipermail/glasgow-haskell-users/2016-May/026225.html).
+> AntC: This section should also compare to [Records/OverloadedRecordFields/DuplicateRecordFields](Records/OverloadedRecordFields/DuplicateRecordFields).
+> See the discussion starting [https://mail.haskell.org/pipermail/glasgow-haskell-users/2016-May/026225.html](https://mail.haskell.org/pipermail/glasgow-haskell-users/2016-May/026225.html).

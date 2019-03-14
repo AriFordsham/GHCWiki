@@ -324,7 +324,7 @@ foo @Zero y = y
 ```
 
 
-(Here, we are assuming `@` as the invisible-overrider.) What is `foo`'s type? It could be `pi (n :: Nat). forall (a :: *). Vec a n -> Vec a Zero`. It could also be `forall (n :: Nat) (a :: *). a -> a`. Neither is more general than the other -- we are in the same GADT type-inference problem as described in the [ OutsideIn](http://research.microsoft.com/en-us/um/people/simonpj/papers/constraints/jfp-outsidein.pdf) paper. Thus, we reject such a `foo` that matches on an implicit parameter without a type signature.
+(Here, we are assuming `@` as the invisible-overrider.) What is `foo`'s type? It could be `pi (n :: Nat). forall (a :: *). Vec a n -> Vec a Zero`. It could also be `forall (n :: Nat) (a :: *). a -> a`. Neither is more general than the other -- we are in the same GADT type-inference problem as described in the [OutsideIn](http://research.microsoft.com/en-us/um/people/simonpj/papers/constraints/jfp-outsidein.pdf) paper. Thus, we reject such a `foo` that matches on an implicit parameter without a type signature.
 
 
 But, what about
@@ -341,7 +341,7 @@ When do `pi`-types get inferred, if ever? Good question.
 
 # Implementation
 
-*Kind equalities* will be part of GHC 8. Merging commit: [ 67465497](https://github.com/ghc/ghc/commit/6746549772c5cc0ac66c0fce562f297f4d4b80a2). It was developed in [ Eisenberg's nokinds tree](https://github.com/goldfirere/ghc/tree/nokinds).
+*Kind equalities* will be part of GHC 8. Merging commit: [67465497](https://github.com/ghc/ghc/commit/6746549772c5cc0ac66c0fce562f297f4d4b80a2). It was developed in [Eisenberg's nokinds tree](https://github.com/goldfirere/ghc/tree/nokinds).
 
 # Related work
 
@@ -350,13 +350,13 @@ When do `pi`-types get inferred, if ever? Good question.
 
 There are several published works very relevant to the design:
 
-- [ System FC with Explicit Kind Equality](https://www.cis.upenn.edu/~justhsu/docs/nokinds.pdf). Stephanie Weirich, Justin Hsu, and Richard A. Eisenberg. ICFP 2013.
-- [ Type Inference, Haskell, and Dependent Types](http://adam.gundry.co.uk/pub/thesis/thesis-2013-12-03.pdf). Adam Gundry. PhD Thesis, 2013.
-- Eisenberg's thesis: [ https://github.com/goldfirere/thesis](https://github.com/goldfirere/thesis)
+- [System FC with Explicit Kind Equality](https://www.cis.upenn.edu/~justhsu/docs/nokinds.pdf). Stephanie Weirich, Justin Hsu, and Richard A. Eisenberg. ICFP 2013.
+- [Type Inference, Haskell, and Dependent Types](http://adam.gundry.co.uk/pub/thesis/thesis-2013-12-03.pdf). Adam Gundry. PhD Thesis, 2013.
+- Eisenberg's thesis: [https://github.com/goldfirere/thesis](https://github.com/goldfirere/thesis)
 
 
 There are also many works addressing the use of dependent types in Haskell. Here is a selection:
 
-- [ Dependently typed programming with singletons](http://www.cis.upenn.edu/~eir/papers/2012/singletons/paper.pdf). Richard A. Eisenberg and Stephanie Weirich. Haskell Symposium 2012.
-- [ Hasochism: The Pleasure and Pain of Dependently Typed Haskell](https://personal.cis.strath.ac.uk/conor.mcbride/pub/hasochism.pdf). Sam Lindley and Conor McBride. Haskell Symposium 2013.
-- [ Promoting Functions to Type Families in Haskell](http://www.cis.upenn.edu/~eir/papers/2014/promotion/promotion.pdf). Richard A. Eisenberg and Jan Stolarek. Haskell Symposium 2014.
+- [Dependently typed programming with singletons](http://www.cis.upenn.edu/~eir/papers/2012/singletons/paper.pdf). Richard A. Eisenberg and Stephanie Weirich. Haskell Symposium 2012.
+- [Hasochism: The Pleasure and Pain of Dependently Typed Haskell](https://personal.cis.strath.ac.uk/conor.mcbride/pub/hasochism.pdf). Sam Lindley and Conor McBride. Haskell Symposium 2013.
+- [Promoting Functions to Type Families in Haskell](http://www.cis.upenn.edu/~eir/papers/2014/promotion/promotion.pdf). Richard A. Eisenberg and Jan Stolarek. Haskell Symposium 2014.

@@ -25,13 +25,13 @@ Where they conflict with our suggestions, they're probably right.
 
 - Autoconf documentation. See also
   The autoconf macro archive (this link is out-of-date)
-  and [ Cyclic Software's description](http://www.cyclic.com/cyclic-pages/autoconf.html).
+  and [Cyclic Software's description](http://www.cyclic.com/cyclic-pages/autoconf.html).
 
-- [ Indian Hill C Style and Coding Standards](http://www.cs.arizona.edu/~mccann/cstyle.html)
+- [Indian Hill C Style and Coding Standards](http://www.cs.arizona.edu/~mccann/cstyle.html)
 
 - A list of C programming style links (this link is out-of-date)
 
-- [ A very large list of C programming links](http://www.lysator.liu.se/c/c-www.html)
+- [A very large list of C programming links](http://www.lysator.liu.se/c/c-www.html)
 
 ## Portability issues
 
@@ -76,7 +76,7 @@ external header file).
 - char can be signed or unsigned - always say which you mean
 
 - Our POSIX policy: try to write code that only uses POSIX
-  ([ IEEE Std 1003.1](http://www.opengroup.org/onlinepubs/009695399/toc.htm))
+  ([IEEE Std 1003.1](http://www.opengroup.org/onlinepubs/009695399/toc.htm))
   interfaces and APIs.  We used to define `POSIX_SOURCE` by
   default, but found that this caused more problems than it solved, so
   now we require any code that is POSIX-compliant to explicitly say so

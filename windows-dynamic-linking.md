@@ -44,7 +44,7 @@ Import libraries essentially allow us to "promise" the linker that the symbols a
 This is how mutual recursive linking is done on Windows.
 
 
-Import libraries are commonly created by means of a `Module Definition file`[ https://msdn.microsoft.com/en-us/library/28d6s79h.aspx](https://msdn.microsoft.com/en-us/library/28d6s79h.aspx)
+Import libraries are commonly created by means of a `Module Definition file`[https://msdn.microsoft.com/en-us/library/28d6s79h.aspx](https://msdn.microsoft.com/en-us/library/28d6s79h.aspx)
 
 
 This file allows quite a few things (like symbol hiding, forwarding, proxying, renaming etc).
@@ -80,7 +80,7 @@ It's also important to note that there is two types of import libraries:
 > > at startup but only as needed.
 
 > >
-> > This is important, because it allows us to, if needed, use OS hooks to change where it looks for DLLs. [ https://msdn.microsoft.com/en-us/library/z9h1h6ty.aspx](https://msdn.microsoft.com/en-us/library/z9h1h6ty.aspx)
+> > This is important, because it allows us to, if needed, use OS hooks to change where it looks for DLLs. [https://msdn.microsoft.com/en-us/library/z9h1h6ty.aspx](https://msdn.microsoft.com/en-us/library/z9h1h6ty.aspx)
 > > For instance, if we want to allow distribution of a Haskell runtime separately from GHC (like .NET, JAVA etc allow) then we can 
 > > use this to place the dlls anywhere and have the main of a haskell program locate the runtime.
 
@@ -247,4 +247,4 @@ and all the DLLs since they are all in the same process space as the `exe` and s
 
 
 For dynamic libraries we can override the `hs_init` function and do the same. I think we can use ld's `--wrap symbol` for this so existing code don't need any changing:
-[ http://ftp.gnu.org/pub/old-gnu/Manuals/ld-2.9.1/html_node/ld_3.html](http://ftp.gnu.org/pub/old-gnu/Manuals/ld-2.9.1/html_node/ld_3.html)
+[http://ftp.gnu.org/pub/old-gnu/Manuals/ld-2.9.1/html_node/ld_3.html](http://ftp.gnu.org/pub/old-gnu/Manuals/ld-2.9.1/html_node/ld_3.html)

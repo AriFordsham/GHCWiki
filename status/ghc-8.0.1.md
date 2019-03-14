@@ -33,61 +33,61 @@ Below are the major highlights of 8.0.
 
 ### Landed in HEAD
 
-- Option to ignore unrecognised warning flags ([\#10429](https://gitlab.haskell.org//ghc/ghc/issues/10429), Ben, [ Phab:D1830](https://phabricator.haskell.org/D1830))
+- Option to ignore unrecognised warning flags ([\#10429](https://gitlab.haskell.org//ghc/ghc/issues/10429), Ben, [Phab:D1830](https://phabricator.haskell.org/D1830))
 
-- Support for strictness and unpacking in Template Haskell (Trac [\#10697](https://gitlab.haskell.org//ghc/ghc/issues/10697), [ Phab:D1603](https://phabricator.haskell.org/D1603))
+- Support for strictness and unpacking in Template Haskell (Trac [\#10697](https://gitlab.haskell.org//ghc/ghc/issues/10697), [Phab:D1603](https://phabricator.haskell.org/D1603))
 
 - Visible type application ([\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296))
 
-- Consistent warning options ([\#11218](https://gitlab.haskell.org//ghc/ghc/issues/11218), [ Phab:D1613](https://phabricator.haskell.org/D1613))
+- Consistent warning options ([\#11218](https://gitlab.haskell.org//ghc/ghc/issues/11218), [Phab:D1613](https://phabricator.haskell.org/D1613))
 
-- More expressive Generics metadata (Ryan Scott, Trac [\#10716](https://gitlab.haskell.org//ghc/ghc/issues/10716), [\#10697](https://gitlab.haskell.org//ghc/ghc/issues/10697), [ Phab:D493](https://phabricator.haskell.org/D493))
+- More expressive Generics metadata (Ryan Scott, Trac [\#10716](https://gitlab.haskell.org//ghc/ghc/issues/10716), [\#10697](https://gitlab.haskell.org//ghc/ghc/issues/10697), [Phab:D493](https://phabricator.haskell.org/D493))
 
-- Expose enabled language extensions to [TemplateHaskell](template-haskell) ([\#10820](https://gitlab.haskell.org//ghc/ghc/issues/10820), Ben, [ Phab:D1200](https://phabricator.haskell.org/D1200))
+- Expose enabled language extensions to [TemplateHaskell](template-haskell) ([\#10820](https://gitlab.haskell.org//ghc/ghc/issues/10820), Ben, [Phab:D1200](https://phabricator.haskell.org/D1200))
 
-- Recursive superclasses (Simon, [ Phab:D1594](https://phabricator.haskell.org/D1594), [\#11067](https://gitlab.haskell.org//ghc/ghc/issues/11067))
+- Recursive superclasses (Simon, [Phab:D1594](https://phabricator.haskell.org/D1594), [\#11067](https://gitlab.haskell.org//ghc/ghc/issues/11067))
 
 - Documentation for OverloadedLabels (Adam)
 
-- Use `Cxt` in Template Haskell's representation of `deriving` clauses ([\#10819](https://gitlab.haskell.org//ghc/ghc/issues/10819), Ben, [ Phab:D1202](https://phabricator.haskell.org/D1202))
+- Use `Cxt` in Template Haskell's representation of `deriving` clauses ([\#10819](https://gitlab.haskell.org//ghc/ghc/issues/10819), Ben, [Phab:D1202](https://phabricator.haskell.org/D1202))
 
-- Fix [\#10845](https://gitlab.haskell.org//ghc/ghc/issues/10845) with [ Phab:1422](https://phabricator.haskell.org/1422) (Rework the Implicit CallStack solver to handle local lets)
+- Fix [\#10845](https://gitlab.haskell.org//ghc/ghc/issues/10845) with [Phab:1422](https://phabricator.haskell.org/1422) (Rework the Implicit CallStack solver to handle local lets)
 
-- Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [DependentHaskell/Phase1](dependent-haskell/phase1), but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. ([ Phab:D808](https://phabricator.haskell.org/D808))
+- Support for reasoning about kind equalities, which gives promotion of GADTs to kinds, kind families, heterogeneous equality (kind-indexed GADTs), and `* :: *`. There is some discussion in [DependentHaskell/Phase1](dependent-haskell/phase1), but that's very low-level. I (Richard) have no good user-oriented write-up yet, but there shouldn't be much in the way of new syntax -- just fewer type errors. ([Phab:D808](https://phabricator.haskell.org/D808))
 
-- Support for [implicit parameters providing callstacks/source locations](explicit-call-stack/implicit-locations), allowing you to have a light-weight means of getting a call-stack in a Haskell application. ([ Phab:D861](https://phabricator.haskell.org/D861), [ Phab:D1422](https://phabricator.haskell.org/D1422))
+- Support for [implicit parameters providing callstacks/source locations](explicit-call-stack/implicit-locations), allowing you to have a light-weight means of getting a call-stack in a Haskell application. ([Phab:D861](https://phabricator.haskell.org/D861), [Phab:D1422](https://phabricator.haskell.org/D1422))
 
 - Improved optimization diagnostics. The compiler is now more liberal about issues warnings of failed specialization attempts
 
-- Support for wildcards in data and type family instances ([ Phab:D1092](https://phabricator.haskell.org/D1092))
+- Support for wildcards in data and type family instances ([Phab:D1092](https://phabricator.haskell.org/D1092))
 
-- Support for [Injective Type Families](injective-type-families), which allows you to specify type families which are injective, i.e. a one-to-one relationship. ([ Phab:D202](https://phabricator.haskell.org/D202))
+- Support for [Injective Type Families](injective-type-families), which allows you to specify type families which are injective, i.e. a one-to-one relationship. ([Phab:D202](https://phabricator.haskell.org/D202))
 
-- Support for typed holes in Template Haskell ([ Phab:D835](https://phabricator.haskell.org/D835))
+- Support for typed holes in Template Haskell ([Phab:D835](https://phabricator.haskell.org/D835))
 
-- Support for [Applicative Do](applicative-do), allowing GHC to desugar do-notation to `Applicative` where possible. ([ Phab:D729](https://phabricator.haskell.org/D729))
+- Support for [Applicative Do](applicative-do), allowing GHC to desugar do-notation to `Applicative` where possible. ([Phab:D729](https://phabricator.haskell.org/D729))
 
-- Support for deriving the `Lift` typeclass ([ Phab:D1168](https://phabricator.haskell.org/D1168))
+- Support for deriving the `Lift` typeclass ([Phab:D1168](https://phabricator.haskell.org/D1168))
 
 - A beautiful new users guide, written in reStructured Text, and significantly improved output.
 
-- Support for [Strict Haskell](strict-pragma) including both the `StrictData` and `Strict` language extensions ([ Phab:D1033](https://phabricator.haskell.org/D1033) and [ Phab:D1142](https://phabricator.haskell.org/D1142))
+- Support for [Strict Haskell](strict-pragma) including both the `StrictData` and `Strict` language extensions ([Phab:D1033](https://phabricator.haskell.org/D1033) and [Phab:D1142](https://phabricator.haskell.org/D1142))
 
-- Support for record pattern synonyms ([ Phab:D1152](https://phabricator.haskell.org/D1152))
+- Support for record pattern synonyms ([Phab:D1152](https://phabricator.haskell.org/D1152))
 
-- Allow patterns synonyms to be exported in the same way as data constructors ([ Phab:D1258](https://phabricator.haskell.org/D1258))
+- Allow patterns synonyms to be exported in the same way as data constructors ([Phab:D1258](https://phabricator.haskell.org/D1258))
 
-- [Custom type errors](proposal/custom-type-errors). ([\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637), [ Phab:D1236](https://phabricator.haskell.org/D1236)).
+- [Custom type errors](proposal/custom-type-errors). ([\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637), [Phab:D1236](https://phabricator.haskell.org/D1236)).
 
 - Implement the `MonadFail` proposal ([\#10751](https://gitlab.haskell.org//ghc/ghc/issues/10751))
 
-- Support for [DuplicateRecordFields](records/overloaded-record-fields/duplicate-record-fields), allowing multiple datatypes to declare the same record field names provided they are used unambiguously ([ Phab:D761](https://phabricator.haskell.org/D761))
+- Support for [DuplicateRecordFields](records/overloaded-record-fields/duplicate-record-fields), allowing multiple datatypes to declare the same record field names provided they are used unambiguously ([Phab:D761](https://phabricator.haskell.org/D761))
 
-- Support for [OverloadedLabels](records/overloaded-record-fields/overloaded-labels), allowing a form of type-directed name resolution ([ Phab:D1331](https://phabricator.haskell.org/D1331))
+- Support for [OverloadedLabels](records/overloaded-record-fields/overloaded-labels), allowing a form of type-directed name resolution ([Phab:D1331](https://phabricator.haskell.org/D1331))
 
 - Simon PJ's `wip/spj-wildcard-refactor` branch, which refactors the handling of implicit binders and wildcards
 
-- A huge improvement to pattern matching (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [ their paper](http://people.cs.kuleuven.be/~george.karachalias/papers/p424-karachalias.pdf). ([ Phab:D1535](https://phabricator.haskell.org/D1535))
+- A huge improvement to pattern matching (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see [their paper](http://people.cs.kuleuven.be/~george.karachalias/papers/p424-karachalias.pdf). ([Phab:D1535](https://phabricator.haskell.org/D1535))
 
 - Backpack is chugging along; we have a new user-facing syntax which allows multiple modules to be defined a single file, and are hoping to release at least the ability to publish multiple "units" in a single Cabal file.
 
@@ -119,12 +119,12 @@ There's nothing here.
 
 FIXME Write the migration guide.
 
-[ https://ghc.haskell.org/trac/ghc/wiki/Migration/8.0](https://ghc.haskell.org/trac/ghc/wiki/Migration/8.0)
+[https://ghc.haskell.org/trac/ghc/wiki/Migration/8.0](https://ghc.haskell.org/trac/ghc/wiki/Migration/8.0)
 
 ## Known issues with release candidate 2
 
 
-Release candidate 2 was [ released](https://mail.haskell.org/pipermail/ghc-devs/2016-February/011309.html) on 7 Feb 2016. These significant issues are known to be present in this release,
+Release candidate 2 was [released](https://mail.haskell.org/pipermail/ghc-devs/2016-February/011309.html) on 7 Feb 2016. These significant issues are known to be present in this release,
 
 - [\#11334](https://gitlab.haskell.org//ghc/ghc/issues/11334): Solving for `Typeable (Proxy :: Proxy 'Compose)` fails
 
@@ -139,7 +139,7 @@ Release candidate 2 was [ released](https://mail.haskell.org/pipermail/ghc-devs/
 ## Known issues with release candidate 1
 
 
-Release candidate 1 was [ released](https://mail.haskell.org/pipermail/ghc-devs/2016-January/010966.html) on 13 Jan 2016. These significant issues are present in this release,
+Release candidate 1 was [released](https://mail.haskell.org/pipermail/ghc-devs/2016-January/010966.html) on 13 Jan 2016. These significant issues are present in this release,
 
 - The new `-XInjectiveTypeFamilies` language extension will likely be
   renamed to `-XTypeFamilyDependencies`

@@ -42,7 +42,7 @@ While it is useful to occasionally profile GHC and look for hotspots which need 
 
 Here are some tips and tricks:
 
-- Check out [ http://perf.haskell.org/ghc](http://perf.haskell.org/ghc), which may have already bisected the problem for you.
+- Check out [http://perf.haskell.org/ghc](http://perf.haskell.org/ghc), which may have already bisected the problem for you.
 
 - See [Bisection](working-conventions/bisection) for tips on bisection.
 

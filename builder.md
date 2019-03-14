@@ -12,7 +12,7 @@ Each night we build GHC on each slave, in various different ways, run the test s
 ## Seeing build results
 
 
-The build results are uploaded to [ http://haskell.inf.elte.hu/builders/](http://haskell.inf.elte.hu/builders/)  See the [documentation on the summary](builder-summary) for more information.
+The build results are uploaded to [http://haskell.inf.elte.hu/builders/](http://haskell.inf.elte.hu/builders/)  See the [documentation on the summary](builder-summary) for more information.
 
 ## Can you offer a build slave?
 
@@ -31,10 +31,10 @@ Before installing the Builder, be sure that *[all the tools required for buildin
 
 ## Install OpenSSL
 
-- On Windows, install OpenSSL from here (not the Light Version): [ http://www.openssl.org/related/binaries.html](http://www.openssl.org/related/binaries.html)
+- On Windows, install OpenSSL from here (not the Light Version): [http://www.openssl.org/related/binaries.html](http://www.openssl.org/related/binaries.html)
 - On Linux, get OpenSSL from your distro.  E.g. install `openssl-devel` on RedHat-derived distros (e.g. Fedora), or `libssl-dev` (or `openssl-dev`) on Debian-derived distros (e.g. Ubuntu)
-- On FreeBSD, OpenSSL is included in the base system and it is also available as a [ port](http://www.freshports.org/security/openssl).
-- On Mac OS X, install openssl from [ http://www.macports.org/](http://www.macports.org/): `sudo port install openssl`.
+- On FreeBSD, OpenSSL is included in the base system and it is also available as a [port](http://www.freshports.org/security/openssl).
+- On Mac OS X, install openssl from [http://www.macports.org/](http://www.macports.org/): `sudo port install openssl`.
 - On Solaris: depending on what Solaris version you run you either need to install pkg:/library/security/openssl package (Solaris 11 Express) or install SUNWopenssl-libraries, SUNWopenssl-include packages (Solaris 10)
 
 ## Install HsOpenSSL
@@ -84,7 +84,7 @@ $ builder-client init username password haskell.inf.elte.hu
 ```
 
 
-in it, where `username` and `password` are your username and password. This will create various files and subdirectories that the client will use. Then put a copy of [ http://haskell.inf.elte.hu/ghcBuilder/cert/root.pem](http://haskell.inf.elte.hu/ghcBuilder/cert/root.pem) in `certs/` so that the client can verify that it is connecting to the right server.
+in it, where `username` and `password` are your username and password. This will create various files and subdirectories that the client will use. Then put a copy of [http://haskell.inf.elte.hu/ghcBuilder/cert/root.pem](http://haskell.inf.elte.hu/ghcBuilder/cert/root.pem) in `certs/` so that the client can verify that it is connecting to the right server.
 
 
 First, you may want to do test some runs with the client, just to verify if everything works well:

@@ -598,20 +598,20 @@ Lists, queues, ByteStrings and 2-3-finger trees are all implementations of seque
 Thus, the presence of views has a direct impact on existing Haskell libraries. Arguably, a view proposal that wants to be effective for abstract data types likely has to have the transparent ordinary patterns feature.
 
 
-The observations from [ Okasaki: Breadth-First Numbering - Lessons ... ](http://citeseer.ist.psu.edu/356396.html) suggest that not having abstract pattern matching (for sequences) can indeed have great impact on the abstractions functional programmers can think of.
+The observations from [Okasaki: Breadth-First Numbering - Lessons ... ](http://citeseer.ist.psu.edu/356396.html) suggest that not having abstract pattern matching (for sequences) can indeed have great impact on the abstractions functional programmers can think of.
 
 ### Designing data structures
 
 
 The abstractional power views offer can also be put to good use when designing data structures, as the following papers show
 
-- [ R.Hinze: A fresh look on binary search trees](http://www.informatik.uni-bonn.de/~ralf/publications/SearchTree.ps.gz).
-- [ R.Hinze:  A Simple Implementation Technique for Priority Search Queues](http://www.informatik.uni-bonn.de/~ralf/publications/ICFP01.pdf)
+- [R.Hinze: A fresh look on binary search trees](http://www.informatik.uni-bonn.de/~ralf/publications/SearchTree.ps.gz).
+- [R.Hinze:  A Simple Implementation Technique for Priority Search Queues](http://www.informatik.uni-bonn.de/~ralf/publications/ICFP01.pdf)
 
 ### Sets and Inductive Graphs
 
 
-Having the value input feature, even set like data structures come in reach for pattern matching. In fact, the key idea of [ M.Erwig: Inductive Graphs and Functional Graph Algorithms](http://web.engr.oregonstate.edu/~erwig/papers/InductiveGraphs_JFP01.ps.gz) is to introduce a suitable view of graphs. This way, graphs can be liberated from their notoriously imperative touch.
+Having the value input feature, even set like data structures come in reach for pattern matching. In fact, the key idea of [M.Erwig: Inductive Graphs and Functional Graph Algorithms](http://web.engr.oregonstate.edu/~erwig/papers/InductiveGraphs_JFP01.ps.gz) is to introduce a suitable view of graphs. This way, graphs can be liberated from their notoriously imperative touch.
 
 
 Here is a small module that allows to decompose sets with repsect to a given element, deleting it hereby.
@@ -641,7 +641,7 @@ Notice that in the left-hand side `delete x (has x -> s)`, the first `x` is a bi
 
 
 The expression to the left of the `->` can mention variables bound in earlier patterns.
-For example, Sagonas et al describe an extension to Erlang that supports pattern-matching on bit-strings ([ "Application, implementation and performance evaluation of bit-stream programming in Erlang", PADL'07](http://user.it.uu.se/~kostis/Papers/index.html#Conference)).  Suppose we had a parsing function thus:
+For example, Sagonas et al describe an extension to Erlang that supports pattern-matching on bit-strings (["Application, implementation and performance evaluation of bit-stream programming in Erlang", PADL'07](http://user.it.uu.se/~kostis/Papers/index.html#Conference)).  Suppose we had a parsing function thus:
 
 ```wiki
   bits :: Int -> ByteString -> Maybe2 Word ByteString
@@ -720,7 +720,7 @@ as well as patterns, which seems cool. Unfortunately this dual role proved
 problematic for equational reasoning, and every subsequent proposal restricted
 view constructors to appear in patterns only.
 
-### [ Burton et al views (1996)](http://haskell.org/development/views.html)
+### [Burton et al views (1996)](http://haskell.org/development/views.html)
 
 
 This proposal is substantially more complicated than the one above; in particular it
@@ -743,13 +743,13 @@ definable, because all rely on the value input feature.
 I think this proposal is substantially the same as "Pattern matching and
 abstract data types", Burton and Cameron, JFP 3(2), Apr 1993.
 
-### [ Okasaki: views in Standard ML](http://citeseer.ist.psu.edu/okasaki98view.html)
+### [Okasaki: views in Standard ML](http://citeseer.ist.psu.edu/okasaki98view.html)
 
 
 Okasaki's design is very similar to Burton et al's, apart from differences due
 to the different host language.  Again, the value input feature is not supported.
 
-### [ Erwig: active patterns](http://citeseer.ist.psu.edu/erwig96active.html)
+### [Erwig: active patterns](http://citeseer.ist.psu.edu/erwig96active.html)
 
 
 Erwig's proposal for active patterns renders the Set example like this:
@@ -775,7 +775,7 @@ follows from the `pat` declaration.
 
 Still the proposal does support the value input feature.
 
-### [ Palao et al: active destructors (ICFP'96)](http://portal.acm.org/citation.cfm?id=232641&coll=portal&dl=ACM)
+### [Palao et al: active destructors (ICFP'96)](http://portal.acm.org/citation.cfm?id=232641&coll=portal&dl=ACM)
 
 
 Active Desctructors (ADs) are defined by a new form of top-level declaration.  Our
@@ -835,7 +835,7 @@ that `headV` binds `x` and `tailV` binds `y`.
 In exchange, although view patterns are a bit less convenient here, they 
 are a much, much smaller language change than ADs.
 
-### [ Erwig/Peyton Jones: transformational patterns](http://citeseer.ist.psu.edu/erwig00pattern.html)
+### [Erwig/Peyton Jones: transformational patterns](http://citeseer.ist.psu.edu/erwig00pattern.html)
 
 
 This paper describes pattern guards, but it also introduces **transformational patterns**.  (Although
@@ -849,13 +849,13 @@ First, transformational patterns didn't have the value input feature, althought 
 to add (indeed that's what we've done). Second, transformational patterns as described by
 Erwig do no stripping of the `Maybe` (see "Possible extension 2" above).
 
-### [ F\# Active Patterns](http://blogs.msdn.com/dsyme/archive/2006/08/16/ActivePatterns.aspx)
+### [F\# Active Patterns](http://blogs.msdn.com/dsyme/archive/2006/08/16/ActivePatterns.aspx)
 
 
 Simon started this design discussion after talking to Don Syme about F\#'s **active patterns**, which serve a very similar purpose. These combine both “total” discrimination (views) and “partial” discrimination (implicit maybe) into one mechanism. It does this by embedding the names of discriminators in the names of matching functions, via “values with structured names”.  Sample uses include matching on .NET objects and XML.
 
 
-Here is [ a full paper describing the design](http://blogs.msdn.com/dsyme/archive/2007/04/07/draft-paper-on-f-active-patterns.aspx), by Don Syme, Gregory Neverov, and James Margetson (April 2007).
+Here is [a full paper describing the design](http://blogs.msdn.com/dsyme/archive/2007/04/07/draft-paper-on-f-active-patterns.aspx), by Don Syme, Gregory Neverov, and James Margetson (April 2007).
 
 
 The feature is implemented in F\# 1.9. Some code snippets are below.
@@ -903,7 +903,7 @@ And for views:
         | Param(pos,cxs)    -> Array.fold_right freeVarsAcc cxs (typ :: acc) 
 ```
 
-### [ Emir, Odersky, Williams: Matching objects with patterns](http://lambda-the-ultimate.org/node/1960)
+### [Emir, Odersky, Williams: Matching objects with patterns](http://lambda-the-ultimate.org/node/1960)
 
 
 Scala is an OO language with lots of functional features.  It has algebraic data types and
@@ -918,9 +918,9 @@ concludes that case expressions and extractors work pretty well.
 
 ### Pattern synonyms
 
-[ Pattern synonyms](http://hackage.haskell.org/trac/haskell-prime/wiki/PatternSynonyms) 
+[Pattern synonyms](http://hackage.haskell.org/trac/haskell-prime/wiki/PatternSynonyms) 
 are a requested Haskell Prime feature. John Reppy had the same idea years ago for Standard ML; see 
-[ Abstract value constructors](http://people.cs.uchicago.edu/~jhr/papers/1992/tr-sml-const.pdf), 
+[Abstract value constructors](http://people.cs.uchicago.edu/~jhr/papers/1992/tr-sml-const.pdf), 
 Reppy & Aiken, TR 92-1290, Cornell, June 1992.
 
 
@@ -957,7 +957,7 @@ With pattern views, we'd have to write two functions for the "plus" view:
 But perhaps that is not so bad.  Pattern synonyms also require a new form of top level declaration;
 and are much more limited than view patterns (by design they cannot do computation).
 
-### [ Tullsen: First Class Patterns](http://citeseer.ist.psu.edu/tullsen00first.html)
+### [Tullsen: First Class Patterns](http://citeseer.ist.psu.edu/tullsen00first.html)
 
 
 First Class Patterns is an approach that attempts to
@@ -1001,8 +1001,8 @@ The abstraction includes both the pattern and the result.  In contrast, view pat
 
 Here are the ones I know of
 
-- [ Claus Reinke's lambda-match proposal](http://hackage.haskell.org/trac/haskell-prime/ticket/114)
-- [ Matthias Blume: Extensible programming with first-class cases](http://ttic.uchicago.edu/~blume/pub-cat.html) (ICFP06)
+- [Claus Reinke's lambda-match proposal](http://hackage.haskell.org/trac/haskell-prime/ticket/114)
+- [Matthias Blume: Extensible programming with first-class cases](http://ttic.uchicago.edu/~blume/pub-cat.html) (ICFP06)
 
 
 All these proposals are more or less orthogonal to this one. For example, Reinke
@@ -1025,4 +1025,4 @@ proposal deals with.  Hence orthgonal.
 ### Barry Jay: First class patterns
 
 
-A yet more ambitious scheme is to treat patterns themselves as first class, even though they have free (binding) variables.  This is the approach that Barry Jay has taken in his very interesting project on the *pattern calculus*.  His [ home page](http://www-staff.it.uts.edu.au/~cbj) has more info.
+A yet more ambitious scheme is to treat patterns themselves as first class, even though they have free (binding) variables.  This is the approach that Barry Jay has taken in his very interesting project on the *pattern calculus*.  His [home page](http://www-staff.it.uts.edu.au/~cbj) has more info.

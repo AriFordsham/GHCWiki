@@ -10,14 +10,14 @@ For the beginners there is [a short getting started guide](contributing#newcomer
 For the dedicated, there are [videos of Simon and Simon giving an overview of GHC](about-videos), at the 2006 [GHC Hackathon](hackathon).
 
 
-Also check out the [GHC Reading List](reading-list), which gives lots of background reading that will help you understand the actual implementation.  Here's [ another reading list](http://www.stephendiehl.com/posts/essential_compilers.html) from Stephen Diehl.
+Also check out the [GHC Reading List](reading-list), which gives lots of background reading that will help you understand the actual implementation.  Here's [another reading list](http://www.stephendiehl.com/posts/essential_compilers.html) from Stephen Diehl.
 
 
 Stephen also has a helpful series of blog posts about GHC internals
 
-- [ Dive into GHC: pipeline](http://www.stephendiehl.com/posts/ghc_01.html)
-- [ Dive into GHC: intermediate forms](http://www.stephendiehl.com/posts/ghc_02.html)
-- [ Dive into GHC: targeting Core](http://www.stephendiehl.com/posts/ghc_03.html)
+- [Dive into GHC: pipeline](http://www.stephendiehl.com/posts/ghc_01.html)
+- [Dive into GHC: intermediate forms](http://www.stephendiehl.com/posts/ghc_02.html)
+- [Dive into GHC: targeting Core](http://www.stephendiehl.com/posts/ghc_03.html)
 
 ## Editing the Commentary
 
@@ -65,45 +65,45 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - General Notes on the GHC compiler
 
-  - Ningning Xie's [ literature review](https://github.com/xnning/GHC-Core-Literature-Review/blob/master/doc/doc.pdf) of various contributions to GHC's type system 
-  - Edward Yang's blog post about [ the entire complilation pipeline for \`factorial\`](http://blog.ezyang.com/2011/04/tracing-the-compilation-of-hello-factorial/)
+  - Ningning Xie's [literature review](https://github.com/xnning/GHC-Core-Literature-Review/blob/master/doc/doc.pdf) of various contributions to GHC's type system 
+  - Edward Yang's blog post about [the entire complilation pipeline for \`factorial\`](http://blog.ezyang.com/2011/04/tracing-the-compilation-of-hello-factorial/)
   - [New Prim Ops](adding-new-primitive-operations): How to add new primitive operations to GHC Haskell.
   - [Replacing GMP](replacing-gmp-notes): Notes from an effort to replace GMP with another Bignum library.
   - [External Core](external-core): Describes the process of bringing External Core up to speed. Once finished, this will simply describe what External Core is, and how it works. 
-  - [ The Scrap your boilerplate homepage](http://sourceforge.net/apps/mediawiki/developers/index.php?title=ScrapYourBoilerplate).
+  - [The Scrap your boilerplate homepage](http://sourceforge.net/apps/mediawiki/developers/index.php?title=ScrapYourBoilerplate).
   - [Optimisation Ordering](commentary/compiler/opt-ordering) Describe the ordering and interaction of optimisation passes (Old).
-  - [ GHC Illustrated](https://github.com/takenobu-hs/haskell-ghc-illustrated) (follow the PDF link), a very insightful tutorial on GHC's internals.
-  - [ Ollie Charles's 24 days of GHC Extensions](https://ocharles.org.uk/blog/pages/2014-12-01-24-days-of-ghc-extensions.html), and [ Lennart Augstsson's commentary](http://augustss.blogspot.com/2014/12/a-commentary-on-24-days-of-ghc.html)
+  - [GHC Illustrated](https://github.com/takenobu-hs/haskell-ghc-illustrated) (follow the PDF link), a very insightful tutorial on GHC's internals.
+  - [Ollie Charles's 24 days of GHC Extensions](https://ocharles.org.uk/blog/pages/2014-12-01-24-days-of-ghc-extensions.html), and [Lennart Augstsson's commentary](http://augustss.blogspot.com/2014/12/a-commentary-on-24-days-of-ghc.html)
 
-    - [ Welcome](https://ocharles.org.uk/blog/posts/2014-12-01-24-days-of-ghc-extensions.html)
-    - [ Static Pointers](https://ocharles.org.uk/blog/guest-posts/2014-12-23-static-pointers.html)
-    - [ Template Haskell](https://ocharles.org.uk/blog/guest-posts/2014-12-22-template-haskell.html)
-    - [ Arrows](https://ocharles.org.uk/blog/guest-posts/2014-12-21-arrows.html)
-    - [ Scoped Type Variables](https://ocharles.org.uk/blog/guest-posts/2014-12-20-scoped-type-variables.html)
-    - [ Existential Quantification](https://ocharles.org.uk/blog/guest-posts/2014-12-19-existential-quantification.html)
-    - [ Rank N Types](https://ocharles.org.uk/blog/guest-posts/2014-12-18-rank-n-types.html)
-    - [ Overloaded Strings](https://ocharles.org.uk/blog/posts/2014-12-17-overloaded-strings.html)
-    - [ DeriveGeneric](https://ocharles.org.uk/blog/posts/2014-12-16-derive-generic.html)
-    - [ Deriving](https://ocharles.org.uk/blog/guest-posts/2014-12-15-deriving.html)
-    - [ Functional Dependencies](https://ocharles.org.uk/blog/posts/2014-12-14-functional-dependencies.html)
-    - [ Multi-parameter Type Classes](https://ocharles.org.uk/blog/posts/2014-12-13-multi-param-type-classes.html)
-    - [ Type Families](https://ocharles.org.uk/blog/posts/2014-12-12-type-families.html)
-    - [ Implicit Parameters](https://ocharles.org.uk/blog/posts/2014-12-11-implicit-params.html)
-    - [ Nullary Type Classes](https://ocharles.org.uk/blog/posts/2014-12-10-nullary-type-classes.html)
-    - [ Recursive Do](https://ocharles.org.uk/blog/posts/2014-12-09-recursive-do.html)
-    - [ Type Operators](https://ocharles.org.uk/blog/posts/2014-12-08-type-operators.html)
-    - [ List Comprehensions](https://ocharles.org.uk/blog/guest-posts/2014-12-07-list-comprehensions.html)
-    - [ Rebindable Syntax](https://ocharles.org.uk/blog/guest-posts/2014-12-06-rebindable-syntax.html)
-    - [ Bang Patterns](https://ocharles.org.uk/blog/posts/2014-12-05-bang-patterns.html)
-    - [ Record Wildcards](https://ocharles.org.uk/blog/posts/2014-12-04-record-wildcards.html)
-    - [ Pattern Synonyms](https://ocharles.org.uk/blog/posts/2014-12-03-pattern-synonyms.html)
-    - [ View Patterns](https://ocharles.org.uk/blog/posts/2014-12-02-view-patterns.html)
-    - [ Thanks](https://ocharles.org.uk/blog/posts/2014-12-24-conclusion.html)
+    - [Welcome](https://ocharles.org.uk/blog/posts/2014-12-01-24-days-of-ghc-extensions.html)
+    - [Static Pointers](https://ocharles.org.uk/blog/guest-posts/2014-12-23-static-pointers.html)
+    - [Template Haskell](https://ocharles.org.uk/blog/guest-posts/2014-12-22-template-haskell.html)
+    - [Arrows](https://ocharles.org.uk/blog/guest-posts/2014-12-21-arrows.html)
+    - [Scoped Type Variables](https://ocharles.org.uk/blog/guest-posts/2014-12-20-scoped-type-variables.html)
+    - [Existential Quantification](https://ocharles.org.uk/blog/guest-posts/2014-12-19-existential-quantification.html)
+    - [Rank N Types](https://ocharles.org.uk/blog/guest-posts/2014-12-18-rank-n-types.html)
+    - [Overloaded Strings](https://ocharles.org.uk/blog/posts/2014-12-17-overloaded-strings.html)
+    - [DeriveGeneric](https://ocharles.org.uk/blog/posts/2014-12-16-derive-generic.html)
+    - [Deriving](https://ocharles.org.uk/blog/guest-posts/2014-12-15-deriving.html)
+    - [Functional Dependencies](https://ocharles.org.uk/blog/posts/2014-12-14-functional-dependencies.html)
+    - [Multi-parameter Type Classes](https://ocharles.org.uk/blog/posts/2014-12-13-multi-param-type-classes.html)
+    - [Type Families](https://ocharles.org.uk/blog/posts/2014-12-12-type-families.html)
+    - [Implicit Parameters](https://ocharles.org.uk/blog/posts/2014-12-11-implicit-params.html)
+    - [Nullary Type Classes](https://ocharles.org.uk/blog/posts/2014-12-10-nullary-type-classes.html)
+    - [Recursive Do](https://ocharles.org.uk/blog/posts/2014-12-09-recursive-do.html)
+    - [Type Operators](https://ocharles.org.uk/blog/posts/2014-12-08-type-operators.html)
+    - [List Comprehensions](https://ocharles.org.uk/blog/guest-posts/2014-12-07-list-comprehensions.html)
+    - [Rebindable Syntax](https://ocharles.org.uk/blog/guest-posts/2014-12-06-rebindable-syntax.html)
+    - [Bang Patterns](https://ocharles.org.uk/blog/posts/2014-12-05-bang-patterns.html)
+    - [Record Wildcards](https://ocharles.org.uk/blog/posts/2014-12-04-record-wildcards.html)
+    - [Pattern Synonyms](https://ocharles.org.uk/blog/posts/2014-12-03-pattern-synonyms.html)
+    - [View Patterns](https://ocharles.org.uk/blog/posts/2014-12-02-view-patterns.html)
+    - [Thanks](https://ocharles.org.uk/blog/posts/2014-12-24-conclusion.html)
   - [Commentary/Rts/CompilerWays](commentary/rts/compiler-ways): Compiler *ways* in GHC, what, how, and where
 
 - Notes on implemented GHC features:
 
-  - [ Evaluation order and state tokens](https://www.fpcomplete.com/tutorial-preview/4431/z0KpB0ai2R): notes written by Michael Snoyberg in response to [\#9390](https://gitlab.haskell.org//ghc/ghc/issues/9390).
+  - [Evaluation order and state tokens](https://www.fpcomplete.com/tutorial-preview/4431/z0KpB0ai2R): notes written by Michael Snoyberg in response to [\#9390](https://gitlab.haskell.org//ghc/ghc/issues/9390).
   - [Notes on fusion](foldr-build-notes) (eg foldr/build)
   - [Overloaded list syntax](overloaded-lists) allows you to use list notation for things other than lists.
   - [Kind polymorphism and data type promotion](ghc-kinds)
@@ -149,7 +149,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [Contracts in Haskell](commentary/contracts)
   - [Agda-style holes in terms](holes) which supports writing partial programs.
   - [Records](records)
-  - [ Cloud Haskell](http://haskell.org/haskellwiki/GHC/CouldAndHPCHaskell)
+  - [Cloud Haskell](http://haskell.org/haskellwiki/GHC/CouldAndHPCHaskell)
   - [A modular package language for Haskell](package-language) Scott Kilpatrick and Derek Dreyer are designing a new “package language” for Haskell in the style of the ML module system.
   - [Pattern synonyms](pattern-synonyms)
   - [Type level naturals](type-nats) and [type level reasoning](type-level-reasoning).
@@ -196,5 +196,5 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 Here are some useful, but somewhat-out-of-date resources:
 
-- [ The old GHC Commentary](http://darcs.haskell.org/ghc/docs/comm/): Information on the internals of GHC, in various states of up-to-dateness.  We are keen to move this stuff out of its current location and onto this Wiki.  If anyone is willing to help do that, even for just a part in which you are interested, we would be delighted.  There is a [page](commentary/migrating-old-commentary) which tracks the progress of migrating information from the old commentary to this wiki.
+- [The old GHC Commentary](http://darcs.haskell.org/ghc/docs/comm/): Information on the internals of GHC, in various states of up-to-dateness.  We are keen to move this stuff out of its current location and onto this Wiki.  If anyone is willing to help do that, even for just a part in which you are interested, we would be delighted.  There is a [page](commentary/migrating-old-commentary) which tracks the progress of migrating information from the old commentary to this wiki.
 - [GHC Papers](ghc-papers): Papers and pointers to other documents that relate to the inner workings of GHC.

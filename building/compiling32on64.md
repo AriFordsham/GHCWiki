@@ -15,7 +15,7 @@ Compiling i386 Haskell programs on a x86_64 system can be accomplished by buildi
   sudo ln -s /usr/lib/i386-linux-gnu/libgmp.so.10.0.2 /usr/lib/i386-linux-gnu/libgmp.so
   ```
 - Download a stock binary distribution of i386 GHC.
-- Optionally isolate your i386 and x86_64 GHCs. They correctly keep their installed packages in .cabal and .ghc separated, but some 64bit tools in .cabal/bin or /usr/local may not work with 32bit code (and vice versa) and diagnosing this takes time. You can set up isolated GHC sandboxes using the instructions in [ http://www.edsko.net/2013/02/10/comprehensive-haskell-sandboxes](http://www.edsko.net/2013/02/10/comprehensive-haskell-sandboxes) or using [ http://hackage.haskell.org/package/virthualenv](http://hackage.haskell.org/package/virthualenv)
+- Optionally isolate your i386 and x86_64 GHCs. They correctly keep their installed packages in .cabal and .ghc separated, but some 64bit tools in .cabal/bin or /usr/local may not work with 32bit code (and vice versa) and diagnosing this takes time. You can set up isolated GHC sandboxes using the instructions in [http://www.edsko.net/2013/02/10/comprehensive-haskell-sandboxes](http://www.edsko.net/2013/02/10/comprehensive-haskell-sandboxes) or using [http://hackage.haskell.org/package/virthualenv](http://hackage.haskell.org/package/virthualenv)
 - Unpack the 32bit GHC.
 - Run 
 

@@ -59,4 +59,4 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 Note: A `*` after the version number denotes the package being hidden by default.
 
 
-A table covering some GHC 6.\* releases can be found at [ https://wiki.haskell.org/Libraries_released_with_GHC](https://wiki.haskell.org/Libraries_released_with_GHC)
+A table covering some GHC 6.\* releases can be found at [https://wiki.haskell.org/Libraries_released_with_GHC](https://wiki.haskell.org/Libraries_released_with_GHC)

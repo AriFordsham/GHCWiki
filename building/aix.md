@@ -16,7 +16,7 @@ This page documents which hoops to jump through to make this happen and what the
 - ...TODO...
 
 
-The [ AIX Open Source Packages](http://www.perzl.org/aix/) repository is a convenient source to get the prerequisites.
+The [AIX Open Source Packages](http://www.perzl.org/aix/) repository is a convenient source to get the prerequisites.
 
 
 A consequence of this is that building a GHC crosscompiler targetting AIX is quite difficult.

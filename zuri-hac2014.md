@@ -1,7 +1,7 @@
 # Bug squashing at ZuriHac2014
 
 
-Joachim (nomeata) wants to run a small bugsquashing sprint at [ ZuriHac 2014](http://www.haskell.org/haskellwiki/ZuriHac2014/Projects). 
+Joachim (nomeata) wants to run a small bugsquashing sprint at [ZuriHac 2014](http://www.haskell.org/haskellwiki/ZuriHac2014/Projects). 
 
 ## Requirements
 
@@ -19,7 +19,7 @@ If you want to join in, you can come prepared:
 - Read through [Newcomers](newcomers)
 - Make sure that you have built GHC once yourself.
 - Your changes need to be validated. So make sure you validated GHC once. I suggest to have a second working copy of GHC that you only use to validate. There is a [section](working-conventions/git#workflow-with-validate) explaining how to do this.
-- Fork [ ghc on github](https://github.com/ghc/ghc/) (or otherwise publish a fork of the GHC repo) for easier collaboration during the hackathon.
+- Fork [ghc on github](https://github.com/ghc/ghc/) (or otherwise publish a fork of the GHC repo) for easier collaboration during the hackathon.
 - Get an account on this trac.
 - Join `#ghc` on freenode.
 - (optional, if you plan to stick around) Subscribe to `ghc-dev` and `ghc-tickets` mailing lists.
@@ -30,7 +30,7 @@ If you want to join in, you can come prepared:
 If you have a strong remote machine with lots of cores, you can have the validate tree remotely.
 
 
-For more convenient validation, especially if the validate repository is remotely, I (Joachim) have a script `ci-validate.sh` that waits for a new branch calls `validate/foo`, then validates it cleanly and either moves it to `validated/foo` or `broken/foo`. If you want to set up that as well, fetch the script from my [ ghc-devscripts repository](https://github.com/nomeata/ghc-devscripts).
+For more convenient validation, especially if the validate repository is remotely, I (Joachim) have a script `ci-validate.sh` that waits for a new branch calls `validate/foo`, then validates it cleanly and either moves it to `validated/foo` or `broken/foo`. If you want to set up that as well, fetch the script from my [ghc-devscripts repository](https://github.com/nomeata/ghc-devscripts).
 
 ## Possible tickets
 

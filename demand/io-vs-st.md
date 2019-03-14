@@ -28,7 +28,7 @@ than an `IO` one (*unless* the floating problem with inlining `runRW#`
 has been resolved by our avoiding floating operations that have side
 effects. Has anyone checked?). One option would be to actually add a `FakeWorld`
 type and a `fakeWorld#` primitive to use it. This option is explored
-in [ phab:D3375](https://phabricator.haskell.org/D3375). One surprising point: the `case` on the result needs to be moved
+in [phab:D3375](https://phabricator.haskell.org/D3375). One surprising point: the `case` on the result needs to be moved
 inside the `runFW#` argument. That is, unlike
 
 ```

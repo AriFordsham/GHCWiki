@@ -1,7 +1,7 @@
 - Name: Curt Sampson
 - Trac ID: cjs 
 - E-mail: cjs@… 
-- Web: [ http://www.starling-software.com/](http://www.starling-software.com/)
+- Web: [http://www.starling-software.com/](http://www.starling-software.com/)
 
 
 Common ticket queries I use:

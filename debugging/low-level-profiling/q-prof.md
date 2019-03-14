@@ -1,6 +1,6 @@
 ## Using qprof
 
-[ qprof](http://www.hpl.hp.com/research/linux/qprof/) is a tool for quick profiling of executables.  It can give you an idea of where the program is spending most of its time without recompiling the program.  It works by hooking a few functions using LD_PRELOAD, and installing a SIGVTALRM signal handler to sample the program counter.
+[qprof](http://www.hpl.hp.com/research/linux/qprof/) is a tool for quick profiling of executables.  It can give you an idea of where the program is spending most of its time without recompiling the program.  It works by hooking a few functions using LD_PRELOAD, and installing a SIGVTALRM signal handler to sample the program counter.
 
 ## Notes for using it with GHC
 

@@ -3,7 +3,7 @@
 
 These notes describe the new intermediate language for GHC.  The
 intermediate language is based on System F with algebraic datatypes
-and explicit type coercions (hereafter FC) (see the [ paper](http://research.microsoft.com/%7Esimonpj/papers/ext%2Df/fc-popl.pdf)).  This note mostly focuses
+and explicit type coercions (hereafter FC) (see the [paper](http://research.microsoft.com/%7Esimonpj/papers/ext%2Df/fc-popl.pdf)).  This note mostly focuses
 on the type system and also discuss how some source-level features are
 represented in the intermediate language.
 

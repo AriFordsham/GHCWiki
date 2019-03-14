@@ -6,7 +6,7 @@ This page documents the "finding the needle" idea for locating errors. It's a pr
 
 The basic idea is described below, but these links are actually more up to date:
 
-- [ Finding the needle](http://research.microsoft.com/~simonpj/papers/stack-trace/DebugTraces.pdf), a paper describing Tristan Allwood's intern project to implement explicit call stacks in GHC (May 2009).
+- [Finding the needle](http://research.microsoft.com/~simonpj/papers/stack-trace/DebugTraces.pdf), a paper describing Tristan Allwood's intern project to implement explicit call stacks in GHC (May 2009).
 - [ExplicitCallStack/StackTraceExperience](explicit-call-stack/stack-trace-experience): Some tests done on real programs with various tools for displaying stack traces. 
 - [ExplicitCallStack/CorePassImplementation](explicit-call-stack/core-pass-implementation): MSR Internship Oct-Dec 2008 that provided a prototype implementation for this.
 
@@ -31,7 +31,7 @@ The basic idea is described below, but these links are actually more up to date:
 
   This doesn't quite work today because `loc` has type `Language.Haskell.TH.Syntax.Loc`, a record of location information, and that isn't an instance of `Lift` (yet).  But the idea is basically fine: TH gives you access to the current source location.
 
-1.  But that doesn't help with 'head'.  We want to pass head's *call site* to head. That's what jhc does when you give 'head' the a magic [ SRCLOC_ANNOTATE pragma](http://repetae.net/computer/jhc/jhc.shtml):
+1.  But that doesn't help with 'head'.  We want to pass head's *call site* to head. That's what jhc does when you give 'head' the a magic [SRCLOC_ANNOTATE pragma](http://repetae.net/computer/jhc/jhc.shtml):
 
   - every call to `head` gets replaced with `head_check $currentLocation`
   - in jhc, you get to write `head_check` yourself, with type
@@ -385,14 +385,14 @@ Double square brackets denote the transformation function, which has two argumen
 For instance:
 
 ```wiki
-   [[ E ]]_k
+   [[E ]]_k
 ```
 
 
 means transform expression E with k as the current stack value. When we wish to ignore the current stack value (because it is not meaningful in a certain context, such as the top-level declarations) we write:
 
 ```wiki
-   [[ E ]]_?
+   [[E ]]_?
 ```
 
 ### Transformation option 1
@@ -404,43 +404,43 @@ might pass one stack argument for every regular argument of the function.
 ```wiki
 Declarations (top level):
 
-   [[ x :: T ]]_?                     ==>   x :: Trace -> T     , x is function bound, and transformed for tracing
+   [[x :: T ]]_?                     ==>   x :: Trace -> T     , x is function bound, and transformed for tracing
    
-   [[ x :: T ]]_?                     ==>   x :: T              , x does not match the above rule
+   [[x :: T ]]_?                     ==>   x :: T              , x does not match the above rule
 
-   [[ x = \y1 .. yn -> E ]]_?         ==>   x = \t y1 .. yn -> [[ E ]]_("x":t)       , x is transformed for tracing
+   [[x = \y1 .. yn -> E ]]_?         ==>   x = \t y1 .. yn -> [[E ]]_("x":t)       , x is transformed for tracing
 
-   [[ x = \y1 .. yn -> E ]]_?         ==>   x = \y1 .. yn -> [[ E ]]_["x"]           , x is not transformed for tracing
+   [[x = \y1 .. yn -> E ]]_?         ==>   x = \y1 .. yn -> [[E ]]_["x"]           , x is not transformed for tracing
 
-   [[ x = E ]]_?                      ==>   x = [[ E ]]_["x"]
+   [[x = E ]]_?                      ==>   x = [[E ]]_["x"]
 
-   [[ data f a1 .. an = K1 .. Km ]]_? ==>   data f a1 .. an = K1 .. Km
+   [[data f a1 .. an = K1 .. Km ]]_? ==>   data f a1 .. an = K1 .. Km
 
 Declarations (local):
 
-   [[ x = E ]]_t                      ==>   x = [[ E ]]_("x":t) 
+   [[x = E ]]_t                      ==>   x = [[E ]]_("x":t) 
 
    (all other local decls are the same as top level rules)
 
 Expressions:
 
-   [[ x ]]_t                          ==>   x t    , x is function bound, and transformed for tracing
+   [[x ]]_t                          ==>   x t    , x is function bound, and transformed for tracing
 
-   [[ x ]]_t                          ==>   x      , x does not match the above rule
+   [[x ]]_t                          ==>   x      , x does not match the above rule
 
-   [[ k ]]_t                          ==>   k
+   [[k ]]_t                          ==>   k
 
-   [[ E1 E2 ]]_t                      ==>   [[ E1 ]]_t [[ E2 ]]_t
+   [[E1 E2 ]]_t                      ==>   [[E1 ]]_t [[E2 ]]_t
 
-   [[ let D1 .. Dn in E ]]_t          ==>   let [[ D1 ]]_t .. [[ Dn ]]_t in  [[ E ]]_t
+   [[let D1 .. Dn in E ]]_t          ==>   let [[D1 ]]_t .. [[Dn ]]_t in  [[E ]]_t
 
-   [[ case E of A1 .. An ]]_t         ==>   case [[ E ]]_t of [[ A1 ]]_t .. [[ An ]]_t
+   [[case E of A1 .. An ]]_t         ==>   case [[E ]]_t of [[A1 ]]_t .. [[An ]]_t
 
-   [[ \y1 .. yn -> E ]]_t             ==>   \y1 .. yn -> [[ E ]]_t
+   [[\y1 .. yn -> E ]]_t             ==>   \y1 .. yn -> [[E ]]_t
 
 Alternatives:
 
-   [[ p -> E ]]_t                     ==>   p -> [[ E ]]_t 
+   [[p -> E ]]_t                     ==>   p -> [[E ]]_t 
 ```
 
 

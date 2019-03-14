@@ -1,7 +1,7 @@
 # Implementing new primitive comparisons to allow branchless algorithms
 
 
-This page presents motivation and technical details behind implementing new primitive comparison operators (this was originaly reported as Trac ticket [\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135)). See [ this page](NewPrimopsInGHC7.8) for instructions how to adjust your already existing code to work with new primops.
+This page presents motivation and technical details behind implementing new primitive comparison operators (this was originaly reported as Trac ticket [\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135)). See [this page](NewPrimopsInGHC7.8) for instructions how to adjust your already existing code to work with new primops.
 
 
 See also
@@ -91,7 +91,7 @@ and in following assembly code:
 ```
 
 
-There are five possible branches to take, although four of them have the same result. This is caused by code duplication introduced by case-of-case transform (see [ this blog post](http://lambda.jstolarek.com/2013/01/taking-magic-out-of-ghc-or-tracing-compilation-by-transformation/) for a step by step derivation). According to Ben Lippmeier, who submitted the original bug report, mis-predicted branches are bad in object code because they stall the pipeline.
+There are five possible branches to take, although four of them have the same result. This is caused by code duplication introduced by case-of-case transform (see [this blog post](http://lambda.jstolarek.com/2013/01/taking-magic-out-of-ghc-or-tracing-compilation-by-transformation/) for a step by step derivation). According to Ben Lippmeier, who submitted the original bug report, mis-predicted branches are bad in object code because they stall the pipeline.
 
 
 Note: this example was produced with GHC 7.6.3. At the moment of merging new primops into HEAD, there was no code duplication at the assembly level when using old primops. However, avoiding code duplication is not the main problem new primops are meant to solve. That problem are conditional branches. 

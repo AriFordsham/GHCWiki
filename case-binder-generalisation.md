@@ -69,7 +69,7 @@ which avoid the pointless re-boxing.
 ## Operational semantics
 
 
-Nudged by Richard, it seems that I really really should describe the operational semantics of this. In the example of `Either`, the `S_MatchData` rule (from [ the core-spec](https://github.com/ghc/ghc/blob/master/docs/core-spec/core-spec.pdf)) with this extension specializes to
+Nudged by Richard, it seems that I really really should describe the operational semantics of this. In the example of `Either`, the `S_MatchData` rule (from [the core-spec](https://github.com/ghc/ghc/blob/master/docs/core-spec/core-spec.pdf)) with this extension specializes to
 
 ```wiki
 ∑ ⊢ case Left @t1 @t2 e of { bLeft :: (forall a. Either String a) . Left x → u ; … }

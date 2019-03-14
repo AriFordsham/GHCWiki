@@ -23,7 +23,7 @@ that we guarantee an efficient unboxed representation for certain data types.
 The ticket to track this idea is [\#1965](https://gitlab.haskell.org//ghc/ghc/issues/1965).
 
 
-See also [ this OCaml pull request](https://github.com/ocaml/ocaml/pull/606), which does exactly the same kind of thing for OCaml.
+See also [this OCaml pull request](https://github.com/ocaml/ocaml/pull/606), which does exactly the same kind of thing for OCaml.
 
 ## Main design
 
@@ -96,7 +96,7 @@ Do such constraints just pile on extra junk?
 ### Strictness
 
 
-Unlike a true `newtype`, pattern matching on the constructor *must* force the contents to maintain type safety.  In particular, matching on the constructor reveals an existential and/or type information. As Dan Doel found, and pumpkin relayed in [ https://gitlab.haskell.org/ghc/ghc/issues/1965\#comment:16](https://gitlab.haskell.org/ghc/ghc/issues/1965#comment:16), we have to be careful not to reveal such information without forcing the evidence. Since we're using the newtype optimization, the evidence is in the contained field itself.
+Unlike a true `newtype`, pattern matching on the constructor *must* force the contents to maintain type safety.  In particular, matching on the constructor reveals an existential and/or type information. As Dan Doel found, and pumpkin relayed in [https://gitlab.haskell.org/ghc/ghc/issues/1965\#comment:16](https://gitlab.haskell.org/ghc/ghc/issues/1965#comment:16), we have to be careful not to reveal such information without forcing the evidence. Since we're using the newtype optimization, the evidence is in the contained field itself.
 
 *SLPJ: I do not understand this paragraph.  Remember, we propose no change to the source language semantics*.
 
@@ -299,4 +299,4 @@ So the problem is
   type safety.
 
 
-(copied from [ the mailing list discussion](https://mail.haskell.org/pipermail/ghc-devs/2016-September/012741.html))
+(copied from [the mailing list discussion](https://mail.haskell.org/pipermail/ghc-devs/2016-September/012741.html))

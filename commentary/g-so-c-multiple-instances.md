@@ -49,7 +49,7 @@ Currently a big random number is created by cabal-install during configuration a
 ## Original Plan
 
 
-Cabal and GHC do not support multiple instances of the same package version installed at the same time. If a second instance of a package version is installed it is overwritten on the file system as well as in the `PackageDB`. This causes packages that depended upon the overwritten instance to break. The idea is to never overwrite an installed package. As already discussed in [ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Packages/MultiInstances](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Packages/MultiInstances) the following changes need to be made:
+Cabal and GHC do not support multiple instances of the same package version installed at the same time. If a second instance of a package version is installed it is overwritten on the file system as well as in the `PackageDB`. This causes packages that depended upon the overwritten instance to break. The idea is to never overwrite an installed package. As already discussed in [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Packages/MultiInstances](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Packages/MultiInstances) the following changes need to be made:
 
 - Cabal should install packages to a location that does not just depend on name and version,
 - `ghc-pkg` should always add instances to the `PackageDB` and never overwrite them,

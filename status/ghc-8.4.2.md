@@ -62,7 +62,7 @@ Release in Late March 2018.
                       
                       high
                     </th>
-<th>[ Phab:D4833](https://phabricator.haskell.org/D4833)[ Phab:D4830](https://phabricator.haskell.org/D4830)</th>
+<th>[Phab:D4833](https://phabricator.haskell.org/D4833)[Phab:D4830](https://phabricator.haskell.org/D4830)</th>
 <th>tdammers</th></tr>
 <tr><th>[\#14982](https://gitlab.haskell.org//ghc/ghc/issues/14982)</th>
 <th>

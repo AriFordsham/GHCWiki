@@ -12,7 +12,7 @@ GHC's current way of doing so is very basic.
 
 - Build a graph where basic blocks are nodes.
 - Add a edge for each jump at the end of a basic block.
-- Find sets of [ strongly connected components](https://en.wikipedia.org/wiki/Strongly_connected_component).
+- Find sets of [strongly connected components](https://en.wikipedia.org/wiki/Strongly_connected_component).
 - For each set flatten it resulting in a list of basic blocks.
 - Finally place all of these lists after each other.
 
@@ -262,7 +262,7 @@ The last pass catches these cases.
 ### Results:
 
 
-I've combined a version of my layout branch with my patch to [ detect error branches as unlikely and recursion as likely](https://phabricator.haskell.org/D4327) which gave a bigger improvement which is nice.
+I've combined a version of my layout branch with my patch to [detect error branches as unlikely and recursion as likely](https://phabricator.haskell.org/D4327) which gave a bigger improvement which is nice.
 IgnoreCal is the new codelayout.
 Likely04 is new codelayout combined with the likelyhood patch.
 
@@ -302,7 +302,7 @@ For now it's seems ignoring call edges leads to better performance.
 ### Conclusion
 
 
-After some tweaking this patch [ https://phabricator.haskell.org/D4726](https://phabricator.haskell.org/D4726) lowered runtime on Haswell and Skylake.
+After some tweaking this patch [https://phabricator.haskell.org/D4726](https://phabricator.haskell.org/D4726) lowered runtime on Haswell and Skylake.
 
 
 The primary change made compared to the above was to ignore edges based on call returns for code layout.

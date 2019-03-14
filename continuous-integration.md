@@ -8,9 +8,9 @@ If you are looking for information about how to maintain our new CircleCI and Ap
 
 ## Status
 
-- CircleCI: [ https://circleci.com/gh/ghc/ghc](https://circleci.com/gh/ghc/ghc)
-- Appveyor: [ https://ci.appveyor.com/project/GHCAppveyor/ghc](https://ci.appveyor.com/project/GHCAppveyor/ghc)
-- Docker images for CircleCI deployment: [ https://hub.docker.com/r/ghcci/](https://hub.docker.com/r/ghcci/)
+- CircleCI: [https://circleci.com/gh/ghc/ghc](https://circleci.com/gh/ghc/ghc)
+- Appveyor: [https://ci.appveyor.com/project/GHCAppveyor/ghc](https://ci.appveyor.com/project/GHCAppveyor/ghc)
+- Docker images for CircleCI deployment: [https://hub.docker.com/r/ghcci/](https://hub.docker.com/r/ghcci/)
 
 ## Requirements
 
@@ -70,7 +70,7 @@ Cons
 ## Discussion summary
 
 
-After a detailed discussion on the GHC DevOps Group mailing list [ https://mail.haskell.org/pipermail/ghc-devops-group/](https://mail.haskell.org/pipermail/ghc-devops-group/), the group reached the conclusion that all factors considered, CircleCI & AppVeyor provides the best trade offs for the following reasons.
+After a detailed discussion on the GHC DevOps Group mailing list [https://mail.haskell.org/pipermail/ghc-devops-group/](https://mail.haskell.org/pipermail/ghc-devops-group/), the group reached the conclusion that all factors considered, CircleCI & AppVeyor provides the best trade offs for the following reasons.
 
 **Costs**
 
@@ -154,13 +154,13 @@ be at over a dozen machines.
 ## Status
 
 
-Circle CI & AppVeyor integration on the Tweag GHC fork: [ https://github.com/tweag/ghc/tree/tweag/ci](https://github.com/tweag/ghc/tree/tweag/ci)
+Circle CI & AppVeyor integration on the Tweag GHC fork: [https://github.com/tweag/ghc/tree/tweag/ci](https://github.com/tweag/ghc/tree/tweag/ci)
 
 - Linux/x86_64 (CircleCI): build & store artefacts works
 - macOS/x86_64 (CircleCI): build & store artefacts works
 - Windows/x86_64 (AppVeyor): asked for increased limits
 
-**Update (Jul. 24th, 2018):** We wrote a small web application meant to act as a bridge between Phabricator and Circle CI. We have successfully used it to run Circle CI builds against Phabricator differentials. The code lives [ here](https://github.com/alpmestan/phab-circleci-bridge). We will soon be deploying it and trying to use it for several job types. See [ here](https://phabricator.haskell.org/harbormaster/build/49274/) for an example of using this setup.
+**Update (Jul. 24th, 2018):** We wrote a small web application meant to act as a bridge between Phabricator and Circle CI. We have successfully used it to run Circle CI builds against Phabricator differentials. The code lives [here](https://github.com/alpmestan/phab-circleci-bridge). We will soon be deploying it and trying to use it for several job types. See [here](https://phabricator.haskell.org/harbormaster/build/49274/) for an example of using this setup.
 
 ## Todo
 
@@ -944,11 +944,11 @@ Probably easiest to just trigger those builds from GitHub (as all commits are mi
 
 ### Per-PR/Differential build on Linux/x86_64
 
-- This is the CircleCI 1.0 documentation on Phabricator integration: [ https://circleci.com/docs/1.0/phabricator/](https://circleci.com/docs/1.0/phabricator/) Does this work with CircleCI 2.0 as well? (The CircleCI API 1.1 supposedly can drive both.)
+- This is the CircleCI 1.0 documentation on Phabricator integration: [https://circleci.com/docs/1.0/phabricator/](https://circleci.com/docs/1.0/phabricator/) Does this work with CircleCI 2.0 as well? (The CircleCI API 1.1 supposedly can drive both.)
 - Implement CircleCI/GitHub integration for PRs.
 
 ### Daily release artifacts for all Tier 1 platforms
 
 - Tar balls are currently being put into CircleCI artefacts store (where they will be kept for one month).
 - *Low priority:* Implement S3 upload for longer term storage.
-- Documentation bundle for the website needs to be generated and uploaded. Might be easier with Hadrian: [ https://github.com/snowleopard/hadrian/pull/413](https://github.com/snowleopard/hadrian/pull/413)
+- Documentation bundle for the website needs to be generated and uploaded. Might be easier with Hadrian: [https://github.com/snowleopard/hadrian/pull/413](https://github.com/snowleopard/hadrian/pull/413)

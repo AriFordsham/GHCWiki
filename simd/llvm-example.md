@@ -38,7 +38,7 @@ int main()
 Compiling and running this in C is easy and left to the user.
 
 
-This converts easily to LLVM human readable format (use the [ online generator](http://llvm.org/demo/index.cgi) if you'd like):
+This converts easily to LLVM human readable format (use the [online generator](http://llvm.org/demo/index.cgi) if you'd like):
 
 ```wiki
 ; ModuleID = '/tmp/webcompile/_21191_0.bc'
@@ -261,7 +261,7 @@ define i32 @main() nounwind {
   br label %4
 
 ; <label>:4                                       ; preds = %4, %0
-  %indvar21 = phi i64 [ 0, %0 ], [ %indvar.next22, %4 ]
+  %indvar21 = phi i64 [0, %0 ], [%indvar.next22, %4 ]
   %i.06 = trunc i64 %indvar21 to i32
   %scevgep25 = getelementptr [40000 x float]* %2, i64 0, i64 %indvar21
   %scevgep26 = getelementptr [40000 x float]* %1, i64 0, i64 %indvar21
@@ -281,7 +281,7 @@ define i32 @main() nounwind {
   br label %8
 
 ; <label>:8                                       ; preds = %8, %7
-  %indvar = phi i64 [ 0, %7 ], [ %indvar.next, %8 ]
+  %indvar = phi i64 [0, %7 ], [%indvar.next, %8 ]
   %tmp = shl i64 %indvar, 2
   %scevgep = getelementptr [40000 x float]* %3, i64 0, i64 %tmp
   %scevgep7 = getelementptr [40000 x float]* %2, i64 0, i64 %tmp
@@ -364,7 +364,7 @@ define i32 @main() nounwind {
   br label %4
 
 ; <label>:4                                       ; preds = %4, %0
-  %indvar21 = phi i64 [ 0, %0 ], [ %indvar.next22, %4 ]
+  %indvar21 = phi i64 [0, %0 ], [%indvar.next22, %4 ]
   %i.06 = trunc i64 %indvar21 to i32
   %scevgep25 = getelementptr <128 x float>* %2, i64 0, i64 %indvar21
   %scevgep26 = getelementptr <128 x float>* %1, i64 0, i64 %indvar21
@@ -384,7 +384,7 @@ define i32 @main() nounwind {
   br label %8
 
 ; <label>:8                                       ; preds = %8, %7
-;  %indvar = phi i64 [ 0, %7 ], [ %indvar.next, %8 ]
+;  %indvar = phi i64 [0, %7 ], [%indvar.next, %8 ]
 
 
 ;  %indvar.next = add i64 %indvar, 1

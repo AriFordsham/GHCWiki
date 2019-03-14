@@ -45,7 +45,7 @@ The SIMD branch of GHC is named, appropriately, `simd`.
 ## Adding a primtype / primop Outline
 
 
-When going through this outline, it is helpful to have the [ Compiler Pipeline](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/HscMain) explanation available as well as the explanation of the source code tree (that includes nested explanations of important directories and files) available [ here](http://hackage.haskell.org/trac/ghc/wiki/Commentary/SourceTree).
+When going through this outline, it is helpful to have the [Compiler Pipeline](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/HscMain) explanation available as well as the explanation of the source code tree (that includes nested explanations of important directories and files) available [here](http://hackage.haskell.org/trac/ghc/wiki/Commentary/SourceTree).
 
 
 Addition of Types for use by Haskell
@@ -170,7 +170,7 @@ fi
 Once the mk/config.h is modified with the above, the includes/ghcautoconf.h is modified during the first stage of the GHC build process.  Once includes/ghcautoconf.h is modified, the _USE_SSE constant is available in the Cmm definitions (next section).
 
 
-There are more detailed explanations of how to use cpuid to determine the supported SSE instruction set available on the web as well.  cpuid may be more appropriate but are also much more complex.  Details for using cpuid are available at [ http://software.intel.com/en-us/articles/using-cpuid-to-detect-the-presence-of-sse-41-and-sse-42-instruction-sets/](http://software.intel.com/en-us/articles/using-cpuid-to-detect-the-presence-of-sse-41-and-sse-42-instruction-sets/).
+There are more detailed explanations of how to use cpuid to determine the supported SSE instruction set available on the web as well.  cpuid may be more appropriate but are also much more complex.  Details for using cpuid are available at [http://software.intel.com/en-us/articles/using-cpuid-to-detect-the-presence-of-sse-41-and-sse-42-instruction-sets/](http://software.intel.com/en-us/articles/using-cpuid-to-detect-the-presence-of-sse-41-and-sse-42-instruction-sets/).
 
 
 It should be noted, that since the overall goal is to let the LLVM handle the actual assembly code that does vectorization, it's only possible to support vectorization up to the version that the LLVM supports.
@@ -178,7 +178,7 @@ It should be noted, that since the overall goal is to let the LLVM handle the ac
 ## Add new MachOps to Cmm code
 
 
-It may make more sense to add the MachOps to Cmm prior to implementing the PrimOps (or at least before adding the code to the CgPrimOp.hs file).  There is a useful [ Cmm Wiki Page](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/CmmType#AdditionsinCmm) available to aid in the definition of the new Cmm operations.
+It may make more sense to add the MachOps to Cmm prior to implementing the PrimOps (or at least before adding the code to the CgPrimOp.hs file).  There is a useful [Cmm Wiki Page](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/CmmType#AdditionsinCmm) available to aid in the definition of the new Cmm operations.
 
 
 Modify compiler/cmm/CmmType.hs to add new required vector types and such, here is a basic outline of what needs to be done:
@@ -226,8 +226,8 @@ Adding the new PrimOps is relatively straight-forward, but a  substantial number
 
 Background: The following articles can aid in getting the work done:
 
-- [ Primitive Operations (PrimOps)](http://hackage.haskell.org/trac/ghc/wiki/Commentary/PrimOps)
-- [ Adding new primitive operations to GHC Haskell](http://hackage.haskell.org/trac/ghc/wiki/AddingNewPrimitiveOperations)
+- [Primitive Operations (PrimOps)](http://hackage.haskell.org/trac/ghc/wiki/Commentary/PrimOps)
+- [Adding new primitive operations to GHC Haskell](http://hackage.haskell.org/trac/ghc/wiki/AddingNewPrimitiveOperations)
 - Some guidelines for addition?, at least until I find something on the Wiki
 
 
@@ -275,7 +275,7 @@ The steps to be undertaken are:
 1. Modify ./compiler/codeGen/CgPrimOp.hs, code for each primop (above) must be added to complete the primop addition.
 
   1. The code, basically, links the primops to the Cmm MachOps (that, in turn, are read by the code generators)
-  1. It looks like some Cmm extensions will have to be added to ensure alignment and pass vectorization information onto the back ends, the necessary MachOps will be determined after the first vertical stack is completed (using the "Double" as a model).  There may be some reuse from the existing MachOps.  There is some discussion to these extensions (or similar ones) on the original [ Patch 3557 Documentation](http://hackage.haskell.org/trac/ghc/ticket/3557)
+  1. It looks like some Cmm extensions will have to be added to ensure alignment and pass vectorization information onto the back ends, the necessary MachOps will be determined after the first vertical stack is completed (using the "Double" as a model).  There may be some reuse from the existing MachOps.  There is some discussion to these extensions (or similar ones) on the original [Patch 3557 Documentation](http://hackage.haskell.org/trac/ghc/ticket/3557)
 
 
 Example of modification to ./compiler/prelude/primops.txt.pp to add one of the additional Float operations:
@@ -329,7 +329,7 @@ module TysPrim(
 ...
 
 primTyCons 
-  = [ addrPrimTyCon
+  = [addrPrimTyCon
 ...
 -- Added
     , floatVecPrimTyCon
@@ -565,8 +565,8 @@ To make this work, a ghc compiler flag must be added that forces all vector leng
 
 ## Reference Documentation
 
-- [ LLVM Vectorization](https://wiki.aalto.fi/display/t1065450/LLVM+vectorization)
-- [ LLVM Vector Type](http://llvm.org/docs/LangRef.html#t_vector)
+- [LLVM Vectorization](https://wiki.aalto.fi/display/t1065450/LLVM+vectorization)
+- [LLVM Vector Type](http://llvm.org/docs/LangRef.html#t_vector)
 
 ## Reference Discussion Threads
 

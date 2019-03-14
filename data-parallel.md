@@ -1,7 +1,7 @@
 # Data Parallel Haskell
 
 
-This page documents the integration of nested data parallelism into GHC at the developer level, including notes about where we are and what needs doing.  See also the [ user-level wiki page](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell), which includes examples and tutorial-style instructions.
+This page documents the integration of nested data parallelism into GHC at the developer level, including notes about where we are and what needs doing.  See also the [user-level wiki page](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell), which includes examples and tutorial-style instructions.
 
 
 Most of the material describing our approach is partitioned into a set of subpages:
@@ -19,7 +19,7 @@ Most of the material describing our approach is partitioned into a set of subpag
 
 See also
 
-- [ The Repa home page](http://repa.ouroborus.net)
+- [The Repa home page](http://repa.ouroborus.net)
 
 ## Status
 
@@ -29,7 +29,7 @@ Work on the DPH project stopped around 2010 at which point the implementation be
 ## Old status and work plan
 
 
-Detailed information on how to use the current implementation is at the [ user-level wiki page](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell).  Here is information on the implementation status and outstanding work items:
+Detailed information on how to use the current implementation is at the [user-level wiki page](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell).  Here is information on the implementation status and outstanding work items:
 
 - DPH [repositories & developer builds](data-parallel/repositories)
 - Current [benchmark status](data-parallel/benchmark-status)

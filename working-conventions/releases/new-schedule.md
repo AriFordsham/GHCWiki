@@ -23,7 +23,7 @@ Pre-release stability
 ### Impact on libraries
 
 
-Currently, many libraries have a three GHC versions support policy: [ https://prime.haskell.org/wiki/Libraries/3-Release-Policy](https://prime.haskell.org/wiki/Libraries/3-Release-Policy). If there are more frequent GHC versions, this may lead to shorter support times of these libraries.
+Currently, many libraries have a three GHC versions support policy: [https://prime.haskell.org/wiki/Libraries/3-Release-Policy](https://prime.haskell.org/wiki/Libraries/3-Release-Policy). If there are more frequent GHC versions, this may lead to shorter support times of these libraries.
 
 - This is seen by some as an argument against six-monthly GHC releases.
 - We could ask the Core Libraries Committee to consider a change to supporting more than three GHC versions.

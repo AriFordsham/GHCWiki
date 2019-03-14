@@ -4,7 +4,7 @@ This page outlines a design for the "unresolved infix expressions" feature reque
 ## Motivation
 
 
-Consider writing a quasiquoter to parse haskell (for example, the `parseHaskell` quasiquoter mentioned in Part D of Simon's [ New directions for Template Haskell](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal)).
+Consider writing a quasiquoter to parse haskell (for example, the `parseHaskell` quasiquoter mentioned in Part D of Simon's [New directions for Template Haskell](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal)).
 
 
 How is the quasiquoter supposed to handle infix expressions, such as

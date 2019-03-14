@@ -3,7 +3,7 @@
 
 One possiblity is to replace GMP with an arbitrary-precision integer arithmetic library written entirely in Haskell. There is at least one available:
 
-- [ HIntegerByInt](http://www.haskell.org/pipermail/libraries/2007-August/007909.html) by Isaac Dupree
+- [HIntegerByInt](http://www.haskell.org/pipermail/libraries/2007-August/007909.html) by Isaac Dupree
 
 
 The downside is speed, of course.  The upside is that (a) you don't need GMP and (b) it's relatively easy to do.

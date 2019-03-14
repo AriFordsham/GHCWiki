@@ -76,7 +76,7 @@ This will be a bug-fix release.
                       
                       normal
                     </th>
-<th>[ Phab:D5137](https://phabricator.haskell.org/D5137)</th>
+<th>[Phab:D5137](https://phabricator.haskell.org/D5137)</th>
 <th></th></tr></table>
 
 ### new

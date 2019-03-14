@@ -7,13 +7,13 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 Each entry includes a short description and instruction how to enable given setting (if it contains only a block of lisp code it means you need to add it to your `.emacs` configuration file). All configuration is given for Emacs 24, unless otherwise noted. 
 
 
-Most of the packages used below are bundled with Emacs. If a package is not part of your Emacs installation you need to install it by yourself. You can do it manually by downloading relevant `*.el` file and putting it in your configuration directory or you can use ELPA -  Emacs package management system. A five minute introduction to ELPA can be found [ here](http://ergoemacs.org/emacs/emacs_package_system.html).
+Most of the packages used below are bundled with Emacs. If a package is not part of your Emacs installation you need to install it by yourself. You can do it manually by downloading relevant `*.el` file and putting it in your configuration directory or you can use ELPA -  Emacs package management system. A five minute introduction to ELPA can be found [here](http://ergoemacs.org/emacs/emacs_package_system.html).
 
 # General
 
 ## IDO mode
 
-**Description**: IDO stands for Interactively Do Things and it greatly improves file opening and switching between buffers. When opening a file it shows list of files and directories in current directory, allows to navigate the directory tree in an easy manner, provides intuitive filtering capabilities and allows to select a file by selecting its name using arrow keys. Similar behaviour is provided when switching between opened buffers. A nice introductory tutorial to IDO can be found [ here](http://www.masteringemacs.org/articles/2010/10/10/introduction-to-ido-mode/).
+**Description**: IDO stands for Interactively Do Things and it greatly improves file opening and switching between buffers. When opening a file it shows list of files and directories in current directory, allows to navigate the directory tree in an easy manner, provides intuitive filtering capabilities and allows to select a file by selecting its name using arrow keys. Similar behaviour is provided when switching between opened buffers. A nice introductory tutorial to IDO can be found [here](http://www.masteringemacs.org/articles/2010/10/10/introduction-to-ido-mode/).
 
 **How to enable**:
 
@@ -53,7 +53,7 @@ Most of the packages used below are bundled with Emacs. If a package is not part
 
 ## Highlight trailing whitespaces
 
-**Description**: Automatic removal of trailing whitespaces described above can be a bit inconvenient to use. One of the alternative approaches to problem of trailing whitespaces is making them visible, so that you notice when you accidentally introduce them into a file. You will also see already existing trailing whitespaces. For more details see [ Useless Whitespace](http://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html) section of Emacs documentation.
+**Description**: Automatic removal of trailing whitespaces described above can be a bit inconvenient to use. One of the alternative approaches to problem of trailing whitespaces is making them visible, so that you notice when you accidentally introduce them into a file. You will also see already existing trailing whitespaces. For more details see [Useless Whitespace](http://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html) section of Emacs documentation.
 
 **How to enable**:
 
@@ -109,7 +109,7 @@ On my setup, this won't work the first time a file is loaded into GHCi. I just t
 **Description**: Enhances switching between multiple windows. To switch to another window use pressing Alt-\<window number\>. Number of each window is displayed in red in the mode line.
 
 **How to enable**:
-You need to install [ window-number](http://www.emacswiki.org/emacs/window-number.el) extension and add this to your configuration:
+You need to install [window-number](http://www.emacswiki.org/emacs/window-number.el) extension and add this to your configuration:
 
 ```
 (require'window-number)(window-number-mode)(window-number-meta-mode)
@@ -120,7 +120,7 @@ You need to install [ window-number](http://www.emacswiki.org/emacs/window-numbe
 **Description**: This extension allows you to switch between next and previous buffer with F9 and F10 (by default). Emacs buffers (like \*messages\*) are ignored - use Shift-F9 and Shift-F10 to include them as well. Note that this extension maintains a list of buffers. After selecting a buffer it is moved to the beginning of the list. This means that buffers are ordered by the time of their recent use.
 
 **How to enable**:
-You need to install [ cycle-buffer](http://www.emacswiki.org/emacs/cycle-buffer.el) extension and add this to your configuration:
+You need to install [cycle-buffer](http://www.emacswiki.org/emacs/cycle-buffer.el) extension and add this to your configuration:
 
 ```
 (autoload'cycle-buffer"cycle-buffer""Cycle forward."t)(autoload'cycle-buffer-backward"cycle-buffer""Cycle backward."t)(autoload'cycle-buffer-permissive"cycle-buffer""Cycle forward allowing *buffers*."t)(autoload'cycle-buffer-backward-permissive"cycle-buffer""Cycle backward allowing *buffers*."t)(autoload'cycle-buffer-toggle-interesting"cycle-buffer""Toggle if this buffer will be considered."t)(global-set-key[(f9)]'cycle-buffer-backward)(global-set-key[(f10)]'cycle-buffer)(global-set-key[(shiftf9)]'cycle-buffer-backward-permissive)(global-set-key[(shiftf10)]'cycle-buffer-permissive)
@@ -159,15 +159,15 @@ When Emacs is already running you can modify this setting with `C-x f` or `M-x s
 
 ## Haskell mode
 
-**Description**: Haskell mode is a major mode for Emacs. Features include: syntax highlighting, GHCi integration and automatic indentation. See [ online manual](http://haskell.github.io/haskell-mode/manual/latest/) for details.
+**Description**: Haskell mode is a major mode for Emacs. Features include: syntax highlighting, GHCi integration and automatic indentation. See [online manual](http://haskell.github.io/haskell-mode/manual/latest/) for details.
 
-**How to enable**: See installation instructions on [ github](https://github.com/haskell/haskell-mode).
+**How to enable**: See installation instructions on [github](https://github.com/haskell/haskell-mode).
 
 ## ghc-mod
 
-**Description**: Extends haskell-mode. Features include: building on the fly with flymake, hlint integration, auto-completion of keywords. See [ here](http://www.mew.org/~kazu/proj/ghc-mod/en/emacs.html) for a complete list.
+**Description**: Extends haskell-mode. Features include: building on the fly with flymake, hlint integration, auto-completion of keywords. See [here](http://www.mew.org/~kazu/proj/ghc-mod/en/emacs.html) for a complete list.
 
-**How to enable**: See installation instructions [ here](http://www.mew.org/~kazu/proj/ghc-mod/en/).
+**How to enable**: See installation instructions [here](http://www.mew.org/~kazu/proj/ghc-mod/en/).
 
 ## Using tags to quickly locate definitions in a project
 

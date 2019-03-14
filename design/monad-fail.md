@@ -3,7 +3,7 @@
 
 This page contains some notes and ideas that predate the official **[MonadFail](design/monad-fail) Proposal (MFP)** which can be found at
 
-[ prime:Libraries/Proposals/MonadFail](https://prime.haskell.org/intertrac/Libraries/Proposals/MonadFail)
+[prime:Libraries/Proposals/MonadFail](https://prime.haskell.org/intertrac/Libraries/Proposals/MonadFail)
 
 ## The Basic Idea
 
@@ -25,7 +25,7 @@ classMonad m =>MonadFail m where
 
 
 and adapt `do`-desugaring accordingly.
-See [ https://github.com/quchen/articles/blob/master/monad_fail.md](https://github.com/quchen/articles/blob/master/monad_fail.md) for more details.
+See [https://github.com/quchen/articles/blob/master/monad_fail.md](https://github.com/quchen/articles/blob/master/monad_fail.md) for more details.
 
 ### Misc Ideas
 
@@ -48,7 +48,7 @@ The `MonadFail(mfail)` desugaring of `do` could then be enabled via a language p
 ## History
 
 
-In [ Haskell 1.4 (postscript)](http://haskell.org/definition/haskell-report-1.4.ps.gz)`fail` was not part of the `Monad` class. Instead there was a separate `MonadZero` class containing the `zero` operation whose purpose was to handle pattern-failures in `do`-syntax (akin to what `fail` does today). Here are the original Haskell 1.4 class definitions quoted from section "6.2.5 Monadic Classes":
+In [Haskell 1.4 (postscript)](http://haskell.org/definition/haskell-report-1.4.ps.gz)`fail` was not part of the `Monad` class. Instead there was a separate `MonadZero` class containing the `zero` operation whose purpose was to handle pattern-failures in `do`-syntax (akin to what `fail` does today). Here are the original Haskell 1.4 class definitions quoted from section "6.2.5 Monadic Classes":
 
 ```
 classFunctor f where
@@ -63,7 +63,7 @@ class(MonadZero m)=>MonadPlus m where(++):: m a -> m a -> m a
 ```
 
 
-However, when Haskell 98 was drafted [ issues with irrefutable patterns](http://marc.info/?l=haskell&m=66622011823641)  lead to `MonadZero` being folded into the `Monad` class (but it doesn't seem to have been an unanimous nor easy decision back then).
+However, when Haskell 98 was drafted [issues with irrefutable patterns](http://marc.info/?l=haskell&m=66622011823641)  lead to `MonadZero` being folded into the `Monad` class (but it doesn't seem to have been an unanimous nor easy decision back then).
 
 
 The issue is highlighted by deconstructing a monadic action returning a single-constructor value:
@@ -80,5 +80,5 @@ Should `???` for `g` be `Monad` or `MonadZero`? The single-constructor pattern m
 
 ## Related Concepts/Proposals
 
-- [ MonadPlus reform proposal](https://wiki.haskell.org/MonadPlus_reform_proposal)
+- [MonadPlus reform proposal](https://wiki.haskell.org/MonadPlus_reform_proposal)
 - [ApplicativeDo](applicative-do)

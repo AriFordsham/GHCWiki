@@ -16,17 +16,17 @@ So please tell us if your problem falls in to this category, saying a bit about 
 Here's a list of the tickets that appear to fall into this show-stopping category:
 
 - [\#10528](https://gitlab.haskell.org//ghc/ghc/issues/10528), [\#10829](https://gitlab.haskell.org//ghc/ghc/issues/10829), [\#10745](https://gitlab.haskell.org//ghc/ghc/issues/10745) (simplification on LHS and RHS of rules)
-- [\#10726](https://gitlab.haskell.org//ghc/ghc/issues/10726), [\#10795](https://gitlab.haskell.org//ghc/ghc/issues/10795) ([ Ruben Moor email](https://mail.haskell.org/pipermail/glasgow-haskell-users/2015-September/026035.html), [ Moritz Drexl email](https://mail.haskell.org/pipermail/glasgow-haskell-users/2015-September/026049.html))
-- [\#10568](https://gitlab.haskell.org//ghc/ghc/issues/10568), [\#10672](https://gitlab.haskell.org//ghc/ghc/issues/10672) ([ Luke Iannini email](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009973.html))
+- [\#10726](https://gitlab.haskell.org//ghc/ghc/issues/10726), [\#10795](https://gitlab.haskell.org//ghc/ghc/issues/10795) ([Ruben Moor email](https://mail.haskell.org/pipermail/glasgow-haskell-users/2015-September/026035.html), [Moritz Drexl email](https://mail.haskell.org/pipermail/glasgow-haskell-users/2015-September/026049.html))
+- [\#10568](https://gitlab.haskell.org//ghc/ghc/issues/10568), [\#10672](https://gitlab.haskell.org//ghc/ghc/issues/10672) ([Luke Iannini email](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009973.html))
 - [\#10777](https://gitlab.haskell.org//ghc/ghc/issues/10777) (Windows): some pressure to get these patches into 7.10.3, eg same Moritz Drexl email above
 
 
 Possible (not world ending, but probably not easy to workaround and breaks):
 
-- [\#9238](https://gitlab.haskell.org//ghc/ghc/issues/9238) (Levent Erkok): mentioned [ reddit](https://www.reddit.com/r/haskell/comments/3kwsu4/ghcdev_anyone_need_ghc_7103) as a [ bug for SBV](https://github.com/LeventErkok/sbv/issues/138#issuecomment-139804285)
+- [\#9238](https://gitlab.haskell.org//ghc/ghc/issues/9238) (Levent Erkok): mentioned [reddit](https://www.reddit.com/r/haskell/comments/3kwsu4/ghcdev_anyone_need_ghc_7103) as a [bug for SBV](https://github.com/LeventErkok/sbv/issues/138#issuecomment-139804285)
 
 
-See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.3) for more.
+See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [Active tickets](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.3) for more.
 
 ## Tickets slated for 7.10.3
 

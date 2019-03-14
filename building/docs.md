@@ -16,7 +16,7 @@ HADDOCK_DOCS = NO
 to your `mk/build.mk`.
 
 
-It is also possible to process the libraries sources using [ HsColour](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/hscolour), and for the Haddock documentation to include links to the HsColoured source code; in order to do this, just install `HsColour` and re-run `./configure`.  The configure script will tell you whether it found `HsColour` at the end.
+It is also possible to process the libraries sources using [HsColour](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/hscolour), and for the Haddock documentation to include links to the HsColoured source code; in order to do this, just install `HsColour` and re-run `./configure`.  The configure script will tell you whether it found `HsColour` at the end.
 
 
 To build the Haddock docs for a given library, do this:

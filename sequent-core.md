@@ -1,12 +1,12 @@
 # Join points
 
-- [ Compiling without continuations](https://www.microsoft.com/en-us/research/publication/compiling-without-continuations) describes the design.  It grew out of an earlier paper: [ Sequent calculus as an intermediate language](https://www.microsoft.com/en-us/research/publication/sequent-calculus-as-a-compiler-intermediate-language/)
+- [Compiling without continuations](https://www.microsoft.com/en-us/research/publication/compiling-without-continuations) describes the design.  It grew out of an earlier paper: [Sequent calculus as an intermediate language](https://www.microsoft.com/en-us/research/publication/sequent-calculus-as-a-compiler-intermediate-language/)
 
 - Repo:  `git://github.com/lukemaurer/ghc`, branch `wip/join-points`
 
 - Ticket to track progress: [\#12988](https://gitlab.haskell.org//ghc/ghc/issues/12988)
 
-- Phab patch: [ https://phabricator.haskell.org/D2853](https://phabricator.haskell.org/D2853)
+- Phab patch: [https://phabricator.haskell.org/D2853](https://phabricator.haskell.org/D2853)
 
 - New variant of Core.
 
@@ -525,7 +525,7 @@ Add `testsuite/test/perf/join-points/`
 
   Keeping the join point invariant effectively restricts us to those programs for which jumps and function calls act in precisely the same way, thus making most of the Core-to-Core (and Core-to-STG) machinery blissfully unaware of the new construct.
 
-- However! As described in [ the paper](https://www.microsoft.com/en-us/research/publication/compiling-without-continuations), the abortive semantics *does* work if we only allow a jump inside an evaluation context:
+- However! As described in [the paper](https://www.microsoft.com/en-us/research/publication/compiling-without-continuations), the abortive semantics *does* work if we only allow a jump inside an evaluation context:
 
   ```wiki
   let<join> j x = x + 1 in (j 1) True

@@ -1,7 +1,7 @@
 # `DuplicateRecordFields`
 
 
-This page describes the `DuplicateRecordFields` extension, part 1 of the [OverloadedRecordFields proposal](records/overloaded-record-fields). This was implemented as [ Phab:D761](https://phabricator.haskell.org/D761) and [ Phab:D1391](https://phabricator.haskell.org/D1391) and **will be in GHC 8.0**.
+This page describes the `DuplicateRecordFields` extension, part 1 of the [OverloadedRecordFields proposal](records/overloaded-record-fields). This was implemented as [Phab:D761](https://phabricator.haskell.org/D761) and [Phab:D1391](https://phabricator.haskell.org/D1391) and **will be in GHC 8.0**.
 
 ## Design
 
@@ -344,7 +344,7 @@ At the moment, Template Haskell has no special support for distinguishing betwee
 Should we modify the TH AST to be able to represent fields correctly? This has been raised as [\#11103](https://gitlab.haskell.org//ghc/ghc/issues/11103).
 
 
-Similarly, GHC.Generics currently shows the selector name in the metadata, whereas it ought to show the label. But in this case the fix is easy (see [ Phab:D1486](https://phabricator.haskell.org/D1486)).
+Similarly, GHC.Generics currently shows the selector name in the metadata, whereas it ought to show the label. But in this case the fix is easy (see [Phab:D1486](https://phabricator.haskell.org/D1486)).
 
 ### Fixity and deprecation
 

@@ -2,7 +2,7 @@
 On this page we describe the principles behind the implementation of the linear types extension as described at [LinearTypes](linear-types).
 
 
-The current implementation can be reviewed on [ Phabricator](https://phabricator.haskell.org/D5401). There is also a [ GitHub repository](https://github.com/tweag/ghc/tree/linear-types) which contains the history of the project and a list of known issues.
+The current implementation can be reviewed on [Phabricator](https://phabricator.haskell.org/D5401). There is also a [GitHub repository](https://github.com/tweag/ghc/tree/linear-types) which contains the history of the project and a list of known issues.
 
 
 Authors or the implementation are:
@@ -12,7 +12,7 @@ Authors or the implementation are:
 - Arnaud Spiwack
 
 
-The implementation is supported by a [ document formalising (a simplified version) of linear core](https://ghc.haskell.org/trac/ghc/attachment/wiki/LinearTypes/Implementation/minicore.2.pdf). This is more complete than the paper. It is work in progress.
+The implementation is supported by a [document formalising (a simplified version) of linear core](https://ghc.haskell.org/trac/ghc/attachment/wiki/LinearTypes/Implementation/minicore.2.pdf). This is more complete than the paper. It is work in progress.
 
 ## Very high-level summary
 
@@ -167,7 +167,7 @@ They were then automatically η-expanded automatically when needed to be used as
 would typecheck because it would be elaborated into `\x y -> (x, y)`, which can be given the type `a -> b -> (a, b)`.
 
 
-However, besides the fact that over-eager η-expansion is undesirable (it is not perfectly preserving: `undefined `seq` True` loops, while `(\x -> undefined x) `seq` True` terminates, it also runs contrary to the [ plans on polymorphism](https://www.microsoft.com/en-us/research/publication/guarded-impredicative-polymorphism/)), it was found to be also insufficient for backwards compatibility. Below are two examples of perfectly good Haskell code which would start failing with this strategy.
+However, besides the fact that over-eager η-expansion is undesirable (it is not perfectly preserving: `undefined `seq` True` loops, while `(\x -> undefined x) `seq` True` terminates, it also runs contrary to the [plans on polymorphism](https://www.microsoft.com/en-us/research/publication/guarded-impredicative-polymorphism/)), it was found to be also insufficient for backwards compatibility. Below are two examples of perfectly good Haskell code which would start failing with this strategy.
 
 #### Example 1
 
@@ -255,12 +255,12 @@ As another note, be warned that the serialisation for inbuilt tuples is differen
 Otherwise, the implementation followed much the same path as levity polymorphism.
 
 
-As part of this implementation `dataConUserTy` has been change to reflect the extra multiplicity parameter of data constructors. However, this may have been a mistake. I (aspiwack) am beginning to think that `dataConUserTy` should stay as-the-user-type it, and the type of the wrapper should be a different type. I suspect this choice to be involved in \[a printing issue [ https://github.com/tweag/ghc/issues/243](https://github.com/tweag/ghc/issues/243)\].
+As part of this implementation `dataConUserTy` has been change to reflect the extra multiplicity parameter of data constructors. However, this may have been a mistake. I (aspiwack) am beginning to think that `dataConUserTy` should stay as-the-user-type it, and the type of the wrapper should be a different type. I suspect this choice to be involved in \[a printing issue [https://github.com/tweag/ghc/issues/243](https://github.com/tweag/ghc/issues/243)\].
 
 #### Rules and Wrappers
 
 
-Giving data constructors wrappers makes RULES mentioning data constructors not work as well. Mentioning a data constructor in a RULE currently means the wrapper, which is often inlined without hesitation and hence means that rule will not fire at a later point. We solve this by inlining the wrapper late (in phase 0); see [\#15840](https://gitlab.haskell.org//ghc/ghc/issues/15840) and [ https://phabricator.haskell.org/D5400](https://phabricator.haskell.org/D5400).
+Giving data constructors wrappers makes RULES mentioning data constructors not work as well. Mentioning a data constructor in a RULE currently means the wrapper, which is often inlined without hesitation and hence means that rule will not fire at a later point. We solve this by inlining the wrapper late (in phase 0); see [\#15840](https://gitlab.haskell.org//ghc/ghc/issues/15840) and [https://phabricator.haskell.org/D5400](https://phabricator.haskell.org/D5400).
 
 #### `magicDict`
 
@@ -275,7 +275,7 @@ If you don't eliminate it then you will get a linker error like
 /root/ghc-leap/libraries/base/dist-install/build/libHSbase-4.12.0.0-ghc8.5.so: undefined reference to `ghczmprim_GHCziPrim_magicDict_closure
 ```
 
-[ I (Matthew) made the matching more robust](https://github.com/tweag/ghc/pull/92/commits/c18ab3d533dbc871f5afe8fe4d2a9d8f8213f8b4) in the two places in base by using a function as the argument to `magicDict` rather than a data constructor
+[I (Matthew) made the matching more robust](https://github.com/tweag/ghc/pull/92/commits/c18ab3d533dbc871f5afe8fe4d2a9d8f8213f8b4) in the two places in base by using a function as the argument to `magicDict` rather than a data constructor
 as the builtin rule only uses that information for the type of the function.
 
 ### Do-notation/rebindable syntax
@@ -401,7 +401,7 @@ be thread this information through to get it right at definition site.
 For now, I leave warnings and this message to my future self.
 
 
-For an in-depth discussion see: [ https://github.com/tweag/ghc/issues/78](https://github.com/tweag/ghc/issues/78) and [ https://github.com/tweag/ghc/pull/87](https://github.com/tweag/ghc/pull/87)
+For an in-depth discussion see: [https://github.com/tweag/ghc/issues/78](https://github.com/tweag/ghc/issues/78) and [https://github.com/tweag/ghc/pull/87](https://github.com/tweag/ghc/pull/87)
 
 #### Pushing function-type coercions
 

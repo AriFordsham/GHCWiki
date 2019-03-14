@@ -4,7 +4,7 @@
 The last bugsweep was performed by [thomie](team-ghc) in the fall of 2014.
 
 
-In the tradition of the [ Ubuntu 5-a-day](https://wiki.ubuntu.com/5-A-Day), 
+In the tradition of the [Ubuntu 5-a-day](https://wiki.ubuntu.com/5-A-Day), 
 the GHC Bug Sweep is a scheme in a similar vein.  The
 main aim is simple: we want to make sure that no ticket is
 forgotten.  So, what we plan to do is to look at every ticket in the

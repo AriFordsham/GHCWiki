@@ -16,9 +16,9 @@ To report a bug, either:
 
 ## How do I tell if I should report my bug?
 
-- **Is it a bug at all?**.  Take a look at the [ FAQ](http://haskell.org/haskellwiki/GHC/FAQ) and [What to do when something goes wrong](http://www.haskell.org/ghc/docs/latest/html/users_guide/gone_wrong.html) from the GHC User's Guide, which will give you some guidance as to whether the behaviour you're seeing is really a bug or not.
+- **Is it a bug at all?**.  Take a look at the [FAQ](http://haskell.org/haskellwiki/GHC/FAQ) and [What to do when something goes wrong](http://www.haskell.org/ghc/docs/latest/html/users_guide/gone_wrong.html) from the GHC User's Guide, which will give you some guidance as to whether the behaviour you're seeing is really a bug or not.
 
-- **Duplicate bug reports**.  Please search for existing tickets on the [ bug tracker](http://hackage.haskell.org/trac/ghc) (search box in top right hand corner) or [ Google](http://www.google.com/?q=site:ghc.haskell.org/trac/ghc/ticket%20).  If your problem has already been reported, it saves time to have all the manifestations of the same bug gathered together.  If you get an error message from GHC, a good search key is usually the non-program-specific part of the error message.
+- **Duplicate bug reports**.  Please search for existing tickets on the [bug tracker](http://hackage.haskell.org/trac/ghc) (search box in top right hand corner) or [Google](http://www.google.com/?q=site:ghc.haskell.org/trac/ghc/ticket%20).  If your problem has already been reported, it saves time to have all the manifestations of the same bug gathered together.  If you get an error message from GHC, a good search key is usually the non-program-specific part of the error message.
 
   If you do find an existing ticket that seems to describe the same problem, then
 

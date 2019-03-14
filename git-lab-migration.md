@@ -1,7 +1,7 @@
 # GitLab Migration
 
 
-In October 2018 a [ proposal](https://mail.haskell.org/pipermail/ghc-devs/2018-October/016425.html) was discussed on ghc-devs and ghc-devops suggesting that GHC migrate away from Phabricator and towards GitLab for its code review infrastructure. In addition, we are considering consolidating several additional services. Specifically:
+In October 2018 a [proposal](https://mail.haskell.org/pipermail/ghc-devs/2018-October/016425.html) was discussed on ghc-devs and ghc-devops suggesting that GHC migrate away from Phabricator and towards GitLab for its code review infrastructure. In addition, we are considering consolidating several additional services. Specifically:
 
 1. Phabricator for code review
 1. gitolite, for repository hosting
@@ -31,7 +31,7 @@ can also provide:
   GitLab provides:
 
   - Assuming all code goes through MRs: as a CI pipeline job
-  - with a [ custom hook](https://github.com/gitlabhq/gitlabhq/blob/667c0a909bde1cf71f21d8ec9768e98b1c489030/doc/hooks/custom_hooks.md)
+  - with a [custom hook](https://github.com/gitlabhq/gitlabhq/blob/667c0a909bde1cf71f21d8ec9768e98b1c489030/doc/hooks/custom_hooks.md)
 
 - Code and commit message style checks (this is probably best done as a
   CI pipeline)

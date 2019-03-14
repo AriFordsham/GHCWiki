@@ -1,10 +1,10 @@
 ## Splitting base
 
 
-In a [ thread on glasglow-haskell-users](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-February/023764.html) in February some ideas about splitting base in smaller components were floating around. This wiki page tries to assemble ideas on how to re-group the modules.
+In a [thread on glasglow-haskell-users](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-February/023764.html) in February some ideas about splitting base in smaller components were floating around. This wiki page tries to assemble ideas on how to re-group the modules.
 
 
-This has been discussed before, e.g. in [ 2008](http://www.haskell.org/pipermail/libraries/2008-August/010543.html).
+This has been discussed before, e.g. in [2008](http://www.haskell.org/pipermail/libraries/2008-August/010543.html).
 
 ### Goals
 
@@ -98,7 +98,7 @@ Advantages:
 
 - Quite a bit of work
 - Narrows implementation choices, because packages can't be mutually recursive. (i.e. forces `IOError`-less `error`)
-- Hence further development may be easier ([ according to Ian](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-February/023818.html))
+- Hence further development may be easier ([according to Ian](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-February/023818.html))
 - Some base-foo package can use other libraries like containers in their implementation (IntMap issue)
 - More appropriate types like ByteString and Text can be used in, say, base-io-file
 - Alternative compilers/targets may only have to reimplement some of the base-\* packages.
@@ -141,7 +141,7 @@ This is a list of interdependencies between seemingly unrelated parts that need 
 - Exceptions pull in `Typeable`
 - `Typeable` pulls in `GHC.Fingerprint`
 - GHC.Fingerprint pulls in `Foreign` and `IO` (but could be replaced by a pure implementation)
-- The Monad instance of `IO` calls `failIO`, which creates an `IOException`, which has fields for handles and devices, and hence pulls in some `Foreign` stuff and some file-related `IO`, preventing the creation of a clean base-io package. There exists a [ somewhat backwards compatible work-around](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-February/023796.html).
+- The Monad instance of `IO` calls `failIO`, which creates an `IOException`, which has fields for handles and devices, and hence pulls in some `Foreign` stuff and some file-related `IO`, preventing the creation of a clean base-io package. There exists a [somewhat backwards compatible work-around](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-February/023796.html).
 
 ### Other issues
 
@@ -151,11 +151,11 @@ This is a list of interdependencies between seemingly unrelated parts that need 
   - Similar, the `[x..y]` syntax generates a `base:GHC.Enum.Enum` constraint, `RebindableSyntax` does not help (GHC bug?)
   - `StablePtr`, as used in `GHC.Stable`
   - `Typeable`, `Show` when used in `deriving`. Can probably be avoided by hand-writing instances. `Read` can probably move completely out.
-  - `error` has its type wired in GHC when in package base; This is used in a hack in [ GHC/Err.hs-boot](https://github.com/ghc/packages-base/blob/master/GHC/Err.lhs-boot). Work-around: Import `GHC.Types` in `GHC/Err.lhs-boot`
+  - `error` has its type wired in GHC when in package base; This is used in a hack in [GHC/Err.hs-boot](https://github.com/ghc/packages-base/blob/master/GHC/Err.lhs-boot). Work-around: Import `GHC.Types` in `GHC/Err.lhs-boot`
   - The `Monad` constraint on do-notation expects the definition to live in base. `RebindableSyntax` helps, but requires to define a local `ifThenElse` function.
 - The ST Monad can (and should) be provided independently of IO, but currently functions like `unsafeIOToST` are provided in the `Control.Monad.ST` namespace.
 
 ### First attempt
 
 
-Joachim has started a first attempt to pull stuff out of the bottom of base. See [ https://github.com/nomeata/packages-base/blob/base-split/README.md](https://github.com/nomeata/packages-base/blob/base-split/README.md) for an overview of progress and a description of changes. Use `git clone git://github.com/nomeata/packages-base.git; git checkout base-split` to experiment. This \*does\* try to split out as many packages as possible, just to see what is possible.
+Joachim has started a first attempt to pull stuff out of the bottom of base. See [https://github.com/nomeata/packages-base/blob/base-split/README.md](https://github.com/nomeata/packages-base/blob/base-split/README.md) for an overview of progress and a description of changes. Use `git clone git://github.com/nomeata/packages-base.git; git checkout base-split` to experiment. This \*does\* try to split out as many packages as possible, just to see what is possible.

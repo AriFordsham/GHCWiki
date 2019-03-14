@@ -1,7 +1,7 @@
 # Linux perf tool
 
 
-Since Linux 2.6.31, linux has had a new [ performance counter subsystem](https://perf.wiki.kernel.org/index.php/Main_Page) (initially called "perf counters" and later renamed to "perf events").  The facilities provided by perf events, and the associated tool "perf", are generally a superset of what you can do with [oprofile](debugging/low-level-profiling/oprofile) and [qprof](debugging/low-level-profiling), so it's a good idea to use perf if you can.  It does support fewer processors than the other systems, although more are being added over time.
+Since Linux 2.6.31, linux has had a new [performance counter subsystem](https://perf.wiki.kernel.org/index.php/Main_Page) (initially called "perf counters" and later renamed to "perf events").  The facilities provided by perf events, and the associated tool "perf", are generally a superset of what you can do with [oprofile](debugging/low-level-profiling/oprofile) and [qprof](debugging/low-level-profiling), so it's a good idea to use perf if you can.  It does support fewer processors than the other systems, although more are being added over time.
 
 
 The perf events subsystem is compiled in by default in the kernel shipped with most distros (e.g. Ubuntu) which means there's no fiddling around compiling your own kernel or modules.
@@ -23,7 +23,7 @@ $ sudo apt-get install linux-tools-<your kernel version>
 If your distro doesn't include "perf" as a package you can build it manually like so:
 
 - `apt-get install binutils-dev libdwarf-dev libelf-dev` (or equivalent on your distro)
-- download a kernel source tree, matching your kernel version, from [ http://kernel.org](http://kernel.org)
+- download a kernel source tree, matching your kernel version, from [http://kernel.org](http://kernel.org)
 - unpack it
 - `cd tools/perf`
 - `make`

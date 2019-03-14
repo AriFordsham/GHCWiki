@@ -175,7 +175,7 @@ Details of ticket [\#1](https://gitlab.haskell.org//ghc/ghc/issues/1):
 ## Using the `[[TicketQuery]]` Macro
 
 
-The [ TicketQuery](http://trac.edgewall.org/intertrac/TicketQuery) macro lets you display lists of tickets matching certain criteria anywhere you can use [WikiFormatting](wiki-formatting).
+The [TicketQuery](http://trac.edgewall.org/intertrac/TicketQuery) macro lets you display lists of tickets matching certain criteria anywhere you can use [WikiFormatting](wiki-formatting).
 
 
 Example:

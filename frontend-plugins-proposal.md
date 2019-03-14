@@ -90,7 +90,7 @@ hscFileFrontEnd mod_summary = do
 ```
 
 
-This is important because the typechecked AST misses information (see [ http://www.haskell.org/pipermail/ghc-devs/2013-February/000540.html](http://www.haskell.org/pipermail/ghc-devs/2013-February/000540.html)). The better solution here would probably be to make this configurable at runtime (an additional flag in `DynFlags`).
+This is important because the typechecked AST misses information (see [http://www.haskell.org/pipermail/ghc-devs/2013-February/000540.html](http://www.haskell.org/pipermail/ghc-devs/2013-February/000540.html)). The better solution here would probably be to make this configurable at runtime (an additional flag in `DynFlags`).
 
 ## Unifying source and core plugins
 

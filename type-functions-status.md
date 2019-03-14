@@ -46,7 +46,7 @@ This section collects notes about the new constraint solver (Dec 2009) that we a
 
 - GADT:
 
-  - `gadt/lazypatok` needs to be fixed, but are irrefutable patterns really ok, see [ http://okmij.org/ftp/Haskell/GADT-problem.hs](http://okmij.org/ftp/Haskell/GADT-problem.hs)?
+  - `gadt/lazypatok` needs to be fixed, but are irrefutable patterns really ok, see [http://okmij.org/ftp/Haskell/GADT-problem.hs](http://okmij.org/ftp/Haskell/GADT-problem.hs)?
   - It'd be nice if the error message of `tcfail167` would include "Inaccessible case alternative: Can't match types `Char' and `Float'" again.  We could achieve in `TcPat.tcConPat` by having a look at `eq_preds` in the GADT case.  If the `eq_preds` are obviously unsatisfiable (due to a clash of data type constructors), then we have an inaccessible case alternative.
   - Rigidity:
 
@@ -65,7 +65,7 @@ This section collects notes about the new constraint solver (Dec 2009) that we a
   - `TcPat` and `TcUnify` (and maybe other modules) still have calls to the unification engine that ignore the returned coercion!!
   - Test `Simple17` (corelint error as a dict binding, used to specialise a call to a local function, floats out too far)
   - Improve error messages for loopy equalities: TF tests `Simple13` & `SkolemOccursLoop`
-  - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [ http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html).
+  - [\#1897](https://gitlab.haskell.org//ghc/ghc/issues/1897): If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html).
   - [\#1769](https://gitlab.haskell.org//ghc/ghc/issues/1769) (deriving typeable for data families)
   - When a `type instance` changes (in an orphan modules), currently clients are not properly recompiled at least by `--make`.
   - When we raise a mismatch error in `TcSimplify` for unresolvable equalities, we effectively tidy the two non-matching types twice.  Add a comment to highlight this and say why it is ok (i.e., they are never grouped together with `groupErrs` or similar).
@@ -90,7 +90,7 @@ This section collects notes about the new constraint solver (Dec 2009) that we a
 
   - Step 1: Replace the existing improvement machinery for FDs by code that generates explicit equalities from the two FD rules.  Then, all improvement is by normalisation of equalities, which hopefully allows us to simplify `TcSimplify.reduceContext`.  (Apply this change when integrating the simplification of equalities and dictionaries.)
   - Step 2: Desugar FDs into TFs and superclass equalities.
-- [\#3005](https://gitlab.haskell.org//ghc/ghc/issues/3005) & ghci command to print normalised type and add [ http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799](http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799) as a test to the testsuite.
+- [\#3005](https://gitlab.haskell.org//ghc/ghc/issues/3005) & ghci command to print normalised type and add [http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799](http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799) as a test to the testsuite.
 - Most general signatures for record selectors:
 
   ```wiki

@@ -1,7 +1,7 @@
 ## Vectorisation: The lifted case example
 
 
-This example is taken from [ http://www.cse.unsw.edu.au/\~chak/papers/LCK06.html](http://www.cse.unsw.edu.au/~chak/papers/LCK06.html).
+This example is taken from [http://www.cse.unsw.edu.au/\~chak/papers/LCK06.html](http://www.cse.unsw.edu.au/~chak/papers/LCK06.html).
 
 ## Flattening sums
 

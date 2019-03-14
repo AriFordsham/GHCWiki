@@ -51,7 +51,7 @@ Update the `ANNOUNCE` file in the root of the tree.
 In the `AC_INIT` line of `configure.ac`, set the version number. A few lines below, set `RELEASE=YES`.
 
 
-It's also good practice to update the `config.guess` and `config.sub` files scattered about the tree (currently in the root, `libraries/base`, and `libraries/integer-gmp`) from upstream ([ config.guess](https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD), [ config.sub](https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD)).
+It's also good practice to update the `config.guess` and `config.sub` files scattered about the tree (currently in the root, `libraries/base`, and `libraries/integer-gmp`) from upstream ([config.guess](https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD), [config.sub](https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD)).
 
 
 You may also want to update the `llvm-targets` file: `utils/llvm-targets/gen-data-layout.sh > llvm-targets`. Note that non-Apple `clang` releases lack the iOS targets so be sure to preserve these.
@@ -116,9 +116,9 @@ We currently produce binary distributions for the following environments,
 
 First, you should make sure your environment has all of the tools necessary to make a proper release build.  This can include more tools than an "ordinary" build of GHC requires, since documentation requires extra tools.  You will need:
 
-- [ Sphinx](http://www.sphinx-doc.org/)
+- [Sphinx](http://www.sphinx-doc.org/)
 - HsColour (cabal install hscolour)
-- [ xelatex](http://xetex.sourceforge.net/)
+- [xelatex](http://xetex.sourceforge.net/)
 
 
 A good sanity check is to check the output of `configure` and make sure all of the tool fields are filled out.
@@ -150,7 +150,7 @@ $ make binary-dist 2>&1 | tee ../bd.log
 ```
 
 
-Nightly builders will automatically produce release builds on FreeBSD, putting the results [ here](http://haskell.inf.elte.hu/ghc/dist/freebsd8/).
+Nightly builders will automatically produce release builds on FreeBSD, putting the results [here](http://haskell.inf.elte.hu/ghc/dist/freebsd8/).
 
 ## Sanity checking the binary builds
 
@@ -284,12 +284,12 @@ before the release!
 
 There are a variety of things that should also be done,
 
-- Post the announcement on the [ GHC blog](https://ghc.haskell.org/trac/ghc/blog)
-- Ensure that the [ milestone](https://ghc.haskell.org/trac/ghc/admin/ticket/milestones) is marked as closed
-- Create a new Trac [ version](https://ghc.haskell.org/trac/ghc/admin/ticket/versions)
+- Post the announcement on the [GHC blog](https://ghc.haskell.org/trac/ghc/blog)
+- Ensure that the [milestone](https://ghc.haskell.org/trac/ghc/admin/ticket/milestones) is marked as closed
+- Create a new Trac [version](https://ghc.haskell.org/trac/ghc/admin/ticket/versions)
 - Reset `RELEASE=NO` in the stable branch
 - Update [Commentary/Libraries/VersionHistory](commentary/libraries/version-history)
-- Update [ https://wiki.haskell.org/Base_package\#Versions](https://wiki.haskell.org/Base_package#Versions)
+- Update [https://wiki.haskell.org/Base_package\#Versions](https://wiki.haskell.org/Base_package#Versions)
 - Ensure that the submodules in the `master` branch are no older than the submodules in the release
 - Update the "Status Updates" section on [WikiStart](wiki-start) and [Status](status)
 - If major release: Update the `FP_COMPARE_VERSIONS([$GhcVersion], ...)` check in `configure.ac`

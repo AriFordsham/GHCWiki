@@ -1,10 +1,10 @@
 # Internships on Haskell and GHC, at Microsoft Research, Cambridge
 
-[ Microsoft Research Cambridge](http://research.microsoft.com/aboutmsr/labs/cambridge/) runs two internship programmes:
+[Microsoft Research Cambridge](http://research.microsoft.com/aboutmsr/labs/cambridge/) runs two internship programmes:
 
-- The [ PhD student internship programme](http://research.microsoft.com/en-us/jobs/intern/about_uk.aspx) is mainly for graduate students in mid-PhD.  This is not an absolute requirement; for example, post-PhD is certainly possible.  It has an annual cycle, with applications due by end Feb.  The internship itself is for 12 weeks, usually over the summer, but the precise timing is flexible.  You don't need to be an EU citizen.
+- The [PhD student internship programme](http://research.microsoft.com/en-us/jobs/intern/about_uk.aspx) is mainly for graduate students in mid-PhD.  This is not an absolute requirement; for example, post-PhD is certainly possible.  It has an annual cycle, with applications due by end Feb.  The internship itself is for 12 weeks, usually over the summer, but the precise timing is flexible.  You don't need to be an EU citizen.
 
-- The [ undergraduate Bright Minds programme](http://research.microsoft.com/en-us/projects/undergrad/) is for undergraduates.    Again there's an annual cycle with an application deadline of end Feb.  The internship runs for 8 weeks, and the timing is fixed. You need to have the right to work in the UK (so the lab doesn't have to get work permits), which in practice means EU citizens.
+- The [undergraduate Bright Minds programme](http://research.microsoft.com/en-us/projects/undergrad/) is for undergraduates.    Again there's an annual cycle with an application deadline of end Feb.  The internship runs for 8 weeks, and the timing is fixed. You need to have the right to work in the UK (so the lab doesn't have to get work permits), which in practice means EU citizens.
 
 ## What is an internship?
 
@@ -37,7 +37,7 @@ To give you some idea, here are some past projects (in approximate date order):
 - 2008: Thomas Schilling worked on the GHC API, and Scion
 - 2008: Jost Berthold worked on parallel evaluation
 - 2007: Dan Licata implemented [view patterns](view-patterns)
-- 2007: Peng Li worked on a [ new concurrency substrate](http://research.microsoft.com/%7Esimonpj/papers/lw-conc/index.htm) for GHC
+- 2007: Peng Li worked on a [new concurrency substrate](http://research.microsoft.com/%7Esimonpj/papers/lw-conc/index.htm) for GHC
 - 2007: Michael Adams worked on refactoring the code generator, and \[2008\] John Dias took the same ideas much further.
 - 2007: Bernie Pope implemented the GHCi debugger
 - 2007: Ben Lippmeier implemented a new register allocator
@@ -56,7 +56,7 @@ Here a [bunch of suggestions](project-suggestions).
 You can apply ANY TIME.  Internships are not just the summer months. Contact one of us (simonpj@…, marlowsd@…) in the first instance (or another sponsor if they are more suitable).
 
 
-To apply, follow the instructions at [ http://research.microsoft.com/en-us/jobs/intern/about_uk.aspx](http://research.microsoft.com/en-us/jobs/intern/about_uk.aspx), **and email one of us to say that you have done so**. Do not omit the latter step; across MSR there are hundreds of applicants, and if we don't hear from you personally we may miss your application.  If you don't get a reply to your email, try again - the spam filter may have caught it.
+To apply, follow the instructions at [http://research.microsoft.com/en-us/jobs/intern/about_uk.aspx](http://research.microsoft.com/en-us/jobs/intern/about_uk.aspx), **and email one of us to say that you have done so**. Do not omit the latter step; across MSR there are hundreds of applicants, and if we don't hear from you personally we may miss your application.  If you don't get a reply to your email, try again - the spam filter may have caught it.
 
 
 A CV is typically a boring, dry kind of thing, consisting entirely of data (education, employment, publications, talks etc etc).  Yes, we need that, but **please also include a final section entitled "Personal research statement"**.  This should address the following questions:
@@ -71,7 +71,7 @@ A CV is typically a boring, dry kind of thing, consisting entirely of data (educ
 Typically your personal research statement will be a couple of pages long, but it's really up to you.  You don't need to address the above questions in the order given, and you can range more widely if you want.  (You should find the same writeup useful for other purposes.)  Write in the first person, and try to convey something of yourself rather than just data. 
 
 
-MSRC has lots of other interesting work on programming languages too: F\#, security, etc.  Check it out [ here](http://research.microsoft.com/aboutmsr/labs/cambridge/).
+MSRC has lots of other interesting work on programming languages too: F\#, security, etc.  Check it out [here](http://research.microsoft.com/aboutmsr/labs/cambridge/).
 
 ## Timescale
 

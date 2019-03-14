@@ -23,11 +23,11 @@ Future Ideas:
 
 - [ToDo List of Sorts](commentary/compiler/backends/llvm/wip)
 - [Replacing the Native Code Generator](commentary/compiler/backends/llvm/replacing-ncg)
-- [ David Terei blog post of LLVM-related projects](http://dterei.blogspot.com/2011/09/ghc-project-for-all.html)
+- [David Terei blog post of LLVM-related projects](http://dterei.blogspot.com/2011/09/ghc-project-for-all.html)
 
 
 Other information:
 
-- The [ thesis paper](http://www.cse.unsw.edu.au/~pls/thesis/davidt-thesis.pdf) which offers a detailed performance evaluation, as well as the motivation and design of the back-end.
-- [ Blog post](http://blog.llvm.org/2010/05/glasgow-haskell-compiler-and-llvm.html) on the LLVM blog about the backend.
-- A more recent [ paper](http://www.cse.unsw.edu.au/~chak/papers/TC10.html) submitted to the Haskell Symposium '10, gives updated design overview and performance numbers.
+- The [thesis paper](http://www.cse.unsw.edu.au/~pls/thesis/davidt-thesis.pdf) which offers a detailed performance evaluation, as well as the motivation and design of the back-end.
+- [Blog post](http://blog.llvm.org/2010/05/glasgow-haskell-compiler-and-llvm.html) on the LLVM blog about the backend.
+- A more recent [paper](http://www.cse.unsw.edu.au/~chak/papers/TC10.html) submitted to the Haskell Symposium '10, gives updated design overview and performance numbers.

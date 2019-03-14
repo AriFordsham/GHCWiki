@@ -7,7 +7,7 @@ On 5 May 2008, Isaac Dupree asked
 
 
 Probably not.  GHC Cmm is a sort of pidgin version of C-- 2.0, and
-true C-- kinds are explained in the [ C-- specification, section 5.1](http://www.cminusminus.org/code.html).
+true C-- kinds are explained in the [C-- specification, section 5.1](http://www.cminusminus.org/code.html).
 
 >
 > When I was portabilizing that code area a while ago I had ignorantly 
@@ -25,7 +25,7 @@ arguments in floating-point registers).  So we changed the name to
 
 
 If you like dense, indigestible academic papers full of formalism,
-there's [ one I'm quite proud of](http://www.cs.tufts.edu/~nr/pubs/staged-abstract.html).
+there's [one I'm quite proud of](http://www.cs.tufts.edu/~nr/pubs/staged-abstract.html).
 It explains in detail how kinds are useful for specifying and
 implementing procedure calling conventions, which is the use to which
 they are put within GHC. 

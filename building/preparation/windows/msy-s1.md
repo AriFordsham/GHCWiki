@@ -13,23 +13,23 @@ Other documentation for Windows includes:
 - [Using Cygwin](building/windows/cygwin) to build GHC. Using MSYS is the preferred approach though.
 - [MinGW/MSYS/Cgwin](building/platforms/windows) information for people new to using UNIX tools on Windows.
 - [Using SSH](building/windows/ssh) on Windows.
-- [ Guidance on how to use Haskell on Windows](http://www.haskell.org/haskellwiki/Windows)
+- [Guidance on how to use Haskell on Windows](http://www.haskell.org/haskellwiki/Windows)
 
 ## Setting up Windows
 
 1. **Install the following tools:**
 
-  - [ Haskell Platform](http://hackage.haskell.org/platform/)
-  - [ Git](http://git-scm.com/)
-  - [ Python](http://python.org/) (Version 2.7 is a good choice, we don't support version 3.x at this time)
-  - [ LLVM](http://www.llvm.org/releases/download.html) (Optional, for using GHC's LLVM backend, grab the file called 'LLVM Binaries for Mingw32/x86')
+  - [Haskell Platform](http://hackage.haskell.org/platform/)
+  - [Git](http://git-scm.com/)
+  - [Python](http://python.org/) (Version 2.7 is a good choice, we don't support version 3.x at this time)
+  - [LLVM](http://www.llvm.org/releases/download.html) (Optional, for using GHC's LLVM backend, grab the file called 'LLVM Binaries for Mingw32/x86')
 
 >
 > We recommend using the **default install locations** for all these tools.  If you choose your own paths, then we recommend not using a path containing spaces if the default did not have spaces.
 
 1. **Install the MinGW and MSYS tools:**
 
-  MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is totally confusing, so go here [ Mingw/MSYS Getting Started](http://www.mingw.org/wiki/Getting_Started) and follow the download instructions for the **mingw-get-setup** installer. This is an easy to use installer for installing both MinGW and MSYS.   Make sure when you run the installer that you select to install 
+  MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is totally confusing, so go here [Mingw/MSYS Getting Started](http://www.mingw.org/wiki/Getting_Started) and follow the download instructions for the **mingw-get-setup** installer. This is an easy to use installer for installing both MinGW and MSYS.   Make sure when you run the installer that you select to install 
 
   - mingw-developer-toolkit (this includes `autoconf` etc)
   - binutils (this includes `ar`)
@@ -95,7 +95,7 @@ Building GHC's documentation is optional, but in order to build it in Windows yo
 In the Cygwin installer, just install the complete `Doc` category. You may have to help `configure` a little bit: Set the environment variables `XmllintCmd` and `XsltprocCmd` to the paths of the Cygwin executables `xmllint` and `xsltproc`, respectively, and set `fp_cv_dir_docbook_xsl` to the path of the directory where the XSL stylesheets are installed, e.g. `c:/cygwin/usr/share/docbook-xsl`.    
 
 
-If you want to build HTML Help, you have to install the [ HTML Help SDK](http://msdn.microsoft.com/library/default.asp?url=/library/en-us/htmlhelp/html/hworiHTMLHelpStartPage.asp), tool, and make sure that `hhc` is in your `PATH`.
+If you want to build HTML Help, you have to install the [HTML Help SDK](http://msdn.microsoft.com/library/default.asp?url=/library/en-us/htmlhelp/html/hworiHTMLHelpStartPage.asp), tool, and make sure that `hhc` is in your `PATH`.
 
 ## Awful warnings about your PATH
 

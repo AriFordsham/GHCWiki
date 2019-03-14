@@ -6,4 +6,4 @@ This is a little tool I came across by Lennart Poettering for profiling pthread 
 
 Very useful for diagnosing lock contention in the RTS.
 
-- [ mutrace](http://git.0pointer.de/?p=mutrace.git;a=summary)
+- [mutrace](http://git.0pointer.de/?p=mutrace.git;a=summary)

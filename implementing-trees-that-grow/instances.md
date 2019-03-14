@@ -62,7 +62,7 @@ That is: instead of one `Data` instance for the `HsSyn` traversals,
 make three.
 
 
-\[ The spurious constraint problem was resolved by including `deriving instance Typeable c => Data (GhcPass c)`, as recommended by \@RyanGlScott \]
+\[The spurious constraint problem was resolved by including `deriving instance Typeable c => Data (GhcPass c)`, as recommended by \@RyanGlScott \]
 
 ### PLAN E
 

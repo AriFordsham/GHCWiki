@@ -9,7 +9,7 @@ See also
 - The original ticket on this feature: [\#5910](https://gitlab.haskell.org//ghc/ghc/issues/5910). 
 
 
-Historical note: the [ development repository](https://github.com/xnyhps/ghc) and its [ issue tracker](https://github.com/xnyhps/ghc/issues).
+Historical note: the [development repository](https://github.com/xnyhps/ghc) and its [issue tracker](https://github.com/xnyhps/ghc/issues).
 
 ## Tickets
 
@@ -103,7 +103,7 @@ We first describe related work, including concepts that are similar in other lan
 ## Goals in Agda
 
 
-One of the features of the Emacs mode for [ Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php) is the ability to insert a goal, a placeholder for code that is yet to be written. By inserting a `?` in an expression, the compiler will introduce a goal. After loading the file (which typechecks it), Agda gives an overview of the goals in the file and their types.
+One of the features of the Emacs mode for [Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php) is the ability to insert a goal, a placeholder for code that is yet to be written. By inserting a `?` in an expression, the compiler will introduce a goal. After loading the file (which typechecks it), Agda gives an overview of the goals in the file and their types.
 
 
 For example:
@@ -603,7 +603,7 @@ programmatically get information back from GHC. It seems that so far we are
 just thinking about printing a warning message from the compiler. But in order
 to write something like Agda-mode, I guess we ultimately want to expose this in
 the GHC API, so programs like \[ghc-mod
-[ http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs\#ghc-mod](http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs#ghc-mod) ghc-mod\] can display
+[http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs\#ghc-mod](http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs#ghc-mod) ghc-mod\] can display
 the holes information and let the user move between them.
 
 
@@ -645,7 +645,7 @@ The first feature has the open problem of how different usages of a named holes 
 
 ## Implementation notes
 
-[ https://github.com/xnyhps/ghc/commit/8573dfec24a0b354b7be32bf567a3a5bf700728e](https://github.com/xnyhps/ghc/commit/8573dfec24a0b354b7be32bf567a3a5bf700728e) adds basic support for named holes, namely by turning unbound identifiers starting with `_` into a hole.
+[https://github.com/xnyhps/ghc/commit/8573dfec24a0b354b7be32bf567a3a5bf700728e](https://github.com/xnyhps/ghc/commit/8573dfec24a0b354b7be32bf567a3a5bf700728e) adds basic support for named holes, namely by turning unbound identifiers starting with `_` into a hole.
 
 
 It works as follows:

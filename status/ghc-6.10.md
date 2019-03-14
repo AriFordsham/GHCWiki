@@ -3,7 +3,7 @@
 
 We expect to release GHC 6.10 around ICFP 2008.  
 
-- [ Beta released](http://www.haskell.org/pipermail/glasgow-haskell-users/2008-September/015539.html). 
+- [Beta released](http://www.haskell.org/pipermail/glasgow-haskell-users/2008-September/015539.html). 
 
 ## Things that are done already
 
@@ -16,7 +16,7 @@ We expect to release GHC 6.10 around ICFP 2008.
 
 > **Done**: these are all in the HEAD already.
 
-- **Parallel garbage collection** (see [ Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm)).  **Done**.
+- **Parallel garbage collection** (see [Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm)).  **Done**.
 
 - **External Core** (output only) is working again, thanks to Tim Chevalier.
 
@@ -33,15 +33,15 @@ We expect to release GHC 6.10 around ICFP 2008.
   - Build it with GHC (maybe ship it with GHC too)
   - Documentation for GHC API done via Haddock 2
 
-- **Extensible exceptions**, along the lines of Simon's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.
+- **Extensible exceptions**, along the lines of Simon's paper [An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.
 
 - **Haddock 2** (see also [\#1964](https://gitlab.haskell.org//ghc/ghc/issues/1964) (GHC.Prim)).  (**Ian Lynagh**)
 
 - **GHC API** improvement: **Thomas Schilling** is doing a SoC project.  Preserve comments and pragmas, generic traversals ([\#1467](https://gitlab.haskell.org//ghc/ghc/issues/1467), [\#1886](https://gitlab.haskell.org//ghc/ghc/issues/1886), [GhcApiStatus](ghc-api-status)). We'll ship whatever Thomas has committed by then.
 
-- **[ Type families](http://haskell.org/haskellwiki/GHC/Indexed_types)**, fully working. *Manuel Chakravarty and Simon PJ*
+- **[Type families](http://haskell.org/haskellwiki/GHC/Indexed_types)**, fully working. *Manuel Chakravarty and Simon PJ*
 
-- **[ Nested data parallelism](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)**, in some form. *Roman Leshchinskiy, Gabriele Keller, Manuel Chakravarty, Simon PJ*
+- **[Nested data parallelism](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)**, in some form. *Roman Leshchinskiy, Gabriele Keller, Manuel Chakravarty, Simon PJ*
 
 - More library reorg ([\#1338](https://gitlab.haskell.org//ghc/ghc/issues/1338)).  The goal here is to shift stuff out of boot-libs and into the Haskell Library Platform, which is independently upgradable.  Not hugely urgent, nice to have.
 

@@ -36,7 +36,7 @@ However, now that 7.8 is out, there is a lot there for users to play with: the r
       In an equation for ‛f’: f x = _
   ```
 
-  GHC now tells us that the term `f` has a hole of type `a`, and there is a term `x :: a` in scope. So the definition is clear: `f x = x`. Holes are originally a concept borrowed from [ Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php), and we hope they will be useful to Haskell programmers too!
+  GHC now tells us that the term `f` has a hole of type `a`, and there is a term `x :: a` in scope. So the definition is clear: `f x = x`. Holes are originally a concept borrowed from [Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php), and we hope they will be useful to Haskell programmers too!
 
 - **Pattern synonyms** - Gergő Érdi worked on an implementation of pattern synonyms for GHC, and it actually landed in the 7.8 release. While there's still more work to do, it represents a real improvement in GHC's support for abstraction.  More detail on the wiki page [\[PatSyn](pattern-synonyms)\].
 
@@ -50,7 +50,7 @@ However, now that 7.8 is out, there is a lot there for users to play with: the r
     Or a     b     = True
   ```
 
-  We thought this was going to be fairly easy, but it turned out to be much more interesting than we expected, and led to a POPL paper [ \[ClosedFam](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)\].
+  We thought this was going to be fairly easy, but it turned out to be much more interesting than we expected, and led to a POPL paper [\[ClosedFam](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)\].
 
 - **Safe coercions** extend the power of newtypes, one of Haskell's main data-abstraction features. For example, given
 
@@ -58,7 +58,7 @@ However, now that 7.8 is out, there is a lot there for users to play with: the r
   newtype Age = MkAge Int
   ```
 
-  you can convert betwen `Age` and `Int` by using the `MkAge` constructor, knowing that the conversion is free at runtime.  But to convert betwen `Maybe Age` and `Maybe Int` you have to write code that unpacks and packs the `Maybe` type, and GHC cannot reasonably eliminate the cost.  Safe coercions let you do just that.  But (and this is not obvious) to be type-safe, in the presence of type families, we have to extend the type system with so-called *type roles*.  Moreover, using roles finally solves the notorious, seven-year-old Generalised Newtype Deriving bug ([\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496)).  Safe conversions were implemented by Joachim Breitner with help from Richard Eisenberg; there is a full description in our ICFP submission [ \[SafeCo](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)\].
+  you can convert betwen `Age` and `Int` by using the `MkAge` constructor, knowing that the conversion is free at runtime.  But to convert betwen `Maybe Age` and `Maybe Int` you have to write code that unpacks and packs the `Maybe` type, and GHC cannot reasonably eliminate the cost.  Safe coercions let you do just that.  But (and this is not obvious) to be type-safe, in the presence of type families, we have to extend the type system with so-called *type roles*.  Moreover, using roles finally solves the notorious, seven-year-old Generalised Newtype Deriving bug ([\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496)).  Safe conversions were implemented by Joachim Breitner with help from Richard Eisenberg; there is a full description in our ICFP submission [\[SafeCo](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)\].
 
 - **New code generator** - As previously reported, the New Code Generator is live and switched on by default. There have been a host of bugfixes and stability improvements, meaning it should be solid for the 7.8 release.
 
@@ -116,53 +116,53 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 >
 > Moreover, the remaining packages officially maintained by the core library committee that are currently managed via GHC's Trac will be relocated to the Haskell GitHub organization in order to have GHC Trac focus on developing GHC proper as well as reduce the overhead for casual contributors to file issues and submit simple fixes for those packages.
 
-- **Continuous integration improvements** - Work on new CI systems for GHC has been slow, but thanks to the work of **Joachim Breitner** and **Gábor Páli**, GHC is now built on [ http://travis-ci.org](http://travis-ci.org) \[TravisCI\] as well as nightly builders of a variety of flavors and machines \[Builders\]. We're also hoping to investigate using a Continuous Integration system to help build against a stable set of selected Hackage packages, to help find issues with the releases more easily.
+- **Continuous integration improvements** - Work on new CI systems for GHC has been slow, but thanks to the work of **Joachim Breitner** and **Gábor Páli**, GHC is now built on [http://travis-ci.org](http://travis-ci.org) \[TravisCI\] as well as nightly builders of a variety of flavors and machines \[Builders\]. We're also hoping to investigate using a Continuous Integration system to help build against a stable set of selected Hackage packages, to help find issues with the releases more easily.
 
 - **Debian builds of GHC** - Thanks to **Joachim Breitner** and **Herbert Valerio Riedel**, GHC now has greatly improved support for Debian packaging - there is now an official Ubuntu PPA for GHC \[PPA\], as well as a dedicated Debian repository for GHC nightly builds \[DEB\].
 
 # References
 
 
-\[GHC78FAQ\] [ https://ghc.haskell.org/trac/ghc/wiki/GHC-7.8-FAQ](https://ghc.haskell.org/trac/ghc/wiki/GHC-7.8-FAQ)
+\[GHC78FAQ\] [https://ghc.haskell.org/trac/ghc/wiki/GHC-7.8-FAQ](https://ghc.haskell.org/trac/ghc/wiki/GHC-7.8-FAQ)
 
-\[ClosedFam\] Closed type families with overlapping equations, POPL 2014 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
+\[ClosedFam\] Closed type families with overlapping equations, POPL 2014 [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
 
 \[Minimal\] MINIMAL pragma [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html\#minimal-pragma](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html#minimal-pragma)
 
-\[PatSyn\] Pattern synonyms [ http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms](http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms)
+\[PatSyn\] Pattern synonyms [http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms](http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms)
 
 \[ReleaseNotes\] GHC 7.8.1 release notes [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html)
 
-\[SafeCo\] Safe Coercions, submitted to ICFP 2014 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
+\[SafeCo\] Safe Coercions, submitted to ICFP 2014 [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
 
-\[THBlog\] Major revision of Template Haskell [ https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges)
+\[THBlog\] Major revision of Template Haskell [https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges)
 
-\[AMP\] [ https://github.com/quchen/articles/blob/master/applicative_monad.md](https://github.com/quchen/articles/blob/master/applicative_monad.md)
+\[AMP\] [https://github.com/quchen/articles/blob/master/applicative_monad.md](https://github.com/quchen/articles/blob/master/applicative_monad.md)
  
-\[KD\] Kinds without Data - [ http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
+\[KD\] Kinds without Data - [http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
  
-\[ORF\] [ https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields](https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields)
+\[ORF\] [https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields](https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields)
 
-\[TA\] Explicit type application - [ http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication](http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication)
+\[TA\] Explicit type application - [http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication](http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication)
 
-\[FC\] System FC with Explicit Kind Equality - [ http://www.seas.upenn.edu/\~eir/papers/2013/fckinds/fckinds-extended.pdf](http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf)
+\[FC\] System FC with Explicit Kind Equality - [http://www.seas.upenn.edu/\~eir/papers/2013/fckinds/fckinds-extended.pdf](http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf)
 
-\[PTS\] [ https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
+\[PTS\] [https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
 
-\[Coverity\] [ https://scan.coverity.com](https://scan.coverity.com)
+\[Coverity\] [https://scan.coverity.com](https://scan.coverity.com)
  
-\[McNettle\] [ http://haskell.cs.yale.edu/?post_type=publication&p=821](http://haskell.cs.yale.edu/?post_type=publication&p=821)
+\[McNettle\] [http://haskell.cs.yale.edu/?post_type=publication&p=821](http://haskell.cs.yale.edu/?post_type=publication&p=821)
  
-\[PPA\] [ https://launchpad.net/\~hvr/+archive/ghc/](https://launchpad.net/~hvr/+archive/ghc/)
+\[PPA\] [https://launchpad.net/\~hvr/+archive/ghc/](https://launchpad.net/~hvr/+archive/ghc/)
  
-\[DEB\] [ http://deb.haskell.org](http://deb.haskell.org)
+\[DEB\] [http://deb.haskell.org](http://deb.haskell.org)
  
-\[TravisCI\] [ https://github.com/nomeata/ghc-complete](https://github.com/nomeata/ghc-complete)
+\[TravisCI\] [https://github.com/nomeata/ghc-complete](https://github.com/nomeata/ghc-complete)
  
-\[Builders\] [ https://ghc.haskell.org/trac/ghc/wiki/Builder](https://ghc.haskell.org/trac/ghc/wiki/Builder)
+\[Builders\] [https://ghc.haskell.org/trac/ghc/wiki/Builder](https://ghc.haskell.org/trac/ghc/wiki/Builder)
 
-\[HEAPALLOCED\] [ https://gitlab.haskell.org/ghc/ghc/issues/8199](https://gitlab.haskell.org/ghc/ghc/issues/8199)
+\[HEAPALLOCED\] [https://gitlab.haskell.org/ghc/ghc/issues/8199](https://gitlab.haskell.org/ghc/ghc/issues/8199)
  
-\[RLIMITS\] [ http://ezyang.com/rlimits.html](http://ezyang.com/rlimits.html)
+\[RLIMITS\] [http://ezyang.com/rlimits.html](http://ezyang.com/rlimits.html)
 
 \[ReleaseNotes\] [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html)

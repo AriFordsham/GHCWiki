@@ -175,7 +175,7 @@ Addresses the layout problem of MultiClauseLambdas. Requires multi-clause abstra
 ### Extra: LambdaMatch
 
 
-A full revamp of pattern matching: [ Haskell' ticket](http://hackage.haskell.org/trac/haskell-prime/ticket/114).
+A full revamp of pattern matching: [Haskell' ticket](http://hackage.haskell.org/trac/haskell-prime/ticket/114).
 
 ## Notes
 

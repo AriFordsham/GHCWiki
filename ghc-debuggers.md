@@ -32,7 +32,7 @@ The primary weakness is the inability to see live data structures; this debugger
 <th> Implemented, ??? 
 </th></tr>
 <tr><th> Video: </th>
-<th>[ http://movies.unsafeperformio.com/hpctpreview2.mov](http://movies.unsafeperformio.com/hpctpreview2.mov)</th></tr></table>
+<th>[http://movies.unsafeperformio.com/hpctpreview2.mov](http://movies.unsafeperformio.com/hpctpreview2.mov)</th></tr></table>
 
 ## Merging the two designs
 

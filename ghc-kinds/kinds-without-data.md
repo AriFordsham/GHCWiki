@@ -121,7 +121,7 @@ In order to resolve disadvantage (2), ie. not pollute data constructor namespace
 with `MkFoo`, we would have to put `MkFoo` in the type namespace.  This means
 that our simple rule "data constructors go into data namespace" would have to be
 broken.
-[ Richard Eisenberg argues](https://mail.haskell.org/pipermail/ghc-devs/2015-December/010812.html)
+[Richard Eisenberg argues](https://mail.haskell.org/pipermail/ghc-devs/2015-December/010812.html)
 that this is bad and in the case of above declaration
 `MkFoo` should go into data namespace.  But that does not solve disadvantage (2)
 and thus misses the point of [\#6024](https://gitlab.haskell.org//ghc/ghc/issues/6024) (given that disadvantage (1) is already

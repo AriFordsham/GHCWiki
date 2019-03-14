@@ -21,7 +21,7 @@
 
 - Incomplete pattern match warnings are now offered for guards in pattern bindings and `MultiWayIf` alternatives.
 
-- A new syntax tree representation based on [ Trees That Grow](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf).
+- A new syntax tree representation based on [Trees That Grow](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf).
   This will make it easier for external users to add their own annotations to the
   `HsSyn` AST. In future this should allow Shayan Najd to harmonise the GHC
   and Template Haskell ASTs, and for the `ghc-exactprint` annotations to
@@ -46,30 +46,30 @@
 ## GHC proposals
 
 
-Since the launch of the [ GHC proposals process](https://github.com/ghc-proposals/ghc-proposals), over 128 proposals have been created, 41 have been submitted to the committee and 19 have been accepted. These are:
+Since the launch of the [GHC proposals process](https://github.com/ghc-proposals/ghc-proposals), over 128 proposals have been created, 41 have been submitted to the committee and 19 have been accepted. These are:
 
-- [OverloadedRecordFields](overloaded-record-fields)[ (PR \#6)](https://github.com/ghc-proposals/ghc-proposals/pull/6)
-- Update levity polymorphism [ (PR \#29)](https://github.com/ghc-proposals/ghc-proposals/pull/29)
-- Make Constraint not apart from Type [ (PR \#32)](https://github.com/ghc-proposals/ghc-proposals/pull/32)
-- Hex floats [ (PR \#37)](https://github.com/ghc-proposals/ghc-proposals/pull/37)
-- Allow signatures on pattern synonym constructors [ (PR \#42)](https://github.com/ghc-proposals/ghc-proposals/pull/42)
-- Explicit foralls proposal [ (PR \#55)](https://github.com/ghc-proposals/ghc-proposals/pull/55)
-- Overhaul deriving instances for empty data types proposal [ (PR \#63)](https://github.com/ghc-proposals/ghc-proposals/pull/63)
-- Require namespacing fixity declarations for type names [ (PR \#65)](https://github.com/ghc-proposals/ghc-proposals/pull/65)
-- Extend -Wall with incomplete-uni-patterns and incomplete-record-updates [ (PR \#71)](https://github.com/ghc-proposals/ghc-proposals/pull/71)
-- Add small primitive types, like `Int8#`/`Word8#`[ (PR \#74)](https://github.com/ghc-proposals/ghc-proposals/pull/74)
-- Propose underscores in numeric literals [ (PR \#76)](https://github.com/ghc-proposals/ghc-proposals/pull/76)
-- Deprecate STM invariant mechanism [ (PR \#77)](https://github.com/ghc-proposals/ghc-proposals/pull/77)
-- Type-level type applications [ (PR \#80)](https://github.com/ghc-proposals/ghc-proposals/pull/80)
-- Embrace (Type :: Type) [ (PR \#83)](https://github.com/ghc-proposals/ghc-proposals/pull/83)
-- Allow `do` etc. to be used as function arguments without a $ [ (PR \#90)](https://github.com/ghc-proposals/ghc-proposals/pull/90)
-- As-pattern synonyms [ (PR \#94)](https://github.com/ghc-proposals/ghc-proposals/pull/94)
-- Unlifted Newtypes [ (PR \#98)](https://github.com/ghc-proposals/ghc-proposals/pull/98)
-- Proposal for Source Plugins [ (PR \#107)](https://github.com/ghc-proposals/ghc-proposals/pull/107)
-- Quantified constraints [ (PR \#109)](https://github.com/ghc-proposals/ghc-proposals/pull/109)
+- [OverloadedRecordFields](overloaded-record-fields)[(PR \#6)](https://github.com/ghc-proposals/ghc-proposals/pull/6)
+- Update levity polymorphism [(PR \#29)](https://github.com/ghc-proposals/ghc-proposals/pull/29)
+- Make Constraint not apart from Type [(PR \#32)](https://github.com/ghc-proposals/ghc-proposals/pull/32)
+- Hex floats [(PR \#37)](https://github.com/ghc-proposals/ghc-proposals/pull/37)
+- Allow signatures on pattern synonym constructors [(PR \#42)](https://github.com/ghc-proposals/ghc-proposals/pull/42)
+- Explicit foralls proposal [(PR \#55)](https://github.com/ghc-proposals/ghc-proposals/pull/55)
+- Overhaul deriving instances for empty data types proposal [(PR \#63)](https://github.com/ghc-proposals/ghc-proposals/pull/63)
+- Require namespacing fixity declarations for type names [(PR \#65)](https://github.com/ghc-proposals/ghc-proposals/pull/65)
+- Extend -Wall with incomplete-uni-patterns and incomplete-record-updates [(PR \#71)](https://github.com/ghc-proposals/ghc-proposals/pull/71)
+- Add small primitive types, like `Int8#`/`Word8#`[(PR \#74)](https://github.com/ghc-proposals/ghc-proposals/pull/74)
+- Propose underscores in numeric literals [(PR \#76)](https://github.com/ghc-proposals/ghc-proposals/pull/76)
+- Deprecate STM invariant mechanism [(PR \#77)](https://github.com/ghc-proposals/ghc-proposals/pull/77)
+- Type-level type applications [(PR \#80)](https://github.com/ghc-proposals/ghc-proposals/pull/80)
+- Embrace (Type :: Type) [(PR \#83)](https://github.com/ghc-proposals/ghc-proposals/pull/83)
+- Allow `do` etc. to be used as function arguments without a $ [(PR \#90)](https://github.com/ghc-proposals/ghc-proposals/pull/90)
+- As-pattern synonyms [(PR \#94)](https://github.com/ghc-proposals/ghc-proposals/pull/94)
+- Unlifted Newtypes [(PR \#98)](https://github.com/ghc-proposals/ghc-proposals/pull/98)
+- Proposal for Source Plugins [(PR \#107)](https://github.com/ghc-proposals/ghc-proposals/pull/107)
+- Quantified constraints [(PR \#109)](https://github.com/ghc-proposals/ghc-proposals/pull/109)
 
 
-At the time of writing, [ 15 proposals are under active discussion by the community](https://github.com/ghc-proposals/ghc-proposals/pulls?q=is%3Aopen+is%3Apr+no%3Alabel) and [ 13 proposals are under review by the committee](https://github.com/ghc-proposals/ghc-proposals/pulls?q=is%3Aopen+is%3Apr+label%3A%22Pending+committee+review%22).
+At the time of writing, [15 proposals are under active discussion by the community](https://github.com/ghc-proposals/ghc-proposals/pulls?q=is%3Aopen+is%3Apr+no%3Alabel) and [13 proposals are under review by the committee](https://github.com/ghc-proposals/ghc-proposals/pulls?q=is%3Aopen+is%3Apr+label%3A%22Pending+committee+review%22).
 
 ## Looking forward: what's hot
 
@@ -100,7 +100,7 @@ GHC is lucky to have a large number of volunteer contributors.
 
 - One of the larger projects in the pipeline for 8.6 is Alan Zimmerman and Shayan Najd's refactoring of GHC to use the extensible Trees That Grow AST structure. 
 
-- Simon Peyton Jones implemented so-called **[quantified constraints](quantified-constraints)**, which have been on the to-do list for over a decade, and were described in a 2017 Haskell Symposium paper [ Quantified class constraints](http://i.cs.hku.hk/~bruno//papers/hs2017.pdf).  A [ GHC proposal to adopt quantified constraints](https://github.com/Gertjan423/ghc-proposals/blob/quantified-constraints/proposals/0000-quantified-constraints.rst) was agreed, so they will appear in GHC 8.6.
+- Simon Peyton Jones implemented so-called **[quantified constraints](quantified-constraints)**, which have been on the to-do list for over a decade, and were described in a 2017 Haskell Symposium paper [Quantified class constraints](http://i.cs.hku.hk/~bruno//papers/hs2017.pdf).  A [GHC proposal to adopt quantified constraints](https://github.com/Gertjan423/ghc-proposals/blob/quantified-constraints/proposals/0000-quantified-constraints.rst) was agreed, so they will appear in GHC 8.6.
 
 
 Last year GHC

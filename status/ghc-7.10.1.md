@@ -4,7 +4,7 @@
 GHC 7.10.1 RC3 has been released. This is the final phase of the release.
 
 
-See [milestone:7.10.1](/trac/ghc/milestone/7.10.1) and [ Active tickets](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.1) for more.
+See [milestone:7.10.1](/trac/ghc/milestone/7.10.1) and [Active tickets](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.1) for more.
 
 
 Anything in 'patch' status will be merged for 7.10.1.
@@ -20,7 +20,7 @@ Special things of note:
 
 ## Migration Guide to 7.10
 
-[ https://ghc.haskell.org/trac/ghc/wiki/Migration/7.10](https://ghc.haskell.org/trac/ghc/wiki/Migration/7.10)
+[https://ghc.haskell.org/trac/ghc/wiki/Migration/7.10](https://ghc.haskell.org/trac/ghc/wiki/Migration/7.10)
 
 ## Tickets slated for 7.10.1
 

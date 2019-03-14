@@ -9,7 +9,7 @@ At the HacBerin 2014 GGR and JPM discussed the issue and we settled it in a way 
 # Motivation
 
 
-the [ gdiff library](https://hackage.haskell.org/package/gdiff) requires a family GADT for describing the constructors of datatypes that one wants to `diff` and `patch`. This family has to cover (identify) all appearing data type constructors in the *value tree* transitively. Given two such constructor identifiers `gdiff` appeals to propositional equality (called `decEq` in the library) to get hold of the constructor's data in a type-safe manner.
+the [gdiff library](https://hackage.haskell.org/package/gdiff) requires a family GADT for describing the constructors of datatypes that one wants to `diff` and `patch`. This family has to cover (identify) all appearing data type constructors in the *value tree* transitively. Given two such constructor identifiers `gdiff` appeals to propositional equality (called `decEq` in the library) to get hold of the constructor's data in a type-safe manner.
 
 [GHC.Generics](http://www.haskell.org/ghc/docs/latest/html/libraries/base-4.7.0.0/GHC-Generics.html) provides a `Rep t p` (representation of the data structure at the type level) for every data type when the user demands `deriving Generic`. Metadata is attached to parts of this representation which can be queried for names, modules, fixity, etc. at runtime.
 

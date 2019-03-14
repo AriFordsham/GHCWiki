@@ -6,7 +6,7 @@ lun is a vm, running on lambda. It runs the community services.
 ## Accounts, Projects, etc.
 
 
-See [ http://community.haskell.org/admin/procedures/](http://community.haskell.org/admin/procedures/)
+See [http://community.haskell.org/admin/procedures/](http://community.haskell.org/admin/procedures/)
 
 
 The tools mentioned there are in a darcs repository, which appears to be in various admin's home directories (try `locate create_account.sh`).  **ToDo: put this somewhere! **
@@ -89,7 +89,7 @@ User data for service `foo` is generally in `/srv/foo`.
 ## mrtg
 
 
-The mrtg config is in `/etc/mrtg.cfg`, some helpers are in `/srv/local/mrtg/`, and the output goes to `/var/www/mrtg`. The URL for it is [ http://lun.haskell.org/mrtg/](http://lun.haskell.org/mrtg/)
+The mrtg config is in `/etc/mrtg.cfg`, some helpers are in `/srv/local/mrtg/`, and the output goes to `/var/www/mrtg`. The URL for it is [http://lun.haskell.org/mrtg/](http://lun.haskell.org/mrtg/)
 
 ## Mailman
 
@@ -106,7 +106,7 @@ The data is stored in `/var/lib/mailman`, and Mailman itself is in `/usr/lib/mai
 ### Web interface
 
 
-The top-level list-of-lists is here: [ http://projects.haskell.org/cgi-bin/mailman/listinfo](http://projects.haskell.org/cgi-bin/mailman/listinfo).
+The top-level list-of-lists is here: [http://projects.haskell.org/cgi-bin/mailman/listinfo](http://projects.haskell.org/cgi-bin/mailman/listinfo).
 
 
 The web interface is configured via `/etc/apache2/sites-available/projects`, and is currently

@@ -52,7 +52,7 @@ foo::MapPerson(MapReceptacle(SetItems))->Statusfoo=\caseLookup"Bob"(LookupPocket
 ```
 
 
-Another simple example is the `Between` pattern that matches a particular range (a feature built into [ Rust](http://doc.rust-lang.org/master/tutorial.html#pattern-matching)):
+Another simple example is the `Between` pattern that matches a particular range (a feature built into [Rust](http://doc.rust-lang.org/master/tutorial.html#pattern-matching)):
 
 ```
 importData.IxpatternBetween from to <-(inRange (from, to)->True)-- A teenager is between thirteen and nineteen.-- `Between 13 19` would be `13..19` in Rust.isTeen::Age->BoolisTeen(Between1319)=TrueisTeen_=False
@@ -149,7 +149,7 @@ foo ys =case lookup "five" n ofJust n -> n + n
 ## Static semantics (Typing)
 
 
-If *expr* in the view pattern is an expression of type *t* with free variables *evarid<sub>i</sub>* of type *t<sub>i</sub>* then an *expr<sub>i</sub>* used to instantiate the corresponding *evarid<sub>i</sub>* must have a type *u<sub>i</sub>* that unifies with *t<sub>i</sub>*, the final expression *expr* will have type *t*. Otherwise same typing and scoping rules as [ ViewPatterns](ViewPatterns#Semantics).
+If *expr* in the view pattern is an expression of type *t* with free variables *evarid<sub>i</sub>* of type *t<sub>i</sub>* then an *expr<sub>i</sub>* used to instantiate the corresponding *evarid<sub>i</sub>* must have a type *u<sub>i</sub>* that unifies with *t<sub>i</sub>*, the final expression *expr* will have type *t*. Otherwise same typing and scoping rules as [ViewPatterns](ViewPatterns#Semantics).
 
 ## Motivating examples
 
@@ -256,7 +256,7 @@ fib0=1fib1=1fib(n2 |let n = n2-2, n >=0)= fib (n +1)+ fib n
 ### Type checking
 
 
-From [ Bidirectional Typing Rules: A Tutorial](http://itu.dk/people/drc/tutorials/bidirectional.pdf):
+From [Bidirectional Typing Rules: A Tutorial](http://itu.dk/people/drc/tutorials/bidirectional.pdf):
 
 ```
 inferType ctx (If t1 t2 t3)=case(inferType ctx t1, inferType ctx t2, inferType ctx t3)of(JustBoolT,Just ty2,Just ty3)->if ty2 = ty3 
@@ -326,7 +326,7 @@ pattern x :~= regexp <-((~= regexp)->Just x)
 #### Matching a simple prism
 
 
-Indexing patterns with prisms from [ Control.Lens.Prism](http://hackage.haskell.org/package/lens-4.2/docs/Control-Lens-Prism.html):
+Indexing patterns with prisms from [Control.Lens.Prism](http://hackage.haskell.org/package/lens-4.2/docs/Control-Lens-Prism.html):
 
 ```
 importControl.Lens.PrismpatternMatch prism a <-(preview prism ->Just a)
@@ -344,7 +344,7 @@ bar_=error"..."
 #### More complicated prisms
 
 
-Pattern families can be used to match nested data like JSON, ASTs or XML, here is an example of using it to match on [ Data.Aeson.Lens](http://hackage.haskell.org/package/lens-4.2/docs/Data-Aeson-Lens.html):
+Pattern families can be used to match nested data like JSON, ASTs or XML, here is an example of using it to match on [Data.Aeson.Lens](http://hackage.haskell.org/package/lens-4.2/docs/Data-Aeson-Lens.html):
 
 ```
 jsonBlob="[{\"someObject\": {\"version\": [1,0,3]}}]"-- val = Number 0.0val= jsonBlob ^?! nth 0. key "someObject". key "version". nth 1

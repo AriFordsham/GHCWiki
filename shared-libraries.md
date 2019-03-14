@@ -12,7 +12,7 @@ More detailed topics:
 
 ## What shared libs are
 
-[ Shared libraries](http://en.wikipedia.org/wiki/Shared_libraries) (sometimes called dynamic libraries) are an alternative way of organising pre-compiled code compared to traditional static libraries. The key difference is that with shared libs, linking programs against library functions takes place when the program is run rather than when the program is built and installed.
+[Shared libraries](http://en.wikipedia.org/wiki/Shared_libraries) (sometimes called dynamic libraries) are an alternative way of organising pre-compiled code compared to traditional static libraries. The key difference is that with shared libs, linking programs against library functions takes place when the program is run rather than when the program is built and installed.
 
 
 All modern operating systems use shared libs. For system libraries they have a particular advantage. They allow the library to be upgraded separately from the programs that use the libs. However this requires preserving an ABI. They also allow a single copy of code to be shared in memory between several programs that use it. For common system libraries this can be a significant saving.
@@ -22,9 +22,9 @@ All modern operating systems use shared libs. For system libraries they have a p
 
 There are three systems in common use:
 
-- **ELF** ([ Executable and Linkable Format](http://en.wikipedia.org/wiki/Executable_and_Linkable_Format)) is used on all modern Unix systems (except MacOS X), in particular it is used on Linux, Solaris and the BSDs.
-- **PE** ([ Portable Executable](http://en.wikipedia.org/wiki/Portable_Executable)) format is used on Windows.
-- **Mach-O** ([ Mach object](http://en.wikipedia.org/wiki/Mach-O)) is the format used on Mac OS X.
+- **ELF** ([Executable and Linkable Format](http://en.wikipedia.org/wiki/Executable_and_Linkable_Format)) is used on all modern Unix systems (except MacOS X), in particular it is used on Linux, Solaris and the BSDs.
+- **PE** ([Portable Executable](http://en.wikipedia.org/wiki/Portable_Executable)) format is used on Windows.
+- **Mach-O** ([Mach object](http://en.wikipedia.org/wiki/Mach-O)) is the format used on Mac OS X.
 
 
 On each system, the same format is used for executables, shared libraries and intermediate object files. Each system uses their own file extension for shared libraries:
@@ -49,20 +49,20 @@ Unfortunately, while static linking is relatively uncomplicated and similar betw
 ## Background reading
 
 
-An excellent technical introduction to ELF shared libraries is [ How To Write Shared Libraries](http://people.redhat.com/drepper/dsohowto.pdf) by Ulrich Drepper (author of glibc).
+An excellent technical introduction to ELF shared libraries is [How To Write Shared Libraries](http://people.redhat.com/drepper/dsohowto.pdf) by Ulrich Drepper (author of glibc).
 
 
 ELF "visibility" reading list:
 
-- [ http://gcc.gnu.org/wiki/Visibility](http://gcc.gnu.org/wiki/Visibility)
-- [ http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Code-Gen-Options.html](http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Code-Gen-Options.html), see `-fvisibility` flag
-- [ http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Function-Attributes.html](http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Function-Attributes.html), see `visibility` attribute
+- [http://gcc.gnu.org/wiki/Visibility](http://gcc.gnu.org/wiki/Visibility)
+- [http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Code-Gen-Options.html](http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Code-Gen-Options.html), see `-fvisibility` flag
+- [http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Function-Attributes.html](http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/Function-Attributes.html), see `visibility` attribute
 
 
 PE format introduction:
 
-- [ Part 1](http://msdn.microsoft.com/en-us/magazine/cc301805.aspx)
-- [ Part 2](http://msdn.microsoft.com/en-us/magazine/cc301808.aspx)
+- [Part 1](http://msdn.microsoft.com/en-us/magazine/cc301805.aspx)
+- [Part 2](http://msdn.microsoft.com/en-us/magazine/cc301808.aspx)
 
 
 In particular these describe how dll import and export works.

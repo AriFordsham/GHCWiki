@@ -29,7 +29,7 @@ Below are the major highlights of 8.8.
 ### Compiler
 
 - A safer and more efficient `with#` combinator to control object lifetime ([\#14375](https://gitlab.haskell.org//ghc/ghc/issues/14375))
-- Improved compilation time for type-family-heavy programs ([\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095), [ Phab:D4766](https://phabricator.haskell.org/D4766))
+- Improved compilation time for type-family-heavy programs ([\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095), [Phab:D4766](https://phabricator.haskell.org/D4766))
 - More efficient code generation for nested closures ([\#14461](https://gitlab.haskell.org//ghc/ghc/issues/14461))
 - Next iteration of [Trees That Grow](implementing-trees-that-grow) (tickets/patches for this?)
 - Continued focus on performance:
@@ -38,11 +38,11 @@ Below are the major highlights of 8.8.
   - New codelayout algorithm for the NCG: [\#15124](https://gitlab.haskell.org//ghc/ghc/issues/15124)
   - Optimize based on limited static analysis: [\#14672](https://gitlab.haskell.org//ghc/ghc/issues/14672)
 - A late lambda lifting optimisation on STG ([\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476))
-- More locations where users can write `forall`: [ https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0007-instance-foralls.rst](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0007-instance-foralls.rst)
+- More locations where users can write `forall`: [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0007-instance-foralls.rst](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0007-instance-foralls.rst)
 
 ### Build system and miscellaneous changes
 
-- [ Reinstallable lib:ghc](https://mail.haskell.org/pipermail/ghc-devs/2017-July/014424.html)
+- [Reinstallable lib:ghc](https://mail.haskell.org/pipermail/ghc-devs/2017-July/014424.html)
 - The Hadrian build system will hopefully become the default
 
 ## Landed in `master` branch
@@ -102,7 +102,7 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/88](https://gitlab.haskell.org/ghc/ghc/merge_requests/88)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/88](https://gitlab.haskell.org/ghc/ghc/merge_requests/88)</th>
 <th></th></tr>
 <tr><th>[\#16188](https://gitlab.haskell.org//ghc/ghc/issues/16188)</th>
 <th>
@@ -128,7 +128,7 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/207](https://gitlab.haskell.org/ghc/ghc/merge_requests/207)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/207](https://gitlab.haskell.org/ghc/ghc/merge_requests/207)</th>
 <th>goldfire</th></tr>
 <tr><th>[\#16204](https://gitlab.haskell.org//ghc/ghc/issues/16204)</th>
 <th>
@@ -154,7 +154,7 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/207](https://gitlab.haskell.org/ghc/ghc/merge_requests/207)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/207](https://gitlab.haskell.org/ghc/ghc/merge_requests/207)</th>
 <th></th></tr>
 <tr><th>[\#16225](https://gitlab.haskell.org//ghc/ghc/issues/16225)</th>
 <th>
@@ -180,7 +180,7 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/207](https://gitlab.haskell.org/ghc/ghc/merge_requests/207)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/207](https://gitlab.haskell.org/ghc/ghc/merge_requests/207)</th>
 <th></th></tr>
 <tr><th>[\#16331](https://gitlab.haskell.org//ghc/ghc/issues/16331)</th>
 <th>
@@ -206,7 +206,7 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/383](https://gitlab.haskell.org/ghc/ghc/merge_requests/383)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/383](https://gitlab.haskell.org/ghc/ghc/merge_requests/383)</th>
 <th></th></tr>
 <tr><th>[\#16195](https://gitlab.haskell.org//ghc/ghc/issues/16195)</th>
 <th>
@@ -258,7 +258,7 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/219](https://gitlab.haskell.org/ghc/ghc/merge_requests/219)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/219](https://gitlab.haskell.org/ghc/ghc/merge_requests/219)</th>
 <th>archblob</th></tr>
 <tr><th>[\#14729](https://gitlab.haskell.org//ghc/ghc/issues/14729)</th>
 <th>
@@ -284,7 +284,7 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/208](https://gitlab.haskell.org/ghc/ghc/merge_requests/208)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/208](https://gitlab.haskell.org/ghc/ghc/merge_requests/208)</th>
 <th></th></tr>
 <tr><th>[\#15549](https://gitlab.haskell.org//ghc/ghc/issues/15549)</th>
 <th>
@@ -310,7 +310,7 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/208](https://gitlab.haskell.org/ghc/ghc/merge_requests/208)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/208](https://gitlab.haskell.org/ghc/ghc/merge_requests/208)</th>
 <th></th></tr>
 <tr><th>[\#15733](https://gitlab.haskell.org//ghc/ghc/issues/15733)</th>
 <th>
@@ -372,7 +372,7 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/330](https://gitlab.haskell.org/ghc/ghc/merge_requests/330)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/330](https://gitlab.haskell.org/ghc/ghc/merge_requests/330)</th>
 <th>nineonine</th></tr>
 <tr><th>[\#15897](https://gitlab.haskell.org//ghc/ghc/issues/15897)</th>
 <th>
@@ -424,7 +424,7 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/121](https://gitlab.haskell.org/ghc/ghc/merge_requests/121)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/121](https://gitlab.haskell.org/ghc/ghc/merge_requests/121)</th>
 <th></th></tr>
 <tr><th>[\#16230](https://gitlab.haskell.org//ghc/ghc/issues/16230)</th>
 <th>
@@ -450,7 +450,7 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/284](https://gitlab.haskell.org/ghc/ghc/merge_requests/284)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/284](https://gitlab.haskell.org/ghc/ghc/merge_requests/284)</th>
 <th>alanz</th></tr>
 <tr><th>[\#16236](https://gitlab.haskell.org//ghc/ghc/issues/16236)</th>
 <th>
@@ -476,7 +476,7 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/284](https://gitlab.haskell.org/ghc/ghc/merge_requests/284)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/284](https://gitlab.haskell.org/ghc/ghc/merge_requests/284)</th>
 <th>alanz</th></tr>
 <tr><th>[\#16255](https://gitlab.haskell.org//ghc/ghc/issues/16255)</th>
 <th>
@@ -502,7 +502,7 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/260](https://gitlab.haskell.org/ghc/ghc/merge_requests/260)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/260](https://gitlab.haskell.org/ghc/ghc/merge_requests/260)</th>
 <th></th></tr>
 <tr><th>[\#16265](https://gitlab.haskell.org//ghc/ghc/issues/16265)</th>
 <th>
@@ -554,7 +554,7 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/284](https://gitlab.haskell.org/ghc/ghc/merge_requests/284)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/284](https://gitlab.haskell.org/ghc/ghc/merge_requests/284)</th>
 <th>alanz</th></tr>
 <tr><th>[\#16287](https://gitlab.haskell.org//ghc/ghc/issues/16287)</th>
 <th>
@@ -580,7 +580,7 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/293](https://gitlab.haskell.org/ghc/ghc/merge_requests/293)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/293](https://gitlab.haskell.org/ghc/ghc/merge_requests/293)</th>
 <th></th></tr>
 <tr><th>[\#16303](https://gitlab.haskell.org//ghc/ghc/issues/16303)</th>
 <th>
@@ -632,7 +632,7 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/363](https://gitlab.haskell.org/ghc/ghc/merge_requests/363)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/363](https://gitlab.haskell.org/ghc/ghc/merge_requests/363)</th>
 <th></th></tr>
 <tr><th>[\#16339](https://gitlab.haskell.org//ghc/ghc/issues/16339)</th>
 <th>
@@ -658,7 +658,7 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/403](https://gitlab.haskell.org/ghc/ghc/merge_requests/403)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/403](https://gitlab.haskell.org/ghc/ghc/merge_requests/403)</th>
 <th></th></tr>
 <tr><th>## Status: patch (7 matches)
 
@@ -698,7 +698,7 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>[ Phab:D5427](https://phabricator.haskell.org/D5427)</th>
+<th>[Phab:D5427](https://phabricator.haskell.org/D5427)</th>
 <th></th></tr>
 <tr><th>[\#16201](https://gitlab.haskell.org//ghc/ghc/issues/16201)</th>
 <th>
@@ -724,7 +724,7 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/440](https://gitlab.haskell.org/ghc/ghc/merge_requests/440)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/440](https://gitlab.haskell.org/ghc/ghc/merge_requests/440)</th>
 <th></th></tr>
 <tr><th>[\#16378](https://gitlab.haskell.org//ghc/ghc/issues/16378)</th>
 <th>
@@ -750,7 +750,7 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/512](https://gitlab.haskell.org/ghc/ghc/merge_requests/512)</th>
+<th>[https://gitlab.haskell.org/ghc/ghc/merge_requests/512](https://gitlab.haskell.org/ghc/ghc/merge_requests/512)</th>
 <th></th></tr>
 <tr><th>[\#11126](https://gitlab.haskell.org//ghc/ghc/issues/11126)</th>
 <th>
@@ -776,7 +776,7 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th>[ Phab:D3221](https://phabricator.haskell.org/D3221)</th>
+<th>[Phab:D3221](https://phabricator.haskell.org/D3221)</th>
 <th>bgamari</th></tr>
 <tr><th>[\#10069](https://gitlab.haskell.org//ghc/ghc/issues/10069)</th>
 <th>
@@ -838,7 +838,7 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ Phab:D5415](https://phabricator.haskell.org/D5415)</th>
+<th>[Phab:D5415](https://phabricator.haskell.org/D5415)</th>
 <th>ckoparkar</th></tr>
 <tr><th>[\#15896](https://gitlab.haskell.org//ghc/ghc/issues/15896)</th>
 <th>
@@ -864,7 +864,7 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ Phab:D5330](https://phabricator.haskell.org/D5330)</th>
+<th>[Phab:D5330](https://phabricator.haskell.org/D5330)</th>
 <th>alanz</th></tr>
 <tr><th>## Status: upstream (5 matches)
 
@@ -904,7 +904,7 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th>[ Phab:D4039](https://phabricator.haskell.org/D4039)</th>
+<th>[Phab:D4039](https://phabricator.haskell.org/D4039)</th>
 <th>alanz</th></tr>
 <tr><th>[\#9775](https://gitlab.haskell.org//ghc/ghc/issues/9775)</th>
 <th>
@@ -956,7 +956,7 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ Phab:D4416](https://phabricator.haskell.org/D4416)</th>
+<th>[Phab:D4416](https://phabricator.haskell.org/D4416)</th>
 <th></th></tr>
 <tr><th>[\#12965](https://gitlab.haskell.org//ghc/ghc/issues/12965)</th>
 <th>
@@ -982,7 +982,7 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ Phab:D3384](https://phabricator.haskell.org/D3384)</th>
+<th>[Phab:D3384](https://phabricator.haskell.org/D3384)</th>
 <th></th></tr>
 <tr><th>[\#15074](https://gitlab.haskell.org//ghc/ghc/issues/15074)</th>
 <th>

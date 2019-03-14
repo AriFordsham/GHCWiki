@@ -48,8 +48,8 @@ instanceEqFoowhereFoo a ==Foo b = a == b
 >
 > Stock applies to the "standard" derivable typeclasses mentioned in the Haskell Report like `Eq` and `Show`, as well as some GHC-specific classes like `Data` and `Generic`. The stock strategy only requires enabling language extensions in certain cases (`DeriveFunctor`, `DeriveGeneric`, etc.).
 
-- `GeneralizedNewtypeDeriving`: An approach that GHC only uses if the eponymous language extension is enabled, and if an instance is being derived for a newtype. GHC will reuse the instance of the newtype's underlying type to generate an instance for the newtype itself. For more information, see [ http://downloads.haskell.org/\~ghc/8.0.1/docs/html/users_guide/glasgow_exts.html\#generalised-derived-instances-for-newtypes](http://downloads.haskell.org/~ghc/8.0.1/docs/html/users_guide/glasgow_exts.html#generalised-derived-instances-for-newtypes)
-- `DeriveAnyClass`: An approach that GHC only uses if the eponymous language extension is enabled. When this strategy is invoked, GHC will simply generate an instance with empty implementations for all methods. For more information, see [ http://downloads.haskell.org/\~ghc/8.0.1/docs/html/users_guide/glasgow_exts.html\#deriving-any-other-class](http://downloads.haskell.org/~ghc/8.0.1/docs/html/users_guide/glasgow_exts.html#deriving-any-other-class)
+- `GeneralizedNewtypeDeriving`: An approach that GHC only uses if the eponymous language extension is enabled, and if an instance is being derived for a newtype. GHC will reuse the instance of the newtype's underlying type to generate an instance for the newtype itself. For more information, see [http://downloads.haskell.org/\~ghc/8.0.1/docs/html/users_guide/glasgow_exts.html\#generalised-derived-instances-for-newtypes](http://downloads.haskell.org/~ghc/8.0.1/docs/html/users_guide/glasgow_exts.html#generalised-derived-instances-for-newtypes)
+- `DeriveAnyClass`: An approach that GHC only uses if the eponymous language extension is enabled. When this strategy is invoked, GHC will simply generate an instance with empty implementations for all methods. For more information, see [http://downloads.haskell.org/\~ghc/8.0.1/docs/html/users_guide/glasgow_exts.html\#deriving-any-other-class](http://downloads.haskell.org/~ghc/8.0.1/docs/html/users_guide/glasgow_exts.html#deriving-any-other-class)
 
 
 While GHC can pick a strategy internally, users don't have a reliable way to pick a strategy other than enabling language extensions and hoping that GHC does the right thing (which it often doesn't, as evidenced in the above problematic examples). The deriving strategies proposal aims to:
@@ -182,7 +182,7 @@ In addition, having `-XDerivingStrategies` imply `-XGeneralizedNewtypeDeriving` 
 ### Alternative syntax
 
 
-Several alternative syntaxes and keyword suggestions have been proposed in the original track ticket ([\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598)) and on the ghc-devs mailing list ([ https://mail.haskell.org/pipermail/ghc-devs/2016-July/012442.html](https://mail.haskell.org/pipermail/ghc-devs/2016-July/012442.html)). Here is an overview of some previous ideas:
+Several alternative syntaxes and keyword suggestions have been proposed in the original track ticket ([\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598)) and on the ghc-devs mailing list ([https://mail.haskell.org/pipermail/ghc-devs/2016-July/012442.html](https://mail.haskell.org/pipermail/ghc-devs/2016-July/012442.html)). Here is an overview of some previous ideas:
 
 - Use pragmas instead of keywords. We could indicate the use of deriving strategies like so:
 

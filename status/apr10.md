@@ -4,7 +4,7 @@
 In the past 6 months we have made the first 2 releases from the 6.12 branch. 6.12.1 came out in December, while 6.12.2 was released in April. The 6.12.2 release fixes many bugs relative to 6.12.1, including closing 81 trac tickets. For full release notes, and to download it, see the GHC webpage ([http://www.haskell.org/ghc/download_ghc_6_12_2.html](http://www.haskell.org/ghc/download_ghc_6_12_2.html)). We plan to do one more release from this branch before creating a new 6.14 stable branch.
 
 
-GHC 6.12.2 will also be included in the upcoming Haskell Platform release ([ http://hackage.haskell.org/platform/](http://hackage.haskell.org/platform/)). The Haskell platform is the recommended way for end users to get a Haskell development environment.
+GHC 6.12.2 will also be included in the upcoming Haskell Platform release ([http://hackage.haskell.org/platform/](http://hackage.haskell.org/platform/)). The Haskell platform is the recommended way for end users to get a Haskell development environment.
 
 ### Ongoing work
 
@@ -112,9 +112,9 @@ before the rule has a chance to fire.
 
 GHC's back end has been a ferment of activity.  In particular,
 
-- David Terei made a LLVM back end for GHC [ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM Terei](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM Terei).  It's not part of the HEAD, but we earnestly hope that it will become so.
+- David Terei made a LLVM back end for GHC [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM Terei](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM Terei).  It's not part of the HEAD, but we earnestly hope that it will become so.
 
-- John Dias, Norman Ramsey, and Simon PJ made a lot of progress on Hoopl, our new representaion for control flow graphs, and accompanying functions for dataflow analysis and transformation.  There is a paper [ http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/ Hoopl](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/ Hoopl), and Hoopl itself is now a standalone, re-usable Cabal package, which makes it much easier for others to use.
+- John Dias, Norman Ramsey, and Simon PJ made a lot of progress on Hoopl, our new representaion for control flow graphs, and accompanying functions for dataflow analysis and transformation.  There is a paper [http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/ Hoopl](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/ Hoopl), and Hoopl itself is now a standalone, re-usable Cabal package, which makes it much easier for others to use.
 
 
 The downside is that the code base is in a state of serious flux:
@@ -139,10 +139,10 @@ The GC has seen some work too: the goal here is to enable each processor ("capab
 ### Data Parallel Haskell
 
 
-In the last months, our focus has been on improving the scalability of the [ http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs Quickhull](http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs Quickhull) benchmark, and this work is still ongoing.  In addition, Roman has invested significant energy into the increasingly popular [ http://hackage.haskell.org/package/vector-0.6.0.1 vector package](http://hackage.haskell.org/package/vector-0.6.0.1 vector package) and the [ http://hackage.haskell.org/package/NoSlow NoSlow](http://hackage.haskell.org/package/NoSlow NoSlow) array benchmark framework.  Package vector is our next-gen sequential array library, and we will replace the current sequential array component (dph-prim-seq) with package vector sometime in the next few months.
+In the last months, our focus has been on improving the scalability of the [http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs Quickhull](http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs Quickhull) benchmark, and this work is still ongoing.  In addition, Roman has invested significant energy into the increasingly popular [http://hackage.haskell.org/package/vector-0.6.0.1 vector package](http://hackage.haskell.org/package/vector-0.6.0.1 vector package) and the [http://hackage.haskell.org/package/NoSlow NoSlow](http://hackage.haskell.org/package/NoSlow NoSlow) array benchmark framework.  Package vector is our next-gen sequential array library, and we will replace the current sequential array component (dph-prim-seq) with package vector sometime in the next few months.
 
 
-We completed a first release of the regular, multi-dimensional array library introduced in the previous status report.  The library is called Repa and is available from Hackage [ http://hackage.haskell.org/package/repa Repa package](http://hackage.haskell.org/package/repa Repa package). The library supports shape-polymorphism and works with both the sequential and parallel DPH base library.  We discuss the use and implementation of Repa in a draft paper [ http://www.cse.unsw.edu.au/\~chak/papers/KCLPL10.html Repa](http://www.cse.unsw.edu.au/~chak/papers/KCLPL10.html Repa).  We have shown that Repa can produce efficient and scalable code for FFT and relaxation algorithms and would be very interested to hear from early adopters who are willing to try Repa out in an application they care about.
+We completed a first release of the regular, multi-dimensional array library introduced in the previous status report.  The library is called Repa and is available from Hackage [http://hackage.haskell.org/package/repa Repa package](http://hackage.haskell.org/package/repa Repa package). The library supports shape-polymorphism and works with both the sequential and parallel DPH base library.  We discuss the use and implementation of Repa in a draft paper [http://www.cse.unsw.edu.au/\~chak/papers/KCLPL10.html Repa](http://www.cse.unsw.edu.au/~chak/papers/KCLPL10.html Repa).  We have shown that Repa can produce efficient and scalable code for FFT and relaxation algorithms and would be very interested to hear from early adopters who are willing to try Repa out in an application they care about.
 
 
 At the start of the year, Ben Lippmeier has joined the project.  He has started to improve our benchmarks infrastructure and worked on Repa.
@@ -158,7 +158,7 @@ At the start of the year, Ben Lippmeier has joined the project.  He has started 
   - Developed some improvments to `containers` that makes it go faster still.
     So `UniqFM` and `FiniteMap` are finally dead.  Hurrah for Hackage!
 
-- The [ http://research.microsoft.com/threadscope Threadscope](http://research.microsoft.com/threadscope Threadscope) tool for visualising parallel execution was released.  The tool is ripe for improvement in many ways, if you're interested in helping let us know
+- The [http://research.microsoft.com/threadscope Threadscope](http://research.microsoft.com/threadscope Threadscope) tool for visualising parallel execution was released.  The tool is ripe for improvement in many ways, if you're interested in helping let us know
 
 ### Nightly builds
 
@@ -169,26 +169,26 @@ For some time, it's been clear to us that Buildbot is not the perfect tool for o
 When the darcs.haskell.org hardware was upgraded, rather than installing buildbot on the new machine, we made the decision to implement a system that better matched our needs instead. The core implementation is now complete, and we have several machines using it for nightly builds.
 
 
-We're always keen to add more build slaves; please see [Builder](builder) if you're interested. Likewise, patches for missing features are welcome! The (Haskell) code is available at [ http://darcs.haskell.org/builder/](http://darcs.haskell.org/builder/)
+We're always keen to add more build slaves; please see [Builder](builder) if you're interested. Likewise, patches for missing features are welcome! The (Haskell) code is available at [http://darcs.haskell.org/builder/](http://darcs.haskell.org/builder/)
 
 # Bibliography
 
-- \[Builder\] The GHC builder package [ http://hackage.haskell.org/trac/ghc/wiki/Builder](http://hackage.haskell.org/trac/ghc/wiki/Builder)
+- \[Builder\] The GHC builder package [http://hackage.haskell.org/trac/ghc/wiki/Builder](http://hackage.haskell.org/trac/ghc/wiki/Builder)
 
-- \[Hoopl\] "Hoopl: A Modular, Reusable Library for Dataflow Analysis and Transformation", Norman Ramsey, John Dias, and Simon Peyton Jones, submitted to ICFP'10.  [ http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/)
+- \[Hoopl\] "Hoopl: A Modular, Reusable Library for Dataflow Analysis and Transformation", Norman Ramsey, John Dias, and Simon Peyton Jones, submitted to ICFP'10.  [http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/)
 
-- \[NewCodeGen\] The glorious new code generator [ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen)
+- \[NewCodeGen\] The glorious new code generator [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen)
 
-- \[NoSlow\] The NoSlow array benchmark framework [ http://hackage.haskell.org/package/NoSlow](http://hackage.haskell.org/package/NoSlow)
+- \[NoSlow\] The NoSlow array benchmark framework [http://hackage.haskell.org/package/NoSlow](http://hackage.haskell.org/package/NoSlow)
 
-- \[Quickhull\] The Quickhull DPH benchmark [ http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs](http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs)
+- \[Quickhull\] The Quickhull DPH benchmark [http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs](http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs)
 
-- \[Repa\] "Regular, shape-polymorphic, parallel arrays in Haskell", Gabriele Keller, Manuel M. T. Chakravarty, Roman Leshchinskiy, Simon Peyton Jones, and Ben Lippmeier, submitted to ICFP'10. [ http://www.cse.unsw.edu.au/\~chak/papers/KCLPL10.html](http://www.cse.unsw.edu.au/~chak/papers/KCLPL10.html)
+- \[Repa\] "Regular, shape-polymorphic, parallel arrays in Haskell", Gabriele Keller, Manuel M. T. Chakravarty, Roman Leshchinskiy, Simon Peyton Jones, and Ben Lippmeier, submitted to ICFP'10. [http://www.cse.unsw.edu.au/\~chak/papers/KCLPL10.html](http://www.cse.unsw.edu.au/~chak/papers/KCLPL10.html)
 
-- \[Repa package\] The Repa Cabal package [ http://hackage.haskell.org/package/repa](http://hackage.haskell.org/package/repa)
+- \[Repa package\] The Repa Cabal package [http://hackage.haskell.org/package/repa](http://hackage.haskell.org/package/repa)
 
-- \[Terei\] The LLVM back end for GHC [ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM)
+- \[Terei\] The LLVM back end for GHC [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM)
 
-- \[Threadscope\] The Threadscope tool [ http://research.microsoft.com/threadscope](http://research.microsoft.com/threadscope)
+- \[Threadscope\] The Threadscope tool [http://research.microsoft.com/threadscope](http://research.microsoft.com/threadscope)
 
-- \[vector package\] The vector Cabal package [ http://hackage.haskell.org/package/vector-0.6.0.1](http://hackage.haskell.org/package/vector-0.6.0.1)
+- \[vector package\] The vector Cabal package [http://hackage.haskell.org/package/vector-0.6.0.1](http://hackage.haskell.org/package/vector-0.6.0.1)

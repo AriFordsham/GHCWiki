@@ -21,7 +21,7 @@ Since heap allocation is expensive, this has the possibility of making programs 
 The challenge is all about getting consistent speedups.
 
 
-There is a ticket to track progress: [\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476). There's a paper in the making at [ https://github.com/sgraf812/late-lam-lift/blob/master/paper.pdf](https://github.com/sgraf812/late-lam-lift/blob/master/paper.pdf).
+There is a ticket to track progress: [\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476). There's a paper in the making at [https://github.com/sgraf812/late-lam-lift/blob/master/paper.pdf](https://github.com/sgraf812/late-lam-lift/blob/master/paper.pdf).
 
 ## Tickets
 
@@ -94,15 +94,15 @@ data DynFlags = DynFlags {
 The original work by Nicolas Frisby started out in 2013 as part of his internship on the `wip/llf` branch.
 Sebastian Graf has rebased this branch in mid April 2018. After some debugging
 and fixups, it passed `./validate` (modulo some compiler perf tests) in
-[ c1f16ac](https://github.com/sgraf812/ghc/tree/c1f16ac245ca8f8c8452a5b3c1f116237adcb577).
+[c1f16ac](https://github.com/sgraf812/ghc/tree/c1f16ac245ca8f8c8452a5b3c1f116237adcb577).
 The most recent variant of Nicolas' original Core transformation can be found
-here: [ https://github.com/sgraf812/ghc/tree/llf](https://github.com/sgraf812/ghc/tree/llf).
+here: [https://github.com/sgraf812/ghc/tree/llf](https://github.com/sgraf812/ghc/tree/llf).
 
 
-In July 2018, [ Sebastian argued](https://gitlab.haskell.org/ghc/ghc/issues/9476#comment:15)
+In July 2018, [Sebastian argued](https://gitlab.haskell.org/ghc/ghc/issues/9476#comment:15)
 that it's probably a good idea to reimplement the transformation on STG instead
 of Core, the promising implementation of which is available
-[ here](https://github.com/sgraf812/ghc/tree/9b9260c1d45d127edf9ebdfe04a3daaff24a9dea/compiler/simplStg/StgLiftLams).
+[here](https://github.com/sgraf812/ghc/tree/9b9260c1d45d127edf9ebdfe04a3daaff24a9dea/compiler/simplStg/StgLiftLams).
 
 
 If you want to know more about the original work on Core, look into the history

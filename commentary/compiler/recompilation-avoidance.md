@@ -157,7 +157,7 @@ to determine whether recompilation can be avoided in this case.
 ## How does it work?
 
 
-We use [ fingerprints](http://en.wikipedia.org/wiki/Fingerprint_%28computing%29) to uniquely identify the interface exposed by a module,
+We use [fingerprints](http://en.wikipedia.org/wiki/Fingerprint_%28computing%29) to uniquely identify the interface exposed by a module,
 and to detect when it changes.  In particular, we currently use
 128-bit hashes produced by the MD5 algorithm (see
 [compiler/utils/Fingerprint.hsc](/trac/ghc/browser/ghc/compiler/utils/Fingerprint.hsc)).

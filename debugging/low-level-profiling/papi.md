@@ -1,6 +1,6 @@
 # Using PAPI
 
-[ PAPI](http://icl.cs.utk.edu/papi/) is a library providing largely CPU-independent support for performance-counter measurements.  We have used it in the past in GHC for doing low-level performance measurements; for example when developing [Pointer Tagging](commentary/rts/haskell-execution/pointer-tagging) we used PAPI to measure the number of branch prediction misses.
+[PAPI](http://icl.cs.utk.edu/papi/) is a library providing largely CPU-independent support for performance-counter measurements.  We have used it in the past in GHC for doing low-level performance measurements; for example when developing [Pointer Tagging](commentary/rts/haskell-execution/pointer-tagging) we used PAPI to measure the number of branch prediction misses.
 
 
 PAPI versions 3.7.0 and later have support for the Linux Performance Events infrastructure, which means that if your Linux distro ships a kernel with Performance Events compiled in (Ubuntu Karmic does, for example), then don't have to recompile a kernel to use PAPI (big win!).
@@ -11,7 +11,7 @@ For some notes on installing PAPI on Linux (including recompiling the kernel), s
 # Measuring program performance using CPU events
 
 
-The GHC runtime has been extended to support the use of the [ PAPI](http://icl.cs.utk.edu/papi/) library to count occurrences of CPU events such as cache misses and branch mispredictions. The PAPI extension separates the events occurring in the garbage collector and mutator code for more accurate pinpointing of performance problems.
+The GHC runtime has been extended to support the use of the [PAPI](http://icl.cs.utk.edu/papi/) library to count occurrences of CPU events such as cache misses and branch mispredictions. The PAPI extension separates the events occurring in the garbage collector and mutator code for more accurate pinpointing of performance problems.
 
 
 This page describes how to compile the RTS with PAPI enabled and explains the RTS options for CPU event selection. This page also contains patches to collect CPU event information in nofib runs and to allow their comparison using nofib-analyse. This is especially useful to measure the effects of optimisations accross a whole range of programs systematically.
@@ -27,7 +27,7 @@ At present, the monitoring of branch mispredictions and stalled cycles is AMD Op
 # Compiling and running programs with PAPI
 
 
-First of all, make sure that you have installed the [ PAPI library](http://icl.cs.utk.edu/papi/).
+First of all, make sure that you have installed the [PAPI library](http://icl.cs.utk.edu/papi/).
 
 
 Follow the instructions in [Building/Hacking](building/hacking) and add the following line to `build.mk` before compiling the RTS:
@@ -74,7 +74,7 @@ To collect statistics just run make inside nofib as usual, as an example let's c
 
 # Resources
 
-- [ http://icl.cs.utk.edu/papi/](http://icl.cs.utk.edu/papi/) PAPI home page.
-- [ http://developer.amd.com/article_print.jsp?id=90](http://developer.amd.com/article_print.jsp?id=90) An article introducing the business of using CPU counters for performance measurement.
-- [ http://developer.amd.com/articles.jsp?id=2&num=1](http://developer.amd.com/articles.jsp?id=2&num=1) An article introducing AMD's code analyst. It even has pipeline simulation, though I haven't tried it out yet.
-- [ http://www.cs.mu.oz.au/\~njn/pubs/cache-large-lazy2002.ps.gz](http://www.cs.mu.oz.au/~njn/pubs/cache-large-lazy2002.ps.gz) The Cache Behaviour of Large Lazy Functional Programs on Stock Hardware.
+- [http://icl.cs.utk.edu/papi/](http://icl.cs.utk.edu/papi/) PAPI home page.
+- [http://developer.amd.com/article_print.jsp?id=90](http://developer.amd.com/article_print.jsp?id=90) An article introducing the business of using CPU counters for performance measurement.
+- [http://developer.amd.com/articles.jsp?id=2&num=1](http://developer.amd.com/articles.jsp?id=2&num=1) An article introducing AMD's code analyst. It even has pipeline simulation, though I haven't tried it out yet.
+- [http://www.cs.mu.oz.au/\~njn/pubs/cache-large-lazy2002.ps.gz](http://www.cs.mu.oz.au/~njn/pubs/cache-large-lazy2002.ps.gz) The Cache Behaviour of Large Lazy Functional Programs on Stock Hardware.

@@ -6,9 +6,9 @@ serialisable closures, building on top of [Typeable](typeable) and [StaticPointe
 See the root page [DistributedHaskell](distributed-haskell).
 
 
-The [ distributed-process package](https://hackage.haskell.org/package/distributed-process) implements a framework for distributed
+The [distributed-process package](https://hackage.haskell.org/package/distributed-process) implements a framework for distributed
 programming *à la* Erlang. Support for static closures is implemented in a separate package called
-[ distributed-static package](https://hackage.haskell.org/package/distributed-static). We propose to patch this library in the
+[distributed-static package](https://hackage.haskell.org/package/distributed-static). We propose to patch this library in the
 following way, and rename it to `distributed-closure`. Ultimately, distributed-closure should be the one-stop shop for all distributed frameworks that wish to allow users to program with static closures.
 
 ## Proposed design
@@ -110,7 +110,7 @@ Notice the pay-as-you-go nature of the instances. Only in instances with polymor
 
 ### Implementation in GHC
 
-TODO See [ old proposal](StaticPointers/Old) and [ blog post](https://ghc.haskell.org/trac/ghc/blog/simonpj/StaticPointers) by Simon PJ.
+TODO See [old proposal](StaticPointers/Old) and [blog post](https://ghc.haskell.org/trac/ghc/blog/simonpj/StaticPointers) by Simon PJ.
 
 ### Implementation of `distributed-closure`
 
@@ -193,12 +193,12 @@ closureAp = Ap
 ```
 
 
-Notice how `Closure` is *nearly* the free applicative functor, though not completely free, because we impose `Serializable a` in `closurePure`. It *is*, however, a [ semigroupoid](https://hackage.haskell.org/package/semigroupoids).
+Notice how `Closure` is *nearly* the free applicative functor, though not completely free, because we impose `Serializable a` in `closurePure`. It *is*, however, a [semigroupoid](https://hackage.haskell.org/package/semigroupoids).
 
 
 Closure serialization is straightforward, but closure deserialization
 is tricky. See
-[ this blog post section](https://ghc.haskell.org/trac/ghc/blog/simonpj/StaticPointers#Serialisingstaticpointers) from Simon PJ as to why. The issue is that
+[this blog post section](https://ghc.haskell.org/trac/ghc/blog/simonpj/StaticPointers#Serialisingstaticpointers) from Simon PJ as to why. The issue is that
 when deserializing from a bytestring to target type `Closure b`, one
 needs to ensure that the target type matches the type of the closure
 before it was serialized, lest *bad things happen*. We need to impose

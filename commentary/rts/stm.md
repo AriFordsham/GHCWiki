@@ -4,7 +4,7 @@
 This document gives an overview of the runtime system (RTS) support for GHC's STM implementation. We will focus on the case where fine grain locking is used (`STM_FG_LOCKS`).
 
 
-Some details about the implementation can be found in the papers [ Composable Memory Transactions](http://research.microsoft.com/en-us/um/people/simonpj/papers/stm/stm.pdf) and [ Transactional memory with data invariants](http://research.microsoft.com/en-us/um/people/simonpj/papers/stm/stm-invariants.pdf). Additional details can be found in the Harris et al book [ Transactional memory](http://www.morganclaypool.com/doi/abs/10.2200/s00272ed1v01y201006cac011). Some analysis on performance can be found in the paper [ The Limits of Software Transactional Memory](https://www.bscmsrc.eu/sites/default/files/cf-final.pdf) though this work only looks at the coarse grain lock version. Many of the other details here are gleaned from the comments in the source code.
+Some details about the implementation can be found in the papers [Composable Memory Transactions](http://research.microsoft.com/en-us/um/people/simonpj/papers/stm/stm.pdf) and [Transactional memory with data invariants](http://research.microsoft.com/en-us/um/people/simonpj/papers/stm/stm-invariants.pdf). Additional details can be found in the Harris et al book [Transactional memory](http://www.morganclaypool.com/doi/abs/10.2200/s00272ed1v01y201006cac011). Some analysis on performance can be found in the paper [The Limits of Software Transactional Memory](https://www.bscmsrc.eu/sites/default/files/cf-final.pdf) though this work only looks at the coarse grain lock version. Many of the other details here are gleaned from the comments in the source code.
 
 # Background
 
@@ -329,7 +329,7 @@ When a transaction completes, execution will reach the `stg_atomically_frame` an
 Which invariants need to be checked for a given transaction? Clearly invariants introduced in the transaction will be checked these are added to the `TRec`s `invariants_to_check` queue directly when `check#` is executed. In addition, once the transaction has finished executing, we can look at each entry in the write set and search its watch queue for any invariants.
 
 
-Note that there is a `check` in the `stm` package in `Control.Monad.STM` which matches the `check` from the [ beauty](http://research.microsoft.com/pubs/74063/beautiful.pdf) chapter of "Beautiful code":
+Note that there is a `check` in the `stm` package in `Control.Monad.STM` which matches the `check` from the [beauty](http://research.microsoft.com/pubs/74063/beautiful.pdf) chapter of "Beautiful code":
 
 ```wiki
 check :: Bool -> STM ()

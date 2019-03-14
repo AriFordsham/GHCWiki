@@ -83,12 +83,12 @@ Note that Vista must be patched with KB2533623.
 ## Building 32-bit Windows programs
 
 
-Current releases of GHC provide a 32-bit Windows version for building 32-bit programs on Windows. It ships with a small [ MinGW-w64](http://mingw-w64.sourceforge.net/) system bundled, which provides tools (such as a C compiler, linker and assembler) that are used by the compiler.
+Current releases of GHC provide a 32-bit Windows version for building 32-bit programs on Windows. It ships with a small [MinGW-w64](http://mingw-w64.sourceforge.net/) system bundled, which provides tools (such as a C compiler, linker and assembler) that are used by the compiler.
 
 ## Building 64-bit Windows programs
 
 
-Releases of GHC since 7.6.1 also provide a 64bit Windows version for building 64bit programs on Windows. It ships with a [ MinGW-w64](http://mingw-w64.sourceforge.net/) system bundled, which provides tools (such as a C compiler, linker and assembler) that are used by the compiler.
+Releases of GHC since 7.6.1 also provide a 64bit Windows version for building 64bit programs on Windows. It ships with a [MinGW-w64](http://mingw-w64.sourceforge.net/) system bundled, which provides tools (such as a C compiler, linker and assembler) that are used by the compiler.
 
 ## Building on Windows
 

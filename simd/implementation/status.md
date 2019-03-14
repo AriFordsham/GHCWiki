@@ -202,7 +202,7 @@
 ### Vector types
 
 
-Vectors of the following types are implemented: `Int32`, `Int64`, `Float`, and `Double`. These types and their associated primops can be found in [ \`GHC.Prim\`](https://downloads.haskell.org/~ghc/8.0.2/docs/html/libraries/ghc-prim-0.5.0.0/GHC-Prim.html#g:28).
+Vectors of the following types are implemented: `Int32`, `Int64`, `Float`, and `Double`. These types and their associated primops can be found in [\`GHC.Prim\`](https://downloads.haskell.org/~ghc/8.0.2/docs/html/libraries/ghc-prim-0.5.0.0/GHC-Prim.html#g:28).
 
 ### Fixed and variable sized vectors
 
@@ -212,7 +212,7 @@ For each type, currently only one vector width is implemented, namely the width 
 ## Code generators
 
 
-Only the LLVM code generator (i.e. `-fllvm`) is supported. However, work is [ afoot](https://github.com/Abhiroop/ghc-1/tree/wip/simd-ncg-support) to add support to the NCG as well.
+Only the LLVM code generator (i.e. `-fllvm`) is supported. However, work is [afoot](https://github.com/Abhiroop/ghc-1/tree/wip/simd-ncg-support) to add support to the NCG as well.
 
 ## Cmm layer
 
@@ -247,4 +247,4 @@ The implementation does not attempt to align memory containing SIMD vectors. SIM
 
 ### Other resources of interest
 
-- This `ghc-devs` discussion: [ https://mail.haskell.org/pipermail/ghc-devs/2017-March/013899.html](https://mail.haskell.org/pipermail/ghc-devs/2017-March/013899.html)
+- This `ghc-devs` discussion: [https://mail.haskell.org/pipermail/ghc-devs/2017-March/013899.html](https://mail.haskell.org/pipermail/ghc-devs/2017-March/013899.html)

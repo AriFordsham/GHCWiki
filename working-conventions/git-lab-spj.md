@@ -5,16 +5,16 @@ Here's a summary of the things in GitLab's universe, what they mean, and how the
 
 - **Wiki**. The [GHCI wiki index is here](https://gitlab.haskell.org/ghc/ghc/wikis/index)
 
-- **Groups.**  Example, the [ GHC group](https://gitlab.haskell.org/ghc)
+- **Groups.**  Example, the [GHC group](https://gitlab.haskell.org/ghc)
 
   - A group contains:
 
     - *Members*, each of whom is a *user*.
     - *Projects*
     - *Sub-groups*
-  - As "sub-groups" suggests, groups can nest.   For example [ GHC packages group](https://gitlab.haskell.org/ghc/packages) is a sub-group of the [ GHC group](https://gitlab.haskell.org/ghc)
+  - As "sub-groups" suggests, groups can nest.   For example [GHC packages group](https://gitlab.haskell.org/ghc/packages) is a sub-group of the [GHC group](https://gitlab.haskell.org/ghc)
 
-- **Projects.** Example: the  [ GHC project](https://gitlab.haskell.org/ghc/ghc).  A *project* has
+- **Projects.** Example: the  [GHC project](https://gitlab.haskell.org/ghc/ghc).  A *project* has
 
   - A *git repository*
   - A *wiki*
@@ -25,7 +25,7 @@ Here's a summary of the things in GitLab's universe, what they mean, and how the
 - **Users.**
 
   - A user can be a *member* of (a) groups and (b) projects.
-  - There are a few flavours of membership, called "roles".  These include "reporter", "developer", "maintainer", and "owner"; which all imply different sets of permissions, [ documented here](https://docs.gitlab.com/ee/user/permissions.html). 
+  - There are a few flavours of membership, called "roles".  These include "reporter", "developer", "maintainer", and "owner"; which all imply different sets of permissions, [documented here](https://docs.gitlab.com/ee/user/permissions.html). 
 
 - A **merge request** (MR) is a set of one or more commits that you want to have merged into master.
 
@@ -59,9 +59,9 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
   The `-u` flag arranges that your private branch will now track the remote branch.
 
-- Create a merge request.  [ More details on this process are here](https://gitlab.haskell.org/ghc/ghc/wikis/home#opening-a-merge-request).
+- Create a merge request.  [More details on this process are here](https://gitlab.haskell.org/ghc/ghc/wikis/home#opening-a-merge-request).
 
-- Working with your merge request: [ details here](https://gitlab.haskell.org/ghc/ghc/wikis/home#working-with-your-merge-request).
+- Working with your merge request: [details here](https://gitlab.haskell.org/ghc/ghc/wikis/home#working-with-your-merge-request).
 
 - As you review it, you can add further patches to the branch, and push them. The MR as seen in GitLab is always the tip of the branch.
 
@@ -101,12 +101,12 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
   - WIP MRs are identified simply by having a title beginning "WIP:" or "\[WIP\]".
   - The "merge" button is disabled for WIP MRs, so they can't be accidentally merged.
-    Details [ here](https://docs.gitlab.com/ee/user/project/merge_requests/work_in_progress_merge_requests.html)
+    Details [here](https://docs.gitlab.com/ee/user/project/merge_requests/work_in_progress_merge_requests.html)
 
 - **Approvers**. A MR requires at least one approver to press the "Approve" button before a MR will be merged.   The approvers for a MR are drawn from three sources:
 
   - A small per-project list of super-developers.
-  - The [ code owners file](https://gitlab.haskell.org/ghc/ghc/blob/master/CODEOWNERS): if your patch touches code listed in this file, the corresponding users become approvers for that MR.
+  - The [code owners file](https://gitlab.haskell.org/ghc/ghc/blob/master/CODEOWNERS): if your patch touches code listed in this file, the corresponding users become approvers for that MR.
   - Per-MR approvers, which you as MR author can add.  *From what list?*****
 
 
@@ -123,11 +123,11 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
 - **Zooming**.  If you zoom your browser too much, stuff starts disappearing from the top menu bar; e.g. your picture and the settings linked to it. You have to zoom out.  This happens less if you switch to "fluid" layout in [your preferences](https://gitlab.haskell.org/profile/preferences).
 
-- **Notifications**.  For projects you care about (e.g. [ https://gitlab.haskell.org/ghc/ghc](https://gitlab.haskell.org/ghc/ghc)), click on "Watch" (there's a little bell icon) about four rows down from the top. Then you'll get notifications of what changes.
+- **Notifications**.  For projects you care about (e.g. [https://gitlab.haskell.org/ghc/ghc](https://gitlab.haskell.org/ghc/ghc)), click on "Watch" (there's a little bell icon) about four rows down from the top. Then you'll get notifications of what changes.
 
 - **From branch name to merge request**.  Say you are on branch `wip/T16185`, and you know you (or someone) has submitted a MR based on that branch. How can you find the MR?
 
-  - Go to the [ GHC project page](https://gitlab.haskell.org/ghc/ghc)
+  - Go to the [GHC project page](https://gitlab.haskell.org/ghc/ghc)
   - Select the branch (drop-down menu box near the top left; initially labelled *master*).
   - In the left-hand-column menu bar, from "Repository" select "Commits"
   - Click on the title of the top-most commit
@@ -180,7 +180,7 @@ Quick actions are textual shortcuts for common actions on issues, epics, merge r
 - Once executed, the commands are removed from the text body and not visible to anyone else.
 
 
-There's a [ full list here](https://docs.gitlab.com/ee/user/project/quick_actions.html).
+There's a [full list here](https://docs.gitlab.com/ee/user/project/quick_actions.html).
 
 ## Transitioning an old repo
 

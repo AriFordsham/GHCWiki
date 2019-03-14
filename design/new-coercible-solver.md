@@ -99,7 +99,7 @@ data FlattenEnv
 > The idea of flattening is to replace one type with another "equivalent" type (and to produce evidence of the equality). Previously, we've always used nominal equality. But, this same idea applies equally well to representational equality. So, the `EqRel` field says what equality should be respected during flattening. If `fe_eq_rel` is `ReprEq`, then the flattener will unwrap newtypes just as it reduces type families.
 
 
-The aborted implementation of this idea is at [ https://github.com/goldfirere/ghc/tree/two-flatteners](https://github.com/goldfirere/ghc/tree/two-flatteners)
+The aborted implementation of this idea is at [https://github.com/goldfirere/ghc/tree/two-flatteners](https://github.com/goldfirere/ghc/tree/two-flatteners)
 
 ## Open questions
 

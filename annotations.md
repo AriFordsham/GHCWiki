@@ -19,7 +19,7 @@ There is ongoing work to make Annotations usable from [TemplateHaskell](template
 ## State Of Play
 
 
-An annotations system was implemented as part of the Compiler Plugins Summer of Code project (Summer 08). It has been submitted to the HEAD, and will appear in GHC 6.12 and later.  Documentation is available at [ http://downloads.haskell.org/\~ghc/latest/docs/html/users_guide/extending_ghc.html\#source-annotations](http://downloads.haskell.org/~ghc/latest/docs/html/users_guide/extending_ghc.html#source-annotations).
+An annotations system was implemented as part of the Compiler Plugins Summer of Code project (Summer 08). It has been submitted to the HEAD, and will appear in GHC 6.12 and later.  Documentation is available at [http://downloads.haskell.org/\~ghc/latest/docs/html/users_guide/extending_ghc.html\#source-annotations](http://downloads.haskell.org/~ghc/latest/docs/html/users_guide/extending_ghc.html#source-annotations).
 
 
 The annotation system committed in the end is very simple. Basically, you can write things like this:
@@ -225,7 +225,7 @@ Yet another disadvantage is that we will be doing some compile time compilation 
 #### Alternative 1 (Proposed)
 
 
-Another disadvantage of this new annotations scheme is that currently there is no standard Binary class in the Haskell libraries. We propose to add such a beast by adding [ Data.Binary](http://code.haskell.org/binary/) as a boot library and supporting automatic instance deriving for it in GHC. The advantages of doing this rather than somehow reusing GHCs inbuilt Binary class are that:
+Another disadvantage of this new annotations scheme is that currently there is no standard Binary class in the Haskell libraries. We propose to add such a beast by adding [Data.Binary](http://code.haskell.org/binary/) as a boot library and supporting automatic instance deriving for it in GHC. The advantages of doing this rather than somehow reusing GHCs inbuilt Binary class are that:
 
 - It is compiler independent
 
@@ -353,7 +353,7 @@ f :: ...
 
 - **(Only in SoC implementation)** Plugins cannot currently add further annotations during compilation that will be compiled into the result. I.e. any annotations they add are transient and disappear at the end of that particular run of the Core pipeline.
 
-- We might want to add attribute metadata, so users can specify the multiplicity attributes should take, what sorts of things they can be attached to (value, type, module), and perhaps even what types they can be attached to (e.g. "only things of type a -\> Bool for some a"), similar to C\# ([ http://msdn.microsoft.com/en-us/library/tw5zxet9(VS.80).aspx](http://msdn.microsoft.com/en-us/library/tw5zxet9(VS.80).aspx)) or Java.
+- We might want to add attribute metadata, so users can specify the multiplicity attributes should take, what sorts of things they can be attached to (value, type, module), and perhaps even what types they can be attached to (e.g. "only things of type a -\> Bool for some a"), similar to C\# ([http://msdn.microsoft.com/en-us/library/tw5zxet9(VS.80).aspx](http://msdn.microsoft.com/en-us/library/tw5zxet9(VS.80).aspx)) or Java.
 
 - We might want to extend annotation syntax so you can attach multiple annotations in a single definition, like so:
 
@@ -375,4 +375,4 @@ x = ...
 - **(Only in SoC implementation)** I believe it would make sense to allow annotations to use the implementations of values in the module being compiled,: after all, I they can use the implementations of values in imported modules. This would filling out the relevant field with an error during compilation (for the benefit of plugins) and linking the annotation fields up to the required values after compilation. Is this a good idea?
 
 - Have retention policies, similar to Java?
-- See also the Haskell Prime ticket: [ http://hackage.haskell.org/trac/haskell-prime/ticket/88](http://hackage.haskell.org/trac/haskell-prime/ticket/88)
+- See also the Haskell Prime ticket: [http://hackage.haskell.org/trac/haskell-prime/ticket/88](http://hackage.haskell.org/trac/haskell-prime/ticket/88)

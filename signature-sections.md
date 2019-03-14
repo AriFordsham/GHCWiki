@@ -34,4 +34,4 @@ typeRep:: proxy a ->TypeRepdataProxy a =Proxy-- without `SignatureSections`a= ty
 ### References
 
 - [\#10803](https://gitlab.haskell.org//ghc/ghc/issues/10803)
-- [ http://augustss.blogspot.co.at/2014/04/a-small-haskell-extension.html](http://augustss.blogspot.co.at/2014/04/a-small-haskell-extension.html)
+- [http://augustss.blogspot.co.at/2014/04/a-small-haskell-extension.html](http://augustss.blogspot.co.at/2014/04/a-small-haskell-extension.html)

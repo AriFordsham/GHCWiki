@@ -1,6 +1,6 @@
 
-Video: [ GHC Core language](http://www.youtube.com/watch?v=EQA69dvkQIk&list=PLBkRCigjPwyeCSD_DFxpd246YIF7_RDDI) (14'04")
- Video: [ Into the Core - Squeezing Haskell into Nine Constructors](https://www.youtube.com/watch?v=uR_VzYxvbxg) (1hr07'48")
+Video: [GHC Core language](http://www.youtube.com/watch?v=EQA69dvkQIk&list=PLBkRCigjPwyeCSD_DFxpd246YIF7_RDDI) (14'04")
+ Video: [Into the Core - Squeezing Haskell into Nine Constructors](https://www.youtube.com/watch?v=uR_VzYxvbxg) (1hr07'48")
 
 # The `Core` type
 
@@ -53,7 +53,7 @@ data Bind b = NonRec b (Expr b) | Rec [(b, (Expr b))]
 That's it.  All of Haskell gets compiled through this tiny core.
 
 `Expr` is parameterised over the type of its *binders*, `b`.  This facility is used only rarely, and always temporarily; for example, the let-floater `SetLevels` pass attaches a binding level to every binder.  By far the most important type is `CoreExpr`, which is `Expr` with `Var` binders.
-If you want to learn more about such AST-parametrization, I encourage you to read a blog post about it: [ http://blog.ezyang.com/2013/05/the-ast-typing-problem](http://blog.ezyang.com/2013/05/the-ast-typing-problem) .
+If you want to learn more about such AST-parametrization, I encourage you to read a blog post about it: [http://blog.ezyang.com/2013/05/the-ast-typing-problem](http://blog.ezyang.com/2013/05/the-ast-typing-problem) .
 
 
 Binder is used (as the name suggest) to bind a variable to an expression. The `Expr` data type is parametrized by the binder type. The most common one is the `type CoreBndr = Var` where `Var` comes from [compiler/basicTypes/Var.hs](/trac/ghc/browser/ghc/compiler/basicTypes/Var.hs), which in fact is a `Name` with some extra informations attached (like types).
@@ -171,7 +171,7 @@ use `Subst` (substitution environment from
 variables in scope and makes it possible to clone (i.e. rename) only the
 variables that actually capture names of some earlier ones. For some more
 explanations about this approach see 
-[ Secrets of the Glasgow Haskell Compiler inliner (JFP'02)](http://research.microsoft.com/%7Esimonpj/Papers/inlining/index.htm)
+[Secrets of the Glasgow Haskell Compiler inliner (JFP'02)](http://research.microsoft.com/%7Esimonpj/Papers/inlining/index.htm)
 (section 4 on name capture).
 
 ## Human readable Core generation

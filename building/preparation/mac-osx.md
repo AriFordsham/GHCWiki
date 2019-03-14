@@ -2,9 +2,9 @@
 
 1. Install Apple's command line tools
 
-  - Install the latest command line tools from [ http://developer.apple.com/downloads](http://developer.apple.com/downloads)**or**
+  - Install the latest command line tools from [http://developer.apple.com/downloads](http://developer.apple.com/downloads)**or**
   - install XCode, launch XCode, open Preferences, select "Downloads" and install the command line tools
-1. Install Homebrew [ http://brew.sh](http://brew.sh) (or Macports [ https://www.macports.org](https://www.macports.org) - in which case the necessary utilities would be installed via `sudo port install automake autoconf python3`, etc.)
+1. Install Homebrew [http://brew.sh](http://brew.sh) (or Macports [https://www.macports.org](https://www.macports.org) - in which case the necessary utilities would be installed via `sudo port install automake autoconf python3`, etc.)
 1. `brew install autoconf automake python3`
 1. Install a recent GHC version using your method of choice
 1. Install the necessary GHC tools
@@ -14,12 +14,12 @@
 
   - `sudo easy_install pip`
   - `sudo pip install sphinx`
-  - Make sure `xelatex` is on your PATH, and works (if you installed MacTeX from [ https://www.tug.org/mactex/downloading.html](https://www.tug.org/mactex/downloading.html), it includes `xelatex`)
-  - Download and install (e.g., via `Font Book.app`) DEJAVU fonts Sans, Sans Mono, and Serif from, e.g., [ https://www.fontsquirrel.com/fonts/list/foundry/dejavu-fonts](https://www.fontsquirrel.com/fonts/list/foundry/dejavu-fonts)
+  - Make sure `xelatex` is on your PATH, and works (if you installed MacTeX from [https://www.tug.org/mactex/downloading.html](https://www.tug.org/mactex/downloading.html), it includes `xelatex`)
+  - Download and install (e.g., via `Font Book.app`) DEJAVU fonts Sans, Sans Mono, and Serif from, e.g., [https://www.fontsquirrel.com/fonts/list/foundry/dejavu-fonts](https://www.fontsquirrel.com/fonts/list/foundry/dejavu-fonts)
 1. Done!
 
 
-If you want to build a PDF of the docs you'll also need a TeX installation: [ https://tug.org/mactex/](https://tug.org/mactex/)
+If you want to build a PDF of the docs you'll also need a TeX installation: [https://tug.org/mactex/](https://tug.org/mactex/)
 
 # Setting up a MacOS X system for building  GHC (HEAD)
 
@@ -30,7 +30,7 @@ then please make sure you have an up to date release of GHC, Currently 7.8.3.
 With the relatively recent Xcode (at the time of this edit, the current version is Xcode-10.1), it is recommended to use Clang rather than GCC, by prepending the configure command with it: `CC=clang ./configure` or `./configure CC=clang`
 
 
-You will need to install several tools, using one of  [ Homebrew](http://mxcl.github.com/homebrew/),  [ MacPorts](https://www.macports.org/), or Fink.
+You will need to install several tools, using one of  [Homebrew](http://mxcl.github.com/homebrew/),  [MacPorts](https://www.macports.org/), or Fink.
 
 ## Xcode (GCC)
 
@@ -46,13 +46,13 @@ Firstly, you need to install the Xcode Command Line tools from Apple. You can do
   - In the Preference dialog of Xcode, select the "Downloads" pane and install "Command line tools".
 1. Install the command line tools only:
 
-  - At the [ downloads page of Apple Developer](http://developer.apple.com/downloads), download the latest "Command line tools".
+  - At the [downloads page of Apple Developer](http://developer.apple.com/downloads), download the latest "Command line tools".
   - Install them.
 
 ### Previous versions of OS X and Xcode
 
 
-Get the most recent version of Apple's Xcode tools that you can. Your OS X CD has a version on it. You may be able to download a newer version from the [ Apple Developer Connection](http://developer.apple.com/tools/xcode) website. You may need to sign up for a free membership in the Apple Developer Connection, and downloading may still cost a little money.  In later versions of OS X (10.6 / 10.7), Apple added the "App Store". Xcode is available within the App Store for "Free".
+Get the most recent version of Apple's Xcode tools that you can. Your OS X CD has a version on it. You may be able to download a newer version from the [Apple Developer Connection](http://developer.apple.com/tools/xcode) website. You may need to sign up for a free membership in the Apple Developer Connection, and downloading may still cost a little money.  In later versions of OS X (10.6 / 10.7), Apple added the "App Store". Xcode is available within the App Store for "Free".
 
 
 Successful builds of older GHC sources have been reported using Xcode 3.0, 2.4 and 2.4.1 on Intel Macs. Xcode 2.2.1 is known *not* to work out of the box on Intel Macs, and Xcode 3.0 is known *not* to work out of the box on PowerPC Macs ([\#2887](https://gitlab.haskell.org//ghc/ghc/issues/2887)). Versions prior to 3.1 may build GHC successfully, but choke on certain libraries.
@@ -66,9 +66,9 @@ Secondly, you need an installation of GHC for use as your bootstrap compiler env
 There are 4 different choices. Choose the one you are most comfortable with! The options below should be a GHC version \>= 7.8.3.
 
 1. Install a [binary distribution from GHC](http://www.haskell.org/ghc/download). 
-1. Get the relocatable .app bundle using [ ghcformacosx](http://github.com/ghcformacosx/ghc-dot-app)
+1. Get the relocatable .app bundle using [ghcformacosx](http://github.com/ghcformacosx/ghc-dot-app)
 1. Use one of Fink, MacPorts or Homebrew.
-1. Install the [ Haskell Platform](http://www.haskell.org/platform/).  If your OS X version predates 10.8, This build (currently of GHC 7.8.3) is known to support as far back as OS X 10.6 
+1. Install the [Haskell Platform](http://www.haskell.org/platform/).  If your OS X version predates 10.8, This build (currently of GHC 7.8.3) is known to support as far back as OS X 10.6 
 
 **NB:** You need to use a binary distribution of GHC 7.4.1 (or later) as your bootstrap compiler.
 
@@ -141,7 +141,7 @@ sudo easy_install pip
 ### GHC 7.10 and earlier
 
 
-Finally, if you want to build the documentation you need to install DocBook, PsUtils, and a LaTeX distribution such as [ MacTeX](https://tug.org/mactex/mactex-download.html). You can install it like so:
+Finally, if you want to build the documentation you need to install DocBook, PsUtils, and a LaTeX distribution such as [MacTeX](https://tug.org/mactex/mactex-download.html). You can install it like so:
 
 - (Homebrew): `brew install docbook`, `brew install docbook-xsl`, `brew install docbook2x`, `brew install psutils`
 
@@ -163,7 +163,7 @@ set -xl MACOSX_DEPLOYMENT_TARGET 10.7
 
 
 See the Linux page for instructions on running Docker
-[ https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Linux\#Docker](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Linux#Docker)
+[https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Linux\#Docker](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Linux#Docker)
 
 ## VMWare / Virtualbox
 

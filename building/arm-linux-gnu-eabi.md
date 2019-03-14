@@ -1,7 +1,7 @@
 # LLVM backend support for ARM
 
 
-As of August 10 2011, GHC HEAD supports registerised build on ARM when using LLVM backend. You will need to have LLVM 3.0 installed for this to work. If for whatever reasons you cannot use LLVM 3.0 (or 3.0 RC2), you will need to have LLVM HEAD as of July 12 2011 with the patch from here: [ http://www.gardas.roznovan.cz/llvm/llvm-2011-07-12.patch](http://www.gardas.roznovan.cz/llvm/llvm-2011-07-12.patch) applied.
+As of August 10 2011, GHC HEAD supports registerised build on ARM when using LLVM backend. You will need to have LLVM 3.0 installed for this to work. If for whatever reasons you cannot use LLVM 3.0 (or 3.0 RC2), you will need to have LLVM HEAD as of July 12 2011 with the patch from here: [http://www.gardas.roznovan.cz/llvm/llvm-2011-07-12.patch](http://www.gardas.roznovan.cz/llvm/llvm-2011-07-12.patch) applied.
 
 
 You can do this this way:

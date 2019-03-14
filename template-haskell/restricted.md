@@ -24,7 +24,7 @@ But we do not carry this notion into Template Haskell. Any Template Haskell spli
 So we are violating referential transparency. To make matters worse, what IO means at compile time is not well-defined (for example, cross-compilation, although there is a proposal to address that).
 
 
-Because TH can run arbitrary code and [ break module boundaries](https://github.com/dterei/SafeHaskellExamples/tree/master/thReify), that also makes it impossible for [SafeHaskell](safe-haskell) to deal with.
+Because TH can run arbitrary code and [break module boundaries](https://github.com/dterei/SafeHaskellExamples/tree/master/thReify), that also makes it impossible for [SafeHaskell](safe-haskell) to deal with.
 
 ### Building
 
@@ -41,7 +41,7 @@ We can define different levels of restriction
 - level 3: no mkName (we could call this Pure Template Haskell)
 
 
-Rather than levels, we may be able to have more flexibility by thinking in terms of [ capabilities](https://github.com/Icelandjack/Capabilities/blob/master/src/Capabilities.hs)
+Rather than levels, we may be able to have more flexibility by thinking in terms of [capabilities](https://github.com/Icelandjack/Capabilities/blob/master/src/Capabilities.hs)
 
 ```wiki
 reify :: Name -> Restrict (TH :+: Reify) Info

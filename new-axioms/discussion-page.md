@@ -11,7 +11,7 @@ At Pedro's invitation, comment/suggestions/requests for clarification/alternativ
 
 ## Suggestions
 
-- **Instance match fail:** There are use cases where we want to make the existence of a more specific match a type-level failure. (Compare this [ http://hackage.haskell.org/trac/ghc/wiki/TypeFunctions/TotalFamilies\#Definingtotalfamilies](http://hackage.haskell.org/trac/ghc/wiki/TypeFunctions/TotalFamilies#Definingtotalfamilies) from Chak 2008, using VOID for the same purpose.) Currently a 'dead end' needs fudging with fake instances and constraints, leading to mystifying messages. The example is HList Lacks constraint.
+- **Instance match fail:** There are use cases where we want to make the existence of a more specific match a type-level failure. (Compare this [http://hackage.haskell.org/trac/ghc/wiki/TypeFunctions/TotalFamilies\#Definingtotalfamilies](http://hackage.haskell.org/trac/ghc/wiki/TypeFunctions/TotalFamilies#Definingtotalfamilies) from Chak 2008, using VOID for the same purpose.) Currently a 'dead end' needs fudging with fake instances and constraints, leading to mystifying messages. The example is HList Lacks constraint.
 
 ```wiki
 hCons :: (Lacks e l) => e -> l -> HCons e l          -- smart constructor, validate that l doesn't already contain e
@@ -53,7 +53,7 @@ type instance Lacks e (HCons e' l')  | e /~ e'   = Lacks e l'   -- no instance f
 ## Alternative Solutions
 
 
-According to \[Bulatz as of 2007\] [ http://www.haskell.org/haskellwiki/GADTs_for_dummies](http://www.haskell.org/haskellwiki/GADTs_for_dummies):
+According to \[Bulatz as of 2007\] [http://www.haskell.org/haskellwiki/GADTs_for_dummies](http://www.haskell.org/haskellwiki/GADTs_for_dummies):
 
 >
 > "In many other cases \[of overlap\] this automatic \[instance\] selection is not powerful enough and we are forced to use some artificial tricks or complain to the language developers. The two most well-known language extensions proposed to solve such problems are instance priorities, which allow us to explicitly specify instance selection order, and '/=' constraints, which can be used to explicitly prohibit unwanted matches."
@@ -99,13 +99,13 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
 - One downside is that you have to provide a translation instance for each user-defined type, and make sure the representation doesn't clash with any other type. Template Haskell helps, compiler support would be better.
 
 >
-> (By the way, arguably the whole TTypeable project might have been unnecessary. Oleg built the approach because of persistent trouble around overlaps. But you can't do overlaps without fundeps (in any yet availabe version of GHC -- and Hugs is far worse.) Perhaps the trouble was really because of fundeps interfering with overlap? [ http://www.haskell.org/pipermail/haskell-prime/2012-May/003688.html](http://www.haskell.org/pipermail/haskell-prime/2012-May/003688.html) As and when matching coercions are available, we'll be able to experiment.)
+> (By the way, arguably the whole TTypeable project might have been unnecessary. Oleg built the approach because of persistent trouble around overlaps. But you can't do overlaps without fundeps (in any yet availabe version of GHC -- and Hugs is far worse.) Perhaps the trouble was really because of fundeps interfering with overlap? [http://www.haskell.org/pipermail/haskell-prime/2012-May/003688.html](http://www.haskell.org/pipermail/haskell-prime/2012-May/003688.html) As and when matching coercions are available, we'll be able to experiment.)
 
 ## Comparisons to other approaches with overlaps
 
-- [ http://hackage.haskell.org/trac/ghc/wiki/TFvsFD](http://hackage.haskell.org/trac/ghc/wiki/TFvsFD) \[Thank you Etienne, and there's a very helpful **See also**.\] Several examples where Type Functions don't seem to be as powerful as Type Classes/Constraints/FunDeps. Some of these examples need overlaps, but not all. Equality constraints seem to make type refinement more 'eager' than under TF's. 
+- [http://hackage.haskell.org/trac/ghc/wiki/TFvsFD](http://hackage.haskell.org/trac/ghc/wiki/TFvsFD) \[Thank you Etienne, and there's a very helpful **See also**.\] Several examples where Type Functions don't seem to be as powerful as Type Classes/Constraints/FunDeps. Some of these examples need overlaps, but not all. Equality constraints seem to make type refinement more 'eager' than under TF's. 
 
-- [ http://okmij.org/ftp/Haskell/PeanoArithm.lhs](http://okmij.org/ftp/Haskell/PeanoArithm.lhs) \[referenced from the TF vs FD discussion\] Exploits a bi-directional FunDep technique, to get subtraction of type-level Nats using only a definition of add.
+- [http://okmij.org/ftp/Haskell/PeanoArithm.lhs](http://okmij.org/ftp/Haskell/PeanoArithm.lhs) \[referenced from the TF vs FD discussion\] Exploits a bi-directional FunDep technique, to get subtraction of type-level Nats using only a definition of add.
 
 ## Comments
 
@@ -137,7 +137,7 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
 ```
 
 > >
-> > (For reasons I don't understand) when GHC introduced Associated Types (Families), they seemed particularly concerned about partial overlaps (and confluence thereof [ http://www.haskell.org/haskellwiki/GHC/Indexed_types](http://www.haskell.org/haskellwiki/GHC/Indexed_types) section 6.2.2 Overlap). Compare that Hugs handles partial overlaps badly, so it's usually better to 'factor' into total overlaps. (That is: if you have instances like (2) and (3), add an instance like (1).)
+> > (For reasons I don't understand) when GHC introduced Associated Types (Families), they seemed particularly concerned about partial overlaps (and confluence thereof [http://www.haskell.org/haskellwiki/GHC/Indexed_types](http://www.haskell.org/haskellwiki/GHC/Indexed_types) section 6.2.2 Overlap). Compare that Hugs handles partial overlaps badly, so it's usually better to 'factor' into total overlaps. (That is: if you have instances like (2) and (3), add an instance like (1).)
 
 > >
 > > If you allow only total overlaps, validation of the instances seems easier to understand, and the rules for selecting the instance at the use site would be more coherent (perhaps?). Is it the possibility of partial overlap that led to GHC's validation being more 'generous'/less eager?
@@ -183,7 +183,7 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
 - **Data Types a la Carte**. Swierstra 2008. An approach to Wadler's *Expression Problem*.
 
 > >
-> > Section 4 discusses limitations caused by overlaps. [ http://wadler.blogspot.co.nz/2008/02/data-types-la-carte.html](http://wadler.blogspot.co.nz/2008/02/data-types-la-carte.html) discusses those limitations, with some solutions suggested.
+> > Section 4 discusses limitations caused by overlaps. [http://wadler.blogspot.co.nz/2008/02/data-types-la-carte.html](http://wadler.blogspot.co.nz/2008/02/data-types-la-carte.html) discusses those limitations, with some solutions suggested.
 
 - **Monad Transformers/Library**. ??
 
@@ -195,8 +195,8 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
 >
 > See references scattered through the above discussions.
 
-- [ http://hackage.haskell.org/trac/ghc/wiki/TFvsFD\#SeeAlso2](http://hackage.haskell.org/trac/ghc/wiki/TFvsFD#SeeAlso2)
-- [ http://www.haskell.org/haskellwiki/Functional_dependencies_vs._type_families](http://www.haskell.org/haskellwiki/Functional_dependencies_vs._type_families)
+- [http://hackage.haskell.org/trac/ghc/wiki/TFvsFD\#SeeAlso2](http://hackage.haskell.org/trac/ghc/wiki/TFvsFD#SeeAlso2)
+- [http://www.haskell.org/haskellwiki/Functional_dependencies_vs._type_families](http://www.haskell.org/haskellwiki/Functional_dependencies_vs._type_families)
 
 
 \[More to do ...\]
@@ -204,8 +204,8 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
 
 Surprisingly few wiki pages discuss overlaps.
 
-- [ http://www.haskell.org/haskellwiki/GHC/AdvancedOverlap](http://www.haskell.org/haskellwiki/GHC/AdvancedOverlap)
-- [ http://www.haskell.org/haskellwiki/Research_papers/Type_systems](http://www.haskell.org/haskellwiki/Research_papers/Type_systems)
+- [http://www.haskell.org/haskellwiki/GHC/AdvancedOverlap](http://www.haskell.org/haskellwiki/GHC/AdvancedOverlap)
+- [http://www.haskell.org/haskellwiki/Research_papers/Type_systems](http://www.haskell.org/haskellwiki/Research_papers/Type_systems)
 
 
 Link to GHC flags on OverlappingInstances, IncoherentInstances, (and possibly UndecidableInstances).
@@ -213,8 +213,8 @@ Link to GHC flags on OverlappingInstances, IncoherentInstances, (and possibly Un
 
 See Haskell-cafe and Haskell-prime mailing lists anon.
 
-- [ http://www.haskell.org/pipermail/haskell-prime/2011-July/003491.html](http://www.haskell.org/pipermail/haskell-prime/2011-July/003491.html) -- and discussions this points to
-- [ http://www.haskell.org/pipermail/haskell-prime/2012-May/003687.html](http://www.haskell.org/pipermail/haskell-prime/2012-May/003687.html)
+- [http://www.haskell.org/pipermail/haskell-prime/2011-July/003491.html](http://www.haskell.org/pipermail/haskell-prime/2011-July/003491.html) -- and discussions this points to
+- [http://www.haskell.org/pipermail/haskell-prime/2012-May/003687.html](http://www.haskell.org/pipermail/haskell-prime/2012-May/003687.html)
 
 ## Requests for Clarification
 

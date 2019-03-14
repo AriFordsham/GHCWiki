@@ -2,7 +2,7 @@
 
 
 Here, we discuss the details and design of existing, and desired, printers for Haskell syntax.
-One key motivation is to gather enough knowledge around the topic, so we can restructure `Outputable` machinery in GHC (specially with [ Growable AST](ImplementingTreesThatGrow)), and reuse it as a well-tested and well-maintained alternative to the existing printing packages.    
+One key motivation is to gather enough knowledge around the topic, so we can restructure `Outputable` machinery in GHC (specially with [Growable AST](ImplementingTreesThatGrow)), and reuse it as a well-tested and well-maintained alternative to the existing printing packages.    
 
 ### Classical Pretty Printers
 
@@ -13,7 +13,7 @@ todo!
 ### Exact Printers
 
 
-todo! (e.g.,[ HSE](https://hackage.haskell.org/package/haskell-src-exts))
+todo! (e.g.,[HSE](https://hackage.haskell.org/package/haskell-src-exts))
 
 ### Debug Printers (Outputters)
 

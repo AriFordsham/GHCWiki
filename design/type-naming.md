@@ -184,7 +184,7 @@ baby step towards the export list becoming a proper module signature.
 
 *As you might imagine, if we're going to start tinkering with export lists, I'd like to push as far as possible in the direction of signatures.  To me, this means (a) Let's not try to make signatures stand independently, but let's do try to change dramatically the format of the export list; (b) the material in the export list should be completely sufficient to know the types, kinds, sorts, classes, instances, and fixities of the things exported; (c) when complete information is available in the export list, it should not be necessary to duplicate the information in the module body.  For example, it should be possible to migrate a type signature from the body to a "new-style" export list.  ---Norman Ramsey*****
 
-*I would prefer to use the keyword `type` to indicate a name from the type namespace (without any indication of whether it was defined by a type, newtype, or data declaration.  This would, then, be consistent with our proposal for [ exporting associated types.](http://haskell.org/haskellwiki/GHC/Type_families#Import_and_export) -- chak*
+*I would prefer to use the keyword `type` to indicate a name from the type namespace (without any indication of whether it was defined by a type, newtype, or data declaration.  This would, then, be consistent with our proposal for [exporting associated types.](http://haskell.org/haskellwiki/GHC/Type_families#Import_and_export) -- chak*
 
 ### Proposal 2: disambiguation in types
 

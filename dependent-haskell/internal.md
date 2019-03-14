@@ -815,6 +815,6 @@ Without the type family, this compiles on GHC 7.8. We thus desperately want the 
 
 # User-facing design issues
 
-- A redditor suggested replacing `*` with `type`. Note that `type` is lowercase! I think this is a good idea. Replacing `*` with something gets strong support on reddit. See the [ page of interest](https://www.reddit.com/r/haskell/comments/3hlck0/planned_change_to_ghc_merging_types_and_kinds/).
+- A redditor suggested replacing `*` with `type`. Note that `type` is lowercase! I think this is a good idea. Replacing `*` with something gets strong support on reddit. See the [page of interest](https://www.reddit.com/r/haskell/comments/3hlck0/planned_change_to_ghc_merging_types_and_kinds/).
 
 - It was also pointed out that `StarInStar` is wrong. Because `* :: *` is always true but the ability to use this, in some scenarios, is limited. It was suggested to use `KindTypes`, but I find that extension name totally opaque.

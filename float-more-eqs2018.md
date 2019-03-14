@@ -5,7 +5,7 @@ I've created this wiki page to track my learning/research as I try to improve my
 
 - We should not float `w :: alpha[L] ~ <RHS>` if the RHS contains a type family application that in turn contains a metavar of a level greater than L. To float `w`, we'd first promote all RHS metavars to level L. But since they are arguments of a type family, we should not promote them prematurely: it's possible the type family could later reduce in a way that ignores/eliminates those metavars.
 
-  - (TODO I don't think the [ existing GHC code](https://github.com/ghc/ghc/blob/ghc-8.6/compiler/typecheck/TcSimplify.hs#L2200) checks for this. Should it?)
+  - (TODO I don't think the [existing GHC code](https://github.com/ghc/ghc/blob/ghc-8.6/compiler/typecheck/TcSimplify.hs#L2200) checks for this. Should it?)
 - The `inert_eqs` field of the GHC internal data structure contains the `CTyEqCan` constraints of an inert set. That's where we'd find the candidates for floating and it's also where we'd find the given equalities we'd need to check. There are other fields of that data structure that we'd require to not have any givens, before floating anything.
 - I'd summarize the idea as "We can float an `CTyEqCan` constraint from level K if:
 
@@ -713,7 +713,7 @@ Now that givens are inert, our rule will force `g` and `g2` to eliminate the sko
 
 NOPE, the above is not how `g` and `o` "interact". I searched `TcInteract` for something like `EQDIFF`, but I ended up at 
 
-[ line 1630](https://github.com/ghc/ghc/blob/8bed140099f8ab78e3e728fd2e50dd73d7210e84/compiler/typecheck/TcInteract.hs#L1630)
+[line 1630](https://github.com/ghc/ghc/blob/8bed140099f8ab78e3e728fd2e50dd73d7210e84/compiler/typecheck/TcInteract.hs#L1630)
 
 ```wiki
   | isGiven ev         -- See Note [Touchables and givens]
@@ -783,7 +783,7 @@ and even explicitly says
 ```
 
 
-Note that `co_a1bZ` and `co_a1c0` never "interacted" as `EQDIFF` suggests they should. However, they both rewrote the wanted. (In fact, it's unflattening that seems to do this, even though there are no type families involved! See [ the definition of](https://github.com/ghc/ghc/blob/8bed140099f8ab78e3e728fd2e50dd73d7210e84/compiler/typecheck/TcFlatten.hs#L1846)`flatten_tyvar2`.)
+Note that `co_a1bZ` and `co_a1c0` never "interacted" as `EQDIFF` suggests they should. However, they both rewrote the wanted. (In fact, it's unflattening that seems to do this, even though there are no type families involved! See [the definition of](https://github.com/ghc/ghc/blob/8bed140099f8ab78e3e728fd2e50dd73d7210e84/compiler/typecheck/TcFlatten.hs#L1846)`flatten_tyvar2`.)
 
 ### Comparison to status quo
 

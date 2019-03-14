@@ -1,7 +1,7 @@
 # Roles
 
 
-The idea of *roles* comes from the paper [ Generative Type Abstraction and Type-level Computation](http://www.seas.upenn.edu/~sweirich/papers/popl163af-weirich.pdf), published at POPL 2011. The implementation of roles in GHC, however, is somewhat different than stated in that paper. This page focuses on the user-visible features of roles. 
+The idea of *roles* comes from the paper [Generative Type Abstraction and Type-level Computation](http://www.seas.upenn.edu/~sweirich/papers/popl163af-weirich.pdf), published at POPL 2011. The implementation of roles in GHC, however, is somewhat different than stated in that paper. This page focuses on the user-visible features of roles. 
 
 
 Role annotations are enabled using `{-# LANGUAGE RoleAnnotations #-}`.
@@ -9,13 +9,13 @@ Role annotations are enabled using `{-# LANGUAGE RoleAnnotations #-}`.
 
 See also
 
-- Our ICFP 2014 paper [ Safe Coercions](http://www.cis.upenn.edu/~eir/papers/2014/coercible/coercible-ext.pdf), which gives lots of motivation and details, including the `Coercible` class.\]
-- Richard's unpublished paper [ An overabundance of equality](http://cs.brynmawr.edu/~rae/pubs.html)
-- The user-level [ wiki page about Coercible](http://www.haskell.org/haskellwiki/GHC/Coercible)
+- Our ICFP 2014 paper [Safe Coercions](http://www.cis.upenn.edu/~eir/papers/2014/coercible/coercible-ext.pdf), which gives lots of motivation and details, including the `Coercible` class.\]
+- Richard's unpublished paper [An overabundance of equality](http://cs.brynmawr.edu/~rae/pubs.html)
+- The user-level [wiki page about Coercible](http://www.haskell.org/haskellwiki/GHC/Coercible)
 - [Roles2](roles2) which identifies a difficulty with the design in the paper, and some possibilities for solving it.
 - [RolesImplementation](roles-implementation) talks about the implementation in GHC. 
-- [ Richard's blog post about roles](http://typesandkinds.wordpress.com/2013/08/15/roles-a-new-feature-of-ghc/). (Note: some aspects of that blog post are out of date, as of December 17, 2013.)
-- This email thread: [ More GND + role inference woes](http://www.haskell.org/pipermail/ghc-devs/2013-October/003003.html).
+- [Richard's blog post about roles](http://typesandkinds.wordpress.com/2013/08/15/roles-a-new-feature-of-ghc/). (Note: some aspects of that blog post are out of date, as of December 17, 2013.)
+- This email thread: [More GND + role inference woes](http://www.haskell.org/pipermail/ghc-devs/2013-October/003003.html).
 - [Safe Roles](safe-roles) discusses safety issues (from abstraction, not memory-safety point-of-view) around Roles and how they might be addressed. The specific focus is on Safe Haskell.
 
 ## Tickets
@@ -297,7 +297,7 @@ Currently, the type constructors for all type families and data families all con
 ## Examples we cannot write today
 
 
-This example ([ courtesy of glguy](https://gitlab.haskell.org/ghc/ghc/issues/8177#comment:32)) will not typecheck:
+This example ([courtesy of glguy](https://gitlab.haskell.org/ghc/ghc/issues/8177#comment:32)) will not typecheck:
 
 ```
 -- | Family of N-ary operator types.typefamilyOp n a b whereOp'Z     a b = b
@@ -311,7 +311,7 @@ coerceOp= coerce
 Since the role signature for `Op` is `type role Op nominal nominal nominal`. But in an ideal world, the role signature for `Op` would be inferred as `type role Op nominal representational representational`. After all, neither `a` nor `b` is "scrutinized" in any sense, so it feels perfectly safe to coerce them freely. **RAE:** "feels"? Let's prove it! **End RAE**
 
 
-Another example ([ courtesy of int-index](https://gitlab.haskell.org/ghc/ghc/issues/8177#comment:33)) is:
+Another example ([courtesy of int-index](https://gitlab.haskell.org/ghc/ghc/issues/8177#comment:33)) is:
 
 ```
 -- represents effect methods for some monad `m`datafamilyEffDict(eff :: k)(m ::Type->Type)-- Note this matches on `eff`, not `m`dataStateEff s
@@ -324,7 +324,7 @@ datainstanceEffDict(StateEff s) m =StateDict{ _state :: forall a .(s ->(a,s))-> 
 Again, `coerceDict` will not typecheck due to the role of `m` in `EffDict` being `nominal`. But there's no good reason why this *must* be the case—we ought to be able to tell GHC to allow `m` to have `representational role`. (Of course, this would prevent any `EffDict` instance from using `m` at a `nominal` role, but them's the breaks.)
 
 
-Additionally, we might like to have roles for *associated* type families. For instance, consider this example ([ courtesy of dmcclean](https://gitlab.haskell.org/ghc/ghc/issues/8177#comment:20)):
+Additionally, we might like to have roles for *associated* type families. For instance, consider this example ([courtesy of dmcclean](https://gitlab.haskell.org/ghc/ghc/issues/8177#comment:20)):
 
 ```
 dataVariant=DQuantity|DUnitPrefixabilitydataDimensionclassKnownVariant(var ::Variant)wheredataDimensional var ::Dimension->*->*instanceKnownVariantDQuantitywherenewtypeDimensionalDQuantity d v =Quantity' v
@@ -419,7 +419,7 @@ First, we gather all of the free variables in the type family's kind and mark ea
 ### The type family equations
 
 
-Next, we descend into each defining equation of the type family and inspect the left-hand and right-hand sides. The right-hand sides are analyzed just like the fields of a data constructor; see the [ Role inference](Roles#Roleinference) section above for more details. From the right-hand sides, we learn that the roles of `e`, `f`, and `g` should be (at least) `representational`.
+Next, we descend into each defining equation of the type family and inspect the left-hand and right-hand sides. The right-hand sides are analyzed just like the fields of a data constructor; see the [Role inference](Roles#Roleinference) section above for more details. From the right-hand sides, we learn that the roles of `e`, `f`, and `g` should be (at least) `representational`.
 
 
 The more interesting analysis comes when inspecting the left-hand sides. We want to mark any type variable that is *scrutinized* as `nominal`. By "scrutinized", we mean a variable that is being used in a non-parametric fashion. For instance, we want to rule out scenarios like this one:

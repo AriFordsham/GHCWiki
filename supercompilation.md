@@ -95,7 +95,7 @@ This page is very much a draft and may be incorrect in places. Please fix proble
 
 - Can we improve the homeomorphic embedding so that append xs xs is not embedded in append xs ys? **Done**
 
-- [ http://hackage.haskell.org/trac/ghc/ticket/2598](http://hackage.haskell.org/trac/ghc/ticket/2598)
+- [http://hackage.haskell.org/trac/ghc/ticket/2598](http://hackage.haskell.org/trac/ghc/ticket/2598)
 
 ## Current status
 
@@ -203,7 +203,7 @@ Largest % difference: ./ghc/stage2/build/InteractiveUI.hi, with 6031.62723322067
 ## Diffferences from Supero
 
 
-An attempted list at differences between [ Supero](http://community.haskell.org/~ndm/supero) and [ positive supercompilation for call-by-value](http://www.csee.ltu.se/~pj/papers/scp/popl09-scp.pdf) (abbreviated to pscp below). 
+An attempted list at differences between [Supero](http://community.haskell.org/~ndm/supero) and [positive supercompilation for call-by-value](http://www.csee.ltu.se/~pj/papers/scp/popl09-scp.pdf) (abbreviated to pscp below). 
 
 
 1) Call-by-value vs Call-by-n{ame,eed}. I am not completely clear on whether Supero preserves sharing. (Pscp does, otherwise the improvement theory is not usable and the proof doesn't go through. Previous discussions between Neil and Peter concluded that this is not sufficient - more expressions need to be inlined so we do not want to preserve all the sharing for performance reasons; Simon later pointed out that we must preserve sharing).

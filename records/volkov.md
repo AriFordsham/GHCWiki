@@ -6,12 +6,12 @@ This page is to discuss adding support for Nikita Volkov's record design to GHC.
 
 Links
 
-- The record package on Hackage: [ http://hackage.haskell.org/package/record](http://hackage.haskell.org/package/record)
-- Homepage and tutorial: [ http://nikita-volkov.github.io/record/](http://nikita-volkov.github.io/record/)
-- Talk: [ http://www.techcast.com/events/bigtechday8/maffei-1005/](http://www.techcast.com/events/bigtechday8/maffei-1005/)
-- Mailing list: [ https://mail.haskell.org/pipermail/ghc-devs/2015-January/008049.html](https://mail.haskell.org/pipermail/ghc-devs/2015-January/008049.html)
-- Reddit discussion: [ http://www.reddit.com/r/haskell/comments/2svayz/i_think_ive_nailed_it_ive_solved_the_records/](http://www.reddit.com/r/haskell/comments/2svayz/i_think_ive_nailed_it_ive_solved_the_records/)
-- More Reddit discussion: [ https://www.reddit.com/r/haskell/comments/3ck7gv/anonymous_records_in_haskell_nikita_volkov_on_his/](https://www.reddit.com/r/haskell/comments/3ck7gv/anonymous_records_in_haskell_nikita_volkov_on_his/)
+- The record package on Hackage: [http://hackage.haskell.org/package/record](http://hackage.haskell.org/package/record)
+- Homepage and tutorial: [http://nikita-volkov.github.io/record/](http://nikita-volkov.github.io/record/)
+- Talk: [http://www.techcast.com/events/bigtechday8/maffei-1005/](http://www.techcast.com/events/bigtechday8/maffei-1005/)
+- Mailing list: [https://mail.haskell.org/pipermail/ghc-devs/2015-January/008049.html](https://mail.haskell.org/pipermail/ghc-devs/2015-January/008049.html)
+- Reddit discussion: [http://www.reddit.com/r/haskell/comments/2svayz/i_think_ive_nailed_it_ive_solved_the_records/](http://www.reddit.com/r/haskell/comments/2svayz/i_think_ive_nailed_it_ive_solved_the_records/)
+- More Reddit discussion: [https://www.reddit.com/r/haskell/comments/3ck7gv/anonymous_records_in_haskell_nikita_volkov_on_his/](https://www.reddit.com/r/haskell/comments/3ck7gv/anonymous_records_in_haskell_nikita_volkov_on_his/)
 - [Notes on the interaction with OverloadedRecordFields](records/overloaded-record-fields/redesign#)
 
 ## Drawbacks

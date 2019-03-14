@@ -7,16 +7,16 @@ The completed feature is described at [ApiAnnotations](api-annotations). This pa
 Right now the locations of syntactic markers such as `do`/`let`/`where`/`in`/`of` in the source are discarded from the AST, although they are retained in the rich token stream.
 
 
-The `haskell-src-exts` package deals with this by means of using the [ \`SrcSpanInfo\`](http://hackage.haskell.org/package/haskell-src-exts-1.15.0.1/docs/Language-Haskell-Exts-SrcLoc.html#t:SrcSpanInfo) data type which contains the SrcSpan as per the current GHC Located type but also has a list of `SrcSpan`s for the  syntactic markers, depending on the particular AST fragment being annotated.
+The `haskell-src-exts` package deals with this by means of using the [\`SrcSpanInfo\`](http://hackage.haskell.org/package/haskell-src-exts-1.15.0.1/docs/Language-Haskell-Exts-SrcLoc.html#t:SrcSpanInfo) data type which contains the SrcSpan as per the current GHC Located type but also has a list of `SrcSpan`s for the  syntactic markers, depending on the particular AST fragment being annotated.
 
 
 The motivation for this change is then
 
 1. Simplify the roundtripping and modification of source by explicitly capturing the missing location information for the syntactic markers.
 
-1. Allow simple round-tripping of code via a GHC variant of [ hindent](https://hackage.haskell.org/package/hindent)
+1. Allow simple round-tripping of code via a GHC variant of [hindent](https://hackage.haskell.org/package/hindent)
 
-1. Allow tools such as a future [ hlint](https://hackage.haskell.org/package/hlint) and [ HaRe](https://hackage.haskell.org/package/HaRe) to make changes to the AST and then return the source unchanged except for the intended changes.
+1. Allow tools such as a future [hlint](https://hackage.haskell.org/package/hlint) and [HaRe](https://hackage.haskell.org/package/HaRe) to make changes to the AST and then return the source unchanged except for the intended changes.
 
 # Current design
 
@@ -26,16 +26,16 @@ The motivation for this change is then
 Note: This implementation has been split apart
 
 
-The first part covers the AST changes only [ D426](https://phabricator.haskell.org/D426)
+The first part covers the AST changes only [D426](https://phabricator.haskell.org/D426)
 
 
-The second covers the addition of annotations [ D438](https://phabricator.haskell.org/D438).
+The second covers the addition of annotations [D438](https://phabricator.haskell.org/D438).
 
 
-Also, [ D412](https://phabricator.haskell.org/D412) adds the original source text to literals that are converted during parsing.
+Also, [D412](https://phabricator.haskell.org/D412) adds the original source text to literals that are converted during parsing.
 
 
-The original proof of concept was [ D297](https://phabricator.haskell.org/D297)
+The original proof of concept was [D297](https://phabricator.haskell.org/D297)
 
 ### Theory of operation.
 
@@ -235,7 +235,7 @@ At the moment HaRe manages this by building up a token tree indexed by SrcSpan w
 
 ## Abortive annotation parameter attempt
 
-[ D246](https://phabricator.haskell.org/D246) captures an attempt to work through a type parameter. This exploded in complexity, and was abandoned.
+[D246](https://phabricator.haskell.org/D246) captures an attempt to work through a type parameter. This exploded in complexity, and was abandoned.
 
 ## SPJ alternative suggestion
 
@@ -300,7 +300,7 @@ functions defined, but it will not pollute the rest.
 This technique can also potentially be backported to support older GHC
 versions via a modification to ghc-parser\[1\].
 
-[ https://hackage.haskell.org/package/ghc-parser](https://hackage.haskell.org/package/ghc-parser)
+[https://hackage.haskell.org/package/ghc-parser](https://hackage.haskell.org/package/ghc-parser)
 
 ## Neil Mitchell Response
 
@@ -380,7 +380,7 @@ fromValue(Value x)= fromMaybe (error errMsg)$ res
 ```
 
 
-Note that the `Value` type is based on the one in [ shake](https://github.com/ndmitchell/shake/blob/master/Development/Shake/Value.hs)
+Note that the `Value` type is based on the one in [shake](https://github.com/ndmitchell/shake/blob/master/Development/Shake/Value.hs)
 
 
 This allows the annotation to be retrieved by

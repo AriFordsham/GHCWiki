@@ -3,7 +3,7 @@
 
 The main repository for the library, *package dph*, is at
 
-> [ http://darcs.haskell.org/packages/dph/](http://darcs.haskell.org/packages/dph/)
+> [http://darcs.haskell.org/packages/dph/](http://darcs.haskell.org/packages/dph/)
 
 
 This library package slots into GHC's build tree as usual.  (You can get it with `.darcs-all --dph get`.)

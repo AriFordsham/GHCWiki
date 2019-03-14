@@ -218,7 +218,7 @@ An example of an advantage of using lens libraries: fclabels has a notion of "pa
 `data R = R1 { x, y :: Int } | R2 { y :: Int }` which would solve the problem in a nice typesafe way rather than generating a `x` function that fails at runtime.  If we have built in lenses, or a record system with a built-in way of generating record accessors (morally equivalent), then we are stuck with whatever choice was baked into ghc.  Hopefully it's Maybe rather than runtime errors, but at least using an external lens library lets you retroactively fix things like that.
 
 
-I (aavogt) wrote a preprocessor \<[ http://code.haskell.org/\~aavogt/recordlabel-preprocessor/perf.html](http://code.haskell.org/~aavogt/recordlabel-preprocessor/perf.html)\>, which uses \` instead of \#.
+I (aavogt) wrote a preprocessor \<[http://code.haskell.org/\~aavogt/recordlabel-preprocessor/perf.html](http://code.haskell.org/~aavogt/recordlabel-preprocessor/perf.html)\>, which uses \` instead of \#.
 It takes a different perspective, in that \`x is just a way to write a type level string
 `Symbol` "x", but that's only useful with extensible records. Regardless, user code seems to be very similar.
 

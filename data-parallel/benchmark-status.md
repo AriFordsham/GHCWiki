@@ -3,10 +3,10 @@
 **Benchmarking results last updated on**: 3nd December 2010.
 
 
-This page gives an overview of how well the benchmarks in the [ dph-examples/](http://darcs.haskell.org/packages/dph/dph-examples) directory of package dph are currently working.
+This page gives an overview of how well the benchmarks in the [dph-examples/](http://darcs.haskell.org/packages/dph/dph-examples) directory of package dph are currently working.
 
 
-The benchmarks are run each night by [ DPH BuildBot](http://darcs.haskell.org/packages/dph/dph-buildbot). The results are posted to ghc-builds and uploaded to [ http://log.ouroborus.net/limitingfactor/dph/](http://log.ouroborus.net/limitingfactor/dph/). Check there for the latest numbers.
+The benchmarks are run each night by [DPH BuildBot](http://darcs.haskell.org/packages/dph/dph-buildbot). The results are posted to ghc-builds and uploaded to [http://log.ouroborus.net/limitingfactor/dph/](http://log.ouroborus.net/limitingfactor/dph/). Check there for the latest numbers.
 
 # Summary
 
@@ -29,7 +29,7 @@ The benchmarks are run each night by [ DPH BuildBot](http://darcs.haskell.org/pa
 
 Flat parallel programs are ones in which parallel computations do not invoke further parallel computations. For Repa, this means that the value of each element in a given array can be computed independently of the others. These should run as fast as equivalent programs using immutable Data.Vector. We'd also hope to get close to the performance of C programs using equivalent algorithms, though this is a harder comparison due to differences in the back-end code generator.
 
-<table><tr><th>[ MMult](http://code.haskell.org/repa/repa-head/repa-examples/MMult/)</th>
+<table><tr><th>[MMult](http://code.haskell.org/repa/repa-head/repa-examples/MMult/)</th>
 <td>
 Matrix-Matrix multiplication. Size=1024x1024.
 </td></tr></table>
@@ -67,7 +67,7 @@ Matrix-Matrix multiplication. Size=1024x1024.
 > **Status:** Ok, but about 20% slower than in 6.13.
 > **ToDo:** Run without bounds checking.
 
-<table><tr><th>[ Laplace](http://code.haskell.org/repa/repa-head/repa-examples/Laplace/)**(SLOWLORIS)**</th>
+<table><tr><th>[Laplace](http://code.haskell.org/repa/repa-head/repa-examples/Laplace/)**(SLOWLORIS)**</th>
 <td>
 Solves the Laplace equation in the 2D plane. Size=400x400.
 </td></tr></table>
@@ -105,7 +105,7 @@ Solves the Laplace equation in the 2D plane. Size=400x400.
 > **Status:** Too slow. We should check this again with LLVM.
 > **ToDo:** Run without bounds checking. Run with more threads to see if we can get back to the C version's run time.
 
-<table><tr><th>[ Blur](http://code.haskell.org/repa/repa-head/repa-examples/Blur/)</th>
+<table><tr><th>[Blur](http://code.haskell.org/repa/repa-head/repa-examples/Blur/)</th>
 <td>
 Applies a Gaussian blur filter to a 2D image. Size=512x512.
 </td></tr></table>
@@ -133,7 +133,7 @@ Applies a Gaussian blur filter to a 2D image. Size=512x512.
 
 > **ToDo:** Runs ok, but need other versions for comparison.
 
-<table><tr><th>[ EdgeDetect](http://code.haskell.org/repa/repa-head/repa-examples/EdgeDetect/)</th>
+<table><tr><th>[EdgeDetect](http://code.haskell.org/repa/repa-head/repa-examples/EdgeDetect/)</th>
 <td>
 Performs Canny edge detection to a 2D image. Size=512x512.
 </td></tr></table>
@@ -161,7 +161,7 @@ Performs Canny edge detection to a 2D image. Size=512x512.
 
 > **ToDo:** Runs ok, but need other versions for comparison.
 
-<table><tr><th>[ FFT](http://code.haskell.org/repa/repa-head/repa-examples/FFT/)</th>
+<table><tr><th>[FFT](http://code.haskell.org/repa/repa-head/repa-examples/FFT/)</th>
 <td>
 Performs high-pass filtering using 2D and 3D FFTs. These are naive benchmarks used for regression testing only. They divide right down to (rank generalise) two-point vectors and construct the result using copying append. Using an inplace algorithm (like with FFTW) would be significantly faster.
 </td></tr></table>
@@ -173,7 +173,7 @@ Performs high-pass filtering using 2D and 3D FFTs. These are naive benchmarks us
 
 Statically nested parallelism is where the parallelism has a fixed, finite depth. For example ``mapP f (filterP g xs)``. Statically nested programs are easier to vectorise than dynamically nested programs. At present, single threaded statically nested programs should run as fast as equivalent Data.Vector programs. Parallel versions should display a good speedup.
 
-<table><tr><th>[ SumSquares](http://darcs.haskell.org/packages/dph/dph-examples/imaginary/SumSquares/)</th>
+<table><tr><th>[SumSquares](http://darcs.haskell.org/packages/dph/dph-examples/imaginary/SumSquares/)</th>
 <td>
 Computes the sum of the squares from 1 to N using `Int`.  N = 100M.
 </td></tr></table>
@@ -216,7 +216,7 @@ Computes the sum of the squares from 1 to N using `Int`.  N = 100M.
 
 > **Status**: fine
 
-<table><tr><th>[ DotProduct](http://darcs.haskell.org/packages/dph/dph-examples/imaginary/DotProduct)</th>
+<table><tr><th>[DotProduct](http://darcs.haskell.org/packages/dph/dph-examples/imaginary/DotProduct)</th>
 <td>
 Computes the dot product of two vectors of `Double`s. N=10M.
 </td></tr></table>
@@ -266,7 +266,7 @@ Computes the dot product of two vectors of `Double`s. N=10M.
 
 > **Status**: fine
 
-<table><tr><th>[ Evens](http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/)</th>
+<table><tr><th>[Evens](http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Evens/)</th>
 <td>
 Takes the even valued `Int`s from a vector. N=10M.
 </td></tr></table>
@@ -314,7 +314,7 @@ Takes the even valued `Int`s from a vector. N=10M.
 > **Status**: ok, but run again with LLVM to see if that fixes the slowdown wrt C.
 > - rl reckons the slowdown is due to GHC compiling modulo of powers of two inefficiently; c.f., [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065) (in `packByTags`)
 
-<table><tr><th>[ SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)**(BROKEN)**</th>
+<table><tr><th>[SMVM](http://darcs.haskell.org/packages/dph/examples/smvm/)**(BROKEN)**</th>
 <td>
 Multiplies a dense vector with a sparse matrix represented in the *compressed sparse row format (CSR).*
 </td></tr></table>
@@ -326,14 +326,14 @@ Multiplies a dense vector with a sparse matrix represented in the *compressed sp
 
 Dynamically nested programs have a recursive structure where each level of the recursion invokes more parallel computations. This is common for benchmarks that use divide-and-conquer style algorithms.
 
-<table><tr><th>[ Primes](http://darcs.haskell.org/packages/dph/examples/primes/)</th>
+<table><tr><th>[Primes](http://darcs.haskell.org/packages/dph/examples/primes/)</th>
 <td>
 The Sieve of Eratosthenes using parallel writes into a sieve structure represented as an array of `Bool`s.  
 </td></tr></table>
 
 > **Todo**: We currently don't have a proper parallel implementation of this benchmark, as we are missing a parallel version of default backpermute.  This needs a parallel update operation, but we currently can't guarantee atomic updates of compound types such as tuples.
 
-<table><tr><th>[ QuickSort](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/)**(BROKEN) (SLOWDOWN)**</th>
+<table><tr><th>[QuickSort](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickSort/)**(BROKEN) (SLOWDOWN)**</th>
 <td>
 Sort a vector of doubles by recursively splitting it and sorting the two halves. This is a naive benchmark used for regression testing only. We divide right down to two-point vectors and construct the result using copying append. A production algorithm would switch to an in-place sort once the size of the vector reaches a few thousand elements. N=100k.
 </td></tr></table>
@@ -361,7 +361,7 @@ Sort a vector of doubles by recursively splitting it and sorting the two halves.
 
 > **Status**: Sequential vectorised version does not compile due to a loop in SpecConstr ([\#4831](https://gitlab.haskell.org//ghc/ghc/issues/4831)).
 
-<table><tr><th>[ Quickhull](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickHull/)**(SLOWLORIS)**</th>
+<table><tr><th>[Quickhull](http://darcs.haskell.org/libraries/dph/dph-examples/spectral/QuickHull/)**(SLOWLORIS)**</th>
 <td>
 Given a set of points in the plane, compute the sequence of points that encloses all points in the set. This benchmark is interesting as it is the simplest code that exploits the ability to implement divide-and-conquer algorithms with nested data parallelism. N=1M.
 </td></tr></table>
@@ -431,7 +431,7 @@ Given a set of points in the plane, compute the sequence of points that encloses
 
 These programs also use user defined algebraic data types. Vectorization of these programs is still a work in progress.
 
-<table><tr><th>[ Words](http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Words/)**(BROKEN)**</th>
+<table><tr><th>[Words](http://darcs.haskell.org/libraries/dph/dph-examples/imaginary/Words/)**(BROKEN)**</th>
 <td>
 Counts the number of words in a string. This is a naive divide-and-conquer benchmark that divides right down to a single character. A production program would switch to a simple sequential algorithm once the string chunks were small enough. It's a good stress test for the vectoriser though.
 </td></tr></table>
@@ -439,7 +439,7 @@ Counts the number of words in a string. This is a naive divide-and-conquer bench
 > **Status**: Sequential vectorised version does not compile due to loop in SpecConstr ([\#4831](https://gitlab.haskell.org//ghc/ghc/issues/4831)). LLVM versions take \>10 min to compile ([\#4838](https://gitlab.haskell.org//ghc/ghc/issues/4838))
 > **Todo**: Generate some larger test data. Right now it's just got a small test string baked into the program.
 
-<table><tr><th>[ BarnesHut](http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/)**(BROKEN)****(SLOWLORIS)**</th>
+<table><tr><th>[BarnesHut](http://darcs.haskell.org/libraries/dph/dph-examples/real/NBody/)**(BROKEN)****(SLOWLORIS)**</th>
 <td>
 This benchmark implements the Barnes-Hut algorithm to solve the *n*-body problem in two dimensions. There is a naive O(n<sup>2</sup>) version in the same package.
 </td></tr></table>

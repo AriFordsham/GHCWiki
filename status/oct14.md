@@ -20,13 +20,13 @@ However, we still need help with it all. GHC is a community project, and as you 
 
 - **Strict language extension**.  Johan Tibell is working on a `-XStrict` language extension that will make GHC compile programs in a by-default strict way.  [Details here](language-strict).
 
-- **Cloud Haskell statics**.  Mathieu Boespflug and Facundo Domínguez at TweagIO are working on support for Cloud Haskell's `static` feature.  [Details here](static-pointers). The current in-progress code review is available at [ https://phabricator.haskell.org/D119](https://phabricator.haskell.org/D119)
+- **Cloud Haskell statics**.  Mathieu Boespflug and Facundo Domínguez at TweagIO are working on support for Cloud Haskell's `static` feature.  [Details here](static-pointers). The current in-progress code review is available at [https://phabricator.haskell.org/D119](https://phabricator.haskell.org/D119)
 
 - **Overloaded record fields** - In 2013, Adam Gundry implemented the new `-XOverloadedRecordFields` extension for GHC, described on the wiki [OverloadedRecordFields](overloaded-record-fields). We're still aiming to make this part of 7.10, but there's still work to be done!
 
 - **Using an SMT Solver in the type-checker** - Iavor Diatchki is working on utilizing an off-the-shelf SMT solver in GHC's constraint solver. Currently, the main focus for this is improved support for reasoning with type-level natural numbers, but it opens the doors to other interesting functionality, such as supported for lifted (i.e., type-level) `(&&)`, and `(||)`, type-level bit-vectors (perhaps this could be used to implement type-level sets of fixed size), and others.   This work is happening on branch `wip/ext-solver`.
 
-- **Kind equality and kind coercions** - Richard Eisenberg (with support from Simon PJ and Stephanie Weirich, among others) is implementing a change to the Core language, as described in a recent paper [ FC](http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf). When this work is complete, *all* types will be promotable to kinds, and *all* data constructors will be promotable to types. This will include promoting type synonyms and type families. As the details come together, there may be other source language effects, such as the ability to make kind variables explicit. It is not expected for this to be a breaking change -- the change should allow strictly more programs to be accepted.
+- **Kind equality and kind coercions** - Richard Eisenberg (with support from Simon PJ and Stephanie Weirich, among others) is implementing a change to the Core language, as described in a recent paper [FC](http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf). When this work is complete, *all* types will be promotable to kinds, and *all* data constructors will be promotable to types. This will include promoting type synonyms and type families. As the details come together, there may be other source language effects, such as the ability to make kind variables explicit. It is not expected for this to be a breaking change -- the change should allow strictly more programs to be accepted.
 
 - **Partial type signatures** - Thomas Winant and Dominique Devriese are working on partial type signatures for GHC. A partial type signature is a type signature that can contain *wildcards*, written as underscores. These wildcards can be types unknown to the programmer or types he doesn't care to annotate. The type checker will use the annotated parts of the partial type signature to type check the program, and infer the types for the wildcards. A wildcard can also occur at the end of the constraints part of a type signature, which indicates that an arbitrary number of extra constraints may be inferred. Whereas `-XTypedHoles` allow holes in your terms, `-XPartialTypeSignatures` allow holes in your types. The design as well as a working implementation are currently being simplified [PartialTypeSignatures](partial-type-signatures). This will 
 
@@ -50,25 +50,25 @@ However, we still need help with it all. GHC is a community project, and as you 
 
 - **DWARF-based stack tracing** - Peter Wortmann and Arash Rouhani (with support from the Simons) are working on enabling GHC to generate and use DWARF debugging information. This should allow us to obtain stack traces and do profiling without the need for instrumentation. The first stages of this work should land in 7.10, but it's not clear if the full feature set will.
 
-- **Reimplemented GMP-based `Integer` backend ([\#9281](https://gitlab.haskell.org//ghc/ghc/issues/9281))** - Herbert Valerio Riedel is working on this to provide a GMP-based `Integer` backend not relying on registering GHC-specific [ custom GMP memory allocators](https://gmplib.org/manual/Custom-Allocation.html) which cause problems when linking to other C-code also using GMP unaware of GHC's memory management.
+- **Reimplemented GMP-based `Integer` backend ([\#9281](https://gitlab.haskell.org//ghc/ghc/issues/9281))** - Herbert Valerio Riedel is working on this to provide a GMP-based `Integer` backend not relying on registering GHC-specific [custom GMP memory allocators](https://gmplib.org/manual/Custom-Allocation.html) which cause problems when linking to other C-code also using GMP unaware of GHC's memory management.
 
 ## Frontend, build-system, and miscellaneous changes
 
 - **GHC is now using Submodules for all repositories**. For a very long time, GHC has used a mixed method of containing some dependencies as submodules, while others were maintained as floating repositories. Unfortunately, this was a constant source of errors, and made certain things like using `git bisect` in a robust way impossible. As of GHC now and for the future, all dependent repositories are tracked through `git submodule`, making them much more robust and reproducible.
 
-- **Phabricator for code review**. For the past few months, many GHC developers have been doing something new - public code review! To facilitate that, Haskell.org now runs a copy of Phabricator \[PHAB\], available at [ https://phabricator.haskell.org](https://phabricator.haskell.org), that we use for continuous integration and code review of incoming patches. Our instance has been tuned to support GHC, and many developers are actively submitting their patches through the queue. This is not only much more robust than trac tickets, it can also do testing of your patches, along with a nifty command line tool for other utilities.
+- **Phabricator for code review**. For the past few months, many GHC developers have been doing something new - public code review! To facilitate that, Haskell.org now runs a copy of Phabricator \[PHAB\], available at [https://phabricator.haskell.org](https://phabricator.haskell.org), that we use for continuous integration and code review of incoming patches. Our instance has been tuned to support GHC, and many developers are actively submitting their patches through the queue. This is not only much more robust than trac tickets, it can also do testing of your patches, along with a nifty command line tool for other utilities.
 
 # References
 
 
-\[AMP\] [ https://github.com/quchen/articles/blob/master/applicative_monad.md](https://github.com/quchen/articles/blob/master/applicative_monad.md)
+\[AMP\] [https://github.com/quchen/articles/blob/master/applicative_monad.md](https://github.com/quchen/articles/blob/master/applicative_monad.md)
  
-\[ORF\] [ https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields](https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields)
+\[ORF\] [https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields](https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields)
 
-\[FC\] System FC with Explicit Kind Equality - [ http://www.seas.upenn.edu/\~eir/papers/2013/fckinds/fckinds-extended.pdf](http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf)
+\[FC\] System FC with Explicit Kind Equality - [http://www.seas.upenn.edu/\~eir/papers/2013/fckinds/fckinds-extended.pdf](http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf)
 
-\[PTS\] [ https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
+\[PTS\] [https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
 
-\[HEAPALLOCED\] [ https://gitlab.haskell.org/ghc/ghc/issues/8199](https://gitlab.haskell.org/ghc/ghc/issues/8199)
+\[HEAPALLOCED\] [https://gitlab.haskell.org/ghc/ghc/issues/8199](https://gitlab.haskell.org/ghc/ghc/issues/8199)
 
-\[PHAB\] [ https://ghc.haskell.org/trac/ghc/wiki/Phabricator](https://ghc.haskell.org/trac/ghc/wiki/Phabricator)
+\[PHAB\] [https://ghc.haskell.org/trac/ghc/wiki/Phabricator](https://ghc.haskell.org/trac/ghc/wiki/Phabricator)

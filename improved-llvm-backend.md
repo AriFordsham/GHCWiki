@@ -10,7 +10,7 @@ The implementation effort for this plan is currently stalled and in need of an i
 To do: 
 
 - **In flight**: Prebuilt binaries for Tier 1 platforms, to be shipped.
-- Fixing split-objs (but also see [ Phab:D1242](https://phabricator.haskell.org/D1242))
+- Fixing split-objs (but also see [Phab:D1242](https://phabricator.haskell.org/D1242))
 - Tweaking optimization settings ([\#11295](https://gitlab.haskell.org//ghc/ghc/issues/11295))
 
 
@@ -35,7 +35,7 @@ Unfortunately, the current situation with the LLVM backend has a number of downs
 LLVM as a toolchain has very few guarantees about backwards compatibility (a lot like us). Toolchain changes are rapid and frequent between releases (which occur every 6 months). Not only do the tools change, but the IR and semantics may change as well. This means that GHC must practically support many versions of the LLVM toolchain, which are inconsistent with each other, or require special casing certain things.
 
 
-This also means that when the semantics of LLVM's IR change, they often change in ways that manifest horribly for users. For example, see [\#9142](https://gitlab.haskell.org//ghc/ghc/issues/9142) (and [ Phab:D155](https://phabricator.haskell.org/D155)), in which the semantics of LLVM aliases changed, completely breaking compatibility with LLVM 3.4 and later (although the ticket mentions 3.5.0). Furthermore, due to the lack of synchronization between LLVM and GHC release cycles, things often break 'mid way' into the lifetime of a stable release, causing more complications.
+This also means that when the semantics of LLVM's IR change, they often change in ways that manifest horribly for users. For example, see [\#9142](https://gitlab.haskell.org//ghc/ghc/issues/9142) (and [Phab:D155](https://phabricator.haskell.org/D155)), in which the semantics of LLVM aliases changed, completely breaking compatibility with LLVM 3.4 and later (although the ticket mentions 3.5.0). Furthermore, due to the lack of synchronization between LLVM and GHC release cycles, things often break 'mid way' into the lifetime of a stable release, causing more complications.
 
 
 One solution might be to make GHC work with one specific version of LLVM, eg llvm-3.6. Debian and Ubuntu already ship version specific LLVM packages allowing say llvm-3.4 and llvm-3.6 to be installed at the same time and providing versioned binaries like `llc-3.4` and `llc-3.6`.
@@ -46,7 +46,7 @@ One solution might be to make GHC work with one specific version of LLVM, eg llv
 LLVM is a large, complicated and very sophisticated toolchain, and like GHC, it tries to be maximally useful for the average case - it's not well tuned to handle lots of obscure scenarios, and tries to give a best effort on all code. But this naturally means LLVM misses some optimizations, and there are some things it simply cannot know about our evaluation model *a priori*.
 
 
-However, the framework is modular - we can extend LLVM with plugins. For example, several years ago, Max Bolingbroke [  wrote a plugin](http://blog.omega-prime.co.uk/?p=135 ) for LLVM's alias analysis that improved the generated code in some cases by 12%, just by teaching it GHC-specific code generation needs.
+However, the framework is modular - we can extend LLVM with plugins. For example, several years ago, Max Bolingbroke [wrote a plugin](http://blog.omega-prime.co.uk/?p=135 ) for LLVM's alias analysis that improved the generated code in some cases by 12%, just by teaching it GHC-specific code generation needs.
 
 
 However, due to lack of API guarantees mentioned above, it becomes difficult to support such analysis for arbitrary end users, and we cannot fix or tune analysis results to specific versions of LLVM or GHC.

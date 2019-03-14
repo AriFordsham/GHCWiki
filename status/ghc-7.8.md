@@ -4,7 +4,7 @@
 
 *Note that anything not listed here is off Austin's radar.*
 
-[ https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.8.3](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.8.3)
+[https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.8.3](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.8.3)
 
 ## The Dynamic Story
 
@@ -77,4 +77,4 @@ The dynamic story is complex. Here's the breakdown:
 
 ## Other things
 
-- Austin Seipp needs to upload the primops compatibility package for 7.8. This is is easy: mostly a copy of `compiler/utils/ExtsCompat64.hs` into a Cabal package. See also [ the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules).
+- Austin Seipp needs to upload the primops compatibility package for 7.8. This is is easy: mostly a copy of `compiler/utils/ExtsCompat64.hs` into a Cabal package. See also [the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules).

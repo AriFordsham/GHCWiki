@@ -1,13 +1,13 @@
 # Monad comprehensions
 
 
-After a long absence, monad comprehensions are back, thanks to George Giorgidze and his colleagues.  With `{-# LANGUAGE MonadComprehensions #-}` the comprehension `[ f x | x <- xs, x>4 ]` is interpreted in an arbitrary monad, rather than being restricted to lists.  Not only that, it also generalises nicely for parallel/zip and SQL-like comprehensions. The aforementioned generalisations can be turned on by enabling the `MonadComprehensions` extension in conjunction with the `ParallelListComp` and `TransformListComp` extensions.
+After a long absence, monad comprehensions are back, thanks to George Giorgidze and his colleagues.  With `{-# LANGUAGE MonadComprehensions #-}` the comprehension `[f x | x <- xs, x>4 ]` is interpreted in an arbitrary monad, rather than being restricted to lists.  Not only that, it also generalises nicely for parallel/zip and SQL-like comprehensions. The aforementioned generalisations can be turned on by enabling the `MonadComprehensions` extension in conjunction with the `ParallelListComp` and `TransformListComp` extensions.
 
 
 Rebindable syntax is fully supported for standard monad comprehensions with generators and filters. We also plan to allow rebinding of the parallel/zip and SQL-like monad comprehension notations.
 
 
-For further details and usage examples, see the paper "Bringing back monad comprehensions" [ http://db.inf.uni-tuebingen.de/staticfiles/publications/haskell2011.pdf](http://db.inf.uni-tuebingen.de/staticfiles/publications/haskell2011.pdf) at the 2011 Haskell Symposium.
+For further details and usage examples, see the paper "Bringing back monad comprehensions" [http://db.inf.uni-tuebingen.de/staticfiles/publications/haskell2011.pdf](http://db.inf.uni-tuebingen.de/staticfiles/publications/haskell2011.pdf) at the 2011 Haskell Symposium.
 
 
 See ticket [\#4370](https://gitlab.haskell.org//ghc/ghc/issues/4370).
@@ -25,7 +25,7 @@ Qualifiers   : p, q and r
 The main translation rule for monad comprehensions.
 
 ```wiki
-[ e | q ] = [| q |] >>= (return . (\q_v -> e))
+[e | q ] = [| q |] >>= (return . (\q_v -> e))
 ```
 
 `(.)_v` rules. Note that `_v` is a postfix rule application.
@@ -70,7 +70,7 @@ unzip (w1,w2) = \e -> ((unzip w1) (e >>= (return .(\(x,y) -> x))), (unzip w2) (e
 Some translation examples using the do notation to avoid things like pattern matching failures are:
 
 ```wiki
-[ x+y | x <- Just 1, y <- Just 2 ]
+[x+y | x <- Just 1, y <- Just 2 ]
 
 -- translates to:
 do x <- Just 1
@@ -82,7 +82,7 @@ do x <- Just 1
 Transform statements:
 
 ```wiki
-[ x | x <- [1..], then take 10 ]
+[x | x <- [1..], then take 10 ]
 
 -- translates to:
 take 10 (do
@@ -94,7 +94,7 @@ take 10 (do
 Grouping statements (note the change of types):
 
 ```wiki
-[ (x :: [Int]) | x <- [1,2,1,2], then group by x ] :: [[Int]]
+[(x :: [Int]) | x <- [1,2,1,2], then group by x ] :: [[Int]]
 
 -- translates to:
 do x <- mgroupWith (\x -> x) [1,2,1,2]
@@ -105,7 +105,7 @@ do x <- mgroupWith (\x -> x) [1,2,1,2]
 Parallel statements:
 
 ```wiki
-[ x+y | x <- [1,2,3]
+[x+y | x <- [1,2,3]
       | y <- [4,5,6] ]
 
 -- translates to:

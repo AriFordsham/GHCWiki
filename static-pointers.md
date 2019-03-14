@@ -4,13 +4,13 @@
 This page lays out thinking about the design of the `StaticPtr` language extensions.
 
 
-The basic idea is laid out in the original [ Cloud Haskell paper](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/remote.pdf).
+The basic idea is laid out in the original [Cloud Haskell paper](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/remote.pdf).
 
 
 See also
 
 - [the root page for distributed Haskell](distributed-haskell).
-- [ Neil Mitchell's blog post](http://neilmitchell.blogspot.com/2017/09/existential-serialisation.html) on static pointers for existentials.
+- [Neil Mitchell's blog post](http://neilmitchell.blogspot.com/2017/09/existential-serialisation.html) on static pointers for existentials.
 
 ## Tickets
 
@@ -241,7 +241,7 @@ Notice that *`decodeSA` is not part of the TCB*.  Clients can freely write code 
 # Polymorphism and serialisation
 
 
-Some motivation for polymorphic static pointers can be found at [ StaticPointers/NeedForPolymorphism](StaticPointers/NeedForPolymorphism) .
+Some motivation for polymorphic static pointers can be found at [StaticPointers/NeedForPolymorphism](StaticPointers/NeedForPolymorphism) .
 
 
 For this section I'll revert to the un-generalised single-parameter `StaticPtr`.

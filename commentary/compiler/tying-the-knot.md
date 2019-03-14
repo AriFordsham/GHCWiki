@@ -1,7 +1,7 @@
 # Tying the knot
 
 
-Background reading: [ GHC at The Architecture of Open Source Applications](http://www.aosabook.org/en/ghc.html) (search for "No Symbol Table").
+Background reading: [GHC at The Architecture of Open Source Applications](http://www.aosabook.org/en/ghc.html) (search for "No Symbol Table").
 
 
 Compilers usually have one or more data structures known as *symbol tables*, which are mappings from symbols to information about the symbol in question. GHC avoids symbol tables; instead, a symbol *contains* all information about itself. Thus, the data types for [Haskell entities](commentary/compiler/entity-types) (Id, TyVar, TyCon, DataCon, and Class) form an immutable cyclic data structure, where everything points to everything else. This makes it very convenient for the consumer, because there are accessor functions with simple types, such as `idType :: Id -> Type`.

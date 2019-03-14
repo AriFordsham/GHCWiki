@@ -379,7 +379,7 @@ reverse-complem                 0.27          +13.5%          +12.8%
 ### Dual 64-bit Xeon
 
 
-Two processors, each 2.40GHz Xeon E5620, 12MB cache, 48GB memory, 64-bit.  cf [ http://ark.intel.com/products/47925](http://ark.intel.com/products/47925), both processors have four cores (so eight "threads" via Hyper-Threading).
+Two processors, each 2.40GHz Xeon E5620, 12MB cache, 48GB memory, 64-bit.  cf [http://ark.intel.com/products/47925](http://ark.intel.com/products/47925), both processors have four cores (so eight "threads" via Hyper-Threading).
 
 #### mode=norm NoFibRuns=30
 

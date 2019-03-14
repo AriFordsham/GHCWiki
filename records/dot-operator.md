@@ -2,7 +2,7 @@
 
 
 Records proposal requires the current Haskell function composition dot operator to have spaces on both sides. No spaces around the dot are reserved for name-spacing: this use and the current module namespace use. No space to the right would be partial application (see 
-[ TDNR](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution). The dot operator should bind as tightly as possible.
+[TDNR](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution). The dot operator should bind as tightly as possible.
 
 ### Summary
 
@@ -12,7 +12,7 @@ The community needs to deprecate the usage of dot for function composition, perh
 ### Partial application
 
 
-see [ TDNR](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) syntax discusion for an explanation.
+see [TDNR](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) syntax discusion for an explanation.
 
 ```wiki
 (.a) r == r.a

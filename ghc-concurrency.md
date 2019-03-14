@@ -8,14 +8,14 @@ Please feel free to add stuff here (login **guest**, password **guest**).
 
 ## Starting points
 
-- **Basic concurrency: forkIO and MVars**.  Read [ Tackling the awkward squad: monadic input/output, concurrency, exceptions, and foreign-language calls in Haskell](http://research.microsoft.com/Users/simonpj/papers/marktoberdorf/marktoberdorf.ps.gz).
+- **Basic concurrency: forkIO and MVars**.  Read [Tackling the awkward squad: monadic input/output, concurrency, exceptions, and foreign-language calls in Haskell](http://research.microsoft.com/Users/simonpj/papers/marktoberdorf/marktoberdorf.ps.gz).
   The [original paper about Concurrent Haskell](http://www.haskell.org/ghc/docs/papers/concurrent-haskell.ps.gz) contains quite a few examples about how to write concurrent programs.  A larger example is 
 
-[ Writing High-Performance Server Applications in Haskell, Case Study: A Haskell Web Server](http://www.haskell.org/~simonmar/papers/web-server.ps.gz)
+[Writing High-Performance Server Applications in Haskell, Case Study: A Haskell Web Server](http://www.haskell.org/~simonmar/papers/web-server.ps.gz)
 
-- **Software Transactional Memory** (STM) is a new way to coordinate concurrent threads. STM will be in GHC 6.6, and is described in the paper [ Composable memory transactions](http://research.microsoft.com/~simonpj/papers/stm/index.htm).  The paper [ Lock-free data structures using Software Transactional Memory in Haskell](http://research.microsoft.com/~simonpj/papers/stm/lock-free.htm) gives further examples of concurrent programming using STM.
+- **Software Transactional Memory** (STM) is a new way to coordinate concurrent threads. STM will be in GHC 6.6, and is described in the paper [Composable memory transactions](http://research.microsoft.com/~simonpj/papers/stm/index.htm).  The paper [Lock-free data structures using Software Transactional Memory in Haskell](http://research.microsoft.com/~simonpj/papers/stm/lock-free.htm) gives further examples of concurrent programming using STM.
 
-- **Foreign function interface**.  If you are calling foreign functions in a concurrent program, you need to know about *bound threads*.  They are described in a Haskell workshop paper, [ Extending the Haskell Foreign Function Interface with Concurrency](http://research.microsoft.com/~simonpj/Papers/conc-ffi/index.htm).
+- **Foreign function interface**.  If you are calling foreign functions in a concurrent program, you need to know about *bound threads*.  They are described in a Haskell workshop paper, [Extending the Haskell Foreign Function Interface with Concurrency](http://research.microsoft.com/~simonpj/Papers/conc-ffi/index.htm).
 
 ## Using concurrency in GHC
 
@@ -48,7 +48,7 @@ As of version 6.5, GHC supports running programs in parallel on an SMP or multi-
 
 ## Links to related work on parallel and distributed Haskell (many based on GHC)
 
-- [ Glasgow Parallel Haskell](http://www.macs.hw.ac.uk/~dsg/gph/)
-- [ Glasgow Distributed Haskell](http://www.macs.hw.ac.uk/~dsg/gdh/)
-- [ http://www-i2.informatik.rwth-aachen.de/\~stolz/dhs/](http://www-i2.informatik.rwth-aachen.de/~stolz/dhs/)
-- [ http://www.informatik.uni-kiel.de/\~fhu/PUBLICATIONS/1999/ifl.html](http://www.informatik.uni-kiel.de/~fhu/PUBLICATIONS/1999/ifl.html)
+- [Glasgow Parallel Haskell](http://www.macs.hw.ac.uk/~dsg/gph/)
+- [Glasgow Distributed Haskell](http://www.macs.hw.ac.uk/~dsg/gdh/)
+- [http://www-i2.informatik.rwth-aachen.de/\~stolz/dhs/](http://www-i2.informatik.rwth-aachen.de/~stolz/dhs/)
+- [http://www.informatik.uni-kiel.de/\~fhu/PUBLICATIONS/1999/ifl.html](http://www.informatik.uni-kiel.de/~fhu/PUBLICATIONS/1999/ifl.html)

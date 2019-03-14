@@ -1,5 +1,5 @@
 
-This is a list of tickets that [ Pedro](http://dreixel.net) wants to keep an eye on (it doesn't necessarily mean that he is the owner, or responsible for those tickets).
+This is a list of tickets that [Pedro](http://dreixel.net) wants to keep an eye on (it doesn't necessarily mean that he is the owner, or responsible for those tickets).
 
 - [\#6024](https://gitlab.haskell.org//ghc/ghc/issues/6024) (Allow defining kinds alone, without a datatype)
 - [\#7109](https://gitlab.haskell.org//ghc/ghc/issues/7109) (Inlining depends on datatype size, even with INLINE pragmas)

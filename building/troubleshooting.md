@@ -9,7 +9,7 @@ We don't expect anyone to read this page from beginning to end.  The only way yo
 ## Segmentation fault and "strange closure type" panics
 
 
-If the build fails with a `segmentation fault (core dumped)` or a `strange closure type` panic from GHC, but the error goes away or occurs in a different place when you restart the build, then the problem is most likely with your hardware.  Please run a [ memtest](http://www.memtest.org/) before going any further.
+If the build fails with a `segmentation fault (core dumped)` or a `strange closure type` panic from GHC, but the error goes away or occurs in a different place when you restart the build, then the problem is most likely with your hardware.  Please run a [memtest](http://www.memtest.org/) before going any further.
 
 ## Permission denied errors on Windows that go away when the build is restarted
 
@@ -72,7 +72,7 @@ tar (GNU tar) 1.19.90
 ```
 
 
-I fixed this by downloading an up-to-date `tar`, from [ http://sourceforge.net/projects/mingw/files/](http://sourceforge.net/projects/mingw/files/).  I put this `tar.exe` in `c:/msys/1.0/bin`, overwriting the old `tar.exe`.  This works:
+I fixed this by downloading an up-to-date `tar`, from [http://sourceforge.net/projects/mingw/files/](http://sourceforge.net/projects/mingw/files/).  I put this `tar.exe` in `c:/msys/1.0/bin`, overwriting the old `tar.exe`.  This works:
 
 ```wiki
 sh-3.1$ tar cf foo.tar mk
@@ -205,7 +205,7 @@ A dialog pops up: “Reflect_hsc_make.exe has stopped working”, with the butto
 
 This signals an obscure problem whose source is still unknown: 
 if GHC links in certain Windows libraries, `kernel32` and `msvcrt`, the resulting program crashes.  
-See [ Sigbjorn's email](http://www.haskell.org/pipermail/glasgow-haskell-bugs/2009-April/018643.html).  We wish we knew why!
+See [Sigbjorn's email](http://www.haskell.org/pipermail/glasgow-haskell-bugs/2009-April/018643.html).  We wish we knew why!
 
 
 We've worked around this in GHC 6.10.4 (and later) so that the problem shouldn't arise if you use that to build GHC with.  But if you have an earlier GHC on your machine you can still work around it as follows.  These two commands will fix up the base and Win32 packages respectively to remove the offending libraries from `extra-libraries` and add a suitable `extra-ghci-libraries`:
@@ -494,7 +494,7 @@ make: *** [all] Error 1
 ### Ubuntu: `dash` vs `bash`
 
 
-In Ubuntu 6.10 the default system shell `/bin/sh` was changed to `dash` (The Debian Almquist Shell) instead of `bash`, see [ DashAsBinSh](http://wiki.ubuntu.com/DashAsBinSh). This has been reported to break the GHC build. Until the GHC scripts are updated, the easiest way to fix this problem is to (as `root`) change the `/bin/sh` link back to `/bin/bash`. There should be minimal effect on the rest of the system, bar a small speed penalty for script heavy processes due to `bash` slowness.
+In Ubuntu 6.10 the default system shell `/bin/sh` was changed to `dash` (The Debian Almquist Shell) instead of `bash`, see [DashAsBinSh](http://wiki.ubuntu.com/DashAsBinSh). This has been reported to break the GHC build. Until the GHC scripts are updated, the easiest way to fix this problem is to (as `root`) change the `/bin/sh` link back to `/bin/bash`. There should be minimal effect on the rest of the system, bar a small speed penalty for script heavy processes due to `bash` slowness.
 
 ### c:\\msys\\1.0\\bin\\make.exe: **\* couldn't commit memory for cygwin heap, Win32 error 0**
 
@@ -545,4 +545,4 @@ If you've installed gmp from source on your Mac OS machine, you may see an error
 ```
 
 
-The problem is described [ on this page](https://github.com/mxcl/homebrew/issues/12946), a quick work-around is to install gmp with homebrew, i.e. `brew install gmp; brew link gmp`.
+The problem is described [on this page](https://github.com/mxcl/homebrew/issues/12946), a quick work-around is to install gmp with homebrew, i.e. `brew install gmp; brew link gmp`.

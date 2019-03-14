@@ -40,7 +40,7 @@ module Data.Proxy where
 -- as in Ben Gamari's version [1]
 ```
 
-\[1\]: [ https://github.com/bgamari/packages-base/blob/proxy/Data/Proxy.hs](https://github.com/bgamari/packages-base/blob/proxy/Data/Proxy.hs)
+\[1\]: [https://github.com/bgamari/packages-base/blob/proxy/Data/Proxy.hs](https://github.com/bgamari/packages-base/blob/proxy/Data/Proxy.hs)
 
 ```wiki
 module Data.Typeable ( … , Proxy(..), (:=:)(..) ) where
@@ -184,7 +184,7 @@ instance DecideEqT ((:=:) a) where ...
 ## Course of Implementation
 
 
-Gabor: I have created a new branch `type-reasoning` and pushed everything I have so far to the `libraries/base` repo. [ Richard's mail](http://www.haskell.org/pipermail/ghc-devs/2013-February/000304.html) summarizes what still needs to be done.
+Gabor: I have created a new branch `type-reasoning` and pushed everything I have so far to the `libraries/base` repo. [Richard's mail](http://www.haskell.org/pipermail/ghc-devs/2013-February/000304.html) summarizes what still needs to be done.
 
 
 Richard (11 Feb 2013): I've just pushed a commit to the type-reasoning branch with a strawman proposal of a reorganization of these definitions. Specifically, this commit breaks TypeLits into the following five files:
@@ -212,8 +212,8 @@ Please tear any of these ideas (or my whole commit) to shreds! It really is mean
 
 ## Background Material
 
-[ Richard's blog](http://typesandkinds.wordpress.com/2012/12/01/decidable-propositional-equality-in-haskell/).
+[Richard's blog](http://typesandkinds.wordpress.com/2012/12/01/decidable-propositional-equality-in-haskell/).
 
-[ Edwin Brady's explanation](http://vimeo.com/61576198#t=59m40s) how this is done in Idris.
+[Edwin Brady's explanation](http://vimeo.com/61576198#t=59m40s) how this is done in Idris.
 
-[ Gabor's article](http://heisenbug.blogspot.com/2012/12/decidable-equality.html).
+[Gabor's article](http://heisenbug.blogspot.com/2012/12/decidable-equality.html).

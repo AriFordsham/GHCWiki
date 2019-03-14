@@ -9,7 +9,7 @@ Much of this proposal (without `ExpFun`) is now in HEAD and 8.0.
 # Previous state (Oct 2015)
 
 
-GHC claims to do bidirectional type-checking, but it doesn't quite do this. In a proper bidirectional type-checking algorithm (as in [ the "Practical Type Inference" paper](http://repository.upenn.edu/cis_papers/315/)), the algorithm is either in "infer" mode or "checking" mode, never both. But GHC uses more of a mixed economy.
+GHC claims to do bidirectional type-checking, but it doesn't quite do this. In a proper bidirectional type-checking algorithm (as in [the "Practical Type Inference" paper](http://repository.upenn.edu/cis_papers/315/)), the algorithm is either in "infer" mode or "checking" mode, never both. But GHC uses more of a mixed economy.
 
 
 The relevant function is

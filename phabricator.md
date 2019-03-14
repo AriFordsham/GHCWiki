@@ -1,18 +1,18 @@
 # Using Phabricator for GHC development
 
-[ Phabricator](http://phabricator.org) (a.k.a."Phab") is a suite of tools for software development, initially developed by Facebook. The functionality is similar to using github and TravisCI: it is primarily used for code review and automated builds. Uses include:
+[Phabricator](http://phabricator.org) (a.k.a."Phab") is a suite of tools for software development, initially developed by Facebook. The functionality is similar to using github and TravisCI: it is primarily used for code review and automated builds. Uses include:
 
 - side-by-side diffs, inline comments, blocking states, command line access
 - Better notifications: use "Herald" to control emails very closely, or commits or reviews you are interested in.
 - Increased visibility for code review and feedback.
 - Automatic `./validate` builds when using Arcanist! (see [Phabricator/Harbormaster](phabricator/harbormaster))
-- [ Meme support](https://phabricator.haskell.org/macro/) (optional)
-- Other features you might like, such as an IRC bot, and [ Terminator jokes](https://github.com/phacility/phabricator/blob/8756d82cf6c13d86019efeb9df8bcdaad1b17ec8/src/infrastructure/daemon/bot/handler/PhabricatorBotObjectNameHandler.php#L66).
+- [Meme support](https://phabricator.haskell.org/macro/) (optional)
+- Other features you might like, such as an IRC bot, and [Terminator jokes](https://github.com/phacility/phabricator/blob/8756d82cf6c13d86019efeb9df8bcdaad1b17ec8/src/infrastructure/daemon/bot/handler/PhabricatorBotObjectNameHandler.php#L66).
 
 ## Signing up
 
 
-First off, sign up by going to the Phab instance at Haskell.org: [ https://phabricator.haskell.org/](https://phabricator.haskell.org/)
+First off, sign up by going to the Phab instance at Haskell.org: [https://phabricator.haskell.org/](https://phabricator.haskell.org/)
 
 
 Next, click the power button in the top right corner. You'll be taken to a login screen where you can register a new account. You have several options, including a username/password, or using OAuth to login with GitHub, Facebook, or more.
@@ -23,7 +23,7 @@ Afterwords Phab will send you a verification email, which you'll need to open an
 ## Adding an SSH public key
 
 
-Much like GitHub, you will need to add an SSH public key to your account to push Differentials. To add a key, go to your Phabricator [ settings page](https://phabricator.haskell.org/settings/), select the *Personal Account Settings* item, and then select the *SSH Public Keys* option from the list on the left. This will bring you to your SSH key list, to which you can add a new key by selecting the *Upload Public Key* option from the *SSH Key Actions* menu button in the top-right corner of the page. Here you can specify a name of your choice for the key, as well as the key contents (e.g. the contents of `$HOME/.ssh/id_rsa.pub`). Be sure to paste your *public* key (ending in `.pub`), not your private key.
+Much like GitHub, you will need to add an SSH public key to your account to push Differentials. To add a key, go to your Phabricator [settings page](https://phabricator.haskell.org/settings/), select the *Personal Account Settings* item, and then select the *SSH Public Keys* option from the list on the left. This will bring you to your SSH key list, to which you can add a new key by selecting the *Upload Public Key* option from the *SSH Key Actions* menu button in the top-right corner of the page. Here you can specify a name of your choice for the key, as well as the key contents (e.g. the contents of `$HOME/.ssh/id_rsa.pub`). Be sure to paste your *public* key (ending in `.pub`), not your private key.
 
 
 Don't have an SSH key? Generate one with `ssh-keygen`.
@@ -63,7 +63,7 @@ $ export PATH="$(pwd)/arcanist/bin:$PATH"
 That's it! **This will even work on Windows, as long as you have PHP available in your shell**.
 
 
-Next, make sure the `.arc-linters/arcanist-external-json-linter` submodule in the GHC source tree is initialized properly via `git submodule update --init`. Otherwise, you will get this [ scary error](https://mail.haskell.org/pipermail/ghc-devs/2016-May/012050.html):
+Next, make sure the `.arc-linters/arcanist-external-json-linter` submodule in the GHC source tree is initialized properly via `git submodule update --init`. Otherwise, you will get this [scary error](https://mail.haskell.org/pipermail/ghc-devs/2016-May/012050.html):
 
 >
 > Usage Exception: Failed to load phutil library at location '\~/mycode/ghc/.arc-linters/arcanist-external-json-linter'. This library is specified by the "load" setting in ".arcconfig". Check that the setting is correct and the library is located in the right place.
@@ -79,7 +79,7 @@ $ arc install-certificate
 
 Follow the directions it specifies - afterwards, your arcanist tool will be properly authenticated! Now you can submit reviews, paste things, etc etc.
 
-**Remember:** In order to use our continuous integration service (Harbourmaster) you need to [ upload your SSH key](https://phabricator.haskell.org/settings/).
+**Remember:** In order to use our continuous integration service (Harbourmaster) you need to [upload your SSH key](https://phabricator.haskell.org/settings/).
 
 *Note*: once the certificate is installed, it will be written to `$HOME/.arcrc`, so it doesn't need to be installed again.
 
@@ -92,7 +92,7 @@ Follow the directions it specifies - afterwards, your arcanist tool will be prop
 Probably GHC's Phabricator instance was updated and your `arc` client is now out of sync. Try `arc upgrade`.
 
 
-For other problems, file a ticket in the [ GHC project](https://phabricator.haskell.org/project/view/2/) on Phabricator.
+For other problems, file a ticket in the [GHC project](https://phabricator.haskell.org/project/view/2/) on Phabricator.
 
 ## Starting off: Fixing a bug, submitting a review
 
@@ -120,7 +120,7 @@ $ arc diff HEAD~
 ```
 
 
-which submits the `HEAD` commit to Phabricator and use your SSH public key to push a branch to the GHC Differentials [ repository](https://phabricator.haskell.org/diffusion/GHCDIFF/). If you have not added an SSH key you can skip pushing the branch with the `--skip-staging` flag.
+which submits the `HEAD` commit to Phabricator and use your SSH public key to push a branch to the GHC Differentials [repository](https://phabricator.haskell.org/diffusion/GHCDIFF/). If you have not added an SSH key you can skip pushing the branch with the `--skip-staging` flag.
 
 
 After pushing your new Differential `arc` will respond with the revision number and a URL where you can view and discuss your change.

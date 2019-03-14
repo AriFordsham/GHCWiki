@@ -5,17 +5,17 @@ Inlining is the most important compiler optimisation pass as it enables most oth
 
 ## Getting Started
 
-- [ Secrets of the GHC inliner](http://research.microsoft.com/en-us/um/people/simonpj/Papers/inlining/) -- quite an old paper but a great description of the main ideas
-- [ GHC User Guide](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=inline#inline-and-noinline-pragmas) -- Provides a description of `INLINE`, `INLINABLE` and `NOINLINE` pragmas. 
-- [ Inlining and Specialisation](http://mpickering.github.io/posts/2017-03-20-inlining-and-specialisation.html) -- A blog post explaining the basic operation of the inliner and specialiser and the interaction of different pragmas and options.
+- [Secrets of the GHC inliner](http://research.microsoft.com/en-us/um/people/simonpj/Papers/inlining/) -- quite an old paper but a great description of the main ideas
+- [GHC User Guide](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=inline#inline-and-noinline-pragmas) -- Provides a description of `INLINE`, `INLINABLE` and `NOINLINE` pragmas. 
+- [Inlining and Specialisation](http://mpickering.github.io/posts/2017-03-20-inlining-and-specialisation.html) -- A blog post explaining the basic operation of the inliner and specialiser and the interaction of different pragmas and options.
 
 ## Generics and Inlining
 
 
 Inlining is essential to remove intermediate representations from generic programs. There are a number of papers about the topic.
 
-- [ Optimizing Generics Is Easy! (2010)](http://dreixel.net/research/pdf/ogie.pdf)
-- [ Optimizing SYB Is Easy! (2014)](http://michaeldadams.org/papers/syb-opt/syb-opt-2014-pepm-authors-copy.pdf)
+- [Optimizing Generics Is Easy! (2010)](http://dreixel.net/research/pdf/ogie.pdf)
+- [Optimizing SYB Is Easy! (2014)](http://michaeldadams.org/papers/syb-opt/syb-opt-2014-pepm-authors-copy.pdf)
 
 ## Debugging the inliner
 
@@ -28,16 +28,16 @@ There are several flags which are useful when working with the inliner.
 <table><tr><th> Flag </th>
 <th> Usage 
 </th></tr>
-<tr><th>[ \`--show-iface\`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/using.html?highlight=show-iface#ghc-flag---show-iface)</th>
+<tr><th>[\`--show-iface\`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/using.html?highlight=show-iface#ghc-flag---show-iface)</th>
 <th> Shows the contents of an interface file. Can be useful to check which unfoldings are being included. 
 </th></tr>
-<tr><th>[ \`-dshow-passes\`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/debugging.html?highlight=show-passes#ghc-flag--dshow-passes)</th>
+<tr><th>[\`-dshow-passes\`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/debugging.html?highlight=show-passes#ghc-flag--dshow-passes)</th>
 <th> Shows the size of the program after each optimisation pass. 
 </th></tr>
-<tr><th>[ \`-ddump-inlinings\`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/debugging.html?highlight=show-passes#ghc-flag--ddump-inlinings)</th>
+<tr><th>[\`-ddump-inlinings\`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/debugging.html?highlight=show-passes#ghc-flag--ddump-inlinings)</th>
 <th> Shows inlinings which take place 
 </th></tr>
-<tr><th>[ \`-ddump-simpl\`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/debugging.html?highlight=show-passes#ghc-flag--ddump-simpl)</th>
+<tr><th>[\`-ddump-simpl\`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/debugging.html?highlight=show-passes#ghc-flag--ddump-simpl)</th>
 <th> Dump the (core) output of the simplifer 
 </th></tr></table>
 

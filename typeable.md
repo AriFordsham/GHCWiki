@@ -9,8 +9,8 @@ The main ticket for tracking progress is [\#11011](https://gitlab.haskell.org//g
 
 Relevant links
 
-- [ A reflection on types](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/), the paper that describes the overall vision.  This is essential reading.
-- [ Ben Prices's Git respository](https://github.com/brprice/typeableT), built summer 2015, of a prototype version of the ideas.
+- [A reflection on types](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/), the paper that describes the overall vision.  This is essential reading.
+- [Ben Prices's Git respository](https://github.com/brprice/typeableT), built summer 2015, of a prototype version of the ideas.
 - [Typeable/BenGamari](typeable/ben-gamari) Ben Gamari's notes on his on-going implementation effort
 - [TypeableT](typeable-t) really a more concrete variant of this page
 - [Typeable/WithTypeable](typeable/with-typeable) about `withTypeable`.
@@ -410,7 +410,7 @@ Implementing the "fast comparison" idea above will require putting more code in 
 ### What about structure information?
 
 
-Related but different issue: [ https://gitlab.haskell.org/ghc/ghc/issues/7897](https://gitlab.haskell.org/ghc/ghc/issues/7897)
+Related but different issue: [https://gitlab.haskell.org/ghc/ghc/issues/7897](https://gitlab.haskell.org/ghc/ghc/issues/7897)
 
 ---
 

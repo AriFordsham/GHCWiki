@@ -74,7 +74,7 @@
   gcc (GCC) 3.1 20020420 (prerelease)
   Copyright (C) 2002 Free Software Foundation, Inc.
   This is free software; see the source for copying conditions.  There is NO
-  warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. [ yeah, no shit, Sherlock ]
+  warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. [yeah, no shit, Sherlock ]
   ```
 1. Will upgrading my gcc break everything? Probably. Should I do it anyway? Probably.
 1. Actually, upgrading gcc sounds about as appealing as a quadruple root canal. Maybe I can use gcc2 (2.95.2) instead.
@@ -85,7 +85,7 @@
   checking for C compiler default output file name... 
   configure: error: C compiler cannot create executables
   ```
-1.  Start downloading tarball for newer gcc from: [ http://www.opensource.apple.com/darwinsource/August2003GCCUpdate/](http://www.opensource.apple.com/darwinsource/August2003GCCUpdate/). Also consider becoming religious so I can pray for it to be actually useful.
+1.  Start downloading tarball for newer gcc from: [http://www.opensource.apple.com/darwinsource/August2003GCCUpdate/](http://www.opensource.apple.com/darwinsource/August2003GCCUpdate/). Also consider becoming religious so I can pray for it to be actually useful.
 1. ```wiki
   Length: 31,674,171 [application/x-tar]
 
@@ -163,11 +163,11 @@
   + gnumake srcdir=/tmp/gcc3/gcc-1495/libiberty BUILD_PREFIX=ppc- BUILD_PREFIX_1=ppc- 'HOST_CC= cc -arch ppc -no-cpp-precomp' 'CFLA\
   GS= -g' 'GCC_CFLAGS=-no-cpp-precomp -g' 'BOOT_CFLAGS=-O2 -g -no-cpp-precomp -mdynamic-no-pic' 'CC=cc -arch ppc -arch ppc -no-cpp-\
   precomp -g'
-  if [ x"" != x ] && [ ! -d pic ]; then \
+  if [x"" != x ] && [! -d pic ]; then \
     mkdir pic; \
   else true; fi
   touch stamp-picdir
-  if [ x"" != x ]; then \
+  if [x"" != x ]; then \
     cc -arch ppc -arch ppc -no-cpp-precomp -g -c -DHAVE_CONFIG_H -g -I. -I/tmp/gcc3/gcc-1495/libiberty/../include  -W -Wall -Wtradi\
   tional -pedantic  /tmp/gcc3/gcc-1495/libiberty/regex.c -o pic/regex.o; \
   else true; fi
@@ -265,7 +265,7 @@
 1. Get told that of course I can't exchange money for the goods and services I want, because my four-year-old laptop is *too old*. 
 1. Consider buying a PC.
 1. Post on the GHC mailing list to seek pity (or at least laughs).
-1. Per a resulting suggestion, start downloading the .dmg for gcc 3.3 off [ http://connect.apple.com/](http://connect.apple.com/) (which of course isn't google-able because of course you have to create an account and mumble mumble deep web mumble.)
+1. Per a resulting suggestion, start downloading the .dmg for gcc 3.3 off [http://connect.apple.com/](http://connect.apple.com/) (which of course isn't google-able because of course you have to create an account and mumble mumble deep web mumble.)
 1. Be thankful that at least this one is only going to take 23 minutes to download instead of 34. Get dressed.
 1. Try to install the gcc .pkg. It says I need the December 2002 Developer Tools update too (which is of course exactly what the person on the mailing list said as well.)
 1. Start the Dec. 2002 update downloading. *6-hour download.* Crie.

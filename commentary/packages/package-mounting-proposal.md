@@ -4,7 +4,7 @@
 It may help to refer to [Commentary/Packages/GhcPackagesProposal](commentary/packages/ghc-packages-proposal) for an introduction to some of the issues mentioned here.
 
 
-A message by Frederik Eaton to the Haskell mailing list describing the present proposal is archived: [ http://www.haskell.org/pipermail/libraries/2005-June/004009.html](http://www.haskell.org/pipermail/libraries/2005-June/004009.html). (Also, see note at the end of this document regarding an earlier proposal by Simon Marlow)
+A message by Frederik Eaton to the Haskell mailing list describing the present proposal is archived: [http://www.haskell.org/pipermail/libraries/2005-June/004009.html](http://www.haskell.org/pipermail/libraries/2005-June/004009.html). (Also, see note at the end of this document regarding an earlier proposal by Simon Marlow)
 
 
 This document will go over Frederik's proposal again in brief. The proposal doesn't involve any changes to syntax, only an extra command line option to `ghc`, etc., and a small change to Cabal syntax.
@@ -96,4 +96,4 @@ Frederik's mailing list message discusses some other minor advantages, but the a
 ### Note on Package Grafting
 
 
-A proposal by Simon Marlow for "package grafting" predates this one: [ http://www.haskell.org/pipermail/libraries/2003-August/001310.html](http://www.haskell.org/pipermail/libraries/2003-August/001310.html). However, the "package grafting" proposal is different in that it suggests selecting a "mount point" at library installation time, where in the present proposal, the "mount point" is selected each time a module using the library in question is compiled. The difference is important, as one doesn't really want to have to install a new copy of a library just to use it with a different name. Also, Simon Marlow's proposal puts package versions in the module namespace and therefore source code, where we argue for decoupling source code from anything to do with provenance - be it package names or version numbers.
+A proposal by Simon Marlow for "package grafting" predates this one: [http://www.haskell.org/pipermail/libraries/2003-August/001310.html](http://www.haskell.org/pipermail/libraries/2003-August/001310.html). However, the "package grafting" proposal is different in that it suggests selecting a "mount point" at library installation time, where in the present proposal, the "mount point" is selected each time a module using the library in question is compiled. The difference is important, as one doesn't really want to have to install a new copy of a library just to use it with a different name. Also, Simon Marlow's proposal puts package versions in the module namespace and therefore source code, where we argue for decoupling source code from anything to do with provenance - be it package names or version numbers.

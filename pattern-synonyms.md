@@ -154,7 +154,7 @@ And now we can write
 ```
 
 
-Here is a second example from [ pigworker on Reddit](http://www.reddit.com/r/haskell/comments/1kmods/patternsynonyms_ghc_trac/).
+Here is a second example from [pigworker on Reddit](http://www.reddit.com/r/haskell/comments/1kmods/patternsynonyms_ghc_trac/).
 Your basic sums-of-products functors can be built from this kit.
 
 ```wiki
@@ -484,7 +484,7 @@ This is because we generate the matching function at the definition site.
 ## Typed pattern synonyms
 
 
-So far patterns only had *syntactic* meaning. In comparison [ Ωmega](http://code.google.com/p/omega) has *typed* pattern synonyms, so they become first class values. For bidirectional pattern synonyms this seems to be the case
+So far patterns only had *syntactic* meaning. In comparison [Ωmega](http://code.google.com/p/omega) has *typed* pattern synonyms, so they become first class values. For bidirectional pattern synonyms this seems to be the case
 
 ```wiki
 data Nat = Z | S Nat deriving Show

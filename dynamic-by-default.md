@@ -1,7 +1,7 @@
 **We no longer plan to take this approach. See [DynamicGhcPrograms](dynamic-ghc-programs) instead.**
 
 
-In particular, [ DYNAMIC_BY_DEFAULT has likely bitrotted](https://mail.haskell.org/pipermail/glasgow-haskell-users/2014-October/025339.html): it does not seem possible to build with that flag on anymore (tested on Linux on [a48464a7d2858bad28cfd1f393e82589825e62db](/trac/ghc/changeset/a48464a7d2858bad28cfd1f393e82589825e62db/ghc)).  It still seems possible to manually toggle `DYNAMIC_BY_DEFAULT` in `lib/ghc-*/platformConstants`, but this is probably considered an unsupported feature.
+In particular, [DYNAMIC_BY_DEFAULT has likely bitrotted](https://mail.haskell.org/pipermail/glasgow-haskell-users/2014-October/025339.html): it does not seem possible to build with that flag on anymore (tested on Linux on [a48464a7d2858bad28cfd1f393e82589825e62db](/trac/ghc/changeset/a48464a7d2858bad28cfd1f393e82589825e62db/ghc)).  It still seems possible to manually toggle `DYNAMIC_BY_DEFAULT` in `lib/ghc-*/platformConstants`, but this is probably considered an unsupported feature.
 
 # Dynamic by default
 
@@ -237,10 +237,10 @@ There are some performance questions to consider before making a decision.
 
 
 Full nofib results showing the effect of switching to dynamic-by-default are available for 
-[ OS X x86_64](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86_64.html),
-[ OS X x86](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86.html),
-[ Linux x86_64](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86_64.html) and
-[ Linux x86](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86.html). There is also a table of the highlights below. In summary:
+[OS X x86_64](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86_64.html),
+[OS X x86](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86.html),
+[Linux x86_64](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86_64.html) and
+[Linux x86](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86.html). There is also a table of the highlights below. In summary:
 
 
 (We don't have Windows performance numbers as we don't have dynamic-by-default working on Windows yet).
@@ -437,9 +437,9 @@ Currently, some people use the x86 version of GHC on OS X for performance reason
 
 
 Full nofib results comparing the two are
-[ here for static by default](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-base.html),
-[ here for dynamic by default](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html), and
-[ here for comparing static x86 to dynamic x86_64](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html).
+[here for static by default](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-base.html),
+[here for dynamic by default](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html), and
+[here for comparing static x86 to dynamic x86_64](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html).
 The highlights are in the table below.
 
 

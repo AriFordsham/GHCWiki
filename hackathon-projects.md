@@ -44,7 +44,7 @@ Add your suggestions for the hackathon below...
 
 - Whole-program overloading elimination (with `--make`).
 
-- Work on Haddock on top of the GHC API (see [ this message](http://www.haskell.org/pipermail/haskell/2006-August/018415.html)).
+- Work on Haddock on top of the GHC API (see [this message](http://www.haskell.org/pipermail/haskell/2006-August/018415.html)).
 
 - `-Ofile`: take the list of optimisation passes to run from a file instead of current hard-wired sequence.
 

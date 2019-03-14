@@ -81,19 +81,19 @@ Instead of adding such wordy pragmas, we can maybe make the content of the `[..]
 ### Proposal 2b
 
 ```wiki
-{-#   INLINE[n]  f #-}  becomes  {-#     INLINE[<= n] f #-} {-# NOINLINE[ > n] f #-}
-{-#   INLINE[~n] f #-}  becomes  {-#     INLINE[ > n] f #-} {-# NOINLINE[<= n] f #-}
-{-# NOINLINE[n]  f #-}  becomes  {-# MAY_INLINE[<= n] f #-} {-# NOINLINE[ > n] f #-}
-{-# NOINLINE[~n] f #-}  becomes  {-# MAY_INLINE[ > n] f #-} {-# NOINLINE[<= n] f #-}
+{-#   INLINE[n]  f #-}  becomes  {-#     INLINE[<= n] f #-} {-# NOINLINE[> n] f #-}
+{-#   INLINE[~n] f #-}  becomes  {-#     INLINE[> n] f #-} {-# NOINLINE[<= n] f #-}
+{-# NOINLINE[n]  f #-}  becomes  {-# MAY_INLINE[<= n] f #-} {-# NOINLINE[> n] f #-}
+{-# NOINLINE[~n] f #-}  becomes  {-# MAY_INLINE[> n] f #-} {-# NOINLINE[<= n] f #-}
 ```
 
 ### Proposal 3b
 
 ```wiki
 {-#   INLINE[n]  f #-}  becomes  {-#     INLINE[<= n] f #-}
-{-#   INLINE[~n] f #-}  becomes  {-#     INLINE[ > n] f #-}
+{-#   INLINE[~n] f #-}  becomes  {-#     INLINE[> n] f #-}
 {-# NOINLINE[n]  f #-}  becomes  {-# MAY_INLINE[<= n] f #-}
-{-# NOINLINE[~n] f #-}  becomes  {-# MAY_INLINE[ > n] f #-}
+{-# NOINLINE[~n] f #-}  becomes  {-# MAY_INLINE[> n] f #-}
 ```
 
 ## Questions and possible minor variations

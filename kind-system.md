@@ -11,7 +11,7 @@ Currently thinking about adding a more expressive **Kind System** to GHC.  This 
 Haskell has a very powerful and expressive static type system.  The problem is when you come to do any programming at the type level, that is typed by an unsatisfactorily inexpressive kind system.    We propose to make it just a little bit stronger.
 
 
-Note: the aim here initially is to implement a small useful extension to Haskell, and not to retrofit the entirety of e.g. [ Omega](http://web.cecs.pdx.edu/~sheard/Omega/index.html) into GHC yet ;))
+Note: the aim here initially is to implement a small useful extension to Haskell, and not to retrofit the entirety of e.g. [Omega](http://web.cecs.pdx.edu/~sheard/Omega/index.html) into GHC yet ;))
 
 ## Motivation
 

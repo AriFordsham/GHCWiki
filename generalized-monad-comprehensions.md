@@ -21,7 +21,7 @@ Ideally the following functions could be desugared into `fmap` with a `Functor` 
 {-# LANGUAGE MonadComprehensions #-}
 
 fmapM :: Functor f => (a -> b) -> f a -> f b
-fmapM f xs = [ f x | x <- xs ]
+fmapM f xs = [f x | x <- xs ]
 
 fmapDo :: Functor f => (a -> b) -> f a -> f b
 fmapDo f xs = do
@@ -39,7 +39,7 @@ The following are equivalent to, and could be safely replaced with, `liftA3`:
 
 ```wiki
 threeM :: Applicative f => (a -> b -> c -> d) -> f a -> f b -> f c -> f d
-threeM f a1 a2 a3 = [ f x1 x2 x3 | x1 <- a1, x2 <- a2, x3 <- a3 ]
+threeM f a1 a2 a3 = [f x1 x2 x3 | x1 <- a1, x2 <- a2, x3 <- a3 ]
 
 threeDo :: Applicative f => (a -> b -> c -> d) -> f a -> f b -> f c -> f d
 threeDo f a1 a2 a3 = do
@@ -54,7 +54,7 @@ but get a more restricted `Monad` constraint.
 
 ### MonadZip
 
-`MonadZip` (from [ Control.Monad.Zip](http://hackage.haskell.org/package/base-4.4.0.0/docs/Control-Monad-Zip.html)) is a type class that requires a `Monad` constraint but could make do with a `Functor` constraint (or possibly no constraint at all but then the default implementations could not be implemented and the laws could not be expressed. The definition is currently<sup>[ source](http://hackage.haskell.org/package/base-4.4.0.0/docs/src/Control-Monad-Zip.html)</sup>
+`MonadZip` (from [Control.Monad.Zip](http://hackage.haskell.org/package/base-4.4.0.0/docs/Control-Monad-Zip.html)) is a type class that requires a `Monad` constraint but could make do with a `Functor` constraint (or possibly no constraint at all but then the default implementations could not be implemented and the laws could not be expressed. The definition is currently<sup>[source](http://hackage.haskell.org/package/base-4.4.0.0/docs/src/Control-Monad-Zip.html)</sup>
 
 ```wiki
 class Monad m => MonadZip m where

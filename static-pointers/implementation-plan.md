@@ -85,7 +85,7 @@ data StaticPtr a = StaticPtr !Fingerprint StaticPtrInfo a
     ```
 
     where `sptEntry:0` is a fresh name.
-  - **Code generation**.  All such `sptEntry:*` definitions are considered SPT entries. Before `main` is invoked, modules are  initialized by inserting all their SPT entries into a global SPT which lives in the RTS. This initialization is implemented via [ constructor functions](https://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html) in the same way that module initialization is implemented for [ HPC](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Hpc) (Coverage.hpcInitCode).
+  - **Code generation**.  All such `sptEntry:*` definitions are considered SPT entries. Before `main` is invoked, modules are  initialized by inserting all their SPT entries into a global SPT which lives in the RTS. This initialization is implemented via [constructor functions](https://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html) in the same way that module initialization is implemented for [HPC](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Hpc) (Coverage.hpcInitCode).
 
 - A `StablePtr` for each entry is created to avoid it being garbage collected (can we register the SPT as a source of roots with a single call?).
 - The SPT is a hash table mapping `Fingerprint`s to the closures of the SPT entries.

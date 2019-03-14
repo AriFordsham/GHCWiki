@@ -1,7 +1,7 @@
 ## Rationale
 
 `unsafeCoerce#` allow unsafe coercions between different types.
-According to the [ documentation in GHC.Prim](http://hackage.haskell.org/package/ghc-prim-0.3.1.0/docs/GHC-Prim.html#v:unsafeCoerce-35-), it is safe only for following uses:
+According to the [documentation in GHC.Prim](http://hackage.haskell.org/package/ghc-prim-0.3.1.0/docs/GHC-Prim.html#v:unsafeCoerce-35-), it is safe only for following uses:
 
 - Casting any lifted type to `Any`
 
@@ -26,11 +26,11 @@ This proposal is about implementation of the task.
 ## Progress
 
 
-Current progress could be found on [ D637](https://phabricator.haskell.org/D637)([ https://phabricator.haskell.org/D637](https://phabricator.haskell.org/D637)). It implements
+Current progress could be found on [D637](https://phabricator.haskell.org/D637)([https://phabricator.haskell.org/D637](https://phabricator.haskell.org/D637)). It implements
 proposed checks modulo few questions mentioned in this proposal. 
 
 
-The solution introduces following changes in the core specification, `docs/core-spec/CoreLint.ott` in the source tree ([ PDF here](https://github.com/ghc/ghc/blob/master/docs/core-spec/core-spec.pdf)):
+The solution introduces following changes in the core specification, `docs/core-spec/CoreLint.ott` in the source tree ([PDF here](https://github.com/ghc/ghc/blob/master/docs/core-spec/core-spec.pdf)):
 
 ```wiki
 G |-ty t1 : k1
@@ -75,7 +75,7 @@ checked?
 
 **SPJ** Both ideally.  Emit a warning for user programs with visible problems.  And check in Lint.  Start with the latter.
 
-**RAE** So that means that a warning would be issued, followed by a CoreLint failure. This violates the invariant that CoreLint catches only GHC's mistakes. I loosely agree with this approach here (because I want to allow users to do terrible things if they really want to), but we'll have to be careful about wording the error message that CoreLint spits out. This also implies that users who are actively trying to shoot themselves in the foot will have to avoid `-dcore-lint`, which is slightly dissatisfying. Maybe add a flag asking whether or not CoreLint should perform these checks? I guess my tension stems from the fact that we want to protect most users from mistakes and want to detect mistakes in GHC, while still allowing crazy things to happen. (Like still exporting [ this function](https://github.com/haskell/bytestring/blob/2530b1c28f15d0f320a84701bf507d5650de6098/Data/ByteString/Internal.hs#L599).)
+**RAE** So that means that a warning would be issued, followed by a CoreLint failure. This violates the invariant that CoreLint catches only GHC's mistakes. I loosely agree with this approach here (because I want to allow users to do terrible things if they really want to), but we'll have to be careful about wording the error message that CoreLint spits out. This also implies that users who are actively trying to shoot themselves in the foot will have to avoid `-dcore-lint`, which is slightly dissatisfying. Maybe add a flag asking whether or not CoreLint should perform these checks? I guess my tension stems from the fact that we want to protect most users from mistakes and want to detect mistakes in GHC, while still allowing crazy things to happen. (Like still exporting [this function](https://github.com/haskell/bytestring/blob/2530b1c28f15d0f320a84701bf507d5650de6098/Data/ByteString/Internal.hs#L599).)
  
 **SPJ** Let's not make the best the enemy of the good.  Make the whole lot into warnings or something, if that would reassure you.  Mostly we are trying to identify smelly code; some of it might just possibly work.  On a particular processor, when the sun is shining.  
 

@@ -147,8 +147,8 @@ For a full description of GHC support for various platforms, see [Platforms](pla
 
 - **x86**
 
-  - Windows (targetting [ mingw](http://www.mingw.org)): Sigbjorn Finne
-  - Windows (targetting [ Cygwin](http://www.cygwin.com)): Position open; port bitrotted
+  - Windows (targetting [mingw](http://www.mingw.org)): Sigbjorn Finne
+  - Windows (targetting [Cygwin](http://www.cygwin.com)): Position open; port bitrotted
   - Linux (generic): Simon Marlow,
     Simon Peyton Jones
   - FreeBSD/i386: FreeBSD Haskell Team

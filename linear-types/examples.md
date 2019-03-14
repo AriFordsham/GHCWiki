@@ -27,7 +27,7 @@ In general, fusion in GHC relies on the rewrite rules and the inliner.
 The problem with this scheme is that it involves two phases of heuristics (rules and inliner), and in practice programmers have difficulties to predict the performance of any given program.
 
 
-A partial remedy to this solution is to stop relying on rewrite rules, and use directly non-recursive representations. For example the following representation from Lippmeier et al. [ http://benl.ouroborus.net/papers/2016-polarized/dpdf-FHPC2016-preprint.pdf](http://benl.ouroborus.net/papers/2016-polarized/dpdf-FHPC2016-preprint.pdf):
+A partial remedy to this solution is to stop relying on rewrite rules, and use directly non-recursive representations. For example the following representation from Lippmeier et al. [http://benl.ouroborus.net/papers/2016-polarized/dpdf-FHPC2016-preprint.pdf](http://benl.ouroborus.net/papers/2016-polarized/dpdf-FHPC2016-preprint.pdf):
 
 ```
 dataSources i m e =Sources-- 'i' is the array's index type, 'e' the type of elements and 'm' the effects{ arity :: i
@@ -74,9 +74,9 @@ Quoting Lippmeier et al.:
 
 Literature on this style of non-recursive representations includes additionally:
 
-- Push and Pull arrays in Feldspar [ https://scholar.google.com/scholar?oi=bibs&hl=en&cites=5417443716167196803](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=5417443716167196803)
-- On the duality of streams [ https://jyp.github.io/pdf/Organ.pdf](https://jyp.github.io/pdf/Organ.pdf)
-- Composable Efficient Array Computations using Linear Types [ http://www.cse.chalmers.se/\~josefs/publications/vectorcomp.pdf](http://www.cse.chalmers.se/~josefs/publications/vectorcomp.pdf)
+- Push and Pull arrays in Feldspar [https://scholar.google.com/scholar?oi=bibs&hl=en&cites=5417443716167196803](https://scholar.google.com/scholar?oi=bibs&hl=en&cites=5417443716167196803)
+- On the duality of streams [https://jyp.github.io/pdf/Organ.pdf](https://jyp.github.io/pdf/Organ.pdf)
+- Composable Efficient Array Computations using Linear Types [http://www.cse.chalmers.se/\~josefs/publications/vectorcomp.pdf](http://www.cse.chalmers.se/~josefs/publications/vectorcomp.pdf)
 
 # Diminishing GC pressure
 
@@ -93,7 +93,7 @@ A consequence of this choice is that linear data will only exist when pointed to
 
 
 According to de Vries
-([ http://www.well-typed.com/blog/2016/09/sharing-conduit/](http://www.well-typed.com/blog/2016/09/sharing-conduit/)):
+([http://www.well-typed.com/blog/2016/09/sharing-conduit/](http://www.well-typed.com/blog/2016/09/sharing-conduit/)):
 
 >
 > \[...\] In the presence of the full laziness optimization we have no
@@ -181,4 +181,4 @@ precisely controlling where (not) to apply full-laziness. Moreover,
 the user of a library written for streams would never have to worry
 about inadvertent sharing, because the types of the library functions
 would specify exactly the right behavior.
-See [ https://jyp.github.io/pdf/Organ.pdf](https://jyp.github.io/pdf/Organ.pdf) for how such a library may look like.
+See [https://jyp.github.io/pdf/Organ.pdf](https://jyp.github.io/pdf/Organ.pdf) for how such a library may look like.

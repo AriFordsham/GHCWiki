@@ -21,4 +21,4 @@ likely to fall into an infinite loop. Oy! The function I came up with is
 like `trace (header+doc) expr`.
 
 
-I've put up [ Phab:D4162](https://phabricator.haskell.org/D4162) to add this utility to `DsMonad`.
+I've put up [Phab:D4162](https://phabricator.haskell.org/D4162) to add this utility to `DsMonad`.

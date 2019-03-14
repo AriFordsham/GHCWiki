@@ -62,6 +62,6 @@ The current status is described in \[3\] and some code and examples can be found
 
 ## References
 
-\[1\] : [ http://research.microsoft.com/en-us/um/people/simonpj/papers/verify/index.htm](http://research.microsoft.com/en-us/um/people/simonpj/papers/verify/index.htm)
-\[2\] : [ https://github.com/cpa/haskellcontracts](https://github.com/cpa/haskellcontracts) and [ https://github.com/cpa/haskellcontracts-examples](https://github.com/cpa/haskellcontracts-examples)
-\[3\] : [ https://github.com/cpa/haskellcontracts/blob/master/draft2.pdf](https://github.com/cpa/haskellcontracts/blob/master/draft2.pdf)
+\[1\] : [http://research.microsoft.com/en-us/um/people/simonpj/papers/verify/index.htm](http://research.microsoft.com/en-us/um/people/simonpj/papers/verify/index.htm)
+\[2\] : [https://github.com/cpa/haskellcontracts](https://github.com/cpa/haskellcontracts) and [https://github.com/cpa/haskellcontracts-examples](https://github.com/cpa/haskellcontracts-examples)
+\[3\] : [https://github.com/cpa/haskellcontracts/blob/master/draft2.pdf](https://github.com/cpa/haskellcontracts/blob/master/draft2.pdf)

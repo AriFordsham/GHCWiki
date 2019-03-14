@@ -6,8 +6,8 @@ This is not a real proposal. It is merely intended to demonstrate what I propose
 
 Introducing `Semigroup` as a superclass of `Monoid` has been proposed several times (in reverse chronological order):
 
-- [ http://thread.gmane.org/gmane.comp.lang.haskell.libraries/24494](http://thread.gmane.org/gmane.comp.lang.haskell.libraries/24494)
-- [ http://thread.gmane.org/gmane.comp.lang.haskell.libraries/19649](http://thread.gmane.org/gmane.comp.lang.haskell.libraries/19649)
+- [http://thread.gmane.org/gmane.comp.lang.haskell.libraries/24494](http://thread.gmane.org/gmane.comp.lang.haskell.libraries/24494)
+- [http://thread.gmane.org/gmane.comp.lang.haskell.libraries/19649](http://thread.gmane.org/gmane.comp.lang.haskell.libraries/19649)
 - TODO ...
 
 ## Final API

@@ -8,7 +8,7 @@ In this page, we discuss the possibility of using Trees that Grow to provide alt
 Proposed by Alan Zimmerman
 
 
-Original discussion on `ghc-devs`: [ https://mail.haskell.org/pipermail/ghc-devs/2018-May/015721.html](https://mail.haskell.org/pipermail/ghc-devs/2018-May/015721.html)
+Original discussion on `ghc-devs`: [https://mail.haskell.org/pipermail/ghc-devs/2018-May/015721.html](https://mail.haskell.org/pipermail/ghc-devs/2018-May/015721.html)
 
 ## Motivation
 
@@ -30,8 +30,8 @@ A way to avoid this penalty, and to allow the additional information stored to g
 
 This can be achieved by making use of the mechanics listed below. If it turns out that the penalty is moderate, and the additional complexity of having two variants is not worth it, this step need not be taken.
 
-(1)[ https://hackage.haskell.org/package/HaRe](https://hackage.haskell.org/package/HaRe)
-(2)[ https://hackage.haskell.org/package/ghc-exactprint](https://hackage.haskell.org/package/ghc-exactprint)
+(1)[https://hackage.haskell.org/package/HaRe](https://hackage.haskell.org/package/HaRe)
+(2)[https://hackage.haskell.org/package/ghc-exactprint](https://hackage.haskell.org/package/ghc-exactprint)
 
 ## Mechanics
 
@@ -72,12 +72,12 @@ In preparation for that, the updated Api Annotations would be defined in a posit
 
 This will probably be based on the approach currently taken in `Coda`[(4)](implementing-trees-that-grow/ide-support#).
 
-(3)[ https://github.com/haskell/haskell-ide-engine](https://github.com/haskell/haskell-ide-engine)
-(4)[ https://github.com/ekmett/coda](https://github.com/ekmett/coda)
+(3)[https://github.com/haskell/haskell-ide-engine](https://github.com/haskell/haskell-ide-engine)
+(4)[https://github.com/ekmett/coda](https://github.com/ekmett/coda)
 
 ## Even Longer Term
 
 
 Incremental renaming and type checking.  See related work at [(1)](implementing-trees-that-grow/ide-support#)
 
-(1)[ https://arxiv.org/pdf/1805.00155.pdf](https://arxiv.org/pdf/1805.00155.pdf)
+(1)[https://arxiv.org/pdf/1805.00155.pdf](https://arxiv.org/pdf/1805.00155.pdf)

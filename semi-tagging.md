@@ -5,7 +5,7 @@
 # OLD DESIGN DOCUMENT: The semi-tagging optimisation
 
 
-Here I describe the design of the semi-tagging optimisation. Originally the text comes from [ http://hackage.haskell.org/trac/summer-of-code/ticket/48](http://hackage.haskell.org/trac/summer-of-code/ticket/48)
+Here I describe the design of the semi-tagging optimisation. Originally the text comes from [http://hackage.haskell.org/trac/summer-of-code/ticket/48](http://hackage.haskell.org/trac/summer-of-code/ticket/48)
 
 
 This page reflects my current understanding on the compiler and the RTS, so if there is something wrong, just yell!

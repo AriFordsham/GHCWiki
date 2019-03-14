@@ -7,7 +7,7 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
 
 - [How to contribute a patch to GHC](working-conventions/fixing-bugs). For [adding features](working-conventions/adding-features), there are a few extra steps to follow.
 
-- [ How to propose a change to the libraries](http://haskell.org/haskellwiki/Library_submissions)
+- [How to propose a change to the libraries](http://haskell.org/haskellwiki/Library_submissions)
 
 ## Working conventions
 
@@ -38,7 +38,7 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
 
 - If you use Emacs, see [Emacs](emacs) for some useful stuff to put in your `.emacs` file.
 
-- If you have lots of Haskell installations, you may find Edsko's blog post [ Comprehensive Haskell Sandboxes](http://www.edsko.net/2013/02/10/comprehensive-haskell-sandboxes/) useful.
+- If you have lots of Haskell installations, you may find Edsko's blog post [Comprehensive Haskell Sandboxes](http://www.edsko.net/2013/02/10/comprehensive-haskell-sandboxes/) useful.
 
 ## Newcomers to GHC
 
@@ -50,9 +50,9 @@ If you have any questions along the way don't hesitate to reach out to the commu
 
 ### First steps
 
-- See [Building/QuickStart](building/quick-start) to get started building GHC. Expect it all to take roughly between 30 minutes and a couple of hours, depending on your CPU speed, and the number of jobs you can run in parallel. Note that [ building older versions of GHC may require having an older version of GHC on your path](Building/Preparation/Tools).
+- See [Building/QuickStart](building/quick-start) to get started building GHC. Expect it all to take roughly between 30 minutes and a couple of hours, depending on your CPU speed, and the number of jobs you can run in parallel. Note that [building older versions of GHC may require having an older version of GHC on your path](Building/Preparation/Tools).
 
-- While you are waiting for your build to finish, orient yourself to the general architecture of GHC. This [ article](http://www.aosabook.org/en/ghc.html) is written by two of the chief architects of GHC, Simon Marlow and Simon Peyton-Jones, is excellent and current (2012).
+- While you are waiting for your build to finish, orient yourself to the general architecture of GHC. This [article](http://www.aosabook.org/en/ghc.html) is written by two of the chief architects of GHC, Simon Marlow and Simon Peyton-Jones, is excellent and current (2012).
 
 - After a successful build, you should have your brand new compiler in `./inplace/bin/ghc-stage2`. (GHCi is launched with `./inplace/bin/ghc-stage2 --interactive`). Try it out.
 
@@ -194,7 +194,7 @@ You can add tickets to this list by giving them the `newcomer` Trac keyword.
 
 - Read up on the steps you are expected to take for [contributing a patch to GHC](working-conventions/fixing-bugs).
 
-- Need help? You can email the [ ghc-devs](http://www.haskell.org/mailman/listinfo/ghc-devs) list, or ask on IRC in `#ghc`.
+- Need help? You can email the [ghc-devs](http://www.haskell.org/mailman/listinfo/ghc-devs) list, or ask on IRC in `#ghc`.
 
 - Don't get scared. GHC is a big codebase, but it makes sense when you stare at it long enough!
 
@@ -204,11 +204,11 @@ You can add tickets to this list by giving them the `newcomer` Trac keyword.
 
 - You may want to look at these "how it went for me" blog posts.
 
-  - [ Hacking on GHC (is not that hard)](http://rawgit.com/gibiansky/4c54f767bf21a6954b23/raw/67c62c5555f40c6fb67b124307725df168201361/exp.html) by Andrew Gibiansky
-  - [ Contributing to GHC](http://anniecherkaev.com/projects/contributing-to-ghc) by Annie Cherkaev
-  - [ Contributing to GHC via Phabricator](https://medium.com/@zw3rk/contributing-to-ghc-290653b63147) by Moritz Angermann
+  - [Hacking on GHC (is not that hard)](http://rawgit.com/gibiansky/4c54f767bf21a6954b23/raw/67c62c5555f40c6fb67b124307725df168201361/exp.html) by Andrew Gibiansky
+  - [Contributing to GHC](http://anniecherkaev.com/projects/contributing-to-ghc) by Annie Cherkaev
+  - [Contributing to GHC via Phabricator](https://medium.com/@zw3rk/contributing-to-ghc-290653b63147) by Moritz Angermann
 
-- There is a blog post series by Stephen Diehl that provides an overview of many important data structures and contains links to other sources of information: [ Dive into GHC](http://www.stephendiehl.com/posts/ghc_01.html)
+- There is a blog post series by Stephen Diehl that provides an overview of many important data structures and contains links to other sources of information: [Dive into GHC](http://www.stephendiehl.com/posts/ghc_01.html)
 
 
 Happy hacking!

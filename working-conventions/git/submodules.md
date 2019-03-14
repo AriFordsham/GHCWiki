@@ -6,9 +6,9 @@ GHC is a large project with several external dependencies. We use git submodules
 
 General information about Git's submodule support:
 
-- [ "git submodule" manual page](http://git-scm.com/docs/git-submodule)
-- [ Pro Git "6.6 Git Tools - Submodules" chapter](http://git-scm.com/book/en/Git-Tools-Submodules)
-- [ Submodule Tutorial](http://www.vogella.com/tutorials/Git/article.html#submodules)
+- ["git submodule" manual page](http://git-scm.com/docs/git-submodule)
+- [Pro Git "6.6 Git Tools - Submodules" chapter](http://git-scm.com/book/en/Git-Tools-Submodules)
+- [Submodule Tutorial](http://www.vogella.com/tutorials/Git/article.html#submodules)
 
 ## Cloning a fresh GHC source tree
 
@@ -20,7 +20,7 @@ git clone --recursive https://gitlab.haskell.org/ghc/ghc
 ```
 
 
-(Obviously, the clone URL can be replaced by any of the supported `ghc.git` URLs as listed on [ http://git.haskell.org/ghc.git](http://git.haskell.org/ghc.git))
+(Obviously, the clone URL can be replaced by any of the supported `ghc.git` URLs as listed on [http://git.haskell.org/ghc.git](http://git.haskell.org/ghc.git))
 See [getting the sources](building/getting-the-sources) for more ways of getting the sources (e.g., from the GitHub mirror), and specifically this [note on using forks](building/getting-the-sources#using-a-fork-of-ghc).
 
 ## Updating an existing GHC source tree clone
@@ -88,7 +88,7 @@ By default, git will consider your submodule as "dirty" when you do `git status`
 ## Making changes to GHC submodules
 
 
-It's very important to keep in mind that Git submodules track commits (i.e. not branches!) to avoid getting confused. Therefore, `git submodule update` will result in submodules having checked out a so-called [ detached HEAD](http://alblue.bandlem.com/2011/08/git-tip-of-week-detached-heads.html).
+It's very important to keep in mind that Git submodules track commits (i.e. not branches!) to avoid getting confused. Therefore, `git submodule update` will result in submodules having checked out a so-called [detached HEAD](http://alblue.bandlem.com/2011/08/git-tip-of-week-detached-heads.html).
 
 
 So, in order to make change to a submodule you can either:

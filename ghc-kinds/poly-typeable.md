@@ -113,7 +113,7 @@ If you have code involving `Typeable` that fails to compile with 7.8, it might b
 
 - If all else fails, you could just try replacing your `import Data.Typeable` with `import Data.OldTypeable`. But keep in mind that `OldTypeable` is distinct, and incompatible with the new `Typeable`.
 
-- If you want code that compiles with multiple versions of GHC, you should use CPP. The [ tagged package on Hackage](http://hackage.haskell.org/package/tagged) is a good example of how to achieve this.
+- If you want code that compiles with multiple versions of GHC, you should use CPP. The [tagged package on Hackage](http://hackage.haskell.org/package/tagged) is a good example of how to achieve this.
 
 ## A change-over plan
 

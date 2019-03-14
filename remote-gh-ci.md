@@ -1,7 +1,7 @@
 # Remote GHCi
 
 
-Patches to implement this: [ Phab:D1562](https://phabricator.haskell.org/D1562), [ Phab:D1747](https://phabricator.haskell.org/D1747), [ Phab:D1748](https://phabricator.haskell.org/D1748)
+Patches to implement this: [Phab:D1562](https://phabricator.haskell.org/D1562), [Phab:D1747](https://phabricator.haskell.org/D1747), [Phab:D1748](https://phabricator.haskell.org/D1748)
 
 
 Remote GHCi was first available in GHC 8.0.1.  Implementation notes: [Commentary/Compiler/ExternalInterpreter](commentary/compiler/external-interpreter)

@@ -12,11 +12,11 @@ Location : Heriot-Watt
 
 
 So far:
-[ Hans-Wolfgang Loidl](http://www.macs.hw.ac.uk/~hwloidl/) (Host), Mischa Dieterle, Thomas Horstmeyer, [ Jost Berthold](http://www.mathematik.uni-marburg.de/~berthold/), [ Henrique Ferreiro](http://www.madsgroup.org/staff/henrique/), David Castro Pérez
+[Hans-Wolfgang Loidl](http://www.macs.hw.ac.uk/~hwloidl/) (Host), Mischa Dieterle, Thomas Horstmeyer, [Jost Berthold](http://www.mathematik.uni-marburg.de/~berthold/), [Henrique Ferreiro](http://www.madsgroup.org/staff/henrique/), David Castro Pérez
 
 
 To be confirmed:
-Vladimir Janjic, [ Kevin Hammond](http://www.cs.st-andrews.ac.uk/~kh/), Chris Brown, Mustafa Aswad, Malak Aljabri, [ Philip W Trinder](http://www.macs.hw.ac.uk/~trinder/), Patrick Maier, Robert Stewart
+Vladimir Janjic, [Kevin Hammond](http://www.cs.st-andrews.ac.uk/~kh/), Chris Brown, Mustafa Aswad, Malak Aljabri, [Philip W Trinder](http://www.macs.hw.ac.uk/~trinder/), Patrick Maier, Robert Stewart
 
 ## Agenda
 
@@ -36,7 +36,7 @@ Vladimir Janjic, [ Kevin Hammond](http://www.cs.st-andrews.ac.uk/~kh/), Chris Br
 - Packaging
 - Roadmap for future development
 
-  - Following [ ghc HEAD](http://james.mathematik.uni-marburg.de:8080/darcs/darcsweb.cgi??r=ghc-HEAD): status report, coordination and planning
+  - Following [ghc HEAD](http://james.mathematik.uni-marburg.de:8080/darcs/darcsweb.cgi??r=ghc-HEAD): status report, coordination and planning
   - Status of/ Plans for existing branches 
 
     - migration, 
@@ -48,7 +48,7 @@ Vladimir Janjic, [ Kevin Hammond](http://www.cs.st-andrews.ac.uk/~kh/), Chris Br
     - Integration with GHC/SMP
     - Integrating migration
     - Globus interface
-    - pre-SCSCP [ GAP](http://www.gap-system.org/) interface
+    - pre-SCSCP [GAP](http://www.gap-system.org/) interface
     - Micro-kernel/substrate approach to the RTS
 
 ## Eventlog
@@ -117,6 +117,6 @@ Tuesday session:
   - Strategies examples: push to nofib/parallel
   - Other new programs (karatsuba): put to parfib/
 
-[ Docu on latest problems running ghc-HEAD](http://james.mathematik.uni-marburg.de:8080/EdenWiki/BlackholingAndParallelRTS)
+[Docu on latest problems running ghc-HEAD](http://james.mathematik.uni-marburg.de:8080/EdenWiki/BlackholingAndParallelRTS)
 
-[ Marburg Wiki for tech info exchange, up-to-date info with ghc-HEAD and the like](http://james.mathematik.uni-marburg.de:8080/EdenWiki/CategoryTechDocs)
+[Marburg Wiki for tech info exchange, up-to-date info with ghc-HEAD and the like](http://james.mathematik.uni-marburg.de:8080/EdenWiki/CategoryTechDocs)

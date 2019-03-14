@@ -7,7 +7,7 @@ The [STG language](commentary/compiler/stg-syn-type) has a clear *operational* m
 - What heap objects are allocated, when, and what their layout is
 
 
-GHC uses an eval/apply execution model, described in the paper [ How to make a fast curry: push/enter vs eval/apply](https://www.microsoft.com/en-us/research/publication/make-fast-curry-pushenter-vs-evalapply/).  This paper is well worth reading if you are interested in this section.
+GHC uses an eval/apply execution model, described in the paper [How to make a fast curry: push/enter vs eval/apply](https://www.microsoft.com/en-us/research/publication/make-fast-curry-pushenter-vs-evalapply/).  This paper is well worth reading if you are interested in this section.
 
 
 Contents:

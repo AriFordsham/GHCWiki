@@ -222,7 +222,7 @@ In GHC 8.4, the following declaration for `Proxy2` is rejected:
 dataProxy k (a :: k)dataProxy2 k a =MkP(Proxy k a)
 ```
 
-`Proxy`'s kind is `forall k -> k -> Type`. According to the rule that dependent variables must be manifestly so (implemented by `getInitialKind`), the declaration for `Proxy2` is rejected, because only after checking the RHS do we find out about the dependency. (This rule is documented in [ Section 10.11.13](https://downloads.haskell.org/~ghc/8.2.2/docs/html/users_guide/glasgow_exts.html#inferring-dependency-in-datatype-declarations) of the user manual).
+`Proxy`'s kind is `forall k -> k -> Type`. According to the rule that dependent variables must be manifestly so (implemented by `getInitialKind`), the declaration for `Proxy2` is rejected, because only after checking the RHS do we find out about the dependency. (This rule is documented in [Section 10.11.13](https://downloads.haskell.org/~ghc/8.2.2/docs/html/users_guide/glasgow_exts.html#inferring-dependency-in-datatype-declarations) of the user manual).
 
 
 However, arguably inference should be able to determine that `Proxy2 :: forall k -> k -> Type`. A possible way would be to skip `getInitialKind` and look at the RHS immediately (according to Richard, implementing this is not that simple).
@@ -433,7 +433,7 @@ If a datatype has a CUSK and its kind has any unsolved metavariables after infer
 
 ## A possible variation
 
-**RAE:** This variation is partially implemented in tag `re-sort-non-cusk-decls` at [ my GitHub fork](https://github.com/goldfirere/ghc). It is tracked in ticket [\#9427](https://gitlab.haskell.org//ghc/ghc/issues/9427).
+**RAE:** This variation is partially implemented in tag `re-sort-non-cusk-decls` at [my GitHub fork](https://github.com/goldfirere/ghc). It is tracked in ticket [\#9427](https://gitlab.haskell.org//ghc/ghc/issues/9427).
 
 
 This algorithm is not quite as expressive as it could be.  Consider

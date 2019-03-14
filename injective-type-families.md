@@ -10,10 +10,10 @@ Injective type families have been merged into HEAD in September 2015 and became 
 There are plans to further extend implementation of injective type families to
 match the expressive power of functional dependencies.  The work was started in
 September 2015 but later stalled and was left unfinished.  Partial
-implementation is available as  [ Phab:D1287](https://phabricator.haskell.org/D1287) and on the
+implementation is available as  [Phab:D1287](https://phabricator.haskell.org/D1287) and on the
 wip/T10832-generalised-injectivity branch. The relevant Trac ticket is
 [\#10832](https://gitlab.haskell.org//ghc/ghc/issues/10832). See
-[ this section below](InjectiveTypeFamilies#TypeCinjectivityaka.generalizedinjectivity) for full details.
+[this section below](InjectiveTypeFamilies#TypeCinjectivityaka.generalizedinjectivity) for full details.
 
 
 Other tickets related to further development of injective type families: [\#10833](https://gitlab.haskell.org//ghc/ghc/issues/10833), [\#11511](https://gitlab.haskell.org//ghc/ghc/issues/11511).
@@ -23,7 +23,7 @@ Person responsible for this page is Jan Stolarek (just so you now who is meant
 by "I").  I am also responsible for most of the implementation.  Simon Peyton
 Jones and Richard Eisenberg participated in the development of theory behind
 injective type families, so whenever I say "we" I mean the three of us.  For
-full discussion of injective type families see Haskell Symposium 2015 [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf)
+full discussion of injective type families see Haskell Symposium 2015 [paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf)
 "Injective type families for Haskell" (henceforth referred to as the
 "injectivity paper").
 
@@ -340,7 +340,7 @@ Relevant source code notes are:
 
 
 Implementation discussion and progress was recorded in
-[ Phab D202](https://phabricator.haskell.org/D202). That patch is now fully merged and given here only for historical purposes.
+[Phab D202](https://phabricator.haskell.org/D202). That patch is now fully merged and given here only for historical purposes.
 
 ## Injectivity for poly-kinded type families
 
@@ -385,7 +385,7 @@ dependencies. Here are several properties of generalized injectivity annotations
 
 I started implementation work on generalized injectivity in September 2015 but
 didn't finish it. The relevant Trac ticket is [\#10832](https://gitlab.haskell.org//ghc/ghc/issues/10832). Partial implementation
-is available as [ Phab:D1287](https://phabricator.haskell.org/D1287) and on the wip/T10832-generalised-injectivity
+is available as [Phab:D1287](https://phabricator.haskell.org/D1287) and on the wip/T10832-generalised-injectivity
 branch. In October/November 2016 I tried to rebase this branch on top of HEAD
 and resume work but the typechecker code has changed significantly and I was
 unable to make it work. It seems that the easiest way here is to salvage parser
@@ -697,4 +697,4 @@ There are several concerns to consider before implementing this:
 In the injectivity paper we presented two practical use cases for injectivity.
 If you have more uses cases to demonstrate please add them here.
 
-[ GLambda issue tracker (“Make Val injective”)](https://github.com/goldfirere/glambda/issues/6).
+[GLambda issue tracker (“Make Val injective”)](https://github.com/goldfirere/glambda/issues/6).

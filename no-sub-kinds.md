@@ -41,7 +41,7 @@ Currently `myError` cannot be used at type `Int#`.
 ## Down with kinds
 
 
-The proposed remedy below would muck about somewhat with the upper echelons of this hierarchy (i.e. `BOX`). So, instead of trying to implement this in today's GHC, Richard is implementing in his branch, which has eliminated `BOX` entirely, instead favoring `* :: *` and dropping any distinction (in Core) between types and kinds. See [ the paper](http://www.cis.upenn.edu/~eir/papers/2013/fckinds/fckinds.pdf) for more info.
+The proposed remedy below would muck about somewhat with the upper echelons of this hierarchy (i.e. `BOX`). So, instead of trying to implement this in today's GHC, Richard is implementing in his branch, which has eliminated `BOX` entirely, instead favoring `* :: *` and dropping any distinction (in Core) between types and kinds. See [the paper](http://www.cis.upenn.edu/~eir/papers/2013/fckinds/fckinds.pdf) for more info.
 
 
 All further commentary on this page assumes a merged type/kind language and semantics.

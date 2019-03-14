@@ -1,12 +1,12 @@
 
 This page is obsolete. See [Building/GettingTheSources](darcs-conversion/building/getting-the-sources) instead.
 
-[ Video: Getting and Building](http://www.youtube.com/watch?v=zkMJ6GQpGyc&list=PLBkRCigjPwyeCSD_DFxpd246YIF7_RDDI), layout of the source tree, how to set up build.mk (23'43")
+[Video: Getting and Building](http://www.youtube.com/watch?v=zkMJ6GQpGyc&list=PLBkRCigjPwyeCSD_DFxpd246YIF7_RDDI), layout of the source tree, how to set up build.mk (23'43")
 
 # Getting the GHC Sources
 
 
-There are two ways to get sources to GHC: get the sources directly from our repository using [ darcs](http://darcs.net/) and [ git](http://git-scm.com/) (reccomended) or download a source distribution.
+There are two ways to get sources to GHC: get the sources directly from our repository using [darcs](http://darcs.net/) and [git](http://git-scm.com/) (reccomended) or download a source distribution.
 
 ## Source distributions
 
@@ -25,7 +25,7 @@ Starting with GHC 6.6, we have split the source distribution in two:
 In addition to fixed releases of GHC, source distributions are also made each night from the current source repository, for both the HEAD and STABLE branches.  To download these snapshots, head over to the [download page](http://www.haskell.org/ghc/download.html).
 
 
-Source distributions are easier to build, because we also include the output from running certain external tools like [ Happy](http://haskell.org/happy), so you don't need to install these tools.  See [Building/Preparation](building/preparation) for details.
+Source distributions are easier to build, because we also include the output from running certain external tools like [Happy](http://haskell.org/happy), so you don't need to install these tools.  See [Building/Preparation](building/preparation) for details.
 
 ## Getting a GHC source tree using darcs and git
 
@@ -33,7 +33,7 @@ Source distributions are easier to build, because we also include the output fro
 GHC source code is split between a Git repository (for the main compiler) and a number of Darcs repositories (for the libraries etc).
 
 
-The first thing to do is install [ darcs](http://darcs.net/) and [ git](http://git.or.cz/).
+The first thing to do is install [darcs](http://darcs.net/) and [git](http://git.or.cz/).
 
 
 A source tree consists of the GHC repository, 
@@ -57,7 +57,7 @@ If you plan to modify GHC, then you **must** get repositories with full history 
 However, **you cannot use `darcs get` to get full Darcs repository**, for two reasons:
 
 - Since we have many patches, it's usually quite slow
-- Darcs has a bug concerning case-sensitivity on Windows, and ([ MacOS X](http://www.haskell.org/pipermail/glasgow-haskell-users/2007-November/013373.html)), which makes Darcs crash if you do `darcs get` on some of our repositories (notably the testsuite).  You get this message:
+- Darcs has a bug concerning case-sensitivity on Windows, and ([MacOS X](http://www.haskell.org/pipermail/glasgow-haskell-users/2007-November/013373.html)), which makes Darcs crash if you do `darcs get` on some of our repositories (notably the testsuite).  You get this message:
 
   ```wiki
   Unapplicable patch:                                                
@@ -71,7 +71,7 @@ However, **you cannot use `darcs get` to get full Darcs repository**, for two re
 
 Instead, follow the following steps:
 
-1. Download a complete bundle of the required repositories first, using your browser rather than darcs. These bundles are on [ http://darcs.haskell.org/](http://darcs.haskell.org/) usually in three files of the form 
+1. Download a complete bundle of the required repositories first, using your browser rather than darcs. These bundles are on [http://darcs.haskell.org/](http://darcs.haskell.org/) usually in three files of the form 
 
   - `ghc-HEAD-2007-08-29-ghc-corelibs-testsuite.tar.bz2` (100Mbytes)
   - `ghc-HEAD-2007-08-29-ghc-corelibs.tar.bz2` (90 Mbytes)
@@ -130,7 +130,7 @@ The full list of darcs repositories relating to GHC is at [DarcsRepositories](da
 The above instructions will get the HEAD - the main trunk of GHC development.  There are also branches, from which stable releases are made.  The active branches are listed on [DarcsRepositories](darcs-repositories).
 
 
-To get a branch, add the branch name after [ http://darcs.haskell.org/](http://darcs.haskell.org/).  For example, to get the `ghc-6.6` branch, you would first say 
+To get a branch, add the branch name after [http://darcs.haskell.org/](http://darcs.haskell.org/).  For example, to get the `ghc-6.6` branch, you would first say 
 
 ```wiki
   $ git clone http://darcs.haskell.org/ghc-6.6/ghc.git
@@ -178,7 +178,7 @@ If this happens, try increasing the number of open files allowed by typing in `$
 If this still doesn't work, try pulling 100 patches at a time using the `darcs pull` command (notice the lack of the `-a` flag).  Hold down 'y' until 100 or so patches are accepted, then hit 'd' to skip the rest; repeat until all patches are applied.  If this fails, try with less than 100 patches at a time (e.g., 50).
 
 
-This issue has been reported as [ issue 560](http://bugs.darcs.net/issue560) in the darcs bug tracking system.
+This issue has been reported as [issue 560](http://bugs.darcs.net/issue560) in the darcs bug tracking system.
 
 #### Case insensitivity
 

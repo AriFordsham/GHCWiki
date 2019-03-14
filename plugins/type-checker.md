@@ -1,10 +1,10 @@
 # Type Checker Plugins
 
-- See [ Phab:D489](https://phabricator.haskell.org/D489) for the original implementation.
+- See [Phab:D489](https://phabricator.haskell.org/D489) for the original implementation.
 
-- See [ Phab:D841](https://phabricator.haskell.org/D841) for the addition of empty closed type families.
+- See [Phab:D841](https://phabricator.haskell.org/D841) for the addition of empty closed type families.
 
-- See [ Phab:D909](https://phabricator.haskell.org/D909) for extensions to the TcPluginM API for creating constraints.
+- See [Phab:D909](https://phabricator.haskell.org/D909) for extensions to the TcPluginM API for creating constraints.
 
 - See [discussion of most recent proposed changes below](plugins/type-checker#).
 
@@ -137,7 +137,7 @@ The basic idea is as follows:
 - Finally, GHC calls `tcPluginStop` after constraint solving is finished, allowing the plugin to dispose of any resources it has allocated (e.g. terminating the SMT solver process).
 
 
-The `Ct` type, representing constraints, is defined in [ TcRnTypes](https://gitlab.haskell.org/ghc/compiler/blob/master/typecheck/TcRnTypes.lhs#L932). A constraint is essentially a triple of a type (of kind `Constraint`, e.g. an equality or fully applied typeclass), an evidence term of that type (which will be a metavariable, for wanted constraints) and an original source location.
+The `Ct` type, representing constraints, is defined in [TcRnTypes](https://gitlab.haskell.org/ghc/compiler/blob/master/typecheck/TcRnTypes.lhs#L932). A constraint is essentially a triple of a type (of kind `Constraint`, e.g. an equality or fully applied typeclass), an evidence term of that type (which will be a metavariable, for wanted constraints) and an original source location.
 
 
 Plugin code runs in the `TcPluginM` monad defined in `TcRnTypes` as a wrapper around `TcM` (and hence around `IO`). Eventually the `TcPluginM` monad will supply wrappers for `TcM` functions that are appropriate for use in a plugin. Initially, plugins will need to rely on `unsafeTcPluginTcM :: TcM a -> TcPluginM a` if a wrapper is not available.
@@ -224,12 +224,12 @@ In the light of experience with GHC 7.10.1, we are considering some changes to t
 ### Implemented: Empty closed type families
 
 
-Plugins that define type families often need to ensure that those type families have no normal instances, to avoid inconsistency, but empty closed type families were previously rejected ([\#9840](https://gitlab.haskell.org//ghc/ghc/issues/9840)). They are now permitted in HEAD. See [ Phab:D841](https://phabricator.haskell.org/D841).
+Plugins that define type families often need to ensure that those type families have no normal instances, to avoid inconsistency, but empty closed type families were previously rejected ([\#9840](https://gitlab.haskell.org//ghc/ghc/issues/9840)). They are now permitted in HEAD. See [Phab:D841](https://phabricator.haskell.org/D841).
 
 ### Implemented: Creating constraints
 
 
-The existing API does not offer a very direct way for plugins to create new constraints. In particular, creating new givens is problematic now that [ givens contain EvVars rather than EvTerms](https://github.com/ghc/ghc/commit/fa46c597db9939de1de4bc9b917c8dc1d9e2093a). I propose that we add new functions to `TcPluginM`:
+The existing API does not offer a very direct way for plugins to create new constraints. In particular, creating new givens is problematic now that [givens contain EvVars rather than EvTerms](https://github.com/ghc/ghc/commit/fa46c597db9939de1de4bc9b917c8dc1d9e2093a). I propose that we add new functions to `TcPluginM`:
 
 ```wiki
 newWanted  :: CtLoc -> PredType -> TcPluginM CtEvidence
@@ -241,7 +241,7 @@ newGiven   :: CtLoc -> PredType -> EvTerm -> TcPluginM CtEvidence
 The implementation of `newGiven` will require `TcPluginM` to pass around an `EvBindsVar`, so that it can bind a new evidence variable. This is not available in `tcPluginInit` and `tcPluginStop`, so using `newGiven` there will result in a crash. (I previously considered making `TcPluginM` wrap `TcS` directly, but that turns out to require a lot of rearrangement and probably hs-boot files.)
 
 
-These are now in HEAD, along with `newUnique :: TcPluginM Unique`. See [ Phab:D909](https://phabricator.haskell.org/D909).
+These are now in HEAD, along with `newUnique :: TcPluginM Unique`. See [Phab:D909](https://phabricator.haskell.org/D909).
 
 ### Under discussion: Defining type families
 
@@ -258,12 +258,12 @@ tcPluginMatchFam :: s -> TyCon -> [Type] -> TcPluginM (Maybe (TcCoercion, TcType
 
 This is similar to `sfMatchFam`, which gives the definition of built-in type families like `(+)`. However, it would be invoked only in `matchFam`, rather than `reduceTyFamApp_maybe`, to save having to load plugins at all the call sites of the latter. Thus plugin-defined type families would reduce in the constraint solver, but not necessarily elsewhere.
 
-**Richard:** This makes me uncomfortable, in exactly the same way that I was made to feel uncomfortable in the comments starting with [comment:4:ticket:9840](https://gitlab.haskell.org//ghc/ghc/issues/9840). The fact that the new, (what I will call) *external* type families will behave differently than internal type families is further evidence that something is amiss. (The difference in behavior I'm referring to is the difference between `matchFam` and `reduceTyFamApp_maybe`.) This, of course, ties into [\#9636](https://gitlab.haskell.org//ghc/ghc/issues/9636) as well and to some of the more esoteric issues that cropped up while working on [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018)/[ Phab:D202](https://phabricator.haskell.org/D202) and perhaps even [\#10327](https://gitlab.haskell.org//ghc/ghc/issues/10327). I would love to approach this problem with the idea of making broader changes instead of looking for a minimal change just to support typechecker plugins better. **End Richard**
+**Richard:** This makes me uncomfortable, in exactly the same way that I was made to feel uncomfortable in the comments starting with [comment:4:ticket:9840](https://gitlab.haskell.org//ghc/ghc/issues/9840). The fact that the new, (what I will call) *external* type families will behave differently than internal type families is further evidence that something is amiss. (The difference in behavior I'm referring to is the difference between `matchFam` and `reduceTyFamApp_maybe`.) This, of course, ties into [\#9636](https://gitlab.haskell.org//ghc/ghc/issues/9636) as well and to some of the more esoteric issues that cropped up while working on [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018)/[Phab:D202](https://phabricator.haskell.org/D202) and perhaps even [\#10327](https://gitlab.haskell.org//ghc/ghc/issues/10327). I would love to approach this problem with the idea of making broader changes instead of looking for a minimal change just to support typechecker plugins better. **End Richard**
 
 ### Implemented: Embedding CoreExpr in EvTerm
 
 
-At the moment, the `EvTerm` type used to represent evidence for constraints is quite restricted. In particular, it permits a selection of special cases (e.g. `EvLit`, `EvCallStack`, `EvTypeable`) but does not permit general `CoreExpr`s. This makes it difficult to constraint evidence for typeclass constraints, because they must use `EvDFunApp` with an existing dfun, rather than generating a dictionary directly. See [ "EvTerms and how they are used" on ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2015-February/008414.html) for discussion of this.
+At the moment, the `EvTerm` type used to represent evidence for constraints is quite restricted. In particular, it permits a selection of special cases (e.g. `EvLit`, `EvCallStack`, `EvTypeable`) but does not permit general `CoreExpr`s. This makes it difficult to constraint evidence for typeclass constraints, because they must use `EvDFunApp` with an existing dfun, rather than generating a dictionary directly. See ["EvTerms and how they are used" on ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2015-February/008414.html) for discussion of this.
 
 
 The plan is to add a constructor `EvCoreExpr CoreExpr` to `EvTerm`, with
@@ -283,7 +283,7 @@ This is now implemented; see [\#14691](https://gitlab.haskell.org//ghc/ghc/issue
 ### Under discussion: Evidence for axioms
 
 
-At present, plugins can produce blatant assertions using a `UnivCo` inside a `TcCoercion`. GHC has limited support for theory-specific axioms in the form of `CoAxiomRule`, but this is limited to built-in axioms relating to type literals. A plugin that creates its own `CoAxiomRule` may at first appear to work fine, but if such an axiom is exposed in an interface file (e.g. via an unfolding) then GHC will crash with a `tcIfaceCoAxiomRule` panic when importing it. See [ "Serialising evidence generated by typechecker plugins" on ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2014-December/007626.html) for discussion of the problem and a potential solution, namely making plugins able to create their own `CoAxiomRule`s and serialise them in interface files. 
+At present, plugins can produce blatant assertions using a `UnivCo` inside a `TcCoercion`. GHC has limited support for theory-specific axioms in the form of `CoAxiomRule`, but this is limited to built-in axioms relating to type literals. A plugin that creates its own `CoAxiomRule` may at first appear to work fine, but if such an axiom is exposed in an interface file (e.g. via an unfolding) then GHC will crash with a `tcIfaceCoAxiomRule` panic when importing it. See ["Serialising evidence generated by typechecker plugins" on ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2014-December/007626.html) for discussion of the problem and a potential solution, namely making plugins able to create their own `CoAxiomRule`s and serialise them in interface files. 
 
 **Richard:** While we're at it, we should probably merge `CoAxiomRule` with `CoAxiom` somehow. I believe `CoAxiomRule` is just a generalization of `CoAxiom`. **End Richard**
 
@@ -299,7 +299,7 @@ It may be possible to generalize both of these into a single form of evidence, b
 
 Iavor notes out that it would be useful to be able to express evidence for functional dependencies using axioms like `forall a b c. (C a b, C a c) => (b ~ c)`.
 
-[ Christiaan points out](https://github.com/clash-lang/ghc-typelits-natnormalise/issues/1#issuecomment-106748739) that the evidence we can generate constrains the way multiple plugins can interact sensibly. 
+[Christiaan points out](https://github.com/clash-lang/ghc-typelits-natnormalise/issues/1#issuecomment-106748739) that the evidence we can generate constrains the way multiple plugins can interact sensibly. 
 
 ## Outstanding issues
 
@@ -325,11 +325,11 @@ Iavor notes out that it would be useful to be able to express evidence for funct
 
 Known plugins:
 
-- [ type-nat-solver](https://github.com/yav/type-nat-solver) is a plugin for solving numeric constraints using an SMT solver
+- [type-nat-solver](https://github.com/yav/type-nat-solver) is a plugin for solving numeric constraints using an SMT solver
 
-- [ ghc-typelits-natnormalise](https://github.com/christiaanb/ghc-typelits-natnormalise) is another plugin for solving numeric constraints, using normalisation instead of an external SMT solver
+- [ghc-typelits-natnormalise](https://github.com/christiaanb/ghc-typelits-natnormalise) is another plugin for solving numeric constraints, using normalisation instead of an external SMT solver
 
-- [ uom-plugin](https://github.com/adamgundry/uom-plugin) is an implementation of units of measure that uses a typechecker plugin to implement the equational theory of abelian groups
+- [uom-plugin](https://github.com/adamgundry/uom-plugin) is an implementation of units of measure that uses a typechecker plugin to implement the equational theory of abelian groups
 
 
 Other possible applications:

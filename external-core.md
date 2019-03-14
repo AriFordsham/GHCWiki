@@ -65,7 +65,7 @@ Other files that contain some reference to External Core or are otherwise releva
 
 ## Documentation
 
-- [ ReadingList\#TypeEqualities](ReadingList#TypeEqualities): Description of the System FC language which GHC now uses internally.
+- [ReadingList\#TypeEqualities](ReadingList#TypeEqualities): Description of the System FC language which GHC now uses internally.
 - [docs/ext-core/](/trac/ghc/browser/ghc/docs/ext-core/): The current documentation for External Core, which should eventually become a chapter in the [GHC User's Guide](http://www.haskell.org/ghc/docs/latest/html/users_guide/index.html).
 - [http://www.haskell.org/ghc/docs/latest/html/users_guide/ext-core.html](http://www.haskell.org/ghc/docs/latest/html/users_guide/ext-core.html): What the User's Guide currently has to say about External Core.
 

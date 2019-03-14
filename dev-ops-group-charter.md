@@ -69,7 +69,7 @@ For the moment, we explicitly refrain from specifying a more detailed long-term 
 ## Mailing list
 
 
-To provide transparency to the wider GHC user community, all discussions will be on `ghc-devops-group @ haskell.org`. If there are group meetings, a meeting summary will be posted to the list. Everybody interested in GHC DevOps aspects is welcome to subscribe to the list and to consult the public mailing list archives at [ https://mail.haskell.org/pipermail/ghc-devops-group/](https://mail.haskell.org/pipermail/ghc-devops-group/)
+To provide transparency to the wider GHC user community, all discussions will be on `ghc-devops-group @ haskell.org`. If there are group meetings, a meeting summary will be posted to the list. Everybody interested in GHC DevOps aspects is welcome to subscribe to the list and to consult the public mailing list archives at [https://mail.haskell.org/pipermail/ghc-devops-group/](https://mail.haskell.org/pipermail/ghc-devops-group/)
 
 
 We expect all discussion and interactions to be civil and non-discriminatory. Messages by individuals who violate this expectation will be subject to moderation or, in the case of repeated incidents, be entirely banned from the list (and group).
@@ -114,7 +114,7 @@ This is how we propose to reach this goal:
 - Simplify the documentation around how to build, change, and contribute back to GHC as well as encourage contributions by way of PRs on GitHub.
 
 
-A fine example of getting all this right is the Rust project: [ https://github.com/rust-lang/rust](https://github.com/rust-lang/rust)
+A fine example of getting all this right is the Rust project: [https://github.com/rust-lang/rust](https://github.com/rust-lang/rust)
 
 
 This requires funding to implement the required tool support and to write new and improved documentation.

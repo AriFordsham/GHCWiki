@@ -30,7 +30,7 @@ Lists the various tarballs (binary packages) that ghc relies on and where to unp
 
 <table><tr><th>**`Makefile`**</th>
 <td>The top-level `Makefile`: see [GHC Build System Architecture](building/architecture). GHC requires
-[ GNU make](http://www.gnu.org/software/make/).
+[GNU make](http://www.gnu.org/software/make/).
 </td></tr></table>
 
 <table><tr><th>**Make system files**</th>

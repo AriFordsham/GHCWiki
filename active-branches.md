@@ -9,7 +9,7 @@ This list overviews the active branches in the main GHC repository.
 
 - `wip/ext-solver`: Iavor S. Diatchki.  Integrate an extrenal SMT solver with the constrain solver.  Mostly for working with type-level naturals at the moment.
 
-- `ghc-lwc2`: **Lightweight concurrency substrate support**. KC Sivaramakrishnan. This implements an evolution of Peng Li's original concept of implementing a lot of the concurrency substrate in the RTS *in Haskell*. The design is described in a paper, "Composable Scheduler Activations for Haskell", found here: [ http://research.microsoft.com/en-us/um/people/simonpj/papers/lw-conc/lwc-hs13.pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/lw-conc/lwc-hs13.pdf).
+- `ghc-lwc2`: **Lightweight concurrency substrate support**. KC Sivaramakrishnan. This implements an evolution of Peng Li's original concept of implementing a lot of the concurrency substrate in the RTS *in Haskell*. The design is described in a paper, "Composable Scheduler Activations for Haskell", found here: [http://research.microsoft.com/en-us/um/people/simonpj/papers/lw-conc/lwc-hs13.pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/lw-conc/lwc-hs13.pdf).
 
 - `data-kind-syntax`: [Syntax for ''kind-only'' definitions](ghc-kinds/kinds-without-data) (i.e. without the type definition when resorting to promotion). Ready for review and merge.
 
@@ -30,9 +30,9 @@ These branches are not merged, but they are also not totally dead ended, and the
 
 - `coloured-core`: **Support for terminal color codes in `-ddump-simpl` output**. Thomas Schilling.
 
-- `supercompiler`: **Max's Supercompiler**. Max Bolingbroke. This implements the ideas present in Max's PhD thesis, seen here: [ http://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-835.html](http://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-835.html)
+- `supercompiler`: **Max's Supercompiler**. Max Bolingbroke. This implements the ideas present in Max's PhD thesis, seen here: [http://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-835.html](http://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-835.html)
 
-- `local-gc`: **Capability-local garbage collection**. Simon Marlow & Simon PJ. As described in "Multicore Garbage Collection with Local Heaps": [ http://simonmar.github.io/bib/papers/local-gc.pdf](http://simonmar.github.io/bib/papers/local-gc.pdf)
+- `local-gc`: **Capability-local garbage collection**. Simon Marlow & Simon PJ. As described in "Multicore Garbage Collection with Local Heaps": [http://simonmar.github.io/bib/papers/local-gc.pdf](http://simonmar.github.io/bib/papers/local-gc.pdf)
 
 - `wip/nested-cpr`: **Nested CPR**. Works, but results where underwhelming. See [NestedCPR](nested-cpr). Joachim Breitner.
 

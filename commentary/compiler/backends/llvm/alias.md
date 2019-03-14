@@ -11,27 +11,27 @@ This correspond to bug [\#5567](https://gitlab.haskell.org//ghc/ghc/issues/5567)
 
 Some links to the various documentation on LLVM's AA support:
 
-- [ LLVM Alias Analysis Infrastructure](http://llvm.org/docs/AliasAnalysis.html)
-- [ LLVM's Analysis and Transform Passes](http://llvm.org/docs/Passes.html)
-- [ The Often Misunderstood GEP Instruction](http://llvm.org/docs/GetElementPtr.html)
-- [ LLVM Language Reference](http://llvm.org/docs/LangRef.html)
-- [ LLVM Dev List: Comparison of Alias Analysis in LLVM](http://groups.google.com/group/llvm-dev/browse_thread/thread/2a5944692508bcc2/363c96bb1c6a506d?show_docid=363c96bb1c6a506d&pli=1)
+- [LLVM Alias Analysis Infrastructure](http://llvm.org/docs/AliasAnalysis.html)
+- [LLVM's Analysis and Transform Passes](http://llvm.org/docs/Passes.html)
+- [The Often Misunderstood GEP Instruction](http://llvm.org/docs/GetElementPtr.html)
+- [LLVM Language Reference](http://llvm.org/docs/LangRef.html)
+- [LLVM Dev List: Comparison of Alias Analysis in LLVM](http://groups.google.com/group/llvm-dev/browse_thread/thread/2a5944692508bcc2/363c96bb1c6a506d?show_docid=363c96bb1c6a506d&pli=1)
 
 ## Max's Work
 
 
 Max had a crack at writing a custom alias analysis pass for LLVM, relevant links are:
 
-- [ Email to LLVM dev](http://lists.cs.uiuc.edu/pipermail/llvmdev/2011-September/043603.html)
-- [ Blog post about results](http://blog.omega-prime.co.uk/?p=135)
-- [ A port to LLVM 3.6](https://github.com/bgamari/ghc-llvm-analyses)
+- [Email to LLVM dev](http://lists.cs.uiuc.edu/pipermail/llvmdev/2011-September/043603.html)
+- [Blog post about results](http://blog.omega-prime.co.uk/?p=135)
+- [A port to LLVM 3.6](https://github.com/bgamari/ghc-llvm-analyses)
 
 ## TBAA
 
 
 LLVM as of version 2.9 includes Type Based Alias Analysis. This mean using metadata you can specify a type hierarchy (with alias properties between types) and annotate your code with these types to improve the alias information. This should allow us to improve the alias analysis without any changes to LLVM itself like Max made.
 
-- [ LLVM TBBA Doc](http://llvm.org/docs/LangRef.html#tbaa)
+- [LLVM TBBA Doc](http://llvm.org/docs/LangRef.html#tbaa)
 
 ## STG / Cmm Alias Properties
 
@@ -40,19 +40,19 @@ LLVM as of version 2.9 includes Type Based Alias Analysis. This mean using metad
 **Answer** (Simon Marlow): Sp\[\] and Hp\[\] never alias, R\[\] never aliases with Sp\[\], and that's about it.
 
 ```wiki
-I64[ Sp + n ] = "stack"
+I64[Sp + n ] = "stack"
 
-I64[ Base + n ] = "base"
+I64[Base + n ] = "base"
 
-I64[ Hp + n ] = "heap"
-I64[ R1 + n ] = "heap"
+I64[Hp + n ] = "heap"
+I64[R1 + n ] = "heap"
 
-I64[ I64[Sp + n]  ] = "heap"
-I64[ I64[Sp + n] + m  ] = "heap"
+I64[I64[Sp + n]  ] = "heap"
+I64[I64[Sp + n] + m  ] = "heap"
 
-I64[ I64[R1 + n] ] = "heap"
-I64[ I64[R1 + n] + m ] = "heap"
-I64[ I64[Sp + n] +  I64 [R1 + n] ] = "heap"
+I64[I64[R1 + n] ] = "heap"
+I64[I64[R1 + n] + m ] = "heap"
+I64[I64[Sp + n] +  I64 [R1 + n] ] = "heap"
 ```
 
 ** Simon**: As long as it propagates properly, such that every F(Sp) is a stack pointer, where F() is any expression context except a dereference.  That is, we better be sure that
@@ -70,7 +70,7 @@ is "stack", not "heap".
 Really to be sound and support Cmm in full we would need to track and propagate TBAA information. It's Types after all! At the moment we don't. We simply rely on the fact that the Cmm code generated for loads and stores is nearly always in the form of:
 
 ```wiki
-I64[ Sp ... ] = ...
+I64[Sp ... ] = ...
 ```
 
 
@@ -136,9 +136,9 @@ which allows them to work much better the third time.
 
 We want to allow LLVM to speculatively hoist loads out of conditional blocks. Relevant LLVM source code is here:
 
-- [ SimplifyCFG Source Code](http://llvm.org/docs/doxygen/html/SimplifyCFG_8cpp_source.html)
-- [ llvm::isSafeToSpeculativelyExecute](http://llvm.org/docs/doxygen/html/namespacellvm.html#a4899ff634bf732c16dd22ecfdafdea7d)
-- [ LLVM Mailing List Discussion about 'Safe loads'](http://lists.cs.uiuc.edu/pipermail/llvmdev/2012-January/046958.html)
+- [SimplifyCFG Source Code](http://llvm.org/docs/doxygen/html/SimplifyCFG_8cpp_source.html)
+- [llvm::isSafeToSpeculativelyExecute](http://llvm.org/docs/doxygen/html/namespacellvm.html#a4899ff634bf732c16dd22ecfdafdea7d)
+- [LLVM Mailing List Discussion about 'Safe loads'](http://lists.cs.uiuc.edu/pipermail/llvmdev/2012-January/046958.html)
 
 **Following is from Roman Leshchinskiy**
 

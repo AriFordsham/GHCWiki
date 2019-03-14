@@ -8,7 +8,7 @@ Travis-CI is a free-for-open-source continuous integration service. See [Validat
 
 It watches the [repository](repositories) for new commits (any branch) and validates them. The results are presented on
 
-- [ the Travis results page](https://travis-ci.org/ghc/ghc/builds)
+- [the Travis results page](https://travis-ci.org/ghc/ghc/builds)
 
 
 where you can select one of the recent build results.
@@ -55,4 +55,4 @@ These settings are made in [ghc/.travis.yml](/trac/ghc/browser/ghc/.travis.yml)[
 - **Error** (Grey exclamation mark): Travis could not finish the build. Most often, this is due to the build exceeding the time limit of 50 minutes. 
 
 >
-> In that case, you can probably ignore the problem. If you are a [ member of the GitHub GHC team](https://github.com/orgs/ghc/people), you can restart the build, to keep the build history tidy.
+> In that case, you can probably ignore the problem. If you are a [member of the GitHub GHC team](https://github.com/orgs/ghc/people), you can restart the build, to keep the build history tidy.

@@ -3,8 +3,8 @@
 
 In this page, we discuss the overall plan and details of implementing Trees that Grow in GHC.   Re-engineering `HsSyn` is a major exercise that touches a lot of code, so we need to move carefully.  This page outlines the plan.
 
-- [ The Trees that Grow paper](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf)
-- The motivation and some background information can be found at the [ report](NativeMetaprogramming) of a related Summer of Haskell project.
+- [The Trees that Grow paper](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf)
+- The motivation and some background information can be found at the [report](NativeMetaprogramming) of a related Summer of Haskell project.
 - [Notes about instances](implementing-trees-that-grow/instances)
 - Main GHC branch: `wip/GrowableAST`
 - [\#14490](https://gitlab.haskell.org//ghc/ghc/issues/14490): TTG snags
@@ -30,7 +30,7 @@ The shorter term plan is to validate the idea by applying it to GHC.  That is, r
 
 A major benefit is that we believe that this re-engineering will
 
-- Completely subsume Alan Zimmerman's [ Api Annotations](ApiAnnotations), making them much easier to use.
+- Completely subsume Alan Zimmerman's [Api Annotations](ApiAnnotations), making them much easier to use.
 - Allow us to get rid of the annoying alternation between `t` and `Located t`, which pervades `HsSyn`
 
 ## Status
@@ -42,13 +42,13 @@ We also split the overall work into multiple smaller patches, by working on a se
 
 ### Step 0 (Done, Accepted, and Landed)
 
-[ Patch D3609](https://phabricator.haskell.org/D3609)
+[Patch D3609](https://phabricator.haskell.org/D3609)
 
 ### Step 1 & 3
 
 #### Patch 1 (Done)
 
-[ Patch D4147](https://phabricator.haskell.org/D4147) implements TtG for
+[Patch D4147](https://phabricator.haskell.org/D4147) implements TtG for
 
 - `ValBinds`
 - `HsPat`
@@ -62,7 +62,7 @@ We also split the overall work into multiple smaller patches, by working on a se
 
 
 Overall, the implementation follows TtG paper with some details captured below.
-Further details can be found in the patch description, and also there is a related [ ticket](https://gitlab.haskell.org/ghc/ghc/issues/14429).
+Further details can be found in the patch description, and also there is a related [ticket](https://gitlab.haskell.org/ghc/ghc/issues/14429).
 
 ## General Plan
 
@@ -74,7 +74,7 @@ It is done in four steps.
 ### Step 0
 
 
-We replace the current `HsSyn` with one using a type parameter that can enable the growable base AST, as proposed in [ D3609](https://phabricator.haskell.org/D3609).
+We replace the current `HsSyn` with one using a type parameter that can enable the growable base AST, as proposed in [D3609](https://phabricator.haskell.org/D3609).
 
 ### Step 1
 
@@ -176,7 +176,7 @@ In the above example the `XFoo` variant could be produced by the renamer or type
 ## Experiment 1
 
 
-There is an experimental implementation at [ https://github.com/alanz/ghc/tree/wip/new-tree-one-param](https://github.com/alanz/ghc/tree/wip/new-tree-one-param).
+There is an experimental implementation at [https://github.com/alanz/ghc/tree/wip/new-tree-one-param](https://github.com/alanz/ghc/tree/wip/new-tree-one-param).
 
 
 The intention is to
@@ -194,7 +194,7 @@ dataGhsPs-- Parser phasedataGhcRn-- RenamerdataGhcTc-- TypecheckerdataGhcTh-- Te
 ```
 
 
-This is a deviation from the *Trees that Grow* paper ([ http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf)) section 4.2 which suggests
+This is a deviation from the *Trees that Grow* paper ([http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf)) section 4.2 which suggests
 
 ```
 dataGHC(c ::Component)dataComponent=CompilerPass|TemplateHaskelldataPass=Parsed|Renamed|Typechecked
@@ -364,7 +364,7 @@ Can this be done? How?
 \@simonpj wrote
 
 >
-> I was talking to Ben, Simon et al about your big patch [ https://phabricator.haskell.org/D3935](https://phabricator.haskell.org/D3935), which \> is Step 1 of [ ImplementingTreesThatGrow](ImplementingTreesThatGrow).
+> I was talking to Ben, Simon et al about your big patch [https://phabricator.haskell.org/D3935](https://phabricator.haskell.org/D3935), which \> is Step 1 of [ImplementingTreesThatGrow](ImplementingTreesThatGrow).
 >
 >
 > To us it seems that separating out Step 3 is a pretty big detour:
@@ -386,7 +386,7 @@ Can this be done? How?
 > If you prefer, you could do it one data type at a time.  We already have the right type parameters.
 
 
-This experiment is taking place at [ https://github.com/ghc/ghc/tree/wip/ttg-2017-10-13](https://github.com/ghc/ghc/tree/wip/ttg-2017-10-13)
+This experiment is taking place at [https://github.com/ghc/ghc/tree/wip/ttg-2017-10-13](https://github.com/ghc/ghc/tree/wip/ttg-2017-10-13)
 
 ### Rough notes based on starting the work (AZ)
 

@@ -2,11 +2,11 @@
 
 **If you came here looking for the description of the compile time Stream Fusion system currently employed in DPH please refer to appropriate papers:**
 
-- [ Stream Fusion: From Lists to Streams to Nothing at All.](http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.104.7401) Duncan Coutts, Roman Leshchinskiy and Don Stewart. ICFP 2007.
+- [Stream Fusion: From Lists to Streams to Nothing at All.](http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.104.7401) Duncan Coutts, Roman Leshchinskiy and Don Stewart. ICFP 2007.
 
-- [ Rewriting Haskell Strings.](http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.90.3166) Duncan Coutts, Don Stewart and Roman Leshchinskiy. PADL 2007.
+- [Rewriting Haskell Strings.](http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.90.3166) Duncan Coutts, Don Stewart and Roman Leshchinskiy. PADL 2007.
 
-- [ Recycle Your Arrays!](http://www.cse.unsw.edu.au/~rl/publications/recycling.html) Roman Leshchinskiy. PADL 2009.
+- [Recycle Your Arrays!](http://www.cse.unsw.edu.au/~rl/publications/recycling.html) Roman Leshchinskiy. PADL 2009.
 
 ## Overview
 
@@ -169,7 +169,7 @@ Expectedly, a *mutator function* takes an element of type `e` and possibly produ
 Apart from the array element currently being looked at the *mutator function* takes a second argument of an arbitrary type called accumulator. In reduction combinators accumulator it is, while in enumerations, for example, it it used to keep track of the value computed so far.
 
 
-The folding and the enumeration combinators are also interesting in a sense that semantically the first produces no array, while the second consumes no array. Following the terminology of the original paper, the former is a *pure consumer* while the latter is a *generator*. However, looking at the type signatures of their corresponding mutator functions, they seem to produce/consume arrays of `Unit`s. This is intentional since one of the design goals was to minimise the number of combinators needed to generalise the library interface. Performance-wise, creating these dummy `Unit` arrays is cheap. The parametric representation mechanism used by DPH ([ Instant Generics.](http://www.cse.unsw.edu.au/~chak/papers/CDL09.html) Chakravarty, Ditu, Lshchinskiy. 2009.) only stores the length of such arrays making their creation and iteration very cheap. The `replicate` combinator mentioned previously is used for precisely this purpose: to generate dummy arrays that *array generators* could use.
+The folding and the enumeration combinators are also interesting in a sense that semantically the first produces no array, while the second consumes no array. Following the terminology of the original paper, the former is a *pure consumer* while the latter is a *generator*. However, looking at the type signatures of their corresponding mutator functions, they seem to produce/consume arrays of `Unit`s. This is intentional since one of the design goals was to minimise the number of combinators needed to generalise the library interface. Performance-wise, creating these dummy `Unit` arrays is cheap. The parametric representation mechanism used by DPH ([Instant Generics.](http://www.cse.unsw.edu.au/~chak/papers/CDL09.html) Chakravarty, Ditu, Lshchinskiy. 2009.) only stores the length of such arrays making their creation and iteration very cheap. The `replicate` combinator mentioned previously is used for precisely this purpose: to generate dummy arrays that *array generators* could use.
 
 
 What has not been shown yet, is the actual `loop` combinator. Its type signature is presented below:
@@ -209,9 +209,9 @@ Likewise, FAF composes multiple mutator functions together. It then passes the r
 
 The current project is carried out completely within the context of the Data Parallel Haskell project. Therefore, the fusion frameworks designed specifically for Haskell were the first to turn to. We have discussed two of them here: Stream Fusion and Functional Array Fusion. Glasgow Haskell Compiler's rewrite rules functionality plays crucial rule in all three of them. This is not coincidental:
 
-- Compile-time term rewriting is a fundamental optimisation technique in the implementation of functional programming languages. Exposing it to the user ([ Playing by the rules.](http://research.microsoft.com/en-us/um/people/simonpj/papers/rules.htm) Peyton Jones, Tolmach, Hoare. 2001) makes it an attractive way to expose compiler functionality to pure library code
+- Compile-time term rewriting is a fundamental optimisation technique in the implementation of functional programming languages. Exposing it to the user ([Playing by the rules.](http://research.microsoft.com/en-us/um/people/simonpj/papers/rules.htm) Peyton Jones, Tolmach, Hoare. 2001) makes it an attractive way to expose compiler functionality to pure library code
 
-- Inlining ([ Secrets of the GHC inliner.](http://research.microsoft.com/~simonpj/papers/inlining) Peyton Jones, Marlow. 2001) is another technique which is crucial in compilers like GHC which heuristically removes superfluous levels of indirection in the original code. As a side effect it provides more opportunities for term rewriting to happen
+- Inlining ([Secrets of the GHC inliner.](http://research.microsoft.com/~simonpj/papers/inlining) Peyton Jones, Marlow. 2001) is another technique which is crucial in compilers like GHC which heuristically removes superfluous levels of indirection in the original code. As a side effect it provides more opportunities for term rewriting to happen
 
 - Haskell is a purely functional language therefore valid term rewriting can be done without a sophisticated analysis of side effects. Rewriting would generally be unsafe in a non-pure context
 
@@ -223,7 +223,7 @@ The above statements suggest that compile time equational fusion seems like a na
 ### Let-Floating
 
 
-One of the cases in which fusion breaks is when two array operation do not end up being adjacent after inlining. This may happen due to the so called Let-Floating optimisation in GHC ([ Let-Floating.](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.30.9079) Peyton Jones, Partain, Santos. 1996.). This optimisation is designed to avoid duplicating work as well as reduce the amount of thunk allocation. (TODO give an example where it poses a problem) This optimisation is the opposite of inlining. If the term that was forcibly floated in or out would have otherwise completed a pattern for a fusion rule, that fusion opportunity is missed.
+One of the cases in which fusion breaks is when two array operation do not end up being adjacent after inlining. This may happen due to the so called Let-Floating optimisation in GHC ([Let-Floating.](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.30.9079) Peyton Jones, Partain, Santos. 1996.). This optimisation is designed to avoid duplicating work as well as reduce the amount of thunk allocation. (TODO give an example where it poses a problem) This optimisation is the opposite of inlining. If the term that was forcibly floated in or out would have otherwise completed a pattern for a fusion rule, that fusion opportunity is missed.
 
 ### Sharing
 
@@ -238,7 +238,7 @@ The other problem with equational fusion is that sharing is not clearly defined.
 The above suggests that correct inlining plays a major part in the process of fusion. It also suggests that the decisions taken by the inliner and other optimisations do not always result in the optimal code for exploiting fusion. 
 
 
-One of the goals of the current work is to reduce the dependency of successfully exploited fusion opportunities on the behaviour of the inliner. It was decided to explore the possibility of performing fusion at runtime of the program. That would eliminate the need for the inliner at least for the part of decision making when fusing array operations together. The DESOLA library ([ DESOLA.](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.142.1454) Russell, Mello Kelly, Backmann.), while designed for C++, serves as a starting point for performing fusion at runtime. The new framework reuses its approach of constructing a dependence tree. When an array computation is later forced by a pure consumer, the tree can be optimised yielding an equivalent computation in a fused form.
+One of the goals of the current work is to reduce the dependency of successfully exploited fusion opportunities on the behaviour of the inliner. It was decided to explore the possibility of performing fusion at runtime of the program. That would eliminate the need for the inliner at least for the part of decision making when fusing array operations together. The DESOLA library ([DESOLA.](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.142.1454) Russell, Mello Kelly, Backmann.), while designed for C++, serves as a starting point for performing fusion at runtime. The new framework reuses its approach of constructing a dependence tree. When an array computation is later forced by a pure consumer, the tree can be optimised yielding an equivalent computation in a fused form.
 
 ### Delayed Array Computation Handles
 

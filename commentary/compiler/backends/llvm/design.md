@@ -50,14 +50,14 @@ The LLVM pipeline works as specified above. Code generation phase occurs, using 
 ## LLVM Code Generation
 
 
-For LLVM code generation we need a method for representing and generating LLVM code. The [ LLVM FAQ](http://llvm.org/docs/FAQ.html#langirgen) suggest the following possible approaches: 
+For LLVM code generation we need a method for representing and generating LLVM code. The [LLVM FAQ](http://llvm.org/docs/FAQ.html#langirgen) suggest the following possible approaches: 
 
-- Call into LLVM Libraries using FFI (can probably use [ Haskell LLVM Bindings](http://hackage.haskell.org/package/llvm)) 
-- Emit LLVM Assembly (approach taken by [ EHC's](http://www.cs.uu.nl/wiki/Ehc/WebHome) LLVM Back-end, can use the [ module](https://subversion.cs.uu.nl/repos/project.UHC.pub/trunk/EHC/src/ehc/LLVM.cag) developed by them for this) 
+- Call into LLVM Libraries using FFI (can probably use [Haskell LLVM Bindings](http://hackage.haskell.org/package/llvm)) 
+- Emit LLVM Assembly (approach taken by [EHC's](http://www.cs.uu.nl/wiki/Ehc/WebHome) LLVM Back-end, can use the [module](https://subversion.cs.uu.nl/repos/project.UHC.pub/trunk/EHC/src/ehc/LLVM.cag) developed by them for this) 
 - Emit LLVM Bitcode (can't see any reason to do this)
 
 
-The approach taken was to use the LLVM module from [ EHC](http://www.cs.uu.nl/wiki/Ehc/WebHome). This module contains an abstract syntax representation of LLVM Assembly and the ability to pretty print it. It has been heavily modified to increase its language coverage as it was missing several LLVM constructs which were needed. Ideally we would like to add a second pretty printer which calls into the LLVM C++ API to generate LLVM Bitcode. This should hopefully decrease the compile times and make the back-end more resilient to future changes to LLVM Assembly. The LLVM Haskell binding (first option) wasn't used as it represents LLVM at a very high level, which isn't appropriate for the back-end.
+The approach taken was to use the LLVM module from [EHC](http://www.cs.uu.nl/wiki/Ehc/WebHome). This module contains an abstract syntax representation of LLVM Assembly and the ability to pretty print it. It has been heavily modified to increase its language coverage as it was missing several LLVM constructs which were needed. Ideally we would like to add a second pretty printer which calls into the LLVM C++ API to generate LLVM Bitcode. This should hopefully decrease the compile times and make the back-end more resilient to future changes to LLVM Assembly. The LLVM Haskell binding (first option) wasn't used as it represents LLVM at a very high level, which isn't appropriate for the back-end.
 
 ## Register Pinning
 
@@ -65,7 +65,7 @@ The approach taken was to use the LLVM module from [ EHC](http://www.cs.uu.nl/wi
 The new back-end supports a custom calling convention to place the STG virtual registers into specific hardware registers. The current approach taken by the C back-end and NCG of having a fixed assignment of STG virtual registers to hardware registers for performance gains is not implemented in the LLVM back-end. Instead, it uses a custom calling convention to support something semantically equivalent to register pinning. The custom calling convention passes the first N variables in specific hardware registers, thus guaranteeing on all function entries that the STG virtual registers can be found in the expected hardware registers. This approach is believed to provide better performance than the register pinning used by NCG/C back-ends as it keeps the STG virtual registers mostly in hardware registers but allows the register allocator more flexibility and access to all machine registers.
 
 
-For some more information about the use of a custom calling convention see [ here (Discussion between Chris Lattner and David Terei)](http://www.nondot.org/sabre/LLVMNotes/GlobalRegisterVariables.txt)
+For some more information about the use of a custom calling convention see [here (Discussion between Chris Lattner and David Terei)](http://www.nondot.org/sabre/LLVMNotes/GlobalRegisterVariables.txt)
 
 ## Code Generation
 
@@ -365,7 +365,7 @@ type ExprData = (LlvmEnv , LlvmVar , LlvmStatements , [LlvmCmmTop] )
 Statements are also handled in a fairly straight-forward manner process involved can be detailed most simply by studying the return type of functions in the LLVM back-end which deal with compiling CmmStmt’s. Statements just as expressions also all return the same basic type when compiled to LLVM code by the back-end. This type is shown below.
 
 ```wiki
-type StmtData = (LlvmEnv , [ LlvmStatement ] , [LlvmCmmTop ] )
+type StmtData = (LlvmEnv , [LlvmStatement ] , [LlvmCmmTop ] )
 ```
 
 - **LlvmEnv**: As compiling a Cmm statement usually involves also compiling a Cmm expression, this LLVM Environment performs the same purpose of returning an updated environment if new external Cmm Label’s have been encountered. This first case updates the environments global map, as a new global variable has been created. In the case of a CmmStore statement though, a Cmm local register may be encountered for the first time. It will be allocated on the stack and added to the local map of the environment.
@@ -385,7 +385,7 @@ Handling registerised Cmm Code involves handling the pinning of the STG virtual 
 
 To handle the TABLES_NEXT_TO_CODE optimisation, the LLVM backend uses a gnu as feature called subsections.
 
-[ http://sourceware.org/binutils/docs-2.20/as/Sub_002dSections.html\#Sub_002dSections](http://sourceware.org/binutils/docs-2.20/as/Sub_002dSections.html#Sub_002dSections)
+[http://sourceware.org/binutils/docs-2.20/as/Sub_002dSections.html\#Sub_002dSections](http://sourceware.org/binutils/docs-2.20/as/Sub_002dSections.html#Sub_002dSections)
 
 
 The way this works is that you can put stuff into a section like '.text 2', where 2 is a subsection of .text When run, 'as' orders the subsections. So all you need to do is arrange for the info-table to be in section '.text n' and the code in section '.text n+1'. Each info-table and its code goes in its own subsection. The nice thing is, this is purely a gnu as feature. When it compiles the assembly to object code, the subsections aren't present in the object code, so you don't get 100's of sections that take up space and slow down linking.

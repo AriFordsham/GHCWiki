@@ -4,7 +4,7 @@
 GHC uses copying GC by default, while it requires more memory than mark/compact?, it is faster.
 
 
-The basic copying scheme is [ Cheney's Algorithm](http://en.wikipedia.org/wiki/Cheney%27s_algorithm).  Starting from the [roots](commentary/rts/storage/gc/roots), we visit each live object:
+The basic copying scheme is [Cheney's Algorithm](http://en.wikipedia.org/wiki/Cheney%27s_algorithm).  Starting from the [roots](commentary/rts/storage/gc/roots), we visit each live object:
 
 - The object is *evacuated* (copied) to its destination generation.   The destination is given by `bd->dest` pointer in the `bdescr` of the
   block in which it lives; typically an object is promoted to the next highest generation, but the basic policy is affected by  [aging](commentary/rts/storage/gc/aging) and [eager promotion](commentary/rts/storage/gc/eager-promotion).

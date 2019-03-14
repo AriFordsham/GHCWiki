@@ -1,7 +1,7 @@
 ## Data Parallel Haskell: NDP by example
 
 
-Data Parallel Haskell provides the programmer with a type of parallel arrays (`[:.:]`) and a large number of operations on them: standard combinators like map, filter, various folds and scans as well as the usual array operations. Moreover, it extends Haskell with parallel array comprehensions such as `[: x+1 | x <- xs :]` and other syntactic sugar similar to what standard Haskell provides for lists. More details on the syntax can be found in [ http://www.cse.unsw.edu.au/\~chak/papers/CKLP01.html](http://www.cse.unsw.edu.au/~chak/papers/CKLP01.html).
+Data Parallel Haskell provides the programmer with a type of parallel arrays (`[:.:]`) and a large number of operations on them: standard combinators like map, filter, various folds and scans as well as the usual array operations. Moreover, it extends Haskell with parallel array comprehensions such as `[: x+1 | x <- xs :]` and other syntactic sugar similar to what standard Haskell provides for lists. More details on the syntax can be found in [http://www.cse.unsw.edu.au/\~chak/papers/CKLP01.html](http://www.cse.unsw.edu.au/~chak/papers/CKLP01.html).
 
 
 Operations on parallel arrays have a parallel semantics: for instance, `sumP [:1..n:]` computes the sum of all numbers from `1` to `n` in parallel, utilising as many threads (and, thus, CPUs or cores) as requested by the programmer. A more involved example is the dot product of two vectors:

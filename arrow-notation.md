@@ -10,7 +10,7 @@ Apart from the tickets below, there are a number of things that need doing
 
 - [\#13547](https://gitlab.haskell.org//ghc/ghc/issues/13547): work out if existential and GADT pattern matches are allowed. If so, fix the desugarer; if not, reject them with a decent error message, not a Core Lint crash.
 
-- See the discussion on this [ Dec 16 ghc-devs thread](https://mail.haskell.org/pipermail/ghc-devs/2016-December/013317.html).  It started with a desire to support rebindable syntax.
+- See the discussion on this [Dec 16 ghc-devs thread](https://mail.haskell.org/pipermail/ghc-devs/2016-December/013317.html).  It started with a desire to support rebindable syntax.
 
 - Lower down this page are a couple of proposed changes to the notation enabled with `-XArrows`.  I'm not sure of their status.
 
@@ -126,7 +126,7 @@ class PreArrow a where
 ```
 
 
-and require that class instead of `Arrow` for the types of those constructs. ([ libraries proposal](http://thread.gmane.org/gmane.comp.lang.haskell.libraries/17609))
+and require that class instead of `Arrow` for the types of those constructs. ([libraries proposal](http://thread.gmane.org/gmane.comp.lang.haskell.libraries/17609))
 
 
 This shouldn't break any code that uses arrows, but will require rewriting of instances of `Arrow`.

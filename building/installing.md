@@ -76,7 +76,7 @@ This is where the programs that you can run are installed, such as `ghc`, `ghci`
 Where all of GHC's support files are kept, including `package.conf`, the header files, and the libraries.
 The location of `libdir` can be found by asking GHC: `ghc --print-libdir`.  Normally you shouldn't have to
 look in here, and you shouldn't install extra files here.  The only reason you might need to know the location
-of `libdir` at all is for passing to the GHC API, and the best way to do that is to use the [ ghc-paths package](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/ghc-paths).
+of `libdir` at all is for passing to the GHC API, and the best way to do that is to use the [ghc-paths package](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/ghc-paths).
 </td></tr></table>
 
 <table><tr><th>`docdir`</th>
@@ -110,7 +110,7 @@ Note that you will not then be able to actually run the compiler from this locat
 ## The installed copy of MinGW on Windows
 
 
-On Windows, GHC also comes with a copy of (most of) [ MinGW](http://www.mingw.org), in `$(prefix)/mingw`.  So for instance, you can invoke the `gcc` that comes with GHC as `$(prefix)/mingw/bin/gcc` (replacing `$(prefix)` appropriately).
+On Windows, GHC also comes with a copy of (most of) [MinGW](http://www.mingw.org), in `$(prefix)/mingw`.  So for instance, you can invoke the `gcc` that comes with GHC as `$(prefix)/mingw/bin/gcc` (replacing `$(prefix)` appropriately).
 
 ## How GHC finds its files
 

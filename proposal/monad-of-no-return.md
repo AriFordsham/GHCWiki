@@ -1,5 +1,5 @@
 
-This proposal has been revised based on the feedback gathered from the [proposal discussion](proposal/monad-of-no-return#discussion). The original revision of this proposal can be found [ here](https://mail.haskell.org/pipermail/libraries/2015-September/026121.html). See wiki page [History](proposal/monad-of-no-return?action=history) for changes relative to that first revision.
+This proposal has been revised based on the feedback gathered from the [proposal discussion](proposal/monad-of-no-return#discussion). The original revision of this proposal can be found [here](https://mail.haskell.org/pipermail/libraries/2015-September/026121.html). See wiki page [History](proposal/monad-of-no-return?action=history) for changes relative to that first revision.
 
 # Monad of no `return`/`>>` Proposal (MRP) <sup>*2e*</sup>
 
@@ -202,7 +202,7 @@ Hackage source-code revealed only 21 packages affected.
 
 
 There is ongoing work in the
-[ Hs2010To201x](https://github.com/hvr/Hs2010To201x) project to
+[Hs2010To201x](https://github.com/hvr/Hs2010To201x) project to
 provide automatic refactoring assistance for migrating pre-AMP
 code-bases to AMP+MFP+MRP. Tooling of this sort can dramatically
 reduce the maintenance cost incurred by the recent `Monad`
@@ -308,10 +308,10 @@ See [MonadOfNoReturn/Discussion](proposal/monad-of-no-return/discussion)
 
 ---
 
-- \[1\]: [ https://wiki.haskell.org/Functor-Applicative-Monad_Proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal)
-- \[2\]: [ https://prime.haskell.org/wiki/Libraries/Proposals/MonadFail](https://prime.haskell.org/wiki/Libraries/Proposals/MonadFail)
-- \[3\]: [ https://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo](https://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo)
-- \[4\]: [ https://gist.github.com/hvr/b0e34463d85b58f169d9](https://gist.github.com/hvr/b0e34463d85b58f169d9)
-- \[5\]: [ https://gist.github.com/hvr/afcd040783d980594883](https://gist.github.com/hvr/afcd040783d980594883)
-- \[6\]: [ https://gitlab.haskell.org/ghc/ghc/issues/9590](https://gitlab.haskell.org/ghc/ghc/issues/9590)
-- \[7\]: [ https://mail.haskell.org/pipermail/haskell-prime/2015-September/003936.html](https://mail.haskell.org/pipermail/haskell-prime/2015-September/003936.html)
+- \[1\]: [https://wiki.haskell.org/Functor-Applicative-Monad_Proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal)
+- \[2\]: [https://prime.haskell.org/wiki/Libraries/Proposals/MonadFail](https://prime.haskell.org/wiki/Libraries/Proposals/MonadFail)
+- \[3\]: [https://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo](https://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo)
+- \[4\]: [https://gist.github.com/hvr/b0e34463d85b58f169d9](https://gist.github.com/hvr/b0e34463d85b58f169d9)
+- \[5\]: [https://gist.github.com/hvr/afcd040783d980594883](https://gist.github.com/hvr/afcd040783d980594883)
+- \[6\]: [https://gitlab.haskell.org/ghc/ghc/issues/9590](https://gitlab.haskell.org/ghc/ghc/issues/9590)
+- \[7\]: [https://mail.haskell.org/pipermail/haskell-prime/2015-September/003936.html](https://mail.haskell.org/pipermail/haskell-prime/2015-September/003936.html)

@@ -1,7 +1,7 @@
 ## Module reexports
 
 
-This is has been implemented and is supported starting with Cabal 1.22 & GHC 7.10, see also the [ Cabal documentation about \`reexported-modules\`](http://cabal.readthedocs.io/en/latest/developing-packages.html#pkg-field-library-reexported-modules)
+This is has been implemented and is supported starting with Cabal 1.22 & GHC 7.10, see also the [Cabal documentation about \`reexported-modules\`](http://cabal.readthedocs.io/en/latest/developing-packages.html#pkg-field-library-reexported-modules)
 
 
 (Trac’ed as [\#8407](https://gitlab.haskell.org//ghc/ghc/issues/8407)).

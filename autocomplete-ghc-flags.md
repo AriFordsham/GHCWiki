@@ -25,4 +25,4 @@ complete -F _ghc -o default ghc
 ## Zsh
 
 
-Zsh autocompletion for GHC can be also accomplished using scripts that don't use --show-options flag. See [ HaskellWiki](http://www.haskell.org/haskellwiki/Zsh) for details.
+Zsh autocompletion for GHC can be also accomplished using scripts that don't use --show-options flag. See [HaskellWiki](http://www.haskell.org/haskellwiki/Zsh) for details.

@@ -316,7 +316,7 @@ To use more than one modifier on a test, just put them in a list.
 For example, to expect an exit code of 3 and omit way 'opt', we could use
 
 ```wiki
-[ omit_ways(['opt']), exit_code(3) ]
+[omit_ways(['opt']), exit_code(3) ]
 ```
 
 
@@ -336,8 +336,8 @@ More documentation can be found in the `driver/README.md` file, or the comments 
 Here's an example test:
 
 ```
-test('perf001',[ collect_compiler_stats('bytes allocated',10)],compile,[''])
-test('ticketNumber',[ collect_stats()],
+test('perf001',[collect_compiler_stats('bytes allocated',10)],compile,[''])
+test('ticketNumber',[collect_stats()],
      compile_and_run,[''])
 ```
 

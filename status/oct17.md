@@ -13,13 +13,13 @@ of user-facing changes.
 
 ### Libraries, source language, and type system
 
--  Phase 2 of the [ Semigroup-Monoid Proposal](https://prime.haskell.org/wiki/Libraries/Proposals/SemigroupMonoid) (Herbert Valerio Riedel)
+-  Phase 2 of the [Semigroup-Monoid Proposal](https://prime.haskell.org/wiki/Libraries/Proposals/SemigroupMonoid) (Herbert Valerio Riedel)
 
 - Further refinement of `TypeInType` including improved error messages.
 
 ### Compiler
 
--   A new syntax tree representation based on [ Trees That Grow](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf). This will make it easier for external users to add their own annotations to the HsSyn AST.  In future this should allow Shayan Najd to harmonise the GHC and Template Haskell ASTs, and for the ghc-exactprint annotations to move into the GHC parsed AST (Shayan Najd and Alan Zimmerman).
+-   A new syntax tree representation based on [Trees That Grow](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf). This will make it easier for external users to add their own annotations to the HsSyn AST.  In future this should allow Shayan Najd to harmonise the GHC and Template Haskell ASTs, and for the ghc-exactprint annotations to move into the GHC parsed AST (Shayan Najd and Alan Zimmerman).
 
 -   Further stabilization of the Backpack module system (Edward Yang)
 
@@ -177,14 +177,14 @@ between, please come speak to us either on IRC (`#ghc` on
 -   GHC website:
 
 >
-> \<[ https://haskell.org/ghc/](https://haskell.org/ghc/)\>
+> \<[https://haskell.org/ghc/](https://haskell.org/ghc/)\>
 
 -   GHC users guide:
 
 >
-> \<[ https://downloads.haskell.org/\~ghc/master/users-guide/](https://downloads.haskell.org/~ghc/master/users-guide/)\>
+> \<[https://downloads.haskell.org/\~ghc/master/users-guide/](https://downloads.haskell.org/~ghc/master/users-guide/)\>
 
 - `ghc-devs` mailing list:
 
 >
-> \<[ https://mail.haskell.org/mailman/listinfo/ghc-devs](https://mail.haskell.org/mailman/listinfo/ghc-devs)\>
+> \<[https://mail.haskell.org/mailman/listinfo/ghc-devs](https://mail.haskell.org/mailman/listinfo/ghc-devs)\>

@@ -8,7 +8,7 @@ indended to make newtypes more flexible and useful.  It tackles head-on
 the problem underlying [\#7542](https://gitlab.haskell.org//ghc/ghc/issues/7542) and [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110).
 
 
-Email thread [ here](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-January/023455.html).
+Email thread [here](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-January/023455.html).
 
 ## The problem
 
@@ -78,7 +78,7 @@ To clarify these requirements, here some benchmarks; feel free to expand if you 
 ## The implementation
 
 
-Core already had provided all the necessary feature; the question was just how to offer it on the Haskell level. The implementation comes in form of a `coerce :: Coercible a b -> a -> b` and a type class `Coercible` that relates two types if they have the same representation, i.e. can be related by a coercion of role Representational (see [Roles](roles)). See the haddock documentation for `coercible` for user-level documentation and [ Note \[Coercible Instances](https://gitlab.haskell.org/ghc/compiler/blob/master/typecheck/TcInteract.lhs#L2013)\] for information on the implementation.
+Core already had provided all the necessary feature; the question was just how to offer it on the Haskell level. The implementation comes in form of a `coerce :: Coercible a b -> a -> b` and a type class `Coercible` that relates two types if they have the same representation, i.e. can be related by a coercion of role Representational (see [Roles](roles)). See the haddock documentation for `coercible` for user-level documentation and [Note \[Coercible Instances](https://gitlab.haskell.org/ghc/compiler/blob/master/typecheck/TcInteract.lhs#L2013)\] for information on the implementation.
 
 
 The implementation fulfills the first goal, the second partly (`C N -> C T` is allowed even without `C`'s data constructors in scope; if `C` should be abstract the role of its argument needs to be `Nominal`). Due to the ad-hoc nature of the `Coercible` instances, the second and third goal are not achieve. No work towards the fifths goal has been done.
@@ -120,4 +120,4 @@ deriving listNT :: NT a b -> NT [a] [b]
 ```
 
 
-One problem with this approach is that if the user can use arbitrary Haskell to mange the `NT` values, he can create bottoms. Also, additional syntax is required. It was [ argued](http://www.haskell.org/pipermail/ghc-devs/2013-July/001667.html) that the benefits over the type-class apporoach (Approach 2) do not warrant the extra syntactical complexity.
+One problem with this approach is that if the user can use arbitrary Haskell to mange the `NT` values, he can create bottoms. Also, additional syntax is required. It was [argued](http://www.haskell.org/pipermail/ghc-devs/2013-July/001667.html) that the benefits over the type-class apporoach (Approach 2) do not warrant the extra syntactical complexity.

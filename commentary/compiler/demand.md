@@ -3,7 +3,7 @@
 
 This page explains basics of the so-called demand analysis in GHC, comprising strictness and absence analyses. Meanings of demand signatures are explained and examples are provided. Also, components of the compiler possibly affected by the results of the demand analysis are listed with explanations provided. 
 
-- The [ demand-analyser draft paper](https://www.microsoft.com/en-us/research/wp-content/uploads/2017/03/demand-jfp-draft.pdf) is as yet unpublished, but gives the most accurate overview of the way GHC's demand analyser works.
+- The [demand-analyser draft paper](https://www.microsoft.com/en-us/research/wp-content/uploads/2017/03/demand-jfp-draft.pdf) is as yet unpublished, but gives the most accurate overview of the way GHC's demand analyser works.
 
 ---
 
@@ -27,7 +27,7 @@ Str=DmdType <S,U><S,U(UA)>m
 ```
 
 
-This should be read as "`f` puts stricts demands on both its arguments (hence, `S`); `f` might use its first  and second arguments. but in the second argument (which is a product), the second component is ignored". The suffix `m` in the demand signature indicates that the function returns **CPR**, a constructed product result (for more information on CPR see the JFP paper [ Constructed Product Result Analysis for Haskell](http://research.microsoft.com/en-us/um/people/simonpj/Papers/cpr/index.htm)). 
+This should be read as "`f` puts stricts demands on both its arguments (hence, `S`); `f` might use its first  and second arguments. but in the second argument (which is a product), the second component is ignored". The suffix `m` in the demand signature indicates that the function returns **CPR**, a constructed product result (for more information on CPR see the JFP paper [Constructed Product Result Analysis for Haskell](http://research.microsoft.com/en-us/um/people/simonpj/Papers/cpr/index.htm)). 
 
 
 Current implementation of demand analysis in Haskell performs annotation of all binders with demands, put on them in the context of their use. For functions, it is assumed, that the result of the function is used strictly. The analysis infers strictness and usage information separately, as two components of a cartesian product domain. The same analysis also performs inference CPR and bottoming properties for functions, which can be read from the suffix of the signature. Demand signatures of inner definitions may also include *demand environments* that indicate demands, which a closure puts to its free variables, once strictly used, e.g. the signature
@@ -70,7 +70,7 @@ Absence/usage demands
 
 Additional information (demand signature suffix)
 
-- `m` -- the function returns a [ constructed product result](http://research.microsoft.com/en-us/um/people/simonpj/Papers/cpr/index.htm).
+- `m` -- the function returns a [constructed product result](http://research.microsoft.com/en-us/um/people/simonpj/Papers/cpr/index.htm).
 
 - `b` -- the function definitely diverges.
 
@@ -156,10 +156,10 @@ Multiple parts of GHC are sensitive to changes in the nature of demand signature
 ## Instrumentation
 
 
-For the [ Journal version of the demand analysis paper](https://www.microsoft.com/en-us/research/wp-content/uploads/2017/03/demand-jfp-draft.pdf) we created some instrumentation
+For the [Journal version of the demand analysis paper](https://www.microsoft.com/en-us/research/wp-content/uploads/2017/03/demand-jfp-draft.pdf) we created some instrumentation
 
 - to measure how often a thunk is entered (to see if the update code was useful), and also
 - to find out why a thunk is expected to be entered multiple times.
 
 
-The code adds significant complexity to the demand analyser and the code generator, so we decided not to merge it into master (not even hidden behind flags), but should it ever have to be resurrected, it can be found in the branch `wip/T10613`. View the [ full diff](http://git.haskell.org/ghc.git/commitdiff/refs/heads/wip/T10613?hp=930a525a5906fdd65ab0c3e804085d5875517a20) (at least as long as the link is valid, as it hard-codes the base commit).
+The code adds significant complexity to the demand analyser and the code generator, so we decided not to merge it into master (not even hidden behind flags), but should it ever have to be resurrected, it can be found in the branch `wip/T10613`. View the [full diff](http://git.haskell.org/ghc.git/commitdiff/refs/heads/wip/T10613?hp=930a525a5906fdd65ab0c3e804085d5875517a20) (at least as long as the link is valid, as it hard-codes the base commit).

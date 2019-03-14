@@ -60,7 +60,7 @@ The proposal here is to lock in this approach as part of the definition of the G
 ### But that's impredicative!
 
 
-The constraint `Coercible (a -> r) (D a => r)` is indeed impredicative, and we can't reasonably expect GHC to infer the type `coerce :: (a -> r) -> (D a => r)`. But, with explicit type application ([\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296)), this is straightforward. Indeed, in the proposed implementation ([ Phab:D1138](https://phabricator.haskell.org/D1138)), we can (almost) say `coerce :: (D a => r) -> (a -> r)`. The only thing holding us back is that the `Coercible` mechanism requires newtypes' constructors to be in scope in order to unwrap them. Dictionary constructors are never in scope, so this check fails.
+The constraint `Coercible (a -> r) (D a => r)` is indeed impredicative, and we can't reasonably expect GHC to infer the type `coerce :: (a -> r) -> (D a => r)`. But, with explicit type application ([\#5296](https://gitlab.haskell.org//ghc/ghc/issues/5296)), this is straightforward. Indeed, in the proposed implementation ([Phab:D1138](https://phabricator.haskell.org/D1138)), we can (almost) say `coerce :: (D a => r) -> (a -> r)`. The only thing holding us back is that the `Coercible` mechanism requires newtypes' constructors to be in scope in order to unwrap them. Dictionary constructors are never in scope, so this check fails.
 
 
 But, if we simply say that `-XIncoherentInstances` allows the `Coercible` solver to skip this check for class dictionaries, then we're home free. Problem solved.
@@ -71,7 +71,7 @@ But, if we simply say that `-XIncoherentInstances` allows the `Coercible` solver
 Any approach to local instances is going to butt up against coherence. Except that incoherence is impossible with **singleton** types, like the `Typeable` class we started with. So we might consider relaxing the `-XIncoherentInstances` requirement if the types involved are singletons.
 
 
-The problem here is that I can't imagine a good way for GHC to detect singletons. We could put in some silly syntactic checks, but these will always be wrong, I think. [ Scherer and Rémy (2015)](http://gallium.inria.fr/~scherer/research/unique_inhabitants/unique_stlc_sums-long.pdf) suggest that this is not an easy problem.
+The problem here is that I can't imagine a good way for GHC to detect singletons. We could put in some silly syntactic checks, but these will always be wrong, I think. [Scherer and Rémy (2015)](http://gallium.inria.fr/~scherer/research/unique_inhabitants/unique_stlc_sums-long.pdf) suggest that this is not an easy problem.
 
 ## Alternatives
 

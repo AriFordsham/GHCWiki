@@ -38,7 +38,7 @@ In the sequel, we will describe the `-XOverloadedRecordFields` extension, which 
 Previous versions of this proposal suggested changing the lexical syntax so that record projections could be written postfix, immediately following a dot. For example, `e.personId` would be roughly equivalent to `personId e`. This would be a breaking change (when the extension was enabled) as composition would need spaces around the dot operator. However, it would mean that the field name would not have to be in scope, allowing better library separation. For example, `e.personId` would be valid even if no `personId` fields were in scope.
 
 
-In the light of feedback, we propose **no changes to dot syntax** for the time being. In the future, we could add a separate extension to treat [dot as postfix function application](records/declared-overloaded-record-fields/dot-postfix). Note that the [ lens](http://hackage.haskell.org/package/lens) library encourages the use of dot with no spaces, as composition is used to chain lenses.
+In the light of feedback, we propose **no changes to dot syntax** for the time being. In the future, we could add a separate extension to treat [dot as postfix function application](records/declared-overloaded-record-fields/dot-postfix). Note that the [lens](http://hackage.haskell.org/package/lens) library encourages the use of dot with no spaces, as composition is used to chain lenses.
 
 ### Record field constraints
 
@@ -105,7 +105,7 @@ At present, a datatype in one module can declare a field, but if the selector fu
   - `-XOverloadedRecordFields` is enabled for module `M` and 
   - The record field selector function `x` is in scope. 
 
-- This approach (in which the availability of magical instances depends on what is in scope) is similar to the special treatment of `Coercible` instances (see [ Safe Coercions](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)).
+- This approach (in which the availability of magical instances depends on what is in scope) is similar to the special treatment of `Coercible` instances (see [Safe Coercions](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)).
 
 
 Notice that
@@ -343,7 +343,7 @@ This is all a bit subtle. We could make updates entirely non-type-changing if th
 ### Lens integration
 
 
-It was implied above that a field like `foo` translates into `getField (proxy# :: Proxy# "foo") :: Has r "foo" t => r -> t`, but this is not quite the whole story. We would like fields to be usable as lenses (e.g. using packages such as [ lens](http://hackage.haskell.org/package/lens), [ data-accessor](http://hackage.haskell.org/package/data-accessor) or [ data-lens](http://hackage.haskell.org/package/data-lens)). This requires a slightly more general translation, using
+It was implied above that a field like `foo` translates into `getField (proxy# :: Proxy# "foo") :: Has r "foo" t => r -> t`, but this is not quite the whole story. We would like fields to be usable as lenses (e.g. using packages such as [lens](http://hackage.haskell.org/package/lens), [data-accessor](http://hackage.haskell.org/package/data-accessor) or [data-lens](http://hackage.haskell.org/package/data-lens)). This requires a slightly more general translation, using
 
 ```wiki
 field :: Accessor p r n t => Proxy# n -> p r t
@@ -554,7 +554,7 @@ Should we have a special syntax for `Upd` constraints, just as `r { x :: t }` su
 
 ### Trouble in paradise
 
-[ Edward Kmett points out](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-July/022584.html) that a previous version of this proposal, where the third parameter of the `Has` class was not functionally dependent on the first two, fell short in an important respect: composition of polymorphic record fields would lead to ambiguity errors, as the intermediate type cannot be determined. For example, suppose
+[Edward Kmett points out](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-July/022584.html) that a previous version of this proposal, where the third parameter of the `Has` class was not functionally dependent on the first two, fell short in an important respect: composition of polymorphic record fields would lead to ambiguity errors, as the intermediate type cannot be determined. For example, suppose
 
 ```wiki
 foo :: Has b "foo" c => b -> c

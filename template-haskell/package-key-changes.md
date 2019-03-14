@@ -1,7 +1,7 @@
 
 In GHC 7.10, we changed the internal representation of names to be based on package keys (`base_XXXXXX`) rather than package IDs (`base-4.7.0.1`).  However, we forgot to update the Template Haskell API to track these changes.  This lead to some bugs in TH code which was synthesizing names by using package name and version directly, of which we've seen two cases (and there are probably more):
 
-> [ https://github.com/ekmett/lens/issues/496](https://github.com/ekmett/lens/issues/496)[ https://gitlab.haskell.org/ghc/ghc/issues/10279](https://gitlab.haskell.org/ghc/ghc/issues/10279)
+> [https://github.com/ekmett/lens/issues/496](https://github.com/ekmett/lens/issues/496)[https://gitlab.haskell.org/ghc/ghc/issues/10279](https://gitlab.haskell.org/ghc/ghc/issues/10279)
 
 
 The primary use-case for generating a `Name` from scratch is in order to provide some functions intended for use in Template Haskell which need to refer to a renamed identifier, e.g. `GHC.Num.(+)`, but WITHOUT using a TH splice to get the name `[| (+) |]`
@@ -11,7 +11,7 @@ We now propose the following changes to the TH API in order to track these chang
 
 - [\#9265](https://gitlab.haskell.org//ghc/ghc/issues/9265): why move to package keys instead of package names
 - [\#10279](https://gitlab.haskell.org//ghc/ghc/issues/10279): breakage caused by faking package keys
-- [ Similar lens bug](https://github.com/ekmett/lens/issues/496)
+- [Similar lens bug](https://github.com/ekmett/lens/issues/496)
 
 ## Rename PkgName to UnitId
 
@@ -34,7 +34,7 @@ mkUnitId = UnitId
 **Variation 1.** Keep the old `PkgName` type and constructor around for backwards compatibility.  One reason **not** to do this is that the change from package name to package key was a semantic change, meaning that people who were faking keys by concatenating a name with a version had their code break. (On the other hand, by the end of the 7.10 cycle most people probably will be using the old name correctly.)
 
 
-Here is the GitHub search for uses of `NameG`, which usually indicates a package key is being manipulated directly: [ https://github.com/search?l=haskell&q=NameG&type=Code&utf8=%E2%9C%93](https://github.com/search?l=haskell&q=NameG&type=Code&utf8=%E2%9C%93)
+Here is the GitHub search for uses of `NameG`, which usually indicates a package key is being manipulated directly: [https://github.com/search?l=haskell&q=NameG&type=Code&utf8=%E2%9C%93](https://github.com/search?l=haskell&q=NameG&type=Code&utf8=%E2%9C%93)
 
 ## Querying about units
 

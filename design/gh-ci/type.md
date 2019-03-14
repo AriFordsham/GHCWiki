@@ -182,7 +182,7 @@ Choice (A) about the behavior of `:type`, and there is no way to default or acce
 ## Concrete proposed solutions
 
 
-In [ Phab:D2136](https://phabricator.haskell.org/D2136), Richard E has written a patch that implements (1A, 2B, 3D).
+In [Phab:D2136](https://phabricator.haskell.org/D2136), Richard E has written a patch that implements (1A, 2B, 3D).
 
 
 Simon has suggested ([comment:5:ticket:10963](https://gitlab.haskell.org//ghc/ghc/issues/10963)) that three `:type` commands is two too many, and suggests (1D, 3B), with no particular vote on issue 2. Simon also suggests that Problem 1 is a non-problem.
@@ -191,12 +191,12 @@ Simon has suggested ([comment:5:ticket:10963](https://gitlab.haskell.org//ghc/gh
 User \@takenobu has suggested, most recently in [comment:7:ticket:10963](https://gitlab.haskell.org//ghc/ghc/issues/10963), that we look into 2C.
 
 
-On [ Phab:2136](https://phabricator.haskell.org/2136), Herbert has reminded us to make sure that any changes do not invalidate common existing workflows, like typing `:ty<TAB> foo` into GHCi.
+On [Phab:2136](https://phabricator.haskell.org/2136), Herbert has reminded us to make sure that any changes do not invalidate common existing workflows, like typing `:ty<TAB> foo` into GHCi.
 
 ## Summary of feedback about this issue
 
 
-I (Richard) collected feedback on May 2, 2016, from [ ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2016-April/011933.html), [ haskell-cafe 1](https://mail.haskell.org/pipermail/haskell-cafe/2016-April/123792.html), [ haskell-cafe 2](https://mail.haskell.org/pipermail/haskell-cafe/2016-May/123843.html), on the ticket, and via [ reddit](https://www.reddit.com/r/haskell/comments/4gvim4/design_input_opportunity_specializing_types_in/). Here is a summary of the feedback. I have not attached numbers of votes, etc., because the feedback has tended to be unstructured. In my opinion, attaching a number of votes would imply more significant figures than we really have.
+I (Richard) collected feedback on May 2, 2016, from [ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2016-April/011933.html), [haskell-cafe 1](https://mail.haskell.org/pipermail/haskell-cafe/2016-April/123792.html), [haskell-cafe 2](https://mail.haskell.org/pipermail/haskell-cafe/2016-May/123843.html), on the ticket, and via [reddit](https://www.reddit.com/r/haskell/comments/4gvim4/design_input_opportunity_specializing_types_in/). Here is a summary of the feedback. I have not attached numbers of votes, etc., because the feedback has tended to be unstructured. In my opinion, attaching a number of votes would imply more significant figures than we really have.
 
 - 1A is the most popular option among issue 1.
 - A minority of people suggested adding specializations right to `:type`, alongside the full type. More people seemed to counter this than support it, however.

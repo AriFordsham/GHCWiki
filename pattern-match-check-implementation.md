@@ -239,7 +239,7 @@ the presence of more than one guard-vector, we should duplicate the pattern vect
 it). That is:
 
 ```wiki
-(vec, [gv1, gv2, .., gvN]) == [ vec ++ gv1
+(vec, [gv1, gv2, .., gvN]) == [vec ++ gv1
                               , vec ++ gv2
                               ...
                               , vec ++ gvN

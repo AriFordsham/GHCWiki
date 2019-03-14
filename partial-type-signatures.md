@@ -5,7 +5,7 @@
 
 Relevant links
 
-- [ Thomas Winant's blog post](https://www.fpcomplete.com/user/thomasw/new-in-ghc-7-10-partial-type-signatures)
+- [Thomas Winant's blog post](https://www.fpcomplete.com/user/thomasw/new-in-ghc-7-10-partial-type-signatures)
 - Ticket to track progress: [\#9478](https://gitlab.haskell.org//ghc/ghc/issues/9478)
 
 
@@ -32,11 +32,11 @@ We have been working on a design and an implementation of them for
 Haskell and GHC. We have worked out the interaction with
 OutsideIn(X) type inference
 and generalisation in a
-[ paper](https://lirias.kuleuven.be/bitstream/123456789/423475/3/paper.pdf)
-presented at [ PADL'14](http://www.ist.unomaha.edu/padl2014/) and
-a [ technical report with proofs](https://lirias.kuleuven.be/bitstream/123456789/424883/1/CW649.pdf).
+[paper](https://lirias.kuleuven.be/bitstream/123456789/423475/3/paper.pdf)
+presented at [PADL'14](http://www.ist.unomaha.edu/padl2014/) and
+a [technical report with proofs](https://lirias.kuleuven.be/bitstream/123456789/424883/1/CW649.pdf).
 This document attempts to describe our design and our
-[ current implementation](https://github.com/mrBliss/ghc) from a more practical
+[current implementation](https://github.com/mrBliss/ghc) from a more practical
 point of view in the hope to get some feedback from the GHC developers
 community.
 
@@ -174,7 +174,7 @@ normal type signature?
 
 - **Uninferrable types** Some types cannot be inferred, see the
   following program (example adapted from
-  [ Practical type inference for arbitrary-rank types](http://research.microsoft.com/en-us/um/people/simonpj/Papers/higher-rank/)).
+  [Practical type inference for arbitrary-rank types](http://research.microsoft.com/en-us/um/people/simonpj/Papers/higher-rank/)).
 
   ```wiki
   foo x = (x [True, False], x ['a', 'b'])
@@ -210,10 +210,10 @@ normal type signature?
 
 - **Community** Feature requests or wiki pages for partial type
   signatures in some form or other already exist: [\#5248](https://gitlab.haskell.org//ghc/ghc/issues/5248),
-  [ PartialTypeSigs](https://ghc.haskell.org/trac/haskell-prime/wiki/PartialTypeSigs),
-  [ PartialTypeAnnotations](https://ghc.haskell.org/trac/haskell-prime/wiki/PartialTypeAnnotations).
+  [PartialTypeSigs](https://ghc.haskell.org/trac/haskell-prime/wiki/PartialTypeSigs),
+  [PartialTypeAnnotations](https://ghc.haskell.org/trac/haskell-prime/wiki/PartialTypeAnnotations).
   More recently,
-  [ a question popped up on Stack Overflow](http://stackoverflow.com/questions/21658438/how-to-define-function-signatures-partially-in-haskell)
+  [a question popped up on Stack Overflow](http://stackoverflow.com/questions/21658438/how-to-define-function-signatures-partially-in-haskell)
   asking if there is such a thing as partial type signatures for
   Haskell. Judging from the comments on our answer, people seemed to
   be interested. After presenting the paper at PADL'14, people told us
@@ -251,7 +251,7 @@ you say something like `monadicComputation :: _ Int` etc.
 
 
 Other workarounds exist as well (see the
-[ paper](https://lirias.kuleuven.be/bitstream/123456789/423475/3/paper.pdf)
+[paper](https://lirias.kuleuven.be/bitstream/123456789/423475/3/paper.pdf)
 for a discussion). They are typically based on adding computationally
 useless functions or dead code and we find them all less natural and
 elegant than our partial signatures.
@@ -614,7 +614,7 @@ messages.
 
 Alejandro Serrano Mena has added Emacs support for interacting with TypedHoles
 during his
-[ GSOC project](http://serras-haskell-gsoc.blogspot.com/2014/08/summer-of-code-on-emacs.html).
+[GSOC project](http://serras-haskell-gsoc.blogspot.com/2014/08/summer-of-code-on-emacs.html).
 He told me this should work fine with [PartialTypeSignatures](partial-type-signatures) as it is, but we
 would like to add the ability to let Emacs fill in the hole's inferred type
 at the press of a key. We will look into this.
@@ -670,7 +670,7 @@ partial type signature.
 
 GHC is slightly more liberal than the strict rule described in the
 OutsideIn(X) paper though.
-As explained in [ Let generalisation in GHC 7.0](https://ghc.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7),
+As explained in [Let generalisation in GHC 7.0](https://ghc.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7),
 even with the MonoLocalBinds
 extension enabled, a local binding without a type signature will still
 be generalised when all its free variables are closed. Translating
@@ -722,7 +722,7 @@ usefulness.
 We worked out a rigorous formalisation of partial type signatures
 including typing rules, extending the existing formalisation of GHC's
 type inference system, OutsideIn(X)
-(as [ described](http://research.microsoft.com/apps/pubs/default.aspx?id=162516)
+(as [described](http://research.microsoft.com/apps/pubs/default.aspx?id=162516)
 in *OutsideIn(X): Modular
 type inference with local assumptions*). Additionally, we proved
 soundness of our new typing rules.
@@ -740,7 +740,7 @@ have the same effect as the old rules.
 
 
 See the
-[ technical report](https://lirias.kuleuven.be/bitstream/123456789/424883/1/CW649.pdf)
+[technical report](https://lirias.kuleuven.be/bitstream/123456789/424883/1/CW649.pdf)
 for more details.
 
 ---
@@ -749,7 +749,7 @@ for more details.
 
 
 We implemented our proposal as a branch of GHC (master), available at
-[ github](https://github.com/mrBliss/ghc). This version can be compiled and
+[github](https://github.com/mrBliss/ghc). This version can be compiled and
 should type check the majority of the examples in this proposal.
 
 
@@ -810,7 +810,7 @@ Here is a summary of the changes we have made in the implementation:
 
 - We extended Haddock as well to handle partial type signatures. A single
   commit updating the GHC API and adding printing capabilities can be found in
-  our fork of Haddock on [ github](https://github.com/mrBliss/haddock).
+  our fork of Haddock on [github](https://github.com/mrBliss/haddock).
 
 ### Notes
 
@@ -865,7 +865,7 @@ some things that may be non-obvious.
   GADTs and
   TypeFamilies!),
   as [intended](partial-type-signatures#). However, for functions affected
-  by this restriction (i.e. [ not all free variables are closed](https://ghc.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7#Whichbindingsareaffected)),
+  by this restriction (i.e. [not all free variables are closed](https://ghc.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7#Whichbindingsareaffected)),
   partial type signatures aren't properly handled.
 
   ```wiki
@@ -990,7 +990,7 @@ some things that may be non-obvious.
 
 
 Regarding the
-[ monomorphism restriction](http://www.haskell.org/onlinereport/decls.html#sect4.5.5),
+[monomorphism restriction](http://www.haskell.org/onlinereport/decls.html#sect4.5.5),
 the existing rules apply. Declarations with a partial type signature
 are treated as declarations without a type signature. Therefore, these
 declarations will be *restricted*, and constrained type variables of

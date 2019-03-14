@@ -39,10 +39,10 @@ By reusing the GCC CLI convention for warning-flags, we can make GHC's CLI a bit
 
 **~~Proposed~~also implemented for GHC 8.0:**
 
-- ([ phab:D1850](https://phabricator.haskell.org/D1850)) Introduce some new warning sets, e.g.
+- ([phab:D1850](https://phabricator.haskell.org/D1850)) Introduce some new warning sets, e.g.
 
   - Define set `-Wstandard` (modulo bikeshed, maybe `-Wdefault`?) to denote the set of warnings on by default, together with its negation `-Wno-standard`
-  - Define set `-Weverything` (c.f. clang's [ -Weverything](http://clang.llvm.org/docs/UsersManual.html#diagnostics-enable-everything) as precedent) to comprise really \*all\* warnings (together with its negation `-Wno-everything` for symmetry, which is a synonym for `-w`)
+  - Define set `-Weverything` (c.f. clang's [-Weverything](http://clang.llvm.org/docs/UsersManual.html#diagnostics-enable-everything) as precedent) to comprise really \*all\* warnings (together with its negation `-Wno-everything` for symmetry, which is a synonym for `-w`)
   - Define set `-Wextra` (modulo bikeshed, maybe `-Wnormal`?) as synonym for `-W`, together with its negation `-Wno-extra`
   - ([\#11000](https://gitlab.haskell.org//ghc/ghc/issues/11000)) Define set `-Wcompat` to denote all warnings about future compatility GHC *currently* knows about (like e.g. `-Wcompat-amp`, `-Wcompat-mfp`, `-Wcompat-mrp`)  In addition, have `ghc` provide a way to dump the current warning-sets (in a format that's parseable by humans and machines)
 

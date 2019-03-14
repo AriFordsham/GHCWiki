@@ -1,7 +1,7 @@
 # Kind polymorphism and datatype promotion
 
 
-This page gives additional implementation details for the `-XPolyKinds` flag. The grand design is described in the paper [ Giving Haskell a Promotion](http://dreixel.net/research/pdf/ghp.pdf). Most of the work has been done and merged into GHC 7.4.1. The relevant user documentation is in \[the user's guide (add link when it's up)\] and on the [ Haskell wiki page](http://haskell.org/haskellwiki/GHC/Kinds). What still doesn't work, or doesn't work correctly, is described here.
+This page gives additional implementation details for the `-XPolyKinds` flag. The grand design is described in the paper [Giving Haskell a Promotion](http://dreixel.net/research/pdf/ghp.pdf). Most of the work has been done and merged into GHC 7.4.1. The relevant user documentation is in \[the user's guide (add link when it's up)\] and on the [Haskell wiki page](http://haskell.org/haskellwiki/GHC/Kinds). What still doesn't work, or doesn't work correctly, is described here.
 
 
 Sub-pages
@@ -37,13 +37,13 @@ types *then* instances.
 
 A couple of people have asked about this
 
-- [ Commentary/Compiler/GenericDeriving\#Digression](Commentary/Compiler/GenericDeriving#Digression)
-- [ http://www.reddit.com/r/haskell/comments/u7oxb/is_it_possible_to_datakindlift_a_data_family/](http://www.reddit.com/r/haskell/comments/u7oxb/is_it_possible_to_datakindlift_a_data_family/)
+- [Commentary/Compiler/GenericDeriving\#Digression](Commentary/Compiler/GenericDeriving#Digression)
+- [http://www.reddit.com/r/haskell/comments/u7oxb/is_it_possible_to_datakindlift_a_data_family/](http://www.reddit.com/r/haskell/comments/u7oxb/is_it_possible_to_datakindlift_a_data_family/)
 
-## [ \#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) (proper handling of infix promoted constructors)
+## [\#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) (proper handling of infix promoted constructors)
 
 
-Bug report [ \#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) shows a
+Bug report [\#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) shows a
 problem in parsing promoted infix datatypes.
 
 **Future work:** handle kind operators properly in the parser.
@@ -82,7 +82,7 @@ they would be classified by kinds.
 
 
 (As an aside, sets containing themselves result in an inconsistent system; see, for instance,
-[ this example](http://www.cs.nott.ac.uk/~txa/g53cfr/l20.agda). This is not of practical
+[this example](http://www.cs.nott.ac.uk/~txa/g53cfr/l20.agda). This is not of practical
 concern for Haskell.)
 
 
@@ -129,7 +129,7 @@ Now instead of sort variables we have kind variables, and we do not need to prom
 
 Kind indexing alone should not require kind equality constraints; we always
 require type/kind signatures for kind polymorphic stuff, so then
-[ wobbly types](http://research.microsoft.com/en-us/um/people/simonpj/papers/gadt/gadt-rigid-contexts.pdf)
+[wobbly types](http://research.microsoft.com/en-us/um/people/simonpj/papers/gadt/gadt-rigid-contexts.pdf)
 can be used to type check generalised algebraic kinds, avoiding the need for
 coercions. While this would still require some implementation effort, it
 should be "doable".

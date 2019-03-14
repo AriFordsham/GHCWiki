@@ -3,8 +3,8 @@
 
 The information about the nightly builds is aggregated thus:
 
-- [ Information on the status of the nightly builds](http://haskell.inf.elte.hu/builders/). This is basically a large table with hyperlinks to the individual builds in it.
-- [ Fully-built documentation for the nightly builds](http://haskell.inf.elte.hu/docs/).  Here, for example, is the [ user manual and library Haddocks for HEAD](http://haskell.inf.elte.hu/docs/latest/html/).
+- [Information on the status of the nightly builds](http://haskell.inf.elte.hu/builders/). This is basically a large table with hyperlinks to the individual builds in it.
+- [Fully-built documentation for the nightly builds](http://haskell.inf.elte.hu/docs/).  Here, for example, is the [user manual and library Haddocks for HEAD](http://haskell.inf.elte.hu/docs/latest/html/).
 
 # Conventions
 
@@ -56,7 +56,7 @@ Each build has a result, which is both marked by a distinct color and a brief na
 
 The builder summary pages store information on every build, however, from the main page, **only the top 10 builds are shown** for each of the builders.  In order to see the older builds, they can be individually accessed at the builder's sub-page.  It has the URL of the following format, but they can be also accessed from the main page:
 
-> [ http://haskell.inf.elte.hu/builders/$builder/](http://haskell.inf.elte.hu/builders/$builder/)
+> [http://haskell.inf.elte.hu/builders/$builder/](http://haskell.inf.elte.hu/builders/$builder/)
 
 
 where `$builder` is the name of the builder by the conventions described above.  This page contains the directory of all builds were ever collected for the builder in question.
@@ -69,7 +69,7 @@ Note that the entries on this page are in the following format:
 
 where `$n` is the serial number of the build, `$result` is the result of the build (see above for explanation), `$date` and `$time` is date and time when the build was done.  Following those links will lead to the build pages:
 
-> [ http://haskell.inf.elte.hu/builders/$builder/$n.html](http://haskell.inf.elte.hu/builders/$builder/$n.html)
+> [http://haskell.inf.elte.hu/builders/$builder/$n.html](http://haskell.inf.elte.hu/builders/$builder/$n.html)
 
 ### Header
 
@@ -130,7 +130,7 @@ Some of the steps are configured to inline their outputs in the build page to sh
 
 Note that each of the steps are hyperlinked, which means they have links to contain further information on the details.  Such sub-pages can be also individually accessed as:
 
-> [ http://haskell.inf.elte.hu/builders/$builder/$build/$step.html](http://haskell.inf.elte.hu/builders/$builder/$build/$step.html)
+> [http://haskell.inf.elte.hu/builders/$builder/$build/$step.html](http://haskell.inf.elte.hu/builders/$builder/$build/$step.html)
 
 
 Step pages have the following structure:
@@ -160,4 +160,4 @@ Finally, the `$error_code` can be either `ExitSuccess`, which implies that the s
 
 
 Upon receiving the build results, the central server -- if instructed -- also forwards them to the 
-[ ghc-builds](http://www.haskell.org/mailman/listinfo/ghc-builds/) mailing list.  The mail contains a brief overview of the build results and links to the build page.  In case of failures, the last couple of lines of the failing command are also included.
+[ghc-builds](http://www.haskell.org/mailman/listinfo/ghc-builds/) mailing list.  The mail contains a brief overview of the build results and links to the build page.  In case of failures, the last couple of lines of the failing command are also included.

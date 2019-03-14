@@ -2,7 +2,7 @@
 At the 2010 Haskell Implementors Workshop, a discussion was held on how hard it remains for users to reliably achieve "C-like" performance from GHC Haskell code. While experts are able to consistently get good results, they typically do so via techniques that are difficult to learn, or obscure. Many Haskell users still find extracting high performance code from GHC to be hard or confusing. 
 
 
-Resources designed to address this gap, such as [ the wiki advice](http://www.haskell.org/haskellwiki/Performance), [ Real World Haskell](http://book.realworldhaskell.org/read/profiling-and-optimization.html) and [ tutorials](http://blog.johantibell.com/2010/09/slides-from-my-high-performance-haskell.html)), have helped broaden the expert base, but do little to help beginner users reliably achieve good performance.
+Resources designed to address this gap, such as [the wiki advice](http://www.haskell.org/haskellwiki/Performance), [Real World Haskell](http://book.realworldhaskell.org/read/profiling-and-optimization.html) and [tutorials](http://blog.johantibell.com/2010/09/slides-from-my-high-performance-haskell.html)), have helped broaden the expert base, but do little to help beginner users reliably achieve good performance.
 
 
 The goal of this project is to have GHC guide the user to better performance, by warning of coding patterns that won't yield good performance.

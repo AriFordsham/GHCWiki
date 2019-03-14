@@ -76,7 +76,7 @@ you must have at least GNU make 3.80 installed in
 order to build GHC.
 </td></tr></table>
 
-<table><tr><th>[ Happy](http://www.haskell.org/happy)</th>
+<table><tr><th>[Happy](http://www.haskell.org/happy)</th>
 <td>
 Happy is a parser generator tool for Haskell, and is
 used to generate GHC's parsers.
@@ -88,10 +88,10 @@ need Happy.
 
 Happy version 1.19.4 or higher is currently required to build GHC.
 Grab a copy from
-[ Happy's Web Page](http://www.haskell.org/happy/).
+[Happy's Web Page](http://www.haskell.org/happy/).
 </td></tr></table>
 
-<table><tr><th>[ Alex](http://www.haskell.org/alex/)</th>
+<table><tr><th>[Alex](http://www.haskell.org/alex/)</th>
 <td>
 Alex is a lexical-analyser generator for Haskell,
 which GHC uses to generate its lexer.
@@ -104,10 +104,10 @@ Alex version 3.1 or higher is currently required to build GHC.
 Alex is
 written in Haskell.
 Alex distributions are available from 
-[ Alex's Web Page](http://www.haskell.org/alex/).
+[Alex's Web Page](http://www.haskell.org/alex/).
 </td></tr></table>
 
-<table><tr><th>[ Haddock](http://www.haskell.org/haddock/)</th>
+<table><tr><th>[Haddock](http://www.haskell.org/haddock/)</th>
 <td>
 Haddock is a documentation generator for Haskell,
 used for making the docs for the libraries. If you don't want to build the docs then you don't need haddock.
@@ -173,7 +173,7 @@ Required for building the [documentation](building/docs).
 Required for compiling code with the `-fllvm` flag enabled (e.g., if you want to build GHC with the `perf-llvm` build flavour). Version 3.8 or later is required. See also [the LLVM installation page](commentary/compiler/backends/llvm/installing).
 </td></tr></table>
 
-<table><tr><th>[ libedit](http://www.thrysoee.dk/editline/)</th>
+<table><tr><th>[libedit](http://www.thrysoee.dk/editline/)</th>
 <td>
 If libedit is installed, ghci will be built with a nice interactive line-editing interface.  
 Version 2.6.9 and later are known to work; note that the libeditline package listed on some distros is too old.
@@ -182,7 +182,7 @@ If a suitable version of libedit cannot be found, ghc/ghci will still build fine
 GHC does not use libedit on Windows; instead, it uses the console's default line editor.
 </td></tr></table>
 
-<table><tr><th>[ libffi](http://sourceware.org/libffi/)</th>
+<table><tr><th>[libffi](http://sourceware.org/libffi/)</th>
 <td>TODO Document this.  I stumbled on this as a new dependency as a user, but I cannot comment further.
 </td></tr></table>
 

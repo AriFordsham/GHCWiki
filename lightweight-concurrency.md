@@ -1,15 +1,15 @@
 # Lightweight Concurrency in GHC
 
 
-This page documents the effort to move GHC's concurrency support from its current location in the C part of the runtime system (RTS) to Haskell. This works builds on Peng Li's earlier work ([ http://simonmar.github.io/bib/papers/conc-substrate.pdf](http://simonmar.github.io/bib/papers/conc-substrate.pdf)). This page contains information about the design, implementation, problems and potential solutions for building user-level concurrency primitives in GHC. Currently, the focus is on user-level implementation of non-deterministic parallelism in GHC ([Control.Concurrent](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Concurrent.html)).
+This page documents the effort to move GHC's concurrency support from its current location in the C part of the runtime system (RTS) to Haskell. This works builds on Peng Li's earlier work ([http://simonmar.github.io/bib/papers/conc-substrate.pdf](http://simonmar.github.io/bib/papers/conc-substrate.pdf)). This page contains information about the design, implementation, problems and potential solutions for building user-level concurrency primitives in GHC. Currently, the focus is on user-level implementation of non-deterministic parallelism in GHC ([Control.Concurrent](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Concurrent.html)).
 
 
-Lightweight concurrency implementation resides in the [ ghc-lwc2](https://github.com/ghc/ghc/commits/ghc-lwc2) branch in the git repo.
+Lightweight concurrency implementation resides in the [ghc-lwc2](https://github.com/ghc/ghc/commits/ghc-lwc2) branch in the git repo.
 
 ## Introduction
 
 
-GHC has a rich support for concurrency (forkIO, MVars, STM, Asynchronous exceptions, bound threads, safe FFI, transparent scaling on multicores, etc.) and a fast and robust runtime system. However, the concurrency support is implemented in C and baked into the RTS. The concurrency primitives non-trivially interact among each other, and along with the lightweight thread scheduler, through a cascade of locks and condition variables. Often times, the invariants on which RTS fields can be accessed when are expressed as comments, and enforced through assertions (See [ here](https://github.com/ghc/ghc/blob/master/rts/Task.h#L37-L46) for one such fascinating example). This policy of enforcing through assertions keeps the overheads low, but makes the task of modifying and extending the runtime cumbersome.
+GHC has a rich support for concurrency (forkIO, MVars, STM, Asynchronous exceptions, bound threads, safe FFI, transparent scaling on multicores, etc.) and a fast and robust runtime system. However, the concurrency support is implemented in C and baked into the RTS. The concurrency primitives non-trivially interact among each other, and along with the lightweight thread scheduler, through a cascade of locks and condition variables. Often times, the invariants on which RTS fields can be accessed when are expressed as comments, and enforced through assertions (See [here](https://github.com/ghc/ghc/blob/master/rts/Task.h#L37-L46) for one such fascinating example). This policy of enforcing through assertions keeps the overheads low, but makes the task of modifying and extending the runtime cumbersome.
 
 
 But, why would we be interested in modifying GHC's concurrency environment? There are several good reasons to believe that a particular concurrent programming model, or a scheduling policy would not suit every application. With the emergence of many-core processors, we see NUMA effects becoming more prominent, and applications might benefit from NUMA aware scheduling and load balancing policies. Moreover, an application might have a better knowledge of the scheduling requirements -- a thread involved in user-interaction is expected to be given more priority over threads performing background processing. We might want to experiment with various work-stealing or work-sharing policies. More ambitiously, we might choose to build X10 style async-finish or Cilk style spawn-sync task parallel abstractions. Ideally, we would like allow the programmer to write an application that can  seamlessly combine all of these different programming abstractions, with pluggable scheduling and load balancing policies.
@@ -25,12 +25,12 @@ Although implementing concurrency primitives as a library is hardly a novel idea
 ## Background - GHC's Concurrency RTS
 
 
-For a high-level design of the current scheduler, see [ Scheduler](Commentary/Rts/Scheduler).
+For a high-level design of the current scheduler, see [Scheduler](Commentary/Rts/Scheduler).
 
 ## Concurrency Substrate
 
 
-The idea of the concurrency substrate is to provide a minimal set of primitives over which a variety of user-level concurrency libraries can be implemented. As such, the concurrency substrate must provide a way to create threads, a way to schedule them, and a synchronization mechanism in a multiprocessor context. Whereas, the Creation and maintenance of schedulers and concurrent data structures is the task of the concurrency library. Concurrency substrate resides at [ libraries/base/LwConc/Substrate.hs](https://github.com/ghc/ghc/blob/ghc-lwc2/libraries/base/LwConc/Substrate.hs).
+The idea of the concurrency substrate is to provide a minimal set of primitives over which a variety of user-level concurrency libraries can be implemented. As such, the concurrency substrate must provide a way to create threads, a way to schedule them, and a synchronization mechanism in a multiprocessor context. Whereas, the Creation and maintenance of schedulers and concurrent data structures is the task of the concurrency library. Concurrency substrate resides at [libraries/base/LwConc/Substrate.hs](https://github.com/ghc/ghc/blob/ghc-lwc2/libraries/base/LwConc/Substrate.hs).
 
 ### PTM
 
@@ -242,7 +242,7 @@ forkIO f = do
 Here, the thread that invokes forkIO initializes the new SCont (`ns`) with its own scheduler actions, and appends it to the scheduler. After the newly created SCont finishes execution, the control must switch to another thread in the scheduler. This is captured by the `epilogue`.
 
 
-A full implementation of a round-robin scheduler can be found [ here](https://github.com/ghc/ghc/blob/ghc-lwc2/libraries/lwconc/LwConc/ConcurrentList.hs). This scheduler has one queue per capability. Work is shared among the capabilities by spawning threads in a round-robin fashion on the capabilities.
+A full implementation of a round-robin scheduler can be found [here](https://github.com/ghc/ghc/blob/ghc-lwc2/libraries/lwconc/LwConc/ConcurrentList.hs). This scheduler has one queue per capability. Work is shared among the capabilities by spawning threads in a round-robin fashion on the capabilities.
 
 ### MVars
 
@@ -287,10 +287,10 @@ Primitive `takeMVar` first creates a hole, which will contain the result. If the
 If the MVar is full with a pending writer, we first fill the hole with the value. Then, MVar's status is updated with the enqueued value and the rest of the writers. Finally, we execute the dequeued PTM action to place the writer into its corresponding scheduler.
 
 
-Notice that just like yield and forkIO, takeMVar is scheduler agnostic; the MVar implementation is cleanly separated from the scheduler implementation. Moreover, the same MVar might be shared between threads from different schedulers since they utilize the uniform scheduler interface. Since the scheduler actions are PTM actions, actions from different schedulers can be composed together elegantly and simplifies reasoning about synchronization. An implementation of a MVar can be found [ here](https://github.com/ghc/ghc/blob/ghc-lwc2/libraries/lwconc/LwConc/MVarList.hs).
+Notice that just like yield and forkIO, takeMVar is scheduler agnostic; the MVar implementation is cleanly separated from the scheduler implementation. Moreover, the same MVar might be shared between threads from different schedulers since they utilize the uniform scheduler interface. Since the scheduler actions are PTM actions, actions from different schedulers can be composed together elegantly and simplifies reasoning about synchronization. An implementation of a MVar can be found [here](https://github.com/ghc/ghc/blob/ghc-lwc2/libraries/lwconc/LwConc/MVarList.hs).
 
 
-As an aside, the race condition in [swapMVar](http://www.haskell.org/ghc/docs/6.12.2/html/libraries/base-4.2.0.1/Control-Concurrent-MVar.html#v%3AswapMVar) can be [ eliminated](https://github.com/ghc/ghc/blob/ghc-lwc2/libraries/lwconc/LwConc/MVarList.hs#L110) with the help of PTM abstraction. Thus, PTM abstraction makes it easy to construct correct concurrent data-structures. 
+As an aside, the race condition in [swapMVar](http://www.haskell.org/ghc/docs/6.12.2/html/libraries/base-4.2.0.1/Control-Concurrent-MVar.html#v%3AswapMVar) can be [eliminated](https://github.com/ghc/ghc/blob/ghc-lwc2/libraries/lwconc/LwConc/MVarList.hs#L110) with the help of PTM abstraction. Thus, PTM abstraction makes it easy to construct correct concurrent data-structures. 
 
 ## System Threads and Parallelism
 
@@ -392,7 +392,7 @@ Next, we shall look at various RTS interaction with the user-level scheduler and
 #### Unreachable Concurrent Datastructure
 
 
-The [ BlockedIndefinitelyOnMVar](http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Exception-Base.html#t:BlockedIndefinitelyOnMVar) is raised on a thread that is blocked on an MVar, but the MVar has become unreachable. This is performed at the end of a garbage collection, just before resuming execution of the Haskell threads. In the vanilla RTS, after raising BlockedIndefinitelyOnMVar exception on a blocked thread, the thread is added back to the run queue. However, in the lightweight concurrency (LWC) implementation, this is not so straightforward. In particular, 
+The [BlockedIndefinitelyOnMVar](http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Exception-Base.html#t:BlockedIndefinitelyOnMVar) is raised on a thread that is blocked on an MVar, but the MVar has become unreachable. This is performed at the end of a garbage collection, just before resuming execution of the Haskell threads. In the vanilla RTS, after raising BlockedIndefinitelyOnMVar exception on a blocked thread, the thread is added back to the run queue. However, in the lightweight concurrency (LWC) implementation, this is not so straightforward. In particular, 
 
 - How do we know whether the SCont is blocked on a concurrent data structure in Haskell? 
 - How do we safely add the thread to the Haskell scheduler?
@@ -420,7 +420,7 @@ GHC's concurrency library supports preemptive scheduling of threads. In the LWC 
 ### Safe Foreign Calls
 
 
-A [ safe foreign call](http://simonmar.github.io/bib/papers/conc-ffi.pdf) does not impede the execution of other Haskell threads on the same scheduler, if the foreign call blocks. Before performing the foreign call, the task, say `T1`, releases the capability that it currently owns. This might wake up other tasks which are waiting to acquire a free capability. After the foreign call has completed, `T1` tries to reacquire the last owned capability. In the fast path, the foreign call quickly completes and `T1` reacquires the capability. In the slow path, some other task, say `T2`, acquires the capability.
+A [safe foreign call](http://simonmar.github.io/bib/papers/conc-ffi.pdf) does not impede the execution of other Haskell threads on the same scheduler, if the foreign call blocks. Before performing the foreign call, the task, say `T1`, releases the capability that it currently owns. This might wake up other tasks which are waiting to acquire a free capability. After the foreign call has completed, `T1` tries to reacquire the last owned capability. In the fast path, the foreign call quickly completes and `T1` reacquires the capability. In the slow path, some other task, say `T2`, acquires the capability.
 
 #### Slow-path in Vanilla RTS
 
@@ -547,7 +547,7 @@ Thus, except for resume tokens, asynchronous exceptions are transparently handle
 ## Related Work
 
 - [Concurrent Programming in GHC](ghc-concurrency)
-- [ Lightweight Concurrent Primitives for GHC](http://simonmar.github.io/bib/papers/conc-substrate.pdf)
-- [ Tackling the awkward squad](http://research.microsoft.com/en-us/um/people/simonpj/papers/marktoberdorf/)
-- [ Runtime Support for Multicore Haskell](http://simonmar.github.io/bib/papers/multicore-ghc.pdf)
-- [ Composable Scheduler Activations for Haskell](http://kcsrk.info/papers/schedact_jfp15.pdf)
+- [Lightweight Concurrent Primitives for GHC](http://simonmar.github.io/bib/papers/conc-substrate.pdf)
+- [Tackling the awkward squad](http://research.microsoft.com/en-us/um/people/simonpj/papers/marktoberdorf/)
+- [Runtime Support for Multicore Haskell](http://simonmar.github.io/bib/papers/multicore-ghc.pdf)
+- [Composable Scheduler Activations for Haskell](http://kcsrk.info/papers/schedact_jfp15.pdf)

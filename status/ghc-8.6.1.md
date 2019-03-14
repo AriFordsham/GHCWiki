@@ -29,29 +29,29 @@ Below are the major highlights of 8.6.
 
 ## Landed in `master` branch
 
-- Deriving via ([ proposal](https://github.com/Icelandjack/ghc-proposals/blob/239cfc8ef532db95f15ea392e073061f04273d8e/proposals/0000-deriving-via.rst), Ryan GL Scott)
+- Deriving via ([proposal](https://github.com/Icelandjack/ghc-proposals/blob/239cfc8ef532db95f15ea392e073061f04273d8e/proposals/0000-deriving-via.rst), Ryan GL Scott)
 
 - An early version of the GHCi `:doc` command
 
 - [QuantifiedConstraints](quantified-constraints)
 
-- The core functionality of the `ghc-heap-view` package has been merged into GHC, allowing introspection into the structure of GHC's heap. (Patrick Dougherty, [ Phab:D3055](https://phabricator.haskell.org/D3055))
+- The core functionality of the `ghc-heap-view` package has been merged into GHC, allowing introspection into the structure of GHC's heap. (Patrick Dougherty, [Phab:D3055](https://phabricator.haskell.org/D3055))
 
 - Many improvements to exhausiveness checking ([\#14546](https://gitlab.haskell.org//ghc/ghc/issues/14546))
 
 - Valid hole fits ([\#14969](https://gitlab.haskell.org//ghc/ghc/issues/14969), [\#14990](https://gitlab.haskell.org//ghc/ghc/issues/14990), [\#10946](https://gitlab.haskell.org//ghc/ghc/issues/10946))
 
-- Improvements in code generation, include a new SRT representation that results in more compact generated code ([ blog post](http://simonmar.github.io/posts/2018-06-22-New-SRTs.html))
+- Improvements in code generation, include a new SRT representation that results in more compact generated code ([blog post](http://simonmar.github.io/posts/2018-06-22-New-SRTs.html))
 
 - Further improvements to DWARF unwinding support
 
 - More sophisticated constant folding ([\#9136](https://gitlab.haskell.org//ghc/ghc/issues/9136))
 
-- BlockArguments extension ([\#10843](https://gitlab.haskell.org//ghc/ghc/issues/10843), [ proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0010-block-arguments.rst))
+- BlockArguments extension ([\#10843](https://gitlab.haskell.org//ghc/ghc/issues/10843), [proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0010-block-arguments.rst))
 
-- NumericUnderscores extension ([\#14473](https://gitlab.haskell.org//ghc/ghc/issues/14473), [ proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0009-numeric-underscores.rst))
+- NumericUnderscores extension ([\#14473](https://gitlab.haskell.org//ghc/ghc/issues/14473), [proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0009-numeric-underscores.rst))
 
-- StarIsType extension ([ proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0020-no-type-in-type.rst), Vladislav Zavialov)
+- StarIsType extension ([proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0020-no-type-in-type.rst), Vladislav Zavialov)
 
 - The next phase of the `MonadFail` proposal, enabling the `MonadFailDesugaring` extension by default
 
@@ -176,7 +176,7 @@ Below are the major highlights of 8.6.
                       
                       normal
                     </th>
-<th>[ Phab:D4084](https://phabricator.haskell.org/D4084), [ Phab:D5080](https://phabricator.haskell.org/D5080)</th>
+<th>[Phab:D4084](https://phabricator.haskell.org/D4084), [Phab:D5080](https://phabricator.haskell.org/D5080)</th>
 <th></th></tr>
 <tr><th>[\#15538](https://gitlab.haskell.org//ghc/ghc/issues/15538)</th>
 <th>
@@ -202,7 +202,7 @@ Below are the major highlights of 8.6.
                       
                       normal
                     </th>
-<th>[ Phab:D5077](https://phabricator.haskell.org/D5077)</th>
+<th>[Phab:D5077](https://phabricator.haskell.org/D5077)</th>
 <th>ChaiTRex</th></tr>
 <tr><th>[\#15594](https://gitlab.haskell.org//ghc/ghc/issues/15594)</th>
 <th>
@@ -228,7 +228,7 @@ Below are the major highlights of 8.6.
                       
                       normal
                     </th>
-<th>[ Phab:D5123](https://phabricator.haskell.org/D5123)</th>
+<th>[Phab:D5123](https://phabricator.haskell.org/D5123)</th>
 <th></th></tr>
 <tr><th>## Status: upstream (1 match)
 

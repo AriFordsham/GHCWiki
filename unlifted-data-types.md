@@ -13,7 +13,7 @@ See also [UnpackedSumTypes](unpacked-sum-types).
 ## Motivation
 
 
-Bob Harper [ has written](https://existentialtype.wordpress.com/2011/04/24/the-real-point-of-laziness/):
+Bob Harper [has written](https://existentialtype.wordpress.com/2011/04/24/the-real-point-of-laziness/):
 
 >
 > Haskell suffers from a paucity of types.  It is not possible in Haskell to define the type of natural numbers, nor the type of lists of natural numbers (or lists of anything else), nor any other inductive type!
@@ -155,7 +155,7 @@ suspend a = a
 `Force` and `suspend` can be written purely as library code, however there is a cost of an indirection of `Force`. We might notice, however, that the value of type `Force a` only admits the value `Force a`: `undefined` is excluded by the `Unlifted` kind, and `Force undefined` is excluded by the strict field.  Thus, it would be great if we could represent `Force` on the heap simply as an unlifted pointer to `a`, which is never undefined.
 
 >
-> Note from David Feuer: the indirection problem could be resolved via [ NewtypeOptimizationForGADTS](NewtypeOptimizationForGADTS), which would be a good thing for other reasons too.
+> Note from David Feuer: the indirection problem could be resolved via [NewtypeOptimizationForGADTS](NewtypeOptimizationForGADTS), which would be a good thing for other reasons too.
 
 
 Ideally, we would like to define the coercion `Coercible (Force a) a`, to witness the fact that `Force a` is representationally the same as `a`. However, there are two problems:

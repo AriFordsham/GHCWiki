@@ -13,13 +13,13 @@ David Waern has been working on deriving `Data.Traversable` for the Ast types, t
 
 Since Ghc does support (standalone) deriving of `Data` and `Typeable`, it seems natural to want those classes instantiated for the Ghc Api types. In case that would lead to blowup of standard releases, it would be even better if those instances could be provided as an add-on to a release.
 
-- for recent code/documentation, see the syb-utils darcs repo ([ rss feed of darcs changes](http://www.cs.kent.ac.uk/~cr3/toolbox/haskell/syb-utils/changes.xml)):
+- for recent code/documentation, see the syb-utils darcs repo ([rss feed of darcs changes](http://www.cs.kent.ac.uk/~cr3/toolbox/haskell/syb-utils/changes.xml)):
 
   ```wiki
       darcs get http://www.cs.kent.ac.uk/~cr3/toolbox/haskell/syb-utils
   ```
 
-*update (30/01/2009)*: by now, most code of `syb-utils` has moved to maintained packages, either [ \`syb\`](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/syb) or [ \`ghc-syb\`](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/ghc-syb). 
+*update (30/01/2009)*: by now, most code of `syb-utils` has moved to maintained packages, either [\`syb\`](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/syb) or [\`ghc-syb\`](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/ghc-syb). 
 
 - standalone deriving of `Data` fails if data constructors are not in scope - this means that `Data` instances are in conflict with the intended data abstraction for some Ghc Ast types!
 
@@ -90,19 +90,19 @@ Since Ghc does support (standalone) deriving of `Data` and `Typeable`, it seems 
 
   For example usage, see the attached `APISybTesting`: it parses a `TestModule`, prettyprints and shows, does an identity transform, and an example query (extract classes and family declarations).
 
-- some of the predefined instances in `Data.Generics.Instances` are dummies, preventing traversals of substructures or pretending that non-concrete types are `Data` - this should probably be changed by splitting that module and not re-exporting the dummy part from `Data.Generics` by default. See [ http://www.haskell.org/pipermail/generics/2008-June/000347.html](http://www.haskell.org/pipermail/generics/2008-June/000347.html), [ http://www.haskell.org/pipermail/generics/2008-June/000346.html](http://www.haskell.org/pipermail/generics/2008-June/000346.html), [ http://www.haskell.org/pipermail/generics/2008-June/000342.html](http://www.haskell.org/pipermail/generics/2008-June/000342.html) for more info.
+- some of the predefined instances in `Data.Generics.Instances` are dummies, preventing traversals of substructures or pretending that non-concrete types are `Data` - this should probably be changed by splitting that module and not re-exporting the dummy part from `Data.Generics` by default. See [http://www.haskell.org/pipermail/generics/2008-June/000347.html](http://www.haskell.org/pipermail/generics/2008-June/000347.html), [http://www.haskell.org/pipermail/generics/2008-June/000346.html](http://www.haskell.org/pipermail/generics/2008-June/000346.html), [http://www.haskell.org/pipermail/generics/2008-June/000342.html](http://www.haskell.org/pipermail/generics/2008-June/000342.html) for more info.
 
 - it seems as if the issue of type-changing traversals can be addressed within SYB, although those dummy instances cause trouble here.
 
-- [ Traversable Functor Data,or: X marks the spot](http://www.haskell.org/pipermail/generics/2008-June/000343.html), a technique based on `gfoldl` plus one nasty and two non-nasty uses of `unsafeCoerce`. The nasty use interacts badly with the dummy instances.
+- [Traversable Functor Data,or: X marks the spot](http://www.haskell.org/pipermail/generics/2008-June/000343.html), a technique based on `gfoldl` plus one nasty and two non-nasty uses of `unsafeCoerce`. The nasty use interacts badly with the dummy instances.
 
-- [ gMap in SYB1](http://www.haskell.org/pipermail/generics/2008-July/000349.html), a technique based on `gfoldl`, `gunfoldl`, and some Dynamic types in the middle. Avoids `unsafeCoerce`, and uses the fact that the dummy instances are slightly more honest about `gunfoldl` than about `gfoldl`, but `gMap` cannot distinguish functor parameters from equivalent types (no `fmap`) and its type is too general for direct use (runtime type errors instead of compile time type errors)
+- [gMap in SYB1](http://www.haskell.org/pipermail/generics/2008-July/000349.html), a technique based on `gfoldl`, `gunfoldl`, and some Dynamic types in the middle. Avoids `unsafeCoerce`, and uses the fact that the dummy instances are slightly more honest about `gunfoldl` than about `gfoldl`, but `gMap` cannot distinguish functor parameters from equivalent types (no `fmap`) and its type is too general for direct use (runtime type errors instead of compile time type errors)
 
-- [ http://www.haskell.org/pipermail/generics/2008-July/000351.html](http://www.haskell.org/pipermail/generics/2008-July/000351.html), combining the advantages of the previous two techniques to define a `Data`-based `fmap`. The remaining uses of `unsafeCoerce` only distinguish the functor parameter type from equivalent types occuring elsewhere in the functor, so seem to be ok?
+- [http://www.haskell.org/pipermail/generics/2008-July/000351.html](http://www.haskell.org/pipermail/generics/2008-July/000351.html), combining the advantages of the previous two techniques to define a `Data`-based `fmap`. The remaining uses of `unsafeCoerce` only distinguish the functor parameter type from equivalent types occuring elsewhere in the functor, so seem to be ok?
 
 - **performance**: Syb traversals are sometimes associated with bad performance. Unfortunately, none of the anecdotes I'm aware of really investigates these performance issues in any detail (if you have useful data to add here, please do!). So I can only say here that
 
   - there are various more or less obvious ways in which naive use of Syb traversal schemes can lead to very inefficient traversals
   - until proven wrong, I'll assume that all of these traps can be avoided by careful tuning of traversal schemes!-)
-  - three example issues are listed in [ Data.Generics with GPS (using Maps to avoid getting lost in Data)](http://www.haskell.org/pipermail/generics/2008-July/000353.html), which also provides a generalisation of the main Uniplate `PlateData` (Uniplate over Syb) optimisation, in a form that can be used to address one of the performance issues of `everywhere` and `everything` (traversal of irrelevant substructures) - this gives the expected speedup of naive traversal schemes
+  - three example issues are listed in [Data.Generics with GPS (using Maps to avoid getting lost in Data)](http://www.haskell.org/pipermail/generics/2008-July/000353.html), which also provides a generalisation of the main Uniplate `PlateData` (Uniplate over Syb) optimisation, in a form that can be used to address one of the performance issues of `everywhere` and `everything` (traversal of irrelevant substructures) - this gives the expected speedup of naive traversal schemes
   - I've been trying to address another of those three issues (too many runtime type checks, specifically linear lookup), but the overhead of working a map of functions of different types means that this isn't really a win (for the typical few specific cases, linear lookup is faster, and as the number of specific cases grows, they tend to be organised so as to reduce type checks and traversals, so having a map is still not necessarily a win)

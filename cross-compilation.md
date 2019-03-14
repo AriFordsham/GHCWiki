@@ -18,7 +18,7 @@ The most general case is a developer on build platform (B), wishing to build a G
   - runs on some existing GHC supported platform, but targets a smaller embedded platform
 - **Cross-building** a normal compiler: Build on one platform a compiler that runs on, and targets another.  Examples:
 
-  - [ TakeoffGW](http://takeoffgw.sourceforge.net/) is a distribution of Unix tools for Windows, built by cross-compiling on a Linux machine.  They would like to be able to build and distribute GHC this way.  It might be useful for us to be able to cross-compile a Windows GHC from Linux too.
+  - [TakeoffGW](http://takeoffgw.sourceforge.net/) is a distribution of Unix tools for Windows, built by cross-compiling on a Linux machine.  They would like to be able to build and distribute GHC this way.  It might be useful for us to be able to cross-compile a Windows GHC from Linux too.
   - build a 64-bit GHC on OS X, by cross-compiling using the 32-bit version.
   - We could port to Win64 ([\#1884](https://gitlab.haskell.org//ghc/ghc/issues/1884)) by cross-compiling using a 32-bit Windows GHC.
   - Other porting tasks might be easier, given a suitable cross-compilation toolchain.
@@ -179,7 +179,7 @@ In general, the problems have all been in plumbing the concepts of XT vs. HT aro
 
 
 Looks like Mark has submitted patches and
-[ they have been integrated by Ian](http://www.haskell.org/pipermail/cvs-ghc/2011-April/061685.html)
+[they have been integrated by Ian](http://www.haskell.org/pipermail/cvs-ghc/2011-April/061685.html)
 into the main repository. This means GHC v7.4.1 \*should\* be ready for the procedures outlined above.
 
 

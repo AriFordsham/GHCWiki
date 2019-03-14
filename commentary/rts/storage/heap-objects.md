@@ -331,7 +331,7 @@ indirection to the selected field.  If it is not evaluated, it
 treats the selector thunk like any other thunk of that shape.
 
 
-This technique comes from the Phil Wadler paper [ Fixing some space leaks with a garbage collector](http://homepages.inf.ed.ac.uk/wadler/topics/garbage-collection.html), and later Christina von Dorrien who called it "Stingy Evaluation".
+This technique comes from the Phil Wadler paper [Fixing some space leaks with a garbage collector](http://homepages.inf.ed.ac.uk/wadler/topics/garbage-collection.html), and later Christina von Dorrien who called it "Stingy Evaluation".
 
 
 There is a fixed set of pre-compiled selector thunks built into the
@@ -536,7 +536,7 @@ Closure type `TSO` is a Thread State Object.  It represents the complete state o
 TSOs are ordinary objects that live in the heap, so we can use the existing allocation and garbage collection machinery to manage them.  This gives us one important benefit: the garbage collector can detect when a blocked thread is unreachable, and hence can never become runnable again.  When this happens, we can notify the thread by sending it the `BlockedIndefinitely` exception.
 
 
-GHC keeps divides stacks into stack chunks, with logic to handle stack underflow and overflow: [ http://hackage.haskell.org/trac/ghc/blog/stack-chunks](http://hackage.haskell.org/trac/ghc/blog/stack-chunks)
+GHC keeps divides stacks into stack chunks, with logic to handle stack underflow and overflow: [http://hackage.haskell.org/trac/ghc/blog/stack-chunks](http://hackage.haskell.org/trac/ghc/blog/stack-chunks)
 
 
 The TSO structure contains several fields.  For full details see [includes/rts/storage/TSO.h](/trac/ghc/browser/includes/rts/storage/TSO.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/TSO.h).  Some of the more important fields are:

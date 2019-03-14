@@ -7,7 +7,7 @@ Below are quick instructions for building GHC with Hadrian.
 The following instructions assume that you have [got the sources](building/getting-the-sources) and [installed the necessary tools](building/preparation).  In particular for Windows users, all the commands below must be executed in the MinGW shell, not Command Prompt or PowerShell. The commands given below should be executed from the root of ghc's source tree.
 
 
-Hadrian is much younger than GHC's Make-based build system. If you need a feature supported by the Make build system but not by Hadrian, or more generally if you encounter any problem, please let us know [ on the issue tracker](https://ghc.haskell.org/trac/ghc/newticket).
+Hadrian is much younger than GHC's Make-based build system. If you need a feature supported by the Make build system but not by Hadrian, or more generally if you encounter any problem, please let us know [on the issue tracker](https://ghc.haskell.org/trac/ghc/newticket).
 
 ## tl;dr
 
@@ -54,7 +54,7 @@ If the build succeeds, you will find your stage 2 GHC at `_build/stage1/bin/ghc`
 If the default build script doesn't work on your system for some reason, you might want to give a try to another one, e.g. based on Cabal sandboxes (`hadrian/build.cabal.sh`), Stack (`hadrian/build.stack.sh`, `hadrian/build.stack.bat`, `hadrian/build.stack.nix.sh`) or the global package database (`hadrian/build.global-db.sh`, `hadrian/build.global-db.bat`).
 
 
-Windows users might want to read through [ building GHC on Windows using Stack](https://github.com/snowleopard/hadrian/blob/master/doc/windows.md).
+Windows users might want to read through [building GHC on Windows using Stack](https://github.com/snowleopard/hadrian/blob/master/doc/windows.md).
 
 **From now on, this page assumes you have found a build script that works for you and will refer to it as just `build`.**
 
@@ -137,7 +137,7 @@ currently supports several many others, among which the important ones described
 >
 > Beware that with this flag Hadrian may do network I/O on Windows to download necessary tarballs, which may sometimes be undesirable.
 
-- `--flavour=FLAVOUR`: choose a build flavour. The following settings are currently supported: `default`, `quick`, `quickest`, `perf`, `prof`, `devel1` and `devel2`. As an example, the `quickest` flavour adds `-O0` flag to all GHC invocations and builds libraries only in the `vanilla` way, which speeds up builds by 3-4x. Build flavours are documented [ here](https://github.com/snowleopard/hadrian/blob/master/doc/flavours.md).
+- `--flavour=FLAVOUR`: choose a build flavour. The following settings are currently supported: `default`, `quick`, `quickest`, `perf`, `prof`, `devel1` and `devel2`. As an example, the `quickest` flavour adds `-O0` flag to all GHC invocations and builds libraries only in the `vanilla` way, which speeds up builds by 3-4x. Build flavours are documented [here](https://github.com/snowleopard/hadrian/blob/master/doc/flavours.md).
 
 - `--freeze1`: freeze Stage1 GHC, i.e. do not rebuild it even if some of its source files are out-of-date. This allows to significantly reduce the rebuild time when you are working on a feature that affects both Stage1 and Stage2 compilers, but may lead to incorrect build results. To unfreeze Stage1 GHC simply drop the `--freeze1` flag and Hadrian will rebuild all out-of-date files.
 
@@ -147,7 +147,7 @@ currently supports several many others, among which the important ones described
 
 - `--progress-info=STYLE`: choose how build progress info is printed. There are four settings: `none`, `brief` (one line per build command; this is the default setting), `normal` (typically a box per build command), and `unicorn` (when `normal` just won't do).
 
-- `--split-objects`: generate split objects, which are switched off by default. Due to a GHC [ bug](https://gitlab.haskell.org/ghc/ghc/issues/11315), you need a full clean rebuild when using this flag.
+- `--split-objects`: generate split objects, which are switched off by default. Due to a GHC [bug](https://gitlab.haskell.org/ghc/ghc/issues/11315), you need a full clean rebuild when using this flag.
 
 - `--verbose`: run Hadrian in verbose mode. In particular this prints diagnostic messages by Shake oracles, useful when debugging hadrian.
 
@@ -169,7 +169,7 @@ currently supports several many others, among which the important ones described
 The equivalent of `mk/build.mk` in the make build system is the `hadrian/src/UserSettings.hs` module, where you can customise Hadrian to define a custom build flavour tailored to your needs, change the command line options passed to the various build tools under some specific circumstances, define new packages to be built, enable/disable profiling ways and much more.
 
 
-Hadrian has an entire document dedicated to this topic, with various examples. You can find it [ here](https://github.com/snowleopard/hadrian/blob/master/doc/user-settings.md).
+Hadrian has an entire document dedicated to this topic, with various examples. You can find it [here](https://github.com/snowleopard/hadrian/blob/master/doc/user-settings.md).
 
 ## Build targets to be documented
 

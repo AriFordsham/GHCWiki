@@ -29,9 +29,9 @@ See also this ticket about rationalising the runtime reflection naming structure
 
 Much of what is suggested here is implemented, in some form, in two existing projects
 
-- **Cloud Haskell libraries**[ distributed-static](https://hackage.haskell.org/package/distributed-static) and [ rank1dynamic](https://hackage.haskell.org/package/rank1dynamic).  Background in the paper [ Towards Haskell in the Cloud](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/remote.pdf).
+- **Cloud Haskell libraries**[distributed-static](https://hackage.haskell.org/package/distributed-static) and [rank1dynamic](https://hackage.haskell.org/package/rank1dynamic).  Background in the paper [Towards Haskell in the Cloud](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/remote.pdf).
 
-- **HdpH libraries**[ hdph](https://hackage.haskell.org/package/hdph) and [ hdph-closure](https://hackage.haskell.org/package/hdph-closure). Background in the paper [ Implementing a high-level distributed-memory parallel Haskell in Haskell](http://www.dcs.gla.ac.uk/~pmaier/papers/Maier_Trinder_IFL2011_XT.pdf)
+- **HdpH libraries**[hdph](https://hackage.haskell.org/package/hdph) and [hdph-closure](https://hackage.haskell.org/package/hdph-closure). Background in the paper [Implementing a high-level distributed-memory parallel Haskell in Haskell](http://www.dcs.gla.ac.uk/~pmaier/papers/Maier_Trinder_IFL2011_XT.pdf)
 
 [Simon PJ's long blog post](/trac/ghc/blog/simonpj/StaticPointers) is also relevant, but mainly as background.  It should eventually be fully subsumed by the above pages.
 
@@ -46,7 +46,7 @@ by asynchronously sending messages to each other. It is useful to go
 beyond this model, and allow processes to send other processes to
 other nodes, not just first-order data. For instance, an extremely
 useful feature of distributed frameworks in Hasell (e.g.
-[ distributed-process](https://hackage.haskell.org/package/distributed-process), [ HdpH](https://hackage.haskell.org/package/hdph))
+[distributed-process](https://hackage.haskell.org/package/distributed-process), [HdpH](https://hackage.haskell.org/package/hdph))
 and other languages (Erlang, Scala), is the ability for a process on
 one node to *spawn* a process on another node.
 

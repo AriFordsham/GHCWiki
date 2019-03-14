@@ -177,12 +177,12 @@ Tickets should include `PatternMatchWarnings` in their Keywords to appear in the
 
 **Background**:
 
-- The paper on which the previous approach was based [ Two techniques for compiling lazy pattern matching](http://moscova.inria.fr/~maranget/papers/lazy-pats-derniere.ps.gz)
-- Peter Sestoft's paper for negative patterns [ ML's pattern matching compilation and partial evaluation](http://lambda.csail.mit.edu/~chet/papers/others/s/sestoft/sestoft96ml.pdf)
+- The paper on which the previous approach was based [Two techniques for compiling lazy pattern matching](http://moscova.inria.fr/~maranget/papers/lazy-pats-derniere.ps.gz)
+- Peter Sestoft's paper for negative patterns [ML's pattern matching compilation and partial evaluation](http://lambda.csail.mit.edu/~chet/papers/others/s/sestoft/sestoft96ml.pdf)
 
 **Our solution**
 
-- Our paper, describing the algorithm we implemented [ GADTs meet their match](http://people.cs.kuleuven.be/~george.karachalias/papers/p424-karachalias.pdf).
+- Our paper, describing the algorithm we implemented [GADTs meet their match](http://people.cs.kuleuven.be/~george.karachalias/papers/p424-karachalias.pdf).
 - [PatternMatchCheckImplementation](pattern-match-check-implementation) talks about the implementation in GHC.
 
 **Related tickets** (ones that are closed are still useful examples in the wild; they were only closed as duplicates):
@@ -277,7 +277,7 @@ Until now, the algorithm used by GHC was based on a technique originally introdu
 matching in decision trees (see paper above). Hence, it used a column-based approach to traverse the pattern
 matrix, which cannot be used incrementally as we described above. (By pattern matrix we mean a list of matches.
 Since every clause has the same length, --let's call say `m`-- a match of `n` clauses, each of length `m` defines
-a pattern matrix of dimensions `n x m`. For more details see the paper [ Two techniques for compiling lazy pattern matching](http://moscova.inria.fr/~maranget/papers/lazy-pats-derniere.ps.gz)).
+a pattern matrix of dimensions `n x m`. For more details see the paper [Two techniques for compiling lazy pattern matching](http://moscova.inria.fr/~maranget/papers/lazy-pats-derniere.ps.gz)).
 
 
 Additionally, this pattern matrix approach assumes that each clause has the same length, which is rather restrictive
@@ -315,7 +315,7 @@ For example, for function `f` above we have:
 - Remain uncovered:
 
   ```wiki
-  [ (T2 y  |> {a ~ Bool})
+  [(T2 y  |> {a ~ Bool})
   , (T1 T2 |> {a ~ Int, a ~ Bool) ]
   ```
 
@@ -498,7 +498,7 @@ dataF a whereF1::FIntF2::FBooldataG a whereG1::GIntG2::GCharh::F a ->G a ->InthF
 Running the check on the first clause leaves us with an uncovered set:
 
 ```wiki
-uncovered = [ (F2 y  |> {a ~ Bool})
+uncovered = [(F2 y  |> {a ~ Bool})
             , (F1 G2 |> {a ~ Int, a ~ Char}) ]
 ```
 
@@ -506,7 +506,7 @@ uncovered = [ (F2 y  |> {a ~ Bool})
 and by dropping the second (has non-satisfiable type constraints) we end up with:
 
 ```wiki
-uncovered = [ (F2 y  |> {a ~ Bool}) ]
+uncovered = [(F2 y  |> {a ~ Bool}) ]
 ```
 
 
@@ -518,7 +518,7 @@ About the second clause:
 - The covered set is:
 
   ```wiki
-  covered = [ (F2 G1  |> {a ~ Bool, a ~Int}) ]
+  covered = [(F2 G1  |> {a ~ Bool, a ~Int}) ]
   ```
 
 

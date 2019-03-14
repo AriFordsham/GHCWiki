@@ -57,22 +57,22 @@ Now, given the above configuration, one could create the following links:
 
 - to this [InterTrac](inter-trac) page:
 
-  - `trac:wiki:InterTrac`[ trac:wiki:InterTrac](http://trac.edgewall.org/intertrac/wiki%3AInterTrac)
+  - `trac:wiki:InterTrac`[trac:wiki:InterTrac](http://trac.edgewall.org/intertrac/wiki%3AInterTrac)
   - `t:wiki:InterTrac` t:wiki:InterTrac
   - Keys are case insensitive: `T:wiki:InterTrac` T:wiki:InterTrac
 - to the ticket [\#234](https://gitlab.haskell.org//ghc/ghc/issues/234):
 
-  - `trac:ticket:234`[ trac:ticket:234](http://trac.edgewall.org/intertrac/ticket%3A234)
-  - `trac:#234`[ trac:\#234](http://trac.edgewall.org/intertrac/%23234)
+  - `trac:ticket:234`[trac:ticket:234](http://trac.edgewall.org/intertrac/ticket%3A234)
+  - `trac:#234`[trac:\#234](http://trac.edgewall.org/intertrac/%23234)
   - `#T234` \#T234
 - to the changeset \[1912\]:
 
-  - `trac:changeset:1912`[ trac:changeset:1912](http://trac.edgewall.org/intertrac/changeset%3A1912)
+  - `trac:changeset:1912`[trac:changeset:1912](http://trac.edgewall.org/intertrac/changeset%3A1912)
   - `[T1912]` \[T1912\]
 - to the log range [\[3300:3330\]](/trac/ghc/log/ghc/?revs=3300%3A3330):
 
-  - `trac:log:@3300:3330`[ trac:log:\@3300:3330](http://trac.edgewall.org/intertrac/log%3A%403300%3A3330)
-  - `[trac 3300:3330]`[ \[trac 3300:3330\]](http://trac.edgewall.org/intertrac/log%3A/%403300%3A3330)
+  - `trac:log:@3300:3330`[trac:log:\@3300:3330](http://trac.edgewall.org/intertrac/log%3A%403300%3A3330)
+  - `[trac 3300:3330]`[\[trac 3300:3330\]](http://trac.edgewall.org/intertrac/log%3A/%403300%3A3330)
   - finally, to link to the start page of a remote trac, simply use its prefix followed by ':', inside an explicit link. Example: `[th: Trac Hacks]` (note that the *remote* Trac has to run Trac \>= 0.11 for this to work*)
     *
 

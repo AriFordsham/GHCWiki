@@ -1,7 +1,7 @@
 # GHC plans for 7.10.2
 
 
-See [milestone:7.10.2](/trac/ghc/milestone/7.10.2) and [ Active tickets](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.2) for more.
+See [milestone:7.10.2](/trac/ghc/milestone/7.10.2) and [Active tickets](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.2) for more.
 
 ## Tickets slated for 7.10.2
 

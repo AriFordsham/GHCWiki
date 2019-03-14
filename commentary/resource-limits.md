@@ -409,7 +409,7 @@ Since non-dynamic SCCs can interfere with accurate cost attribution, we add a ne
 ### Memory leaks
 
 
-One of the most important intended use-cases of resource limits is when you are rapidly loading and unloading large amounts of untrusted code (think [ http://tryhaskell.org/](http://tryhaskell.org/)). So an important thing to get right is avoiding long term memory leakage, either from leftover objects from the untrusted code or related infrastructure.
+One of the most important intended use-cases of resource limits is when you are rapidly loading and unloading large amounts of untrusted code (think [http://tryhaskell.org/](http://tryhaskell.org/)). So an important thing to get right is avoiding long term memory leakage, either from leftover objects from the untrusted code or related infrastructure.
 
 
 On the unloading code front, one technique that could be employed is to replace all third-party closures with “error” frames upon unloading. Similar techniques are already being employed in GHC, and it is semantically sound even if another thread has already witnessed the full value of the data structure: one can imagine some supervisor process sending an asynchronous exception when some unloaded data is accessed. (XXX this may have bad interactions with mask and uninterruptibleMask).
@@ -427,5 +427,5 @@ Finalizer could trigger a new finalizer, ad infinitum. However, if you don't all
 
 These mailing list threads may be of interest:
 
-- [ http://www.haskell.org/pipermail/ghc-devs/2013-March/000680.html](http://www.haskell.org/pipermail/ghc-devs/2013-March/000680.html) (first announce of this)
-- [ http://www.haskell.org/pipermail/glasgow-haskell-users/2012-April/022258.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2012-April/022258.html) (earlier discussion about space resource limits)
+- [http://www.haskell.org/pipermail/ghc-devs/2013-March/000680.html](http://www.haskell.org/pipermail/ghc-devs/2013-March/000680.html) (first announce of this)
+- [http://www.haskell.org/pipermail/glasgow-haskell-users/2012-April/022258.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2012-April/022258.html) (earlier discussion about space resource limits)

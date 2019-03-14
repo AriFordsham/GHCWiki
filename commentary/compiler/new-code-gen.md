@@ -23,7 +23,7 @@ This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias a
 
 - Simon M added a [Blog Post](/trac/ghc/blog/newcg-update) about the new code generator status
 
-- Link to [ Krzysztof Wos's project](http://research.microsoft.com/en-us/um/people/simonpj/tmp/wos-diss-draft.pdf), in which he reports great performance improvements by turning tail recursion into loops in C--.
+- Link to [Krzysztof Wos's project](http://research.microsoft.com/en-us/um/people/simonpj/tmp/wos-diss-draft.pdf), in which he reports great performance improvements by turning tail recursion into loops in C--.
 
 - Norman added a [Hoopl performance page](commentary/compiler/hoopl-performance)
 
@@ -44,7 +44,7 @@ Generally we want to keep old and new pipelines working simultaneously, so that 
 
 - Make the Cmm parser (which parses `.cmm` files from the RTS) produce `CmmGADT`, and push that down the new pipeline.
 
-- Implement the many refactorings and improvements to the new pipeline described in [ http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes](http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes). See also: [Commentary/Compiler/NewCodeGenStupidity](commentary/compiler/new-code-gen-stupidity)
+- Implement the many refactorings and improvements to the new pipeline described in [http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes](http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes). See also: [Commentary/Compiler/NewCodeGenStupidity](commentary/compiler/new-code-gen-stupidity)
 
 - Instead of converting new Cmm to old Cmm, make the downstream code generators consume `CmmGADT`, and convert old Cmm to `CmmGADT`.
 
@@ -93,6 +93,6 @@ Term’s starting up for me again, and as a result, I will have less time to thr
 
 We currently have a code generator that is correct, but slow and stupid. The primary optimization problem that I was tackling at the end of Spring Break was the following: newly compiled programs used a lot more stack space than their old equivalents, due to poor usage of call areas for register reloading and an over-conservative stack layout algorithm. Our new plan is to overhaul the spiller and the stack layout engine in the following manner:
 
-1. We teach the register spiller about another location: a value may be in a register, on the stack in a register slot, OR (and this is the new bit) inside a call area. If it’s in a call area, reload from that instead of of its slot location. This might require borrowing some code from the code motion improvements in my private branch ([ http://github.com/ezyang/ghc](http://github.com/ezyang/ghc)).
+1. We teach the register spiller about another location: a value may be in a register, on the stack in a register slot, OR (and this is the new bit) inside a call area. If it’s in a call area, reload from that instead of of its slot location. This might require borrowing some code from the code motion improvements in my private branch ([http://github.com/ezyang/ghc](http://github.com/ezyang/ghc)).
 
 1. We change the stack layout code to perform interference on a per-word, rather than per-area level. Because this may cause a very huge interference graph, we bound the number of conflicts we remember; instead of recording every slot a slot may conflict with, we remember some number, and if there are more, we just say it conflicts with everything. (There is some potential for statistics and tuning parameters here.)

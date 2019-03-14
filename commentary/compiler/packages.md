@@ -20,7 +20,7 @@ A package consists of  zero or more Haskell modules, compiled to object code and
 ## Package databases
 
 
-GHC draws its information about what packages are installed from one or more package databases.  A package database is a file containing a value of type \[ [InstalledPackageInfo](http://www.haskell.org/ghc/docs/latest/html/libraries/Cabal/Distribution-InstalledPackageInfo.html#t%3AInstalledPackageInfo) \], rendered as text via `show`.  Also, GHC allows the system package databases to be in the form of a directory of files, each of which contains a `[InstalledPackageInfo]` (in the future this may be extended to allow all packages databases to have this form).  Note: the exact representation of a package database is intended to be private to GHC, which is why we provide the `ghc-pkg` tool to manipulate it.
+GHC draws its information about what packages are installed from one or more package databases.  A package database is a file containing a value of type \[[InstalledPackageInfo](http://www.haskell.org/ghc/docs/latest/html/libraries/Cabal/Distribution-InstalledPackageInfo.html#t%3AInstalledPackageInfo) \], rendered as text via `show`.  Also, GHC allows the system package databases to be in the form of a directory of files, each of which contains a `[InstalledPackageInfo]` (in the future this may be extended to allow all packages databases to have this form).  Note: the exact representation of a package database is intended to be private to GHC, which is why we provide the `ghc-pkg` tool to manipulate it.
 
 ## Package-related types
 

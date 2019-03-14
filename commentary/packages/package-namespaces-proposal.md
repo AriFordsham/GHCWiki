@@ -12,13 +12,13 @@ interact in interesting ways with packages.
 A problem that has been mentioned several times on mailing lists, is
 grafting part of a directory hierarchy into an arbitrary location
 elsewhere in the hierarchy.
-(See [ http://www.haskell.org/pipermail/libraries/2005-June/004009.html](http://www.haskell.org/pipermail/libraries/2005-June/004009.html))
+(See [http://www.haskell.org/pipermail/libraries/2005-June/004009.html](http://www.haskell.org/pipermail/libraries/2005-June/004009.html))
 
 
 Another way of expressing a similar wish is the ability to re-export
 imports with a different qualified name, as in the scenario suggested by
 the developers of the package gtk2hs:
-[ http://www.haskell.org/pipermail/libraries/2004-December/002800.html](http://www.haskell.org/pipermail/libraries/2004-December/002800.html)
+[http://www.haskell.org/pipermail/libraries/2004-December/002800.html](http://www.haskell.org/pipermail/libraries/2004-December/002800.html)
 
 
 There are several desires in play here:

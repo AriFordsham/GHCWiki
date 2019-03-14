@@ -6,7 +6,7 @@ This is a status page for CPR analysis, especially Nested CPR
 
 Akio has a patch in progress, currently stalled
 
-- [ https://phabricator.haskell.org/D4244](https://phabricator.haskell.org/D4244)
+- [https://phabricator.haskell.org/D4244](https://phabricator.haskell.org/D4244)
 
 
 See also sub-pages:
@@ -31,7 +31,7 @@ Tickets with stuff that would make nested CPR better:
 Tickets with example of code that would benefit from nested CPR:
 
 - [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600), [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387) (see [below](nested-cpr#motivating-examples) for an analysis)
-- (Maybe) [ this thread on ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2016-March/011623.html)
+- (Maybe) [this thread on ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2016-March/011623.html)
 
 ### Tickets
 
@@ -138,9 +138,9 @@ CPR can kill join points. Attempts to mitigate that:
 
 
 Idea to fix this, and possibly more general benefits:
-[ http://www.haskell.org/pipermail/ghc-devs/2013-December/003481.html](http://www.haskell.org/pipermail/ghc-devs/2013-December/003481.html); prototype in branch `wip/common-context`.
+[http://www.haskell.org/pipermail/ghc-devs/2013-December/003481.html](http://www.haskell.org/pipermail/ghc-devs/2013-December/003481.html); prototype in branch `wip/common-context`.
 
-- On its own, improvements are present but very small: [ http://www.haskell.org/pipermail/ghc-devs/2013-December/003500.html](http://www.haskell.org/pipermail/ghc-devs/2013-December/003500.html)
+- On its own, improvements are present but very small: [http://www.haskell.org/pipermail/ghc-devs/2013-December/003500.html](http://www.haskell.org/pipermail/ghc-devs/2013-December/003500.html)
 - Enabling CPR for sum types in non-top-level-bindings (which is currently disabled due to worries abut lost join points) yields mixed results (min -3.8%, mean -0.0%, max 3.4%).
 - Enabling sum types inside nested CPR: Also yields mixed, not very promising results (-6.9% / +0.0% / +11.3%).
 

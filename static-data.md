@@ -5,7 +5,7 @@ WIP proposal allowing to store static data/objects into programs (see [\#5218](h
 
 ## Step 1: support dependent object files
 
-[ https://phabricator.haskell.org/D4217](https://phabricator.haskell.org/D4217)
+[https://phabricator.haskell.org/D4217](https://phabricator.haskell.org/D4217)
 
 
 We need to be able to link with arbitrary object files. Object files can contain arbitrary data in their data sections (data, rodata, bss, etc.).

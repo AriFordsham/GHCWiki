@@ -494,7 +494,7 @@ The changes described below are intended to be controlled by a new extension `-X
 There will be no distinction in the language between kinds and types. (Error messages will, however, do their best to use the words "type" and "kind" much like they do now. I take non-degradation of error messages very seriously.)
 
 
-This means that inhabited kinds have type `*`. In particular, `*` has type `*`. Though this causes inconsistency in other dependently-typed languages, it does not in Haskell, essentially because equality proofs are written in a different sub-language than ordinary terms. See [ our paper](http://www.seas.upenn.edu/~sweirich/papers/fckinds.pdf) for more details.
+This means that inhabited kinds have type `*`. In particular, `*` has type `*`. Though this causes inconsistency in other dependently-typed languages, it does not in Haskell, essentially because equality proofs are written in a different sub-language than ordinary terms. See [our paper](http://www.seas.upenn.edu/~sweirich/papers/fckinds.pdf) for more details.
 
 
 Essentially, this is the one master change coming with Phase 1. But there are many consequences, as I draw out below.
@@ -560,7 +560,7 @@ In addition to the above treatment, some standard library module (probably `Data
 With all the type variables floating around, it will be very convenient to sometimes specify a type variable visibly in source code.
 
 
-So, if `id :: forall a. a -> a`, then `id @Int :: Int -> Int`. See also a [ draft paper](http://www.seas.upenn.edu/~sweirich/papers/type-app-extended.pdf) on the subject.
+So, if `id :: forall a. a -> a`, then `id @Int :: Int -> Int`. See also a [draft paper](http://www.seas.upenn.edu/~sweirich/papers/type-app-extended.pdf) on the subject.
 
 ## Type family equations can be constrained
 
@@ -591,7 +591,7 @@ This feature will not carry over to data families (which for reasons beyond the 
 ## Visibility changes in types
 
 
-GHC tracks three different levels of visibility: `Invisible` binders are never user-written, `Specified` ones are available for visible type applications, and `Visible` ones are always user-written. See `Note [TyBinders and VisibilityFlags]` in [ TyCoRep](https://github.com/ghc/ghc/blob/master/compiler/types/TyCoRep.hs).
+GHC tracks three different levels of visibility: `Invisible` binders are never user-written, `Specified` ones are available for visible type applications, and `Visible` ones are always user-written. See `Note [TyBinders and VisibilityFlags]` in [TyCoRep](https://github.com/ghc/ghc/blob/master/compiler/types/TyCoRep.hs).
 
 
 The problem is what to do in higher-rank kind situations. Consider these definitions:
@@ -631,7 +631,7 @@ This version simply ignores visibility flags on binders when doing an equality c
 
 - Simon advocated for this design in a call on Apr 1 2016. It is the simplest.
 - Richard was concerned about what an equality between `forall k -> k -> *` and `forall k. k -> *` might mean. But we don't need these to be `tcEqType`, we just need a coercion between them. As long as the types are `eqType`, then `Refl (forall k. k -> *)` does nicely.
-- Richard was also concerned that if we consider these types equal, it means that we can replace one with the other willy-nilly, in thinking about a *declarative* specification of the type system. But with visible type application rules, we have *two* subtyping relations (and hence two type-equivalence relations) one to use when both types to compare are known and one to use otherwise. (See the [ paper](http://www.seas.upenn.edu/~sweirich/papers/esop2016-typeapp.pdf).) So having one of these relations accept a connection between these two types is OK.
+- Richard was also concerned that if we consider these types equal, it means that we can replace one with the other willy-nilly, in thinking about a *declarative* specification of the type system. But with visible type application rules, we have *two* subtyping relations (and hence two type-equivalence relations) one to use when both types to compare are known and one to use otherwise. (See the [paper](http://www.seas.upenn.edu/~sweirich/papers/esop2016-typeapp.pdf).) So having one of these relations accept a connection between these two types is OK.
 - Conor finds it abhorrent to think about a system that equates (under any equivalence relation) types that have different user-visible arities, as do `forall k -> k -> *` (arity 2) and `forall k. k -> *` (arity 1).
 - Consider now the expression `X (P1 k :: forall k. k -> *)`. Is that accepted? By the kind signature, `X`'s argument has the right kind. Note that the signature brings `k` into scope and then checks `P1 k` against `k -> *`. It indeed has this type, so it certainly seems like `(P1 k :: forall k. k -> *)` should be accepted. (If you're dubious, think about what happens in terms.) Sadly, this desugars into a situation where we need a type-level lambda. We don't have this yet. But we should be future-proof against a language that does have type-level lambda.
 - The bullet above argues that `X (P1 k :: forall k. k -> *)` should be accepted. But plan (A) says that `X P1` should be accepted. It surely can't hurt to add a type signature, so that means that `X (P1 :: forall k. k -> *)` should be accepted. And this is quite bizarre to accept that last one alongside the first one.
@@ -668,7 +668,7 @@ Taking this all into account, Richard advocates for (B), but not all that strong
 ## The new type system
 
 
-The new type system adheres rather closely to what is proposed in the original "FC with Kind Equality" paper, available [ here](http://www.cis.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf), with the addition of [NoSubKinds](no-sub-kinds). The type system, as implemented, is in the [ Core Specification](https://github.com/goldfirere/ghc/raw/nokinds/docs/core-spec/core-spec.pdf) document. Here are the highlights of the changes:
+The new type system adheres rather closely to what is proposed in the original "FC with Kind Equality" paper, available [here](http://www.cis.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf), with the addition of [NoSubKinds](no-sub-kinds). The type system, as implemented, is in the [Core Specification](https://github.com/goldfirere/ghc/raw/nokinds/docs/core-spec/core-spec.pdf) document. Here are the highlights of the changes:
 
 - Two new constructors for `Type`: `CastTy :: Type -> Coercion -> Type` (which performs a kind cast) and `CoercionTy :: Coercion -> Type` which embeds coercions into types. The former eliminates kind coercions (that's the whole point of this change!) and the latter allows for the promotion of GADT data constructors, which will promote to a type taking a coercion argument.
 
@@ -697,7 +697,7 @@ The new type system adheres rather closely to what is proposed in the original "
 
 - [NoSubKinds](no-sub-kinds).
 
-- Roles on kind coercions, as described in my recent ICFP submission [ here](http://www.cis.upenn.edu/~eir/papers/2015/equalities/equalities-extended.pdf).
+- Roles on kind coercions, as described in my recent ICFP submission [here](http://www.cis.upenn.edu/~eir/papers/2015/equalities/equalities-extended.pdf).
 
 - The new mutual recursion between types and coercions means that TypeRep has been renamed TyCoRep. There is also a non-trivial Coercion.hs-boot file.
 
@@ -963,7 +963,7 @@ and (2) are terrible.
 ### `liftCoSubst`
 
 
-The lifting operation has become subtler. Happily, it is well described in Section 5 of [ this paper](http://www.cis.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf). The actual, implemented, role-aware version of lifting is included in Appendix B of [ this paper](http://www.cis.upenn.edu/~eir/papers/2015/equalities/equalities-extended.pdf).
+The lifting operation has become subtler. Happily, it is well described in Section 5 of [this paper](http://www.cis.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf). The actual, implemented, role-aware version of lifting is included in Appendix B of [this paper](http://www.cis.upenn.edu/~eir/papers/2015/equalities/equalities-extended.pdf).
 
 ### New `eqType`
 

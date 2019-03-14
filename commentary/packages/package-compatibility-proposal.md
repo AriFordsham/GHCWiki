@@ -4,13 +4,13 @@
 In GHC 6.8.1 we reorganised some of the contents of the packages we ship with GHC, see [\#710](https://gitlab.haskell.org//ghc/ghc/issues/710).  The idea was to lessen the problem caused by the base package being essentially static between GHC major releases.  By separating modules out of base and putting them into separate packages, it is possible to updgrade these modules independently of GHC.
 
 
-The reorganisations unfortunately exposed some problems with our package infrastructure, in particular most packages that compiled with 6.6 do not compile with 6.8.1 because they don't depend on the new packages.  Some instructions for upgrading packages are here: [ Upgrading packages](http://haskell.org/haskellwiki/Upgrading_packages).
+The reorganisations unfortunately exposed some problems with our package infrastructure, in particular most packages that compiled with 6.6 do not compile with 6.8.1 because they don't depend on the new packages.  Some instructions for upgrading packages are here: [Upgrading packages](http://haskell.org/haskellwiki/Upgrading_packages).
 
 
 We anticipated the problem to some extent, adding "configurations" to Cabal to make it possible to write conditional package specifications that work with multiple sets of dependencies.  We are still left with the problem that the `.cabal` files for all packages need to be updated for GHC 6.8.1.  This seems like the wrong way around: the change we made to a few packages has to be propagated everywhere, when there should be a way to confine it locally, at least for the purposes of continued compatibility with existing source code.  In many cases, the underlying APIs are still available, just from a different place.  (in general this may not be true - modifications to packages may make changes to APIs which require real changes to dependent packages).
 
 
-Some of the problems that contributed to this situation can be addressed.  We wrote the [ Package Versioning Policy](http://haskell.org/haskellwiki/Package_versioning_policy) so that packages can start using versions that reflect API changes, and so that dependencies can start being precise about which dependencies they work with. If we follow these guidelines, then 
+Some of the problems that contributed to this situation can be addressed.  We wrote the [Package Versioning Policy](http://haskell.org/haskellwiki/Package_versioning_policy) so that packages can start using versions that reflect API changes, and so that dependencies can start being precise about which dependencies they work with. If we follow these guidelines, then 
 
 - failures will be more predictable
 - failures will be more informative
@@ -40,7 +40,7 @@ Furthermore, the package database cannot currently understand multiple packages 
 ## 4. Allow packages to re-export modules
 
 
-Packages currently cannot re-export modules from other packages.  Well, that's not strictly true, it is possible to do this but it currently requires an extra package and two stub modules per module to be re-exported (see [ http://www.haskell.org/pipermail/haskell-cafe/2007-October/033141.html](http://www.haskell.org/pipermail/haskell-cafe/2007-October/033141.html)).
+Packages currently cannot re-export modules from other packages.  Well, that's not strictly true, it is possible to do this but it currently requires an extra package and two stub modules per module to be re-exported (see [http://www.haskell.org/pipermail/haskell-cafe/2007-October/033141.html](http://www.haskell.org/pipermail/haskell-cafe/2007-October/033141.html)).
 
 
 This could be made easier.  Suppose you could write this:

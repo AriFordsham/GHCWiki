@@ -167,7 +167,7 @@ work for any subset of interface files present. When you add parallelism this ma
 
 This is not a problem with GHC, but comes up when compiling some packages that have `Lexer.x` and `Lexer.hs` files. 
 `Cabal` will sometimes run `alex Lexer.x` to regenerate `Lexer.hs` file. If the versions of `alex` are different you can get different sources.
-See [ \#2311](https://github.com/haskell/cabal/issues/2311), [ \#2940](https://github.com/haskell/cabal/issues/2940).
+See [\#2311](https://github.com/haskell/cabal/issues/2311), [\#2940](https://github.com/haskell/cabal/issues/2940).
 
 ### cabal sometimes finding cpphs or c2hs from the sandbox
 
@@ -182,7 +182,7 @@ Current work is focused on making GHC independent of the order of Uniques. That 
 when the end result is deterministic, documenting it and making sure it stays local. The main sources of non-determinism are: `Ord Unique`, `foldUFM`, `elemsUFM`, `ufmToList`, `keysUFM`.
 
 
-I've mapped out some of them [ here (warning: 3 MB png file)](https://raw.githubusercontent.com/niteria/notes/master/Deterministic%20builds%20mind%20map.png). 
+I've mapped out some of them [here (warning: 3 MB png file)](https://raw.githubusercontent.com/niteria/notes/master/Deterministic%20builds%20mind%20map.png). 
 Green means done, orange means that it still needs work, red means that the path was abandoned. It's not really meant to be read by anyone else but me, but might give some sense of what still needs to be done.
   
 
@@ -211,7 +211,7 @@ To the best of my knowledge it just works.
 
 ## Previous discussions
 
-[ https://mail.haskell.org/pipermail/ghc-devs/2015-September/009964.html](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009964.html)
+[https://mail.haskell.org/pipermail/ghc-devs/2015-September/009964.html](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009964.html)
 
 [\#4012](https://gitlab.haskell.org//ghc/ghc/issues/4012)
 

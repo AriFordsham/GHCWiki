@@ -9,7 +9,7 @@ GHC is set up to allow different implementations of the `Integer` type to be cho
 You can select which implementation of Integer is used by defining `INTEGER_LIBRARY` in `mk/build.mk`. This tells the build system to build the library in `libraries/$(INTEGER_LIBRARY)`, and the `cIntegerLibrary` and `cIntegerLibraryType` values in `Config.hs` are defined accordingly.
 
 
-The default value is `integer-gmp`, which uses the [ GNU Multiple Precision Arithmetic Library (GMP)](http://gmplib.org/) to define the Integer type and its operations.
+The default value is `integer-gmp`, which uses the [GNU Multiple Precision Arithmetic Library (GMP)](http://gmplib.org/) to define the Integer type and its operations.
 
 
 The other implementation currently available is `integer-simple`, which uses a simple (but slow, for larger Integers) pure Haskell implementation.

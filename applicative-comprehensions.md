@@ -13,7 +13,7 @@ The `ApplicativeComprehensions` language extension would cause GHC to attempt to
 Any comprehension that includes only generator expressions where the bindings defined by a generator expression are not used in any subsequent generator expression can be desugared using only operations from the `Applicative` typeclass, so an expression like
 
 ```wiki
-[ expr_0 | pat_1 <- expr_1
+[expr_0 | pat_1 <- expr_1
          , pat_2 <- expr_2
          , ...
          , pat_n <- expr_n
@@ -44,7 +44,7 @@ As explained in the *Motivation* section for [ApplicativeDo](applicative-do), so
 This code, when translated into an equivalent `Applicative` comprehension, becomes
 
 ```wiki
-[ x*y + y*z + z*x | x <- expr1, y <- expr2, z <- expr3 ]
+[x*y + y*z + z*x | x <- expr1, y <- expr2, z <- expr3 ]
 ```
 
 
@@ -77,7 +77,7 @@ The corresponding problem is impossible to express with `ApplicativeComprehensio
 
 ```wiki
 incrA'' :: Applicative f => f Int -> f Int
-incrA'' nA = [ n + 1 | n <- nA ]
+incrA'' nA = [n + 1 | n <- nA ]
 ```
 
 ## Some Standing Questions
@@ -86,7 +86,7 @@ incrA'' nA = [ n + 1 | n <- nA ]
 It's possible to desugar `ApplicativeComprehensions`-compatible expressions that contain guards into expressions with an `Alternative` constraint, e.g. by translating
 
 ```wiki
-[ expr_0 | pat_1 <- expr_1
+[expr_0 | pat_1 <- expr_1
          , pat_2 <- expr_2
          , guard_expr
          ]

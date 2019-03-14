@@ -98,7 +98,7 @@ $NDK/build/tools/make-standalone-toolchain.sh \
 ```
 
 
-The Android NDK doesn't have everything we need, so I needed to compile a version of libiconv as well. I used [ this link](http://danilogiulianelli.blogspot.com/2012/12/how-to-cross-compile-libiconv-for.html) to figure out how to do it.
+The Android NDK doesn't have everything we need, so I needed to compile a version of libiconv as well. I used [this link](http://danilogiulianelli.blogspot.com/2012/12/how-to-cross-compile-libiconv-for.html) to figure out how to do it.
 
 ```wiki
 cd $ICONVDIR

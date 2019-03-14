@@ -1,7 +1,7 @@
 # Support for generic programming
 
 
-GHC includes a new (in 2010) mechanism to let you write generic functions.  It is described in paper [ A generic deriving mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf). This page sketches the specifics of the implementation; we assume you have read the paper. The [ HaskellWiki page](http://www.haskell.org/haskellwiki/Generics) gives a more general overview.
+GHC includes a new (in 2010) mechanism to let you write generic functions.  It is described in paper [A generic deriving mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf). This page sketches the specifics of the implementation; we assume you have read the paper. The [HaskellWiki page](http://www.haskell.org/haskellwiki/Generics) gives a more general overview.
 
 
 This mechanism replaces the [previous generic classes implementation](http://www.haskell.org/ghc/docs/6.12.2/html/users_guide/generic-classes.html). What we describe until the "Kind polymorphic overhaul" section is implemented and released in GHC 7.2.1.
@@ -204,7 +204,7 @@ Closed Tickets:
 # Differences from original paper
 
 
-GHC generics was originally based off of the paper [ A Generic Deriving Mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf) (referred to henceforth as GDMH), but GHC generics has diverged from the original presentation in the paper since then. Here are some of the differences:
+GHC generics was originally based off of the paper [A Generic Deriving Mechanism for Haskell](http://www.dreixel.net/research/pdf/gdmh_nocolor.pdf) (referred to henceforth as GDMH), but GHC generics has diverged from the original presentation in the paper since then. Here are some of the differences:
 
 - What GDMH called `Representable0` and `Representable1` are now called `Generic` and `Generic1`
 - GDMH has a type `Par0` for denoting occurrences of the last type parameter of a datatype in a `Generic` instance. GHC generics, however, does not use `Par0` anymore in derived instances (after all, you can have `Generic` instances for datatypes without type parameters!), and the `Par0` type has been marked as deprecated.
@@ -534,7 +534,7 @@ data DecidedStrictness = DecidedLazy
 ```
 
 
-Why did we need to add `FixityI`? Because `Fixity` does not promote. Yet, we wanted to expose `Fixity` to the user, not `FixityI`. Note that the meta-data classes remained mostly unchanged (aside from some enhancements to [ Datatype](https://gitlab.haskell.org/ghc/ghc/issues/10030) and [ Selector](https://gitlab.haskell.org/ghc/ghc/issues/10716)):
+Why did we need to add `FixityI`? Because `Fixity` does not promote. Yet, we wanted to expose `Fixity` to the user, not `FixityI`. Note that the meta-data classes remained mostly unchanged (aside from some enhancements to [Datatype](https://gitlab.haskell.org/ghc/ghc/issues/10030) and [Selector](https://gitlab.haskell.org/ghc/ghc/issues/10716)):
 
 ```wiki
 class Datatype d where
@@ -635,7 +635,7 @@ classSelector s where
 ```
 
 
-This design draws much inspiration from the way Template Haskell handles strictness as of GHC 8.0 (see [ here](https://gitlab.haskell.org/ghc/ghc/issues/10697) for what motivated the change). We make a distinction between the *source* strictness annotations and the strictness GHC actually *decides* during compilation. To illustrate the difference, consider the following data type:
+This design draws much inspiration from the way Template Haskell handles strictness as of GHC 8.0 (see [here](https://gitlab.haskell.org/ghc/ghc/issues/10697) for what motivated the change). We make a distinction between the *source* strictness annotations and the strictness GHC actually *decides* during compilation. To illustrate the difference, consider the following data type:
 
 ```
 dataT=T{-# UNPACK #-}!Int!IntIntderivingGeneric

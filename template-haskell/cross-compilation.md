@@ -27,16 +27,16 @@ sairheit also shared a nice explanation as well:
 
 
 TH, being a GHC extension and potentially unsafe, and also allowing arbitrary IO during compile time (launch missiles anyone?). There are quite a few discussions if TH should be embraced or not.
-See for example [ SO: Why does Template Haskell allow arbitrary IO operations during compilation?](http://stackoverflow.com/questions/13785753/why-does-template-haskell-allow-arbitrary-io-operations-during-compilation) and [ SO: What's so bad about Template Haskell?](http://stackoverflow.com/questions/10857030/whats-so-bad-about-template-haskell)
+See for example [SO: Why does Template Haskell allow arbitrary IO operations during compilation?](http://stackoverflow.com/questions/13785753/why-does-template-haskell-allow-arbitrary-io-operations-during-compilation) and [SO: What's so bad about Template Haskell?](http://stackoverflow.com/questions/10857030/whats-so-bad-about-template-haskell)
 
 
-Here is a blog entry that takes this critique into account with a [ Major proposed revision of Template Haskell](https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges), which is the evolution of [ New directions for Template Haskell](https://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal).
+Here is a blog entry that takes this critique into account with a [Major proposed revision of Template Haskell](https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges), which is the evolution of [New directions for Template Haskell](https://ghc.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal).
 
 
-Yesod, is probably one of the more prominent larger users of TH and Michael Snoyman has layed out the reasoning here: [ http://www.yesodweb.com/blog/2011/04/yesod-template-haskell](http://www.yesodweb.com/blog/2011/04/yesod-template-haskell)
+Yesod, is probably one of the more prominent larger users of TH and Michael Snoyman has layed out the reasoning here: [http://www.yesodweb.com/blog/2011/04/yesod-template-haskell](http://www.yesodweb.com/blog/2011/04/yesod-template-haskell)
 
 
-To me, ultimately looking for example at [ the list of packages depending on template haskell](http://packdeps.haskellers.com/reverse/template-haskell) through a reverse search, gives the list of
+To me, ultimately looking for example at [the list of packages depending on template haskell](http://packdeps.haskellers.com/reverse/template-haskell) through a reverse search, gives the list of
 packages that can not be used without TH support.
 
 # Possible Solutions
@@ -55,4 +55,4 @@ ghc.
 
 This is not an exhaustive list, but should highlight all the known questions so far
 
-- Given the TH splice being evaluated on the target, and it would perform arbitrary IO (e.g. include a file) which is dependent on the hosts environment, this will work under no-cross compilation, but fail under cross-compilation with a slave process on the target, as the target might not have the same environment. Example: [ git-embed](https://hackage.haskell.org/package/git-embed), which runs git to obtain the branch and commit hash information. The repository would be available to the host, but not the the runner (slave), nor is guaranteed that the slave will have git available (or that any other programm for that matter is available on the target architecture)
+- Given the TH splice being evaluated on the target, and it would perform arbitrary IO (e.g. include a file) which is dependent on the hosts environment, this will work under no-cross compilation, but fail under cross-compilation with a slave process on the target, as the target might not have the same environment. Example: [git-embed](https://hackage.haskell.org/package/git-embed), which runs git to obtain the branch and commit hash information. The repository would be available to the host, but not the the runner (slave), nor is guaranteed that the slave will have git available (or that any other programm for that matter is available on the target architecture)

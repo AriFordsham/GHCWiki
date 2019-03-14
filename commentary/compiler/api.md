@@ -10,7 +10,7 @@ The GHC API is rather stateful; the state of an interaction with GHC is stored i
 Although the GHC API apparently supports multiple clients, because each can be interacting with a different `Session`, in fact it only supports one client that is actually executing code, because the [RTS linker](commentary/rts/interpreter#linker) has a single global symbol table.
 
 
-This part of the commentary is not a tutorial on *using* the GHC API: for that, see [ Using GHC as a Library](http://haskell.org/haskellwiki/GHC/As_a_library).  Here we are going to talk about the implementation.
+This part of the commentary is not a tutorial on *using* the GHC API: for that, see [Using GHC as a Library](http://haskell.org/haskellwiki/GHC/As_a_library).  Here we are going to talk about the implementation.
 
 
 A typical interaction with the GHC API goes something like the following:

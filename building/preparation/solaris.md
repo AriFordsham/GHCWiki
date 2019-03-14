@@ -43,7 +43,7 @@ GHC relies on many GNU-isms that are not supported by the native Solaris build t
 > </th></tr></table>
 
 
-Some of these can be obtained as binary versions from the  [ blastwave.org](http://www.blastwave.org/) collection, others need to be downloaded as source from [ gnu.org](http://www.gnu.org).
+Some of these can be obtained as binary versions from the  [blastwave.org](http://www.blastwave.org/) collection, others need to be downloaded as source from [gnu.org](http://www.gnu.org).
 
 
 The blastwave libraries are usually installed under `/opt/csw`, so you may need to manually set `LD_LIBRARY_PATH` to point to them:

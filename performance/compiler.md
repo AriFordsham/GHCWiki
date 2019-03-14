@@ -495,7 +495,7 @@ Identify tickets by using "Compile time performance bug" for the "Type of failur
 ### Type pile-up
 
 
-Some programs can produce very deeply nested types of non-linear size. See [ Scrap your type applications](http://research.microsoft.com/en-us/um/people/simonpj/papers/variant-f/index.htm) for a way to improve these bad cases
+Some programs can produce very deeply nested types of non-linear size. See [Scrap your type applications](http://research.microsoft.com/en-us/um/people/simonpj/papers/variant-f/index.htm) for a way to improve these bad cases
 
 - [\#9198](https://gitlab.haskell.org//ghc/ghc/issues/9198): large performance regression in type checker speed in 7.8 
 
@@ -727,9 +727,9 @@ While it's possible to fix (1) and (2), (3) is inherent.
   - Significantly improved in memory usage from [\#10370](https://gitlab.haskell.org//ghc/ghc/issues/10370), but worse at overall wall-clock time!
 - [\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450): Regression in optimisation time of functions with many patterns (6.12 to 7.4)? 
 
-  - [ Phab:D1041](https://phabricator.haskell.org/D1041), [ Phab:D1012](https://phabricator.haskell.org/D1012)
-  - Unnecessary recomputation of free variables ([ Phab:D1012](https://phabricator.haskell.org/D1012))
-  - Thunk leak in `Bitmap` ([ Phab:D1040](https://phabricator.haskell.org/D1040))
+  - [Phab:D1041](https://phabricator.haskell.org/D1041), [Phab:D1012](https://phabricator.haskell.org/D1012)
+  - Unnecessary recomputation of free variables ([Phab:D1012](https://phabricator.haskell.org/D1012))
+  - Thunk leak in `Bitmap` ([Phab:D1040](https://phabricator.haskell.org/D1040))
 - [\#10800](https://gitlab.haskell.org//ghc/ghc/issues/10800): vector-0.11 compile time increased substantially with 7.10.1
 
   - Regression in `vector` testsuite perhaps due to change in inlinings
@@ -737,7 +737,7 @@ While it's possible to fix (1) and (2), (3) is inherent.
 
 ## nofib results
 
-- See [ this run](https://gist.github.com/bgamari/ff4592ae89c5b7d7751180b967e55590) comparing GHC 7.4.2 through 8.0.1
+- See [this run](https://gist.github.com/bgamari/ff4592ae89c5b7d7751180b967e55590) comparing GHC 7.4.2 through 8.0.1
 
 ## `tests/perf/compiler` results
 
@@ -778,7 +778,7 @@ Random note: GHC 7.10's build system actually disabled DPH (half a dozen more pa
 
 ## Interesting third-party library numbers
 
-- Compile time of some example program (`fluid-tree`) of `fltkhs` library increased from about 15 seconds to more than a minute ([ original message](https://mail.haskell.org/pipermail/haskell-cafe/2016-May/123995.html)).
+- Compile time of some example program (`fluid-tree`) of `fltkhs` library increased from about 15 seconds to more than a minute ([original message](https://mail.haskell.org/pipermail/haskell-cafe/2016-May/123995.html)).
 - GHC takes significantly more memory compiling the `xmlhtml` library with `-j4` than `-j1` (1GB vs 150MB). See [\#9370](https://gitlab.haskell.org//ghc/ghc/issues/9370). 
 - The `Language.Haskell.Exts.Annotated.Syntax` of `haskell-src-exts` takes many tens of seconds to compile. Howeever, this may not be surprising: Consists of roughly 70 data definitions, some with many constructors, `deriving (Eq,Ord,Show,Typeable,Data,Foldable,Traversable)` on most of them as well as defining `Functor`.
 - `vector-algorithms` may be a nice test and reportedly got slower to compile and run in recent GHC releases.

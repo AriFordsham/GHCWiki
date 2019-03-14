@@ -6,7 +6,7 @@ You have your compiler built, so you can use the inplace compiler to compile tes
 
 Every GHC, including the inplace one, comes with the [boot libraries](commentary/libraries).  But sometimes a test case will require the installation of some packages from Hackage.  There are two routes.
 
-## Plan A: use [ cabal install](http://hackage.haskell.org/trac/hackage/wiki/CabalInstall)
+## Plan A: use [cabal install](http://hackage.haskell.org/trac/hackage/wiki/CabalInstall)
 
 
 This method is quick and easy, but can fail if your `cabal` program is out of date with respect to the GHC version you are building.  Here's how to install a library against a GHC build tree:

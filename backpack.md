@@ -4,50 +4,50 @@
 This is the launch page for Backpack, actively maintained by Edward (as of Jan 2019). 
 
 
-Backpack is a system for retrofitting Haskell with an applicative, mix-in module system. It has been implemented in GHC 8.2 and cabal-install 2.0, but it is [ not supported by Stack](https://github.com/commercialhaskell/stack/issues/2540).
+Backpack is a system for retrofitting Haskell with an applicative, mix-in module system. It has been implemented in GHC 8.2 and cabal-install 2.0, but it is [not supported by Stack](https://github.com/commercialhaskell/stack/issues/2540).
 
 
 The documentation for how to use Backpack is a bit scattered about at this point, but here are useful, up-to-date (as of 2019-01-11) references:
 
-- This pair of blog posts: Try Backpack, [ ghc --backpack](http://blog.ezyang.com/2016/10/try-backpack-ghc-backpack/) and [ Cabal packages](http://blog.ezyang.com/2017/01/try-backpack-cabal-packages/) have up-to-date tutorials for using the main features of Backpack, with and without Cabal.
+- This pair of blog posts: Try Backpack, [ghc --backpack](http://blog.ezyang.com/2016/10/try-backpack-ghc-backpack/) and [Cabal packages](http://blog.ezyang.com/2017/01/try-backpack-cabal-packages/) have up-to-date tutorials for using the main features of Backpack, with and without Cabal.
 
-- The [ GHC manual section on module signatures](https://downloads.haskell.org/~ghc/master/users-guide/separate_compilation.html#module-signatures) gives the gory details about how Backpack's signature files (hsig) work. A more user-friendly version of this can be found on [ Haskell wiki "Module signature"](https://wiki.haskell.org/Module_signature)
+- The [GHC manual section on module signatures](https://downloads.haskell.org/~ghc/master/users-guide/separate_compilation.html#module-signatures) gives the gory details about how Backpack's signature files (hsig) work. A more user-friendly version of this can be found on [Haskell wiki "Module signature"](https://wiki.haskell.org/Module_signature)
 
 - There is not yet a manual entry in Cabal for how Cabal works. This section is under development.
 
-- Edward Z. Yang's [ thesis](https://github.com/ezyang/thesis/releases) contains detailed information about the specification and implementation of Backpack. We also have an older [ paper draft](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/backpack-2016.pdf) which was submitted to ICFP'16. History nuts can also read the original [ POPL paper](http://plv.mpi-sws.org/backpack/) but note that Backpack has changed dramatically since then.
+- Edward Z. Yang's [thesis](https://github.com/ezyang/thesis/releases) contains detailed information about the specification and implementation of Backpack. We also have an older [paper draft](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/backpack-2016.pdf) which was submitted to ICFP'16. History nuts can also read the original [POPL paper](http://plv.mpi-sws.org/backpack/) but note that Backpack has changed dramatically since then.
 
-- Hackage supports uploads of Backpack using packages. For an example, see [ https://hackage.haskell.org/package/unpacked-containers](https://hackage.haskell.org/package/unpacked-containers)
+- Hackage supports uploads of Backpack using packages. For an example, see [https://hackage.haskell.org/package/unpacked-containers](https://hackage.haskell.org/package/unpacked-containers)
 
 
 You might find it useful to find some code using Backpack.  Here are the biggest examples worth looking at:
 
-- [ unpacked-containers](https://hackage.haskell.org/package/unpacked-containers) supplies unpacked sets and maps, using Backpack's ability to unpack through signatures.
+- [unpacked-containers](https://hackage.haskell.org/package/unpacked-containers) supplies unpacked sets and maps, using Backpack's ability to unpack through signatures.
 
-- [ backpack-str](https://github.com/haskell-backpack/backpack-str) defines a signature and implementations for strings. It is quite comprehensive.
+- [backpack-str](https://github.com/haskell-backpack/backpack-str) defines a signature and implementations for strings. It is quite comprehensive.
 
-- [ coda](https://github.com/ekmett/coda) parametrizes over a few core data types including notions of "delta". It takes advantage of zero-cost abstraction, which lets it split into multiple data types, while still ensuring they are UNPACKed in the end.
+- [coda](https://github.com/ekmett/coda) parametrizes over a few core data types including notions of "delta". It takes advantage of zero-cost abstraction, which lets it split into multiple data types, while still ensuring they are UNPACKed in the end.
 
-- [ streamy](https://github.com/danidiaz/streamy) defines a signature and implementations for "streaming" libraries (e.g., conduit, pipes and streaming).
+- [streamy](https://github.com/danidiaz/streamy) defines a signature and implementations for "streaming" libraries (e.g., conduit, pipes and streaming).
 
-- [ haskell-opentracing](https://github.com/ocharles/haskell-opentracing) defines a signature for the OpenTracing standard, a middleware built on top of this signature, and (at the moment) a single backend to Jaeger.
+- [haskell-opentracing](https://github.com/ocharles/haskell-opentracing) defines a signature for the OpenTracing standard, a middleware built on top of this signature, and (at the moment) a single backend to Jaeger.
 
-- [ reflex-backpack](https://github.com/ezyang/reflex-backpack) is a kind of crazy experiment at Backpack'ing Reflex.  Reflex uses a lot of advanced GHC features and it took some coaxing to get Backpack to handle it all, but handle it all it did!
+- [reflex-backpack](https://github.com/ezyang/reflex-backpack) is a kind of crazy experiment at Backpack'ing Reflex.  Reflex uses a lot of advanced GHC features and it took some coaxing to get Backpack to handle it all, but handle it all it did!
 
 
 Some more out-of-date documents:
 
-- [ Backpack specification](https://github.com/ezyang/ghc-proposals/blob/backpack/proposals/0000-backpack.rst). This was subsumed by my thesis but once Backpack stabilizes it will be worth distilling the thesis PDF back into a more web-friendly format.
+- [Backpack specification](https://github.com/ezyang/ghc-proposals/blob/backpack/proposals/0000-backpack.rst). This was subsumed by my thesis but once Backpack stabilizes it will be worth distilling the thesis PDF back into a more web-friendly format.
 
 ## Known gotchas
 
 **Can I use this with Stack?** No, Backpack requires support from the package manager, and Stack integration has not been implemented yet.
 
-**Can I use this with Template Haskell?** Yes. Note that there is currently one known issue about TH with Backpack, which you may be affected by: [ https://github.com/haskell/cabal/issues/5634](https://github.com/haskell/cabal/issues/5634)
+**Can I use this with Template Haskell?** Yes. Note that there is currently one known issue about TH with Backpack, which you may be affected by: [https://github.com/haskell/cabal/issues/5634](https://github.com/haskell/cabal/issues/5634)
 
 **Can I use this with the C preprocessor?** Yes; this used to be buggy but the fix is released in the latest version of GHC.
 
-**Make sure cabal-version is recent enough.** ([ \#4448](https://github.com/haskell/cabal/issues/4448)) If you set the `cabal-version` of your package too low, you may get this error:
+**Make sure cabal-version is recent enough.** ([\#4448](https://github.com/haskell/cabal/issues/4448)) If you set the `cabal-version` of your package too low, you may get this error:
 
 ```wiki
 Error:

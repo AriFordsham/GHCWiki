@@ -27,7 +27,7 @@ Remember: you can change the order by dragging things around.
 
 ### Differential: pre-commit code review
 
-**[ Differential](https://phabricator.haskell.org/differential)** is **the most important tool in Phabricator**. It's what does code review, and lets you review other peoples code to tell them "Great job" or "I guess this is OK" or "Please fix this!"
+**[Differential](https://phabricator.haskell.org/differential)** is **the most important tool in Phabricator**. It's what does code review, and lets you review other peoples code to tell them "Great job" or "I guess this is OK" or "Please fix this!"
 
 
 When you post a review with `arc diff`, the review will show up in Differential and notify the specified reviewers quickly. They can then review your change, or they can
@@ -111,11 +111,11 @@ You're done!
 
 ### Audit: post-commit code review
 
-**[ Audit](https://phabricator.haskell.org/audit)** is an application that allows you to keep track of people who touch your code, and then do things when that happens - 
+**[Audit](https://phabricator.haskell.org/audit)** is an application that allows you to keep track of people who touch your code, and then do things when that happens - 
 like review their code, and tell them how they messed everything up.
 
 
-Auditing works mostly the same way as reviewing, only after the fact - instead of accepting or rejecting, you can **Raise Concerns** or **Accept Revision**. If you raise a concern, the author will be notified and generally required to rectify the change. You may use Diffusion to [ browse the GHC repository](https://phabricator.haskell.org/diffusion/GHC), find a commit, and then audit it. For example, by viewing commit [ b6352c9912536929537dcebac9d02d4f995c1657](https://phabricator.haskell.org/rGHCb6352c9912536929537dcebac9d02d4f995c1657), we can look at the diff. Then, go to the bottom, and you can take actions like **Accept Review** or **Raise Concerns** - this is an equivalent to a regular audit for arbitrary commits.
+Auditing works mostly the same way as reviewing, only after the fact - instead of accepting or rejecting, you can **Raise Concerns** or **Accept Revision**. If you raise a concern, the author will be notified and generally required to rectify the change. You may use Diffusion to [browse the GHC repository](https://phabricator.haskell.org/diffusion/GHC), find a commit, and then audit it. For example, by viewing commit [b6352c9912536929537dcebac9d02d4f995c1657](https://phabricator.haskell.org/rGHCb6352c9912536929537dcebac9d02d4f995c1657), we can look at the diff. Then, go to the bottom, and you can take actions like **Accept Review** or **Raise Concerns** - this is an equivalent to a regular audit for arbitrary commits.
 
 **NB**: commits you should audit, or commits of yours that have had concerns raised will appear on the homepage. They look like this, found at the bottom of the homepage:
 
@@ -138,7 +138,7 @@ Then anyone in the `Auditors` field will automatically need to audit your commit
 
 ### Owners: keeping track of your code
 
-**[ Owners](https://phabricator.haskell.org/owners)** is an application that lets you easily categorize source code, see who owns it, and make it easy to track changes to those files. First, open up the application, and click **All** on the left-side pane. You'll see a screen like this:
+**[Owners](https://phabricator.haskell.org/owners)** is an application that lets you easily categorize source code, see who owns it, and make it easy to track changes to those files. First, open up the application, and click **All** on the left-side pane. You'll see a screen like this:
 
 [](https://i.imgur.com/cQe8zed.png)
 
@@ -150,7 +150,7 @@ Packages and owners are mostly useful for keeping track of things using **Herald
 
 ### Herald: notifications and tracking
 
-**[ Herald](https://phabricator.haskell.org/herald/)** is an application that allows you to trigger actions on events in Phabricator. For example, when someone posts a diff, comments, or random things happen, it can respond by sending emails, adding subscribers, or triggering audits.
+**[Herald](https://phabricator.haskell.org/herald/)** is an application that allows you to trigger actions on events in Phabricator. For example, when someone posts a diff, comments, or random things happen, it can respond by sending emails, adding subscribers, or triggering audits.
 
 
 First, you have to select the event the rule will trigger on. Normally this will be *Commit* if you want to analyze commits, or *Differential Revision* if you want it to trigger on new patches for review.
@@ -183,7 +183,7 @@ See [wiki:Phabricator/Harbormaster](phabricator/harbormaster) for more.
 
 ### Diffusion: browsing the GHC repository
 
-**[ Diffusion](https://phabricator.haskell.org/diffusion)** is a simple, fast repository browser for GHC which you can use to browse the repo, audit commits, explore branches or just read code.
+**[Diffusion](https://phabricator.haskell.org/diffusion)** is a simple, fast repository browser for GHC which you can use to browse the repo, audit commits, explore branches or just read code.
 
 
 Note that in Phabricator, every repository has what we call a **callsign**. A callsign is a short, unique identifier for a repository. The GHC repository has the **GHC** callsign. Sometimes in the UI when referring to a repository, you must use the unambiguous name `rGHC`, signifying the repository callsign.
@@ -206,7 +206,7 @@ This occurs in *every* application, so refer to Trac tickets at will!
 ### Linking reviews to Trac tickets and vice versa
 
 
-Let's say you have a revision and it fixes a bug on Trac - like [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634). And let's say you have a differential revision for it - like [ Phab:D69](https://phabricator.haskell.org/D69).
+Let's say you have a revision and it fixes a bug on Trac - like [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634). And let's say you have a differential revision for it - like [Phab:D69](https://phabricator.haskell.org/D69).
 
 
 First, **when you submit a review, add the ticket number to the `GHC Trac Issues` field**. This field will be shown when you run `arc diff`. This field should be a comma-separated list of ticket numbers. By doing this, these ticket numbers will automatically appear in Phabricator:
@@ -214,7 +214,7 @@ First, **when you submit a review, add the ticket number to the `GHC Trac Issues
 [](https://i.imgur.com/QIGhD0T.png)
 
 
-Next, add a link to the revision in the Trac ticket. Fill out the field called "Differential Revisions" when you modify the ticket. You can hyperlink to any Phabricator revision using the syntax `Phab:Dxx` with a specific number. For example, to link to Differential Revision D69, say [ Phab:D69](https://phabricator.haskell.org/D69). As an example, Ticket [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634) has this set:
+Next, add a link to the revision in the Trac ticket. Fill out the field called "Differential Revisions" when you modify the ticket. You can hyperlink to any Phabricator revision using the syntax `Phab:Dxx` with a specific number. For example, to link to Differential Revision D69, say [Phab:D69](https://phabricator.haskell.org/D69). As an example, Ticket [\#8634](https://gitlab.haskell.org//ghc/ghc/issues/8634) has this set:
 
 [](https://i.imgur.com/gYHkAhe.png)
 
@@ -224,7 +224,7 @@ Next, add a link to the revision in the Trac ticket. Fill out the field called "
 Our Phabricator instance is essentially stock upstream with no patches. But, it does have some extensions we wrote, for things like custom fields in Differential, and custom remarkup syntax.
 
 
-The auxiliary library we use is known as **[ libphutil-haskell](https://github.com/haskell-infra/libphutil-haskell)**, which provides these features. It's written in PHP, so if you want to contribute, you'll have to leave the Haskell world behind!
+The auxiliary library we use is known as **[libphutil-haskell](https://github.com/haskell-infra/libphutil-haskell)**, which provides these features. It's written in PHP, so if you want to contribute, you'll have to leave the Haskell world behind!
 
 ## Tips
 
@@ -237,7 +237,7 @@ There are some good tips for using Phabricator, including...
 When you login, by default you'll be greeted by a default **Dashboard**, which are Phabricator's way of having custom pages.
 
 
-If you go to the [ Dashboards](https://phabricator.haskell.org/dashboard/) application, you can create a new dashboard, and then create panels to go on it. You can then move panels around on the editor to customize your home page with audits, commits, etc. Once you've created a Dashboard, you can install it as your default home one as well.
+If you go to the [Dashboards](https://phabricator.haskell.org/dashboard/) application, you can create a new dashboard, and then create panels to go on it. You can then move panels around on the editor to customize your home page with audits, commits, etc. Once you've created a Dashboard, you can install it as your default home one as well.
 
 
 The default dashboard should be relatively well tuned for what GHC developers need, but if you need a custom one, feel free to share!
@@ -255,19 +255,19 @@ On any page, hit the `?` key on your keyboard to bring up all the **keyboard sho
 ### Remarkup reference
 
 
-Be sure to read about Phabricator's markup language, [ Remarkup](https://secure.phabricator.com/book/phabricator/article/remarkup/). Most importantly, make sure you know how to use those image [ macros](https://phabricator.haskell.org/macro/).
+Be sure to read about Phabricator's markup language, [Remarkup](https://secure.phabricator.com/book/phabricator/article/remarkup/). Most importantly, make sure you know how to use those image [macros](https://phabricator.haskell.org/macro/).
 
 ### Applications configuration
 
 
-You can configure the applications that appear on the left side panel by visiting your [ panel settings](https://phabricator.haskell.org/settings/panel/home/). You can probably safely get rid of most things except **Differential**, **Diffusion**, **Audit**, and **Herald**.
+You can configure the applications that appear on the left side panel by visiting your [panel settings](https://phabricator.haskell.org/settings/panel/home/). You can probably safely get rid of most things except **Differential**, **Diffusion**, **Audit**, and **Herald**.
 
 ### Arcanist
 
 
 Arcanist has a few useful commands - in particular, you'll probably like `arc paste`, and `arc list`.
 
-`arc paste` will allow you to instantly upload things to Phab's [ PasteBin application](https://phabricator.haskell.org/paste/). 
+`arc paste` will allow you to instantly upload things to Phab's [PasteBin application](https://phabricator.haskell.org/paste/). 
 
 `arc list` will show you all your revisions currently open, and what state they're in. For example, Austin's `arc list` may look like:
 
@@ -300,22 +300,22 @@ foo and bar!
 First off, note that **you can reply to an email from Phabricator** to comment on a review; inbound mail handling works fine. In the email you have handler actions, which you can use to control what action to post to a review - for example, replying to an email with `!reject` and some content will comment on the review, and reject it and ask for revisions.
 
 
-Second, Phab has a very 'Getting Things Done' interface, which means it tries to only alert you as to what is relevant in a particular project or codebase. You can carefully control what emails you get using Herald particularly, but you still may want to crop things. Be sure to [ configure your mail rules](https://secure.phabricator.com/book/phabricator/article/mail_rules/)!
+Second, Phab has a very 'Getting Things Done' interface, which means it tries to only alert you as to what is relevant in a particular project or codebase. You can carefully control what emails you get using Herald particularly, but you still may want to crop things. Be sure to [configure your mail rules](https://secure.phabricator.com/book/phabricator/article/mail_rules/)!
 
 ### External editor support
 
 
-If you want, you can also configure Phab to use an external editor so you can launch things [ right from your browser](https://secure.phabricator.com/book/phabricator/article/external_editor/)!
+If you want, you can also configure Phab to use an external editor so you can launch things [right from your browser](https://secure.phabricator.com/book/phabricator/article/external_editor/)!
 
 ### Review IRC logs
 
 
-There are active IRC logs kept on Phabricator using the [ ChatLog](https://phabricator.haskell.org/chatlog/) application
+There are active IRC logs kept on Phabricator using the [ChatLog](https://phabricator.haskell.org/chatlog/) application
 
 ### Multi-factor authentication
 
 
-If you're paranoid, enable [ multi-factor authentication](https://secure.phabricator.com/book/phabricator/article/multi_factor_auth/) for your account.
+If you're paranoid, enable [multi-factor authentication](https://secure.phabricator.com/book/phabricator/article/multi_factor_auth/) for your account.
 
 ### Play Arkanoid
 

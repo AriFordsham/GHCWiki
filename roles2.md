@@ -14,7 +14,7 @@ We have three known examples of where current roles are failing us.
 ### Adding `join` to `Monad`
 
 
-As part of the [ Applicative-Monad Proposal](http://www.haskell.org/haskellwiki/Functor-Applicative-Monad_Proposal), we wish to add `join` to `Monad`, thus:
+As part of the [Applicative-Monad Proposal](http://www.haskell.org/haskellwiki/Functor-Applicative-Monad_Proposal), we wish to add `join` to `Monad`, thus:
 
 ```wiki
 class Applicative m => Monad m where
@@ -93,7 +93,7 @@ The problem here echoes the `join` problem quite closely.
 ## The best known solution
 
 
-Edward Kmett initially described an approach in an [ email](http://www.haskell.org/pipermail/ghc-devs/2014-May/004974.html), roughly as follows (names subject to bikeshedding, as always):
+Edward Kmett initially described an approach in an [email](http://www.haskell.org/pipermail/ghc-devs/2014-May/004974.html), roughly as follows (names subject to bikeshedding, as always):
 
 
 Currently, `Data.Type.Coercion` makes this definition:
@@ -226,7 +226,7 @@ newtype StateT s m a = StateT (s -> m (a, s))
 
 ## Other possible designs
 
-1. The design from the [ POPL'11 paper](http://www.seas.upenn.edu/~sweirich/papers/popl163af-weirich.pdf). This design incorporates roles into kinds. It solves the exact problems here, but at great cost: because roles are attached to kinds, we have to choose a types roles in the wrong place. For example, consider the `Monad` class. Should the parameter `m` have kind `*/R -> *`, requiring all monads to take representational arguments, or should it have type `*/N ->*`, disallowing GND if `join` is in the `Monad` class? We're stuck with a different set of problems. And, there is the pervasiveness of this change, which is why we didn't implement it in the first place.
+1. The design from the [POPL'11 paper](http://www.seas.upenn.edu/~sweirich/papers/popl163af-weirich.pdf). This design incorporates roles into kinds. It solves the exact problems here, but at great cost: because roles are attached to kinds, we have to choose a types roles in the wrong place. For example, consider the `Monad` class. Should the parameter `m` have kind `*/R -> *`, requiring all monads to take representational arguments, or should it have type `*/N ->*`, disallowing GND if `join` is in the `Monad` class? We're stuck with a different set of problems. And, there is the pervasiveness of this change, which is why we didn't implement it in the first place.
 
   - (comment from Dominique Devriese) Note that `Monad` implies `Functor`, so by the argument about `Functor f` implying `Rep f` above, I would argue that `m` should have kind `*/R -> *`.
 

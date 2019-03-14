@@ -4,7 +4,7 @@
 This page serves as a place to collect proposals, tickets, open problems, and ideas regarding mechanisms for deprecating program interfaces.
 
 
-For motivation for these mechanisms one can look to a number of recently-considered proposals for reworking the core libraries, for instance the [ Applicative-Monad Proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal#Future-proofing_current_code).
+For motivation for these mechanisms one can look to a number of recently-considered proposals for reworking the core libraries, for instance the [Applicative-Monad Proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal#Future-proofing_current_code).
 
 ## Warning on import of `DEPRECATED` definitions
 
@@ -30,7 +30,7 @@ TODO Write specification
 
 As of GHC 7.10 there is no effective way to demote a typeclass method to a normal top-level binding (see [\#10071](https://gitlab.haskell.org//ghc/ghc/issues/10071)). This would be useful in cases such as
 
-- removing the `return` method from `Monad` as proposed by the [ Monad of No Return proposal](https://mail.haskell.org/pipermail/libraries/2015-September/026121.html)
+- removing the `return` method from `Monad` as proposed by the [Monad of No Return proposal](https://mail.haskell.org/pipermail/libraries/2015-September/026121.html)
 - removing the `mappend` method from `Monoid` as proposed in [Proposal/SemigroupMonoid](proposal/semigroup-monoid)
 
 
