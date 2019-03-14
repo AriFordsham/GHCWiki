@@ -178,7 +178,7 @@ It should be noted, that since the overall goal is to let the LLVM handle the ac
 ## Add new MachOps to Cmm code
 
 
-It may make more sense to add the MachOps to Cmm prior to implementing the PrimOps (or at least before adding the code to the CgPrimOp.hs file).  There is a useful [Cmm Wiki Page](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/CmmType#AdditionsinCmm) available to aid in the definition of the new Cmm operations.
+It may make more sense to add the MachOps to Cmm prior to implementing the PrimOps (or at least before adding the code to the CgPrimOp.hs file).  There is a useful [Cmm Wiki Page](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/CmmType#AdditionsinCmm) available to aid in the definition of the new Cmm operations.
 
 
 Modify compiler/cmm/CmmType.hs to add new required vector types and such, here is a basic outline of what needs to be done:
@@ -226,8 +226,8 @@ Adding the new PrimOps is relatively straight-forward, but a  substantial number
 
 Background: The following articles can aid in getting the work done:
 
-- [Primitive Operations (PrimOps)](http://hackage.haskell.org/trac/ghc/wiki/Commentary/PrimOps)
-- [Adding new primitive operations to GHC Haskell](http://hackage.haskell.org/trac/ghc/wiki/AddingNewPrimitiveOperations)
+- [Primitive Operations (PrimOps)](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/PrimOps)
+- [Adding new primitive operations to GHC Haskell](https://gitlab.haskell.org/trac/ghc/wiki/AddingNewPrimitiveOperations)
 - Some guidelines for addition?, at least until I find something on the Wiki
 
 

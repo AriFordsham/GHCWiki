@@ -262,7 +262,7 @@ We are particularly grateful to Ben Lippmeier for his work on the SPARC native c
 ## Bibliography: wiki
 
 
-All these URLs should be preceded with [http://hackage.haskell.org/trac/ghc/wiki](http://hackage.haskell.org/trac/ghc/wiki)
+All these URLs should be preceded with [https://gitlab.haskell.org/trac/ghc/wiki](https://gitlab.haskell.org/trac/ghc/wiki)
 
 - \[Building\] GHC's new build system [Building](building)
 - \[Platforms\] Platforms that GHC supports [Platforms](platforms)

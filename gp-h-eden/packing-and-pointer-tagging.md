@@ -38,7 +38,7 @@ For now, it reproduces e-mail exchange between Simon Marlow and Hans-Wolfgang Lo
 > >
 >
 
-- [http://hackage.haskell.org/trac/ghc/wiki/SemiTagging](http://hackage.haskell.org/trac/ghc/wiki/SemiTagging)
+- [https://gitlab.haskell.org/trac/ghc/wiki/SemiTagging](https://gitlab.haskell.org/trac/ghc/wiki/SemiTagging)
 - Faster laziness using dynamic pointer tagging (paper)
 - Cmm.h, GC.c
 

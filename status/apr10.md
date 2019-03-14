@@ -112,7 +112,7 @@ before the rule has a chance to fire.
 
 GHC's back end has been a ferment of activity.  In particular,
 
-- David Terei made a LLVM back end for GHC [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM Terei](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM Terei).  It's not part of the HEAD, but we earnestly hope that it will become so.
+- David Terei made a LLVM back end for GHC [https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM Terei](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM Terei).  It's not part of the HEAD, but we earnestly hope that it will become so.
 
 - John Dias, Norman Ramsey, and Simon PJ made a lot of progress on Hoopl, our new representaion for control flow graphs, and accompanying functions for dataflow analysis and transformation.  There is a paper [http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/ Hoopl](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/ Hoopl), and Hoopl itself is now a standalone, re-usable Cabal package, which makes it much easier for others to use.
 
@@ -173,11 +173,11 @@ We're always keen to add more build slaves; please see [Builder](builder) if you
 
 # Bibliography
 
-- \[Builder\] The GHC builder package [http://hackage.haskell.org/trac/ghc/wiki/Builder](http://hackage.haskell.org/trac/ghc/wiki/Builder)
+- \[Builder\] The GHC builder package [https://gitlab.haskell.org/trac/ghc/wiki/Builder](https://gitlab.haskell.org/trac/ghc/wiki/Builder)
 
 - \[Hoopl\] "Hoopl: A Modular, Reusable Library for Dataflow Analysis and Transformation", Norman Ramsey, John Dias, and Simon Peyton Jones, submitted to ICFP'10.  [http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/)
 
-- \[NewCodeGen\] The glorious new code generator [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen)
+- \[NewCodeGen\] The glorious new code generator [https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen)
 
 - \[NoSlow\] The NoSlow array benchmark framework [http://hackage.haskell.org/package/NoSlow](http://hackage.haskell.org/package/NoSlow)
 
@@ -187,7 +187,7 @@ We're always keen to add more build slaves; please see [Builder](builder) if you
 
 - \[Repa package\] The Repa Cabal package [http://hackage.haskell.org/package/repa](http://hackage.haskell.org/package/repa)
 
-- \[Terei\] The LLVM back end for GHC [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM)
+- \[Terei\] The LLVM back end for GHC [https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/Backends/LLVM)
 
 - \[Threadscope\] The Threadscope tool [http://research.microsoft.com/threadscope](http://research.microsoft.com/threadscope)
 
