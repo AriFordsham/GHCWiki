@@ -396,14 +396,14 @@ Double square brackets denote the transformation function, which has two argumen
 For instance:
 
 ```wiki
-   [[ E ]]_k
+   [[E ]]_k
 ```
 
 
 means transform expression E with k as the current stack value. When we wish to ignore the current stack value (because it is not meaningful in a certain context, such as the top-level declarations) we write:
 
 ```wiki
-   [[ E ]]_?
+   [[E ]]_?
 ```
 
 ### Transformation option 1
@@ -415,43 +415,43 @@ might pass one stack argument for every regular argument of the function.
 ```wiki
 Declarations (top level):
 
-   [[ x :: T ]]_?                     ==>   x :: Trace -> T     , x is function bound, and transformed for tracing
+   [[x :: T ]]_?                     ==>   x :: Trace -> T     , x is function bound, and transformed for tracing
    
-   [[ x :: T ]]_?                     ==>   x :: T              , x does not match the above rule
+   [[x :: T ]]_?                     ==>   x :: T              , x does not match the above rule
 
-   [[ x = \y1 .. yn -> E ]]_?         ==>   x = \t y1 .. yn -> [[ E ]]_("x":t)       , x is transformed for tracing
+   [[x = \y1 .. yn -> E ]]_?         ==>   x = \t y1 .. yn -> [[E ]]_("x":t)       , x is transformed for tracing
 
-   [[ x = \y1 .. yn -> E ]]_?         ==>   x = \y1 .. yn -> [[ E ]]_["x"]           , x is not transformed for tracing
+   [[x = \y1 .. yn -> E ]]_?         ==>   x = \y1 .. yn -> [[E ]]_["x"]           , x is not transformed for tracing
 
-   [[ x = E ]]_?                      ==>   x = [[ E ]]_["x"]
+   [[x = E ]]_?                      ==>   x = [[E ]]_["x"]
 
-   [[ data f a1 .. an = K1 .. Km ]]_? ==>   data f a1 .. an = K1 .. Km
+   [[data f a1 .. an = K1 .. Km ]]_? ==>   data f a1 .. an = K1 .. Km
 
 Declarations (local):
 
-   [[ x = E ]]_t                      ==>   x = [[ E ]]_("x":t) 
+   [[x = E ]]_t                      ==>   x = [[E ]]_("x":t) 
 
    (all other local decls are the same as top level rules)
 
 Expressions:
 
-   [[ x ]]_t                          ==>   x t    , x is function bound, and transformed for tracing
+   [[x ]]_t                          ==>   x t    , x is function bound, and transformed for tracing
 
-   [[ x ]]_t                          ==>   x      , x does not match the above rule
+   [[x ]]_t                          ==>   x      , x does not match the above rule
 
-   [[ k ]]_t                          ==>   k
+   [[k ]]_t                          ==>   k
 
-   [[ E1 E2 ]]_t                      ==>   [[ E1 ]]_t [[ E2 ]]_t
+   [[E1 E2 ]]_t                      ==>   [[E1 ]]_t [[E2 ]]_t
 
-   [[ let D1 .. Dn in E ]]_t          ==>   let [[ D1 ]]_t .. [[ Dn ]]_t in  [[ E ]]_t
+   [[let D1 .. Dn in E ]]_t          ==>   let [[D1 ]]_t .. [[Dn ]]_t in  [[E ]]_t
 
-   [[ case E of A1 .. An ]]_t         ==>   case [[ E ]]_t of [[ A1 ]]_t .. [[ An ]]_t
+   [[case E of A1 .. An ]]_t         ==>   case [[E ]]_t of [[A1 ]]_t .. [[An ]]_t
 
-   [[ \y1 .. yn -> E ]]_t             ==>   \y1 .. yn -> [[ E ]]_t
+   [[\y1 .. yn -> E ]]_t             ==>   \y1 .. yn -> [[E ]]_t
 
 Alternatives:
 
-   [[ p -> E ]]_t                     ==>   p -> [[ E ]]_t 
+   [[p -> E ]]_t                     ==>   p -> [[E ]]_t 
 ```
 
 

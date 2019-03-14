@@ -74,7 +74,7 @@
   gcc (GCC) 3.1 20020420 (prerelease)
   Copyright (C) 2002 Free Software Foundation, Inc.
   This is free software; see the source for copying conditions.  There is NO
-  warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. [ yeah, no shit, Sherlock ]
+  warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. [yeah, no shit, Sherlock ]
   ```
 1. Will upgrading my gcc break everything? Probably. Should I do it anyway? Probably.
 1. Actually, upgrading gcc sounds about as appealing as a quadruple root canal. Maybe I can use gcc2 (2.95.2) instead.
@@ -167,11 +167,11 @@
   + gnumake srcdir=/tmp/gcc3/gcc-1495/libiberty BUILD_PREFIX=ppc- BUILD_PREFIX_1=ppc- 'HOST_CC= cc -arch ppc -no-cpp-precomp' 'CFLA\
   GS= -g' 'GCC_CFLAGS=-no-cpp-precomp -g' 'BOOT_CFLAGS=-O2 -g -no-cpp-precomp -mdynamic-no-pic' 'CC=cc -arch ppc -arch ppc -no-cpp-\
   precomp -g'
-  if [ x"" != x ] && [ ! -d pic ]; then \
+  if [x"" != x ] && [! -d pic ]; then \
     mkdir pic; \
   else true; fi
   touch stamp-picdir
-  if [ x"" != x ]; then \
+  if [x"" != x ]; then \
     cc -arch ppc -arch ppc -no-cpp-precomp -g -c -DHAVE_CONFIG_H -g -I. -I/tmp/gcc3/gcc-1495/libiberty/../include  -W -Wall -Wtradi\
   tional -pedantic  /tmp/gcc3/gcc-1495/libiberty/regex.c -o pic/regex.o; \
   else true; fi

@@ -329,7 +329,7 @@ module TysPrim(
 ...
 
 primTyCons 
-  = [ addrPrimTyCon
+  = [addrPrimTyCon
 ...
 -- Added
     , floatVecPrimTyCon

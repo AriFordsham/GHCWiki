@@ -91,7 +91,7 @@ larry = mkR
   .* #age .= 39
 
 people =
-  [ bill
+  [bill
   , steve
   , larry
   ]
@@ -210,7 +210,7 @@ getName !r = r `dot` #name
 
 names :: [String]
 names =
-  [ getName dude, getName lady ]
+  [getName dude, getName lady ]
 
 getPos ::
      (
@@ -226,7 +226,7 @@ getPos !r = (x,y)
 
 positions :: [(Float,Float)]
 positions =
-  [ getPos origin, getPos dude ]
+  [getPos origin, getPos dude ]
 
 ----- BEYOND THE ELM TUTORIAL
 

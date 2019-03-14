@@ -441,15 +441,15 @@ Top: F Int ~ [Int]
 
   |- F delta ~ [delta], F delta ~ [Int]
 (SubstFam)
-  |- F delta ~ [delta], norm [[ [delta] ~ [Int] ]]
+  |- F delta ~ [delta], norm [[[delta] ~ [Int] ]]
 ==>
   |- F delta ~ [delta], delta ~ Int
 (SubstVar)
-  |- norm [[ F Int ~ [Int] ]], delta ~ Int
+  |- norm [[F Int ~ [Int] ]], delta ~ Int
 ==>
   |- F Int ~ [Int], delta ~ Int
 (Top)
-  |- norm [[ [Int] ~ [Int] ]], delta ~ Int
+  |- norm [[[Int] ~ [Int] ]], delta ~ Int
 ==>
   |- delta ~ Int
 QED

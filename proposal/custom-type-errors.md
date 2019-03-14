@@ -350,7 +350,7 @@ get :: forall l fs n a.
 get (Struct p) _ = plusPtr p (fromInteger (natVal (Proxy :: Proxy n)))
 
 
-type MyStruct = [ '("A",Word8), '("B",Word8), '("C",Int) ]
+type MyStruct = ['("A",Word8), '("B",Word8), '("C",Int) ]
 
 testOk :: Struct MyStruct -> Ptr Word8
 testOk s = get s (Proxy :: Proxy "B")
@@ -362,7 +362,7 @@ testNotOk s = get s (Proxy :: Proxy "X")
 --}
 
 {-
-type MyOtherStruct = [ '("A",Int), '("B",Word8) ]
+type MyOtherStruct = ['("A",Int), '("B",Word8) ]
 
 testNotOk :: Struct MyOtherStruct -> Ptr Word8
 testNotOk s = get s (Proxy :: Proxy "B")

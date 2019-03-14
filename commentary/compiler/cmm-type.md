@@ -1067,7 +1067,7 @@ If you read to the end of `expr` in [compiler/cmm/CmmParse.y](/trac/ghc/browser/
 
 1. `expr0` ``name`` `expr0`
   (just like infix-functions in Haskell);
-1. `type[ expression ]`
+1. `type[expression ]`
   (the memory access quasi-expression described in [Memory Access](commentary/compiler/cmm-type#memory-access); the Haskell representation of this syntax is `CmmLoad CmmExpr MachRep`); 
 1. `%name( exprs0 )`
   (standard prefix form, similar to C-- *statement* syntax for procedures but with the distinguishing prefix `%`; in Cmm this is *also used as statement syntax for calls, which are really built-in procedures*, see [Cmm Calls](commentary/compiler/cmm-type#cmm-calls)) 

@@ -365,7 +365,7 @@ type ExprData = (LlvmEnv , LlvmVar , LlvmStatements , [LlvmCmmTop] )
 Statements are also handled in a fairly straight-forward manner process involved can be detailed most simply by studying the return type of functions in the LLVM back-end which deal with compiling CmmStmt’s. Statements just as expressions also all return the same basic type when compiled to LLVM code by the back-end. This type is shown below.
 
 ```wiki
-type StmtData = (LlvmEnv , [ LlvmStatement ] , [LlvmCmmTop ] )
+type StmtData = (LlvmEnv , [LlvmStatement ] , [LlvmCmmTop ] )
 ```
 
 - **LlvmEnv**: As compiling a Cmm statement usually involves also compiling a Cmm expression, this LLVM Environment performs the same purpose of returning an updated environment if new external Cmm Label’s have been encountered. This first case updates the environments global map, as a new global variable has been created. In the case of a CmmStore statement though, a Cmm local register may be encountered for the first time. It will be allocated on the stack and added to the local map of the environment.

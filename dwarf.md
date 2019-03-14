@@ -285,8 +285,8 @@ the `perf` utility to gather and annotate such data, for example:
 ```wiki
 $ perf record ./fib
 1134903170
-[ perf record: Woken up 9 times to write data ]
-[ perf record: Captured and wrote 2.027 MB perf.data (~88582 samples) ]
+[perf record: Woken up 9 times to write data ]
+[perf record: Captured and wrote 2.027 MB perf.data (~88582 samples) ]
 $ perf annotate
 ```
 
@@ -333,7 +333,7 @@ Process 1901610 stopped
 -> 3    fib 1 = 1
    4    fib n = fib (n-1) + fib (n-2)
    5    main :: IO ()
-   6    main = print $ sum [ fib i | i <- [3..20]]
+   6    main = print $ sum [fib i | i <- [3..20]]
 (lldb) image lookup -a 0x00000000004056f7 -v
       Address: fib[0x00000000004056f7] (fib..text + 10967)
       Summary: fib`rnf_info + 207 [inlined] c2rw_entry

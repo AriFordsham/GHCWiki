@@ -29,15 +29,15 @@ import qualified CSS
 myDocument :: HTML
 myDocument = html
   where html =
-          div [ style containerStyle ] 
-              [ div [ style rowStyle ] "Hello"
-              , div [ style rowStyle ] "World!" ]
+          div [style containerStyle ] 
+              [div [style rowStyle ] "Hello"
+              , div [style rowStyle ] "World!" ]
           where open HTML
         containerStyle =
-          [ backgroundColor ..., padding ..., margin ... ]
+          [backgroundColor ..., padding ..., margin ... ]
           where open CSS
         rowStyle = 
-          [ backgroundColor ..., padding ..., margin ... ]
+          [backgroundColor ..., padding ..., margin ... ]
           where open CSS
 ```
 

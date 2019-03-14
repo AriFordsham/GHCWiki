@@ -78,7 +78,7 @@ Significant changes planned for the 7.4 branch are:
 
   Since we do not give a definition for `T` in the `instance` declaration, it filled in with the default given in the `class` declaration, just as if you had written `type T Int = [Int]`.
 
-- **Monad comprehensions.**  After a long absence, monad comprehensions are back, thanks to George Giorgidze and his colleagues.  With `{-# LANGUAGE MonadComprehensions #-}` the comprehension `[ f x | x <- xs, x>4 ]` is interpreted in an arbitrary monad, rather than being restricted to lists.  Not only that, it also generalises nicely for parallel/zip and SQL-like comprehensions. The aforementioned generalisations can be turned on by enabling the `MonadComprehensions` extension in conjunction with the `ParallelListComp` and `TransformListComp` extensions.
+- **Monad comprehensions.**  After a long absence, monad comprehensions are back, thanks to George Giorgidze and his colleagues.  With `{-# LANGUAGE MonadComprehensions #-}` the comprehension `[f x | x <- xs, x>4 ]` is interpreted in an arbitrary monad, rather than being restricted to lists.  Not only that, it also generalises nicely for parallel/zip and SQL-like comprehensions. The aforementioned generalisations can be turned on by enabling the `MonadComprehensions` extension in conjunction with the `ParallelListComp` and `TransformListComp` extensions.
 
 >
 >

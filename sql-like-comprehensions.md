@@ -9,7 +9,7 @@ As part of his final year work at Cambridge, Max Bolingbroke worked on implement
 The paper uses a syntax based around the new keywords "order" and "by". For example:
 
 ```wiki
-[ (name, salary)
+[(name, salary)
 | (name, dept, salary) <- employees
 , salary > 70
 , order by salary ]
@@ -19,7 +19,7 @@ The paper uses a syntax based around the new keywords "order" and "by". For exam
 It has been noted that introducing a new keyword may not be desirable, especially given the fact that you can use "order" to achieve things which aren't really ordering:
 
 ```wiki
-[ (the dept, sum salary)
+[(the dept, sum salary)
 | (name, dept, salary) <- employees
 , order by salary
 , order by salary < 50 using takeWhile
@@ -30,7 +30,7 @@ It has been noted that introducing a new keyword may not be desirable, especiall
 For those reasons, Max's implementation was initially based around the syntax proposed in section 6.1 of the paper:
 
 ```wiki
-[ (the dept, sum salary)
+[(the dept, sum salary)
 | (name, dept, salary) <- employees
 , then sortWith by salary
 , then takeWhile by salary < 50
@@ -41,7 +41,7 @@ For those reasons, Max's implementation was initially based around the syntax pr
 This reuses the "then" keyword and is probably less confusing. However, no final decision has been made on the optimal syntax: in particular it might be better to write:
 
 ```wiki
-[ (the dept, sum salary)
+[(the dept, sum salary)
 | (name, dept, salary) <- employees
 , then sortWith using salary
 , then takeWhile using salary < 50
@@ -57,7 +57,7 @@ Suggestions?
 Some of the same concerns about keyword introduction apply here, but ordering is being implemented first so not much thought has been given to syntax improvements. The main suggestion from the paper is:
 
 ```wiki
-[ (the dept, sum salary)
+[(the dept, sum salary)
 | (name, dept, salary) <- employees
 , group by dept ]
 ```
@@ -66,7 +66,7 @@ Some of the same concerns about keyword introduction apply here, but ordering is
 We could equally well substitute "using" for the "by" if desired:
 
 ```wiki
-[ (the dept, sum salary)
+[(the dept, sum salary)
 | (name, dept, salary) <- employees
 , group using dept ]
 ```
@@ -75,7 +75,7 @@ We could equally well substitute "using" for the "by" if desired:
 Or we could even do an implicit call to "the" on the grouped-by variables:
 
 ```wiki
-[ (the_dept, namesalary)
+[(the_dept, namesalary)
 | (name, dept, salary) <- employees
 , the_dept <- group by dept
     where (name,salary) -> namesalary
@@ -105,13 +105,13 @@ ys = [3,4]
 zs = [5,6]
 
 p1 = 
-  [ (x,y,z)
+  [(x,y,z)
   | ( x <- xs
     | y <- ys )
   , z <- zs ]
 
 p2 = 
-  [ (x,y,z)
+  [(x,y,z)
   | x <- xs
   | ( y <- ys
     , z <- zs ) ]
@@ -149,34 +149,34 @@ When the parser reaches the bracket after "e" it is valid to either reduce "(i, 
 
 ```wiki
 -- 1) A new keyword
-[ foo | x <- e,
+[foo | x <- e,
         nest { y <- ys,
                z <- zs },
         x > y + 3 ] 
 
 -- 2) Trying to suggest pulling things out of a sublist 
 --    without having to mention binders
-[ foo | x <- e,
-        <- [ .. | y <- ys,
+[foo | x <- e,
+        <- [.. | y <- ys,
                   z <- zs ],
         x > y + 3 ]
 
 -- 3) New kind of brackets
-[ foo | x <- e,
+[foo | x <- e,
         (| y <- ys,
            z <- zs |),
         x < y + 3 ]
 
 -- 4) Variation on 2), slightly more concise
-[ foo | x <- e,
-        <- [ y <- ys,
+[foo | x <- e,
+        <- [y <- ys,
              z <- zs ],
         x > y + 3 ]
 
 -- 5) Another variation on 2), moving the ".." into  
 --    the pattern rather than the comprehension body
-[ foo | x <- e,
-        .. <- [ y <- ys,
+[foo | x <- e,
+        .. <- [y <- ys,
                 z <- zs ],
         x > y + 3 ]
 ```

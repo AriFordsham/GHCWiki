@@ -424,7 +424,7 @@ To use more than one modifier on a test, just put them in a list.
 For example, to expect an exit code of 3 and omit way 'opt', we could use
 
 ```wiki
-[ omit_ways(['opt']), exit_code(3) ]
+[omit_ways(['opt']), exit_code(3) ]
 ```
 
 

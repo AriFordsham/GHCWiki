@@ -174,7 +174,7 @@ One approach is to use an explicit singleton parameter.  For example:
 
 ```wiki
 memset_c :: Storable a => ArrPtr n a -> a -> Sing n -> IO ()
-memset_c (ArrPtr p) a size = mapM_ (\i -> pokeElemOff p i a) [ 0 .. fromIntegral (fromSing size - 1) ]
+memset_c (ArrPtr p) a size = mapM_ (\i -> pokeElemOff p i a) [0 .. fromIntegral (fromSing size - 1) ]
 ```
 
 

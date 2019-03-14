@@ -28,7 +28,7 @@ Double square brackets denote the transformation function, which has two argumen
 For instance:
 
 ```wiki
-   [[ E ]]_b  ==> [[ E' ]]_b'
+   [[E ]]_b  ==> [[E' ]]_b'
 ```
 
 
@@ -63,38 +63,38 @@ The \<srcloc x\> placeholder denotes the source code location information for th
 ```wiki
 Declarations:
 
-   [[ x :: T ]]_b             ==>   x :: T
+   [[x :: T ]]_b             ==>   x :: T
 
-   [[ x = E ]]_b              ==>   x = [[ E ]]_b
+   [[x = E ]]_b              ==>   x = [[E ]]_b
 
-   [[ data f a1 .. an = K1 .. Km ]]_b 
+   [[data f a1 .. an = K1 .. Km ]]_b 
                               ==>   data f a1 .. an = K1 .. Km
 
    {{ x = E }}                ==>   x 
 
 Expressions:
 
-   [[ <breakpoint> x ]]_b     ==>   <breakpointJump> <ptr b> b <srcloc x> [[x]]_b
+   [[<breakpoint> x ]]_b     ==>   <breakpointJump> <ptr b> b <srcloc x> [[x]]_b
 
-   [[ x ]]_b                  ==>   x
+   [[x ]]_b                  ==>   x
    
-   [[ k ]]_b                  ==>   k
+   [[k ]]_b                  ==>   k
 
-   [[ E1 E2 ]]_b              ==>   [[ E1 ]]_b [[ E2 ]]_b
+   [[E1 E2 ]]_b              ==>   [[E1 ]]_b [[E2 ]]_b
 
-   [[ let D1 .. Dn in E ]]_b  ==>   let [[ D1 ]]_b .. [[ Dn ]]_b in  [[ E ]]_b'
+   [[let D1 .. Dn in E ]]_b  ==>   let [[D1 ]]_b .. [[Dn ]]_b in  [[E ]]_b'
                                     where b' = {{ D1 }} ++ .. ++ {{ Dn }}
 
-   [[ case E of A1 .. An ]]_b ==>   case [[ E ]]_b of [[ A1 ]]_b .. [[ An ]]_b
+   [[case E of A1 .. An ]]_b ==>   case [[E ]]_b of [[A1 ]]_b .. [[An ]]_b
 
-   [[ \y1 .. yn -> E ]]_b     ==>   \y1 .. yn -> [[ E ]]_(y1 .. yn ++ b)
+   [[\y1 .. yn -> E ]]_b     ==>   \y1 .. yn -> [[E ]]_(y1 .. yn ++ b)
 
 
    {{ E }}                    ==>   [] 
 
 Alternatives:
 
-   [[ p -> E ]]_b             ==>   p -> [[ E ]]_({{p}} ++ b)
+   [[p -> E ]]_b             ==>   p -> [[E ]]_({{p}} ++ b)
 
  
    {{ A }}                    ==>   []

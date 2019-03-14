@@ -33,7 +33,7 @@ the array to a specific value:
 ```wiki
 memset_c :: Storable a => ArrPtr n a -> a -> Sing n -> IO ()
 memset_c (ArrPtr p) a n =
-  forM_ [ 1 .. fromSing n - 1 ] $ \i ->
+  forM_ [1 .. fromSing n - 1 ] $ \i ->
     pokeElemOff p (fromIntegral i) a
 ```
 

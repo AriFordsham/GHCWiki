@@ -97,7 +97,7 @@ Several people have developed syntactic innovations, which are (or will shortly 
 - **Generalised list comprehensions** (see [Comprehensive comprehensions: comprehensions with "Order by" and "Group by", Phil Wadler and Simon Peyton Jones, Haskell Workshop 2007](http://research.microsoft.com/%7Esimonpj/papers/list-comp/index.htm)) have been implemented by Max Bolinbroke.  Example:
 
   ```wiki
-  	[ (the dept, sum salary)
+  	[(the dept, sum salary)
   	| (name, dept, salary) <- employees
   	, then sortWith by salary
   	, then takeWhile by salary < 50

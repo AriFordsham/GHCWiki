@@ -337,7 +337,7 @@ For example, for function `f` above we have:
 - Remain uncovered:
 
   ```wiki
-  [ (T2 y  |> {a ~ Bool})
+  [(T2 y  |> {a ~ Bool})
   , (T1 T2 |> {a ~ Int, a ~ Bool) ]
   ```
 
@@ -552,7 +552,7 @@ h _  G1 = 2 -- what about this clause?
 Running the check on the first clause leaves us with an uncovered set:
 
 ```wiki
-uncovered = [ (F2 y  |> {a ~ Bool})
+uncovered = [(F2 y  |> {a ~ Bool})
             , (F1 G2 |> {a ~ Int, a ~ Char}) ]
 ```
 
@@ -560,7 +560,7 @@ uncovered = [ (F2 y  |> {a ~ Bool})
 and by dropping the second (has non-satisfiable type constraints) we end up with:
 
 ```wiki
-uncovered = [ (F2 y  |> {a ~ Bool}) ]
+uncovered = [(F2 y  |> {a ~ Bool}) ]
 ```
 
 
@@ -572,7 +572,7 @@ About the second clause:
 - The covered set is:
 
   ```wiki
-  covered = [ (F2 G1  |> {a ~ Bool, a ~Int}) ]
+  covered = [(F2 G1  |> {a ~ Bool, a ~Int}) ]
   ```
 
 
