@@ -1,7 +1,7 @@
 ## Examples of programs that rely on polymorphic static values
 
 
-The [static pointers discussion](https://ghc.haskell.org/trac/ghc/wiki/StaticPointers) includes a discussion on how to support polymorphic static values. On this page we're collecting some programs that illustrate why this is needed.
+The [static pointers discussion](https://gitlab.haskell.org/trac/ghc/wiki/StaticPointers) includes a discussion on how to support polymorphic static values. On this page we're collecting some programs that illustrate why this is needed.
 
 ## Polymorphic instances for the Static type class
 

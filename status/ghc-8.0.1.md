@@ -119,7 +119,7 @@ There's nothing here.
 
 FIXME Write the migration guide.
 
-[https://ghc.haskell.org/trac/ghc/wiki/Migration/8.0](https://ghc.haskell.org/trac/ghc/wiki/Migration/8.0)
+[https://gitlab.haskell.org/trac/ghc/wiki/Migration/8.0](https://gitlab.haskell.org/trac/ghc/wiki/Migration/8.0)
 
 ## Known issues with release candidate 2
 

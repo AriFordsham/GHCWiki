@@ -25,7 +25,7 @@ See [https://www.openbsd.org/faq/upgrade60.html](https://www.openbsd.org/faq/upg
 ## Required Tools
 
 
-Install the [required tools](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools):
+Install the [required tools](https://gitlab.haskell.org/trac/ghc/wiki/Building/Preparation/Tools):
 
 ```wiki
 doas pkg_add ghc gmake autoconf%2.69 automake%1.15 gmp libiconv alex happy git

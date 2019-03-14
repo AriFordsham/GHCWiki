@@ -104,8 +104,8 @@ This overview section is rather bare. Readers might be able to fill
 in any gaps in my explanation by using some of the following
 sources:
 
-- [The Haskell Execution Model](http://ghc.haskell.org/trac/ghc/wiki/Commentary/Rts/HaskellExecution)
-- [Storage](http://ghc.haskell.org/trac/ghc/wiki/Commentary/Rts/Storage)
+- [The Haskell Execution Model](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Rts/HaskellExecution)
+- [Storage](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Rts/Storage)
 - [The Spineless Tagless G-machine](http://research.microsoft.com/en-us/um/people/simonpj/Papers/spineless-tagless-gmachine.ps.gz)
 
   - now sadly rather out of date

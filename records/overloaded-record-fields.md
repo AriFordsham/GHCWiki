@@ -16,7 +16,7 @@ For more information, see:
   - Part 2: [OverloadedLabels](records/overloaded-record-fields/overloaded-labels) (in GHC 8.0)
   - Part 3: [Magic type classes](records/overloaded-record-fields/magic-classes) (partly in GHC 8.2)
   - [Adam Gundry's blog post](http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/)
-- [Original design](https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/Design) (2013)
+- [Original design](https://gitlab.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/Design) (2013)
 
 
 Content previously on this page has been moved to the [SORF](records/overloaded-record-fields/sorf) page.

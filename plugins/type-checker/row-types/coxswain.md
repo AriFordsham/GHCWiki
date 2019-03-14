@@ -939,7 +939,7 @@ Vytiniotis et all 2011 - [https://www.microsoft.com/en-us/research/publication/o
 Gundry 2015 - [http://adam.gundry.co.uk/pub/typechecker-plugins/](http://adam.gundry.co.uk/pub/typechecker-plugins/) and [ https://github.com/adamgundry/uom-plugin/](https://github.com/adamgundry/uom-plugin/) - The only published type checker plugin I'm aware of. Very helpful.
 
 
-Gundry et al 2015 - [https://ghc.haskell.org/trac/ghc/wiki/Plugins/TypeChecker](https://ghc.haskell.org/trac/ghc/wiki/Plugins/TypeChecker) - The most documentation I could find about the type checker plugin API :(. It's helpful but terse; we'll need more going forward.
+Gundry et al 2015 - [https://gitlab.haskell.org/trac/ghc/wiki/Plugins/TypeChecker](https://gitlab.haskell.org/trac/ghc/wiki/Plugins/TypeChecker) - The most documentation I could find about the type checker plugin API :(. It's helpful but terse; we'll need more going forward.
 
 
 Baaij 2016 - [http://christiaanb.github.io/posts/type-checker-plugin/](http://christiaanb.github.io/posts/type-checker-plugin/) - A very nice post that overviews the type checker plugin API. Fact: this post made me actually start this project; thanks Christiaan.

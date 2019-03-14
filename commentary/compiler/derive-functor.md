@@ -651,7 +651,7 @@ This algorithm isn't terribly different from the one above for generating an `fm
 ```
 
 
-(The caveats in [https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor\#AlternativestrategyforderivingFoldableandTraversable](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor#AlternativestrategyforderivingFoldableandTraversable) apply.)
+(The caveats in [https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor\#AlternativestrategyforderivingFoldableandTraversable](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor#AlternativestrategyforderivingFoldableandTraversable) apply.)
 
 
 
@@ -664,7 +664,7 @@ instance Bifoldable T where
 ```
 
 
-But this is unsatisfying for a couple of reasons, though. One obvious issue is that this definition blatantly ignores the first argument to `bifoldMap`, preventing users from folding over the `a` type parameter. Another problem is that doing this would be inconsistent with how `bimap` and `bitraverse` are generated. Unlike with `bifoldMap`, parametricity forces there to be one definition for `bimap` and `bitraverse` (see [https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor\#RelaxeduniversalitycheckforDeriveFoldable](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor#RelaxeduniversalitycheckforDeriveFoldable) for more info):
+But this is unsatisfying for a couple of reasons, though. One obvious issue is that this definition blatantly ignores the first argument to `bifoldMap`, preventing users from folding over the `a` type parameter. Another problem is that doing this would be inconsistent with how `bimap` and `bitraverse` are generated. Unlike with `bifoldMap`, parametricity forces there to be one definition for `bimap` and `bitraverse` (see [https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor\#RelaxeduniversalitycheckforDeriveFoldable](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor#RelaxeduniversalitycheckforDeriveFoldable) for more info):
 
 
 ```
