@@ -1,1 +1,1 @@
-redirect(wiki:Building/Troubleshooting)?
+Page moved to [Building/Troubleshooting](/trac/ghc/wiki/Building/Troubleshooting)

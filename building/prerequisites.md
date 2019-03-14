@@ -1,1 +1,1 @@
-redirect(wiki:Building/Preparation)?
+Page moved to [Building/Preparation](/trac/ghc/wiki/Building/Preparation)

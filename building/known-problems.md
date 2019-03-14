@@ -1,1 +1,1 @@
-redirect(wiki:Building/FAQ)?
+Page moved to [Building/FAQ](/trac/ghc/wiki/Building/FAQ)

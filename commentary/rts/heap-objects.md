@@ -1,1 +1,1 @@
-redirect(wiki:Commentary/Rts/Storage/HeapObjects)?
+Page moved to [Commentary/Rts/Storage/HeapObjects](/trac/ghc/wiki/Commentary/Rts/Storage/HeapObjects)

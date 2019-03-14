@@ -1,1 +1,1 @@
-redirect(wiki:Building/AddingLibs)?
+Page moved to [Building/AddingLibs](/trac/ghc/wiki/Building/AddingLibs)

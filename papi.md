@@ -1,1 +1,1 @@
-redirect(wiki:Debugging/LowLevelProfiling/PAPI)?
+Page moved to [Debugging/LowLevelProfiling/PAPI](/trac/ghc/wiki/Debugging/LowLevelProfiling/PAPI)

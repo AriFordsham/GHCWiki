@@ -1,1 +1,1 @@
-redirect(wiki:Commentary/Rts/Storage/GC/CAFs)?
+Page moved to [Commentary/Rts/Storage/GC/CAFs](/trac/ghc/wiki/Commentary/Rts/Storage/GC/CAFs)

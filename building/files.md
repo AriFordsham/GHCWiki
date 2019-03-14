@@ -1,1 +1,1 @@
-redirect(wiki:Commentary/SourceTree)?
+Page moved to [Commentary/SourceTree](/trac/ghc/wiki/Commentary/SourceTree)
