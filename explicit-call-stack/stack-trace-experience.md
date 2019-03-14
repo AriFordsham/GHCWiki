@@ -182,7 +182,7 @@ It is worth noting that, had we transformed the libraries with the explicit stac
 
 === Stack passing transformation ===
 
-I generated this trace by transforming the program using a heavily modified version of buddha. It implements the transformation as described on [http://hackage.haskell.org/trac/ghc/wiki/ExplicitCallStack], under the heading '''Transformation option 1'''.
+I generated this trace by transforming the program using a heavily modified version of buddha. It implements the transformation as described on [https://gitlab.haskell.org/trac/ghc/wiki/ExplicitCallStack], under the heading '''Transformation option 1'''.
 
 Then I ran the transformed program inside the ghci debugger, and set a breakpoint manually around the call to div (that is, the call to div in the transformed version of the program, not the original version). This works because the transformation adds a new arguments to each function to pass stacks around, and the ghci debugger can view all the arguments to a function when it hits a breakpoint. Obviously it would be automated in practice, but this method is good enough for the purpose of this experiment.
 

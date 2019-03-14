@@ -85,7 +85,7 @@ Several people have developed syntactic innovations, which are (or will shortly 
   	f (polar -> (r,theta)) = r <= 1
   ```
 
-  Here 'polar' is an ordinary function, used to transform the Complex to polar form.  The view pattern is the argument pattern for 'f'.  Many details [here](http://hackage.haskell.org/trac/ghc/wiki/ViewPatterns).
+  Here 'polar' is an ordinary function, used to transform the Complex to polar form.  The view pattern is the argument pattern for 'f'.  Many details [here](https://gitlab.haskell.org/trac/ghc/wiki/ViewPatterns).
 
 - **Generalised list comprehensions** (see [Comprehensive comprehensions: comprehensions with "Order by" and "Group by", Phil Wadler and Simon Peyton Jones, Haskell Workshop 2007](http://research.microsoft.com/%7Esimonpj/papers/list-comp/index.htm)) have been implemented by Max Bolinbroke.  Example:
 
@@ -98,7 +98,7 @@ Several people have developed syntactic innovations, which are (or will shortly 
   ```
 
 > >
-> > More details [here](http://hackage.haskell.org/trac/ghc/wiki/SQLLikeComprehensions).
+> > More details [here](https://gitlab.haskell.org/trac/ghc/wiki/SQLLikeComprehensions).
 
 - We are keen to get Geoff Mainland's **quasi-quoting mechanism** into
   GHC (see "Why It's Nice to be Quoted: Quasiquoting for Haskell",
@@ -130,7 +130,7 @@ a result we have a partially-working implementation, and we
 understand the problem much better, but there is still much to
 do, both on the theoretical and practical front.  It's trickier
 than we thought!  We have a short paper [Towards open type functions for Haskell](http://research.microsoft.com/%7Esimonpj/papers/assoc-types/index.htm) which
-describes some of the issues, and an [wiki page](http://hackage.haskell.org/trac/ghc/wiki/TypeFunctions) that we keep up to date; it has a link to details of implementation status.  This is all joint work with
+describes some of the issues, and an [wiki page](https://gitlab.haskell.org/trac/ghc/wiki/TypeFunctions) that we keep up to date; it has a link to details of implementation status.  This is all joint work with
 Martin Sulzmann, Manuel Chakravarty, and Tom Schrijvers.
 
 ## Parallel GC

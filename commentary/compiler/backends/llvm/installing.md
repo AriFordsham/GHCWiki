@@ -6,7 +6,7 @@
 The LLVM backend is now included in GHC HEAD. Just grab the git HEAD version of GHC and build it. The backend now also supports all modes that GHC can be built in so you shouldn't need to change your build.mk file either.
 
 
-For instructions on building GHC go [here](http://hackage.haskell.org/trac/ghc/wiki/Building)
+For instructions on building GHC go [here](https://gitlab.haskell.org/trac/ghc/wiki/Building)
 
 ## LLVM Support
 

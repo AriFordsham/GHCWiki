@@ -23,14 +23,14 @@ For now, it reproduces e-mail exchange between Simon Marlow and Hans-Wolfgang Lo
 > > > > I'm using these resources as main reference. Any others we should be
 > > > > aware of?
 
-- [http://hackage.haskell.org/trac/ghc/wiki/SemiTagging](http://hackage.haskell.org/trac/ghc/wiki/SemiTagging)
+- [https://gitlab.haskell.org/trac/ghc/wiki/SemiTagging](https://gitlab.haskell.org/trac/ghc/wiki/SemiTagging)
 - Faster laziness using dynamic pointer tagging (paper)
 - Cmm.h, GC.c
 
 > > >
 > > > You didn't find the best reference:
 
-> [http://hackage.haskell.org/trac/ghc/wiki/Commentary/Rts/HaskellExecution/PointerTagging](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Rts/HaskellExecution/PointerTagging)
+> [https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Rts/HaskellExecution/PointerTagging](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Rts/HaskellExecution/PointerTagging)
 >
 > > > >
 > > > > I consider that a failure on our part, where should it have been

@@ -83,7 +83,7 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
     - sharks
 - Light-weight concurrency
 
-  - See [http://hackage.haskell.org/trac/ghc/wiki/LightweightConcurrency this Wiki page](http://hackage.haskell.org/trac/ghc/wiki/LightweightConcurrency this Wiki page) and checkout the ghc-lwc2 branch in the main GHC repo
+  - See [https://gitlab.haskell.org/trac/ghc/wiki/LightweightConcurrency this Wiki page](https://gitlab.haskell.org/trac/ghc/wiki/LightweightConcurrency this Wiki page) and checkout the ghc-lwc2 branch in the main GHC repo
 - Eden/GpH programming (nbody, paraffins, sp mat mult etc) (PT,RS,EB,HWL,JB)
 
   - nbody using Eden and GpH skeletons

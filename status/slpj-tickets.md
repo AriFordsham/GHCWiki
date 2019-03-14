@@ -416,6 +416,6 @@ See [Edward's collection of code-generation stupidities](commentary/compiler/new
 
 ## Not sure what to do about these
 
-- [\#7897](https://gitlab.haskell.org//ghc/ghc/issues/7897): make the fingerprint in a `TypeRep` be a proper fingerprint, including the type definition all the way down (see [Recompilation avoidance](http://hackage.haskell.org/trac/ghc/wiki/DependencyTracking))
+- [\#7897](https://gitlab.haskell.org//ghc/ghc/issues/7897): make the fingerprint in a `TypeRep` be a proper fingerprint, including the type definition all the way down (see [Recompilation avoidance](https://gitlab.haskell.org/trac/ghc/wiki/DependencyTracking))
 - [\#4005](https://gitlab.haskell.org//ghc/ghc/issues/4005): generational GC pathalogical case
 - [\#1349](https://gitlab.haskell.org//ghc/ghc/issues/1349): strict function argument types

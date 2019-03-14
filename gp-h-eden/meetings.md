@@ -33,7 +33,7 @@ Agenda
     - Pick your top 3 arguments why a Fortran programmer should switch to Haskell
 - Technical discussion on GpH:
 
-  - Updates on GpH/Eden sub-tasks (see [GpHEden Wiki](http://hackage.haskell.org/trac/ghc/wiki/GpHEden))
+  - Updates on GpH/Eden sub-tasks (see [GpHEden Wiki](https://gitlab.haskell.org/trac/ghc/wiki/GpHEden))
   - Status reports on GpH-related hacking
   - Discussions on:
 

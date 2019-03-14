@@ -165,7 +165,7 @@ impredicative instantiation as it now stands; it might change!
  * At the moment GHC's ''garbage collector'' is single-threaded,
    even when GHC is running on a multiprocessor.  Roshan James spent
    the summer at Microsoft on an internship, implementing a multi-threaded
-   GC (http://hackage.haskell.org/trac/ghc/wiki/MotivationForParallelization).
+   GC (https://gitlab.haskell.org/trac/ghc/wiki/MotivationForParallelization).
    It works!  But alas, doing GC with two processors runs no faster than
    with one!  (We do plan to investigate this further and find the source of
    the bottleneck.)

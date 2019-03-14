@@ -59,7 +59,7 @@ Significant changes planned for the 7.4 branch are:
                         | otherwise = y : insert x ys 
   ```
 
-  Here `X` is an associated constraint synonym of the class `Coll`. The key point is that different instances can give different definitions to `X`.  The GHC wiki page describes the design [http://hackage.haskell.org/trac/ghc/wiki/KindFact WikiConstraint](http://hackage.haskell.org/trac/ghc/wiki/KindFact WikiConstraint), and Max's blog posts give more examples [http://blog.omega-prime.co.uk/?p=61 ConstraintFamlies\], \[http://blog.omega-prime.co.uk/?p=127 ConstraintKind](http://blog.omega-prime.co.uk/?p=61 ConstraintFamlies], [http://blog.omega-prime.co.uk/?p=127 ConstraintKind).
+  Here `X` is an associated constraint synonym of the class `Coll`. The key point is that different instances can give different definitions to `X`.  The GHC wiki page describes the design [https://gitlab.haskell.org/trac/ghc/wiki/KindFact WikiConstraint](https://gitlab.haskell.org/trac/ghc/wiki/KindFact WikiConstraint), and Max's blog posts give more examples [http://blog.omega-prime.co.uk/?p=61 ConstraintFamlies\], \[http://blog.omega-prime.co.uk/?p=127 ConstraintKind](http://blog.omega-prime.co.uk/?p=61 ConstraintFamlies], [http://blog.omega-prime.co.uk/?p=127 ConstraintKind).
 
 - **Associated type synonym defaults.**  Haskell lets you give a *default method* for the operations of a class.
   Associated type synonym defaults let you declare a *default type instance* for the associated type synonyms of a class. This feature, implemented by Max Bolingbroke, nicely fills out missing design corner.  For example
@@ -134,9 +134,9 @@ Work continues on improving GHC in various directions. Active projects we know a
 - **Liquid types**. Ranjit Jhala is working on adding liquid types to GHC. Liquid Types are a form of (dependent) refinement types that use predicate abstraction and SMT solvers to carry out type inference. A prototype has been built that works for a subset of the language (without typeclasses) [http://goto.ucsd.edu/\~rjhala/liquid Liquid](http://goto.ucsd.edu/~rjhala/liquid Liquid). 
   Currently, we are working on ways of handling at the basic typeclasses (Ord, Num etc.), and building a web-interface.
 
-- **Vector instructions**.  Paul Monday and Geoff Mainland are extending the code generator to exploit vector instructions (with Peter Braam, Duncan Coutts) [http://hackage.haskell.org/trac/ghc/wiki/SimdLlvm VectorInstructions](http://hackage.haskell.org/trac/ghc/wiki/SimdLlvm VectorInstructions).
+- **Vector instructions**.  Paul Monday and Geoff Mainland are extending the code generator to exploit vector instructions (with Peter Braam, Duncan Coutts) [https://gitlab.haskell.org/trac/ghc/wiki/SimdLlvm VectorInstructions](https://gitlab.haskell.org/trac/ghc/wiki/SimdLlvm VectorInstructions).
 
-- **A modular package language for Haskell** (with Derek Dreyer and Scott Kilpatrick) [http://hackage.haskell.org/trac/ghc/wiki/PackageLanguage Packages](http://hackage.haskell.org/trac/ghc/wiki/PackageLanguage Packages).
+- **A modular package language for Haskell** (with Derek Dreyer and Scott Kilpatrick) [https://gitlab.haskell.org/trac/ghc/wiki/PackageLanguage Packages](https://gitlab.haskell.org/trac/ghc/wiki/PackageLanguage Packages).
 
 ## Bibliography
 
@@ -156,7 +156,7 @@ Work continues on improving GHC in various directions. Active projects we know a
 
 - \[NewFC\] *Practical aspects of evidence-based compilation in System FC*, Vytiniotis and Peyton Jones, rejected by to ICFP 2011, [http://research.microsoft.com/\~simonpj/papers/ext-f/](http://research.microsoft.com/~simonpj/papers/ext-f/)
 
-- \[Packages\] *A package language for Haskell*, GHC wiki page, [http://hackage.haskell.org/trac/ghc/wiki/PackageLanguage](http://hackage.haskell.org/trac/ghc/wiki/PackageLanguage)
+- \[Packages\] *A package language for Haskell*, GHC wiki page, [https://gitlab.haskell.org/trac/ghc/wiki/PackageLanguage](https://gitlab.haskell.org/trac/ghc/wiki/PackageLanguage)
 
 - \[ParallelGhcProject\] *The Parallel GHC Project home page*, [http://www.haskell.org/haskellwiki/Parallel_GHC_Project](http://www.haskell.org/haskellwiki/Parallel_GHC_Project)
 
@@ -172,6 +172,6 @@ Work continues on improving GHC in various directions. Active projects we know a
 
 - \[Unleashed\] "Haskell type constraints unleashed", Tom Schrijvers and Dominic Orchard, FLOPS 2010, [http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html](http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html)
 
-- \[VectorInstructions\] *Using SIMD instructions via the LLVM back end*, GHC wiki page, [http://hackage.haskell.org/trac/ghc/wiki/SimdLlvm](http://hackage.haskell.org/trac/ghc/wiki/SimdLlvm)
+- \[VectorInstructions\] *Using SIMD instructions via the LLVM back end*, GHC wiki page, [https://gitlab.haskell.org/trac/ghc/wiki/SimdLlvm](https://gitlab.haskell.org/trac/ghc/wiki/SimdLlvm)
 
-- \[WikiConstraint\] *Adding kind Constraint*, GHC wiki page, [http://hackage.haskell.org/trac/ghc/wiki/KindFact](http://hackage.haskell.org/trac/ghc/wiki/KindFact)
+- \[WikiConstraint\] *Adding kind Constraint*, GHC wiki page, [https://gitlab.haskell.org/trac/ghc/wiki/KindFact](https://gitlab.haskell.org/trac/ghc/wiki/KindFact)

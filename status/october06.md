@@ -31,7 +31,7 @@ in the form of Ian Lynagh (Igloo), who has already made a huge difference.
 
 A highlight of the last six months was the '''GHC Hackathon''', which we ran a immediately before ICFP in Portland, with wonderful support from Galois and Portland State University.  Forty-plus people showed up to have GHC's innards inflicted on them, and appeared unharmed by the experience.
 
-A significant outcome is that we have written a great deal of Wiki material about GHC's implementation (the "commentary") and about how to build and modify GHC (the "building guide").  Documents with these titles were available before but had become rather out of date.  These new, up-to-date documents live on the GHC developer's Wiki.  We urge you to read and improve them:   [http://hackage.haskell.org/trac/ghc/wiki] (near the bottom).
+A significant outcome is that we have written a great deal of Wiki material about GHC's implementation (the "commentary") and about how to build and modify GHC (the "building guide").  Documents with these titles were available before but had become rather out of date.  These new, up-to-date documents live on the GHC developer's Wiki.  We urge you to read and improve them:   [https://gitlab.haskell.org/trac/ghc/wiki] (near the bottom).
 
 We (finally) released '''GHC 6.6''' in October 2006. To get GHC 6.6, go to [http://www.haskell.org/ghc/download_ghc_66.html Download page]. There was an extended period of release-candidate testing, so we fondly hope that this will be a relatively stable release. There are many improvements, all listed in the [http://haskell.org/ghc/docs/6.6/html/users_guide/release-6-6.html Release notes]. The most important new features include:
  * Now GHC can execute several Haskell threads simultaneously on different cpus/cores
@@ -40,7 +40,7 @@ We (finally) released '''GHC 6.6''' in October 2006. To get GHC 6.6, go to [http
  * Further generalisation of newtype deriving
  * Bang patterns to declare function arguments as strict
  * Impredicative polymorphism
- * Lastly, we finally bit the bullet and lifted the restriction that every module in a Haskell program must have a distinct name.  Why?  Because it's non-modular: two packages from different authors could accidentally collide.  This change is in GHC 6.6; there are some remaining open choices dicussed here [http://hackage.haskell.org/trac/ghc/wiki/GhcPackages].
+ * Lastly, we finally bit the bullet and lifted the restriction that every module in a Haskell program must have a distinct name.  Why?  Because it's non-modular: two packages from different authors could accidentally collide.  This change is in GHC 6.6; there are some remaining open choices dicussed here [https://gitlab.haskell.org/trac/ghc/wiki/GhcPackages].
 
 Life still goes on and there is current development version (HEAD), that will ultimately become GHC 6.8. You can find binary snapshots at [http://www.haskell.org/ghc/dist/current/dist/ download page] or build from sources available via [http://darcs.haskell.org/ghc/ darcs repository]. This version already includes significant new features:
 
@@ -58,7 +58,7 @@ If you want to know today's state-of-the-art, you should check [http://haskell.o
 
  * Roman Leshchinskiy has been hard at work developing libraries that support '''data-parallel computation''' in GHC.  It's not quite ready for public consumption but you can peek at what is going on by looking at the Haskell Wiki: [http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell]  Background material here: [http://www.cse.unsw.edu.au/~chak/papers/CKLP01.html].  We hope to release a first iteration of our data-parallel extensions before Christmas.
 
- * At the moment GHC's '''garbage collector''' is single-threaded, even when GHC is running on a multiprocessor.  Roshan James spent the summer at Microsoft on an internship, implementing a [http://hackage.haskell.org/trac/ghc/wiki/MotivationForParallelization multi-threaded GC].  We need to do a bit more work, but with a bit of luck we'll push a parallel garbage collector into the HEAD before Christmas.
+ * At the moment GHC's '''garbage collector''' is single-threaded, even when GHC is running on a multiprocessor.  Roshan James spent the summer at Microsoft on an internship, implementing a [https://gitlab.haskell.org/trac/ghc/wiki/MotivationForParallelization multi-threaded GC].  We need to do a bit more work, but with a bit of luck we'll push a parallel garbage collector into the HEAD before Christmas.
 
  * Simon PJ is determined to finally implement '''implication constraints''', which are the key to fixing the interaction between GADTs and type classes.   GHC's users have been very polite about this collection of bugs, but they should really be fixed.  Implication constraints are described by Martin Sulzmann: [http://www.comp.nus.edu.sg/~sulzmann/publications/tr-eadt.ps.gz].
 

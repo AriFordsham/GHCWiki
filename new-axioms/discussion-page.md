@@ -11,7 +11,7 @@ At Pedro's invitation, comment/suggestions/requests for clarification/alternativ
 
 ## Suggestions
 
-- **Instance match fail:** There are use cases where we want to make the existence of a more specific match a type-level failure. (Compare this [http://hackage.haskell.org/trac/ghc/wiki/TypeFunctions/TotalFamilies\#Definingtotalfamilies](http://hackage.haskell.org/trac/ghc/wiki/TypeFunctions/TotalFamilies#Definingtotalfamilies) from Chak 2008, using VOID for the same purpose.) Currently a 'dead end' needs fudging with fake instances and constraints, leading to mystifying messages. The example is HList Lacks constraint.
+- **Instance match fail:** There are use cases where we want to make the existence of a more specific match a type-level failure. (Compare this [https://gitlab.haskell.org/trac/ghc/wiki/TypeFunctions/TotalFamilies\#Definingtotalfamilies](https://gitlab.haskell.org/trac/ghc/wiki/TypeFunctions/TotalFamilies#Definingtotalfamilies) from Chak 2008, using VOID for the same purpose.) Currently a 'dead end' needs fudging with fake instances and constraints, leading to mystifying messages. The example is HList Lacks constraint.
 
 ```wiki
 hCons :: (Lacks e l) => e -> l -> HCons e l          -- smart constructor, validate that l doesn't already contain e
@@ -103,7 +103,7 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
 
 ## Comparisons to other approaches with overlaps
 
-- [http://hackage.haskell.org/trac/ghc/wiki/TFvsFD](http://hackage.haskell.org/trac/ghc/wiki/TFvsFD) \[Thank you Etienne, and there's a very helpful **See also**.\] Several examples where Type Functions don't seem to be as powerful as Type Classes/Constraints/FunDeps. Some of these examples need overlaps, but not all. Equality constraints seem to make type refinement more 'eager' than under TF's. 
+- [https://gitlab.haskell.org/trac/ghc/wiki/TFvsFD](https://gitlab.haskell.org/trac/ghc/wiki/TFvsFD) \[Thank you Etienne, and there's a very helpful **See also**.\] Several examples where Type Functions don't seem to be as powerful as Type Classes/Constraints/FunDeps. Some of these examples need overlaps, but not all. Equality constraints seem to make type refinement more 'eager' than under TF's. 
 
 - [http://okmij.org/ftp/Haskell/PeanoArithm.lhs](http://okmij.org/ftp/Haskell/PeanoArithm.lhs) \[referenced from the TF vs FD discussion\] Exploits a bi-directional FunDep technique, to get subtraction of type-level Nats using only a definition of add.
 
@@ -195,7 +195,7 @@ Oleg Kiselyov 2004 (part of the HList work, Section 9 of the paper)
 >
 > See references scattered through the above discussions.
 
-- [http://hackage.haskell.org/trac/ghc/wiki/TFvsFD\#SeeAlso2](http://hackage.haskell.org/trac/ghc/wiki/TFvsFD#SeeAlso2)
+- [https://gitlab.haskell.org/trac/ghc/wiki/TFvsFD\#SeeAlso2](https://gitlab.haskell.org/trac/ghc/wiki/TFvsFD#SeeAlso2)
 - [http://www.haskell.org/haskellwiki/Functional_dependencies_vs._type_families](http://www.haskell.org/haskellwiki/Functional_dependencies_vs._type_families)
 
 

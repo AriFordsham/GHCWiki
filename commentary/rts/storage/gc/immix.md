@@ -29,7 +29,7 @@ This patch includes the basic implementation of Immix.  It's tested, and has no 
 </th></tr></table>
 
 
-Currently, it overwrites the mark/sweep algorithm?.  It uses the same mark bits as mark/compact and mark/sweep?, but consider these bits in groups of 32 or 64, depending on the architecture used, which are called lines.  It creates a list of free lines for each [generation](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Rts/Storage/GC/Aging), and allocates on them when possible.
+Currently, it overwrites the mark/sweep algorithm?.  It uses the same mark bits as mark/compact and mark/sweep?, but consider these bits in groups of 32 or 64, depending on the architecture used, which are called lines.  It creates a list of free lines for each [generation](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Rts/Storage/GC/Aging), and allocates on them when possible.
 
 
 As only the first part of each object in memory is marked in the bitmap?, it skips the first free line for each group of subsequent lines, because it's possible that an object that starts in the previous line is using part of it.  Also, it doesn't deal with [blocks](commentary/rts/storage/block-alloc) that objects bigger than the size of a line, called medium sized objects, marked with `BF_MEDIUM`.

@@ -7,7 +7,7 @@ Warning. This page, although still useful, is somewhat out of date. There have b
 The build system is built around UNIX Makefiles. Because it's not native, the Windows situation for building GHC is a little confusing. This section tries to outline the situation for building GHC on Windows.
 
 
-If you are already familiar with using UNIX build tools on Windows and simply want to build GHC the jump to [build preparation](http://hackage.haskell.org/trac/ghc/wiki/Building/Preparation/Windows).
+If you are already familiar with using UNIX build tools on Windows and simply want to build GHC the jump to [build preparation](https://gitlab.haskell.org/trac/ghc/wiki/Building/Preparation/Windows).
 
 ## MinGW
 
