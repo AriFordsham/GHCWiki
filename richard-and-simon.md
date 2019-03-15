@@ -15,7 +15,19 @@ We should be clear about the dependencies between items on this list.
 
 - [Proposal 99: explicit specificity](https://github.com/ghc-proposals/ghc-proposals/pull/99).  Lets us write `T :: forall {k} (a :: k).blah`.
 
-- [Proposal 179: tweak printing of foralls](https://github.com/ghc-proposals/ghc-proposals/pull/179)
+- Foralls and pretty printing
+  * Point 1 of [Proposal 179: tweak printing of foralls](https://github.com/ghc-proposals/ghc-proposals/pull/179)
+  * #16320
+  * Check pretty-printing for foralls with mixed req/inf/specified
+  * Print invisible arguments properly
+```
+T :: forall {k} k2. k2 -> Type
+
+f :: T {Type} @Type Int
+```
+
+
+- [Proposal 179: tweak printing of foralls](https://github.com/ghc-proposals/ghc-proposals/pull/179). Really this is mostly about `:type`.
 
 - [Proposal 54: top-level kind signatures for type constuctors](https://github.com/ghc-proposals/ghc-proposals/pull/54) (depends on Proposal 81)
 
