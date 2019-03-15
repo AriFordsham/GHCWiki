@@ -208,6 +208,15 @@ The other solution is to reject programs which contain stage errors in this mann
 
 The concerns presented in this document are also relevant to static pointers. 
 
+If you recall how static pointers work, the basic idea is that for a static form `static e` then a representation of `e` is placed into the static pointer table so that at runtime it can be dereferenced to recover `e`. 
+
+* The static pointer table is similar to the idea of writing core expressions to files.
+* The static pointer table doesn't contain core expressions but pointers to top level definitions.
+* `e` must be closed, but this is broken by type variables, see #16444
+* No splices are permitted in static forms they are quite limited because of this. 
+* Static forms perform some floating to float closed terms to the top level so they can be referred to in a static pointer. 
+* Static forms use the `Typeable` constraint in order to prevent implicits ending up in the static form (as far as I can work out).
+
 # Related Work
 
 * [IR-MetaOCaml : (re)implementing MetaOCaml - Roubinchtein, Evgeny ](https://open.library.ubc.ca/cIRcle/collections/ubctheses/24/items/1.0166800) - Reimplements MetaOCaml to use a native code representation for quotations
