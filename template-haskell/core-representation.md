@@ -15,7 +15,7 @@ How does typed template haskell currently work?
 
 The representation type of expressions is `Q Exp`. 
 
-`Exp` is a representation of renamed haskell expressions. When a typed quotation is typechecked, it is verified that it has the correct type before all the type information is discarded. When
+`Exp` is a representation of renamed askell expressions. When a typed quotation is typechecked, it is verified that it has the correct type before all the type information is discarded. When
 a typed quotation is spliced in, it is type checked again to add
 back the information that was discarded. For complicated programs
 this process fails because as the code is generated, less type information is available than when the quotation was typechecked. It is essential to remember the context a quotation appeared in. 
@@ -86,6 +86,71 @@ Evaluating it in place is impossible as there is no guarantee that the function 
 ## Delaying Nested Splices
 
 The common solution to this problem is to create an environment of splices and insert placeholders into the expression where to insert the value after it has been evaluated later.  The tricky question is how to represent this environment. 
+
+P1:
+
+This example is quite straightforward to deal with as `foo` is defined globally.
+
+```
+foo = [| 1 |]
+
+qux = [| $(foo) |]
+```
+
+P2:
+
+This example is much trickier as the splice mentions the variable `x` which is only bound locally.
+
+```
+qux x = [| $(x) |]
+```
+
+### Solution
+
+The solution is to represent an environment as a pair of `Int`s and `TExpU`. `IfaceExpr` is extended to insert
+placeholders for the splice points. The name of the splice point is taken from the unique of the name of the splice point. The environment is then a mapping from these numbers to the expressions which need to be inserted
+into each splice point. 
+
+```
+data TExpU = TExpU [(Int, TExpU)] String
+```
+
+How do brackets end up in this representation? In a similar way to normal quotes. 
+
+```
+[| 1 |] = TExpU [] "/tmp/foo"
+```
+
+```
+[| $(foo) |] = TExpU [(12342, foo)] "/tmp/foo"
+```
+
+The key thing to remember is that when `TExpU [(12213,foo)] "/tmp/foo"` is evaluated, then `foo` will evaluate to
+something of type `TExpU` which can be inspected and loaded.
+
+When we need to run a splice, the expression is evaluated to something of type `TExpU`. Then
+
+1. The core expression held in the file is loaded into memory as an `IfaceExpr`.
+2. The `IfaceExpr` is typechecked with an environment extended by the environment of the bracket.
+3. During typechecking, if we find a splice point, the desugarer is reinvoked to load the `TExpU` recursively.
+
+This means that we have to interleave running splices with typechecking an interface file. Thus the desugarer calls `tcIfaceExpr` and `tcIfaceExpr` calls `dsExpr`. This interleaving is necessary to deal with names bound in quotes. 
+
+```
+[| \a -> $(foo [| a |]) |] = TExpU [(123, foo (TExpU [] "/tmp/a")] "/tmp/lam"
+```
+
+So the core expression which mentions `a` can only be loaded in an environment where `a` is in scope so it has to be delayed being loaded until the interface type checker is inside the lambda of the expression.
+
+### Cross stage persistence
+
+This scheme 
+
+
+
+#### Problem with type variables
+
+# What about the Static Pointer Table
 
 # Related Work
 
