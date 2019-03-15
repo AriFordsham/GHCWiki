@@ -1,5 +1,7 @@
 This page describes the challenges of implementing a new representation form for typed template haskell quotations. 
 
+https://gitlab.haskell.org/mpickering/ghc/commits/typed-th
+
 The main idea of the implementation is
 
 > The representation of Haskell expressions is `CoreExpr`s. 
@@ -144,11 +146,48 @@ So the core expression which mentions `a` can only be loaded in an environment w
 
 ### Cross stage persistence
 
-This scheme 
-
+Dealing with traditional cross stage persistence for values is no different to before. Especially if my patch ever lands which just desugars the calls into splices and then treats them uniformly as splices. 
 
 
 #### Problem with type variables
+
+The major current issue is with type variables. Typed template haskell is about generating monomorphic haskell
+programs. All type variables are floated outwards and quantified on the outer most level. This leads to stage
+errors after type variables are inserted using wrappers in the AST.
+
+```
+[| id |] :: forall a . QExp (a -> a)
+```
+
+desugars to
+
+```
+\a -> [| id @a |]
+```
+
+and hence a stage error as `a` is bound at level 0 and used at level 1. 
+
+We need to lift the type variables in the same way as expressions. 
+
+```
+\a -> [| id @$(liftT @a) |]
+```
+
+There has to be a representation for types and a mechanism for splicing them in. 
+
+
+
+
+What makes type variables quite annoying is that we can't do anything about them until after the metavariables have been instantiated. Which is to say, after zonking, at the end of type checking. However, 
+
+Unification can be seen as another stage of computation which we have to allow to complete before deciding that we need to ameliorate cross-stage issues. 
+
+```mermaid
+graph TD
+A(Stage 1: User writing a source file) --> B(Stage 2: Unification inserting implicit arguments)
+B --> C(Stage 3: Desugaring to core)
+C --> D(Stage 4: Running splices)
+```
 
 # What about the Static Pointer Table
 
