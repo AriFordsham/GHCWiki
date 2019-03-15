@@ -178,9 +178,14 @@ There has to be a representation for types and a mechanism for splicing them in.
 
 
 
-What makes type variables quite annoying is that we can't do anything about them until after the metavariables have been instantiated. Which is to say, after zonking, at the end of type checking. However, 
 
-Unification can be seen as another stage of computation which we have to allow to complete before deciding that we need to ameliorate cross-stage issues. 
+
+Unification can be seen as another stage of computation which we have to allow to complete before deciding that we need to ameliorate cross-stage issues. There are three stages of computation before getting to stage running the splices. 
+
+* Stage 1: A user can introduce a cross-stage error by writing a stage incorrect program
+* Stage 2: The unifier can introduce stage errors by floating type variables
+* Stage 3: The desugarer could introduce a stage error during the process of turning HsExpr into CoreExpr but it does not.
+* Stage 4: Splices are actually run.
 
 ```mermaid
 graph TD
@@ -189,7 +194,19 @@ B --> C(Stage 3: Desugaring to core)
 C --> D(Stage 4: Running splices)
 ```
 
+So after each of each of stages 1 and 2 it is necessary to check and correct stage errors which arise.
+
+What makes type variables quite annoying is that we can't do anything about them until after the whole of unification is finished as all the metavariables have to be instantiated. Specifically, it means emitting constraints after zonking when there is a typevariable in an
+incorrect position. 
+
+However, as is the case when running typed splices, all type variables have been resolved by this point so there is probably not 
+need to rezonk and simplifyTop can be called immediately and inplace.
+
+The other solution is to reject programs which contain stage errors in this manner but that would be annoying.
+
 # What about the Static Pointer Table
+
+The concerns presented in this document are also relevant to static pointers. 
 
 # Related Work
 
