@@ -6,9 +6,9 @@ This pages summarises the state of play for CAFs
 
 Main starting points
 
-- [Commentary/Rts/CAFs](commentary/rts/ca-fs)
-- [Commentary/Rts/Storage/CAFs](commentary/rts/storage/ca-fs)
-- [Commentary/Rts/Storage/GC/CAFs](commentary/rts/storage/gc/ca-fs)
+- [Commentary/Rts/CAFs](commentary/rts/CAFs)
+- [Commentary/Rts/Storage/CAFs](commentary/rts/storage/CAFs)
+- [Commentary/Rts/Storage/GC/CAFs](commentary/rts/storage/gc/CAFs)
 
 ## Tickets
 

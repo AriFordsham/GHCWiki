@@ -24,7 +24,7 @@ In addition, the STG program is decorated with the results of some analyses:
 
 - Every lambda-form (`StgRhsClosure`) lists its free variables.  These are the variables that are in the thunk of function closure that is allocated by the let.
 
-- Every lambda-form gives its ['Static Reference Table'](commentary/rts/ca-fs) or **SRT**.  You should think of the SRT as the *top-level* free variables of the body.  They do not need to be dynamically allocated in the heap object, but they do need to be accessible from the object's info-table, so that the garbage collector can find the CAFs kept alive by the object.
+- Every lambda-form gives its ['Static Reference Table'](commentary/rts/CAFs) or **SRT**.  You should think of the SRT as the *top-level* free variables of the body.  They do not need to be dynamically allocated in the heap object, but they do need to be accessible from the object's info-table, so that the garbage collector can find the CAFs kept alive by the object.
 
 - A `StgCase` expression is decorated with its **live variables**; that is, variables reachable from the continuation of the case.  More precisely, two sets of live variables, plus the SRT for the continuation.  Todo: say more.
 

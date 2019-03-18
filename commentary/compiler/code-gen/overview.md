@@ -65,7 +65,7 @@ The core of the Cmm pipeline is implemented by the `cpsTop` function in [compile
 
 > **This pass is optional.** It currently does not eliminate dead code in loops ([\#8327](https://gitlab.haskell.org//ghc/ghc/issues/8327)) and has some other minor deficiencies (eg. [\#8336](https://gitlab.haskell.org//ghc/ghc/issues/8336)).
 
-- **CAF analysis**, implemented in `CmmBuildInfoTables`. Computed CAF information is returned from `cmmPipeline` and used to create Static Reference Tables (SRT). See [here](commentary/rts/storage/gc/ca-fs) for some more detail on CAFs and SRTs. This pass is implemented using Hoopl (see below).
+- **CAF analysis**, implemented in `CmmBuildInfoTables`. Computed CAF information is returned from `cmmPipeline` and used to create Static Reference Tables (SRT). See [here](commentary/rts/storage/gc/CAFs) for some more detail on CAFs and SRTs. This pass is implemented using Hoopl (see below).
 
 - **Proc-point analysis and splitting** (only when splitting proc-points), implemented by `procPointAnalysis` in `CmmProcPoint`, takes a list of proc-points and for each block and determines from which proc-point the block is reachable. This is implemented using Hoopl.
   Then the call to `splitAtProcPoints` splits the Cmm graph into multiple Cmm graphs (each represents a single function) and build info tables to each of them.
