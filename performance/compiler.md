@@ -51,7 +51,8 @@ Another theme often seen is issues characterized by perceived slowness during co
 
 
 While it's possible to fix (1) and (2), (3) is inherent.
-These can be found by looking at tickets bearing both ~"compiler perf" and ~deriving ([query](https://gitlab.haskell.org/ghc/ghc/issues?scope=all&utf8=%E2%9C%93&state=opened&label_name[]=compiler%20perf&label_name[]=deriving))
+These can be found by looking at tickets bearing both the ~"compiler perf" and ~deriving labels ([query](https://gitlab.haskell.org/ghc/ghc/issues?scope=all&utf8=%E2%9C%93&state=opened&label_name[]=compiler%20perf&label_name[]=deriving))
+
 ### Uncategorised compiler performance issues
 
 - [\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346): desugaring let-bindings
