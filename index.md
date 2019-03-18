@@ -877,7 +877,7 @@
   * [supported-distributions](./supported-distributions)
   * [surviving-windows](./surviving-windows)
   * [syntax-free-type-directed-name-resolution](./syntax-free-type-directed-name-resolution)
-  * [t-fvs-fd](./t-fvs-fd)
+  * [tf-vs-fd](./tf-vs-fd)
   * [team-ghc](./team-ghc)
   * [template-haskell](./template-haskell)
     * [annotations](./template-haskell/annotations)
