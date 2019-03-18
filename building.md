@@ -61,5 +61,5 @@ can extend it, modify it, and use it to build your code.
 
 Please feel free to add pages here.  In due course, information can be incorporated into the main documentation above.
 
-- [SonyPS3](sony-p-s3) : Hints for building on the Sony PS3
+- [SonyPS3](sony-ps3) : Hints for building on the Sony PS3
 - [Arm64](arm64) : An attempt to cross-compile GHC for Android on ARM64.

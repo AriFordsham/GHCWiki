@@ -791,7 +791,7 @@
   * [simd-vector-example-in-llvm](./simd-vector-example-in-llvm)
   * [simplifier](./simplifier)
   * [single-threaded-collection](./single-threaded-collection)
-  * [sony-p-s3](./sony-p-s3)
+  * [sony-ps3](./sony-ps3)
   * [source-notes](./source-notes)
   * [spec-constr](./spec-constr)
   * [specialise](./specialise)
