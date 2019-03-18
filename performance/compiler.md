@@ -5,7 +5,7 @@ This is where we track various efforts to characterize and improve the performan
 
 ## Relevant tickets
 
-Identify tickets by using ~"compiler perf".
+Identify tickets by using the ~"compiler perf" label.
 
 ### Type pile-up
 
