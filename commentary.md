@@ -189,7 +189,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
   - [Haskell Program Coverage](commentary/hpc): How HPC works
 
-- [Parallel Haskell Variants](gp-h-eden): All aspects of the GpH and Eden parallel variants of GHC.
+- [Parallel Haskell Variants](gph-eden): All aspects of the GpH and Eden parallel variants of GHC.
 
 ## Old Documentation
 

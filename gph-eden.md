@@ -10,10 +10,10 @@ St Andrews has hosted the [HackPar](hack-par) parallel hackathon in December 200
 Heriot-Watt will host a [HackSprint](hack-sprint) meeting 12-14th December 2010. 
 
 
-Heriot-Watt will host the [http://saints.sqpn.com/blessed-clement-of-dunblane/ Blessed Clement of Dunblane](http://saints.sqpn.com/blessed-clement-of-dunblane/ Blessed Clement of Dunblane)[HackDay](gp-h-eden/hack-day-mar13) on Tue March 19th, 2013.
+Heriot-Watt will host the [http://saints.sqpn.com/blessed-clement-of-dunblane/ Blessed Clement of Dunblane](http://saints.sqpn.com/blessed-clement-of-dunblane/ Blessed Clement of Dunblane)[HackDay](gph-eden/hack-day-mar13) on Tue March 19th, 2013.
 
 
-A series of [Parallel Hacker Meetings](gp-h-eden/meetings) has been launched.
+A series of [Parallel Hacker Meetings](gph-eden/meetings) has been launched.
 
 ---
 
@@ -25,11 +25,11 @@ The different aspects are covered by separate pages reachable from here.
 
 ## Modifications to implement Eden (and parallel RTS instances in general)
 
-- [Compiler Ways](gp-h-eden/compiler-ways) for parallelism
-- [Startup and Shutdown](gp-h-eden/start-stop) of the parallel system
-- [Packing and Unpacking Heap Structures](gp-h-eden/packing)
-- [Primitive Operations for Coordination Control](gp-h-eden/primitives)
-- [Placeholders, Garbage Collection, other Aspects](gp-h-eden/placeholders-and-gc)
+- [Compiler Ways](gph-eden/compiler-ways) for parallelism
+- [Startup and Shutdown](gph-eden/start-stop) of the parallel system
+- [Packing and Unpacking Heap Structures](gph-eden/packing)
+- [Primitive Operations for Coordination Control](gph-eden/primitives)
+- [Placeholders, Garbage Collection, other Aspects](gph-eden/placeholders-and-gc)
 
 
 Future work

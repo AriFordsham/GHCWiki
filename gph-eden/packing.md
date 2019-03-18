@@ -16,7 +16,7 @@ You should have a look at the wiki page about [Heap closure layout](commentary/r
 
 
 Recently, Hans-Wolfgang Loidl spotted a number of issues with [Pointer Tagging](commentary/rts/haskell-execution/pointer-tagging) in version 6.8.
-The e-mail exchange related to this is documented [here: GpHEden-PackingAndPointerTagging](gp-h-eden/packing-and-pointer-tagging).
+The e-mail exchange related to this is documented [here: GpHEden-PackingAndPointerTagging](gph-eden/packing-and-pointer-tagging).
 
 #### Spark tagging
 
@@ -48,4 +48,4 @@ The module can be tested by a primitive `duplicate#:: a -> IO a`, which  packs a
 Interesting question is: should the routine be able to pack/unpack _every_ heap object? 
 (up to now unable to pack: MVars,  TSOs, all kinds of Stack elements, all STM-related closures)
 
-[--\> back to GpHEden](gp-h-eden)
+[--\> back to GpHEden](gph-eden)

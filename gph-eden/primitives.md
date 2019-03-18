@@ -30,4 +30,4 @@ selfPe = unsafePerformIO $  do
               return (fromIntegral n)
 ```
 
-[--\> back to GpHEden](gp-h-eden)
+[--\> back to GpHEden](gph-eden)

@@ -249,4 +249,4 @@ KH: I have created a new twitter account - [parallelhaskell](http://twitter.com/
 
 ### What we did and what is still to do
 
-[--\> back to GpHEden](gp-h-eden)
+[--\> back to GpHEden](gph-eden)

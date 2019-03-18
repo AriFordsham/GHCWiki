@@ -20,4 +20,4 @@ A common property of all our parallel variants is, the runtime system starts in 
 
 In a first version, the empty scheduler instances blocked on a call to MP_recv in `getRemoteWork`. Now, we handle it inside a more complex message processing function, when we have more types of messages between the machines).
 
-[--\> back to GpHEden](gp-h-eden)
+[--\> back to GpHEden](gph-eden)

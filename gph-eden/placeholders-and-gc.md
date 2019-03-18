@@ -46,4 +46,4 @@ During GC, the runtime can detect placeholders which are not needed by the local
 
 Functionality for this has been implemented inside the storage management code (due to the change in the runtime tables preventing direct evacuation of known threads). *The code needs a review*.
 
-[--\> back to GpHEden](gp-h-eden)
+[--\> back to GpHEden](gph-eden)
