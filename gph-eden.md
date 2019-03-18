@@ -15,7 +15,7 @@ Heriot-Watt will host the [http://saints.sqpn.com/blessed-clement-of-dunblane/ B
 
 
 
-A series of [Parallel Hacker Meetings](gp-h-eden/meetings) has been launched.
+A series of [Parallel Hacker Meetings](gph-eden/meetings) has been launched.
 
 ---
 
@@ -27,11 +27,11 @@ The different aspects are covered by separate pages reachable from here.
 
 ## Modifications to implement Eden (and parallel RTS instances in general)
 
-- [Compiler Ways](gp-h-eden/compiler-ways) for parallelism
-- [Startup and Shutdown](gp-h-eden/start-stop) of the parallel system
-- [Packing and Unpacking Heap Structures](gp-h-eden/packing)
-- [Primitive Operations for Coordination Control](gp-h-eden/primitives)
-- [Placeholders, Garbage Collection, other Aspects](gp-h-eden/placeholders-and-gc)
+- [Compiler Ways](gph-eden/compiler-ways) for parallelism
+- [Startup and Shutdown](gph-eden/start-stop) of the parallel system
+- [Packing and Unpacking Heap Structures](gph-eden/packing)
+- [Primitive Operations for Coordination Control](gph-eden/primitives)
+- [Placeholders, Garbage Collection, other Aspects](gph-eden/placeholders-and-gc)
 
 
 Future work

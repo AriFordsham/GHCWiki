@@ -16,7 +16,7 @@ You should have a look at the wiki page about [Heap closure layout](commentary/r
 
 
 Recently, Hans-Wolfgang Loidl spotted a number of issues with [Pointer Tagging](commentary/rts/haskell-execution/pointer-tagging) in version 6.8.
-The e-mail exchange related to this is documented [here: GpHEden-PackingAndPointerTagging](gp-h-eden/packing-and-pointer-tagging).
+The e-mail exchange related to this is documented [here: GpHEden-PackingAndPointerTagging](gph-eden/packing-and-pointer-tagging).
 
 #### Spark tagging
 
