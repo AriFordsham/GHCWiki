@@ -55,7 +55,7 @@
   - [StaticArgumentTransformation](static-argument-transformation)
   - [Common subexpression (CSE)](more-cse)
   - [Join points](sequent-core)
-  - [Constant applicative forms (CAFs)](ca-fs)
+  - [Constant applicative forms (CAFs)](CAFs)
 
 - [The new pattern-match overlap/exhaustiveness checker](pattern-match-check)
 
