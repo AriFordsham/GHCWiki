@@ -19,7 +19,7 @@ We should be clear about the dependencies between items on this list.
   * Point 1 of [Proposal 179: tweak printing of foralls](https://github.com/ghc-proposals/ghc-proposals/pull/179)
   * #16320
   * Check pretty-printing for foralls with mixed req/inf/specified
-  * Print invisible arguments properly
+  * Print invisible arguments properly (#16456)
 ```
 T :: forall {k} k2. k2 -> Type
 
