@@ -719,7 +719,7 @@
   * [recent-changes](./recent-changes)
   * [records](./records)
     * [declared-overloaded-record-fields](./records/declared-overloaded-record-fields)
-      * [c-ompare-sorf](./records/declared-overloaded-record-fields/c-ompare-sorf)
+      * [compare-sorf](./records/declared-overloaded-record-fields/compare-sorf)
       * [dot-postfix](./records/declared-overloaded-record-fields/dot-postfix)
       * [implementors-view](./records/declared-overloaded-record-fields/implementors-view)
       * [no-mono-record-fields](./records/declared-overloaded-record-fields/no-mono-record-fields)
