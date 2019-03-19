@@ -145,7 +145,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [Nested CPR analysis](nested-cpr)
   - [Giving Template Haskell full access to annotations](template-haskell/annotations)
   - [Checking consistency of functional dependencies](fun-deps)
-  - [Allowing multiple instances of the same package to be installed](commentary/g-so-c-multiple-instances), each instance having different dependencies
+  - [Allowing multiple instances of the same package to be installed](commentary/gsoc-multiple-instances), each instance having different dependencies
   - [Contracts in Haskell](commentary/contracts)
   - [Agda-style holes in terms](holes) which supports writing partial programs.
   - [Records](records)
