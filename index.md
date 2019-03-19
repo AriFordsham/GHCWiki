@@ -106,7 +106,7 @@
       * [solaris](./building/preparation/solaris)
       * [tools](./building/preparation/tools)
       * [windows](./building/preparation/windows)
-        * [msy-s1](./building/preparation/windows/msy-s1)
+        * [msys1](./building/preparation/windows/msys1)
         * [msys2](./building/preparation/windows/msys2)
     * [prerequisites](./building/prerequisites)
     * [problems](./building/problems)
