@@ -1,7 +1,7 @@
 # Core-to-Core optimization pipeline
 
 
-After the source program has been [typechecked](commentary/compiler/type-checker) it is desugared into GHC's intermediate language [Core](commentary/compiler/core-syn-type). The Core representation of a program is then optimized by a series of correctness preserving Core-to-Core passes. This page describes the overall structure of the Core-to-Core optimization pipeline. Detailed descriptions of optimizations are available [in the published papers](commentary/compiler/core2-core-pipeline#further-reading). An overview of the whole compiler pipeline is available [here](commentary/compiler/hsc-main).
+After the source program has been [typechecked](commentary/compiler/type-checker) it is desugared into GHC's intermediate language [Core](commentary/compiler/core-syn-type). The Core representation of a program is then optimized by a series of correctness preserving Core-to-Core passes. This page describes the overall structure of the Core-to-Core optimization pipeline. Detailed descriptions of optimizations are available [in the published papers](commentary/compiler/core-to-core-pipeline#further-reading). An overview of the whole compiler pipeline is available [here](commentary/compiler/hsc-main).
 
 ## Optimizations during desugaring
 

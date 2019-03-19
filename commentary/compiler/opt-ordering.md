@@ -1,7 +1,7 @@
 # Ordering the Core-to-Core optimisation passes
 
 
-This page has notes about the ordering of optimisation phases. An overview of the whole Core-to-Core optimisation pipeline can be found [here](commentary/compiler/core2-core-pipeline).
+This page has notes about the ordering of optimisation phases. An overview of the whole Core-to-Core optimisation pipeline can be found [here](commentary/compiler/core-to-core-pipeline).
 
 **NOTE:** This is old documentation and may not be very relevant any more!
 
