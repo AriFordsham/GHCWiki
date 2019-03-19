@@ -102,7 +102,7 @@ Explained in 5 wiki pages (these proposals are linked but somewhat orthogonal):
 - **[No Record Selector Functions](records/declared-overloaded-record-fields/no-mono-record-fields)**   (precursor to DORF)
 - ** DORF -- Application Programmer's view **     (this page)
 - **[DORF -- Implementer's view](records/declared-overloaded-record-fields/implementors-view)**
-- **[DORF -- Comparison to SORF (and TDNR)](records/declared-overloaded-record-fields/c-ompare-sorf)**
+- **[DORF -- Comparison to SORF (and TDNR)](records/declared-overloaded-record-fields/compare-sorf)**
 - **[Dot as Postfix Function Apply](records/declared-overloaded-record-fields/dot-postfix)**   (***optional*** syntactic sugar)
 - **[Polymorphic Record Patterns](records/declared-overloaded-record-fields/poly-record-pattern)**   (***speculative*** future)
 
@@ -179,7 +179,7 @@ We need a way to declare that a name is available as an overloadable field name 
 ```
 
 >
-> (See discussion at [Wild afterthought](records/declared-overloaded-record-fields/c-ompare-sorf#the-string-type-parameter-to-has-,-and-scope-control).)
+> (See discussion at [Wild afterthought](records/declared-overloaded-record-fields/compare-sorf#the-string-type-parameter-to-has-,-and-scope-control).)
 
 **Option Three: Mixed In-situ and Declared ORF:**
 
