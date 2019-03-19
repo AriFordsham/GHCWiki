@@ -5,3 +5,5 @@ A bullet:
    main = print "hello"
    ```
    Hi.
+
+ * Another bullet
