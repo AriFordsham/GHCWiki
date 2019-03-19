@@ -182,7 +182,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - GHCi Debugger
 
-  - [Commentary/GHCi](commentary/gh-ci): Notes on the implementation details for the support of breakpoints in GHCi.
+  - [Commentary/GHCi](commentary/GHCi): Notes on the implementation details for the support of breakpoints in GHCi.
   - [GHCi Debugger](ghci-debugger): Notes on the implementation details of the GHCi debugger's feature for inspecting values.
 
 - The Runtime System
