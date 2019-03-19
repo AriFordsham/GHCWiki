@@ -84,7 +84,7 @@
     * hadrian
       * [quick-start](./building/hadrian/quick-start)
     * [hoogle](./building/hoogle)
-    * [i-a64-linux](./building/i-a64-linux)
+    * [ia64-linux](./building/ia64-linux)
     * [in-ghci](./building/in-ghci)
     * [installing](./building/installing)
     * [known-problems](./building/known-problems)
