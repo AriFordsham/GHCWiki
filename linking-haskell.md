@@ -71,7 +71,7 @@ Theoretically, in ELF there should be no difference between a statically linked 
 - PT: Would it be OK to have a solution for ELF alone and try OS X later and leave everything like it is for Windows?
 
 
-SM: We now have [RemoteGHCi](remote-gh-ci), which means that it will become irrelevant whether GHCi itself is dynamically linked or not, and we'll be able to choose when we start GHCi whether we use dynamic linking or not.  You can try this out: `ghci -fexternal-interpreter -static` uses static linking, and `ghci -fexternal-interpreter -dynamic` uses dynamic linking. (PT: I would still like to get dynamic linking to work for platforms where we don't have an RTS linker but still want a statically linked GHCi so we can avoid the overhead of creating a separate process. If it cannot be done at least I would like to understand why.)
+SM: We now have [RemoteGHCi](remote-GHCi), which means that it will become irrelevant whether GHCi itself is dynamically linked or not, and we'll be able to choose when we start GHCi whether we use dynamic linking or not.  You can try this out: `ghci -fexternal-interpreter -static` uses static linking, and `ghci -fexternal-interpreter -dynamic` uses dynamic linking. (PT: I would still like to get dynamic linking to work for platforms where we don't have an RTS linker but still want a statically linked GHCi so we can avoid the overhead of creating a separate process. If it cannot be done at least I would like to understand why.)
 
 ## GHCi with Haskell runtime linker (RTS)
 

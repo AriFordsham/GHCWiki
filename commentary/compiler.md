@@ -22,7 +22,7 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
     - [C code generator](commentary/compiler/backends/ppr-c)
     - [Native code generator](commentary/compiler/backends/ncg)
     - [LLVM backend](commentary/compiler/backends/llvm)
-    - [GHCi backend](commentary/compiler/backends/gh-ci)
+    - [GHCi backend](commentary/compiler/backends/GHCi)
   - A guide to the [generated assembly code](commentary/compiler/generated-code)
 
 - [Key data types](commentary/compiler/key-data-types)
