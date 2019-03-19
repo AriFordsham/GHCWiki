@@ -1,7 +1,7 @@
 # Why not Phabricator
 
 
-Related: [WhyNotGitHub](why-not-git-hub).
+Related: [WhyNotGitHub](why-not-github).
 
 
 Note: a `revision` or `Diff` is a unit of code review, and `arc` is the tool
