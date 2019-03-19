@@ -107,7 +107,7 @@
       * [tools](./building/preparation/tools)
       * [windows](./building/preparation/windows)
         * [msy-s1](./building/preparation/windows/msy-s1)
-        * [msy-s2](./building/preparation/windows/msy-s2)
+        * [msys2](./building/preparation/windows/msys2)
     * [prerequisites](./building/prerequisites)
     * [problems](./building/problems)
     * [quick-start](./building/quick-start)
