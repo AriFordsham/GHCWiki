@@ -71,7 +71,7 @@
     * [arm-linux-gnu-eabi](./building/arm-linux-gnu-eabi)
     * [compiling32on64](./building/compiling32on64)
     * [cross-compiling](./building/cross-compiling)
-      * [i-os](./building/cross-compiling/i-os)
+      * [iOS](./building/cross-compiling/iOS)
     * [cross-compiling-on-debian](./building/cross-compiling-on-debian)
     * [darcs-all](./building/darcs-all)
     * [debugging-ghc](./building/debugging-ghc)

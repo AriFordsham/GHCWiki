@@ -233,7 +233,7 @@ Tier 2 platforms as possible to Tier 1, as soon as they meet the Tier 1 criteria
 <th> No         </th>
 <th> Yes       </th>
 <th> No             </th>
-<th>[Building/CrossCompiling/iOS](building/cross-compiling/i-os)</th></tr>
+<th>[Building/CrossCompiling/iOS](building/cross-compiling/iOS)</th></tr>
 <tr><th> PowerPC            </th>
 <th> AIX             </th>
 <th> powerpc-ibm-aix          </th>
