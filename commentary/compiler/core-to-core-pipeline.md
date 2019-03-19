@@ -1,7 +1,7 @@
 # Core-to-Core optimization pipeline
 
 
-After the source program has been [typechecked](commentary/compiler/type-checker) it is desugared into GHC's intermediate language [Core](commentary/compiler/core-syn-type). The Core representation of a program is then optimized by a series of correctness preserving Core-to-Core passes. This page describes the overall structure of the Core-to-Core optimization pipeline. Detailed descriptions of optimizations are available [in the published papers](commentary/compiler/core2-core-pipeline#further-reading). An overview of the whole compiler pipeline is available [here](commentary/compiler/hsc-main).
+After the source program has been [typechecked](commentary/compiler/type-checker) it is desugared into GHC's intermediate language [Core](commentary/compiler/core-syn-type). The Core representation of a program is then optimized by a series of correctness preserving Core-to-Core passes. This page describes the overall structure of the Core-to-Core optimization pipeline. Detailed descriptions of optimizations are available [in the published papers](commentary/compiler/core-to-core-pipeline#further-reading). An overview of the whole compiler pipeline is available [here](commentary/compiler/hsc-main).
 
 ## Optimizations during desugaring
 
@@ -11,7 +11,7 @@ At the end of desugaring we run the `simpleOptPgm` function that performs some s
 ## The pipeline
 
 
-The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` function in the [compiler/simplCore/SimplCore.hs](/trac/ghc/browser/ghc/compiler/simplCore/SimplCore.hs) module. Below is an ordered list of performed optimisations. These are enabled by default with `-O1` and `-O2` unless the description says a specific flag is required. The simplifier, which the pipeline description below often refers to, is described in detail in [the next section](commentary/compiler/core2-core-pipeline#simplifier).
+The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` function in the [compiler/simplCore/SimplCore.hs](/trac/ghc/browser/ghc/compiler/simplCore/SimplCore.hs) module. Below is an ordered list of performed optimisations. These are enabled by default with `-O1` and `-O2` unless the description says a specific flag is required. The simplifier, which the pipeline description below often refers to, is described in detail in [the next section](commentary/compiler/core-to-core-pipeline#simplifier).
 
 - **Static Argument Transformation**: tries to remove redundant arguments to recursive calls, turning them into free variables in those calls.  Only enabled with `-fstatic-argument-transformation`.  If run this pass is preceded with a "gentle" run of the simplifier.
 

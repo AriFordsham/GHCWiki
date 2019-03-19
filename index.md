@@ -186,7 +186,7 @@
       * [coercions](./commentary/compiler/coercions)
       * [command-line-args](./commentary/compiler/command-line-args)
       * [core-syn-type](./commentary/compiler/core-syn-type)
-      * [core2-core-pipeline](./commentary/compiler/core2-core-pipeline)
+      * [core-to-core-pipeline](./commentary/compiler/core-to-core-pipeline)
       * [cps](./commentary/compiler/cps)
       * [data-types](./commentary/compiler/data-types)
       * [demand](./commentary/compiler/demand)
