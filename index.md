@@ -7,7 +7,7 @@
   * admin
     * [lun](./admin/lun)
   * [agenda-proposal](./agenda-proposal)
-  * [amazon-e-c2](./amazon-e-c2)
+  * [amazon-ec2](./amazon-ec2)
   * [annotations](./annotations)
   * [anonymous-ffi-imports](./anonymous-ffi-imports)
   * [api-annotations](./api-annotations)
