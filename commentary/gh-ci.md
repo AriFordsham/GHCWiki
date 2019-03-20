@@ -26,7 +26,7 @@ This document provides details of working of GHCi primarily for the normal mode 
 When a source code is loaded in ghci or the user enters an expression, at the front end of the compiler, we annotate the source code with **ticks**, based on the program coverage tool of Andy Gill and Colin Runciman. Ticks are uniquely numbered with respect to a particular module. Ticks are annotations on expressions, so each tick is associated with a source span, which identifies the start and end locations of the ticked expression.
 
 
-The instrumentation is implemented in [compiler/deSugar/Coverage.hs](/trac/ghc/browser/ghc/compiler/deSugar/Coverage.hs). For details on the heuristics of this instrumentation, see the use of `TickForBreakPoints`. (It would be nice to have this documented properly)
+The instrumentation is implemented in [compiler/deSugar/Coverage.hs](/ghc/ghc/tree/master/ghc/compiler/deSugar/Coverage.hs). For details on the heuristics of this instrumentation, see the use of `TickForBreakPoints`. (It would be nice to have this documented properly)
 
 
 
@@ -46,7 +46,7 @@ For each module we also allocate an array of breakpoint flags, with one entry fo
 In the coverage tool the ticks are turned into real code which performs a side effect when evaluated. In the debugger the ticks are purely annotations. They are used to pass information to the byte code generator, which generates special breakpoint instructions for ticked expressions.
 
 
-The byte code generator turns `CoreSyn` into a bunch of Byte Code Objects (BCOs). BCOs are heap objects which correspond to top-level bindings, and `let` and `case` expressions. Each BCO contains a sequence of byte code instructions (BCIs), which are executed by the byte code interpreter ([rts/Interpreter.c](/trac/ghc/browser/ghc/rts/Interpreter.c)). Each BCO also contains some local data which is needed in the instructions. 
+The byte code generator turns `CoreSyn` into a bunch of Byte Code Objects (BCOs). BCOs are heap objects which correspond to top-level bindings, and `let` and `case` expressions. Each BCO contains a sequence of byte code instructions (BCIs), which are executed by the byte code interpreter ([rts/Interpreter.c](/ghc/ghc/tree/master/ghc/rts/Interpreter.c)). Each BCO also contains some local data which is needed in the instructions. 
 
 
 
@@ -83,7 +83,7 @@ execStmt
 
 
 The `GhcMonad` carries a `Session` which contains the gobs of environmental information which is important to the compiler. The `String` is what the user typed in, and `ExecResult`, is the answer that you get back if the execution terminates. `ExecResult` is defined like so:
-(in [compiler/main/InteractiveEvalTypes.hs](/trac/ghc/browser/ghc/compiler/main/InteractiveEvalTypes.hs)
+(in [compiler/main/InteractiveEvalTypes.hs](/ghc/ghc/tree/master/ghc/compiler/main/InteractiveEvalTypes.hs)
 
 
 ```

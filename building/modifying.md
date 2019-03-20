@@ -84,12 +84,12 @@ GHC is in two parts:
 - the `ghc` program itself, consists of a single `Main` module that imports the `ghc` package.  It is found in the `ghc` directory.
 
 
-Like any Cabal package, the `ghc` package has a `ghc.cabal` file, except that in this case the file is preprocessed by `configure` from the original: [compiler/ghc.cabal.in](/trac/ghc/browser/compiler/ghc.cabal.in)[](/trac/ghc/export/HEAD/ghc/compiler/ghc.cabal.in).  Be careful not to modify the preprocessed version, `ghc.cabal`, as it will be overwritten next time you run `configure`.
+Like any Cabal package, the `ghc` package has a `ghc.cabal` file, except that in this case the file is preprocessed by `configure` from the original: [compiler/ghc.cabal.in](/ghc/ghc/tree/master/compiler/ghc.cabal.in)[](/trac/ghc/export/HEAD/ghc/compiler/ghc.cabal.in).  Be careful not to modify the preprocessed version, `ghc.cabal`, as it will be overwritten next time you run `configure`.
 
 
 To add a module to the `ghc` package:
 
-- Add your module to the `exposed-modules` section of [compiler/ghc.cabal.in](/trac/ghc/browser/compiler/ghc.cabal.in)[](/trac/ghc/export/HEAD/ghc/compiler/ghc.cabal.in)
+- Add your module to the `exposed-modules` section of [compiler/ghc.cabal.in](/ghc/ghc/tree/master/compiler/ghc.cabal.in)[](/trac/ghc/export/HEAD/ghc/compiler/ghc.cabal.in)
 - `cd compiler; make stage2`
 
 ### Removing a source file from GHC
@@ -98,7 +98,7 @@ To add a module to the `ghc` package:
 To retire a GHC source file that is no longer needed:
 
 - Remove the working copy of the file (git will notice it is gone), or use `git rm`.
-- Remove the module from the list of modules in [compiler/ghc.cabal.in](/trac/ghc/browser/compiler/ghc.cabal.in)[](/trac/ghc/export/HEAD/ghc/compiler/ghc.cabal.in).
+- Remove the module from the list of modules in [compiler/ghc.cabal.in](/ghc/ghc/tree/master/compiler/ghc.cabal.in)[](/trac/ghc/export/HEAD/ghc/compiler/ghc.cabal.in).
 - To remove all mention of the file from derived dependency files, it is necessary to do something on the
   order of
 
@@ -133,9 +133,9 @@ To have the change propagated to the stage 2 compiler, either go and make stage 
 
 Adding a new package is quite straightforward:
 
-- To arrange that the package is known to `./boot`, add an entry to the [packages](/trac/ghc/browser/packages)[](/trac/ghc/export/HEAD/ghc/packages) file.
+- To arrange that the package is known to `./boot`, add an entry to the [packages](/ghc/ghc/tree/master/packages)[](/trac/ghc/export/HEAD/ghc/packages) file.
 - run `perl boot` to generate the `ghc.mk` and `GNUmakefile` files in your package's build.
-- Add an entry to the `PACKAGES` variable in [ghc.mk](/trac/ghc/browser/ghc.mk)[](/trac/ghc/export/HEAD/ghc/ghc.mk).  The list in `PACKAGES` is kept in dependency order: each package must appear after the packages it depends on.
+- Add an entry to the `PACKAGES` variable in [ghc.mk](/ghc/ghc/tree/master/ghc.mk)[](/trac/ghc/export/HEAD/ghc/ghc.mk).  The list in `PACKAGES` is kept in dependency order: each package must appear after the packages it depends on.
 
 
 That's it: doing a top-level `make` should now build your package and bring everything else up to date.
@@ -201,7 +201,7 @@ $(eval $(call build-prog,utils/hpc,dist,1))
 ```
 
 
-This is a call to the `build-prog` macro, whose definition can be found in [rules/build-prog.mk](/trac/ghc/browser/rules/build-prog.mk)[](/trac/ghc/export/HEAD/ghc/rules/build-prog.mk).  This expands to the code for actually building the program, and it takes three arguments: the directory, the distdir, and the GHC stage to use for building (in this case we're using stage 1).  The `build-prog` macro expects to find certain variables defined, namely *directory*_*distdir*`_PROG`, and *directory*_*distdir*`_MODULES`.
+This is a call to the `build-prog` macro, whose definition can be found in [rules/build-prog.mk](/ghc/ghc/tree/master/rules/build-prog.mk)[](/trac/ghc/export/HEAD/ghc/rules/build-prog.mk).  This expands to the code for actually building the program, and it takes three arguments: the directory, the distdir, and the GHC stage to use for building (in this case we're using stage 1).  The `build-prog` macro expects to find certain variables defined, namely *directory*_*distdir*`_PROG`, and *directory*_*distdir*`_MODULES`.
 
 
 Finally, for programs that we want to install, we need to include the `ghc.mk` file in a binary distribution:

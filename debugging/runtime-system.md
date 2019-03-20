@@ -56,4 +56,4 @@ Fortunately this one is quite easy.  Compile the program with `-debug`, and run 
 ### Some blocks allocated from the block allocator have not been freed
 
 
-The debugging RTS checks for these leaks itself, and complains very loudly if it finds any.  Just compile the program with `-debug` and run it.  The code to check for leaks is in [rts/sm/Sanity.c](/trac/ghc/browser/ghc/rts/sm/Sanity.c), `memInventory`.
+The debugging RTS checks for these leaks itself, and complains very loudly if it finds any.  Just compile the program with `-debug` and run it.  The code to check for leaks is in [rts/sm/Sanity.c](/ghc/ghc/tree/master/ghc/rts/sm/Sanity.c), `memInventory`.

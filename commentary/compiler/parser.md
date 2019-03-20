@@ -6,9 +6,9 @@
 
 The parser is written using
 
-- [Alex](http://www.haskell.org/alex/), for lexical analysis.  Source file [compiler/parser/Lexer.x](/trac/ghc/browser/ghc/compiler/parser/Lexer.x)
-- [Happy](http://www.haskell.org/happy/), for the parser itself.  Source file [compiler/parser/Parser.y](/trac/ghc/browser/ghc/compiler/parser/Parser.y).
-- `RdrHsSyn`, for Haskell support functions.  Source file [compiler/parser/RdrHsSyn.hs](/trac/ghc/browser/ghc/compiler/parser/RdrHsSyn.hs)
+- [Alex](http://www.haskell.org/alex/), for lexical analysis.  Source file [compiler/parser/Lexer.x](/ghc/ghc/tree/master/ghc/compiler/parser/Lexer.x)
+- [Happy](http://www.haskell.org/happy/), for the parser itself.  Source file [compiler/parser/Parser.y](/ghc/ghc/tree/master/ghc/compiler/parser/Parser.y).
+- `RdrHsSyn`, for Haskell support functions.  Source file [compiler/parser/RdrHsSyn.hs](/ghc/ghc/tree/master/ghc/compiler/parser/RdrHsSyn.hs)
 
 ## Principles
 

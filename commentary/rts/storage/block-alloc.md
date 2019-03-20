@@ -1,7 +1,7 @@
 # The Block Allocator
 
 
-Source: [includes/rts/storage/Block.h](/trac/ghc/browser/ghc/includes/rts/storage/Block.h), [rts/sm/BlockAlloc.h](/trac/ghc/browser/ghc/rts/sm/BlockAlloc.h), [rts/sm/BlockAlloc.c](/trac/ghc/browser/ghc/rts/sm/BlockAlloc.c), [includes/rts/storage/MBlock.h](/trac/ghc/browser/ghc/includes/rts/storage/MBlock.h), [rts/sm/MBlock.c](/trac/ghc/browser/ghc/rts/sm/MBlock.c).
+Source: [includes/rts/storage/Block.h](/ghc/ghc/tree/master/ghc/includes/rts/storage/Block.h), [rts/sm/BlockAlloc.h](/trac/ghc/browser/ghc/rts/sm/BlockAlloc.h), [rts/sm/BlockAlloc.c](/trac/ghc/browser/ghc/rts/sm/BlockAlloc.c), [includes/rts/storage/MBlock.h](/trac/ghc/browser/ghc/includes/rts/storage/MBlock.h), [rts/sm/MBlock.c](/trac/ghc/browser/ghc/rts/sm/MBlock.c).
 
 
 The block allocator is where the storage manager derives much of its flexibilty.  Rather than keep our heap in a single contiguous region of memory, or one contiguous region per generation, we manage linked lists of memory blocks.  Managing contiguous regions is difficult, especially when you want to change the size of some of the areas.  A block-structured storage arrangement has several advantages:
@@ -43,25 +43,25 @@ We adopt the second approach.  The following diagram shows a megablock:
 [](/trac/ghc/attachment/wiki/Commentary/Rts/Storage/BlockAlloc/sm-block.png)
 
 
-We currently have megablocks of 1Mb in size (m = 20) with blocks of 4k in size (k = 12), and these sizes are easy to change  ([includes/rts/Constants.h](/trac/ghc/browser/ghc/includes/rts/Constants.h)).  
+We currently have megablocks of 1Mb in size (m = 20) with blocks of 4k in size (k = 12), and these sizes are easy to change  ([includes/rts/Constants.h](/ghc/ghc/tree/master/ghc/includes/rts/Constants.h)).  
 
 
 Block descriptors are currently 32 or 64 bytes depending on the word size (d = 5 or 6).  The block descriptor itself is 
-the structure `bdescr` defined in [includes/rts/storage/Block.h](/trac/ghc/browser/ghc/includes/rts/storage/Block.h), and that file also defines the `Bdescr()` macro.
+the structure `bdescr` defined in [includes/rts/storage/Block.h](/ghc/ghc/tree/master/ghc/includes/rts/storage/Block.h), and that file also defines the `Bdescr()` macro.
 
 
 The block allocator has a the following structure:
 
-- At the bottom, talking to the OS, is the megablock allocator ([rts/sm/MBlock.c](/trac/ghc/browser/ghc/rts/sm/MBlock.c), [includes/rts/storage/MBlock.h](/trac/ghc/browser/ghc/includes/rts/storage/MBlock.h)).
+- At the bottom, talking to the OS, is the megablock allocator ([rts/sm/MBlock.c](/ghc/ghc/tree/master/ghc/rts/sm/MBlock.c), [includes/rts/storage/MBlock.h](/trac/ghc/browser/ghc/includes/rts/storage/MBlock.h)).
   It is responsible for delivering megablocks, correctly aligned, to the upper layers.  It is also responsible for
   implementing [HEAP_ALLOCED()](commentary/heap-alloced): the predicate that tests whether a pointer points to dynamically allocated memory
   or not.  This is implemented as a simple bitmap lookup on a 32-bit machine, and something more complex on
-  64-bit addressed machines.  See [includes/rts/storage/MBlock.h](/trac/ghc/browser/ghc/includes/rts/storage/MBlock.h) for details.
+  64-bit addressed machines.  See [includes/rts/storage/MBlock.h](/ghc/ghc/tree/master/ghc/includes/rts/storage/MBlock.h) for details.
 
   Currently, megablocks are never freed back to the OS, except at the end of the program.  This is a potential
   improvement that could be made.
 
-- Sitting on top of the megablock allocator is the block layer ([includes/rts/storage/Block.h](/trac/ghc/browser/ghc/includes/rts/storage/Block.h), [rts/sm/BlockAlloc.c](/trac/ghc/browser/ghc/rts/sm/BlockAlloc.c)).
+- Sitting on top of the megablock allocator is the block layer ([includes/rts/storage/Block.h](/ghc/ghc/tree/master/ghc/includes/rts/storage/Block.h), [rts/sm/BlockAlloc.c](/trac/ghc/browser/ghc/rts/sm/BlockAlloc.c)).
   This layer is responsible for providing:
 
   ```wiki

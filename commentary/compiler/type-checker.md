@@ -1,10 +1,10 @@
 # The GHC Commentary: Checking Types
 
 
-Probably the most important phase in the frontend is the type checker, which is located at [compiler/typecheck/](/trac/ghc/browser/ghc/compiler/typecheck/). GHC type checks programs in their original Haskell form before the desugarer converts them into Core code. This complicates the type checker as it has to handle the much more verbose Haskell AST, but it improves error messages, as those message are based on the same structure that the user sees.
+Probably the most important phase in the frontend is the type checker, which is located at [compiler/typecheck/](/ghc/ghc/tree/master/ghc/compiler/typecheck/). GHC type checks programs in their original Haskell form before the desugarer converts them into Core code. This complicates the type checker as it has to handle the much more verbose Haskell AST, but it improves error messages, as those message are based on the same structure that the user sees.
 
 
-GHC defines the abstract syntax of Haskell programs in [compiler/hsSyn/HsSyn.hs](/trac/ghc/browser/ghc/compiler/hsSyn/HsSyn.hs) using a structure that abstracts over the concrete representation of bound occurences of identifiers and patterns. The module [compiler/typecheck/TcHsSyn.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcHsSyn.hs) defines a number of helper function required by the type checker. Note that the type [compiler/typecheck/TcRnTypes.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcRnTypes.hs).`TcId` used to represent identifiers in some signatures during type checking is, in fact, nothing but a synonym for a [plain Id](commentary/compiler/entity-types#type-variables-and-term-variables).
+GHC defines the abstract syntax of Haskell programs in [compiler/hsSyn/HsSyn.hs](/ghc/ghc/tree/master/ghc/compiler/hsSyn/HsSyn.hs) using a structure that abstracts over the concrete representation of bound occurences of identifiers and patterns. The module [compiler/typecheck/TcHsSyn.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcHsSyn.hs) defines a number of helper function required by the type checker. Note that the type [compiler/typecheck/TcRnTypes.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcRnTypes.hs).`TcId` used to represent identifiers in some signatures during type checking is, in fact, nothing but a synonym for a [plain Id](commentary/compiler/entity-types#type-variables-and-term-variables).
 
 
 It is also noteworthy, that the representations of types changes during type checking from `HsType` to `TypeRep.Type`. The latter is a [hybrid type](commentary/compiler/type-type) representation that is used to type Core, but still contains sufficient information to recover source types. In particular, the type checker maintains and compares types in their `Type` form.
@@ -55,7 +55,7 @@ It is also noteworthy, that the representations of types changes during type che
 ### Entry Points Into the Type Checker
 
 
-The interface of the type checker (and [renamer](commentary/compiler/renamer)) to the rest of the compiler is provided by [compiler/typecheck/TcRnDriver.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcRnDriver.hs). Entire modules are processed by calling `tcRnModule` and GHCi uses `tcRnStmt`, `tcRnExpr`, and `tcRnType` to typecheck statements and expressions, and to kind check types, respectively. Moreover, `tcTopSrcDecls` is used by Template Haskell - more specifically by `TcSplice.tc_bracket` - to type check the contents of declaration brackets.
+The interface of the type checker (and [renamer](commentary/compiler/renamer)) to the rest of the compiler is provided by [compiler/typecheck/TcRnDriver.hs](/ghc/ghc/tree/master/ghc/compiler/typecheck/TcRnDriver.hs). Entire modules are processed by calling `tcRnModule` and GHCi uses `tcRnStmt`, `tcRnExpr`, and `tcRnType` to typecheck statements and expressions, and to kind check types, respectively. Moreover, `tcTopSrcDecls` is used by Template Haskell - more specifically by `TcSplice.tc_bracket` - to type check the contents of declaration brackets.
 
 ### Renaming and Type Checking a Module
 
@@ -100,24 +100,24 @@ All type variables that may be instantiated (those in signatures may not), but h
 ### Type Representation
 
 
-The representation of types is fixed in the module [TypeRep](/trac/ghc/browser/ghc/compiler/types/TypeRep.lhs) (TODO Update to the latest information) and exported as the data type `Type`. Read the comments in the `TypeRep` module!  A couple of points:
+The representation of types is fixed in the module [TypeRep](/ghc/ghc/tree/master/ghc/compiler/types/TypeRep.lhs) (TODO Update to the latest information) and exported as the data type `Type`. Read the comments in the `TypeRep` module!  A couple of points:
 
 - Type synonym applications are represented as a `TyConApp` with a `TyCon` that contains the expansion.  The expansion is done on-demand by `Type.coreView`.  Unexpanded type synonyms are useful for generating comprehensible error messages.
 
 - The `PredTy` constructor wraps a type constraint argument (dictionary, implicit parameter, or equality).  They are expanded on-demand by `coreView`.
 
 
-As explained in [compiler/typecheck/TcType.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcType.hs), GHC supports rank-N types, but during type inference maintains the restriction that type variables cannot be instantiated to quantified types (i.e., the type system is predicative).  However the type system of Core is fully impredicative.
+As explained in [compiler/typecheck/TcType.hs](/ghc/ghc/tree/master/ghc/compiler/typecheck/TcType.hs), GHC supports rank-N types, but during type inference maintains the restriction that type variables cannot be instantiated to quantified types (i.e., the type system is predicative).  However the type system of Core is fully impredicative.
 
 ### Type Checking Environment
 
 
-During type checking, GHC maintains a *type environment* whose type definitions are fixed in the module [compiler/typecheck/TcRnTypes.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcRnTypes.hs) with the operations defined in [compiler/typecheck/TcEnv.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcEnv.hs). Among other things, the environment contains all imported and local instances as well as a list of *global* entities (imported and local types and classes together with imported identifiers) and *local* entities (locally defined identifiers). This environment is threaded through the [type checking monad](commentary/compiler/tc-rn-monad).
+During type checking, GHC maintains a *type environment* whose type definitions are fixed in the module [compiler/typecheck/TcRnTypes.hs](/ghc/ghc/tree/master/ghc/compiler/typecheck/TcRnTypes.hs) with the operations defined in [compiler/typecheck/TcEnv.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcEnv.hs). Among other things, the environment contains all imported and local instances as well as a list of *global* entities (imported and local types and classes together with imported identifiers) and *local* entities (locally defined identifiers). This environment is threaded through the [type checking monad](commentary/compiler/tc-rn-monad).
 
 ### Expressions
 
 
-Expressions are type checked by [compiler/typecheck/TcExpr.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcExpr.hs).
+Expressions are type checked by [compiler/typecheck/TcExpr.hs](/ghc/ghc/tree/master/ghc/compiler/typecheck/TcExpr.hs).
 
 
 Usage occurences of identifiers are processed by the function tcId whose main purpose is to [instantiate overloaded identifiers](commentary/compiler/type-checker#handling-of-dictionaries-and-method-instances). It essentially calls `TcInst.instOverloadedFun` once for each universally quantified set of type constraints. It should be noted that overloaded identifiers are replaced by new names that are first defined in the LIE (Local Instance Environment?) and later promoted into top-level bindings.
@@ -128,7 +128,7 @@ Usage occurences of identifiers are processed by the function tcId whose main pu
 GHC implements overloading using so-called *dictionaries*. A dictionary is a tuple of functions -- one function for each method in the class of which the dictionary implements an instance. During type checking, GHC replaces each type constraint of a function with one additional argument. At runtime, the extended function gets passed a matching class dictionary by way of these additional arguments. Whenever the function needs to call a method of such a class, it simply extracts it from the dictionary.
 
 
-This sounds simple enough; however, the actual implementation is a bit more tricky as it wants to keep track of all the instances at which overloaded functions are used in a module. This information is useful to optimise the code. The implementation is the module [compiler/typecheck/Inst.hs](/trac/ghc/browser/ghc/compiler/typecheck/Inst.hs).
+This sounds simple enough; however, the actual implementation is a bit more tricky as it wants to keep track of all the instances at which overloaded functions are used in a module. This information is useful to optimise the code. The implementation is the module [compiler/typecheck/Inst.hs](/ghc/ghc/tree/master/ghc/compiler/typecheck/Inst.hs).
 
 
 The function `instOverloadedFun` is invoked for each overloaded usage occurrence of an identifier, where overloaded means that the type of the identifier contains a non-trivial type constraint. It proceeds in two steps: (1) Allocation of a method instance (`newMethodWithGivenTy`) and (2) instantiation of functional dependencies. The former implies allocating a new unique identifier, which replaces the original (overloaded) identifier at the currently type-checked usage occurrence.

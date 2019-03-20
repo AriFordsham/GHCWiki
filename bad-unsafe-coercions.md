@@ -51,7 +51,7 @@ G |-co t1 ==>!_R t2 : t1 ~R k2 t2
 
 **SPJ** Actually it should be *unboxed* not *unlifted*.  It's wrong to cast between `Array# Int` and `Int#` because the former is a pointer and the latter is not.
 
-1. If types are unlifted then their *size* should be equal, see `primRepSizeW` in [source:compiler/types/TyCon.hs](/trac/ghc/browser/compiler/types/TyCon.hs)[](/trac/ghc/export/HEAD/ghc/compiler/types/TyCon.hs)
+1. If types are unlifted then their *size* should be equal, see `primRepSizeW` in [source:compiler/types/TyCon.hs](/ghc/ghc/tree/master/compiler/types/TyCon.hs)[](/trac/ghc/export/HEAD/ghc/compiler/types/TyCon.hs)
 
 1. If types are unlifted then they either should be both floating or both integral.  Reason: on many architectures, floating point values are held in special registers.
 
@@ -138,7 +138,7 @@ GHC has 2 different sizes: word aligned size of values, and active size in bytes
 
 
 Term 'active size' is used to describe number of bytes that value actually use, at this moment such numbers are used
-in Vectors, see `primElemRepSizeB` in ([source:compiler/types/TyCon.hs](/trac/ghc/browser/compiler/types/TyCon.hs)[](/trac/ghc/export/HEAD/ghc/compiler/types/TyCon.hs)). The reasons about forbidding coercions between
+in Vectors, see `primElemRepSizeB` in ([source:compiler/types/TyCon.hs](/ghc/ghc/tree/master/compiler/types/TyCon.hs)[](/trac/ghc/export/HEAD/ghc/compiler/types/TyCon.hs)). The reasons about forbidding coercions between
 values with a different active size is that in the rest bytes there will be garbage:
 
 

@@ -65,7 +65,7 @@ GHC (from version 6.6) allows a single program to contain multiple modules with 
 This means that the `Module` type is not `Uniqable`, so we can't use `Module` as the key in a `UniqFM`, which is sad.  We explored various schemes for extracting uniques from `Modules`, but didn't find anything attractive enough.  Another problem with the current scheme is that everytime we refer to a `Module` in an interface file, it gives rise to two words in the binary representation.  Our current plan is to improve the binary representation in `.hi` files to mitigate this, but this is currently one reason why in GHC 6.6 interface files are larger than in 6.4.
 
 
-Source code: [compiler/basicTypes/Module.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/Module.lhs).
+Source code: [compiler/basicTypes/Module.lhs](/ghc/ghc/tree/master/ghc/compiler/basicTypes/Module.lhs).
 
 ## Finding modules
 
@@ -73,10 +73,10 @@ Source code: [compiler/basicTypes/Module.lhs](/trac/ghc/browser/ghc/compiler/bas
 When we import a module, how does GHC decide where the module lives (e.g. to read in the [interface files](commentary/compiler/iface-files) for type checking)?  This is done in two parts.
 
 
-First, we generate a module map in [compiler/main/Packages.lhs](/trac/ghc/browser/ghc/compiler/main/Packages.lhs) in \@mkModuleMap@, which is stored in the \@PackageState@. This module map is based off of the package databases (by default the global and local databases), with in-memory modifications to the hidden/trusted flags associated with modules.  This map says, for any given module name, what packages define it. (For the purpose of error reporting, we collect up non-exposed modules, since a user may mistakenly try to import them.)
+First, we generate a module map in [compiler/main/Packages.lhs](/ghc/ghc/tree/master/ghc/compiler/main/Packages.lhs) in \@mkModuleMap@, which is stored in the \@PackageState@. This module map is based off of the package databases (by default the global and local databases), with in-memory modifications to the hidden/trusted flags associated with modules.  This map says, for any given module name, what packages define it. (For the purpose of error reporting, we collect up non-exposed modules, since a user may mistakenly try to import them.)
 
 
-Next, when we actually need to lookup a module in [compiler/main/Finder.lhs](/trac/ghc/browser/ghc/compiler/main/Finder.lhs) using \@findExposedPackageModule@. Now, we lookup the module name in our map, filter out entries which are hidden (either because their packages were hidden or they were not exposed), and if there is exactly one result, we succeed. If we don't find anything, a fuzzy lookup finds similar module names; if we find multiple results we report them appropriately.
+Next, when we actually need to lookup a module in [compiler/main/Finder.lhs](/ghc/ghc/tree/master/ghc/compiler/main/Finder.lhs) using \@findExposedPackageModule@. Now, we lookup the module name in our map, filter out entries which are hidden (either because their packages were hidden or they were not exposed), and if there is exactly one result, we succeed. If we don't find anything, a fuzzy lookup finds similar module names; if we find multiple results we report them appropriately.
 
 ## The current package
 
@@ -84,12 +84,12 @@ Next, when we actually need to lookup a module in [compiler/main/Finder.lhs](/tr
 There is a notion of which package we are compiling, set by the `-package-name` flag on the command line.  In the absence of a `-package-name` flag, the default package `main` is assumed.
 
 
-To find out what the current package is, grab the field `thisPackage` from `DynFlags` (see [compiler/main/DynFlags.hs](/trac/ghc/browser/ghc/compiler/main/DynFlags.hs)).
+To find out what the current package is, grab the field `thisPackage` from `DynFlags` (see [compiler/main/DynFlags.hs](/ghc/ghc/tree/master/ghc/compiler/main/DynFlags.hs)).
 
 ## Special packages
 
 
-Certain packages are special, in the sense that GHC knows about their existence and something about their contents.  Any [Name](commentary/compiler/name-type) that is [wired-in](commentary/compiler/wired-in) (see [compiler/prelude/PrelNames.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.lhs)) must by definition contain a `Module`, and that module must therefore contain a `PackageId`.  But the `PackageId` includes the version, so does this mean we have to somehow find out the version of the `base` package (for example) and bake it into the GHC binary?
+Certain packages are special, in the sense that GHC knows about their existence and something about their contents.  Any [Name](commentary/compiler/name-type) that is [wired-in](commentary/compiler/wired-in) (see [compiler/prelude/PrelNames.lhs](/ghc/ghc/tree/master/ghc/compiler/prelude/PrelNames.lhs)) must by definition contain a `Module`, and that module must therefore contain a `PackageId`.  But the `PackageId` includes the version, so does this mean we have to somehow find out the version of the `base` package (for example) and bake it into the GHC binary?
 
 
 We took the view that it should be possible to upgrade these packages independently of GHC, so long as you don't change any of the information that GHC knows about the package (eg. the type of `fromIntegral` or what module things come from).  Therefore we shouldn't bake in the version of any packages.  So the `PackageId` for the `base` package inside GHC is simply `base`: we explicitly strip off the version number for special packages wherever they occur.  
@@ -108,7 +108,7 @@ The following packages are special in GHC 7.8:
 - `dph-seq` and `dph-par`
 
 
-The definition of which packages are special and the stripping of versions from the package database happens in `findWiredInPackages` in [compiler/main/Packages.lhs](/trac/ghc/browser/ghc/compiler/main/Packages.lhs): we literally just rewrite the `sourcePackageId` associated with the package.
+The definition of which packages are special and the stripping of versions from the package database happens in `findWiredInPackages` in [compiler/main/Packages.lhs](/ghc/ghc/tree/master/ghc/compiler/main/Packages.lhs): we literally just rewrite the `sourcePackageId` associated with the package.
 
 ## Symbol names
 
@@ -119,7 +119,7 @@ All symbol names in the object code have the package name prepended (plus an und
 There is one exception: we don't prepend `main_` to symbols from the main package, because there can only ever be one main package.  This is a small optimisation.
 
 
-Source code: see the `Outputable` instance for `Module` in [compiler/basicTypes/Module.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/Module.lhs).
+Source code: see the `Outputable` instance for `Module` in [compiler/basicTypes/Module.lhs](/ghc/ghc/tree/master/ghc/compiler/basicTypes/Module.lhs).
 
 ## Dynamic linking
 

@@ -39,8 +39,8 @@ in the <tt>rts</tt> subdirectory.
 
 The canonical definition of certain structures are in C header files.
 For example, the layout of closures and info tables are defined in the
-headers [Closures.h](/trac/ghc/browser/includes/rts/storage/Closures.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/Closures.h) and
-[InfoTables.h](/trac/ghc/browser/includes/rts/storage/InfoTables.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/InfoTables.h) respectivesly.  How do we get the information about the
+headers [Closures.h](/ghc/ghc/tree/master/includes/rts/storage/Closures.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/Closures.h) and
+[InfoTables.h](/ghc/ghc/tree/master/includes/rts/storage/InfoTables.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/InfoTables.h) respectivesly.  How do we get the information about the
 layout of these structures to the parts of the system that are not
 written in C, such as the compiler itself, or the C-- code in the RTS?
 
@@ -125,14 +125,14 @@ define the RTS external API.  Virtually all RTS code `#includes`
 
 The rts header files are divided into a few directories:
 
-- [includes/rts](/trac/ghc/browser/includes/rts): Most of
+- [includes/rts](/ghc/ghc/tree/master/includes/rts): Most of
   the external RTS APIs, in separate header files per-subsystem
 
-- [includes/rts/storage](/trac/ghc/browser/includes/rts/storage): Definitions of the layout of heap and stack
+- [includes/rts/storage](/ghc/ghc/tree/master/includes/rts/storage): Definitions of the layout of heap and stack
   objects, info tables, structures that define memory areas managed
   by the GC, and memory management APIs.
 
-- [includes/rts/prof](/trac/ghc/browser/includes/rts/prof):
+- [includes/rts/prof](/ghc/ghc/tree/master/includes/rts/prof):
   Interfaces and definitions for profiling.
 
 ## Included into C-- (`.cmm`) code

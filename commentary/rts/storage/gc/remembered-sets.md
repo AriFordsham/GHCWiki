@@ -39,7 +39,7 @@ Here are the cases where we need a write barrier in GHC:
 ### Thunk Updates
 
 
-Updating a thunk in an old generation.  This is taken care of by the update code, see [rts/Updates.h](/trac/ghc/browser/ghc/rts/Updates.h).
+Updating a thunk in an old generation.  This is taken care of by the update code, see [rts/Updates.h](/ghc/ghc/tree/master/ghc/rts/Updates.h).
 
 ### Mutable objects: MUT_VAR, MVAR
 
@@ -51,7 +51,7 @@ void dirty_MUT_VAR(StgRegTable *reg, StgClosure *p);
 ```
 
 
-(in [rts/sm/Storage.c](/trac/ghc/browser/ghc/rts/sm/Storage.c)).  The code generator inserts calls to `dirty_MUT_VAR` when it compiles a call to the primitive `writeMutVar#`.
+(in [rts/sm/Storage.c](/ghc/ghc/tree/master/ghc/rts/sm/Storage.c)).  The code generator inserts calls to `dirty_MUT_VAR` when it compiles a call to the primitive `writeMutVar#`.
 
 `dirty_MUT_VAR` does the following: if the object's header is `MUT_VAR_CLEAN`, then the header is set to `MUT_VAR_DIRTY`, and the object is added to the remembered set if it resides in an old generation.  If the header was already `MUT_VAR_DIRTY`, no action
 is taken.
@@ -84,7 +84,7 @@ void dirty_TSO (Capability *cap, StgTSO *tso);
 ```
 
 
-To set the TSO's link field, use `setTSOLink()` (from [rts/sm/Storage.c](/trac/ghc/browser/ghc/rts/sm/Storage.c)) which arranges to add the TSO to
+To set the TSO's link field, use `setTSOLink()` (from [rts/sm/Storage.c](/ghc/ghc/tree/master/ghc/rts/sm/Storage.c)) which arranges to add the TSO to
 the remembered set if necessary.
 
 ```wiki
@@ -92,7 +92,7 @@ void setTSOLink (Capability *cap, StgTSO *tso, StgTSO *target);
 ```
 
 
-there are a few exceptions where `setTSOLink()` does not need to be called; see [rts/sm/Storage.c](/trac/ghc/browser/ghc/rts/sm/Storage.c) for details.
+there are a few exceptions where `setTSOLink()` does not need to be called; see [rts/sm/Storage.c](/ghc/ghc/tree/master/ghc/rts/sm/Storage.c) for details.
 
 ## Remembered set maintenance during GC
 

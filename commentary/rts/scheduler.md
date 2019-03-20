@@ -21,8 +21,8 @@ We begin by discussing the basic abstractions used in the scheduler.
 ## OS Threads
 
 
-Source files: [includes/rts/OSThreads.h](/trac/ghc/browser/ghc/includes/rts/OSThreads.h),
-[rts/win32/OSThreads.c](/trac/ghc/browser/ghc/rts/win32/OSThreads.c), [rts/posix/OSThreads.c](/trac/ghc/browser/ghc/rts/posix/OSThreads.c)
+Source files: [includes/rts/OSThreads.h](/ghc/ghc/tree/master/ghc/includes/rts/OSThreads.h),
+[rts/win32/OSThreads.c](/ghc/ghc/tree/master/ghc/rts/win32/OSThreads.c), [rts/posix/OSThreads.c](/trac/ghc/browser/ghc/rts/posix/OSThreads.c)
 
 
 We assume that the OS provides some kind of native threads, and for
@@ -46,7 +46,7 @@ When running on an SMP, we begin by creating the number of OS threads specified 
 
 
 The RTS provides a platform-independent abstraction layer for OS
-threads in [includes/rts/OSThreads.h](/trac/ghc/browser/ghc/includes/rts/OSThreads.h).
+threads in [includes/rts/OSThreads.h](/ghc/ghc/tree/master/ghc/includes/rts/OSThreads.h).
 
 ## Haskell threads
 
@@ -68,7 +68,7 @@ two kinds of Haskell thread:
   thread are made by an arbitrary OS thread.
 
 
-Initialization of TSOs is handled in `createThread` in [rts/Threads.c](/trac/ghc/browser/ghc/rts/Threads.c); this function is in turn invoked by `createGenThread`, `createIOThread` and `createStrictIOThread` in [rts/RtsAPI.c](/trac/ghc/browser/ghc/rts/RtsAPI.c). These functions setup the initial stack state, which controls what the thread executes when it actually gets run. These functions are the ones invoked by the `fork#` and other primops (recall entry-points for primops are located in [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm)).
+Initialization of TSOs is handled in `createThread` in [rts/Threads.c](/ghc/ghc/tree/master/ghc/rts/Threads.c); this function is in turn invoked by `createGenThread`, `createIOThread` and `createStrictIOThread` in [rts/RtsAPI.c](/trac/ghc/browser/ghc/rts/RtsAPI.c). These functions setup the initial stack state, which controls what the thread executes when it actually gets run. These functions are the ones invoked by the `fork#` and other primops (recall entry-points for primops are located in [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm)).
 
 
 Being garbage collected has two major implications for TSOs. First, TSOs are not GC roots, so they will get GC'd if there is nothing holding on to them (e.g. [in the case of deadlock](http://blog.ezyang.com/2011/07/blockedindefinitelyonmvar)), and their space is not automatically reclaimed when they finish executing (so `ThreadId` can cause memory leaks}}}. Usually, a TSO will be retained by a Capability’s run queue (a GC root), or in the list of waiting threads of some concurrency variable, e.g. an MVar. Second, a TSO must be considered a mutable object, and is thus subject to the conventional GC write barriers necessary for any mutable object in a generational garbage collector. The `dirty` bit tracks whether or not a TSO has been modified; it is always set when a thread is run and also when any of the pointer fields on a TSO are modified.
@@ -76,7 +76,7 @@ Being garbage collected has two major implications for TSOs. First, TSOs are not
 ## Tasks
 
 
-Source files: [rts/Task.h](/trac/ghc/browser/ghc/rts/Task.h), [rts/Task.c](/trac/ghc/browser/ghc/rts/Task.c)
+Source files: [rts/Task.h](/ghc/ghc/tree/master/ghc/rts/Task.h), [rts/Task.c](/trac/ghc/browser/ghc/rts/Task.c)
 
 
 A Task is a further layer of abstraction over an OS thread.  One `Task` structure is created for each OS thread known to the runtime.  To get the `Task` associated with with the current OS thread, use the function `myTask`:
@@ -122,7 +122,7 @@ A task has a small cache of spare `InCall` structures so that it can allocate a 
 ## Capabilities
 
 
-Source files: [rts/Capability.h](/trac/ghc/browser/ghc/rts/Capability.h), [rts/Capability.c](/trac/ghc/browser/ghc/rts/Capability.c)
+Source files: [rts/Capability.h](/ghc/ghc/tree/master/ghc/rts/Capability.h), [rts/Capability.c](/trac/ghc/browser/ghc/rts/Capability.c)
 
 
 A Capability is a *virtual CPU* for executing Haskell code.  The
@@ -268,7 +268,7 @@ Threads are put in **back** (`appendToRunQueue`) in the case of pre-emption, or 
 
 - A thread was pre-empted via the context switch flag (e.g. incoming message from another thread, the timer fired, the thread cooperatively yielded, etc);
 
-- It is a new thread (so large amounts of thread creation do not starve old threads, see [nofib/smp/conc004](/trac/ghc/browser/ghc/nofib/smp/conc004) and commit [05881ecab/repo](/trac/ghc/changeset/05881ecab/ghc/repo));
+- It is a new thread (so large amounts of thread creation do not starve old threads, see [nofib/smp/conc004](/ghc/ghc/tree/master/ghc/nofib/smp/conc004) and commit [05881ecab/repo](/trac/ghc/changeset/05881ecab/ghc/repo));
 
 - A thread becomes unblocked;
 
@@ -279,19 +279,19 @@ Threads are put in **back** (`appendToRunQueue`) in the case of pre-emption, or 
 ## Sparks and the par operator
 
 
-Source files: [rts/Sparks.c](/trac/ghc/browser/ghc/rts/Sparks.c), [rts/Sparks.h](/trac/ghc/browser/ghc/rts/Sparks.h).
+Source files: [rts/Sparks.c](/ghc/ghc/tree/master/ghc/rts/Sparks.c), [rts/Sparks.h](/trac/ghc/browser/ghc/rts/Sparks.h).
 
 
 The [par](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Parallel.html#v%3Apar) operator is used for annotating computations that could be evaluated in parallel.  See also [Parallel Haskell](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/parallel.html#parallel-haskell) in the GHC User's Guide.
 
 
-Par itself is implemented in terms of the `par#` primop, which the code generator compiles into a call to `newSpark` in [rts/Sparks.c](/trac/ghc/browser/ghc/rts/Sparks.c).
+Par itself is implemented in terms of the `par#` primop, which the code generator compiles into a call to `newSpark` in [rts/Sparks.c](/ghc/ghc/tree/master/ghc/rts/Sparks.c).
 
 
 Par doesn't actually create a new thread immediately; instead it places a pointer to its first argument in the *spark pool*.  The spark pool is a circular buffer, when it is full we have the choice of either overwriting the oldest entry or dropping the new entry - currently we drop the new entry (see code for `newSpark`).  Each capability has its own spark pool, so this operation can be performed without taking a lock.
 
 
-So how does the spark turn into a thread?  When the scheduler spots that the current capability has no runnable threads, it checks the spark pool, and if there is a valid spark (a spark that points to a THUNK), then the spark is turned into a real thread and placed on the run queue: see `createSparkThread` in [rts/Sparks.c](/trac/ghc/browser/ghc/rts/Sparks.c).  Also, the scheduler attempts to share its available sparks with any other idle capabilities: see `schedulePushWork` in [rts/Schedule.c](/trac/ghc/browser/ghc/rts/Schedule.c).
+So how does the spark turn into a thread?  When the scheduler spots that the current capability has no runnable threads, it checks the spark pool, and if there is a valid spark (a spark that points to a THUNK), then the spark is turned into a real thread and placed on the run queue: see `createSparkThread` in [rts/Sparks.c](/ghc/ghc/tree/master/ghc/rts/Sparks.c).  Also, the scheduler attempts to share its available sparks with any other idle capabilities: see `schedulePushWork` in [rts/Schedule.c](/trac/ghc/browser/ghc/rts/Schedule.c).
 
 ## Affinity and migration
 

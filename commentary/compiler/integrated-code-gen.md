@@ -87,7 +87,7 @@ require complex implementations.  We live with this complexity because
 ### Convert from STG to control flow graph
 
 
-Convert from `STG` to an control flow graph `CmmGraph` ([compiler/cmm/ZipCfg.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfg.hs), [compiler/cmm/ZipCfgCmmRep.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfgCmmRep.hs)).  This step is Simon PJ's "new code generator" from September 2007.  This conversion may introduce new variables, stack slots, and compile-time constants. 
+Convert from `STG` to an control flow graph `CmmGraph` ([compiler/cmm/ZipCfg.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/ZipCfg.hs), [compiler/cmm/ZipCfgCmmRep.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfgCmmRep.hs)).  This step is Simon PJ's "new code generator" from September 2007.  This conversion may introduce new variables, stack slots, and compile-time constants. 
 
 ```wiki
 STG -> CmmGraph Cmm.Middle Cmm.Last
@@ -111,7 +111,7 @@ CmmGraph Cmm.Middle Cmm.Last -> CmmGraph I386.Middle I386.Last
 ```
 
 
-The `I386.Middle` type represents computational machine instructions; the `I386.Last` type represents control-transfer instructions.  The choice of representation is up to the author of the back end, but for continuity with the existing native code generators, we expect to begin by using algebraic data types inspired by the existing definitions in [compiler/nativeGen/MachInstrs.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachInstrs.hs).
+The `I386.Middle` type represents computational machine instructions; the `I386.Last` type represents control-transfer instructions.  The choice of representation is up to the author of the back end, but for continuity with the existing native code generators, we expect to begin by using algebraic data types inspired by the existing definitions in [compiler/nativeGen/MachInstrs.hs](/ghc/ghc/tree/master/ghc/compiler/nativeGen/MachInstrs.hs).
 
 
 Note that the graph still contains:

@@ -189,7 +189,7 @@ an improvement.
 
 
 Unboxed sums get implemented very like boxed and unboxed tuples; see
-[compiler/prelude/TysWiredIn.hs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.hs).
+[compiler/prelude/TysWiredIn.hs](/ghc/ghc/tree/master/ghc/compiler/prelude/TysWiredIn.hs).
 
 ## The Core language
 
@@ -200,7 +200,7 @@ No changes in Core.
 
 
 When going to STG we need to eliminate the unboxed sums. This can be done in
-[compiler/simplStg/UnariseStg.hs](/trac/ghc/browser/ghc/compiler/simplStg/UnariseStg.hs), just like for tuples.
+[compiler/simplStg/UnariseStg.hs](/ghc/ghc/tree/master/ghc/compiler/simplStg/UnariseStg.hs), just like for tuples.
 
 
 Given the Core function
@@ -225,14 +225,14 @@ pointer and non-pointer arguments we might need. Example:
 
 
 
-See notes in [compiler/simplStg/UnariseStg.hs](/trac/ghc/browser/ghc/compiler/simplStg/UnariseStg.hs) for more details.
+See notes in [compiler/simplStg/UnariseStg.hs](/ghc/ghc/tree/master/ghc/compiler/simplStg/UnariseStg.hs) for more details.
 
 ### Code generation
 
 
 New `StgArg` constructor `StgRubbishArg` and new `CmmArg` are added for
 efficient compilation of sums. See `StgRubbishArg` in
-[compiler/stgSyn/StgSyn.hs](/trac/ghc/browser/ghc/compiler/stgSyn/StgSyn.hs).
+[compiler/stgSyn/StgSyn.hs](/ghc/ghc/tree/master/ghc/compiler/stgSyn/StgSyn.hs).
 
 ### Unpacking
 

@@ -229,7 +229,7 @@ To understand more about what you can put in `mk/build.mk`, read on.
 
 The following are some common variables that you might want to set in
 your `mk/build.mk`.  For other variables that you can override,
-take a look in [mk/config.mk.in](/trac/ghc/browser/ghc/mk/config.mk.in).
+take a look in [mk/config.mk.in](/ghc/ghc/tree/master/ghc/mk/config.mk.in).
 
 
 <table><tr><th><tt>SRC_HC_OPTS</tt></th>

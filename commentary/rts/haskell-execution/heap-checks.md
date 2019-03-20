@@ -1,7 +1,7 @@
 # Heap and Stack checks
 
 
-Source files: [rts/HeapStackCheck.cmm](/trac/ghc/browser/ghc/rts/HeapStackCheck.cmm)
+Source files: [rts/HeapStackCheck.cmm](/ghc/ghc/tree/master/ghc/rts/HeapStackCheck.cmm)
 
 
 

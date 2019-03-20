@@ -14,7 +14,7 @@ TODO This page is possibly outdated. Update to the latest information.
 This page was written with more detail than usual since you may need to know how to work with Cmm as a programming language.  Cmm is the basis for the future of GHC, Native Code Generation, and if you are interested in hacking Cmm at least this page might help reduce your learning curve.  As a finer detail, if you read the [Compiler pipeline](commentary/compiler/hsc-main) wiki page or glanced at the diagram there you may have noticed that whether you are working backward from an `intermediate C` (Haskell-C "HC", `.hc`) file or an Assembler file you get to Cmm before you get to the STG language, the Simplifier or anything else.  In other words, for really low-level debugging you may have an easier time if you know what Cmm is about.  Cmm also has opportunities for implementing small and easy hacks, such as little optimisations and implementing new Cmm Primitive Operations.
 
 
-A portion of the [RTS](commentary/rts) is written in Cmm: [rts/Apply.cmm](/trac/ghc/browser/ghc/rts/Apply.cmm), [rts/Exception.cmm](/trac/ghc/browser/ghc/rts/Exception.cmm), [rts/HeapStackCheck.cmm](/trac/ghc/browser/ghc/rts/HeapStackCheck.cmm), [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm), [rts/StgMiscClosures.cmm](/trac/ghc/browser/ghc/rts/StgMiscClosures.cmm), [rts/StgStartup.cmm](/trac/ghc/browser/ghc/rts/StgStartup.cmm) and [rts/StgStdThunks.cmm](/trac/ghc/browser/ghc/rts/StgStdThunks.cmm).  (For notes related to `PrimOps.cmm` see the [PrimOps](commentary/prim-ops) page; for much of the rest, see the [HaskellExecution](commentary/rts/haskell-execution) page.)  Cmm is optimised before GHC outputs either HC or Assembler.  The C compiler (from HC, pretty printed by [compiler/cmm/PprC.hs](/trac/ghc/browser/ghc/compiler/cmm/PprC.hs)) and the [Native Code Generator](commentary/compiler/backends/ncg) (NCG) [Backends](commentary/compiler/backends) are closely tied to data representations and transformations performed in Cmm.  In GHC, Cmm roughly performs a function similar to the intermediate [Register Transfer Language (RTL)](http://gcc.gnu.org/onlinedocs/gccint/RTL.html) in GCC.
+A portion of the [RTS](commentary/rts) is written in Cmm: [rts/Apply.cmm](/ghc/ghc/tree/master/ghc/rts/Apply.cmm), [rts/Exception.cmm](/trac/ghc/browser/ghc/rts/Exception.cmm), [rts/HeapStackCheck.cmm](/trac/ghc/browser/ghc/rts/HeapStackCheck.cmm), [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm), [rts/StgMiscClosures.cmm](/trac/ghc/browser/ghc/rts/StgMiscClosures.cmm), [rts/StgStartup.cmm](/trac/ghc/browser/ghc/rts/StgStartup.cmm) and [rts/StgStdThunks.cmm](/trac/ghc/browser/ghc/rts/StgStdThunks.cmm).  (For notes related to `PrimOps.cmm` see the [PrimOps](commentary/prim-ops) page; for much of the rest, see the [HaskellExecution](commentary/rts/haskell-execution) page.)  Cmm is optimised before GHC outputs either HC or Assembler.  The C compiler (from HC, pretty printed by [compiler/cmm/PprC.hs](/trac/ghc/browser/ghc/compiler/cmm/PprC.hs)) and the [Native Code Generator](commentary/compiler/backends/ncg) (NCG) [Backends](commentary/compiler/backends) are closely tied to data representations and transformations performed in Cmm.  In GHC, Cmm roughly performs a function similar to the intermediate [Register Transfer Language (RTL)](http://gcc.gnu.org/onlinedocs/gccint/RTL.html) in GCC.
 
 # Table of Contents
 
@@ -53,19 +53,19 @@ A portion of the [RTS](commentary/rts) is written in Cmm: [rts/Apply.cmm](/trac/
 
 `Cmm` is the GHC implementation of the `C--` language; it is also the extension of Cmm source code files: `.cmm` (see [What the hell is a .cmm file?](commentary/rts/cmm)).  The GHC [Code Generator](commentary/compiler/code-gen) (`CodeGen`) compiles the STG program into `C--` code, represented by the `Cmm` data type.  This data type follows the [definition of \`C--\`](http://www.cminusminus.org/) pretty closely but there are some remarkable differences.  For a discussion of the Cmm implementation noting most of those differences, see the [Basic Cmm](commentary/compiler/cmm-type#basic-cmm) section, below.
 
-- [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs): the main data type definition.
-- [compiler/cmm/CmmMachOp.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmMachOp.hs): data types defining the machine operations (e.g. floating point divide) provided by `Cmm`.
-- [compiler/cmm/CLabel.hs](/trac/ghc/browser/ghc/compiler/cmm/CLabel.hs): data type for top-level `Cmm` labels.
+- [compiler/cmm/Cmm.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/Cmm.hs): the main data type definition.
+- [compiler/cmm/CmmMachOp.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmMachOp.hs): data types defining the machine operations (e.g. floating point divide) provided by `Cmm`.
+- [compiler/cmm/CLabel.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/CLabel.hs): data type for top-level `Cmm` labels.
 
-- [compiler/cmm/PprCmm.hs](/trac/ghc/browser/ghc/compiler/cmm/PprCmm.hs): pretty-printer for `Cmm`.
-- [compiler/cmm/CmmUtils.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmUtils.hs): operations over `Cmm`
+- [compiler/cmm/PprCmm.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/PprCmm.hs): pretty-printer for `Cmm`.
+- [compiler/cmm/CmmUtils.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmUtils.hs): operations over `Cmm`
 
-- [compiler/cmm/CmmLint.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmLint.hs): a consistency checker.
-- [compiler/cmm/CmmOpt.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmOpt.hs): an optimiser for `Cmm`.
+- [compiler/cmm/CmmLint.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmLint.hs): a consistency checker.
+- [compiler/cmm/CmmOpt.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmOpt.hs): an optimiser for `Cmm`.
 
-- [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y), [compiler/cmm/CmmLex.x](/trac/ghc/browser/ghc/compiler/cmm/CmmLex.x): parser and lexer for [.cmm files](commentary/rts/cmm).
+- [compiler/cmm/CmmParse.y](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmParse.y), [compiler/cmm/CmmLex.x](/trac/ghc/browser/ghc/compiler/cmm/CmmLex.x): parser and lexer for [.cmm files](commentary/rts/cmm).
 
-- [compiler/cmm/PprC.hs](/trac/ghc/browser/ghc/compiler/cmm/PprC.hs): pretty-print `Cmm` in C syntax, when compiling via C.
+- [compiler/cmm/PprC.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/PprC.hs): pretty-print `Cmm` in C syntax, when compiling via C.
 
 ## Additions in Cmm
 
@@ -88,7 +88,7 @@ Other additions to C-- are noted throughout the [Basic Cmm](commentary/compiler/
 GHC is able to compile `.cmm` files with a minimum of user-effort.  To compile `.cmm` files, simply invoke the main GHC driver but remember to:
 
 - add the option `-dcmm-lint` if you have handwritten Cmm code;
-- add appropriate includes, especially [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cmm.h) if you are using Cmm macros or GHC defines for certain types, such as `W_` for `bits32` or `bits64` (depending on the machine word size)--`Cmm.h` is in the `/includes` directory of every GHC distribution, i.e., `usr/local/lib/ghc-6.6/includes`; and,
+- add appropriate includes, especially [includes/Cmm.h](/ghc/ghc/tree/master/ghc/includes/Cmm.h) if you are using Cmm macros or GHC defines for certain types, such as `W_` for `bits32` or `bits64` (depending on the machine word size)--`Cmm.h` is in the `/includes` directory of every GHC distribution, i.e., `usr/local/lib/ghc-6.6/includes`; and,
 - if you do include GHC header files, remember to pass the code through the C preprocessor by adding the `-cpp` option.
 
 
@@ -124,7 +124,7 @@ __stginit_Main_() {	// parse error `('
 ```
 
 
-The Cmm procedure names in [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm) are not followed by a (possibly empty) parenthetical list of arguments; all their arguments are Global (STG) Registers, anyway, see [Variables, Registers and Types](commentary/compiler/cmm-type#variables,-registers-and-types), below.  Don't be confused by the procedure definitions in other handwritten `.cmm` files in the RTS, such as [rts/Apply.cmm](/trac/ghc/browser/ghc/rts/Apply.cmm): all-uppercase procedure invocations are special reserved tokens in [compiler/cmm/CmmLex.x](/trac/ghc/browser/ghc/compiler/cmm/CmmLex.x) and [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y).  For example, `INFO_TABLE` is parsed as one of the tokens in the Alex `info` predicate:
+The Cmm procedure names in [rts/PrimOps.cmm](/ghc/ghc/tree/master/ghc/rts/PrimOps.cmm) are not followed by a (possibly empty) parenthetical list of arguments; all their arguments are Global (STG) Registers, anyway, see [Variables, Registers and Types](commentary/compiler/cmm-type#variables,-registers-and-types), below.  Don't be confused by the procedure definitions in other handwritten `.cmm` files in the RTS, such as [rts/Apply.cmm](/trac/ghc/browser/ghc/rts/Apply.cmm): all-uppercase procedure invocations are special reserved tokens in [compiler/cmm/CmmLex.x](/trac/ghc/browser/ghc/compiler/cmm/CmmLex.x) and [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y).  For example, `INFO_TABLE` is parsed as one of the tokens in the Alex `info` predicate:
 
 ```wiki
 info	:: { ExtFCode (CLabel, [CmmLit],[CmmLit]) }
@@ -187,7 +187,7 @@ Cmm is a high level assembler with a syntax style similar to C.  This section de
 - [The C-- Language Specification Version 2.0 (CVS Revision 1.128, 23 February 2005)](http://cminusminus.org/extern/man2.pdf) (PDF)
 
 
-Cmm is not a stand alone C-- compiler; it is an implementation of C-- embedded in the GHC compiler.  One difference between Cmm and a C-- compiler like [Quick C--](http://cminusminus.org/code.html) is this: Cmm uses the C preprocessor (cpp).  Cpp lets Cmm *integrate* with C code, especially the C header defines in [includes](/trac/ghc/browser/ghc/includes), and among many other consequences it makes the C-- `import` and `export` statements irrelevant; in fact, according to [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y) they are ignored.  The most significant action taken by the Cmm modules in the Compiler is to optimise Cmm, through [compiler/cmm/CmmOpt.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmOpt.hs).  The Cmm Optimiser generally runs a few simplification passes over primitive Cmm operations, inlines simple Cmm expressions that do not contain global registers (these would be left to one of the [Backends](commentary/compiler/backends), which currently cannot handle inlines with global registers) and performs a simple loop optimisation. 
+Cmm is not a stand alone C-- compiler; it is an implementation of C-- embedded in the GHC compiler.  One difference between Cmm and a C-- compiler like [Quick C--](http://cminusminus.org/code.html) is this: Cmm uses the C preprocessor (cpp).  Cpp lets Cmm *integrate* with C code, especially the C header defines in [includes](/ghc/ghc/tree/master/ghc/includes), and among many other consequences it makes the C-- `import` and `export` statements irrelevant; in fact, according to [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y) they are ignored.  The most significant action taken by the Cmm modules in the Compiler is to optimise Cmm, through [compiler/cmm/CmmOpt.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmOpt.hs).  The Cmm Optimiser generally runs a few simplification passes over primitive Cmm operations, inlines simple Cmm expressions that do not contain global registers (these would be left to one of the [Backends](commentary/compiler/backends), which currently cannot handle inlines with global registers) and performs a simple loop optimisation. 
 
 ### Code Blocks in Cmm
 
@@ -198,7 +198,7 @@ The Haskell representation of Cmm separates contiguous code into:
 - *basic blocks*
 
 
-Cmm modules contain static data elements (see [Literals and Labels](commentary/compiler/cmm-type#literals-and-labels)) and [Basic Blocks](commentary/compiler/cmm-type#), collected together in `Cmm`, a type synonym for `GenCmm`, defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs):
+Cmm modules contain static data elements (see [Literals and Labels](commentary/compiler/cmm-type#literals-and-labels)) and [Basic Blocks](commentary/compiler/cmm-type#), collected together in `Cmm`, a type synonym for `GenCmm`, defined in [compiler/cmm/Cmm.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/Cmm.hs):
 
 
 ```
@@ -367,12 +367,12 @@ There is currently no register for floating point vectors, such as `F128`.  The 
 
 
 
-[includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cmm.h) also defines `L_` for `bits64`, so `F_`, `D_` and `L_` correspond to the `GlobalReg` data type constructors `FloatReg`, `DoubleReg` and `LongReg`.  Note that although GHC may generate other register types supported by the `MachRep` data type, such as `I128`, they are not parseable tokens.  That is, they are internal to GHC.  The special defines `CInt` and `CLong` are used for compatibility with C on the target architecture, typically for making `foreign "C"` calls.
+[includes/Cmm.h](/ghc/ghc/tree/master/ghc/includes/Cmm.h) also defines `L_` for `bits64`, so `F_`, `D_` and `L_` correspond to the `GlobalReg` data type constructors `FloatReg`, `DoubleReg` and `LongReg`.  Note that although GHC may generate other register types supported by the `MachRep` data type, such as `I128`, they are not parseable tokens.  That is, they are internal to GHC.  The special defines `CInt` and `CLong` are used for compatibility with C on the target architecture, typically for making `foreign "C"` calls.
 
 **Note**: Even Cmm types that are not explicit variables (Cmm literals and results of Cmm expressions) have implicit `MachRep`s, in the same way as you would use temporary registers to hold labelled constants or intermediate values in assembler functions.  See:
 
 - [Literals and Labels](commentary/compiler/cmm-type#literals-and-labels) for information related to the Cmm literals `CmmInt` and `CmmFloat`; and,
-- [Expressions](commentary/compiler/cmm-type#expressions), regarding the `cmmExprRep` function defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs).
+- [Expressions](commentary/compiler/cmm-type#expressions), regarding the `cmmExprRep` function defined in [compiler/cmm/Cmm.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/Cmm.hs).
 
 #### Global Registers and Hints
 
@@ -452,17 +452,17 @@ For a description of the `Hp` and `Sp` *virtual registers*, see [The Haskell Exe
 
 
 
-General `GlobalRegs` numbers are decimal integers, see the `parseInteger` function in [compiler/utils/StringBuffer.hs](/trac/ghc/browser/ghc/compiler/utils/StringBuffer.hs).  The remainder of the `GlobalReg` constructors, from `Sp` to `BaseReg` are lexical tokens exactly like their name in the data type; `PicBaseReg` does not have a lexical token since it is used only inside the NCG.  See [Position Independent Code and Dynamic Linking](commentary/position-independent-code) for an in-depth description of PIC implementations in the NCG.
+General `GlobalRegs` numbers are decimal integers, see the `parseInteger` function in [compiler/utils/StringBuffer.hs](/ghc/ghc/tree/master/ghc/compiler/utils/StringBuffer.hs).  The remainder of the `GlobalReg` constructors, from `Sp` to `BaseReg` are lexical tokens exactly like their name in the data type; `PicBaseReg` does not have a lexical token since it is used only inside the NCG.  See [Position Independent Code and Dynamic Linking](commentary/position-independent-code) for an in-depth description of PIC implementations in the NCG.
 
 `GlobalRegs` are a very special case in Cmm, partly because they must conform to the STG register convention and the target C calling convention.  That the Cmm parser recognises `R1` and `F3` as `GlobalRegs` is only the first step.  The main files to look at for more information on this delicate topic are:
 
-- [compiler/codeGen/CgCallConv.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgCallConv.hs) (the section on "Register assignment")
-- [includes/stg/Regs.h](/trac/ghc/browser/ghc/includes/stg/Regs.h) (defining STG registers)
-- [includes/stg/MachRegs.h](/trac/ghc/browser/ghc/includes/stg/MachRegs.h) (target-specific mapping of machine registers for *registerised* builds of GHC)
-- [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm) (examples of `GlobalReg` register usage for out-of-line primops)
+- [compiler/codeGen/CgCallConv.hs](/ghc/ghc/tree/master/ghc/compiler/codeGen/CgCallConv.hs) (the section on "Register assignment")
+- [includes/stg/Regs.h](/ghc/ghc/tree/master/ghc/includes/stg/Regs.h) (defining STG registers)
+- [includes/stg/MachRegs.h](/ghc/ghc/tree/master/ghc/includes/stg/MachRegs.h) (target-specific mapping of machine registers for *registerised* builds of GHC)
+- [rts/PrimOps.cmm](/ghc/ghc/tree/master/ghc/rts/PrimOps.cmm) (examples of `GlobalReg` register usage for out-of-line primops)
 
 
-All arguments to out-of-line PrimOps in [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm) are STG registers.
+All arguments to out-of-line PrimOps in [rts/PrimOps.cmm](/ghc/ghc/tree/master/ghc/rts/PrimOps.cmm) are STG registers.
 
 
 Cmm recognises all C-- syntax with regard to *hints*.  For example:
@@ -477,7 +477,7 @@ foreign "C" labelThread(R1 "ptr", R2 "ptr") [];
 ```
 
 
-Hints are represented in Haskell as `MachHint`s, defined near `MachRep` in [compiler/cmm/CmmMachOp.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmMachOp.hs):
+Hints are represented in Haskell as `MachHint`s, defined near `MachRep` in [compiler/cmm/CmmMachOp.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmMachOp.hs):
 
 
 ```
@@ -493,12 +493,12 @@ data MachHint
 Although the C-- specification does not allow the C-- type system to statically distinguish between floats, signed ints, unsigned ints or pointers, Cmm does. Cmm `MachRep`s carry the float or int kind of a variable, either within a local block or in a global register.  `GlobalReg` includes separate constructors for `Vanilla`, `Float`, `Double` and `Long`.  Cmm still does not distinguish between signed ints, unsigned ints and pointers (addresses) at the register level, as these are given *hint* pseudo-types or their real type is determined as they run through primitive operations.  `MachHint`s still follow the C-- specification and carry kind information as an aide to the backend optimisers.  
 
 
-Global Registers in Cmm currently have a problem with inlining: because neither [compiler/cmm/PprC.hs](/trac/ghc/browser/ghc/compiler/cmm/PprC.hs) nor the NCG are able to keep Global Registers from clashing with C argument passing registers, Cmm expressions that contain Global Registers cannot be inlined into an argument position of a foreign call.  For more thorough notes on inlining, see the comments in [compiler/cmm/CmmOpt.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmOpt.hs).
+Global Registers in Cmm currently have a problem with inlining: because neither [compiler/cmm/PprC.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/PprC.hs) nor the NCG are able to keep Global Registers from clashing with C argument passing registers, Cmm expressions that contain Global Registers cannot be inlined into an argument position of a foreign call.  For more thorough notes on inlining, see the comments in [compiler/cmm/CmmOpt.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmOpt.hs).
 
 #### Declaration and Initialisation
 
 
-Cmm variables hold the same values registers do in assembly languages but may be declared in a similar way to variables in C.  As in C--, they may actually be declared anywhere in the scope for which they are visible (a block or file)--for Cmm, this is done by the `loopDecls` function in [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y).  In [compiler/rts/PrimOps.cmm](/trac/ghc/browser/ghc/compiler/rts/PrimOps.cmm), you will see Cmm variable declarations like this one:
+Cmm variables hold the same values registers do in assembly languages but may be declared in a similar way to variables in C.  As in C--, they may actually be declared anywhere in the scope for which they are visible (a block or file)--for Cmm, this is done by the `loopDecls` function in [compiler/cmm/CmmParse.y](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmParse.y).  In [compiler/rts/PrimOps.cmm](/trac/ghc/browser/ghc/compiler/rts/PrimOps.cmm), you will see Cmm variable declarations like this one:
 
 ```wiki
 W_ w, code, val;  // W_ is a cpp #define for StgWord, 
@@ -506,7 +506,7 @@ W_ w, code, val;  // W_ is a cpp #define for StgWord,
 ```
 
 
-Remember that Cmm code is run through the C preprocessor.  `W_` will be transformed into `bits32`, `bits64` or whatever is the `bits`*size* of the machine word, as defined in [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cmm.h).  In Haskell code, you may use the [compiler/cmm/CmmMachOp.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmMachOp.hs) functions `wordRep` and `halfWordRep` to dynamically determine the machine word size.  For a description of word sizes in GHC, see the [Word](commentary/rts/word) page.
+Remember that Cmm code is run through the C preprocessor.  `W_` will be transformed into `bits32`, `bits64` or whatever is the `bits`*size* of the machine word, as defined in [includes/Cmm.h](/ghc/ghc/tree/master/ghc/includes/Cmm.h).  In Haskell code, you may use the [compiler/cmm/CmmMachOp.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmMachOp.hs) functions `wordRep` and `halfWordRep` to dynamically determine the machine word size.  For a description of word sizes in GHC, see the [Word](commentary/rts/word) page.
 
 
 
@@ -568,7 +568,7 @@ mov	al, [ebx + eax]
 ```
 
 
-You will generally not see this type of syntax in either handwritten or GHC-produced Cmm code, although it is allowed; it simply shows up in macros.  C-- also allows the `*` (multiplication) operator in addressing expressions, for an approximation of *scaled* addressing (`[base * (2^n)]`); for example, `n` (the "scale") must be `0`, `1`, `2` or `4`.  C-- itself would not enforce alignment or limits on the scale.  Cmm, however, could not process it: since the NCG currently outputs GNU Assembler syntax, the Cmm or NCG optimisers would have to reduce `n` in (`* n`) to an absolute address or relative offset, or to an expression using only `+` or `-`.  This is not currently the case and would be difficult to implement where one of the operands to the `*` is a relative address not visible in the code block.  [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cmm.h) defines macros to perform the calculation with a constant.  For example:
+You will generally not see this type of syntax in either handwritten or GHC-produced Cmm code, although it is allowed; it simply shows up in macros.  C-- also allows the `*` (multiplication) operator in addressing expressions, for an approximation of *scaled* addressing (`[base * (2^n)]`); for example, `n` (the "scale") must be `0`, `1`, `2` or `4`.  C-- itself would not enforce alignment or limits on the scale.  Cmm, however, could not process it: since the NCG currently outputs GNU Assembler syntax, the Cmm or NCG optimisers would have to reduce `n` in (`* n`) to an absolute address or relative offset, or to an expression using only `+` or `-`.  This is not currently the case and would be difficult to implement where one of the operands to the `*` is a relative address not visible in the code block.  [includes/Cmm.h](/ghc/ghc/tree/master/ghc/includes/Cmm.h) defines macros to perform the calculation with a constant.  For example:
 
 ```wiki
 /* Converting quantities of words to bytes */
@@ -583,7 +583,7 @@ is used in:
 ```
 
 
-The function `cmmMachOpFold` in [compiler/cmm/CmmOpt.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmOpt.hs) will reduce the resulting expression `Sp + (n * SIZEOF_W)` to `Sp + N`, where `N` is a constant.  A very large number of macros for accessing STG struct fields and the like are produced by [utils/deriveConstants](/trac/ghc/browser/ghc/utils/deriveConstants) and output into the file `includes/DerivedConstants.h` when GHC is compiled.
+The function `cmmMachOpFold` in [compiler/cmm/CmmOpt.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmOpt.hs) will reduce the resulting expression `Sp + (n * SIZEOF_W)` to `Sp + N`, where `N` is a constant.  A very large number of macros for accessing STG struct fields and the like are produced by [utils/deriveConstants](/trac/ghc/browser/ghc/utils/deriveConstants) and output into the file `includes/DerivedConstants.h` when GHC is compiled.
 
 
 Of course, all this also holds true for the reverse (when an assignment is made to a memory address):
@@ -647,10 +647,10 @@ data CmmLit
 ```
 
 
-Note how the `CmmLit` constructor `CmmInt Integer MachRep` contains sign information in the `Integer`, the representation of the literal itself: this conforms to the C-- specification, where integral literals contain sign information. For an example of a function using `CmmInt` sign information, see `cmmMachOpFold` in [compiler/cmm/CmmOpt.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmOpt.hs), where sign-operations are performed on the `Integer`.
+Note how the `CmmLit` constructor `CmmInt Integer MachRep` contains sign information in the `Integer`, the representation of the literal itself: this conforms to the C-- specification, where integral literals contain sign information. For an example of a function using `CmmInt` sign information, see `cmmMachOpFold` in [compiler/cmm/CmmOpt.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmOpt.hs), where sign-operations are performed on the `Integer`.
 
 
-The `MachRep` of a literal, such as `CmmInt Integer MachRep` or `CmmFloat Rational MachRep` may not always require the size defined by `MachRep`.  The NCG optimiser, [compiler/nativeGen/MachCodeGen.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachCodeGen.hs), will test a literal such as `1::bits32` (in Haskell, `CmmInt (1::Integer) I32`) for whether it would fit into the bit-size of Assembler instruction literals on that particular architecture with a function defined in [compiler/nativeGen/MachRegs.lhs](/trac/ghc/browser/ghc/compiler/nativeGen/MachRegs.lhs), such as `fits16Bits` on the PPC.  If the Integer literal fits, the function `makeImmediate` will truncate it to the specified size if possible and store it in a NCG data type, `Imm`, specifically `Maybe Imm`.  (These are also defined in [compiler/nativeGen/MachRegs.lhs](/trac/ghc/browser/ghc/compiler/nativeGen/MachRegs.lhs).)
+The `MachRep` of a literal, such as `CmmInt Integer MachRep` or `CmmFloat Rational MachRep` may not always require the size defined by `MachRep`.  The NCG optimiser, [compiler/nativeGen/MachCodeGen.hs](/ghc/ghc/tree/master/ghc/compiler/nativeGen/MachCodeGen.hs), will test a literal such as `1::bits32` (in Haskell, `CmmInt (1::Integer) I32`) for whether it would fit into the bit-size of Assembler instruction literals on that particular architecture with a function defined in [compiler/nativeGen/MachRegs.lhs](/trac/ghc/browser/ghc/compiler/nativeGen/MachRegs.lhs), such as `fits16Bits` on the PPC.  If the Integer literal fits, the function `makeImmediate` will truncate it to the specified size if possible and store it in a NCG data type, `Imm`, specifically `Maybe Imm`.  (These are also defined in [compiler/nativeGen/MachRegs.lhs](/trac/ghc/browser/ghc/compiler/nativeGen/MachRegs.lhs).)
 
 
 
@@ -673,7 +673,7 @@ data CmmStatic
 ```
 
 
-Note the `CmmAlign` constructor: this maps to the assembler directive `.align N` to set alignment for a data item (hopefully one you remembered to label).  This is the same as the `align` directive noted in Section 4.5 of the [C-- specification (PDF)](http://cminusminus.org/extern/man2.pdf).  In the current implementation of Cmm the `align` directive seems superfluous because [compiler/nativeGen/PprMach.hs](/trac/ghc/browser/ghc/compiler/nativeGen/PprMach.hs) translates `Section`s to assembler with alignment directives corresponding to the target architecture (see [Sections and Directives](commentary/compiler/cmm-type#sections-and-directives), below).
+Note the `CmmAlign` constructor: this maps to the assembler directive `.align N` to set alignment for a data item (hopefully one you remembered to label).  This is the same as the `align` directive noted in Section 4.5 of the [C-- specification (PDF)](http://cminusminus.org/extern/man2.pdf).  In the current implementation of Cmm the `align` directive seems superfluous because [compiler/nativeGen/PprMach.hs](/ghc/ghc/tree/master/ghc/compiler/nativeGen/PprMach.hs) translates `Section`s to assembler with alignment directives corresponding to the target architecture (see [Sections and Directives](commentary/compiler/cmm-type#sections-and-directives), below).
 
 #### Labels
 
@@ -687,7 +687,7 @@ Remember that C--/Cmm names consist of a string where the first character is:
 - a commercial at:  `@` .
 
 
-Cmm labels conform to the C-- specification.  C--/Cmm uses labels to refer to memory locations in code--if you use a data directive but do not give it a label, you will have no means of referring to the memory!  For `GlobalReg`s (transformed to assembler `.globl`), labels serve as both symbols and labels (in the assembler meaning of the terms).  The Haskell representation of Cmm Labels is contained in the `CmmLit` data type, see [Literals](commentary/compiler/cmm-type#) section, above.  Note how Cmm Labels are `CLabel`s with address information.  The `Clabel` data type, defined in [compiler/cmm/CLabel.hs](/trac/ghc/browser/ghc/compiler/cmm/CLabel.hs), is used throughout the Compiler for symbol information in binary files.  Here it is:
+Cmm labels conform to the C-- specification.  C--/Cmm uses labels to refer to memory locations in code--if you use a data directive but do not give it a label, you will have no means of referring to the memory!  For `GlobalReg`s (transformed to assembler `.globl`), labels serve as both symbols and labels (in the assembler meaning of the terms).  The Haskell representation of Cmm Labels is contained in the `CmmLit` data type, see [Literals](commentary/compiler/cmm-type#) section, above.  Note how Cmm Labels are `CLabel`s with address information.  The `Clabel` data type, defined in [compiler/cmm/CLabel.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/CLabel.hs), is used throughout the Compiler for symbol information in binary files.  Here it is:
 
 
 ```
@@ -869,7 +869,7 @@ target
 This is essentially a custom-coded version of the GNU Assembler (`as`) `.machine` directive, which is essentially the same as passing the `-arch [cpu_type]` option to `as`.
 
 
-Cmm does not support the `target` directive.  This is partly due GHC generally lacking cross-compiler capabilities.  Should GHC move toward adding cross-compilation capabilities, the `target` might not be a bad thing to add.  Target architecture parameters are currently handled through the [Build System](attic/building/build-system), which partly sets such architectural parameters through [utils/deriveConstants](/trac/ghc/browser/ghc/utils/deriveConstants) and [includes/ghcconfig.h](/trac/ghc/browser/ghc/includes/ghcconfig.h).
+Cmm does not support the `target` directive.  This is partly due GHC generally lacking cross-compiler capabilities.  Should GHC move toward adding cross-compilation capabilities, the `target` might not be a bad thing to add.  Target architecture parameters are currently handled through the [Build System](attic/building/build-system), which partly sets such architectural parameters through [utils/deriveConstants](/ghc/ghc/tree/master/ghc/utils/deriveConstants) and [includes/ghcconfig.h](/trac/ghc/browser/ghc/includes/ghcconfig.h).
 
 ### Expressions
 
@@ -880,7 +880,7 @@ Expressions in Cmm follow the C-- specification.  They have:
 - one result: 
 
   - a *k*-bit value
-    --these expressions map to the `MachOp` data type, defined in [compiler/cmm/CmmMachOp.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmMachOp.hs), see [Operators and Primitive Operations](commentary/compiler/cmm-type#operators-and-primitive-operations), the *k*-bit value may be:
+    --these expressions map to the `MachOp` data type, defined in [compiler/cmm/CmmMachOp.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmMachOp.hs), see [Operators and Primitive Operations](commentary/compiler/cmm-type#operators-and-primitive-operations), the *k*-bit value may be:
 
     - a Cmm literal (`CmmLit`); or,
     - a Cmm variable (`CmmReg`, see [Variables, Registers and Types](commentary/compiler/cmm-type#variables,-registers-and-types));
@@ -896,7 +896,7 @@ Cmm expressions may include
 - another expression (a `[CmmExpr]`, in `CmmMachOp`, below).
 
 
-These are all included as constructors in the `CmmExpr` data type, defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs):
+These are all included as constructors in the `CmmExpr` data type, defined in [compiler/cmm/Cmm.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/Cmm.hs):
 
 
 ```
@@ -926,7 +926,7 @@ The function `cmmRegRep` is described below.  Note: the original comment followi
 
 
 
-Boolean comparisons are not boolean conditions.  Boolean comparisons involve relational operators, such as `>`, `<` and `==`, and map to `MachOp`s that are converted to comparison followed by branch instructions.  For example, `<` would map to `MO_S_Lt` for signed operands, [compiler/nativeGen/MachCodeGen.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachCodeGen.hs) would transform `MO_S_Lt` into the `LTT` constructor of the `Cond` union data type defined in [compiler/nativeGen/MachInstrs.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachInstrs.hs) and [compiler/nativeGen/PprMach.hs](/trac/ghc/browser/ghc/compiler/nativeGen/PprMach.hs) would transform `LTT` to the distinguishing comparison type for an assembler comparison instruction.  You already know that the result of a comparison instruction is actually a change in the state of the Condition Register (CR), so Cmm boolean expressions do have a kind of side-effect but that is to be expected.  In fact, it is necessary since at the least a conditional expression becomes two assembler instructions, in PPC Assembler: 
+Boolean comparisons are not boolean conditions.  Boolean comparisons involve relational operators, such as `>`, `<` and `==`, and map to `MachOp`s that are converted to comparison followed by branch instructions.  For example, `<` would map to `MO_S_Lt` for signed operands, [compiler/nativeGen/MachCodeGen.hs](/ghc/ghc/tree/master/ghc/compiler/nativeGen/MachCodeGen.hs) would transform `MO_S_Lt` into the `LTT` constructor of the `Cond` union data type defined in [compiler/nativeGen/MachInstrs.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachInstrs.hs) and [compiler/nativeGen/PprMach.hs](/trac/ghc/browser/ghc/compiler/nativeGen/PprMach.hs) would transform `LTT` to the distinguishing comparison type for an assembler comparison instruction.  You already know that the result of a comparison instruction is actually a change in the state of the Condition Register (CR), so Cmm boolean expressions do have a kind of side-effect but that is to be expected.  In fact, it is necessary since at the least a conditional expression becomes two assembler instructions, in PPC Assembler: 
 
 ```wiki
 cmplwi   r3, 0  ; condition test
@@ -951,7 +951,7 @@ data BoolExpr
 ```
 
 
-The type `BoolExpr` maps to the `CmmCondBranch` or `CmmBranch` constructors of type `CmmStmt`, defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs), see [Statements and Calls](commentary/compiler/cmm-type#statements-and-calls).
+The type `BoolExpr` maps to the `CmmCondBranch` or `CmmBranch` constructors of type `CmmStmt`, defined in [compiler/cmm/Cmm.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/Cmm.hs), see [Statements and Calls](commentary/compiler/cmm-type#statements-and-calls).
 
 
 
@@ -969,7 +969,7 @@ cmmExprRep (CmmRegOff reg _) = cmmRegRep reg
 ```
 
 
-The deconstructors `cmmLitRep` and `cmmRegRep` (with its supporting deconstructor `localRegRep`) are also defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs).
+The deconstructors `cmmLitRep` and `cmmRegRep` (with its supporting deconstructor `localRegRep`) are also defined in [compiler/cmm/Cmm.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/Cmm.hs).
 
 
 In PPC Assembler you might add two 32-bit integrals by:
@@ -1091,10 +1091,10 @@ res = %lt(one, two);
 ```
 
 
-The primitive operations allowed by Cmm are listed in the `machOps` production rule, in [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y), and largely correspond to `MachOp` data type constructors, in [compiler/cmm/CmmMachOp.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmMachOp.hs), with a few additions.  The primitive operations distinguish between signed, unsigned and floating point types.
+The primitive operations allowed by Cmm are listed in the `machOps` production rule, in [compiler/cmm/CmmParse.y](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmParse.y), and largely correspond to `MachOp` data type constructors, in [compiler/cmm/CmmMachOp.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmMachOp.hs), with a few additions.  The primitive operations distinguish between signed, unsigned and floating point types.
 
 
-Cmm adds some expression macros that map to Haskell Cmm functions.  They are listed under `exprMacros` in [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y) and include:
+Cmm adds some expression macros that map to Haskell Cmm functions.  They are listed under `exprMacros` in [compiler/cmm/CmmParse.y](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmParse.y) and include:
 
 - `ENTRY_CODE`
 - `INFO_PTR`
@@ -1128,7 +1128,7 @@ Cmm does not implement the C-- specification for Spans (sec. 6.1) or Continuatio
 
 Although Cmm supports primitive operations that may have side effects (see [Primitive Operations](commentary/compiler/cmm-type#primitive-operations), below), it does not parse the syntax `%%` form mentioned in section 6.3 of the C-- specification.  Use the `%name(arg1,arg2)` expression-syntax instead.  
 
-Cmm does not implement the `return` statement (C-- spec, sec. 6.8.2) but provides a set of macros that return a list of tuples of a `CgRep` and a `CmmExpr`: `[(CgRep,CmmExpr)]`.  For a description of `CgRep`, see comments in [compiler/codeGen/SMRep.lhs](/trac/ghc/browser/ghc/compiler/codeGen/SMRep.lhs).  The return macros are defined at the end of the production rule `stmtMacros` in [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y):
+Cmm does not implement the `return` statement (C-- spec, sec. 6.8.2) but provides a set of macros that return a list of tuples of a `CgRep` and a `CmmExpr`: `[(CgRep,CmmExpr)]`.  For a description of `CgRep`, see comments in [compiler/codeGen/SMRep.lhs](/ghc/ghc/tree/master/ghc/compiler/codeGen/SMRep.lhs).  The return macros are defined at the end of the production rule `stmtMacros` in [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y):
 
 - `RET_P`
 - `RET_N`
@@ -1141,7 +1141,7 @@ Cmm does not implement the `return` statement (C-- spec, sec. 6.8.2) but provide
 - `RET_NPNP`
 
 
-In the above macros, `P` stands for `PtrArg` and `N` stands for `NonPtrArg`; both are `CgRep` constructors.  These return macros provide greater control for the [CodeGen](commentary/compiler/code-gen) and integrate with the RTS but limit the number and type of return arguments in Cmm: you may only return according to these macros!  The returns are processed by the `emitRetUT` function in [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y), which in turn calls several functions from [compiler/codeGen/CgMonad.lhs](/trac/ghc/browser/ghc/compiler/codeGen/CgMonad.lhs), notably `emitStmts`, which is the core Code Generator function for emitting `CmmStmt` data.
+In the above macros, `P` stands for `PtrArg` and `N` stands for `NonPtrArg`; both are `CgRep` constructors.  These return macros provide greater control for the [CodeGen](commentary/compiler/code-gen) and integrate with the RTS but limit the number and type of return arguments in Cmm: you may only return according to these macros!  The returns are processed by the `emitRetUT` function in [compiler/cmm/CmmParse.y](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmParse.y), which in turn calls several functions from [compiler/codeGen/CgMonad.lhs](/trac/ghc/browser/ghc/compiler/codeGen/CgMonad.lhs), notably `emitStmts`, which is the core Code Generator function for emitting `CmmStmt` data.
 
 
 
@@ -1183,7 +1183,7 @@ data CmmStmt
 ```
 
 
-Note how the constructor `CmmJump` contains `[LocalReg]`: this is the Cmm implementation of the C-- `jump` statement for calling another procedure where the parameters are the arguments passed to the other procedure. None of the parameters contain the address--in assembler, a label--of the caller, to return control to the caller.  The `CmmCall` constructor also lacks a parameter to store the caller's address.  Cmm implements C-- jump nesting and matching returns by *tail calls*, as described in section 6.8 of the C-- specification.  Tail calls are managed through the [CodeGen](commentary/compiler/code-gen), see [compiler/codeGen/CgTailCall.lhs](/trac/ghc/browser/ghc/compiler/codeGen/CgTailCall.lhs).  You may have already noticed that the call target of the `CmmJump` is a `CmmExpr`: this is the Cmm implementation of computed procedure addresses, for example:
+Note how the constructor `CmmJump` contains `[LocalReg]`: this is the Cmm implementation of the C-- `jump` statement for calling another procedure where the parameters are the arguments passed to the other procedure. None of the parameters contain the address--in assembler, a label--of the caller, to return control to the caller.  The `CmmCall` constructor also lacks a parameter to store the caller's address.  Cmm implements C-- jump nesting and matching returns by *tail calls*, as described in section 6.8 of the C-- specification.  Tail calls are managed through the [CodeGen](commentary/compiler/code-gen), see [compiler/codeGen/CgTailCall.lhs](/ghc/ghc/tree/master/ghc/compiler/codeGen/CgTailCall.lhs).  You may have already noticed that the call target of the `CmmJump` is a `CmmExpr`: this is the Cmm implementation of computed procedure addresses, for example:
 
 ```wiki
 proc1 {
@@ -1202,9 +1202,9 @@ The computed procedure address, in this case `(bits32[x+4])`, should always be t
 1. `goto` statement; and
 1. a branch from the `else` portion of an `if-then-else` statement.
 
-`CmmCondBranch CmmExpr BlockId` represents a conditional branch to another [Basic Block](commentary/compiler/cmm-type#basic-blocks-and-procedures) in the same procedure.  This is the `if expr` statement where `expr` is a `CmmExpr`, used in both the unary `if` and `if-then-else` statements.  `CmmCondBranch` maps to more complex Assembler instruction sets or HC code ([compiler/cmm/PprC.hs](/trac/ghc/browser/ghc/compiler/cmm/PprC.hs)).  For assembler, labels are created for each new Basic Block.  During parsing, conditional statements map to the `BoolExpr` data type which guides the encoding of assembler instruction sets.
+`CmmCondBranch CmmExpr BlockId` represents a conditional branch to another [Basic Block](commentary/compiler/cmm-type#basic-blocks-and-procedures) in the same procedure.  This is the `if expr` statement where `expr` is a `CmmExpr`, used in both the unary `if` and `if-then-else` statements.  `CmmCondBranch` maps to more complex Assembler instruction sets or HC code ([compiler/cmm/PprC.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/PprC.hs)).  For assembler, labels are created for each new Basic Block.  During parsing, conditional statements map to the `BoolExpr` data type which guides the encoding of assembler instruction sets.
 
-`CmmSwitch` represents the `switch` statement.  It is parsed and created as with the `doSwitch` function in [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y) or created from `case` expressions with the `emitSwitch` and `mk_switch` functions in [compiler/codeGen/CgUtils.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgUtils.hs).  In the NCG, a `CmmSwitch` is generated as a jump table using the `genSwitch` function in [compiler/nativeGen/MachCodeGen.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachCodeGen.hs).  There is currently no implementation of any optimisations, such as a cascade of comparisons for switches with a wide deviation in values or binary search for very wide value ranges--for output to HC, earlier versions of GCC could not handle large if-trees, anyway.
+`CmmSwitch` represents the `switch` statement.  It is parsed and created as with the `doSwitch` function in [compiler/cmm/CmmParse.y](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmParse.y) or created from `case` expressions with the `emitSwitch` and `mk_switch` functions in [compiler/codeGen/CgUtils.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgUtils.hs).  In the NCG, a `CmmSwitch` is generated as a jump table using the `genSwitch` function in [compiler/nativeGen/MachCodeGen.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachCodeGen.hs).  There is currently no implementation of any optimisations, such as a cascade of comparisons for switches with a wide deviation in values or binary search for very wide value ranges--for output to HC, earlier versions of GCC could not handle large if-trees, anyway.
 
 #### Cmm Calls
 
@@ -1256,7 +1256,7 @@ Cmm generally conforms to the C-- specification for operators and "primitive ope
 - *primitive operations* (Cmm *quasi-operators*) are special, usually inlined, procedures, represented in Haskell using the `CallishMachOp` data type; primitive operations may have side effects.
 
 
-The `MachOp` and `CallishMachOp` data types are defined in [compiler/cmm/CmmMachOp.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmMachOp.hs).
+The `MachOp` and `CallishMachOp` data types are defined in [compiler/cmm/CmmMachOp.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmMachOp.hs).
 
 
 
@@ -1367,7 +1367,7 @@ data CallishMachOp
 ```
 
 
-For an example, the floating point sine function, `sinFloat#` in [compiler/prelude/primops.txt.pp](/trac/ghc/browser/ghc/compiler/prelude/primops.txt.pp) is piped through the `callishOp` function in [compiler/codeGen/CgPrimOp.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgPrimOp.hs) to become `Just MO_F32_Sin`.  The `CallishMachOp` constructor `MO_F32_Sin` is piped through a platform specific function such as [compiler/nativeGen/X86/CodeGen.hs](/trac/ghc/browser/ghc/compiler/nativeGen/X86/CodeGen.hs) on X86, where the function `genCCall` will call `outOfLineFloatOp` to issue a call to a C function such as `sin`.
+For an example, the floating point sine function, `sinFloat#` in [compiler/prelude/primops.txt.pp](/ghc/ghc/tree/master/ghc/compiler/prelude/primops.txt.pp) is piped through the `callishOp` function in [compiler/codeGen/CgPrimOp.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgPrimOp.hs) to become `Just MO_F32_Sin`.  The `CallishMachOp` constructor `MO_F32_Sin` is piped through a platform specific function such as [compiler/nativeGen/X86/CodeGen.hs](/trac/ghc/browser/ghc/compiler/nativeGen/X86/CodeGen.hs) on X86, where the function `genCCall` will call `outOfLineFloatOp` to issue a call to a C function such as `sin`.
 
 ## Cmm Design: Observations and Areas for Potential Improvement
 

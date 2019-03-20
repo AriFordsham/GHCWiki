@@ -296,7 +296,7 @@ Aborting is simply throwing away changes that are stored in the `TRec`.
 An exception in a transaction will only propagate outside of the transaction if the transaction can be validated. If validation fails, the whole transaction will abort and start again from the beginning. Nothing special needs to be done to support the semantics allowing the view *inside* the aborted transaction.
 
 
-(See [rts/Exception.cmm](/trac/ghc/browser/ghc/rts/Exception.cmm) which calls `stmValidateNestOfTransactions` from [rts/STM.c](/trac/ghc/browser/ghc/rts/STM.c)).
+(See [rts/Exception.cmm](/ghc/ghc/tree/master/ghc/rts/Exception.cmm) which calls `stmValidateNestOfTransactions` from [rts/STM.c](/trac/ghc/browser/ghc/rts/STM.c)).
 
 ---
 
@@ -593,7 +593,7 @@ All that remains is managing these version numbers. When a `TVar` is updated its
 
 Some of the invariants of the implementation:
 
-- Locks are only acquired in [rts/STM.c](/trac/ghc/browser/ghc/rts/STM.c) and are always released before the end of a function call (with the exception of `stmWait` which must release locks after the thread is safe).
+- Locks are only acquired in [rts/STM.c](/ghc/ghc/tree/master/ghc/rts/STM.c) and are always released before the end of a function call (with the exception of `stmWait` which must release locks after the thread is safe).
 - When running a transaction each `TVar` is read exactly once and if it is a write, is updated exactly once.
 - Main memory (`TVar`s) always holds consistent values or locks of a partially updated commit. That is a set of reads at any moment from `TVar`s will result in consistent data if none of the values are locks.
 - A nest of `TRec`s has a matching nest of `CATCH_RETRY_FRAME`s ending with an `ATOMICALLY_FRAME` on the stack. One exception to this is when checking data invariants the invariant's `TRec` is nested under the top level `TRec` without a `CATCH_RETRY_FRAME`.
