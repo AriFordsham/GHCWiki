@@ -1,7 +1,7 @@
 # GHC Commentary: The C code generator
 
 
-Source: [compiler/cmm/PprC.hs](/trac/ghc/browser/ghc/compiler/cmm/PprC.hs)
+Source: [compiler/cmm/PprC.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/PprC.hs)
 
 
 This phase takes [Cmm](commentary/compiler/cmm-type) and generates plain C code. The C code generator is very simple these days, in fact it can almost be considered pretty-printing. It is only used for unregisterised compilers.
@@ -69,7 +69,7 @@ declarations don't overlap.  So we either have to scan the whole code to figure 
   will do here.
 
 - all RTS symbols already have declarations (mostly with the correct
-  type) in [includes/StgMiscClosures.h](/trac/ghc/browser/ghc/includes/StgMiscClosures.h), so no declarations are generated.
+  type) in [includes/StgMiscClosures.h](/ghc/ghc/tree/master/ghc/includes/StgMiscClosures.h), so no declarations are generated.
 
 - certain labels are known to have been defined earlier in the same file,
   so a declaration can be omitted (e.g. SRT labels)
@@ -89,6 +89,6 @@ we need to emit special code to reference these labels).
 
 
 For all other labels referenced by RTS .cmm code, we assume they are
-RTS labels, and hence already declared in [includes/StgMiscClosures.h](/trac/ghc/browser/ghc/includes/StgMiscClosures.h).  This is
+RTS labels, and hence already declared in [includes/StgMiscClosures.h](/ghc/ghc/tree/master/ghc/includes/StgMiscClosures.h).  This is
 the only choice here: since we don't know the type of the label (info,
 entry etc.), we can't generate a correct declaration.

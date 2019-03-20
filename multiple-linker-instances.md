@@ -19,7 +19,7 @@ Fixing the bytecode linker, as discussed next, seems relatively straightforward.
 ## Plan for the bytecode linker
 
 
-The relevant code is in [compiler/ghci/Linker.lhs](/trac/ghc/browser/ghc/compiler/ghci/Linker.lhs). The linker's state is kept in the global variable:
+The relevant code is in [compiler/ghci/Linker.lhs](/ghc/ghc/tree/master/ghc/compiler/ghci/Linker.lhs). The linker's state is kept in the global variable:
 
 ```wiki
 v_PersistentLinkerState :: IORef PersistentLinkerState
@@ -33,7 +33,7 @@ initDynLinker :: DynFlags -> IO ()
 ```
 
 
-and is (lazily) called by the exported functions `linkExpr` and `unload`. It is also called explicitly from [ghc/GhciMonad.hs](/trac/ghc/browser/ghc/ghc/GhciMonad.hs).
+and is (lazily) called by the exported functions `linkExpr` and `unload`. It is also called explicitly from [ghc/GhciMonad.hs](/ghc/ghc/tree/master/ghc/ghc/GhciMonad.hs).
 
 
 The proposed plan would be to define something along the lines of:
@@ -91,7 +91,7 @@ extendLinkEnv dl new_bindings
 *Question:* Would it be better to use an `MVar` instead of an `IORef` in `DynLinker`?
 
 
-Finally, to make the `DynLinker` available everywhere, we would have to add a field in `HscEnv` ([compiler/main/HscTypes.lhs](/trac/ghc/browser/ghc/compiler/main/HscTypes.lhs)):
+Finally, to make the `DynLinker` available everywhere, we would have to add a field in `HscEnv` ([compiler/main/HscTypes.lhs](/ghc/ghc/tree/master/ghc/compiler/main/HscTypes.lhs)):
 
 ```wiki
 data HscEnv 
@@ -107,7 +107,7 @@ data HscEnv
 ## Plan for the object linker
 
 
-The object linker ([rts/Linker.c](/trac/ghc/browser/ghc/rts/Linker.c)) is responsible of loading and keeping track of symbols in object files and shared libraries. For object files it basically uses three global variables:
+The object linker ([rts/Linker.c](/ghc/ghc/tree/master/ghc/rts/Linker.c)) is responsible of loading and keeping track of symbols in object files and shared libraries. For object files it basically uses three global variables:
 
 ```wiki
 /* Hash table mapping symbol names to Symbol */
@@ -180,7 +180,7 @@ and add to `PersistentLinkerState` a `ForeignPtr` to a malloc'd `ObjLinkerState`
 
 *Question:* Will this work in the case of ELF shared libraries if two instances of GHC load two different (conflicting) versions of a .so? My impression is that it won't and that the workaround would be to use a linked list of handles like is done with DLLs.
 
-*Question:* There are other platform-specific global variables defined in [rts/Linker.c](/trac/ghc/browser/ghc/rts/Linker.c) that I don't know how should be handled:
+*Question:* There are other platform-specific global variables defined in [rts/Linker.c](/ghc/ghc/tree/master/ghc/rts/Linker.c) that I don't know how should be handled:
 
 - This one seems to be a constant that may be overridden during initialization:
 

@@ -3,7 +3,7 @@
 ## Foreign Import "wrapper"
 
 
-Files [rts/Adjustor.c](/trac/ghc/browser/ghc/rts/Adjustor.c)[rts/AdjustorAsm.S](/trac/ghc/browser/ghc/rts/AdjustorAsm.S).
+Files [rts/Adjustor.c](/ghc/ghc/tree/master/ghc/rts/Adjustor.c)[rts/AdjustorAsm.S](/trac/ghc/browser/ghc/rts/AdjustorAsm.S).
 
 
 Occasionally, it is convenient to treat Haskell closures as C function pointers.

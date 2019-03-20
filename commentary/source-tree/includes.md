@@ -11,19 +11,19 @@ These are header files that define an external API to the RTS that can
 be used by client code.  These interfaces are intended to be
 relatively stable:
 
-<table><tr><th>[HsFFI.h](/trac/ghc/browser/includes/HsFFI.h)[](/trac/ghc/export/HEAD/ghc/includes/HsFFI.h)</th>
+<table><tr><th>[HsFFI.h](/ghc/ghc/tree/master/includes/HsFFI.h)[](/trac/ghc/export/HEAD/ghc/includes/HsFFI.h)</th>
 <td>
 The external FFI api, as required by the FFI spec
 </td></tr></table>
 
-<table><tr><th>[RtsAPI.h](/trac/ghc/browser/includes/RtsAPI.h)[](/trac/ghc/export/HEAD/ghc/includes/RtsAPI.h)</th>
+<table><tr><th>[RtsAPI.h](/ghc/ghc/tree/master/includes/RtsAPI.h)[](/trac/ghc/export/HEAD/ghc/includes/RtsAPI.h)</th>
 <td>
 The API for calling into the RTS.  Used by the implementation
 of `foreign export` calls, but may also be used by external
 clients.
 </td></tr></table>
 
-<table><tr><th>[Rts.h](/trac/ghc/browser/includes/Rts.h)[](/trac/ghc/export/HEAD/ghc/includes/Rts.h)</th>
+<table><tr><th>[Rts.h](/ghc/ghc/tree/master/includes/Rts.h)[](/trac/ghc/export/HEAD/ghc/includes/Rts.h)</th>
 <td>
 This header file defines everything that is visible
 externally to the RTS.  It includes `Stg.h` and everything
@@ -35,8 +35,8 @@ in the `rts` subdirectory.
 
 The canonical definition of certain structures are in C header files.
 For example, the layout of closures and info tables are defined in the
-headers [Closures.h](/trac/ghc/browser/includes/rts/storage/Closures.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/Closures.h) and
-[InfoTables.h](/trac/ghc/browser/includes/rts/storage/InfoTables.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/InfoTables.h) respectivesly.  How do we get the information about the
+headers [Closures.h](/ghc/ghc/tree/master/includes/rts/storage/Closures.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/Closures.h) and
+[InfoTables.h](/ghc/ghc/tree/master/includes/rts/storage/InfoTables.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/InfoTables.h) respectivesly.  How do we get the information about the
 layout of these structures to the parts of the system that are not
 written in C, such as the compiler itself, or the C-- code in the RTS?
 
@@ -60,47 +60,47 @@ These days the amount of stuff included this way is kept to a minimum.
 In particular, there are no function prototypes: all calls to C
 functions from `.hc` files are given types at the call site.
 
-<table><tr><th>[Stg.h](/trac/ghc/browser/includes/Stg.h)[](/trac/ghc/export/HEAD/ghc/includes/Stg.h)</th>
+<table><tr><th>[Stg.h](/ghc/ghc/tree/master/includes/Stg.h)[](/trac/ghc/export/HEAD/ghc/includes/Stg.h)</th>
 <td>
 The top of the hierarchy is `Stg.h`, which includes everything
 required by `.hc` code.  Most files `#included` by `Stg.h` are in the
 `stg` subdirectory.
 </td></tr></table>
 
-<table><tr><th>[ghcconfig.h](/trac/ghc/browser/includes/ghcconfig.h)[](/trac/ghc/export/HEAD/ghc/includes/ghcconfig.h)</th>
+<table><tr><th>[ghcconfig.h](/ghc/ghc/tree/master/includes/ghcconfig.h)[](/trac/ghc/export/HEAD/ghc/includes/ghcconfig.h)</th>
 <td>
 Configuration info derived by the `configure` script.
 </td></tr>
-<tr><th>[MachDeps.h](/trac/ghc/browser/includes/MachDeps.h)[](/trac/ghc/export/HEAD/ghc/includes/MachDeps.h)</th>
+<tr><th>[MachDeps.h](/ghc/ghc/tree/master/includes/MachDeps.h)[](/trac/ghc/export/HEAD/ghc/includes/MachDeps.h)</th>
 <td>
 Sizes of various basic types (should be in the `stg` subdirectory,
 but left here for backwards-compatibility reasons).
 </td></tr>
-<tr><th>[stg/DLL.h](/trac/ghc/browser/includes/stg/DLL.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/DLL.h)</th>
+<tr><th>[stg/DLL.h](/ghc/ghc/tree/master/includes/stg/DLL.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/DLL.h)</th>
 <td>
 Stuff related to Windows DLLs.
 </td></tr>
-<tr><th>[stg/MachRegs.h](/trac/ghc/browser/includes/stg/MachRegs.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/MachRegs.h)</th>
+<tr><th>[stg/MachRegs.h](/ghc/ghc/tree/master/includes/stg/MachRegs.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/MachRegs.h)</th>
 <td>
 Global register assignments for this processor.
 </td></tr>
-<tr><th>[stg/MiscClosures.h](/trac/ghc/browser/includes/stg/MiscClosures.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/MiscClosures.h)</th>
+<tr><th>[stg/MiscClosures.h](/ghc/ghc/tree/master/includes/stg/MiscClosures.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/MiscClosures.h)</th>
 <td>
 Declarations for closures & info tables built-in to the RTS
 </td></tr>
-<tr><th>[stg/Regs.h](/trac/ghc/browser/includes/stg/Regs.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/Regs.h)</th>
+<tr><th>[stg/Regs.h](/ghc/ghc/tree/master/includes/stg/Regs.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/Regs.h)</th>
 <td>
 "registers" in the virtual machine.
 </td></tr>
-<tr><th>[stg/SMP.h](/trac/ghc/browser/includes/stg/SMP.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/SMP.h)</th>
+<tr><th>[stg/SMP.h](/ghc/ghc/tree/master/includes/stg/SMP.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/SMP.h)</th>
 <td>
 Atomic memory operations for SMP support
 </td></tr>
-<tr><th>[stg/Ticky.h](/trac/ghc/browser/includes/stg/Ticky.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/Ticky.h)</th>
+<tr><th>[stg/Ticky.h](/ghc/ghc/tree/master/includes/stg/Ticky.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/Ticky.h)</th>
 <td>
 Declarations for ticky-ticky counters
 </td></tr>
-<tr><th>[stg/Types.h](/trac/ghc/browser/includes/stg/Types.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/Types.h)</th>
+<tr><th>[stg/Types.h](/ghc/ghc/tree/master/includes/stg/Types.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/Types.h)</th>
 <td>
 Basic types specific to the virtual machine (eg. `StgWord`).
 </td></tr></table>
@@ -108,26 +108,26 @@ Basic types specific to the virtual machine (eg. `StgWord`).
 ## The RTS external APIs
 
 
-The header [Rts.h](/trac/ghc/browser/includes/Rts.h)[](/trac/ghc/export/HEAD/ghc/includes/Rts.h)
+The header [Rts.h](/ghc/ghc/tree/master/includes/Rts.h)[](/trac/ghc/export/HEAD/ghc/includes/Rts.h)
 includes all the headers below the `rts` subdirectory, which together
 define the RTS external API.  Virtually all RTS code `#includes``Rts.h`.
 
 
 The rts header files are divided into a few directories:
 
-- [includes/rts](/trac/ghc/browser/includes/rts): Most of
+- [includes/rts](/ghc/ghc/tree/master/includes/rts): Most of
   the external RTS APIs, in separate header files per-subsystem
 
-- [includes/rts/storage](/trac/ghc/browser/includes/rts/storage): Definitions of the layout of heap and stack
+- [includes/rts/storage](/ghc/ghc/tree/master/includes/rts/storage): Definitions of the layout of heap and stack
   objects, info tables, structures that define memory areas managed
   by the GC, and memory management APIs.
 
-- [includes/rts/prof](/trac/ghc/browser/includes/rts/prof):
+- [includes/rts/prof](/ghc/ghc/tree/master/includes/rts/prof):
   Interfaces and definitions for profiling.
 
 ## Included into C-- (`.cmm`) code
 
-<table><tr><th>[Cmm.h](/trac/ghc/browser/includes/Cmm.h)[](/trac/ghc/export/HEAD/ghc/includes/Cmm.h)</th>
+<table><tr><th>[Cmm.h](/ghc/ghc/tree/master/includes/Cmm.h)[](/trac/ghc/export/HEAD/ghc/includes/Cmm.h)</th>
 <td>
 included into `.cmm` source only; provides useful macros for writing
 low-level C-- code for GHC.

@@ -37,7 +37,7 @@ When compiling the program (see also the [relevant User Manual section](http://w
 
 - `Outputable.pprTrace` is a nice way to print trace messages from the compiler. The output will only appear when the compiler has `-DDEBUG` turned on.
 
-- `ASSERT(p)`, `ASSERT2(p,msg)`, `WARN(p,msg)` are assertions and warning enabled only when the compiler is compiled with `-DDEBUG`.  There are also variants of these that work better in a monad setting; see [compiler/HsVersions.h](/trac/ghc/browser/ghc/compiler/HsVersions.h).
+- `ASSERT(p)`, `ASSERT2(p,msg)`, `WARN(p,msg)` are assertions and warning enabled only when the compiler is compiled with `-DDEBUG`.  There are also variants of these that work better in a monad setting; see [compiler/HsVersions.h](/ghc/ghc/tree/master/ghc/compiler/HsVersions.h).
 
 - If you have built a profiling compiler, an `ASSERT` failure will also print a stack trace. Stack traces use only GHC call centres, so you will probably also want `-fprof-auto` to get the most informative stack. One way to get the knobs set correctly is to choose the `prof` build in `build.mk`, and use this line in the `prof` section:
 

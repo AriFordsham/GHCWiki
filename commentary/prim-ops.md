@@ -4,7 +4,7 @@
 PrimOps are functions that cannot be implemented in Haskell, and are provided natively by GHC.  For example, adding two `Int#` values is provided as the PrimOp `+#`, and allocating a new mutable array is the PrimOp `newArray#`.
 
 
-PrimOps are made available to Haskell code through the virtual module `GHC.Prim`.  This module has no implementation, and its interface never resides on disk: if `GHC.Prim` is imported, we use a built-in `ModIface` value - see `ghcPrimIface` in [compiler/iface/LoadIface.hs](/trac/ghc/browser/ghc/compiler/iface/LoadIface.hs).
+PrimOps are made available to Haskell code through the virtual module `GHC.Prim`.  This module has no implementation, and its interface never resides on disk: if `GHC.Prim` is imported, we use a built-in `ModIface` value - see `ghcPrimIface` in [compiler/iface/LoadIface.hs](/ghc/ghc/tree/master/ghc/compiler/iface/LoadIface.hs).
 
 
 It would also be useful to look at the [Wired-in and known-key things](commentary/compiler/wired-in) wiki page to understand this topic.
@@ -12,7 +12,7 @@ It would also be useful to look at the [Wired-in and known-key things](commentar
 ## The primops.txt.pp file
 
 
-The file [compiler/prelude/primops.txt.pp](/trac/ghc/browser/ghc/compiler/prelude/primops.txt.pp) includes all the information the compiler needs to know about a PrimOp, bar its actual implementation.  For each PrimOp, `primops.txt.pp` lists:
+The file [compiler/prelude/primops.txt.pp](/ghc/ghc/tree/master/ghc/compiler/prelude/primops.txt.pp) includes all the information the compiler needs to know about a PrimOp, bar its actual implementation.  For each PrimOp, `primops.txt.pp` lists:
 
 - Its name, as it appears in Haskell code (eg. int2Integer\#)
 - Its type
@@ -30,11 +30,11 @@ primop   IntegerMulOp   "timesInteger#" GenPrimOp
 ```
 
 
-The `primops.txt.pp` file is processed first by CPP, and then by the `genprimopcode` program (see [utils/genprimopcode](/trac/ghc/browser/ghc/utils/genprimopcode)).  `genprimopcode` generates the following bits from `primops.txt.pp`:
+The `primops.txt.pp` file is processed first by CPP, and then by the `genprimopcode` program (see [utils/genprimopcode](/ghc/ghc/tree/master/ghc/utils/genprimopcode)).  `genprimopcode` generates the following bits from `primops.txt.pp`:
 
-- Various files that are `#include`d into [compiler/prelude/PrimOp.hs](/trac/ghc/browser/ghc/compiler/prelude/PrimOp.hs),
+- Various files that are `#include`d into [compiler/prelude/PrimOp.hs](/ghc/ghc/tree/master/ghc/compiler/prelude/PrimOp.hs),
   containing declarations of data types and functions describing the PrimOps.  See
-  [compiler/Makefile](/trac/ghc/browser/ghc/compiler/Makefile).
+  [compiler/Makefile](/ghc/ghc/tree/master/ghc/compiler/Makefile).
 
 - `libraries/base/GHC/PrimopWrappers.hs`, a file that contains (curried) wrapper
   functions for each of the PrimOps, so that they are accessible from byte-code, and
@@ -60,12 +60,12 @@ PrimOps are divided into two categories for the purposes of implementation: inli
 ### Inline PrimOps
 
 
-Inline PrimOps are operations that can be compiled into a short sequence of code that never needs to allocate, block, or return to the scheduler for any reason.  An inline PrimOp is compiled directly into [Cmm](commentary/rts/cmm) by the [code generator](commentary/compiler/code-gen).  The code for doing this is in [compiler/codeGen/StgCmmPrim.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmmPrim.hs).
+Inline PrimOps are operations that can be compiled into a short sequence of code that never needs to allocate, block, or return to the scheduler for any reason.  An inline PrimOp is compiled directly into [Cmm](commentary/rts/cmm) by the [code generator](commentary/compiler/code-gen).  The code for doing this is in [compiler/codeGen/StgCmmPrim.hs](/ghc/ghc/tree/master/ghc/compiler/codeGen/StgCmmPrim.hs).
 
 ### Out-of-line PrimOps
 
 
-All other PrimOps are classified as out-of-line, and are implemented by hand-written C-- code in the file [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm).  An out-of-line PrimOp is like a Haskell function, except that
+All other PrimOps are classified as out-of-line, and are implemented by hand-written C-- code in the file [rts/PrimOps.cmm](/ghc/ghc/tree/master/ghc/rts/PrimOps.cmm).  An out-of-line PrimOp is like a Haskell function, except that
 
 - PrimOps cannot be partially applied.  Calls to all PrimOps are made at the correct arity; this is ensured by 
   the [CorePrep](commentary/compiler/hsc-main) pass.
@@ -76,7 +76,7 @@ All other PrimOps are classified as out-of-line, and are implemented by hand-wri
   C-- code for these PrimOps: we don't have to write code for multiple calling conventions.
 
 
-It's possible to provide inline versions of out-of-line PrimOps. This is useful when we have enough static information to generated a short, more efficient inline version. For example, a call to `newArray# 8# init` can be implemented more efficiently as an inline PrimOp as the heap check for the array allocation can be combined with the heap check for the surrounding code. See `shouldInlinePrimOp` in [compiler/codeGen/StgCmmPrim.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmmPrim.hs).
+It's possible to provide inline versions of out-of-line PrimOps. This is useful when we have enough static information to generated a short, more efficient inline version. For example, a call to `newArray# 8# init` can be implemented more efficiently as an inline PrimOp as the heap check for the array allocation can be combined with the heap check for the surrounding code. See `shouldInlinePrimOp` in [compiler/codeGen/StgCmmPrim.hs](/ghc/ghc/tree/master/ghc/compiler/codeGen/StgCmmPrim.hs).
 
 ### Foreign out-of-line PrimOps and `foreign import prim`
 
@@ -105,19 +105,19 @@ It has been suggested that we extend this PrimOp definition and import method to
 
 To add a new primop, you currently need to update the following files:
 
-- [compiler/prelude/primops.txt.pp](/trac/ghc/browser/ghc/compiler/prelude/primops.txt.pp), which includes the
+- [compiler/prelude/primops.txt.pp](/ghc/ghc/tree/master/ghc/compiler/prelude/primops.txt.pp), which includes the
   type of the primop, and various other properties.  Syntax and
   examples are in the file.
 
 - if the primop is inline, then:
-  [compiler/codeGen/StgCmmPrim.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmmPrim.hs) defines the translation of
+  [compiler/codeGen/StgCmmPrim.hs](/ghc/ghc/tree/master/ghc/compiler/codeGen/StgCmmPrim.hs) defines the translation of
   the primop into `Cmm`.
 
 - for an out-of-line primop:
 
-  - [includes/stg/MiscClosures.h](/trac/ghc/browser/ghc/includes/stg/MiscClosures.h) (just add the declaration),
-  - [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm) (implement it here)
-  - [rts/Linker.c](/trac/ghc/browser/ghc/rts/Linker.c) (declare the symbol for GHCi)
+  - [includes/stg/MiscClosures.h](/ghc/ghc/tree/master/ghc/includes/stg/MiscClosures.h) (just add the declaration),
+  - [rts/PrimOps.cmm](/ghc/ghc/tree/master/ghc/rts/PrimOps.cmm) (implement it here)
+  - [rts/Linker.c](/ghc/ghc/tree/master/ghc/rts/Linker.c) (declare the symbol for GHCi)
 
 - for a foreign out-of-line primop You do not need to modify the rts or compiler at all.
 
@@ -136,11 +136,11 @@ run `make clean` so the build system will pick up changes to the generated `GHC.
 
 In addition, if new primtypes are being added, the following files need to be updated:
 
-- [utils/genprimopcode/Main.hs](/trac/ghc/browser/ghc/utils/genprimopcode/Main.hs) -- extend ppType :: Type -\> String function
+- [utils/genprimopcode/Main.hs](/ghc/ghc/tree/master/ghc/utils/genprimopcode/Main.hs) -- extend ppType :: Type -\> String function
 
-- [compiler/prelude/PrelNames.hs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.hs) -- add a new unique id using mkPreludeTyConUnique
+- [compiler/prelude/PrelNames.hs](/ghc/ghc/tree/master/ghc/compiler/prelude/PrelNames.hs) -- add a new unique id using mkPreludeTyConUnique
 
-- [compiler/prelude/TysPrim.hs](/trac/ghc/browser/ghc/compiler/prelude/TysPrim.hs) -- there are a raft of changes here; you need to create `*PrimTy`, `*PrimTyCon` and  `*PrimTyConName` variables. The most important thing to make sure you get right is when you make a PrimTyCon, you pick the correct `PrimRep` for your type.  For example, if you’ve introduced a new GC'able object, you should use `PtrRep`; however, if it's a pointer that shouldn't be GC'd, you should use `AddrRep` instead.  The full list is in [compiler/types/TyCon.hs](/trac/ghc/browser/ghc/compiler/types/TyCon.hs)
+- [compiler/prelude/TysPrim.hs](/ghc/ghc/tree/master/ghc/compiler/prelude/TysPrim.hs) -- there are a raft of changes here; you need to create `*PrimTy`, `*PrimTyCon` and  `*PrimTyConName` variables. The most important thing to make sure you get right is when you make a PrimTyCon, you pick the correct `PrimRep` for your type.  For example, if you’ve introduced a new GC'able object, you should use `PtrRep`; however, if it's a pointer that shouldn't be GC'd, you should use `AddrRep` instead.  The full list is in [compiler/types/TyCon.hs](/trac/ghc/browser/ghc/compiler/types/TyCon.hs)
 
 
 See also [AddingNewPrimitiveOperations](adding-new-primitive-operations), a blow-by-blow description of the process for adding a new out-of-line primop from someone who went through the process.

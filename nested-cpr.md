@@ -67,7 +67,7 @@ Use Keyword = `CPRAnalysis` to ensure that a ticket ends up on these lists.
 
 ### Related testcases
 
-- Everything in [source:testsuite/tests/stranal/sigs/](/trac/ghc/browser/testsuite/tests/stranal/sigs)
+- Everything in [source:testsuite/tests/stranal/sigs/](/ghc/ghc/tree/master/testsuite/tests/stranal/sigs)
 
 ### TODOs
 

@@ -11,10 +11,10 @@ Source files:
 
 - POSIX signal handling:
 
-  - [rts/posix/Signals.h](/trac/ghc/browser/ghc/rts/posix/Signals.h), [rts/posix/Signals.c](/trac/ghc/browser/ghc/rts/posix/Signals.c)
+  - [rts/posix/Signals.h](/ghc/ghc/tree/master/ghc/rts/posix/Signals.h), [rts/posix/Signals.c](/trac/ghc/browser/ghc/rts/posix/Signals.c)
 - Windows console events:
 
-  - [rts/win32/ConsoleHandler.h](/trac/ghc/browser/ghc/rts/win32/ConsoleHandler.h), [rts/win32/ConsoleHandler.c](/trac/ghc/browser/ghc/rts/win32/ConsoleHandler.c)
+  - [rts/win32/ConsoleHandler.h](/ghc/ghc/tree/master/ghc/rts/win32/ConsoleHandler.h), [rts/win32/ConsoleHandler.c](/trac/ghc/browser/ghc/rts/win32/ConsoleHandler.c)
 
 ## Signal handling in the RTS
 
@@ -36,16 +36,16 @@ Source files:
 
 - The timer interrupt handler, and starting/stopping the timer:
 
-  - [rts/Timer.h](/trac/ghc/browser/ghc/rts/Timer.h), [rts/Timer.c](/trac/ghc/browser/ghc/rts/Timer.c)
+  - [rts/Timer.h](/ghc/ghc/tree/master/ghc/rts/Timer.h), [rts/Timer.c](/trac/ghc/browser/ghc/rts/Timer.c)
 - Platform-independent ticker interface, used by the timer:
 
-  - [rts/Ticker.h](/trac/ghc/browser/ghc/rts/Ticker.h)
+  - [rts/Ticker.h](/ghc/ghc/tree/master/ghc/rts/Ticker.h)
 - Posix implementation of ticker:
 
-  - [rts/posix/Itimer.c](/trac/ghc/browser/ghc/rts/posix/Itimer.c)
+  - [rts/posix/Itimer.c](/ghc/ghc/tree/master/ghc/rts/posix/Itimer.c)
 - Windows implementation of ticker:
 
-  - [rts/win32/Ticker.c](/trac/ghc/browser/ghc/rts/win32/Ticker.c)
+  - [rts/win32/Ticker.c](/ghc/ghc/tree/master/ghc/rts/win32/Ticker.c)
 
 
 On Posix, the timer signal is implemented by calling `timer_create()` to generate regular `SIGVTALRM` signals (this was changed from SIGALRM in [\#850](https://gitlab.haskell.org//ghc/ghc/issues/850)).
@@ -59,15 +59,15 @@ On Windows, we spawn a new thread that repeatedly sleeps for the timer interval 
 The interrupt signal is `SIGINT` on POSIX systems or `CTRL_C_EVENT/CTRL_BREAK_EVENT`on Windows, and is normally sent to the process when the user hits Control-C.   By default, interrupts are handled by the runtime.  They can be caught and handled by Haskell code instead, using `System.Posix.Signals` on POSIX systems or `GHC.ConsoleHandler` on Windows systems.  For example, [GHCi](commentary/compiler/backends/GHCi) hooks the interrupt signal so that it can abort the current interpreted computation and return to the prompt, rather than terminating the whole GHCi process.
 
 
-When the interrupt signal is received, the default behaviour of the runtime is to attempt to shut down the Haskell program gracefully.  It does this by calling `interruptStgRts()` in [rts/Schedule.c](/trac/ghc/browser/ghc/rts/Schedule.c) (see [Commentary/Rts/Scheduler](commentary/rts/scheduler#shutting-down)).  If a second interrupt signal is received, then we terminate the process immediately; this is just in case the normal shutdown procedure failed or hung for some reason, the user is always able to stop the process with two control-C keystrokes.
+When the interrupt signal is received, the default behaviour of the runtime is to attempt to shut down the Haskell program gracefully.  It does this by calling `interruptStgRts()` in [rts/Schedule.c](/ghc/ghc/tree/master/ghc/rts/Schedule.c) (see [Commentary/Rts/Scheduler](commentary/rts/scheduler#shutting-down)).  If a second interrupt signal is received, then we terminate the process immediately; this is just in case the normal shutdown procedure failed or hung for some reason, the user is always able to stop the process with two control-C keystrokes.
 
 ## Signal handling in Haskell code
 
 
 Source files:
 
-- POSIX: [rts/posix/Signals.h](/trac/ghc/browser/ghc/rts/posix/Signals.h), [rts/posix/Signals.c](/trac/ghc/browser/ghc/rts/posix/Signals.c)
-- Windows: [rts/win32/ConsoleHandler.h](/trac/ghc/browser/ghc/rts/win32/ConsoleHandler.h), [rts/win32/ConsoleHandler.c](/trac/ghc/browser/ghc/rts/win32/ConsoleHandler.c)
+- POSIX: [rts/posix/Signals.h](/ghc/ghc/tree/master/ghc/rts/posix/Signals.h), [rts/posix/Signals.c](/trac/ghc/browser/ghc/rts/posix/Signals.c)
+- Windows: [rts/win32/ConsoleHandler.h](/ghc/ghc/tree/master/ghc/rts/win32/ConsoleHandler.h), [rts/win32/ConsoleHandler.c](/trac/ghc/browser/ghc/rts/win32/ConsoleHandler.c)
 
 
 A Haskell program can ask to install signal handlers, via the `System.Posix.Signals` API, or `GHC.ConsoleHandler` on Windows.  When a signal arrives that has a Haskell handler, it is the job of the runtime to create a new Haskell thread to run the signal handler and place the new thread on the run queue of a suitable [Capability](commentary/rts/scheduler#capabilities).

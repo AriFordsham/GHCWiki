@@ -66,12 +66,12 @@ There are some important functions if you are tracing how things get from GHC to
 # The driver pipeline
 
 
-The driver pipeline consist of a couple of phases that call other programs and generate a series of intermediate files. Code responsible for managing the order of phases is in [compiler/main/DriverPhases.hs](/trac/ghc/browser/ghc/compiler/main/DriverPhases.hs), while managing the driver pipeline as a whole is coded in [compiler/main/DriverPipeline.hs](/trac/ghc/browser/ghc/compiler/main/DriverPipeline.hs). Note that driver pipeline is not the same thing as compilation pipeline: the latter is part of the former.
+The driver pipeline consist of a couple of phases that call other programs and generate a series of intermediate files. Code responsible for managing the order of phases is in [compiler/main/DriverPhases.hs](/ghc/ghc/tree/master/ghc/compiler/main/DriverPhases.hs), while managing the driver pipeline as a whole is coded in [compiler/main/DriverPipeline.hs](/trac/ghc/browser/ghc/compiler/main/DriverPipeline.hs). Note that driver pipeline is not the same thing as compilation pipeline: the latter is part of the former.
 
 
 Let's take a look at the overall structure of the driver pipeline. When we compile `Foo.hs` or `Foo.lhs` ("lhs" extension means that Literate Haskell is being used) the following phases are being called (some of them depending on additional conditions like file extensions or enabled flags):
 
-- Run the **unlit pre-processor**, `unlit`, to remove the literate markup, generating `Foo.lpp`.  The `unlit` processor is a C program kept in [utils/unlit](/trac/ghc/browser/ghc/utils/unlit).
+- Run the **unlit pre-processor**, `unlit`, to remove the literate markup, generating `Foo.lpp`.  The `unlit` processor is a C program kept in [utils/unlit](/ghc/ghc/tree/master/ghc/utils/unlit).
 
 - Run the **C preprocessor**, `cpp`, (if `-cpp` is specified), generating `Foo.hspp`.
 

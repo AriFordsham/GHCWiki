@@ -17,9 +17,9 @@ The basic copying scheme is [Cheney's Algorithm](http://en.wikipedia.org/wiki/Ch
 - When there are no more objects to be scavenged, the algorithm is complete.  The memory containing the evacuated objects is retained, all the memory containing the old objects and forwarding pointers is discarded.
 
 
-Evacuation is implemented in the file [rts/sm/Evac.c](/trac/ghc/browser/ghc/rts/sm/Evac.c).
+Evacuation is implemented in the file [rts/sm/Evac.c](/ghc/ghc/tree/master/ghc/rts/sm/Evac.c).
 
-Scavenging is implemented in the file [rts/sm/Scav.c](/trac/ghc/browser/ghc/rts/sm/Scav.c).
+Scavenging is implemented in the file [rts/sm/Scav.c](/ghc/ghc/tree/master/ghc/rts/sm/Scav.c).
 
 
 The principle APIs are

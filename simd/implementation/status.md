@@ -217,10 +217,10 @@ Only the LLVM code generator (i.e. `-fllvm`) is supported. However, work is [afo
 ## Cmm layer
 
 
-Our `CmmType` representation for vectors differs slightly from the proposal. See [cmm/CmmType.hs](/trac/ghc/browser/compiler/cmm/CmmType.hs?rev=e42746d07239888c74e937046fadf93655b44b65#L42)[](/trac/ghc/export/HEAD/ghc/compiler/cmm/CmmType.hs#L42).
+Our `CmmType` representation for vectors differs slightly from the proposal. See [cmm/CmmType.hs](/ghc/ghc/tree/master/compiler/cmm/CmmType.hs?rev=e42746d07239888c74e937046fadf93655b44b65#L42)[](/trac/ghc/export/HEAD/ghc/compiler/cmm/CmmType.hs#L42).
 
 
-See [cmm/CmmMachOp.hs](/trac/ghc/browser/compiler/cmm/CmmMachOp.hs?rev=e42746d07239888c74e937046fadf93655b44b65#L106)[](/trac/ghc/export/HEAD/ghc/compiler/cmm/CmmMachOp.hs#L106) for the new vector MachOps.
+See [cmm/CmmMachOp.hs](/ghc/ghc/tree/master/compiler/cmm/CmmMachOp.hs?rev=e42746d07239888c74e937046fadf93655b44b65#L106)[](/trac/ghc/export/HEAD/ghc/compiler/cmm/CmmMachOp.hs#L106) for the new vector MachOps.
 
 ## Core layer
 
@@ -228,7 +228,7 @@ See [cmm/CmmMachOp.hs](/trac/ghc/browser/compiler/cmm/CmmMachOp.hs?rev=e42746d07
 The implementation differs from the proposal in its naming scheme. We wanted to avoid overloading the term "vector," so, e.g., a 4-wide SIMD vector of `Float#`s is a `FloatX4#`.
 
 
-See [compiler/prelude/primops.txt.pp](/trac/ghc/browser/compiler/prelude/primops.txt.pp?rev=e42746d07239888c74e937046fadf93655b44b65#L1935)[](/trac/ghc/export/HEAD/ghc/compiler/prelude/primops.txt.pp#L1935) for the new primops. Not everything in the proposal is implemented, but we do have a useful subset.
+See [compiler/prelude/primops.txt.pp](/ghc/ghc/tree/master/compiler/prelude/primops.txt.pp?rev=e42746d07239888c74e937046fadf93655b44b65#L1935)[](/trac/ghc/export/HEAD/ghc/compiler/prelude/primops.txt.pp#L1935) for the new primops. Not everything in the proposal is implemented, but we do have a useful subset.
 
 ## Native vector sizes
 

@@ -1,7 +1,7 @@
 # Licensing
 
 
-GHC's codebase is mostly distributed under a 3-clause BSD license, which you can find in the file [LICENSE](/trac/ghc/browser/ghc/LICENSE):
+GHC's codebase is mostly distributed under a 3-clause BSD license, which you can find in the file [LICENSE](/ghc/ghc/tree/master/ghc/LICENSE):
 
 ```wiki
 The Glasgow Haskell Compiler License

@@ -159,5 +159,5 @@ In the GHC build system, we have 3 phases. Each phase is in two halves: some thi
   - Builds: Everything else.
 
 
-See the comments in the [top-level ghc.mk](/trac/ghc/browser/ghc.mk)[](/trac/ghc/export/HEAD/ghc/ghc.mk) for details
+See the comments in the [top-level ghc.mk](/ghc/ghc/tree/master/ghc.mk)[](/trac/ghc/export/HEAD/ghc/ghc.mk) for details
 (search for 'Approximate build order' and 'Numbered phase targets').

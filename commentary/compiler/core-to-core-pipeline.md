@@ -11,7 +11,7 @@ At the end of desugaring we run the `simpleOptPgm` function that performs some s
 ## The pipeline
 
 
-The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` function in the [compiler/simplCore/SimplCore.hs](/trac/ghc/browser/ghc/compiler/simplCore/SimplCore.hs) module. Below is an ordered list of performed optimisations. These are enabled by default with `-O1` and `-O2` unless the description says a specific flag is required. The simplifier, which the pipeline description below often refers to, is described in detail in [the next section](commentary/compiler/core-to-core-pipeline#simplifier).
+The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` function in the [compiler/simplCore/SimplCore.hs](/ghc/ghc/tree/master/ghc/compiler/simplCore/SimplCore.hs) module. Below is an ordered list of performed optimisations. These are enabled by default with `-O1` and `-O2` unless the description says a specific flag is required. The simplifier, which the pipeline description below often refers to, is described in detail in [the next section](commentary/compiler/core-to-core-pipeline#simplifier).
 
 - **Static Argument Transformation**: tries to remove redundant arguments to recursive calls, turning them into free variables in those calls.  Only enabled with `-fstatic-argument-transformation`.  If run this pass is preceded with a "gentle" run of the simplifier.
 
@@ -19,7 +19,7 @@ The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` fu
 
 - **Simplifier, gentle run**
 
-- **Specialisation**: specialisation attempts to eliminate overloading. More details can be found in the comments in [compiler/specialise/Specialise.hs](/trac/ghc/browser/ghc/compiler/specialise/Specialise.hs).
+- **Specialisation**: specialisation attempts to eliminate overloading. More details can be found in the comments in [compiler/specialise/Specialise.hs](/ghc/ghc/tree/master/ghc/compiler/specialise/Specialise.hs).
 
 - **Full laziness, 1st pass**: floats let-bindings outside of lambdas. This pass includes annotating bindings with level information and then running the float-out pass. In this first pass of the full laziness we don't float partial applications and bindings that contain free variables - this will be done by the second pass later in the pipeline. See "Further Reading" section below for pointers where to find the description of the full laziness algorithm.
 
@@ -27,7 +27,7 @@ The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` fu
 
 - **Float in, 1st pass**: the opposite of full laziness, this pass floats let-bindings as close to their use sites as possible. It will not undo the full laziness by sinking bindings inside a lambda, unless the lambda is one-shot. At this stage we have not yet run the demand analysis, so we only have demand information for things that we imported.
 
-- **Call arity**: attempts to eta-expand local functions based on how they are used. If run, this pass is followed by a 0 phase of the simplifier. See Notes in [compiler/simplCore/CallArity.hs](/trac/ghc/browser/ghc/compiler/simplCore/CallArity.hs) and the relevant paper.
+- **Call arity**: attempts to eta-expand local functions based on how they are used. If run, this pass is followed by a 0 phase of the simplifier. See Notes in [compiler/simplCore/CallArity.hs](/ghc/ghc/tree/master/ghc/compiler/simplCore/CallArity.hs) and the relevant paper.
 
 - **Demand analysis, 1st pass** (a.k.a. strictness analysis): runs the [demand analyser](commentary/compiler/demand) followed by worker-wrapper transformation ([JFP paper](http://ittc.ku.edu/~andygill/papers/wrapper.pdf)) and 0 phase of the simplifier. This pass tries to determine if some expressions are certain to be used and whether they will be used once or many times (cardinality analysis). We currently don't have means of saying that a binding is certain to be used many times. We can only determine that it is certain to be one-shot (ie. used only once) or probable to be one shot. Demand analysis pass only annotates Core with strictness information. This information is later used by worker/wrapper pass to perform transformations. CPR analysis is also done during demand analysis.
 

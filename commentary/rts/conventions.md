@@ -451,7 +451,7 @@ There are three macros to do inline portably.  Don't use `inline` directly, use 
 
 >
 > A function which is optionally inlined.  The C compiler is told to inline if possible,
-> but we also generated a standalone copy of the function just in case (see [source:rts/Inlines.c](/trac/ghc/browser/rts/Inlines.c)[](/trac/ghc/export/HEAD/ghc/rts/Inlines.c)).
+> but we also generated a standalone copy of the function just in case (see [source:rts/Inlines.c](/ghc/ghc/tree/master/rts/Inlines.c)[](/trac/ghc/export/HEAD/ghc/rts/Inlines.c)).
 
 ## Source-control issues
 

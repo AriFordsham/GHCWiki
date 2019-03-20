@@ -160,7 +160,7 @@ to determine whether recompilation can be avoided in this case.
 We use [fingerprints](http://en.wikipedia.org/wiki/Fingerprint_%28computing%29) to uniquely identify the interface exposed by a module,
 and to detect when it changes.  In particular, we currently use
 128-bit hashes produced by the MD5 algorithm (see
-[compiler/utils/Fingerprint.hsc](/trac/ghc/browser/ghc/compiler/utils/Fingerprint.hsc)).
+[compiler/utils/Fingerprint.hsc](/ghc/ghc/tree/master/ghc/compiler/utils/Fingerprint.hsc)).
 
 
 An [interface file](commentary/compiler/iface-files) contains:
@@ -549,7 +549,7 @@ reordering of the elements.
 
 
 Why would we get accidental reordering?  GHC relies heavily on
-"uniques" internally (see [compiler/basicTypes/Unique.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/Unique.lhs)): every
+"uniques" internally (see [compiler/basicTypes/Unique.lhs](/ghc/ghc/tree/master/ghc/compiler/basicTypes/Unique.lhs)): every
 entity has a unique, and uniques are assigned semi-randomly.  Asking
 for the contents of a `UniqSet` or `UniqFM` will return the elements in
 order of their uniques, which may vary from run to run of the

@@ -38,7 +38,7 @@ The GC is designed to be flexible, supporting lots of ways to tune its behaviour
 
 ## GC data structures
 
-[includes/rts/storage/GC.h](/trac/ghc/browser/ghc/includes/rts/storage/GC.h)
+[includes/rts/storage/GC.h](/ghc/ghc/tree/master/ghc/includes/rts/storage/GC.h)
 
 ### generation
 
@@ -66,7 +66,7 @@ the [remembered set](commentary/rts/storage/gc/remembered-sets), a list of block
 </td></tr></table>
 
 
-and various other administrative fields (see [includes/rts/storage/GC.h](/trac/ghc/browser/ghc/includes/rts/storage/GC.h) for the details).
+and various other administrative fields (see [includes/rts/storage/GC.h](/ghc/ghc/tree/master/ghc/includes/rts/storage/GC.h) for the details).
 
 
 Generations are kept in the array `generations[]`, indexed by the generation number.

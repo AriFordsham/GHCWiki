@@ -1,7 +1,7 @@
 # Symbol Names
 
 
-Since Haskell allows many symbols in constructor and variable names that C compilers or assembly might not allow (e.g. :, %, \#) these have to be encoded using z-encoding.  The encoding is as follows.  See [compiler/utils/Encoding.hs](/trac/ghc/browser/ghc/compiler/utils/Encoding.hs).
+Since Haskell allows many symbols in constructor and variable names that C compilers or assembly might not allow (e.g. :, %, \#) these have to be encoded using z-encoding.  The encoding is as follows.  See [compiler/utils/Encoding.hs](/ghc/ghc/tree/master/ghc/compiler/utils/Encoding.hs).
 
 ## Tuples
 

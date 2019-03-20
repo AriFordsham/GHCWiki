@@ -32,7 +32,7 @@ RTS suffix: `debug`</td></tr></table>
 
 <table><tr><th>`TRACING`</th>
 <td>
-Enables RTS tracing and event logging, see [rts/Trace.c](/trac/ghc/browser/ghc/rts/Trace.c).  Implied by `DEBUG`.
+Enables RTS tracing and event logging, see [rts/Trace.c](/ghc/ghc/tree/master/ghc/rts/Trace.c).  Implied by `DEBUG`.
 
 GHC option: `-eventlog`
 
@@ -47,7 +47,7 @@ The ways that the RTS is built in are controlled by the `GhcRTSWays` Makefile va
 ## Combinations
 
 
-All combinations are allowed.  Only some are built by default though; see [mk/config.mk.in](/trac/ghc/browser/mk/config.mk.in)[](/trac/ghc/export/HEAD/ghc/mk/config.mk.in) to see how the `GhcRTSWays` variable is set.
+All combinations are allowed.  Only some are built by default though; see [mk/config.mk.in](/ghc/ghc/tree/master/mk/config.mk.in)[](/trac/ghc/export/HEAD/ghc/mk/config.mk.in) to see how the `GhcRTSWays` variable is set.
 
 ## Other configuration options
 
