@@ -58,14 +58,20 @@ FATAL ERROR: Unable to load prelude
 The path /usr/local/lib/hugs/packages is in fact where the Prelude lives, however, exactly where it should be (as far as I know), in /usr/local/lib/hugs/packages/hugsbase/Hugs/Prelude.hs
 
 
+
 Anyone know what could be wrong here?
 
-## New Update on [\#1346](https://gitlab.haskell.org//ghc/ghc/issues/1346)
 
-[\#1346](https://gitlab.haskell.org//ghc/ghc/issues/1346), the bug tracking having bootstrapping working again, has had its milestone changed from 6.10.1 to 6.12, as the build system overhaul has grown into too large of a project and 6.10 needs to be released before it will be completed.
+## New Update on [\#1346](https://gitlab.haskell.org/ghc/ghc/issues/1346)
 
 
-And so that basically takes renewed bootstrapping off the table. This project is back to starting from an unregisterised 6.6, working up to an unregisterised 6.10, then a registerised 6.10, and then (assuming the code generator back-end overhaul that is planned for 6.10 still goes through. I don't know the status of it. Anyone have the ticket number for it?) in the long term to a full native codegen 6.10.
+
+[\#1346](https://gitlab.haskell.org/ghc/ghc/issues/1346), the bug tracking having bootstrapping working again, has had its milestone changed from 6.10.1 to 6.12, as the build system overhaul has grown into too large of a project and 6.10 needs to be released before it will be completed.
+
+
+
+And so that basically takes renewed bootstrapping off the table. This project is back to starting from an unregisterised 6.6, working up to an unregisterised 6.10, then a registerised 6.10, and then (assuming the code generator back-end overhaul that is planned for 6.10 still goes through. I don't know the status of it. Anyone have the Trac number for it?) in the long term to a full native codegen 6.10.
+
 
 ## Hackathon?
 
@@ -85,7 +91,9 @@ All developers, what ARM-based devices do you have available for testing?
 ### Another False Start
 
 
-I had to install 6.6.1 on my system to compile 6.6.1, first off. Then I apparent need an older gcc (have 4.3.0). Rather than dive deeper into that (it would require an old gcc on the scratchbox dev environment too, too much pain when I have an alternative), I'm just going to try to build an unregisterised 6.8.2 with the patch posted in [\#1346](https://gitlab.haskell.org//ghc/ghc/issues/1346). The results for that build attempt follow, after the info for the failed 6.6.1 one.
+
+I had to install 6.6.1 on my system to compile 6.6.1, first off. Then I apparent need an older gcc (have 4.3.0). Rather than dive deeper into that (it would require an old gcc on the scratchbox dev environment too, too much pain when I have an alternative), I'm just going to try to build an unregisterised 6.8.2 with the patch posted in [\#1346](https://gitlab.haskell.org/ghc/ghc/issues/1346). The results for that build attempt follow, after the info for the failed 6.6.1 one.
+
 
 ### Original 6.6.1 Build Intro
 
@@ -135,7 +143,9 @@ making it accept 5.10 too. Then I ran autoreconf, and ./configure ran to complet
 ## Third Unregistered Build - GHC 6.8.2
 
 
-Using the patch posted at [\#1346](https://gitlab.haskell.org//ghc/ghc/issues/1346), I'm trying to build 6.8.2.
+
+Using the patch posted at [\#1346](https://gitlab.haskell.org/ghc/ghc/issues/1346), I'm trying to build 6.8.2.
+
 
 ### Target-side
 
@@ -179,7 +189,9 @@ make: Leaving directory `/home/braden/ghc/ghc-6.8.2/libraries'
 ### Why it doesn't work
 
 
-On discussion with Igloo (Ian Lynagh) on \#haskell, it turns out that hc-file bootstrapping has been broken in 6.8 since the beginning, meaning that only platforms with a working GHC prior to 6.8 can build a 6.8 or later. This undercuts the porting effort until [\#1346](https://gitlab.haskell.org//ghc/ghc/issues/1346) is fixed. I may try the "quick hack" diff attached to see if it works out. The comment from the user who posted it seems to imply that it's incomplete, though.
+
+On discussion with Igloo (Ian Lynagh) on \#haskell, it turns out that hc-file bootstrapping has been broken in 6.8 since the beginning, meaning that only platforms with a working GHC prior to 6.8 can build a 6.8 or later. This undercuts the porting effort until [\#1346](https://gitlab.haskell.org/ghc/ghc/issues/1346) is fixed. I may try the "quick hack" diff attached to see if it works out. The comment from the user who posted it seems to imply that it's incomplete, though.
+
 
 ### The original attempt
 

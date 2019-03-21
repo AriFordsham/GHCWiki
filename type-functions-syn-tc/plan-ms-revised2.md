@@ -264,18 +264,27 @@ We apply the following strategy:
 (Ia) Put the given equations into normal form.
 
 
+
 (Ib) Exhaustively apply reduction steps on these nonrmal-form 
 
+
+>
 >
 > equations.
+>
+>
 
 
 (II) Then, we normalize the proof terms of the equations
 
+
+>
 >
 > in the final store (to obtain proof terms which only
 > refer to the proof term variables from the original
 > equation set).
+>
+>
 
 
 We first consider (Ib).

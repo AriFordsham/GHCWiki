@@ -71,26 +71,27 @@ This is a rough sketch of how the various components fit into the compiler pipel
                  RTS with gangs
 ```
 
-<table><tr><th>**Haskell with nested parallelism**</th>
+<table><tr><th><b>Haskell with nested parallelism</b></th>
 <td>
-This is vanilla Haskell with the parallel array data type `[:.:]`, array comprehensions, and collective array operations.
+This is vanilla Haskell with the parallel array data type <tt>[:.:]</tt>, array comprehensions, and collective array operations.
 </td></tr>
-<tr><th>**Core with nested parallelism**</th>
+<tr><th><b>Core with nested parallelism</b></th>
 <td>
 The result of normal desugaring; in particular, array comprehensions are eliminated.
 </td></tr>
-<tr><th>**Core with flat parallelism**</th>
-<td>[code vectorisation](data-parallel/code-vectorisation) replaces nested parallelism by operations on flat arrays.
-</td></tr>
-<tr><th>**Core with parallel operations on unboxed arrays**</th>
+<tr><th><b>Core with flat parallelism</b></th>
 <td>
-All operations on `[:.:]` are inlined, leaving only parallel operations on simple unboxed arrays.
+<a href="data-parallel/code-vectorisation">code vectorisation</a> replaces nested parallelism by operations on flat arrays.
 </td></tr>
-<tr><th>**Core with distributed types and sequential unboxed arrays**</th>
+<tr><th><b>Core with parallel operations on unboxed arrays</b></th>
+<td>
+All operations on <tt>[:.:]</tt> are inlined, leaving only parallel operations on simple unboxed arrays.
+</td></tr>
+<tr><th><b>Core with distributed types and sequential unboxed arrays</b></th>
 <td>
 Parallel operations on unboxed arrays, which are implemented in terms of distributed types and sequential array operations, are inlined. Fusion rules are applied to the result.
 </td></tr>
-<tr><th>**Core with gang operations**</th>
+<tr><th><b>Core with gang operations</b></th>
 <td>
 Operations on distributed types and unboxed arrays are inlined, producing code which only makes use of gang operations and the standard libraries. It is optimised as usual.
 </td></tr></table>

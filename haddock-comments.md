@@ -37,10 +37,13 @@ Just like the original Haddock, we support "next" and "previous"-type comments, 
 # Parser details
 
 
-The doc tokens appear in a lot of places in the grammar and having a look at [compiler/parser/Parser.y.pp](/ghc/ghc/tree/master/ghc/compiler/parser/Parser.y.pp) is probably the best way to get an overview of this.   
+
+The doc tokens appear in a lot of places in the grammar and having a look at [compiler/parser/Parser.y.pp](/trac/ghc/browser/ghc/compiler/parser/Parser.y.pp) is probably the best way to get an overview of this.   
 
 
-When a doc token is encountered by the parser, it tries to parse the content of the token. This is done by invoking a special Alex lexer ([compiler/parser/HaddockLex.x](/ghc/ghc/tree/master/ghc/compiler/parser/HaddockLex.x)) and Happy parser ([compiler/parser/HaddockParse.y](/trac/ghc/browser/ghc/compiler/parser/HaddockParse.y)), taken directly from the original Haddock sources. This process turns the token into a value of type `HsDoc RdrName`, representing the (internal structure of the) comment. It can then be stored in the Haskell AST by the parser at the appropriate place. A lot of places (constructors) in the AST definition ([compiler/hsSyn](/trac/ghc/browser/ghc/compiler/hsSyn)) allow `HsDoc`s, and more can be added.
+
+When a doc token is encountered by the parser, it tries to parse the content of the token. This is done by invoking a special Alex lexer ([compiler/parser/HaddockLex.x](/trac/ghc/browser/ghc/compiler/parser/HaddockLex.x)) and Happy parser ([compiler/parser/HaddockParse.y](/trac/ghc/browser/ghc/compiler/parser/HaddockParse.y)), taken directly from the original Haddock sources. This process turns the token into a value of type `HsDoc RdrName`, representing the (internal structure of the) comment. It can then be stored in the Haskell AST by the parser at the appropriate place. A lot of places (constructors) in the AST definition ([compiler/hsSyn](/trac/ghc/browser/ghc/compiler/hsSyn)) allow `HsDoc`s, and more can be added.
+
 
 # Binding groups
 

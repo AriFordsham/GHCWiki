@@ -8,7 +8,9 @@ Esa Ilari Vuokko, who at one time attempted to replace GMP with [LibTomMath](htt
 ### GMP and the Storage Manager
 
 
-The most insidious and unique feature of the GHC implementation with GMP is memory management.  GHC uses the special memory functions in GMP ( `mp_set_memory_functions( (*alloc)(), (*realloc)(), (*dealloc)()` ) to let GMP use GHC's own garbage collector.  The memory functions are implemented in [rts/sm/Storage.c](/ghc/ghc/tree/master/ghc/rts/sm/Storage.c) as:
+
+The most insidious and unique feature of the GHC implementation with GMP is memory management.  GHC uses the special memory functions in GMP ( `mp_set_memory_functions( (*alloc)(), (*realloc)(), (*dealloc)()` ) to let GMP use GHC's own garbage collector.  The memory functions are implemented in [rts/sm/Storage.c](/trac/ghc/browser/ghc/rts/sm/Storage.c) as:
+
 
 ```wiki
 	  static void* stgAllocForGMP (size_t size_in_bytes);
@@ -25,17 +27,19 @@ These special allocation functions bring most GMP memory usage into the GHC heap
 ### Special Functions
 
 
+
 GHC adds its own functions for string conversion, least common multiple (lcm) and conversion to and from floating point (floats and doubles).  In particular, the GHC designers decided to perform their own operations for encoding a GMP number (really, the array of mp_limb_t) to floating point numbers (floats or doubles).  GMP provides functions for some of these operations:
 
-<table><tr><th>**Operation**</th>
-<th>**GMP function**</th>
-<th>**Notes**</th></tr>
+
+<table><tr><th> <b>Operation</b> </th>
+<th> <b>GMP function</b> </th>
+<th> <b>Notes</b> 
+</th></tr>
 <tr><th> convert to double </th>
 <th> mpz_get_d() </th>
 <th> rounds toward zero, avoids overflow 
 </th></tr>
-<tr><th> convert to double
-return exponent separately </th>
+<tr><th> convert to double<br>return exponent separately </th>
 <th> mpz_get_d_2exp() </th>
 <th> rounds toward zero, avoids overflow 
 </th></tr>
@@ -43,21 +47,19 @@ return exponent separately </th>
 <th> mpz_get_f()
 </th>
 <th></th></tr>
-<tr><th> convert to string
-supports bases from 2 to 36 </th>
+<tr><th> convert to string<br>supports bases from 2 to 36 </th>
 <th> mpz_get_str() </th>
-<th> more efficient than Haskell version,
-with PackedString, no conversion to Haskell string necessary 
+<th> more efficient than Haskell version,<br>with PackedString, no conversion to Haskell string necessary 
 </th></tr>
 <tr><th> conversion from string </th>
 <th> mpz_inp_str() </th>
-<th> more efficient than Haskell version,
-with PackedString, input string efficiently convertable to a c_str
-(it is already an array of chars) 
+<th> more efficient than Haskell version,<br>with PackedString, input string efficiently convertable to a c_str<br>(it is already an array of chars) 
 </th></tr></table>
 
 
-The real problem (no pun intended) is conversion to doubles and floats.  The `__encodeDouble` function, in [rts/StgPrimFloat.c](/ghc/ghc/tree/master/ghc/rts/StgPrimFloat.c), may overflow:
+
+The real problem (no pun intended) is conversion to doubles and floats.  The `__encodeDouble` function, in [rts/StgPrimFloat.c](/trac/ghc/browser/ghc/rts/StgPrimFloat.c), may overflow:
+
 
 ```wiki
 StgDouble
@@ -129,20 +131,24 @@ Compare the problem section in `__encodeDouble` to the exponent check in the int
 (If you want to see the full `mpn_get_d` function, it is in the file `[toplevel gmp source]/mpn/generic/get_d.c` .)  
 
 
-There is no check in the Haskell code *using*`__encodeFloat` or `__encodeDouble`, in [libraries/base/GHC/Float.lhs](/ghc/ghc/tree/master/ghc/libraries/base/GHC/Float.lhs).  For example, the `encodeFloat` Haskell function under class `RealFloat` uses `__encodeDouble` directly:
+
+There is no check in the Haskell code *using* `__encodeFloat` or `__encodeDouble`, in [libraries/base/GHC/Float.lhs](/trac/ghc/browser/ghc/libraries/base/GHC/Float.lhs).  For example, the `encodeFloat` Haskell function under class `RealFloat` uses `__encodeDouble` directly:
+
 
 ```
-encodeFloat(J#s#d#)e=encodeDouble#s#d#e
+encodeFloat (J# s# d#) e = encodeDouble# s# d# e
 ```
 
 
 This is not the case with the safer `fromRat` function which ensures the Integer falls in the range of the mantissa (see the source code).
 
 
+
 The problem with `__encodeFloat` and `__encodeDouble` is normative--a matter of design.  The current implementation places the responsibility for ensuring that large integers converted to floating point numbers do not overflow or underflow and it is practically impossible (with rounding) to join encoding and decoding and come out with a reasonably equivalent result, as in:
 
+
 ```
-(uncurry encodeFloat).decodeFloat
+(uncurry encodeFloat) . decodeFloat
 ```
 
 
@@ -152,7 +158,9 @@ The problem with `__encodeFloat` and `__encodeDouble` is normative--a matter of 
 A replacement library for GMP might use the GMP strategies of including a special bitwise conversion (with appropriate masks) and a hardware-based version.  An unconventional solution might perform the rounding manually (but with relatively portable predictability) using interval arithmetic.  
 
 
-As for printing GMP numbers, [libraries/base/GHC/Num.lhs](/ghc/ghc/tree/master/ghc/libraries/base/GHC/Num.lhs) defines a special internal function `jtos` to handle `showsPrec` and `showList` for `Integer` as an instance of the class `Show`.  The `jtos` function uses the primitive GMP-based function `quotRemInteger` and performs many conversions from Integer to Int.  This is not as efficient as the internal GMP functions, especially for large numbers, because each conversion allocates extra storage for GMP as noted in [Replacing GMP -- Optimisation Opportunities](replacing-gmp-notes#optimisation-opportunities).
+
+As for printing GMP numbers, [libraries/base/GHC/Num.lhs](/trac/ghc/browser/ghc/libraries/base/GHC/Num.lhs) defines a special internal function `jtos` to handle `showsPrec` and `showList` for `Integer` as an instance of the class `Show`.  The `jtos` function uses the primitive GMP-based function `quotRemInteger` and performs many conversions from Integer to Int.  This is not as efficient as the internal GMP functions, especially for large numbers, because each conversion allocates extra storage for GMP as noted in [Replacing GMP -- Optimisation Opportunities](replacing-gmp-notes#).
+
 
 ### GMP Library Implementation
 
@@ -169,5 +177,28 @@ For the case where one of the operands and the result is the same you would have
 ```
 
   (in GHCi)
-  >letm_integer=123456789::Integer>letn_integer=m_integer+m_integer-- this will show o.k., but the implementation involves *always* making extra temporaries>n_integer246913578-- a = a + a>letm_integer=m_integer+m_integer--"m_integer" after "let" here is a new binding>letn_integer=m_integer+m_integer-- this will be fine until you try to evaluate it:>n_integer*** Exception: stack overflow-- now, try the same thing with plain Ints:-- this will default to an Int>leta=5>leta=a+a>letb=a+a>b*** Exception: stack overflow
+  > let m_integer = 123456789 :: Integer
+  > let n_integer = m_integer + m_integer
+  -- this will show o.k., but the implementation involves *always* making extra temporaries
+  > n_integer
+  246913578
+
+  -- a = a + a
+  > let m_integer = m_integer + m_integer
+  --"m_integer" after "let" here is a new binding
+  > let n_integer = m_integer + m_integer
+
+  -- this will be fine until you try to evaluate it:
+  > n_integer
+  *** Exception: stack overflow
+
+  -- now, try the same thing with plain Ints:
+  -- this will default to an Int
+  > let a = 5
+  > let a = a + a
+  > let b = a + a
+  > b
+  *** Exception: stack overflow
 ```
+
+

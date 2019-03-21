@@ -29,66 +29,80 @@ No benchmarks on 4 processors yet, as the 4th PE is currently busy.
 #### Awerbuch-Shiloach
 
 
+
 The sequential code is in [http://darcs.haskell.org/packages/ndp/Data/Array/Parallel/test/nesl/concomp/AwShU.hs](http://darcs.haskell.org/packages/ndp/Data/Array/Parallel/test/nesl/concomp/AwShU.hs) and the parallel in [http://darcs.haskell.org/packages/ndp/Data/Array/Parallel/test/nesl/concomp/AwShUP.hs](http://darcs.haskell.org/packages/ndp/Data/Array/Parallel/test/nesl/concomp/AwShUP.hs).
 
-<table><tr><th>**Version**</th>
-<th>**Threads**</th>
-<th>**Time (ms)**</th>
-<th>**Speedup**</th></tr>
+
+<table><tr><th> <b>Version</b> </th>
+<th> <b>Threads</b> </th>
+<th> <b>Time (ms)</b> </th>
+<th> <b>Speedup</b> 
+</th></tr>
 <tr><th> sequential    </th>
-<th></th>
+<th>               </th>
 <th>        1600     </th>
-<th></th></tr>
+<th>               
+</th></tr>
 <tr><th> parallel      </th>
 <th>       1       </th>
 <th>       29800     </th>
-<th></th></tr>
-<tr><th></th>
+<th>               
+</th></tr>
+<tr><th>               </th>
 <th>       2       </th>
 <th>       16800     </th>
 <th>      1.8      
 </th></tr>
-<tr><th></th>
+<tr><th>               </th>
 <th>       3       </th>
 <th>       12800     </th>
 <th>      2.3      
 </th></tr>
-<tr><th></th>
+<tr><th>               </th>
 <th>       4       </th>
-<th>*???*</th>
-<th>*???*</th></tr></table>
+<th>       <i>???</i>   </th>
+<th>      <i>???</i>  
+</th></tr></table>
+
 
 #### Hybrid
 
 
+
 The sequential code is in [http://darcs.haskell.org/packages/ndp/Data/Array/Parallel/test/nesl/concomp/HybU.hs](http://darcs.haskell.org/packages/ndp/Data/Array/Parallel/test/nesl/concomp/HybU.hs) and the parallel in [http://darcs.haskell.org/packages/ndp/Data/Array/Parallel/test/nesl/concomp/HybUP.hs](http://darcs.haskell.org/packages/ndp/Data/Array/Parallel/test/nesl/concomp/HybUP.hs).
 
-<table><tr><th>**Version**</th>
-<th>**Threads**</th>
-<th>**Time (ms)**</th>
-<th>**Speedup**</th></tr>
+
+<table><tr><th> <b>Version</b> </th>
+<th> <b>Threads</b> </th>
+<th> <b>Time (ms)</b> </th>
+<th> <b>Speedup</b> 
+</th></tr>
 <tr><th> sequential    </th>
-<th></th>
+<th>               </th>
 <th>       1850      </th>
-<th></th></tr>
+<th>               
+</th></tr>
 <tr><th> parallel      </th>
 <th>       1       </th>
 <th>       7450      </th>
-<th></th></tr>
-<tr><th></th>
+<th>               
+</th></tr>
+<tr><th>               </th>
 <th>       2       </th>
 <th>       4600      </th>
 <th>      1.6      
 </th></tr>
-<tr><th></th>
+<tr><th>               </th>
 <th>       3       </th>
 <th>       3800      </th>
 <th>      2.0      
 </th></tr>
-<tr><th></th>
+<tr><th>               </th>
 <th>       4       </th>
-<th>*???*</th>
-<th>*???*</th></tr></table>
+<th>       <i>???</i>   </th>
+<th>      <i>???</i>  
+</th></tr></table>
+
 
 
 I haven't completely parallelised this one yet (it's only a matter of implementing some parallel combinators).

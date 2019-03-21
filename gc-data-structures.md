@@ -9,17 +9,28 @@ Back to [GarbageCollectorNotes](garbage-collector-notes)
 The GC allocates memory from the OS in 1 Mb sized chunks, called mega blocks, which it then divides into pages and manages itself. Each 4k page is called a block and is associated with a block descripter (the abbrevaition BD is used a lot). The BDs for all the blocks on the are stroed at the start of the mega block. 
 
 
+
 The BD keeps information about a block. This the BD defintion from blocks.h in the RTS.
 
+
 ```
-typedefstruct bdescr_ {
-  StgPtr start;/* start addr of memory */
-  StgPtr free;/* first free byte of memory */struct bdescr_ *link;/* used for chaining blocks together */union{struct bdescr_ *back;/* used (occasionally) for doubly-linked lists*/
-      StgWord *bitmap;} u;unsignedint gen_no;/* generation */struct step_ *step;/* step */
-  StgWord32 blocks;/* no. of blocks (if grp head, 0 otherwise) */
-  StgWord32 flags;/* block is in to-space */#if SIZEOF_VOID_P == 8
-  StgWord32 _padding[2];#else
-  StgWord32 _padding[0];#endif
+typedef struct bdescr_ {
+  StgPtr start;                 /* start addr of memory */
+  StgPtr free;                  /* first free byte of memory */
+  struct bdescr_ *link;         /* used for chaining blocks together */
+  union { 
+      struct bdescr_ *back;     /* used (occasionally) for doubly-linked lists*/
+      StgWord *bitmap;
+  } u;
+  unsigned int gen_no;          /* generation */
+  struct step_ *step;           /* step */
+  StgWord32 blocks;             /* no. of blocks (if grp head, 0 otherwise) */
+  StgWord32 flags;              /* block is in to-space */
+#if SIZEOF_VOID_P == 8
+  StgWord32 _padding[2];
+#else
+  StgWord32 _padding[0];
+#endif
 } bdescr;
 ```
 
@@ -127,6 +138,11 @@ Here is a little digram of the data structure formed by the generations and step
 [http://www.cs.indiana.edu/\~rpjames/HaskellGC/ds/generations-steps.jpg](http://www.cs.indiana.edu/~rpjames/HaskellGC/ds/generations-steps.jpg)
 
 
+
 Each step contains a pointer to a link list of blocks that are part of the step.
 
+
+
 [http://www.cs.indiana.edu/\~rpjames/HaskellGC/ds/step-blocks.jpg](http://www.cs.indiana.edu/~rpjames/HaskellGC/ds/step-blocks.jpg)
+
+

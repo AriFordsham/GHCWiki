@@ -1,1 +1,1 @@
-Page moved to [Debugging/CompiledCode](/trac/ghc/wiki/Debugging/CompiledCode)
+Page moved to [Debugging/CompiledCode](debugging/compiled-code)

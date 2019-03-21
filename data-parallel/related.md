@@ -10,6 +10,10 @@
 
 - Then there is the work of Jan Prins' group on Proteus [http://www.cs.unc.edu/Research/proteus/](http://www.cs.unc.edu/Research/proteus/).  I think they had some kind of vector library hooked up to an interpreter for experiments, but again nothing usable.  Jan also implemented a couple of algorithms, which he vectorised manually, in imperative languages (eg, Fortran); in particular, the study about manual vectorisation in Fortran [http://www.cs.unc.edu/\~prins/Publications/SciProg99.pdf](http://www.cs.unc.edu/~prins/Publications/SciProg99.pdf).
 
+
+ 
+
+
 - Modula-2\* of Tichy's group also recognised the value of nested data parallelism.  They added it in the form of a FORALL construct to Modula-2: [http://www2.cs.fau.de/download/Papers/CstarCritique.pdf?language=en](http://www2.cs.fau.de/download/Papers/CstarCritique.pdf?language=en), [http://citeseer.ist.psu.edu/philippsen91modula.html](http://citeseer.ist.psu.edu/philippsen91modula.html) and [http://citeseer.ist.psu.edu/397019.html](http://citeseer.ist.psu.edu/397019.html).  They started on a compiler that targeted the [MasPar](http://en.wikipedia.org/wiki/Maspar) (one of these SIMD machines), but I think didn't get any further.
 
 - Using nested DO or FORALL constructs, nested data parallelism can be expressed in Fortran 95 and beyond.  However, parallelising Fortran compilers cannot exploit such parallelism properly.  For example, they may only parallelise the inner or outer loop.  Loop parallelisation of Fortran programs is however a broad topic and there are all kinds of approaches aiming to broaden the classes of loop nests that can be parallelised.  It's been a while since I looked at that stuff last.

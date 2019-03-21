@@ -1,1 +1,1 @@
-Page moved to [Debugging](/trac/ghc/wiki/Debugging)
+Page moved to [Debugging](debugging)

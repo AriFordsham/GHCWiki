@@ -26,9 +26,15 @@ Please feel free to add stuff here (login **guest**, password **guest**).
 ## Multiprocessor GHC
 
 
+
 As of version 6.5, GHC supports running programs in parallel on an SMP or multi-core machine.  How to do it:
 
+
 - You'll need to get a version of GHC that supports SMP.  Either download ghc from [CVS](http://www.haskell.org/ghc/docs/latest/html/building/sec-cvs.html) or use darcs: `darcs get --partial http://darcs.haskell.org/ghc`.  There are also [nightly snapshot distributions](http://www.haskell.org/ghc/dist/current/dist) available.
+
+
+ 
+
 
 - All code currently has to be built using the `-smp` switch, including the libraries.  If you downloaded a binary snapshot, then you already have the required libraries.  If you build GHC from source, you need to add
 
@@ -39,6 +45,10 @@ As of version 6.5, GHC supports running programs in parallel on an SMP or multi-
   to the file `mk/build.mk` in the build tree before building.
 
 - Compile your program with `-smp`
+
+
+ 
+
 
 - Run the program with `+RTS -N2` to use 2 threads, for example.  You should use a `-N` value equal to the number of CPU cores on your machine (not including Hyper-threading cores).
 

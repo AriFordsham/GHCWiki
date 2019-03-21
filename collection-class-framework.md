@@ -1,7 +1,9 @@
 # Class Framework for Collections : Draft
 
 
-This page describes a proposal for a class framework for collection types. Related ticket: [\#666](https://gitlab.haskell.org//ghc/ghc/issues/666)
+
+This page describes a proposal for a class framework for collection types. Related ticket: [\#666](https://gitlab.haskell.org/ghc/ghc/issues/666)
+
 
 
 Please give feedback on libraries at haskell.org.
@@ -47,6 +49,11 @@ I'm especially interested in cases where this framework does not fit your applic
 ## Note
 
 
+
 Attachment below is outdated, but the library can be found on Hackage:
 
+
+
 [http://hackage.haskell.org/cgi-bin/hackage-scripts/package/collections-0.3](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/collections-0.3)
+
+

@@ -14,10 +14,13 @@ We have three kinds of type variables:
 
 ### Normal type equations
 
-*Normal type equations*`s = t` obey the following constraints:
+
+
+*Normal type equations* `s = t` obey the following constraints:
+
 
 - *Constructor based*: The left-hand side `s` must have for form `F s1 .. sn` where `F` is a type family and the `si` are formed from data type constructors, schema variables, and rigid variables only (i.e., they may not contain type family constructors or wobbly variables).
-- *Non-overlapping*: For any other axiom or local assumption `s' = t'`, there may not be any substitution *theta*, such that (*theta*`s`) equals (*theta*`s'`).
+- *Non-overlapping*: For any other axiom or local assumption `s' = t'`, there may not be any substitution *theta*, such that (*theta* `s`) equals (*theta* `s'`).
 - *Left linear*: No schema variable appears more than once in `s`.
 - *Decreasing*: The number of data type constructor and variables symbols occurring in the arguments of a type family occuring in `t` must be strictly less than the number of data type constructor and variable symbols in `s`.
 - *Rank 0*: No foralls in `s` or `t`.

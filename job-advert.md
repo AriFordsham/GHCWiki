@@ -57,4 +57,8 @@ course: please contact Simon Marlow or Simon Peyton Jones for further informatio
 The rate of pay is dependent on qualifications and experience.  It'll be
 fun!
 
+
+
 *Simon Peyton Jones and Simon Marlow*
+
+

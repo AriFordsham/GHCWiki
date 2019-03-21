@@ -56,7 +56,7 @@ In the rules below \<breakpoint\> and \<breakpointJump\> are placeholders for th
 ```
 
 
-The \<ptr b\> placeholder denotes a pointer to the compiler datastructures for b, which in GHC are values of type [compiler/basictypes/Id.hs](/ghc/ghc/tree/master/ghc/compiler/basictypes/Id.hs).
+The \<ptr b\> placeholder denotes a pointer to the compiler datastructures for b, which in GHC are values of type [compiler/basictypes/Id.hs](/trac/ghc/browser/ghc/compiler/basictypes/Id.hs).
  
 The \<srcloc x\> placeholder denotes the source code location information for the expression x.
 

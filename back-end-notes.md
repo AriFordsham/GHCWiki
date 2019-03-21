@@ -70,9 +70,11 @@ real loop optimisations, described below.
 ### Heap/stack checks
 
 
+
 We often see tail-recursive functions that include a heap or stack
-check purely for the exit case of the loop.  See [\#1498](https://gitlab.haskell.org//ghc/ghc/issues/1498). For example, if the
+check purely for the exit case of the loop.  See [\#1498](https://gitlab.haskell.org/ghc/ghc/issues/1498). For example, if the
 function looks something like this:
+
 
 ```wiki
 f = \x y -> case x of
@@ -122,7 +124,9 @@ GCC has a framework for gathering and using branch prediction information to imp
 So the suggestion is that GHC could have a similar framework including explicit user annotations. It is believed that this could make a significant difference to the speed of some low level code like ByteString.
 
 
-See ticket [\#849](https://gitlab.haskell.org//ghc/ghc/issues/849) for more details.
+
+See ticket [\#849](https://gitlab.haskell.org/ghc/ghc/issues/849) for more details.
+
 
 ## Improving and refactoring the native code generator
 

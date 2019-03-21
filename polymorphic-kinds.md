@@ -7,10 +7,18 @@ Currently thinking about adding **Polymorphic Kinds** to GHC ... this document i
 This is strongly motivated by wanting to add a new [KindSystem](kind-system), but does not require it.  
 See [KindSystem](kind-system) for a discussion of the syntax of sorts (which classify kinds).
 
+
 ## Example: At the term level
 
+
 ```
-f:: forall_kind (k ::**). forall (m :: k ->*)(a :: k). m a ->Intf_=2dataT m =MkT(m Int)foo= f (Just2)-- m = Maybe, a = Intbar= f (MkT(Just2))-- m = T    , a = Maybe
+f :: forall_kind (k :: **). forall (m :: k -> *) (a :: k) . m a -> Int
+f _ = 2
+
+data T m = MkT (m Int)
+
+foo = f (Just 2)        -- m = Maybe, a = Int
+bar = f (MkT (Just 2))  -- m = T    , a = Maybe
 ```
 
 ## Example: Typeable\[123..\]
@@ -23,13 +31,36 @@ With polymorphic kinds, it should be possible to remove the need for
 Because we need a way of talking about the types (and hence their kinds) in the
 type classes' functions, we will need a proxy data type:
 
+
 ```
-dataProxy:: forall k . k ->*classTypeable(k ::**)(t :: k)where
-  typeOf ::Proxy t ->TypeRep-- Typeable :: forall (k :: **). k -> Class-- f :: forall a. a -> Int-- forall a. f (x::a) = 3???-- At term level we scope type variables from a separate signature-- For class decls it's unclear. One possiblity: implicitly bring k into scope, and-- infer its sort. -- When we call f, we write (f 3) not (f Int 3)-- Similarly we want to write (Typeable Int) not (Typable * Int)instanceTypeableBoolwhere
-  typeOf _= mkTyCon "Prelude.Bool"[]instanceTypeableMaybewhere
-  typeOf _= mkTyConApp (mkTyCon "Prelude.Mabe")[]instanceTypeableEitherwhere
-  typeOf _=...instance(Typeable(t1 ::(*->*),Typeable(t2 ::*)))=>Typeable(t1 t2)where
-  typeOf _=(typeOf (undefined ::Proxy t1))`mkAppTy`(typeOf (undefined ::Proxy t2))
+data Proxy :: forall k . k -> *
+
+class Typeable (k :: **) (t :: k) where
+  typeOf :: Proxy t -> TypeRep
+
+-- Typeable :: forall (k :: **). k -> Class
+
+-- f :: forall a. a -> Int
+-- forall a. f (x::a) = 3???
+-- At term level we scope type variables from a separate signature
+-- For class decls it's unclear. One possiblity: implicitly bring k into scope, and
+-- infer its sort. 
+
+-- When we call f, we write (f 3) not (f Int 3)
+-- Similarly we want to write (Typeable Int) not (Typable * Int)
+
+instance Typeable Bool where
+  typeOf _ = mkTyCon "Prelude.Bool" []
+
+instance Typeable Maybe where
+  typeOf _ = mkTyConApp (mkTyCon "Prelude.Mabe") []
+
+instance Typeable Either where
+  typeOf _ = ...
+
+instance (Typeable (t1 :: (* -> *), 
+          Typeable (t2 :: *))) => Typeable (t1 t2) where
+  typeOf _ = (typeOf (undefined :: Proxy t1)) `mkAppTy` (typeOf (undefined :: Proxy t2))
 ```
 
 ## Functions Quantifying over Kinds
@@ -47,10 +78,13 @@ mark when a new kind is being quantified over.
 If it were to take the form  `forall_kind vars .` then it shouldn't interact
 with existing forms.
 
+
 ### Option 2: Use forall and infer kind variables from usage
 
+
 ```
-f:: forall k (m :: k ->*)(a :: k). m a ->Intf_=2
+f :: forall k (m :: k -> *) (a :: k) . m a -> Int
+f _ = 2
 ```
 
 
@@ -71,17 +105,23 @@ in the kind signatures.
 ### Option 3: Completely implicit quantified kind variables
 
 
+
 In any type signature, find all the free kind variables; bring them into scope; kind-check the type signature; fix the sorts of the kind variables. Entirely local to an explicit, user-written type signature.
 
+
 ```
-f:: forall (m :: k ->*)(a :: k). m a ->Int
+f :: forall (m :: k -> *) (a :: k) . m a -> Int
 ```
+
 
 **Pros:**
 
+
 - In line with haskell type variables being implicitly quantified
 
+
 ** Cons: **
+
 
 - This makes it hard to add additional constraints to the k in future (sort annotations, kind classes?)
 
@@ -105,21 +145,41 @@ Question: could the same thing happen at the next level up, so that we want expl
 ## Type Classes
 
 
+
 Declaration options:
+
 
 ### Option 1: Implicit kind variables
 
+
 ```
-classBar(a :: k ->*)where-- standaloneclassBar(a :: k ->*)=>Baz(a ::*-> k)where-- superclass, explicit name (shared)classBar a =>Baz(a ::*-> k)where-- superclass, new k?instanceBang(a :: k ->*)=>Bar(a :: k ->*)-- instance implication, explicinstanceBang a =>Bar(a :: k ->*)-- instance implication, explicclassFoo(a :: k ->*)(b :: k ->*)where-- MPTC name shared
+class Bar (a :: k -> *) where                      -- standalone
+
+class Bar (a :: k -> *) => Baz (a :: * -> k) where -- superclass, explicit name (shared)
+class Bar a => Baz (a :: * -> k) where             -- superclass, new k?
+
+instance Bang (a :: k -> *) => Bar (a :: k -> *)   -- instance implication, explic
+instance Bang a => Bar (a :: k -> *)   -- instance implication, explic
+
+class Foo (a :: k -> *) (b :: k -> *) where        -- MPTC name shared
 ```
 
 ### Option 2: Explicit kind variables
 
 
+
 Here reusing `forall` is probably safe, although possibly inconsistent if we go for `forall_kind` (or other) as a term level quantifier...
 
+
 ```
-class forall k .Blah(a :: k ->*)where-- standaloneclass forall k .Baz(a :: k ->*)=>Bar(a ::*-> k)where-- superclass, shared kclass forall k .Baz a =>Bar(a ::*-> k)where-- superclass, new kinstance forall k .Bang(a :: k ->*)=>Bar(a :: k ->*)-- instance implication, shared kinstance forall k .Bang a =>Bar(a :: k ->*)-- instance implication, new kclass forall k .Foo(a :: k ->*)(b :: k ->*)where-- MPTC name shared
+class forall k . Blah (a :: k -> *) where                     -- standalone
+class forall k . Baz (a :: k -> *) => Bar (a :: * -> k) where -- superclass, shared k
+class forall k . Baz a => Bar (a :: * -> k) where             -- superclass, new k
+
+instance forall k . Bang (a :: k -> *) => Bar (a :: k -> *)   -- instance implication, shared k
+instance forall k . Bang a => Bar (a :: k -> *)               -- instance implication, new k
+
+class forall k . Foo (a :: k -> *) (b :: k -> *) where        -- MPTC name shared
 ```
 
 

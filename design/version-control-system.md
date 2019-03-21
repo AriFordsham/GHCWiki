@@ -31,7 +31,10 @@ We propose the following:
 - Which is which will be decided on a case-by-case basis.  The main criterion is: is GHC a passive client of the library, which is maintained by someone else (e.g. Cabal, containers), or is the library intimately coupled with GHC's inner workings (e.g. template-haskell)?
 
 >
+>
 > If in doubt we should resolve ties in favour of darcs; we can always change our minds later, but changing and then changing back would be silly.
+>
+>
 
 - Our specific proposals for the master VCS for each boot library are:
 

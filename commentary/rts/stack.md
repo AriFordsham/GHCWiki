@@ -1,1 +1,1 @@
-Page moved to [Commentary/Rts/Storage/Stack](/trac/ghc/wiki/Commentary/Rts/Storage/Stack)
+Page moved to [Commentary/Rts/Storage/Stack](commentary/rts/storage/stack)

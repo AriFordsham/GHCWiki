@@ -28,4 +28,7 @@ Doing this imports the module `GHC` from the package `ghc`, which comes with GHC
 [http://cvs.haskell.org/cgi-bin/cvsweb.cgi/fptools/ghc/compiler/main/GHC.hs](http://cvs.haskell.org/cgi-bin/cvsweb.cgi/fptools/ghc/compiler/main/GHC.hs)
 
 
+
 Here's an example main program that does it [Main.hs](/trac/ghc/attachment/wiki/UsingGhcAsLibrary/Main.hs)[](/trac/ghc/raw-attachment/wiki/UsingGhcAsLibrary/Main.hs)
+
+

@@ -12,7 +12,9 @@ We recently made the rule-matcher able to "look through" lets, thus
 ```
 
 >
+>
 > The rule will still match, giving
+>
 >
 > ```wiki
 >    let v = e in rhs[v/x]

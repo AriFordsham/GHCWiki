@@ -25,21 +25,22 @@ Notes regarding the implementation inn `TcTyFuns`
 
 ## Terminology
 
-<table><tr><th>*Wanted equality*</th>
+
+<table><tr><th><i>Wanted equality</i></th>
 <td>
 An equality constraint that we need to derive during type checking.  Failure to derive it leads to rejection of the checked program.
 </td></tr>
-<tr><th>*Local equality*, *given equality*</th>
+<tr><th><i>Local equality</i>, <i>given equality</i></th>
 <td>
 An equality constraint that -in a certain scope- may be used to derive wanted equalities.
 </td></tr>
-<tr><th>*Flexible type variable*,  *unification variable*, *HM variable*</th>
+<tr><th><i>Flexible type variable</i>,  <i>unification variable</i>, <i>HM variable</i></th>
 <td>
-Type variables that may be **globally** instantiated by unification.  We use Greek letters `alpha, beta,`... as names for these variables.
+Type variables that may be <b>globally</b> instantiated by unification.  We use Greek letters <tt>alpha, beta,</tt>... as names for these variables.
 </td></tr>
-<tr><th>*Rigid type variable*, *skolem type variable*</th>
+<tr><th><i>Rigid type variable</i>, <i>skolem type variable</i></th>
 <td>
-Type variable that cannot be globally instantiated, but it may be **locally** refined by a local equality constraint.  We use Roman letters `a, b,`... as names for these variables.
+Type variable that cannot be globally instantiated, but it may be <b>locally</b> refined by a local equality constraint.  We use Roman letters <tt>a, b,</tt>... as names for these variables.
 </td></tr></table>
 
 
@@ -60,13 +61,15 @@ However, the three phases differ in important ways.  In particular, normalisatio
 ## Normal equalities
 
 
+
 Central to the algorithm are **normal equalities**, which can be regarded as a set of rewrite rules.  Normal equalities are carefully oriented and contain synonym families only as the head symbols of left-hand sides.  They assume one of the following two major forms:
 
-1. **Family equality:**`co :: F t1..tn ~ t` or
-1. **Variable equality:**`co :: x ~ t`, where we again distinguish two forms:
 
-  1. **Variable-term equality:**`co :: x ~ t`, where `t` is *not* a variable, or
-  1. **Variable-variable equality:**`co :: x ~ y`, where `x > y`.
+1. **Family equality:** `co :: F t1..tn ~ t` or
+1. **Variable equality:** `co :: x ~ t`, where we again distinguish two forms:
+
+  1. **Variable-term equality:** `co :: x ~ t`, where `t` is *not* a variable, or
+  1. **Variable-variable equality:** `co :: x ~ y`, where `x > y`.
 
 
 where
@@ -184,61 +187,88 @@ Notes:
 Propagation is based on four rules that transform family and variable equalities.  The first rule transforms a family equality using a toplevel equality schema.  The other three use one equality to transform another.  In the presentation, the transforming equality is always first and the transformed is second, separate by an ampersand (`&`).
 
 
+
 Below the rules are two scheme for applying the rules.  The first one naively iterates until the system doesn't change anymore.  The second scheme optimises the iteration somewhat.
+
 
 ### Rules
 
-<table><tr><th>**Top**</th>
-<td>```wiki
+
+<table><tr><th><b>Top</b></th>
+<td>
+
+```wiki
 co :: F t1..tn ~ t
 =(Top)=>
 co' :: [s1/x1, .., sm/xm]s ~ t with co = g s1..sm |> co'  
 ```
 
-where `g :: forall x1..xm. F u1..um ~ s` and `[s1/x1, .., sm/xm]u1 == t1`.
+where <tt>g :: forall x1..xm. F u1..um ~ s</tt> and <tt>[s1/x1, .., sm/xm]u1 == t1</tt>.
 </td></tr></table>
 
+
+>
 >
 > NB: Afterwards, we need to normalise.  Then, any of the four propagation rules may apply.
+>
+>
 
-<table><tr><th>**SubstFam**</th>
-<td>```wiki
+<table><tr><th><b>SubstFam</b></th>
+<td>
+
+```wiki
 co1 :: F t1..tn ~ t  &  co2 :: F t1..tn ~ s
 =(SubstFam)=>
 co1 :: F t1..tn ~ t  &  co2' :: t ~ s with co2 = co1 |> co2'
 ```
 
-where `co1` may be a wanted only if `co2` is a wanted, too.
+where <tt>co1</tt> may be a wanted only if <tt>co2</tt> is a wanted, too.
 </td></tr></table>
 
+
+>
 >
 > NB: Afterwards, we need to normalise `co2'`.  Then, the SubstVarVar or SubstVarFam rules may apply to the results of normalisation.  Moreover, `co1` may have a SubstFam or a SubstVarFam match with rules other than the results of normalising `co2'`.
+>
+>
 
-<table><tr><th>**SubstVarVar**</th>
-<td>```wiki
+<table><tr><th><b>SubstVarVar</b></th>
+<td>
+
+```wiki
 co1 :: x ~ t  &  co2 :: x ~ s
 =(SubstVarVar)=>
 co1 :: x ~ t  &  co2' :: t ~ s with co2 = co1 |> co2'
 ```
 
-where `co1` may be a wanted only if `co2` is a wanted, too.
+where <tt>co1</tt> may be a wanted only if <tt>co2</tt> is a wanted, too.
 </td></tr></table>
 
+
+>
 >
 > NB: Afterwards, we need to normalise `co2'`.  Then, the SubstVarVar or SubstVarFam rules may apply to the results of normalisation, but not with `co1`, as `s` and `t` cannot contain `x` -- cf. the definition of normal equalities.  However, `co1` may have another SubstVarVar or SubstVarFam match with rules other than the results of normalising `co2'`.
+>
+>
 
-<table><tr><th>**SubstVarFam**</th>
-<td>```wiki
+<table><tr><th><b>SubstVarFam</b></th>
+<td>
+
+```wiki
 co1 :: x ~ t  &  co2 :: F s1..sn ~ s
 =(SubstVarFam)=>
 co1 :: x ~ t  &  co2' :: [t/x](F s1..sn) ~ s with co2 = [co1/x](F s1..sn) |> co2'
 ```
 
-where `x` occurs in `F s1..sn`, and `co1` may be a wanted only if `co2` is a wanted, too.
+where <tt>x</tt> occurs in <tt>F s1..sn</tt>, and <tt>co1</tt> may be a wanted only if <tt>co2</tt> is a wanted, too.
 </td></tr></table>
 
+
+>
 >
 > NB: No normalisation required.  Afterwards, SubstVarVar or SubstVarFam may apply to `co1` and all rules, except SubstVarVar, may apply to `co2'`.  However, SubstVarFam cannot again apply to `co1` and `co2'`, as `t` cannot contain `x` -- cf. the definition of normal equalities.
+>
+>
 
 
 NB: In the three substitution rules, it is never necessary to try using `co1` with any of the equalities derived from `co2'`.  Hence, after having considered one equality as `co1` with every other equality, we can immediately put `co1` into the list of residual equalities.
@@ -306,9 +336,11 @@ propagate eqs = prop eqs []
 ## Finalisation
 
 
+
 The finalisation step instantiates as many flexible type variables as possible, but it takes care not to instantiate variables occurring in the global environment with types containing synonym family applications.  This is important to obtain principle types (c.f., Andrew Kennedy's thesis).  We perform finalisation in two steps:
 
-1. **Substitution:**
+
+1.  **Substitution:** 
 
   - **Step A:** For any (local or wanted) variable equality of the form `co :: x ~ t`, we apply the substitution `[t/x]` to the **right-hand side** of all equalities (wanteds only to wanteds).  We also perform the same substitution on class constraints (again, wanteds only to wanteds).
   - **Step B:** We have two cases:
@@ -318,7 +350,10 @@ The finalisation step instantiates as many flexible type variables as possible, 
   - **Step C:** Same as Step B, but `alpha` is not a skolem flexible.
 
 >
+>
 > At this point all variables bound in the next step have disappeared from the constraint set; it is as if the variables have been locally instantiated.
+>
+>
 
 1. **Instantiation:** For any variable equality of the form `co :: alpha ~ t` or `co :: a ~ alpha`, where `co` is wanted, we instantiate `alpha` with `t` or `a`, respectively, and set `co := id`.  Moreover, we have to do the same for equalities of the form `co :: F t1..tn ~ alpha` unless we are in inference mode and `alpha` appears in the environment or is a local skolem flexible that is propagated into the environment by another binding.
 

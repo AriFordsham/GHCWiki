@@ -37,9 +37,11 @@ our design are as follows:
 ## Design philosophy
 
 
+
 State-of-the art dataflow optimization and register allocation both
 require complex implementations.  We live with this complexity because
-**creating new clients is easy.**
+**creating new clients is easy.**  
+
 
 - **Dataflow optimization:** We can define a new
   optimization simply by defining a lattice of dataflow facts (akin
@@ -67,7 +69,12 @@ require complex implementations.  We live with this complexity because
   define common functions such as identifying the registers read and
   written by each instruction.
 
+
+     
+
+
 ## Proposed compilation pipeline
+
 
 1. Convert from `STG` to an control flow graph `CmmGraph`:
 1. Instruction selection:
@@ -80,7 +87,9 @@ require complex implementations.  We live with this complexity because
 ### Convert from STG to control flow graph
 
 
-Convert from `STG` to an control flow graph `CmmGraph` ([compiler/cmm/ZipCfg.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/ZipCfg.hs), [compiler/cmm/ZipCfgCmmRep.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfgCmmRep.hs)).  This step is Simon PJ's "new code generator" from September 2007.  This conversion may introduce new variables, stack slots, and compile-time constants. 
+
+Convert from `STG` to an control flow graph `CmmGraph` ([compiler/cmm/ZipCfg.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfg.hs), [compiler/cmm/ZipCfgCmmRep.hs](/trac/ghc/browser/ghc/compiler/cmm/ZipCfgCmmRep.hs)).  This step is Simon PJ's "new code generator" from September 2007.  This conversion may introduce new variables, stack slots, and compile-time constants. 
+
 
 ```wiki
 STG -> CmmGraph Cmm.Middle Cmm.Last
@@ -95,14 +104,17 @@ In practice, we first generate an "abstract control flow graph", `CmmAGraph`, wh
 ### Instruction selection
 
 
-Instruction selection: each `Cmm``Middle` and `Last` node in the control-flow graph is replaced with a new graph in which the nodes are machine instructions.
+
+Instruction selection: each `Cmm` `Middle` and `Last` node in the control-flow graph is replaced with a new graph in which the nodes are machine instructions.
+
 
 ```wiki
 CmmGraph Cmm.Middle Cmm.Last -> CmmGraph I386.Middle I386.Last
 ```
 
 
-The `I386.Middle` type represents computational machine instructions; the `I386.Last` type represents control-transfer instructions.  The choice of representation is up to the author of the back end, but for continuity with the existing native code generators, we expect to begin by using algebraic data types inspired by the existing definitions in [compiler/nativeGen/MachInstrs.hs](/ghc/ghc/tree/master/ghc/compiler/nativeGen/MachInstrs.hs).
+The `I386.Middle` type represents computational machine instructions; the `I386.Last` type represents control-transfer instructions.  The choice of representation is up to the author of the back end, but for continuity with the existing native code generators, we expect to begin by using algebraic data types inspired by the existing definitions in [compiler/nativeGen/MachInstrs.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachInstrs.hs).
+
 
 
 Note that the graph still contains:
@@ -212,9 +224,11 @@ Stack Layout: `LGraph Instrs` (with stack slots, and compile-time constants) `->
 
 No more stack-slot references.
 
+
 ### Tidy up
 
-1. Proc-point splitting: `LGraph Instrs -> [LGraph Instrs]`
+
+1. Proc-point splitting: `LGraph Instrs -> [LGraph Instrs]` 
 
   - Each proc point gets its own procedure.
 1. Code layout: `LGraph Instrs -> [String]`

@@ -1,44 +1,35 @@
-CONVERSION ERROR
+# Examples of Type Functions
 
-Error: HttpError (HttpExceptionRequest Request {
-  host                 = "ghc.haskell.org"
-  port                 = 443
-  secure               = True
-  requestHeaders       = []
-  path                 = "TypeFunctionsExamples"
-  queryString          = "?version=3"
-  method               = "GET"
-  proxy                = Nothing
-  rawBody              = False
-  redirectCount        = 10
-  responseTimeout      = ResponseTimeoutDefault
-  requestVersion       = HTTP/1.1
-}
- (StatusCodeException (Response {responseStatus = Status {statusCode = 403, statusMessage = "Forbidden"}, responseVersion = HTTP/1.1, responseHeaders = [("Date","Sun, 10 Mar 2019 06:54:16 GMT"),("Server","Apache/2.2.22 (Debian)"),("Strict-Transport-Security","max-age=63072000; includeSubDomains"),("Vary","Accept-Encoding"),("Content-Encoding","gzip"),("Content-Length","258"),("Content-Type","text/html; charset=iso-8859-1")], responseBody = (), responseCookieJar = CJ {expose = []}, responseClose' = ResponseClose}) "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>403 Forbidden</title>\n</head><body>\n<h1>Forbidden</h1>\n<p>You don't have permission to access TypeFunctionsExamples\non this server.</p>\n<hr>\n<address>Apache/2.2.22 (Debian) Server at ghc.haskell.org Port 443</address>\n</body></html>\n"))
 
-Original source:
 
-```trac
-= Examples of Type Functions =
+The map example from *Associated Types with Class* in the new form:
 
-The map example from ''Associated Types with Class'' in the new form:
-{{{
+
+```wiki
 data family Map k :: * -> *
 
 data instance Map ()     v = MapUnit (Maybe v)
 data instance Map (a, b) v = MapPair (Map a (Map b v))
-}}}
+```
+
+
 We can define operations on indexed maps using a type class whose instances corresponds to the type indexes.  Note that a declaration, such as
-{{{
+
+
+```wiki
 data instance Map Int Char = Nonsense
-}}}
+```
+
+
 is not acceptable, as it constraints the second argument of `Map`, which is not a type index, but a parametric argument.
 
 
 
 Generic finite maps:
   
-{{{
+
+
+```wiki
   class GMapKey k where
     data GMap k :: * -> *
     empty       :: GMap k v
@@ -78,6 +69,9 @@ Generic finite maps:
     lookup (Right b) (GMapEither _gm1 gm2 ) = lookup b gm2
     insert (Left  a) v (GMapEither gm1 gm2) = GMapEither (insert a v gm1) gm2
     insert (Right a) v (GMapEither gm1 gm2) = GMapEither gm1 (insert a v gm2)
-}}}
-  
 ```
+
+
+  
+
+

@@ -22,11 +22,13 @@ subfolders (which may be symlinks to other subfolders).
 #### Apple-recommended way
 
 
+
 Reference a header using `#include <Foo/header.h>`.  Then, `gcc` will look for the folder `Foo.framework` in the following directories:
+
 
 - Any directories specified by `-F` (eg, `-F$HOME/Library/Frameworks`)
 - `/System/Library/Frameworks` (only Apple's frameworks should be stored here)
-- `/Library/Frameworks`
+- `/Library/Frameworks`  
 
 
 Once Foo.framework is found, `gcc` will look for:
@@ -77,7 +79,9 @@ When you run a program which was linked against a framework, it is loaded by the
 Note that the `-F` is irrelevant to runtime behavior! (Apple's docs are not at all clear, but that's definitely how it works.)  Also, note `$HOME/Library/Frameworks` is searched by default at runtime, despite what `dyld`'s manpage says.  
 
 
+
 We've checked the source of dyld.cpp and tested most of the above behavior to confirm; you can download it at the following locations (requires free Apple ID registration).  See especially the functions `load` and `loadPhase0, loadPhase1, ..., loadPhase5`.
+
 
 - [Download the source of any Darwin releases](http://www.opensource.apple.com/darwinsource/)
 - [Direct link to dyld.cpp](http://www.opensource.apple.com/darwinsource/10.5/dyld-95.3/src/dyld.cpp)

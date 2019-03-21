@@ -256,8 +256,12 @@ T t1 ....tn b /\ C2
 
 where s1 translated to (C1 \| a)
 
+
+>
 >
 > s2 translated to (C1 \| n)
+>
+>
 
 
 Then, 
