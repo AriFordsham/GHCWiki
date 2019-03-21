@@ -70,9 +70,11 @@ real loop optimisations, described below.
 ### Heap/stack checks
 
 
+
 We often see tail-recursive functions that include a heap or stack
 check purely for the exit case of the loop.  See [\#1498](https://gitlab.haskell.org/ghc/ghc/issues/1498). For example, if the
 function looks something like this:
+
 
 ```wiki
 f = \x y -> case x of

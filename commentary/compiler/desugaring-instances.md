@@ -268,6 +268,7 @@ a so-called "unknown" call, which is *far* less efficient than
 direct recursion.
 
 
+
 Note also that
 
 - Typechecking `opF_aux` is a bit fragile; see [\#3018](https://gitlab.haskell.org/ghc/ghc/issues/3018).  Trouble is that

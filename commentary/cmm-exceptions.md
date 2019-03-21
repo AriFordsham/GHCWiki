@@ -157,22 +157,6 @@ might be to
     back onto the stack and pop it into EFLAGS with `POPF`.  Depending on
     variable register used, the assembler output would look similar to:
 
-```
-	; after NEG, MUL, other potential overflow operation ...
-	jo	_reset_OF_flag	; jump near if overflow (OF=1)
-	; continue rest of operation
-	jmp	_continue_operation_on_int:
-_reset_OF_flag:
-	pushf	%eflags		; push low 16 bits of %eflags onto stack
-	pop	%ax		; pop top of stack into low 16 bits of %eax
-	and	$0xF7FF, %ax	; %ax = %ax & 0xF7FF
-	push	%ax 		; push %ax value (with bit 11 set to 0) onto stack
-	popf			; pop top of stack into lower 16 bits of %eflags
-				; OF bit now reset
-
-_continue_operation_on_int:	; this is a 32-bit address (also works in 64-bit mode)
-	;...
-```
 
 
 This bug is not due to the lack of FPU exceptions in Cmm but bears mention as the internal conversion performed in 'realToFrac' on 'Float's would benefit from FPU exceptions: with Haskell-support for FPU exceptions this realToFrac would be able to issue an exception for NaN, Infinity or rounding errors when converting a Float to a Double and vice versa.  There is a related problem with rounding errors in the functions 'encodeFloat', 'decodeFloat', 'encodeDouble' and 'decodeDouble', see [ReplacingGMPNotes/TheCurrentGMPImplementation](replacing-gmp-notes/the-current-gmp-implementation).  

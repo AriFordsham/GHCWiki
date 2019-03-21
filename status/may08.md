@@ -51,7 +51,9 @@ We expect to release a working version of Data Parallel Haskell as part of GHC 6
 We plan to release GHC 6.8.3 at the end of May 2008, with many bug-fixes but no new features.
 
 
-We plan to release GHC 6.10 around the time of ICFP, with significant new features.  The up-to-date list of new stuff is kept at [https://gitlab.haskell.org/trac/ghc/wiki/Status/Releases](https://gitlab.haskell.org/trac/ghc/wiki/Status/Releases), but here's a quick summary:
+
+We plan to release GHC 6.10 around the time of ICFP, with significant new features.  The up-to-date list of new stuff is kept at [http://hackage.haskell.org/trac/ghc/wiki/Status/Releases](http://hackage.haskell.org/trac/ghc/wiki/Status/Releases), but here's a quick summary:
+
 
 - Simple language extensions (mentioned above)
 - Type-indexed families
