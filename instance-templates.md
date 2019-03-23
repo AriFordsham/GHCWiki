@@ -4,22 +4,25 @@ This page documents yet another proposal to make class hierarchies easier to dea
 ## Example
 
 ```
-classMonad m where
+class Monad m where
   return :: a -> m a
   (>>=):: m a ->(a -> m b)-> m b
 
-  derivinginstanceFunctor m where
+  deriving instance Functor m where
     fmap = lift1
 
-  derivinginstanceApplicative m where
+  deriving instance Applicative m where
     pure = return
     (<*>)= ap
 
-instanceMonadMaybewhere
-  return =JustNothing>>=_=Nothing(Just x)>>= f = f x
+instance Monad Maybe where
+  return = Just 
+  Nothing >>= _ = Nothing
+  (Just x) >>= f = f x
 
-  deriving(Functor,Applicative)-- these inherit the constraints and params above-- ORderivinginstanceFunctor m
-  derivinginstanceApplicative m   -- these specify constraints
+  deriving (Functor, Applicative) -- these inherit the constraints and params above
+                                  -- OR deriving instance Functor m
+  deriving instance Applicative m   -- these specify constraints
 ```
 
 ## Proposal
@@ -97,23 +100,25 @@ In a deep class hierarchy (i.e. with long chains of superclasses), it may be con
 For example:
 
 ```
-classFunctor f where
-  fmap ::(a -> b)-> f a -> f b
+class Functor f where
+  fmap :: (a -> b)-> f a -> f b
 
-classFunctor f =>Applicative f where
+class Functor f => Applicative f where
   pure :: a -> f a
-  (<*>):: f (a -> b)-> f a -> f b
+  (<*>) :: f (a -> b) -> f a -> f b
 
-  derivingdefaultinstanceFunctor f where
-    fmap f =(pure f <*>)classApplicative m =>Monad m where
+  deriving default instance Functor f where
+    fmap f = (pure f <*>)
+  
+class Applicative m => Monad m where
   return :: a -> m a
   (>>=):: m a ->(a -> m b)-> m b
   fail ::String-> m a
 
-  derivingdefaultinstanceApplicative m where
+  deriving default instance Applicative m where
     pure = return
     (<*>)= ap
-  derivingdefaultFunctor
+  deriving default Functor
 ```
 
 
@@ -128,7 +133,8 @@ This proposal does not address directly how to split a class into pieces, but th
 Here is a class we want to split:
 
 ```
-classNum a where(+):: a -> a -> a
+class Num a where
+  (+):: a -> a -> a
   (*):: a -> a -> a
 ```
 
@@ -136,20 +142,23 @@ classNum a where(+):: a -> a -> a
 And here is how we might split it:
 
 ```
-classAdditive a where
+class Additive a where
   add :: a -> a -> a
-classMultiplicative a where
+class Multiplicative a where
   mult :: a -> a -> a
 
-class(Additive a,Multiplicative a)=>Num a where(+):: a -> a -> a
-  (+)= add
+class (Additive a, Multiplicative a) => Num a where
+  (+):: a -> a -> a
+  (+) = add
 
   (*):: a -> a -> a
-  (*)= mult
+  (*) = mult
 
-  derivingdefaultinstanceAdditive a where
-    add =(+)derivingdefaultinstanceMultiplicative a where
-    mult =(*){-# MINIMAL (add | (+)), (mult | (*)) #-}
+  deriving default instance Additive a where
+    add =(+)
+  deriving default instance Multiplicative a where
+    mult =(*)
+  {-# MINIMAL (add | (+)), (mult | (*)) #-}
 ```
 
 
