@@ -6,14 +6,14 @@ This page documents yet another proposal to make class hierarchies easier to dea
 ```
 class Monad m where
   return :: a -> m a
-  (>>=):: m a ->(a -> m b)-> m b
+  (>>=) :: m a ->(a -> m b)-> m b
 
   deriving instance Functor m where
     fmap = lift1
 
   deriving instance Applicative m where
     pure = return
-    (<*>)= ap
+    (<*>) = ap
 
 instance Monad Maybe where
   return = Just 
@@ -112,12 +112,12 @@ class Functor f => Applicative f where
   
 class Applicative m => Monad m where
   return :: a -> m a
-  (>>=):: m a ->(a -> m b)-> m b
-  fail ::String-> m a
+  (>>=) :: m a ->(a -> m b)-> m b
+  fail :: String-> m a
 
   deriving default instance Applicative m where
     pure = return
-    (<*>)= ap
+    (<*>) = ap
   deriving default Functor
 ```
 
@@ -134,8 +134,8 @@ Here is a class we want to split:
 
 ```
 class Num a where
-  (+):: a -> a -> a
-  (*):: a -> a -> a
+  (+) :: a -> a -> a
+  (*) :: a -> a -> a
 ```
 
 
@@ -148,16 +148,16 @@ class Multiplicative a where
   mult :: a -> a -> a
 
 class (Additive a, Multiplicative a) => Num a where
-  (+):: a -> a -> a
+  (+) :: a -> a -> a
   (+) = add
 
-  (*):: a -> a -> a
+  (*) :: a -> a -> a
   (*) = mult
 
   deriving default instance Additive a where
-    add =(+)
+    add = (+)
   deriving default instance Multiplicative a where
-    mult =(*)
+    mult = (*)
   {-# MINIMAL (add | (+)), (mult | (*)) #-}
 ```
 
