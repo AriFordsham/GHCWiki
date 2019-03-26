@@ -114,6 +114,12 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
 ## Gitlab tips
 
+- **Search** is rather confusing. If you type a search into the prominent "Search of jump to.." box in the black menu bar at the top, you'll see a list of results, but it's easy to miss the fact that **there are a bunch of separate non-prominent tabs**, one for code, one for issues, one for comments etc.
+
+  If you are search issues you must look _both_ under "Issues" _and_ under "Comments".
+
+  There does not seem to be any way to change the sort order of the results. I don't know what the sort order actually is.
+
 - **Markup**. In GitLab markup:
 
   - `#3553` links to issue 3553
