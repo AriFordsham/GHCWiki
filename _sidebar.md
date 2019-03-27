@@ -14,3 +14,4 @@
 
 ##### Wiki
 [Title Index](https://gitlab.haskell.org/ghc/ghc/wikis/index)  
+[Recent Changes](https://gitlab.haskell.org/ghc/ghc-wiki-mirror/commits/master)  
