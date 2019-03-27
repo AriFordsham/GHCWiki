@@ -206,3 +206,99 @@ This particular style is exactly the kind of code which the static argument tran
 
 
 Indeed, more inlining does happen if you turn on `-fstatic-argument-transformation` when deriving Foldable as it will allow the `foldMap` to be inlined and `f` to be specialised.
+
+# SAT vs. SpecConstr
+
+I (Sebastian) argue that SAT only is beneficial if the SAT'd argument ultimately leads to an increase of analysis information about use sites (like a known call or a redex). This is the same reasoning that drives `SpecConstr`, so it makes sense to compare the two (I'm not the first to realise this, ofc).
+
+Example:
+
+```
+f x y z = ... case x of ... case y of ... f x y (z+1) ...
+
+g a = ... f (Just a) True (a+3) ... f Nothing False (a-3) ...
+```
+
+## SAT
+
+SAT will turn this into
+
+```
+f x y z = sat_worker z
+  where
+    sat_worker z = ... case x of ... case y of ... sat_worker (z+1) ...
+
+g a = ... f (Just a) True (a+3) ... f Nothing False (a-3) ...
+```
+
+Note that operationally, this probably wasn't a beneficial transformation at all. It's basically inverse lambda lifting: We allocate an extra thunk for `sat_worker` that only really breaks even when the recursive call site is inside a thunk (see the concept of *closure growth* in [selective lambda lifting](https://pp.ipd.kit.edu/~sgraf/papers/sel-lam-lift-preprint.pdf)).
+
+But `f` has a huge advantage: Inlining `f` means specialising `sat_worker` for that particular call site:
+
+```
+f x y z = sat_worker z
+  where
+    sat_worker z = ... case x of ... case y of ... sat_worker (z+1) ...
+
+g a = ... sat_worker1 (a+3) ... sat_worker2 (a-3) ...
+  where
+    sat_worker1 z = ... case Just a of ... case True of ... sat_worker1 (z+1) ...
+    sat_worker2 z = ... case Nothing of ... case False of ... sat_worker2 (z+1) ...
+```
+
+And the simplifier will perform case-of-known-constructor. But it's problematic when `f` doesn't inline! Seen this way, SAT is just a way to express that we want to specialise for a particular (static) argument. Note that now we have selective lambda lifting, we will probably revert some of the badness, by turning `f` into the following
+
+```
+$lsat_worker x y z = ... case x of ... case y of ... $lsat_worker x y (z+1) ...
+f x y z = $lsat_worker x y z
+```
+
+Eww... Regardless, what counts is that prior Core passes specialised the function and that we exported an unfolding that has the SAT'd form. We hopefully never actually call this function. But SAT can't know, because it's a decision made by the inliner.
+
+## SpecConstr
+
+Call-pattern specialisation would go differently about specialising `f`, by first looking at its particular call sites and recording the call-patterns `[Just _, True, _]` and `[Nothing, False, _]`, leading to the following specialisations:
+
+```
+$sf1 a z = ... case Just a of ... case True of ... f (Just a) True (z+1) ...
+$sf2 z = ... case Nothing of ... case False of ... f Nothing False (z+1) ...
+
+{-# RULES "SC:$sf1" forall a z. f (Just a) True z = $sf1 a z #-}
+{-# RULES "SC:$sf2" forall a z. f Nothing False z = $sf2 z #-}
+f x y z = ... case x of ... case y of ... f x y (z+1) ...
+
+g a = ... f (Just a) True (a+3) ... f Nothing False (a-3) ...
+```
+
+Note how `SpecConstr` defers resolution of the call sites to the RULES engine and how the non-specialisable parts `a` and `z` are passed as arguments instead of free variables. This allows the simplifier to *share* specialisations, somewhat remedying the code bloat potential (I'm unsure if it matters in practice).
+
+This is the result after optimisations:
+
+```
+$sf1 a z = ... $sf1 a (z+1) ...
+$sf2 z = ... $sf2 (z+1) ...
+
+{-# RULES "SC:$sf1" forall a z. f (Just a) True z = $sf1 a z #-}
+{-# RULES "SC:$sf2" forall a z. f Nothing False z = $sf2 z #-}
+f x y z = ... case x of ... case y of ... f x y (z+1) ...
+
+g a = ... $sf1 a (a+3) ... $sf2 (a-3) ...
+```
+
+No passing of static arguments in specialisations, either, and the original `f` is still in a lambda lifted form.
+
+## Comparison
+
+|        | SpecConstr | SAT |
+| ------ | ---------- | --- |
+| Reliability | Reliably specialises, but currently not for call patterns outside the defining module | Hinges on the inliner's decision to inline the wrapper function at call sites. Works flawlessly across module boundaries. |
+| Code bloat | Always specialises when call pattern is met with argument occurrences, leading to multiple specialisations (polyvariance). Tries to share specialisations with RULES | The inliner decides if it is worthwhile to inline, thus specialising the SAT worker. The effect is one specialisation per inlined call site, regardless of whether the same argument pattern occurred somewhere else |
+| Unspecialised fallback | The original function body is left untouched, only RULES for call sites | The original function remains SAT'd and non-inlined calls will have to allocate an unnecessary closure for the `sat_worker`. Although selective lambda lifting rectifies this in part. |
+| Specialises for functions | No, sadly. Possibly in the future. | Yes |
+| Specialises for non-static arguments | Yes | No |
+
+## Ramblings
+
+I actually think that the SAT'd form (as opposed to the lambda lifted form) is the better informed one, because the knowledge that the arguments are static is implicitly encoded in the syntax tree, so that more passes implicitly profit from that knowledge. Since we do a late selective lambda lifting pass, the non-beneficial cases (from the perspective of allocations) should be identified pretty reliably.
+
+But SAT's greatest weakness is how it relies on the inliner to become actually beneficial: Knowing that some argument is static is useless when it's just bound as a parameter of an outer function (which is the case when the wrapper isn't inlined).
