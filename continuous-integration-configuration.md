@@ -132,6 +132,8 @@ gitlab-runner install --user ".\gitlab" --password ...
 ```
 Register the runner.
 
+Install the cleanup scheduled task using [this script](https://gitlab.haskell.org/bgamari/ghc-utils/blob/master/cleanup-windows.py).
+
 ### Optimisation
 
 * To improve IO performance disable creation of 8.3 filenames: `fsutil 8dot3name set 1`.
