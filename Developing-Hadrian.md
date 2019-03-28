@@ -39,7 +39,21 @@ How accurate do dependencies need to be? In any given build rule, dependencies a
 * need all shallow dependencies.
 * `produces` all vital outputs (excluding the rule target).
 
-#### Linting with fsatrace
+### Linting with fsatrace
 
-TODO How does --lint-fsatrace help use?
+Shake provides a nice linting feature with the `--lint-fsatrace` command line option (Hadrian now supports this too). This requires installing [fsatrace](https://github.com/jacereda/fsatrace). This feature will use fsatrace to monitor file system accesses of external commands and issues lint errors accordingly. It's important to note that this is not a catch all solution as it does NOT consider:
 
+* file accesses done by non-external commands (e.g. directly calling `parseMyFile :: IO String` in Hadrian instead of issuing Shake's `cmd` funciton and using the stdout)
+* file accesses outside of the build directory and the ghc root directory.
+
+That said, fsatrace linting should capture a significant portion of issues. The linting errors are summarized bellow.
+
+#### Lint: file used but not depended upon
+
+An external command read a file but didn't `need` it. If the file is a shallow dependency, then add a need statement. Else use `trackAllow` to silence the error, or if such files should globally be ignored then add a FilePattern to `shakeLintIgnore` in the `ShakeOptions` (and a comment justifying the decision).
+
+#### Lint: file depended upon after being used
+
+You `need`ed a file only after it was read. Make sure to `need` the file *before* using it.
+
+#### Lint: TODO other errors 
