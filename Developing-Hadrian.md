@@ -11,9 +11,10 @@ Shake, Hadrian's underlying build system, has a cloud shared cache feature. This
 * **Shallow Dependency**: A subset of the direct dependencies such that: *no change in the shallow dependencies -> no change in the vial output*. This set is not unique (the direct dependencies are trivially a set of shallow dependencies), but we try to define this as a minimal (or close to minimal) set. With respect to a rule for a haskell object file X.o, the shallow dependencies are the source file X.hs and interface files Y.hi (or Y.hi-boot) for all modules Y imported by X (see [makefile-dependencies](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/separate_compilation.html#makefile-dependencies)). These are the dependencies of X.o as reported by `ghc -M X.hs`. Note that this is a sufficient set as ghc guarantees that the shallow .hi dependencies will change if the deep .hi dependencies change.
 * **Deep Dependency**: The direct dependencies minus the shallow dependencies. With respect to a rule for a haskell object file X.o, the deep dependencies are all hi/hi-boot files required by ghc to build X.o excluding direct dependencies. This is a subset of modules transitively imported by X. These dependencies are NOT reported by `ghc -M X.hs`
 
-Shallow Dependency ∪ Deep Dependency = Direct Dependency
-Shallow Dependency ⊆ Vital Input ⊆ Direct Dependency
-Vital Output ⊆ Direct Output
+Properties:
+* Shallow Dependency ∪ Deep Dependency = Direct Dependency
+* Shallow Dependency ⊆ Vital Input ⊆ Direct Dependency
+* Vital Output ⊆ Direct Output
 
 Consider this scenario:
 
