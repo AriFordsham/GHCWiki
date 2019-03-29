@@ -65,9 +65,9 @@ Here are some notes about the individual constructors of `Expr`.
 
 - `Lam` is used for both term and type abstraction (small and big lambdas).
 
-- `Type` appears only in type-argument positions (e.g. `App (Var f) (Type ty)`).  To emphasise this, the type synonym `Arg` is used as documentation when we expect that a `Type` constructor may show up.  Anything not called `Arg` should not use a `Type` constructor. Additional GHC Core uses so called type-lambdas, they are like lambdas, but instead of taking a real argument, they take a type instead. You should not confuse them with TypeFamilies, because type-lambdas are working on a value level, while type families are functions on the type level. The simplies example for a type-lambda usage is a polymorphic one: `\x -> x`. It will be represented in Core as `A.id = \ (@ t_aeK) (x_aeG :: t_aeK) -> x_aeG`, where `t_aeK` is a \*type argument\*, so when specyfying the argument of `x_aeG` we can refer to `t_aeK`. This is how polymorphism is represented in Core.
+- `Type` appears only in type-argument positions (e.g. `App (Var f) (Type ty)`).  To emphasise this, the type synonym `Arg` is used as documentation when we expect that a `Type` constructor may show up.  Anything not called `Arg` should not use a `Type` constructor. Additional GHC Core uses so called type-lambdas, they are like lambdas, but instead of taking a real argument, they take a type instead. You should not confuse them with TypeFamilies, because type-lambdas are working on a value level, while type families are functions on the type level. The simplest example for a type-lambda usage is a polymorphic one: `\x -> x`. It will be represented in Core as `A.id = \ (@ t_aeK) (x_aeG :: t_aeK) -> x_aeG`, where `t_aeK` is a \*type argument\*, so when specifying the argument of `x_aeG` we can refer to `t_aeK`. This is how polymorphism is represented in Core.
 
-- `Let` handles both recursive and non-recursive let-bindings; see the the two constructors for `Bind`. The Let constructor contains both binders as well as the resulting expression. The resulting expression is the `e` in expression `let x = r in e`.
+- `Let` handles both recursive and non-recursive let-bindings; see the two constructors for `Bind`. The Let constructor contains both binders as well as the resulting expression. The resulting expression is the `e` in expression `let x = r in e`.
 
 - `Case` expressions need [more explanation](commentary/compiler/core-syn-type#case-expressions).
 
@@ -86,10 +86,10 @@ Case expressions are the most complicated bit of `Core`.  In the term `Case scru
 - `alts` is a list of the case alternatives
 
 
-A case expression can scrutinise 
+A case expression can scrutinise
 
-- **a data type** (the alternatives are `DataAlt`s), or 
-- **a primitive literal type** (the alternatives are `LitAlt`s), or 
+- **a data type** (the alternatives are `DataAlt`s), or
+- **a primitive literal type** (the alternatives are `LitAlt`s), or
 - **a value of any type at all** (if there is one `DEFAULT` alternative).
 
 
@@ -153,7 +153,7 @@ Case expressions have several invariants
 >
 >
 
-- The list of alternatives is **always exhaustive**, meaning that it covers **all reachable cases**.  Note, however, that an "exhausive" case does not necessarily mention all constructors:
+- The list of alternatives is **always exhaustive**, meaning that it covers **all reachable cases**.  Note, however, that an "exhaustive" case does not necessarily mention all constructors:
 
   ```wiki
   data Foo = Red | Green | Blue
@@ -165,7 +165,7 @@ Case expressions have several invariants
   			Blue  -> ... )
   ```
 
-  The inner case does not need a `Red` alternative, because x can't be `Red` at that program point. Furthermore, GADT type-refinement might mean that some alternatives are not reachable, and hence can be discarded.  
+  The inner case does not need a `Red` alternative, because x can't be `Red` at that program point. Furthermore, GADT type-refinement might mean that some alternatives are not reachable, and hence can be discarded.
 
 ## Shadowing
 

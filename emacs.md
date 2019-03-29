@@ -250,12 +250,17 @@ When Emacs is already running you can modify this setting with `C-x f` or `M-x s
 
 **Description**: Emacs can use a special index file, the `TAGS` file, that stores locations of various definitions (functions, modules, data types) in a given directory. Once you've generated `TAGS` file (see installation instructions below) you can type `M-.` and enter name of identifier definition to jump to. Emacs by default jumps to identifier currently under the cursor.
 
-**How to enable**: Begin by installing `hasktags` package from Hackage:
+**How to enable**: Begin by installing `hasktags`. One option is to install the package from Hackage:
 
 ```wiki
 cabal install hasktags
 ```
 
+Alternatively, on Arch Linux you may want to use your package manager since `cabal install` will fail due to [missing static versions of libraries](https://wiki.archlinux.org/index.php/haskell#Problems_with_linking):
+
+```wiki
+pacman -S hasktags
+```
 
 Now go to the directory for which you want to generate tags and run:
 

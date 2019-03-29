@@ -30,7 +30,7 @@ The instrumentation is implemented in [compiler/deSugar/Coverage.hs](/ghc/ghc/tr
 
 
 
-For each module we also allocate an array of breakpoint flags, with one entry for each tick in that module. This array is managed by the GHC storage manager, so it can be garbage collected if the module is re-loaded and re-ticked. We retain this array inside the `ModGuts` data structure, which is defined in [compiler/main/HscTypes.hs](/trac/ghc/browser/ghc/compiler/main/HscTypes.hs). This array is stored inside something called `ModBreaks`, which also stores an association list of source spans and ticks.
+For each module we also allocate an array of breakpoint flags, with one entry for each tick in that module. This array is managed by the GHC storage manager, so it can be garbage collected if the module is re-loaded and re-ticked. We retain this array inside the `ModGuts` data structure, which is defined in [compiler/main/HscTypes.hs](/ghc/ghc/tree/master/ghc/compiler/main/HscTypes.hs). This array is stored inside something called `ModBreaks`, which also stores an association list of source spans and ticks.
 
 
 ### Byte code generation

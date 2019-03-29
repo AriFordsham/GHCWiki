@@ -219,8 +219,8 @@ Import library modules from the [boot packages](commentary/libraries) only (boot
 
 - GHC's warnings are useful for detecting unnecessary imports: see `-fwarn-unused-imports`.
 
-- TAGS is a good way to find out where an identifier is defined (use `make tags` in `ghc/compiler`,
-  and hit `M-.` in emacs).
+- TAGS is a good way to find out where an identifier is defined (use [hasktags](https://github.com/MarcWeber/hasktags) or a similar program in `ghc/compiler` to generate TAGS file,
+  and hit `M-.` in Emacs; see [here](emacs#using-tags-to-quickly-locate-definitions-in-a-project) for details).
 
 
 If the module can be compiled multiple ways (eg. GHCI vs. non-GHCI), make sure the imports are properly `#ifdefed` too, so as to avoid spurious unused import warnings. 

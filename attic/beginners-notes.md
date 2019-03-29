@@ -7,7 +7,7 @@
 
   1. Use MSYS, not cygwin.  MSYS is **much** faster.
   1. Do not use -O to compile GHC while you are making heavy changes.  Once things compile smoothly and you want to test it, compile with optimization (on my machine, adding -O triples the compile time for a fresh 'make').
-1. If you do a 'make tags' then you can go right to the definition of a function (from any module) using alt-. in emacs.
+1. Use [hasktags](https://github.com/MarcWeber/hasktags) or similar program to generate TAGS file, so that you can go right to the definition of a function (from any module) using `M-.` in Emacs (see [here](emacs#using-tags-to-quickly-locate-definitions-in-a-project) for details).
 1. If you need to add or delete modules, use 'make boot' to fix up the dependencies.
 
 ## Notes on the type system (and its interactions)

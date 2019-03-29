@@ -654,7 +654,7 @@ The `MachRep` of a literal, such as `CmmInt Integer MachRep` or `CmmFloat Ration
 
 
 
-The Haskell representation of Cmm separates unchangeable Cmm values into a separate data type, `CmmStatic`, defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs):
+The Haskell representation of Cmm separates unchangeable Cmm values into a separate data type, `CmmStatic`, defined in [compiler/cmm/Cmm.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/Cmm.hs):
 
 
 ```
@@ -955,7 +955,7 @@ The type `BoolExpr` maps to the `CmmCondBranch` or `CmmBranch` constructors of t
 
 
 
-The `CmmExpr` constructor `CmmMachOp MachOp [CmmExpr]` is the core of every operator-based expression; the key here is `MachOp`, which in turn depends on the type of `MachRep` for each operand.  See [Fundamental and PrimitiveOperators](commentary/compiler/cmm-type#).  In order to process `CmmExpr`s, the data type comes with a deconstructor function to obtain the relevant `MachRep`s, defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs):
+The `CmmExpr` constructor `CmmMachOp MachOp [CmmExpr]` is the core of every operator-based expression; the key here is `MachOp`, which in turn depends on the type of `MachRep` for each operand.  See [Fundamental and PrimitiveOperators](commentary/compiler/cmm-type#).  In order to process `CmmExpr`s, the data type comes with a deconstructor function to obtain the relevant `MachRep`s, defined in [compiler/cmm/Cmm.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/Cmm.hs):
 
 
 ```
@@ -1145,7 +1145,7 @@ In the above macros, `P` stands for `PtrArg` and `N` stands for `NonPtrArg`; bot
 
 
 
-The Haskell representation of Cmm Statements is the data type `CmmStmt`, defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs):
+The Haskell representation of Cmm Statements is the data type `CmmStmt`, defined in [compiler/cmm/Cmm.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/Cmm.hs):
 
 
 ```

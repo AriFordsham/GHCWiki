@@ -44,8 +44,13 @@ community.
 
 Add the label ~"partial type sigs" to indicate that an issue is relevant to this page.
 
+Add the label ~"partial type sigs" to indicate that an issue is relevant to this page.
 
-Use Keyword = `PartialTypeSignatures` to ensure that a ticket ends up on these lists.
+Click on the label to see all the associated issues, both open and closed.
+
+## Trac tickets
+
+Snapshot of the Trac tickets labelled with `PartialTypeSignatures` when we migraged to GitLab. This should be irrelevant (look at "Issues" above), but I'm leaving it here until the labelling of GitLab issues is robust.
 
 
 
