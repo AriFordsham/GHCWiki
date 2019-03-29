@@ -43,8 +43,8 @@ These labels identify the environments in which a bug will manifest.
 
 ## Operating systems
 
- * ~macOS
- * ~Windows
+ * ~macOS: Issues affecting Apple's macOS, iOS, of watchOS
+ * ~Windows: Issues affecting Microsoft Windows
 
 ## Architectures
 
@@ -192,7 +192,7 @@ These labels correspond to the language extensions after which they are named.
  * ~OverloadedStrings
  * ~PatternSynonyms
  * ~PolyKinds
- * ~QuanitifiedConstraints
+ * ~QuantifiedConstraints
  * ~RankNTypes
  * ~RebindableSyntax
  * ~RecordWildCards
@@ -204,7 +204,7 @@ These labels correspond to the language extensions after which they are named.
  * ~TypeInType
  * ~UnboxedSums
  * ~UnboxedTuples
- * ~UndecideableSuperClasses
+ * ~UndecidableSuperClasses
  * ~UndecideableInstances
  * ~ViewPatterns
 
