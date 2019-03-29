@@ -13,6 +13,9 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
 
 - **Using Git**: read [how to use git with GHC](working-conventions/git). Information about our submodule setup is in [WorkingConventions/Git/Submodules](working-conventions/git/submodules), and some useful Git tricks are in [WorkingConventions/Git/Tricks](working-conventions/git/tricks).
 
+- **GitLab conventions**:
+   - [Label usage](GitLab labels)
+
 - **Using Phabricator**: we used to use Phabricator as a code review tool; here are [our Phabricator guidance notes](phabricator).
 
 - **Releases and branches**: Our conventions for making releases and how the branches are managed: [Releases](working-conventions/releases)
