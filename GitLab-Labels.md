@@ -2,7 +2,7 @@ GitLab uses labels to organize both issues and merge requests. GHC uses this
 mechanism to track a variety of information. Here we document the conventions
 we use.
 
-If you create a new label please do add it to this list, keeping the list in
+If you create a new label please do add it to this list, keeping the list inv
 alphabetical order.
 
 # Miscellaneous
@@ -33,7 +33,7 @@ alphabetical order.
 # Issue flags
 
  * ~"CI breakage"
- * ~"user facing": Denotes a merge request which changes the interface exposed by GHC or its core libraries in a user-noticable way. Merge requests so-marked trigger the head.hackage build jobs.
+ * ~"user-facing": Denotes a merge request which changes the interface exposed by GHC or its core libraries in a user-noticable way. Merge requests so-marked trigger the head.hackage build jobs.
  * ~"info needed": Information is needed from the issue reporter
  * ~"upstream": Things that require coordination with an upstream package
 
