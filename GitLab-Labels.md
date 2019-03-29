@@ -37,6 +37,7 @@ alphabetical order.
  * ~"info needed": Information is needed from the issue reporter
  * ~"upstream": Things that require coordination with an upstream package
  * ~"broken test": An issue due to which one or more tests in the testsuite are marked as `expect_broken`
+ * ~"needs triage": An issue that needs triaging. This involves a maintainer applying the appropriate labels and weight.
 
 # Bug environmental scope
 
