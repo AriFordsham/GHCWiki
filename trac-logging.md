@@ -1,7 +1,7 @@
 # Trac Logging
 
 
-Trac supports logging of system messages using the standard [ logging module](http://docs.python.org/library/logging.html) that comes with Python.
+Trac supports logging of system messages using the standard [logging module](http://docs.python.org/library/logging.html) that comes with Python.
 
 
 Logging is configured in the `[logging]` section in [trac.ini](trac-ini#).
@@ -60,7 +60,7 @@ Additionally, you can  enable logging of SQL statements at debug level. This is 
 
 
 
-The output format for log entries can be specified through the `log_format` option in [trac.ini](trac-ini#). The format is a string which can contain any of the [ Python logging Formatter variables](http://docs.python.org/library/logging.html#logrecord-attributes). Additonally, the following Trac-specific variables can be used:
+The output format for log entries can be specified through the `log_format` option in [trac.ini](trac-ini#). The format is a string which can contain any of the [Python logging Formatter variables](http://docs.python.org/library/logging.html#logrecord-attributes). Additonally, the following Trac-specific variables can be used:
 
 
 <table><tr><th><b>$(basename)s</b></th>

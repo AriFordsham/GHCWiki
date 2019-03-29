@@ -29,29 +29,29 @@ Below are the major highlights of 8.6.
 
 ## Landed in `master` branch
 
-- Deriving via ([ proposal](https://github.com/Icelandjack/ghc-proposals/blob/239cfc8ef532db95f15ea392e073061f04273d8e/proposals/0000-deriving-via.rst), Ryan GL Scott)
+- Deriving via ([proposal](https://github.com/Icelandjack/ghc-proposals/blob/239cfc8ef532db95f15ea392e073061f04273d8e/proposals/0000-deriving-via.rst), Ryan GL Scott)
 
 - An early version of the GHCi `:doc` command
 
 - [QuantifiedConstraints](quantified-constraints)
 
-- The core functionality of the `ghc-heap-view` package has been merged into GHC, allowing introspection into the structure of GHC's heap. (Patrick Dougherty, [ Phab:D3055](https://phabricator.haskell.org/D3055))
+- The core functionality of the `ghc-heap-view` package has been merged into GHC, allowing introspection into the structure of GHC's heap. (Patrick Dougherty, [Phab:D3055](https://phabricator.haskell.org/D3055))
 
-- Many improvements to exhausiveness checking ([\#14546](https://gitlab.haskell.org//ghc/ghc/issues/14546))
+- Many improvements to exhausiveness checking ([\#14546](https://gitlab.haskell.org/ghc/ghc/issues/14546))
 
-- Valid hole fits ([\#14969](https://gitlab.haskell.org//ghc/ghc/issues/14969), [\#14990](https://gitlab.haskell.org//ghc/ghc/issues/14990), [\#10946](https://gitlab.haskell.org//ghc/ghc/issues/10946))
+- Valid hole fits ([\#14969](https://gitlab.haskell.org/ghc/ghc/issues/14969), [\#14990](https://gitlab.haskell.org/ghc/ghc/issues/14990), [\#10946](https://gitlab.haskell.org/ghc/ghc/issues/10946))
 
-- Improvements in code generation, include a new SRT representation that results in more compact generated code ([ blog post](http://simonmar.github.io/posts/2018-06-22-New-SRTs.html))
+- Improvements in code generation, include a new SRT representation that results in more compact generated code ([blog post](http://simonmar.github.io/posts/2018-06-22-New-SRTs.html))
 
 - Further improvements to DWARF unwinding support
 
-- More sophisticated constant folding ([\#9136](https://gitlab.haskell.org//ghc/ghc/issues/9136))
+- More sophisticated constant folding ([\#9136](https://gitlab.haskell.org/ghc/ghc/issues/9136))
 
-- BlockArguments extension ([\#10843](https://gitlab.haskell.org//ghc/ghc/issues/10843), [ proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0010-block-arguments.rst))
+- BlockArguments extension ([\#10843](https://gitlab.haskell.org/ghc/ghc/issues/10843), [proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0010-block-arguments.rst))
 
-- NumericUnderscores extension ([\#14473](https://gitlab.haskell.org//ghc/ghc/issues/14473), [ proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0009-numeric-underscores.rst))
+- NumericUnderscores extension ([\#14473](https://gitlab.haskell.org/ghc/ghc/issues/14473), [proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0009-numeric-underscores.rst))
 
-- StarIsType extension ([ proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0020-no-type-in-type.rst), Vladislav Zavialov)
+- StarIsType extension ([proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0020-no-type-in-type.rst), Vladislav Zavialov)
 
 - The next phase of the `MonadFail` proposal, enabling the `MonadFailDesugaring` extension by default
 
@@ -174,7 +174,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15552">#15552</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15552">#15552</a></th>
 <td>
                     
                   
@@ -200,7 +200,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15552">Infinite loop/panic with an existential type.</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15552">Infinite loop/panic with an existential type.</a>
                       
                       
                       
@@ -269,7 +269,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15694">#15694</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15694">#15694</a></th>
 <td>
                     
                   
@@ -295,7 +295,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15694">GHC panic from pattern synonym, &quot;Type-correct unfilled coercion hole&quot;</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15694">GHC panic from pattern synonym, &quot;Type-correct unfilled coercion hole&quot;</a>
                       
                       
                       
@@ -420,7 +420,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14341">#14341</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14341">#14341</a></th>
 <td>
                     
                   
@@ -446,7 +446,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14341">Show instance for TypeReps is a bit broken</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/14341">Show instance for TypeReps is a bit broken</a>
                       
                       
                       
@@ -515,7 +515,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15538">#15538</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15538">#15538</a></th>
 <td>
                     
                   
@@ -541,7 +541,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15538">GHC boot script can&apos;t handle Git remote not named origin</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15538">GHC boot script can&apos;t handle Git remote not named origin</a>
                       
                       
                       
@@ -610,7 +610,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15594">#15594</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15594">#15594</a></th>
 <td>
                     
                   
@@ -636,7 +636,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15594">--abi-hash with Backpack incorrectly loads modules from dependent packages</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15594">--abi-hash with Backpack incorrectly loads modules from dependent packages</a>
                       
                       
                       
@@ -761,7 +761,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15494">#15494</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15494">#15494</a></th>
 <td>
                     
                   
@@ -787,7 +787,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15494">Cannot install GHC through stack on NixOS</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15494">Cannot install GHC through stack on NixOS</a>
                       
                       
                       
@@ -908,7 +908,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15541">#15541</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15541">#15541</a></th>
 <td>
                     
                   
@@ -934,7 +934,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15541">package environment files and the GHC API</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15541">package environment files and the GHC API</a>
                       
                       
                       
@@ -986,7 +986,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15084">#15084</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15084">#15084</a></th>
 <td>
                     
                   
@@ -1012,7 +1012,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15084">Functions in HsUtils don&apos;t have the most general type</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15084">Functions in HsUtils don&apos;t have the most general type</a>
                       
                       
                       
@@ -1064,7 +1064,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15275">#15275</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15275">#15275</a></th>
 <td>
                     
                   
@@ -1090,7 +1090,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15275">AArch64 validation fails with many invalid relocations</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15275">AArch64 validation fails with many invalid relocations</a>
                       
                       
                       
@@ -1142,7 +1142,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15287">#15287</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15287">#15287</a></th>
 <td>
                     
                   
@@ -1168,7 +1168,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15287">T11627[ab] fail on some Darwin environments</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15287">T11627[ab] fail on some Darwin environments</a>
                       
                       
                       
@@ -1220,7 +1220,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15304">#15304</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15304">#15304</a></th>
 <td>
                     
                   
@@ -1246,7 +1246,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15304">Huge increase of compile time and memory use from 8.0.2 to 8.2.2 or 8.4.2</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15304">Huge increase of compile time and memory use from 8.0.2 to 8.2.2 or 8.4.2</a>
                       
                       
                       
@@ -1298,7 +1298,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15350">#15350</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15350">#15350</a></th>
 <td>
                     
                   
@@ -1324,7 +1324,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15350">gcdExtInteger violates assertion</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15350">gcdExtInteger violates assertion</a>
                       
                       
                       
@@ -1376,7 +1376,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15567">#15567</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15567">#15567</a></th>
 <td>
                     
                   
@@ -1402,7 +1402,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15567">security of package environment files</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15567">security of package environment files</a>
                       
                       
                       
@@ -1454,7 +1454,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15399">#15399</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15399">#15399</a></th>
 <td>
                     
                   
@@ -1480,7 +1480,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15399">Build failure on PowerPC 64-bit big endian</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15399">Build failure on PowerPC 64-bit big endian</a>
                       
                       
                       
@@ -1532,7 +1532,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15493">#15493</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15493">#15493</a></th>
 <td>
                     
                   
@@ -1558,7 +1558,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15493">Elide empty dictionaries</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15493">Elide empty dictionaries</a>
                       
                       
                       
@@ -1610,7 +1610,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15498">#15498</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15498">#15498</a></th>
 <td>
                     
                   
@@ -1636,7 +1636,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15498">HPC: do notation marks () as non-covered</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15498">HPC: do notation marks () as non-covered</a>
                       
                       
                       
@@ -1688,7 +1688,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15504">#15504</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15504">#15504</a></th>
 <td>
                     
                   
@@ -1714,7 +1714,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15504">-XStrict doesn&apos;t prevent warnings from -Wunbanged-strict-patterns</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15504">-XStrict doesn&apos;t prevent warnings from -Wunbanged-strict-patterns</a>
                       
                       
                       
@@ -1766,7 +1766,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15512">#15512</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15512">#15512</a></th>
 <td>
                     
                   
@@ -1792,7 +1792,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15512">Rewrite rules should be able to produce custom compiler errors</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15512">Rewrite rules should be able to produce custom compiler errors</a>
                       
                       
                       
@@ -1844,7 +1844,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15513">#15513</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15513">#15513</a></th>
 <td>
                     
                   
@@ -1870,7 +1870,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15513">How to pass &quot;-hide-all-packages&quot; to the GHC API?</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15513">How to pass &quot;-hide-all-packages&quot; to the GHC API?</a>
                       
                       
                       
@@ -1922,7 +1922,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15521">#15521</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15521">#15521</a></th>
 <td>
                     
                   
@@ -1948,7 +1948,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15521">Provide a strict version of sum</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15521">Provide a strict version of sum</a>
                       
                       
                       
@@ -2000,7 +2000,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15522">#15522</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15522">#15522</a></th>
 <td>
                     
                   
@@ -2026,7 +2026,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15522">Cannot bind symbolic names in a rule</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15522">Cannot bind symbolic names in a rule</a>
                       
                       
                       
@@ -2078,7 +2078,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15524">#15524</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15524">#15524</a></th>
 <td>
                     
                   
@@ -2104,7 +2104,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15524">Performance regression when using the GHC API to evaluate code compared to 8.4</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15524">Performance regression when using the GHC API to evaluate code compared to 8.4</a>
                       
                       
                       
@@ -2156,7 +2156,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15531">#15531</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15531">#15531</a></th>
 <td>
                     
                   
@@ -2182,7 +2182,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15531">CApiFFI generates bad prototypes for pointers of `Foreign.C` types</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15531">CApiFFI generates bad prototypes for pointers of `Foreign.C` types</a>
                       
                       
                       
@@ -2234,7 +2234,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15532">#15532</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15532">#15532</a></th>
 <td>
                     
                   
@@ -2260,7 +2260,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15532">Relaxing Levity-Polymorphic Binder Check for Lifted vs Unlifted pointers</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15532">Relaxing Levity-Polymorphic Binder Check for Lifted vs Unlifted pointers</a>
                       
                       
                       
@@ -2312,7 +2312,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15533">#15533</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15533">#15533</a></th>
 <td>
                     
                   
@@ -2338,7 +2338,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15533">Access the number of bits in the target machine&apos;s Int type at compile time</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15533">Access the number of bits in the target machine&apos;s Int type at compile time</a>
                       
                       
                       
@@ -2390,7 +2390,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15540">#15540</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15540">#15540</a></th>
 <td>
                     
                   
@@ -2416,7 +2416,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15540">GHCi does not follow the XDG Base Directory Specification</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15540">GHCi does not follow the XDG Base Directory Specification</a>
                       
                       
                       
@@ -2468,7 +2468,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15546">#15546</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15546">#15546</a></th>
 <td>
                     
                   
@@ -2494,7 +2494,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15546">Display coaxiom branch incompatibilities in GHCi</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15546">Display coaxiom branch incompatibilities in GHCi</a>
                       
                       
                       
@@ -2546,7 +2546,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15547">#15547</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15547">#15547</a></th>
 <td>
                     
                   
@@ -2572,7 +2572,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15547">A function `nat2Word# :: KnownNat n =&gt; Proxy# n -&gt; Word#`</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15547">A function `nat2Word# :: KnownNat n =&gt; Proxy# n -&gt; Word#`</a>
                       
                       
                       
@@ -2624,7 +2624,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15553">#15553</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15553">#15553</a></th>
 <td>
                     
                   
@@ -2650,7 +2650,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15553">GHC.IO.Encoding not flushing partially converted input</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15553">GHC.IO.Encoding not flushing partially converted input</a>
                       
                       
                       
@@ -2702,7 +2702,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15554">#15554</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15554">#15554</a></th>
 <td>
                     
                   
@@ -2728,7 +2728,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15554">COMPLETE pragmas make overlapping-patterns warnings behave oddly</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15554">COMPLETE pragmas make overlapping-patterns warnings behave oddly</a>
                       
                       
                       
@@ -2780,7 +2780,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15557">#15557</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15557">#15557</a></th>
 <td>
                     
                   
@@ -2806,7 +2806,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15557">Reduce type families in equations&apos; RHS when testing equation compatibility</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15557">Reduce type families in equations&apos; RHS when testing equation compatibility</a>
                       
                       
                       
@@ -2858,7 +2858,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15561">#15561</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15561">#15561</a></th>
 <td>
                     
                   
@@ -2884,7 +2884,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15561">TypeInType: Type error conditioned on ordering of GADT and type family definitions</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15561">TypeInType: Type error conditioned on ordering of GADT and type family definitions</a>
                       
                       
                       
@@ -2936,7 +2936,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15562">#15562</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15562">#15562</a></th>
 <td>
                     
                   
@@ -2962,7 +2962,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15562">`-XStrict -XNoStrict` is not neutral</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15562">`-XStrict -XNoStrict` is not neutral</a>
                       
                       
                       
@@ -3014,7 +3014,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15565">#15565</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15565">#15565</a></th>
 <td>
                     
                   
@@ -3040,7 +3040,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15565">ancient ghc release history on web page is incomplete</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15565">ancient ghc release history on web page is incomplete</a>
                       
                       
                       
@@ -3092,7 +3092,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15570">#15570</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15570">#15570</a></th>
 <td>
                     
                   
@@ -3118,7 +3118,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15570">Core transformations generate bad indexCharOffAddr# call</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15570">Core transformations generate bad indexCharOffAddr# call</a>
                       
                       
                       
@@ -3170,7 +3170,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15573">#15573</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15573">#15573</a></th>
 <td>
                     
                   
@@ -3196,7 +3196,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15573">Make bindings with multiple occurrences a join point instead of duplicating code during inlining.</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15573">Make bindings with multiple occurrences a join point instead of duplicating code during inlining.</a>
                       
                       
                       
@@ -3248,7 +3248,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15574">#15574</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15574">#15574</a></th>
 <td>
                     
                   
@@ -3274,7 +3274,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15574">C wrappers for Haskell foreign exports don&apos;t have finalizers (causes memory leak).</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15574">C wrappers for Haskell foreign exports don&apos;t have finalizers (causes memory leak).</a>
                       
                       
                       
@@ -3326,7 +3326,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15576">#15576</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15576">#15576</a></th>
 <td>
                     
                   
@@ -3352,7 +3352,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15576">Hadrian puts its build tree in the wrong place</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15576">Hadrian puts its build tree in the wrong place</a>
                       
                       
                       
@@ -3404,7 +3404,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15580">#15580</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15580">#15580</a></th>
 <td>
                     
                   
@@ -3430,7 +3430,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15580">Specialize min/max functions for GHC provided instances.</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15580">Specialize min/max functions for GHC provided instances.</a>
                       
                       
                       
@@ -3482,7 +3482,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15582">#15582</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15582">#15582</a></th>
 <td>
                     
                   
@@ -3508,7 +3508,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15582">Phabricator shows &quot;drafts&quot; by default</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15582">Phabricator shows &quot;drafts&quot; by default</a>
                       
                       
                       
@@ -3560,7 +3560,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15587">#15587</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15587">#15587</a></th>
 <td>
                     
                   
@@ -3586,7 +3586,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15587">traceEvent tests failing in slow validate</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15587">traceEvent tests failing in slow validate</a>
                       
                       
                       
@@ -3638,7 +3638,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15588">#15588</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15588">#15588</a></th>
 <td>
                     
                   
@@ -3664,7 +3664,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15588">Panic when abusing kind inference</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15588">Panic when abusing kind inference</a>
                       
                       
                       
@@ -3716,7 +3716,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15589">#15589</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15589">#15589</a></th>
 <td>
                     
                   
@@ -3742,7 +3742,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15589">Always promoting metavariables during type inference may be wrong</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15589">Always promoting metavariables during type inference may be wrong</a>
                       
                       
                       
@@ -3794,7 +3794,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15595">#15595</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15595">#15595</a></th>
 <td>
                     
                   
@@ -3820,7 +3820,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15595">Stack overflow in withArgs leads to infinite memory-consuming loop</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15595">Stack overflow in withArgs leads to infinite memory-consuming loop</a>
                       
                       
                       
@@ -3872,7 +3872,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15602">#15602</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15602">#15602</a></th>
 <td>
                     
                   
@@ -3898,7 +3898,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15602">PAP invariant of pointer tagging does not hold in profiling builds</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15602">PAP invariant of pointer tagging does not hold in profiling builds</a>
                       
                       
                       
@@ -3950,7 +3950,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15603">#15603</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15603">#15603</a></th>
 <td>
                     
                   
@@ -3976,7 +3976,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15603">ref6 example from StaticPointers documentation doesn&apos;t type check</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15603">ref6 example from StaticPointers documentation doesn&apos;t type check</a>
                       
                       
                       
@@ -4028,7 +4028,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15605">#15605</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15605">#15605</a></th>
 <td>
                     
                   
@@ -4054,7 +4054,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15605">Documentation of atomicModifyMutVar# does not show properly</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15605">Documentation of atomicModifyMutVar# does not show properly</a>
                       
                       
                       
@@ -4106,7 +4106,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15606">#15606</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15606">#15606</a></th>
 <td>
                     
                   
@@ -4132,7 +4132,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15606">Don&apos;t float out lets in between lambdsa</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15606">Don&apos;t float out lets in between lambdsa</a>
                       
                       
                       
@@ -4184,7 +4184,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15612">#15612</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15612">#15612</a></th>
 <td>
                     
                   
@@ -4210,7 +4210,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15612">Got Unable to commit 16777216 bytes of memory error on Ubuntu</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15612">Got Unable to commit 16777216 bytes of memory error on Ubuntu</a>
                       
                       
                       
@@ -4262,7 +4262,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15616">#15616</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15616">#15616</a></th>
 <td>
                     
                   
@@ -4288,7 +4288,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15616">Bug when using TimerManager/GHC.Event ?</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15616">Bug when using TimerManager/GHC.Event ?</a>
                       
                       
                       
@@ -4340,7 +4340,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15617">#15617</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15617">#15617</a></th>
 <td>
                     
                   
@@ -4366,7 +4366,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15617">Unboxed tuples/sum error message on `a = show 5` in expression evaluation and interactive modes</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15617">Unboxed tuples/sum error message on `a = show 5` in expression evaluation and interactive modes</a>
                       
                       
                       
@@ -4418,7 +4418,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15619">#15619</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15619">#15619</a></th>
 <td>
                     
                   
@@ -4444,7 +4444,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15619">List comprehension seems to prevent some rewrite rules to fire</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15619">List comprehension seems to prevent some rewrite rules to fire</a>
                       
                       
                       
@@ -4496,7 +4496,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15620">#15620</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15620">#15620</a></th>
 <td>
                     
                   
@@ -4522,7 +4522,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15620">Speed up Data.Unique</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15620">Speed up Data.Unique</a>
                       
                       
                       
@@ -4574,7 +4574,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15622">#15622</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15622">#15622</a></th>
 <td>
                     
                   
@@ -4600,7 +4600,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15622">Generalize `E{0,1,2,3,6,9,12}` from `Data.Fixed`</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15622">Generalize `E{0,1,2,3,6,9,12}` from `Data.Fixed`</a>
                       
                       
                       
@@ -4652,7 +4652,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15626">#15626</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15626">#15626</a></th>
 <td>
                     
                   
@@ -4678,7 +4678,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15626">Optimise wakeups for STM</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15626">Optimise wakeups for STM</a>
                       
                       
                       
@@ -4730,7 +4730,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15632">#15632</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15632">#15632</a></th>
 <td>
                     
                   
@@ -4756,7 +4756,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15632">Undependable Dependencies</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15632">Undependable Dependencies</a>
                       
                       
                       
@@ -4808,7 +4808,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15639">#15639</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15639">#15639</a></th>
 <td>
                     
                   
@@ -4834,7 +4834,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15639">Surprising failure combining QuantifiedConstraints with Coercible</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15639">Surprising failure combining QuantifiedConstraints with Coercible</a>
                       
                       
                       
@@ -4886,7 +4886,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15646">#15646</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15646">#15646</a></th>
 <td>
                     
                   
@@ -4912,7 +4912,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15646">ghci takes super long time to find the type of large fractional number</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15646">ghci takes super long time to find the type of large fractional number</a>
                       
                       
                       
@@ -4964,7 +4964,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15650">#15650</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15650">#15650</a></th>
 <td>
                     
                   
@@ -4990,7 +4990,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15650">Add (or document if already exist) ability to derive custom typeclasses via source plugins</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15650">Add (or document if already exist) ability to derive custom typeclasses via source plugins</a>
                       
                       
                       
@@ -5042,7 +5042,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15655">#15655</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15655">#15655</a></th>
 <td>
                     
                   
@@ -5068,7 +5068,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15655">Simpliify tcTyConScopedTyVars</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15655">Simpliify tcTyConScopedTyVars</a>
                       
                       
                       
@@ -5120,7 +5120,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15657">#15657</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15657">#15657</a></th>
 <td>
                     
                   
@@ -5146,7 +5146,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15657">Support promotion of pattern synonyms to kinds</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15657">Support promotion of pattern synonyms to kinds</a>
                       
                       
                       
@@ -5198,7 +5198,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15661">#15661</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15661">#15661</a></th>
 <td>
                     
                   
@@ -5224,7 +5224,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15661">Nullary constraint in GHCi breaks `:t` command</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15661">Nullary constraint in GHCi breaks `:t` command</a>
                       
                       
                       
@@ -5276,7 +5276,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15663">#15663</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15663">#15663</a></th>
 <td>
                     
                   
@@ -5302,7 +5302,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15663">T9675 inexplicably regressed in allocations due to text submodule bump</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15663">T9675 inexplicably regressed in allocations due to text submodule bump</a>
                       
                       
                       
@@ -5354,7 +5354,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15665">#15665</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15665">#15665</a></th>
 <td>
                     
                   
@@ -5380,7 +5380,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15665">Break up the stable pointer table</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15665">Break up the stable pointer table</a>
                       
                       
                       
@@ -5432,7 +5432,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15668">#15668</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15668">#15668</a></th>
 <td>
                     
                   
@@ -5458,7 +5458,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15668">Allocations values for some compile tests are way too hight</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15668">Allocations values for some compile tests are way too hight</a>
                       
                       
                       
@@ -5510,7 +5510,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15670">#15670</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15670">#15670</a></th>
 <td>
                     
                   
@@ -5536,7 +5536,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15670">FloatFnInverses seems to show some weird rounding/precision issues.</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15670">FloatFnInverses seems to show some weird rounding/precision issues.</a>
                       
                       
                       
@@ -5588,7 +5588,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15672">#15672</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15672">#15672</a></th>
 <td>
                     
                   
@@ -5614,7 +5614,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15672">Flags missing documentation.</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15672">Flags missing documentation.</a>
                       
                       
                       
@@ -5666,7 +5666,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15674">#15674</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15674">#15674</a></th>
 <td>
                     
                   
@@ -5692,7 +5692,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15674">GADT&apos;s displayed type is misleading</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15674">GADT&apos;s displayed type is misleading</a>
                       
                       
                       
@@ -5744,7 +5744,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15676">#15676</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15676">#15676</a></th>
 <td>
                     
                   
@@ -5770,7 +5770,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15676">Users guide: broken external links</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15676">Users guide: broken external links</a>
                       
                       
                       
@@ -5822,7 +5822,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15679">#15679</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15679">#15679</a></th>
 <td>
                     
                   
@@ -5848,7 +5848,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15679">Use String rather than [Char] where possible</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15679">Use String rather than [Char] where possible</a>
                       
                       
                       
@@ -5900,7 +5900,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15680">#15680</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15680">#15680</a></th>
 <td>
                     
                   
@@ -5926,7 +5926,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15680">Flag for printing absolute paths in diagnostics</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15680">Flag for printing absolute paths in diagnostics</a>
                       
                       
                       
@@ -5978,7 +5978,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15682">#15682</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15682">#15682</a></th>
 <td>
                     
                   
@@ -6004,7 +6004,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15682">evolve / improve Native Gen Format in Format.hs (especially in context of post simd cleanup)</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15682">evolve / improve Native Gen Format in Format.hs (especially in context of post simd cleanup)</a>
                       
                       
                       
@@ -6056,7 +6056,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15683">#15683</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15683">#15683</a></th>
 <td>
                     
                   
@@ -6082,7 +6082,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15683">coerce fails for Coercible type families</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15683">coerce fails for Coercible type families</a>
                       
                       
                       
@@ -6134,7 +6134,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15684">#15684</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15684">#15684</a></th>
 <td>
                     
                   
@@ -6160,7 +6160,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15684">Add tests for SIMD loads and stores</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15684">Add tests for SIMD loads and stores</a>
                       
                       
                       
@@ -6212,7 +6212,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15687">#15687</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15687">#15687</a></th>
 <td>
                     
                   
@@ -6238,7 +6238,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15687">Type synonym unused binds no warning?</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15687">Type synonym unused binds no warning?</a>
                       
                       
                       
@@ -6290,7 +6290,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15689">#15689</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15689">#15689</a></th>
 <td>
                     
                   
@@ -6316,7 +6316,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15689">s390x builds flood with -Wunused-label warnings</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15689">s390x builds flood with -Wunused-label warnings</a>
                       
                       
                       
@@ -6368,7 +6368,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15693">#15693</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15693">#15693</a></th>
 <td>
                     
                   
@@ -6394,7 +6394,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15693">Abstracting out pattern into a pattern synonym fails with scary error</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15693">Abstracting out pattern into a pattern synonym fails with scary error</a>
                       
                       
                       
@@ -6446,7 +6446,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15697">#15697</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15697">#15697</a></th>
 <td>
                     
                   
@@ -6472,7 +6472,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15697">Typed holes inferring a more polymorphic type</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15697">Typed holes inferring a more polymorphic type</a>
                       
                       
                       
@@ -6524,7 +6524,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15699">#15699</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15699">#15699</a></th>
 <td>
                     
                   
@@ -6550,7 +6550,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15699">Run sanity checker in more testsuite runs</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15699">Run sanity checker in more testsuite runs</a>
                       
                       
                       
@@ -6602,7 +6602,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15705">#15705</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15705">#15705</a></th>
 <td>
                     
                   
@@ -6628,7 +6628,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15705">Confusing parser error in 8.6</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15705">Confusing parser error in 8.6</a>
                       
                       
                       
@@ -6680,7 +6680,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15707">#15707</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15707">#15707</a></th>
 <td>
                     
                   
@@ -6706,7 +6706,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15707">More liberally kinded coercions for newtypes</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15707">More liberally kinded coercions for newtypes</a>
                       
                       
                       
@@ -6758,7 +6758,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15698">#15698</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15698">#15698</a></th>
 <td>
                     
                   
@@ -6784,7 +6784,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15698">SingleEntry update flag for Stg bindings is not used</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15698">SingleEntry update flag for Stg bindings is not used</a>
                       
                       
                       
@@ -6888,7 +6888,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15485">#15485</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15485">#15485</a></th>
 <td>
                     
                   
@@ -6914,7 +6914,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15485">GHC uses 300% CPU when calling into blocking C call</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15485">GHC uses 300% CPU when calling into blocking C call</a>
                       
                       
                       
@@ -6966,7 +6966,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15516">#15516</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15516">#15516</a></th>
 <td>
                     
                   
@@ -6992,7 +6992,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15516">ghci: dynamic linking fails on osx</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15516">ghci: dynamic linking fails on osx</a>
                       
                       
                       
@@ -7044,7 +7044,7 @@ Below are the major highlights of 8.6.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15542">#15542</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15542">#15542</a></th>
 <td>
                     
                   
@@ -7070,7 +7070,7 @@ Below are the major highlights of 8.6.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15542">DuplicateRecordFields not honored within a data family?</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15542">DuplicateRecordFields not honored within a data family?</a>
                       
                       
                       

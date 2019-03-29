@@ -3,7 +3,7 @@
 
 >
 >
-> **This page has been superseded by the Repa paper in ICFP'10: [ http://www.cse.unsw.edu.au/\~chak/papers/KCLPL10.html](http://www.cse.unsw.edu.au/~chak/papers/KCLPL10.html)**
+> **This page has been superseded by the Repa paper in ICFP'10: [http://www.cse.unsw.edu.au/\~chak/papers/KCLPL10.html](http://www.cse.unsw.edu.au/~chak/papers/KCLPL10.html)**
 >
 >
 

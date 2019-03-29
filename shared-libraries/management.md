@@ -56,7 +56,7 @@ This is attractive, but there are some drawbacks:
 
 The first plan was this:
 
-[ http://www.haskell.org/pipermail/glasgow-haskell-users/2007-June/012740.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2007-June/012740.html)
+[http://www.haskell.org/pipermail/glasgow-haskell-users/2007-June/012740.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2007-June/012740.html)
 
 
 It has since been pointed out that `LD_LIBRARY_PATH` overrides `-rpath` on some platforms (see below).  This might cause some difficulties (or not?).

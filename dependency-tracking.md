@@ -56,7 +56,7 @@ That leaves (1).  We'll need:
 
 - Some way for `#include` directives to be recorded in that list (presumably by interpreting the \#line directives that CPP outputs.
 
-- A way for Template Haskell code to express a dependency.  A [ possible solution](http://www.reddit.com/r/haskell/comments/k4lc4/yesod_the_limitations_of_haskell/c2hipo3) is to add a new function to the template-haskell package:
+- A way for Template Haskell code to express a dependency.  A [possible solution](http://www.reddit.com/r/haskell/comments/k4lc4/yesod_the_limitations_of_haskell/c2hipo3) is to add a new function to the template-haskell package:
 
 >
 > >

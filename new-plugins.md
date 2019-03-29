@@ -18,11 +18,11 @@ Warning: this can fail with non obvious error messages if in the same directory 
 
 `Some.Plugin.Module` should export a symbol named 'plugin' - see the following repositories for examples that do Common Subexpression Elimination, turn Haskell into a strict language, and implement a loop unroller:
 
-[ https://github.com/thoughtpolice/cse-ghc-plugin](https://github.com/thoughtpolice/cse-ghc-plugin)
+[https://github.com/thoughtpolice/cse-ghc-plugin](https://github.com/thoughtpolice/cse-ghc-plugin)
 
-[ https://github.com/thoughtpolice/strict-ghc-plugin](https://github.com/thoughtpolice/strict-ghc-plugin)
+[https://github.com/thoughtpolice/strict-ghc-plugin](https://github.com/thoughtpolice/strict-ghc-plugin)
 
-[ https://github.com/thoughtpolice/unroll-ghc-plugin](https://github.com/thoughtpolice/unroll-ghc-plugin)
+[https://github.com/thoughtpolice/unroll-ghc-plugin](https://github.com/thoughtpolice/unroll-ghc-plugin)
 
 ### Basic overview of the plugins API for Core
 

@@ -1,22 +1,22 @@
 # Trac plugins
 
 
-Trac is extensible with [ plugins](http://trac.edgewall.org/intertrac/PluginList). Plugin functionality is based on the [ component architecture](http://trac.edgewall.org/intertrac/TracDev/ComponentArchitecture), with special cases described in the [ plugin development](http://trac.edgewall.org/intertrac/TracDev/PluginDevelopment) page.
+Trac is extensible with [plugins](http://trac.edgewall.org/intertrac/PluginList). Plugin functionality is based on the [ component architecture](http://trac.edgewall.org/intertrac/TracDev/ComponentArchitecture), with special cases described in the [ plugin development](http://trac.edgewall.org/intertrac/TracDev/PluginDevelopment) page.
 
 ## Plugin discovery
 
 
 
-From the user's point of view, a plugin is either a standalone .py file or an .egg package. Trac looks for plugins in Python's `site-packages` directory, the [global shared](trac-ini#global-configuration) `plugins` directory and the [project environment](trac-environment) `plugins` directory. Components defined in globally-installed plugins must be explicitly enabled in the [ \[components\] ](trac-ini#) section of the `trac.ini` file. Components defined in the `plugins` directory of the project environment are enabled, unless explicitly disabled in the `[components]` section of the `trac.ini` file.
+From the user's point of view, a plugin is either a standalone .py file or an .egg package. Trac looks for plugins in Python's `site-packages` directory, the [global shared](trac-ini#global-configuration) `plugins` directory and the [project environment](trac-environment) `plugins` directory. Components defined in globally-installed plugins must be explicitly enabled in the [\[components\] ](trac-ini#) section of the `trac.ini` file. Components defined in the `plugins` directory of the project environment are enabled, unless explicitly disabled in the `[components]` section of the `trac.ini` file.
 
 
 ## Requirements for Trac eggs
 
 
-To use egg-based plugins in Trac, you need to have [ setuptools](http://peak.telecommunity.com/DevCenter/setuptools) (version \>= 0.6) installed.
+To use egg-based plugins in Trac, you need to have [setuptools](http://peak.telecommunity.com/DevCenter/setuptools) (version \>= 0.6) installed.
 
 
-To install `setuptools`, download the bootstrap module [ ez_setup.py](http://peak.telecommunity.com/dist/ez_setup.py) and execute it as follows:
+To install `setuptools`, download the bootstrap module [ez_setup.py](http://peak.telecommunity.com/dist/ez_setup.py) and execute it as follows:
 
 ```
 $ python ez_setup.py
@@ -65,7 +65,7 @@ To uninstall a plugin installed this way, remove the egg from the `plugins` dire
 #### With an .egg file
 
 
-Some plugins, such as [ TracTags](https://trac-hacks.org/wiki/TagsPlugin), are downloadable as an `.egg` file that can be installed with `easy_install` or `pip`:
+Some plugins, such as [TracTags](https://trac-hacks.org/wiki/TagsPlugin), are downloadable as an `.egg` file that can be installed with `easy_install` or `pip`:
 
 ```
 $ easy_install TracTags
@@ -73,9 +73,9 @@ $ pip install TracTags
 ```
 
 
-If `easy_install` is not on your system, see the Requirements section above to install it. Windows users will need to add the `Scripts` directory of their Python installation (for example, `C:\Python27\Scripts`) to their `PATH` environment variable, or use the full path to `easy_install` (for example, `C:\Python27\Scripts\easy_install.py`). See [ easy_install Windows notes](http://peak.telecommunity.com/DevCenter/EasyInstall#windows-notes) for more information.
+If `easy_install` is not on your system, see the Requirements section above to install it. Windows users will need to add the `Scripts` directory of their Python installation (for example, `C:\Python27\Scripts`) to their `PATH` environment variable, or use the full path to `easy_install` (for example, `C:\Python27\Scripts\easy_install.py`). See [easy_install Windows notes](http://peak.telecommunity.com/DevCenter/EasyInstall#windows-notes) for more information.
 
-`pip` is included in Python 2.7.9. In earlier versions of Python it can be installed through the package manager of your OS (e.g. `apt-get install python-pip`) or using the [ get_pip.py](https://pip.pypa.io/en/latest/installing.html#install-pip). 
+`pip` is included in Python 2.7.9. In earlier versions of Python it can be installed through the package manager of your OS (e.g. `apt-get install python-pip`) or using the [get_pip.py](https://pip.pypa.io/en/latest/installing.html#install-pip). 
 
 
 If Trac reports permission errors after installing a zipped egg, and you would rather not bother providing an egg cache directory writable by the web server, you can get around it by simply unzipping the egg. Just pass `--always-unzip` to `easy_install`:
@@ -210,7 +210,7 @@ If you have set up some Subversion hook scripts that call the Trac engine, such 
 ## Web-based plugin administration
 
 
-The [ WebAdmin](http://trac.edgewall.org/intertrac/WebAdmin) interface offers limited support for plugin configuration through the web to users with `TRAC_ADMIN` permission:
+The [WebAdmin](http://trac.edgewall.org/intertrac/WebAdmin) interface offers limited support for plugin configuration through the web to users with `TRAC_ADMIN` permission:
 
 - en/disabling installed plugins
 - installing plugins by uploading them as eggs
@@ -272,7 +272,7 @@ Enable [logging](trac-logging) and set the log level to `DEBUG`, then watch the 
 ### Verify you have the proper permissions
 
 
-Some plugins require you have special permissions in order to use them. [ WebAdmin](http://trac.edgewall.org/intertrac/WebAdmin), for example, requires the user to have `TRAC_ADMIN` permissions for it to show up on the navigation bar.
+Some plugins require you have special permissions in order to use them. [WebAdmin](http://trac.edgewall.org/intertrac/WebAdmin), for example, requires the user to have `TRAC_ADMIN` permissions for it to show up on the navigation bar.
 
 ### Is the wrong version of the plugin loading?
 
@@ -287,9 +287,9 @@ If you put your plugins inside plugins directories, and certainly if you have mo
 ### If all of the above failed
 
 
-Okay, so the logs don't mention plugins, the egg is readable, the Python version is correct, *and* the egg has been installed globally (and is enabled in trac.ini)... and it *still* doesn't work or give any error messages or any other indication as to why. Hop on the [ IrcChannel](http://trac.edgewall.org/intertrac/IrcChannel) and ask away!
+Okay, so the logs don't mention plugins, the egg is readable, the Python version is correct, *and* the egg has been installed globally (and is enabled in trac.ini)... and it *still* doesn't work or give any error messages or any other indication as to why. Hop on the [IrcChannel](http://trac.edgewall.org/intertrac/IrcChannel) and ask away!
 
 ---
 
 
-See also [TracGuide](trac-guide), [ plugin list](http://trac.edgewall.org/intertrac/PluginList), [ component architecture](http://trac.edgewall.org/intertrac/TracDev/ComponentArchitecture).
+See also [TracGuide](trac-guide), [plugin list](http://trac.edgewall.org/intertrac/PluginList), [ component architecture](http://trac.edgewall.org/intertrac/TracDev/ComponentArchitecture).

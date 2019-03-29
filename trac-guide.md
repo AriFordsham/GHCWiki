@@ -1,6 +1,6 @@
 # The Trac User and Administration Guide
 
-*The [TracGuide](trac-guide) is meant to serve as a starting point for all documentation regarding Trac usage and development. The guide is a free document, a collaborative effort, and a part of the [ Trac Project](http://trac.edgewall.org) itself.*
+*The [TracGuide](trac-guide) is meant to serve as a starting point for all documentation regarding Trac usage and development. The guide is a free document, a collaborative effort, and a part of the [Trac Project](http://trac.edgewall.org) itself.*
 
 ## Introduction
 
@@ -68,9 +68,9 @@ Trac allows wiki markup in issue descriptions and commit messages, creating link
 
 ## Support and Other Sources of Information
 
-- [ Trac FAQ](http://trac.edgewall.org/intertrac/TracFaq) — A collection of Frequently Asked Questions on the project website.
-- [ TracDev](http://trac.edgewall.org/intertrac/TracDev) and [ API docs](http://trac.edgewall.org/intertrac/TracDev/ApiDocs) — Trac Developer documentation.
+- [Trac FAQ](http://trac.edgewall.org/intertrac/TracFaq) — A collection of Frequently Asked Questions on the project website.
+- [TracDev](http://trac.edgewall.org/intertrac/TracDev) and [ API docs](http://trac.edgewall.org/intertrac/TracDev/ApiDocs) — Trac Developer documentation.
 - [TracSupport](trac-support) — How to get more information.
 
 
-If you are looking for a good place to ask a question about Trac, see the [ MailingList](http://trac.edgewall.org/intertrac/MailingList). It provides a friendly environment to discuss openly among Trac users and developers.
+If you are looking for a good place to ask a question about Trac, see the [MailingList](http://trac.edgewall.org/intertrac/MailingList). It provides a friendly environment to discuss openly among Trac users and developers.

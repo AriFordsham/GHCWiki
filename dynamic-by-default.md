@@ -1,7 +1,7 @@
 **We no longer plan to take this approach. See [DynamicGhcPrograms](dynamic-ghc-programs) instead.**
 
 
-In particular, [ DYNAMIC_BY_DEFAULT has likely bitrotted](https://mail.haskell.org/pipermail/glasgow-haskell-users/2014-October/025339.html): it does not seem possible to build with that flag on anymore (tested on Linux on [a48464a7d2858bad28cfd1f393e82589825e62db](/trac/ghc/changeset/a48464a7d2858bad28cfd1f393e82589825e62db/ghc)).  It still seems possible to manually toggle `DYNAMIC_BY_DEFAULT` in `lib/ghc-*/platformConstants`, but this is probably considered an unsupported feature.
+In particular, [DYNAMIC_BY_DEFAULT has likely bitrotted](https://mail.haskell.org/pipermail/glasgow-haskell-users/2014-October/025339.html): it does not seem possible to build with that flag on anymore (tested on Linux on [a48464a7d2858bad28cfd1f393e82589825e62db](/trac/ghc/changeset/a48464a7d2858bad28cfd1f393e82589825e62db/ghc)).  It still seems possible to manually toggle `DYNAMIC_BY_DEFAULT` in `lib/ghc-*/platformConstants`, but this is probably considered an unsupported feature.
 
 # Dynamic by default
 
@@ -15,7 +15,7 @@ There is some benefit (in terms of both bugs fixed and code removed) to removing
 Our solution is to switch GHCi from using the "static way", to using the "dynamic way". GHCi will then use the system linker to load the `.dll` for the library, rather than using the GHCi linker to load the `.a`.
 
 
-(See [\#3658](https://gitlab.haskell.org//ghc/ghc/issues/3658) for related design decisions etc.)
+(See [\#3658](https://gitlab.haskell.org/ghc/ghc/issues/3658) for related design decisions etc.)
 
 
 For this to work, there is technically no need to change anything else: ghc could continue to compile for the static way by default. However, there are 2 problems that arise:
@@ -49,7 +49,7 @@ We do not know the situation with other platforms, such as iOS and Android. We d
 ## Bugs
 
 
-As well as the [ticket for implementing dynamic-by-default (\#3658)](https://gitlab.haskell.org//ghc/ghc/issues/3658), the table below lists the related tickets and the platforms that they affect. Most, if not all, of these would be immediately fixed by switching to dynamic-by-default.
+As well as the [ticket for implementing dynamic-by-default (\#3658)](https://gitlab.haskell.org/ghc/ghc/issues/3658), the table below lists the related tickets and the platforms that they affect. Most, if not all, of these would be immediately fixed by switching to dynamic-by-default.
 
 <table><tr><th>Ticket</th>
 <th>Affects OS X x86_64?</th>
@@ -60,7 +60,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>Affects Windows x86?</th>
 <th>Affects other platforms?
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/781">#781 GHCi on x86_64, cannot link to static data in shared libs</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/781">#781 GHCi on x86_64, cannot link to static data in shared libs</a></th>
 <th>no</th>
 <th>no</th>
 <th><b>YES</b></th>
@@ -69,7 +69,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1883">#1883 GHC can&apos;t find library using &quot;short&quot; name</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/1883">#1883 GHC can&apos;t find library using &quot;short&quot; name</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -78,7 +78,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th><b>YES</b></th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2283">#2283 WIndows: loading objects that refer to DLL symbols</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/2283">#2283 WIndows: loading objects that refer to DLL symbols</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -87,7 +87,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th><b>YES</b></th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3242">#3242 ghci: can&apos;t load .so/.DLL for: m (addDLL: could not load DLL)</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/3242">#3242 ghci: can&apos;t load .so/.DLL for: m (addDLL: could not load DLL)</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -96,7 +96,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th><b>YES</b></th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3654">#3654 Mach-O GHCi linker lacks support for a range of relocation entries</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/3654">#3654 Mach-O GHCi linker lacks support for a range of relocation entries</a></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
 <th>no</th>
@@ -105,7 +105,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4244">#4244 Use system linker in GHCi to support alpha, ia64, ppc64</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/4244">#4244 Use system linker in GHCi to support alpha, ia64, ppc64</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -114,7 +114,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>no</th>
 <th><b>YES</b>
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5062">#5062 Patch: Debug output for OS X linker and coding standard upgrades</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5062">#5062 Patch: Debug output for OS X linker and coding standard upgrades</a></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
 <th>no</th>
@@ -123,7 +123,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5197">#5197 Support static linker semantics for archives and weak symbols</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5197">#5197 Support static linker semantics for archives and weak symbols</a></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
@@ -132,7 +132,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th><b>YES</b></th>
 <th><b>YES</b>
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5435">#5435 GHCi linker should run constructors for linked libraries</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5435">#5435 GHCi linker should run constructors for linked libraries</a></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
@@ -141,7 +141,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th><b>YES</b></th>
 <th><b>YES</b>
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/6107">#6107 GHCi runtime linker cannot link with duplicate common symbols</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/6107">#6107 GHCi runtime linker cannot link with duplicate common symbols</a></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
@@ -150,7 +150,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th><b>YES</b></th>
 <th><b>YES</b>
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7043">#7043 32-bit GHC ceiling of negative float SEGFAULT: 11</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7043">#7043 32-bit GHC ceiling of negative float SEGFAULT: 11</a></th>
 <th>no</th>
 <th><b>YES</b></th>
 <th>no</th>
@@ -159,7 +159,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7056">#7056 GHCi loadArchive &quot;libiconv.a&quot;:failed Unknown PEi386 section name `.drectve&apos;</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7056">#7056 GHCi loadArchive &quot;libiconv.a&quot;:failed Unknown PEi386 section name `.drectve&apos;</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -168,7 +168,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th><b>YES</b></th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7072">#7072 GHC interpreter does not find stat64 symbol on Linux</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7072">#7072 GHC interpreter does not find stat64 symbol on Linux</a></th>
 <th>no</th>
 <th>no</th>
 <th><b>YES</b></th>
@@ -177,7 +177,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7097">#7097 linker fails to load package with binding to foreign library</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7097">#7097 linker fails to load package with binding to foreign library</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -186,7 +186,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th><b>YES</b></th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7103">#7103 Compiler panic, when loading wxc in GHCi</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7103">#7103 Compiler panic, when loading wxc in GHCi</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -195,7 +195,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th><b>YES</b></th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7134">#7134 ghc-7.6.0.20120810-x86_64-windows.exe -&gt; internal error R_X86_64_PC32</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7134">#7134 ghc-7.6.0.20120810-x86_64-windows.exe -&gt; internal error R_X86_64_PC32</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -204,7 +204,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7207">#7207 linker fails to load package with binding to foreign library (win64)</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7207">#7207 linker fails to load package with binding to foreign library (win64)</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -213,7 +213,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7299">#7299 threadDelay broken in ghci, Mac OS X</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7299">#7299 threadDelay broken in ghci, Mac OS X</a></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
 <th>no</th>
@@ -222,7 +222,7 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7357">#7357 GHC.exe gives an internal error while linking vector&apos;s Monadic.hs</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7357">#7357 GHC.exe gives an internal error while linking vector&apos;s Monadic.hs</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -241,10 +241,10 @@ There are some performance questions to consider before making a decision.
 
 
 Full nofib results showing the effect of switching to dynamic-by-default are available for 
-[ OS X x86_64](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86_64.html),
-[ OS X x86](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86.html),
-[ Linux x86_64](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86_64.html) and
-[ Linux x86](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86.html). There is also a table of the highlights below. In summary:
+[OS X x86_64](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86_64.html),
+[OS X x86](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86.html),
+[Linux x86_64](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86_64.html) and
+[Linux x86](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-linux-x86.html). There is also a table of the highlights below. In summary:
 
 
 (We don't have Windows performance numbers as we don't have dynamic-by-default working on Windows yet).
@@ -610,9 +610,9 @@ Currently, some people use the x86 version of GHC on OS X for performance reason
 
 
 Full nofib results comparing the two are
-[ here for static by default](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-base.html),
-[ here for dynamic by default](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html), and
-[ here for comparing static x86 to dynamic x86_64](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html).
+[here for static by default](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-base.html),
+[here for dynamic by default](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html), and
+[here for comparing static x86 to dynamic x86_64](http://lambda.haskell.org/~igloo/dynamic-by-default/nofib-osx-x86-x86_64-dyn.html).
 The highlights are in the table below.
 
 
@@ -804,7 +804,7 @@ It would still be possible to compile programs using the "static way" by giving 
 ### Cabal support
 
 
-Currently released versions of Cabal/cabal-install don't handle dynamic-by-default GHCs well, as they don't pass the `-static` flag when building for static ways (as they assume that it is enabled by default). We should get fixed versions out as soon as possible ([\#7439](https://gitlab.haskell.org//ghc/ghc/issues/7439)).
+Currently released versions of Cabal/cabal-install don't handle dynamic-by-default GHCs well, as they don't pass the `-static` flag when building for static ways (as they assume that it is enabled by default). We should get fixed versions out as soon as possible ([\#7439](https://gitlab.haskell.org/ghc/ghc/issues/7439)).
 
 ### Profiling
 

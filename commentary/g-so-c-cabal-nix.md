@@ -1,5 +1,5 @@
 
-This wiki discusses how bringing [ Nix](https://nixos.org/nix/)-style package management facilities to cabal can solve various cabal problems and help in effective mitigation of cabal hell. It also contains the goals and implementation plan for the GSoC project. It is based on a [ blog post by Duncan Coutts](http://www.well-typed.com/blog/2015/01/how-we-might-abolish-cabal-hell-part-2/).
+This wiki discusses how bringing [Nix](https://nixos.org/nix/)-style package management facilities to cabal can solve various cabal problems and help in effective mitigation of cabal hell. It also contains the goals and implementation plan for the GSoC project. It is based on a [ blog post by Duncan Coutts](http://www.well-typed.com/blog/2015/01/how-we-might-abolish-cabal-hell-part-2/).
 
 # Problems
 
@@ -32,7 +32,7 @@ The fundamental problem is that developers expect to be able to use combinations
 ## Persistent package store
 
 
-A [ patch](https://github.com/ghc/ghc/commit/dd3a7245d4d557b9e19bfa53b0fb2733c6fd4f88) has been pushed for ghc-7.11 that allows multiple instance of the same package to be installed. So the remaining work is in cabal tool for never modifying installed packages. I have written a [ patch to make cabal (almost)non-destructive](https://github.com/fugyk/cabal/commit/45ec5edbaada1fd063c67d6109e69efa0e732e6a). This patch makes all the changes to Package database non-destructive if Installed Package ID is different. To make it fully non-mutable, Thomas Tuegel suggested to
+A [patch](https://github.com/ghc/ghc/commit/dd3a7245d4d557b9e19bfa53b0fb2733c6fd4f88) has been pushed for ghc-7.11 that allows multiple instance of the same package to be installed. So the remaining work is in cabal tool for never modifying installed packages. I have written a [ patch to make cabal (almost)non-destructive](https://github.com/fugyk/cabal/commit/45ec5edbaada1fd063c67d6109e69efa0e732e6a). This patch makes all the changes to Package database non-destructive if Installed Package ID is different. To make it fully non-mutable, Thomas Tuegel suggested to
 
 - change installed package IDs to be computed by hash of the sdist tarball.
 - Enforce that a package is never overwritten by taking out a lock when updating the database.(before building the package)

@@ -5,11 +5,11 @@
 This page describes our current plan for making GHC's build system more
 malleable. The new build system will be developed in a branch here:
 
-[ http://darcs.haskell.org/ghc-new-build-system/](http://darcs.haskell.org/ghc-new-build-system/) 
+[http://darcs.haskell.org/ghc-new-build-system/](http://darcs.haskell.org/ghc-new-build-system/) 
 
 but if you want to grab it then you would probably prefer to start from a
 snapshot tarball:
-[ http://darcs.haskell.org/ghc-new-build-system-2008-11-20-ghc-corelibs-testsuite.tar.bz2](http://darcs.haskell.org/ghc-new-build-system-2008-11-20-ghc-corelibs-testsuite.tar.bz2)
+[http://darcs.haskell.org/ghc-new-build-system-2008-11-20-ghc-corelibs-testsuite.tar.bz2](http://darcs.haskell.org/ghc-new-build-system-2008-11-20-ghc-corelibs-testsuite.tar.bz2)
 
 ## Design goals
 
@@ -148,7 +148,7 @@ Makefiles a lot, which isn't good for parallelism in the build.  For example, th
   - compiler
 
 
-Instead, following [ Recursive make considered harmful](http://miller.emu.id.au/pmiller/books/rmch/?ref=DDiyet.Com), we propose to move all the logic and dependencies into the root
+Instead, following [Recursive make considered harmful](http://miller.emu.id.au/pmiller/books/rmch/?ref=DDiyet.Com), we propose to move all the logic and dependencies into the root
 Makefile (or files that get included into it) so that make sees all of
 it together.  Advantages:
 

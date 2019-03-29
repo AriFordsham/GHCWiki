@@ -36,8 +36,8 @@ The syntax could use some other character than dot (hash \# has been suggested),
 
 
 Note this proposal differs significantly from others for dot syntax, such as:
-[ http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) (TDNR)
-[ http://hackage.haskell.org/trac/ghc/wiki/Records/DotOperator](http://hackage.haskell.org/trac/ghc/wiki/Records/DotOperator)
+[http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) (TDNR)
+[http://hackage.haskell.org/trac/ghc/wiki/Records/DotOperator](http://hackage.haskell.org/trac/ghc/wiki/Records/DotOperator)
 
 
 Dot notation can be used for any function, not just record fields (as with TDNR, but different to SORF). This supports pseudo- or virtual fields. The declaration:
@@ -221,7 +221,7 @@ If you really, really want a section:
 
 
 There has been lengthy discussion about the interaction of dot syntax and record/field selection -- see the thread starting:
-[ http://www.haskell.org/pipermail/haskell-cafe/2012-January/098899.html](http://www.haskell.org/pipermail/haskell-cafe/2012-January/098899.html)
+[http://www.haskell.org/pipermail/haskell-cafe/2012-January/098899.html](http://www.haskell.org/pipermail/haskell-cafe/2012-January/098899.html)
 
 
 Thank you for everybody's contributions, they've significantly tuned the proposal as it went along.

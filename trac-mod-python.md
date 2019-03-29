@@ -1,8 +1,8 @@
 # Trac and mod_python
 
 
-Mod_python is an [ Apache](https://httpd.apache.org/) module that embeds the Python interpreter within the server, so that web-based applications in Python will run many times faster than traditional CGI and will have the ability to retain database connections.
-Trac supports [ mod_python](http://www.modpython.org/), which speeds up Trac's response times considerably, especially compared to [CGI](trac-cgi), and permits use of many Apache features not possible with [tracd](trac-standalone)/mod_proxy.
+Mod_python is an [Apache](https://httpd.apache.org/) module that embeds the Python interpreter within the server, so that web-based applications in Python will run many times faster than traditional CGI and will have the ability to retain database connections.
+Trac supports [mod_python](http://www.modpython.org/), which speeds up Trac's response times considerably, especially compared to [CGI](trac-cgi), and permits use of many Apache features not possible with [tracd](trac-standalone)/mod_proxy.
 
 
 
@@ -413,7 +413,7 @@ The workaround is to use negation expression as follows (for multi project setup
 
 
 This problem will most certainly hit you on Unix when using Python 2.4.
-In Python 2.4, some version of [ Expat](http://expat.sourceforge.net/) (an XML parser library written in C) is used and if Apache is using another version, this results in segmentation faults.
+In Python 2.4, some version of [Expat](http://expat.sourceforge.net/) (an XML parser library written in C) is used and if Apache is using another version, this results in segmentation faults.
 As Trac 0.11 is using Genshi, which will indirectly use Expat, that problem can now hit you even if everything was working fine before with Trac 0.10. This problem has not been reported for Python 2.5+, so best to upgrade.
 
 ### Form submission problems
@@ -500,7 +500,7 @@ chcon -R -h -t httpd_sys_content_t PATH_TO_REPOSITORY
 ```
 
 
-See also [ How do I set repository permissions correctly?](http://subversion.apache.org/faq.html#reposperms)
+See also [How do I set repository permissions correctly?](http://subversion.apache.org/faq.html#reposperms)
 
 #### FreeBSD issues
 
@@ -512,7 +512,7 @@ The FreeBSD ports have both the new and old versions of mod_python and SQLite, b
 
 
 Apache2 does not automatically support threads on FreeBSD. You could force thread support when running `./configure` for Apache, using `--enable-threads`, but this isn´t recommended.
-The best option [ seems to be](http://modpython.org/pipermail/mod_python/2006-September/021983.html) adding to /usr/local/apache2/bin/ennvars the line:
+The best option [seems to be](http://modpython.org/pipermail/mod_python/2006-September/021983.html) adding to /usr/local/apache2/bin/ennvars the line:
 
 
 ```
@@ -533,14 +533,14 @@ If you get the following Trac error `Unsupported version control system "svn"` o
 If this is not the case, it's possible that you are using Subversion libraries that are binary incompatible with the Apache ones and an incompatibility of the `apr` libraries is usually the cause. In that case, you also won't be able to use the svn modules for Apache (`mod_dav_svn`).
 
 
-You also need a recent version of `mod_python` in order to avoid a runtime error (`argument number 2: a 'apr_pool_t *' is expected`) due to the default usage of multiple sub-interpreters. Version 3.2.8 *should* work, though it's probably better to use the workaround described in [ \#3371](http://trac.edgewall.org/intertrac/%233371), in order to force the use of the main interpreter:
+You also need a recent version of `mod_python` in order to avoid a runtime error (`argument number 2: a 'apr_pool_t *' is expected`) due to the default usage of multiple sub-interpreters. Version 3.2.8 *should* work, though it's probably better to use the workaround described in [\#3371](http://trac.edgewall.org/intertrac/%233371), in order to force the use of the main interpreter:
 
 ```
 PythonInterpreter main_interpreter
 ```
 
 
-This is also the recommended workaround for other issues seen when using the Python bindings for Subversion within mod_python ([ \#2611](http://trac.edgewall.org/intertrac/%232611), [ \#3455](http://trac.edgewall.org/intertrac/%233455)). See in particular Graham Dumpleton's comment in [ \#3455](http://trac.edgewall.org/intertrac/comment%3A9%3Aticket%3A3455) explaining the issue.
+This is also the recommended workaround for other issues seen when using the Python bindings for Subversion within mod_python ([\#2611](http://trac.edgewall.org/intertrac/%232611), [ \#3455](http://trac.edgewall.org/intertrac/%233455)). See in particular Graham Dumpleton's comment in [ \#3455](http://trac.edgewall.org/intertrac/comment%3A9%3Aticket%3A3455) explaining the issue.
 
 ### Page layout issues
 
@@ -583,15 +583,15 @@ If you want to run Trac fully under https you might find that it tries to redire
 ### Segmentation fault with php5-mhash or other php5 modules
 
 
-You may encounter segfaults (reported on Debian etch) if php5-mhash module is installed. Try to remove it to see if this solves the problem. See [ Debian bug report](http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=411487).
+You may encounter segfaults (reported on Debian etch) if php5-mhash module is installed. Try to remove it to see if this solves the problem. See [Debian bug report](http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=411487).
 
 
-Some people also have troubles when using PHP5 compiled with its own third party libraries instead of system libraries. Check [ Django segmentation fault](http://www.djangoproject.com/documentation/modpython/#if-you-get-a-segmentation-fault).
+Some people also have troubles when using PHP5 compiled with its own third party libraries instead of system libraries. Check [Django segmentation fault](http://www.djangoproject.com/documentation/modpython/#if-you-get-a-segmentation-fault).
 
 ---
 
 
 
-See also: [TracGuide](trac-guide), [TracInstall](trac-install), [ModWSGI](trac-mod-wsgi), [FastCGI](trac-fast-cgi), [ TracNginxRecipe](http://trac.edgewall.org/intertrac/TracNginxRecipe)
+See also: [TracGuide](trac-guide), [TracInstall](trac-install), [ModWSGI](trac-mod-wsgi), [FastCGI](trac-fast-cgi), [TracNginxRecipe](http://trac.edgewall.org/intertrac/TracNginxRecipe)
 
 

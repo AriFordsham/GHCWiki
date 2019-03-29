@@ -11,23 +11,23 @@ GHC 6.10.1 is the first release in the 6.10 branch, and features many improvemen
 - Some **new language features** have been implemented:
 
   - Record syntax: wild-card patterns, punning, and field disambiguation
-  - Generalised quasi-quotes (Geoff Mainland), from the paper [ Why it's nice to be quoted: quasi-quoting in Haskell](http://www.eecs.harvard.edu/~mainland/ghc-quasiquoting/mainland07quasiquoting.pdf) (Haskell workshop 2007)
-  - Generalised list comprehensions (Max Bolingbroke), from the paper [ Comprehensive comprehensions: comprehensions with "Order by" and "Group by"](http://research.microsoft.com/%7Esimonpj/papers/list-comp/index.htm) (Haskell workshop 2007).
+  - Generalised quasi-quotes (Geoff Mainland), from the paper [Why it's nice to be quoted: quasi-quoting in Haskell](http://www.eecs.harvard.edu/~mainland/ghc-quasiquoting/mainland07quasiquoting.pdf) (Haskell workshop 2007)
+  - Generalised list comprehensions (Max Bolingbroke), from the paper [Comprehensive comprehensions: comprehensions with "Order by" and "Group by"](http://research.microsoft.com/%7Esimonpj/papers/list-comp/index.htm) (Haskell workshop 2007).
   - View patterns (Dan Licata); see [view patterns wiki page](view-patterns).
 
-- **Type families** have been completely re-implemented, by Manuel Chakravarty, along the lines of our ICFP 2008 paper [ Type checking with open type functions](http://research.microsoft.com/%7Esimonpj/papers/assoc-types/index.htm) --- only simpler.  As a result, we believe that type families work reliably in GHC 6.10.  There is one missing feature, however, namely the ability to have equalities in the superclass context of a class.   We'll add that to the HEAD in the next few months.  An [up-to-date wiki page](type-functions) tracks design issues and current status.
+- **Type families** have been completely re-implemented, by Manuel Chakravarty, along the lines of our ICFP 2008 paper [Type checking with open type functions](http://research.microsoft.com/%7Esimonpj/papers/assoc-types/index.htm) --- only simpler.  As a result, we believe that type families work reliably in GHC 6.10.  There is one missing feature, however, namely the ability to have equalities in the superclass context of a class.   We'll add that to the HEAD in the next few months.  An [up-to-date wiki page](type-functions) tracks design issues and current status.
 
 - GHC now comes with **Haddock 2**, which supports all GHC extensions, thanks to David Waern.
 
-- **Parallel garbage collection** has been implemented by Simon Marlow.  This speeds up even purely-sequential programs, by using the extra processors during garbage collection.  Our ISMM'08 paper gives the details [ Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm). 
+- **Parallel garbage collection** has been implemented by Simon Marlow.  This speeds up even purely-sequential programs, by using the extra processors during garbage collection.  Our ISMM'08 paper gives the details [Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm). 
 
-- The base library now provides, and uses, **extensible exceptions**, as described in Simon Marlow's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf) (Haskell workshop 2006).
+- The base library now provides, and uses, **extensible exceptions**, as described in Simon Marlow's paper [An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf) (Haskell workshop 2006).
 
 - Thomas Schilling has made the **GHC API** easier to use, by using a `Ghc` monad to carry the session state.  Furthermore, the API now has Haddock documentation.
 
 - **External core** (output only) now works again, thanks to Tim Chevalier.
 
-- **Data Parallel Haskell** (DPH) comes as part of GHC, as a result of Roman Leshchinskiy's efforts.  In 6.10, for the first time, DPH includes a full vectoriser, so the system is much more usable than before.  It's still really an alpha release though; we very much welcome friendly guinea pigs, but it's not ready for your 3 gigabyte genome search program.  We have a lot of performance tuning to do.  We've written a new paper [ Harnessing the multicores: nested data parallelism in Haskell](http://research.microsoft.com/%7Esimonpj/papers/ndp/index.htm) (FSTTCS'08), which gives a tutorial overview of the system, focusing especially on vectorisation.
+- **Data Parallel Haskell** (DPH) comes as part of GHC, as a result of Roman Leshchinskiy's efforts.  In 6.10, for the first time, DPH includes a full vectoriser, so the system is much more usable than before.  It's still really an alpha release though; we very much welcome friendly guinea pigs, but it's not ready for your 3 gigabyte genome search program.  We have a lot of performance tuning to do.  We've written a new paper [Harnessing the multicores: nested data parallelism in Haskell](http://research.microsoft.com/%7Esimonpj/papers/ndp/index.htm) (FSTTCS'08), which gives a tutorial overview of the system, focusing especially on vectorisation.
 
 ## The GHC 6.12 branch
 

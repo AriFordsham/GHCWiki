@@ -7,7 +7,7 @@ The main repository for the library, *package dph*, is at
 
 >
 >
-> [ http://darcs.haskell.org/packages/dph/](http://darcs.haskell.org/packages/dph/)
+> [http://darcs.haskell.org/packages/dph/](http://darcs.haskell.org/packages/dph/)
 >
 >
 

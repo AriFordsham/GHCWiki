@@ -2,7 +2,7 @@
 
 
 
-[ mod_wsgi](https://github.com/GrahamDumpleton/mod_wsgi) is an Apache module for running WSGI-compatible Python applications directly on top of the Apache webserver. The mod_wsgi adapter is written completely in C and provides very good performance.
+[mod_wsgi](https://github.com/GrahamDumpleton/mod_wsgi) is an Apache module for running WSGI-compatible Python applications directly on top of the Apache webserver. The mod_wsgi adapter is written completely in C and provides very good performance.
 
 
 
@@ -254,12 +254,12 @@ def application(environ, start_response):
 ```
 
 
-For more information about using the mod_wsgi specific directives, see the [ mod_wsgi's wiki](https://code.google.com/archive/p/modwsgi/wikis) and more specifically the [ IntegrationWithTrac](https://code.google.com/archive/p/modwsgi/wikis/IntegrationWithTrac.wiki) page.
+For more information about using the mod_wsgi specific directives, see the [mod_wsgi's wiki](https://code.google.com/archive/p/modwsgi/wikis) and more specifically the [ IntegrationWithTrac](https://code.google.com/archive/p/modwsgi/wikis/IntegrationWithTrac.wiki) page.
 
 ## Configuring Authentication
 
 
-The following sections describe different methods for setting up authentication. See also [ Authentication, Authorization and Access Control](http://httpd.apache.org/docs/2.4/howto/auth.html) in the Apache guide.
+The following sections describe different methods for setting up authentication. See also [Authentication, Authorization and Access Control](http://httpd.apache.org/docs/2.4/howto/auth.html) in the Apache guide.
 
 ### Using Basic Authentication
 
@@ -317,7 +317,7 @@ If you are hosting multiple projects, you can use the same password file for all
 ```
 
 
-Note that neither a file nor a directory named 'login' needs to exist. See also the [ mod_auth_basic](https://httpd.apache.org/docs/2.4/mod/mod_auth_basic.html) documentation.
+Note that neither a file nor a directory named 'login' needs to exist. See also the [mod_auth_basic](https://httpd.apache.org/docs/2.4/mod/mod_auth_basic.html) documentation.
 
 ### Using Digest Authentication
 
@@ -360,12 +360,12 @@ Don't forget to activate the mod_auth_digest. For example, on a Debian 4.0r1 (et
 ```
 
 
-See also the [ mod_auth_digest](https://httpd.apache.org/docs/2.4/mod/mod_auth_basic.html) documentation.
+See also the [mod_auth_digest](https://httpd.apache.org/docs/2.4/mod/mod_auth_basic.html) documentation.
 
 ### Using LDAP Authentication
 
 
-Configuration for [ mod_ldap](https://httpd.apache.org/docs/2.4/mod/mod_ldap.html) authentication in Apache is more involved (httpd 2.2+ and OpenLDAP: slapd 2.3.19).
+Configuration for [mod_ldap](https://httpd.apache.org/docs/2.4/mod/mod_ldap.html) authentication in Apache is more involved (httpd 2.2+ and OpenLDAP: slapd 2.3.19).
 
 1. You need to load the following modules in Apache httpd.conf:
 
@@ -437,15 +437,15 @@ Note 2: You can also require the user be a member of a certain LDAP group, inste
 
 See also:
 
-- [ mod_authnz_ldap](https://httpd.apache.org/docs/2.4/mod/mod_authnz_ldap.html), documentation for mod_authnz_ldap.   
-- [ mod_ldap](https://httpd.apache.org/docs/2.4/mod/mod_ldap.html), documentation for mod_ldap, which provides connection pooling and a shared cache.
-- [ TracHacks:LdapPlugin](https://trac-hacks.org/wiki/LdapPlugin) for storing [TracPermissions](trac-permissions) in LDAP.
+- [mod_authnz_ldap](https://httpd.apache.org/docs/2.4/mod/mod_authnz_ldap.html), documentation for mod_authnz_ldap.   
+- [mod_ldap](https://httpd.apache.org/docs/2.4/mod/mod_ldap.html), documentation for mod_ldap, which provides connection pooling and a shared cache.
+- [TracHacks:LdapPlugin](https://trac-hacks.org/wiki/LdapPlugin) for storing [TracPermissions](trac-permissions) in LDAP.
 
 ### Using SSPI Authentication
 
 
 
-If you are using Apache on Windows, you can use mod_auth_sspi to provide single-sign-on. Download the module from the SourceForge [ mod-auth-sspi project](http://sourceforge.net/projects/mod-auth-sspi/) and then add the following to your VirtualHost:
+If you are using Apache on Windows, you can use mod_auth_sspi to provide single-sign-on. Download the module from the SourceForge [mod-auth-sspi project](http://sourceforge.net/projects/mod-auth-sspi/) and then add the following to your VirtualHost:
 
 
 ```
@@ -466,10 +466,10 @@ If you are using Apache on Windows, you can use mod_auth_sspi to provide single-
 Using the above, usernames in Trac will be of the form `DOMAIN\username`, so you may have to re-add permissions and such. If you do not want the domain to be part of the username, set `SSPIOmitDomain On` instead.
 
 
-Some common problems with SSPI authentication: [ \#1055](http://trac.edgewall.org/intertrac/%231055), [ \#1168](http://trac.edgewall.org/intertrac/%231168) and [ \#3338](http://trac.edgewall.org/intertrac/%233338).
+Some common problems with SSPI authentication: [\#1055](http://trac.edgewall.org/intertrac/%231055), [ \#1168](http://trac.edgewall.org/intertrac/%231168) and [ \#3338](http://trac.edgewall.org/intertrac/%233338).
 
 
-See also [ TracOnWindows/Advanced](http://trac.edgewall.org/intertrac/TracOnWindows/Advanced).
+See also [TracOnWindows/Advanced](http://trac.edgewall.org/intertrac/TracOnWindows/Advanced).
 
 ### Using CA SiteMinder Authentication
 
@@ -564,13 +564,13 @@ For subdomains to work you would probably also need to alter `/etc/hosts` and ad
 ### Use a recent version
 
 
-Please use either version 1.6, 2.4 or later of `mod_wsgi`. Versions prior to 2.4 in the 2.X branch have problems with some Apache configurations that use WSGI file wrapper extension. This extension is used in Trac to serve up attachments and static media files such as style sheets. If you are affected by this problem, attachments will appear to be empty and formatting of HTML pages will appear not to work due to style sheet files not loading properly. Another frequent symptom is that binary attachment downloads are truncated. See mod_wsgi tickets [ \#100](https://code.google.com/archive/p/modwsgi/issues/100) and [ \#132](https://code.google.com/archive/p/modwsgi/issues/132).
+Please use either version 1.6, 2.4 or later of `mod_wsgi`. Versions prior to 2.4 in the 2.X branch have problems with some Apache configurations that use WSGI file wrapper extension. This extension is used in Trac to serve up attachments and static media files such as style sheets. If you are affected by this problem, attachments will appear to be empty and formatting of HTML pages will appear not to work due to style sheet files not loading properly. Another frequent symptom is that binary attachment downloads are truncated. See mod_wsgi tickets [\#100](https://code.google.com/archive/p/modwsgi/issues/100) and [ \#132](https://code.google.com/archive/p/modwsgi/issues/132).
 
-**Note**: using mod_wsgi 2.5 and Python 2.6.1 gave an Internal Server Error on my system (Apache 2.2.11 and Trac 0.11.2.1). Upgrading to Python 2.6.2 (as suggested [ here](http://www.mail-archive.com/modwsgi@googlegroups.com/msg01917.html)) solved this for me
+**Note**: using mod_wsgi 2.5 and Python 2.6.1 gave an Internal Server Error on my system (Apache 2.2.11 and Trac 0.11.2.1). Upgrading to Python 2.6.2 (as suggested [here](http://www.mail-archive.com/modwsgi@googlegroups.com/msg01917.html)) solved this for me
 -- Graham Shanks
 
 
-If you plan to use `mod_wsgi` in embedded mode on Windows or with the MPM worker on Linux, then you will need version 3.4 or greater. See [ \#10675](http://trac.edgewall.org/intertrac/%2310675) for details.
+If you plan to use `mod_wsgi` in embedded mode on Windows or with the MPM worker on Linux, then you will need version 3.4 or greater. See [\#10675](http://trac.edgewall.org/intertrac/%2310675) for details.
 
 ### Getting Trac to work nicely with SSPI and 'Require Group'
 
@@ -625,7 +625,7 @@ trac.db.mysql_backend.MySQLConnection.poolable = False
 
 Now Trac drops the connection after serving a page and the connection count on the database will be kept low.
 
-*This is not a recommended approach though. See also the notes at the bottom of the [ mod_wsgi's IntegrationWithTrac](https://code.google.com/archive/p/modwsgi/wikis/IntegrationWithTrac.wiki) wiki page.*
+*This is not a recommended approach though. See also the notes at the bottom of the [mod_wsgi's IntegrationWithTrac](https://code.google.com/archive/p/modwsgi/wikis/IntegrationWithTrac.wiki) wiki page.*
 
 ### Missing Headers and Footers
 
@@ -650,12 +650,12 @@ The same issue is seen with `PythonOptimize On` in [ModPython](trac-mod-python#p
 ### Other resources
 
 
-For more troubleshooting tips, see also the [mod_python troubleshooting](trac-mod-python#troubleshooting) section, as most Apache-related issues are quite similar, plus discussion of potential [ application issues](https://code.google.com/archive/p/modwsgi/wikis/ApplicationIssues.wiki) when using mod_wsgi. The wsgi page also has a [ Integration With Trac](https://code.google.com/archive/p/modwsgi/wikis/IntegrationWithTrac.wiki) document.
+For more troubleshooting tips, see also the [mod_python troubleshooting](trac-mod-python#troubleshooting) section, as most Apache-related issues are quite similar, plus discussion of potential [application issues](https://code.google.com/archive/p/modwsgi/wikis/ApplicationIssues.wiki) when using mod_wsgi. The wsgi page also has a [ Integration With Trac](https://code.google.com/archive/p/modwsgi/wikis/IntegrationWithTrac.wiki) document.
 
 ---
 
 
 
-See also: [TracGuide](trac-guide), [TracInstall](trac-install), [FastCGI](trac-fast-cgi), [ModPython](trac-mod-python), [ TracNginxRecipe](http://trac.edgewall.org/intertrac/TracNginxRecipe)
+See also: [TracGuide](trac-guide), [TracInstall](trac-install), [FastCGI](trac-fast-cgi), [ModPython](trac-mod-python), [TracNginxRecipe](http://trac.edgewall.org/intertrac/TracNginxRecipe)
 
 

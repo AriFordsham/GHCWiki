@@ -1,5 +1,5 @@
 
-\[ Up: [Commentary/Compiler/TypeChecker](commentary/compiler/type-checker) \]
+\[Up: [Commentary/Compiler/TypeChecker](commentary/compiler/type-checker) \]
 
 # The monad for renaming, typechecking, desugaring
 

@@ -1,7 +1,7 @@
 # Helpful Local Import Error Messages
 
 
-Issue raised here: [ https://ghc.haskell.org/trac/ghc/ticket/11418](https://ghc.haskell.org/trac/ghc/ticket/11418)
+Issue raised here: [https://ghc.haskell.org/trac/ghc/ticket/11418](https://ghc.haskell.org/trac/ghc/ticket/11418)
 
 ## The problem
 
@@ -71,7 +71,7 @@ Given the two files from the description, here's what happens when you run `ghc 
 
 Cabal already asks you to specify all known modules in either `exposed-modules` or `other-modules`.
 Cabal already passes this list of modules to GHC.
-GHC therefore already knows the names of all modules that could possibly be imported (not quite, see [ https://github.com/haskell/cabal/issues/2982\#issuecomment-169786310](https://github.com/haskell/cabal/issues/2982#issuecomment-169786310))
+GHC therefore already knows the names of all modules that could possibly be imported (not quite, see [https://github.com/haskell/cabal/issues/2982\#issuecomment-169786310](https://github.com/haskell/cabal/issues/2982#issuecomment-169786310))
 This list could be used to detect import typo's.
 
 

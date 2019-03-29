@@ -18,15 +18,15 @@ Use **Keyword** = `UnboxedSums` to ensure that a ticket ends up on these lists.
 
 Open Tickets:
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13276">#13276</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13276">#13276</a></th>
 <td>Unboxed sums are not Typeable</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14259">#14259</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14259">#14259</a></th>
 <td>Worker/Wrapper for sum return</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14727">#14727</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14727">#14727</a></th>
 <td>Unboxed sum performance surprisingly poor</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14865">#14865</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14865">#14865</a></th>
 <td>GHC Defeats Manual Worker Wrapper with Unboxed Sum</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15358">#15358</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15358">#15358</a></th>
 <td>no way to talk about unpacking sum types / unpacking tuples</td></tr></table>
 
 
@@ -34,25 +34,25 @@ Open Tickets:
 
 Closed Tickets:
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12417">#12417</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12417">#12417</a></th>
 <td>API annotations for unboxed sums needs reworking</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12478">#12478</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12478">#12478</a></th>
 <td>Template Haskell support for unboxed sums</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12514">#12514</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12514">#12514</a></th>
 <td>Can&apos;t write unboxed sum type constructors in prefix form</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12711">#12711</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12711">#12711</a></th>
 <td>GHC Internal error, unboxed sums</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14051">#14051</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14051">#14051</a></th>
 <td>Unboxed sums-related panic: getUnboxedSumName 513</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14228">#14228</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14228">#14228</a></th>
 <td>PatternSynonyms Non-exhaustive with UnboxedSums</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14742">#14742</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14742">#14742</a></th>
 <td>Unboxed sums can treat Word#s as Int#s</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14752">#14752</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14752">#14752</a></th>
 <td>Unboxed sums documentation looks wrong</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15067">#15067</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15067">#15067</a></th>
 <td>When Typeable and unboxed sums collide, GHC panics</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15300">#15300</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15300">#15300</a></th>
 <td>Unboxed Sums Crash</td></tr></table>
 
 
@@ -297,7 +297,7 @@ case-of-known-constructor, if we scrutinize `x` again.
 # Exploiting nullary constructors
 
 
-Joachim [ writes](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009831.html): The current proposed layout for a
+Joachim [writes](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009831.html): The current proposed layout for a
 
 ```wiki
     data D a = D a {-# UNPACK #-} !(Maybe a) would be

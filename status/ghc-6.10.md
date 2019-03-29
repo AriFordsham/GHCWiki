@@ -5,7 +5,7 @@
 We expect to release GHC 6.10 around ICFP 2008.  
 
 
--  [ Beta released](http://www.haskell.org/pipermail/glasgow-haskell-users/2008-September/015539.html). 
+-  [Beta released](http://www.haskell.org/pipermail/glasgow-haskell-users/2008-September/015539.html). 
 
 ## Things that are done already
 
@@ -22,7 +22,7 @@ We expect to release GHC 6.10 around ICFP 2008.
 >
 >
 
-- **Parallel garbage collection** (see [ Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm)).  **Done**.
+- **Parallel garbage collection** (see [Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm)).  **Done**.
 
 - **External Core** (output only) is working again, thanks to Tim Chevalier.
 
@@ -39,23 +39,23 @@ We expect to release GHC 6.10 around ICFP 2008.
   - Build it with GHC (maybe ship it with GHC too)
   - Documentation for GHC API done via Haddock 2
 
-- **Extensible exceptions**, along the lines of Simon's paper [ An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.
+- **Extensible exceptions**, along the lines of Simon's paper [An Extensible Dynamically-Typed Hierarchy of Exceptions](http://www.haskell.org/~simonmar/papers/ext-exceptions.pdf).  This is mainly a library change.
 
-- **Haddock 2** (see also [\#1964](https://gitlab.haskell.org//ghc/ghc/issues/1964) (GHC.Prim)).  (**Ian Lynagh**)
+- **Haddock 2** (see also [\#1964](https://gitlab.haskell.org/ghc/ghc/issues/1964) (GHC.Prim)).  (**Ian Lynagh**)
 
-- **GHC API** improvement: **Thomas Schilling** is doing a SoC project.  Preserve comments and pragmas, generic traversals ([\#1467](https://gitlab.haskell.org//ghc/ghc/issues/1467), [\#1886](https://gitlab.haskell.org//ghc/ghc/issues/1886), [GhcApiStatus](ghc-api-status)). We'll ship whatever Thomas has committed by then.
+- **GHC API** improvement: **Thomas Schilling** is doing a SoC project.  Preserve comments and pragmas, generic traversals ([\#1467](https://gitlab.haskell.org/ghc/ghc/issues/1467), [\#1886](https://gitlab.haskell.org/ghc/ghc/issues/1886), [GhcApiStatus](ghc-api-status)). We'll ship whatever Thomas has committed by then.
 
-- **[ Type families](http://haskell.org/haskellwiki/GHC/Indexed_types)**, fully working. *Manuel Chakravarty and Simon PJ*
+- **[Type families](http://haskell.org/haskellwiki/GHC/Indexed_types)**, fully working. *Manuel Chakravarty and Simon PJ*
 
-- **[ Nested data parallelism](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)**, in some form. *Roman Leshchinskiy, Gabriele Keller, Manuel Chakravarty, Simon PJ*
+- **[Nested data parallelism](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)**, in some form. *Roman Leshchinskiy, Gabriele Keller, Manuel Chakravarty, Simon PJ*
 
 
  
 
 
-- More library reorg ([\#1338](https://gitlab.haskell.org//ghc/ghc/issues/1338)).  The goal here is to shift stuff out of boot-libs and into the Haskell Library Platform, which is independently upgradable.  Not hugely urgent, nice to have.
+- More library reorg ([\#1338](https://gitlab.haskell.org/ghc/ghc/issues/1338)).  The goal here is to shift stuff out of boot-libs and into the Haskell Library Platform, which is independently upgradable.  Not hugely urgent, nice to have.
 
-- `^C` should raise an exception by default (also SIGPIPE, see [\#1619](https://gitlab.haskell.org//ghc/ghc/issues/1619), [\#2301](https://gitlab.haskell.org//ghc/ghc/issues/2301)). Nearly done!  But not quite complete if you fork another process.  This latter part is lower priority.
+- `^C` should raise an exception by default (also SIGPIPE, see [\#1619](https://gitlab.haskell.org/ghc/ghc/issues/1619), [\#2301](https://gitlab.haskell.org/ghc/ghc/issues/2301)). Nearly done!  But not quite complete if you fork another process.  This latter part is lower priority.
 
 ## Things we plan to do for sure
 
@@ -66,14 +66,14 @@ We expect to release GHC 6.10 around ICFP 2008.
 
 This is a list of things that are floating about in our minds for what to do beyond 6.10.  Nothing is decided, and these items vary wildly in their size.
 
-- **[Back-end revamp](commentary/compiler/new-code-gen)** (see also [\#1501](https://gitlab.haskell.org//ghc/ghc/issues/1501)).  **John Dias** is in charge.  For 6.10 we will make sure that the whole existing path still exists, so we can choose at a late date whether to rely on the new path or not.
+- **[Back-end revamp](commentary/compiler/new-code-gen)** (see also [\#1501](https://gitlab.haskell.org/ghc/ghc/issues/1501)).  **John Dias** is in charge.  For 6.10 we will make sure that the whole existing path still exists, so we can choose at a late date whether to rely on the new path or not.
 
 - **Unicode support for text I/O**.  This means adding Unicode encoding/decoding for Text I/O handles.   (**Simon Marlow**: a few days work.)
 
   - Consensus was that Text I/O should always use the current locale encoding.  
   - You can elect to have no encoding by opening in binary mode, but that's all.
 
-- **Shared libraries**, as a result of Clemens Fruhwirth's Summer of Code project.  ([\#1876](https://gitlab.haskell.org//ghc/ghc/issues/1876)) **Simon Marlow**: about a week's work.
+- **Shared libraries**, as a result of Clemens Fruhwirth's Summer of Code project.  ([\#1876](https://gitlab.haskell.org/ghc/ghc/issues/1876)) **Simon Marlow**: about a week's work.
 
   - Binaries get much smaller
   - Compile a package on Windows to a DLL; it just works
@@ -95,6 +95,6 @@ This is a list of things that are floating about in our minds for what to do bey
 
 - **Static verification** along the lines of Dana Xu's work.
 
-- **Finish System.Process revamp** ([\#2233](https://gitlab.haskell.org//ghc/ghc/issues/2233))
+- **Finish System.Process revamp** ([\#2233](https://gitlab.haskell.org/ghc/ghc/issues/2233))
 
-- Binary package DB, or at least make the one-file-per package work ([\#593](https://gitlab.haskell.org//ghc/ghc/issues/593), [\#723](https://gitlab.haskell.org//ghc/ghc/issues/723), [\#2089](https://gitlab.haskell.org//ghc/ghc/issues/2089))
+- Binary package DB, or at least make the one-file-per package work ([\#593](https://gitlab.haskell.org/ghc/ghc/issues/593), [\#723](https://gitlab.haskell.org/ghc/ghc/issues/723), [\#2089](https://gitlab.haskell.org/ghc/ghc/issues/2089))

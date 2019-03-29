@@ -1,5 +1,5 @@
 
-This page is a summary of proposals from [\#4359](https://gitlab.haskell.org//ghc/ghc/issues/4359)
+This page is a summary of proposals from [\#4359](https://gitlab.haskell.org/ghc/ghc/issues/4359)
 
 ## The problem
 
@@ -175,7 +175,7 @@ Addresses the layout problem of MultiClauseLambdas. Requires multi-clause abstra
 ### Extra: LambdaMatch
 
 
-A full revamp of pattern matching: [ Haskell' ticket](http://hackage.haskell.org/trac/haskell-prime/ticket/114).
+A full revamp of pattern matching: [Haskell' ticket](http://hackage.haskell.org/trac/haskell-prime/ticket/114).
 
 ## Notes
 

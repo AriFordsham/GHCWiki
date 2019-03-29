@@ -1,15 +1,15 @@
 # Proposal Discussion of [MonadOfNoReturn](proposal/monad-of-no-return) (MRP)
 
 
-The original proposal was posted to [ reddit](https://www.reddit.com/r/haskell/comments/3mb8lb/monad_of_no_return_proposal_mrp/) as well to the [ libraries](http://thread.gmane.org/gmane.comp.lang.haskell.libraries/25274) list  (broken off thread branch [ here](http://thread.gmane.org/gmane.comp.lang.haskell.libraries/25380)) on 2015-09-24, and lateron the discussion thread got cross-posted to `haskell-cafe` and `haskell-prime`.
+The original proposal was posted to [reddit](https://www.reddit.com/r/haskell/comments/3mb8lb/monad_of_no_return_proposal_mrp/) as well to the [ libraries](http://thread.gmane.org/gmane.comp.lang.haskell.libraries/25274) list  (broken off thread branch [ here](http://thread.gmane.org/gmane.comp.lang.haskell.libraries/25380)) on 2015-09-24, and lateron the discussion thread got cross-posted to `haskell-cafe` and `haskell-prime`.
 
 ## Conclusion & Revised Proposal
 
 
-Based on the feedback gathered from the discussion, the [proposal has been revised](proposal/monad-of-no-return) to address the raised concerns. First and foremost, a [new stretched out transition scheme](proposal/monad-of-no-return#reduced-breakage-variant) complying with the recently enacted [ 3-release policy](https://groups.google.com/forum/#!msg/haskell-core-libraries/qXYMfV8JZ6k/tTuFrBMdDgAJ) (and beyond) has been devised. Moreover, the feasibility of automatic refactoring tooling was investigated and resulted in the working `Hs2010To201x` proof-of-concept.
+Based on the feedback gathered from the discussion, the [proposal has been revised](proposal/monad-of-no-return) to address the raised concerns. First and foremost, a [new stretched out transition scheme](proposal/monad-of-no-return#reduced-breakage-variant) complying with the recently enacted [3-release policy](https://groups.google.com/forum/#!msg/haskell-core-libraries/qXYMfV8JZ6k/tTuFrBMdDgAJ) (and beyond) has been devised. Moreover, the feasibility of automatic refactoring tooling was investigated and resulted in the working `Hs2010To201x` proof-of-concept.
 
 
-On 2017-11-29 the revised proposal was posted on `/r/haskell` and had a favorable reception ([ reddit thread](https://www.reddit.com/r/haskell/comments/7ghoy6/proposalmonadofnoreturn/)).
+On 2017-11-29 the revised proposal was posted on `/r/haskell` and had a favorable reception ([reddit thread](https://www.reddit.com/r/haskell/comments/7ghoy6/proposalmonadofnoreturn/)).
 
 ## Discussion Summary
 

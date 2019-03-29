@@ -27,15 +27,15 @@ See Libraries?
 
 Below are the major highlights of 8.0.2.
 
-- Interface file build determinism ([\#4012](https://gitlab.haskell.org//ghc/ghc/issues/4012)).
+- Interface file build determinism ([\#4012](https://gitlab.haskell.org/ghc/ghc/issues/4012)).
 
 - Compatibility with macOS Sierra and GCC compilers which compile 
   position-independent executables by default
 
-- Runtime linker fixes on Windows (see [\#12797](https://gitlab.haskell.org//ghc/ghc/issues/12797))
+- Runtime linker fixes on Windows (see [\#12797](https://gitlab.haskell.org/ghc/ghc/issues/12797))
 
 - A compiler bug which resulted in undefined reference errors while
-  compiling some packages (see [\#12076](https://gitlab.haskell.org//ghc/ghc/issues/12076))
+  compiling some packages (see [\#12076](https://gitlab.haskell.org/ghc/ghc/issues/12076))
 
 - Compatibility with systems which use the gold linker
 

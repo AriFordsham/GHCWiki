@@ -3,8 +3,8 @@
 
 The information about the nightly builds is aggregated thus:
 
-- [ Information on the status of the nightly builds](http://haskell.inf.elte.hu/builders/). This is basically a large table with hyperlinks to the individual builds in it.
-- [ Fully-built documentation for the nightly builds](http://haskell.inf.elte.hu/docs/).  Here, for example, is the [ user manual and library Haddocks for HEAD](http://haskell.inf.elte.hu/docs/latest/html/).
+- [Information on the status of the nightly builds](http://haskell.inf.elte.hu/builders/). This is basically a large table with hyperlinks to the individual builds in it.
+- [Fully-built documentation for the nightly builds](http://haskell.inf.elte.hu/docs/).  Here, for example, is the [ user manual and library Haddocks for HEAD](http://haskell.inf.elte.hu/docs/latest/html/).
 
 
    
@@ -70,7 +70,7 @@ The builder summary pages store information on every build, however, from the ma
 
 >
 >
-> [ http://haskell.inf.elte.hu/builders/$builder/](http://haskell.inf.elte.hu/builders/$builder/)
+> [http://haskell.inf.elte.hu/builders/$builder/](http://haskell.inf.elte.hu/builders/$builder/)
 >
 >
 
@@ -94,7 +94,7 @@ where `$n` is the serial number of the build, `$result` is the result of the bui
 
 >
 >
-> [ http://haskell.inf.elte.hu/builders/$builder/$n.html](http://haskell.inf.elte.hu/builders/$builder/$n.html)
+> [http://haskell.inf.elte.hu/builders/$builder/$n.html](http://haskell.inf.elte.hu/builders/$builder/$n.html)
 >
 >
 
@@ -167,7 +167,7 @@ Note that each of the steps are hyperlinked, which means they have links to cont
 
 >
 >
-> [ http://haskell.inf.elte.hu/builders/$builder/$build/$step.html](http://haskell.inf.elte.hu/builders/$builder/$build/$step.html)
+> [http://haskell.inf.elte.hu/builders/$builder/$build/$step.html](http://haskell.inf.elte.hu/builders/$builder/$build/$step.html)
 >
 >
 
@@ -199,4 +199,4 @@ Finally, the `$error_code` can be either `ExitSuccess`, which implies that the s
 
 
 Upon receiving the build results, the central server -- if instructed -- also forwards them to the 
-[ ghc-builds](http://www.haskell.org/mailman/listinfo/ghc-builds/) mailing list.  The mail contains a brief overview of the build results and links to the build page.  In case of failures, the last couple of lines of the failing command are also included.
+[ghc-builds](http://www.haskell.org/mailman/listinfo/ghc-builds/) mailing list.  The mail contains a brief overview of the build results and links to the build page.  In case of failures, the last couple of lines of the failing command are also included.

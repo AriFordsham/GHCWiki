@@ -1,7 +1,7 @@
 # Bug squashing at ZuriHac2014
 
 
-Joachim (nomeata) wants to run a small bugsquashing sprint at [ ZuriHac 2014](http://www.haskell.org/haskellwiki/ZuriHac2014/Projects). 
+Joachim (nomeata) wants to run a small bugsquashing sprint at [ZuriHac 2014](http://www.haskell.org/haskellwiki/ZuriHac2014/Projects). 
 
 ## Requirements
 
@@ -19,7 +19,7 @@ If you want to join in, you can come prepared:
 - Read through [Newcomers](newcomers)
 - Make sure that you have built GHC once yourself.
 - Your changes need to be validated. So make sure you validated GHC once. I suggest to have a second working copy of GHC that you only use to validate. There is a [section](working-conventions/git#workflow-with-validate) explaining how to do this.
-- Fork [ ghc on github](https://github.com/ghc/ghc/) (or otherwise publish a fork of the GHC repo) for easier collaboration during the hackathon.
+- Fork [ghc on github](https://github.com/ghc/ghc/) (or otherwise publish a fork of the GHC repo) for easier collaboration during the hackathon.
 - Get an account on this trac.
 - Join `#ghc` on freenode.
 - (optional, if you plan to stick around) Subscribe to `ghc-dev` and `ghc-tickets` mailing lists.
@@ -30,7 +30,7 @@ If you want to join in, you can come prepared:
 If you have a strong remote machine with lots of cores, you can have the validate tree remotely.
 
 
-For more convenient validation, especially if the validate repository is remotely, I (Joachim) have a script `ci-validate.sh` that waits for a new branch calls `validate/foo`, then validates it cleanly and either moves it to `validated/foo` or `broken/foo`. If you want to set up that as well, fetch the script from my [ ghc-devscripts repository](https://github.com/nomeata/ghc-devscripts).
+For more convenient validation, especially if the validate repository is remotely, I (Joachim) have a script `ci-validate.sh` that waits for a new branch calls `validate/foo`, then validates it cleanly and either moves it to `validated/foo` or `broken/foo`. If you want to set up that as well, fetch the script from my [ghc-devscripts repository](https://github.com/nomeata/ghc-devscripts).
 
 ## Possible tickets
 
@@ -92,7 +92,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/17">#17</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/17">#17</a></th>
 <td>
                     
                   
@@ -101,7 +101,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/17">Separate warnings for unused local and top-level bindings</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/17">Separate warnings for unused local and top-level bindings</a>
                       
                       
                       
@@ -204,7 +204,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/95">#95</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/95">#95</a></th>
 <td>
                     
                   
@@ -213,7 +213,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/95">GHCi :edit command should jump to the the last error</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/95">GHCi :edit command should jump to the the last error</a>
                       
                       
                       
@@ -316,7 +316,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/393">#393</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/393">#393</a></th>
 <td>
                     
                   
@@ -325,7 +325,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/393">functions without implementations</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/393">functions without implementations</a>
                       
                       
                       
@@ -428,7 +428,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1262">#1262</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/1262">#1262</a></th>
 <td>
                     
                   
@@ -437,7 +437,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/1262">RecursiveDo in Template Haskell</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/1262">RecursiveDo in Template Haskell</a>
                       
                       
                       
@@ -540,7 +540,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1388">#1388</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/1388">#1388</a></th>
 <td>
                     
                   
@@ -549,7 +549,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/1388">Newbie help features</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/1388">Newbie help features</a>
                       
                       
                       
@@ -652,7 +652,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3314">#3314</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/3314">#3314</a></th>
 <td>
                     
                   
@@ -661,7 +661,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/3314">Add compilation date to +RTS --info</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/3314">Add compilation date to +RTS --info</a>
                       
                       
                       
@@ -764,7 +764,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4836">#4836</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/4836">#4836</a></th>
 <td>
                     
                   
@@ -773,7 +773,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/4836">literate markdown not handled correctly by unlit</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/4836">literate markdown not handled correctly by unlit</a>
                       
                       
                       
@@ -876,7 +876,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8429">#8429</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8429">#8429</a></th>
 <td>
                     
                   
@@ -885,7 +885,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8429">GHC.Base.{breakpoint, breakpointCond} do nothing</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8429">GHC.Base.{breakpoint, breakpointCond} do nothing</a>
                       
                       
                       
@@ -988,7 +988,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8613">#8613</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8613">#8613</a></th>
 <td>
                     
                   
@@ -997,7 +997,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8613">simplifier ticks exhausted</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8613">simplifier ticks exhausted</a>
                       
                       
                       
@@ -1100,7 +1100,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8959">#8959</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8959">#8959</a></th>
 <td>
                     
                   
@@ -1109,7 +1109,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8959">GHCi should honour UnicodeSyntax</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8959">GHCi should honour UnicodeSyntax</a>
                       
                       
                       
@@ -1212,7 +1212,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9086">#9086</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9086">#9086</a></th>
 <td>
                     
                   
@@ -1221,7 +1221,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9086">main :: IO Int does different things with runghc and when compiled</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9086">main :: IO Int does different things with runghc and when compiled</a>
                       
                       
                       
@@ -1324,7 +1324,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9095">#9095</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9095">#9095</a></th>
 <td>
                     
                   
@@ -1333,7 +1333,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9095">make sdist picks up test files</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9095">make sdist picks up test files</a>
                       
                       
                       
@@ -1436,7 +1436,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9122">#9122</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9122">#9122</a></th>
 <td>
                     
                   
@@ -1445,7 +1445,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9122">Make Lint check for bad uses of `unsafeCoerce`</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9122">Make Lint check for bad uses of `unsafeCoerce`</a>
                       
                       
                       
@@ -1548,7 +1548,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9127">#9127</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9127">#9127</a></th>
 <td>
                     
                   
@@ -1557,7 +1557,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9127">Don&apos;t warn about pattern-bindings of the form `let !_ = rhs`</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9127">Don&apos;t warn about pattern-bindings of the form `let !_ = rhs`</a>
                       
                       
                       
@@ -1660,7 +1660,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9132">#9132</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9132">#9132</a></th>
 <td>
                     
                   
@@ -1669,7 +1669,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9132">takeWhile&amp;C. still not fusible</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9132">takeWhile&amp;C. still not fusible</a>
                       
                       
                       
@@ -1772,7 +1772,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9136">#9136</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9136">#9136</a></th>
 <td>
                     
                   
@@ -1781,7 +1781,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9136">Constant folding in Core could be better</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9136">Constant folding in Core could be better</a>
                       
                       
                       
@@ -1884,7 +1884,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9156">#9156</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9156">#9156</a></th>
 <td>
                     
                   
@@ -1893,7 +1893,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9156">Duplicate record field</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9156">Duplicate record field</a>
                       
                       
                       
@@ -1996,7 +1996,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9177">#9177</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9177">#9177</a></th>
 <td>
                     
                   
@@ -2005,7 +2005,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9177">Suggest Int when user uses int</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9177">Suggest Int when user uses int</a>
                       
                       
                       
@@ -2108,7 +2108,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9178">#9178</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9178">#9178</a></th>
 <td>
                     
                   
@@ -2117,7 +2117,7 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9178">improve orphan instance warning</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9178">improve orphan instance warning</a>
                       
                       
                       
@@ -2226,4 +2226,4 @@ This is a list of tickets that might be suitable for a hacking sprint, but feel 
 
 
 - *4* people particitpated: nomeata, gintas, skeuchel, Lorenzo *please add yourself*
-- *8* Tickets worked on: [\#9177](https://gitlab.haskell.org//ghc/ghc/issues/9177), [\#8959](https://gitlab.haskell.org//ghc/ghc/issues/8959), [\#9127](https://gitlab.haskell.org//ghc/ghc/issues/9127), [\#9178](https://gitlab.haskell.org//ghc/ghc/issues/9178), [\#9132](https://gitlab.haskell.org//ghc/ghc/issues/9132), [\#393](https://gitlab.haskell.org//ghc/ghc/issues/393), [\#95](https://gitlab.haskell.org//ghc/ghc/issues/95), [\#9181](https://gitlab.haskell.org//ghc/ghc/issues/9181)
+- *8* Tickets worked on: [\#9177](https://gitlab.haskell.org/ghc/ghc/issues/9177), [\#8959](https://gitlab.haskell.org/ghc/ghc/issues/8959), [\#9127](https://gitlab.haskell.org/ghc/ghc/issues/9127), [\#9178](https://gitlab.haskell.org/ghc/ghc/issues/9178), [\#9132](https://gitlab.haskell.org/ghc/ghc/issues/9132), [\#393](https://gitlab.haskell.org/ghc/ghc/issues/393), [\#95](https://gitlab.haskell.org/ghc/ghc/issues/95), [\#9181](https://gitlab.haskell.org/ghc/ghc/issues/9181)

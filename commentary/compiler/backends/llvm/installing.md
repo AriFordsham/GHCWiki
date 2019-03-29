@@ -7,7 +7,7 @@ The LLVM backend is now included in GHC HEAD. Just grab the git HEAD version of 
 
 
 
-For instructions on building GHC go [ here](http://hackage.haskell.org/trac/ghc/wiki/Building)
+For instructions on building GHC go [here](http://hackage.haskell.org/trac/ghc/wiki/Building)
 
 
 ## LLVM Support
@@ -32,7 +32,7 @@ For instructions on building GHC go [ here](http://hackage.haskell.org/trac/ghc/
 <th> 5.0 </th>
 <th> 3.9 </th>
 <th> 3.7 </th>
-<th> 3.5 (3.5.2 on ARM (<a href="https://gitlab.haskell.org//ghc/ghc/issues/9920">#9920</a>) </th>
+<th> 3.5 (3.5.2 on ARM (<a href="https://gitlab.haskell.org/ghc/ghc/issues/9920">#9920</a>) </th>
 <th> ?? </th>
 <th> ?? </th>
 <th> ?? </th>
@@ -64,7 +64,7 @@ Once built you can check that you have the LLVM backend GHC will support these e
 - Linux x86-32/x86-64: Currently well supported. The back-end can pass the test suite and build a working version of GHC (bootstrap test).
 - Windows x86-32: Currently well supported. The back-end can pass the test suite and build a working version of GHC (bootstrap test).
 - Mac OS X 10.5/10.6 (x86-32/x86-64): Currently well supported. The back-end can pass the test suite and bootstrap GHC. OS X has caused a lot more problems then Linux or Windows and does a few things slightly differently then them. It is quite stable these days though.
-- ARM: Work is currently progressing to fully support GHC using the LLVM backend on ARM. You can see a blog with info about this [ here](http://ghcarm.wordpress.com/).
+- ARM: Work is currently progressing to fully support GHC using the LLVM backend on ARM. You can see a blog with info about this [here](http://ghcarm.wordpress.com/).
 - Other platforms haven't been tested at all.
 
 ## Shared Libraries
@@ -92,6 +92,6 @@ A quick summary of the results are that for the 'nofib' benchmark suite, the LLV
 
 
 
-A nice demonstration of the improvements the LLVM back-end can bring to some code though can be see at [ http://donsbot.wordpress.com/2010/02/21/smoking-fast-haskell-code-using-ghcs-new-llvm-codegen/](http://donsbot.wordpress.com/2010/02/21/smoking-fast-haskell-code-using-ghcs-new-llvm-codegen/)
+A nice demonstration of the improvements the LLVM back-end can bring to some code though can be see at [http://donsbot.wordpress.com/2010/02/21/smoking-fast-haskell-code-using-ghcs-new-llvm-codegen/](http://donsbot.wordpress.com/2010/02/21/smoking-fast-haskell-code-using-ghcs-new-llvm-codegen/)
 
 

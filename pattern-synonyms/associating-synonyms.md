@@ -1,7 +1,7 @@
 ## Bundlings pattern synonyms with types
 
 
-This section is based upon [\#10653](https://gitlab.haskell.org//ghc/ghc/issues/10653) and D1258. The feature was implemented in [ 96621b1b4979f449e873513e9de8d806257c9493](https://github.com/ghc/ghc/commit/96621b1b4979f449e873513e9de8d806257c9493).
+This section is based upon [\#10653](https://gitlab.haskell.org/ghc/ghc/issues/10653) and D1258. The feature was implemented in [96621b1b4979f449e873513e9de8d806257c9493](https://github.com/ghc/ghc/commit/96621b1b4979f449e873513e9de8d806257c9493).
 
 
 Pattern synonyms allow for constructors to be defined, exported and imported separately from the types which they build.

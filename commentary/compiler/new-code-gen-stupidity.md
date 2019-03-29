@@ -6,7 +6,7 @@ This page is here for historical reasons.  Most of the issues described here are
 # Stupidity in the New Code Generator
 
 
-Presently compiling using the new code generator results in a fairly sizable performance hit, because the new code generator produces sub-optimal (and sometimes absolutely terrible code.) There are [ a lot of ideas for how to make things better](http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes); the idea for this wiki page is to document all of the stupid things the new code generator is doing, to later be correlated with specific refactorings and fixes that will hopefully eliminate classes of these stupid things. The hope here is to develop a sense for what the most endemic problems with the newly generated code is.
+Presently compiling using the new code generator results in a fairly sizable performance hit, because the new code generator produces sub-optimal (and sometimes absolutely terrible code.) There are [a lot of ideas for how to make things better](http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes); the idea for this wiki page is to document all of the stupid things the new code generator is doing, to later be correlated with specific refactorings and fixes that will hopefully eliminate classes of these stupid things. The hope here is to develop a sense for what the most endemic problems with the newly generated code is.
 
 ## Cantankerous Comparisons
 

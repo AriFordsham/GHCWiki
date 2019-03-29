@@ -22,8 +22,8 @@ See [TracIni](trac-ini) for more information on the available options.
 
 ## More information on CamelCase
 
-- [ http://c2.com/cgi/wiki?WikiCase](http://c2.com/cgi/wiki?WikiCase)
-- [ http://en.wikipedia.org/wiki/CamelCase](http://en.wikipedia.org/wiki/CamelCase)
+- [http://c2.com/cgi/wiki?WikiCase](http://c2.com/cgi/wiki?WikiCase)
+- [http://en.wikipedia.org/wiki/CamelCase](http://en.wikipedia.org/wiki/CamelCase)
 
 ---
 

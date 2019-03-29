@@ -11,14 +11,14 @@ Common tasks:
 - TODO add changelogs
 - TODO add `/Since: x.y.z/` annotations
 
-### [ array](http://hackage.haskell.org/package/array)
+### [array](http://hackage.haskell.org/package/array)
 
 [](https://travis-ci.org/ghc/packages-array)
 
 - performed deprecation-removals & major version bump
-- released as [ array-0.5.0.0](http://hackage.haskell.org/package/array-0.5.0.0)!
+- released as [array-0.5.0.0](http://hackage.haskell.org/package/array-0.5.0.0)!
 
-### [ base](http://hackage.haskell.org/package/base)
+### [base](http://hackage.haskell.org/package/base)
 
 
 
@@ -125,7 +125,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/913">#913</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/913">#913</a></th>
 <td>
                     
                   
@@ -151,7 +151,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/913">instance Ord (StableName a)</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/913">instance Ord (StableName a)</a>
                       
                       
                       
@@ -220,7 +220,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3399">#3399</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/3399">#3399</a></th>
 <td>
                     
                   
@@ -246,7 +246,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/3399">Generalize the type of Data.List.{deleteBy, deleteFirstsBy}</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/3399">Generalize the type of Data.List.{deleteBy, deleteFirstsBy}</a>
                       
                       
                       
@@ -315,7 +315,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9795">#9795</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9795">#9795</a></th>
 <td>
                     
                   
@@ -341,7 +341,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9795">Debug.Trace.trace is too strict</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9795">Debug.Trace.trace is too strict</a>
                       
                       
                       
@@ -410,7 +410,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9936">#9936</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9936">#9936</a></th>
 <td>
                     
                   
@@ -436,7 +436,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9936">Data.Fixed truncates 5.17 to 5.16</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9936">Data.Fixed truncates 5.17 to 5.16</a>
                       
                       
                       
@@ -505,7 +505,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10055">#10055</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10055">#10055</a></th>
 <td>
                     
                   
@@ -531,7 +531,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10055">Offer PolyKinded instances for Data.Fixed.HasResolution</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10055">Offer PolyKinded instances for Data.Fixed.HasResolution</a>
                       
                       
                       
@@ -600,7 +600,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10084">#10084</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10084">#10084</a></th>
 <td>
                     
                   
@@ -626,7 +626,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10084">Data.List should have a takeLastN function</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10084">Data.List should have a takeLastN function</a>
                       
                       
                       
@@ -695,7 +695,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10169">#10169</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10169">#10169</a></th>
 <td>
                     
                   
@@ -721,7 +721,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10169">bracket not running the final action on termination through SIGTERM</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10169">bracket not running the final action on termination through SIGTERM</a>
                       
                       
                       
@@ -790,7 +790,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10266">#10266</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10266">#10266</a></th>
 <td>
                     
                   
@@ -816,7 +816,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10266">Split base for Backpack</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10266">Split base for Backpack</a>
                       
                       
                       
@@ -885,7 +885,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10484">#10484</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10484">#10484</a></th>
 <td>
                     
                   
@@ -911,7 +911,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10484">hPutBuf crashes when trying to write a large string to stdout (resource exhausted)</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10484">hPutBuf crashes when trying to write a large string to stdout (resource exhausted)</a>
                       
                       
                       
@@ -980,7 +980,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11009">#11009</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11009">#11009</a></th>
 <td>
                     
                   
@@ -1006,7 +1006,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11009">Errors reading stdin on Windows</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/11009">Errors reading stdin on Windows</a>
                       
                       
                       
@@ -1148,7 +1148,7 @@ Common tasks:
 
 - TODO upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
-### [ deepseq](http://hackage.haskell.org/package/deepseq)
+### [deepseq](http://hackage.haskell.org/package/deepseq)
 
 
 
@@ -1156,9 +1156,9 @@ Common tasks:
 
 
 - cleaned up
-- released as [ deepseq-1.3.0.2](http://hackage.haskell.org/package/deepseq-1.3.0.2)!
+- released as [deepseq-1.3.0.2](http://hackage.haskell.org/package/deepseq-1.3.0.2)!
 
-### [ directory](http://hackage.haskell.org/package/directory)
+### [directory](http://hackage.haskell.org/package/directory)
 
 
 
@@ -1225,21 +1225,21 @@ Common tasks:
 - cleaned up; almost ready for release
 - TODO get \[cdc415a1fb/directory\] code-reviewed
 
-### [ filepath](http://hackage.haskell.org/package/filepath)
+### [filepath](http://hackage.haskell.org/package/filepath)
 
 
 
 [](https://travis-ci.org/ghc/packages-filepath)
 
 
-- released as [ filepath-1.3.0.2](http://hackage.haskell.org/package/filepath-1.3.0.2)
+- released as [filepath-1.3.0.2](http://hackage.haskell.org/package/filepath-1.3.0.2)
 
-### [ ghc-prim](http://hackage.haskell.org/package/ghc-prim)
+### [ghc-prim](http://hackage.haskell.org/package/ghc-prim)
 
 
 - TODO upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
-### [ haskell2010](http://hackage.haskell.org/package/haskell2010)
+### [haskell2010](http://hackage.haskell.org/package/haskell2010)
 
 
 
@@ -1300,9 +1300,9 @@ Common tasks:
 
 
 - ready for release
-- released as [ haskell2010-1.1.2.0](http://hackage.haskell.org/package/haskell2010-1.1.2.0)
+- released as [haskell2010-1.1.2.0](http://hackage.haskell.org/package/haskell2010-1.1.2.0)
 
-### [ haskell98](http://hackage.haskell.org/package/haskell98)
+### [haskell98](http://hackage.haskell.org/package/haskell98)
 
 
 
@@ -1363,18 +1363,18 @@ Common tasks:
 
 
 - ready for release
-- released as [ haskell98-2.0.0.3](http://hackage.haskell.org/package/haskell98-2.0.0.3)
+- released as [haskell98-2.0.0.3](http://hackage.haskell.org/package/haskell98-2.0.0.3)
 
-### [ hoopl](http://hackage.haskell.org/package/hoopl)
+### [hoopl](http://hackage.haskell.org/package/hoopl)
 
 
 
 [](https://travis-ci.org/ghc/packages-hoopl)
 
 
-- released as [ hoopl-3.10.0.0](http://hackage.haskell.org/package/hoopl-3.10.0.0)
+- released as [hoopl-3.10.0.0](http://hackage.haskell.org/package/hoopl-3.10.0.0)
 
-### [ hpc](http://hackage.haskell.org/package/hpc)
+### [hpc](http://hackage.haskell.org/package/hpc)
 
 
 
@@ -1425,7 +1425,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1853">#1853</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/1853">#1853</a></th>
 <td>
                     
                   
@@ -1451,7 +1451,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/1853">hpc mix files for Main modules overwrite each other</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/1853">hpc mix files for Main modules overwrite each other</a>
                       
                       
                       
@@ -1520,7 +1520,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2075">#2075</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/2075">#2075</a></th>
 <td>
                     
                   
@@ -1546,7 +1546,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/2075">hpc should render information about the run in its html markup</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/2075">hpc should render information about the run in its html markup</a>
                       
                       
                       
@@ -1615,7 +1615,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2224">#2224</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/2224">#2224</a></th>
 <td>
                     
                   
@@ -1641,7 +1641,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/2224">-fhpc inteferes/prevents rewrite rules from firing</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/2224">-fhpc inteferes/prevents rewrite rules from firing</a>
                       
                       
                       
@@ -1710,7 +1710,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10367">#10367</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10367">#10367</a></th>
 <td>
                     
                   
@@ -1736,7 +1736,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10367">&quot;ghc: panic! (the &apos;impossible&apos; happened)&quot;</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10367">&quot;ghc: panic! (the &apos;impossible&apos; happened)&quot;</a>
                       
                       
                       
@@ -1805,7 +1805,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10504">#10504</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10504">#10504</a></th>
 <td>
                     
                   
@@ -1831,7 +1831,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10504">GHC panics with dsImpSpecs on SPECIALISE pragma with -fhpc enabled</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10504">GHC panics with dsImpSpecs on SPECIALISE pragma with -fhpc enabled</a>
                       
                       
                       
@@ -1900,7 +1900,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10951">#10951</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10951">#10951</a></th>
 <td>
                     
                   
@@ -1926,7 +1926,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10951">HPC program has poor error reporting / strange CLI in general</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10951">HPC program has poor error reporting / strange CLI in general</a>
                       
                       
                       
@@ -1995,7 +1995,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10952">#10952</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10952">#10952</a></th>
 <td>
                     
                   
@@ -2021,7 +2021,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10952">Use IPids instead of package keys in HPC tix files</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10952">Use IPids instead of package keys in HPC tix files</a>
                       
                       
                       
@@ -2090,7 +2090,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12631">#12631</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12631">#12631</a></th>
 <td>
                     
                   
@@ -2116,7 +2116,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12631">`hpc report` silently ignore non-existent modules</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/12631">`hpc report` silently ignore non-existent modules</a>
                       
                       
                       
@@ -2185,7 +2185,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13448">#13448</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13448">#13448</a></th>
 <td>
                     
                   
@@ -2211,7 +2211,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13448">Make HPC use an RTS option to select the tix file</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/13448">Make HPC use an RTS option to select the tix file</a>
                       
                       
                       
@@ -2280,7 +2280,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13452">#13452</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13452">#13452</a></th>
 <td>
                     
                   
@@ -2306,7 +2306,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13452">Lock .tix file</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/13452">Lock .tix file</a>
                       
                       
                       
@@ -2375,7 +2375,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14711">#14711</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14711">#14711</a></th>
 <td>
                     
                   
@@ -2401,7 +2401,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14711">Machine readable output of coverage</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/14711">Machine readable output of coverage</a>
                       
                       
                       
@@ -2470,7 +2470,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15498">#15498</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15498">#15498</a></th>
 <td>
                     
                   
@@ -2496,7 +2496,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15498">HPC: do notation marks () as non-covered</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15498">HPC: do notation marks () as non-covered</a>
                       
                       
                       
@@ -2565,7 +2565,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15776">#15776</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15776">#15776</a></th>
 <td>
                     
                   
@@ -2591,7 +2591,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15776">Untested modules excluded from hpc coverage report</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15776">Untested modules excluded from hpc coverage report</a>
                       
                       
                       
@@ -2660,7 +2660,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15932">#15932</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15932">#15932</a></th>
 <td>
                     
                   
@@ -2686,7 +2686,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15932">DeriveFunctor and GeneralizedNewtypeDeriving instances never reporting as covered</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15932">DeriveFunctor and GeneralizedNewtypeDeriving instances never reporting as covered</a>
                       
                       
                       
@@ -2755,7 +2755,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16380">#16380</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16380">#16380</a></th>
 <td>
                     
                   
@@ -2781,7 +2781,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16380">HPC&apos;s CLI is awkward</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/16380">HPC&apos;s CLI is awkward</a>
                       
                       
                       
@@ -2855,21 +2855,21 @@ Common tasks:
 
 [](https://travis-ci.org/ghc/packages-hpc)
 
-- released as [ hpc-0.6.0.1](http://hackage.haskell.org/package/hpc-0.6.0.1)
+- released as [hpc-0.6.0.1](http://hackage.haskell.org/package/hpc-0.6.0.1)
 
-### [ integer-gmp](http://hackage.haskell.org/package/integer-gmp)
+### [integer-gmp](http://hackage.haskell.org/package/integer-gmp)
 
 - Candidate is on Hackage
 
 - TODO upload a non-candidate to hackage at latest when GHC 7.8.1 is released
 
-### [ old-locale](http://hackage.haskell.org/package/old-locale)
+### [old-locale](http://hackage.haskell.org/package/old-locale)
 
 [](https://travis-ci.org/ghc/packages-old-locale)
 
-- released as [ old-locale-1.0.0.6](http://hackage.haskell.org/package/old-locale-1.0.0.6)
+- released as [old-locale-1.0.0.6](http://hackage.haskell.org/package/old-locale-1.0.0.6)
 
-### [ old-time](http://hackage.haskell.org/package/old-time)
+### [old-time](http://hackage.haskell.org/package/old-time)
 
 
 
@@ -2929,15 +2929,15 @@ Common tasks:
 
 
 
-- released as [ old-time-1.1.0.2](http://hackage.haskell.org/package/old-time-1.1.0.2)
+- released as [old-time-1.1.0.2](http://hackage.haskell.org/package/old-time-1.1.0.2)
 
-### [ parallel](http://hackage.haskell.org/package/parallel)
+### [parallel](http://hackage.haskell.org/package/parallel)
 
 [](https://travis-ci.org/ghc/packages-parallel)
 
 - Note: **extra** library (i.e. not part of normal distribution)
 
-- uploaded [ parallel-3.2.0.4](http://hackage.haskell.org/package/parallel-3.2.0.4) to Hackage!
+- uploaded [parallel-3.2.0.4](http://hackage.haskell.org/package/parallel-3.2.0.4) to Hackage!
 
 - For next major version: contains many `DEPRECATED` functions in `Control.Parallel.Strategies` since at least 2010:
 
@@ -2959,7 +2959,7 @@ Common tasks:
   {-# DEPRECATED unEval "renamed to runEval" #-}
   ```
 
-### [ process](http://hackage.haskell.org/package/process)
+### [process](http://hackage.haskell.org/package/process)
 
 
 
@@ -3023,22 +3023,22 @@ Common tasks:
 
 
 
-- released as [ process-1.2.0.0](http://hackage.haskell.org/package/process-1.2.0.0)!
+- released as [process-1.2.0.0](http://hackage.haskell.org/package/process-1.2.0.0)!
 
-### [ stm](http://hackage.haskell.org/package/stm)
+### [stm](http://hackage.haskell.org/package/stm)
 
 [](https://travis-ci.org/ghc/packages-stm)
 
-- Note: this is an **extra** library (i.e. not part of binary distribution); not critical for release; [ stm-2.4.2](http://hackage.haskell.org/package/stm-2.4.2) still builds fine with GHC HEAD.
+- Note: this is an **extra** library (i.e. not part of binary distribution); not critical for release; [stm-2.4.2](http://hackage.haskell.org/package/stm-2.4.2) still builds fine with GHC HEAD.
 - cleaned up; repo contains unreleased 2.4.2.1 state
 - TODO find out when/whether to release an updated 2.4.2.1 version
 
-### [ template-haskell](http://hackage.haskell.org/package/template-haskell)
+### [template-haskell](http://hackage.haskell.org/package/template-haskell)
 
 - cleaned up and ready for release
 - wait till RC at least for Hackage upload
 
-### [ unix](http://hackage.haskell.org/package/unix)
+### [unix](http://hackage.haskell.org/package/unix)
 
 
 
@@ -3093,7 +3093,7 @@ Common tasks:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16099">#16099</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16099">#16099</a></th>
 <td>
                     
                   
@@ -3119,7 +3119,7 @@ Common tasks:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16099">expose st_blksize field from fstat syscall</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/16099">expose st_blksize field from fstat syscall</a>
                       
                       
                       
@@ -3190,7 +3190,7 @@ Common tasks:
 
 
 
-- released as [ unix-2.7.0.0](http://hackage.haskell.org/package/unix-2.7.0.0)!
+- released as [unix-2.7.0.0](http://hackage.haskell.org/package/unix-2.7.0.0)!
 
 - TODO for next major version bump, in `System.Posix.Process.Common` module:
 
@@ -3211,38 +3211,38 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 
 ### Cabal
 
-- upstream: [ http://github.com/haskell/cabal.git](http://github.com/haskell/cabal.git)
-- using [ Cabal-1.18.1.3](http://hackage.haskell.org/package/Cabal-1.18.1.3)
+- upstream: [http://github.com/haskell/cabal.git](http://github.com/haskell/cabal.git)
+- using [Cabal-1.18.1.3](http://hackage.haskell.org/package/Cabal-1.18.1.3)
 
 ### Win32
 
-- upstream: [ http://github.com/haskell/win32.git](http://github.com/haskell/win32.git)
-- ghc-7.8 branch is at [ Win32-2.3.0.1](http://hackage.haskell.org/package/Win32-2.3.0.1)
-- TODO update ghc-7.8 branch to [ Win32-2.3.0.2](http://hackage.haskell.org/package/Win32-2.3.0.2) (GHC HEAD already has it)
+- upstream: [http://github.com/haskell/win32.git](http://github.com/haskell/win32.git)
+- ghc-7.8 branch is at [Win32-2.3.0.1](http://hackage.haskell.org/package/Win32-2.3.0.1)
+- TODO update ghc-7.8 branch to [Win32-2.3.0.2](http://hackage.haskell.org/package/Win32-2.3.0.2) (GHC HEAD already has it)
 
 ### binary
 
-- upstream: [ http://github.com/kolmodin/binary.git](http://github.com/kolmodin/binary.git)
-- synced up cleanly to [ binary-0.7.1.0](http://hackage.haskell.org/package/binary-0.7.1.0) release [\[25f1bda7/ghc\]](/trac/ghc/changeset/25f1bda7/ghc)
+- upstream: [http://github.com/kolmodin/binary.git](http://github.com/kolmodin/binary.git)
+- synced up cleanly to [binary-0.7.1.0](http://hackage.haskell.org/package/binary-0.7.1.0) release [\[25f1bda7/ghc\]](/trac/ghc/changeset/25f1bda7/ghc)
 
 ### bytestring
 
-- upstream: [ http://github.com/haskell/bytestring.git](http://github.com/haskell/bytestring.git)
-- synced up cleanly to [ bytestring-0.10.4.0](http://hackage.haskell.org/package/bytestring-0.10.4.0) release [\[82456db5/ghc\]](/trac/ghc/changeset/82456db5/ghc)
+- upstream: [http://github.com/haskell/bytestring.git](http://github.com/haskell/bytestring.git)
+- synced up cleanly to [bytestring-0.10.4.0](http://hackage.haskell.org/package/bytestring-0.10.4.0) release [\[82456db5/ghc\]](/trac/ghc/changeset/82456db5/ghc)
 
 ### containers
 
-- upstream: [ http://github.com/haskell/containers.git](http://github.com/haskell/containers.git)
-- synced up cleanly to [ containers-0.5.5.1](http://hackage.haskell.org/package/containers-0.5.5.1) release
+- upstream: [http://github.com/haskell/containers.git](http://github.com/haskell/containers.git)
+- synced up cleanly to [containers-0.5.5.1](http://hackage.haskell.org/package/containers-0.5.5.1) release
 
 ### haskeline<sup>1</sup>
 
-- upstream: [ http://git.haskell.org/darcs-mirrors/haskeline.git](http://git.haskell.org/darcs-mirrors/haskeline.git)
+- upstream: [http://git.haskell.org/darcs-mirrors/haskeline.git](http://git.haskell.org/darcs-mirrors/haskeline.git)
 - unclean state
 - contacted maintainer on 31.8. wrt to unmerged patches; will merge as soon as his dev machine has been repaired
 - patches have been merged upstream
-- New Haskeline GitHub repo at [ https://github.com/judah/haskeline.git](https://github.com/judah/haskeline.git)
-- synced up to [ haskeline-0.7.1.2](http://hackage.haskell.org/package/haskeline-0.7.1.2)
+- New Haskeline GitHub repo at [https://github.com/judah/haskeline.git](https://github.com/judah/haskeline.git)
+- synced up to [haskeline-0.7.1.2](http://hackage.haskell.org/package/haskeline-0.7.1.2)
 
 ### pretty
 
@@ -3304,15 +3304,15 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 
 
 
-- upstream: [ http://github.com/haskell/pretty.git](http://github.com/haskell/pretty.git)
-- synced up to [ pretty-1.1.1.1](http://hackage.haskell.org/package/pretty-1.1.1.1) [\[f275522e/ghc\]](/trac/ghc/changeset/f275522e/ghc)
+- upstream: [http://github.com/haskell/pretty.git](http://github.com/haskell/pretty.git)
+- synced up to [pretty-1.1.1.1](http://hackage.haskell.org/package/pretty-1.1.1.1) [\[f275522e/ghc\]](/trac/ghc/changeset/f275522e/ghc)
 
 ### primitive<sup>2</sup>
 
-- upstream: [ http://git.haskell.org/darcs-mirrors/primitive.git](http://git.haskell.org/darcs-mirrors/primitive.git)
+- upstream: [http://git.haskell.org/darcs-mirrors/primitive.git](http://git.haskell.org/darcs-mirrors/primitive.git)
 - Jan is working on patches to integrate the new bool primops
-- upstream repo moved to [ https://github.com/haskell/primitive](https://github.com/haskell/primitive)
-- synced up to [ primitive-0.5.2.1](http://hackage.haskell.org/package/primitive-0.5.2.1)
+- upstream repo moved to [https://github.com/haskell/primitive](https://github.com/haskell/primitive)
+- synced up to [primitive-0.5.2.1](http://hackage.haskell.org/package/primitive-0.5.2.1)
 
 ### random<sup>2</sup>
 
@@ -3321,29 +3321,29 @@ Note: Libraries with a "<sup>1</sup>" marker are used internally (e.g. by `ghci`
 ### terminfo<sup>1</sup>
 
 
-- upstream: [ http://git.haskell.org/darcs-mirrors/terminfo.git](http://git.haskell.org/darcs-mirrors/terminfo.git)
-- synced up to [ terminfo-0.4.0.0](http://hackage.haskell.org/package/terminfo-0.4.0.0) [\[9642716f30/ghc\]](/trac/ghc/changeset/9642716f30/ghc)
+- upstream: [http://git.haskell.org/darcs-mirrors/terminfo.git](http://git.haskell.org/darcs-mirrors/terminfo.git)
+- synced up to [terminfo-0.4.0.0](http://hackage.haskell.org/package/terminfo-0.4.0.0) [\[9642716f30/ghc\]](/trac/ghc/changeset/9642716f30/ghc)
 
 ### time
 
-- upstream: [ http://git.haskell.org/darcs-mirrors/time.git](http://git.haskell.org/darcs-mirrors/time.git)
-- synced up cleanly to [ time-1.4.2](http://hackage.haskell.org/package/time-1.4.2) release
+- upstream: [http://git.haskell.org/darcs-mirrors/time.git](http://git.haskell.org/darcs-mirrors/time.git)
+- synced up cleanly to [time-1.4.2](http://hackage.haskell.org/package/time-1.4.2) release
 
 ### transformers
 
-- upstream: [ http://git.haskell.org/darcs-mirrors/transformers.git](http://git.haskell.org/darcs-mirrors/transformers.git)
+- upstream: [http://git.haskell.org/darcs-mirrors/transformers.git](http://git.haskell.org/darcs-mirrors/transformers.git)
 - Newly added in GHC 7.8
-- still at [ transformers-0.3.0.0](http://hackage.haskell.org/package/transformers-0.3.0.0) since GHC 7.6.3
-- asked upstream; shall remain at [ transformers-0.3.0.0](http://hackage.haskell.org/package/transformers-0.3.0.0) for GHC 7.8.1
+- still at [transformers-0.3.0.0](http://hackage.haskell.org/package/transformers-0.3.0.0) since GHC 7.6.3
+- asked upstream; shall remain at [transformers-0.3.0.0](http://hackage.haskell.org/package/transformers-0.3.0.0) for GHC 7.8.1
 
 ### vector<sup>2</sup>
 
-- upstream: [ http://git.haskell.org/darcs-mirrors/vector.git](http://git.haskell.org/darcs-mirrors/vector.git)
+- upstream: [http://git.haskell.org/darcs-mirrors/vector.git](http://git.haskell.org/darcs-mirrors/vector.git)
 - coupled with `primitive` library; see notes there
-- upstream repo moved to [ https://github.com/haskell/vector](https://github.com/haskell/vector)
-- synced up to [ vector-0.10.9.1](http://hackage.haskell.org/package/vector-0.10.9.1) [\[5e2f145a37/ghc\]](/trac/ghc/changeset/5e2f145a37/ghc)
+- upstream repo moved to [https://github.com/haskell/vector](https://github.com/haskell/vector)
+- synced up to [vector-0.10.9.1](http://hackage.haskell.org/package/vector-0.10.9.1) [\[5e2f145a37/ghc\]](/trac/ghc/changeset/5e2f145a37/ghc)
 
 ### xhtml<sup>1</sup>
 
-- upstream: [ http://github.com/haskell/xhtml](http://github.com/haskell/xhtml)
-- unmodified/clean-sync at [ xhtml-3000.2.1](http://hackage.haskell.org/package/xhtml-3000.2.1) release since GHC 7.6.3 release
+- upstream: [http://github.com/haskell/xhtml](http://github.com/haskell/xhtml)
+- unmodified/clean-sync at [xhtml-3000.2.1](http://hackage.haskell.org/package/xhtml-3000.2.1) release since GHC 7.6.3 release

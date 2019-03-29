@@ -1,5 +1,5 @@
 
-The ToDo list for the debugger is now in ticket [\#1377](https://gitlab.haskell.org//ghc/ghc/issues/1377).
+The ToDo list for the debugger is now in ticket [\#1377](https://gitlab.haskell.org/ghc/ghc/issues/1377).
 
 ## Wishlist of features (please feel free to add your ideas here)
 

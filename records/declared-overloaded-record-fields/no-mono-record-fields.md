@@ -1,7 +1,7 @@
 ## No Record Selector Functions
 
 
-This proposal is a precursor to overloaded record fields. It's also a modest step towards freeing up the namespace, without in any way pre-judging how the 'narrow namespace issue' might get addressed. Ticket [\#5972](https://gitlab.haskell.org//ghc/ghc/issues/5972).
+This proposal is a precursor to overloaded record fields. It's also a modest step towards freeing up the namespace, without in any way pre-judging how the 'narrow namespace issue' might get addressed. Ticket [\#5972](https://gitlab.haskell.org/ghc/ghc/issues/5972).
 
 
 There is to be a compiler flag **-XNoRecordSelectorFunctions**. (Default value **‑XRecordSelectorFunctions**, to give H98 behaviour.)
@@ -21,10 +21,10 @@ In particular, this means we can declare more than one record type within a modu
   (That is, the syntax with a record or expression prefix to the braces `e{ x = True }` -- there might be multiple record types declared in the module with field name x.)
 
 
-Example use case: [ http://www.haskell.org/pipermail/haskell-cafe/2009-May/061879.html](http://www.haskell.org/pipermail/haskell-cafe/2009-May/061879.html) (referred from an old Wiki discussion on TDNR [ http://www.haskell.org/haskellwiki/TypeDirectedNameResolution](http://www.haskell.org/haskellwiki/TypeDirectedNameResolution) .)
+Example use case: [http://www.haskell.org/pipermail/haskell-cafe/2009-May/061879.html](http://www.haskell.org/pipermail/haskell-cafe/2009-May/061879.html) (referred from an old Wiki discussion on TDNR [ http://www.haskell.org/haskellwiki/TypeDirectedNameResolution](http://www.haskell.org/haskellwiki/TypeDirectedNameResolution) .)
 
 
-See also thread starting: [ http://www.haskell.org/pipermail/glasgow-haskell-users/2012-January/021433.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2012-January/021433.html) (and continuing through February), which initially considers nested modules as an approach for namespacing.
+See also thread starting: [http://www.haskell.org/pipermail/glasgow-haskell-users/2012-January/021433.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2012-January/021433.html) (and continuing through February), which initially considers nested modules as an approach for namespacing.
 
 ### Import/Export and Representation hiding
 

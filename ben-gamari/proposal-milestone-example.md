@@ -6,8 +6,8 @@ This is not a real proposal. It is merely intended to demonstrate what I propose
 
 Introducing `Semigroup` as a superclass of `Monoid` has been proposed several times (in reverse chronological order):
 
-- [ http://thread.gmane.org/gmane.comp.lang.haskell.libraries/24494](http://thread.gmane.org/gmane.comp.lang.haskell.libraries/24494)
-- [ http://thread.gmane.org/gmane.comp.lang.haskell.libraries/19649](http://thread.gmane.org/gmane.comp.lang.haskell.libraries/19649)
+- [http://thread.gmane.org/gmane.comp.lang.haskell.libraries/24494](http://thread.gmane.org/gmane.comp.lang.haskell.libraries/24494)
+- [http://thread.gmane.org/gmane.comp.lang.haskell.libraries/19649](http://thread.gmane.org/gmane.comp.lang.haskell.libraries/19649)
 - TODO ...
 
 ## Final API
@@ -162,7 +162,7 @@ instance Monoid MyType where
 
 ## Implementation
 
-### Phase 1 (GHC 8.0)  [\#10365](https://gitlab.haskell.org//ghc/ghc/issues/10365)
+### Phase 1 (GHC 8.0)  [\#10365](https://gitlab.haskell.org/ghc/ghc/issues/10365)
 
 - Move `Data.Semigroup` & `Data.List.NonEmpty` from `semigroups-0.18` to `base`.
 

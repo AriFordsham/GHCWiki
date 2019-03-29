@@ -37,7 +37,7 @@ The `Makefile`s may share some common infrastructure and configuration
 by using GNU **make**'s `include` directive; this is exactly what the
 previous GHC build system did.  However, this design has a number of
 flaws, as described in Peter Miller's
-[ Recursive Make Considered Harmful](http://miller.emu.id.au/pmiller/books/rmch/).  
+[Recursive Make Considered Harmful](http://miller.emu.id.au/pmiller/books/rmch/).  
 
 
 The GHC build system adopts the non-recursive **make** idiom.  That is, we

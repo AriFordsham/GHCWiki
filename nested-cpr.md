@@ -6,7 +6,7 @@ This is a status page for CPR analysis, especially Nested CPR
 
 Akio has a patch in progress, currently stalled
 
-- [ https://phabricator.haskell.org/D4244](https://phabricator.haskell.org/D4244)
+- [https://phabricator.haskell.org/D4244](https://phabricator.haskell.org/D4244)
 
 
 See also sub-pages:
@@ -20,18 +20,18 @@ See also sub-pages:
 
 ### Related tickets
 
-- [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600) Main tickets where I mention progress.
+- [\#1600](https://gitlab.haskell.org/ghc/ghc/issues/1600) Main tickets where I mention progress.
 
 
 Tickets with stuff that would make nested CPR better:
 
-- [\#8598](https://gitlab.haskell.org//ghc/ghc/issues/8598) CPR after IO (partly done)
+- [\#8598](https://gitlab.haskell.org/ghc/ghc/issues/8598) CPR after IO (partly done)
 
 
 Tickets with example of code that would benefit from nested CPR:
 
-- [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600), [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289), [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387) (see [below](nested-cpr#motivating-examples) for an analysis)
-- (Maybe) [ this thread on ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2016-March/011623.html)
+- [\#1600](https://gitlab.haskell.org/ghc/ghc/issues/1600), [\#2289](https://gitlab.haskell.org/ghc/ghc/issues/2289), [\#2387](https://gitlab.haskell.org/ghc/ghc/issues/2387) (see [below](nested-cpr#motivating-examples) for an analysis)
+- (Maybe) [this thread on ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2016-March/011623.html)
 
 ### Tickets
 
@@ -43,27 +43,27 @@ Use Keyword = `CPRAnalysis` to ensure that a ticket ends up on these lists.
 
 **Open Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1600">#1600</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/1600">#1600</a></th>
 <td>Optimisation: CPR the results of IO</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1885">#1885</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/1885">#1885</a></th>
 <td>Improve CPR analysis</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2289">#2289</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/2289">#2289</a></th>
 <td>Needless reboxing of values when returning from a tight loop</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2387">#2387</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/2387">#2387</a></th>
 <td>Optimizer misses unboxing opportunity</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5075">#5075</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5075">#5075</a></th>
 <td>CPR optimisation for sum types if only one constructor is used</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8598">#8598</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8598">#8598</a></th>
 <td>IO hack in demand analyzer gets in the way of CPR</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8655">#8655</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8655">#8655</a></th>
 <td>Evaluate know-to-terminate-soon thunks</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12364">#12364</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12364">#12364</a></th>
 <td>Demand analysis for sum types</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14259">#14259</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14259">#14259</a></th>
 <td>Worker/Wrapper for sum return</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16040">#16040</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16040">#16040</a></th>
 <td>Unboxing-Related Performance Issue with Polymorphic Functions</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16335">#16335</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16335">#16335</a></th>
 <td>Make CPR Analysis more aggressive for inductive cases</td></tr></table>
 
 
@@ -103,9 +103,9 @@ No results
 Motivation is always good. Here I try to look at examples where people were expecting or hoping for nested CPR, and see how we are fairing:
 
 
-- `facIO` in [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600): Not eligible for nested CPR, as the result is not forced. Using `return $!` makes this work.
-- `mean` in [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): Not eligible for nested CRP. The base case `go x l s | x > m      = P s l` is – to the demand analyzer – lazy in `s` and `l`, so doing nested CRP would make that stricter. It works with `s `seq` l `seq` P s`. But `P` *is* a strict constructor! When the demand analyser runs, it still sees the wrapper `$WP`. Maybe it just needs to be inlined earlier? Tried inlining more aggressively, helps, and does not seem to hurt.
-- [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387) works nicely! (but note that `go` uses a `!n` pattern already)
+- `facIO` in [\#1600](https://gitlab.haskell.org/ghc/ghc/issues/1600): Not eligible for nested CPR, as the result is not forced. Using `return $!` makes this work.
+- `mean` in [\#2289](https://gitlab.haskell.org/ghc/ghc/issues/2289): Not eligible for nested CRP. The base case `go x l s | x > m      = P s l` is – to the demand analyzer – lazy in `s` and `l`, so doing nested CRP would make that stricter. It works with `s `seq` l `seq` P s`. But `P` *is* a strict constructor! When the demand analyser runs, it still sees the wrapper `$WP`. Maybe it just needs to be inlined earlier? Tried inlining more aggressively, helps, and does not seem to hurt.
+- [\#2387](https://gitlab.haskell.org/ghc/ghc/issues/2387) works nicely! (but note that `go` uses a `!n` pattern already)
 
 ### Degradation exploration and explanation
 
@@ -154,16 +154,16 @@ CPR can kill join points. Attempts to mitigate that:
 
 
 Idea to fix this, and possibly more general benefits:
-[ http://www.haskell.org/pipermail/ghc-devs/2013-December/003481.html](http://www.haskell.org/pipermail/ghc-devs/2013-December/003481.html); prototype in branch `wip/common-context`.
+[http://www.haskell.org/pipermail/ghc-devs/2013-December/003481.html](http://www.haskell.org/pipermail/ghc-devs/2013-December/003481.html); prototype in branch `wip/common-context`.
 
-- On its own, improvements are present but very small: [ http://www.haskell.org/pipermail/ghc-devs/2013-December/003500.html](http://www.haskell.org/pipermail/ghc-devs/2013-December/003500.html)
+- On its own, improvements are present but very small: [http://www.haskell.org/pipermail/ghc-devs/2013-December/003500.html](http://www.haskell.org/pipermail/ghc-devs/2013-December/003500.html)
 - Enabling CPR for sum types in non-top-level-bindings (which is currently disabled due to worries abut lost join points) yields mixed results (min -3.8%, mean -0.0%, max 3.4%).
 - Enabling sum types inside nested CPR: Also yields mixed, not very promising results (-6.9% / +0.0% / +11.3%).
 
 #### Direct detection
 
 
-Alternative: Detect join points during `dmdAnal` and make sure that their CPR info is not greater than that of the expression they are a join-point for. Would also fix [\#5075](https://gitlab.haskell.org//ghc/ghc/issues/5075), see [5075\#comment:19](https://gitlab.haskell.org//ghc/ghc/issues/5075) for benchmark numbers.
+Alternative: Detect join points during `dmdAnal` and make sure that their CPR info is not greater than that of the expression they are a join-point for. Would also fix [\#5075](https://gitlab.haskell.org/ghc/ghc/issues/5075), see [5075\#comment:19](https://gitlab.haskell.org/ghc/ghc/issues/5075) for benchmark numbers.
 
 - On its own, no changes.
 - Enabling CPR for sumtypes: (min -3.8%, mean -0.0%, max 1.7%) (slightly better than with Common Context)
@@ -184,24 +184,24 @@ Might also help. Need to see if his branch can be merged onto master. (But I lik
 
 ### Side tracks
 
-- ~~Use `Converges` in `exprOkForSpeculation`: Mostly done, see [8655\#comment:8](https://gitlab.haskell.org//ghc/ghc/issues/8655).~~
+- ~~Use `Converges` in `exprOkForSpeculation`: Mostly done, see [8655\#comment:8](https://gitlab.haskell.org/ghc/ghc/issues/8655).~~
 
   - I should get dynamic numbers, but given the static ones I doubt that these are worth collecting.
-- Why is `cacheprof` not deterministic? (→ [\#8611](https://gitlab.haskell.org//ghc/ghc/issues/8611))
+- Why is `cacheprof` not deterministic? (→ [\#8611](https://gitlab.haskell.org/ghc/ghc/issues/8611))
 - What became of Simon’s better-ho-cardinality branch? See [better-ho-cardinality](nested-cpr/better-ho-cardinality).
 - Try vtunes to get better numbers.
-- ~~Implement [\#2110](https://gitlab.haskell.org//ghc/ghc/issues/2110)~~ (pushed)
-- ~~Make worker-wrapper unbox data families: [\#7619](https://gitlab.haskell.org//ghc/ghc/issues/7619)~~
-- ~~Make foldl into a good consumer: [\#7994](https://gitlab.haskell.org//ghc/ghc/issues/7994)~~ (pushed)
+- ~~Implement [\#2110](https://gitlab.haskell.org/ghc/ghc/issues/2110)~~ (pushed)
+- ~~Make worker-wrapper unbox data families: [\#7619](https://gitlab.haskell.org/ghc/ghc/issues/7619)~~
+- ~~Make foldl into a good consumer: [\#7994](https://gitlab.haskell.org/ghc/ghc/issues/7994)~~ (pushed)
 
   - Ideas: [DmdAnalIdeas](nested-cpr/dmd-anal-ideas) ← Outdated
-  - Related: See how often the demand on a function is better than its vanilla demand ([\#6070](https://gitlab.haskell.org//ghc/ghc/issues/6070))
+  - Related: See how often the demand on a function is better than its vanilla demand ([\#6070](https://gitlab.haskell.org/ghc/ghc/issues/6070))
   - ~~Clean up my new shiny Caller Arity analysis.~~
   - Investigate in Takano’s WW-stuff.
 
     - Mail with question sent
     - He is investigating nofib regressions.
-- Experiment with aggressive CSE: [\#7596](https://gitlab.haskell.org//ghc/ghc/issues/7596)
+- Experiment with aggressive CSE: [\#7596](https://gitlab.haskell.org/ghc/ghc/issues/7596)
 
   - Prevent floating past multi-way cases.
   - Experiment with CSE before and after DmdAnal.

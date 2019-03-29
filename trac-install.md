@@ -1,17 +1,17 @@
 # Trac Installation Guide for 1.1
 
 
-Trac is written in the Python programming language and needs a database, [ SQLite](http://sqlite.org/), [ PostgreSQL](http://www.postgresql.org/), or [ MySQL](http://mysql.com/). For HTML rendering, Trac uses the [ Genshi](http://genshi.edgewall.org) templating system.
+Trac is written in the Python programming language and needs a database, [SQLite](http://sqlite.org/), [ PostgreSQL](http://www.postgresql.org/), or [ MySQL](http://mysql.com/). For HTML rendering, Trac uses the [ Genshi](http://genshi.edgewall.org) templating system.
 
 
 Trac can also be localized, and there is probably a translation available in your language. If you want to use the Trac interface in other languages, then make sure you have installed the optional package [Babel](trac-install#other-python-packages). Pay attention to the extra steps for localization support in the [Installing Trac](trac-install#installing-trac) section below. Lacking Babel, you will only get the default English version.
 
 
-If you're interested in contributing new translations for other languages or enhancing the existing translations, then please have a look at [ TracL10N](http://trac.edgewall.org/intertrac/wiki%3ATracL10N).
+If you're interested in contributing new translations for other languages or enhancing the existing translations, then please have a look at [TracL10N](http://trac.edgewall.org/intertrac/wiki%3ATracL10N).
 
 
 
-What follows are generic instructions for installing and setting up Trac. While you may find instructions for installing Trac on specific systems at [ TracInstallPlatforms](http://trac.edgewall.org/intertrac/TracInstallPlatforms), please **first read through these general instructions** to get a good understanding of the tasks involved.
+What follows are generic instructions for installing and setting up Trac. While you may find instructions for installing Trac on specific systems at [TracInstallPlatforms](http://trac.edgewall.org/intertrac/TracInstallPlatforms), please **first read through these general instructions** to get a good understanding of the tasks involved.
 
 
 
@@ -119,10 +119,10 @@ What follows are generic instructions for installing and setting up Trac. While 
 
 To install Trac, the following software packages must be installed:
 
-- [ Python](http://www.python.org/), version \>= 2.6 and \< 3.0
+- [Python](http://www.python.org/), version \>= 2.6 and \< 3.0
   (note that we dropped the support for Python 2.5 in this release)
-- [ setuptools](http://pypi.python.org/pypi/setuptools), version \>= 0.6
-- [ Genshi](http://genshi.edgewall.org/wiki/Download), version \>= 0.6
+- [setuptools](http://pypi.python.org/pypi/setuptools), version \>= 0.6
+- [Genshi](http://genshi.edgewall.org/wiki/Download), version \>= 0.6
 
 
 You also need a database system and the corresponding python bindings. The database can be either SQLite, PostgreSQL or MySQL.
@@ -133,55 +133,55 @@ You also need a database system and the corresponding python bindings. The datab
 As you must be using Python 2.6 or 2.7, you already have the SQLite database bindings bundled with the standard distribution of Python (the `sqlite3` module).
 
 
-Optionally, you may install a newer version of [ pysqlite](http://pypi.python.org/pypi/pysqlite) than the one provided by the Python distribution. See [ PySqlite](http://trac.edgewall.org/intertrac/PySqlite%23ThePysqlite2bindings) for details.
+Optionally, you may install a newer version of [pysqlite](http://pypi.python.org/pypi/pysqlite) than the one provided by the Python distribution. See [ PySqlite](http://trac.edgewall.org/intertrac/PySqlite%23ThePysqlite2bindings) for details.
 
 #### For the PostgreSQL database
 
 
 You need to install the database and its Python bindings:
 
-- [ PostgreSQL](http://www.postgresql.org/), version 8.0 or later
-- [ psycopg2](http://pypi.python.org/pypi/psycopg2), version 2.0 or later
+- [PostgreSQL](http://www.postgresql.org/), version 8.0 or later
+- [psycopg2](http://pypi.python.org/pypi/psycopg2), version 2.0 or later
 
 
-See [ DatabaseBackend](http://trac.edgewall.org/intertrac/DatabaseBackend%23Postgresql) for details.
+See [DatabaseBackend](http://trac.edgewall.org/intertrac/DatabaseBackend%23Postgresql) for details.
 
 #### For the MySQL database
 
 
 Trac works well with MySQL, provided you follow the guidelines:
 
-- [ MySQL](http://mysql.com/), version 5.0 or later
-- [ MySQLdb](http://sf.net/projects/mysql-python), version 1.2.2 or later
+- [MySQL](http://mysql.com/), version 5.0 or later
+- [MySQLdb](http://sf.net/projects/mysql-python), version 1.2.2 or later
 
 
-Given the caveats and known issues surrounding MySQL, read carefully the [ MySqlDb](http://trac.edgewall.org/intertrac/MySqlDb) page before creating the database.
+Given the caveats and known issues surrounding MySQL, read carefully the [MySqlDb](http://trac.edgewall.org/intertrac/MySqlDb) page before creating the database.
 
 ### Optional Dependencies
 
 #### Subversion
 
-[ Subversion](http://subversion.apache.org/), 1.6.x or later and the ***corresponding*** Python bindings.
+[Subversion](http://subversion.apache.org/), 1.6.x or later and the ***corresponding*** Python bindings.
 
 
-There are [ pre-compiled SWIG bindings](http://subversion.apache.org/packages.html) available for various platforms. (Good luck finding precompiled SWIG bindings for any Windows package at that listing. [ TracSubversion](http://trac.edgewall.org/intertrac/TracSubversion) points you to [ Alagazam](http://alagazam.net), which works for me under Python 2.6.)
+There are [pre-compiled SWIG bindings](http://subversion.apache.org/packages.html) available for various platforms. (Good luck finding precompiled SWIG bindings for any Windows package at that listing. [ TracSubversion](http://trac.edgewall.org/intertrac/TracSubversion) points you to [ Alagazam](http://alagazam.net), which works for me under Python 2.6.)
 
 
-For troubleshooting information, see the [ TracSubversion](http://trac.edgewall.org/intertrac/TracSubversion%23Troubleshooting) page.
+For troubleshooting information, see the [TracSubversion](http://trac.edgewall.org/intertrac/TracSubversion%23Troubleshooting) page.
 
 **Note:**
 
-- Trac **doesn't** use [ PySVN](http://pysvn.tigris.org/), nor does it work yet with the newer `ctype`-style bindings.
-- If using Subversion, Trac must be installed on the **same machine**. Remote repositories are currently [ not supported](http://trac.edgewall.org/intertrac/ticket%3A493).
+- Trac **doesn't** use [PySVN](http://pysvn.tigris.org/), nor does it work yet with the newer `ctype`-style bindings.
+- If using Subversion, Trac must be installed on the **same machine**. Remote repositories are currently [not supported](http://trac.edgewall.org/intertrac/ticket%3A493).
 
 #### Git
 
-[ Git](http://git-scm.com/) 1.5.6 or later is supported. More information is available on the [ TracGit](http://trac.edgewall.org/intertrac/TracGit) page.
+[Git](http://git-scm.com/) 1.5.6 or later is supported. More information is available on the [ TracGit](http://trac.edgewall.org/intertrac/TracGit) page.
 
 #### Other Version Control Systems
 
 
-Support for other version control systems is provided via third-party plugins. See [ PluginList\#VersionControlSystems](http://trac.edgewall.org/intertrac/PluginList%23VersionControlSystems) and [ VersionControlSystem](http://trac.edgewall.org/intertrac/VersionControlSystem).
+Support for other version control systems is provided via third-party plugins. See [PluginList\#VersionControlSystems](http://trac.edgewall.org/intertrac/PluginList%23VersionControlSystems) and [ VersionControlSystem](http://trac.edgewall.org/intertrac/VersionControlSystem).
 
 #### Web Server
 
@@ -191,15 +191,15 @@ A web server is optional because Trac is shipped with a server included, see the
 
 Alternatively you can configure Trac to run in any of the following environments:
 
-- [ Apache](http://httpd.apache.org/) with 
+- [Apache](http://httpd.apache.org/) with 
 
-  - [ mod_wsgi](https://github.com/GrahamDumpleton/mod_wsgi), see [TracModWSGI](trac-mod-wsgi) and 
-    [ ModWSGI IntegrationWithTrac](http://code.google.com/p/modwsgi/wiki/IntegrationWithTrac).
-  - [ mod_python 3.5.0](http://modpython.org/), see [TracModPython](trac-mod-python)
-- a [ FastCGI](http://www.fastcgi.com/)-capable web server (see [TracFastCgi](trac-fast-cgi))
-- an [ AJP](http://tomcat.apache.org/connectors-doc/ajp/ajpv13a.html)-capable web
-  server (see [ TracOnWindowsIisAjp](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp))
-- Microsoft IIS with FastCGI and a FastCGI-to-WSGI gateway (see [ IIS with FastCGI](http://trac.edgewall.org/intertrac/CookBook/Installation/TracOnWindowsIisWfastcgi))
+  - [mod_wsgi](https://github.com/GrahamDumpleton/mod_wsgi), see [TracModWSGI](trac-mod-wsgi) and 
+    [ModWSGI IntegrationWithTrac](http://code.google.com/p/modwsgi/wiki/IntegrationWithTrac).
+  - [mod_python 3.5.0](http://modpython.org/), see [TracModPython](trac-mod-python)
+- a [FastCGI](http://www.fastcgi.com/)-capable web server (see [TracFastCgi](trac-fast-cgi))
+- an [AJP](http://tomcat.apache.org/connectors-doc/ajp/ajpv13a.html)-capable web
+  server (see [TracOnWindowsIisAjp](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp))
+- Microsoft IIS with FastCGI and a FastCGI-to-WSGI gateway (see [IIS with FastCGI](http://trac.edgewall.org/intertrac/CookBook/Installation/TracOnWindowsIisWfastcgi))
 - a CGI-capable web server (see [TracCgi](trac-cgi)), **but usage of Trac as a cgi script 
   is highly discouraged**, better use one of the previous options. 
 
@@ -210,20 +210,20 @@ Alternatively you can configure Trac to run in any of the following environments
 #### Other Python Packages
 
 
-- [ Babel](http://babel.edgewall.org), version 0.9.6 or \>= 1.3, 
+- [Babel](http://babel.edgewall.org), version 0.9.6 or \>= 1.3, 
   needed for localization support
-- [ docutils](http://docutils.sourceforge.net/), version \>= 0.3.9 
+- [docutils](http://docutils.sourceforge.net/), version \>= 0.3.9 
   for [WikiRestructuredText](wiki-restructured-text).
-- [ Pygments](http://pygments.org) for 
+- [Pygments](http://pygments.org) for 
   [syntax highlighting](trac-syntax-coloring).
-- [ pytz](http://pytz.sf.net) to get a complete list of time zones,
+- [pytz](http://pytz.sf.net) to get a complete list of time zones,
   otherwise Trac will fall back on a shorter list from 
   an internal time zone implementation.
 
-**Attention**: The available versions of these dependencies are not necessarily interchangeable, so please pay attention to the version numbers. If you are having trouble getting Trac to work, please double-check all the dependencies before asking for help on the [ MailingList](http://trac.edgewall.org/intertrac/MailingList) or [ IrcChannel](http://trac.edgewall.org/intertrac/IrcChannel).
+**Attention**: The available versions of these dependencies are not necessarily interchangeable, so please pay attention to the version numbers. If you are having trouble getting Trac to work, please double-check all the dependencies before asking for help on the [MailingList](http://trac.edgewall.org/intertrac/MailingList) or [ IrcChannel](http://trac.edgewall.org/intertrac/IrcChannel).
 
 
-Please refer to the documentation of these packages to find out how they are best installed. In addition, most of the [ platform-specific instructions](http://trac.edgewall.org/intertrac/TracInstallPlatforms) also describe the installation of the dependencies. Keep in mind however that the information there *probably concern older versions of Trac than the one you're installing*.
+Please refer to the documentation of these packages to find out how they are best installed. In addition, most of the [platform-specific instructions](http://trac.edgewall.org/intertrac/TracInstallPlatforms) also describe the installation of the dependencies. Keep in mind however that the information there *probably concern older versions of Trac than the one you're installing*.
 
 ## Installing Trac
 
@@ -236,7 +236,7 @@ It is assumed throughout this guide that you have elevated permissions as the `r
 ### Using `easy_install`
 
 
-Trac can be installed from PyPI or the Subversion repository using [ setuptools](http://pypi.python.org/pypi/setuptools).
+Trac can be installed from PyPI or the Subversion repository using [setuptools](http://pypi.python.org/pypi/setuptools).
 
 
 A few examples:
@@ -256,7 +256,7 @@ A few examples:
   either use a released version or install from source 
 
 
-More information can be found on the [ setuptools](http://trac.edgewall.org/intertrac/wiki%3Asetuptools) page.
+More information can be found on the [setuptools](http://trac.edgewall.org/intertrac/wiki%3Asetuptools) page.
 
 **Setuptools Warning:** If the version of your setuptools is in the range 5.4 through 5.6, the environment variable `PKG_RESOURCES_CACHE_ZIP_MANIFESTS` must be set in order to avoid significant performance degradation. More information may be found in [Deploying Trac](trac-install#deploying-trac).
 
@@ -297,12 +297,12 @@ pip will automatically resolve all dependencies (like Genshi, pygments, etc.), d
 All commands (`tracd`, `trac-admin`) are available in `/opt/user/trac/bin`. This can also be leveraged for `mod_python` (using `PythonHandler` directive) and `mod_wsgi` (using `WSGIDaemonProcess` directive)
 
 
-Additionally, you can install several Trac plugins (listed [ here](https://pypi.python.org/pypi?:action=browse&show=all&c=516)) through pip.
+Additionally, you can install several Trac plugins (listed [here](https://pypi.python.org/pypi?:action=browse&show=all&c=516)) through pip.
 
 ### From source
 
 
-Using the python-typical setup at the top of the source directory also works. You can obtain the source for a .tar.gz or .zip file corresponding to a release (e.g. `Trac-1.0.tar.gz`) from the [ TracDownload](http://trac.edgewall.org/intertrac/TracDownload) page, or you can get the source directly from the repository. See [ TracRepositories](http://trac.edgewall.org/intertrac/TracRepositories%23OfficialSubversionrepository) for details.
+Using the python-typical setup at the top of the source directory also works. You can obtain the source for a .tar.gz or .zip file corresponding to a release (e.g. `Trac-1.0.tar.gz`) from the [TracDownload](http://trac.edgewall.org/intertrac/TracDownload) page, or you can get the source directly from the repository. See [ TracRepositories](http://trac.edgewall.org/intertrac/TracRepositories%23OfficialSubversionrepository) for details.
 
 ```
 $ python ./setup.py install
@@ -327,7 +327,7 @@ Alternatively, you can run `bdist_egg` and copy the .egg from `dist/` to the pla
 ### Using installer
 
 
-On Windows, Trac can be installed using the exe installers available on the [ TracDownload](http://trac.edgewall.org/intertrac/TracDownload) page. Installers are available for the 32-bit and 64-bit versions of Python. Make sure to use the installer that matches the architecture of your Python installation.
+On Windows, Trac can be installed using the exe installers available on the [TracDownload](http://trac.edgewall.org/intertrac/TracDownload) page. Installers are available for the 32-bit and 64-bit versions of Python. Make sure to use the installer that matches the architecture of your Python installation.
 
 ### Using package manager
 
@@ -344,7 +344,7 @@ easy_install --help
 ```
 
 
-Also see [ Installing Python Modules](http://docs.python.org/2/install/index.html) for detailed information.
+Also see [Installing Python Modules](http://docs.python.org/2/install/index.html) for detailed information.
 
 
 Specifically, you might be interested in:
@@ -380,7 +380,7 @@ $ trac-admin /path/to/myproject initenv
 [trac-admin](trac-admin) will prompt you for the information it needs to create the environment: the name of the project and the [database connection string](trac-environment#database-connection-strings). If you're not sure what to specify for any of these options, just press `<Enter>` to use the default value. 
 
 
-Using the default database connection string will always work as long as you have SQLite installed. For the other [ database backends](http://trac.edgewall.org/intertrac/DatabaseBackend) you should plan ahead and already have a database ready to use at this point.
+Using the default database connection string will always work as long as you have SQLite installed. For the other [database backends](http://trac.edgewall.org/intertrac/DatabaseBackend) you should plan ahead and already have a database ready to use at this point.
 
 
 
@@ -458,7 +458,7 @@ Trac provides various options for connecting to a "real" web server:
 - *[CGI](trac-cgi) (should not be used, as the performance is far from optimal)*
 
 
-Trac also supports [ AJP](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp) which may be your choice if you want to connect to IIS. Other deployment scenarios are possible: [ nginx](http://trac.edgewall.org/intertrac/TracNginxRecipe), [ uwsgi](http://projects.unbit.it/uwsgi/wiki/Example#Traconapacheinasub-uri), [ Isapi-wsgi](http://trac.edgewall.org/intertrac/TracOnWindowsIisIsapi) etc.
+Trac also supports [AJP](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp) which may be your choice if you want to connect to IIS. Other deployment scenarios are possible: [ nginx](http://trac.edgewall.org/intertrac/TracNginxRecipe), [ uwsgi](http://projects.unbit.it/uwsgi/wiki/Example#Traconapacheinasub-uri), [ Isapi-wsgi](http://trac.edgewall.org/intertrac/TracOnWindowsIisIsapi) etc.
 
 #### Generating the Trac cgi-bin directory
 
@@ -484,7 +484,7 @@ Don't forget to check that the web server has the execution right on scripts in 
 Without additional configuration, Trac will handle requests for static resources such as stylesheets and images. For anything other than a [TracStandalone](trac-standalone) deployment, this is not optimal as the web server can be set up to directly serve the static resources. For CGI setup, this is **highly undesirable** as it causes abysmal performance.
 
 
-Web servers such as [ Apache](http://httpd.apache.org/) allow you to create *Aliases* to resources, giving them a virtual URL that doesn't necessarily reflect their location on the file system. We can map requests for static resources directly to directories on the file system, to avoid Trac processing the requests.
+Web servers such as [Apache](http://httpd.apache.org/) allow you to create *Aliases* to resources, giving them a virtual URL that doesn't necessarily reflect their location on the file system. We can map requests for static resources directly to directories on the file system, to avoid Trac processing the requests.
 
 
 There are two primary URL paths for static resources: `/chrome/common` and `/chrome/site`. Plugins can add their own resources, usually accessible at the `/chrome/<plugin>` path.
@@ -585,7 +585,7 @@ Alias /trac/chrome/site /path/to/projectenv/htdocs
 ```
 
 
-Another alternative to aliasing `/trac/chrome/common` is having Trac generate direct links for those static resources (and only those), using the [ \[trac\] htdocs_location](trac-ini#) configuration setting:
+Another alternative to aliasing `/trac/chrome/common` is having Trac generate direct links for those static resources (and only those), using the [\[trac\] htdocs_location](trac-ini#) configuration setting:
 
 
 ```
@@ -623,7 +623,7 @@ Please refer to one of the following sections:
 - [TracModWSGI\#ConfiguringAuthentication](trac-mod-wsgi#configuring-authentication) if you use the Apache web server, with any of its front end: `mod_wsgi`, `mod_python`, `mod_fcgi` or `mod_fastcgi`.
 - [TracFastCgi](trac-fast-cgi) if you're using another web server with FCGI support (Cherokee, Lighttpd, LiteSpeed, nginx)
 
-[ TracAuthenticationIntroduction](http://trac.edgewall.org/intertrac/TracAuthenticationIntroduction) also contains some useful information for beginners.
+[TracAuthenticationIntroduction](http://trac.edgewall.org/intertrac/TracAuthenticationIntroduction) also contains some useful information for beginners.
 
 ## Granting admin rights to the admin user
 
@@ -651,12 +651,12 @@ Keep in mind that *anonymous* (not logged in) users can by default access only a
 
 * Enjoy! *
 
-[ The Trac Team](http://trac.edgewall.org/intertrac/TracTeam)
+[The Trac Team](http://trac.edgewall.org/intertrac/TracTeam)
 
 ---
 
 
 
-See also: [ TracInstallPlatforms](http://trac.edgewall.org/intertrac/TracInstallPlatforms), [TracGuide](trac-guide), [TracUpgrade](trac-upgrade), [TracPermissions](trac-permissions)
+See also: [TracInstallPlatforms](http://trac.edgewall.org/intertrac/TracInstallPlatforms), [TracGuide](trac-guide), [TracUpgrade](trac-upgrade), [TracPermissions](trac-permissions)
 
 

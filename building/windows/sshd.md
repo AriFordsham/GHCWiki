@@ -68,6 +68,6 @@ While on CygWin setting up `sshd` is taken care of by the provided `ssh-host-con
   ```
 
 
-TODO evaluate alternative script at [ https://gist.github.com/samhocevar/00eec26d9e9988d080ac](https://gist.github.com/samhocevar/00eec26d9e9988d080ac)
+TODO evaluate alternative script at [https://gist.github.com/samhocevar/00eec26d9e9988d080ac](https://gist.github.com/samhocevar/00eec26d9e9988d080ac)
 
 

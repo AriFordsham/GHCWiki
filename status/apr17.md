@@ -27,7 +27,7 @@ consolidation, it also includes a number of new features.
 
 >
 >
-> GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify many programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ paper](https://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/)\] for a description of the proposed interface and the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for current implementation status.
+> GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify many programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [paper](https://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/)\] for a description of the proposed interface and the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for current implementation status.
 >
 >
 
@@ -37,20 +37,20 @@ consolidation, it also includes a number of new features.
 
 >
 >
-> While GHC’s current compilation model doesn’t allow arbitrary levity polymorphism, GHC 8.2 enables certain classes of polymorphism which were either disallowed or broken in 8.0. See the [ paper](https://www.microsoft.com/en-us/research/publication/levity-polymorphism/) for details.
+> While GHC’s current compilation model doesn’t allow arbitrary levity polymorphism, GHC 8.2 enables certain classes of polymorphism which were either disallowed or broken in 8.0. See the [paper](https://www.microsoft.com/en-us/research/publication/levity-polymorphism/) for details.
 >
 >
 
--   **`deriving` strategies.** GHC now provides the programmer with a precise mechanism to distinguish between the three ways to derive typeclass instances: the usual way, the `GeneralizedNewtypeDeriving` way, and the `DeriveAnyClass` way. See the `DerivingStrategies` [ Wiki page](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DerivingStrategies) for more details.
+-   **`deriving` strategies.** GHC now provides the programmer with a precise mechanism to distinguish between the three ways to derive typeclass instances: the usual way, the `GeneralizedNewtypeDeriving` way, and the `DeriveAnyClass` way. See the `DerivingStrategies` [Wiki page](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DerivingStrategies) for more details.
 
 -   **New classes in `base`.** The `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base` library.
 
--   **Unboxed sums.** GHC 8.2 has a new language extension, `UnboxedSums`, that enables unboxed representation for non-recursive sum types. GHC 8.2 doesn’t use unboxed sums automatically, but the extension comes with new syntax, so users can manually unpack sums. More details can be found in the [ Wiki page](https://ghc.haskell.org/trac/ghc/wiki/UnpackedSumTypes).
+-   **Unboxed sums.** GHC 8.2 has a new language extension, `UnboxedSums`, that enables unboxed representation for non-recursive sum types. GHC 8.2 doesn’t use unboxed sums automatically, but the extension comes with new syntax, so users can manually unpack sums. More details can be found in the [Wiki page](https://ghc.haskell.org/trac/ghc/wiki/UnpackedSumTypes).
 
 ### Runtime system
 
 
--   **Compact regions**. This runtime system feature allows a referentially “closed” set of heap objects to be collected into a “compact region,” allowing cheaper garbage collection, sharing of heap-objects between processes, and the possibility of inexpensive serialization. See the [ paper](http://ezyang.com/papers/ezyang15-cnf.pdf) for details.
+-   **Compact regions**. This runtime system feature allows a referentially “closed” set of heap objects to be collected into a “compact region,” allowing cheaper garbage collection, sharing of heap-objects between processes, and the possibility of inexpensive serialization. See the [paper](http://ezyang.com/papers/ezyang15-cnf.pdf) for details.
 
 -   **Better profiling support.** The cost-center profiler now better integrates with the GHC event-log. Heap profile samples can now be dumped to the event log, allowing heap behavior to be more easily correlated with other program events. Moreover, the cost center stack output (e.g. `.prof` files) can now be produced in a machine-readable JSON format for easier integration with external tooling.
 
@@ -58,7 +58,7 @@ consolidation, it also includes a number of new features.
 
 >
 >
-> With stable DWARF support comes a number of opportunities for new performance analysis and debugging tools (e.g. statistical profiling, cheap execution stacks). As GHC’s debugging information improves, we expect to see tooling developed to support these applications. See the DWARF status page on the [ GHC Wiki](https://ghc.haskell.org/trac/ghc/wiki/DWARF/Status) for further information.
+> With stable DWARF support comes a number of opportunities for new performance analysis and debugging tools (e.g. statistical profiling, cheap execution stacks). As GHC’s debugging information improves, we expect to see tooling developed to support these applications. See the DWARF status page on the [GHC Wiki](https://ghc.haskell.org/trac/ghc/wiki/DWARF/Status) for further information.
 >
 >
 
@@ -73,7 +73,7 @@ consolidation, it also includes a number of new features.
 ### Miscellaneous
 
 
--   **Compiler Determinism.** GHC 8.0.2 is the first release of GHC which produces deterministic interface files. This helps consumers like Nix and caching build systems, and presents new opportunities for compile-time improvements. See the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/DeterministicBuilds) for details.
+-   **Compiler Determinism.** GHC 8.0.2 is the first release of GHC which produces deterministic interface files. This helps consumers like Nix and caching build systems, and presents new opportunities for compile-time improvements. See the [Wiki](https://ghc.haskell.org/trac/ghc/wiki/DeterministicBuilds) for details.
 
 ## Development updates and acknowledgments
 
@@ -133,7 +133,7 @@ Prior to GHC 8.2 the join points optimization was fragile due to the
 lack of a sound theoretical footing. With Luke’s work, GHC is much
 better at preserving join point opportunities, leading to improved code
 generation in many performance critical settings. More details can be
-found in his [ paper](https://www.microsoft.com/en-us/research/publication/compiling-without-continuations).
+found in his [paper](https://www.microsoft.com/en-us/research/publication/compiling-without-continuations).
 
 
 As always, this is just a fraction of the contributions which we’ve seen
@@ -143,7 +143,7 @@ contributed any of these in the past year, thank you!
 
 
 GHC HQ has also taken a number of steps in the past months to try to
-improve contributor workflow. Our [ new proposal process](https://github.com/ghc-proposals/ghc-proposals) officially
+improve contributor workflow. Our [new proposal process](https://github.com/ghc-proposals/ghc-proposals) officially
 began in December and has been extremely active ever since: the
 `ghc-proposals` repository now has over fifty pull requests and has
 facilitated hundreds of messages of great discussion. Thanks to our
@@ -165,7 +165,7 @@ in between, please come speak to us either on IRC (`#ghc` on
 
 >
 >
-> \<[ https://haskell.org/ghc/](https://haskell.org/ghc/)\>
+> \<[https://haskell.org/ghc/](https://haskell.org/ghc/)\>
 >
 >
 
@@ -173,7 +173,7 @@ in between, please come speak to us either on IRC (`#ghc` on
 
 >
 >
-> \<[ https://downloads.haskell.org/\~ghc/master/users-guide/](https://downloads.haskell.org/~ghc/master/users-guide/)\>
+> \<[https://downloads.haskell.org/\~ghc/master/users-guide/](https://downloads.haskell.org/~ghc/master/users-guide/)\>
 >
 >
 
@@ -181,7 +181,7 @@ in between, please come speak to us either on IRC (`#ghc` on
 
 >
 >
-> \<[ https://mail.haskell.org/mailman/listinfo/ghc-devs](https://mail.haskell.org/mailman/listinfo/ghc-devs)\>
+> \<[https://mail.haskell.org/mailman/listinfo/ghc-devs](https://mail.haskell.org/mailman/listinfo/ghc-devs)\>
 >
 >
 

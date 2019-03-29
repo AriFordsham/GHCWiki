@@ -48,7 +48,7 @@ code which needs tweaking for your system.
 
 **NOTE**: for current issues, see 
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3472">#3472</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/3472">#3472</a></th>
 <td>Porting through .hc files broken</td></tr></table>
 
 

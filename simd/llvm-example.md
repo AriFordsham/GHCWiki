@@ -38,7 +38,7 @@ int main()
 Compiling and running this in C is easy and left to the user.
 
 
-This converts easily to LLVM human readable format (use the [ online generator](http://llvm.org/demo/index.cgi) if you'd like):
+This converts easily to LLVM human readable format (use the [online generator](http://llvm.org/demo/index.cgi) if you'd like):
 
 ```wiki
 ; ModuleID = '/tmp/webcompile/_21191_0.bc'

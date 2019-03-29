@@ -89,7 +89,7 @@ Thus, all that needs to be done is take the desugaring code in `DsForeign.hs` an
 ## Future work
 
 
-Ideally we’d like to be able to call foreign code whose location (be it an address for C or some string for JavaScript) is only known at runtime.  An ad-hoc way to achieve this right now for C is [ libffi](https://sourceware.org/libffi/), which lets us interface with code following the C calling convention programmatically.  However, using such methods from Haskell is always going to incur some overhead.  For instance, the [ current bindings](http://hackage.haskell.org/package/libffi) to libffi for Haskell receive the arguments to the C function to call in an Haskell list.
+Ideally we’d like to be able to call foreign code whose location (be it an address for C or some string for JavaScript) is only known at runtime.  An ad-hoc way to achieve this right now for C is [libffi](https://sourceware.org/libffi/), which lets us interface with code following the C calling convention programmatically.  However, using such methods from Haskell is always going to incur some overhead.  For instance, the [ current bindings](http://hackage.haskell.org/package/libffi) to libffi for Haskell receive the arguments to the C function to call in an Haskell list.
 
 
 For this reason, after we implement anonymous FFI imports as described we plan to extend them to be able to accept the location of the code at runtime, as a standard Haskell expression.

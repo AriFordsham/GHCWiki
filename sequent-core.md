@@ -1,12 +1,12 @@
 # Join points
 
-- [ Compiling without continuations](https://www.microsoft.com/en-us/research/publication/compiling-without-continuations) describes the design.  It grew out of an earlier paper: [ Sequent calculus as an intermediate language](https://www.microsoft.com/en-us/research/publication/sequent-calculus-as-a-compiler-intermediate-language/)
+- [Compiling without continuations](https://www.microsoft.com/en-us/research/publication/compiling-without-continuations) describes the design.  It grew out of an earlier paper: [ Sequent calculus as an intermediate language](https://www.microsoft.com/en-us/research/publication/sequent-calculus-as-a-compiler-intermediate-language/)
 
 - Repo:  `git://github.com/lukemaurer/ghc`, branch `wip/join-points`
 
-- Ticket to track progress: [\#12988](https://gitlab.haskell.org//ghc/ghc/issues/12988)
+- Ticket to track progress: [\#12988](https://gitlab.haskell.org/ghc/ghc/issues/12988)
 
-- Phab patch: [ https://phabricator.haskell.org/D2853](https://phabricator.haskell.org/D2853)
+- Phab patch: [https://phabricator.haskell.org/D2853](https://phabricator.haskell.org/D2853)
 
 - New variant of Core.
 
@@ -27,55 +27,55 @@ Use Keyword = `JoinPoints` to ensure that a ticket ends up on these lists.
 
 **Open Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5302">#5302</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5302">#5302</a></th>
 <td>Unused arguments in join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9688">#9688</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9688">#9688</a></th>
 <td>Improve the interaction between CSE and the join point transformation</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12808">#12808</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12808">#12808</a></th>
 <td>For closures, Loop Invariant Code Flow related to captured free values not lifted outside the loop...</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13157">#13157</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13157">#13157</a></th>
 <td>Opportunity to improve case-of-case</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13207">#13207</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13207">#13207</a></th>
 <td>Performance regressions from removing LNE analysis</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13208">#13208</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13208">#13208</a></th>
 <td>Do two-phase inlining in simpleOptPgm</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13219">#13219</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13219">#13219</a></th>
 <td>CSE for join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13224">#13224</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13224">#13224</a></th>
 <td>Rules and join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13225">#13225</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13225">#13225</a></th>
 <td>Fannkuch-redux time regression from join point patch</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13236">#13236</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13236">#13236</a></th>
 <td>Improve floating for join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13763">#13763</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13763">#13763</a></th>
 <td>Performance regression (~34%) in 8.2.1, poor register allocation(?) in an inner loop over an array</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13928">#13928</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13928">#13928</a></th>
 <td>Providing a more specific argument prevents fusion caused by join point floating.</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13966">#13966</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13966">#13966</a></th>
 <td>Skip-less stream fusion: a missed opportunity</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14003">#14003</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14003">#14003</a></th>
 <td>Allow more worker arguments in SpecConstr</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14067">#14067</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14067">#14067</a></th>
 <td>Static Argument Transformation for tail-recursive functions</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14068">#14068</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14068">#14068</a></th>
 <td>Loopification using join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14223">#14223</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14223">#14223</a></th>
 <td>Casts get in the way of join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14287">#14287</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14287">#14287</a></th>
 <td>Early inlining causes potential join points to be missed</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14375">#14375</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14375">#14375</a></th>
 <td>Implement with# primop</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14610">#14610</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14610">#14610</a></th>
 <td>newtype wrapping of a monadic stack kills performance</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14617">#14617</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14617">#14617</a></th>
 <td>Join point test join001 doesn&apos;t seem to be properly automated</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14827">#14827</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14827">#14827</a></th>
 <td>Recognize when inlining would create a join point</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15091">#15091</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15091">#15091</a></th>
 <td>Better occurrence analysis for join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15560">#15560</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15560">#15560</a></th>
 <td>Full laziness destroys opportunities for join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15573">#15573</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15573">#15573</a></th>
 <td>Make bindings with multiple occurrences a join point instead of duplicating code during inlining.</td></tr></table>
 
 
@@ -83,43 +83,43 @@ Use Keyword = `JoinPoints` to ensure that a ticket ends up on these lists.
 
 **Closed Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11568">#11568</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11568">#11568</a></th>
 <td>Regression in nofib/shootout/k-nucleotide</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12781">#12781</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12781">#12781</a></th>
 <td>Significantly higher allocation with INLINE vs NOINLINE</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12988">#12988</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12988">#12988</a></th>
 <td>Join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13220">#13220</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13220">#13220</a></th>
 <td>Performance regressions in testsuite from join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13221">#13221</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13221">#13221</a></th>
 <td>OccurAnal fails to rediscover join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13222">#13222</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13222">#13222</a></th>
 <td>Update formalism for join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13281">#13281</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13281">#13281</a></th>
 <td>Linting join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13286">#13286</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13286">#13286</a></th>
 <td>Late floating of join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13382">#13382</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13382">#13382</a></th>
 <td>Join ceilings incorrectly getting placed outside value lambdas by SetLevels</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13410">#13410</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13410">#13410</a></th>
 <td>GHC HEAD regression: Template variable unbound in rewrite rule</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13413">#13413</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13413">#13413</a></th>
 <td>GHC HEAD panic: collectNBinders</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13479">#13479</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13479">#13479</a></th>
 <td>Core Lint issues during slowtest</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13543">#13543</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13543">#13543</a></th>
 <td>Improve demand analysis for join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13567">#13567</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13567">#13567</a></th>
 <td>Do loopification using join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13623">#13623</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13623">#13623</a></th>
 <td>join points produce bad code for stream fusion</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14079">#14079</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14079">#14079</a></th>
 <td>Failure to do CPR in the presence of a local letrec</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14137">#14137</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14137">#14137</a></th>
 <td>Do more inlining into non-recursive join points</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14152">#14152</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14152">#14152</a></th>
 <td>Float exit paths out of recursive functions</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15110">#15110</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15110">#15110</a></th>
 <td>Exitification abstracts over shadowed variables</td></tr></table>
 
 
@@ -566,7 +566,7 @@ Add `testsuite/test/perf/join-points/`
 
   Keeping the join point invariant effectively restricts us to those programs for which jumps and function calls act in precisely the same way, thus making most of the Core-to-Core (and Core-to-STG) machinery blissfully unaware of the new construct.
 
-- However! As described in [ the paper](https://www.microsoft.com/en-us/research/publication/compiling-without-continuations), the abortive semantics *does* work if we only allow a jump inside an evaluation context:
+- However! As described in [the paper](https://www.microsoft.com/en-us/research/publication/compiling-without-continuations), the abortive semantics *does* work if we only allow a jump inside an evaluation context:
 
   ```wiki
   let<join> j x = x + 1 in (j 1) True
@@ -634,7 +634,7 @@ Add `testsuite/test/perf/join-points/`
   - If we charge nothing for a join point binding and its lambdas, and 10\*n for a jump with n args (where a function call is 10\*(n+1)), nothing changes except that `boyer2` gets +7.5% allocations (due to a cascade from an unfortunate inlining) and `parser` gets -1.2%.
   - If instead we charge nothing *at all* for a jump, `boyer2` still gets +7.5% but `puzzle` gets -21.1% (!). (Also `cryptarithm` gets -1.6%.)
   - Charging nothing for a jump, nothing for a join binding, *and* nothing for the lambdas makes `boyer2` break even again. Now it's an improvement nearly across the board; implemented.
-  - **BUT:** Charging *nothing* reopens bug [\#6048](https://gitlab.haskell.org//ghc/ghc/issues/6048) by allowing certain join points to keep getting inlined, leading to exponential behavior. Currently solved by charging for jumps, but only 20% as much as for function calls. This number was arrived at because it is small enough that `puzzle` still gets its big improvement, but big enough to prevent [\#6048](https://gitlab.haskell.org//ghc/ghc/issues/6048). TODO Worry about overfitting. Possibly tune this some more. Maybe it should be a command-line option?
+  - **BUT:** Charging *nothing* reopens bug [\#6048](https://gitlab.haskell.org/ghc/ghc/issues/6048) by allowing certain join points to keep getting inlined, leading to exponential behavior. Currently solved by charging for jumps, but only 20% as much as for function calls. This number was arrived at because it is small enough that `puzzle` still gets its big improvement, but big enough to prevent [\#6048](https://gitlab.haskell.org/ghc/ghc/issues/6048). TODO Worry about overfitting. Possibly tune this some more. Maybe it should be a command-line option?
 
 - Do Late Lambda Lifting (followed by simplify) *after* `CoreTidy`.
 

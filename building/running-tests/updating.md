@@ -33,7 +33,7 @@ $ make accept TEST=<test-name> [OS=YES | PLATFORM=YES]
 
 
 However please avoid this as much as possible and if applicable use a custom formatter
-to format the output in a platform neutral way. See e.g. [ normalise_errmsg_fun](https://ghc.haskell.org/trac/ghc/wiki/Building/RunningTests/Adding)
+to format the output in a platform neutral way. See e.g. [normalise_errmsg_fun](https://ghc.haskell.org/trac/ghc/wiki/Building/RunningTests/Adding)
 
 ## Performance tests
 

@@ -31,7 +31,7 @@ to create them. See [Phabricator](phabricator) for more information.
  
 
 
-- You have to edit revision summaries manually on [ https://phabricator.haskell.org/D1234](https://phabricator.haskell.org/D1234). Updating the commit message and running `arc diff --update D1234 HEAD^` doesn't work.
+- You have to edit revision summaries manually on [https://phabricator.haskell.org/D1234](https://phabricator.haskell.org/D1234). Updating the commit message and running `arc diff --update D1234 HEAD^` doesn't work.
 
 - Creating a revision in the browser doesn't trigger the continuous integration system.
 
@@ -48,7 +48,7 @@ to create them. See [Phabricator](phabricator) for more information.
 
 - After updating a revision that other revisions depend on, you have to update those dependent revisions as well (running `arc diff HEAD^` for each of them). This triggers another validate run for each of them (arguably a good thing), but forgetting to do so may result in those revisions becoming out-of-date, not validated at all, and impossible to run `arc patch` on.
 
-- `Depends on` clauses in your commit message are reapplied when running `arc diff --update D1234`, even if in the meantime you made changes to the list of dependencies manually on [ https://phabricator.haskell.org/D1234](https://phabricator.haskell.org/D1234).
+- `Depends on` clauses in your commit message are reapplied when running `arc diff --update D1234`, even if in the meantime you made changes to the list of dependencies manually on [https://phabricator.haskell.org/D1234](https://phabricator.haskell.org/D1234).
 
 
 Compare this to a Github workflow, where you just push your updated branch (with `git push -f`), and be done with it.
@@ -59,7 +59,7 @@ Compare this to a Github workflow, where you just push your updated branch (with
 
 >
 >
-> Here is an example: [ https://phabricator.haskell.org/D1081\#inline-8264](https://phabricator.haskell.org/D1081#inline-8264).
+> Here is an example: [https://phabricator.haskell.org/D1081\#inline-8264](https://phabricator.haskell.org/D1081#inline-8264).
 >
 >
 
@@ -80,7 +80,7 @@ Compare this to a Github workflow, where you just push your updated branch (with
 ### Continuous Integration
 
 - Trying to let Harbormaster validate a revision that depends on another
-  revision [ results in](https://phabricator.haskell.org/D1188):
+  revision [results in](https://phabricator.haskell.org/D1188):
 
 >
 >
@@ -147,7 +147,7 @@ Compare this to a Github workflow, where you just push your updated branch (with
 - "the commit msg resulting from phab/arc almost never is acceptable to me"
 - "Should I specify reviewers?"
 - **"Diffs just seem to be too expensive to create ... I can't blame contributors for not wanting to do this for every atomic change"**
-- "Attempt to connect to phabricator\@127.0.0.1 failed with error [\#2013](https://gitlab.haskell.org//ghc/ghc/issues/2013): Lost connection to MySQL server at 'reading initial communication packet', system error: 0."
+- "Attempt to connect to phabricator\@127.0.0.1 failed with error [\#2013](https://gitlab.haskell.org/ghc/ghc/issues/2013): Lost connection to MySQL server at 'reading initial communication packet', system error: 0."
 - "run 'arc which' before updating a  code-rev to get a feeling for arcanist's weird heuristic"
 - "arcanist kinda makes stuff even more confusing than Git by itself =)"
 - "My browser and everything works fine, arcanist just falls on its face with a libcurl issue"
@@ -164,9 +164,9 @@ Compare this to a Github workflow, where you just push your updated branch (with
 
 ## References
 
-1. [ Help! I'm getting a strange error when running arc that I didn't get yesterday](https://ghc.haskell.org/trac/ghc/wiki/Phabricator#HelpImgettingastrangeerrorwhenrunningarcthatIdidntgetyesterday)
-1. [ "I think the amout of contributions would increase significantly if GHC migrated to GitHub and started accepting pull requests." (Sep 2014 @ reddit)](https://www.reddit.com/r/haskell/comments/2hes8m/the_ghc_source_code_contains_1088_todos_please/ckrzyec)
-1. [ "a little phrustrated" (Jul 2014 @ ghc-devs)](https://mail.haskell.org/pipermail/ghc-devs/2014-July/005614.html)
-1. [ "Phabricator for patches and code review" (Jun 2014 @ ghc-devs)](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/4829/focus=4861)
-1. [ GHC chatlog](https://phabricator.haskell.org/chatlog/channel/3/)
-1. [ http://phabricator.org/comparison/](http://phabricator.org/comparison/)
+1. [Help! I'm getting a strange error when running arc that I didn't get yesterday](https://ghc.haskell.org/trac/ghc/wiki/Phabricator#HelpImgettingastrangeerrorwhenrunningarcthatIdidntgetyesterday)
+1. ["I think the amout of contributions would increase significantly if GHC migrated to GitHub and started accepting pull requests." (Sep 2014 @ reddit)](https://www.reddit.com/r/haskell/comments/2hes8m/the_ghc_source_code_contains_1088_todos_please/ckrzyec)
+1. ["a little phrustrated" (Jul 2014 @ ghc-devs)](https://mail.haskell.org/pipermail/ghc-devs/2014-July/005614.html)
+1. ["Phabricator for patches and code review" (Jun 2014 @ ghc-devs)](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/4829/focus=4861)
+1. [GHC chatlog](https://phabricator.haskell.org/chatlog/channel/3/)
+1. [http://phabricator.org/comparison/](http://phabricator.org/comparison/)

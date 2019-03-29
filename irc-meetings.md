@@ -3,7 +3,7 @@
 **The Wednesday 4pm meetings appear to have stopped at some point between 2008-09-03 and 2012-02-15.**
 
 
-Held in \#ghc on [ FreeNode](http://www.haskell.org/haskellwiki/IRC_channel), every Wednesday at 4pm UK time.
+Held in \#ghc on [FreeNode](http://www.haskell.org/haskellwiki/IRC_channel), every Wednesday at 4pm UK time.
 
 
 If you don't live in the UK, you can run the following to see when the next meeting is for you:

@@ -30,7 +30,7 @@ Then, the user `bob` will be able to see the Admin tab, and can then access the 
 1. [](/trac/ghc/chrome/site/../common/guide/admin-permissions-TICKET_ADMIN.png)
 
 
-An easy way to quickly secure a new Trac install is to run the above command on the anonymous user, install the [ AccountManagerPlugin](http://trac-hacks.org/wiki/AccountManagerPlugin), create a new admin account graphically and then remove the TRAC_ADMIN permission from the anonymous user.
+An easy way to quickly secure a new Trac install is to run the above command on the anonymous user, install the [AccountManagerPlugin](http://trac-hacks.org/wiki/AccountManagerPlugin), create a new admin account graphically and then remove the TRAC_ADMIN permission from the anonymous user.
 
 
 From the graphical admin tab, users with `PERMISSION_GRANT` will only be allowed to grant permissions that they possess, and users with `PERMISSION_REVOKE` will only be allowed to revoke permissions that they possess. For example, a user cannot grant `MILESTONE_ADMIN` unless they have `PERMISSION_GRANT` and `MILESTONE_ADMIN`, and they cannot revoke `MILESTONE_ADMIN` unless they have `PERMISSION_REVOKE` and `MILESTONE_ADMIN`. `PERMISSION_ADMIN` just grants the user both `PERMISSION_GRANT` and `PERMISSION_REVOKE`, and users with `TRAC_ADMIN` can grant or revoke any permission.
@@ -207,7 +207,7 @@ Attention: the "view tickets" button appears with the `REPORT_VIEW` permission.
 ## Creating New Privileges
 
 
-To create custom permissions, for example to be used in a custom workflow, enable the optional [ tracopt.perm.config_perm_provider.ExtraPermissionsProvider](http://trac.edgewall.org/intertrac/ExtraPermissionsProvider) component in the "Plugins" admin panel, and add the desired permissions to the `[extra-permissions]` section in your [trac.ini](trac-ini#). For more information, please refer to the documentation  on the [TracIni](trac-ini#) page after enabling the component.
+To create custom permissions, for example to be used in a custom workflow, enable the optional [tracopt.perm.config_perm_provider.ExtraPermissionsProvider](http://trac.edgewall.org/intertrac/ExtraPermissionsProvider) component in the "Plugins" admin panel, and add the desired permissions to the `[extra-permissions]` section in your [trac.ini](trac-ini#). For more information, please refer to the documentation  on the [TracIni](trac-ini#) page after enabling the component.
 
 ## Granting Privileges
 

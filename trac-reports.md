@@ -244,7 +244,7 @@ SELECT id AS ticket, created, status, summary FROM ticket
 Those columns can also be defined but marked as hidden, see [below](trac-reports#).
 
 
-See [ trac:wiki/CookBook/Configuration/Reports](http://trac.edgewall.org/intertrac/wiki/CookBook/Configuration/Reports) for some example of creating reports for realms other than *ticket*.
+See [trac:wiki/CookBook/Configuration/Reports](http://trac.edgewall.org/intertrac/wiki/CookBook/Configuration/Reports) for some example of creating reports for realms other than *ticket*.
 
 ### Custom formatting columns
 
@@ -328,7 +328,7 @@ SELECT p.value AS __color__,
 If you have added custom fields to your tickets (see [TracTicketsCustomFields](trac-tickets-custom-fields)), you can write a SQL query to cover them. You'll need to make a join on the ticket_custom table, but this isn't especially easy.
 
 
-If you have tickets in the database *before* you declare the extra fields in trac.ini, there will be no associated data in the ticket_custom table. To get around this, use SQL's "LEFT OUTER JOIN" clauses. See [ TracIniReportCustomFieldSample](http://trac.edgewall.org/intertrac/TracIniReportCustomFieldSample) for some examples.
+If you have tickets in the database *before* you declare the extra fields in trac.ini, there will be no associated data in the ticket_custom table. To get around this, use SQL's "LEFT OUTER JOIN" clauses. See [TracIniReportCustomFieldSample](http://trac.edgewall.org/intertrac/TracIniReportCustomFieldSample) for some examples.
 
 ### A note about SQL rewriting
 
@@ -412,6 +412,6 @@ If you want to always sort first by priority and only then by the user selected 
 
 
 
-See also: [TracTickets](trac-tickets), [TracQuery](trac-query), [TracGuide](trac-guide), [ Query Language Understood by SQLite](http://www.sqlite.org/lang_expr.html)
+See also: [TracTickets](trac-tickets), [TracQuery](trac-query), [TracGuide](trac-guide), [Query Language Understood by SQLite](http://www.sqlite.org/lang_expr.html)
 
 

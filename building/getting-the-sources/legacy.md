@@ -80,7 +80,7 @@ where `~/ghc` is the repository you want to branch and `~/ghc-branch` is where y
  
 **Since [db19c665e/ghc](/trac/ghc/changeset/db19c665e/ghc), all used repositories are submodules, so this is only relevant to track older states, e.g., for GHC 7.8.\*.** 
  
-The full state of a GHC repository includes the current state of the repositories for all of the GHC boot libraries that are used to to build GHC ([list of boot libraries](repositories)). For GHC 7.8.\* the repositories for these libraries are fetched and updated by the `sync-all` script. To record the full repository state (including boot libraries), git submodules can be used starting from March 2014, but for 7.8.\* they are not fully usable, so fingerprints are provided instead in annotated & gpg-signed release tags, such as [ http://git.haskell.org/ghc.git/tag/refs/tags/ghc-7.8.3-release](http://git.haskell.org/ghc.git/tag/refs/tags/ghc-7.8.3-release).
+The full state of a GHC repository includes the current state of the repositories for all of the GHC boot libraries that are used to to build GHC ([list of boot libraries](repositories)). For GHC 7.8.\* the repositories for these libraries are fetched and updated by the `sync-all` script. To record the full repository state (including boot libraries), git submodules can be used starting from March 2014, but for 7.8.\* they are not fully usable, so fingerprints are provided instead in annotated & gpg-signed release tags, such as [http://git.haskell.org/ghc.git/tag/refs/tags/ghc-7.8.3-release](http://git.haskell.org/ghc.git/tag/refs/tags/ghc-7.8.3-release).
 That way you're able to restore via the fingerprint for a given release, as in:
 
 ```wiki
@@ -123,7 +123,7 @@ $ ./sync-all checkout master
  
 To make the best use of fingerprinting, you need to collect fingerprints for the states you may wish to restore. To ease the automatic collection of fingerprints, the `fingerprint.py` script allows a `-d DIR` option that will output a fingerprint to the directory `DIR` with the current time stamp as a file name. The `-g DIR` option tells the script to run in the ghc repository pointed to by `DIR`. These options can be useful for collecting fingerprints as a cron job or on a post-commit hook. 
  
-To restore the repository state as of a particular date, you can grab a fingerprint emitted by one of the nightly builds.  The nightly build emails are sent to [ the ghc-builds mailing list](http://www.haskell.org/pipermail/ghc-builds/), and have subjects like "\[nightly\] 06-Oct-2012 build of HEAD on x86_64-unknown-linux (cam-04-unx)".  Copy and paste the fingerprint section, which looks something like this: 
+To restore the repository state as of a particular date, you can grab a fingerprint emitted by one of the nightly builds.  The nightly build emails are sent to [the ghc-builds mailing list](http://www.haskell.org/pipermail/ghc-builds/), and have subjects like "\[nightly\] 06-Oct-2012 build of HEAD on x86_64-unknown-linux (cam-04-unx)".  Copy and paste the fingerprint section, which looks something like this: 
  
 
 ```wiki

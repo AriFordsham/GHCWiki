@@ -4,12 +4,12 @@
 This page, created on April 25, 2016, is to discuss the need (if any) to improve GHCi's `:type` command to deal with different use cases and desired output.
 
 
-Relevant tickets: [\#10963](https://gitlab.haskell.org//ghc/ghc/issues/10963) (about defaults/specializations), [\#11376](https://gitlab.haskell.org//ghc/ghc/issues/11376) (about default behavior of `:type`), and [\#11975](https://gitlab.haskell.org//ghc/ghc/issues/11975) (about printing specified variables).
+Relevant tickets: [\#10963](https://gitlab.haskell.org/ghc/ghc/issues/10963) (about defaults/specializations), [\#11376](https://gitlab.haskell.org/ghc/ghc/issues/11376) (about default behavior of `:type`), and [\#11975](https://gitlab.haskell.org/ghc/ghc/issues/11975) (about printing specified variables).
 
 ## Problem 1: variables available for visible type application
 
 
-As discussed at length in [\#11376](https://gitlab.haskell.org//ghc/ghc/issues/11376), `:type` instantiates the inferred type before generalizing and reporting to the user. Here is the example: Given `  bar :: forall a b. Show a => a -> b -> a`, what should `:type bar @Int` show (with `-fprint-explicit-foralls`)?
+As discussed at length in [\#11376](https://gitlab.haskell.org/ghc/ghc/issues/11376), `:type` instantiates the inferred type before generalizing and reporting to the user. Here is the example: Given `  bar :: forall a b. Show a => a -> b -> a`, what should `:type bar @Int` show (with `-fprint-explicit-foralls`)?
 
 1. `forall b. Show Int => Int -> b -> Int`
 1. `forall b. Int -> b -> Int`
@@ -17,7 +17,7 @@ As discussed at length in [\#11376](https://gitlab.haskell.org//ghc/ghc/issues/1
 1. `Int -> b -> Int`
 
 
-We choose (3), because (1) has an unsolved `Show Int`, (2) is quite hard to arrange for (and may not be fully specified), and (4) is ill-scoped. [\#11376](https://gitlab.haskell.org//ghc/ghc/issues/11376) has much more discussion.
+We choose (3), because (1) has an unsolved `Show Int`, (2) is quite hard to arrange for (and may not be fully specified), and (4) is ill-scoped. [\#11376](https://gitlab.haskell.org/ghc/ghc/issues/11376) has much more discussion.
 
 
 However, the choice of (3) means that there is no way to discover the specified type variables of a type, where "specified" here refers to the type variables available for visible type application. For example, the type `foldr` is parameterized by three type variables, `t :: * -> *`, `a :: *` and `b :: *`, *in that order*, and these variables are available for visible type application. However, with instantiation and generalization, there is no guarantee that the variables' ordering will be maintained, and GHC reports the variables as unavailable for visible type application.
@@ -182,21 +182,21 @@ Choice (A) about the behavior of `:type`, and there is no way to default or acce
 ## Concrete proposed solutions
 
 
-In [ Phab:D2136](https://phabricator.haskell.org/D2136), Richard E has written a patch that implements (1A, 2B, 3D).
+In [Phab:D2136](https://phabricator.haskell.org/D2136), Richard E has written a patch that implements (1A, 2B, 3D).
 
 
-Simon has suggested ([comment:5:ticket:10963](https://gitlab.haskell.org//ghc/ghc/issues/10963)) that three `:type` commands is two too many, and suggests (1D, 3B), with no particular vote on issue 2. Simon also suggests that Problem 1 is a non-problem.
+Simon has suggested ([comment:5:ticket:10963](https://gitlab.haskell.org/ghc/ghc/issues/10963)) that three `:type` commands is two too many, and suggests (1D, 3B), with no particular vote on issue 2. Simon also suggests that Problem 1 is a non-problem.
 
 
-User \@takenobu has suggested, most recently in [comment:7:ticket:10963](https://gitlab.haskell.org//ghc/ghc/issues/10963), that we look into 2C.
+User \@takenobu has suggested, most recently in [comment:7:ticket:10963](https://gitlab.haskell.org/ghc/ghc/issues/10963), that we look into 2C.
 
 
-On [ Phab:2136](https://phabricator.haskell.org/2136), Herbert has reminded us to make sure that any changes do not invalidate common existing workflows, like typing `:ty<TAB> foo` into GHCi.
+On [Phab:2136](https://phabricator.haskell.org/2136), Herbert has reminded us to make sure that any changes do not invalidate common existing workflows, like typing `:ty<TAB> foo` into GHCi.
 
 ## Summary of feedback about this issue
 
 
-I (Richard) collected feedback on May 2, 2016, from [ ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2016-April/011933.html), [ haskell-cafe 1](https://mail.haskell.org/pipermail/haskell-cafe/2016-April/123792.html), [ haskell-cafe 2](https://mail.haskell.org/pipermail/haskell-cafe/2016-May/123843.html), on the ticket, and via [ reddit](https://www.reddit.com/r/haskell/comments/4gvim4/design_input_opportunity_specializing_types_in/). Here is a summary of the feedback. I have not attached numbers of votes, etc., because the feedback has tended to be unstructured. In my opinion, attaching a number of votes would imply more significant figures than we really have.
+I (Richard) collected feedback on May 2, 2016, from [ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2016-April/011933.html), [ haskell-cafe 1](https://mail.haskell.org/pipermail/haskell-cafe/2016-April/123792.html), [ haskell-cafe 2](https://mail.haskell.org/pipermail/haskell-cafe/2016-May/123843.html), on the ticket, and via [ reddit](https://www.reddit.com/r/haskell/comments/4gvim4/design_input_opportunity_specializing_types_in/). Here is a summary of the feedback. I have not attached numbers of votes, etc., because the feedback has tended to be unstructured. In my opinion, attaching a number of votes would imply more significant figures than we really have.
 
 - 1A is the most popular option among issue 1.
 - A minority of people suggested adding specializations right to `:type`, alongside the full type. More people seemed to counter this than support it, however.

@@ -31,7 +31,7 @@ This unfortunately has some downsides:
 - Git admins need to perform risky direct manipulations in the file-system, even for the simplest Git repository administration tasks. Also, Git hook scripts are not centrally managed right now, but placed individually in each git repository that needs them; thus to fix/improve a git hook script, one needs to update all git repositories using the affected script.
 
 
-The proposed remedy is to use the Git-access wrapper [ ''Gitolite''](https://github.com/sitaramc/gitolite/wiki) which provides an authorization layer on top of Git, and is executed as a separate system user (thus accessing the git repositories with only one Unix UID).  Users accessing git repositories via ssh are discriminated by their ssh public key.
+The proposed remedy is to use the Git-access wrapper [''Gitolite''](https://github.com/sitaramc/gitolite/wiki) which provides an authorization layer on top of Git, and is executed as a separate system user (thus accessing the git repositories with only one Unix UID).  Users accessing git repositories via ssh are discriminated by their ssh public key.
 
 
 Gitolite also greatly simplifies user management, as a user management is little more than adding/removing a file containing the user's public key, and pushing that the administrative "`gitolite-admin`" git repository (Gitolite is administrated via git itself!). Similarly, adding a new git repository comes down to adding a few lines to the central Gitolite repository config file and pushing that file to the "`gitolite-admin`" Git repository.
@@ -55,10 +55,10 @@ Ideally, most of the new setup can occur concurrently with the normal one undist
 **No immediate action needed**
 
 
-The (old) `http://darcs.haskell.org/<repo-name>.git` Git URLs will continue to work (and still use [ The Dumb Protocol](http://git-scm.com/book/en/Git-Internals-Transfer-Protocols#The-Dumb-Protocol)) for some time.
+The (old) `http://darcs.haskell.org/<repo-name>.git` Git URLs will continue to work (and still use [The Dumb Protocol](http://git-scm.com/book/en/Git-Internals-Transfer-Protocols#The-Dumb-Protocol)) for some time.
 
 
-New `git clone` will use the new `http://git.haskell.org/<repo-name>.git` Git URLs and provide the much faster [ "smart" Git/HTTP protocol](http://git-scm.com/book/en/Git-Internals-Transfer-Protocols#The-Smart-Protocol). Moreover, also access via `git://git.haskell.org/<repo-name>.git` is provided now.
+New `git clone` will use the new `http://git.haskell.org/<repo-name>.git` Git URLs and provide the much faster ["smart" Git/HTTP protocol](http://git-scm.com/book/en/Git-Internals-Transfer-Protocols#The-Smart-Protocol). Moreover, also access via `git://git.haskell.org/<repo-name>.git` is provided now.
 
 
 To rewrite a checked out to the new access URLs, you can use the `sync-all` script, e.g.:
@@ -139,19 +139,19 @@ This will correctly set up both push and pull URLs (use `http://` instead of `gi
   - HTTP vhost `darcs.haskell.org` stays as-is
   - new HTTP vhost `git.haskell.org` serving /home/git/repositories
     (optionally enable smart git http transport); Git uris will be `http://git.haskell.org/<repo-name>`
-  - Cgit could be used as front-page on '/', c.f. [ http://www.kernel.org/](http://www.kernel.org/)
+  - Cgit could be used as front-page on '/', c.f. [http://www.kernel.org/](http://www.kernel.org/)
 
 ## Current status
 
 
-See [\#8121](https://gitlab.haskell.org//ghc/ghc/issues/8121)
+See [\#8121](https://gitlab.haskell.org/ghc/ghc/issues/8121)
 
 ### Questions
 
 - Tangential: should we deprecate the darcs.haskell.org URL? Who uses it? The name was known to be a funny misnomer from the Git switchover times, but As Far As Austin Knows, only GHC developers really use it these days. Perhaps we could just retire it.
 
   - **Austin**: both nhc and yhc use it, so Malcolm and Neil will need to be asked, at least.
-  - **Herbert**: We can leave `darcs.haskell.org` as-is for legacy reasons, while creating new VHOST on `http://git.haskell.org/` which would expose only the Gitolite-owned git repositories (and maybe also a Cgit front-page as e.g. on [ http://git.kernel.org](http://git.kernel.org))
+  - **Herbert**: We can leave `darcs.haskell.org` as-is for legacy reasons, while creating new VHOST on `http://git.haskell.org/` which would expose only the Gitolite-owned git repositories (and maybe also a Cgit front-page as e.g. on [http://git.kernel.org](http://git.kernel.org))
 
 - Who's actively committing, and does anybody beyond that actually *need* a shell account? It's unclear who uses `ghc.haskell.org` for what at the moment, beyond push access.
 
@@ -160,4 +160,4 @@ See [\#8121](https://gitlab.haskell.org//ghc/ghc/issues/8121)
 ### Contact points
 
 
-Austin Seipp (thoughtpolice) and Herbert Valerio Riedel (hvr) can be contacted about details or specifics. If you encounter any issues, you can also comment on [\#8121](https://gitlab.haskell.org//ghc/ghc/issues/8121).
+Austin Seipp (thoughtpolice) and Herbert Valerio Riedel (hvr) can be contacted about details or specifics. If you encounter any issues, you can also comment on [\#8121](https://gitlab.haskell.org/ghc/ghc/issues/8121).

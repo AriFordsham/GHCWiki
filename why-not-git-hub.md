@@ -3,7 +3,7 @@
 [](https://i.imgur.com/lWvuVPd.jpg)
 
 
-A common suggestion that is brought up from time is to host GHC development at [ GitHub](https://github.com/) instead of maintaining our own infrastructure for Git repository hosting, code-review, developer documentation/wiki, and issue tracking. This page serves as reminder for what's holding back a migration to GitHub currently.
+A common suggestion that is brought up from time is to host GHC development at [GitHub](https://github.com/) instead of maintaining our own infrastructure for Git repository hosting, code-review, developer documentation/wiki, and issue tracking. This page serves as reminder for what's holding back a migration to GitHub currently.
 
 ## Benefits of migrating to GitHub
 
@@ -15,7 +15,7 @@ A common suggestion that is brought up from time is to host GHC development at [
 
 - GitHub's pull-request-based work-flow is well-known in the Haskell community (and the wider developer community), not the least due to the majority of Haskell packages being developed on GitHub already
 
-- GitHub is well-integrated with services like [ Travis-CI](https://travis-ci.org) (which allow to automatically validate pull-requests)
+- GitHub is well-integrated with services like [Travis-CI](https://travis-ci.org) (which allow to automatically validate pull-requests)
 
 - Trac poses a higher threshold for new contributors due to its interface being more complex and requiring registering yet another account.
 
@@ -29,7 +29,7 @@ A common suggestion that is brought up from time is to host GHC development at [
 
 - ~~Every inline comment results in a separate email~~ (GitHub added support for multi-part code reviews)
 
-- On Github, [\#1234](https://gitlab.haskell.org//ghc/ghc/issues/1234) doesn't link to Trac ticket 1234. You'd have to say: [ https://ghc.haskell.org/ticket/1234](https://ghc.haskell.org/ticket/1234).
+- On Github, [\#1234](https://gitlab.haskell.org/ghc/ghc/issues/1234) doesn't link to Trac ticket 1234. You'd have to say: [https://ghc.haskell.org/ticket/1234](https://ghc.haskell.org/ticket/1234).
 
 - No possibility to do Post-Commit Code Reviews (i.e. Audit in Phabricator).
 
@@ -47,9 +47,9 @@ A common suggestion that is brought up from time is to host GHC development at [
 
 ### Git repository
 
-- GitHub lacks several things we already use. For example, there is **no way to add pre commit hooks** to repositories that ban commits containing whitespace, trailing spaces, and other `lint` errors. [ https://git.haskell.org](https://git.haskell.org) automatically enforces this to help keep new code tab-free. GitHub has no alternative to this.
+- GitHub lacks several things we already use. For example, there is **no way to add pre commit hooks** to repositories that ban commits containing whitespace, trailing spaces, and other `lint` errors. [https://git.haskell.org](https://git.haskell.org) automatically enforces this to help keep new code tab-free. GitHub has no alternative to this.
 
-- We also use this facility to **keep Git submodules sane**: as of today, [ https://git.haskell.org](https://git.haskell.org) will not let you commit a *dangling submodule reference* to [ ghc.git](https://git.haskell.org/ghc.git). You must push the corresponding submodule code first, so the top-level repository never breaks. This is also not possible with GitHub and has been a historical error source for developers.
+- We also use this facility to **keep Git submodules sane**: as of today, [https://git.haskell.org](https://git.haskell.org) will not let you commit a *dangling submodule reference* to [ ghc.git](https://git.haskell.org/ghc.git). You must push the corresponding submodule code first, so the top-level repository never breaks. This is also not possible with GitHub and has been a historical error source for developers.
 
 ### Issue Tracking
 
@@ -77,9 +77,9 @@ A common suggestion that is brought up from time is to host GHC development at [
 
 ## Related mailing-list discussion threads
 
-- [ "Any interest in moving GHC issues / wiki to github?" (Jul 2013 @ ghc-devs)](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/1444)
-- [ "Phabricator for patches and code review" (Jun 2014 @ ghc-devs)](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/4829/focus=4861)
-- [ "I think the amout of contributions would increase significantly if GHC migrated to GitHub and started accepting pull requests." (Sep 2014 @ reddit)](https://www.reddit.com/r/haskell/comments/2hes8m/the_ghc_source_code_contains_1088_todos_please/ckrzyec)
-- [ GitHub pull requests](https://mail.haskell.org/pipermail/ghc-devs/2014-October/006523.html)
-- [ Proposal: accept pull requests on GitHub](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009773.html)
-- [ GHC Development: OutsideIn](https://www.reddit.com/r/haskell/comments/4isua9/ghc_development_outsidein/d32979t)
+- ["Any interest in moving GHC issues / wiki to github?" (Jul 2013 @ ghc-devs)](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/1444)
+- ["Phabricator for patches and code review" (Jun 2014 @ ghc-devs)](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/4829/focus=4861)
+- ["I think the amout of contributions would increase significantly if GHC migrated to GitHub and started accepting pull requests." (Sep 2014 @ reddit)](https://www.reddit.com/r/haskell/comments/2hes8m/the_ghc_source_code_contains_1088_todos_please/ckrzyec)
+- [GitHub pull requests](https://mail.haskell.org/pipermail/ghc-devs/2014-October/006523.html)
+- [Proposal: accept pull requests on GitHub](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009773.html)
+- [GHC Development: OutsideIn](https://www.reddit.com/r/haskell/comments/4isua9/ghc_development_outsidein/d32979t)

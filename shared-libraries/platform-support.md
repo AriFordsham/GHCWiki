@@ -35,11 +35,11 @@ Profiled code isn't yet really position-independent even when `-fPIC` is specifi
 
 ## All ELF systems
 
-- Get the "soname" set, probably based on -o file name. (see [ this message](http://www.haskell.org/pipermail/cvs-ghc/2009-May/048567.html))
+- Get the "soname" set, probably based on -o file name. (see [this message](http://www.haskell.org/pipermail/cvs-ghc/2009-May/048567.html))
 - Make sure all shared libs properly record their dependencies, including on the rts (to enable soname chasing)
 - Work out a scheme to enable switching the variant of the rts at link time.
 - Switch default dynamic linking mode to "system dependent"
-- Use an external Main.o rather than having main in the rts (see [ this message](http://www.haskell.org/pipermail/cvs-ghc/2009-May/048573.html)).
+- Use an external Main.o rather than having main in the rts (see [this message](http://www.haskell.org/pipermail/cvs-ghc/2009-May/048573.html)).
 - In a final link, use the minimum set of libraries, only direct dependencies (assume soname chasing). Avoid -u flags (which are only required for linking base and rts as static libs).
 
 - Get GHCi working by loading shared libs

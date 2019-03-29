@@ -2,18 +2,18 @@
 
 ## Status as of July 2017
 
-- There is some work afoot moving GHC to `prettyprinter`. See [\#14005](https://gitlab.haskell.org//ghc/ghc/issues/14005).
+- There is some work afoot moving GHC to `prettyprinter`. See [\#14005](https://gitlab.haskell.org/ghc/ghc/issues/14005).
 
 ## Status as of June 2017
 
 
 
-The following was extracted from Ben's response to Siddharth Bhat on [ ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2017-June/014280.html) in June 2017,
+The following was extracted from Ben's response to Siddharth Bhat on [ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2017-June/014280.html) in June 2017,
 
 
 >
 >
-> I saw this ticket on trac: [\#8809](https://gitlab.haskell.org//ghc/ghc/issues/8809).
+> I saw this ticket on trac: [\#8809](https://gitlab.haskell.org/ghc/ghc/issues/8809).
 > I would like to take this up, but I'd like help / pointers and stuff. I
 > have GHC setup, I know how to use phabricator, but.. where do I start? :)
 >
@@ -24,10 +24,10 @@ This ticket has recently seen quite a bit of activity and I've been
 meaning to write down some thoughts on it. Here it goes:
 
 
-Currently Alfredo Di Napoli is [ working](https://github.com/haskell/pretty/pull/43) on the `pretty` library to
-both improve performance and allow us to drop GHC's fork (see [\#10735](https://gitlab.haskell.org//ghc/ghc/issues/10735)),
+Currently Alfredo Di Napoli is [working](https://github.com/haskell/pretty/pull/43) on the `pretty` library to
+both improve performance and allow us to drop GHC's fork (see [\#10735](https://gitlab.haskell.org/ghc/ghc/issues/10735)),
 perhaps to use annotated pretty-printer documents. Meanwhile, David
-Luposchainsky, has recently [ released](https://www.reddit.com/r/haskell/comments/6e62i5/ann_prettyprinter_10_ending_the_wadlerleijen_zoo/) his `prettyprinter` library
+Luposchainsky, has recently [released](https://www.reddit.com/r/haskell/comments/6e62i5/ann_prettyprinter_10_ending_the_wadlerleijen_zoo/) his `prettyprinter` library
 which may serve as a drop-in replacement to `pretty` and handles all of
 the cases that Alfredo is working on. Moreover, Shivansh Rai has also
 recently expressed interest in helping out with this effort.
@@ -39,7 +39,7 @@ this area, we should be careful not to step on each toes. Below I'll
 describe the various facets of the task as I see them.
 
 
-There is also a github repo intended to catalogue instances of bad error messages, [ here](https://github.com/bollu/hask-error-messages-catalog)
+There is also a github repo intended to catalogue instances of bad error messages, [here](https://github.com/bollu/hask-error-messages-catalog)
 
 ## Choice of pretty printer
 
@@ -93,7 +93,7 @@ fork.
 In my opinion we should avoid baking more stylistic decisions (e.g. printing
 types in red, terms in blue) into the modules like TcErrors which produce
 error messages. This is why I propose that we use annotated
-pretty-printer documents in [\#8809](https://gitlab.haskell.org//ghc/ghc/issues/8809) (see comment 3). This would allow us
+pretty-printer documents in [\#8809](https://gitlab.haskell.org/ghc/ghc/issues/8809) (see comment 3). This would allow us
 to represent the typical things seen in GHC error messages (e.g. types,
 terms, spans, binders, etc.) in structured form, allowing the error
 message consumer (e.g. GHC itself, a GHC API user, or some JSON error

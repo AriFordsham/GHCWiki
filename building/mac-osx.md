@@ -52,22 +52,22 @@ For some reason, convincing dblatex to build the docs can be tricky. This worked
 
 
 
-From [ http://www.tug.org/mactex/](http://www.tug.org/mactex/) downloaded and installed
+From [http://www.tug.org/mactex/](http://www.tug.org/mactex/) downloaded and installed
 
 
 >
 >
-> [ http://mirror.ctan.org/systems/mac/mactex/MacTeX.mpkg.zip](http://mirror.ctan.org/systems/mac/mactex/MacTeX.mpkg.zip)
+> [http://mirror.ctan.org/systems/mac/mactex/MacTeX.mpkg.zip](http://mirror.ctan.org/systems/mac/mactex/MacTeX.mpkg.zip)
 >
 >
 
 
-From [ http://dblatex.sourceforge.net/](http://dblatex.sourceforge.net/) downloaded and built
+From [http://dblatex.sourceforge.net/](http://dblatex.sourceforge.net/) downloaded and built
 
 
 >
 >
-> [ http://prdownloads.sourceforge.net/dblatex/dblatex-0.3.tar.bz2?download](http://prdownloads.sourceforge.net/dblatex/dblatex-0.3.tar.bz2?download)
+> [http://prdownloads.sourceforge.net/dblatex/dblatex-0.3.tar.bz2?download](http://prdownloads.sourceforge.net/dblatex/dblatex-0.3.tar.bz2?download)
 >
 >
 

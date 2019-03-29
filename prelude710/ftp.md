@@ -1,19 +1,19 @@
 # The 7.10 Prelude should be generalized
 
 
-As per [Prelude710](prelude710), this page attempts to address concerns about the [ Foldable/Traversable Proposal](https://wiki.haskell.org/Foldable_Traversable_In_Prelude).
+As per [Prelude710](prelude710), this page attempts to address concerns about the [Foldable/Traversable Proposal](https://wiki.haskell.org/Foldable_Traversable_In_Prelude).
 
 
 A brief summary of both this plan and the alternative being considered at this point is available at [Prelude710](prelude710), while the details of the **Plan List** counter-proposal are available at [Prelude710/List](prelude710/list). 
 
 
-In 2013, two proposals passed through the libraries@ process. Unlike most proposals before them, these proposals affect types in the Prelude. These are the [ Applicative/Monad Proposal (AMP)](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal) and the [ Foldable/Traversable Proposal (FTP)](https://wiki.haskell.org/Foldable_Traversable_In_Prelude) (also sometimes referred to as the "Burning Bridges Proposal" based on the title of the original thread).
+In 2013, two proposals passed through the libraries@ process. Unlike most proposals before them, these proposals affect types in the Prelude. These are the [Applicative/Monad Proposal (AMP)](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal) and the [ Foldable/Traversable Proposal (FTP)](https://wiki.haskell.org/Foldable_Traversable_In_Prelude) (also sometimes referred to as the "Burning Bridges Proposal" based on the title of the original thread).
 
 
 You can try out both of these solutions today simply by downloading GHC 7.10RC2.
 
 
-It has recently been highlighted that as these changes affect the `Prelude`, and thus affect what users of Haskell see out of the box, they should be held to a higher bar than the usual libraries@ traffic. In particular, there was concern that while the [ Applicative/Monad Proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal) was warned about extensively in GHC 7.8, the [ Foldable/Traversable Proposal](https://wiki.haskell.org/Foldable_Traversable_In_Prelude) was not nearly as well broadcast.
+It has recently been highlighted that as these changes affect the `Prelude`, and thus affect what users of Haskell see out of the box, they should be held to a higher bar than the usual libraries@ traffic. In particular, there was concern that while the [Applicative/Monad Proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal) was warned about extensively in GHC 7.8, the [ Foldable/Traversable Proposal](https://wiki.haskell.org/Foldable_Traversable_In_Prelude) was not nearly as well broadcast.
 
 
 
@@ -22,7 +22,7 @@ However, there are many good reasons to do both the AMP and FTP generalizations 
 
 - **`Foldable` and `Traversable` have seen long use in the Haskell community**, predating even the existence of `Applicative`, dating back into the early 2000s. We know and have tested these abstractions, and they have deep explanatory power.
 
--  `Traversable` in particular has given us insight into the nature of finitary traversals and have been the subject of many papers since Jeremy Gibbons wrote [ The Essence of the Iterator Pattern](http://www.cs.ox.ac.uk/jeremy.gibbons/publications/iterator.pdf) each of which has managed to narrow the set of laws until we're left with only the **obvious generalization of the `Functor` laws** that allows for `Applicative` effects. [ An Investigation of the Laws of Traversals](http://arxiv.org/pdf/1202.2919v1.pdf) is one such paper, providing the common sense reading of the `Traversable` laws.
+-  `Traversable` in particular has given us insight into the nature of finitary traversals and have been the subject of many papers since Jeremy Gibbons wrote [The Essence of the Iterator Pattern](http://www.cs.ox.ac.uk/jeremy.gibbons/publications/iterator.pdf) each of which has managed to narrow the set of laws until we're left with only the **obvious generalization of the `Functor` laws** that allows for `Applicative` effects. [ An Investigation of the Laws of Traversals](http://arxiv.org/pdf/1202.2919v1.pdf) is one such paper, providing the common sense reading of the `Traversable` laws.
 
 - However, `Traversable` is too strong a requirement for many of the operations it enables. `foldMap` is what you get when you limit the power of `traverse` to just consumption, so `Foldable` has a role in this hierarchy. It is particularly telling that almost all the interesting combinators enabled by `Traversable` are actually enabled by merely `Foldable` constraints, including some at-first-surprising results such as `traverse_`. **`Foldable` shows us a fairly deep connection between 33+ seemingly unrelated operations** from the `Prelude`. `Traversable` adds connections between several more to that mix.
 
@@ -32,7 +32,7 @@ However, there are many good reasons to do both the AMP and FTP generalizations 
 
 - Nothing in `Foldable` or `Traversable` ever changes the "shape" of the container it is given. This is actually more information for the user than seeing a combinator accepts any list and returns any list. While we give up the knowledge that the thing we're walking over is a list, we gain information as well. **The more general signatures can often tell the user more** about what a combinator can do behind the scenes. e.g. we can know that `forM` will not change the number of elements in the container by leaning on the `Traversable` laws alone and the lack of any other way to construct the result value. We're not just able to rely the fact that it gives back a list, but we can rely on the specific shape of the structure we get back.
 
-- At the time of the "Burning Bridges Proposal" thread on the libraries mailing list back in 2013, this question was widely polled, and there was an **overwhelmingly strong call from the community for generalization**. Admittedly, this was from the self-selecting subset of the community that is active on the [ libraries@ mailing list](https://www.haskell.org/mailman/listinfo/libraries).
+- At the time of the "Burning Bridges Proposal" thread on the libraries mailing list back in 2013, this question was widely polled, and there was an **overwhelmingly strong call from the community for generalization**. Admittedly, this was from the self-selecting subset of the community that is active on the [libraries@ mailing list](https://www.haskell.org/mailman/listinfo/libraries).
 
 - One thing that we were very careful to avoid during this entire wave of generalization is an impact to performance on either asymptotic or constant factor grounds. The **continuous performance testing ** that is done on GHC has done a lot to keep us honest in this regard, but has definitely complicated development.
 
@@ -60,7 +60,7 @@ The obvious paths to get there that don't require hard to explain excuses have t
 - **Avoid requiring a future Haskell Report to lean on a much larger language standard** or veering off into uncharted territory. This pushes us away from designs such as `mono-traversable` or `IsList`.
 
 
-The details of the current implementation are available on the [ Foldable/Traversable in Prelude](https://wiki.haskell.org/Foldable_Traversable_In_Prelude) HaskellWiki page. That article, however, remains written from a more neutral point of view.
+The details of the current implementation are available on the [Foldable/Traversable in Prelude](https://wiki.haskell.org/Foldable_Traversable_In_Prelude) HaskellWiki page. That article, however, remains written from a more neutral point of view.
 
 ## FAQ
 
@@ -146,7 +146,7 @@ But there is another technical concern: it turns out that there exists a form of
 The combinators will remain, on the other hand whether we go through a smooth deprecation cycle to remove some from the class and move them out to top level definitions when and if we can find ways to implement them without suffering an asymptotic or large constant factor hit is the major concern.
 
 
-We are proactively seeking ways to resolve this issue. Ticket [ \#10071](https://ghc.haskell.org/trac/ghc/ticket/10071) explores adding the ability to deprecate class member redefinition. This gives us the ability to move things out of the class over a pair of release cycles, should we find something we can improve in this manner.
+We are proactively seeking ways to resolve this issue. Ticket [\#10071](https://ghc.haskell.org/trac/ghc/ticket/10071) explores adding the ability to deprecate class member redefinition. This gives us the ability to move things out of the class over a pair of release cycles, should we find something we can improve in this manner.
 
 # `Data.List` now has many functions that don't mention list in their type signature. Having such functions in the `Data.List` module is awkward from a naming perspective.
 
@@ -163,7 +163,7 @@ However, it is an ugly intermediate state at best.
 There are two clear paths for how to evolve `Data.List` from here.
 
 
-1.) Deprecate the re-export of the methods from the `Prelude` in GHC 7.12 and to remove them entirely in GHC 7.14. This ensures that group A never feels any pain at all, and that group B gets a deprecation window of warnings notifying them that they don't have to use the combinators qualified any more. The cost of this approach is that we'd have no place in `base` to house monomorphic versions of these combinators. Ticket [ \#4879](https://ghc.haskell.org/trac/ghc/ticket/4879) addresses the need for deprecated re-exports, which are useful for many things and a patch is now available that can enable this functionality.
+1.) Deprecate the re-export of the methods from the `Prelude` in GHC 7.12 and to remove them entirely in GHC 7.14. This ensures that group A never feels any pain at all, and that group B gets a deprecation window of warnings notifying them that they don't have to use the combinators qualified any more. The cost of this approach is that we'd have no place in `base` to house monomorphic versions of these combinators. Ticket [\#4879](https://ghc.haskell.org/trac/ghc/ticket/4879) addresses the need for deprecated re-exports, which are useful for many things and a patch is now available that can enable this functionality.
 
 
 2.) Concoct some form of `{-# WEAK #-} ` pragma or enable users to export type restricted versions of another combinator and then apply this pragma to these members of `Data.List`. This could revert those combinators to monomorphic form, but requires a more controversial language extension that has some potentially thorny implementation issues to work through, and we've elected not to presume they can be resolved.
@@ -247,14 +247,14 @@ It would seem remarkably backwards to finally unify all the work on `Applicative
 
 # The existing corpus of books, tutorials, syllabi, and the like usually have a significant portion of the text dedicated to these very `Prelude` functions - and they would all need significant revision.
 
-[ Real World Haskell](http://book.realworldhaskell.org/read/io.html#x_TE) dispels this same sort of concern around the generality of the `Monad` operations with a quick aside:
+[Real World Haskell](http://book.realworldhaskell.org/read/io.html#x_TE) dispels this same sort of concern around the generality of the `Monad` operations with a quick aside:
 
 
 Tip: These functions actually work for more than just I/O; they work for any `Monad`. For now, wherever you see `m`, just think `IO`.
 
 
 
-Moreover, at least two books aimed at beginners (the very popular [ Learn You a Haskell](http://learnyouahaskell.com/functors-applicative-functors-and-monoids) as well as "Beginning Haskell") already teach and promote the `Foldable` and `Traversable` abstractions with words like
+Moreover, at least two books aimed at beginners (the very popular [Learn You a Haskell](http://learnyouahaskell.com/functors-applicative-functors-and-monoids) as well as "Beginning Haskell") already teach and promote the `Foldable` and `Traversable` abstractions with words like
 
 
 >
@@ -349,7 +349,7 @@ This proposal ignores the fact that a very large segment of the community has al
 # How may I express my support or disapproval?
 
 
-We actively are seeking feedback through a [ survey](https://goo.gl/forms/XP1W2JdfpX) through February 21st. Once the results are in Simon Peyton Jones and Simon Marlow have agreed to weigh the matter and decide the direction we will take in GHC 7.10.
+We actively are seeking feedback through a [survey](https://goo.gl/forms/XP1W2JdfpX) through February 21st. Once the results are in Simon Peyton Jones and Simon Marlow have agreed to weigh the matter and decide the direction we will take in GHC 7.10.
 
 # I have a question/concern not addressed here... ?
 

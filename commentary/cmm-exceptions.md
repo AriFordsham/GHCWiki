@@ -26,11 +26,11 @@ Some higher level languages provide facilities to handle these exceptions, inclu
 
 
 
-There has been at least one problem in GHC that would benefit from exception handling--in some cases, for `Integral`s.  See bug ticket [\#1042](https://gitlab.haskell.org//ghc/ghc/issues/1042).  The bug occurs in `show`ing the number, in \[GhcFile(libraries/base/GHC/Show.lhs) GHC.Show\], `showSignedInt`, before conversion from base_2 to base_10, where a negative `Int` (always `Int32`) is negated in order to process it as a positive value when converting it to a string, base_10, causing an overflow error on some architectures.  (Bear in mind that it would show up here in the example for [\#1042](https://gitlab.haskell.org//ghc/ghc/issues/1042) because the function would be evaluated in GHCi here; the negation is the problem and the exception shows up in the *next* instruction on that operand, here `DIV`.)  
+There has been at least one problem in GHC that would benefit from exception handling--in some cases, for `Integral`s.  See bug ticket [\#1042](https://gitlab.haskell.org/ghc/ghc/issues/1042).  The bug occurs in `show`ing the number, in \[GhcFile(libraries/base/GHC/Show.lhs) GHC.Show\], `showSignedInt`, before conversion from base_2 to base_10, where a negative `Int` (always `Int32`) is negated in order to process it as a positive value when converting it to a string, base_10, causing an overflow error on some architectures.  (Bear in mind that it would show up here in the example for [\#1042](https://gitlab.haskell.org/ghc/ghc/issues/1042) because the function would be evaluated in GHCi here; the negation is the problem and the exception shows up in the *next* instruction on that operand, here `DIV`.)  
 
 
 
-The exception example in [\#1042](https://gitlab.haskell.org//ghc/ghc/issues/1042) does not occur on PowerPC machines, which dutifully print the two's complement of `(-2147483648::Int) `div` (-1::Int)`: `0`.  (`-2147483648` is the minimum bound for signed Ints, so negating it should properly become, bitwise, a positive `2147483647` (all but bit 31 set); once negated again when divided by `-1` this would be `0`; `-0` is converted to `0`.)  On some architectures such as Intel 64 and IA-32, negating the minimum bound does not wrap around to `0` but overflows, which is reported as a floating point "overflow" (`#O`) exception: the `NEG` instruction modifies the `OF` flag (bit 11) in the `EFLAGS` register--curiously enough, the `DIV` and `IDIV` instructions have *undefined* effects on the `OF` flag.  
+The exception example in [\#1042](https://gitlab.haskell.org/ghc/ghc/issues/1042) does not occur on PowerPC machines, which dutifully print the two's complement of `(-2147483648::Int) `div` (-1::Int)`: `0`.  (`-2147483648` is the minimum bound for signed Ints, so negating it should properly become, bitwise, a positive `2147483647` (all but bit 31 set); once negated again when divided by `-1` this would be `0`; `-0` is converted to `0`.)  On some architectures such as Intel 64 and IA-32, negating the minimum bound does not wrap around to `0` but overflows, which is reported as a floating point "overflow" (`#O`) exception: the `NEG` instruction modifies the `OF` flag (bit 11) in the `EFLAGS` register--curiously enough, the `DIV` and `IDIV` instructions have *undefined* effects on the `OF` flag.  
 
 
 
@@ -61,7 +61,7 @@ The workaround was to avoid negating `minBound` `Int`s; note that no Intel instr
 
 
 
-There was a long message thread on the Haskell-prime mailing list, "realToFrac Issues," beginning with [ John Meacham's message](http://www.haskell.org/pipermail/haskell-prime/2006-February/000791.html) and ending with [ Simon Marlow's message](http://www.haskell.org/pipermail/haskell-prime/2006-March/000840.html).  The following code for converting a Float to a Double will *fail* to produce a floating point exception or NaN on x86 machines (recall that 0.0/0.0 is NaN *and* a definite FPU exception):
+There was a long message thread on the Haskell-prime mailing list, "realToFrac Issues," beginning with [John Meacham's message](http://www.haskell.org/pipermail/haskell-prime/2006-February/000791.html) and ending with [ Simon Marlow's message](http://www.haskell.org/pipermail/haskell-prime/2006-March/000840.html).  The following code for converting a Float to a Double will *fail* to produce a floating point exception or NaN on x86 machines (recall that 0.0/0.0 is NaN *and* a definite FPU exception):
 
 
 

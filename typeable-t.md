@@ -13,7 +13,7 @@ Just as in [DistributedHaskell](distributed-haskell), we provide 4 APIs
 
 - `Data.Dynamic`: dynamically-typed values; replaces the existing `Data.Dynamic`.  The API is almost unchanged.
 
-- `Data.StaticPtr`: static pointers. The idea is that this will ultimately by the foundation for the [ Cloud Haskell](https://hackage.haskell.org/package/distributed-static) package.
+- `Data.StaticPtr`: static pointers. The idea is that this will ultimately by the foundation for the [Cloud Haskell](https://hackage.haskell.org/package/distributed-static) package.
 
 - `Control.DistributedClosure`: serialisable closures.  The idea is that this will ultimately by the foundation for the Cloud Haskell `distributed-static` package.
 
@@ -60,7 +60,7 @@ See also the individual questions sections below.
 - Any comments would be gladly received!
 
 
-There is [\#11011](https://gitlab.haskell.org//ghc/ghc/issues/11011) for discussion of this proposal.
+There is [\#11011](https://gitlab.haskell.org/ghc/ghc/issues/11011) for discussion of this proposal.
 
 ---
 
@@ -215,7 +215,7 @@ In the kind-heterogeneous case, `getR1` and `getR2` come out of the TCB.
 - Currently, all fingerprints match between the old, `base`, `TypeRep`, the new `TypeRep` and the compatability `TypeRep710`.
   Is this the correct route, or should we force them to be different, or perhaps different in a predictable way (xor with `"new_____"`, `"old_____"` and `"compat__"` or some-such)?
 
-- A related ticket: [7897](https://gitlab.haskell.org//ghc/ghc/issues/7897) (MakeTypeRep fingerprints be proper, robust fingerprints) describes a situation where the data type can change, but the fingerprint remains the same (as it is a hash of "\<package-key\> \<module\> \<type name\>"), but it only really affects the main package.
+- A related ticket: [7897](https://gitlab.haskell.org/ghc/ghc/issues/7897) (MakeTypeRep fingerprints be proper, robust fingerprints) describes a situation where the data type can change, but the fingerprint remains the same (as it is a hash of "\<package-key\> \<module\> \<type name\>"), but it only really affects the main package.
   The conclusion appears to be to keep the status quo.
 
 - Naming question: is `withTypeRep` or `withTypeable` preferred?

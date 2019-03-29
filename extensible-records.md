@@ -1,26 +1,26 @@
 # Extensible Records
 
 
-There seems to be widespread agreement that the current situation with regards to records is [ unacceptable](http://bloggablea.wordpress.com/2007/04/24/haskell-records-considered-grungy/), but the [ official GHC policy](http://haskell.org/haskellwiki/GHC:FAQ#Does_GHC_implement_any_kind_of_extensible_records.3F) is that there are too many good ideas to choose from - so nothing gets done!
+There seems to be widespread agreement that the current situation with regards to records is [unacceptable](http://bloggablea.wordpress.com/2007/04/24/haskell-records-considered-grungy/), but the [ official GHC policy](http://haskell.org/haskellwiki/GHC:FAQ#Does_GHC_implement_any_kind_of_extensible_records.3F) is that there are too many good ideas to choose from - so nothing gets done!
 
 
 The purpose of this page is to collect and discuss proposals for adding extensible records to GHC.
 
 # Proposals
 
-- [ Wolfgang Jeltsch's records library](http://www.informatik.tu-cottbus.de/~jeltsch/research/ppdp-2010-paper.pdf) This implements records as a library rather than as a language extension.
-- [ A proposal for records in Haskell](http://research.microsoft.com/~simonpj/Haskell/records.html) (wherein [ TRex](http://cvs.haskell.org/Hugs/pages/hugsman/exts.html#sect7.2) is rejected as having a high implementation cost)
-- [ A Polymorphic Type System for Extensible Records and Variants](http://web.cecs.pdx.edu/~mpj/pubs/polyrec.html)
-- [ Scoped Labels](http://www.cs.uu.nl/~daan/download/papers/scopedlabels.pdf)
-- [ Type Families](http://homepage.ntlworld.com/b.hilken/files/Records.hs)
-- [ Heterogeneous Collections](http://homepages.cwi.nl/~ralf/HList/), see also [ Keyword Arguments](http://okmij.org/ftp/Haskell/keyword-arguments.lhs)
-- [ Data.Record.hs](http://www.cs.kent.ac.uk/people/staff/cr3/toolbox/haskell/Data.Record.hs), expanded and documented version of the old Haskell prime ticket 92 attachment [ Data.Record.hs](http://hackage.haskell.org/trac/haskell-prime/attachment/ticket/92/Data.Record.hs). (comment: my preferences would be (1) we should try to implement as many useful record operations, predicates, and invariants as we can, (2) we should try to unify the sets of operations into a coherent whole, (3) we should identify to what extent and in what form we need to have language and implementation support, and (4) users, not library providers, will decide which subsets of operations they use most; a library providing for as many common usage patterns as possible might have a chance of breaking the deadlock, and laying the groundwork for a future design that might actually have some users and experience behind it; these preferences appear to conflict with the intentions of the creator of this page)
-- [ Anonymous records](https://gist.github.com/nikita-volkov/6977841) -- "... something more like a tuple with ability to access its items by name."
+- [Wolfgang Jeltsch's records library](http://www.informatik.tu-cottbus.de/~jeltsch/research/ppdp-2010-paper.pdf) This implements records as a library rather than as a language extension.
+- [A proposal for records in Haskell](http://research.microsoft.com/~simonpj/Haskell/records.html) (wherein [ TRex](http://cvs.haskell.org/Hugs/pages/hugsman/exts.html#sect7.2) is rejected as having a high implementation cost)
+- [A Polymorphic Type System for Extensible Records and Variants](http://web.cecs.pdx.edu/~mpj/pubs/polyrec.html)
+- [Scoped Labels](http://www.cs.uu.nl/~daan/download/papers/scopedlabels.pdf)
+- [Type Families](http://homepage.ntlworld.com/b.hilken/files/Records.hs)
+- [Heterogeneous Collections](http://homepages.cwi.nl/~ralf/HList/), see also [ Keyword Arguments](http://okmij.org/ftp/Haskell/keyword-arguments.lhs)
+- [Data.Record.hs](http://www.cs.kent.ac.uk/people/staff/cr3/toolbox/haskell/Data.Record.hs), expanded and documented version of the old Haskell prime ticket 92 attachment [ Data.Record.hs](http://hackage.haskell.org/trac/haskell-prime/attachment/ticket/92/Data.Record.hs). (comment: my preferences would be (1) we should try to implement as many useful record operations, predicates, and invariants as we can, (2) we should try to unify the sets of operations into a coherent whole, (3) we should identify to what extent and in what form we need to have language and implementation support, and (4) users, not library providers, will decide which subsets of operations they use most; a library providing for as many common usage patterns as possible might have a chance of breaking the deadlock, and laying the groundwork for a future design that might actually have some users and experience behind it; these preferences appear to conflict with the intentions of the creator of this page)
+- [Anonymous records](https://gist.github.com/nikita-volkov/6977841) -- "... something more like a tuple with ability to access its items by name."
 
 # Functional References
 
 
-Functional References are a cheap and cheerful technique for working with the existing (non-extensible) record system, and may be of interest to extensible record implementers. A good implementation can be found on [ Twan van Laarhoven's blog](http://twan.home.fmf.nl/blog/haskell/overloading-functional-references.details).
+Functional References are a cheap and cheerful technique for working with the existing (non-extensible) record system, and may be of interest to extensible record implementers. A good implementation can be found on [Twan van Laarhoven's blog](http://twan.home.fmf.nl/blog/haskell/overloading-functional-references.details).
 
 # Syntax
 
@@ -49,7 +49,7 @@ An important difference between the various proposals is what constitutes a vali
 - Repeated Fields:: Is `{X :: Int, X :: Int}` a valid record type? Both **Poor Man's Records** and **Scoped Labels** allow this type, but other systems consider this an error. 
 
 
-Apparently the first of these is particularly controversial: see [ http://www.haskell.org/pipermail/haskell/2008-February/020177.html](http://www.haskell.org/pipermail/haskell/2008-February/020177.html)
+Apparently the first of these is particularly controversial: see [http://www.haskell.org/pipermail/haskell/2008-February/020177.html](http://www.haskell.org/pipermail/haskell/2008-February/020177.html)
 
 # Label Namespace
 
@@ -134,16 +134,16 @@ The `Subrecord` predicate and `<-` operator could easily be added. The differenc
 
 As it seems possible to implement most of the functionality in a library, there might be no need for a complex **extensible records** feature. Nevertheless, there are issues which are common to most proposals and which would best be addressed at the language and implementation level:
 
-- type sharing: not specific to records, but crucial for record programming practice. If multiple modules introduce the "same" labels, means are needed to specify the equivalence of these types (cf [ Haskell prime ticket 92](http://hackage.haskell.org/trac/haskell-prime/ticket/92)).
+- type sharing: not specific to records, but crucial for record programming practice. If multiple modules introduce the "same" labels, means are needed to specify the equivalence of these types (cf [Haskell prime ticket 92](http://hackage.haskell.org/trac/haskell-prime/ticket/92)).
 
 - partial evaluation of type class programs: to achieve constant time record field access. Again, this feature is not specific to records, but crucial for record programming practice.
 
 - portability: it would be nice if extensible records libraries were portable over multiple Haskell implementations. That not only means that these implementations need to support the same features, but that they need to interpret these features in the same way (this is currently not the case for the interaction of functional dependencies and type class overlap resolution in GHC and Hugs).
 
-- permutativity: The easiest way to implement permutativity of field labels is to sort them by some total ordering. Although this can be implemented using functional dependencies, it's complex and inefficient. Compiler support for a global order on tycons (based on fully qualified name, perhaps) would be very helpful. I have submitted a feature request [\#1894](https://gitlab.haskell.org//ghc/ghc/issues/1894). Does this conflict with type sharing?
+- permutativity: The easiest way to implement permutativity of field labels is to sort them by some total ordering. Although this can be implemented using functional dependencies, it's complex and inefficient. Compiler support for a global order on tycons (based on fully qualified name, perhaps) would be very helpful. I have submitted a feature request [\#1894](https://gitlab.haskell.org/ghc/ghc/issues/1894). Does this conflict with type sharing?
 
 
-I have submitted another feature request, [\#2104](https://gitlab.haskell.org//ghc/ghc/issues/2104), which would support permutativity and labels without declaration, as well as sort out sharing in the simplest possible way (all labels are global).
+I have submitted another feature request, [\#2104](https://gitlab.haskell.org/ghc/ghc/issues/2104), which would support permutativity and labels without declaration, as well as sort out sharing in the simplest possible way (all labels are global).
 
 # Examples
 
@@ -236,5 +236,5 @@ Libraries could then implement `mkUnderlyingRecord`, `underlyingEmptyRecord`, `M
 # See Also
 
 
-- [ HaskellWiki](http://www.haskell.org/haskellwiki/Extensible_record)
-- [ Haskell'](http://hackage.haskell.org/trac/haskell-prime/wiki/FirstClassLabels)
+- [HaskellWiki](http://www.haskell.org/haskellwiki/Extensible_record)
+- [Haskell'](http://hackage.haskell.org/trac/haskell-prime/wiki/FirstClassLabels)

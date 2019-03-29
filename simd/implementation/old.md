@@ -9,7 +9,7 @@ This page is to collect notes about adding vector instructions to GHC.
 In contrast to pure SIMD (single instruction multiple data) parallel computing as found in GPUs,
 vector processing includes permutation of vector elements which
 allows for certain efficient algorithms
-(see Guy Blelloch: [ Prefix Sums and Their Applications](http://www.cs.cmu.edu/afs/cs.cmu.edu/project/scandal/public/papers/CMU-CS-90-190.html))
+(see Guy Blelloch: [Prefix Sums and Their Applications](http://www.cs.cmu.edu/afs/cs.cmu.edu/project/scandal/public/papers/CMU-CS-90-190.html))
 that reduce computation from n scalar operations to log n vector operations using vectors of size n.
 Example: Compute the cumulative sum of a 4-element vector using a shift operation
 that shifts elements and clears unused elements:
@@ -87,4 +87,4 @@ These new operations require a new register size (128 bit), both in Cmm and in t
 ## See also
 
 
-- Trac ticket [\#3557](https://gitlab.haskell.org//ghc/ghc/issues/3557)
+- Trac ticket [\#3557](https://gitlab.haskell.org/ghc/ghc/issues/3557)

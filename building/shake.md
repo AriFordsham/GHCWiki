@@ -3,11 +3,11 @@
 
 This page is a working document to capture the ongoing work on migrating the current GHC build system based on `make` into a new and (hopefully) better one based on `Shake`. See [Building/Architecture](building/architecture) and [Building/Using](building/using) for more details on the current build system. For general reference to `Shake`, the first sources to try are:
 
-- [ http://hackage.haskell.org/package/shake/docs/Development-Shake.html](http://hackage.haskell.org/package/shake/docs/Development-Shake.html) (Haddock docs)
-- [ https://github.com/ndmitchell/shake/blob/master/docs/Manual.md\#readme](https://github.com/ndmitchell/shake/blob/master/docs/Manual.md#readme) (User manual)
+- [http://hackage.haskell.org/package/shake/docs/Development-Shake.html](http://hackage.haskell.org/package/shake/docs/Development-Shake.html) (Haddock docs)
+- [https://github.com/ndmitchell/shake/blob/master/docs/Manual.md\#readme](https://github.com/ndmitchell/shake/blob/master/docs/Manual.md#readme) (User manual)
 
 
-Somewhat related, [\#5793](https://gitlab.haskell.org//ghc/ghc/issues/5793) suggests using `Shake` for `nofib`, and there's some code attached as well: [attachment:Main.2.hs:ticket:5793](/trac/ghc/attachment/ticket/5793/Main.2.hs)[](/trac/ghc/raw-attachment/ticket/5793/Main.2.hs)
+Somewhat related, [\#5793](https://gitlab.haskell.org/ghc/ghc/issues/5793) suggests using `Shake` for `nofib`, and there's some code attached as well: [attachment:Main.2.hs:ticket:5793](/trac/ghc/attachment/ticket/5793/Main.2.hs)[](/trac/ghc/raw-attachment/ticket/5793/Main.2.hs)
 
 ## The goal
 
@@ -48,7 +48,7 @@ We want to keep all existing naming conventions. For example, `*.o` files will s
 ## Build options
 
 
-One of the major difficulties will be taking care of various build options. A possible direction to start with is pulling the configuration out of the `*.mk` files, with a *parser* for a subset of `Makefile`, resolve the variables, and then use that information to drive the `Shake` rules. Some initial inspiration can be taken from the [ Shake.Config module](http://hackage.haskell.org/package/shake-0.13.4/docs/Development-Shake-Config.html) that can parse simple configuration files and is integrated with shake rules. Also see [ Development.Make](https://github.com/ndmitchell/shake/tree/master/Development/Make) for a simple `Makefile` parser embedded in `Shake`. Some configuration values can be passed as command line parameters to `Shake`, which can be handled using `shakeArgs`.
+One of the major difficulties will be taking care of various build options. A possible direction to start with is pulling the configuration out of the `*.mk` files, with a *parser* for a subset of `Makefile`, resolve the variables, and then use that information to drive the `Shake` rules. Some initial inspiration can be taken from the [Shake.Config module](http://hackage.haskell.org/package/shake-0.13.4/docs/Development-Shake-Config.html) that can parse simple configuration files and is integrated with shake rules. Also see [ Development.Make](https://github.com/ndmitchell/shake/tree/master/Development/Make) for a simple `Makefile` parser embedded in `Shake`. Some configuration values can be passed as command line parameters to `Shake`, which can be handled using `shakeArgs`.
 
 
 Parsing the existing `*.mk` files and extracting variables is an interesting small standalone project (see intermediate goals).

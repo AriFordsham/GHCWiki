@@ -32,7 +32,7 @@ new bug fixes and minor enhancements, the big new things in 6.12 are:
 
 - Dynamic linking is now supported on Linux, and support for other
   platforms will follow.  Thanks for this most recently go to
-  the [ Industrial Haskell Group](http://industry.haskell.org) (thank you \[IHG\]!) who
+  the [Industrial Haskell Group](http://industry.haskell.org) (thank you \[IHG\]!) who
   pushed it into a fully-working state; dynamic linking is the culmination of the work of
   several people over recent years.
   One effect of dynamic linking is that binaries shrink dramatically, because the run-time
@@ -119,16 +119,16 @@ with Simon PJ to understand the fundamentals and, in the light of that
 insight, to re-engineer the implementation into something more robust.
 We have developed the "OutsideIn" algorithm, which gives a much nicer
 account of type inference than our previous story of type inference.
-The new approach is described in [ Complete and Decidable Type Inference for GADTs](http://research.microsoft.com/~simonpj/papers/gadt) 
+The new approach is described in [Complete and Decidable Type Inference for GADTs](http://research.microsoft.com/~simonpj/papers/gadt) 
 \[ICFP09a\]. More controversially, we now believe that local let/where
 bindings should not be generalised -- 
-see [ Let should not be generalised](http://research.microsoft.com/~simonpj/papers/constraints/index.htm) \[LetGen\].  Dimitrios is building a
+see [Let should not be generalised](http://research.microsoft.com/~simonpj/papers/constraints/index.htm) \[LetGen\].  Dimitrios is building a
 prototype that embodies these ideas, which we'll then transfer into
 GHC.
 
 
 Meanwhile, Dimitrios, Simon, and Stephanie Weirich are also working on
-fixing one of GHC's more embarrassing bugs (Trac [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496)),
+fixing one of GHC's more embarrassing bugs (Trac [\#1496](https://gitlab.haskell.org/ghc/ghc/issues/1496)),
 whereby an interaction of type families and the newtype-deriving can
 persuade GHC to generate type-unsound code. It's remained un-fixed
 because the obvious approaches seem to be hacks, so the cure was as
@@ -141,19 +141,19 @@ Although it is, by design, invisible to users, GHC's intermediate language
 and optimisation passes have been receiving quite a bit of attention.
 Some highlights
 
-- Read Max Bolingbroke's paper on [ Strict Core](http://www.cl.cam.ac.uk/~mb566/papers/tacc-hs09.pdf) \[MaxB\], a possible new
+- Read Max Bolingbroke's paper on [Strict Core](http://www.cl.cam.ac.uk/~mb566/papers/tacc-hs09.pdf) \[MaxB\], a possible new
   intermediate language for GHC.  Adopting Strict Core would be a Big 
   Change, however, and we have not decided to do so (yet).
 
 - Simon PJ totally re-engineered the way that INLINE pragmas are 
   implemented, with the goal of making them more robust and 
-  predictable [ http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html !InlinePatch](http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html !InlinePatch).  There's a new CONLIKE pragma which
+  predictable [http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html !InlinePatch](http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html !InlinePatch).  There's a new CONLIKE pragma which
   affects rule matching.
 
 - Peter Jonsson did an internship in which he made a start on turning
-  GHC into a supercompiler.  Neil Mitchell's [ terrific PhD thesis](http://community.haskell.org/~ndm/thesis/) suggested
+  GHC into a supercompiler.  Neil Mitchell's [terrific PhD thesis](http://community.haskell.org/~ndm/thesis/) suggested
   that supercompliation works well for Haskell \[!NeilM\], and Peter has been working on
-  supercompilation for Timber as part of his [ own PhD](http://www.csee.ltu.se/~pj/papers/scp/index.html) \[!PeterJ\].
+  supercompilation for Timber as part of his [own PhD](http://www.csee.ltu.se/~pj/papers/scp/index.html) \[!PeterJ\].
   The GHC version isn't ready for prime time yet, but Simon PJ (now
   educated by Peter and Neil) is keen to pursue it.
 
@@ -167,7 +167,7 @@ Some highlights
 ### Parallelism
 
 
-Most of the changes in this area in GHC 6.12.1 were described in our ICFP'09 paper [ Runtime Support for Multicore Haskell](http://www.haskell.org/~simonmar/bib/multicore-ghc-09_abstract.html) \[ICFP09b\].  The highlights:
+Most of the changes in this area in GHC 6.12.1 were described in our ICFP'09 paper [Runtime Support for Multicore Haskell](http://www.haskell.org/~simonmar/bib/multicore-ghc-09_abstract.html) \[ICFP09b\].  The highlights:
 
 - Load-balancing of sparks is now based on lock-free work-stealing queues.
 
@@ -185,15 +185,15 @@ In the future we plan to focus on the GC, with the main goal being to implement 
 ### Data Parallelism
 
 
-Data Parallel Haskell has seen few user-visible changes since the last report.  Nevertheless, Roman Leshchinskiy has been busy improving many of the fundamental building blocks behind the scenes.  These changes were necessary as DPH was able to generate very fast parallel code for simple examples, but the optimisation infrastructure was too fragile — i.e., small changes to other parts of GHC (most notably, the Simplifier) or to the DPH libraries could lead to dramatic performance regressions.  Over the last few months, Roman has been working on making the system more robust, while Simon PJ improved and extended parts of GHC's existing optimisation infrastructure (such as the Inliner and other aspects of the Simplifier) to support Roman's efforts.  As a first consequence of this recent work, the divide-and-conquer quickhull benchmark (computing a convex hull) is now significantly faster than the corresponding list-based implementation [ http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs QuickHull](http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs QuickHull).  This is an important milestone as quickhull uses dynamically nested parallelism whose depth is not statically bound.
+Data Parallel Haskell has seen few user-visible changes since the last report.  Nevertheless, Roman Leshchinskiy has been busy improving many of the fundamental building blocks behind the scenes.  These changes were necessary as DPH was able to generate very fast parallel code for simple examples, but the optimisation infrastructure was too fragile — i.e., small changes to other parts of GHC (most notably, the Simplifier) or to the DPH libraries could lead to dramatic performance regressions.  Over the last few months, Roman has been working on making the system more robust, while Simon PJ improved and extended parts of GHC's existing optimisation infrastructure (such as the Inliner and other aspects of the Simplifier) to support Roman's efforts.  As a first consequence of this recent work, the divide-and-conquer quickhull benchmark (computing a convex hull) is now significantly faster than the corresponding list-based implementation [http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs QuickHull](http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs QuickHull).  This is an important milestone as quickhull uses dynamically nested parallelism whose depth is not statically bound.
 
 
 
-Gabriele Keller implemented a first prototype of a new library API for *regular multi-dimensional* arrays to complement the existing irregular, nested arrays.  For regular computations on dense matrices, relaxation methods and similar, regular arrays (as opposed to nested arrays) are more convenient and expose additional opportunities for optimisation.  Gabriele obtained very encouraging first results with a sequential version that uses a new fusion technique, which we are calling *delayed arrays* [ http://www.scribd.com/doc/22091707/Delayed-Regular-Arrays-Sep09 RegLibBench](http://www.scribd.com/doc/22091707/Delayed-Regular-Arrays-Sep09 RegLibBench).
+Gabriele Keller implemented a first prototype of a new library API for *regular multi-dimensional* arrays to complement the existing irregular, nested arrays.  For regular computations on dense matrices, relaxation methods and similar, regular arrays (as opposed to nested arrays) are more convenient and expose additional opportunities for optimisation.  Gabriele obtained very encouraging first results with a sequential version that uses a new fusion technique, which we are calling *delayed arrays* [http://www.scribd.com/doc/22091707/Delayed-Regular-Arrays-Sep09 RegLibBench](http://www.scribd.com/doc/22091707/Delayed-Regular-Arrays-Sep09 RegLibBench).
 
 
 
-In parallel with the implementation of regular, multi-dimensional arrays as part of DPH, Sean Lee and Manuel Chakravarty are implementing almost the same regular-array API as an EDSL in `Data.Array.Accelerate`.  The EDSL implementation restricts the expressiveness of the array language, but at the same time enables us to experiment with more ambitious backends — especially with GPU code generation via CUDA and related technologies. More details are in the video of Manuel's talk from the Haskell Implementors Workshop in Edinburgh [ http://justtesting.posterous.com/running-haskell-array-computations-on-a-gpu AccelerateTalk](http://justtesting.posterous.com/running-haskell-array-computations-on-a-gpu AccelerateTalk).
+In parallel with the implementation of regular, multi-dimensional arrays as part of DPH, Sean Lee and Manuel Chakravarty are implementing almost the same regular-array API as an EDSL in `Data.Array.Accelerate`.  The EDSL implementation restricts the expressiveness of the array language, but at the same time enables us to experiment with more ambitious backends — especially with GPU code generation via CUDA and related technologies. More details are in the video of Manuel's talk from the Haskell Implementors Workshop in Edinburgh [http://justtesting.posterous.com/running-haskell-array-computations-on-a-gpu AccelerateTalk](http://justtesting.posterous.com/running-haskell-array-computations-on-a-gpu AccelerateTalk).
 
 ### Code generation
 
@@ -219,7 +219,7 @@ same pipeline.  You can read more on the wiki [CodeGen](commentary/compiler/new-
 
 Several passes of the new code generation pipeline are supported by Hoopl,
 a Haskell library that makes it easy to write dataflow analyses and optimisations
-over `C--` code [ http://research.microsoft.com/\~simonpj/papers/c-- Hoopl](http://research.microsoft.com/~simonpj/papers/c-- Hoopl).  We think Hoopl is pretty cool, and have well-advanced
+over `C--` code [http://research.microsoft.com/\~simonpj/papers/c-- Hoopl](http://research.microsoft.com/~simonpj/papers/c-- Hoopl).  We think Hoopl is pretty cool, and have well-advanced
 ideas for how to improve it a lot more.
 
 
@@ -231,38 +231,38 @@ We are particularly grateful to Ben Lippmeier for his work on the SPARC native c
 
 ## Bibliography: papers
 
-- \[ICFP09a\] "Complete and Decidable Type Inference for GADTs", Tom Schrijvers, Simon Peyton Jones, Martin Sulzmann, and Dimitrios Vytiniotis. ICFP'09.  [ http://research.microsoft.com/\~simonpj/papers/gadt](http://research.microsoft.com/~simonpj/papers/gadt)
+- \[ICFP09a\] "Complete and Decidable Type Inference for GADTs", Tom Schrijvers, Simon Peyton Jones, Martin Sulzmann, and Dimitrios Vytiniotis. ICFP'09.  [http://research.microsoft.com/\~simonpj/papers/gadt](http://research.microsoft.com/~simonpj/papers/gadt)
 
-- \[ICFP09b\] "Runtime Support for Multicore Haskell", Simon Marlow, Satnam Singh, and Simon Peyton Jones, ICFP 2009. [ http://www.haskell.org/\~simonmar/bib/multicore-ghc-09_abstract.html](http://www.haskell.org/~simonmar/bib/multicore-ghc-09_abstract.html)
+- \[ICFP09b\] "Runtime Support for Multicore Haskell", Simon Marlow, Satnam Singh, and Simon Peyton Jones, ICFP 2009. [http://www.haskell.org/\~simonmar/bib/multicore-ghc-09_abstract.html](http://www.haskell.org/~simonmar/bib/multicore-ghc-09_abstract.html)
 
-- \[LetGen\] "Let should not be generalised", Dimitrios Vytiniotis, Simon Peyton Jones, and Tom Schrijvers, submitted to TLDI'10.  [ http://research.microsoft.com/\~simonpj/papers/constraints/index.htm](http://research.microsoft.com/~simonpj/papers/constraints/index.htm)
+- \[LetGen\] "Let should not be generalised", Dimitrios Vytiniotis, Simon Peyton Jones, and Tom Schrijvers, submitted to TLDI'10.  [http://research.microsoft.com/\~simonpj/papers/constraints/index.htm](http://research.microsoft.com/~simonpj/papers/constraints/index.htm)
 
-- \[Hoopl\] "Hoopl: dataflow optimisation made simple", Norman Ramsey, John Dias, and Simon Peyton Jones, rejected by POPL 2010. [ http://research.microsoft.com/\~simonpj/papers/c--](http://research.microsoft.com/~simonpj/papers/c--)
+- \[Hoopl\] "Hoopl: dataflow optimisation made simple", Norman Ramsey, John Dias, and Simon Peyton Jones, rejected by POPL 2010. [http://research.microsoft.com/\~simonpj/papers/c--](http://research.microsoft.com/~simonpj/papers/c--)
 
-- \[Terei\] "Low Level Virtual Machine for Glasgow Haskell Compiler", David A. Terei, BSc Thesis. [ http://www.cse.unsw.edu.au/\~pls/thesis/davidt-thesis.pdf](http://www.cse.unsw.edu.au/~pls/thesis/davidt-thesis.pdf)
+- \[Terei\] "Low Level Virtual Machine for Glasgow Haskell Compiler", David A. Terei, BSc Thesis. [http://www.cse.unsw.edu.au/\~pls/thesis/davidt-thesis.pdf](http://www.cse.unsw.edu.au/~pls/thesis/davidt-thesis.pdf)
 
-- \[MaxB\] "Types are calling conventions", Max Bolingbroke and Simon Peyton Jones, Haskell Symposium 2009. [ http://www.cl.cam.ac.uk/\~mb566/papers/tacc-hs09.pdf](http://www.cl.cam.ac.uk/~mb566/papers/tacc-hs09.pdf)
+- \[MaxB\] "Types are calling conventions", Max Bolingbroke and Simon Peyton Jones, Haskell Symposium 2009. [http://www.cl.cam.ac.uk/\~mb566/papers/tacc-hs09.pdf](http://www.cl.cam.ac.uk/~mb566/papers/tacc-hs09.pdf)
 
-- \[InlinePatch\] The big INLINE patch [ http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html](http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html)
+- \[InlinePatch\] The big INLINE patch [http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html](http://www.haskell.org/pipermail/cvs-ghc/2009-October/050881.html)
 
-- \[NeilM\] "Transformation and Analysis of Functional Programs", Neil Mitchelll, PhD thesis, University of York, 2009. [ http://community.haskell.org/\~ndm/thesis/](http://community.haskell.org/~ndm/thesis/)
+- \[NeilM\] "Transformation and Analysis of Functional Programs", Neil Mitchelll, PhD thesis, University of York, 2009. [http://community.haskell.org/\~ndm/thesis/](http://community.haskell.org/~ndm/thesis/)
 
-- \[PeterJ\] "Positive supercompliation for a higher order call-by-value language", Peter Jonsson and Johan Nordlander, POPL 2009. [ http://www.csee.ltu.se/\~pj/papers/scp/index.html](http://www.csee.ltu.se/~pj/papers/scp/index.html)
+- \[PeterJ\] "Positive supercompliation for a higher order call-by-value language", Peter Jonsson and Johan Nordlander, POPL 2009. [http://www.csee.ltu.se/\~pj/papers/scp/index.html](http://www.csee.ltu.se/~pj/papers/scp/index.html)
 
-- \[IHG\] The Industrial Haskell Group. [ http://industry.haskell.org](http://industry.haskell.org)
+- \[IHG\] The Industrial Haskell Group. [http://industry.haskell.org](http://industry.haskell.org)
 
 - \[UserManual\] GHC 6.12 user manual.  [http://www.haskell.org/ghc/dist/current/docs/html/users_guide/index.htm](http://www.haskell.org/ghc/dist/current/docs/html/users_guide/index.htm)
 
-- \[QuickHull\] DPH QuickHull source code [ http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs](http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs)
+- \[QuickHull\] DPH QuickHull source code [http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs](http://darcs.haskell.org/packages/dph/examples/quickhull/QuickHullVect.hs)
 
-- \[RegLibBench\] Dense matrix-matrix multiplication benchmark with delayed, regular arrays [ http://www.scribd.com/doc/22091707/Delayed-Regular-Arrays-Sep09](http://www.scribd.com/doc/22091707/Delayed-Regular-Arrays-Sep09)
+- \[RegLibBench\] Dense matrix-matrix multiplication benchmark with delayed, regular arrays [http://www.scribd.com/doc/22091707/Delayed-Regular-Arrays-Sep09](http://www.scribd.com/doc/22091707/Delayed-Regular-Arrays-Sep09)
 
-- \[AccelerateTalk\] "Haskell Array, Accelerated (Using GPUs)", Manuel M T Chakravarty, presented at the *Haskell Implementors Workshop 2009*, Edinburgh. [ http://justtesting.posterous.com/running-haskell-array-computations-on-a-gpu](http://justtesting.posterous.com/running-haskell-array-computations-on-a-gpu)
+- \[AccelerateTalk\] "Haskell Array, Accelerated (Using GPUs)", Manuel M T Chakravarty, presented at the *Haskell Implementors Workshop 2009*, Edinburgh. [http://justtesting.posterous.com/running-haskell-array-computations-on-a-gpu](http://justtesting.posterous.com/running-haskell-array-computations-on-a-gpu)
 
 ## Bibliography: wiki
 
 
-All these URLs should be preceded with [ http://hackage.haskell.org/trac/ghc/wiki](http://hackage.haskell.org/trac/ghc/wiki)
+All these URLs should be preceded with [http://hackage.haskell.org/trac/ghc/wiki](http://hackage.haskell.org/trac/ghc/wiki)
 
 - \[Building\] GHC's new build system [Building](building)
 - \[Platforms\] Platforms that GHC supports [Platforms](platforms)

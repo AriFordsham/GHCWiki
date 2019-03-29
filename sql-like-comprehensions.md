@@ -1,7 +1,7 @@
 # Comprehensive comprehensions
 
 
-As part of his final year work at Cambridge, Max Bolingbroke worked on implementing the "Comprehensive Comprehensions" described in a paper [ available here](https://www.microsoft.com/en-us/research/wp-content/uploads/2007/09/list-comp.pdf) in GHC. A patch with the complete functionality described here was integrated into GHCs HEAD branch on the 20th December 2007.
+As part of his final year work at Cambridge, Max Bolingbroke worked on implementing the "Comprehensive Comprehensions" described in a paper [available here](https://www.microsoft.com/en-us/research/wp-content/uploads/2007/09/list-comp.pdf) in GHC. A patch with the complete functionality described here was integrated into GHCs HEAD branch on the 20th December 2007.
 
 ## Ordering Syntax
 
@@ -187,7 +187,7 @@ This functionality was implemented and working, but owing to the syntactic diffi
 ## Extending To Arbitrary Monads
 
 
-On the [ paper talk page](http://haskell.org/haskellwiki/Simonpj/Talk:ListComp), Michael Adams has outlined how the new idioms could be extended to arbitrary monads. It looks very nice theoretically, but before we consider actually implementing this we need to know if anyone has a use case for the syntax. To demonstrate the kind of thing that this would make possible, consider the following example from Michael:
+On the [paper talk page](http://haskell.org/haskellwiki/Simonpj/Talk:ListComp), Michael Adams has outlined how the new idioms could be extended to arbitrary monads. It looks very nice theoretically, but before we consider actually implementing this we need to know if anyone has a use case for the syntax. To demonstrate the kind of thing that this would make possible, consider the following example from Michael:
 
 ```wiki
 do a <- ma

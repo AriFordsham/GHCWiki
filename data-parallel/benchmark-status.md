@@ -3,10 +3,10 @@
 **Benchmarking results last updated on**: 3nd December 2010.
 
 
-This page gives an overview of how well the benchmarks in the [ dph-examples/](http://darcs.haskell.org/packages/dph/dph-examples) directory of package dph are currently working.
+This page gives an overview of how well the benchmarks in the [dph-examples/](http://darcs.haskell.org/packages/dph/dph-examples) directory of package dph are currently working.
 
 
-The benchmarks are run each night by [ DPH BuildBot](http://darcs.haskell.org/packages/dph/dph-buildbot). The results are posted to ghc-builds and uploaded to [ http://log.ouroborus.net/limitingfactor/dph/](http://log.ouroborus.net/limitingfactor/dph/). Check there for the latest numbers.
+The benchmarks are run each night by [DPH BuildBot](http://darcs.haskell.org/packages/dph/dph-buildbot). The results are posted to ghc-builds and uploaded to [ http://log.ouroborus.net/limitingfactor/dph/](http://log.ouroborus.net/limitingfactor/dph/). Check there for the latest numbers.
 
 # Summary
 
@@ -454,7 +454,7 @@ Takes the even valued <tt>Int</tt>s from a vector. N=10M.
 >
 >
 > **Status**: ok, but run again with LLVM to see if that fixes the slowdown wrt C.
-> - rl reckons the slowdown is due to GHC compiling modulo of powers of two inefficiently; c.f., [\#3065](https://gitlab.haskell.org//ghc/ghc/issues/3065) (in `packByTags`)
+> - rl reckons the slowdown is due to GHC compiling modulo of powers of two inefficiently; c.f., [\#3065](https://gitlab.haskell.org/ghc/ghc/issues/3065) (in `packByTags`)
 >
 >
 
@@ -536,7 +536,7 @@ Sort a vector of doubles by recursively splitting it and sorting the two halves.
 
 >
 >
-> **Status**: Sequential vectorised version does not compile due to a loop in SpecConstr ([\#4831](https://gitlab.haskell.org//ghc/ghc/issues/4831)).
+> **Status**: Sequential vectorised version does not compile due to a loop in SpecConstr ([\#4831](https://gitlab.haskell.org/ghc/ghc/issues/4831)).
 >
 >
 
@@ -641,7 +641,7 @@ Counts the number of words in a string. This is a naive divide-and-conquer bench
 
 >
 >
-> **Status**: Sequential vectorised version does not compile due to loop in SpecConstr ([\#4831](https://gitlab.haskell.org//ghc/ghc/issues/4831)). LLVM versions take \>10 min to compile ([\#4838](https://gitlab.haskell.org//ghc/ghc/issues/4838))
+> **Status**: Sequential vectorised version does not compile due to loop in SpecConstr ([\#4831](https://gitlab.haskell.org/ghc/ghc/issues/4831)). LLVM versions take \>10 min to compile ([\#4838](https://gitlab.haskell.org/ghc/ghc/issues/4838))
 >
 > **Todo**: Generate some larger test data. Right now it's just got a small test string baked into the program.
 >
@@ -690,7 +690,7 @@ This benchmark implements the Barnes-Hut algorithm to solve the <i>n</i>-body pr
 
 >
 >
-> **Status**:  -fasm vesions compile but fusion doesn't work so it's very slow. LLVM versions take 30min to compile ([\#4838](https://gitlab.haskell.org//ghc/ghc/issues/4838)) 
+> **Status**:  -fasm vesions compile but fusion doesn't work so it's very slow. LLVM versions take 30min to compile ([\#4838](https://gitlab.haskell.org/ghc/ghc/issues/4838)) 
 >
 > **ToDo**: Make the vectorised version give the same output as the vector version. The benchmark setup is a bit different. Fixing this won't cause a 50x speed difference though.
 >

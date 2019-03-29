@@ -23,10 +23,10 @@ The [releases page](working-conventions/releases) has a list of stable branches.
 See [ActiveBranches](active-branches) for a description of **known** development branches.
 
 
-The live list of currently **existing** branches in the `ghc` repository can be browsed via [ http://git.haskell.org/ghc.git/heads](http://git.haskell.org/ghc.git/heads).
+The live list of currently **existing** branches in the `ghc` repository can be browsed via [http://git.haskell.org/ghc.git/heads](http://git.haskell.org/ghc.git/heads).
 
 
-New development branches names should be prefixed with `wip/` (e.g. "`wip/dependent-types`"), as otherwise the current Git server-side configuration disallows branch deletion and [ non-fast-forward updates](http://stackoverflow.com/questions/4684352/whats-a-fast-forward-in-git).
+New development branches names should be prefixed with `wip/` (e.g. "`wip/dependent-types`"), as otherwise the current Git server-side configuration disallows branch deletion and [non-fast-forward updates](http://stackoverflow.com/questions/4684352/whats-a-fast-forward-in-git).
 
 ## Working with a separate build tree
 
@@ -63,7 +63,7 @@ can skip the rest of this section.
 
 **Windows users**: so far as we know, symbolic links do not work right on MSYS at least, so we never use separate source and build trees on Windows.
 
-**Mac OS X 10.8 users**: Apple no longer includes X11 with Xcode (which provided `lndir`). Install [ XQuartz](http://xquartz.macosforge.org/landing/) \>= 2.7.2 or build it directly in `utils/lndir` (as below).
+**Mac OS X 10.8 users**: Apple no longer includes X11 with Xcode (which provided `lndir`). Install [XQuartz](http://xquartz.macosforge.org/landing/) \>= 2.7.2 or build it directly in `utils/lndir` (as below).
 
 
 A *build tree* is just an exact copy of the source tree, except that
@@ -91,7 +91,7 @@ tree!  This is especially easy to mess up when creating new tests, so watch out.
 
 ### Creating a buildtree with git-new-workdir
 
-[ Since Git 2.9, \`git worktree\` works well enough with submodules](https://stackoverflow.com/questions/31871888/what-goes-wrong-when-using-git-worktree-with-git-submodules), so that the [ \`wtas\` alias](https://stackoverflow.com/a/31872051/388010) does what we want: `git clone --recursive git://git.haskell.org/ghc.git pristine && cd pristine/ && git wtas ../<feature-worktree>`. If you can't get it to work, read on.
+[Since Git 2.9, \`git worktree\` works well enough with submodules](https://stackoverflow.com/questions/31871888/what-goes-wrong-when-using-git-worktree-with-git-submodules), so that the [ \`wtas\` alias](https://stackoverflow.com/a/31872051/388010) does what we want: `git clone --recursive git://git.haskell.org/ghc.git pristine && cd pristine/ && git wtas ../<feature-worktree>`. If you can't get it to work, read on.
 
 
 I (ezyang) use Git workdirs to manage all of my GHC checkouts. It is quite nice: there is logically only one local repository, and just many checkouts of it, so it's very easy to share patches between various checkouts and your branches are all in one centralized place. However, sharing all of your submodules too takes a bit of work to setup, since Git doesn't natively support this workflow.
@@ -113,7 +113,7 @@ Now, to create a new workdir, run `git-new-workdir ghc-pristine ghc-newdir`, and
 ### Creating a buildtree with git-new-workdir-recursive
 
 
-This is a script to automate the steps from the previous section: [ https://github.com/thomie/git-new-workdir-recursive](https://github.com/thomie/git-new-workdir-recursive).
+This is a script to automate the steps from the previous section: [https://github.com/thomie/git-new-workdir-recursive](https://github.com/thomie/git-new-workdir-recursive).
 
 ## Push access
 

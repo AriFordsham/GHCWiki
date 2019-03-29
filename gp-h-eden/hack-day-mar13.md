@@ -9,7 +9,7 @@ Dates : 19.3.2013, starting 10:30
 Location : Heriot-Watt University, Edinburgh, Earl Mountbatten Buildings, EM 1.70
 
 
-It's building 2 on [ http://www.macs.hw.ac.uk/\~hwloidl/hw_map_colour.pdf this map](http://www.macs.hw.ac.uk/~hwloidl/hw_map_colour.pdf this map), with entrance from Boundary Road North.
+It's building 2 on [http://www.macs.hw.ac.uk/\~hwloidl/hw_map_colour.pdf this map](http://www.macs.hw.ac.uk/~hwloidl/hw_map_colour.pdf this map), with entrance from Boundary Road North.
  
 
 ## Participants
@@ -55,8 +55,8 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
 
 
 
-[ http://james.mathematik.uni-marburg.de:8080/gitweb/ Eden gitweb](http://james.mathematik.uni-marburg.de:8080/gitweb/ Eden gitweb)
-[ http://www.macs.hw.ac.uk/\~hwloidl/hackspace/IDX IDX file](http://www.macs.hw.ac.uk/~hwloidl/hackspace/IDX IDX file)
+[http://james.mathematik.uni-marburg.de:8080/gitweb/ Eden gitweb](http://james.mathematik.uni-marburg.de:8080/gitweb/ Eden gitweb)
+[http://www.macs.hw.ac.uk/\~hwloidl/hackspace/IDX IDX file](http://www.macs.hw.ac.uk/~hwloidl/hackspace/IDX IDX file)
 
 
 ## Potential Topics
@@ -88,7 +88,7 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
     - sharks
 - Light-weight concurrency
 
-  - See [ http://hackage.haskell.org/trac/ghc/wiki/LightweightConcurrency this Wiki page](http://hackage.haskell.org/trac/ghc/wiki/LightweightConcurrency this Wiki page) and checkout the ghc-lwc2 branch in the main GHC repo
+  - See [http://hackage.haskell.org/trac/ghc/wiki/LightweightConcurrency this Wiki page](http://hackage.haskell.org/trac/ghc/wiki/LightweightConcurrency this Wiki page) and checkout the ghc-lwc2 branch in the main GHC repo
 - Eden/GpH programming (nbody, paraffins, sp mat mult etc) (PT,RS,EB,HWL,JB)
 
   - nbody using Eden and GpH skeletons

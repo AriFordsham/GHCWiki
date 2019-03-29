@@ -1,11 +1,11 @@
 # Trac with FastCGI
 
-[ FastCGI](http://www.fastcgi.com/) interface allows Trac to remain resident much like with [mod_python](trac-mod-python) or [mod_wsgi](trac-mod-wsgi). It is faster than external CGI interfaces which must start a new process for each request. Additionally, it is supported by a much wider variety of web servers.
+[FastCGI](http://www.fastcgi.com/) interface allows Trac to remain resident much like with [mod_python](trac-mod-python) or [mod_wsgi](trac-mod-wsgi). It is faster than external CGI interfaces which must start a new process for each request. Additionally, it is supported by a much wider variety of web servers.
 
 
-Note that unlike mod_python, FastCGI supports [ Apache SuEXEC](http://httpd.apache.org/docs/suexec.html), ie run with different permissions than the web server runs with. `mod_wsgi` supports the `WSGIDaemonProcess` with user / group parameters to achieve the same effect.
+Note that unlike mod_python, FastCGI supports [Apache SuEXEC](http://httpd.apache.org/docs/suexec.html), ie run with different permissions than the web server runs with. `mod_wsgi` supports the `WSGIDaemonProcess` with user / group parameters to achieve the same effect.
 
-**Note for Windows:** Trac's FastCGI does not run under Windows, as Windows does not implement `Socket.fromfd`, which is used by `_fcgi.py`. If you want to connect to IIS, you may want to try [ AJP](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp)/[ ISAPI](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp).
+**Note for Windows:** Trac's FastCGI does not run under Windows, as Windows does not implement `Socket.fromfd`, which is used by `_fcgi.py`. If you want to connect to IIS, you may want to try [AJP](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp)/[ ISAPI](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp).
 
 ## Apache configuration
 
@@ -83,7 +83,7 @@ DefaultInitEnv TRAC_ENV /path/to/env/trac/
 
 
 
-A better method to specify the path to the Trac environment is to embed the path into `trac.fcgi` script itself. That doesn't require configuration of the server environment variables, works for both [ FastCgi](http://trac.edgewall.org/intertrac/FastCgi) modules as well as for [ lighttpd](http://www.lighttpd.net/) and CGI:
+A better method to specify the path to the Trac environment is to embed the path into `trac.fcgi` script itself. That doesn't require configuration of the server environment variables, works for both [FastCgi](http://trac.edgewall.org/intertrac/FastCgi) modules as well as for [ lighttpd](http://www.lighttpd.net/) and CGI:
 
 
 ```
@@ -104,7 +104,7 @@ os.environ['TRAC_ENV_PARENT_DIR'] = "/path/to/project/parent/dir"
 With this method different projects can be supported by using different `.fcgi` scripts with different `ScriptAliases`.
 
 
-See [ this fcgid example config](https://coderanger.net/~coderanger/httpd/fcgi_example.conf) which uses a ScriptAlias directive with trac.fcgi with a trailing / like this:
+See [this fcgid example config](https://coderanger.net/~coderanger/httpd/fcgi_example.conf) which uses a ScriptAlias directive with trac.fcgi with a trailing / like this:
 
 ```
 ScriptAlias / /srv/tracsite/cgi-bin/trac.fcgi/
@@ -113,7 +113,7 @@ ScriptAlias / /srv/tracsite/cgi-bin/trac.fcgi/
 ## Cherokee Configuration
 
 
-Configuring [ Cherokee](http://cherokee-project.com/) with Trac is straightforward, if you spawn Trac as an SCGI process. You can either start it manually, or better yet, automatically by letting Cherokee spawn the server whenever it is down.
+Configuring [Cherokee](http://cherokee-project.com/) with Trac is straightforward, if you spawn Trac as an SCGI process. You can either start it manually, or better yet, automatically by letting Cherokee spawn the server whenever it is down.
 
 
 First set up an information source in cherokee-admin with a local interpreter:
@@ -133,7 +133,7 @@ If the port was not reachable, the interpreter command would be launched. Note t
 After doing this, we will just have to create a new rule managed by the SCGI handler to access Trac. It can be created in a new virtual server, trac.example.net for instance, and will only need two rules. The **default** one will use the SCGI handler associated to the previously created information source.
 The second rule will be there to serve the few static files needed to correctly display the Trac interface. Create it as *Directory rule* for */common* and just set it to the *Static files* handler and with a *Document root* that points to the appropriate files: *$TRAC_LOCAL/htdocs/* (where $TRAC_LOCAL is a directory defined by the user or the system administrator to place local Trac resources).
 
-**Note:** If the tracd process fails to start up, and Cherokee displays a 503 error page, you might be missing the [ python-flup](http://trac.saddi.com/flup) package ([ \#9903](http://trac.edgewall.org/intertrac/%239903)). Python-flup is a dependency which provides Trac with SCGI capability. You can install it on Debian based systems with:
+**Note:** If the tracd process fails to start up, and Cherokee displays a 503 error page, you might be missing the [python-flup](http://trac.saddi.com/flup) package ([ \#9903](http://trac.edgewall.org/intertrac/%239903)). Python-flup is a dependency which provides Trac with SCGI capability. You can install it on Debian based systems with:
 
 ```
 sudo apt-get install python-flup
@@ -142,7 +142,7 @@ sudo apt-get install python-flup
 ## Lighttpd Configuration
 
 
-The FastCGI front-end was developed primarily for use with alternative webservers, such as [ Lighttpd](http://www.lighttpd.net/).
+The FastCGI front-end was developed primarily for use with alternative webservers, such as [Lighttpd](http://www.lighttpd.net/).
 
 
 Lighttpd is a secure, fast, compliant and very flexible web-server that has been optimized for high-performance environments. It has a very low memory footprint compared to other web servers and takes care of CPU load.
@@ -170,7 +170,7 @@ fastcgi.server = ("/trac" =>
 Note that you will need to add a new entry to `fastcgi.server` for each separate Trac instance that you wish to run. Alternatively, you may use the `TRAC_ENV_PARENT_DIR` variable instead of `TRAC_ENV` as described above, and you may set one of the two in `trac.fcgi` instead of in `lighttpd.conf` using `bin-environment`, as in the section above on Apache configuration.
 
 
-Note that Lighttpd has a bug related to 'SCRIPT_NAME' and 'PATH_INFO' when the uri of fastcgi.server is '/' instead of '/trac' in this example (see [ \#2418](http://trac.edgewall.org/intertrac/%232418)). This is fixed in Lighttpd 1.5, and under Lighttpd 1.4.23 or later the workaround is to add `"fix-root-scriptname" => "enable"` as a parameter of fastcgi.server.
+Note that Lighttpd has a bug related to 'SCRIPT_NAME' and 'PATH_INFO' when the uri of fastcgi.server is '/' instead of '/trac' in this example (see [\#2418](http://trac.edgewall.org/intertrac/%232418)). This is fixed in Lighttpd 1.5, and under Lighttpd 1.4.23 or later the workaround is to add `"fix-root-scriptname" => "enable"` as a parameter of fastcgi.server.
 
 
 For using two projects with lighttpd add the following to your `lighttpd.conf`:
@@ -329,7 +329,7 @@ fastcgi.server = ("/trac" =>
 ```
 
 
-For details about languages specification see [ TracFaq](http://trac.edgewall.org/intertrac/TracFaq) question 2.13.
+For details about languages specification see [TracFaq](http://trac.edgewall.org/intertrac/TracFaq) question 2.13.
 
 
 Other important information like the [mapping static resources advices](trac-install#mapping-static-resources) are useful for non-fastcgi specific installation aspects.
@@ -343,7 +343,7 @@ Note about running Lighttpd with reduced permissions: If nothing else helps and 
 ## LiteSpeed Configuration
 
 
-The FastCGI front-end was developed primarily for use with alternative webservers, such as [ LiteSpeed](http://www.litespeedtech.com/).
+The FastCGI front-end was developed primarily for use with alternative webservers, such as [LiteSpeed](http://www.litespeedtech.com/).
 
 
 LiteSpeed web server is an event-driven asynchronous Apache replacement designed from the ground-up to be secure, scalable, and operate with minimal resources. LiteSpeed can operate directly from an Apache config file and is targeted for business-critical environments.
@@ -379,7 +379,7 @@ LiteSpeed web server is an event-driven asynchronous Apache replacement designed
   User DB Location: /fullpathto/htpasswd <--- path to your htpasswd file
   ```
 
-  If you don’t have a htpasswd file or don’t know how to create the entries within one, go to [ http://sherylcanter.com/encrypt.php](http://sherylcanter.com/encrypt.php), to generate the user:password combos.
+  If you don’t have a htpasswd file or don’t know how to create the entries within one, go to [http://sherylcanter.com/encrypt.php](http://sherylcanter.com/encrypt.php), to generate the user:password combos.
 1. Go to "PythonVhost → Contexts" and create a new FCGI Context:
 
   ```wiki
@@ -399,7 +399,7 @@ LiteSpeed web server is an event-driven asynchronous Apache replacement designed
 
 ## Nginx Configuration
 
-[ Nginx](http://nginx.org/en/) is able to communicate with FastCGI processes, but can not spawn them. So you need to start FastCGI server for Trac separately.
+[Nginx](http://nginx.org/en/) is able to communicate with FastCGI processes, but can not spawn them. So you need to start FastCGI server for Trac separately.
 
 1. Nginx configuration with basic authentication handled by Nginx - confirmed to work on 0.6.32
 
@@ -513,7 +513,7 @@ The above assumes that:
 - `/home/trac/run` is owned by the same group the Nginx runs under
 
   - and if your system is Linux the `/home/trac/run` has setgid bit set (`chmod g+s run`)
-  - and patch from [ \#7239](http://trac.edgewall.org/intertrac/%237239) is applied, or you'll have to fix the socket file permissions every time
+  - and patch from [\#7239](http://trac.edgewall.org/intertrac/%237239) is applied, or you'll have to fix the socket file permissions every time
 
 
 Unfortunately Nginx does not support variable expansion in fastcgi_pass directive. 
@@ -523,12 +523,12 @@ Thus it is not possible to serve multiple Trac instances from one server block.
 If you worry enough about security, run Trac instances under separate users. 
 
 
-Another way to run Trac as a FCGI external application is offered in [ \#6224](http://trac.edgewall.org/intertrac/%236224).
+Another way to run Trac as a FCGI external application is offered in [\#6224](http://trac.edgewall.org/intertrac/%236224).
 
 ---
 
 
 
-See also: [TracGuide](trac-guide), [TracInstall](trac-install), [ModWSGI](trac-mod-wsgi), [CGI](trac-cgi), [ModPython](trac-mod-python), [ TracNginxRecipe](http://trac.edgewall.org/intertrac/TracNginxRecipe)
+See also: [TracGuide](trac-guide), [TracInstall](trac-install), [ModWSGI](trac-mod-wsgi), [CGI](trac-cgi), [ModPython](trac-mod-python), [TracNginxRecipe](http://trac.edgewall.org/intertrac/TracNginxRecipe)
 
 

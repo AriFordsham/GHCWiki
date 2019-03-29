@@ -29,7 +29,7 @@ Please do update this table if you have more up-to-date info, or add new platfor
 <tr><th>Linux/x86</th>
 <th> </th>
 <th> </th>
-<th><table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2783">#2783</a></th>
+<th><table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/2783">#2783</a></th>
 <td>RTS -K/-M options not honored</td></tr></table>
 
 

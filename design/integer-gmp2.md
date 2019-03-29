@@ -1,4 +1,4 @@
-# Design of `IntegerGmp2` ([\#9281](https://gitlab.haskell.org//ghc/ghc/issues/9281))
+# Design of `IntegerGmp2` ([\#9281](https://gitlab.haskell.org/ghc/ghc/issues/9281))
 
 
 This wiki page is meant as a scratch-pad to describe the plans/ideas behind the `integer-gmp2` rewrite
@@ -86,7 +86,7 @@ data Natural = NatS#                 Word#    -- ^ @[0, maxBound::Word]@
 ```
 
 - `BigNat` is an internal common type to `Integer` and `Natural` and not exposed through `base`
-- `Natural` ([\#9818](https://gitlab.haskell.org//ghc/ghc/issues/9818)) finally fills the gap of the missing unsigned `Integer` counter-part in `base`
+- `Natural` ([\#9818](https://gitlab.haskell.org/ghc/ghc/issues/9818)) finally fills the gap of the missing unsigned `Integer` counter-part in `base`
 
   - requires fallback implementation (on top of `Integer`) in `base` if `integer-{simple,gmp}` are still to be supported
 

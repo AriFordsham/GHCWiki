@@ -3,7 +3,7 @@
 ## This is the place for defining [InterWiki](inter-wiki) prefixes
 
 
-This page was modelled after the [ MeatBall:InterMapTxt](http://www.usemod.com/cgi-bin/mb.pl?InterMapTxt) page.
+This page was modelled after the [MeatBall:InterMapTxt](http://www.usemod.com/cgi-bin/mb.pl?InterMapTxt) page.
 In addition, an optional comment is allowed after the mapping.
 
 

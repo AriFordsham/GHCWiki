@@ -1,7 +1,7 @@
 # Notes on Porting GHC to Barrelfish
 
 
-This page contains a braindump of issues that came up when porting GHC to the [ Barrelfish OS](http://barrelfish.org).
+This page contains a braindump of issues that came up when porting GHC to the [Barrelfish OS](http://barrelfish.org).
 
 ## Approach
 

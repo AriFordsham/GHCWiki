@@ -22,7 +22,7 @@ To see the current status of the builds:
 
 >
 >
-> [ http://darcs.haskell.org/buildbot](http://darcs.haskell.org/buildbot)
+> [http://darcs.haskell.org/buildbot](http://darcs.haskell.org/buildbot)
 >
 >
 
@@ -39,7 +39,7 @@ First you, as a buildbot client, need to agree a buildbot username (`myUser`) an
 Finally, if there is anything special that needs to be done for the client (e.g. if gcc is in an unusual place) then you'll need to let the admins know.
 
 
-Then you'll need to install buildbot and its dependencies on the machine that will be doing the nightly build; see the [ BuildBot website](http://buildbot.net/) for details.  NB. if you're on Windows, you'll need to install BuildBot under Cygwin using the Cygwin Python; there are various problems getting the GHC build to work via BuildBot using the native Win32 Python, so we've given up on that route for now.
+Then you'll need to install buildbot and its dependencies on the machine that will be doing the nightly build; see the [BuildBot website](http://buildbot.net/) for details.  NB. if you're on Windows, you'll need to install BuildBot under Cygwin using the Cygwin Python; there are various problems getting the GHC build to work via BuildBot using the native Win32 Python, so we've given up on that route for now.
 
 
 In order to actually do the build, you'll also need the prerequisite tools for a GHC build, see [Building/Preparation](building/preparation), and you should have darcs installed too (we recommend at least version 0.9).
@@ -162,7 +162,7 @@ If there is anything unusual about the machine the build is being run on, e.g. t
 
 
 Once the master is reconfiged and the client is started, the client should become visible on
-[ http://darcs.haskell.org:8010/](http://darcs.haskell.org:8010/)
+[http://darcs.haskell.org:8010/](http://darcs.haskell.org:8010/)
 
 
 At present there is no way to force an immediate test build.
@@ -180,6 +180,6 @@ http://darcs.haskell.org/ghc
 ```
 
 
-To resolve this, there is some extra work to do when you configure your buildbot client: [ http://buildbot.net/trac/wiki/UsingLaunchd](http://buildbot.net/trac/wiki/UsingLaunchd)
+To resolve this, there is some extra work to do when you configure your buildbot client: [http://buildbot.net/trac/wiki/UsingLaunchd](http://buildbot.net/trac/wiki/UsingLaunchd)
 
 

@@ -30,9 +30,9 @@ You never commit directly to HEAD.  Rather, follow this workflow.
   $ git push origin wip/spj-wibbles
   ```
 
-- Create a merge request.  [ More details on this process are here](https://gitlab.haskell.org/ghc/ghc/wikis/home#opening-a-merge-request).
+- Create a merge request.  [More details on this process are here](https://gitlab.haskell.org/ghc/ghc/wikis/home#opening-a-merge-request).
 
-- Working with your merge request: [ details here](https://gitlab.haskell.org/ghc/ghc/wikis/home#working-with-your-merge-request).
+- Working with your merge request: [details here](https://gitlab.haskell.org/ghc/ghc/wikis/home#working-with-your-merge-request).
 
 - As you review it, you can add further patches to the branch, and push them. The MR as seen in GitLab is always the tip of the branch.
 
@@ -53,16 +53,16 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 This section summarises what I understand about GitLab's semantics: what things there are and how they relate to each other.
 
 
-- **Groups.**  Example, the [ GHC group](https://gitlab.haskell.org/ghc)
+- **Groups.**  Example, the [GHC group](https://gitlab.haskell.org/ghc)
 
   - A group contains:
 
     - *Members*, each of whom is a *user*.
     - *Projects*
     - *Sub-groups*
-  - As "sub-groups" suggests, groups can nest.   For example [ GHC packages group](https://gitlab.haskell.org/ghc/packages) is a sub-group of the [ GHC group](https://gitlab.haskell.org/ghc)
+  - As "sub-groups" suggests, groups can nest.   For example [GHC packages group](https://gitlab.haskell.org/ghc/packages) is a sub-group of the [ GHC group](https://gitlab.haskell.org/ghc)
 
-- **Projects.** Example: the  [ GHC project](https://gitlab.haskell.org/ghc/ghc).  A *project* has
+- **Projects.** Example: the  [GHC project](https://gitlab.haskell.org/ghc/ghc).  A *project* has
 
   - A *git repository*
   - A *wiki*
@@ -73,7 +73,7 @@ This section summarises what I understand about GitLab's semantics: what things 
 - **Users.**
 
   - A user can be a *member* of (a) groups and (b) projects.
-  - There are a few flavours of membership ("reporter", "developer", "maintainer", and "owner") which all imply different sets of permissions, [ documented here](https://docs.gitlab.com/ee/user/permissions.html). 
+  - There are a few flavours of membership ("reporter", "developer", "maintainer", and "owner") which all imply different sets of permissions, [documented here](https://docs.gitlab.com/ee/user/permissions.html). 
 
 # GitLab notes
 
@@ -88,7 +88,7 @@ This section summarises what I understand about GitLab's semantics: what things 
 
 - If you zoom your browser too much, stuff starts disappearing from the top menu bar; e.g. your picture and the settings linked to it. You have to zoom out.
 
-- For projects you care about (e.g. [ https://gitlab.haskell.org/ghc/ghc](https://gitlab.haskell.org/ghc/ghc)), click on "Watch" (there's a little bell icon) about four rows down from the top. Then you'll get notifications of what changes.
+- For projects you care about (e.g. [https://gitlab.haskell.org/ghc/ghc](https://gitlab.haskell.org/ghc/ghc)), click on "Watch" (there's a little bell icon) about four rows down from the top. Then you'll get notifications of what changes.
 
 ## Merge requests
 

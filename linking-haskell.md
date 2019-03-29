@@ -21,7 +21,7 @@ Some Haskell packages use libraries implemented in other languages (for short: C
 ### Both dynamic
 
 
-Linking against the Haskell package is sufficient. The user of a Haskell package `foo` does not need to know which C libraries and other Haskell packages package `foo` depends on and there is no need to link against those libraries. Users who have read Ulrich Drepper's paper [ https://www.akkadia.org/drepper/dsohowto.pdf](https://www.akkadia.org/drepper/dsohowto.pdf) expect that in the dynamic case no dev dependencies are required. 
+Linking against the Haskell package is sufficient. The user of a Haskell package `foo` does not need to know which C libraries and other Haskell packages package `foo` depends on and there is no need to link against those libraries. Users who have read Ulrich Drepper's paper [https://www.akkadia.org/drepper/dsohowto.pdf](https://www.akkadia.org/drepper/dsohowto.pdf) expect that in the dynamic case no dev dependencies are required. 
 
 ### Both static
 
@@ -83,8 +83,8 @@ SM: We now have [RemoteGHCi](remote-gh-ci), which means that it will become irre
 
 ### Issues
 
-1. To load dynamic C libraries the development files for the C library need to be installed. [\#9498](https://gitlab.haskell.org//ghc/ghc/issues/9498)
-1. On some systems the development library file contains a linker script and the RTS linker implementation of the parser trips over some linker scripts. [\#9237](https://gitlab.haskell.org//ghc/ghc/issues/9237)
+1. To load dynamic C libraries the development files for the C library need to be installed. [\#9498](https://gitlab.haskell.org/ghc/ghc/issues/9498)
+1. On some systems the development library file contains a linker script and the RTS linker implementation of the parser trips over some linker scripts. [\#9237](https://gitlab.haskell.org/ghc/ghc/issues/9237)
 
 ### Proposal
 

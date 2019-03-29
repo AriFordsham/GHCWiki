@@ -2,15 +2,15 @@
 See [Records](records) for the bigger picture. This is a proposal to solve the records name-spacing issue with name-spacing and how to expand on that to make record access more convenient.
 
 
-This approach is an attempt to port the records solution in [ Frege](http://code.google.com/p/frege/), a haskell-like language on the JVM. We can stop half-way to Frege and instead implement the Agda module-only solution - this is explained below.
+This approach is an attempt to port the records solution in [Frege](http://code.google.com/p/frege/), a haskell-like language on the JVM. We can stop half-way to Frege and instead implement the Agda module-only solution - this is explained below.
 
 
-For information on Frege, please read Sections 3.2 (primary expressions) and 4.2.1 (Algebraic Data type Declaration - Constructors with labeled fields) of the [ Frege user manual](http://code.google.com/p/frege/downloads/detail?name=Language-411.pdf)
+For information on Frege, please read Sections 3.2 (primary expressions) and 4.2.1 (Algebraic Data type Declaration - Constructors with labeled fields) of the [Frege user manual](http://code.google.com/p/frege/downloads/detail?name=Language-411.pdf)
 Many thanks to the Frege author, Ingo Wechsung for explaining his implementation and exploring this implementation territory for us.
-The DDC language (very similar to Haskell) puts forth a similar solution to Frege. See the [ thesis](http://www.cse.unsw.edu.au/~benl/papers/thesis/lippmeier-impure-world.pdf) section 2.7 - 2.7.4 pages 115 - 119
+The DDC language (very similar to Haskell) puts forth a similar solution to Frege. See the [thesis](http://www.cse.unsw.edu.au/~benl/papers/thesis/lippmeier-impure-world.pdf) section 2.7 - 2.7.4 pages 115 - 119
 
 
-The Agda language [ generates a module (name space) for each record and also allows a record, like any module to be placed into the global scope by the programmer (opened in Agada terms)](http://wiki.portal.chalmers.se/agda/pmwiki.php?n=ReferenceManual.Records).
+The Agda language [generates a module (name space) for each record and also allows a record, like any module to be placed into the global scope by the programmer (opened in Agada terms)](http://wiki.portal.chalmers.se/agda/pmwiki.php?n=ReferenceManual.Records).
 
 ## Better name spacing
 
@@ -63,7 +63,7 @@ The main argument for this approach is its simplicity; it's simple to
 understand for users and (hopefully) simple to implement.
 
 
-The Agda language [ generates a module (name space) for each record and also allows a record, like any module to be placed into the global scope by the programmer (opened in Agada terms)](http://wiki.portal.chalmers.se/agda/pmwiki.php?n=ReferenceManual.Records).
+The Agda language [generates a module (name space) for each record and also allows a record, like any module to be placed into the global scope by the programmer (opened in Agada terms)](http://wiki.portal.chalmers.se/agda/pmwiki.php?n=ReferenceManual.Records).
 
 
 The downside of the pure module system is needing to always prefix the field: `Record.a r`. In Agda, a record is a module, and a module can be opened up. The "Record opening example" from the Agda page is transferred to a Haskell-like syntax here:
@@ -161,7 +161,7 @@ too complicated.
 
 Fortunately we know exactly what to do; it is described in some detail
 in our paper "Modular type inference with local assumptions"
-[ http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn](http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn)
+[http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn](http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn)
 
 
 The trick is to \*defer\* all these decisions by generating \*type constraints\*

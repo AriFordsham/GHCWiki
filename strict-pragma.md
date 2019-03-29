@@ -4,7 +4,7 @@
 This page explains the motivation, semantics, and implementation of the new language extensions `StrictData` and  `Strict`.
 
 
-Related tickets: [8347](https://gitlab.haskell.org//ghc/ghc/issues/8347), [11182](https://gitlab.haskell.org//ghc/ghc/issues/11182), [11193](https://gitlab.haskell.org//ghc/ghc/issues/11193)
+Related tickets: [8347](https://gitlab.haskell.org/ghc/ghc/issues/8347), [11182](https://gitlab.haskell.org/ghc/ghc/issues/11182), [11193](https://gitlab.haskell.org/ghc/ghc/issues/11193)
 
 ## The Problem
 
@@ -183,7 +183,7 @@ Continuing with this rule would mean that `Strict` would not allow recursive or 
 
 - **Static semantics.** Exactly as in Haskell, unaffected by `Strict`.  This is more permissive than the current rule for bang patterns in let bindings, because it supports bang-patterns for polymorphic and recursive bindings.
 
-- **Dynamic semantics.** Consider the rules in the box of [ Section 3.12 of the Haskell report](http://www.haskell.org/onlinereport/exps.html#sect3.12).  Replace these rules with the following ones, where `v` stands for a variable
+- **Dynamic semantics.** Consider the rules in the box of [Section 3.12 of the Haskell report](http://www.haskell.org/onlinereport/exps.html#sect3.12).  Replace these rules with the following ones, where `v` stands for a variable
 
   - **(FORCE)**.  Replace any binding `!p = e` with `v = e; p = v` and replace `e0` with `v `seq` e0`, where `v` is fresh.  This translation works fine if `p` is already a variable `x`, but can obviously be optimised by not introducing a fresh variable `v`.
   - **(SPLIT)**. Replace any binding `p = e`, where `p` is not a variable, with `v = e; x1 = case v of p -> x1; ...; xn = case v of p -> xn`, where `v` is fresh and `x1`..`xn` are the bound variables of `p`.  Again if `e` is a variable, you can optimised his by not introducing a fresh variable.

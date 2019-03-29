@@ -1,10 +1,10 @@
 # Update to Roles
 
 
-It has become (somewhat) clear that the Roles mechanism as implemented in GHC 7.8 is insufficient. (See [examples](roles2#examples) below.) This page is dedicated to creating a new design for roles that might fix the problems, continuing the discussion started in [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123).
+It has become (somewhat) clear that the Roles mechanism as implemented in GHC 7.8 is insufficient. (See [examples](roles2#examples) below.) This page is dedicated to creating a new design for roles that might fix the problems, continuing the discussion started in [\#9123](https://gitlab.haskell.org/ghc/ghc/issues/9123).
 
 
-See also the [main roles wiki page](roles) and these related tickets: [\#9117](https://gitlab.haskell.org//ghc/ghc/issues/9117), [\#9118](https://gitlab.haskell.org//ghc/ghc/issues/9118), [\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123), and [\#9131](https://gitlab.haskell.org//ghc/ghc/issues/9131).
+See also the [main roles wiki page](roles) and these related tickets: [\#9117](https://gitlab.haskell.org/ghc/ghc/issues/9117), [\#9118](https://gitlab.haskell.org/ghc/ghc/issues/9118), [\#9123](https://gitlab.haskell.org/ghc/ghc/issues/9123), and [\#9131](https://gitlab.haskell.org/ghc/ghc/issues/9131).
 
 ## Problem examples
 
@@ -14,7 +14,7 @@ We have three known examples of where current roles are failing us.
 ### Adding `join` to `Monad`
 
 
-As part of the [ Applicative-Monad Proposal](http://www.haskell.org/haskellwiki/Functor-Applicative-Monad_Proposal), we wish to add `join` to `Monad`, thus:
+As part of the [Applicative-Monad Proposal](http://www.haskell.org/haskellwiki/Functor-Applicative-Monad_Proposal), we wish to add `join` to `Monad`, thus:
 
 ```wiki
 class Applicative m => Monad m where
@@ -93,7 +93,7 @@ The problem here echoes the `join` problem quite closely.
 ## The best known solution
 
 
-Edward Kmett initially described an approach in an [ email](http://www.haskell.org/pipermail/ghc-devs/2014-May/004974.html), roughly as follows (names subject to bikeshedding, as always):
+Edward Kmett initially described an approach in an [email](http://www.haskell.org/pipermail/ghc-devs/2014-May/004974.html), roughly as follows (names subject to bikeshedding, as always):
 
 
 Currently, `Data.Type.Coercion` makes this definition:
@@ -140,7 +140,7 @@ We also would want automatic generation of instances of `Rep`, not unlike the ge
 
 ### Integrating `Rep` into the solver
 
-[comment:19:ticket:9123](https://gitlab.haskell.org//ghc/ghc/issues/9123) shows an intricate solution to a `Coercible` constraint. This solution would be hard to find algorithmically. Thus, even though the definition for `Rep` above is sufficient, we propose the following implication
+[comment:19:ticket:9123](https://gitlab.haskell.org/ghc/ghc/issues/9123) shows an intricate solution to a `Coercible` constraint. This solution would be hard to find algorithmically. Thus, even though the definition for `Rep` above is sufficient, we propose the following implication
 
 ```wiki
 (Rep f, Rep g, Coercible f g, Coercible a b) => Coercible (f a) (g b)
@@ -166,7 +166,7 @@ Using the enhanced rule (as suggested originally by Edward Kmett) will thus lead
 
 Writing the solver still presents challenges. There are many "overlapping instances" floating around -- in other words, the solver may choose to go down a dead-end path when a perfectly good path exists. In particular, we must be wary of unification variables that might become more informative. It seems that simplifying a wanted `Coercible` constraint that has unification variables present is a bad idea. However, this problem (of increased information) does not exist with *skolems*, for which the solver will *not* get more information. Because all solutions are equivalent, we do not care if a skolem variable is instantiated with a type that could yield a different solution. (Contrast to OverlappingInstances, which cares very much about skolems.) We just care that the solver works independent of when unification variables are solved. This may or may not be related to the parameter to GHC's `SkolemTv` constructor. (RAE thinks the ideas are close, but the implementations won't be.)
 
-**Conjecture:** normalizing newtypes (with respect to in-scope constructors) first, before anything else, is a good starting point. Indeed, this idea has been adopted en route to solving [\#9117](https://gitlab.haskell.org//ghc/ghc/issues/9117).
+**Conjecture:** normalizing newtypes (with respect to in-scope constructors) first, before anything else, is a good starting point. Indeed, this idea has been adopted en route to solving [\#9117](https://gitlab.haskell.org/ghc/ghc/issues/9117).
 
 ### Open user-facing design questions
 
@@ -207,7 +207,7 @@ instance Rep m => Rep (ReaderT r m)
 
 1. The `ReaderT` example defined `ReaderT` as a newtype. The `Rep` instance shown is indeed writable by hand, right now. But, if `ReaderT` were defined as a *data* type, the `Rep` instance would be impossible to write, as there are no newtype-unwrapping instances. It seems a new form of axiom would be necessary to implement this trick for data types. This axiom would have to be produced at the data type definition, much like how newtype axioms are produced with newtype definitions.
 
-1. The `Coercible` solver is getting somewhat involved already ([\#9117](https://gitlab.haskell.org//ghc/ghc/issues/9117), [\#9131](https://gitlab.haskell.org//ghc/ghc/issues/9131)). Can this be incorporated cleanly? We surely hope that the solver is sound with respect to the definition of representational coercions in Core. How complete is it? How will this affect completeness? In other words, will adding this extension necessarily mean that there are more types that are provably representationally equal but which GHC is unable to find this proof?
+1. The `Coercible` solver is getting somewhat involved already ([\#9117](https://gitlab.haskell.org/ghc/ghc/issues/9117), [\#9131](https://gitlab.haskell.org/ghc/ghc/issues/9131)). Can this be incorporated cleanly? We surely hope that the solver is sound with respect to the definition of representational coercions in Core. How complete is it? How will this affect completeness? In other words, will adding this extension necessarily mean that there are more types that are provably representationally equal but which GHC is unable to find this proof?
 
 ### Other issues
 
@@ -238,7 +238,7 @@ newtype StateT s m a = StateT (s -> m (a, s))
 
 ## Other possible designs
 
-1. The design from the [ POPL'11 paper](http://www.seas.upenn.edu/~sweirich/papers/popl163af-weirich.pdf). This design incorporates roles into kinds. It solves the exact problems here, but at great cost: because roles are attached to kinds, we have to choose a types roles in the wrong place. For example, consider the `Monad` class. Should the parameter `m` have kind `*/R -> *`, requiring all monads to take representational arguments, or should it have type `*/N ->*`, disallowing GND if `join` is in the `Monad` class? We're stuck with a different set of problems. And, there is the pervasiveness of this change, which is why we didn't implement it in the first place.
+1. The design from the [POPL'11 paper](http://www.seas.upenn.edu/~sweirich/papers/popl163af-weirich.pdf). This design incorporates roles into kinds. It solves the exact problems here, but at great cost: because roles are attached to kinds, we have to choose a types roles in the wrong place. For example, consider the `Monad` class. Should the parameter `m` have kind `*/R -> *`, requiring all monads to take representational arguments, or should it have type `*/N ->*`, disallowing GND if `join` is in the `Monad` class? We're stuck with a different set of problems. And, there is the pervasiveness of this change, which is why we didn't implement it in the first place.
 
   - (comment from Dominique Devriese) Note that `Monad` implies `Functor`, so by the argument about `Functor f` implying `Rep f` above, I would argue that `m` should have kind `*/R -> *`.
 

@@ -19,7 +19,7 @@ The SSH host keys of `git.haskell.org` are,
 - `rsa`: `08:63:b5:86:3e:ae:e2:3c:b1:ea:c6:05:2d:71:db:5a`
 
 
-These are also mirrored to GitHub under the `ghc` [ organization](https://github.com/ghc). Note that we do not use GitHub as the primary upstream since GitHub does not allow us to use Git hooks. These hooks are invaluable for verifying consistency between submodules (e.g. that the `ghc` repository refers only to submodule commits which are available upstream, see [\#8251](https://gitlab.haskell.org//ghc/ghc/issues/8251)).
+These are also mirrored to GitHub under the `ghc` [organization](https://github.com/ghc). Note that we do not use GitHub as the primary upstream since GitHub does not allow us to use Git hooks. These hooks are invaluable for verifying consistency between submodules (e.g. that the `ghc` repository refers only to submodule commits which are available upstream, see [\#8251](https://gitlab.haskell.org/ghc/ghc/issues/8251)).
 
 
 ## Repository listing
@@ -367,19 +367,19 @@ Here are the submodules we use, and where their upstreams point:
 - \[2\] These libraries are not required to build the compiler, but may be used for tests or other libraries. Right now, most of these are based on whether you build DPH. At the moment, DPH is turned off. To build these libraries, set `BUILD_DPH=YES` in `mk/build.mk`. You can skip haddock by setting `HADDOCK_DOCS=NO` in `mk/build.mk`. TODO Explain how to skip `deepseq`, since it seems to only be used for tests.
 
 
-The table above is maintained manually and can sometimes get out of sync. If in doubt, the primary data source is  the [ packages](http://git.haskell.org/ghc.git/blob_plain/HEAD:/packages) file in the top-level `ghc.git` repo folder.
+The table above is maintained manually and can sometimes get out of sync. If in doubt, the primary data source is  the [packages](http://git.haskell.org/ghc.git/blob_plain/HEAD:/packages) file in the top-level `ghc.git` repo folder.
 
 ## `transformers`
 
 
-The `transformers` library's upstream uses `darcs`. In order to track this library, we maintain a git mirror ([ http://git.haskell.org/darcs-mirrors/transformers.git](http://git.haskell.org/darcs-mirrors/transformers.git)) generated using `darcs export` mirror which is periodically updated by `git.haskell.org`. However, due to the tendency for the import mechanism to produce non-fast-forward branches, the commits in this mirror need to be manually pulled into the submodule used by GHC, `git@git.haskell.org:packages/transformers`.
+The `transformers` library's upstream uses `darcs`. In order to track this library, we maintain a git mirror ([http://git.haskell.org/darcs-mirrors/transformers.git](http://git.haskell.org/darcs-mirrors/transformers.git)) generated using `darcs export` mirror which is periodically updated by `git.haskell.org`. However, due to the tendency for the import mechanism to produce non-fast-forward branches, the commits in this mirror need to be manually pulled into the submodule used by GHC, `git@git.haskell.org:packages/transformers`.
 
 ## Infrastructure
 
 
 There are a also a variety of repositories which contain infrastructure-related bits. These include,
 
-- [ https://github.com/haskell-infra/phabricator](https://github.com/haskell-infra/phabricator): This is the current state of the tree running our [ Phabricator](https://phabricator.haskell.org/) instance.
-- [ https://github.com/haskell-infra/ghc-homepage](https://github.com/haskell-infra/ghc-homepage): This contains the sources for [ https://www.haskell.org/ghc/](https://www.haskell.org/ghc/)
-- [ https://github.com/haskell-infra/libphutil-haskell](https://github.com/haskell-infra/libphutil-haskell): This is a small `libphutil` extension providing GHC-specific functionality to Phabricator
-- [ https://github.com/haskell-infra/trac](https://github.com/haskell-infra/trac): This is the slightly patched Trac version which drives GHC's Trac.
+- [https://github.com/haskell-infra/phabricator](https://github.com/haskell-infra/phabricator): This is the current state of the tree running our [ Phabricator](https://phabricator.haskell.org/) instance.
+- [https://github.com/haskell-infra/ghc-homepage](https://github.com/haskell-infra/ghc-homepage): This contains the sources for [ https://www.haskell.org/ghc/](https://www.haskell.org/ghc/)
+- [https://github.com/haskell-infra/libphutil-haskell](https://github.com/haskell-infra/libphutil-haskell): This is a small `libphutil` extension providing GHC-specific functionality to Phabricator
+- [https://github.com/haskell-infra/trac](https://github.com/haskell-infra/trac): This is the slightly patched Trac version which drives GHC's Trac.

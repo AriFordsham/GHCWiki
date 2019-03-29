@@ -44,7 +44,7 @@ Currently `myError` cannot be used at type `Int#`.
 ## Down with kinds
 
 
-The proposed remedy below would muck about somewhat with the upper echelons of this hierarchy (i.e. `BOX`). So, instead of trying to implement this in today's GHC, Richard is implementing in his branch, which has eliminated `BOX` entirely, instead favoring `* :: *` and dropping any distinction (in Core) between types and kinds. See [ the paper](http://www.cis.upenn.edu/~eir/papers/2013/fckinds/fckinds.pdf) for more info.
+The proposed remedy below would muck about somewhat with the upper echelons of this hierarchy (i.e. `BOX`). So, instead of trying to implement this in today's GHC, Richard is implementing in his branch, which has eliminated `BOX` entirely, instead favoring `* :: *` and dropping any distinction (in Core) between types and kinds. See [the paper](http://www.cis.upenn.edu/~eir/papers/2013/fckinds/fckinds.pdf) for more info.
 
 
 All further commentary on this page assumes a merged type/kind language and semantics.
@@ -200,7 +200,7 @@ Some conclusions:
 - `forall (l:Levity). ty` has kind `*`.  We think of it as a pi, a value abstraction.  So `undefined :: forall l. forall (a:Type l). a` has a type whose kind is `*`, and is *lifted.
   *
 
-- The body of a type forall should have kind `Type l` for some levity `l`, and that is the kind of the forall.  That is, the body cannot have kind `* -> *`, and certainly not `k`.  This makes `forall k (a::k). a` ill-kinded.  (Cf [\#10114](https://gitlab.haskell.org//ghc/ghc/issues/10114).)
+- The body of a type forall should have kind `Type l` for some levity `l`, and that is the kind of the forall.  That is, the body cannot have kind `* -> *`, and certainly not `k`.  This makes `forall k (a::k). a` ill-kinded.  (Cf [\#10114](https://gitlab.haskell.org/ghc/ghc/issues/10114).)
 
 # Implementation
 

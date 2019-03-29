@@ -6,7 +6,7 @@
 These instructions are for Xcode 5, which is now what we're aiming to support as Xcode 4 is no longer available.
 
 
-If you use ghc-7.6.3 on OS X as your bootstrap compiler, you'll need to pass certain options to clang to work around some problems. A wrapper for this, written in Haskell, can be found at [ https://github.com/ghc-ios/ghc-ios-scripts](https://github.com/ghc-ios/ghc-ios-scripts).
+If you use ghc-7.6.3 on OS X as your bootstrap compiler, you'll need to pass certain options to clang to work around some problems. A wrapper for this, written in Haskell, can be found at [https://github.com/ghc-ios/ghc-ios-scripts](https://github.com/ghc-ios/ghc-ios-scripts).
 
 
 To use it, compile `clang-xcode5-wrapper.hs`, add it to your path, then edit `/usr/local/lib/ghc-7.6.3/settings` and change `"C compiler command"`'s value to `"clang-xcode5-wrapper"`.
@@ -23,7 +23,7 @@ GHC 7.8 already includes a fix for this, but until that's released you'll have t
 
 
 You must use LLVM 3.0's versions of opt and llc — there seem to be issues with other versions. It's easiest to just download the binaries and put them in your path:
-[ http://llvm.org/releases/3.0/clang+llvm-3.0-x86_64-apple-darwin11.tar.gz](http://llvm.org/releases/3.0/clang+llvm-3.0-x86_64-apple-darwin11.tar.gz)
+[http://llvm.org/releases/3.0/clang+llvm-3.0-x86_64-apple-darwin11.tar.gz](http://llvm.org/releases/3.0/clang+llvm-3.0-x86_64-apple-darwin11.tar.gz)
 
 
 See [Cross-compiling GHC](building/cross-compiling) for more details.
@@ -31,7 +31,7 @@ See [Cross-compiling GHC](building/cross-compiling) for more details.
 ### 2. Scripts
 
 
-You will need to check out the scripts at [ https://github.com/ghc-ios/ghc-ios-scripts](https://github.com/ghc-ios/ghc-ios-scripts) and add the checked out directory to your PATH. You may need to edit these scripts if you are using a different iOS / iOS simulator platform version than the one the scripts are pointed at.
+You will need to check out the scripts at [https://github.com/ghc-ios/ghc-ios-scripts](https://github.com/ghc-ios/ghc-ios-scripts) and add the checked out directory to your PATH. You may need to edit these scripts if you are using a different iOS / iOS simulator platform version than the one the scripts are pointed at.
 
 ### 3. Check out GHC
 
@@ -63,7 +63,7 @@ BuildFlavour  = perf-cross
 ```
 
 
-(requires [ https://ghc.haskell.org/trac/ghc/ticket/8700](https://ghc.haskell.org/trac/ghc/ticket/8700))
+(requires [https://ghc.haskell.org/trac/ghc/ticket/8700](https://ghc.haskell.org/trac/ghc/ticket/8700))
 
 ### 5. Configure & build
 
@@ -91,7 +91,7 @@ GHC is smart enough to prefix the binaries and libraries with the target name, e
 ### 6. Make sure your Cabal and cabal-install are new enough
 
 
-Check out the latest version of Cabal from [ https://github.com/haskell/cabal/](https://github.com/haskell/cabal/), and build both Cabal and cabal-install.
+Check out the latest version of Cabal from [https://github.com/haskell/cabal/](https://github.com/haskell/cabal/), and build both Cabal and cabal-install.
 
 
 You must remove an option that the latest version of Cabal will add to your `~/.cabal/config` file:
@@ -192,7 +192,7 @@ Ignore the copious warnings about "truncation and blank padding" and "has no sym
 This will create (in this example) **haskell.a**.
 
 
-(n.b. we're only modifying main for the sake of example — you can also initialize Haskell when the Objective-C runtime loads, as shown in [ https://gist.github.com/lukexi/20b3aae6ac0f0f7892be](https://gist.github.com/lukexi/20b3aae6ac0f0f7892be) and then call Haskell at will.)
+(n.b. we're only modifying main for the sake of example — you can also initialize Haskell when the Objective-C runtime loads, as shown in [https://gist.github.com/lukexi/20b3aae6ac0f0f7892be](https://gist.github.com/lukexi/20b3aae6ac0f0f7892be) and then call Haskell at will.)
 
 ### 10. Set up your Xcode project for Haskell
 
@@ -218,10 +218,10 @@ Each time you modify your Haskell code you'll need to re-compile from the comman
 ### 12. Next steps
 
 
-Take a look at [ https://github.com/ghc-ios/](https://github.com/ghc-ios/) for patched versions of Hackage packages and other useful things. Ask us if you want to join the ghc-ios project on GitHub, and feel free to raise bugs there.
+Take a look at [https://github.com/ghc-ios/](https://github.com/ghc-ios/) for patched versions of Hackage packages and other useful things. Ask us if you want to join the ghc-ios project on GitHub, and feel free to raise bugs there.
 
 
-The Haskell-iPhone mailing list is at [ http://www.haskell.org/mailman/listinfo/iphone](http://www.haskell.org/mailman/listinfo/iphone)
+The Haskell-iPhone mailing list is at [http://www.haskell.org/mailman/listinfo/iphone](http://www.haskell.org/mailman/listinfo/iphone)
 
 ## Loose ends
 
@@ -232,15 +232,15 @@ Outstanding issues we should fix in rough priority order.
 - Cross-compiler for the iOS simulator (done by lukexi)
 - Template Haskell for cross compilers! Could be done by (in order of increasing complexity):
 
-  - Evil Splicer [ https://github.com/joeyh/git-annex/blob/master/Build/EvilSplicer.hs](https://github.com/joeyh/git-annex/blob/master/Build/EvilSplicer.hs) / zeroth method [ http://hackage.haskell.org/package/zeroth](http://hackage.haskell.org/package/zeroth) (The most recently maintained repository is Adam Vogts fork of [ https://github.com/mgsloan/zeroth](https://github.com/mgsloan/zeroth))
+  - Evil Splicer [https://github.com/joeyh/git-annex/blob/master/Build/EvilSplicer.hs](https://github.com/joeyh/git-annex/blob/master/Build/EvilSplicer.hs) / zeroth method [ http://hackage.haskell.org/package/zeroth](http://hackage.haskell.org/package/zeroth) (The most recently maintained repository is Adam Vogts fork of [ https://github.com/mgsloan/zeroth](https://github.com/mgsloan/zeroth))
   - A less powerful template-haskell extension
   - stage 2 in cross compilers
-  - Using the Out-Of-Process TH strategy that ghcjs uses. (work underway by angerman, see [ https://github.com/angerman/oopth](https://github.com/angerman/oopth))
+  - Using the Out-Of-Process TH strategy that ghcjs uses. (work underway by angerman, see [https://github.com/angerman/oopth](https://github.com/angerman/oopth))
 - Packaging with the wrapper scripts and perhaps release of binaries of official ghc releases
 - Would be nice to not have to disable dead-code removal. (Simon Marlow says "we have special hacks so that you don't have to disable dead-code removal on OS X, in the native code generator and (I presume) in the LLVM backend. Perhaps this just needs to be adapted to work on iOS too?") (done by angerman, part of 7.10)
 - Fix the copious link warnings
 - Stop llvm generating an unnecessary 'bx lr' (return) instruction after the GHC calling convention (which is actually a goto)
-- Programs outputting substantial text to the console can cause hangs in the RTS. (fixed by lukexi in ticket [\#8307](https://gitlab.haskell.org//ghc/ghc/issues/8307)).
+- Programs outputting substantial text to the console can cause hangs in the RTS. (fixed by lukexi in ticket [\#8307](https://gitlab.haskell.org/ghc/ghc/issues/8307)).
 
 ## Wish List
 

@@ -11,6 +11,6 @@ This page used to discuss possible changes to the analysis, but these are implem
 
 
 
-More information on the analysis can be found in the [ TFP 2013 paper](http://www.joachim-breitner.de/publications/CallArity-TFP.pdf). A proof of safety can be found in a paper [ presented at Haskell’15](http://www.joachim-breitner.de/publications/CallArity-Haskell15.pdf) and in the [ Isabelle formalization of Call Arity.](http://afp.sourceforge.net/entries/Call_Arity.shtml)
+More information on the analysis can be found in the [TFP 2013 paper](http://www.joachim-breitner.de/publications/CallArity-TFP.pdf). A proof of safety can be found in a paper [ presented at Haskell’15](http://www.joachim-breitner.de/publications/CallArity-Haskell15.pdf) and in the [ Isabelle formalization of Call Arity.](http://afp.sourceforge.net/entries/Call_Arity.shtml)
 
 

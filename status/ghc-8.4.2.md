@@ -126,7 +126,7 @@ Release in Late March 2018.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14963">#14963</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14963">#14963</a></th>
 <td>
                     
                   
@@ -152,7 +152,7 @@ Release in Late March 2018.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14963">ghci -fdefer-type-errors can&apos;t run IO action from another module</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/14963">ghci -fdefer-type-errors can&apos;t run IO action from another module</a>
                       
                       
                       
@@ -221,7 +221,7 @@ Release in Late March 2018.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14982">#14982</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14982">#14982</a></th>
 <td>
                     
                   
@@ -247,7 +247,7 @@ Release in Late March 2018.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14982">LLVM default -mcpu setting inhibits customization</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/14982">LLVM default -mcpu setting inhibits customization</a>
                       
                       
                       

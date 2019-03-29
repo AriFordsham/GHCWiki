@@ -41,9 +41,9 @@ A ticket contains the following information:
 
 - Versions of Trac prior to 0.9 did not have the *type* field, but instead provided a *severity* field and different default values for the *priority* field. This change was done to simplify the ticket model by removing the somewhat blurry distinction between *priority* and *severity*. However, the old model is still available if you prefer it: just add/modify the default values of the *priority* and *severity*, and optionally hide the *type* field by removing all the possible values through [trac-admin](trac-admin).
 
-- The [ type](http://trac.edgewall.org/intertrac/TicketTypes), [ component](http://trac.edgewall.org/intertrac/TicketComponent), version, priority and severity fields can be managed with [trac-admin](trac-admin) or with the [ WebAdmin](http://trac.edgewall.org/intertrac/WebAdmin) plugin.
+- The [type](http://trac.edgewall.org/intertrac/TicketTypes), [ component](http://trac.edgewall.org/intertrac/TicketComponent), version, priority and severity fields can be managed with [trac-admin](trac-admin) or with the [ WebAdmin](http://trac.edgewall.org/intertrac/WebAdmin) plugin.
 
-- Description of the builtin *priority* values is available at [ TicketTypes](http://trac.edgewall.org/intertrac/TicketTypes%23Whyistheseverityfieldgone)
+- Description of the builtin *priority* values is available at [TicketTypes](http://trac.edgewall.org/intertrac/TicketTypes%23Whyistheseverityfieldgone)
 
 ## Changing and Commenting Tickets
 
@@ -85,7 +85,7 @@ The option selected by default for the various drop-down fields can be set in [t
 - `default_owner`: Name of the default owner. If set to the text `< default >` (the default value), the component owner is used.
 
 
-If any of these options are omitted, the default value will either be the first in the list, or an empty value, depending on whether the field in question is required to be set. Some of these can be chosen through the [ WebAdmin](http://trac.edgewall.org/intertrac/WebAdmin) plugin in the "Ticket System" section, others can be set in the [\[ticket\]](trac-ini#) section in `trac.ini`.
+If any of these options are omitted, the default value will either be the first in the list, or an empty value, depending on whether the field in question is required to be set. Some of these can be chosen through the [WebAdmin](http://trac.edgewall.org/intertrac/WebAdmin) plugin in the "Ticket System" section, others can be set in the [\[ticket\]](trac-ini#) section in `trac.ini`.
 
 ## Hiding Fields and Adding Custom Fields
 
@@ -132,13 +132,13 @@ Alternatively, you can just revoke `TICKET_MODIFY` from users that you don't wan
 **Notes:**
 
 
-- If you need more flexibility and aren't afraid of a little plugin coding of your own, see the [ FlexibleAssignTo plugin](https://trac-hacks.org/wiki/FlexibleAssignToPlugin).
+- If you need more flexibility and aren't afraid of a little plugin coding of your own, see the [FlexibleAssignTo plugin](https://trac-hacks.org/wiki/FlexibleAssignToPlugin).
 
 
  
 
 
-- Activating this option may cause some performance degradation. Read more about this in the [ Trac performance](http://trac.edgewall.org/intertrac/TracPerformance%23Configuration) page.
+- Activating this option may cause some performance degradation. Read more about this in the [Trac performance](http://trac.edgewall.org/intertrac/TracPerformance%23Configuration) page.
 
 ## Preset Values for New Tickets
 

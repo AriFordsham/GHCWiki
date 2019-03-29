@@ -1,7 +1,7 @@
 # Loading GHC into GHCi
 
 
-This page says how you can load GHC into GHCi for more iterative development. Csongor Kiss was the first person to record this feat. The scaffolding has been added to `master` since Aug 2018, and if you have to use an older working copy, refer to the guide at the bottom ([ Old GHC source tree](https://ghc.haskell.org/trac/ghc/wiki/Building/InGhci#OldGHCsourcetree)).
+This page says how you can load GHC into GHCi for more iterative development. Csongor Kiss was the first person to record this feat. The scaffolding has been added to `master` since Aug 2018, and if you have to use an older working copy, refer to the guide at the bottom ([Old GHC source tree](https://ghc.haskell.org/trac/ghc/wiki/Building/InGhci#OldGHCsourcetree)).
 
 
 After building GHC, just do the following in the repository root:
@@ -24,7 +24,7 @@ Notes:
 ### ghcid
 
 
-There is a `.ghcid` file which allows use of Neil Mitchell's handy [ ghcid](https://github.com/ndmitchell/ghcid) tool directly by just running `ghcid`. This tool drives GHCi to automatically reload when files change.  
+There is a `.ghcid` file which allows use of Neil Mitchell's handy [ghcid](https://github.com/ndmitchell/ghcid) tool directly by just running `ghcid`. This tool drives GHCi to automatically reload when files change.  
 
 ## Old GHC source tree
 

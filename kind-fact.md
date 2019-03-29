@@ -7,10 +7,10 @@ order to reuse existing abstraction mechanisms, notably **type
 synonyms**, in the constraint language.
 
 
-Much of the motivation for this proposal can be found in [ Haskell Type Constraints Unleashed](http://www.cs.kuleuven.be/%7Etoms/Research/papers/constraint_families.pdf) which identifies the shortage of abstraction mechanisms for constraints relative to types. See ticket [\#788](https://gitlab.haskell.org//ghc/ghc/issues/788) for the resulting **constraint synonym** proposal, which seeks to fill some of the gaps with new declaration forms. Here, however, the plan is to extend the kind system, empowering the existing mechanisms to work with constraints. [ Max Bolingbroke](http://blog.omega-prime.co.uk/?p=61), commenting on [ context aliases](http://www.haskell.org/haskellwiki/Context_alias) (in turn based on John Meacham's [ class alias](http://repetae.net/recent/out/classalias.html) proposal) makes a similar suggestion, remarking that a new kind would probably help. The final design is largely the work of Conor McBride.
+Much of the motivation for this proposal can be found in [Haskell Type Constraints Unleashed](http://www.cs.kuleuven.be/%7Etoms/Research/papers/constraint_families.pdf) which identifies the shortage of abstraction mechanisms for constraints relative to types. See ticket [\#788](https://gitlab.haskell.org/ghc/ghc/issues/788) for the resulting **constraint synonym** proposal, which seeks to fill some of the gaps with new declaration forms. Here, however, the plan is to extend the kind system, empowering the existing mechanisms to work with constraints. [ Max Bolingbroke](http://blog.omega-prime.co.uk/?p=61), commenting on [ context aliases](http://www.haskell.org/haskellwiki/Context_alias) (in turn based on John Meacham's [ class alias](http://repetae.net/recent/out/classalias.html) proposal) makes a similar suggestion, remarking that a new kind would probably help. The final design is largely the work of Conor McBride.
 
 
-The new design has now been implemented by Max Bolingbroke.  It's in HEAD and upcoming GHC 7.4, and is described in [ Max's Sept 2011 blog post](http://blog.omega-prime.co.uk/?p=127).
+The new design has now been implemented by Max Bolingbroke.  It's in HEAD and upcoming GHC 7.4, and is described in [Max's Sept 2011 blog post](http://blog.omega-prime.co.uk/?p=127).
 
 ## The design: user's eye view
 
@@ -115,7 +115,7 @@ But there are significant differences
     insert s x = ...
   ```
 
-  See [ Bulk types with class](http://research.microsoft.com/en-us/um/people/simonpj/papers/collections.ps.gz).
+  See [Bulk types with class](http://research.microsoft.com/en-us/um/people/simonpj/papers/collections.ps.gz).
 
 ---
 

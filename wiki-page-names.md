@@ -50,7 +50,7 @@ As in the example above, you can append an anchor to a Wiki page name to link to
 There are a few options that govern the rendering of [WikiPageNames](wiki-page-names):
 
 
-- [CamelCase](camel-case) linking to missing pages can be disabled with the `ignore_missing_pages` [ option](https://trac.edgewall.org/wiki/TracIni#wiki-section). Linking to missing pages is enabled by default.
+- [CamelCase](camel-case) linking to missing pages can be disabled with the `ignore_missing_pages` [option](https://trac.edgewall.org/wiki/TracIni#wiki-section). Linking to missing pages is enabled by default.
 - The `split_page_names` option, when enabled, will split [CamelCase](camel-case) words when rendering a link. For example, [WikiStart](wiki-start) will be rendered as [Wiki Start](wiki-start).
 
 ---

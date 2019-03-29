@@ -1,7 +1,7 @@
 ## Examples of programs that rely on polymorphic static values
 
 
-The [ static pointers discussion](https://ghc.haskell.org/trac/ghc/wiki/StaticPointers) includes a discussion on how to support polymorphic static values. On this page we're collecting some programs that illustrate why this is needed.
+The [static pointers discussion](https://ghc.haskell.org/trac/ghc/wiki/StaticPointers) includes a discussion on how to support polymorphic static values. On this page we're collecting some programs that illustrate why this is needed.
 
 ## Polymorphic instances for the Static type class
 
@@ -21,7 +21,7 @@ instance IsStatic Closure where
 ```
 
 
-`CPtr` allows us to lift static pointers, `CApp` allows us to apply closures of functions to closures of arguments, and finally `CEnc` allows us to lift anything serializable, as long as we have a static pointer to the corresponding `Binary` type class instance dictionary. This definition is similar to the one used in the [ distributed-closure](http://hackage.haskell.org/package/distributed-closure) package, but adjusted a little bit for the sake of clarity in the current discussion.
+`CPtr` allows us to lift static pointers, `CApp` allows us to apply closures of functions to closures of arguments, and finally `CEnc` allows us to lift anything serializable, as long as we have a static pointer to the corresponding `Binary` type class instance dictionary. This definition is similar to the one used in the [distributed-closure](http://hackage.haskell.org/package/distributed-closure) package, but adjusted a little bit for the sake of clarity in the current discussion.
 
 
 

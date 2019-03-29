@@ -46,7 +46,7 @@ Using such a check, the two instances for `F` above indeed conflict, because we 
 This can break existing code. But, a medium-intensity search did not find *any* uses of nonlinear (i.e. with a repeated variable) family instances in existing code, so I think we should be OK. However, a change needs to be made to be confident that nonlinear axioms and undecidable instances do not introduce a type-soundness hole into GHC.
 
 
-(Interestingly, proofs of the soundness of the existing system have been published. For example, see [ here](https://www.microsoft.com/en-us/research/wp-content/uploads/2007/01/tldi22-sulzmann-with-appendix.pdf) and [ here](http://www.cis.upenn.edu/~stevez/papers/WVPJZ11.pdf). These proofs are not  incorrect, but they  don't allow both undecidable instances and nonlinear family instances.)
+(Interestingly, proofs of the soundness of the existing system have been published. For example, see [here](https://www.microsoft.com/en-us/research/wp-content/uploads/2007/01/tldi22-sulzmann-with-appendix.pdf) and [ here](http://www.cis.upenn.edu/~stevez/papers/WVPJZ11.pdf). These proofs are not  incorrect, but they  don't allow both undecidable instances and nonlinear family instances.)
 
 
 Conor's alternative general idea:
@@ -86,7 +86,7 @@ It seems that these do not overlap, even in the presence of infinite types. But,
 ## Problem: coincident overlap
 
 
-In the official release of GHC, it is permitted to write something like this (see [manual](http://www.haskell.org/ghc/docs/latest/html/users_guide/type-families.html#type-family-overlap)), and the extensive discussion on [\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259):
+In the official release of GHC, it is permitted to write something like this (see [manual](http://www.haskell.org/ghc/docs/latest/html/users_guide/type-families.html#type-family-overlap)), and the extensive discussion on [\#4259](https://gitlab.haskell.org/ghc/ghc/issues/4259):
 
 ```wiki
 type instance F Int = Int

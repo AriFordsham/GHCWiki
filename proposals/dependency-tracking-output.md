@@ -73,7 +73,7 @@ It may still be possible for API users and plugins to add dependencies which are
 
 ## Prior art
 
-- [ Phab:D3898](https://phabricator.haskell.org/D3898) aimed to resolve a similar issue.
+- [Phab:D3898](https://phabricator.haskell.org/D3898) aimed to resolve a similar issue.
 
 ## Further Additions
 

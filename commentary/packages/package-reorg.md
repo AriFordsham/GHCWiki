@@ -13,7 +13,7 @@ discussions, eg.
 
 >
 >
-> [ http://www.haskell.org/pipermail/libraries/2006-November/006396.html](http://www.haskell.org/pipermail/libraries/2006-November/006396.html)
+> [http://www.haskell.org/pipermail/libraries/2006-November/006396.html](http://www.haskell.org/pipermail/libraries/2006-November/006396.html)
 >
 >
 

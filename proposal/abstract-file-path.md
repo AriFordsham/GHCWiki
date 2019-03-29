@@ -6,7 +6,7 @@
 
 
 
-The [ Haskell2010](https://www.haskell.org/onlinereport/haskell2010/) `Prelude` defines
+The [Haskell2010](https://www.haskell.org/onlinereport/haskell2010/) `Prelude` defines
 
 
 ```
@@ -31,8 +31,8 @@ This representation has several shortcomings:
 - Not type-safe by being a synonym of `String`.
 
 - Different types of representation in packages such as
-  [ hackage:posix-paths](http://hackage.haskell.org/package/posix-paths) and
-  the [ hackage:unix](http://hackage.haskell.org/package/unix) package (e.g. `System.Posix.*.ByteString`)
+  [hackage:posix-paths](http://hackage.haskell.org/package/posix-paths) and
+  the [hackage:unix](http://hackage.haskell.org/package/unix) package (e.g. `System.Posix.*.ByteString`)
 
 
 One approach would be to create a new `FilePath` type, while leaving
@@ -150,7 +150,7 @@ instance Monoid FilePath where
 ```
 
 
-Throughout the process, the `System.FilePath` module in the [ hackage:filepath](http://hackage.haskell.org/package/filepath) package would continue to expose the same API as now, changing with the internal `FilePath` definition as necessary.
+Throughout the process, the `System.FilePath` module in the [hackage:filepath](http://hackage.haskell.org/package/filepath) package would continue to expose the same API as now, changing with the internal `FilePath` definition as necessary.
 
 ## Issues not addressed by this Proposal
 

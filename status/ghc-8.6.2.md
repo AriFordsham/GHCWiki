@@ -142,7 +142,7 @@ This will be a bug-fix release.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15578">#15578</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15578">#15578</a></th>
 <td>
                     
                   
@@ -168,7 +168,7 @@ This will be a bug-fix release.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15578">Honour INLINE pragmas on 0-arity bindings</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15578">Honour INLINE pragmas on 0-arity bindings</a>
                       
                       
                       
@@ -289,7 +289,7 @@ This will be a bug-fix release.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16174">#16174</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16174">#16174</a></th>
 <td>
                     
                   
@@ -315,7 +315,7 @@ This will be a bug-fix release.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16174">GhcEnableTablesNextToCode=NO breaks NCG on macOS</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/16174">GhcEnableTablesNextToCode=NO breaks NCG on macOS</a>
                       
                       
                       
@@ -367,7 +367,7 @@ This will be a bug-fix release.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16018">#16018</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16018">#16018</a></th>
 <td>
                     
                   
@@ -393,7 +393,7 @@ This will be a bug-fix release.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16018">Disabling core optimizations ignores code that would otherwise warn.</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/16018">Disabling core optimizations ignores code that would otherwise warn.</a>
                       
                       
                       

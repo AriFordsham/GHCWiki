@@ -10,9 +10,9 @@ This page describes how to do cross-compilation with GHC.  That is:
   - runs on some existing GHC supported platform, but targets a smaller embedded platform
 - **Cross-compiling GHC itself**: Build on one platform a compiler that runs on, and targets another.  Examples:
 
-  - [ TakeoffGW](http://takeoffgw.sourceforge.net/) is a distribution of Unix tools for Windows, built by cross-compiling on a Linux machine.  They would like to be able to build and distribute GHC this way.  It might be useful for us to be able to cross-compile a Windows GHC from Linux too.
+  - [TakeoffGW](http://takeoffgw.sourceforge.net/) is a distribution of Unix tools for Windows, built by cross-compiling on a Linux machine.  They would like to be able to build and distribute GHC this way.  It might be useful for us to be able to cross-compile a Windows GHC from Linux too.
   - build a 64-bit GHC on OS X, by cross-compiling using the 32-bit version.
-  - We could port to Win64 ([\#1884](https://gitlab.haskell.org//ghc/ghc/issues/1884)) by cross-compiling using a 32-bit Windows GHC.
+  - We could port to Win64 ([\#1884](https://gitlab.haskell.org/ghc/ghc/issues/1884)) by cross-compiling using a 32-bit Windows GHC.
   - Other porting tasks might be easier, given a suitable cross-compilation toolchain.
 
 ## Terminology and background
@@ -175,7 +175,7 @@ INTEGER_LIBRARY = integer-simple
 since even though we have a copy of GMP in the GHC source tree, it cannot be cross-compiled (ToDo: why not?).  You must put this in `mk/build.mk` before building anything, because `INTEGER_LIBRARY` cannot be changed without doing a full `make distclean`.
 
 
-If you don't have an `ncurses` for your target available in your build environment, you can add `WITH_TERMINFO=NO` to `mk/build.mk` to build GHC and its utilities without `terminfo` support (since [ Phab:D3177](https://phabricator.haskell.org/D3177)).
+If you don't have an `ncurses` for your target available in your build environment, you can add `WITH_TERMINFO=NO` to `mk/build.mk` to build GHC and its utilities without `terminfo` support (since [Phab:D3177](https://phabricator.haskell.org/D3177)).
 
 ### Producing binary distributions
 

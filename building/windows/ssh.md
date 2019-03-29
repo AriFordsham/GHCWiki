@@ -50,5 +50,5 @@ There are several strange things about `ssh` on Windows that you need to know.
   but on Windows NT/XP, it doesn't work on a network drive (exact dteails obscure).  
   The solution seems to be to set the `$CYGWIN` environment
   variable to "`ntsec neta`".  The `$CYGWIN` environment variable is discussed
-  in [ the Cygwin User's Guide](http://cygwin.com/cygwin-ug-net/using-cygwinenv.html),
-  and there are more details in [ the Cygwin FAQ](http://cygwin.com/faq/faq_4.html#SEC44).
+  in [the Cygwin User's Guide](http://cygwin.com/cygwin-ug-net/using-cygwinenv.html),
+  and there are more details in [the Cygwin FAQ](http://cygwin.com/faq/faq_4.html#SEC44).

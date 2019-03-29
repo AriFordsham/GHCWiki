@@ -1,10 +1,10 @@
 # Deferring compilation type errors to runtime
 
 
-This page describes the `-fdefer-type-errors` flag that was added in GHC 7.6.1. Ticket [\#5624](https://gitlab.haskell.org//ghc/ghc/issues/5624) tracks this feature request.
+This page describes the `-fdefer-type-errors` flag that was added in GHC 7.6.1. Ticket [\#5624](https://gitlab.haskell.org/ghc/ghc/issues/5624) tracks this feature request.
 
 
-For more information, see the associated [ Equality Proofs and Deferred Type Errors](https://www.microsoft.com/en-us/research/publication/equality-proofs-and-deferred-type-errors-a-compiler-pearl/) (ICFP'12).
+For more information, see the associated [Equality Proofs and Deferred Type Errors](https://www.microsoft.com/en-us/research/publication/equality-proofs-and-deferred-type-errors-a-compiler-pearl/) (ICFP'12).
 
 ## Tickets
 
@@ -16,11 +16,11 @@ Use Keyword = `DeferredErrors` to ensure that a ticket ends up on these lists.
 
 **Open Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11197">#11197</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11197">#11197</a></th>
 <td>Overeager deferred type errors</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14370">#14370</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14370">#14370</a></th>
 <td>improve documentation of -fdefer-typed-holes for naked expressions in ghci</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14722">#14722</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14722">#14722</a></th>
 <td>Error message points to wrong location</td></tr></table>
 
 
@@ -28,7 +28,7 @@ Use Keyword = `DeferredErrors` to ensure that a ticket ends up on these lists.
 
 **Closed Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14325">#14325</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14325">#14325</a></th>
 <td>Erroneous program emits no errors</td></tr></table>
 
 

@@ -9,7 +9,7 @@ It is straight forward to extend the current implementation with additional prob
 ## About DTrace
 
 
-DTrace and the associated D programming language are described in detail in the [ Solaris Dynamic Tracing Guide](http://wikis.sun.com/display/DTrace/Documentation).  The Mac OS X specific GUI frontend, Instruments, is explained in the [ Instruments User Guide](http://developer.apple.com/mac/library/DOCUMENTATION/DeveloperTools/Conceptual/InstrumentsUserGuide/Introduction/Introduction.html) and the Mac version of the command line tool `dtrace` is documented by the [ Mac OS X dtrace man page](http://developer.apple.com/mac/library/documentation/Darwin/Reference/ManPages/man1/dtrace.1.html).
+DTrace and the associated D programming language are described in detail in the [Solaris Dynamic Tracing Guide](http://wikis.sun.com/display/DTrace/Documentation).  The Mac OS X specific GUI frontend, Instruments, is explained in the [ Instruments User Guide](http://developer.apple.com/mac/library/DOCUMENTATION/DeveloperTools/Conceptual/InstrumentsUserGuide/Introduction/Introduction.html) and the Mac version of the command line tool `dtrace` is documented by the [ Mac OS X dtrace man page](http://developer.apple.com/mac/library/documentation/Darwin/Reference/ManPages/man1/dtrace.1.html).
 
 ## Using DTrace with GHC
 
@@ -170,4 +170,4 @@ The two events `EVENT_LOG_MSG` and `EVENT_BLOCK_MARKER` are not supported.  The 
 ## Portability
 
 
-User-space DTrace probes are implemented differently on Mac OS X than in the original DTrace implementation; see under the heading *BUILDING CODE CONTAINING USDT PROBES* in the [ Mac OS X dtrace man page](http://developer.apple.com/mac/library/documentation/Darwin/Reference/ManPages/man1/dtrace.1.html).  Nevertheless, it shouldn't be too hard to enable these probes on other platforms, too.
+User-space DTrace probes are implemented differently on Mac OS X than in the original DTrace implementation; see under the heading *BUILDING CODE CONTAINING USDT PROBES* in the [Mac OS X dtrace man page](http://developer.apple.com/mac/library/documentation/Darwin/Reference/ManPages/man1/dtrace.1.html).  Nevertheless, it shouldn't be too hard to enable these probes on other platforms, too.

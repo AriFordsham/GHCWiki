@@ -1,7 +1,7 @@
 # [TracLinks](trac-links) in reStructuredText
 
 
-This document illustrates how to use the `:trac:` role in [ reStructuredText](http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html). The page is written like:
+This document illustrates how to use the `:trac:` role in [reStructuredText](http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html). The page is written like:
 
 ```wiki
 {{{#!rst
@@ -27,7 +27,7 @@ An explicit label can be specified, separated from the link by a space:
 ```
 
 
-Provided you have [ docutils](http://docutils.sourceforge.net/) installed, the above block will render as:
+Provided you have [docutils](http://docutils.sourceforge.net/) installed, the above block will render as:
 
 
 ---
@@ -39,7 +39,7 @@ Examples:
 
 >
 > - 
-> - Tickets: [\#1](https://gitlab.haskell.org//ghc/ghc/issues/1) or [ticket:1](https://gitlab.haskell.org//ghc/ghc/issues/1)
+> - Tickets: [\#1](https://gitlab.haskell.org/ghc/ghc/issues/1) or [ticket:1](https://gitlab.haskell.org/ghc/ghc/issues/1)
 > - 
 > - Ticket comments: comment:ticket:1:2
 > - 
@@ -71,7 +71,7 @@ An explicit label can be specified, separated from the link by a space:
 
 >
 > - 
-> - See [ticket 1](https://gitlab.haskell.org//ghc/ghc/issues/1) and the license.
+> - See [ticket 1](https://gitlab.haskell.org/ghc/ghc/issues/1) and the license.
 > - 
 >
 >
@@ -98,7 +98,7 @@ This renders as:
 
 
 
-See [this ticket](https://gitlab.haskell.org//ghc/ghc/issues/123).
+See [this ticket](https://gitlab.haskell.org/ghc/ghc/issues/123).
 
 
 >

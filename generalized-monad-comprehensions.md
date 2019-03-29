@@ -1,7 +1,7 @@
 # Generalized monad comprehensions
 
 
-This is a proposal to generalize [MonadComprehensions](monad-comprehensions) (in conjunction with the `ParallelListComp` and `TransformListComp` extensions) from ticket [\#8914](https://gitlab.haskell.org//ghc/ghc/issues/8914) as well as do-notation.
+This is a proposal to generalize [MonadComprehensions](monad-comprehensions) (in conjunction with the `ParallelListComp` and `TransformListComp` extensions) from ticket [\#8914](https://gitlab.haskell.org/ghc/ghc/issues/8914) as well as do-notation.
 
 ## Related proposals
 
@@ -54,7 +54,7 @@ but get a more restricted `Monad` constraint.
 
 ### MonadZip
 
-`MonadZip` (from [ Control.Monad.Zip](http://hackage.haskell.org/package/base-4.4.0.0/docs/Control-Monad-Zip.html)) is a type class that requires a `Monad` constraint but could make do with a `Functor` constraint (or possibly no constraint at all but then the default implementations could not be implemented and the laws could not be expressed. The definition is currently<sup>[ source](http://hackage.haskell.org/package/base-4.4.0.0/docs/src/Control-Monad-Zip.html)</sup>
+`MonadZip` (from [Control.Monad.Zip](http://hackage.haskell.org/package/base-4.4.0.0/docs/Control-Monad-Zip.html)) is a type class that requires a `Monad` constraint but could make do with a `Functor` constraint (or possibly no constraint at all but then the default implementations could not be implemented and the laws could not be expressed. The definition is currently<sup>[ source](http://hackage.haskell.org/package/base-4.4.0.0/docs/src/Control-Monad-Zip.html)</sup>
 
 ```wiki
 class Monad m => MonadZip m where

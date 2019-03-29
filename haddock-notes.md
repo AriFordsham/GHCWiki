@@ -1,7 +1,7 @@
 # Notes for using Haddock (for GHC)
 
 
-Some comments use different "markup" than Haddock.  Consult the [ Haddock Markup Rules](http://www.haskell.org/haddock/doc/html/ch03s08.html).
+Some comments use different "markup" than Haddock.  Consult the [Haddock Markup Rules](http://www.haskell.org/haddock/doc/html/ch03s08.html).
 
 ## Haddock Pitfalls
 

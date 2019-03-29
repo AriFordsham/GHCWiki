@@ -20,7 +20,7 @@ A package consists of  zero or more Haskell modules, compiled to object code and
 ## Package databases
 
 
-GHC draws its information about what packages are installed from one or more package databases.  A package database is a file containing a value of type \[ [InstalledPackageInfo](http://www.haskell.org/ghc/docs/latest/html/libraries/Cabal/Distribution-InstalledPackageInfo.html#t%3AInstalledPackageInfo) \], rendered as text via `show`.  Also, GHC allows the system package databases to be in the form of a directory of files, each of which contains a `[InstalledPackageInfo]` (in the future this may be extended to allow all packages databases to have this form).  Note: the exact representation of a package database is intended to be private to GHC, which is why we provide the `ghc-pkg` tool to manipulate it.
+GHC draws its information about what packages are installed from one or more package databases.  A package database is a file containing a value of type \[[InstalledPackageInfo](http://www.haskell.org/ghc/docs/latest/html/libraries/Cabal/Distribution-InstalledPackageInfo.html#t%3AInstalledPackageInfo) \], rendered as text via `show`.  Also, GHC allows the system package databases to be in the form of a directory of files, each of which contains a `[InstalledPackageInfo]` (in the future this may be extended to allow all packages databases to have this form).  Note: the exact representation of a package database is intended to be private to GHC, which is why we provide the `ghc-pkg` tool to manipulate it.
 
 ## Package-related types
 
@@ -132,7 +132,7 @@ At the time of writing (GHC 6.6) GHC doesn't have working support for generating
 ## Reexported modules
 
 
-Starting with GHC 7.10 ([\#8407](https://gitlab.haskell.org//ghc/ghc/issues/8407)), we will have support for reexporting modules from other packages you depend upon.  How does this work?  In the package database, a package not only declare that it exposes a module, but it can also say that it reexports a module, with an indirection to the defining package (and original module name, if it is renamed).  There is a twist however: this simple strategy could require GHC to follow a chain of indirections in the package database.  Instead, we maintain the invariant that an indirection always points to the original defining module. To enforce this invariant, `ghc-pkg` processes installed package info with `resolveReexports`, shortcutting the indirections before adding a package to the database.
+Starting with GHC 7.10 ([\#8407](https://gitlab.haskell.org/ghc/ghc/issues/8407)), we will have support for reexporting modules from other packages you depend upon.  How does this work?  In the package database, a package not only declare that it exposes a module, but it can also say that it reexports a module, with an indirection to the defining package (and original module name, if it is renamed).  There is a twist however: this simple strategy could require GHC to follow a chain of indirections in the package database.  Instead, we maintain the invariant that an indirection always points to the original defining module. To enforce this invariant, `ghc-pkg` processes installed package info with `resolveReexports`, shortcutting the indirections before adding a package to the database.
 
 ## Packages in a GHC build
 

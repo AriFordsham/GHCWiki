@@ -1,23 +1,23 @@
 # Syntax Coloring of Source Code
 
 
-Trac supports language-specific syntax highlighting of source code within wiki formatted text in [wiki processors](wiki-processors#) blocks and in the [repository browser](trac-browser). Syntax coloring is provided using [ Pygments](http://pygments.org/), which covers a wide range of programming languages and other structured texts, and is actively supported. If Pygments is not available, Trac will display the content as plain text. 
+Trac supports language-specific syntax highlighting of source code within wiki formatted text in [wiki processors](wiki-processors#) blocks and in the [repository browser](trac-browser). Syntax coloring is provided using [Pygments](http://pygments.org/), which covers a wide range of programming languages and other structured texts, and is actively supported. If Pygments is not available, Trac will display the content as plain text. 
 
 ### About Pygments
 
-[ Pygments](http://pygments.org/) is a highlighting library implemented in pure python, very fast, easy to extend and [ well documented](http://pygments.org/docs/).
+[Pygments](http://pygments.org/) is a highlighting library implemented in pure python, very fast, easy to extend and [ well documented](http://pygments.org/docs/).
 
 
 The Pygments default style can specified in the [mime-viewer](trac-ini#) section of trac.ini. The default style can be overridden by setting a *Style* preference on the [preferences page](/trac/ghc/prefs/pygments). 
 
-[ Pygments lexer](http://pygments.org/docs/lexers/) options can be specified as [WikiProcessor](wiki-processors) arguments and defaults can be set in the [environment configuration](trac-ini#).
+[Pygments lexer](http://pygments.org/docs/lexers/) options can be specified as [WikiProcessor](wiki-processors) arguments and defaults can be set in the [environment configuration](trac-ini#).
 
 ## Syntax Coloring Support
 
 ### Supported languages
 
 
-The list of currently supported languages can be found on the [ supported languages](http://pygments.org/languages/) page. The list represents the languages supported in the most recent version of Pygments, so the languages actually supported in your installation could differ if you have an older version installed. The listing of [ supported lexers](http://pygments.org/docs/lexers/) provides additional information about the default mime type to keyword mappings.
+The list of currently supported languages can be found on the [supported languages](http://pygments.org/languages/) page. The list represents the languages supported in the most recent version of Pygments, so the languages actually supported in your installation could differ if you have an older version installed. The listing of [ supported lexers](http://pygments.org/docs/lexers/) provides additional information about the default mime type to keyword mappings.
 
 
 Explicit control of the mime type associated with a [WikiProcessor](wiki-processors) and file extension is available through the `mime_map` setting. For example, by default `.m` files are considered Objective-C files. In order to treat `.m` files as MATLAB files, add `text/matlab:m` to the `mime_map` setting in the [\[mimeviewer\] section of trac.ini](trac-ini#).

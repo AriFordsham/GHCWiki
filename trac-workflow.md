@@ -6,17 +6,17 @@ The Trac ticket system provides a configurable workflow.
 ## The Default Ticket Workflow
 
 
-When a new environment is created, a default workflow is configured in your trac.ini. This workflow is the basic workflow, such as specified in [ basic-workflow.ini](http://trac.edgewall.org/intertrac/source%3A/trunk/trac/ticket/workflows/basic-workflow.ini):
+When a new environment is created, a default workflow is configured in your trac.ini. This workflow is the basic workflow, such as specified in [basic-workflow.ini](http://trac.edgewall.org/intertrac/source%3A/trunk/trac/ticket/workflows/basic-workflow.ini):
 
 Enable JavaScript to display the workflow graph.
 
 ## Additional Ticket Workflows
 
 
-There are example workflows provided in the Trac source tree, see [ contrib/workflow](http://trac.edgewall.org/intertrac/source%3Atrunk/contrib/workflow) for `.ini` config sections. One of those may be a good match for what you want. They can be pasted into the `[ticket-workflow]` section of your `trac.ini` file. However, if you have existing tickets then there may be issues if those tickets have states that are not in the new workflow. 
+There are example workflows provided in the Trac source tree, see [contrib/workflow](http://trac.edgewall.org/intertrac/source%3Atrunk/contrib/workflow) for `.ini` config sections. One of those may be a good match for what you want. They can be pasted into the `[ticket-workflow]` section of your `trac.ini` file. However, if you have existing tickets then there may be issues if those tickets have states that are not in the new workflow. 
 
 
-Here are some [ diagrams](http://trac.edgewall.org/intertrac/WorkFlow/Examples) of the above examples.
+Here are some [diagrams](http://trac.edgewall.org/intertrac/WorkFlow/Examples) of the above examples.
 
 ## Basic Ticket Workflow Customization
 
@@ -127,7 +127,7 @@ _reset.default = 0
 ```
 
 
-Since [ milestone:1.0.3](http://trac.edgewall.org/intertrac/milestone%3A1.0.3) the `_reset` action can be customized by redefining the implicit action. For example, to allow anyone with `TICKET_MODIFY` to perform the `_reset` action, the workflow action would need to be defined:
+Since [milestone:1.0.3](http://trac.edgewall.org/intertrac/milestone%3A1.0.3) the `_reset` action can be customized by redefining the implicit action. For example, to allow anyone with `TICKET_MODIFY` to perform the `_reset` action, the workflow action would need to be defined:
 
 
 ```
@@ -144,7 +144,7 @@ _reset.default = 0
 Workflows can be visualized by rendering them on the wiki using the [Workflow macro](wiki-macros#).
 
 
-Workflows can also be visualized using the `contrib/workflow/workflow_parser.py` script. The script outputs `.dot` files that [ GraphViz](http://www.graphviz.org) understands. The script can be used as follows (your install path may be different):
+Workflows can also be visualized using the `contrib/workflow/workflow_parser.py` script. The script outputs `.dot` files that [GraphViz](http://www.graphviz.org) understands. The script can be used as follows (your install path may be different):
 
 ```
 cd /var/local/trac_devel/contrib/workflow/
@@ -181,7 +181,7 @@ pass.set_resolution = fixed
 ### How to combine the `tracopt.ticket.commit_updater` with the testing workflow
 
 
-The [ tracopt.ticket.commit_updater](http://trac.edgewall.org/intertrac/source%3Atrunk/tracopt/ticket/commit_updater.py) is the optional component that [replaces the old trac-post-commit-hook](trac-repository-admin#), in Trac 0.12.
+The [tracopt.ticket.commit_updater](http://trac.edgewall.org/intertrac/source%3Atrunk/tracopt/ticket/commit_updater.py) is the optional component that [replaces the old trac-post-commit-hook](trac-repository-admin#), in Trac 0.12.
 
 
 By default it reacts on some keywords found in changeset message logs like *close*, *fix* etc. and performs the corresponding workflow action.
@@ -190,7 +190,7 @@ By default it reacts on some keywords found in changeset message logs like *clos
 If you have a more complex workflow, like the testing stage described above and you want the *closes* keyword to move the ticket to the *testing* status instead of the *closed* status, you need to adapt the code a bit. 
 
 
-Have a look at the [ Trac 0.11 recipe](http://trac.edgewall.org/intertrac/wiki%3A0.11/TracWorkflow%23How-ToCombineSVNtrac-post-commit-hookWithTestWorkflow) for the `trac-post-commit-hook`, this will give you some ideas about how to modify the component.
+Have a look at the [Trac 0.11 recipe](http://trac.edgewall.org/intertrac/wiki%3A0.11/TracWorkflow%23How-ToCombineSVNtrac-post-commit-hookWithTestWorkflow) for the `trac-post-commit-hook`, this will give you some ideas about how to modify the component.
 
 ## Example: Add simple optional generic review state
 
@@ -287,7 +287,7 @@ resolve.permissions = TICKET_MODIFY
 ## Advanced Ticket Workflow Customization
 
 
-If the customizations above do not meet your needs, you can extend the workflow with plugins. Plugins can provide additional operations for the workflow, like code_review, or implement side-effects for an action, such as triggering a build, that may not be merely simple state changes. Look at [ sample-plugins/workflow](http://trac.edgewall.org/intertrac/source%3Atrunk/sample-plugins/workflow) for a few examples to get started.
+If the customizations above do not meet your needs, you can extend the workflow with plugins. Plugins can provide additional operations for the workflow, like code_review, or implement side-effects for an action, such as triggering a build, that may not be merely simple state changes. Look at [sample-plugins/workflow](http://trac.edgewall.org/intertrac/source%3Atrunk/sample-plugins/workflow) for a few examples to get started.
 
 
 But if even that is not enough, you can disable the ConfigurableTicketWorkflow component and create a plugin that completely replaces it.
@@ -300,4 +300,4 @@ If you add additional states to your workflow, you may want to customize your mi
 ## Ideas for next steps
 
 
-Enhancement ideas for the workflow system should be filed as enhancement tickets against the [ ticket system](http://trac.edgewall.org/intertrac/query%3A%3Fstatus%3Dassigned%26status%3Dnew%26status%3Dreopened%26keywords%3D%7Eworkflow%26component%3Dticket%2Bsystem) component.  You can also document ideas on the [ TracIdeas/TracWorkflow](http://trac.edgewall.org/intertrac/TracIdeas/TracWorkflow) page. Also look at the [ AdvancedTicketWorkflowPlugin](http://trac-hacks.org/wiki/AdvancedTicketWorkflowPlugin) as it provides experimental operations.
+Enhancement ideas for the workflow system should be filed as enhancement tickets against the [ticket system](http://trac.edgewall.org/intertrac/query%3A%3Fstatus%3Dassigned%26status%3Dnew%26status%3Dreopened%26keywords%3D%7Eworkflow%26component%3Dticket%2Bsystem) component.  You can also document ideas on the [ TracIdeas/TracWorkflow](http://trac.edgewall.org/intertrac/TracIdeas/TracWorkflow) page. Also look at the [ AdvancedTicketWorkflowPlugin](http://trac-hacks.org/wiki/AdvancedTicketWorkflowPlugin) as it provides experimental operations.

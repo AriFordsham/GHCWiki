@@ -218,7 +218,7 @@ An example of an advantage of using lens libraries: fclabels has a notion of "pa
 `data R = R1 { x, y :: Int } | R2 { y :: Int }` which would solve the problem in a nice typesafe way rather than generating a `x` function that fails at runtime.  If we have built in lenses, or a record system with a built-in way of generating record accessors (morally equivalent), then we are stuck with whatever choice was baked into ghc.  Hopefully it's Maybe rather than runtime errors, but at least using an external lens library lets you retroactively fix things like that.
 
 
-I (aavogt) wrote a preprocessor \<[ http://code.haskell.org/\~aavogt/recordlabel-preprocessor/perf.html](http://code.haskell.org/~aavogt/recordlabel-preprocessor/perf.html)\>, which uses \` instead of \#.
+I (aavogt) wrote a preprocessor \<[http://code.haskell.org/\~aavogt/recordlabel-preprocessor/perf.html](http://code.haskell.org/~aavogt/recordlabel-preprocessor/perf.html)\>, which uses \` instead of \#.
 It takes a different perspective, in that \`x is just a way to write a type level string
 `Symbol` "x", but that's only useful with extensible records. Regardless, user code seems to be very similar.
 
@@ -230,7 +230,7 @@ It takes a different perspective, in that \`x is just a way to write a type leve
 1. It's not just record types, any lens can go in the lens composition, e.g. one for Data.Map.  So you can translate imperative `record.a.b[c].d = 42` to `set (#d . Map.lens c . #b . #a) 42 record`.  Make a new operators if you like left to right or want infix modification.
 1. Module export list controls access over record fields as always.
 1. Orthogonal to records: any function can be addressed.
-1. "Support" for polymorphic and higher-ranked fields, via existing record update syntax.  It's a cheat because it's also con [\#2](https://gitlab.haskell.org//ghc/ghc/issues/2), but I think it's a valid design to build on top of the existing syntax instead of replacing it.  Maybe it can be extended to support fancy stuff later, but meanwhile it solves the simple case while not precluding the complicated one.
+1. "Support" for polymorphic and higher-ranked fields, via existing record update syntax.  It's a cheat because it's also con [\#2](https://gitlab.haskell.org/ghc/ghc/issues/2), but I think it's a valid design to build on top of the existing syntax instead of replacing it.  Maybe it can be extended to support fancy stuff later, but meanwhile it solves the simple case while not precluding the complicated one.
 
 ## cons
 

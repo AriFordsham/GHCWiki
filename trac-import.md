@@ -5,15 +5,15 @@ To migrate issue tickets from other issue-tracking systems into Trac or perform 
 
 ## TicketImportPlugin
 
-[ TicketImportPlugin](https://trac-hacks.org/wiki/TicketImportPlugin): a plugin that lets you import or update into Trac a series of tickets from a **CSV file** or (if the [ xlrd library](https://pypi.python.org/pypi/xlrd) is installed) from an **Excel spreadsheet**. 
+[TicketImportPlugin](https://trac-hacks.org/wiki/TicketImportPlugin): a plugin that lets you import or update into Trac a series of tickets from a **CSV file** or (if the [ xlrd library](https://pypi.python.org/pypi/xlrd) is installed) from an **Excel spreadsheet**. 
 
 ## ExportImportXlsPlugin
 
-[ ExportImportXlsPlugin](https://trac-hacks.org/wiki/ExportImportXlsPlugin): a plugin that adds an admin panel for exporting and importing tickets via **XLS file**. Requires the python packages xlwt/rxld.
+[ExportImportXlsPlugin](https://trac-hacks.org/wiki/ExportImportXlsPlugin): a plugin that adds an admin panel for exporting and importing tickets via **XLS file**. Requires the python packages xlwt/rxld.
 
 ## Bugzilla
 
-[ BugzillaIssueTrackingPlugin](https://trac-hacks.org/wiki/BugzillaIssueTrackingPlugin): a plugin that integrates Bugzilla issue data into Trac keeping [TracLinks](trac-links). Ticket data can be imported from Bugzilla using the [ bugzilla2trac.py](http://trac.edgewall.org/intertrac/browser%3Atrunk/contrib/bugzilla2trac.py) script, available in the contrib/ directory of the Trac distribution.
+[BugzillaIssueTrackingPlugin](https://trac-hacks.org/wiki/BugzillaIssueTrackingPlugin): a plugin that integrates Bugzilla issue data into Trac keeping [TracLinks](trac-links). Ticket data can be imported from Bugzilla using the [ bugzilla2trac.py](http://trac.edgewall.org/intertrac/browser%3Atrunk/contrib/bugzilla2trac.py) script, available in the contrib/ directory of the Trac distribution.
 
 ```wiki
 $ bugzilla2trac.py
@@ -60,7 +60,7 @@ The adequate milestone for valid bugzilla2trac issue is usually *Not applicable*
 
 ## Jira
 
-[ JiraToTracIntegration](https://trac-hacks.org/wiki/JiraToTracIntegration): a plugin that provides tools to import Atlassian Jira backup files into Trac. The plugin consists of a Python 3.1 commandline tool that:
+[JiraToTracIntegration](https://trac-hacks.org/wiki/JiraToTracIntegration): a plugin that provides tools to import Atlassian Jira backup files into Trac. The plugin consists of a Python 3.1 commandline tool that:
 
 - Parses the Jira backup XML file.
 - Sends the imported Jira data and attachments to Trac using the \[th:XmlRpcPlugin\].
@@ -68,7 +68,7 @@ The adequate milestone for valid bugzilla2trac issue is usually *Not applicable*
 
 ## Mantis
 
-[ MantisImportScript](https://trac-hacks.org/wiki/MantisImportScript): a script to import the following type of data from Mantis into Trac:
+[MantisImportScript](https://trac-hacks.org/wiki/MantisImportScript): a script to import the following type of data from Mantis into Trac:
 
 - bugs
 - bug comments
@@ -77,26 +77,26 @@ The adequate milestone for valid bugzilla2trac issue is usually *Not applicable*
 
 ## PlanetForge
 
-[ PlanetForgeImportExportPlugin](https://trac-hacks.org/wiki/PlanetForgeImportExportPlugin): this plugin exports Trac data (wiki, tickets, compoments, permissions, repositories, etc.) using the open format designed by the [ COCLICO](https://gforge.inria.fr/projects/coclico/) project. It extends the webadmin panel and the 'trac admin ...' command. Has no 'import' feature. 
+[PlanetForgeImportExportPlugin](https://trac-hacks.org/wiki/PlanetForgeImportExportPlugin): this plugin exports Trac data (wiki, tickets, compoments, permissions, repositories, etc.) using the open format designed by the [ COCLICO](https://gforge.inria.fr/projects/coclico/) project. It extends the webadmin panel and the 'trac admin ...' command. Has no 'import' feature. 
 
 ## Scarab
 
-[ ScarabToTracScript](https://trac-hacks.org/wiki/ScarabToTracScript): a script that migrates Scarab issues to Trac tickets. Requires \[th:XmlRpcPlugin\].
+[ScarabToTracScript](https://trac-hacks.org/wiki/ScarabToTracScript): a script that migrates Scarab issues to Trac tickets. Requires \[th:XmlRpcPlugin\].
 
 ## Sourceforge
 
-[ SfnToTracScript](https://trac-hacks.org/wiki/SfnToTracScript): importer of SourceForge's new backup file (originated from \#Trac3521).
-Also, ticket data can be imported from Sourceforge using the [ sourceforge2trac.py](http://trac.edgewall.org/intertrac/browser%3Atrunk/contrib/sourceforge2trac.py) script, available in the contrib/ directory of the Trac distribution.
+[SfnToTracScript](https://trac-hacks.org/wiki/SfnToTracScript): importer of SourceForge's new backup file (originated from \#Trac3521).
+Also, ticket data can be imported from Sourceforge using the [sourceforge2trac.py](http://trac.edgewall.org/intertrac/browser%3Atrunk/contrib/sourceforge2trac.py) script, available in the contrib/ directory of the Trac distribution.
 
 ## Other
 
 
-Since Trac uses a SQL database to store the data, you can also custom-import from other systems by examining the database tables. Just go into [ sqlite](http://www.sqlite.org/sqlite.html) command line to look at the tables and import them from your application.
+Since Trac uses a SQL database to store the data, you can also custom-import from other systems by examining the database tables. Just go into [sqlite](http://www.sqlite.org/sqlite.html) command line to look at the tables and import them from your application.
 
 ### Comma delimited file - CSV
 
 
-See [ csv2trac.2.py](http://trac.edgewall.org/intertrac/attachment%3Acsv2trac.2.py%3Awiki%3ATracSynchronize) for details. This approach is particularly useful if you need to enter a large number of tickets by hand. Note that the ticket type type field, (task etc.) is also needed for this script to work with more recent Trac releases.
+See [csv2trac.2.py](http://trac.edgewall.org/intertrac/attachment%3Acsv2trac.2.py%3Awiki%3ATracSynchronize) for details. This approach is particularly useful if you need to enter a large number of tickets by hand. Note that the ticket type type field, (task etc.) is also needed for this script to work with more recent Trac releases.
 
 
 Comments on script: The script has an error on line 168: 'Ticket' needs to be 'ticket'. Also, the listed values for severity and priority are swapped. 

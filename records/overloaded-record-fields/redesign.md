@@ -4,7 +4,7 @@
 This is an attempt to redesign and clarify the design of the [OverloadedRecordFields](records/overloaded-record-fields) extension, in order to develop a plan for implementation.  It has benefited from the extensive discussion surrounding [Nikita Volkov's record library](records/volkov).  The following design choices are not set in stone, but are intended as a concrete proposal for further discussion.  For reference, here is the [previous design](records/overloaded-record-fields/design).
 
 
-See also the [ high-level summary of the current plan on the Well-Typed blog](http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/).
+See also the [high-level summary of the current plan on the Well-Typed blog](http://www.well-typed.com/blog/2015/03/overloadedrecordfields-revived/).
 
 ## Part 1: Records with duplicate fields
 

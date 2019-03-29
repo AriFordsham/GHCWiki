@@ -5,12 +5,12 @@ Markdown has grown in popularity since github started encouraging people to writ
 Github highlights the source according to how it's labeled, so the haskell code blocks look nice, as do the HTML blocks.
 As an example, here is a blog post written in markdown and rendered by github's source view:
 
-[ https://github.com/elliottt/elliottt.github.com/blob/source/source/_posts/2013-02-19-serenade-in-haskell.markdown](https://github.com/elliottt/elliottt.github.com/blob/source/source/_posts/2013-02-19-serenade-in-haskell.markdown)
+[https://github.com/elliottt/elliottt.github.com/blob/source/source/_posts/2013-02-19-serenade-in-haskell.markdown](https://github.com/elliottt/elliottt.github.com/blob/source/source/_posts/2013-02-19-serenade-in-haskell.markdown)
 
 
 And here is the source:
 
-[ https://raw.github.com/elliottt/elliottt.github.com/source/source/_posts/2013-02-19-serenade-in-haskell.markdown](https://raw.github.com/elliottt/elliottt.github.com/source/source/_posts/2013-02-19-serenade-in-haskell.markdown)
+[https://raw.github.com/elliottt/elliottt.github.com/source/source/_posts/2013-02-19-serenade-in-haskell.markdown](https://raw.github.com/elliottt/elliottt.github.com/source/source/_posts/2013-02-19-serenade-in-haskell.markdown)
 
 
 As you can see, the source is a haskell module, and if GHC accepted .md or .markdown as input, this blog post would be executable.
@@ -97,12 +97,12 @@ Ordinary `.lhs` files will be processed as usual, so this is fully backward comp
 ## Implementation
 
 
-The above design has been implemented in [ https://github.com/elliottt/ghc/tree/literate-markdown](https://github.com/elliottt/ghc/tree/literate-markdown) .
+The above design has been implemented in [https://github.com/elliottt/ghc/tree/literate-markdown](https://github.com/elliottt/ghc/tree/literate-markdown) .
 
 
 The implementation involved the following:
 
 1. Modify `unlit` to support the new form of code block
-1. Don't get confused with CPP handline (see bug [\#4836](https://gitlab.haskell.org//ghc/ghc/issues/4836))
+1. Don't get confused with CPP handline (see bug [\#4836](https://gitlab.haskell.org/ghc/ghc/issues/4836))
 1. Make GHC look for modules in `.md` and `.markdown` files.
 1. TODO when unliting markdown, do not recognize bird-tracks as code blocks.

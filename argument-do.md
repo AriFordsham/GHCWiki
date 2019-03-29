@@ -1,7 +1,7 @@
 # Overview
 
 
-This page documents a proposed syntactical extension called `ArgumentDo`. The feature request is tracked at [\#10843](https://gitlab.haskell.org//ghc/ghc/issues/10843).
+This page documents a proposed syntactical extension called `ArgumentDo`. The feature request is tracked at [\#10843](https://gitlab.haskell.org/ghc/ghc/issues/10843).
 
 
 
@@ -41,7 +41,7 @@ withForeignPtr fptr (\ptr -> c_memcpy buf ptr size)
 # Changes to the grammar
 
 
-The Haskell report [ defines](https://www.haskell.org/onlinereport/haskell2010/haskellch3.html#x8-220003) the `lexp` nonterminal thus (`*` indicates a rule of interest):
+The Haskell report [defines](https://www.haskell.org/onlinereport/haskell2010/haskellch3.html#x8-220003) the `lexp` nonterminal thus (`*` indicates a rule of interest):
 
 ```wiki
 lexp  →  \ apat1 … apatn -> exp            (lambda abstraction, n ≥ 1)  *
@@ -175,10 +175,10 @@ Possible modifications to the proposal include:
 - Only allow `do` in argument positions, but no other constructs. This has an advantage of making a minimal change to the grammar, while addressing the most common case.
 
 
-This proposal has been extensively discussed on [ haskell-cafe](https://mail.haskell.org/pipermail/haskell-cafe/2015-September/121217.html) and on [ reddit](https://www.reddit.com/r/haskell/comments/447bnw/does_argument_do_have_a_future/).
+This proposal has been extensively discussed on [haskell-cafe](https://mail.haskell.org/pipermail/haskell-cafe/2015-September/121217.html) and on [ reddit](https://www.reddit.com/r/haskell/comments/447bnw/does_argument_do_have_a_future/).
 
 
-On the mailing list I see roughly 13 people in favor of the proposal and 12 people against it. Some major opinions (mostly copied from [ bgmari's summary](https://ghc.haskell.org/trac/ghc/ticket/10843#comment:12)).
+On the mailing list I see roughly 13 people in favor of the proposal and 12 people against it. Some major opinions (mostly copied from [bgmari's summary](https://ghc.haskell.org/trac/ghc/ticket/10843#comment:12)).
 
 ## Pros
 

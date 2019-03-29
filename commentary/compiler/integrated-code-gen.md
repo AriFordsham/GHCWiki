@@ -53,9 +53,9 @@ require complex implementations.  We live with this complexity because
   strictly more powerful than any sequence of individual optimizations,
   no matter how many times they are re-run.
   The dataflow engine is based on 
-  [ (Lerner, Grove, and Chambers 2002)](http://citeseer.ist.psu.edu/old/lerner01composing.html);
+  [(Lerner, Grove, and Chambers 2002)](http://citeseer.ist.psu.edu/old/lerner01composing.html);
   you can find a functional implementation of the dataflow engine presented in
-  [ (Ramsey and Dias 2005)](http://www.cs.tufts.edu/~nr/pubs/zipcfg-abstract.html).
+  [(Ramsey and Dias 2005)](http://www.cs.tufts.edu/~nr/pubs/zipcfg-abstract.html).
 
 - **Coalescing register allocator:** The back end can use fresh temporaries and register-register moves
   with abandon, knowing that a state-of-the-art register allocator
@@ -129,7 +129,7 @@ An **extremely important distinction** from the existing code is that we plan to
 Similarly, we expect a an instruction selector for *each* back end, so for example, we might have a transformation that maps `LGraph Cmm.Middle Cmm.Last` (with variables, stack slots, and compile-time constants) `-> LGraph I86.Middle I386.Last` (with variables, stack slots, and compile-time constants).
 
 
-We expect to **abstract away from the details of these representations** by borrowing some abstractions from [ Machine SUIF](http://www.eecs.harvard.edu/hube/software/nci/overview.html).  In the longer term we would like to support RTL-based representations such as are used in gcc, vpo and Quick C--.  What this means is that `I386.Middle` (etc) is an abstract type, an instance of type class that supports the functions that the rest of the pipeline needs. For example:
+We expect to **abstract away from the details of these representations** by borrowing some abstractions from [Machine SUIF](http://www.eecs.harvard.edu/hube/software/nci/overview.html).  In the longer term we would like to support RTL-based representations such as are used in gcc, vpo and Quick C--.  What this means is that `I386.Middle` (etc) is an abstract type, an instance of type class that supports the functions that the rest of the pipeline needs. For example:
 
 ```wiki
 class Instr i where

@@ -20,7 +20,7 @@ subdirectory.
 
 
 Nowadays, most of these other projects are using
-[ Cabal](http://www.haskell.org/cabal/), or have faded away, and GHC is
+[Cabal](http://www.haskell.org/cabal/), or have faded away, and GHC is
 the only regular user of the fptools build system.  We decided
 therefore to simplify the situation for developers, and specialise the
 build system for GHC.  This resulted in a simpler organisation of the

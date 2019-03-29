@@ -55,7 +55,7 @@
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8033">#8033</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8033">#8033</a></th>
 <td>
                     
                   
@@ -81,7 +81,7 @@
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8033">add AVX register support to llvm calling convention</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8033">add AVX register support to llvm calling convention</a>
                       
                       
                       
@@ -133,7 +133,7 @@
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10286">#10286</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10286">#10286</a></th>
 <td>
                     
                   
@@ -159,7 +159,7 @@
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10286">native code generator: GHC crash at GHC.Prim SIMD vector</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10286">native code generator: GHC crash at GHC.Prim SIMD vector</a>
                       
                       
                       
@@ -260,7 +260,7 @@
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3557">#3557</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/3557">#3557</a></th>
 <td>
                     
                   
@@ -286,7 +286,7 @@
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/3557">CPU Vector instructions in GHC.Prim</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/3557">CPU Vector instructions in GHC.Prim</a>
                       
                       
                       
@@ -338,7 +338,7 @@
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7741">#7741</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7741">#7741</a></th>
 <td>
                     
                   
@@ -364,7 +364,7 @@
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/7741">Add SIMD support to x86/x86_64 NCG</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/7741">Add SIMD support to x86/x86_64 NCG</a>
                       
                       
                       
@@ -416,7 +416,7 @@
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10648">#10648</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10648">#10648</a></th>
 <td>
                     
                   
@@ -442,7 +442,7 @@
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10648">Some 64-vector SIMD primitives are absolutely useless</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10648">Some 64-vector SIMD primitives are absolutely useless</a>
                       
                       
                       
@@ -494,7 +494,7 @@
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13852">#13852</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13852">#13852</a></th>
 <td>
                     
                   
@@ -520,7 +520,7 @@
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13852">Can we have more SIMD primops, corresponding to the untapped AVX etc. instructions?</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/13852">Can we have more SIMD primops, corresponding to the untapped AVX etc. instructions?</a>
                       
                       
                       
@@ -572,7 +572,7 @@
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12412">#12412</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12412">#12412</a></th>
 <td>
                     
                   
@@ -598,7 +598,7 @@
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12412">SIMD things introduce a metric ton of known key things</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/12412">SIMD things introduce a metric ton of known key things</a>
                       
                       
                       
@@ -655,7 +655,7 @@
 ### Vector types
 
 
-Vectors of the following types are implemented: `Int32`, `Int64`, `Float`, and `Double`. These types and their associated primops can be found in [ \`GHC.Prim\`](https://downloads.haskell.org/~ghc/8.0.2/docs/html/libraries/ghc-prim-0.5.0.0/GHC-Prim.html#g:28).
+Vectors of the following types are implemented: `Int32`, `Int64`, `Float`, and `Double`. These types and their associated primops can be found in [\`GHC.Prim\`](https://downloads.haskell.org/~ghc/8.0.2/docs/html/libraries/ghc-prim-0.5.0.0/GHC-Prim.html#g:28).
 
 ### Fixed and variable sized vectors
 
@@ -665,7 +665,7 @@ For each type, currently only one vector width is implemented, namely the width 
 ## Code generators
 
 
-Only the LLVM code generator (i.e. `-fllvm`) is supported. However, work is [ afoot](https://github.com/Abhiroop/ghc-1/tree/wip/simd-ncg-support) to add support to the NCG as well.
+Only the LLVM code generator (i.e. `-fllvm`) is supported. However, work is [afoot](https://github.com/Abhiroop/ghc-1/tree/wip/simd-ncg-support) to add support to the NCG as well.
 
 ## Cmm layer
 
@@ -703,4 +703,4 @@ The implementation does not attempt to align memory containing SIMD vectors. SIM
 ### Other resources of interest
 
 
-- This `ghc-devs` discussion: [ https://mail.haskell.org/pipermail/ghc-devs/2017-March/013899.html](https://mail.haskell.org/pipermail/ghc-devs/2017-March/013899.html)
+- This `ghc-devs` discussion: [https://mail.haskell.org/pipermail/ghc-devs/2017-March/013899.html](https://mail.haskell.org/pipermail/ghc-devs/2017-March/013899.html)

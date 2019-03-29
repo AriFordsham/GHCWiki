@@ -35,14 +35,14 @@ Below are the major highlights of 8.4.
 
 ### Library changes
 
-- Phase 2 of the [ Semigroup-Monoid Proposal](https://prime.haskell.org/wiki/Libraries/Proposals/SemigroupMonoid) (Herbert Riedel)
+- Phase 2 of the [Semigroup-Monoid Proposal](https://prime.haskell.org/wiki/Libraries/Proposals/SemigroupMonoid) (Herbert Riedel)
 
 ### Build system and miscellaneous changes
 
 - iserv can be used over the network via iserv-proxy
 - llvm backend uses LLVM5
 - **New Shake-based build system, `hadrian`, will be merged.**  (Andrey Mokhov)
-- **Remove dependency on Hoopl package.**  (Michal Terepeta, [ Phab:D3616](https://phabricator.haskell.org/D3616))
+- **Remove dependency on Hoopl package.**  (Michal Terepeta, [Phab:D3616](https://phabricator.haskell.org/D3616))
 
 ## Tickets marked merge with no milestone
 
@@ -212,7 +212,7 @@ Below are the major highlights of 8.4.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11196">#11196</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11196">#11196</a></th>
 <td>
                     
                   
@@ -238,7 +238,7 @@ Below are the major highlights of 8.4.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11196">TypeInType performance regressions</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/11196">TypeInType performance regressions</a>
                       
                       
                       
@@ -290,7 +290,7 @@ Below are the major highlights of 8.4.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11198">#11198</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11198">#11198</a></th>
 <td>
                     
                   
@@ -316,7 +316,7 @@ Below are the major highlights of 8.4.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11198">TypeInType error message regressions</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/11198">TypeInType error message regressions</a>
                       
                       
                       
@@ -368,7 +368,7 @@ Below are the major highlights of 8.4.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11371">#11371</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11371">#11371</a></th>
 <td>
                     
                   
@@ -394,7 +394,7 @@ Below are the major highlights of 8.4.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11371">Bogus in-scope set in substitutions</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/11371">Bogus in-scope set in substitutions</a>
                       
                       
                       
@@ -446,7 +446,7 @@ Below are the major highlights of 8.4.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11523">#11523</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11523">#11523</a></th>
 <td>
                     
                   
@@ -472,7 +472,7 @@ Below are the major highlights of 8.4.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11523">Infinite Loop when mixing UndecidableSuperClasses and the class/instance constraint synonym trick.</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/11523">Infinite Loop when mixing UndecidableSuperClasses and the class/instance constraint synonym trick.</a>
                       
                       
                       
@@ -524,7 +524,7 @@ Below are the major highlights of 8.4.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12088">#12088</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12088">#12088</a></th>
 <td>
                     
                   
@@ -550,7 +550,7 @@ Below are the major highlights of 8.4.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12088">Type/data family instances in kind checking</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/12088">Type/data family instances in kind checking</a>
                       
                       
                       
@@ -602,7 +602,7 @@ Below are the major highlights of 8.4.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12506">#12506</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12506">#12506</a></th>
 <td>
                     
                   
@@ -628,7 +628,7 @@ Below are the major highlights of 8.4.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12506">Compile time regression in GHC 8.</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/12506">Compile time regression in GHC 8.</a>
                       
                       
                       
@@ -680,7 +680,7 @@ Below are the major highlights of 8.4.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12564">#12564</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12564">#12564</a></th>
 <td>
                     
                   
@@ -706,7 +706,7 @@ Below are the major highlights of 8.4.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12564">Type family in type pattern kind</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/12564">Type family in type pattern kind</a>
                       
                       
                       
@@ -758,7 +758,7 @@ Below are the major highlights of 8.4.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13993">#13993</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13993">#13993</a></th>
 <td>
                     
                   
@@ -784,7 +784,7 @@ Below are the major highlights of 8.4.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13993">Certain inter-module specializations run out of simplifier ticks</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/13993">Certain inter-module specializations run out of simplifier ticks</a>
                       
                       
                       
@@ -836,7 +836,7 @@ Below are the major highlights of 8.4.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14253">#14253</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14253">#14253</a></th>
 <td>
                     
                   
@@ -862,7 +862,7 @@ Below are the major highlights of 8.4.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14253">Pattern match checker mistakenly concludes pattern match on pattern synonym is unreachable</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/14253">Pattern match checker mistakenly concludes pattern match on pattern synonym is unreachable</a>
                       
                       
                       
@@ -914,7 +914,7 @@ Below are the major highlights of 8.4.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14297">#14297</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14297">#14297</a></th>
 <td>
                     
                   
@@ -940,7 +940,7 @@ Below are the major highlights of 8.4.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14297">make bindist packages the wrong binaries for cross compilers</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/14297">make bindist packages the wrong binaries for cross compilers</a>
                       
                       
                       
@@ -992,7 +992,7 @@ Below are the major highlights of 8.4.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14495">#14495</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14495">#14495</a></th>
 <td>
                     
                   
@@ -1018,7 +1018,7 @@ Below are the major highlights of 8.4.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14495">Relocatable GHC</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/14495">Relocatable GHC</a>
                       
                       
                       
@@ -1070,7 +1070,7 @@ Below are the major highlights of 8.4.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14856">#14856</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14856">#14856</a></th>
 <td>
                     
                   
@@ -1096,7 +1096,7 @@ Below are the major highlights of 8.4.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14856">GHC API: Linker failure on loading target multiple times</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/14856">GHC API: Linker failure on loading target multiple times</a>
                       
                       
                       
@@ -1148,7 +1148,7 @@ Below are the major highlights of 8.4.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14858">#14858</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14858">#14858</a></th>
 <td>
                     
                   
@@ -1174,7 +1174,7 @@ Below are the major highlights of 8.4.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14858">Typed hole subtitution search fails in the REPL</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/14858">Typed hole subtitution search fails in the REPL</a>
                       
                       
                       

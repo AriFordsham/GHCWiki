@@ -42,7 +42,7 @@ We do not know the situation with other platforms, such as iOS and Android. We d
 ## Bugs
 
 
-As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.haskell.org//ghc/ghc/issues/3658), the table below lists the related tickets and the platforms that they affect. Most, if not all, of these would be immediately fixed by switching to dynamic GHCi.
+As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.haskell.org/ghc/ghc/issues/3658), the table below lists the related tickets and the platforms that they affect. Most, if not all, of these would be immediately fixed by switching to dynamic GHCi.
 
 <table><tr><th>Ticket</th>
 <th>Affects OS X x86_64?</th>
@@ -53,7 +53,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th>Affects Windows x86?</th>
 <th>Affects other platforms?
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/781">#781 GHCi on x86_64, cannot link to static data in shared libs</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/781">#781 GHCi on x86_64, cannot link to static data in shared libs</a></th>
 <th>no</th>
 <th>no</th>
 <th><b>YES</b></th>
@@ -62,7 +62,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1883">#1883 GHC can&apos;t find library using &quot;short&quot; name</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/1883">#1883 GHC can&apos;t find library using &quot;short&quot; name</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -71,7 +71,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th><b>YES</b></th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2283">#2283 WIndows: loading objects that refer to DLL symbols</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/2283">#2283 WIndows: loading objects that refer to DLL symbols</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -80,7 +80,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th><b>YES</b></th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3242">#3242 ghci: can&apos;t load .so/.DLL for: m (addDLL: could not load DLL)</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/3242">#3242 ghci: can&apos;t load .so/.DLL for: m (addDLL: could not load DLL)</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -89,7 +89,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th><b>YES</b></th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3654">#3654 Mach-O GHCi linker lacks support for a range of relocation entries</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/3654">#3654 Mach-O GHCi linker lacks support for a range of relocation entries</a></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
 <th>no</th>
@@ -98,7 +98,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4244">#4244 Use system linker in GHCi to support alpha, ia64, ppc64</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/4244">#4244 Use system linker in GHCi to support alpha, ia64, ppc64</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -107,7 +107,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th>no</th>
 <th><b>YES</b>
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5062">#5062 Patch: Debug output for OS X linker and coding standard upgrades</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5062">#5062 Patch: Debug output for OS X linker and coding standard upgrades</a></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
 <th>no</th>
@@ -116,7 +116,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5197">#5197 Support static linker semantics for archives and weak symbols</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5197">#5197 Support static linker semantics for archives and weak symbols</a></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
@@ -125,7 +125,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th><b>YES</b></th>
 <th><b>YES</b>
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5435">#5435 GHCi linker should run constructors for linked libraries</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5435">#5435 GHCi linker should run constructors for linked libraries</a></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
@@ -134,7 +134,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th><b>YES</b></th>
 <th><b>YES</b>
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/6107">#6107 GHCi runtime linker cannot link with duplicate common symbols</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/6107">#6107 GHCi runtime linker cannot link with duplicate common symbols</a></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
@@ -143,7 +143,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th><b>YES</b></th>
 <th><b>YES</b>
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7043">#7043 32-bit GHC ceiling of negative float SEGFAULT: 11</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7043">#7043 32-bit GHC ceiling of negative float SEGFAULT: 11</a></th>
 <th>no</th>
 <th><b>YES</b></th>
 <th>no</th>
@@ -152,7 +152,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7056">#7056 GHCi loadArchive &quot;libiconv.a&quot;:failed Unknown PEi386 section name `.drectve&apos;</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7056">#7056 GHCi loadArchive &quot;libiconv.a&quot;:failed Unknown PEi386 section name `.drectve&apos;</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -161,7 +161,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th><b>YES</b></th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7072">#7072 GHC interpreter does not find stat64 symbol on Linux</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7072">#7072 GHC interpreter does not find stat64 symbol on Linux</a></th>
 <th>no</th>
 <th>no</th>
 <th><b>YES</b></th>
@@ -170,7 +170,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7097">#7097 linker fails to load package with binding to foreign library</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7097">#7097 linker fails to load package with binding to foreign library</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -179,7 +179,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th><b>YES</b></th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7103">#7103 Compiler panic, when loading wxc in GHCi</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7103">#7103 Compiler panic, when loading wxc in GHCi</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -188,7 +188,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th><b>YES</b></th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7134">#7134 ghc-7.6.0.20120810-x86_64-windows.exe -&gt; internal error R_X86_64_PC32</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7134">#7134 ghc-7.6.0.20120810-x86_64-windows.exe -&gt; internal error R_X86_64_PC32</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -197,7 +197,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7207">#7207 linker fails to load package with binding to foreign library (win64)</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7207">#7207 linker fails to load package with binding to foreign library (win64)</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -206,7 +206,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7299">#7299 threadDelay broken in ghci, Mac OS X</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7299">#7299 threadDelay broken in ghci, Mac OS X</a></th>
 <th><b>YES</b></th>
 <th><b>YES</b></th>
 <th>no</th>
@@ -215,7 +215,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7357">#7357 GHC.exe gives an internal error while linking vector&apos;s Monadic.hs</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7357">#7357 GHC.exe gives an internal error while linking vector&apos;s Monadic.hs</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
@@ -227,7 +227,7 @@ As well as the [ticket for implementing dynamic GHCi (\#3658)](https://gitlab.ha
 
 ## Other issues
 
-[\#4824](https://gitlab.haskell.org//ghc/ghc/issues/4824), [\#5289](https://gitlab.haskell.org//ghc/ghc/issues/5289), [\#5291](https://gitlab.haskell.org//ghc/ghc/issues/5291), [\#5620](https://gitlab.haskell.org//ghc/ghc/issues/5620)
+[\#4824](https://gitlab.haskell.org/ghc/ghc/issues/4824), [\#5289](https://gitlab.haskell.org/ghc/ghc/issues/5289), [\#5291](https://gitlab.haskell.org/ghc/ghc/issues/5291), [\#5620](https://gitlab.haskell.org/ghc/ghc/issues/5620)
 
 ### Cabal support
 
@@ -237,4 +237,4 @@ Currently released versions of Cabal/cabal-install don't handle dynamic GHCi wel
 ### Other approaches
 
 
-In [\#3658](https://gitlab.haskell.org//ghc/ghc/issues/3658) there is some discussion of related design decisions etc.
+In [\#3658](https://gitlab.haskell.org/ghc/ghc/issues/3658) there is some discussion of related design decisions etc.

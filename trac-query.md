@@ -219,7 +219,7 @@ This is displayed as:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16410">#16410</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16410">#16410</a></th>
 <td>
                     
                   
@@ -245,7 +245,7 @@ This is displayed as:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16410">Order of declarations matters</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/16410">Order of declarations matters</a>
                       
                       
                       
@@ -297,7 +297,7 @@ This is displayed as:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16401">#16401</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16401">#16401</a></th>
 <td>
                     
                   
@@ -323,7 +323,7 @@ This is displayed as:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16401">Bad error message if we use TypeApplications with an identifier that doesn&apos;t exist</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/16401">Bad error message if we use TypeApplications with an identifier that doesn&apos;t exist</a>
                       
                       
                       
@@ -375,7 +375,7 @@ This is displayed as:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16394">#16394</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16394">#16394</a></th>
 <td>
                     
                   
@@ -401,7 +401,7 @@ This is displayed as:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16394">GHC internal error while typechecking of instance definition</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/16394">GHC internal error while typechecking of instance definition</a>
                       
                       
                       
@@ -644,7 +644,7 @@ This is displayed as:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16410">#16410</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16410">#16410</a></th>
 <td>
                     
                   
@@ -670,7 +670,7 @@ This is displayed as:
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16410">Order of declarations matters</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/16410">Order of declarations matters</a>
                       
                       
                       
@@ -834,7 +834,7 @@ If I replace all occurrences of <tt>Tag</tt> with <tt>Bool</tt> it succeeds.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16401">#16401</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16401">#16401</a></th>
 <td>
                     
                   
@@ -860,7 +860,7 @@ If I replace all occurrences of <tt>Tag</tt> with <tt>Bool</tt> it succeeds.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16401">Bad error message if we use TypeApplications with an identifier that doesn&apos;t exist</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/16401">Bad error message if we use TypeApplications with an identifier that doesn&apos;t exist</a>
                       
                       
                       
@@ -957,7 +957,7 @@ What I would expect is for it to say that <tt>doesNotExist</tt> is not bound as 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16394">#16394</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16394">#16394</a></th>
 <td>
                     
                   
@@ -983,7 +983,7 @@ What I would expect is for it to say that <tt>doesNotExist</tt> is not bound as 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16394">GHC internal error while typechecking of instance definition</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/16394">GHC internal error while typechecking of instance definition</a>
                       
                       
                       

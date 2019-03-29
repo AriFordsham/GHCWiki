@@ -174,7 +174,7 @@ There is also new functionality in the form of a repository listener extension p
 ### Mercurial Repositories
 
 
-Please note that at the time of writing, no initial resynchronization or any hooks are necessary for Mercurial repositories - see [ \#9485](http://trac.edgewall.org/intertrac/%239485) for more information. 
+Please note that at the time of writing, no initial resynchronization or any hooks are necessary for Mercurial repositories - see [\#9485](http://trac.edgewall.org/intertrac/%239485) for more information. 
 
 ### Explicit synchronization
 
@@ -244,10 +244,10 @@ On Windows (`post-revprop-change.cmd`):
 The Unix variants above assume that the user running the Subversion commit has write access to the Trac environment, which is the case in the standard configuration where both the repository and Trac are served by the web server. If you access the repository through another means, for example `svn+ssh://`, you may have to run `trac-admin` with different privileges, for example by using `sudo`.
 
 
-Note that calling `trac-admin` in your Subversion hooks can slow down the commit and log editing operations on the client side. You might want to use the [ contrib/trac-svn-hook](http://trac.edgewall.org/intertrac/source%3Atrunk/contrib/trac-svn-hook) script which starts `trac-admin` in an asynchronous way. The script also comes with a number of safety checks and usage advices which should make it easier to set up and test your hooks. There's no equivalent `trac-svn-hook.bat` for Windows yet, but the script can be run by Cygwin's bash.
+Note that calling `trac-admin` in your Subversion hooks can slow down the commit and log editing operations on the client side. You might want to use the [contrib/trac-svn-hook](http://trac.edgewall.org/intertrac/source%3Atrunk/contrib/trac-svn-hook) script which starts `trac-admin` in an asynchronous way. The script also comes with a number of safety checks and usage advices which should make it easier to set up and test your hooks. There's no equivalent `trac-svn-hook.bat` for Windows yet, but the script can be run by Cygwin's bash.
 
 
-See the [ section about hooks](http://svnbook.red-bean.com/en/1.5/svn.reposadmin.create.html#svn.reposadmin.create.hooks) in the Subversion book for more information. Other repository types will require different hook setups.
+See the [section about hooks](http://svnbook.red-bean.com/en/1.5/svn.reposadmin.create.html#svn.reposadmin.create.hooks) in the Subversion book for more information. Other repository types will require different hook setups.
 
 #### Git
 
@@ -283,7 +283,7 @@ The `<repos>` argument can be either a repository name (use "`(default)`" for th
 
 
 
-For Mercurial, add the following entries to the `.hgrc` file of each repository accessed by Trac (if [ TracMercurial](http://trac.edgewall.org/intertrac/TracMercurial) is installed in a Trac `plugins` directory, download [ hooks.py](http://trac.edgewall.org/intertrac/source%3Amercurial-plugin/tracext/hg/hooks.py) and place it somewhere accessible):
+For Mercurial, add the following entries to the `.hgrc` file of each repository accessed by Trac (if [TracMercurial](http://trac.edgewall.org/intertrac/TracMercurial) is installed in a Trac `plugins` directory, download [ hooks.py](http://trac.edgewall.org/intertrac/source%3Amercurial-plugin/tracext/hg/hooks.py) and place it somewhere accessible):
 
 
 ```
@@ -326,7 +326,7 @@ tracopt.ticket.commit_updater.* = enabled
 ```
 
 
-For more information, see the documentation of the `CommitTicketUpdater` component in the *Plugins* admin panel and the [ CommitTicketUpdater](http://trac.edgewall.org/intertrac/CommitTicketUpdater) page.
+For more information, see the documentation of the `CommitTicketUpdater` component in the *Plugins* admin panel and the [CommitTicketUpdater](http://trac.edgewall.org/intertrac/CommitTicketUpdater) page.
 
 ## Troubleshooting
 

@@ -8,7 +8,7 @@ Note that before making any non-trivial changes to the build system you should a
 
 
 Incidentally, it's a good idea to have a copy of the 
-[ GNU make documentation](http://www.gnu.org/software/make/manual/make.html) to hand when working with the build system.
+[GNU make documentation](http://www.gnu.org/software/make/manual/make.html) to hand when working with the build system.
 
 ## Debugging
 

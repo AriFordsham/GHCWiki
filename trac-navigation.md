@@ -105,4 +105,4 @@ Note that it is still not possible to customize the **contextual navigation bar*
 ---
 
 
-See also: [TracInterfaceCustomization](trac-interface-customization), and the [ TracHacks:NavAddPlugin](http://trac-hacks.org/wiki/NavAddPlugin) or [ TracHacks:MenusPlugin](http://trac-hacks.org/wiki/MenusPlugin) (still needed for adding entries)
+See also: [TracInterfaceCustomization](trac-interface-customization), and the [TracHacks:NavAddPlugin](http://trac-hacks.org/wiki/NavAddPlugin) or [ TracHacks:MenusPlugin](http://trac-hacks.org/wiki/MenusPlugin) (still needed for adding entries)

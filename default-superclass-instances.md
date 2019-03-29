@@ -4,7 +4,7 @@
 A new version of this proposal, [IntrinsicSuperclasses](intrinsic-superclasses), with a revised notation is beginning to appear.
 
 
-A matter of much consternation, here is a proposal to allow type class declarations to include default instance declarations for their superclasses. Moreover, subclass instance declarations should be able to override the method definitions in their default superclass instances. It's based on [ Jón Fairbairn's proposal](http://www.haskell.org//pipermail/haskell-prime/2006-August/001587.html), but it has a more explicit 'off switch' and the policy on corner-cases is rejection. Credit is due also to the [ superclass defaults proposal](http://www.haskell.org/haskellwiki/Superclass_defaults),  [ class system extension proposal](http://www.haskell.org/haskellwiki/Class_system_extension_proposal) and its ancestors, in particular, John Meacham's [ class alias](http://repetae.net/recent/out/classalias.html) proposal.
+A matter of much consternation, here is a proposal to allow type class declarations to include default instance declarations for their superclasses. Moreover, subclass instance declarations should be able to override the method definitions in their default superclass instances. It's based on [Jón Fairbairn's proposal](http://www.haskell.org//pipermail/haskell-prime/2006-August/001587.html), but it has a more explicit 'off switch' and the policy on corner-cases is rejection. Credit is due also to the [ superclass defaults proposal](http://www.haskell.org/haskellwiki/Superclass_defaults),  [ class system extension proposal](http://www.haskell.org/haskellwiki/Class_system_extension_proposal) and its ancestors, in particular, John Meacham's [ class alias](http://repetae.net/recent/out/classalias.html) proposal.
 
 
 We may distinguish two uses of superclasses (not necessarily exclusive). 
@@ -27,7 +27,7 @@ instances gives rise to breakage of the existing codebase.
 
 
 Default superclass instances are implemented in the
-[ Strathclyde Haskell Enhancement](http://personal.cis.strath.ac.uk/~conor/pub/she/superclass.html).
+[Strathclyde Haskell Enhancement](http://personal.cis.strath.ac.uk/~conor/pub/she/superclass.html).
 The crucial property which drives the feature is that method names uniquely identify the classes
 to which they belong, so that methods defined in a subclass instance can be distributed to the appropriate
 generated superclass instance.
@@ -414,7 +414,7 @@ with an explicit instance from the same or a prior module. We could
 1. **Allow the explicit to supersede the intrinsic default silently**. This fits with Design Goal 1, but risks perplexity: if I make use of some cool package which introduces some `Foo :: * -> *`, I might notice that `Foo` is a monad and add a `Monad Foo` instance in my own code, expecting the `Applicative Foo` instance to be generated in concert; to my horror, I find my code has subtle bugs because the package introduced a different, non-monadic, `Applicative Foo` instance which I'm accidentally using instead. 
 
 
-There is considerable support in the [ email discussion thread](http://www.haskell.org/pipermail/glasgow-haskell-users/2011-August/020730.html) for Option 2 or 3, on the grounds that Option 1 contradicts Design Goal 1.  
+There is considerable support in the [email discussion thread](http://www.haskell.org/pipermail/glasgow-haskell-users/2011-August/020730.html) for Option 2 or 3, on the grounds that Option 1 contradicts Design Goal 1.  
 
 
 Perhaps Option 2 is the pragmatic choice.
@@ -422,7 +422,7 @@ Perhaps Option 2 is the pragmatic choice.
 ### Opting in rather than out
 
 
-The \[ [ http://www.haskell.org/haskellwiki/Superclass_defaults](http://www.haskell.org/haskellwiki/Superclass_defaults) superclass default proposal\] deals with the question of opt-outs by intead requiring you to opt *in*.  A `Monad` instance would look like
+The \[[ http://www.haskell.org/haskellwiki/Superclass_defaults](http://www.haskell.org/haskellwiki/Superclass_defaults) superclass default proposal\] deals with the question of opt-outs by intead requiring you to opt *in*.  A `Monad` instance would look like
 
 ```wiki
   instance (Functor T, Applicative T, Monad T) where
@@ -521,7 +521,7 @@ For years, I have been pretending that Monads are not Functors. When applicative
 >
 
 
-SHE currently provides [ these default superclass instances](https://personal.cis.strath.ac.uk/conor.mcbride/pub/she/src/ShesHers.lhs). To save you a click, that's this little lot:
+SHE currently provides [these default superclass instances](https://personal.cis.strath.ac.uk/conor.mcbride/pub/she/src/ShesHers.lhs). To save you a click, that's this little lot:
 
 ```wiki
 class Functor f => Applicative f where

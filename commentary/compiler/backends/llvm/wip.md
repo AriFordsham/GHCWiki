@@ -9,7 +9,7 @@ This page is meant to collect together information about people working on (or i
 The LLVM IR is modeled in GHC using an algebraic data type to represent the first order abstract syntax of the LLVM assembly code. The LLVM representation lives in the 'Llvm' subdirectory and also contains code for pretty printing. This is the same approach taken by  EHC's LLVM Back-end, and we adapted the  module developed by them for this purpose. 
 
 
-The current design is overly complicated and could be faster. It uses String + show operations for printing for example when it should be using FastString + Outputable. Before simplifying this design though it would be good to investigate using the LLVM API instead of the assembly language for interacting with LLVM. This would be done most likely by using the pre-existing Haskell LLVM API bindings found [ here](http://hackage.haskell.org/package/llvm). This should hopefully provide a speed up in compilation speeds which is greatly needed since the LLVM back-end is \~2x slower at the moment.
+The current design is overly complicated and could be faster. It uses String + show operations for printing for example when it should be using FastString + Outputable. Before simplifying this design though it would be good to investigate using the LLVM API instead of the assembly language for interacting with LLVM. This would be done most likely by using the pre-existing Haskell LLVM API bindings found [here](http://hackage.haskell.org/package/llvm). This should hopefully provide a speed up in compilation speeds which is greatly needed since the LLVM back-end is \~2x slower at the moment.
 
 ### TABLES_NEXT_TO_CODE
 
@@ -34,7 +34,7 @@ At the moment only a some fairly basic benchmarking has been done of the LLVM ba
 So:
 
 - More benchmarking, particularly finding some bad spots for the LLVM back-end and generating a good picture of the characteristics of the back-end.
-- Look into the LLVM optimiser, e.g perhaps some more work in the style of [ Don's work](http://donsbot.wordpress.com/2010/03/01/evolving-faster-haskell-programs-now-with-llvm/)
+- Look into the LLVM optimiser, e.g perhaps some more work in the style of [Don's work](http://donsbot.wordpress.com/2010/03/01/evolving-faster-haskell-programs-now-with-llvm/)
 - Look at any new optimisation passes that could be written for LLVM which would help to improve the code it generates for GHC.
 - Look at general fixes/improvement to LLVM to improve the code it generates for LLVM.
 - Sometimes there is a benefit from running the LLVM optimiser twice of the code (e.g opt -O3 \| opt -O3 ...). We should add a command line flag that allows you to specify the number of iterations you want the LLVM optimiser to do.
@@ -49,8 +49,8 @@ There is ongoing work to produce a new, nicer, more modular code generator for G
 
 One of LLVM's big marketing features is its support for link time optimisation. This does things such as in-lining across module boundaries, more aggressive dead code elimination... etc). The LLVM back-end could be updated to make use of this. Roman apparently tried to use the new 'gold' linker with GHC and it doesn't support all the needed features.
 
-- [ http://llvm.org/releases/2.6/docs/LinkTimeOptimization.html](http://llvm.org/releases/2.6/docs/LinkTimeOptimization.html)
-- [ http://llvm.org/docs/GoldPlugin.html](http://llvm.org/docs/GoldPlugin.html)
+- [http://llvm.org/releases/2.6/docs/LinkTimeOptimization.html](http://llvm.org/releases/2.6/docs/LinkTimeOptimization.html)
+- [http://llvm.org/docs/GoldPlugin.html](http://llvm.org/docs/GoldPlugin.html)
 
 ### LLVM Cross Compiler / Port
 
@@ -76,4 +76,4 @@ It would be nice to get rid of proc point splitting. This is one of the goals fo
 At the moment in the LLVM backend we always pass around the pinned STG registers as arguments for every Cmm function. A huge amount of the time though we aren't storing anything in the STG registers, they are dead really. If we can treat the correctly as dead then LLVM will have more free registers and the allocator should do a better job. We need to change the STG -\> Cmm code generator to attach register liveness information at function exit points (e.g calls, jumps, returns).
 
 
-e.g This [ bug (\#4308)](http://hackage.haskell.org/trac/ghc/ticket/4308) is as a result of this problem.
+e.g This [bug (\#4308)](http://hackage.haskell.org/trac/ghc/ticket/4308) is as a result of this problem.

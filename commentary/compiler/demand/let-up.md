@@ -1,13 +1,13 @@
 # Making LetUp more precise
 
 
-The [demand analyser](commentary/compiler/demand) uses two different rules for handling let bindings, as explained in the [ cardinality paper](https://www.microsoft.com/en-us/research/wp-content/uploads/2014/01/cardinality-popl14.pdf). TLDR:
+The [demand analyser](commentary/compiler/demand) uses two different rules for handling let bindings, as explained in the [cardinality paper](https://www.microsoft.com/en-us/research/wp-content/uploads/2014/01/cardinality-popl14.pdf). TLDR:
 
 - **LetDown** is used for top-level bindings, recursive bindings and local, non-recursive functions. It closely mimics semantics of an actual function call, as it unleashes the demand signature of the bound RHS at the call site within the let body.
 - **LetUp** is used for local, non-recursive thunks. This works more like a type-system: Analysing the let-body reveals its demand on the identifier, in which the RHS of the bindings is analysed exactly once. Only now it is that the results from the body and the RHS get sequentially combined.
 
 
-There are reasons why we currently need both rules ([ cardinality paper §3.5 and §3.6](https://www.microsoft.com/en-us/research/wp-content/uploads/2014/01/cardinality-popl14.pdf)), although the general approach of **LetDown** is more flow-sensitive and thus strictly more precise than **LetUp**.
+There are reasons why we currently need both rules ([cardinality paper §3.5 and §3.6](https://www.microsoft.com/en-us/research/wp-content/uploads/2014/01/cardinality-popl14.pdf)), although the general approach of **LetDown** is more flow-sensitive and thus strictly more precise than **LetUp**.
 
 
 Consider the following running example:
@@ -128,7 +128,7 @@ So, it's OK to `both` the `DmdEnv'` of the RHS to that of the let body at the ro
 
 
 Now, for the first example (`if ... then x else y`), it is quite obvious that the bound id `x` doesn't even occur in the first `Or` branch of the `DmdEnv'` of the let body (after deleting `x` from it).
-Only the second branch evaluates `x` at all, so it should be safe to 'push' the *graft point*, where we graft the `DmdEnv'` of the RHS of `x` onto the `DmdEnv'` of the let body, down to the [ ''most recent common ancestor'' (MCRA)](https://de.wikipedia.org/wiki/Most_recent_common_ancestor) of all occurences of `x` in the body.
+Only the second branch evaluates `x` at all, so it should be safe to 'push' the *graft point*, where we graft the `DmdEnv'` of the RHS of `x` onto the `DmdEnv'` of the let body, down to the [''most recent common ancestor'' (MCRA)](https://de.wikipedia.org/wiki/Most_recent_common_ancestor) of all occurences of `x` in the body.
 
 
 For the first example:
@@ -261,7 +261,7 @@ Variables not mentioned in either `lub` operand are assumed to be used according
 Note that due to `ExnStr`/`catch#`, the `defaultDmd res` can change after computing the actual `lub` above, so in general `defaultDmd res*` and `defaultDmd res` can vary independently!
 
 
-That's also why \[`findIdDemand`\]([ https://github.com/sgraf812/ghc/blob/922db3dac896b8cf364c9ebaebf1a27c2468c709/compiler/basicTypes/Demand.hs\#L1577](https://github.com/sgraf812/ghc/blob/922db3dac896b8cf364c9ebaebf1a27c2468c709/compiler/basicTypes/Demand.hs#L1577)) in `Demand.hs` takes a `DmdResult` as argument.
+That's also why \[`findIdDemand`\]([https://github.com/sgraf812/ghc/blob/922db3dac896b8cf364c9ebaebf1a27c2468c709/compiler/basicTypes/Demand.hs\#L1577](https://github.com/sgraf812/ghc/blob/922db3dac896b8cf364c9ebaebf1a27c2468c709/compiler/basicTypes/Demand.hs#L1577)) in `Demand.hs` takes a `DmdResult` as argument.
 
 
 And that's also why the above definition for `DmdEnv''` is incorrect!
@@ -328,7 +328,7 @@ dnf (DmdEnv'.Both fv1 t1 fv2 t2) = distr (dnf fv1) t1 (dnf fv2) t2 -- case in po
 `dnf` mirrors how `bothDmdEnv'` would have to change in the current implementation to get to the DNF-like version.
 
 
-In fact, the currently working prototype of the first proposal had a complicated bug in the [ \`lookupDmdTree\`](https://github.com/sgraf812/ghc/blob/43c045249402319170fa421438a1f05887269a26/compiler/basicTypes/Demand.hs#L1287) implementation, which forced me to think about how the lookup of a single point can potentially access \*all\* `Termination ()` tags on the path to a `Lit` it is contained in.
+In fact, the currently working prototype of the first proposal had a complicated bug in the [\`lookupDmdTree\`](https://github.com/sgraf812/ghc/blob/43c045249402319170fa421438a1f05887269a26/compiler/basicTypes/Demand.hs#L1287) implementation, which forced me to think about how the lookup of a single point can potentially access \*all\* `Termination ()` tags on the path to a `Lit` it is contained in.
 This also applies to the implementation of `dnf`: I'm pretty sure the step that distributes `Both` over both sub trees needs to model all points separately to know with which `Termination` to `both`.
 Sorry if this is a little incomprehensible without an example, but this is already pretty deep down the rabbit hole.
 
@@ -340,7 +340,7 @@ The bottom-line is that there still is some DNF-like structure possible, but in 
 ### Both/Or trees, grafted at MCRAs
 
 
-The current [ working prototype of the first proposal](https://github.com/sgraf812/ghc/blob/43c045249402319170fa421438a1f05887269a26/compiler/basicTypes/Demand.hs) (progress tracked at [ \`and-or\` branch](https://github.com/sgraf812/ghc/blob/and-or/compiler/basicTypes/Demand.hs)) passes `./validate` and nofib.
+The current [working prototype of the first proposal](https://github.com/sgraf812/ghc/blob/43c045249402319170fa421438a1f05887269a26/compiler/basicTypes/Demand.hs) (progress tracked at [ \`and-or\` branch](https://github.com/sgraf812/ghc/blob/and-or/compiler/basicTypes/Demand.hs)) passes `./validate` and nofib.
 
 
 GHC is built with 0.1% more allocations and 7.1% (!) more executed instructions (cachegrind). 
@@ -354,11 +354,11 @@ Seems like a net gain, but pretty much insignificant, especially compared to the
 ### Both/Or trees, pushed into Or
 
 
-The implementation of the second proposal can be found [ here](https://github.com/sgraf812/ghc/blob/6bd6ab3c521de5dfa4042642c767b7906315ca28/compiler/basicTypes/Demand.hs) (progress tracked at [ \`and-or-distr\` branch](https://github.com/sgraf812/ghc/blob/and-or-distr/compiler/basicTypes/Demand.hs).
-This was a [ minimal change](https://github.com/sgraf812/ghc/commit/6bd6ab3c521de5dfa4042642c767b7906315ca28) compared to the single graft point solution, with great repercussions:
+The implementation of the second proposal can be found [here](https://github.com/sgraf812/ghc/blob/6bd6ab3c521de5dfa4042642c767b7906315ca28/compiler/basicTypes/Demand.hs) (progress tracked at [ \`and-or-distr\` branch](https://github.com/sgraf812/ghc/blob/and-or-distr/compiler/basicTypes/Demand.hs).
+This was a [minimal change](https://github.com/sgraf812/ghc/commit/6bd6ab3c521de5dfa4042642c767b7906315ca28) compared to the single graft point solution, with great repercussions:
 
 
-Compilation of modules with big records (looking at you, [ \`Distribution.Types.BuildInfo\`](https://github.com/haskell/cabal/blob/4726b2ada46a4f0757ec4fcaf5508c40faa98307/Cabal/Distribution/Types/BuildInfo.hs) eats up all resources on my machine without coming to an end.
+Compilation of modules with big records (looking at you, [\`Distribution.Types.BuildInfo\`](https://github.com/haskell/cabal/blob/4726b2ada46a4f0757ec4fcaf5508c40faa98307/Cabal/Distribution/Types/BuildInfo.hs) eats up all resources on my machine without coming to an end.
 Given the minimal invasive change, this can only be due to combinatorial explosion.
 Some debugging pinned this down to derived `Eq` and `Show` instances, where the generated `DmdTree`s grow bigger than e.g. 10000 nodes.
 I'm not entirely sure what causes the duplication that leads to the slowdown, so I tried falling back to the status quo for dictionary Ids (like we do for unlifted lets anyway) to no avail.

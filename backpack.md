@@ -4,50 +4,50 @@
 This is the launch page for Backpack, actively maintained by Edward (as of Jan 2019). 
 
 
-Backpack is a system for retrofitting Haskell with an applicative, mix-in module system. It has been implemented in GHC 8.2 and cabal-install 2.0, but it is [ not supported by Stack](https://github.com/commercialhaskell/stack/issues/2540).
+Backpack is a system for retrofitting Haskell with an applicative, mix-in module system. It has been implemented in GHC 8.2 and cabal-install 2.0, but it is [not supported by Stack](https://github.com/commercialhaskell/stack/issues/2540).
 
 
 The documentation for how to use Backpack is a bit scattered about at this point, but here are useful, up-to-date (as of 2019-01-11) references:
 
-- This pair of blog posts: Try Backpack, [ ghc --backpack](http://blog.ezyang.com/2016/10/try-backpack-ghc-backpack/) and [ Cabal packages](http://blog.ezyang.com/2017/01/try-backpack-cabal-packages/) have up-to-date tutorials for using the main features of Backpack, with and without Cabal.
+- This pair of blog posts: Try Backpack, [ghc --backpack](http://blog.ezyang.com/2016/10/try-backpack-ghc-backpack/) and [ Cabal packages](http://blog.ezyang.com/2017/01/try-backpack-cabal-packages/) have up-to-date tutorials for using the main features of Backpack, with and without Cabal.
 
-- The [ GHC manual section on module signatures](https://downloads.haskell.org/~ghc/master/users-guide/separate_compilation.html#module-signatures) gives the gory details about how Backpack's signature files (hsig) work. A more user-friendly version of this can be found on [ Haskell wiki "Module signature"](https://wiki.haskell.org/Module_signature)
+- The [GHC manual section on module signatures](https://downloads.haskell.org/~ghc/master/users-guide/separate_compilation.html#module-signatures) gives the gory details about how Backpack's signature files (hsig) work. A more user-friendly version of this can be found on [ Haskell wiki "Module signature"](https://wiki.haskell.org/Module_signature)
 
 - There is not yet a manual entry in Cabal for how Cabal works. This section is under development.
 
-- Edward Z. Yang's [ thesis](https://github.com/ezyang/thesis/releases) contains detailed information about the specification and implementation of Backpack. We also have an older [ paper draft](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/backpack-2016.pdf) which was submitted to ICFP'16. History nuts can also read the original [ POPL paper](http://plv.mpi-sws.org/backpack/) but note that Backpack has changed dramatically since then.
+- Edward Z. Yang's [thesis](https://github.com/ezyang/thesis/releases) contains detailed information about the specification and implementation of Backpack. We also have an older [ paper draft](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/backpack-2016.pdf) which was submitted to ICFP'16. History nuts can also read the original [ POPL paper](http://plv.mpi-sws.org/backpack/) but note that Backpack has changed dramatically since then.
 
-- Hackage supports uploads of Backpack using packages. For an example, see [ https://hackage.haskell.org/package/unpacked-containers](https://hackage.haskell.org/package/unpacked-containers)
+- Hackage supports uploads of Backpack using packages. For an example, see [https://hackage.haskell.org/package/unpacked-containers](https://hackage.haskell.org/package/unpacked-containers)
 
 
 You might find it useful to find some code using Backpack.  Here are the biggest examples worth looking at:
 
-- [ unpacked-containers](https://hackage.haskell.org/package/unpacked-containers) supplies unpacked sets and maps, using Backpack's ability to unpack through signatures.
+- [unpacked-containers](https://hackage.haskell.org/package/unpacked-containers) supplies unpacked sets and maps, using Backpack's ability to unpack through signatures.
 
-- [ backpack-str](https://github.com/haskell-backpack/backpack-str) defines a signature and implementations for strings. It is quite comprehensive.
+- [backpack-str](https://github.com/haskell-backpack/backpack-str) defines a signature and implementations for strings. It is quite comprehensive.
 
-- [ coda](https://github.com/ekmett/coda) parametrizes over a few core data types including notions of "delta". It takes advantage of zero-cost abstraction, which lets it split into multiple data types, while still ensuring they are UNPACKed in the end.
+- [coda](https://github.com/ekmett/coda) parametrizes over a few core data types including notions of "delta". It takes advantage of zero-cost abstraction, which lets it split into multiple data types, while still ensuring they are UNPACKed in the end.
 
-- [ streamy](https://github.com/danidiaz/streamy) defines a signature and implementations for "streaming" libraries (e.g., conduit, pipes and streaming).
+- [streamy](https://github.com/danidiaz/streamy) defines a signature and implementations for "streaming" libraries (e.g., conduit, pipes and streaming).
 
-- [ haskell-opentracing](https://github.com/ocharles/haskell-opentracing) defines a signature for the OpenTracing standard, a middleware built on top of this signature, and (at the moment) a single backend to Jaeger.
+- [haskell-opentracing](https://github.com/ocharles/haskell-opentracing) defines a signature for the OpenTracing standard, a middleware built on top of this signature, and (at the moment) a single backend to Jaeger.
 
-- [ reflex-backpack](https://github.com/ezyang/reflex-backpack) is a kind of crazy experiment at Backpack'ing Reflex.  Reflex uses a lot of advanced GHC features and it took some coaxing to get Backpack to handle it all, but handle it all it did!
+- [reflex-backpack](https://github.com/ezyang/reflex-backpack) is a kind of crazy experiment at Backpack'ing Reflex.  Reflex uses a lot of advanced GHC features and it took some coaxing to get Backpack to handle it all, but handle it all it did!
 
 
 Some more out-of-date documents:
 
-- [ Backpack specification](https://github.com/ezyang/ghc-proposals/blob/backpack/proposals/0000-backpack.rst). This was subsumed by my thesis but once Backpack stabilizes it will be worth distilling the thesis PDF back into a more web-friendly format.
+- [Backpack specification](https://github.com/ezyang/ghc-proposals/blob/backpack/proposals/0000-backpack.rst). This was subsumed by my thesis but once Backpack stabilizes it will be worth distilling the thesis PDF back into a more web-friendly format.
 
 ## Known gotchas
 
 **Can I use this with Stack?** No, Backpack requires support from the package manager, and Stack integration has not been implemented yet.
 
-**Can I use this with Template Haskell?** Yes. Note that there is currently one known issue about TH with Backpack, which you may be affected by: [ https://github.com/haskell/cabal/issues/5634](https://github.com/haskell/cabal/issues/5634)
+**Can I use this with Template Haskell?** Yes. Note that there is currently one known issue about TH with Backpack, which you may be affected by: [https://github.com/haskell/cabal/issues/5634](https://github.com/haskell/cabal/issues/5634)
 
 **Can I use this with the C preprocessor?** Yes; this used to be buggy but the fix is released in the latest version of GHC.
 
-**Make sure cabal-version is recent enough.** ([ \#4448](https://github.com/haskell/cabal/issues/4448)) If you set the `cabal-version` of your package too low, you may get this error:
+**Make sure cabal-version is recent enough.** ([\#4448](https://github.com/haskell/cabal/issues/4448)) If you set the `cabal-version` of your package too low, you may get this error:
 
 ```wiki
 Error:
@@ -166,7 +166,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1409">#1409</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/1409">#1409</a></th>
 <td>
                     
                   
@@ -192,7 +192,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/1409">Allow recursively dependent modules transparently (without .hs-boot or anything)</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/1409">Allow recursively dependent modules transparently (without .hs-boot or anything)</a>
                       
                       
                       
@@ -244,7 +244,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9351">#9351</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9351">#9351</a></th>
 <td>
                     
                   
@@ -270,7 +270,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9351">add ability to version symbols .c for packages with C code</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9351">add ability to version symbols .c for packages with C code</a>
                       
                       
                       
@@ -322,7 +322,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10749">#10749</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10749">#10749</a></th>
 <td>
                     
                   
@@ -348,7 +348,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10749">Boot file instances should imply superclasses</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10749">Boot file instances should imply superclasses</a>
                       
                       
                       
@@ -400,7 +400,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10827">#10827</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10827">#10827</a></th>
 <td>
                     
                   
@@ -426,7 +426,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10827">GHCi should support interpeting multiple packages/units with separate DynFlags</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10827">GHCi should support interpeting multiple packages/units with separate DynFlags</a>
                       
                       
                       
@@ -478,7 +478,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12703">#12703</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12703">#12703</a></th>
 <td>
                     
                   
@@ -504,7 +504,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12703">Expand Backpack&apos;s signature matching relation beyond definitional equality</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/12703">Expand Backpack&apos;s signature matching relation beyond definitional equality</a>
                       
                       
                       
@@ -556,7 +556,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13151">#13151</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13151">#13151</a></th>
 <td>
                     
                   
@@ -582,7 +582,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13151">Make all never-exported IfaceDecls implicit</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/13151">Make all never-exported IfaceDecls implicit</a>
                       
                       
                       
@@ -634,7 +634,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13266">#13266</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13266">#13266</a></th>
 <td>
                     
                   
@@ -660,7 +660,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13266">Source locations from signature merging/matching are bad</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/13266">Source locations from signature merging/matching are bad</a>
                       
                       
                       
@@ -712,7 +712,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13469">#13469</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13469">#13469</a></th>
 <td>
                     
                   
@@ -738,7 +738,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13469">-fdefer-type-errors for Backpack</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/13469">-fdefer-type-errors for Backpack</a>
                       
                       
                       
@@ -790,7 +790,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14212">#14212</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14212">#14212</a></th>
 <td>
                     
                   
@@ -816,7 +816,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14212">Give better error message with non-supported Backpack/TH use</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/14212">Give better error message with non-supported Backpack/TH use</a>
                       
                       
                       
@@ -868,7 +868,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14478">#14478</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14478">#14478</a></th>
 <td>
                     
                   
@@ -894,7 +894,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14478">Abstract pattern synonyms (for hsig and hs-boot)</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/14478">Abstract pattern synonyms (for hsig and hs-boot)</a>
                       
                       
                       
@@ -946,7 +946,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15391">#15391</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15391">#15391</a></th>
 <td>
                     
                   
@@ -972,7 +972,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15391">Maybe ghc-pkg register should unregister packages with &quot;incompatible&quot; signatures</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15391">Maybe ghc-pkg register should unregister packages with &quot;incompatible&quot; signatures</a>
                       
                       
                       
@@ -1024,7 +1024,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15984">#15984</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15984">#15984</a></th>
 <td>
                     
                   
@@ -1050,7 +1050,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15984">Backpack accepts ill-kinded instantiations. Can cause GHC panic</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15984">Backpack accepts ill-kinded instantiations. Can cause GHC panic</a>
                       
                       
                       
@@ -1102,7 +1102,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16412">#16412</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16412">#16412</a></th>
 <td>
                     
                   
@@ -1128,7 +1128,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16412">Type family signatures in indefinite modules</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/16412">Type family signatures in indefinite modules</a>
                       
                       
                       
@@ -1180,7 +1180,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10266">#10266</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10266">#10266</a></th>
 <td>
                     
                   
@@ -1206,7 +1206,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10266">Split base for Backpack</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10266">Split base for Backpack</a>
                       
                       
                       
@@ -1258,7 +1258,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10681">#10681</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10681">#10681</a></th>
 <td>
                     
                   
@@ -1284,7 +1284,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10681">Teach GHC to interpret all hs files as two levels of hs-boot files (abstract types only/full types + values)</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10681">Teach GHC to interpret all hs files as two levels of hs-boot files (abstract types only/full types + values)</a>
                       
                       
                       
@@ -1336,7 +1336,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12680">#12680</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12680">#12680</a></th>
 <td>
                     
                   
@@ -1362,7 +1362,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12680">Permit type equality instances in signatures</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/12680">Permit type equality instances in signatures</a>
                       
                       
                       
@@ -1414,7 +1414,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13149">#13149</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13149">#13149</a></th>
 <td>
                     
                   
@@ -1440,7 +1440,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13149">Giving Backpack a Promotion</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/13149">Giving Backpack a Promotion</a>
                       
                       
                       
@@ -1492,7 +1492,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13262">#13262</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13262">#13262</a></th>
 <td>
                     
                   
@@ -1518,7 +1518,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13262">Allow type synonym family application in instance head if it has no free variables</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/13262">Allow type synonym family application in instance head if it has no free variables</a>
                       
                       
                       
@@ -1570,7 +1570,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13361">#13361</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13361">#13361</a></th>
 <td>
                     
                   
@@ -1596,7 +1596,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13361">Better type synonym merging/subtyping for Backpack</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/13361">Better type synonym merging/subtyping for Backpack</a>
                       
                       
                       
@@ -1648,7 +1648,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13765">#13765</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13765">#13765</a></th>
 <td>
                     
                   
@@ -1674,7 +1674,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13765">GHC cannot parse valid Haskell98 whose first identifier is named signature</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/13765">GHC cannot parse valid Haskell98 whose first identifier is named signature</a>
                       
                       
                       
@@ -1726,7 +1726,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14210">#14210</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14210">#14210</a></th>
 <td>
                     
                   
@@ -1752,7 +1752,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14210">bkp files cannot find TemplateHaskell symbols (even without Backpack features)</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/14210">bkp files cannot find TemplateHaskell symbols (even without Backpack features)</a>
                       
                       
                       
@@ -1804,7 +1804,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10871">#10871</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10871">#10871</a></th>
 <td>
                     
                   
@@ -1830,7 +1830,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10871">Implement &quot;fat&quot; interface files which can be directly compiled without source</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10871">Implement &quot;fat&quot; interface files which can be directly compiled without source</a>
                       
                       
                       
@@ -1882,7 +1882,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12717">#12717</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12717">#12717</a></th>
 <td>
                     
                   
@@ -1908,7 +1908,7 @@ Backpack-related tickets are marked with keyword 'backpack'. If the ticket is as
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12717">Permit data types in signatures to be implemented with equivalent pattern synonyms (and vice versa)</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/12717">Permit data types in signatures to be implemented with equivalent pattern synonyms (and vice versa)</a>
                       
                       
                       

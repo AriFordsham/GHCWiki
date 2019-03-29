@@ -66,7 +66,7 @@ or <tt>diff:trunk/trac@3538//sandbox/vc-refactoring@3539</tt>
 <td><a href="/trac/ghc/wiki">..</a>
 </td></tr>
 <tr><th>Tickets</th>
-<td><a href="https://gitlab.haskell.org//ghc/ghc/issues/1">#1</a> or <a href="https://gitlab.haskell.org//ghc/ghc/issues/1">ticket:1</a>
+<td><a href="https://gitlab.haskell.org/ghc/ghc/issues/1">#1</a> or <a href="https://gitlab.haskell.org/ghc/ghc/issues/1">ticket:1</a>
 </td></tr>
 <tr><th>Ticket comments</th>
 <td>comment:1:ticket:2 
@@ -113,8 +113,8 @@ or <a href="/trac/ghc/changeset?new=3539&amp;new_path=sandbox%2Fvc-refactoring&a
 
 </th>
 <th>
-<a href="https://gitlab.haskell.org//ghc/ghc/issues/1">This is a link to ticket number one</a> or
-<a href="https://gitlab.haskell.org//ghc/ghc/issues/1">This is another link to ticket number one</a>.
+<a href="https://gitlab.haskell.org/ghc/ghc/issues/1">This is a link to ticket number one</a> or
+<a href="https://gitlab.haskell.org/ghc/ghc/issues/1">This is another link to ticket number one</a>.
 
 
 </th></tr>
@@ -128,7 +128,7 @@ or <a href="/trac/ghc/changeset?new=3539&amp;new_path=sandbox%2Fvc-refactoring&a
 
 </th>
 <th>
-<a href="https://gitlab.haskell.org//ghc/ghc/issues/1">1</a> or <a href="https://gitlab.haskell.org//ghc/ghc/issues/2">2</a>
+<a href="https://gitlab.haskell.org/ghc/ghc/issues/1">1</a> or <a href="https://gitlab.haskell.org/ghc/ghc/issues/2">2</a>
 
 
 </th></tr>
@@ -170,14 +170,14 @@ or <a href="/trac/ghc/changeset?new=3539&amp;new_path=sandbox%2Fvc-refactoring&a
 ### Relative links
 
 
-To create a link to a [ SubWiki](http://trac.edgewall.org/intertrac/SubWiki)-page just use a '/':
+To create a link to a [SubWiki](http://trac.edgewall.org/intertrac/SubWiki)-page just use a '/':
 
 ```wiki
  WikiPage/SubWikiPage or ./SubWikiPage
 ```
 
 
-To link from a [ SubWiki](http://trac.edgewall.org/intertrac/SubWiki) page to a parent, simply use a '..':
+To link from a [SubWiki](http://trac.edgewall.org/intertrac/SubWiki) page to a parent, simply use a '..':
 
 ```wiki
   [..] or [[..]]
@@ -190,7 +190,7 @@ To link from a [ SubWiki](http://trac.edgewall.org/intertrac/SubWiki) page to a 
 >
 
 
-To link from a [ SubWiki](http://trac.edgewall.org/intertrac/SubWiki) page to a sibling page, use a '../':
+To link from a [SubWiki](http://trac.edgewall.org/intertrac/SubWiki) page to a sibling page, use a '../':
 
 ```wiki
   [../Sibling see next sibling] or [[../Sibling|see next sibling]]
@@ -271,8 +271,8 @@ Such anchors can be very useful for linking to specific lines in a file in the s
 
 >
 >
-> [ Line 127](http://trac.edgewall.org/intertrac/source%3Atags/trac-0.12/trac/wiki/api.py%23L127) or
-> [ Line 47](http://trac.edgewall.org/intertrac/source%3Atags/trac-0.12/trac/ticket/roadmap.py%23L47)
+> [Line 127](http://trac.edgewall.org/intertrac/source%3Atags/trac-0.12/trac/wiki/api.py%23L127) or
+> [Line 47](http://trac.edgewall.org/intertrac/source%3Atags/trac-0.12/trac/ticket/roadmap.py%23L47)
 >
 >
 
@@ -289,8 +289,8 @@ Since such links become outdated when the file changes, it can be useful to link
 
 >
 >
-> [ IWikiSyntaxProvider](http://trac.edgewall.org/intertrac/source%3Atrunk/trac/wiki/api.py%23/IWikiSyntaxProvider) or
-> [ ISystemInfoProvider](http://trac.edgewall.org/intertrac/source%3Atrunk/trac/env.py%23/ISystemInfoProvider)
+> [IWikiSyntaxProvider](http://trac.edgewall.org/intertrac/source%3Atrunk/trac/wiki/api.py%23/IWikiSyntaxProvider) or
+> [ISystemInfoProvider](http://trac.edgewall.org/intertrac/source%3Atrunk/trac/env.py%23/ISystemInfoProvider)
 >
 >
 
@@ -308,7 +308,7 @@ This can be seen as a kind of [InterWiki](inter-wiki) link specialized for targe
 Any type of Trac link can be written in one Trac environment and actually refer to resources in another Trac environment. All that is required is to prefix the Trac link with the name of the other Trac environment followed by a colon. The other Trac environment must be registered on the [InterTrac](inter-trac) page. 
 
 
-A distinctive advantage of [InterTrac](inter-trac) links over [InterWiki](inter-wiki) links is that the shorthand form of Trac links (e.g. `{}`, `r`, `#`) can also be used. For example if T was set as an alias for Trac, links to Trac tickets can be written \#T234, links to Trac changesets can be written [ \[trac 1508\]](http://trac.edgewall.org/intertrac/changeset%3A1508).
+A distinctive advantage of [InterTrac](inter-trac) links over [InterWiki](inter-wiki) links is that the shorthand form of Trac links (e.g. `{}`, `r`, `#`) can also be used. For example if T was set as an alias for Trac, links to Trac tickets can be written \#T234, links to Trac changesets can be written [\[trac 1508\]](http://trac.edgewall.org/intertrac/changeset%3A1508).
 See [InterTrac](inter-trac) for the complete details. 
 
 ### Server-relative links
@@ -351,7 +351,7 @@ Examples:
 - attachment:"the file.txt:ticket:123" 
 
 
-Note that by using [ WikiCreole](http://trac.edgewall.org/intertrac/WikiCreole) style links, it's quite natural to write links containing spaces:
+Note that by using [WikiCreole](http://trac.edgewall.org/intertrac/WikiCreole) style links, it's quite natural to write links containing spaces:
 
 - \[\[The whitespace convention\]\]
 - \[\[attachment:the file.txt\]\]
@@ -411,7 +411,7 @@ Note that the older way, putting the filename at the end, is still supported: at
 If you'd like to create a direct link to the content of the attached file instead of a link to the attachment page, simply use `raw-attachment:` instead of `attachment:`.
 
 
-This can be useful for pointing directly to an HTML document, for example. Note that for this use case, you'd have to allow the web browser to render the content by setting `[attachment] render_unsafe_content = yes` (see [TracIni\#attachment-section](trac-ini#)). Caveat: only do that in environments for which you're 100% confident you can trust the people who are able to attach files, as otherwise this would open up your site to [ cross-site scripting](http://en.wikipedia.org/wiki/Cross-site_scripting) attacks.
+This can be useful for pointing directly to an HTML document, for example. Note that for this use case, you'd have to allow the web browser to render the content by setting `[attachment] render_unsafe_content = yes` (see [TracIni\#attachment-section](trac-ini#)). Caveat: only do that in environments for which you're 100% confident you can trust the people who are able to attach files, as otherwise this would open up your site to [cross-site scripting](http://en.wikipedia.org/wiki/Cross-site_scripting) attacks.
 
 
 See also [\#export:links](trac-links#).
@@ -471,7 +471,7 @@ Example:
 ### timeline: links
 
 
-Links to the timeline can be created by specifying a date in the [ ISO:8601](http://en.wikipedia.org/wiki/ISO_8601) format. The date can be optionally followed by a time specification. The time is interpreted as being UTC time, but if you don't want to compute the UTC time, you can specify a local time followed by your timezone offset relative to UTC.
+Links to the timeline can be created by specifying a date in the [ISO:8601](http://en.wikipedia.org/wiki/ISO_8601) format. The date can be optionally followed by a time specification. The time is interpreted as being UTC time, but if you don't want to compute the UTC time, you can specify a local time followed by your timezone offset relative to UTC.
 
 
 Examples:

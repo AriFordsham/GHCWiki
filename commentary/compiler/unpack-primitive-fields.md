@@ -11,7 +11,7 @@ This proposal is about changing the default behavior of GHC, not changing expres
 
 There are two goals:
 
-1. Reduce the amount of boilerplate experienced programmers have to write: As of Feb 18th 2012, the [ bytestring](http://hackage.haskell.org/package/bytestring), [ text](http://hackage.haskell.org/package/text), and [ containers](http://hackage.haskell.org/package/containers) packages had 46 fields that matched the definition of primitive given above. 43 of these had an explicit `UNPACK` pragma (and the remaining 3 could have had one without changing the performance of the program.)
+1. Reduce the amount of boilerplate experienced programmers have to write: As of Feb 18th 2012, the [bytestring](http://hackage.haskell.org/package/bytestring), [ text](http://hackage.haskell.org/package/text), and [ containers](http://hackage.haskell.org/package/containers) packages had 46 fields that matched the definition of primitive given above. 43 of these had an explicit `UNPACK` pragma (and the remaining 3 could have had one without changing the performance of the program.)
 
 1. To provide better defaults for beginner and intermediate level Haskellers. Not unpacking e.g. `Int` fields can have a large, negative effect on performance and many beginner and intermediate level Haskellers are bitten by this.
 

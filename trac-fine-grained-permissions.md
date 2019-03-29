@@ -26,19 +26,19 @@ This lists the [\#ReadonlyWikiPolicy](trac-fine-grained-permissions#readonlywiki
 
 
 Among the optional choices, there is [\#AuthzPolicy](trac-fine-grained-permissions#authzpolicy), a very generic permission policy, based on an Authz-style system. See
-[ authz_policy.py](http://trac.edgewall.org/intertrac/source%3Abranches/1.0-stable/tracopt/perm/authz_policy.py) for details. 
+[authz_policy.py](http://trac.edgewall.org/intertrac/source%3Abranches/1.0-stable/tracopt/perm/authz_policy.py) for details. 
 
 
 Another popular permission policy [\#AuthzSourcePolicy](trac-fine-grained-permissions#), re-implements the pre-0.12 support for checking fine-grained permissions limited to Subversion repositories in terms of the new system.
 
 
-See also [ sample-plugins/permissions](http://trac.edgewall.org/intertrac/source%3Abranches/1.0-stable/sample-plugins/permissions) for more examples.
+See also [sample-plugins/permissions](http://trac.edgewall.org/intertrac/source%3Abranches/1.0-stable/sample-plugins/permissions) for more examples.
 
 ### AuthzPolicy
 
 #### Configuration
 
-- Put a [ authzpolicy.conf](http://swapoff.org/files/authzpolicy.conf) file somewhere, preferably on a secured location on the server, not readable for others than the webuser. If the  file contains non-ASCII characters, the UTF-8 encoding should be used.
+- Put a [authzpolicy.conf](http://swapoff.org/files/authzpolicy.conf) file somewhere, preferably on a secured location on the server, not readable for others than the webuser. If the  file contains non-ASCII characters, the UTF-8 encoding should be used.
 - Update your `trac.ini`:
 
   1. modify the [permission_policies](trac-ini#) entry in the `[trac]` section:
@@ -229,7 +229,7 @@ Note: In order for Timeline to work/visible for John, we must add CHANGESET_VIEW
 #### Missing Features
 
 
-Although possible with the DefaultPermissionPolicy handling (see Admin panel), fine-grained permissions still miss those grouping features (see [ \#9573](http://trac.edgewall.org/intertrac/ticket%3A9573), [ \#5648](http://trac.edgewall.org/intertrac/ticket%3A5648)). Patches are partially available, see authz_policy.2.patch, part of [ \#6680](http://trac.edgewall.org/intertrac/ticket%3A6680).
+Although possible with the DefaultPermissionPolicy handling (see Admin panel), fine-grained permissions still miss those grouping features (see [\#9573](http://trac.edgewall.org/intertrac/ticket%3A9573), [ \#5648](http://trac.edgewall.org/intertrac/ticket%3A5648)). Patches are partially available, see authz_policy.2.patch, part of [ \#6680](http://trac.edgewall.org/intertrac/ticket%3A6680).
 
 
 
@@ -265,7 +265,7 @@ At the time of this writing, the old granular permissions system from Trac 0.11 
 
 
 That kind of granular permission control needs a definition file, which is the one used by Subversion's mod_authz_svn. 
-More information about this file format and about its usage in Subversion is available in the [ Path-Based Authorization](http://svnbook.red-bean.com/en/1.5/svn.serverconfig.pathbasedauthz.html) section in the Server Configuration chapter of the svn book.
+More information about this file format and about its usage in Subversion is available in the [Path-Based Authorization](http://svnbook.red-bean.com/en/1.5/svn.serverconfig.pathbasedauthz.html) section in the Server Configuration chapter of the svn book.
 
 
 
@@ -354,7 +354,7 @@ The same access file is typically applied to the corresponding Subversion reposi
 ```
 
 
-For information about how to restrict access to entire projects in a multiple project environment see [ wiki:TracMultipleProjectsSVNAccess](http://trac.edgewall.org/intertrac/wiki%3ATracMultipleProjectsSVNAccess).
+For information about how to restrict access to entire projects in a multiple project environment see [wiki:TracMultipleProjectsSVNAccess](http://trac.edgewall.org/intertrac/wiki%3ATracMultipleProjectsSVNAccess).
 
 ### ReadonlyWikiPolicy
 
@@ -423,4 +423,4 @@ See the sourced documentation of the plugin for more info.
 
 
 See also: [TracPermissions](trac-permissions),
-[ TracHacks:FineGrainedPageAuthzEditorPlugin](http://trac-hacks.org/wiki/FineGrainedPageAuthzEditorPlugin) for a simple editor plugin.
+[TracHacks:FineGrainedPageAuthzEditorPlugin](http://trac-hacks.org/wiki/FineGrainedPageAuthzEditorPlugin) for a simple editor plugin.

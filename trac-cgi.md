@@ -7,7 +7,7 @@
 
 >
 >
-> *Please note that using Trac via CGI is the slowest deployment method available. It is slower than [mod_python](trac-mod-python), [FastCGI](trac-fast-cgi) and even [ IIS/AJP](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp) on Windows.*
+> *Please note that using Trac via CGI is the slowest deployment method available. It is slower than [mod_python](trac-mod-python), [FastCGI](trac-fast-cgi) and even [IIS/AJP](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp) on Windows.*
 >
 >
 
@@ -17,7 +17,7 @@ CGI script is the entrypoint that web-server calls when a web-request to an appl
 ## Apache web-server configuration
 
 
-In [ Apache](http://httpd.apache.org/) there are two ways to run Trac as CGI:
+In [Apache](http://httpd.apache.org/) there are two ways to run Trac as CGI:
 
 1. Use a `ScriptAlias` directive that maps an URL to the `trac.cgi` script (recommended)
 1. Copy the `trac.cgi` file into the directory for CGI executables used by your web server (commonly named `cgi-bin`). You can also create a symbolic link, but in that case make sure that the `FollowSymLinks` option is enabled for the `cgi-bin` directory.
@@ -79,7 +79,7 @@ Or to use multiple projects you can specify their common parent directory using 
 ```
 
 
-If you are using the [ Apache suEXEC](http://httpd.apache.org/docs/suexec.html) feature please see [ ApacheSuexec](http://trac.edgewall.org/intertrac/ApacheSuexec).
+If you are using the [Apache suEXEC](http://httpd.apache.org/docs/suexec.html) feature please see [ ApacheSuexec](http://trac.edgewall.org/intertrac/ApacheSuexec).
 
 
 On some systems, you *may* need to edit the shebang line in the `trac.cgi` file to point to your real Python installation path. On a Windows system you may need to configure Windows to know how to execute a .cgi file (Explorer -\> Tools -\> Folder Options -\> File Types -\> CGI).
@@ -88,7 +88,7 @@ On some systems, you *may* need to edit the shebang line in the `trac.cgi` file 
 
 
 
-You can run a [ WSGI handler](http://henry.precheur.org/python/how_to_serve_cgi) [ under CGI](http://pythonweb.org/projects/webmodules/doc/0.5.3/html_multipage/lib/example-webserver-web-wsgi-simple-cgi.html).  You can [write your own application function](trac-mod-wsgi#), or use the deployed trac.wsgi's application.
+You can run a [WSGI handler](http://henry.precheur.org/python/how_to_serve_cgi) [ under CGI](http://pythonweb.org/projects/webmodules/doc/0.5.3/html_multipage/lib/example-webserver-web-wsgi-simple-cgi.html).  You can [write your own application function](trac-mod-wsgi#), or use the deployed trac.wsgi's application.
 
 
 ## Mapping Static Resources

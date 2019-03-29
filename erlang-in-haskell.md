@@ -9,8 +9,8 @@ Cloud Haskell is a distributed computing framework for Haskell, implemented in H
 
 Here are some resources relevant to this project:
 
-- [ Jeff Epstein, Andrew P. Black, Simon Peyton-Jones: Towards Haskell in the Cloud](http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf)
-- [ Project webpage](http://haskell-distributed.github.io/)
-- [ The source repository](https://github.com/haskell-distributed/distributed-process)
-- [ Haskell Wiki page](http://www.haskell.org/haskellwiki/GHC/CloudAndHPCHaskell)
+- [Jeff Epstein, Andrew P. Black, Simon Peyton-Jones: Towards Haskell in the Cloud](http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf)
+- [Project webpage](http://haskell-distributed.github.io/)
+- [The source repository](https://github.com/haskell-distributed/distributed-process)
+- [Haskell Wiki page](http://www.haskell.org/haskellwiki/GHC/CloudAndHPCHaskell)
 - [Design notes](static-values) for a language extension to support the `static` form.

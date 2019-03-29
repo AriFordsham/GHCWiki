@@ -1,7 +1,7 @@
 # HEAP_ALLOCED
 
 
-This page is about the `HEAP_ALLOCED()` macro/function in the runtime system.  See [\#8199](https://gitlab.haskell.org//ghc/ghc/issues/8199) which is about getting rid of `HEAP_ALLOCED`.
+This page is about the `HEAP_ALLOCED()` macro/function in the runtime system.  See [\#8199](https://gitlab.haskell.org/ghc/ghc/issues/8199) which is about getting rid of `HEAP_ALLOCED`.
 
 ```wiki
 StgBool HEAP_ALLOCED(void *p);
@@ -14,7 +14,7 @@ It is defined in `rts/sm/MBlock.h`.  The purpose of `HEAP_ALLOCED()` is to retur
 On a 32-bit machine, `HEAP_ALLOCED()` is implemented with a 4096-entry byte-map, one byte per megabyte of the address space (the dynamic heap is allocated in units of aligned megabytes).  
 
 
-On a 64-bit machine, it's a bit more difficult.  The current method (GHC 6.10.1 and earlier) uses a cache, with a 4096-entry map and a 32-bit tag.  If the upper 32 bits of the pointer match the tag, we look up in the map, otherwise we back off to a slow method that searches a list of mappings (bug [\#2934](https://gitlab.haskell.org//ghc/ghc/issues/2934) is about the lack of thread-safety in the slow path here).  This arrangement works fine for small heaps, but is pessimal for large (multi-GB) heaps, or heaps that are scattered around the address space.
+On a 64-bit machine, it's a bit more difficult.  The current method (GHC 6.10.1 and earlier) uses a cache, with a 4096-entry map and a 32-bit tag.  If the upper 32 bits of the pointer match the tag, we look up in the map, otherwise we back off to a slow method that searches a list of mappings (bug [\#2934](https://gitlab.haskell.org/ghc/ghc/issues/2934) is about the lack of thread-safety in the slow path here).  This arrangement works fine for small heaps, but is pessimal for large (multi-GB) heaps, or heaps that are scattered around the address space.
 
 ## Speeding up `HEAP_ALLOCED()`
 

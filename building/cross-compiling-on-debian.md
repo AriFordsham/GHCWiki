@@ -14,7 +14,7 @@ sudo apt-get build-dep ghc
 This installs all the packages need to build a the native GHC Debian package.
 
 
-Now its time to set up Debain multi-arch which allows you to install Debian packages for more than one architecture on a single machine. The Debian documention for this is at [ https://wiki.debian.org/Multiarch/HOWTO](https://wiki.debian.org/Multiarch/HOWTO) .
+Now its time to set up Debain multi-arch which allows you to install Debian packages for more than one architecture on a single machine. The Debian documention for this is at [https://wiki.debian.org/Multiarch/HOWTO](https://wiki.debian.org/Multiarch/HOWTO) .
 
 
 Once that is set up you should be able to query the available architectures using:

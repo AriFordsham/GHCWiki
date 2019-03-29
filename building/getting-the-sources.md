@@ -1,7 +1,7 @@
 # Getting the GHC sources
 
 
-There are two ways to get sources to GHC: download a source distribution, or clone the [ git](http://git-scm.com/) repositories.
+There are two ways to get sources to GHC: download a source distribution, or clone the [git](http://git-scm.com/) repositories.
 
 ## Source distributions
 
@@ -9,7 +9,7 @@ There are two ways to get sources to GHC: download a source distribution, or clo
 A source distribution is a file like `ghc-7.8.3-src.tar.xz`, which contains a complete snapshot of the source tree for a particular version of GHC. Source distributions for all versions of GHC are available from the [download page](http://www.haskell.org/ghc/).
 
 
-Source distributions are easier to build, because we also include the output from running certain external tools like [ Happy](http://haskell.org/happy), so you don't need to install these tools.
+Source distributions are easier to build, because we also include the output from running certain external tools like [Happy](http://haskell.org/happy), so you don't need to install these tools.
 
 ## Git
 
@@ -41,7 +41,7 @@ Notes:
 ### Using a Fork of GHC
 
 
-You can create a fork of ghc by logging in and clicking the fork button at [ https://gitlab.haskell.org/ghc/ghc](https://gitlab.haskell.org/ghc/ghc). Do NOT clone your fork directly. This will cause issues with relative submodule paths. Instead:
+You can create a fork of ghc by logging in and clicking the fork button at [https://gitlab.haskell.org/ghc/ghc](https://gitlab.haskell.org/ghc/ghc). Do NOT clone your fork directly. This will cause issues with relative submodule paths. Instead:
 
 - Clone the official GHC repo as described [above](building/getting-the-sources#cloning-head).
 - Add your fork as a new remote with the following command. "myFork" can be any name you choose. The exact url is given on your fork's gitlab page.
@@ -101,7 +101,7 @@ For 7.8 or earlier, follow the [legacy](building/getting-the-sources/legacy) ins
 ### Cloning from GitHub
 
 
-The official mirror for GHC on GitHub is located at [ https://github.com/ghc/ghc](https://github.com/ghc/ghc).
+The official mirror for GHC on GitHub is located at [https://github.com/ghc/ghc](https://github.com/ghc/ghc).
 
 
 First configure the following Git url rewrites to account for the different naming scheme on GitHub (due to GitHub not supporting `/` in repository names) before cloning (those rules are persisted in `${HOME}/.gitconfig` so you need to perform it only once):

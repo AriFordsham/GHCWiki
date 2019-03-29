@@ -5,7 +5,7 @@
 The NoFib benchmark suite is a collection of (mostly old) Haskell programs that we use for benchmarking GHC. 
 
 
-Trac [\#5793](https://gitlab.haskell.org//ghc/ghc/issues/5793) is about improving NoFib.
+Trac [\#5793](https://gitlab.haskell.org/ghc/ghc/issues/5793) is about improving NoFib.
 
 ## Prerequisites
 
@@ -50,7 +50,7 @@ CPU frequency scaling can result in distorted measurement! Try temporarily disab
 will put the results in the file `nofib-log`. 
 
 
-If you encounter build errors ("Could not find module QSort") although `make` seems to work for many benchmarks, make sure that you did `make boot`. This will generate the necessary [ Makefile dependencies](http://ghc.readthedocs.io/en/latest/separate_compilation.html#dependency-generation), otherwise almost anything of the `spectral` and later suites won't build.
+If you encounter build errors ("Could not find module QSort") although `make` seems to work for many benchmarks, make sure that you did `make boot`. This will generate the necessary [Makefile dependencies](http://ghc.readthedocs.io/en/latest/separate_compilation.html#dependency-generation), otherwise almost anything of the `spectral` and later suites won't build.
 
 
 You can run single benchmarks by running `make` within their folder, or equivalently, by using `make`s `-C` option for changing the path.
@@ -66,7 +66,7 @@ Should you want to debug or enhance the benchmark harness, look into `mk/boilerp
 
 
 To compare the results of multiple runs, use the program
-[ nofib/nofib-analyse](https://git.haskell.org/nofib.git/tree/HEAD:/nofib-analyse).  Something like this:
+[nofib/nofib-analyse](https://git.haskell.org/nofib.git/tree/HEAD:/nofib-analyse).  Something like this:
 
 ```wiki
   $ nofib-analyse nofib-log-6.4.2 nofib-log-6.6
@@ -84,7 +84,7 @@ side, make both runs on the same unloaded machine.
 
 To get measurements for simulated instruction counts, memory reads/writes, and "cache misses",
 you'll need to get hold of Cachegrind, which is part of 
-[ Valgrind](http://valgrind.org). You can run nofib under valgrind like this:
+[Valgrind](http://valgrind.org). You can run nofib under valgrind like this:
 
 ```wiki
   $ make EXTRA_RUNTEST_OPTS=-cachegrind
@@ -162,7 +162,7 @@ because those contain repeated patterns and aren't indicative of typical code.  
 ### Stability wrt. GC paramerisations
 
 
-Don't try to play around with large Gen 0 or Gen 1 heaps, they make benchmarks highly unstable wrt. small changes in allocations, caused by i.e. a new optimisation that you want to test, leading into a world of pain with unexplicable improvements and regressions. Benchmarks were carefully adjusted to show 'reasonable' behavior for such small changes (e.g. less allocations should lead to improvements in productivity). The details are in [\#15999](https://gitlab.haskell.org//ghc/ghc/issues/15999). This is also very important when adding new benchmarks.
+Don't try to play around with large Gen 0 or Gen 1 heaps, they make benchmarks highly unstable wrt. small changes in allocations, caused by i.e. a new optimisation that you want to test, leading into a world of pain with unexplicable improvements and regressions. Benchmarks were carefully adjusted to show 'reasonable' behavior for such small changes (e.g. less allocations should lead to improvements in productivity). The details are in [\#15999](https://gitlab.haskell.org/ghc/ghc/issues/15999). This is also very important when adding new benchmarks.
 
 ### Measuring backend performance
 

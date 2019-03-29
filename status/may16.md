@@ -5,11 +5,11 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 # Major changes in GHC 8.0.1
 
-- **Lightweight, implicit call-stacks** ([Wiki](explicit-call-stack/implicit-locations), [ Phab:D861](https://phabricator.haskell.org/D861), [ Phab:D1818](https://phabricator.haskell.org/D1818)). Provides a `HasCallStack` constraint that can be added to any function to obtain a partial call-stack, with source locations, at that point in the program. `HasCallStack` and all related API functions are provided by the `GHC.Stack` module in `base`. The functions `error` and `undefined` now have a `HasCallStack` constraint and will print out the partial call-stack alongside the given error message.
+- **Lightweight, implicit call-stacks** ([Wiki](explicit-call-stack/implicit-locations), [Phab:D861](https://phabricator.haskell.org/D861), [ Phab:D1818](https://phabricator.haskell.org/D1818)). Provides a `HasCallStack` constraint that can be added to any function to obtain a partial call-stack, with source locations, at that point in the program. `HasCallStack` and all related API functions are provided by the `GHC.Stack` module in `base`. The functions `error` and `undefined` now have a `HasCallStack` constraint and will print out the partial call-stack alongside the given error message.
 
-- **Injective type families** ([Wiki](injective-type-families), [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf)). Allows to annotate type families with injectivity information. Correctness of injectivity annotation is then verified by the compiler. Once compiler knows the annotation is correct it can us injectivity information during type checking.
+- **Injective type families** ([Wiki](injective-type-families), [paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf)). Allows to annotate type families with injectivity information. Correctness of injectivity annotation is then verified by the compiler. Once compiler knows the annotation is correct it can us injectivity information during type checking.
 
-- **Applicative do notation** ([ApplicativeDo](applicative-do), [ Phab:D729](https://phabricator.haskell.org/D729)). With the new `-XApplicativeDo`, GHC tries to desugar `do`-notation to `Applicative` where possible, giving a more convenient sugar for many common `Applicative` expressions. See the [ draft paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/list-comp/applicativedo.pdf) for details.
+- **Applicative do notation** ([ApplicativeDo](applicative-do), [Phab:D729](https://phabricator.haskell.org/D729)). With the new `-XApplicativeDo`, GHC tries to desugar `do`-notation to `Applicative` where possible, giving a more convenient sugar for many common `Applicative` expressions. See the [ draft paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/list-comp/applicativedo.pdf) for details.
 
 - **A beautiful new users guide**. Now rewritten in reStructured Text, and with significantly improved output and documentation.
 
@@ -19,25 +19,25 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 - **Record system enhancements** ([OverloadedRecordFields](overloaded-record-fields)). A new extension `DuplicateRecordFields` will be available in GHC 8.0, allowing multiple uses of the same field name with a very limited form of type-directed name resolution. Support for polymorphism over record fields is being worked on; another provisional new extension `OverloadedLabels` represents a first step in this process.
 
-- A huge improvement to **pattern match checking** (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see their [ their paper](https://people.cs.kuleuven.be/~george.karachalias/papers/p424-karachalias.pdf) with Tom Schrijvers and Dimitrios Vytiniotis. Also, more information can be found in [PatternMatchCheck](pattern-match-check) and [PatternMatchCheckImplementation](pattern-match-check-implementation). 
+- A huge improvement to **pattern match checking** (including much better coverage of GADTs), based on the work of Simon PJ and Georgios Karachalias. For more details, see their [their paper](https://people.cs.kuleuven.be/~george.karachalias/papers/p424-karachalias.pdf) with Tom Schrijvers and Dimitrios Vytiniotis. Also, more information can be found in [PatternMatchCheck](pattern-match-check) and [PatternMatchCheckImplementation](pattern-match-check-implementation). 
 
 - **Custom type errors** ([Proposal/CustomTypeErrors](proposal/custom-type-errors)), allowing library authors to offer more descriptive error messages than those offered by GHC.
 
 - **Improved generics representation** leveraging type-level literals. This makes `GHC.Generics` more expressive and uses new type system features to give more natural types to its representations.
 
-- A new **DeriveLift language extension**, allowing the `Lift` type class from `Language.Haskell.TH.Syntax` to be derived automatically. This was introduced in the spirit of `DeriveDataTypeable` and `DeriveGeneric` to allow easier metaprogramming, and to allow users to easily define `Lift` instances without needing to depend on the existence of Template Haskell itself (see [\#1830](https://gitlab.haskell.org//ghc/ghc/issues/1830)).
+- A new **DeriveLift language extension**, allowing the `Lift` type class from `Language.Haskell.TH.Syntax` to be derived automatically. This was introduced in the spirit of `DeriveDataTypeable` and `DeriveGeneric` to allow easier metaprogramming, and to allow users to easily define `Lift` instances without needing to depend on the existence of Template Haskell itself (see [\#1830](https://gitlab.haskell.org/ghc/ghc/issues/1830)).
 
 - **Support for DWARF-based stacktraces** ([DWARF](dwarf)). Haskell has at long last gained the ability to collect stack-traces of running programs. While still experimental, `base` now includes an interface which user code can use to request a representation of the current execution stack when running on a supported machine (currently Linux x86-64). Furthermore, the runtime system will now provide a backtrace of the currently running thread when thrown a `SIGUSR2` signal. Note that this functionality is highly experimental and there are some known issues which can potentially threaten the stability of the program.
 
-- **Remote GHCi** ([RemoteGHCi](remote-gh-ci)). The `-fexternal-interpreter` flag tells GHC to run interpreted code in a separate process.  This provides various benefits, including allowing the interpreter to run profiled code (for example), thereby gaining access to [ stack traces](http://simonmar.github.io/posts/2016-02-12-Stack-traces-in-GHCi.html) in GHCi.
+- **Remote GHCi** ([RemoteGHCi](remote-gh-ci)). The `-fexternal-interpreter` flag tells GHC to run interpreted code in a separate process.  This provides various benefits, including allowing the interpreter to run profiled code (for example), thereby gaining access to [stack traces](http://simonmar.github.io/posts/2016-02-12-Stack-traces-in-GHCi.html) in GHCi.
 
 -  GHC now supports **environment files**. This is not any fundamental new capability but may prove to be a useful convenience. Build systems like Cabal call GHC with flags that define an (ephemeral) package environment, such as `-hide-all-packages -package-db=... -package this -package that`. An environment file lets the same information be stashed persistently in a file that GHC will pick up and use automatically. In principle this allows tools such as `Cabal` to generate an environment file and then you can use `ghc` or `ghci` directly and get the package environment of your project, rather than the default global environment. In addition to environments that live in a particular directory, it is possible to make a default global environment, or different global environments for different shell sessions. 
 
 - A new **Strict language extension** ([StrictPragma](strict-pragma)), allowing modules to be compiled such that local bindings are evaluated eagerly. Implemented by Adam Sandberg Eriksson based on an proposal by Johan Tibell.
 
-- Significant improvements in cross-platform support, including a variety of fixes to **Windows linker support** ([ Phab:D1696](https://phabricator.haskell.org/D1696), [ Phab:D1805](https://phabricator.haskell.org/D1805)), great improvements in **reliability on ARM** ([\#11206](https://gitlab.haskell.org//ghc/ghc/issues/11206)), revived **unregisterised [ m68k support](https://trofi.github.io/posts/191-ghc-on-m68k.html)**, and new support for **AIX targets** (Herbert) and Linux **PowerPC 64-bit big- and little-endian native code generation** ([ Phab:D629](https://phabricator.haskell.org/D629)).
+- Significant improvements in cross-platform support, including a variety of fixes to **Windows linker support** ([Phab:D1696](https://phabricator.haskell.org/D1696), [ Phab:D1805](https://phabricator.haskell.org/D1805)), great improvements in **reliability on ARM** ([\#11206](https://gitlab.haskell.org/ghc/ghc/issues/11206)), revived **unregisterised [ m68k support](https://trofi.github.io/posts/191-ghc-on-m68k.html)**, and new support for **AIX targets** (Herbert) and Linux **PowerPC 64-bit big- and little-endian native code generation** ([ Phab:D629](https://phabricator.haskell.org/D629)).
 
-- Improved support for **pattern synonyms**, including record syntax ([\#8582](https://gitlab.haskell.org//ghc/ghc/issues/8582)) and the ability to associate pattern synonyms with type constructors on export, implemented by Matthew Pickering. See Matthew's [ blog](http://mpickering.github.io/posts/2015-12-12-pattern-synonyms-8.html) for details.
+- Improved support for **pattern synonyms**, including record syntax ([\#8582](https://gitlab.haskell.org/ghc/ghc/issues/8582)) and the ability to associate pattern synonyms with type constructors on export, implemented by Matthew Pickering. See Matthew's [blog](http://mpickering.github.io/posts/2015-12-12-pattern-synonyms-8.html) for details.
 
 # Upcoming plans for GHC 8.2
 
@@ -56,33 +56,33 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 
 >
 >
-> GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/) for an description of the proposal and the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for the current status of the implementation.
+> GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/) for an description of the proposal and the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for the current status of the implementation.
 >
 >
 
 - Backpack is targeting to be merged in GHC 8.2. More to come here. (Edward Z Yang)
 - Merge `Bifoldable` and `Bitraversable` into `base` (Edward Kmett, Ryan Scott)
 - Generalize the `deriving` algorithms for `Eq`, `Functor`, etc. to be able to derive the data types in `Data.Functor.Classes` (`Eq1`, `Eq2`, etc.), `Bifunctor`, `Bifoldable`, and `Bitraversable` (Ryan Scott)
-- Deriving strategies (Ryan Scott): grant users the ability to choose explicitly how a class should be `derived` (using a built-in algorithm, `GeneralizedNewtypeDeriving`, `DeriveAnyClass`, or otherwise), addressing [\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598).
-- Exhaustiveness checking for `EmptyCase`s ([ Phab:D2105](https://phabricator.haskell.org/D2105)), addressing [\#10746](https://gitlab.haskell.org//ghc/ghc/issues/10746). 
+- Deriving strategies (Ryan Scott): grant users the ability to choose explicitly how a class should be `derived` (using a built-in algorithm, `GeneralizedNewtypeDeriving`, `DeriveAnyClass`, or otherwise), addressing [\#10598](https://gitlab.haskell.org/ghc/ghc/issues/10598).
+- Exhaustiveness checking for `EmptyCase`s ([Phab:D2105](https://phabricator.haskell.org/D2105)), addressing [\#10746](https://gitlab.haskell.org/ghc/ghc/issues/10746). 
 
 ## Back-end and runtime system
 
-- Compact regions (Giovanni Campagna, Edward Yang, [ Phab:D1264](https://phabricator.haskell.org/D1264), [ paper](http://ezyang.com/papers/ezyang15-cnf.pdf)). This runtime system feature allows a referentially "closed" set of heap objects to be collected into a "compact region", allowing cheaper garbage collection, heap-object sharing between processes, and the possibility of inexpensive serialization.
+- Compact regions (Giovanni Campagna, Edward Yang, [Phab:D1264](https://phabricator.haskell.org/D1264), [ paper](http://ezyang.com/papers/ezyang15-cnf.pdf)). This runtime system feature allows a referentially "closed" set of heap objects to be collected into a "compact region", allowing cheaper garbage collection, heap-object sharing between processes, and the possibility of inexpensive serialization.
 
-- Refactoring and improvements to the cost-center profiler (Ben Gamari, [ Phab:D1722](https://phabricator.haskell.org/D1722)): Allow heap profiler samples to be directed to the GHC eventlog, allowing correlation with other program events, enabling easier analysis by tooling and eventual removal of the old, rather crufty `.hp` profile format. 
+- Refactoring and improvements to the cost-center profiler (Ben Gamari, [Phab:D1722](https://phabricator.haskell.org/D1722)): Allow heap profiler samples to be directed to the GHC eventlog, allowing correlation with other program events, enabling easier analysis by tooling and eventual removal of the old, rather crufty `.hp` profile format. 
 
 - Further improvements to debugging information (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the runtime system during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging information to be used by end-user code in production.
 
 >
 >
-> With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [ DWARF status page](https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status) for futher information.
+> With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [DWARF status page](https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status) for futher information.
 >
 >
 
-- Support for NUMA systems (Simon Marlow, [ in-progress](https://github.com/simonmar/ghc/tree/numa)).  The aim is to reduce the number of remote memory accesses for multi-socket systems that have a mixture of local and remote memory.
+- Support for NUMA systems (Simon Marlow, [in-progress](https://github.com/simonmar/ghc/tree/numa)).  The aim is to reduce the number of remote memory accesses for multi-socket systems that have a mixture of local and remote memory.
 
-- Experimental changes to the scheduler (Simon Marlow, [ in progress](https://github.com/simonmar/ghc/commit/7e05ec18b4eda8d97e37015d415e627353de6b50)) that enable the number of threads used for GC to be lower than the `-N` setting.
+- Experimental changes to the scheduler (Simon Marlow, [in progress](https://github.com/simonmar/ghc/commit/7e05ec18b4eda8d97e37015d415e627353de6b50)) that enable the number of threads used for GC to be lower than the `-N` setting.
 
 ## Frontend, build system and miscellaneous changes
 

@@ -6,7 +6,7 @@
 I want to implement possibility to suppress particular kinds of warnings for parts of a source file.
 
 
-According to [\#602](https://gitlab.haskell.org//ghc/ghc/issues/602):
+According to [\#602](https://gitlab.haskell.org/ghc/ghc/issues/602):
 "One way to achieve this is to allow parts of a file to be delimited by pragmas specifying the warnings to be suppressed, and then filter out the warnings during compilation based on the source location attached to the warning."
 
 
@@ -18,14 +18,14 @@ Very natural thing is to suppress warnings, that can be thrown by some syntactic
 - Type classes
 
 
-Having source file delimeted by pragmas is not good idea as for me, because it will ruin code clarity and for me, for example, it would be too hard to read such source file. So i think that having a single pragma, attached to a function, instance import or typeclass will be a tool of power and precise. There is a nice example in [ Java](http://docs.oracle.com/javase/7/docs/api/java/lang/SuppressWarnings.html) of suppressing warnings for particular methods in classes
+Having source file delimeted by pragmas is not good idea as for me, because it will ruin code clarity and for me, for example, it would be too hard to read such source file. So i think that having a single pragma, attached to a function, instance import or typeclass will be a tool of power and precise. There is a nice example in [Java](http://docs.oracle.com/javase/7/docs/api/java/lang/SuppressWarnings.html) of suppressing warnings for particular methods in classes
 
 ## Use cases
 
 
 It is not very easy to form a good use case for this but nevertheless. 
 
-1. For example, if you depend on particular library function(if you want to support backward compatability) but in newer version of library this function marked as deprecated and so you get warnings about it. Here it may be useful to suppress them instead of rewriting the whole codebase. I have asked about particular use cases on [ Haskell's reddit cahnnel](https://www.reddit.com/r/haskell/comments/3rbpb6/examples_of_warnings_in_haskell/) and some people need to support old libraries. For example `CRandT` in `monadcryptorandom-0.6.1`:
+1. For example, if you depend on particular library function(if you want to support backward compatability) but in newer version of library this function marked as deprecated and so you get warnings about it. Here it may be useful to suppress them instead of rewriting the whole codebase. I have asked about particular use cases on [Haskell's reddit cahnnel](https://www.reddit.com/r/haskell/comments/3rbpb6/examples_of_warnings_in_haskell/) and some people need to support old libraries. For example `CRandT` in `monadcryptorandom-0.6.1`:
 
 
 Many instances, e.g. `MonadTrans` have `Error e` constraint, which is deprecated in the newer `transformers`.

@@ -46,46 +46,46 @@ Below are the major highlights of 8.2.
 
 >
 >
-> GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/) for an description of the proposal and the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for the current status of the implementation.
+> GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/) for an description of the proposal and the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for the current status of the implementation.
 >
 >
 
 - **Deriving**:
 
-  - Deriving strategies (Ryan Scott): grant users the ability to choose explicitly how a class should be `derived` (using a built-in algorithm, `GeneralizedNewtypeDeriving`, `DeriveAnyClass`, or otherwise), addressing [\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598).
+  - Deriving strategies (Ryan Scott): grant users the ability to choose explicitly how a class should be `derived` (using a built-in algorithm, `GeneralizedNewtypeDeriving`, `DeriveAnyClass`, or otherwise), addressing [\#10598](https://gitlab.haskell.org/ghc/ghc/issues/10598).
 
-- **Levity polymorphism**.  Richard E is actively involved in consolidating the implementation of levity polymorphism; see [LevityPolymorphism](levity-polymorphism).  This will not include resolving the `Constraint` vs `*` debate [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715).
+- **Levity polymorphism**.  Richard E is actively involved in consolidating the implementation of levity polymorphism; see [LevityPolymorphism](levity-polymorphism).  This will not include resolving the `Constraint` vs `*` debate [\#11715](https://gitlab.haskell.org/ghc/ghc/issues/11715).
 
 - **Backpack** (Edward Z Yang) has been merged into GHC 8.2. However, at this point, it has only really been seriously used by Edward, and so it really needs testing! For up-to-date links to documentation and reference material, see [Backpack](backpack)
 
 - **Exhaustiveness checking**
 
-  - Exhaustiveness checking for `EmptyCase`s ([ Phab:D2105](https://phabricator.haskell.org/D2105)), addressing [\#10746](https://gitlab.haskell.org//ghc/ghc/issues/10746). 
-  - Exhaustiveness checking for pattern synonyms, including the ability to define sets of synonyms that constitute a complete match, addressing [\#8779](https://gitlab.haskell.org//ghc/ghc/issues/8779) (Matthew Pickering),
+  - Exhaustiveness checking for `EmptyCase`s ([Phab:D2105](https://phabricator.haskell.org/D2105)), addressing [\#10746](https://gitlab.haskell.org/ghc/ghc/issues/10746). 
+  - Exhaustiveness checking for pattern synonyms, including the ability to define sets of synonyms that constitute a complete match, addressing [\#8779](https://gitlab.haskell.org/ghc/ghc/issues/8779) (Matthew Pickering),
 
-- **Overloaded record fields** (Adam Gundry, [ Phab:D2708](https://phabricator.haskell.org/D2708), [ Phab:D3144](https://phabricator.haskell.org/D3144)): Changes to `IsLabel` class used by `OverloadedLabels` extension, plus the addition of a `HasField` class supporting polymorphism over record field selectors, but no `OverloadedRecordFields` extension or `IsLabel x (r -> a)` instance. See [ the proposal and discussion](https://github.com/ghc-proposals/ghc-proposals/pull/6) for more details.
+- **Overloaded record fields** (Adam Gundry, [Phab:D2708](https://phabricator.haskell.org/D2708), [ Phab:D3144](https://phabricator.haskell.org/D3144)): Changes to `IsLabel` class used by `OverloadedLabels` extension, plus the addition of a `HasField` class supporting polymorphism over record field selectors, but no `OverloadedRecordFields` extension or `IsLabel x (r -> a)` instance. See [ the proposal and discussion](https://github.com/ghc-proposals/ghc-proposals/pull/6) for more details.
 
 - **Unpacked sum types** (Ömer Sinan Ağacan, [wiki](unpacked-sum-types)): Allowing for efficient, unpacked representation of sum data types.
 
 #### Back-end and runtime system
 
-- **Compact regions** (Giovanni Campagna, Edward Yang, [ Phab:D1264](https://phabricator.haskell.org/D1264), [ paper](http://ezyang.com/papers/ezyang15-cnf.pdf)). This runtime system feature allows a referentially "closed" set of heap objects to be collected into a "compact region", allowing cheaper garbage collection, heap-object sharing between processes, and the possibility of inexpensive serialization. Use the [ compact](https://hackage.haskell.org/package/compact) library to get access to this feature!
+- **Compact regions** (Giovanni Campagna, Edward Yang, [Phab:D1264](https://phabricator.haskell.org/D1264), [ paper](http://ezyang.com/papers/ezyang15-cnf.pdf)). This runtime system feature allows a referentially "closed" set of heap objects to be collected into a "compact region", allowing cheaper garbage collection, heap-object sharing between processes, and the possibility of inexpensive serialization. Use the [ compact](https://hackage.haskell.org/package/compact) library to get access to this feature!
 
-- **Refactoring and improvements to the cost-center profiler** (Ben Gamari, [ Phab:D1722](https://phabricator.haskell.org/D1722)): Allow heap profiler samples to be directed to the GHC eventlog, allowing correlation with other program events, enabling easier analysis by tooling and eventual removal of the old, rather crufty `.hp` profile format. 
+- **Refactoring and improvements to the cost-center profiler** (Ben Gamari, [Phab:D1722](https://phabricator.haskell.org/D1722)): Allow heap profiler samples to be directed to the GHC eventlog, allowing correlation with other program events, enabling easier analysis by tooling and eventual removal of the old, rather crufty `.hp` profile format. 
 
-- **Support for NUMA systems** (Simon Marlow, [ in-progress](https://github.com/simonmar/ghc/tree/numa)).  The aim is to reduce the number of remote memory accesses for multi-socket systems that have a mixture of local and remote memory.
+- **Support for NUMA systems** (Simon Marlow, [in-progress](https://github.com/simonmar/ghc/tree/numa)).  The aim is to reduce the number of remote memory accesses for multi-socket systems that have a mixture of local and remote memory.
 
-- **Experimental changes to the scheduler** (Simon Marlow, [ in progress](https://github.com/simonmar/ghc/commit/7e05ec18b4eda8d97e37015d415e627353de6b50)) that enable the number of threads used for GC to be lower than the `-N` setting.
+- **Experimental changes to the scheduler** (Simon Marlow, [in progress](https://github.com/simonmar/ghc/commit/7e05ec18b4eda8d97e37015d415e627353de6b50)) that enable the number of threads used for GC to be lower than the `-N` setting.
 
-- **Improved idle CPU usage**: A long-standing regression ([\#11965](https://gitlab.haskell.org//ghc/ghc/issues/11965)) resulting in unnecessary wake-ups in an otherwise idle program was fixed. This should lower CPU utilization and improve power consumption for some programs.
+- **Improved idle CPU usage**: A long-standing regression ([\#11965](https://gitlab.haskell.org/ghc/ghc/issues/11965)) resulting in unnecessary wake-ups in an otherwise idle program was fixed. This should lower CPU utilization and improve power consumption for some programs.
 
-- **Live streaming of event-log data** ([ Phab:2934](https://phabricator.haskell.org/2934))
+- **Live streaming of event-log data** ([Phab:2934](https://phabricator.haskell.org/2934))
 
 - **Further improvements to debugging information** (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the runtime system during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging   - TODO information to be used by end-user code in production.
 
 >
 >
-> With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [ DWARF status page](https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status) for further information.
+> With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [DWARF status page](https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status) for further information.
 >
 >
 
@@ -95,7 +95,7 @@ Below are the major highlights of 8.2.
 
 #### Library changes
 
-- Merge `Bifoldable` and `Bitraversable` into `base`, addressing [\#10448](https://gitlab.haskell.org//ghc/ghc/issues/10448) (Edward Kmett, Ryan Scott)
+- Merge `Bifoldable` and `Bitraversable` into `base`, addressing [\#10448](https://gitlab.haskell.org/ghc/ghc/issues/10448) (Edward Kmett, Ryan Scott)
 
 #### Build system and miscellaneous changes
 
@@ -269,7 +269,7 @@ Below are the major highlights of 8.2.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8040">#8040</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8040">#8040</a></th>
 <td>
                     
                   
@@ -295,7 +295,7 @@ Below are the major highlights of 8.2.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8040">installed include/HsVersions.h  wants to #include &quot;../includes/ghcautoconf.h&quot;</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8040">installed include/HsVersions.h  wants to #include &quot;../includes/ghcautoconf.h&quot;</a>
                       
                       
                       
@@ -347,7 +347,7 @@ Below are the major highlights of 8.2.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10010">#10010</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10010">#10010</a></th>
 <td>
                     
                   
@@ -373,7 +373,7 @@ Below are the major highlights of 8.2.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10010">LLVM/optimized code for sqrt incorrect for negative values</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10010">LLVM/optimized code for sqrt incorrect for negative values</a>
                       
                       
                       
@@ -425,7 +425,7 @@ Below are the major highlights of 8.2.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10249">#10249</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10249">#10249</a></th>
 <td>
                     
                   
@@ -451,7 +451,7 @@ Below are the major highlights of 8.2.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10249">GHCi leaky abstraction: error message mentions `ghciStepIO`</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10249">GHCi leaky abstraction: error message mentions `ghciStepIO`</a>
                       
                       
                       
@@ -503,7 +503,7 @@ Below are the major highlights of 8.2.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13194">#13194</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13194">#13194</a></th>
 <td>
                     
                   
@@ -529,7 +529,7 @@ Below are the major highlights of 8.2.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13194">Concurrent modifications of package.cache are not safe</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/13194">Concurrent modifications of package.cache are not safe</a>
                       
                       
                       
@@ -581,7 +581,7 @@ Below are the major highlights of 8.2.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14503">#14503</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14503">#14503</a></th>
 <td>
                     
                   
@@ -607,7 +607,7 @@ Below are the major highlights of 8.2.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14503">Killing a thread will block if there is another process reading from a handle</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/14503">Killing a thread will block if there is another process reading from a handle</a>
                       
                       
                       
@@ -711,7 +711,7 @@ Below are the major highlights of 8.2.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13739">#13739</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13739">#13739</a></th>
 <td>
                     
                   
@@ -737,7 +737,7 @@ Below are the major highlights of 8.2.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13739">very slow linking of executables with ld.bfd &lt; 2.27</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/13739">very slow linking of executables with ld.bfd &lt; 2.27</a>
                       
                       
                       

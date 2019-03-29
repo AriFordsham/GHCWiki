@@ -69,7 +69,7 @@ See also [TracNavigation](trac-navigation) for a more detailed explanation of th
 
 
 
-Trac is using [ Genshi](http://genshi.edgewall.org) as the templating engine. Say you want to add a link to a custom stylesheet, and then your own header and footer. Save the following content as `site.html` inside your projects `templates/` directory (each Trac project can have their own `site.html`), eg `/path/to/env/templates/site.html`:
+Trac is using [Genshi](http://genshi.edgewall.org) as the templating engine. Say you want to add a link to a custom stylesheet, and then your own header and footer. Save the following content as `site.html` inside your projects `templates/` directory (each Trac project can have their own `site.html`), eg `/path/to/env/templates/site.html`:
 
 
 ```
@@ -103,8 +103,8 @@ Trac is using [ Genshi](http://genshi.edgewall.org) as the templating engine. Sa
 Notice that XSLT bears some similarities with Genshi templates. However, there are some Trac specific features, for example the `${href.chrome('site/style.css')}` attribute references `style.css` in the environment's `htdocs/` directory. In a similar fashion `${chrome.htdocs_location}` is used to specify the common `htdocs/` directory belonging to a Trac installation. That latter location can however be overriden using the [\[trac\] htdocs_location](trac-ini#) configuration setting.
 
 `site.html` is one file to contain all your modifications. It usually works using the `py:match` directive (element or attribute), and it allows you to modify the page as it renders. The matches hook onto specific sections depending on what it tries to find and modify them.
-See [ this thread](http://groups.google.com/group/trac-users/browse_thread/thread/70487fb2c406c937/) for a detailed explanation of the above example `site.html`.
-A `site.html` can contain any number of such `py:match` sections for whatever you need to modify. This is all Genshi, so the [ docs on the exact syntax](http://genshi.edgewall.org/wiki/Documentation/xml-templates.html) can be found there.
+See [this thread](http://groups.google.com/group/trac-users/browse_thread/thread/70487fb2c406c937/) for a detailed explanation of the above example `site.html`.
+A `site.html` can contain any number of such `py:match` sections for whatever you need to modify. This is all Genshi, so the [docs on the exact syntax](http://genshi.edgewall.org/wiki/Documentation/xml-templates.html) can be found there.
 
 
 
@@ -124,10 +124,10 @@ Example snippet of adding introduction text to the new ticket form (but not show
 This example illustrates a technique of using `req.path_info` to limit scope of changes to one view only. For instance, to make changes in `site.html` only for timeline and avoid modifying other sections - use `req.path_info == '/timeline'` condition in `<py:if>` test.
 
 
-More examples snippets for `site.html` can be found at [ CookBook/SiteHtml](http://trac.edgewall.org/intertrac/wiki%3ACookBook/SiteHtml).
+More examples snippets for `site.html` can be found at [CookBook/SiteHtml](http://trac.edgewall.org/intertrac/wiki%3ACookBook/SiteHtml).
 
 
-Example snippets for `style.css` can be found at [ CookBook/SiteStyleCss](http://trac.edgewall.org/intertrac/wiki%3ACookBook/SiteStyleCss).
+Example snippets for `style.css` can be found at [CookBook/SiteStyleCss](http://trac.edgewall.org/intertrac/wiki%3ACookBook/SiteStyleCss).
 
 
 Note that the `site.html`, despite its name, can be put in a shared templates directory, see the [\[inherit\] templates_dir](trac-ini#) option. This could provide easier maintainence as one new global `site.html` file can be made to include any existing header, footer and newticket snippets.

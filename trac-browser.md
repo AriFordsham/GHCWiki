@@ -32,7 +32,7 @@ The precise meaning and content of this menu depends on your repository backend.
 For Subversion, this list contains by default the top-level trunk directory and sub-directories of the top-level branches and tags directories (`/trunk`, `/branches/*`, and `/tags/*`). This can be [configured](trac-ini#) for more advanced cases.
 
 
-If you're using a Javascript enabled browser, you'll be able to expand and collapse directories in-place by clicking on the arrow head at the right side of a directory. Alternatively, the [ keyboard](http://trac.edgewall.org/intertrac/TracAccessibility) can also be used for this: 
+If you're using a Javascript enabled browser, you'll be able to expand and collapse directories in-place by clicking on the arrow head at the right side of a directory. Alternatively, the [keyboard](http://trac.edgewall.org/intertrac/TracAccessibility) can also be used for this: 
 
 - use `j` and `k` to select the next or previous entry, starting with the first
 - `o` (**o**pen) to toggle between expanded and collapsed state of the selected 

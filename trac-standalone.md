@@ -13,13 +13,13 @@ It can be used in a variety of situations, from a test or development server to 
 ## Cons
 
 - Fewer features: Tracd implements a very simple web-server and is not as configurable or as scalable as Apache httpd.
-- No native HTTPS support: [ sslwrap](http://www.rickk.com/sslwrap/) can be used instead,
-  or [ stunnel -- a tutorial on how to use stunnel with tracd](http://trac.edgewall.org/intertrac/wiki%3ASTunnelTracd) or Apache with mod_proxy.
+- No native HTTPS support: [sslwrap](http://www.rickk.com/sslwrap/) can be used instead,
+  or [stunnel -- a tutorial on how to use stunnel with tracd](http://trac.edgewall.org/intertrac/wiki%3ASTunnelTracd) or Apache with mod_proxy.
 
 ## Usage examples
 
 
-A single project on port 8080. ([ http://localhost:8080/](http://localhost:8080/))
+A single project on port 8080. ([http://localhost:8080/](http://localhost:8080/))
 
 ```
  $ tracd -p 8080 /path/to/project
@@ -33,7 +33,7 @@ Strictly speaking this will make your Trac accessible to everybody from your net
 ```
 
 
-With more than one project. ([ http://localhost:8080/project1/](http://localhost:8080/project1/) and [ http://localhost:8080/project2/](http://localhost:8080/project2/))
+With more than one project. ([http://localhost:8080/project1/](http://localhost:8080/project1/) and [ http://localhost:8080/project2/](http://localhost:8080/project2/))
 
 ```
  $ tracd -p 8080 /path/to/project1 /path/to/project2
@@ -58,7 +58,7 @@ To exit the server on Windows, be sure to use `CTRL-BREAK` -- using `CTRL-C` wil
 ### Option 1
 
 
-To install as a Windows service, get the [ SRVANY](http://www.google.com/search?q=srvany.exe) utility and run:
+To install as a Windows service, get the [SRVANY](http://www.google.com/search?q=srvany.exe) utility and run:
 
 ```
  C:\path\to\instsrv.exe tracd C:\path\to\srvany.exe
@@ -102,7 +102,7 @@ Note that, if the AppDirectory is set as above, the paths of the executable *and
 (This is true for the path to the .htpasswd file, as well, despite the documentation calling out the /full/path/to/htpasswd; however, you may not wish to store that file under the Python directory.)
 
 
-For Windows 7 User, srvany.exe may not be an option, so you can use [ WINSERV](http://www.google.com/search?q=winserv.exe) utility and run:
+For Windows 7 User, srvany.exe may not be an option, so you can use [WINSERV](http://www.google.com/search?q=winserv.exe) utility and run:
 
 ```
 "C:\path\to\winserv.exe" install tracd -displayname "tracd" -start auto "C:\path\to\python.exe" c:\path\to\python\scripts\tracd-script.py <your tracd parameters>"
@@ -112,7 +112,7 @@ net start tracd
 ### Option 2
 
 
-Use [ WindowsServiceScript](http://trac-hacks.org/wiki/WindowsServiceScript), available at [ Trac Hacks](http://trac-hacks.org/). Installs, removes, starts, stops, etc. your Trac service.
+Use [WindowsServiceScript](http://trac-hacks.org/wiki/WindowsServiceScript), available at [ Trac Hacks](http://trac-hacks.org/). Installs, removes, starts, stops, etc. your Trac service.
 
 ### Option 3
 
@@ -200,7 +200,7 @@ This section describes how to use `tracd` with Apache .htpasswd files.
 
 >
 >
-> Note: On Windows It is necessary to install the [ passlib](https://pypi.python.org/pypi/passlib)
+> Note: On Windows It is necessary to install the [passlib](https://pypi.python.org/pypi/passlib)
 > package in order to decode some htpasswd formats. Only `SHA-1` passwords (since Trac 1.0)
 > work without this module.
 >
@@ -239,7 +239,7 @@ For example:
 ### Digest authentication: Using a htdigest password file
 
 
-If you have Apache available, you can use the htdigest command to generate the password file. Type 'htdigest' to get some usage instructions, or read [ this page](http://httpd.apache.org/docs/2.0/programs/htdigest.html) from the Apache manual to get precise instructions.  You'll be prompted for a password to enter for each user that you create.  For the name of the password file, you can use whatever you like, but if you use something like `users.htdigest` it will remind you what the file contains. As a suggestion, put it in your \<projectname\>/conf folder along with the [trac.ini](trac-ini) file.
+If you have Apache available, you can use the htdigest command to generate the password file. Type 'htdigest' to get some usage instructions, or read [this page](http://httpd.apache.org/docs/2.0/programs/htdigest.html) from the Apache manual to get precise instructions.  You'll be prompted for a password to enter for each user that you create.  For the name of the password file, you can use whatever you like, but if you use something like `users.htdigest` it will remind you what the file contains. As a suggestion, put it in your \<projectname\>/conf folder along with the [trac.ini](trac-ini) file.
 
 
 Note that you can start tracd without the `--auth` argument, but if you click on the *Login* link you will get an error.
@@ -247,7 +247,7 @@ Note that you can start tracd without the `--auth` argument, but if you click on
 ### Generating Passwords Without Apache
 
 
-Basic Authorization can be accomplished via this [ online HTTP Password generator](http://aspirine.org/htpasswd_en.html) which also supports `SHA-1`.  Copy the generated password-hash line to the .htpasswd file on your system. Note that Windows Python lacks the "crypt" module that is the default hash type for htpasswd. Windows Python can grok MD5 password hashes just fine and you should use MD5.
+Basic Authorization can be accomplished via this [online HTTP Password generator](http://aspirine.org/htpasswd_en.html) which also supports `SHA-1`.  Copy the generated password-hash line to the .htpasswd file on your system. Note that Windows Python lacks the "crypt" module that is the default hash type for htpasswd. Windows Python can grok MD5 password hashes just fine and you should use MD5.
 
 
 Trac also provides `htpasswd` and `htdigest` scripts in `contrib`:
@@ -346,12 +346,12 @@ In this situation, you might experience issues with redirects, like being redire
 If you're using the AJP protocol to connect with `tracd` (which is possible if you have flup installed), then you might experience problems with double quoting. Consider adding the `--unquote` parameter.
 
 
-See also [ TracOnWindowsIisAjp](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp), [ TracNginxRecipe](http://trac.edgewall.org/intertrac/TracNginxRecipe).
+See also [TracOnWindowsIisAjp](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp), [ TracNginxRecipe](http://trac.edgewall.org/intertrac/TracNginxRecipe).
 
 ### Authentication for tracd behind a proxy
 
 
-It is convenient to provide central external authentication to your tracd instances, instead of using `--basic-auth`. There is some discussion about this in [ \#9206](http://trac.edgewall.org/intertrac/%239206).
+It is convenient to provide central external authentication to your tracd instances, instead of using `--basic-auth`. There is some discussion about this in [\#9206](http://trac.edgewall.org/intertrac/%239206).
 
 
 Below is example configuration based on Apache 2.2, mod_proxy, mod_authnz_ldap.
@@ -452,6 +452,6 @@ Tracd supports serving projects with different base urls than /\<project\>. The 
 
 
 
-See also: [TracInstall](trac-install), [TracCgi](trac-cgi), [TracModPython](trac-mod-python), [TracGuide](trac-guide), [ Running tracd.exe as a Windows service](http://trac.edgewall.org/intertrac/TracOnWindowsStandalone%23RunningTracdasservice)
+See also: [TracInstall](trac-install), [TracCgi](trac-cgi), [TracModPython](trac-mod-python), [TracGuide](trac-guide), [Running tracd.exe as a Windows service](http://trac.edgewall.org/intertrac/TracOnWindowsStandalone%23RunningTracdasservice)
 
 

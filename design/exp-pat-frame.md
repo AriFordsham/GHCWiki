@@ -41,7 +41,7 @@ There are places in the grammar where we do not know whether we are parsing an e
 
 The approach GHC uses is to parse patterns as expressions and rejig later. This turns out to be suboptimal:
 
-- We can't handle corner cases. For instance, the following function declaration LHS is not a valid expression (see [\#1087](https://gitlab.haskell.org//ghc/ghc/issues/1087)):
+- We can't handle corner cases. For instance, the following function declaration LHS is not a valid expression (see [\#1087](https://gitlab.haskell.org/ghc/ghc/issues/1087)):
 
   ```
         !a + !b = ...
@@ -64,7 +64,7 @@ The approach GHC uses is to parse patterns as expressions and rejig later. This 
 ## Backtracking with Parser Combinators
 
 
-One might think we could avoid this issue by using a backtracking parser and doing something along the lines of `try pExpr <|> pPat`. I proposed this in a ghc-devs thread: [ https://mail.haskell.org/pipermail/ghc-devs/2018-October/016291.html](https://mail.haskell.org/pipermail/ghc-devs/2018-October/016291.html). The situation turned out to be more complex. As there can be patterns inside expressions (e.g. via `case`, `let`, `do`) and expressions inside patterns (e.g. view patterns), naive backtracking would be devastating to performance (asymptotically).
+One might think we could avoid this issue by using a backtracking parser and doing something along the lines of `try pExpr <|> pPat`. I proposed this in a ghc-devs thread: [https://mail.haskell.org/pipermail/ghc-devs/2018-October/016291.html](https://mail.haskell.org/pipermail/ghc-devs/2018-October/016291.html). The situation turned out to be more complex. As there can be patterns inside expressions (e.g. via `case`, `let`, `do`) and expressions inside patterns (e.g. view patterns), naive backtracking would be devastating to performance (asymptotically).
 
 ## Common Structure
 
@@ -104,7 +104,7 @@ The nice thing about having a dedicated type such as `ExpPatFrame` is keeping pa
 ## Trees that Grow
 
 
-During the discussion of [ Phab:D5408](https://phabricator.haskell.org/D5408), an alternative plan came up: create a new GHC pass, `GhcPrePs`, and extend `HsExpr GhcPrePs` with pattern-specific and command-specific constructors. Then disambiguate during the conversion from `GhcPrePs` to `GhcPs`.
+During the discussion of [Phab:D5408](https://phabricator.haskell.org/D5408), an alternative plan came up: create a new GHC pass, `GhcPrePs`, and extend `HsExpr GhcPrePs` with pattern-specific and command-specific constructors. Then disambiguate during the conversion from `GhcPrePs` to `GhcPs`.
 
 
 The reason this design does not work is that some parts of `HsExpr` should be disambiguated much sooner than we parse an expression in its entirety. We have:
@@ -314,7 +314,7 @@ Hopefully, this will allow us to remove at least some duplication, even if not m
 ## Implementation Plan
 
 
-Initially I (int-index) tried to do the refactoring and fix [\#1087](https://gitlab.haskell.org//ghc/ghc/issues/1087) simultaneously, and I have a semi-working proof-of-concept passing (almost all) tests: [ https://github.com/serokell/ghc/commit/39c5db2d77c96d4b0962f581b60908343edf8624](https://github.com/serokell/ghc/commit/39c5db2d77c96d4b0962f581b60908343edf8624)
+Initially I (int-index) tried to do the refactoring and fix [\#1087](https://gitlab.haskell.org/ghc/ghc/issues/1087) simultaneously, and I have a semi-working proof-of-concept passing (almost all) tests: [https://github.com/serokell/ghc/commit/39c5db2d77c96d4b0962f581b60908343edf8624](https://github.com/serokell/ghc/commit/39c5db2d77c96d4b0962f581b60908343edf8624)
 
 
 This prototype also revealed that doing the `ExpPatFrame` refactoring allows for better error messages in some cases. Compare:
@@ -350,5 +350,5 @@ However, after a few hellish rebases, I decided to split this effort into many s
 
 1. Introduce `ExpPatFrame` with as little churn as possible.
 1. Use it to clean up the definition of `HsExpr`, removing `EAsPat`, `EWildPat`, `EViewPat`, `ELazyPat`. Perhaps also `HsArrApp` and `HsArrForm`.
-1. Use it as the basis for fixing [\#1087](https://gitlab.haskell.org//ghc/ghc/issues/1087)
+1. Use it as the basis for fixing [\#1087](https://gitlab.haskell.org/ghc/ghc/issues/1087)
 1. Investigate its viability for term/type parser unification

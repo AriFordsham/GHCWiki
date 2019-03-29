@@ -1,7 +1,7 @@
 # Roles
 
 
-The idea of *roles* comes from the paper [ Generative Type Abstraction and Type-level Computation](http://www.seas.upenn.edu/~sweirich/papers/popl163af-weirich.pdf), published at POPL 2011. The implementation of roles in GHC, however, is somewhat different than stated in that paper. This page focuses on the user-visible features of roles. 
+The idea of *roles* comes from the paper [Generative Type Abstraction and Type-level Computation](http://www.seas.upenn.edu/~sweirich/papers/popl163af-weirich.pdf), published at POPL 2011. The implementation of roles in GHC, however, is somewhat different than stated in that paper. This page focuses on the user-visible features of roles. 
 
 
 Role annotations are enabled using `{-# LANGUAGE RoleAnnotations #-}`.
@@ -9,13 +9,13 @@ Role annotations are enabled using `{-# LANGUAGE RoleAnnotations #-}`.
 
 See also
 
-- Our ICFP 2014 paper [ Safe Coercions](http://www.cis.upenn.edu/~eir/papers/2014/coercible/coercible-ext.pdf), which gives lots of motivation and details, including the `Coercible` class.\]
-- Richard's unpublished paper [ An overabundance of equality](http://cs.brynmawr.edu/~rae/pubs.html)
-- The user-level [ wiki page about Coercible](http://www.haskell.org/haskellwiki/GHC/Coercible)
+- Our ICFP 2014 paper [Safe Coercions](http://www.cis.upenn.edu/~eir/papers/2014/coercible/coercible-ext.pdf), which gives lots of motivation and details, including the `Coercible` class.\]
+- Richard's unpublished paper [An overabundance of equality](http://cs.brynmawr.edu/~rae/pubs.html)
+- The user-level [wiki page about Coercible](http://www.haskell.org/haskellwiki/GHC/Coercible)
 - [Roles2](roles2) which identifies a difficulty with the design in the paper, and some possibilities for solving it.
 - [RolesImplementation](roles-implementation) talks about the implementation in GHC. 
-- [ Richard's blog post about roles](http://typesandkinds.wordpress.com/2013/08/15/roles-a-new-feature-of-ghc/). (Note: some aspects of that blog post are out of date, as of December 17, 2013.)
-- This email thread: [ More GND + role inference woes](http://www.haskell.org/pipermail/ghc-devs/2013-October/003003.html).
+- [Richard's blog post about roles](http://typesandkinds.wordpress.com/2013/08/15/roles-a-new-feature-of-ghc/). (Note: some aspects of that blog post are out of date, as of December 17, 2013.)
+- This email thread: [More GND + role inference woes](http://www.haskell.org/pipermail/ghc-devs/2013-October/003003.html).
 - [Safe Roles](safe-roles) discusses safety issues (from abstraction, not memory-safety point-of-view) around Roles and how they might be addressed. The specific focus is on Safe Haskell.
 
 ## Tickets
@@ -28,27 +28,27 @@ Use Keyword = `Roles` to ensure that a ticket ends up on these lists.
 
 **Open Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9112">#9112</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9112">#9112</a></th>
 <td>support for deriving Vector/MVector instances</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9118">#9118</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9118">#9118</a></th>
 <td>Can&apos;t eta-reduce representational coercions</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11715">#11715</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11715">#11715</a></th>
 <td>Constraint vs *</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13358">#13358</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13358">#13358</a></th>
 <td>Role ranges (allow decomposition on newtypes)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14292">#14292</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14292">#14292</a></th>
 <td>Coercing between constraints of newtypes</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14317">#14317</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14317">#14317</a></th>
 <td>Solve Coercible constraints over type constructors</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14362">#14362</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14362">#14362</a></th>
 <td>Allow: Coercing (a:~:b) to (b:~:a)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14386">#14386</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14386">#14386</a></th>
 <td>GHC doesn&apos;t allow Coercion between partly-saturated type constructors</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14694">#14694</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14694">#14694</a></th>
 <td>Incompleteness in the Coercible constraint solver</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15441">#15441</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15441">#15441</a></th>
 <td>Data type with phantoms using TypeInType isn&apos;t coercible</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15707">#15707</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15707">#15707</a></th>
 <td>More liberally kinded coercions for newtypes</td></tr></table>
 
 
@@ -56,29 +56,29 @@ Use Keyword = `Roles` to ensure that a ticket ends up on these lists.
 
 **Closed Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8246">#8246</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8246">#8246</a></th>
 <td>Role annotations does not allow the use of parenthesis</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9117">#9117</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9117">#9117</a></th>
 <td>Coercible constraint solver misses one</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9123">#9123</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9123">#9123</a></th>
 <td>Emit quantified Coercible constraints in GeneralizedNewtypeDeriving</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9131">#9131</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9131">#9131</a></th>
 <td>Experiment with a dedicated solver for Coercible</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10905">#10905</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10905">#10905</a></th>
 <td>Incorrect number of parameters in &quot;role&quot; errors</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11230">#11230</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11230">#11230</a></th>
 <td>No run-time exception for deferred type errors when error is in a phantom role position</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12616">#12616</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12616">#12616</a></th>
 <td>type synonyms confuse generalized newtype deriving role checking</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14101">#14101</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14101">#14101</a></th>
 <td>Type synonyms can make roles too conservative</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14333">#14333</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14333">#14333</a></th>
 <td>GHC doesn&apos;t use the fact that Coercible is symmetric</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14363">#14363</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14363">#14363</a></th>
 <td>:type hangs on coerce</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15294">#15294</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15294">#15294</a></th>
 <td>Unused &quot;foralls&quot; prevent types from being Coercible</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15431">#15431</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15431">#15431</a></th>
 <td>Coercible and Existential types don&apos;t play nicely</td></tr></table>
 
 
@@ -86,7 +86,7 @@ Use Keyword = `Roles` to ensure that a ticket ends up on these lists.
 ## The problem we wish to solve
 
 
-GHC has had a hole in its type system for several years, as documented in [\#1496](https://gitlab.haskell.org//ghc/ghc/issues/1496), [\#4846](https://gitlab.haskell.org//ghc/ghc/issues/4846), [\#5498](https://gitlab.haskell.org//ghc/ghc/issues/5498), and [\#7148](https://gitlab.haskell.org//ghc/ghc/issues/7148). The common cause behind all of this is the magic behind `-XGeneralizedNewtypeDeriving` (GND). Here is an example:
+GHC has had a hole in its type system for several years, as documented in [\#1496](https://gitlab.haskell.org/ghc/ghc/issues/1496), [\#4846](https://gitlab.haskell.org/ghc/ghc/issues/4846), [\#5498](https://gitlab.haskell.org/ghc/ghc/issues/5498), and [\#7148](https://gitlab.haskell.org/ghc/ghc/issues/7148). The common cause behind all of this is the magic behind `-XGeneralizedNewtypeDeriving` (GND). Here is an example:
 
 ```wiki
 newtype Age = MkAge { unAge :: Int }
@@ -308,7 +308,7 @@ Currently, the type constructors for all type families and data families all con
 
 
 
-This example ([ courtesy of glguy](https://ghc.haskell.org/trac/ghc/ticket/8177#comment:32)) will not typecheck:
+This example ([courtesy of glguy](https://ghc.haskell.org/trac/ghc/ticket/8177#comment:32)) will not typecheck:
 
 
 ```
@@ -326,7 +326,7 @@ Since the role signature for `Op` is `type role Op nominal nominal nominal`. But
 
 
 
-Another example ([ courtesy of int-index](https://ghc.haskell.org/trac/ghc/ticket/8177#comment:33)) is:
+Another example ([courtesy of int-index](https://ghc.haskell.org/trac/ghc/ticket/8177#comment:33)) is:
 
 
 ```
@@ -353,7 +353,7 @@ Again, `coerceDict` will not typecheck due to the role of `m` in `EffDict` being
 
 
 
-Additionally, we might like to have roles for *associated* type families. For instance, consider this example ([ courtesy of dmcclean](https://ghc.haskell.org/trac/ghc/ticket/8177#comment:20)):
+Additionally, we might like to have roles for *associated* type families. For instance, consider this example ([courtesy of dmcclean](https://ghc.haskell.org/trac/ghc/ticket/8177#comment:20)):
 
 
 ```
@@ -470,7 +470,7 @@ First, we gather all of the free variables in the type family's kind and mark ea
 ### The type family equations
 
 
-Next, we descend into each defining equation of the type family and inspect the left-hand and right-hand sides. The right-hand sides are analyzed just like the fields of a data constructor; see the [ Role inference](https://ghc.haskell.org/trac/ghc/wiki/Roles#Roleinference) section above for more details. From the right-hand sides, we learn that the roles of `e`, `f`, and `g` should be (at least) `representational`.
+Next, we descend into each defining equation of the type family and inspect the left-hand and right-hand sides. The right-hand sides are analyzed just like the fields of a data constructor; see the [Role inference](https://ghc.haskell.org/trac/ghc/wiki/Roles#Roleinference) section above for more details. From the right-hand sides, we learn that the roles of `e`, `f`, and `g` should be (at least) `representational`.
 
 
 

@@ -34,7 +34,7 @@ Broadly speaking, it transitions between five representations:
 
 
 The path from C-- to assembly varies: the three possible backends
-are C (`-fvia-c` (**[ OUTDATED](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/codegens.html#c-code-generator-fvia-c)**)), LLVM (`-fllvm`), and the default backend -- the
+are C (`-fvia-c` (**[OUTDATED](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/codegens.html#c-code-generator-fvia-c)**)), LLVM (`-fllvm`), and the default backend -- the
 native code genarator (or NCG), which generates assembly directly
 from the GHC-internal C-- data type.
 
@@ -81,12 +81,12 @@ This document will take a very low-level view of the machine, so if
 you want to get comfortable with how the STG machine executes at a
 more abstract level before reading this document, you might want to
 read the paper
-[ How to make a fast curry: push/enter vs. eval/apply](http://research.microsoft.com/en-us/um/people/simonpj/papers/eval-apply/).
+[How to make a fast curry: push/enter vs. eval/apply](http://research.microsoft.com/en-us/um/people/simonpj/papers/eval-apply/).
 It presents the STG machine without reference to an explicit stack
 or registers, but instead as a transition system. This transition
 system has also been implemented as a Haskell program called
-[ ministg](http://hackage.haskell.org/package/ministg) by
-[ Bernie Pope](https://github.com/bjpop/ministg), for those who wish to
+[ministg](http://hackage.haskell.org/package/ministg) by
+[Bernie Pope](https://github.com/bjpop/ministg), for those who wish to
 see it in action on some simple examples.
 
 ## An overview of the STG machine
@@ -104,12 +104,12 @@ This overview section is rather bare. Readers might be able to fill
 in any gaps in my explanation by using some of the following
 sources:
 
-- [ The Haskell Execution Model](http://ghc.haskell.org/trac/ghc/wiki/Commentary/Rts/HaskellExecution)
-- [ Storage](http://ghc.haskell.org/trac/ghc/wiki/Commentary/Rts/Storage)
-- [ The Spineless Tagless G-machine](http://research.microsoft.com/en-us/um/people/simonpj/Papers/spineless-tagless-gmachine.ps.gz)
+- [The Haskell Execution Model](http://ghc.haskell.org/trac/ghc/wiki/Commentary/Rts/HaskellExecution)
+- [Storage](http://ghc.haskell.org/trac/ghc/wiki/Commentary/Rts/Storage)
+- [The Spineless Tagless G-machine](http://research.microsoft.com/en-us/um/people/simonpj/Papers/spineless-tagless-gmachine.ps.gz)
 
   - now sadly rather out of date
-- [ Faster laziness through dynamic pointer tagging](http://research.microsoft.com/en-us/um/people/simonpj/papers/ptr-tag/ptr-tagging.pdf)
+- [Faster laziness through dynamic pointer tagging](http://research.microsoft.com/en-us/um/people/simonpj/papers/ptr-tag/ptr-tagging.pdf)
 
 ### Components of the machine
 

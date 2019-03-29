@@ -3,7 +3,7 @@
 
 This page collects thinking about mechanisms that support type-safe distribution
 of Haskell programs, particularly focusing on the issues of serialisation.
-The corresponding Trac ticket to track progress is [\#7015](https://gitlab.haskell.org//ghc/ghc/issues/7015).
+The corresponding Trac ticket to track progress is [\#7015](https://gitlab.haskell.org/ghc/ghc/issues/7015).
 
 
 Several distinct layers are involved; they constitute the main payload of this design:
@@ -24,16 +24,16 @@ the smallest possible trusted code base, that would enable
 libraries like `distributed-closure` to be written in an entirely type-safe way.
 
 
-See also this ticket about rationalising the runtime reflection naming structures: [\#10068](https://gitlab.haskell.org//ghc/ghc/issues/10068).
+See also this ticket about rationalising the runtime reflection naming structures: [\#10068](https://gitlab.haskell.org/ghc/ghc/issues/10068).
 
 
 
 Much of what is suggested here is implemented, in some form, in two existing projects
 
 
-- **Cloud Haskell libraries** [ distributed-static](https://hackage.haskell.org/package/distributed-static) and [ rank1dynamic](https://hackage.haskell.org/package/rank1dynamic).  Background in the paper [ Towards Haskell in the Cloud](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/remote.pdf).
+- **Cloud Haskell libraries** [distributed-static](https://hackage.haskell.org/package/distributed-static) and [ rank1dynamic](https://hackage.haskell.org/package/rank1dynamic).  Background in the paper [ Towards Haskell in the Cloud](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/remote.pdf).
 
-- **HdpH libraries** [ hdph](https://hackage.haskell.org/package/hdph) and [ hdph-closure](https://hackage.haskell.org/package/hdph-closure). Background in the paper [ Implementing a high-level distributed-memory parallel Haskell in Haskell](http://www.dcs.gla.ac.uk/~pmaier/papers/Maier_Trinder_IFL2011_XT.pdf)
+- **HdpH libraries** [hdph](https://hackage.haskell.org/package/hdph) and [ hdph-closure](https://hackage.haskell.org/package/hdph-closure). Background in the paper [ Implementing a high-level distributed-memory parallel Haskell in Haskell](http://www.dcs.gla.ac.uk/~pmaier/papers/Maier_Trinder_IFL2011_XT.pdf)
 
 
 [Simon PJ's long blog post](/trac/ghc/blog/simonpj/StaticPointers) is also relevant, but mainly as background.  It should eventually be fully subsumed by the above pages.
@@ -49,7 +49,7 @@ by asynchronously sending messages to each other. It is useful to go
 beyond this model, and allow processes to send other processes to
 other nodes, not just first-order data. For instance, an extremely
 useful feature of distributed frameworks in Hasell (e.g.
-[ distributed-process](https://hackage.haskell.org/package/distributed-process), [ HdpH](https://hackage.haskell.org/package/hdph))
+[distributed-process](https://hackage.haskell.org/package/distributed-process), [ HdpH](https://hackage.haskell.org/package/hdph))
 and other languages (Erlang, Scala), is the ability for a process on
 one node to *spawn* a process on another node.
 

@@ -1,14 +1,14 @@
 # Implementing new primitive comparisons to allow branchless algorithms
 
 
-This page presents motivation and technical details behind implementing new primitive comparison operators (this was originaly reported as Trac ticket [\#6135](https://gitlab.haskell.org//ghc/ghc/issues/6135)). See [ this page](http://ghc.haskell.org/trac/ghc/wiki/NewPrimopsInGHC7.8) for instructions how to adjust your already existing code to work with new primops.
+This page presents motivation and technical details behind implementing new primitive comparison operators (this was originaly reported as Trac ticket [\#6135](https://gitlab.haskell.org/ghc/ghc/issues/6135)). See [this page](http://ghc.haskell.org/trac/ghc/wiki/NewPrimopsInGHC7.8) for instructions how to adjust your already existing code to work with new primops.
 
 
 See also
  
 
-- [\#9661](https://gitlab.haskell.org//ghc/ghc/issues/9661)
-- [\#13397](https://gitlab.haskell.org//ghc/ghc/issues/13397)
+- [\#9661](https://gitlab.haskell.org/ghc/ghc/issues/9661)
+- [\#13397](https://gitlab.haskell.org/ghc/ghc/issues/13397)
 
 ## The problem
 
@@ -91,7 +91,7 @@ and in following assembly code:
 ```
 
 
-There are five possible branches to take, although four of them have the same result. This is caused by code duplication introduced by case-of-case transform (see [ this blog post](http://lambda.jstolarek.com/2013/01/taking-magic-out-of-ghc-or-tracing-compilation-by-transformation/) for a step by step derivation). According to Ben Lippmeier, who submitted the original bug report, mis-predicted branches are bad in object code because they stall the pipeline.
+There are five possible branches to take, although four of them have the same result. This is caused by code duplication introduced by case-of-case transform (see [this blog post](http://lambda.jstolarek.com/2013/01/taking-magic-out-of-ghc-or-tracing-compilation-by-transformation/) for a step by step derivation). According to Ben Lippmeier, who submitted the original bug report, mis-predicted branches are bad in object code because they stall the pipeline.
 
 
 Note: this example was produced with GHC 7.6.3. At the moment of merging new primops into HEAD, there was no code duplication at the assembly level when using old primops. However, avoiding code duplication is not the main problem new primops are meant to solve. That problem are conditional branches. 
@@ -251,9 +251,9 @@ Below is a summary of implementation details and decisions:
 
 - The new comparison primops return a value of type `Int#`: `1#` represents `True` and `0#` represents `False`. The `Int#` type was chosen because in Haskell it is more common to use signed `Int` type insetad of unsigned `Word`. By using `Int#` the users can easily convert unboxed result into a boxed value, without need to use `word2Int#` and `int2word#` primops.
 
-- Unlike C, `2#` or `-3#` don't represent a Boolean value.  More concretely, you can use `tagToEnum#` to convert one of these `Int#` values to a `Bool`, but `tagToEnum#` does no error checking, so it would be Very Very Bad to call it on `2#`. Our plan is to provide safe `isTrue#` and `isFalse#` functions, which will check whether its `Int#` parameter is a valid representation of `True` (i.e. it is `1#`) or `False` (i.e. it is `0#`). This is not possible at the moment due to deficiency in the code generator (see [\#8326](https://gitlab.haskell.org//ghc/ghc/issues/8326)), but we do provide `isTrue#` function for you to use (defined in `GHC.Types`, re-exported by `GHC.Base` and `GHC.Exts`). Currently it is an alias to `tagToEnum#` and is therefore unsafe, but once we solve [\#8326](https://gitlab.haskell.org//ghc/ghc/issues/8326) we will turn it into a safe function.
+- Unlike C, `2#` or `-3#` don't represent a Boolean value.  More concretely, you can use `tagToEnum#` to convert one of these `Int#` values to a `Bool`, but `tagToEnum#` does no error checking, so it would be Very Very Bad to call it on `2#`. Our plan is to provide safe `isTrue#` and `isFalse#` functions, which will check whether its `Int#` parameter is a valid representation of `True` (i.e. it is `1#`) or `False` (i.e. it is `0#`). This is not possible at the moment due to deficiency in the code generator (see [\#8326](https://gitlab.haskell.org/ghc/ghc/issues/8326)), but we do provide `isTrue#` function for you to use (defined in `GHC.Types`, re-exported by `GHC.Base` and `GHC.Exts`). Currently it is an alias to `tagToEnum#` and is therefore unsafe, but once we solve [\#8326](https://gitlab.haskell.org/ghc/ghc/issues/8326) we will turn it into a safe function.
 
-- As a small side-task, four new logical bitwise primops have been implemented: `andI#`, `orI#`, `xorI#` and `negI#` ([\#7689](https://gitlab.haskell.org//ghc/ghc/issues/7689)). These operate on values of type `Int#`. Earlier we only had bitwise logical primops operating on values of type `Word#`.
+- As a small side-task, four new logical bitwise primops have been implemented: `andI#`, `orI#`, `xorI#` and `negI#` ([\#7689](https://gitlab.haskell.org/ghc/ghc/issues/7689)). These operate on values of type `Int#`. Earlier we only had bitwise logical primops operating on values of type `Word#`.
 
 - Functions for comparing values of `Integer` type are not primops from technical point of view, because they are implemented in Haskell (in case of integer-gmp also with FFI), but they pretend to be ones. There are six primops for comparing `Integer` values:
 
@@ -271,7 +271,7 @@ Each of these functions has a wrapper that calls `isTrue#` and returns a `Bool`.
 
 - Other libraries that were modified to work with the new primops are: array, base, dph, ghc-prim, primitive and template-haskell.
 
-- GHC received an internal module [compiler/utils/ExtsCompat46](/trac/ghc/browser/ghc/compiler/utils/ExtsCompat46) that allows to bootstrap with GHC versions that have old primops (i.e. GHC 7.6 and GHC 7.4). This module is meant to be temporary - see [\#8330](https://gitlab.haskell.org//ghc/ghc/issues/8330).
+- GHC received an internal module [compiler/utils/ExtsCompat46](/trac/ghc/browser/ghc/compiler/utils/ExtsCompat46) that allows to bootstrap with GHC versions that have old primops (i.e. GHC 7.6 and GHC 7.4). This module is meant to be temporary - see [\#8330](https://gitlab.haskell.org/ghc/ghc/issues/8330).
 
 ### Benchmarks
 

@@ -149,7 +149,7 @@ foreign import ccall unsafe "getOrSetLibHSghcFastStringTable"
 ```
 
 
-Thus there ever exists only one such CAF per process, regardless of how many copies of libHSghc are loaded, since they all share the first such CAF forced. This is arbitrated by the process's sole image of the RTS. (Things have terribly gone wrong if there is more than one RTS in memory; a l a[\#5620](https://gitlab.haskell.org//ghc/ghc/issues/5620).)
+Thus there ever exists only one such CAF per process, regardless of how many copies of libHSghc are loaded, since they all share the first such CAF forced. This is arbitrated by the process's sole image of the RTS. (Things have terribly gone wrong if there is more than one RTS in memory; a l a[\#5620](https://gitlab.haskell.org/ghc/ghc/issues/5620).)
 
 **Concerns**
 
@@ -157,7 +157,7 @@ Thus there ever exists only one such CAF per process, regardless of how many cop
 My only general concern is that I imagine we would like to keep the set of pointers maintained by Globals.c to a minimum?
 
 
-The slight wrinkle is that the stage=1 compiler must not use the foreign import, since the stage1 compiler links in the stage0 RTS (ie previous version), which does not necessarily export the (new) `getOrSetLibHSghcFastStringTable` symbol. Since the stage=1 compiler probably isn't going to load any plugins, this is probably not a big concern. [ http://www.haskell.org/pipermail/ghc-devs/2013-July/001652.html](http://www.haskell.org/pipermail/ghc-devs/2013-July/001652.html)
+The slight wrinkle is that the stage=1 compiler must not use the foreign import, since the stage1 compiler links in the stage0 RTS (ie previous version), which does not necessarily export the (new) `getOrSetLibHSghcFastStringTable` symbol. Since the stage=1 compiler probably isn't going to load any plugins, this is probably not a big concern. [http://www.haskell.org/pipermail/ghc-devs/2013-July/001652.html](http://www.haskell.org/pipermail/ghc-devs/2013-July/001652.html)
 
 ### Solution 2: use a dynamically linked compiler
 
@@ -197,15 +197,15 @@ NB also that the `*-llvm` presets in `build.mk` set `DYNAMIC_GHC_PROGRAMS = NO` 
 The rule would be: if you want to use a plugin (that uses any of the compiler's global variables), you must use a dynamically-linked compiler.
 
 
-I'm concerned that requiring the buiding/installing/use of a dynamically-linked GHC in order to use a particular plugin might be a prohibitively inconvenient for some users. [ http://www.haskell.org/pipermail/ghc-devs/2013-July/001651.html](http://www.haskell.org/pipermail/ghc-devs/2013-July/001651.html)
+I'm concerned that requiring the buiding/installing/use of a dynamically-linked GHC in order to use a particular plugin might be a prohibitively inconvenient for some users. [http://www.haskell.org/pipermail/ghc-devs/2013-July/001651.html](http://www.haskell.org/pipermail/ghc-devs/2013-July/001651.html)
 
 
 The repercussions of this rule are not totally apparent to me.  Plugins themselves are already dynamically loaded, so the platform already supports dynamic libraries (right?).  So I think the only burden on the plugin user is having to ensure that their GHC is dynamically linked. 'From 7.8, the plan is for this to be the default on platforms that
-support it.' [ Ian Lynagh](http://www.haskell.org/pipermail/ghc-devs/2013-July/001651.html).
+support it.' [Ian Lynagh](http://www.haskell.org/pipermail/ghc-devs/2013-July/001651.html).
 
-- [\#3658](https://gitlab.haskell.org//ghc/ghc/issues/3658) — this is for GHCi, but it might carry over for ghc; that's an open question
+- [\#3658](https://gitlab.haskell.org/ghc/ghc/issues/3658) — this is for GHCi, but it might carry over for ghc; that's an open question
 
-- [\#8039](https://gitlab.haskell.org//ghc/ghc/issues/8039) — might be blocking 3658
+- [\#8039](https://gitlab.haskell.org/ghc/ghc/issues/8039) — might be blocking 3658
 
 - [DynamicByDefault\#Performance](dynamic-by-default#performance) — the dynamically-link compiler may be significantly slower than the statically-linked one. So people may prefer to have a statically-linked ghc, which would then mean they couldn't (safely) use the Core plugins that use the `FastString.string_table`.
 

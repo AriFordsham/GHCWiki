@@ -1,12 +1,12 @@
 # Magic classes for overloaded record fields
 
-**See [ the OverloadedRecordFields GHC proposal](https://github.com/ghc-proposals/ghc-proposals/pull/6) for the latest design.**
+**See [the OverloadedRecordFields GHC proposal](https://github.com/ghc-proposals/ghc-proposals/pull/6) for the latest design.**
 
 
 This page describes new built-in magic typeclasses that form part 3 of the [OverloadedRecordFields proposal](records/overloaded-record-fields). These are not a language extension as such, rather they are classes with special-purpose solver behaviour (like `Coercible` and `Typeable`).
 
 
-The `HasField`-part or the proposal is merged into GHC, see [ Phab:D2708](https://phabricator.haskell.org/D2708).
+The `HasField`-part or the proposal is merged into GHC, see [Phab:D2708](https://phabricator.haskell.org/D2708).
 
 ## Design
 
@@ -190,7 +190,7 @@ At present, a datatype in one module can declare a field, but if the selector fu
 
 - A constraint involving a field `x` of data type `T` is solved in a module `M` only if the record field selector function `x` is in scope.
 
-- This approach (in which the availability of magical instances depends on what is in scope) is similar to the special treatment of `Coercible` instances (see [ Safe Coercions](https://ghc.haskell.org/trac/ghc/wiki/ReadingList#TypeEqualities)).
+- This approach (in which the availability of magical instances depends on what is in scope) is similar to the special treatment of `Coercible` instances (see [Safe Coercions](https://ghc.haskell.org/trac/ghc/wiki/ReadingList#TypeEqualities)).
 
 - For consistency with other typeclasses that have special solver behaviour, we do not require a `LANGUAGE` extension to enable the behaviour. Importing the class is enough.
 
@@ -265,7 +265,7 @@ instance HasField n2 (Record2 n1 v1 n2 v2) v2 where
 ```
 
 
-These correspond to the existing `FieldOwner` instances in the `record` library. ([ This works](https://gist.github.com/adamgundry/7292df8cef62fd6750885be3f5f892e7) with the functional dependency version of `HasField`, but becomes a bit trickier with the type family version, because it is harder to resolve the overlap.)
+These correspond to the existing `FieldOwner` instances in the `record` library. ([This works](https://gist.github.com/adamgundry/7292df8cef62fd6750885be3f5f892e7) with the functional dependency version of `HasField`, but becomes a bit trickier with the type family version, because it is harder to resolve the overlap.)
 
 ## Implementation
 
@@ -359,7 +359,7 @@ $upd:x:W s e = s { x = e }
 ```
 
 
-but this record update is rejected by the typechecker, even though it is perfectly sensible, because of [\#2595](https://gitlab.haskell.org//ghc/ghc/issues/2595). The currently implemented workaround is instead to generate the explicit update
+but this record update is rejected by the typechecker, even though it is perfectly sensible, because of [\#2595](https://gitlab.haskell.org/ghc/ghc/issues/2595). The currently implemented workaround is instead to generate the explicit update
 
 ```wiki
 $upd:x:W (MkW _ y) x = MkW x y

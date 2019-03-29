@@ -1,7 +1,7 @@
 # Records in Haskell
 
 
-This [ Yesod blog post](http://www.yesodweb.com/blog/2011/09/limitations-of-haskell), and accompanying [ Reddit discussion](http://www.reddit.com/r/haskell/comments/k4lc4/yesod_the_limitations_of_haskell/) brought to the surface again the thorny issue of records in Haskell.
+This [Yesod blog post](http://www.yesodweb.com/blog/2011/09/limitations-of-haskell), and accompanying [ Reddit discussion](http://www.reddit.com/r/haskell/comments/k4lc4/yesod_the_limitations_of_haskell/) brought to the surface again the thorny issue of records in Haskell.
 
 
 There are two rather different sets of issues:
@@ -62,7 +62,7 @@ So we have decided to avoid the extensible record debate, but how can we have mu
 - **Plan B**: Types.  This uses types to disambiguate record field names.
 
 1. **[Simple Overloaded Record Fields](records/overloaded-record-fields/sorf) (SORF)**.  Pure (Plan B).
-1. **[ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) (TDNR)**.  Pure (Plan B), but without abstraction over fields of the same name.
+1. **[Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) (TDNR)**.  Pure (Plan B), but without abstraction over fields of the same name.
 1. **[Agda-derived Records](records/name-spacing) (ADR)** Pure (Plan A). Explained on below FDR page.
 1. **[Frege-derived Records](records/name-spacing) (FDR)**. Uses (Plan A) + (Plan B).
 1. **[Declared Overloaded Record Fields](records/declared-overloaded-record-fields) (DORF)**. Tweak to SORF. (Plan B)
@@ -70,9 +70,9 @@ So we have decided to avoid the extensible record debate, but how can we have mu
 1. **[Type Indexed Records](records/type-indexed-records)**. (Plan B)
 1. **[Type-Punning Declared Overloaded Record Fields](records/type-punning-declared-overloaded-record-fields) (TPDORF)**. In the DORF stable. (Plan B)
 1. **[Explicit Classy Records](records/explicit-classy-records)**
-1. **polymorphic extensible records with scoped labels** by Daan Leijen, [ (implemented in Elm)](http://elm-lang.org/blog/announce/version-0.7.elm) and in the DSL [ WaveScript](http://www.cs.indiana.edu/~rrnewton/wavescope/WaveScope_+_WaveScript/)
+1. **polymorphic extensible records with scoped labels** by Daan Leijen, [(implemented in Elm)](http://elm-lang.org/blog/announce/version-0.7.elm) and in the DSL [ WaveScript](http://www.cs.indiana.edu/~rrnewton/wavescope/WaveScope_+_WaveScript/)
 
-1. **[ type-level strings for field access](http://nikita-volkov.github.io/record/)**  `data Record2 (n1 :: Symbol) v1 (n2 :: Symbol) v2 = Record2 v1 v2`
+1. **[type-level strings for field access](http://nikita-volkov.github.io/record/)**  `data Record2 (n1 :: Symbol) v1 (n2 :: Symbol) v2 = Record2 v1 v2`
 1. **Are there any other approaches?**
 
 
@@ -139,21 +139,21 @@ If you know of other relevant language implementations, please add them!
 
 
 The DDC language (very similar to Haskell) puts forth a similar solution to Frege. See the
-[ thesis](http://www.cse.unsw.edu.au/~benl/papers/thesis/lippmeier-impure-world.pdf) section 2.7 - 2.7.4 pages 115 - 119
+[thesis](http://www.cse.unsw.edu.au/~benl/papers/thesis/lippmeier-impure-world.pdf) section 2.7 - 2.7.4 pages 115 - 119
 
 
 The Opa language (functional, focused on web development) states that its modules are a special case of records.
 
 
-The Agda language [ generates a module (name space) for each record and also allows a record, like any module to be placed into the global scope by the programmer (opened in Agada terms)](http://wiki.portal.chalmers.se/agda/pmwiki.php?n=ReferenceManual.Records).
+The Agda language [generates a module (name space) for each record and also allows a record, like any module to be placed into the global scope by the programmer (opened in Agada terms)](http://wiki.portal.chalmers.se/agda/pmwiki.php?n=ReferenceManual.Records).
 
 
-SML\# supports [ abstraction over fields](http://www.pllab.riec.tohoku.ac.jp/smlsharp/?FeatureRecordPolymorphism) as per the overloaded records implementation.
+SML\# supports [abstraction over fields](http://www.pllab.riec.tohoku.ac.jp/smlsharp/?FeatureRecordPolymorphism) as per the overloaded records implementation.
 
-[ Roy](http://roy.brianmckenna.org/), a functional language that targets only Javascript, also has structural typing which prevents clashes and allows abstraction over fields.
+[Roy](http://roy.brianmckenna.org/), a functional language that targets only Javascript, also has structural typing which prevents clashes and allows abstraction over fields.
 
 
-Ur/Web has a [ very advanced records system](http://www.impredicative.com/ur/tutorial/tlc.html). It is explained in [ the Ur implementation paper](http://adam.chlipala.net/papers/UrPLDI10/UrPLDI10.pdf) and in Edward Z. Yang's [ explanation for Haskellers](http://blog.ezyang.com/2012/04/how-urweb-records-work-and-what-it-might-mean-for-haskell/).
+Ur/Web has a [very advanced records system](http://www.impredicative.com/ur/tutorial/tlc.html). It is explained in [ the Ur implementation paper](http://adam.chlipala.net/papers/UrPLDI10/UrPLDI10.pdf) and in Edward Z. Yang's [ explanation for Haskellers](http://blog.ezyang.com/2012/04/how-urweb-records-work-and-what-it-might-mean-for-haskell/).
 
 
 Other FP languages where I looked for a record implementation but it appeared they have no solution for records with the same fields (my information could be wrong/out-dated) OCaml, Oz. However, the O in OCaml is for objects, and objects have structural typing that supports abstraction over fields.

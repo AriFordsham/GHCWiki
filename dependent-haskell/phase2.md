@@ -29,7 +29,7 @@ G |- forall a:g1.g2 : (forall a:t1.t2) ~ (forall b:t3.t4[b |> sym g1/a])
 1. The ICFP'13 paper allows the binding of coercion variables in types. That is, we can have `forall c:phi.t` as a type. However, the need for this in practice was slight, and so it was removed from the implementation.
 
 
-With the simpler (asymmetrical) forall-coercion rule above, one of the primary motivations for heterogeneous equality was removed. And so, in [ A Specification for Dependent Types in Haskell](https://cs.brynmawr.edu/~rae/papers/2017/dep-haskell-spec/dep-haskell-spec.pdf) (ICFP'17), we use more of a mixed economy of heterogeneity: a coercion can still related two types of different kinds, but coercion *variables* must be homogeneous. That is, if `c :: t1 ~# t2`, then `t1` and `t2` have equal (that is, alpha-equivalent) kinds. But if a coercion `g` relates `t1` and `t2`, then `t1` and `t2` might have different kinds `k1` and `k2`. However, we can always extract a proof that `k1 ~# k2` from `g`.
+With the simpler (asymmetrical) forall-coercion rule above, one of the primary motivations for heterogeneous equality was removed. And so, in [A Specification for Dependent Types in Haskell](https://cs.brynmawr.edu/~rae/papers/2017/dep-haskell-spec/dep-haskell-spec.pdf) (ICFP'17), we use more of a mixed economy of heterogeneity: a coercion can still related two types of different kinds, but coercion *variables* must be homogeneous. That is, if `c :: t1 ~# t2`, then `t1` and `t2` have equal (that is, alpha-equivalent) kinds. But if a coercion `g` relates `t1` and `t2`, then `t1` and `t2` might have different kinds `k1` and `k2`. However, we can always extract a proof that `k1 ~# k2` from `g`.
 
 
 We propose to make this change to GHC too.
@@ -92,7 +92,7 @@ Some things follow from this:
 >
 
 
-Summarising (details in  [ A specification of dependent types for Haskell](https://cs.brynmawr.edu/~rae/papers/2017/dep-haskell-spec/dep-haskell-spec.pdf)):
+Summarising (details in  [A specification of dependent types for Haskell](https://cs.brynmawr.edu/~rae/papers/2017/dep-haskell-spec/dep-haskell-spec.pdf)):
 
 - A coercion *variable* (which has a type `t1 ~# t2`) must be homogeneous
 - A *coercion* can be heterogeneous.  It does not have a type.
@@ -101,7 +101,7 @@ Summarising (details in  [ A specification of dependent types for Haskell](https
 
 
 
-If `~#` is homogeneous in Core, then how do we support heterogeneous equality in Haskell? Heterogeneous equality is important in Haskell to support, for example, the new `TypeRep` (see [ the paper](https://repository.brynmawr.edu/cgi/viewcontent.cgi?article=1002&context=compsci_pubs)).   Easy: just use an equality between the kinds and then one between the types. But it's not so easy in practice. Examine the definition of `:~~:`:
+If `~#` is homogeneous in Core, then how do we support heterogeneous equality in Haskell? Heterogeneous equality is important in Haskell to support, for example, the new `TypeRep` (see [the paper](https://repository.brynmawr.edu/cgi/viewcontent.cgi?article=1002&context=compsci_pubs)).   Easy: just use an equality between the kinds and then one between the types. But it's not so easy in practice. Examine the definition of `:~~:`:
 
 
 ```
@@ -152,7 +152,7 @@ Note the coercion quantification.
 Bottom line: a consequence of switching to homogeneous equality is that we need coercion quantification in types.  So it's time to implement it.
 
 
-Note that this currently proposes to use coercion quantification only in GADT types -- never elsewhere. In particular, the user will not be able to write a coercion-quantified type. Addressing this idea is ticket [\#15710](https://gitlab.haskell.org//ghc/ghc/issues/15710), but it's not on the critical path toward homogeneous equality.
+Note that this currently proposes to use coercion quantification only in GADT types -- never elsewhere. In particular, the user will not be able to write a coercion-quantified type. Addressing this idea is ticket [\#15710](https://gitlab.haskell.org/ghc/ghc/issues/15710), but it's not on the critical path toward homogeneous equality.
 
 ### Coercions are quantified both relevantly and dependently
 
@@ -273,7 +273,7 @@ One challenge here is that `HeteroEqEvBind` binds *two* variables, and yet an `E
 For wanteds, the story is much easier: we just make a hetero equality constraint, which we'll have for wanteds anyway. (Recall that a homogeneous equality means that coercion *variables* will be homogeneous, but coercions may still be hetero.)
 
 
-So this will take a little custom coding and a Note or two, but it seems easier than other approaches. This still requires that equality evidence be strict (causing [\#11197](https://gitlab.haskell.org//ghc/ghc/issues/11197)), but the situation is no worse than today, and the approach outlined in [\#11197](https://gitlab.haskell.org//ghc/ghc/issues/11197), of fixing it in FloatIn, still works.
+So this will take a little custom coding and a Note or two, but it seems easier than other approaches. This still requires that equality evidence be strict (causing [\#11197](https://gitlab.haskell.org/ghc/ghc/issues/11197)), but the situation is no worse than today, and the approach outlined in [\#11197](https://gitlab.haskell.org/ghc/ghc/issues/11197), of fixing it in FloatIn, still works.
 
 *Small implementation wrinkle*: Desugaring a `HeteroEqEvBind` is harder than desugaring an `EvBind`. Currently, `EvBind`s are desugared into `CoreBind`s, which can be thought of as a `(Id, CoreExpr)`, that is, something that you can use to build a Core `let`. However, a `HeteroEqEvBind` is really a `case`, not a `let`. So how will we desugar it?
 
@@ -328,7 +328,7 @@ class (a :: k1 ~~ b :: k2) where
 ```
 
 
-with inlining. However, this means constraints need to be strict so we know the definition terminates, which is important for the consistency of the coercion language. In other words, we need to change the representation of constraint. Right now, we have`Constraint` be like `TYPE LiftedRep` (i.e. `Type`). This suggestion would make it be like `TYPE UnliftedRep`. However, strict constraints clash with deferred type errors, as deferred type errors make use of the laziness. Richard argues that deferred type errors are already in conflict with `TypeInType`. See [ this ticket](https://ghc.haskell.org/trac/ghc/ticket/11197/).
+with inlining. However, this means constraints need to be strict so we know the definition terminates, which is important for the consistency of the coercion language. In other words, we need to change the representation of constraint. Right now, we have`Constraint` be like `TYPE LiftedRep` (i.e. `Type`). This suggestion would make it be like `TYPE UnliftedRep`. However, strict constraints clash with deferred type errors, as deferred type errors make use of the laziness. Richard argues that deferred type errors are already in conflict with `TypeInType`. See [this ticket](https://ghc.haskell.org/trac/ghc/ticket/11197/).
 
 
 
@@ -645,6 +645,6 @@ Gah!  Looking at the bindings, transitive closure... horrible.  If every coercio
 
 
 
-**RAE:** To summarize, you propose to ignore unification variables when doing the floating-out level-check. (Presumably, we won't ignore unification variables' kinds. **SLPJ: good point; I have edited**) I'm still bothered though: we're worried about having coercion holes prevent floating. Coercion holes are very much like unification variables. If we ignore unification variables (and, by consequence, coercion holes), then do we have [\#14584](https://gitlab.haskell.org//ghc/ghc/issues/14584) again? If we don't ignore coercion holes, then when will coercion holes ever get floated? I'm still very unconvinced here. **End RAE**
+**RAE:** To summarize, you propose to ignore unification variables when doing the floating-out level-check. (Presumably, we won't ignore unification variables' kinds. **SLPJ: good point; I have edited**) I'm still bothered though: we're worried about having coercion holes prevent floating. Coercion holes are very much like unification variables. If we ignore unification variables (and, by consequence, coercion holes), then do we have [\#14584](https://gitlab.haskell.org/ghc/ghc/issues/14584) again? If we don't ignore coercion holes, then when will coercion holes ever get floated? I'm still very unconvinced here. **End RAE**
 
 

@@ -457,7 +457,7 @@ We haven't seen as much decrease in allocation as we would have liked, but there
 
 Floating functions to the top-level creates more opportunities for the inliner. We've found two ways.
 
-- [\#7663](https://gitlab.haskell.org//ghc/ghc/issues/7663) - simulates having the inliner discount for free variables like it discounts for parameters
+- [\#7663](https://gitlab.haskell.org/ghc/ghc/issues/7663) - simulates having the inliner discount for free variables like it discounts for parameters
 
 - It also decreases size of functions by floating out internal let-bindings (eg big join points, etc).
 

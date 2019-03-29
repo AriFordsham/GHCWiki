@@ -1,7 +1,7 @@
 # Type Level Literals
 
 
-This page collects information on how to work with type-level literals, as implemented in the Haskell compiler GHC (ticket [\#4385](https://gitlab.haskell.org//ghc/ghc/issues/4385)).
+This page collects information on how to work with type-level literals, as implemented in the Haskell compiler GHC (ticket [\#4385](https://gitlab.haskell.org/ghc/ghc/issues/4385)).
 
 ## Status
 
@@ -12,7 +12,7 @@ Use Keyword = `TypeLits` to ensure that a ticket ends up on these lists.
 
 Open Tickets:
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8422">#8422</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8422">#8422</a></th>
 <td>type nats solver is too weak!</td></tr></table>
 
 
@@ -20,13 +20,13 @@ Open Tickets:
 
 Closed Tickets:
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9036">#9036</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9036">#9036</a></th>
 <td>ghc: panic! Binder&apos;s type (SingI Symbol &lt;a String&gt;) /= RHS type (String)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10321">#10321</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10321">#10321</a></th>
 <td>GHC.TypeLits.Nat types no longer fully simplified.</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10742">#10742</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10742">#10742</a></th>
 <td>GHC cannot deduce (irrelevant) reflexive type equality.</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10774">#10774</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10774">#10774</a></th>
 <td>Use `Natural` rather than `Integer` in `GHC.TypeLits`</td></tr></table>
 
 
@@ -57,9 +57,9 @@ Closed Tickets:
 
 ## Source Code
 
-- [ type-nats branch of GHC](http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=ghc.git;a=shortlog;h=refs/heads/type-nats)
-- [ type-nats branch of the base library](http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=packages/base.git;a=shortlog;h=refs/heads/type-nats)
-- [ type nats branch of template-haskell](http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=packages/template-haskell.git;a=shortlog;h=refs/heads/type-nats)
+- [type-nats branch of GHC](http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=ghc.git;a=shortlog;h=refs/heads/type-nats)
+- [type-nats branch of the base library](http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=packages/base.git;a=shortlog;h=refs/heads/type-nats)
+- [type nats branch of template-haskell](http://darcs.haskell.org/cgi-bin/gitweb.cgi?p=packages/template-haskell.git;a=shortlog;h=refs/heads/type-nats)
 - Also, there is a type-nats branch for 'haddock'.
 
 
@@ -70,6 +70,6 @@ Closed Tickets:
 
 
 - [Natural Numbers: From Values to Types](type-nats/naturals)
-- More advanced example: [ https://github.com/yav/memory-arrays/tree/master](https://github.com/yav/memory-arrays/tree/master)
+- More advanced example: [https://github.com/yav/memory-arrays/tree/master](https://github.com/yav/memory-arrays/tree/master)
 - [Examples](type-nats/examples)
-- [ Axioms for type-level type operators](http://github.com/yav/tc-solver/blob/master/docs/axioms.md)
+- [Axioms for type-level type operators](http://github.com/yav/tc-solver/blob/master/docs/axioms.md)

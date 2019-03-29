@@ -58,7 +58,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2283">#2283</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/2283">#2283</a></th>
 <td>
                     
                   
@@ -84,7 +84,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/2283">WIndows: loading objects that refer to DLL symbols</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/2283">WIndows: loading objects that refer to DLL symbols</a>
                       
                       
                       
@@ -136,7 +136,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8124">#8124</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8124">#8124</a></th>
 <td>
                     
                   
@@ -162,7 +162,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8124">Possible leaks when using foreign export.</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8124">Possible leaks when using foreign export.</a>
                       
                       
                       
@@ -214,7 +214,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8696">#8696</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8696">#8696</a></th>
 <td>
                     
                   
@@ -240,7 +240,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8696">linking fails with &apos;relocation R_X86_64_PC32 against undefined symbol&apos;</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8696">linking fails with &apos;relocation R_X86_64_PC32 against undefined symbol&apos;</a>
                       
                       
                       
@@ -292,7 +292,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8714">#8714</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8714">#8714</a></th>
 <td>
                     
                   
@@ -318,7 +318,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8714">ExistentialQuantification plus DeriveDataTypeable leads to core lint error</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8714">ExistentialQuantification plus DeriveDataTypeable leads to core lint error</a>
                       
                       
                       
@@ -370,7 +370,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8718">#8718</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8718">#8718</a></th>
 <td>
                     
                   
@@ -396,7 +396,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8718">Add role annotations to base</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8718">Add role annotations to base</a>
                       
                       
                       
@@ -448,7 +448,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8826">#8826</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8826">#8826</a></th>
 <td>
                     
                   
@@ -474,7 +474,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8826">Allow more coercions in Safe Haskell</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8826">Allow more coercions in Safe Haskell</a>
                       
                       
                       
@@ -526,7 +526,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8831">#8831</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8831">#8831</a></th>
 <td>
                     
                   
@@ -552,7 +552,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8831">Cannot use Template Haskell splice in ghci</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8831">Cannot use Template Haskell splice in ghci</a>
                       
                       
                       
@@ -604,7 +604,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8834">#8834</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8834">#8834</a></th>
 <td>
                     
                   
@@ -630,7 +630,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8834">64-bit windows cabal.exe segfaults in GC</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8834">64-bit windows cabal.exe segfaults in GC</a>
                       
                       
                       
@@ -682,7 +682,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8837">#8837</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8837">#8837</a></th>
 <td>
                     
                   
@@ -708,7 +708,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8837">GHC 7.8.1-rc2 requires /usr/local/lib/libgmp10.10.dylib</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8837">GHC 7.8.1-rc2 requires /usr/local/lib/libgmp10.10.dylib</a>
                       
                       
                       
@@ -760,7 +760,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8839">#8839</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8839">#8839</a></th>
 <td>
                     
                   
@@ -786,7 +786,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8839">64 bit windows executables compiled with ghc-7.8rc2 segfault when allocate more than 4G of memory</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8839">64 bit windows executables compiled with ghc-7.8rc2 segfault when allocate more than 4G of memory</a>
                       
                       
                       
@@ -838,7 +838,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8841">#8841</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8841">#8841</a></th>
 <td>
                     
                   
@@ -864,7 +864,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8841">PatternSynonyms error gives wrong source locations</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8841">PatternSynonyms error gives wrong source locations</a>
                       
                       
                       
@@ -916,7 +916,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8851">#8851</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8851">#8851</a></th>
 <td>
                     
                   
@@ -942,7 +942,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8851">Standalone deriving and GND behave differently</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8851">Standalone deriving and GND behave differently</a>
                       
                       
                       
@@ -994,7 +994,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8855">#8855</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8855">#8855</a></th>
 <td>
                     
                   
@@ -1020,7 +1020,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8855">LLVM backend needs to use `-globalopt` explicitly</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8855">LLVM backend needs to use `-globalopt` explicitly</a>
                       
                       
                       
@@ -1072,7 +1072,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8856">#8856</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8856">#8856</a></th>
 <td>
                     
                   
@@ -1098,7 +1098,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8856">ScopedTypeVariables &amp; PolyKinds lead to weird error message</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8856">ScopedTypeVariables &amp; PolyKinds lead to weird error message</a>
                       
                       
                       
@@ -1150,7 +1150,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8857">#8857</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8857">#8857</a></th>
 <td>
                     
                   
@@ -1176,7 +1176,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8857">Sparc needs to be on the NoSharedLibsPlatformList</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8857">Sparc needs to be on the NoSharedLibsPlatformList</a>
                       
                       
                       
@@ -1228,7 +1228,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8858">#8858</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8858">#8858</a></th>
 <td>
                     
                   
@@ -1254,7 +1254,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8858">Wrong maxStkSize calculation</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8858">Wrong maxStkSize calculation</a>
                       
                       
                       
@@ -1306,7 +1306,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8865">#8865</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8865">#8865</a></th>
 <td>
                     
                   
@@ -1332,7 +1332,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8865">Cannot derive well-kinded instance of form ‘Category</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8865">Cannot derive well-kinded instance of form ‘Category</a>
                       
                       
                       
@@ -1384,7 +1384,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8870">#8870</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8870">#8870</a></th>
 <td>
                     
                   
@@ -1410,7 +1410,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8870">GHC 7.8.0 RC2 fails when compiling a hello world program on Windows 7 32bits</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8870">GHC 7.8.0 RC2 fails when compiling a hello world program on Windows 7 32bits</a>
                       
                       
                       
@@ -1462,7 +1462,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8878">#8878</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8878">#8878</a></th>
 <td>
                     
                   
@@ -1488,7 +1488,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8878">Export runTcInteractive from TcRnDriver</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8878">Export runTcInteractive from TcRnDriver</a>
                       
                       
                       
@@ -1540,7 +1540,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8884">#8884</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8884">#8884</a></th>
 <td>
                     
                   
@@ -1566,7 +1566,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8884">Reifying closed type families is broken</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8884">Reifying closed type families is broken</a>
                       
                       
                       
@@ -1618,7 +1618,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8888">#8888</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8888">#8888</a></th>
 <td>
                     
                   
@@ -1644,7 +1644,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8888">Document Coercible in user&apos;s guide</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8888">Document Coercible in user&apos;s guide</a>
                       
                       
                       
@@ -1696,7 +1696,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8889">#8889</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8889">#8889</a></th>
 <td>
                     
                   
@@ -1722,7 +1722,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8889">GHCI reports nasty type signatures</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8889">GHCI reports nasty type signatures</a>
                       
                       
                       
@@ -1774,7 +1774,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8892">#8892</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8892">#8892</a></th>
 <td>
                     
                   
@@ -1800,7 +1800,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8892">Ghc panics (variable not found)</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8892">Ghc panics (variable not found)</a>
                       
                       
                       
@@ -1852,7 +1852,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8893">#8893</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8893">#8893</a></th>
 <td>
                     
                   
@@ -1878,7 +1878,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8893">-XPolyKinds causes &quot;*** Exception: Prelude.(!!): index too large&quot;</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8893">-XPolyKinds causes &quot;*** Exception: Prelude.(!!): index too large&quot;</a>
                       
                       
                       
@@ -1930,7 +1930,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8917">#8917</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8917">#8917</a></th>
 <td>
                     
                   
@@ -1956,7 +1956,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8917">:kind! does not work under type constructors</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8917">:kind! does not work under type constructors</a>
                       
                       
                       
@@ -2008,7 +2008,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8931">#8931</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8931">#8931</a></th>
 <td>
                     
                   
@@ -2034,7 +2034,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8931">The type defaulting in GHCi with Typeable</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8931">The type defaulting in GHCi with Typeable</a>
                       
                       
                       
@@ -2086,7 +2086,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8958">#8958</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8958">#8958</a></th>
 <td>
                     
                   
@@ -2112,7 +2112,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8958">Allow role inference on datatype contexts</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8958">Allow role inference on datatype contexts</a>
                       
                       
                       
@@ -2164,7 +2164,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8961">#8961</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8961">#8961</a></th>
 <td>
                     
                   
@@ -2190,7 +2190,7 @@ Note however, that not all tickets with a 7.8.1 milestone will be addressed for 
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8961">Require PatternSynonyms language extension to *use* pattern synonyms</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8961">Require PatternSynonyms language extension to *use* pattern synonyms</a>
                       
                       
                       

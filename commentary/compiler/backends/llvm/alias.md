@@ -4,34 +4,34 @@
 This page tracks the information and progress relevant to improving the alias analysis pass for the LLVM backend of GHC.
 
 
-This correspond to bug [\#5567](https://gitlab.haskell.org//ghc/ghc/issues/5567).
+This correspond to bug [\#5567](https://gitlab.haskell.org/ghc/ghc/issues/5567).
 
 ## LLVM Alias Analysis Infrastructure
 
 
 Some links to the various documentation on LLVM's AA support:
 
-- [ LLVM Alias Analysis Infrastructure](http://llvm.org/docs/AliasAnalysis.html)
-- [ LLVM's Analysis and Transform Passes](http://llvm.org/docs/Passes.html)
-- [ The Often Misunderstood GEP Instruction](http://llvm.org/docs/GetElementPtr.html)
-- [ LLVM Language Reference](http://llvm.org/docs/LangRef.html)
-- [ LLVM Dev List: Comparison of Alias Analysis in LLVM](http://groups.google.com/group/llvm-dev/browse_thread/thread/2a5944692508bcc2/363c96bb1c6a506d?show_docid=363c96bb1c6a506d&pli=1)
+- [LLVM Alias Analysis Infrastructure](http://llvm.org/docs/AliasAnalysis.html)
+- [LLVM's Analysis and Transform Passes](http://llvm.org/docs/Passes.html)
+- [The Often Misunderstood GEP Instruction](http://llvm.org/docs/GetElementPtr.html)
+- [LLVM Language Reference](http://llvm.org/docs/LangRef.html)
+- [LLVM Dev List: Comparison of Alias Analysis in LLVM](http://groups.google.com/group/llvm-dev/browse_thread/thread/2a5944692508bcc2/363c96bb1c6a506d?show_docid=363c96bb1c6a506d&pli=1)
 
 ## Max's Work
 
 
 Max had a crack at writing a custom alias analysis pass for LLVM, relevant links are:
 
-- [ Email to LLVM dev](http://lists.cs.uiuc.edu/pipermail/llvmdev/2011-September/043603.html)
-- [ Blog post about results](http://blog.omega-prime.co.uk/?p=135)
-- [ A port to LLVM 3.6](https://github.com/bgamari/ghc-llvm-analyses)
+- [Email to LLVM dev](http://lists.cs.uiuc.edu/pipermail/llvmdev/2011-September/043603.html)
+- [Blog post about results](http://blog.omega-prime.co.uk/?p=135)
+- [A port to LLVM 3.6](https://github.com/bgamari/ghc-llvm-analyses)
 
 ## TBAA
 
 
 LLVM as of version 2.9 includes Type Based Alias Analysis. This mean using metadata you can specify a type hierarchy (with alias properties between types) and annotate your code with these types to improve the alias information. This should allow us to improve the alias analysis without any changes to LLVM itself like Max made.
 
-- [ LLVM TBBA Doc](http://llvm.org/docs/LangRef.html#tbaa)
+- [LLVM TBBA Doc](http://llvm.org/docs/LangRef.html#tbaa)
 
 ## STG / Cmm Alias Properties
 
@@ -136,9 +136,9 @@ which allows them to work much better the third time.
 
 We want to allow LLVM to speculatively hoist loads out of conditional blocks. Relevant LLVM source code is here:
 
-- [ SimplifyCFG Source Code](http://llvm.org/docs/doxygen/html/SimplifyCFG_8cpp_source.html)
-- [ llvm::isSafeToSpeculativelyExecute](http://llvm.org/docs/doxygen/html/namespacellvm.html#a4899ff634bf732c16dd22ecfdafdea7d)
-- [ LLVM Mailing List Discussion about 'Safe loads'](http://lists.cs.uiuc.edu/pipermail/llvmdev/2012-January/046958.html)
+- [SimplifyCFG Source Code](http://llvm.org/docs/doxygen/html/SimplifyCFG_8cpp_source.html)
+- [llvm::isSafeToSpeculativelyExecute](http://llvm.org/docs/doxygen/html/namespacellvm.html#a4899ff634bf732c16dd22ecfdafdea7d)
+- [LLVM Mailing List Discussion about 'Safe loads'](http://lists.cs.uiuc.edu/pipermail/llvmdev/2012-January/046958.html)
 
 **Following is from Roman Leshchinskiy**
 
@@ -180,7 +180,7 @@ As a quick experiment, I hacked LLVM to accept "safe" annotations on loads and t
 ### GHC Heap Check (case merging)
 
 
-See bug [\#1498](https://gitlab.haskell.org//ghc/ghc/issues/1498)
+See bug [\#1498](https://gitlab.haskell.org/ghc/ghc/issues/1498)
 
 **Following is from Roman Leshchinskiy**
 

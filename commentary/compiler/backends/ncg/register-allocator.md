@@ -63,7 +63,7 @@ For an overview of techniques for inserting spill code.
 
 
 
-The following tickets are related to register allocation: [\#8048](https://gitlab.haskell.org//ghc/ghc/issues/8048) [\#10012](https://gitlab.haskell.org//ghc/ghc/issues/10012) [\#12232](https://gitlab.haskell.org//ghc/ghc/issues/12232)
+The following tickets are related to register allocation: [\#8048](https://gitlab.haskell.org/ghc/ghc/issues/8048) [\#10012](https://gitlab.haskell.org/ghc/ghc/issues/10012) [\#12232](https://gitlab.haskell.org/ghc/ghc/issues/12232)
 
 
 ## Register pressure in Haskell code
@@ -161,7 +161,7 @@ make EXTRA_HC_OPTS="-O2 -fregs-iterative -ddump-to-file -ddump-asm-regalloc-stag
 
 - **Visualisation of conflict graphs**
 
-  Graphviz, available from [ http://www.graphviz.org](http://www.graphviz.org) can be used to make nice visualisations of the register conflict graphs. Use `-ddump-asm-regalloc-stages`, and copy one of the graph descriptions into a new file `niceGraph.dot`
+  Graphviz, available from [http://www.graphviz.org](http://www.graphviz.org) can be used to make nice visualisations of the register conflict graphs. Use `-ddump-asm-regalloc-stages`, and copy one of the graph descriptions into a new file `niceGraph.dot`
 
 ```wiki
 circo -Tpng niceGraph.dot -o niceGraph.png 

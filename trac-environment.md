@@ -5,7 +5,7 @@ Trac uses a directory structure and a database for storing project data. The dir
 Trac uses a directory structure and a database for storing project data. The directory is referred to as the **environment**.
 
 
-Trac supports [ SQLite](http://sqlite.org/), [ PostgreSQL](http://www.postgresql.org/) and [ MySQL](http://mysql.com/) databases. With PostgreSQL and MySQL you have to create the database before running `trac-admin initenv`.
+Trac supports [SQLite](http://sqlite.org/), [ PostgreSQL](http://www.postgresql.org/) and [ MySQL](http://mysql.com/) databases. With PostgreSQL and MySQL you have to create the database before running `trac-admin initenv`.
 
 ## Creating an Environment
 
@@ -91,7 +91,7 @@ postgres://user:password@/database?host=/path/to/socket/dir
 ```
 
 
-See the [ PostgreSQL documentation](http://www.postgresql.org/docs/) for detailed instructions on how to administer [ PostgreSQL](http://postgresql.org).
+See the [PostgreSQL documentation](http://www.postgresql.org/docs/) for detailed instructions on how to administer [ PostgreSQL](http://postgresql.org).
 Generally, the following is sufficient to create a database user named `tracuser` and a database named `trac`:
 
 ```

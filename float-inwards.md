@@ -16,7 +16,7 @@ Use Keyword = `FloatInwards` to ensure that a ticket ends up on these lists.
 
 **Open Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2988">#2988</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/2988">#2988</a></th>
 <td>Improve float-in</td></tr></table>
 
 

@@ -221,7 +221,7 @@ Notice that
   The same thing happens with two mutually recursive methods
 
 - BUT notice that we reconstruct the `(C [a])` dictionary on
-  each iteration of the loop.  As Ganesh points out in [\#3073](https://gitlab.haskell.org//ghc/ghc/issues/3073), that
+  each iteration of the loop.  As Ganesh points out in [\#3073](https://gitlab.haskell.org/ghc/ghc/issues/3073), that
   is sometimes bad.
 
 ## The out-of-line (B) strategy
@@ -270,10 +270,10 @@ direct recursion.
 
 Note also that
 
-- Typechecking `opF_aux` is a bit fragile; see [\#3018](https://gitlab.haskell.org//ghc/ghc/issues/3018).  Trouble is that
+- Typechecking `opF_aux` is a bit fragile; see [\#3018](https://gitlab.haskell.org/ghc/ghc/issues/3018).  Trouble is that
   when a constraint `(C [a])` arises in its RHS there are two ways
   of discharging it: by using the argument `d_as` directly, or by
-  calling `(dCList d_a)`.  As [\#3018](https://gitlab.haskell.org//ghc/ghc/issues/3018) shows, it's hard to guarantee that
+  calling `(dCList d_a)`.  As [\#3018](https://gitlab.haskell.org/ghc/ghc/issues/3018) shows, it's hard to guarantee that
   we'll do the former.
 
 ## User INLINE pragmas and out-of-line (A)

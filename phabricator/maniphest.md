@@ -1,10 +1,10 @@
 # Proposed move from Trac to Maniphest
 
 
-This page discusses the various pros and cons for moving from Trac to Phabricator for ticket management, as proposed on [ ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2016-December/013442.html).
+This page discusses the various pros and cons for moving from Trac to Phabricator for ticket management, as proposed on [ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2016-December/013442.html).
 
 
-If you want to try it yourself then there is a prototype [ http://104.130.13.28/](http://104.130.13.28/)\]
+If you want to try it yourself then there is a prototype [http://104.130.13.28/](http://104.130.13.28/)\]
 
 ## What does Maniphest do well?
 
@@ -98,6 +98,6 @@ If you want to try it yourself then there is a prototype [ http://104.130.13.28/
 
 - Notification emails break links if they word wrap and doesn't apply other markup
 
-- Fields are not validated at all, once you start looking there are many cases where input is malformed (Three recent examples: [\#12623](https://gitlab.haskell.org//ghc/ghc/issues/12623) (Owner) [\#13100](https://gitlab.haskell.org//ghc/ghc/issues/13100) (CC field) [\#13194](https://gitlab.haskell.org//ghc/ghc/issues/13194) (Differential field) [\#11525](https://gitlab.haskell.org//ghc/ghc/issues/11525) (Differential field, 2x)).
+- Fields are not validated at all, once you start looking there are many cases where input is malformed (Three recent examples: [\#12623](https://gitlab.haskell.org/ghc/ghc/issues/12623) (Owner) [\#13100](https://gitlab.haskell.org/ghc/ghc/issues/13100) (CC field) [\#13194](https://gitlab.haskell.org/ghc/ghc/issues/13194) (Differential field) [\#11525](https://gitlab.haskell.org/ghc/ghc/issues/11525) (Differential field, 2x)).
 
 - It is not possible to set the status of a ticket to patch and simultaneously assign an owner to the ticket.

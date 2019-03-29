@@ -30,7 +30,7 @@ Note: we will need to be clear with users that initially this SIMD work is not s
 
 
 
-Intel and AMD CPUs use the [ SSE family](http://en.wikipedia.org/wiki/Streaming_SIMD_Extensions) of extensions and, more recently (since Q1 2011), the [ AVX](http://en.wikipedia.org/wiki/Advanced_Vector_Extensions) extensions.  ARM CPUs (Cortex A series) use the [ NEON](http://www.arm.com/products/processors/technologies/neon.php) extensions. PowerPC and SPARC have similar vector extensions. Variations between different families of SIMD extensions and between different family members in one family of extensions include the following:
+Intel and AMD CPUs use the [SSE family](http://en.wikipedia.org/wiki/Streaming_SIMD_Extensions) of extensions and, more recently (since Q1 2011), the [ AVX](http://en.wikipedia.org/wiki/Advanced_Vector_Extensions) extensions.  ARM CPUs (Cortex A series) use the [ NEON](http://www.arm.com/products/processors/technologies/neon.php) extensions. PowerPC and SPARC have similar vector extensions. Variations between different families of SIMD extensions and between different family members in one family of extensions include the following:
 
 
 <table><tr><th><b>Register width</b></th>
@@ -57,10 +57,10 @@ SSE requires alignment on 16 byte boundaries. With AVX, it seems that operations
 Both GCC and LLVM provide some low-level yet portable support for SIMD vector types and operations.
 
 
-GCC provides [ vector extensions](http://gcc.gnu.org/onlinedocs/gcc/Vector-Extensions.html) to C where the programmer may define vector types of a fixed size. The standard C `+`, `-`, `*` etc operators then work on these vector types. GCC implements these operations using whatever hardware support is available. Depending on the requested vector size GCC uses native vector registers and instructions, or synthesises large requested vectors using smaller hardware vectors. For example it can generate code for operating on vectors of 4 doubles by using SSE2 registers and operations which only handle vectors of doubles of size 2.
+GCC provides [vector extensions](http://gcc.gnu.org/onlinedocs/gcc/Vector-Extensions.html) to C where the programmer may define vector types of a fixed size. The standard C `+`, `-`, `*` etc operators then work on these vector types. GCC implements these operations using whatever hardware support is available. Depending on the requested vector size GCC uses native vector registers and instructions, or synthesises large requested vectors using smaller hardware vectors. For example it can generate code for operating on vectors of 4 doubles by using SSE2 registers and operations which only handle vectors of doubles of size 2.
 
 
-The LLVM compiler tools targeted by GHC's [LLVM backend](commentary/compiler/backends/llvm) support a generic [ vector type](http://llvm.org/docs/LangRef.html#t_vector) of arbitrary, but fixed length whose elements may be any LLVM scalar type. In addition to three [ vector operations](http://llvm.org/docs/LangRef.html#vectorops), LLVM's operations on scalars are overloaded to work on vector types as well. LLVM compiles operations on vector types to target-specific SIMD instructions, such as those of the SSE, AVX, and NEON instruction set extensions. As the capabilities of the various versions of SSE, AVX, and NEON vary widely, LLVM's code generator maps operations on LLVM's generic vector type to the more limited capabilities of the various hardware targets.
+The LLVM compiler tools targeted by GHC's [LLVM backend](commentary/compiler/backends/llvm) support a generic [vector type](http://llvm.org/docs/LangRef.html#t_vector) of arbitrary, but fixed length whose elements may be any LLVM scalar type. In addition to three [ vector operations](http://llvm.org/docs/LangRef.html#vectorops), LLVM's operations on scalars are overloaded to work on vector types as well. LLVM compiles operations on vector types to target-specific SIMD instructions, such as those of the SSE, AVX, and NEON instruction set extensions. As the capabilities of the various versions of SSE, AVX, and NEON vary widely, LLVM's code generator maps operations on LLVM's generic vector type to the more limited capabilities of the various hardware targets.
 
 ## General plan
 
@@ -605,7 +605,7 @@ cmp<eq,ne,gt,gt,lt,le>Word<w>Vec<m># :: Word<w>Vec<m># -> Word<w>Vec<m># -> Word
 ```
 
 
-Note that LLVM does not yet support the comparison operations (See the comment at the end of the documentation for the [ icmp](http://llvm.org/docs/LangRef.html#i_icmp) instruction, for example).
+Note that LLVM does not yet support the comparison operations (See the comment at the end of the documentation for the [icmp](http://llvm.org/docs/LangRef.html#i_icmp) instruction, for example).
 
 
 Integer width narrow/widen operations:
@@ -696,7 +696,7 @@ To iron out this wrinkle we would need the whole family of primitve types: Int8\
 ## Data Parallel Haskell layer
 
 
-In [ DPH](http://www.haskell.org/haskellwiki/GHC/Data_Parallel_Haskell), we will use the new SIMD instructions by suitably modifying the definition of the lifted versions of arithmetic and other operations that we would like to accelerate. These lifted operations are defined in the `dph-common` package and made accessible to the vectoriser via [VECTORISE pragmas](data-parallel/vect-pragma). Many of them currently use `VECTORISE SCALAR` pragmas, such as
+In [DPH](http://www.haskell.org/haskellwiki/GHC/Data_Parallel_Haskell), we will use the new SIMD instructions by suitably modifying the definition of the lifted versions of arithmetic and other operations that we would like to accelerate. These lifted operations are defined in the `dph-common` package and made accessible to the vectoriser via [VECTORISE pragmas](data-parallel/vect-pragma). Many of them currently use `VECTORISE SCALAR` pragmas, such as
 
 ```wiki
 (+) :: Int -> Int -> Int
@@ -888,7 +888,7 @@ But it would be plausible to say that types like `DoubleVec4#` are ephemeral, ha
 ### Memory alignment for vectors
 
 
-Many CPUs that support vectors have strict alignment requirements, e.g. that 16 byte vectors must be aligned on 16byte boundaries. On some architectures the requirements are not strict but there may be a performance penalty, or alternative instruction may be required to load unaligned vectors. For example AVX has special instructions for unaligned loads and stores but Intel estimates a [ 20% performance loss](http://software.intel.com/en-us/articles/practical-intel-avx-optimization-on-2nd-generation-intel-core-processors/).
+Many CPUs that support vectors have strict alignment requirements, e.g. that 16 byte vectors must be aligned on 16byte boundaries. On some architectures the requirements are not strict but there may be a performance penalty, or alternative instruction may be required to load unaligned vectors. For example AVX has special instructions for unaligned loads and stores but Intel estimates a [20% performance loss](http://software.intel.com/en-us/articles/practical-intel-avx-optimization-on-2nd-generation-intel-core-processors/).
 
 
 LLVM has primitives that can load and store vectors from unaligned memory locations, which (presumably) compile to either aligned vector instructions if the architecture has them, or non-vector instructions if not.  So alignment of vectors in memory is optional, and we can make an independent choice about whether we align stored vectors
@@ -925,6 +925,6 @@ If later on we add vector data-movement instructions to the NCG, then the arch-c
 
 ## See also
 
-- [ Blog article about Larrabee and Nvidia, MIMD vs. SIMD](http://perilsofparallel.blogspot.com/2008/09/larrabee-vs-nvidia-mimd-vs-simd.html)
+- [Blog article about Larrabee and Nvidia, MIMD vs. SIMD](http://perilsofparallel.blogspot.com/2008/09/larrabee-vs-nvidia-mimd-vs-simd.html)
 - [SIMD LLVM:](simd/implementation/llvm) A previous (LLVM-specific) iteration of this SIMD proposal.
 - [Vector Computing:](simd/implementation/old)  A previous proposal to make use of x86 SSE in GHC.

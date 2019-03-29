@@ -19,9 +19,9 @@ Done:
 Pending:
 
 - The buildbot scripts
-- Deploy post-receive-email ([ http://darcs.haskell.org/ghc.git/hooks/post-receive](http://darcs.haskell.org/ghc.git/hooks/post-receive) and /usr/share/doc/git-core/contrib/hooks/post-receive-email on d.h.o)
-- Deploy GitPlugin for Trac ([ http://trac-hacks.org/wiki/GitPlugin](http://trac-hacks.org/wiki/GitPlugin))
-- Deploy gitweb ([ http://git.or.cz/gitwiki/InterfacesFrontendsAndTools\#head-1dbe0dba1fdab64e839b2c4acd882446742e572e](http://git.or.cz/gitwiki/InterfacesFrontendsAndTools#head-1dbe0dba1fdab64e839b2c4acd882446742e572e))
+- Deploy post-receive-email ([http://darcs.haskell.org/ghc.git/hooks/post-receive](http://darcs.haskell.org/ghc.git/hooks/post-receive) and /usr/share/doc/git-core/contrib/hooks/post-receive-email on d.h.o)
+- Deploy GitPlugin for Trac ([http://trac-hacks.org/wiki/GitPlugin](http://trac-hacks.org/wiki/GitPlugin))
+- Deploy gitweb ([http://git.or.cz/gitwiki/InterfacesFrontendsAndTools\#head-1dbe0dba1fdab64e839b2c4acd882446742e572e](http://git.or.cz/gitwiki/InterfacesFrontendsAndTools#head-1dbe0dba1fdab64e839b2c4acd882446742e572e))
 - Start a git server on darcs.haskell.org?
 - `README`
 - [Building/Windows](building/windows)
@@ -149,12 +149,12 @@ Gotchas:
 - every submodule commit needs to be accompanied by a GHC commit (not clear if this is really a disadvantage, but it's more work and there will be many more commits).
 
 
-Here's an article that explains the problems with submodules in more detail: [ http://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/](http://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/)
+Here's an article that explains the problems with submodules in more detail: [http://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/](http://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/)
 
 ### Google repo
 
 
-Google has a tool called [ repo](https://sites.google.com/a/android.com/opensource/download/using-repo) that they use for managing the Android repositories, which is basically the same as our `darcs-all` script but is much much larger (it probably does a bit more, to be fair).  It is written in Python and the list of git repositories is kept in an XML file.
+Google has a tool called [repo](https://sites.google.com/a/android.com/opensource/download/using-repo) that they use for managing the Android repositories, which is basically the same as our `darcs-all` script but is much much larger (it probably does a bit more, to be fair).  It is written in Python and the list of git repositories is kept in an XML file.
 
 ### Older comments
 
@@ -162,7 +162,7 @@ Google has a tool called [ repo](https://sites.google.com/a/android.com/opensour
 Submodules do not really seem to be designed for what we want to do (work on a cohesive set of components that are developed together): they seem more suited to tracking upstream branches that you do not modify locally.
 
 
-However, if we did want to use them there is a git-rake tool that provides many of the submodule commands to do this that are missing from Git proper: [ http://github.com/mdalessio/git-rake/tree/master/README.markdown](http://github.com/mdalessio/git-rake/tree/master/README.markdown). See also the discussion on his blog at [ http://flavoriffic.blogspot.com/2008/05/managing-git-submodules-with-gitrake.html](http://flavoriffic.blogspot.com/2008/05/managing-git-submodules-with-gitrake.html).
+However, if we did want to use them there is a git-rake tool that provides many of the submodule commands to do this that are missing from Git proper: [http://github.com/mdalessio/git-rake/tree/master/README.markdown](http://github.com/mdalessio/git-rake/tree/master/README.markdown). See also the discussion on his blog at [ http://flavoriffic.blogspot.com/2008/05/managing-git-submodules-with-gitrake.html](http://flavoriffic.blogspot.com/2008/05/managing-git-submodules-with-gitrake.html).
 
 
-An alternative approach seems to be using a single repo and the "subtree" merge strategy. There are some tools for making this work nicely with external repositories, such as [ http://dysinger.net/2008/04/29/replacing-braid-or-piston-for-git-with-40-lines-of-rake/](http://dysinger.net/2008/04/29/replacing-braid-or-piston-for-git-with-40-lines-of-rake/) and what looks like a nice tool called Braid [ http://github.com/evilchelu/braid/tree/master](http://github.com/evilchelu/braid/tree/master).
+An alternative approach seems to be using a single repo and the "subtree" merge strategy. There are some tools for making this work nicely with external repositories, such as [http://dysinger.net/2008/04/29/replacing-braid-or-piston-for-git-with-40-lines-of-rake/](http://dysinger.net/2008/04/29/replacing-braid-or-piston-for-git-with-40-lines-of-rake/) and what looks like a nice tool called Braid [ http://github.com/evilchelu/braid/tree/master](http://github.com/evilchelu/braid/tree/master).

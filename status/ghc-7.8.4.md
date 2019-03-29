@@ -8,7 +8,7 @@ See [milestone:7.8.4](/trac/ghc/milestone/7.8.4)
 
 This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that simply prevents you using the compiler at all.  The main reason for making a new release is to kill off show-stoppers.  Everything not in this section counts as "nice to have".
 
-- [\#9439](https://gitlab.haskell.org//ghc/ghc/issues/9439): LLVM mangler mangles too vigorously.  After 7.8.3 it was realized that the LLVM code generator's mangler mangled occurrences of tokens occurring within strings of user code. This very non-obvious miscompilation. While the tokens involved aren't likely to appear in user code, they do appear in the code generator itself.  This will result in GHC builds bootstrapped with an affected compiler to produce incorrect binaries.
+- [\#9439](https://gitlab.haskell.org/ghc/ghc/issues/9439): LLVM mangler mangles too vigorously.  After 7.8.3 it was realized that the LLVM code generator's mangler mangled occurrences of tokens occurring within strings of user code. This very non-obvious miscompilation. While the tokens involved aren't likely to appear in user code, they do appear in the code generator itself.  This will result in GHC builds bootstrapped with an affected compiler to produce incorrect binaries.
 
 >
 >
@@ -16,15 +16,15 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
 >
 >
 
-- [\#8819](https://gitlab.haskell.org//ghc/ghc/issues/8819) and [\#8849](https://gitlab.haskell.org//ghc/ghc/issues/8849): Arithmetic is broken in unregisterised compiler. A regression in the C code backend leads to the compiler producing incorrect code that fails almost all arithmetic tests ([\#8849](https://gitlab.haskell.org//ghc/ghc/issues/8849)) and others ([\#8819](https://gitlab.haskell.org//ghc/ghc/issues/8819)) in the test suite. Moreover, the resulting 7.8.3 cannot bootstrap itself. This is a significant inconvenience for users of architectures where only the unregisterised backend via C is supported, such as powerpc64 and s390.
+- [\#8819](https://gitlab.haskell.org/ghc/ghc/issues/8819) and [\#8849](https://gitlab.haskell.org/ghc/ghc/issues/8849): Arithmetic is broken in unregisterised compiler. A regression in the C code backend leads to the compiler producing incorrect code that fails almost all arithmetic tests ([\#8849](https://gitlab.haskell.org/ghc/ghc/issues/8849)) and others ([\#8819](https://gitlab.haskell.org/ghc/ghc/issues/8819)) in the test suite. Moreover, the resulting 7.8.3 cannot bootstrap itself. This is a significant inconvenience for users of architectures where only the unregisterised backend via C is supported, such as powerpc64 and s390.
 
 >
 >
-> Phabricator D173 [ https://phabricator.haskell.org/D173](https://phabricator.haskell.org/D173) has a patch that fixes both tickets. The patch applies cleanly (with an offset of a few lines).
+> Phabricator D173 [https://phabricator.haskell.org/D173](https://phabricator.haskell.org/D173) has a patch that fixes both tickets. The patch applies cleanly (with an offset of a few lines).
 >
 >
 
-- [\#8960](https://gitlab.haskell.org//ghc/ghc/issues/8960) & co: `SpecConstr` frequently explodes in the wild, causing the compiler to essentially loop forever.
+- [\#8960](https://gitlab.haskell.org/ghc/ghc/issues/8960) & co: `SpecConstr` frequently explodes in the wild, causing the compiler to essentially loop forever.
 
 ## Tickets marked merge with no milestone
 
@@ -135,7 +135,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7068">#7068</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7068">#7068</a></th>
 <td>
                     
                   
@@ -161,7 +161,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/7068">Extensive Memory usage (regression)</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/7068">Extensive Memory usage (regression)</a>
                       
                       
                       
@@ -213,7 +213,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7143">#7143</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7143">#7143</a></th>
 <td>
                     
                   
@@ -239,7 +239,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/7143">ghc-7.6.0.20120810-x86_64-windows.exe -&gt; ghc can&apos;t figure out LLVM version</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/7143">ghc-7.6.0.20120810-x86_64-windows.exe -&gt; ghc can&apos;t figure out LLVM version</a>
                       
                       
                       
@@ -291,7 +291,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7898">#7898</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7898">#7898</a></th>
 <td>
                     
                   
@@ -317,7 +317,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/7898">SpecConstr explodes when compiling module BSP of frag-1.1.2</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/7898">SpecConstr explodes when compiling module BSP of frag-1.1.2</a>
                       
                       
                       
@@ -369,7 +369,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8819">#8819</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8819">#8819</a></th>
 <td>
                     
                   
@@ -395,7 +395,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8819">64bit Testsuite failures in unregisterised 7.8 RCs</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8819">64bit Testsuite failures in unregisterised 7.8 RCs</a>
                       
                       
                       
@@ -447,7 +447,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8825">#8825</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8825">#8825</a></th>
 <td>
                     
                   
@@ -473,7 +473,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8825">ghc can&apos;t determine gcc version on ru_RU locale</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8825">ghc can&apos;t determine gcc version on ru_RU locale</a>
                       
                       
                       
@@ -525,7 +525,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8849">#8849</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8849">#8849</a></th>
 <td>
                     
                   
@@ -551,7 +551,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8849">Unregisterised compiler: arithmetic failure</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8849">Unregisterised compiler: arithmetic failure</a>
                       
                       
                       
@@ -603,7 +603,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8852">#8852</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8852">#8852</a></th>
 <td>
                     
                   
@@ -629,7 +629,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8852">7.8.1 uses a lot of memory when compiling attoparsec programs using &lt;|&gt;</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8852">7.8.1 uses a lot of memory when compiling attoparsec programs using &lt;|&gt;</a>
                       
                       
                       
@@ -681,7 +681,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8951">#8951</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8951">#8951</a></th>
 <td>
                     
                   
@@ -707,7 +707,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8951">genSym uses atomic_inc but doesn&apos;t link arm_atomic_spin_lock</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8951">genSym uses atomic_inc but doesn&apos;t link arm_atomic_spin_lock</a>
                       
                       
                       
@@ -759,7 +759,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8960">#8960</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8960">#8960</a></th>
 <td>
                     
                   
@@ -785,7 +785,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8960">SpecConstr usage explodes beyond 4GB with GHC 7.8.1 rc 2</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8960">SpecConstr usage explodes beyond 4GB with GHC 7.8.1 rc 2</a>
                       
                       
                       
@@ -837,7 +837,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8980">#8980</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8980">#8980</a></th>
 <td>
                     
                   
@@ -863,7 +863,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8980">ghc-7.8.1 -O2 eats excessive amounts of RAM, highlighting-kate and pandoc-citeproc</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8980">ghc-7.8.1 -O2 eats excessive amounts of RAM, highlighting-kate and pandoc-citeproc</a>
                       
                       
                       
@@ -915,7 +915,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8988">#8988</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8988">#8988</a></th>
 <td>
                     
                   
@@ -941,7 +941,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8988">Documentation build fails if GHCi is unavailable</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8988">Documentation build fails if GHCi is unavailable</a>
                       
                       
                       
@@ -993,7 +993,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9006">#9006</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9006">#9006</a></th>
 <td>
                     
                   
@@ -1019,7 +1019,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9006">GHC accepts import of private data constructor if it has the same name as the type</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9006">GHC accepts import of private data constructor if it has the same name as the type</a>
                       
                       
                       
@@ -1071,7 +1071,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9295">#9295</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9295">#9295</a></th>
 <td>
                     
                   
@@ -1097,7 +1097,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9295">Deadlock in forkProcess</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9295">Deadlock in forkProcess</a>
                       
                       
                       
@@ -1149,7 +1149,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9296">#9296</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9296">#9296</a></th>
 <td>
                     
                   
@@ -1175,7 +1175,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9296">Acquire all_tasks_mutex in forkProcess</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9296">Acquire all_tasks_mutex in forkProcess</a>
                       
                       
                       
@@ -1227,7 +1227,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9303">#9303</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9303">#9303</a></th>
 <td>
                     
                   
@@ -1253,7 +1253,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9303">O2: (GHC version 7.8.3 for x86_64-unknown-linux): allocateRegsAndSpill: Cannot read from uninitialized register %vI_s1Mp</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9303">O2: (GHC version 7.8.3 for x86_64-unknown-linux): allocateRegsAndSpill: Cannot read from uninitialized register %vI_s1Mp</a>
                       
                       
                       
@@ -1305,7 +1305,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9316">#9316</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9316">#9316</a></th>
 <td>
                     
                   
@@ -1331,7 +1331,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9316">GHC 7.8.3 no longer infers correct type in presence of type families and constraints</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9316">GHC 7.8.3 no longer infers correct type in presence of type families and constraints</a>
                       
                       
                       
@@ -1383,7 +1383,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9329">#9329</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9329">#9329</a></th>
 <td>
                     
                   
@@ -1409,7 +1409,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9329">GHC panics when Cmm-compiling `STK_CHK_GEN_N (8);`</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9329">GHC panics when Cmm-compiling `STK_CHK_GEN_N (8);`</a>
                       
                       
                       
@@ -1461,7 +1461,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9336">#9336</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9336">#9336</a></th>
 <td>
                     
                   
@@ -1487,7 +1487,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9336">binutils gold linker detection does not work when called via gcc and selected by commandline parameters</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9336">binutils gold linker detection does not work when called via gcc and selected by commandline parameters</a>
                       
                       
                       
@@ -1539,7 +1539,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9345">#9345</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9345">#9345</a></th>
 <td>
                     
                   
@@ -1565,7 +1565,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9345">Data.List.inits is extremely slow</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9345">Data.List.inits is extremely slow</a>
                       
                       
                       
@@ -1617,7 +1617,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9371">#9371</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9371">#9371</a></th>
 <td>
                     
                   
@@ -1643,7 +1643,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9371">Overlapping type families, segafult</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9371">Overlapping type families, segafult</a>
                       
                       
                       
@@ -1695,7 +1695,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9379">#9379</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9379">#9379</a></th>
 <td>
                     
                   
@@ -1721,7 +1721,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9379">Blocked STM transaction is not interruptible</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9379">Blocked STM transaction is not interruptible</a>
                       
                       
                       
@@ -1773,7 +1773,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9390">#9390</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9390">#9390</a></th>
 <td>
                     
                   
@@ -1799,7 +1799,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9390">Inlining prevents evaluation of ignored parts of unboxed tuples</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9390">Inlining prevents evaluation of ignored parts of unboxed tuples</a>
                       
                       
                       
@@ -1851,7 +1851,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9415">#9415</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9415">#9415</a></th>
 <td>
                     
                   
@@ -1877,7 +1877,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9415">Superclass cycle with ambiguous type causes loop</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9415">Superclass cycle with ambiguous type causes loop</a>
                       
                       
                       
@@ -1929,7 +1929,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9417">#9417</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9417">#9417</a></th>
 <td>
                     
                   
@@ -1955,7 +1955,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9417">Pattern synonyms across modules broken in Haddock</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9417">Pattern synonyms across modules broken in Haddock</a>
                       
                       
                       
@@ -2007,7 +2007,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9433">#9433</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9433">#9433</a></th>
 <td>
                     
                   
@@ -2033,7 +2033,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9433">Partially applied type family allowed but unusable</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9433">Partially applied type family allowed but unusable</a>
                       
                       
                       
@@ -2085,7 +2085,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9435">#9435</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9435">#9435</a></th>
 <td>
                     
                   
@@ -2111,7 +2111,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9435">x86 sse4.2 popCnt16# needs to zero-extend its result</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9435">x86 sse4.2 popCnt16# needs to zero-extend its result</a>
                       
                       
                       
@@ -2163,7 +2163,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9439">#9439</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9439">#9439</a></th>
 <td>
                     
                   
@@ -2189,7 +2189,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9439">LlvmCodegen: Overzealous mangler incorrectly transforms user code</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9439">LlvmCodegen: Overzealous mangler incorrectly transforms user code</a>
                       
                       
                       
@@ -2241,7 +2241,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9523">#9523</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9523">#9523</a></th>
 <td>
                     
                   
@@ -2267,7 +2267,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9523">Typo in GHC Generics documentation</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9523">Typo in GHC Generics documentation</a>
                       
                       
                       
@@ -2319,7 +2319,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9552">#9552</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9552">#9552</a></th>
 <td>
                     
                   
@@ -2345,7 +2345,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9552">powerpc64 little endian: dll-split: Reachable modules from DynFlags out of date</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9552">powerpc64 little endian: dll-split: Reachable modules from DynFlags out of date</a>
                       
                       
                       
@@ -2397,7 +2397,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9563">#9563</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9563">#9563</a></th>
 <td>
                     
                   
@@ -2423,7 +2423,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9563">Support for deriving Generic1 for data families</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9563">Support for deriving Generic1 for data families</a>
                       
                       
                       
@@ -2475,7 +2475,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9575">#9575</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9575">#9575</a></th>
 <td>
                     
                   
@@ -2501,7 +2501,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9575">-XAutoDeriveTypeable fails to generate instances</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9575">-XAutoDeriveTypeable fails to generate instances</a>
                       
                       
                       
@@ -2553,7 +2553,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9620">#9620</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9620">#9620</a></th>
 <td>
                     
                   
@@ -2579,7 +2579,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9620">libffi.a is put in the wrong folder</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9620">libffi.a is put in the wrong folder</a>
                       
                       
                       
@@ -2631,7 +2631,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9658">#9658</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9658">#9658</a></th>
 <td>
                     
                   
@@ -2657,7 +2657,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9658">Prettyprint constraints in type signatures can omit necessary parentheses</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9658">Prettyprint constraints in type signatures can omit necessary parentheses</a>
                       
                       
                       
@@ -2709,7 +2709,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9705">#9705</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9705">#9705</a></th>
 <td>
                     
                   
@@ -2735,7 +2735,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9705">Panic on a pattern synonym in a class</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9705">Panic on a pattern synonym in a class</a>
                       
                       
                       
@@ -2787,7 +2787,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9817">#9817</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9817">#9817</a></th>
 <td>
                     
                   
@@ -2813,7 +2813,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9817">signal handlers in unix are passed garbage when using the signle threaded rts</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9817">signal handlers in unix are passed garbage when using the signle threaded rts</a>
                       
                       
                       
@@ -2865,7 +2865,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9860">#9860</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9860">#9860</a></th>
 <td>
                     
                   
@@ -2891,7 +2891,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9860">Package flags not command line completable in 7.8</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9860">Package flags not command line completable in 7.8</a>
                       
                       
                       

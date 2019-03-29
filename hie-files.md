@@ -37,7 +37,7 @@ As a proof of concept, haddocks --hyperlinked-source feature will be rewritten t
 - The format should be fairly stable across ghc versions, so we need to avoid capturing too much information. More detailed information about the exact haskell syntactic structure a part of the tree represents could be obtained by inspecting the tokens/keywords in that part.
 
 
-The RichToken type used in haddock: [ https://github.com/haskell/haddock/blob/master/haddock-api/src/Haddock/Backends/Hyperlinker/Types.hs\#L35](https://github.com/haskell/haddock/blob/master/haddock-api/src/Haddock/Backends/Hyperlinker/Types.hs#L35)
+The RichToken type used in haddock: [https://github.com/haskell/haddock/blob/master/haddock-api/src/Haddock/Backends/Hyperlinker/Types.hs\#L35](https://github.com/haskell/haddock/blob/master/haddock-api/src/Haddock/Backends/Hyperlinker/Types.hs#L35)
 
 ## Efficient serialization of highly redundant type info
 
@@ -162,7 +162,7 @@ There are a few simple validation tests enabled by `-fvalidate-hie`
 ## Modifications to GHC
 
 - HIE file generation will be controlled by a GHC flag(-fenable-ide-info)
-- The file will be generated as soon as GHC is done typechecking a file(maybe in [ hscIncrementalCompile](https://www.stackage.org/haddock/nightly-2018-05-04/ghc-8.4.2/src/HscMain.html#hscIncrementalCompile)?)
+- The file will be generated as soon as GHC is done typechecking a file(maybe in [hscIncrementalCompile](https://www.stackage.org/haddock/nightly-2018-05-04/ghc-8.4.2/src/HscMain.html#hscIncrementalCompile)?)
 - Need to coordinate with the Hi Haddock project(Including docstrings in .hi files) as that may push the burden of resolving Names/Symbols in haddock comments onto GHC.
 - Other than this, little interaction with the rest of GHC should be needed.
 
@@ -178,14 +178,14 @@ portions of the file that haven't been edited(Indeed, this is how haskell-ide-en
 
 
 
-[ Initial discussion on \#ghc](https://gist.github.com/wz1000/46bb4b2121f0911bbbf4d4743fafaba8) (The .hie(.hi Extended) name suggested by mpickering, cbor serialisation suggested by hvr)
+[Initial discussion on \#ghc](https://gist.github.com/wz1000/46bb4b2121f0911bbbf4d4743fafaba8) (The .hie(.hi Extended) name suggested by mpickering, cbor serialisation suggested by hvr)
 
 
 
-[ https://github.com/haskell/haddock/issues/715](https://github.com/haskell/haddock/issues/715)
+[https://github.com/haskell/haddock/issues/715](https://github.com/haskell/haddock/issues/715)
 
 
 
-[ Original GSOC Proposal](https://docs.google.com/document/d/1QP4tV-oSJd3X90JKVY4D__Dfr-ypVB57p1yDqyk2aQ8/edit?usp=sharing)
+[Original GSOC Proposal](https://docs.google.com/document/d/1QP4tV-oSJd3X90JKVY4D__Dfr-ypVB57p1yDqyk2aQ8/edit?usp=sharing)
 
 

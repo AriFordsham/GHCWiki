@@ -11,7 +11,7 @@ Heriot-Watt will host a [HackSprint](hack-sprint) meeting 12-14th December 2010.
 
 
 
-Heriot-Watt will host the [ http://saints.sqpn.com/blessed-clement-of-dunblane/ Blessed Clement of Dunblane](http://saints.sqpn.com/blessed-clement-of-dunblane/ Blessed Clement of Dunblane) [HackDay](gp-h-eden/hack-day-mar13) on Tue March 19th, 2013.
+Heriot-Watt will host the [http://saints.sqpn.com/blessed-clement-of-dunblane/ Blessed Clement of Dunblane](http://saints.sqpn.com/blessed-clement-of-dunblane/ Blessed Clement of Dunblane) [HackDay](gp-h-eden/hack-day-mar13) on Tue March 19th, 2013.
 
 
 
@@ -44,16 +44,16 @@ Future work
 
 Here is a list of hackers involved in the development of GpH/Eden
 
-- [ Jost Berthold (JB)](http://www.mathematik.uni-marburg.de/~berthold/)
-- [ Vladimir Janjic (VJ)](http://www.cs.st-andrews.ac.uk/~jv), 
-- [ Hans-Wolfgang Loidl (HWL)](http://www.macs.hw.ac.uk/~hwloidl/)
-- [ Kevin Hammond (KH)](http://www.cs.st-andrews.ac.uk/~kh/) 
-- [ Mustafa Aswad (MKA)](http://www.macs.hw.ac.uk/~mka19/) 
-- [ Henrique Ferreiro (HE)](http://www.madsgroup.org/staff/henrique/)
-- [ Philip W Trinder (PWT)](http://www.macs.hw.ac.uk/~trinder/)
-- [ Patrick Maier (PM)](http://www.macs.hw.ac.uk/~pm175)
-- [ Abyd Al Zain (AAZ)](http://www.macs.hw.ac.uk/~ceeatia/)
-- [ Mischa Dieterle (MD)](http://www.mathematik.uni-marburg.de/~dieterle)
+- [Jost Berthold (JB)](http://www.mathematik.uni-marburg.de/~berthold/)
+- [Vladimir Janjic (VJ)](http://www.cs.st-andrews.ac.uk/~jv), 
+- [Hans-Wolfgang Loidl (HWL)](http://www.macs.hw.ac.uk/~hwloidl/)
+- [Kevin Hammond (KH)](http://www.cs.st-andrews.ac.uk/~kh/) 
+- [Mustafa Aswad (MKA)](http://www.macs.hw.ac.uk/~mka19/) 
+- [Henrique Ferreiro (HE)](http://www.madsgroup.org/staff/henrique/)
+- [Philip W Trinder (PWT)](http://www.macs.hw.ac.uk/~trinder/)
+- [Patrick Maier (PM)](http://www.macs.hw.ac.uk/~pm175)
+- [Abyd Al Zain (AAZ)](http://www.macs.hw.ac.uk/~ceeatia/)
+- [Mischa Dieterle (MD)](http://www.mathematik.uni-marburg.de/~dieterle)
 - Thomas Horstmeyer (TH) 
 
 ## Communication
@@ -61,7 +61,7 @@ Here is a list of hackers involved in the development of GpH/Eden
 
  
 A mailing list for parallel Haskell implementors has been set up at HWU: 
-[ hackpar](http://www.macs.hw.ac.uk/mailman/listinfo.cgi/hackpar)
+[hackpar](http://www.macs.hw.ac.uk/mailman/listinfo.cgi/hackpar)
 
 ## Tasks
 

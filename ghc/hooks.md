@@ -22,7 +22,7 @@ Instead we propose hooks: Hooks are an extensible way to replace specific parts 
 
 An example that uses all currently implemented hooks, along with who uses them can be found here:
 
-[ Hooks demonstration program](https://gist.github.com/luite/6444273)
+[Hooks demonstration program](https://gist.github.com/luite/6444273)
 
 ## Example
 
@@ -51,7 +51,7 @@ myRunQuasiQuote q@(HsQuasiQuote name span quoted) = do
 
 `myRunQuasiQuote` is called for every quasiquote
 
-[ Demonstration program that uses all hooks](https://gist.github.com/luite/6444273)
+[Demonstration program that uses all hooks](https://gist.github.com/luite/6444273)
 
 ## Design
 
@@ -148,6 +148,6 @@ hscCompileOneShot' hsc_env extCore_filename mod_summary src_changed
 
 
 
-Todo, add list here, see [ demo program](https://gist.github.com/luite/6444273)
+Todo, add list here, see [demo program](https://gist.github.com/luite/6444273)
 
 

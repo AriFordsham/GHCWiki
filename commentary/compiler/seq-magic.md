@@ -1,7 +1,7 @@
 # Seq magic
 
 
-The innocent-looking `seq` operator causes all manner of mayhem in GHC. This page summarises the issues.  See also discussion in Trac [\#5129](https://gitlab.haskell.org//ghc/ghc/issues/5129), [\#5262](https://gitlab.haskell.org//ghc/ghc/issues/5262)
+The innocent-looking `seq` operator causes all manner of mayhem in GHC. This page summarises the issues.  See also discussion in Trac [\#5129](https://gitlab.haskell.org/ghc/ghc/issues/5129), [\#5262](https://gitlab.haskell.org/ghc/ghc/issues/5262)
 
 ## The baseline position
 
@@ -25,7 +25,7 @@ Indeed this was `seq`'s inlining.  This translation validates some important rul
 
 But this approach has problems; see `Note [Deguaring seq]` in `DsUtils`.
 
-### Problem 1 (Trac [\#1031](https://gitlab.haskell.org//ghc/ghc/issues/1031))
+### Problem 1 (Trac [\#1031](https://gitlab.haskell.org/ghc/ghc/issues/1031))
 
 
 Consider
@@ -58,7 +58,7 @@ may not) be inlined by the simplifier.  So the above term is desugared to:
         case x of _ -> case y of _ -> (# x,y #)
 ```
 
-### Problem 2 (Trac [\#2273](https://gitlab.haskell.org//ghc/ghc/issues/2273))
+### Problem 2 (Trac [\#2273](https://gitlab.haskell.org/ghc/ghc/issues/2273))
 
 
 Consider
@@ -142,7 +142,7 @@ which stupidly tries to bind the datacon 'True'. This is easily avoided.
 The whole thing is a hack though; if you define `mySeq=seq`, the hack
 won't work on `mySeq`.  
 
-### Problem 3 (Trac [\#5262](https://gitlab.haskell.org//ghc/ghc/issues/5262))
+### Problem 3 (Trac [\#5262](https://gitlab.haskell.org/ghc/ghc/issues/5262))
 
 
 Consider
@@ -179,7 +179,7 @@ Plainly `(length xs)` should be evaluated... but it isn't because `f` has arity 
 ### Problem 4: seq in the IO monad
 
 
-See the extensive discussion in Trac [\#5129](https://gitlab.haskell.org//ghc/ghc/issues/5129).
+See the extensive discussion in Trac [\#5129](https://gitlab.haskell.org/ghc/ghc/issues/5129).
 
 ### Problem 5: the need for special rules
 

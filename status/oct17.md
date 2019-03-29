@@ -13,13 +13,13 @@ of user-facing changes.
 
 ### Libraries, source language, and type system
 
--  Phase 2 of the [ Semigroup-Monoid Proposal](https://prime.haskell.org/wiki/Libraries/Proposals/SemigroupMonoid) (Herbert Valerio Riedel)
+-  Phase 2 of the [Semigroup-Monoid Proposal](https://prime.haskell.org/wiki/Libraries/Proposals/SemigroupMonoid) (Herbert Valerio Riedel)
 
 - Further refinement of `TypeInType` including improved error messages.
 
 ### Compiler
 
--   A new syntax tree representation based on [ Trees That Grow](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf). This will make it easier for external users to add their own annotations to the HsSyn AST.  In future this should allow Shayan Najd to harmonise the GHC and Template Haskell ASTs, and for the ghc-exactprint annotations to move into the GHC parsed AST (Shayan Najd and Alan Zimmerman).
+-   A new syntax tree representation based on [Trees That Grow](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf). This will make it easier for external users to add their own annotations to the HsSyn AST.  In future this should allow Shayan Najd to harmonise the GHC and Template Haskell ASTs, and for the ghc-exactprint annotations to move into the GHC parsed AST (Shayan Najd and Alan Zimmerman).
 
 -   Further stabilization of the Backpack module system (Edward Yang)
 
@@ -34,9 +34,9 @@ of user-facing changes.
 >
 >
 
--   Improved leverage of join-points: By floating out the “exit path” as a join point of a recursive function, we expose more opportunities for inlining to the simplifier. In the case of nested loops, this can make inner loops allocation-free! (see [\#14152](https://gitlab.haskell.org//ghc/ghc/issues/14152), Joachim Brietner)
+-   Improved leverage of join-points: By floating out the “exit path” as a join point of a recursive function, we expose more opportunities for inlining to the simplifier. In the case of nested loops, this can make inner loops allocation-free! (see [\#14152](https://gitlab.haskell.org/ghc/ghc/issues/14152), Joachim Brietner)
 
--   Serialisation performance of `Typeable` has improved ([\#14254](https://gitlab.haskell.org//ghc/ghc/issues/14254), David Feuer)
+-   Serialisation performance of `Typeable` has improved ([\#14254](https://gitlab.haskell.org/ghc/ghc/issues/14254), David Feuer)
 
 -   Improved SIMD support. While previous GHC versions supported a variety
 
@@ -184,7 +184,7 @@ between, please come speak to us either on IRC (`#ghc` on
 
 >
 >
-> \<[ https://haskell.org/ghc/](https://haskell.org/ghc/)\>
+> \<[https://haskell.org/ghc/](https://haskell.org/ghc/)\>
 >
 >
 
@@ -192,7 +192,7 @@ between, please come speak to us either on IRC (`#ghc` on
 
 >
 >
-> \<[ https://downloads.haskell.org/\~ghc/master/users-guide/](https://downloads.haskell.org/~ghc/master/users-guide/)\>
+> \<[https://downloads.haskell.org/\~ghc/master/users-guide/](https://downloads.haskell.org/~ghc/master/users-guide/)\>
 >
 >
 
@@ -200,7 +200,7 @@ between, please come speak to us either on IRC (`#ghc` on
 
 >
 >
-> \<[ https://mail.haskell.org/mailman/listinfo/ghc-devs](https://mail.haskell.org/mailman/listinfo/ghc-devs)\>
+> \<[https://mail.haskell.org/mailman/listinfo/ghc-devs](https://mail.haskell.org/mailman/listinfo/ghc-devs)\>
 >
 >
 

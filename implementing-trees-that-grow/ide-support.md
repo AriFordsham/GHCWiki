@@ -8,7 +8,7 @@ In this page, we discuss the possibility of using Trees that Grow to provide alt
 Proposed by Alan Zimmerman
 
 
-Original discussion on `ghc-devs`: [ https://mail.haskell.org/pipermail/ghc-devs/2018-May/015721.html](https://mail.haskell.org/pipermail/ghc-devs/2018-May/015721.html)
+Original discussion on `ghc-devs`: [https://mail.haskell.org/pipermail/ghc-devs/2018-May/015721.html](https://mail.haskell.org/pipermail/ghc-devs/2018-May/015721.html)
 
 ## Motivation
 
@@ -35,9 +35,9 @@ This can be achieved by making use of the mechanics listed below. If it turns ou
 
 
 
-(1) [ https://hackage.haskell.org/package/HaRe](https://hackage.haskell.org/package/HaRe) 
+(1) [https://hackage.haskell.org/package/HaRe](https://hackage.haskell.org/package/HaRe) 
 
-(2) [ https://hackage.haskell.org/package/ghc-exactprint](https://hackage.haskell.org/package/ghc-exactprint)
+(2) [https://hackage.haskell.org/package/ghc-exactprint](https://hackage.haskell.org/package/ghc-exactprint)
 
 
 ## Mechanics
@@ -93,9 +93,9 @@ This will probably be based on the approach currently taken in `Coda` [(4)](impl
 
 
 
-(3) [ https://github.com/haskell/haskell-ide-engine](https://github.com/haskell/haskell-ide-engine) 
+(3) [https://github.com/haskell/haskell-ide-engine](https://github.com/haskell/haskell-ide-engine) 
 
-(4) [ https://github.com/ekmett/coda](https://github.com/ekmett/coda)
+(4) [https://github.com/ekmett/coda](https://github.com/ekmett/coda)
 
 
 ## Even Longer Term
@@ -106,6 +106,6 @@ Incremental renaming and type checking.  See related work at [(1)](implementing-
 
 
 
-(1) [ https://arxiv.org/pdf/1805.00155.pdf](https://arxiv.org/pdf/1805.00155.pdf)
+(1) [https://arxiv.org/pdf/1805.00155.pdf](https://arxiv.org/pdf/1805.00155.pdf)
 
 

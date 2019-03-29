@@ -58,7 +58,7 @@ allocaBytes n action = do
 ```
 
 
-Great! However, as evidenced by [\#14346](https://gitlab.haskell.org//ghc/ghc/issues/14346), there is a problem. The correctness of the above code hinges on the presence of `touch#` (without it, the GC is free to pick up `a` before `action p` finishes), but GHC's optimizer doesn't actually know this. Specifically, if `action` can be proven to never return, then the dead code elimination optimization will happily delete the `touch#` and `return` parts, and we're back at square 1.
+Great! However, as evidenced by [\#14346](https://gitlab.haskell.org/ghc/ghc/issues/14346), there is a problem. The correctness of the above code hinges on the presence of `touch#` (without it, the GC is free to pick up `a` before `action p` finishes), but GHC's optimizer doesn't actually know this. Specifically, if `action` can be proven to never return, then the dead code elimination optimization will happily delete the `touch#` and `return` parts, and we're back at square 1.
 
 
 The first workaround for this was to add a `NOINLINE` pragma on `allocaBytes` - without inlining `allocaBytes`, the dead code elimination stops at the function boundary, and cannot proceed to removing `touch#`, because:

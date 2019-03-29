@@ -3,7 +3,7 @@
 # Using SIMD Instructions via the LLVM Backend
 
 
-The LLVM compiler tools targeted by GHC's [LLVM backend](commentary/compiler/backends/llvm) support a generic [ vector type](http://llvm.org/docs/LangRef.html#t_vector) of arbitrary, but fixed length whose elements may be any LLVM scalar type. In addition to three [ vector operations](http://llvm.org/docs/LangRef.html#vectorops), LLVM's operations on scalars are overloaded to work on vector types as well. LLVM compiles operations on vector types to target-specific SIMD instructions, such as those of the SSE, AVX, and NEON instruction set extensions. As the capabilities of the various versions of SSE, AVX, and NEON vary widely, LLVM's code generator maps operations on LLVM's generic vector type to the more limited capabilities of the various hardware targets.
+The LLVM compiler tools targeted by GHC's [LLVM backend](commentary/compiler/backends/llvm) support a generic [vector type](http://llvm.org/docs/LangRef.html#t_vector) of arbitrary, but fixed length whose elements may be any LLVM scalar type. In addition to three [ vector operations](http://llvm.org/docs/LangRef.html#vectorops), LLVM's operations on scalars are overloaded to work on vector types as well. LLVM compiles operations on vector types to target-specific SIMD instructions, such as those of the SSE, AVX, and NEON instruction set extensions. As the capabilities of the various versions of SSE, AVX, and NEON vary widely, LLVM's code generator maps operations on LLVM's generic vector type to the more limited capabilities of the various hardware targets.
 
 
 The SIMD vector extension to GHC proposed here maps to LLVM's vector type in a straight forward manner, which in turn enables us to target a wide range of hardware capabilities. However, GHC's native code generator will simply map SIMD vector operations to ordinary scalar code (in order to avoid having to deal with the complexities of SSE, AVX, NEON, etc).
@@ -12,7 +12,7 @@ The SIMD vector extension to GHC proposed here maps to LLVM's vector type in a s
 
 
 
-Intel and AMD CPUs use the [ SSE family](http://en.wikipedia.org/wiki/Streaming_SIMD_Extensions) of extensions and, more recently (since Q1 2011), the [ AVX](http://en.wikipedia.org/wiki/Advanced_Vector_Extensions) extensions.  ARM CPUs (Cortex A series) use the [ NEON](http://www.arm.com/products/processors/technologies/neon.php) extensions. Variations between different families of SIMD extensions and between different family members in one family of extensions include the following:
+Intel and AMD CPUs use the [SSE family](http://en.wikipedia.org/wiki/Streaming_SIMD_Extensions) of extensions and, more recently (since Q1 2011), the [ AVX](http://en.wikipedia.org/wiki/Advanced_Vector_Extensions) extensions.  ARM CPUs (Cortex A series) use the [ NEON](http://www.arm.com/products/processors/technologies/neon.php) extensions. Variations between different families of SIMD extensions and between different family members in one family of extensions include the following:
 
 
 <table><tr><th><b>Register width</b></th>
@@ -65,7 +65,7 @@ SIMD vector types: `IntVec#`, `Int8Vec#`, `Int16Vec#`, `Int32Vec#`, `Int64Vec#`,
 Vector length constants: `intVecLen`, `intVec8Len`, `intVec16Len`, `intVec32Len`, `intVec64Len`, `wordVecLen`, `wordVec8Len`, `wordVec16Len`, `wordVec32Len`, `wordVec64Len`, `floatVecLen`, and `doubleVecLen`.  Each of these constants is of type `Int#`.
 
 
-LLVM's [ vector operations:](http://llvm.org/docs/LangRef.html#vectorops) (`INT32`, `INT64`, `WORD32`, and `WORD64` are defined as `primops.txt.pp`)
+LLVM's [vector operations:](http://llvm.org/docs/LangRef.html#vectorops) (`INT32`, `INT64`, `WORD32`, and `WORD64` are defined as `primops.txt.pp`)
 
 ```wiki
 extractIntVec#    :: IntVec#    -> Int# -> Int#
@@ -125,9 +125,9 @@ expFloatVec#, logFloatVec#, sqrtFloatVec#,
 ```
 
 
-NB: The [ LLVM reference](http://llvm.org/docs/LangRef.html) states that LLVM doesn't currently support comparisons on vector types. Once that becomes available, we may want to support it as well.
+NB: The [LLVM reference](http://llvm.org/docs/LangRef.html) states that LLVM doesn't currently support comparisons on vector types. Once that becomes available, we may want to support it as well.
 
-## Using SIMD instructions in Data Parallel Haskell ([ DPH](http://www.haskell.org/haskellwiki/GHC/Data_Parallel_Haskell))
+## Using SIMD instructions in Data Parallel Haskell ([DPH](http://www.haskell.org/haskellwiki/GHC/Data_Parallel_Haskell))
 
 
 In DPH, we will use the new SIMD instructions by suitably modifying the definition of the lifted versions of arithmetic and other operations that we would like to accelerate. These lifted operations are defined in the `dph-common` package and made accessible to the vectoriser via [VECTORISE pragmas](data-parallel/vect-pragma). Many of them currently use `VECTORISE SCALAR` pragmas, such as

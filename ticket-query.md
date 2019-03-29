@@ -195,14 +195,14 @@ but is deprecated.
 </td>
 <th>Last 3 modified tickets: 
 </th>
-<th><b><a href="https://gitlab.haskell.org//ghc/ghc/issues/18">#18</a>, <a href="https://gitlab.haskell.org//ghc/ghc/issues/19">#19</a>, <a href="https://gitlab.haskell.org//ghc/ghc/issues/20">#20</a></b>
+<th><b><a href="https://gitlab.haskell.org/ghc/ghc/issues/18">#18</a>, <a href="https://gitlab.haskell.org/ghc/ghc/issues/19">#19</a>, <a href="https://gitlab.haskell.org/ghc/ghc/issues/20">#20</a></b>
 </th>
 <th> <tt>[[TicketQuery(max=3,order=modified,desc=1,compact)]]</tt> 
 </th></tr>
 <tr><td>
 </td>
 <th>
-Details of ticket <a href="https://gitlab.haskell.org//ghc/ghc/issues/1">#1</a>:
+Details of ticket <a href="https://gitlab.haskell.org/ghc/ghc/issues/1">#1</a>:
 
 
 </th>
@@ -248,7 +248,7 @@ Details of ticket <a href="https://gitlab.haskell.org//ghc/ghc/issues/1">#1</a>:
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1">#1</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/1">#1</a></th>
 <td>
                     
                   
@@ -322,7 +322,7 @@ Details of ticket <a href="https://gitlab.haskell.org//ghc/ghc/issues/1">#1</a>:
 ## Using the `[[TicketQuery]]` Macro
 
 
-The [ TicketQuery](http://trac.edgewall.org/intertrac/TicketQuery) macro lets you display lists of tickets matching certain criteria anywhere you can use [WikiFormatting](wiki-formatting).
+The [TicketQuery](http://trac.edgewall.org/intertrac/TicketQuery) macro lets you display lists of tickets matching certain criteria anywhere you can use [WikiFormatting](wiki-formatting).
 
 
 Example:
@@ -354,7 +354,7 @@ This is displayed as:
 
 >
 >
-> <table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/123">#123</a></th>
+> <table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/123">#123</a></th>
 > <td>Unix manual pages not in release bundles</td></tr></table>
 >
 >

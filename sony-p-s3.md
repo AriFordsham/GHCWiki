@@ -1,6 +1,6 @@
 
 Assuming a Yellow Dog Linux install on the Sony PS3, you can get working ghc binaries (in rpm form) for ppc from 
-[ Fedora Extras Repository](http://download.fedora.redhat.com/pub/fedora/linux/extras/5/ppc/repoview/G.group.html)
+[Fedora Extras Repository](http://download.fedora.redhat.com/pub/fedora/linux/extras/5/ppc/repoview/G.group.html)
 
 
 

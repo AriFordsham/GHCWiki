@@ -1,7 +1,7 @@
 ## Why?
 
 
-To make arithmetic safer: [ http://article.gmane.org/gmane.comp.lang.haskell.ghc.devel/9103](http://article.gmane.org/gmane.comp.lang.haskell.ghc.devel/9103)
+To make arithmetic safer: [http://article.gmane.org/gmane.comp.lang.haskell.ghc.devel/9103](http://article.gmane.org/gmane.comp.lang.haskell.ghc.devel/9103)
 
 ## What's already there?
 
@@ -14,7 +14,7 @@ To make arithmetic safer: [ http://article.gmane.org/gmane.comp.lang.haskell.ghc
 ## TODO
 
 
-- Add `subWordC#` as a primop.  DONE [ https://github.com/ghc/ghc/commit/8160f42b8dad33e47b4c73ed3f9bf889462e7bfe](https://github.com/ghc/ghc/commit/8160f42b8dad33e47b4c73ed3f9bf889462e7bfe)
+- Add `subWordC#` as a primop.  DONE [https://github.com/ghc/ghc/commit/8160f42b8dad33e47b4c73ed3f9bf889462e7bfe](https://github.com/ghc/ghc/commit/8160f42b8dad33e47b4c73ed3f9bf889462e7bfe)
 - Add overflow-aware `absInt#` (for the `abs minBound` case).
 - Add overflow-aware shifts for `Int#` and `Word#`.
 - Maybe look at the bottom of `libraries/integer-gmp/src/GHC/Integer/Type.hs` for inspiration.
@@ -22,7 +22,7 @@ To make arithmetic safer: [ http://article.gmane.org/gmane.comp.lang.haskell.ghc
 ## How do I add a new primop?
 
 
-See the guide at [ https://ghc.haskell.org/trac/ghc/wiki/Commentary/PrimOps\#AddinganewPrimOp](https://ghc.haskell.org/trac/ghc/wiki/Commentary/PrimOps#AddinganewPrimOp)
+See the guide at [https://ghc.haskell.org/trac/ghc/wiki/Commentary/PrimOps\#AddinganewPrimOp](https://ghc.haskell.org/trac/ghc/wiki/Commentary/PrimOps#AddinganewPrimOp)
 
 
 I need to add *inline* primops since `addIntC#` & co. are all inline.
@@ -35,7 +35,7 @@ So, I only need to touch these files:
 
 There's also a tutorial on adding an *out-of-line* primop, but some
 bits of it may be useful (e.g., building GHC after making changes):
-[ https://ghc.haskell.org/trac/ghc/wiki/AddingNewPrimitiveOperations](https://ghc.haskell.org/trac/ghc/wiki/AddingNewPrimitiveOperations)
+[https://ghc.haskell.org/trac/ghc/wiki/AddingNewPrimitiveOperations](https://ghc.haskell.org/trac/ghc/wiki/AddingNewPrimitiveOperations)
 
 ## Where is C-- generated?
 

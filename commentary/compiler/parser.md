@@ -6,8 +6,8 @@
 
 The parser is written using
 
-- [ Alex](http://www.haskell.org/alex/), for lexical analysis.  Source file [compiler/parser/Lexer.x](/trac/ghc/browser/ghc/compiler/parser/Lexer.x)
-- [ Happy](http://www.haskell.org/happy/), for the parser itself.  Source file [compiler/parser/Parser.y](/trac/ghc/browser/ghc/compiler/parser/Parser.y).
+- [Alex](http://www.haskell.org/alex/), for lexical analysis.  Source file [compiler/parser/Lexer.x](/trac/ghc/browser/ghc/compiler/parser/Lexer.x)
+- [Happy](http://www.haskell.org/happy/), for the parser itself.  Source file [compiler/parser/Parser.y](/trac/ghc/browser/ghc/compiler/parser/Parser.y).
 - `RdrHsSyn`, for Haskell support functions.  Source file [compiler/parser/RdrHsSyn.hs](/trac/ghc/browser/ghc/compiler/parser/RdrHsSyn.hs)
 
 ## Principles
@@ -44,7 +44,7 @@ The main point is this.  If you are changing the parser, feel free to make it ac
 ## Avoiding right-recursion
 
 
-Be sure to read [ this section](https://www.haskell.org/happy/doc/html/sec-sequences.html) of the Happy manual for tips on avoiding right recursion.  In GHC, the preferred method is using a left-recursive `OrdList`, as below:
+Be sure to read [this section](https://www.haskell.org/happy/doc/html/sec-sequences.html) of the Happy manual for tips on avoiding right recursion.  In GHC, the preferred method is using a left-recursive `OrdList`, as below:
 
 ```wiki
 foolist :: { OrdList Foo }

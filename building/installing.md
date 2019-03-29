@@ -110,7 +110,7 @@ Note that you will not then be able to actually run the compiler from this locat
 ## The installed copy of MinGW on Windows
 
 
-On Windows, GHC also comes with a copy of (most of) [ MinGW](http://www.mingw.org), in `$(prefix)/mingw`.  So for instance, you can invoke the `gcc` that comes with GHC as `$(prefix)/mingw/bin/gcc` (replacing `$(prefix)` appropriately).
+On Windows, GHC also comes with a copy of (most of) [MinGW](http://www.mingw.org), in `$(prefix)/mingw`.  So for instance, you can invoke the `gcc` that comes with GHC as `$(prefix)/mingw/bin/gcc` (replacing `$(prefix)` appropriately).
 
 ## How GHC finds its files
 

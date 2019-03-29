@@ -1,7 +1,7 @@
 # Polymorphic record patterns (***speculative*** future)
 
 
-John Meacham has requested the ability to put polymorphic record syntax in a pattern. [ http://www.haskell.org/pipermail/glasgow-haskell-users/2012-February/021918.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2012-February/021918.html)
+John Meacham has requested the ability to put polymorphic record syntax in a pattern. [http://www.haskell.org/pipermail/glasgow-haskell-users/2012-February/021918.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2012-February/021918.html)
 
 
 Without trying to match his request exactly, here's a possible desugarring within the DORF framework. (I am not suggesting this gets implemented until we've more experience with DORF.)

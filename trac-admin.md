@@ -532,6 +532,6 @@ wiki upgrade
 
 
 
-See also: [TracGuide](trac-guide), [TracBackup](trac-backup), [TracPermissions](trac-permissions), [TracEnvironment](trac-environment), [TracIni](trac-ini), [ TracMigrate](http://trac.edgewall.org/intertrac/TracMigrate)
+See also: [TracGuide](trac-guide), [TracBackup](trac-backup), [TracPermissions](trac-permissions), [TracEnvironment](trac-environment), [TracIni](trac-ini), [TracMigrate](http://trac.edgewall.org/intertrac/TracMigrate)
 
 

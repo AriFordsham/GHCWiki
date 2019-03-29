@@ -1,8 +1,8 @@
 # Using Amazon EC2 for building GHC
 
-[ Amazon EC2](http://aws.amazon.com/ec2/) is a way to get access to
+[Amazon EC2](http://aws.amazon.com/ec2/) is a way to get access to
 remote compute server capabilities, for which you pay by the hour.  It
-costs [ pennies per hour](http://aws.amazon.com/ec2/pricing), so it's
+costs [pennies per hour](http://aws.amazon.com/ec2/pricing), so it's
 perfect for doing the occasional GHC build if
 
 - you are cycle-challenged. e.g. I (simonmar) use this when I'm
@@ -39,17 +39,17 @@ under 30 minutes.
 
 
 Set up access to EC2 using the
-[ Amazon instructions](http://docs.amazonwebservices.com/AWSEC2/latest/GettingStartedGuide/): get as far as being able to fire up an instance
+[Amazon instructions](http://docs.amazonwebservices.com/AWSEC2/latest/GettingStartedGuide/): get as far as being able to fire up an instance
 and SSH to it.
 
 
 Using the
-[ ElasticFox Firefox plugin](http://developer.amazonwebservices.com/connect/entry.jspa?externalID=609) is a good way to keep an eye on things from
+[ElasticFox Firefox plugin](http://developer.amazonwebservices.com/connect/entry.jspa?externalID=609) is a good way to keep an eye on things from
 Firefox, it's a more responsive alternative to using the web-based
 management tool.
 
 
-You'll need to install the [ Amazon EC2 command-line tools](http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/), which require Java to be installed (unfortunately).  Install the up-to-date versions from Amazon, not the ones from your Linux distro (even the ones in Ubuntu 9.10 are too outdated).  Follow the instructions, and check that things are working by running `ec2-describe-instances`.
+You'll need to install the [Amazon EC2 command-line tools](http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/), which require Java to be installed (unfortunately).  Install the up-to-date versions from Amazon, not the ones from your Linux distro (even the ones in Ubuntu 9.10 are too outdated).  Follow the instructions, and check that things are working by running `ec2-describe-instances`.
 
 
 Add to your `.bash_profile`, or equivalent (replacing keys as appropriate):
@@ -92,7 +92,7 @@ particular AMI: `ami-916c81f8`.  This is an EBS-backed image with
 
 
 This AMI is in the US-East region for now, because that's where I
-found the Ubuntu EBS-backed AMI that I used as a base.  Ubuntu [ plan to make EBS-backed images](https://wiki.ubuntu.com/ServerLucidEc2EBSRoot) of future releases, so this should get easier.  (see below for more AMIs you can use).
+found the Ubuntu EBS-backed AMI that I used as a base.  Ubuntu [plan to make EBS-backed images](https://wiki.ubuntu.com/ServerLucidEc2EBSRoot) of future releases, so this should get easier.  (see below for more AMIs you can use).
 
 
 Why EBS-backed? This means the image is backed by a persistent disk,
@@ -107,7 +107,7 @@ so the script will copy up the file `~/.screenrc` if it exists.
 
 
 The script is set up to create a
-[ spot instance](http://aws.amazon.com/ec2/spot-instances/) request for
+[spot instance](http://aws.amazon.com/ec2/spot-instances/) request for
 a `c1.medium` instance, and then wait for it to be fulfilled.  This is
 cheaper than just creating an ordinary instance - the price varies
 depending on demand, but it seems to hover around $0.06 for
@@ -153,7 +153,7 @@ We've prepared the following AMIs for GHC development:
 ## Notes on how to create a new EBS image
 
 
-Ubuntu EBS images are listed at [ http://uec-images.ubuntu.com/releases/](http://uec-images.ubuntu.com/releases/).  e.g. for Lucid,  [ http://uec-images.ubuntu.com/releases/10.04/release/](http://uec-images.ubuntu.com/releases/10.04/release/).
+Ubuntu EBS images are listed at [http://uec-images.ubuntu.com/releases/](http://uec-images.ubuntu.com/releases/).  e.g. for Lucid,  [ http://uec-images.ubuntu.com/releases/10.04/release/](http://uec-images.ubuntu.com/releases/10.04/release/).
 
 
 Start a new instance with the appropriate AMI, and SSH into it.

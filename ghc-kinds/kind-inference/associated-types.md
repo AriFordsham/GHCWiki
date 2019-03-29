@@ -93,7 +93,7 @@ declaration for an associated types.  Here is a running example:
 
 Note that if we adopt (B) we should do so consistently in other related situations. For example:
 
-- Trac [\#15895](https://gitlab.haskell.org//ghc/ghc/issues/15895)
+- Trac [\#15895](https://gitlab.haskell.org/ghc/ghc/issues/15895)
 
   ```wiki
   class Ríki ob where
@@ -106,7 +106,7 @@ Note that if we adopt (B) we should do so consistently in other related situatio
     io a = a           --  or              forall (a::Type). Arr @Type a a
   ```
 
-- Trac [\#14111](https://gitlab.haskell.org//ghc/ghc/issues/14111) comment:2
+- Trac [\#14111](https://gitlab.haskell.org/ghc/ghc/issues/14111) comment:2
 
   ```wiki
   data family   F (a :: k)

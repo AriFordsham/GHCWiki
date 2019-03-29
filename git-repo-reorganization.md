@@ -1,4 +1,4 @@
-# Git Repository Reorganization ([\#8545](https://gitlab.haskell.org//ghc/ghc/issues/8545))
+# Git Repository Reorganization ([\#8545](https://gitlab.haskell.org/ghc/ghc/issues/8545))
 
 
 The content on this page is still work in progress
@@ -60,7 +60,7 @@ See also some older notes: [DarcsConversion\#Theperspectiveonsubmodules](darcs-c
 
 - based on the current access patterns, a few repositories are modified often (specifically,  ghc.git and testsuite.git are often updated in a inter-dependent way); most repositories aren't updated for several weeks; therefore some of the issues outlined with the usability of submodules might have less weight here.
 
-- Tooling is required, as discussed in [ this ghc-devs@ posting](http://permalink.gmane.org/gmane.comp.lang.haskell.ghc.devel/2718) .
+- Tooling is required, as discussed in [this ghc-devs@ posting](http://permalink.gmane.org/gmane.comp.lang.haskell.ghc.devel/2718) .
 
 ### Simple migration plan
 

@@ -34,7 +34,7 @@ Other pages
 The `Integer` type is now provided by a separate `integer` package, which provides an API that hides the implementation details. By default this is `integer-gmp`. To change it, set `INTEGER_LIBRARY=integer-foo` in `mk/build.mk`.
 
 
-There is an alternative implementation [ integer-simple](http://git.haskell.org/packages/integer-simple.git), although as we don't regularly test builds with it you may need to make a few tweaks to get it to work. `integer-simple` is intended to be easily understood, entirely Haskell code that is *fast enough*. For serious number crunching one of the highly tuned big integer libraries will be needed, but hopefully `integer-simple` will suffice for normal use. In order to test this, we need to do some testing, e.g. nofib runs.
+There is an alternative implementation [integer-simple](http://git.haskell.org/packages/integer-simple.git), although as we don't regularly test builds with it you may need to make a few tweaks to get it to work. `integer-simple` is intended to be easily understood, entirely Haskell code that is *fast enough*. For serious number crunching one of the highly tuned big integer libraries will be needed, but hopefully `integer-simple` will suffice for normal use. In order to test this, we need to do some testing, e.g. nofib runs.
 
 
 It would also be interesting to separate out the `J#/S#` wrapper from the GMP `Integer`, and to compare all 4 combinations: `GMP`, `GMP+J#/S#`, `simple`, `simple+S#/J#`.
@@ -45,10 +45,10 @@ If `integer-simple` is indeed fast enough, then I think that it solves all of th
 ### Introduction
 
 
-This task was started following [ Task \#601](http://hackage.haskell.org/trac/ghc/ticket/601), while these Notes were requested by [ Simon Peyton-Jones](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010676.html).
+This task was started following [Task \#601](http://hackage.haskell.org/trac/ghc/ticket/601), while these Notes were requested by [ Simon Peyton-Jones](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010676.html).
 
 
-GHC currently implements the Integer and Fractional types by using the [ The GNU MP Bignum Library](http://swox.com/gmp/) (GMP) which supports arbitrary precision mathematical calculations.  GMP is fast, memory efficient, and offers many high level signed integer functions (140 of them), as well as many rational and floating point arithmetic functions.  The current GHC implementation only uses those functions necessary for the Prelude.  
+GHC currently implements the Integer and Fractional types by using the [The GNU MP Bignum Library](http://swox.com/gmp/) (GMP) which supports arbitrary precision mathematical calculations.  GMP is fast, memory efficient, and offers many high level signed integer functions (140 of them), as well as many rational and floating point arithmetic functions.  The current GHC implementation only uses those functions necessary for the Prelude.  
 
 
 GMP memory is integrated with the [RunTime System's](commentary/rts) (RTS's) [Storage Manager](commentary/rts/storage) (SM)--the RTS's Garbage Collector (GC).  GMP memory is allocated from the GC heap, so values produced by GMP are under the control of the RTS and its GC.  The current implementation is memory efficient while allowing the RTS and its GC to maintain control of GMP evaluations.
@@ -57,18 +57,18 @@ GMP memory is integrated with the [RunTime System's](commentary/rts) (RTS's) [St
 If you want to help with replacing GMP or do it yourself, you will have to work with the GC and RTS system.  The parts you will have to modify are written in C and C--, with configuration and assembly done through the Makefiles.  You should have an understanding of:
 
 - how the GC works and how memory from GMP is integrated with it;
-- some C--/Cmm (this is fairly basic if you know C well, though the same adage for knowing C well holds for C--: if you know Assembler well enough to  understand and debug C in it you will be much better off), the only real documentation on C-- itself is in the [ C-- manual (PDF)](http://cminusminus.org/extern/man2.pdf), from cminusminus.org; the implementation of C-- for GHC is performed by several Haskell modules in the directory [compiler/cmm/](/trac/ghc/browser/ghc/compiler/cmm/) of the HEAD branch, see [ http://darcs.haskell.org/ghc](http://darcs.haskell.org/ghc)), and see [the new Commentary Cmm page](commentary/compiler/cmm-type); and,
+- some C--/Cmm (this is fairly basic if you know C well, though the same adage for knowing C well holds for C--: if you know Assembler well enough to  understand and debug C in it you will be much better off), the only real documentation on C-- itself is in the [C-- manual (PDF)](http://cminusminus.org/extern/man2.pdf), from cminusminus.org; the implementation of C-- for GHC is performed by several Haskell modules in the directory [compiler/cmm/](/trac/ghc/browser/ghc/compiler/cmm/) of the HEAD branch, see [ http://darcs.haskell.org/ghc](http://darcs.haskell.org/ghc)), and see [the new Commentary Cmm page](commentary/compiler/cmm-type); and,
 - makefiles and configuration scripts.
 
 
-A guide to GHC primitives is available (in an unformatted version) in [/compiler/prelude/primops.txt.pp](/trac/ghc/browser/ghc//compiler/prelude/primops.txt.pp); there is a formatted version (from the latest build) at [http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html).  (See [The (new) GHC Commentary](commentary) [PrimOps](commentary/prim-ops) page for an excellent description of how primitive operations are implemented.  A highly recommended introduction directly related to GMP is [AddingNewPrimitiveOperations](adding-new-primitive-operations).) In primops.txt.pp--better yet, [GHC.Prim](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html)--you might want to search for the text `"section "The word size story.""`, and especially the text `"section "Integer#""` or just go to [The word size story](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html#1) and [Integer](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html#8).   The Haskell definition of the Integer data type is in [ /packages/base/GHC/Num.lhs](http://darcs.haskell.org/packages/base/GHC/Num.lhs).
+A guide to GHC primitives is available (in an unformatted version) in [/compiler/prelude/primops.txt.pp](/trac/ghc/browser/ghc//compiler/prelude/primops.txt.pp); there is a formatted version (from the latest build) at [http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html).  (See [The (new) GHC Commentary](commentary) [PrimOps](commentary/prim-ops) page for an excellent description of how primitive operations are implemented.  A highly recommended introduction directly related to GMP is [AddingNewPrimitiveOperations](adding-new-primitive-operations).) In primops.txt.pp--better yet, [GHC.Prim](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html)--you might want to search for the text `"section "The word size story.""`, and especially the text `"section "Integer#""` or just go to [The word size story](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html#1) and [Integer](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html#8).   The Haskell definition of the Integer data type is in [/packages/base/GHC/Num.lhs](http://darcs.haskell.org/packages/base/GHC/Num.lhs).
 
 
 
 Other basic recommended reading is:
 
-- [ The (old) GHC Commentary](http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/): [ The Native Code Generator](http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/the-beast/ncg.html); and,
-- [ The (old) GHC Commentary](http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/): [ Style Guidelines for RTS C code](http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/rts-libs/coding-style.html) or [The (new) GHC Commentary](commentary): [Style Conventions for RTS C Code](commentary/rts/conventions).
+- [The (old) GHC Commentary](http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/): [ The Native Code Generator](http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/the-beast/ncg.html); and,
+- [The (old) GHC Commentary](http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/): [ Style Guidelines for RTS C code](http://www.cse.unsw.edu.au/~chak/haskell/ghc/comm/rts-libs/coding-style.html) or [The (new) GHC Commentary](commentary): [Style Conventions for RTS C Code](commentary/rts/conventions).
 
 #### *Caveat*
 
@@ -88,13 +88,13 @@ There are several problems with the current GMP implementation:
 
 >
 >
-> GMP is licensed under the [ GNU Lesser General Public License](http://www.gnu.org/copyleft/lesser.html) (LGPL), a kind of "copyleft" license.  According to the terms of the LGPL, paragraph 5, you may distribute a program that is designed to be compiled and dynamically linked with the library under the terms of your choice (i.e., commercially) but if your program incorporates portions of the library, if it is linked statically, then your program is a "derivative"--a "work based on the library"--and according to paragraph 2, section c, you "must cause the whole of the work to be licensed" *under the terms of the LGPL* (including for free).  
+> GMP is licensed under the [GNU Lesser General Public License](http://www.gnu.org/copyleft/lesser.html) (LGPL), a kind of "copyleft" license.  According to the terms of the LGPL, paragraph 5, you may distribute a program that is designed to be compiled and dynamically linked with the library under the terms of your choice (i.e., commercially) but if your program incorporates portions of the library, if it is linked statically, then your program is a "derivative"--a "work based on the library"--and according to paragraph 2, section c, you "must cause the whole of the work to be licensed" *under the terms of the LGPL* (including for free).  
 >
 >
 
 >
 >
-> The LGPL licensing for GMP is a problem for the overall licensing of binary programs compiled with GHC because most distributions (and builds) of GHC use static libraries.  (Dynamic libraries are currently distributed only for OS X.)  The LGPL licensing situation may be worse: even though [ The Glasgow Haskell Compiler License](http://cvs.haskell.org/cgi-bin/cvsweb.cgi/fptools/ghc/LICENSE?rev=1.1.26.1;content-type=text%2Fplain) is essentially a "free software" license (BSD3), according to paragraph 2 of the LGPL, GHC must be distributed under the terms of the LGPL!
+> The LGPL licensing for GMP is a problem for the overall licensing of binary programs compiled with GHC because most distributions (and builds) of GHC use static libraries.  (Dynamic libraries are currently distributed only for OS X.)  The LGPL licensing situation may be worse: even though [The Glasgow Haskell Compiler License](http://cvs.haskell.org/cgi-bin/cvsweb.cgi/fptools/ghc/LICENSE?rev=1.1.26.1;content-type=text%2Fplain) is essentially a "free software" license (BSD3), according to paragraph 2 of the LGPL, GHC must be distributed under the terms of the LGPL!
 >
 >
 
@@ -102,13 +102,13 @@ There are several problems with the current GMP implementation:
 
 >
 >
-> In the current GMP implementation, GMP is configured to use GHC's GC memory and GMP can only have one allocator for memory.  Since any single binary containing Haskell code compiled with GHC contains the RTS and GMP, C code--including foreign calls to GMP from Haskell code (say you need a GMP function that is not a primitive)--in the same binary cannot use GMP.  This problem was noted in [ bug Ticket \#311](http://hackage.haskell.org/trac/ghc/ticket/311).  The Simon Peyton-Jones suggested that a simple renaming of GHC-GMP functions would solve this problem and Bulat Ziganshin suggested simply using an automated tool to do this.  See [ Replacement for GMP](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010679.html).  Different function names would make GMP into a separate, custom GHC library leaving the C part of the program free to use GMP.
+> In the current GMP implementation, GMP is configured to use GHC's GC memory and GMP can only have one allocator for memory.  Since any single binary containing Haskell code compiled with GHC contains the RTS and GMP, C code--including foreign calls to GMP from Haskell code (say you need a GMP function that is not a primitive)--in the same binary cannot use GMP.  This problem was noted in [bug Ticket \#311](http://hackage.haskell.org/trac/ghc/ticket/311).  The Simon Peyton-Jones suggested that a simple renaming of GHC-GMP functions would solve this problem and Bulat Ziganshin suggested simply using an automated tool to do this.  See [ Replacement for GMP](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010679.html).  Different function names would make GMP into a separate, custom GHC library leaving the C part of the program free to use GMP.
 >
 >
 
 >
 >
-> GHC does not have a custom-modified version of GMP (in fact, GHC uses the system build of GMP if that is available).  The memory configuration of GMP uses GMP's [ Custom Allocation](http://swox.com/gmp/manual/Custom-Allocation.html#Custom-Allocation) routines.  Alternative libraries may not have this facility built in.
+> GHC does not have a custom-modified version of GMP (in fact, GHC uses the system build of GMP if that is available).  The memory configuration of GMP uses GMP's [Custom Allocation](http://swox.com/gmp/manual/Custom-Allocation.html#Custom-Allocation) routines.  Alternative libraries may not have this facility built in.
 >
 >
 
@@ -116,7 +116,7 @@ There are several problems with the current GMP implementation:
 
 >
 >
-> Most of the suggestions in this section come from discussions in the glasgow-haskell-users list thread [ returning to Cost of Integer](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010654.html).  In particular, [ John Meacham's suggestion](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010660.html) to use a ForeignPtr to data held by the normal GMP system library and store the value in an unboxed Int if the number of significant digits in Integer could fit into the size of an Int.
+> Most of the suggestions in this section come from discussions in the glasgow-haskell-users list thread [returning to Cost of Integer](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010654.html).  In particular, [ John Meacham's suggestion](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010660.html) to use a ForeignPtr to data held by the normal GMP system library and store the value in an unboxed Int if the number of significant digits in Integer could fit into the size of an Int.
 >
 >
 
@@ -136,19 +136,19 @@ There are several problems with the current GMP implementation:
 >
 >
 >
-> where the Int\# counts the number of [ limbs](http://swox.com/gmp/manual/Nomenclature-and-Types.html#Nomenclature-and-Types) (a GMP term referring to parts of a multi-precision number that fit into a 32 or 64 bit word, depending on the machine) and the ByteArr\# is the actual array in RTS-GC memory holding the limbs.  The sign of the Int\# is used to indicate the sign of the number represented by the ByteArr\#.  
+> where the Int\# counts the number of [limbs](http://swox.com/gmp/manual/Nomenclature-and-Types.html#Nomenclature-and-Types) (a GMP term referring to parts of a multi-precision number that fit into a 32 or 64 bit word, depending on the machine) and the ByteArr\# is the actual array in RTS-GC memory holding the limbs.  The sign of the Int\# is used to indicate the sign of the number represented by the ByteArr\#.  
 >
 >
 
 >
 >
-> This current implementation of Integer means that there are two separate constructors for small and large Integers (S\# Int\# and J\# Int\# ByteArr\#).  The suggestion discussed by [ John Meacham](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010670.html), [ Lennart Augustsson](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010664.html), [ Simon Marlow](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010677.html) and [ Bulat Ziganshin](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010687.html) was to change the representation of Integer so the Int\# does the work of S\# and J\#: the Int\# could be either a pointer to the Bignum library array of limbs or, if the number of significant digits could fit into say, 31 bits, to use the extra bit as an indicator of that fact and hold the entire value in the Int\#, thereby saving the memory from S\# and J\#.  
+> This current implementation of Integer means that there are two separate constructors for small and large Integers (S\# Int\# and J\# Int\# ByteArr\#).  The suggestion discussed by [John Meacham](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010670.html), [ Lennart Augustsson](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010664.html), [ Simon Marlow](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010677.html) and [ Bulat Ziganshin](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010687.html) was to change the representation of Integer so the Int\# does the work of S\# and J\#: the Int\# could be either a pointer to the Bignum library array of limbs or, if the number of significant digits could fit into say, 31 bits, to use the extra bit as an indicator of that fact and hold the entire value in the Int\#, thereby saving the memory from S\# and J\#.  
 >
 >
 
 >
 >
-> [ Bulat Ziganshin and John Meacham](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010688.html) noted a few problems with a 30bit Int: 
+> [Bulat Ziganshin and John Meacham](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010688.html) noted a few problems with a 30bit Int: 
 >
 >
 
@@ -158,7 +158,7 @@ There are several problems with the current GMP implementation:
 ### Files related to GMP in the GHC Compiler Source Code
 
 
-Note: references are relative to the main directory of the source distribution; links below are to the darcs repository at [ http://darcs.haskell.org/ghc](http://darcs.haskell.org/ghc), created with the `[[GhcFile(path/to/file)]]` script (see [Commentary](commentary)).
+Note: references are relative to the main directory of the source distribution; links below are to the darcs repository at [http://darcs.haskell.org/ghc](http://darcs.haskell.org/ghc), created with the `[[GhcFile(path/to/file)]]` script (see [Commentary](commentary)).
 
 - [configure.ac](/trac/ghc/browser/ghc/configure.ac) (*Modify*: remove GMP related material; replace with MP library requirements)
 
@@ -330,6 +330,6 @@ Test suites can be developed and perhaps even borrowed from the gmp development 
 
 
 
-This approach has been started already here: [ http://hackage.haskell.org/trac/ghc/attachment/ticket/601/jmp.c](http://hackage.haskell.org/trac/ghc/attachment/ticket/601/jmp.c)
+This approach has been started already here: [http://hackage.haskell.org/trac/ghc/attachment/ticket/601/jmp.c](http://hackage.haskell.org/trac/ghc/attachment/ticket/601/jmp.c)
 
 

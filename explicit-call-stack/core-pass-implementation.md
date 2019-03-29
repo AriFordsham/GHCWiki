@@ -8,9 +8,9 @@ someone want to take it further, and details future work / problems that need
 addressing.
 
 - [ExplicitCallStack](explicit-call-stack) - read this to get an overview of the idea
-- [ Blog post giving an overview](http://ghcmutterings.wordpress.com/2008/12/04/explicit-stack-traces/)
-- [ Darcs repository with paper sources and patches](http://code.haskell.org/explicitCallStackPaper/)
-- [ Paper describing the work submitted to Haskell Symposium 2009](http://pubs.doc.ic.ac.uk/finding-the-needle/)
+- [Blog post giving an overview](http://ghcmutterings.wordpress.com/2008/12/04/explicit-stack-traces/)
+- [Darcs repository with paper sources and patches](http://code.haskell.org/explicitCallStackPaper/)
+- [Paper describing the work submitted to Haskell Symposium 2009](http://pubs.doc.ic.ac.uk/finding-the-needle/)
 
 
  

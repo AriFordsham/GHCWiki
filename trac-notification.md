@@ -4,7 +4,7 @@
 Trac supports notification of ticket changes via email. 
 
 
-Email notification is useful to keep users up-to-date on tickets/issues of interest, and also provides a convenient way to post all ticket changes to a dedicated mailing list. For example, this is how the [ Trac-tickets](http://lists.edgewall.com/archive/trac-tickets/) mailing list is set up.
+Email notification is useful to keep users up-to-date on tickets/issues of interest, and also provides a convenient way to post all ticket changes to a dedicated mailing list. For example, this is how the [Trac-tickets](http://lists.edgewall.com/archive/trac-tickets/) mailing list is set up.
 
 
 Disabled by default, notification can be activated and configured in [trac.ini](trac-ini).
@@ -426,7 +426,7 @@ For example to unsubscribe from notifications for one's own changes and comments
 ### Customizing the e-mail subject
 
 
-The e-mail subject can be customized with the `ticket_subject_template` option, which contains a [ Genshi text template](http://genshi.edgewall.org/wiki/Documentation/text-templates.html) snippet. The default value is:
+The e-mail subject can be customized with the `ticket_subject_template` option, which contains a [Genshi text template](http://genshi.edgewall.org/wiki/Documentation/text-templates.html) snippet. The default value is:
 
 ```
 $prefix #$ticket.id: $summary
@@ -435,10 +435,10 @@ $prefix #$ticket.id: $summary
 
 The following variables are available in the template:
 
-- `env`: The project environment (see [ env.py](http://trac.edgewall.org/intertrac/source%3A/trunk/trac/env.py)).
+- `env`: The project environment (see [env.py](http://trac.edgewall.org/intertrac/source%3A/trunk/trac/env.py)).
 - `prefix`: The prefix defined in `smtp_subject_prefix`.
 - `summary`: The ticket summary, with the old value if the summary was edited.
-- `ticket`: The ticket model object (see [ model.py](http://trac.edgewall.org/intertrac/source%3A/trunk/trac/ticket/model.py)). Individual ticket fields can be addressed by appending the field name separated by a dot, eg `$ticket.milestone`.
+- `ticket`: The ticket model object (see [model.py](http://trac.edgewall.org/intertrac/source%3A/trunk/trac/ticket/model.py)). Individual ticket fields can be addressed by appending the field name separated by a dot, eg `$ticket.milestone`.
 
 ### Customizing the e-mail content
 
@@ -620,12 +620,12 @@ smtp_password = password
 ```
 
 
-where *user* and *password* match an existing GMail account, ie the ones you use to log in on [ http://gmail.com](http://gmail.com).
+where *user* and *password* match an existing GMail account, ie the ones you use to log in on [http://gmail.com](http://gmail.com).
 
 
 Alternatively, you can use `smtp_port = 25`.
 
-You should not use `smtp_port = 465`. Doing so may deadlock your ticket submission. Port 465 is reserved for the SMTPS protocol, which is not supported by Trac. See [ \#7107](http://trac.edgewall.org/intertrac/comment%3A2%3Aticket%3A7107) for details.
+You should not use `smtp_port = 465`. Doing so may deadlock your ticket submission. Port 465 is reserved for the SMTPS protocol, which is not supported by Trac. See [\#7107](http://trac.edgewall.org/intertrac/comment%3A2%3Aticket%3A7107) for details.
 
 ## Troubleshooting
 
@@ -665,12 +665,12 @@ sudo -u www-data telnet localhost 25
 ```
 
 
-In such a case, you need to configure your server so that the web server is authorized to post to the SMTP server. The actual settings depend on your Linux distribution and current security policy. You may find help in the Trac [ MailingList](http://trac.edgewall.org/intertrac/MailingList) archive.
+In such a case, you need to configure your server so that the web server is authorized to post to the SMTP server. The actual settings depend on your Linux distribution and current security policy. You may find help in the Trac [MailingList](http://trac.edgewall.org/intertrac/MailingList) archive.
 
 
 Relevant ML threads:
 
-- SELinux: [ http://article.gmane.org/gmane.comp.version-control.subversion.trac.general/7518](http://article.gmane.org/gmane.comp.version-control.subversion.trac.general/7518)
+- SELinux: [http://article.gmane.org/gmane.comp.version-control.subversion.trac.general/7518](http://article.gmane.org/gmane.comp.version-control.subversion.trac.general/7518)
 
 
 For SELinux in Fedora 10:
@@ -694,6 +694,6 @@ Quoted printable encoding works better with languages that use one of the Latin 
 
 
 
-See also: [TracTickets](trac-tickets), [TracIni](trac-ini), [TracGuide](trac-guide), [ TracDev/NotificationApi](http://trac.edgewall.org/intertrac/TracDev/NotificationApi)
+See also: [TracTickets](trac-tickets), [TracIni](trac-ini), [TracGuide](trac-guide), [TracDev/NotificationApi](http://trac.edgewall.org/intertrac/TracDev/NotificationApi)
 
 

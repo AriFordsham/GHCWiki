@@ -21,12 +21,12 @@ Any patch submitted to [Phabricator](phabricator) is automatically validated by 
 
 Travis CI is a free-for-open-source continuous integration service. When your patch is not quite ready yet for review on Phabricator, you can let Travis validate it in the privacy of your own Github fork.
 
-- Fork the GHC repository on [ Github](https://github.com/ghc/ghc).
-- Sign up for [ Travis CI](https://travis-ci.org/).
+- Fork the GHC repository on [Github](https://github.com/ghc/ghc).
+- Sign up for [Travis CI](https://travis-ci.org/).
 - During the signup process, flick your ghc repository fork switch on (it will be clear when you sign up).
 - Push your changes to your Github fork (any branch will do).
 - You (and only you) will get an email if your patch failed to build.
-- If you make a fork of any of the submodule repositories (i.e. [ ghc/packages-filepath](https://github.com/ghc/packages-filepath)), Travis will use it instead of the original. This is feature that Phabricator doesn't provide at the moment.
+- If you make a fork of any of the submodule repositories (i.e. [ghc/packages-filepath](https://github.com/ghc/packages-filepath)), Travis will use it instead of the original. This is feature that Phabricator doesn't provide at the moment.
 - Settings are in the file `.travis.yml`, though you shouldn't have to change anything. See the [Travis wiki page](travis) for details.
 
 ### Locally

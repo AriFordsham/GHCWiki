@@ -47,11 +47,11 @@ We keep notes on compiler performance
 
 We have several automated ways of monitoring GHC.  Each has its own detailed description page.
 
-- [Harbormaster](phabricator/harbormaster) is a part of [Phabricator](phabricator), which builds all [ GHC commits](https://phabricator.haskell.org/diffusion/GHC/history/) and incoming patches for testing.
+- [Harbormaster](phabricator/harbormaster) is a part of [Phabricator](phabricator), which builds all [GHC commits](https://phabricator.haskell.org/diffusion/GHC/history/) and incoming patches for testing.
 - [The GHC builders](builder-summary) build GHC every night on multiple platforms.
 - [Travis](travis) also watches the repository for new commits (any branch) and validates them. [](https://travis-ci.org/ghc/ghc/builds)
-- [ Our performance dashboard](http://perf.haskell.org/ghc) monitors changes in the performance of GHC itself, and of programs compiled by GHC, with a per-commit granularity.
-- [ Haskell.org server status page](http://status.haskell.org/)
+- [Our performance dashboard](http://perf.haskell.org/ghc) monitors changes in the performance of GHC itself, and of programs compiled by GHC, with a per-commit granularity.
+- [Haskell.org server status page](http://status.haskell.org/)
 
 ## Components
 
@@ -65,18 +65,18 @@ Template Haskell has its own status page at [TemplateHaskell/Status](template-ha
 - [Status/SLPJ-Tickets](status/slpj-tickets) is a curation of interesting tickets by SPJ
 - The [GHC bug sweep](bug-sweep) attends to lost and forgotten tickets.
 
-- [ A list of all Phabricator patches](https://phabricator.haskell.org/differential/query/dUJ4ndtfSChZ/)
-- [ A list of all Phabricator patches that have been accepted](https://phabricator.haskell.org/differential/query/5LIb9B9n_08b/)
+- [A list of all Phabricator patches](https://phabricator.haskell.org/differential/query/dUJ4ndtfSChZ/)
+- [A list of all Phabricator patches that have been accepted](https://phabricator.haskell.org/differential/query/5LIb9B9n_08b/)
 
 
-GHC's Trac is also used by the [ Haskell Core Libraries Committee](http://www.haskell.org/haskellwiki/Core_Libraries_Committee) to track progress on changes to the [ core libraries](http://www.haskell.org/haskellwiki/Library_submissions#The_Core_Libraries):
+GHC's Trac is also used by the [Haskell Core Libraries Committee](http://www.haskell.org/haskellwiki/Core_Libraries_Committee) to track progress on changes to the [ core libraries](http://www.haskell.org/haskellwiki/Library_submissions#The_Core_Libraries):
 
-- [ Active Core Libraries tickets](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&status=upstream&component=Core+Libraries&col=id&col=summary&col=component&col=status&col=type&col=priority&col=milestone&order=priority) (these tickets have "Component" set to "Core Libraries")
+- [Active Core Libraries tickets](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&status=upstream&component=Core+Libraries&col=id&col=summary&col=component&col=status&col=type&col=priority&col=milestone&order=priority) (these tickets have "Component" set to "Core Libraries")
 
 ## Biannual status reports
 
 
-Here are biannual GHC status reports, published in the [ Haskell Communities and Activities Report](http://haskell.org/communities/)
+Here are biannual GHC status reports, published in the [Haskell Communities and Activities Report](http://haskell.org/communities/)
 
 - [GHC status October 2018](status/oct18)
 - [GHC status April 2018](status/apr18)

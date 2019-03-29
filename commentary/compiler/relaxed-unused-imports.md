@@ -1,7 +1,7 @@
 # Relaxed unused imports
 
 
-See also [\#10117](https://gitlab.haskell.org//ghc/ghc/issues/10117).
+See also [\#10117](https://gitlab.haskell.org/ghc/ghc/issues/10117).
 
 [Unused imports](commentary/compiler/unused-imports) describes how the current unused imports warning works.  An import is unused if it can be deleted without changing the meaning of the program; currently, GHC strives to report all such imports (although it doesn't guarantee that it will do so).
 
@@ -13,7 +13,7 @@ This is achieved is as follows: an import is unused if it can be deleted without
 
 ## Motivation
 
-[ Snoyman reports](http://www.yesodweb.com/blog/2016/05/are-unused-import-warnings-harmful) (with [ reddit discussion](https://www.reddit.com/r/haskell/comments/4jvtmh/are_unused_import_warnings_harmful/)) a common CPP anti-pattern in cross-GHC code:
+[Snoyman reports](http://www.yesodweb.com/blog/2016/05/are-unused-import-warnings-harmful) (with [ reddit discussion](https://www.reddit.com/r/haskell/comments/4jvtmh/are_unused_import_warnings_harmful/)) a common CPP anti-pattern in cross-GHC code:
 
 ```wiki
 #if MIN_VERSION_base(4,8,0)
@@ -30,7 +30,7 @@ The reason the CPP is necessary is because in base-4.8, an export of `pure` was 
 Although the import is technically redundant, it is extremely inconvenient, because a minor, backwards-compatible change to a package caused a redundant import warning to surface. In order for this code to be warning-free on the newer version of base, we must omit `pure` from `Control.Applicative`; however, the older version of base will not compile without this error! Instead, we would like `import Control.Applicative ((<*), pure)` to NOT report any warnings, even if `Prelude` starts exporting `pure`.
 
 
-See also [\#10117](https://gitlab.haskell.org//ghc/ghc/issues/10117) for a problem with a common workaround for this problem.
+See also [\#10117](https://gitlab.haskell.org/ghc/ghc/issues/10117) for a problem with a common workaround for this problem.
 
 ## Specification
 

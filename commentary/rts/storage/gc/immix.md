@@ -2,21 +2,21 @@
 
 
 
-In a [ Google Summer of Code project](http://socghop.appspot.com/gsoc/student_project/show/google/gsoc2010/haskell/t127230760695), [ marcot](http://wiki.debian.org/MarcoSilva) started an implementation of the Immix Garbage Collector in GHC.  It's not in a state where it can be included in GHC yet, but it's functional, don't have known bugs and gets better results than the default GC in the [ nofib](http://www.dcs.gla.ac.uk/fp/software/ghc/nofib.html) suite.  On the other hand, it gets worse results than the default GC for the nofib/gc suite.  The implementation was reported on these blog posts: [ 1](http://marcotmarcot.wordpress.com/2010/05/17/google-summer-of-code-weekly-report-1/) [ 3](http://marcotmarcot.wordpress.com/2010/05/31/summer-of-code-weekly-report-3/) [ 4](http://marcotmarcot.wordpress.com/2010/06/04/summer-of-code-weekly-report-4/) [ 5](http://marcotmarcot.wordpress.com/2010/06/15/summer-of-code-weekly-report-5/) [ 6](http://marcotmarcot.wordpress.com/2010/06/18/immix-on-ghc-summer-of-code-weekly-report-6/) [ 7](http://marcotmarcot.wordpress.com/2010/06/29/immix-on-ghc-summer-of-code-weekly-report-7/) [ 8](http://marcotmarcot.wordpress.com/2010/07/05/immix-on-ghc-summer-of-code-weekly-report-8/) [ 9](http://marcotmarcot.wordpress.com/2010/07/07/immix-on-ghc-summer-of-code-weekly-report-9/) [ 10](http://marcotmarcot.wordpress.com/2010/07/21/immix-on-ghc-summer-of-code-weekly-report-10/) [ 11](http://marcotmarcot.wordpress.com/2010/08/10/immix-on-ghc-summer-of-code-report-11/) [ 12](http://marcotmarcot.wordpress.com/2010/08/13/immix-on-ghc-summer-of-code-report-12-debconf-debian-day-bh/)
+In a [Google Summer of Code project](http://socghop.appspot.com/gsoc/student_project/show/google/gsoc2010/haskell/t127230760695), [ marcot](http://wiki.debian.org/MarcoSilva) started an implementation of the Immix Garbage Collector in GHC.  It's not in a state where it can be included in GHC yet, but it's functional, don't have known bugs and gets better results than the default GC in the [ nofib](http://www.dcs.gla.ac.uk/fp/software/ghc/nofib.html) suite.  On the other hand, it gets worse results than the default GC for the nofib/gc suite.  The implementation was reported on these blog posts: [ 1](http://marcotmarcot.wordpress.com/2010/05/17/google-summer-of-code-weekly-report-1/) [ 3](http://marcotmarcot.wordpress.com/2010/05/31/summer-of-code-weekly-report-3/) [ 4](http://marcotmarcot.wordpress.com/2010/06/04/summer-of-code-weekly-report-4/) [ 5](http://marcotmarcot.wordpress.com/2010/06/15/summer-of-code-weekly-report-5/) [ 6](http://marcotmarcot.wordpress.com/2010/06/18/immix-on-ghc-summer-of-code-weekly-report-6/) [ 7](http://marcotmarcot.wordpress.com/2010/06/29/immix-on-ghc-summer-of-code-weekly-report-7/) [ 8](http://marcotmarcot.wordpress.com/2010/07/05/immix-on-ghc-summer-of-code-weekly-report-8/) [ 9](http://marcotmarcot.wordpress.com/2010/07/07/immix-on-ghc-summer-of-code-weekly-report-9/) [ 10](http://marcotmarcot.wordpress.com/2010/07/21/immix-on-ghc-summer-of-code-weekly-report-10/) [ 11](http://marcotmarcot.wordpress.com/2010/08/10/immix-on-ghc-summer-of-code-report-11/) [ 12](http://marcotmarcot.wordpress.com/2010/08/13/immix-on-ghc-summer-of-code-report-12-debconf-debian-day-bh/)
 
 
 # The patches
 
 
-There are [ some patches available](http://people.debian.org/~marcot/immix/).
+There are [some patches available](http://people.debian.org/~marcot/immix/).
 
 ## The main patch
 
-- [ Generated with darcs diff -u](http://people.debian.org/~marcot/immix/immix.patch)
-- [ Darcs bundle](http://people.debian.org/~marcot/immix/immix.dpatch)
+- [Generated with darcs diff -u](http://people.debian.org/~marcot/immix/immix.patch)
+- [Darcs bundle](http://people.debian.org/~marcot/immix/immix.dpatch)
 
 
-This patch includes the basic implementation of Immix.  It's tested, and has no known bugs.  In [ the measurements](http://people.debian.org/~marcot/immix/log.tar.gz), it has shown these results:
+This patch includes the basic implementation of Immix.  It's tested, and has no known bugs.  In [the measurements](http://people.debian.org/~marcot/immix/log.tar.gz), it has shown these results:
 
 
 <table><tr><th> </th>
@@ -33,7 +33,7 @@ This patch includes the basic implementation of Immix.  It's tested, and has no 
 </th></tr></table>
 
 
-Currently, it overwrites the mark/sweep algorithm?.  It uses the same mark bits as mark/compact and mark/sweep?, but consider these bits in groups of 32 or 64, depending on the architecture used, which are called lines.  It creates a list of free lines for each [ generation](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Rts/Storage/GC/Aging), and allocates on them when possible.
+Currently, it overwrites the mark/sweep algorithm?.  It uses the same mark bits as mark/compact and mark/sweep?, but consider these bits in groups of 32 or 64, depending on the architecture used, which are called lines.  It creates a list of free lines for each [generation](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Rts/Storage/GC/Aging), and allocates on them when possible.
 
 
 As only the first part of each object in memory is marked in the bitmap?, it skips the first free line for each group of subsequent lines, because it's possible that an object that starts in the previous line is using part of it.  Also, it doesn't deal with [blocks](commentary/rts/storage/block-alloc) that objects bigger than the size of a line, called medium sized objects, marked with `BF_MEDIUM`.
@@ -43,8 +43,8 @@ The mark stack is used to ensure that the objects allocated on lines get scaveng
 
 ## Line before inscreasing block size
 
-- [ Generated with darcs diff -u](http://people.debian.org/~marcot/immix/order.patch)
-- [ Darcs bundle](http://people.debian.org/~marcot/immix/order.dpatch)
+- [Generated with darcs diff -u](http://people.debian.org/~marcot/immix/order.patch)
+- [Darcs bundle](http://people.debian.org/~marcot/immix/order.dpatch)
 
 
 Before the implementation of Immix, the code in todo_block_full did the following:
@@ -74,8 +74,8 @@ to benchmark again when another thing changes, like:
 
 ## Allocate in lines in minor GCs
 
-- [ Generated with darcs diff -u](http://people.debian.org/~marcot/immix/minor.patch)
-- [ Darcs bundle](http://people.debian.org/~marcot/immix/minor.dpatch)
+- [Generated with darcs diff -u](http://people.debian.org/~marcot/immix/minor.patch)
+- [Darcs bundle](http://people.debian.org/~marcot/immix/minor.dpatch)
 
 
 This small patch makes it possible to allocate on lines during minor GCs,

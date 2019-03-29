@@ -6,10 +6,10 @@ This page discusses the design and implementation of "typed holes" in GHC.
 
 See also
 
-- The original ticket on this feature: [\#5910](https://gitlab.haskell.org//ghc/ghc/issues/5910). 
+- The original ticket on this feature: [\#5910](https://gitlab.haskell.org/ghc/ghc/issues/5910). 
 
 
-Historical note: the [ development repository](https://github.com/xnyhps/ghc) and its [ issue tracker](https://github.com/xnyhps/ghc/issues).
+Historical note: the [development repository](https://github.com/xnyhps/ghc) and its [ issue tracker](https://github.com/xnyhps/ghc/issues).
 
 ## Tickets
 
@@ -21,21 +21,21 @@ Use Keyword = `TypedHoles` to ensure that a ticket ends up on these lists.
 
 **Open Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5910">#5910</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5910">#5910</a></th>
 <td>Holes with other constraints</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10875">#10875</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10875">#10875</a></th>
 <td>Unexpected defaulting of partial type signatures and inconsistent behaviour when -fdefer-typed-holes is set.</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11186">#11186</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11186">#11186</a></th>
 <td>Give strong preference to type variable names in scope when reporting hole contexts</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13499">#13499</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13499">#13499</a></th>
 <td>&quot;Panic: no skolem info&quot; with StaticPointers and typed hole</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14040">#14040</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14040">#14040</a></th>
 <td>Typed holes regression in GHC 8.0.2: No skolem info: z_a1sY[sk:2]</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14858">#14858</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14858">#14858</a></th>
 <td>Typed hole subtitution search fails in the REPL</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15677">#15677</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15677">#15677</a></th>
 <td>Valid hole fits and GADT type variable names</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15697">#15697</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15697">#15697</a></th>
 <td>Typed holes inferring a more polymorphic type</td></tr></table>
 
 
@@ -43,37 +43,37 @@ Use Keyword = `TypedHoles` to ensure that a ticket ends up on these lists.
 
 **Closed Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9479">#9479</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9479">#9479</a></th>
 <td>Report required constraints when reporting the type of a hole</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10267">#10267</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10267">#10267</a></th>
 <td>Add support for typed holes in Template Haskell</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10954">#10954</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10954">#10954</a></th>
 <td>Add class/context information to typed hole relevant bindings</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11515">#11515</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11515">#11515</a></th>
 <td>PartialTypeSignatures suggests a redundant constraint with constraint families</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14884">#14884</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14884">#14884</a></th>
 <td>Type holes cause assertion failure in ghc-stage2 compiler during type checking</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14969">#14969</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14969">#14969</a></th>
 <td>Underconstrained typed holes are non-performant</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14996">#14996</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14996">#14996</a></th>
 <td>Typed holes are very slow</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15007">#15007</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15007">#15007</a></th>
 <td>Don&apos;t keep shadowed variables in ghci, both renamer and type checker</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15035">#15035</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15035">#15035</a></th>
 <td>Panic when using StaticPointers with typed holes</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15037">#15037</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15037">#15037</a></th>
 <td>Running 1 twice, followed by a typed hole, in GHCi causes internal error</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15076">#15076</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15076">#15076</a></th>
 <td>Typed hole with higher-rank kind causes GHC to panic (No skolem info)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15202">#15202</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15202">#15202</a></th>
 <td>Internal error showing typed hole in GHCi</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15321">#15321</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15321">#15321</a></th>
 <td>Typed holes in Template Haskell splices produce bewildering error messages</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15370">#15370</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15370">#15370</a></th>
 <td>Typed hole panic on GHC 8.6 (tcTyVarDetails)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15401">#15401</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15401">#15401</a></th>
 <td>Weird GHCi bug</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15962">#15962</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15962">#15962</a></th>
 <td>Type family &amp; typeclass interaction suppresses errors</td></tr></table>
 
 
@@ -111,7 +111,7 @@ We first describe related work, including concepts that are similar in other lan
 ## Goals in Agda
 
 
-One of the features of the Emacs mode for [ Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php) is the ability to insert a goal, a placeholder for code that is yet to be written. By inserting a `?` in an expression, the compiler will introduce a goal. After loading the file (which typechecks it), Agda gives an overview of the goals in the file and their types.
+One of the features of the Emacs mode for [Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php) is the ability to insert a goal, a placeholder for code that is yet to be written. By inserting a `?` in an expression, the compiler will introduce a goal. After loading the file (which typechecks it), Agda gives an overview of the goals in the file and their types.
 
 
 For example:
@@ -611,7 +611,7 @@ programmatically get information back from GHC. It seems that so far we are
 just thinking about printing a warning message from the compiler. But in order
 to write something like Agda-mode, I guess we ultimately want to expose this in
 the GHC API, so programs like \[ghc-mod
-[ http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs\#ghc-mod](http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs#ghc-mod) ghc-mod\] can display
+[http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs\#ghc-mod](http://www.haskell.org/haskellwiki/Haskell_mode_for_Emacs#ghc-mod) ghc-mod\] can display
 the holes information and let the user move between them.
 
 
@@ -653,7 +653,7 @@ The first feature has the open problem of how different usages of a named holes 
 
 ## Implementation notes
 
-[ https://github.com/xnyhps/ghc/commit/8573dfec24a0b354b7be32bf567a3a5bf700728e](https://github.com/xnyhps/ghc/commit/8573dfec24a0b354b7be32bf567a3a5bf700728e) adds basic support for named holes, namely by turning unbound identifiers starting with `_` into a hole.
+[https://github.com/xnyhps/ghc/commit/8573dfec24a0b354b7be32bf567a3a5bf700728e](https://github.com/xnyhps/ghc/commit/8573dfec24a0b354b7be32bf567a3a5bf700728e) adds basic support for named holes, namely by turning unbound identifiers starting with `_` into a hole.
 
 
 It works as follows:

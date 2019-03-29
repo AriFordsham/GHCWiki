@@ -1,7 +1,7 @@
 # Plan for providing exception stack-traces
 
 
-See also: [\#12096](https://gitlab.haskell.org//ghc/ghc/issues/12096)
+See also: [\#12096](https://gitlab.haskell.org/ghc/ghc/issues/12096)
 
 
 Exception handling in modern Haskell programs revolves around the

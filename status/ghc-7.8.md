@@ -4,7 +4,7 @@
 
 *Note that anything not listed here is off Austin's radar.*
 
-[ https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.8.3](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.8.3)
+[https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.8.3](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.8.3)
 
 ## The Dynamic Story
 
@@ -76,11 +76,11 @@ The dynamic story is complex. Here's the breakdown:
   - Consequently, GHCi can't be dynamically linked.
   - We're punting all three of them for the RC.
 
-    - This leaves GHC in the same place it was before essentially (but 64bit is in a difficult spot, see [\#7134](https://gitlab.haskell.org//ghc/ghc/issues/7134))
+    - This leaves GHC in the same place it was before essentially (but 64bit is in a difficult spot, see [\#7134](https://gitlab.haskell.org/ghc/ghc/issues/7134))
 
 
-(Related but not immediately critical: we have too many DLL symbols, and are very close to the limit ([\#5987](https://gitlab.haskell.org//ghc/ghc/issues/5987)). Linking also takes a long time ([\#8229](https://gitlab.haskell.org//ghc/ghc/issues/8229)))
+(Related but not immediately critical: we have too many DLL symbols, and are very close to the limit ([\#5987](https://gitlab.haskell.org/ghc/ghc/issues/5987)). Linking also takes a long time ([\#8229](https://gitlab.haskell.org/ghc/ghc/issues/8229)))
 
 ## Other things
 
-- Austin Seipp needs to upload the primops compatibility package for 7.8. This is is easy: mostly a copy of `compiler/utils/ExtsCompat64.hs` into a Cabal package. See also [ the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules).
+- Austin Seipp needs to upload the primops compatibility package for 7.8. This is is easy: mostly a copy of `compiler/utils/ExtsCompat64.hs` into a Cabal package. See also [the compatibility module page](http://www.haskell.org/haskellwiki/Compatibility_Modules).

@@ -1,10 +1,10 @@
 
-This page outlines a design for the "unresolved infix expressions" feature requested in [\#4430](https://gitlab.haskell.org//ghc/ghc/issues/4430). Parts of this page are copied from the ticket.
+This page outlines a design for the "unresolved infix expressions" feature requested in [\#4430](https://gitlab.haskell.org/ghc/ghc/issues/4430). Parts of this page are copied from the ticket.
 
 ## Motivation
 
 
-Consider writing a quasiquoter to parse haskell (for example, the `parseHaskell` quasiquoter mentioned in Part D of Simon's [ New directions for Template Haskell](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal)).
+Consider writing a quasiquoter to parse haskell (for example, the `parseHaskell` quasiquoter mentioned in Part D of Simon's [New directions for Template Haskell](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal)).
 
 
 How is the quasiquoter supposed to handle infix expressions, such as

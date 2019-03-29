@@ -1,11 +1,11 @@
 # Handling of Source Locations in Trees that Grow
 
-- Relevant ticket: [\#15495](https://gitlab.haskell.org//ghc/ghc/issues/15495)
+- Relevant ticket: [\#15495](https://gitlab.haskell.org/ghc/ghc/issues/15495)
 
 ## Problem
 
 
-The current design of [ TTG HsSyn AST](https://ghc.haskell.org/trac/ghc/wiki/ImplementingTreesThatGrow/TreesThatGrowGuidance) in GHC stores source locations for terms of a datatype `Exp` in a separate wrapper datatype `LExp` which is mutually recursive with `Exp` such that every recursive reference to `Exp` is done **indirectly**, via a reference to the wrapper datatype `LExp` (see the example code below). We refer to this style of storing source locations as the ping-pong style.
+The current design of [TTG HsSyn AST](https://ghc.haskell.org/trac/ghc/wiki/ImplementingTreesThatGrow/TreesThatGrowGuidance) in GHC stores source locations for terms of a datatype `Exp` in a separate wrapper datatype `LExp` which is mutually recursive with `Exp` such that every recursive reference to `Exp` is done **indirectly**, via a reference to the wrapper datatype `LExp` (see the example code below). We refer to this style of storing source locations as the ping-pong style.
 
 
 Besides the indirection and the resulting complications of the ping-pong style, there are two key problems with it: 
@@ -14,7 +14,7 @@ Besides the indirection and the resulting complications of the ping-pong style, 
   For example, TH AST does not carry source locations. 
 
 1. It results in a form of conceptual redundancy: source locations are tree decorations and they belong in the extension points.
-  (see [ TTG Guidance](https://ghc.haskell.org/trac/ghc/wiki/ImplementingTreesThatGrow/TreesThatGrowGuidance))
+  (see [TTG Guidance](https://ghc.haskell.org/trac/ghc/wiki/ImplementingTreesThatGrow/TreesThatGrowGuidance))
 
 ## Solutions
 

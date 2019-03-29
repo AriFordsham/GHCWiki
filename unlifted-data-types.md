@@ -14,7 +14,7 @@ See also [UnpackedSumTypes](unpacked-sum-types).
 
 
 
-Bob Harper [ has written](https://existentialtype.wordpress.com/2011/04/24/the-real-point-of-laziness/):
+Bob Harper [has written](https://existentialtype.wordpress.com/2011/04/24/the-real-point-of-laziness/):
 
 
 >
@@ -223,7 +223,7 @@ suspend a = a
 
 >
 >
-> Note from David Feuer: the indirection problem could be resolved via [ https://ghc.haskell.org/trac/ghc/wiki/NewtypeOptimizationForGADTS](https://ghc.haskell.org/trac/ghc/wiki/NewtypeOptimizationForGADTS), which would be a good thing for other reasons too.
+> Note from David Feuer: the indirection problem could be resolved via [https://ghc.haskell.org/trac/ghc/wiki/NewtypeOptimizationForGADTS](https://ghc.haskell.org/trac/ghc/wiki/NewtypeOptimizationForGADTS), which would be a good thing for other reasons too.
 >
 >
 
@@ -291,7 +291,7 @@ In this section, we review the dynamic semantics of unlifted types.  These are n
 
 **Case binding.** Given `case e of x1 -> e1`, where `e` is `Unlifted`, `e` is evaluated to whnf, and then the result is case-matched upon. (i.e. it is always as if it is a strict pattern match.)
 
-**Let bindings.** Given `let x = e in e'`, where `x` is `Unlifted)`, this desugars to `let !x = e in e'` which desugars to `case e of !x -> e'`. Mutually recursive let bindings of unlifted variables are not allowed. Let bindings are evaluated bottom up (but see [\#10824](https://gitlab.haskell.org//ghc/ghc/issues/10824)).
+**Let bindings.** Given `let x = e in e'`, where `x` is `Unlifted)`, this desugars to `let !x = e in e'` which desugars to `case e of !x -> e'`. Mutually recursive let bindings of unlifted variables are not allowed. Let bindings are evaluated bottom up (but see [\#10824](https://gitlab.haskell.org/ghc/ghc/issues/10824)).
 
 **Conditionals.** Given `if e then e1 else e2` where `e1` and `e2` are `Unlifted`, this desugars into the obvious case. (NB: this means `e1` and `e2` are not eagerly evaluated, as they would be for an `ifthenelse` function.)
 

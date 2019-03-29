@@ -15,7 +15,7 @@ Semantically, it is the identity, but in addition it tell the compiler to assume
 ## Motivation
 
 
-The idea first came up in the context of making foldl a good consumer: [ticket:7994\#comment:7](https://gitlab.haskell.org//ghc/ghc/issues/7994)
+The idea first came up in the context of making foldl a good consumer: [ticket:7994\#comment:7](https://gitlab.haskell.org/ghc/ghc/issues/7994)
 
 
 With the implementation

@@ -4,7 +4,7 @@
 Just like Darcs, every Git command comes with a `--help` option. For example `git add --help`, or even better `git help add`.
 
 
-Please also read the [Git Working Conventions](working-conventions/git) wiki page. You should also check out the [ official Git documentation](http://git.or.cz/gitwiki/GitDocumentation). Also see "General Notes" below for features present in Git but not in Darcs.
+Please also read the [Git Working Conventions](working-conventions/git) wiki page. You should also check out the [official Git documentation](http://git.or.cz/gitwiki/GitDocumentation). Also see "General Notes" below for features present in Git but not in Darcs.
 
 # Git Concepts
 
@@ -193,7 +193,7 @@ Your repository's old state is almost certainly still present, and you have two 
 #### The hard way
 
 
-Git actually has a bit of a functional philosophy. Objects in git are *immutable*. Although rebase appears to be a destructive update, it creates new commits and leaves the original ones to be cleaned up later by the garbage collector. Destroying work after you've committed it to git requires deliberate effort. Even if you forget to do it the easy way, which you'll see in just a moment, [ git means never having to say “you should have …”](http://tomayko.com/writings/the-thing-about-git)
+Git actually has a bit of a functional philosophy. Objects in git are *immutable*. Although rebase appears to be a destructive update, it creates new commits and leaves the original ones to be cleaned up later by the garbage collector. Destroying work after you've committed it to git requires deliberate effort. Even if you forget to do it the easy way, which you'll see in just a moment, [git means never having to say “you should have …”](http://tomayko.com/writings/the-thing-about-git)
 
 
 Say you began work on a new feature three days ago. In the meantime, other commits have gone into `master`, producing a history whose structure is
@@ -205,7 +205,7 @@ V---W---X---Y---Z <-- master
 ```
 
 
-That is, you've made four commits (referred to as `A` through `D` above) toward `feature1`, and `master` has added three commits since (`X`, `Y`, and `Z`). We can use [ Scott Chacon's handy git lol alias](http://blog.kfish.org/2010/04/git-lola.html) to have git draw the history. Assuming `feature1` is our current branch
+That is, you've made four commits (referred to as `A` through `D` above) toward `feature1`, and `master` has added three commits since (`X`, `Y`, and `Z`). We can use [Scott Chacon's handy git lol alias](http://blog.kfish.org/2010/04/git-lola.html) to have git draw the history. Assuming `feature1` is our current branch
 
 ```wiki
 $ git lol --after=3.days.ago HEAD master
@@ -231,7 +231,7 @@ $ git rebase --onto feature1~3 feature1~2 feature1
 ```
 
 
-(If this command seems opaque, you can achieve the same effect with [ interactive rebase](http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html#_interactive_mode).)
+(If this command seems opaque, you can achieve the same effect with [interactive rebase](http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html#_interactive_mode).)
 
 
 Now the repository looks like this:
@@ -349,7 +349,7 @@ $ git reset --hard b0f2a28
 Beware that hard reset is a sharp tool. Like `rm -rf` it has its uses, but, “measure twice; cut once,” as carpenters say.
 
 
-See also the [ Data Recovery section](http://progit.org/book/ch9-7.html#data_recovery) of *Pro Git* by Scott Chacon.
+See also the [Data Recovery section](http://progit.org/book/ch9-7.html#data_recovery) of *Pro Git* by Scott Chacon.
 
 #### The easy way
 
@@ -384,7 +384,7 @@ git config --global user.email haskell@example.com
 ```
 
 
-Since Git keeps several branches in the same repository it is very useful to [ show the current branch in your shell prompt](http://unboundimagination.com/Current-Git-Branch-in-Bash-Prompt). 
+Since Git keeps several branches in the same repository it is very useful to [show the current branch in your shell prompt](http://unboundimagination.com/Current-Git-Branch-in-Bash-Prompt). 
 
 # Git Overview
 
@@ -395,7 +395,7 @@ For an overview of what repositories (or parts of repositories) are modified by 
 
 >
 >
-> [ http://osteele.com/images/2008/git-transport.png](http://osteele.com/images/2008/git-transport.png)
+> [http://osteele.com/images/2008/git-transport.png](http://osteele.com/images/2008/git-transport.png)
 >
 >
 
@@ -537,7 +537,7 @@ git pull origin
 where `origin` is the name of your default remote branch.  (You can name it as you like, but certain Git commands will use `origin` as the default if no argument is specified.)
 
 
-Git allows you to create symbolic references to multiple remote branches.  You can also associate a remote branch with a specific local branch.  For more info see [ Distributed Workflows](http://book.git-scm.com/3_distributed_workflows.html) and [ Tracking Branches](http://book.git-scm.com/4_tracking_branches.html).
+Git allows you to create symbolic references to multiple remote branches.  You can also associate a remote branch with a specific local branch.  For more info see [Distributed Workflows](http://book.git-scm.com/3_distributed_workflows.html) and [ Tracking Branches](http://book.git-scm.com/4_tracking_branches.html).
 
 
 Note, that `git pull` is actually a shortcut for:
@@ -566,7 +566,7 @@ A comparable interactive workflow is to merge a selection of patches from a loca
 In general, even though a central repository is possible, Git promotes a pull model.  That is, to work on a project you typically "fork" (`git clone`) the source repository, add your changes, publish *your* repository, and send a pull-request to the upstream maintainer.  The reasoning behind that is that you don't have something akin to a list of committers, but rather the maintainer has a set of trusted peers.  This model is very different than what seems to be common among darcs users, but it has its advantages.
 
 
-Obviously, this requires that it's made easy to publish your version of the repository easily.  This is where websites like [ GitHub](http://github.com) come into play.  GitHub is free for open source projects (it offers a paid service with private repos), and makes it particularly easy to share with Git.  GitHub automates things like forking and sending pull requests.  GitHub has a quota of 100 MB, but *a forked repository will not count on your quota*.  This is particularly useful for large code bases like GHC.  (The GitHub quota isn't always correct; so if it seems wrong check again the next day.)
+Obviously, this requires that it's made easy to publish your version of the repository easily.  This is where websites like [GitHub](http://github.com) come into play.  GitHub is free for open source projects (it offers a paid service with private repos), and makes it particularly easy to share with Git.  GitHub automates things like forking and sending pull requests.  GitHub has a quota of 100 MB, but *a forked repository will not count on your quota*.  This is particularly useful for large code bases like GHC.  (The GitHub quota isn't always correct; so if it seems wrong check again the next day.)
 
 `darcs push` is also used to exchange patches between local repositories.  See "Local Branches" below for how to work with branches in Git.
 

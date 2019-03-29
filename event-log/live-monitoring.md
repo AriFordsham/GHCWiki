@@ -4,13 +4,13 @@
 This wiki page is for my (Karolis Velicka \<karolis.velicka at google's email service\>) project that I carried out when working for Microsoft Research in the summer of 2014.
 
 
-In short, the goal of the project is to improve the GHC RTS and [ ghc-events](http://hackage.haskell.org/package/ghc-events) library to allow for real-time profiling of programs. As a side effect, the changes will also enable the handling of arbitrary sized .eventlog files as well as parsing of them even if they are incomplete (e.g. following a crash). 
+In short, the goal of the project is to improve the GHC RTS and [ghc-events](http://hackage.haskell.org/package/ghc-events) library to allow for real-time profiling of programs. As a side effect, the changes will also enable the handling of arbitrary sized .eventlog files as well as parsing of them even if they are incomplete (e.g. following a crash). 
 
 
 This wiki page documents my current understanding of the system, the new API, the changes that I've made, and plans for future work. In case you find some flaws in my understanding, something that you disagree with or statements that are outright wrong, please do contact me. Any other contributions/advice/edits are very welcome!
 
 
-See also: [ https://hackage.haskell.org/package/ghc-events-0.6.0/docs/GHC-RTS-Events-Incremental.html](https://hackage.haskell.org/package/ghc-events-0.6.0/docs/GHC-RTS-Events-Incremental.html)
+See also: [https://hackage.haskell.org/package/ghc-events-0.6.0/docs/GHC-RTS-Events-Incremental.html](https://hackage.haskell.org/package/ghc-events-0.6.0/docs/GHC-RTS-Events-Incremental.html)
 
 
 and commit
@@ -104,7 +104,7 @@ Other:
 ### API for ghc-events
 
 
-Client API relevant to real-time event monitoring.  The full API is larger; you can find it in the [ ghc-events library documentation](https://hackage.haskell.org/package/ghc-events).
+Client API relevant to real-time event monitoring.  The full API is larger; you can find it in the [ghc-events library documentation](https://hackage.haskell.org/package/ghc-events).
 
 ```wiki
 -- Equivalent to the current API: --------------------------------

@@ -92,9 +92,9 @@ Several people have developed syntactic innovations, which are (or will shortly 
   	f (polar -> (r,theta)) = r <= 1
   ```
 
-  Here 'polar' is an ordinary function, used to transform the Complex to polar form.  The view pattern is the argument pattern for 'f'.  Many details [ here](http://hackage.haskell.org/trac/ghc/wiki/ViewPatterns).
+  Here 'polar' is an ordinary function, used to transform the Complex to polar form.  The view pattern is the argument pattern for 'f'.  Many details [here](http://hackage.haskell.org/trac/ghc/wiki/ViewPatterns).
 
-- **Generalised list comprehensions** (see [ Comprehensive comprehensions: comprehensions with "Order by" and "Group by", Phil Wadler and Simon Peyton Jones, Haskell Workshop 2007](http://research.microsoft.com/%7Esimonpj/papers/list-comp/index.htm)) have been implemented by Max Bolinbroke.  Example:
+- **Generalised list comprehensions** (see [Comprehensive comprehensions: comprehensions with "Order by" and "Group by", Phil Wadler and Simon Peyton Jones, Haskell Workshop 2007](http://research.microsoft.com/%7Esimonpj/papers/list-comp/index.htm)) have been implemented by Max Bolinbroke.  Example:
 
   ```wiki
   	[ (the dept, sum salary)
@@ -107,7 +107,7 @@ Several people have developed syntactic innovations, which are (or will shortly 
 >
 > >
 > >
-> > More details [ here](http://hackage.haskell.org/trac/ghc/wiki/SQLLikeComprehensions).
+> > More details [here](http://hackage.haskell.org/trac/ghc/wiki/SQLLikeComprehensions).
 > >
 > >
 >
@@ -145,8 +145,8 @@ the theory and implementation of a type inference algorithm. As
 a result we have a partially-working implementation, and we 
 understand the problem much better, but there is still much to
 do, both on the theoretical and practical front.  It's trickier
-than we thought!  We have a short paper [ Towards open type functions for Haskell](http://research.microsoft.com/%7Esimonpj/papers/assoc-types/index.htm) which
-describes some of the issues, and an [ wiki page](http://hackage.haskell.org/trac/ghc/wiki/TypeFunctions) that we keep up to date; it has a link to details of implementation status.  This is all joint work with
+than we thought!  We have a short paper [Towards open type functions for Haskell](http://research.microsoft.com/%7Esimonpj/papers/assoc-types/index.htm) which
+describes some of the issues, and an [wiki page](http://hackage.haskell.org/trac/ghc/wiki/TypeFunctions) that we keep up to date; it has a link to details of implementation status.  This is all joint work with
 Martin Sulzmann, Manuel Chakravarty, and Tom Schrijvers.
 
 ## Parallel GC
@@ -169,7 +169,7 @@ The other side of the coin is to parallelise the *minor* collections.  These are
 After many month of designing, re-designing, and finally implementing a vectorisation pass operating on GHC's Core intermediate language, we finally have a complete path from nested data parallel array programs to the low-level, multi-threaded array library in package ndp.  We are very excited about having reached this milestone, but the path is currently very thin, complete unoptimised, and requires a special Prelude mockup.   More work is required before vectorisation is ready for end-users, but now that the core infrastructure is in place, we expect more rapid progress on user-visible features.
 
 
-Besides working on optimisations and completing the backend library, we still need to implement [ Partial Vectorisation of Haskell Programs](http://www.cse.unsw.edu.au/~chak/papers/CLPK07.html) and the treatment of unboxed types, which is crucial to vectorise the standard Prelude.  Most of the code was written by Roman Leshchinskiy.
+Besides working on optimisations and completing the backend library, we still need to implement [Partial Vectorisation of Haskell Programs](http://www.cse.unsw.edu.au/~chak/papers/CLPK07.html) and the treatment of unboxed types, which is crucial to vectorise the standard Prelude.  Most of the code was written by Roman Leshchinskiy.
 
 ## Back end stuff
 
@@ -242,8 +242,8 @@ To further that end, we've split the "base" package into a bunch of
 smaller packages, and expect to further split it up for GHC 6.10.
 This has led to lots of pain, because old programs
 that depended on 'base' now need to depend on other packages too;
-see [ upgrading packages](http://www.haskell.org/haskellwiki/Upgrading_packages) for details.  But
+see [upgrading packages](http://www.haskell.org/haskellwiki/Upgrading_packages) for details.  But
 it's good pain, and matters should improve too as Cabal matures.  We have been exploring possibilities for [lessening the pain](commentary/packages/package-compatibility-proposal) in 6.10.  We
 have also devised a
-[ package versioning policy](http://www.haskell.org/haskellwiki/Package_versioning_policy)
+[package versioning policy](http://www.haskell.org/haskellwiki/Package_versioning_policy)
 which will help future library upgrades.  

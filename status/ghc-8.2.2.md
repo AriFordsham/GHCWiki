@@ -244,7 +244,7 @@ See Libraries?
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13956">#13956</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13956">#13956</a></th>
 <td>
                     
                   
@@ -270,7 +270,7 @@ See Libraries?
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13956">ghc panic compiling lame-0.1.1</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/13956">ghc panic compiling lame-0.1.1</a>
                       
                       
                       

@@ -26,7 +26,7 @@ GHC has been using darcs for version control since the beginning of 2006.  It ha
   long" (i.e. long enough that you go and do something else rather than wait for it to finish,
   which incurs a context-switch cost).  We can't use Trac's darcs integration or darcsweb, for example,
   because both rely on invoking `darcs changes <file>` (for that matter, that's not completely true for the
-  [ trac darcs plugin](http://progetti.arstecnica.it/trac+darcs) as it does not execute that command
+  [trac darcs plugin](http://progetti.arstecnica.it/trac+darcs) as it does not execute that command
   on a per-file basis, but rather it loads and caches into its own database the result of `darcs changes -v` 
   on the "not-yet-loaded" changesets, visiting every patch in the repository just once. 
   It caches also the actual content of each file touched by any browsed changeset, to compute the unidiff.).
@@ -43,7 +43,7 @@ GHC has been using darcs for version control since the beginning of 2006.  It ha
 
 
 
-On the 23rd July 2008 an IRC meeting on the \#ghc channel decided to make a serious effort to replace Darcs, due to all the problems described above. The logs of that meeting are available in full at [ http://hackage.haskell.org/trac/ghc/attachment/wiki/IRC_Meetings/ghc-metting-2008-07-23.log](http://hackage.haskell.org/trac/ghc/attachment/wiki/IRC_Meetings/ghc-metting-2008-07-23.log), but the main conclusions were:
+On the 23rd July 2008 an IRC meeting on the \#ghc channel decided to make a serious effort to replace Darcs, due to all the problems described above. The logs of that meeting are available in full at [http://hackage.haskell.org/trac/ghc/attachment/wiki/IRC_Meetings/ghc-metting-2008-07-23.log](http://hackage.haskell.org/trac/ghc/attachment/wiki/IRC_Meetings/ghc-metting-2008-07-23.log), but the main conclusions were:
 
 
 - The GHC developers have sufficient problems with Darcs that a change would be beneficial
@@ -495,7 +495,7 @@ bzr diff
 ### Popularity
 
 
-The Debian popularity contest has some interesting numbers: [ http://people.debian.org/\~igloo/popcon-graphs/index.php?packages=bzr%2Cgit-core%2Cmercurial&show_vote=on&want_legend=on&from_date=&to_date=&hlght_date=&date_fmt=%25Y-%25m&beenhere=1](http://people.debian.org/~igloo/popcon-graphs/index.php?packages=bzr%2Cgit-core%2Cmercurial&show_vote=on&want_legend=on&from_date=&to_date=&hlght_date=&date_fmt=%25Y-%25m&beenhere=1). Git is the clear winner in popularity terms.
+The Debian popularity contest has some interesting numbers: [http://people.debian.org/\~igloo/popcon-graphs/index.php?packages=bzr%2Cgit-core%2Cmercurial&show_vote=on&want_legend=on&from_date=&to_date=&hlght_date=&date_fmt=%25Y-%25m&beenhere=1](http://people.debian.org/~igloo/popcon-graphs/index.php?packages=bzr%2Cgit-core%2Cmercurial&show_vote=on&want_legend=on&from_date=&to_date=&hlght_date=&date_fmt=%25Y-%25m&beenhere=1). Git is the clear winner in popularity terms.
 
 ## Darcs alternatives still in the running
 
@@ -505,7 +505,7 @@ The Debian popularity contest has some interesting numbers: [ http://people.debi
 \#mercurial: 118 members
 
 
-Sample repo available at [ http://darcs.haskell.org/ghc.hg](http://darcs.haskell.org/ghc.hg)
+Sample repo available at [http://darcs.haskell.org/ghc.hg](http://darcs.haskell.org/ghc.hg)
 
 
 Advantages:
@@ -522,8 +522,8 @@ Disadvantages:
 - Similar problems with bisect support as Git
 - (Unknown: suitability of command set?)
 - No rebase, though this is being added as part of the Summer of Code
-- Need to run a special server to be able to clone over HTTP (free hosting service is available, will provide free plans for open source projects, supports HTTPS and SSH, [ http://www.bitbucket.org/](http://www.bitbucket.org/))
-- Some suggestion that you may get performance problems on OS X due to the pervasive use of hardlinks, which HFS+ supports poorly (see [ http://weblogs.mozillazine.org/jst/archives/2007/02/more_on_distributed_vcs_perfor.html](http://weblogs.mozillazine.org/jst/archives/2007/02/more_on_distributed_vcs_perfor.html))
+- Need to run a special server to be able to clone over HTTP (free hosting service is available, will provide free plans for open source projects, supports HTTPS and SSH, [http://www.bitbucket.org/](http://www.bitbucket.org/))
+- Some suggestion that you may get performance problems on OS X due to the pervasive use of hardlinks, which HFS+ supports poorly (see [http://weblogs.mozillazine.org/jst/archives/2007/02/more_on_distributed_vcs_perfor.html](http://weblogs.mozillazine.org/jst/archives/2007/02/more_on_distributed_vcs_perfor.html))
 - Debian stable (which e.g. darcs.haskell.org runs) only has v0.9.1, which does not include the new repository format that makes case-sensitivity fixes
 
 #### Darcs vs Mercurial Overview
@@ -587,17 +587,17 @@ username = My Name <foo@bar.com>
 Other issues:
 
 
-- (Note: not nearly as bad as I first thought, this only applies to the use of an extension called win32text: There appears to be poor support for Windows with the transplant command [ http://www.selenic.com/mercurial/bts/issue1077](http://www.selenic.com/mercurial/bts/issue1077))
+- (Note: not nearly as bad as I first thought, this only applies to the use of an extension called win32text: There appears to be poor support for Windows with the transplant command [http://www.selenic.com/mercurial/bts/issue1077](http://www.selenic.com/mercurial/bts/issue1077))
 
 
  
 
 
-- The transplant command wiki page [ http://www.selenic.com/mercurial/wiki/index.cgi/TransplantExtension](http://www.selenic.com/mercurial/wiki/index.cgi/TransplantExtension) contains the text "Three-way merge doesn't cope particularly well with transplanted patches - it will tend to generate false conflicts",
+- The transplant command wiki page [http://www.selenic.com/mercurial/wiki/index.cgi/TransplantExtension](http://www.selenic.com/mercurial/wiki/index.cgi/TransplantExtension) contains the text "Three-way merge doesn't cope particularly well with transplanted patches - it will tend to generate false conflicts",
   which doesn't fill me with confidence. However, we only want to use transplant to maintain a branch (e.g. 6.8) which we won't merge back into the one we are pulling from (e.g. HEAD), so this may be a non-issue
 
 
-Setting up a Mercurial HTTP interface: [ http://hgbook.red-bean.com/hgbookch6.html\#x10-1310006.6](http://hgbook.red-bean.com/hgbookch6.html#x10-1310006.6)
+Setting up a Mercurial HTTP interface: [http://hgbook.red-bean.com/hgbookch6.html\#x10-1310006.6](http://hgbook.red-bean.com/hgbookch6.html#x10-1310006.6)
 
 #### Notes On Conversion
 
@@ -607,7 +607,7 @@ Currently using Tailor. Problems encountered:
 
 - Darcs outputs XML without an encoding header. Patched Tailor to append Latin-1 encoding to the XML output. This will be sent to the tailor author
 - In hg.py, replace the line `self._hgCommand('tag', tag)` with `self._hgCommand('tag', tag, force=True)` because we seem to be trying to apply duplicate tags at some points. Don't know quite how this is possible!
-- MUST USE the seperate-subdir mode of Tailor because we have some tricky Darcs patches. I've added my scripts to [ http://www.selenic.com/mercurial/wiki/index.cgi/Tailor\#preview](http://www.selenic.com/mercurial/wiki/index.cgi/Tailor#preview)
+- MUST USE the seperate-subdir mode of Tailor because we have some tricky Darcs patches. I've added my scripts to [http://www.selenic.com/mercurial/wiki/index.cgi/Tailor\#preview](http://www.selenic.com/mercurial/wiki/index.cgi/Tailor#preview)
 - No support for author remapping in Tailor yet. I've added it and I'm going to submit the patch to the Tailor author
 
 ### Git
@@ -616,7 +616,7 @@ Currently using Tailor. Problems encountered:
 \#git: 388 members
 
 
-Sample repo available at [ http://darcs.haskell.org/ghc.git](http://darcs.haskell.org/ghc.git)
+Sample repo available at [http://darcs.haskell.org/ghc.git](http://darcs.haskell.org/ghc.git)
 
 
 Advantages:
@@ -665,7 +665,7 @@ Disadvantages:
 \#bzr: 143 members
 
 
-Sample repo available at [ http://darcs.haskell.org/ghc.bzr](http://darcs.haskell.org/ghc.bzr)
+Sample repo available at [http://darcs.haskell.org/ghc.bzr](http://darcs.haskell.org/ghc.bzr)
 
 
 Advantages:
@@ -820,11 +820,11 @@ Reason for elimination: persistent performance and algorithmic problems, see abo
 
 Posts/blogs:
 
-- [ Hans Fugal: Mercurial and Darcs](http://hans.fugal.net/blog/articles/2007/11/16/mercurial-and-darcs)
-- [ Hans Fugal: Darcs and Mercurial Redux](http://hans.fugal.net/blog/articles/2007/11/20/darcs-and-mercurial-redux)
-- [ iBanjo: The Risks of Distributed Version Control](http://blog.red-bean.com/sussman/?p=20)
-- [ https://lists.ubuntu.com/archives/bazaar/2007q4/033256.html](https://lists.ubuntu.com/archives/bazaar/2007q4/033256.html)
-- [ http://bazaar-vcs.org/BzrVsGit](http://bazaar-vcs.org/BzrVsGit)
-- [ cgit = super-fast](http://community.livejournal.com/evan_tech/236528.html)
-- [ How I stopped missing Darcs and started loving Git](http://blog.moertel.com/articles/2007/12/10/how-i-stopped-missing-darcs-and-started-loving-git)
-- [ Thomas Schilling converts the GHC tree to Git](http://nominolo.blogspot.com/2008/05/thing-that-should-not-be-or-how-to.html)
+- [Hans Fugal: Mercurial and Darcs](http://hans.fugal.net/blog/articles/2007/11/16/mercurial-and-darcs)
+- [Hans Fugal: Darcs and Mercurial Redux](http://hans.fugal.net/blog/articles/2007/11/20/darcs-and-mercurial-redux)
+- [iBanjo: The Risks of Distributed Version Control](http://blog.red-bean.com/sussman/?p=20)
+- [https://lists.ubuntu.com/archives/bazaar/2007q4/033256.html](https://lists.ubuntu.com/archives/bazaar/2007q4/033256.html)
+- [http://bazaar-vcs.org/BzrVsGit](http://bazaar-vcs.org/BzrVsGit)
+- [cgit = super-fast](http://community.livejournal.com/evan_tech/236528.html)
+- [How I stopped missing Darcs and started loving Git](http://blog.moertel.com/articles/2007/12/10/how-i-stopped-missing-darcs-and-started-loving-git)
+- [Thomas Schilling converts the GHC tree to Git](http://nominolo.blogspot.com/2008/05/thing-that-should-not-be-or-how-to.html)

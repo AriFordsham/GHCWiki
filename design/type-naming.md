@@ -189,7 +189,7 @@ baby step towards the export list becoming a proper module signature.
 
 
 
-*I would prefer to use the keyword `type` to indicate a name from the type namespace (without any indication of whether it was defined by a type, newtype, or data declaration.  This would, then, be consistent with our proposal for [ exporting associated types.](http://haskell.org/haskellwiki/GHC/Type_families#Import_and_export) -- chak*
+*I would prefer to use the keyword `type` to indicate a name from the type namespace (without any indication of whether it was defined by a type, newtype, or data declaration.  This would, then, be consistent with our proposal for [exporting associated types.](http://haskell.org/haskellwiki/GHC/Type_families#Import_and_export) -- chak*
 
 ### Proposal 2: disambiguation in types
 

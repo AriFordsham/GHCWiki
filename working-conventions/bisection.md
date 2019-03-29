@@ -1,10 +1,10 @@
 # Bisection to find bad commits
 
 
-Say you have a program `TestCase.hs` in which a rewrite rule stopped firing at some point between GHC 7.10.1 and 7.10. It can often be useful to know which commit introduced the regression. [ Bisection](https://en.wikipedia.org/wiki/Bisection_%28software_engineering%29) is an efficient way of determining this, requiring at most `log_2(N)` commits to find the culprit among `N` commits.
+Say you have a program `TestCase.hs` in which a rewrite rule stopped firing at some point between GHC 7.10.1 and 7.10. It can often be useful to know which commit introduced the regression. [Bisection](https://en.wikipedia.org/wiki/Bisection_%28software_engineering%29) is an efficient way of determining this, requiring at most `log_2(N)` commits to find the culprit among `N` commits.
 
 
-This approach is especially appealing as git provides convenient support in the form of [ \`git bisect\`](https://www.kernel.org/pub/software/scm/git/docs/git-bisect.html). `git bisect` coupled with a reliable test case and the script below (with appropriate modifications) turns the task of bisection into a relatively painless exercise.
+This approach is especially appealing as git provides convenient support in the form of [\`git bisect\`](https://www.kernel.org/pub/software/scm/git/docs/git-bisect.html). `git bisect` coupled with a reliable test case and the script below (with appropriate modifications) turns the task of bisection into a relatively painless exercise.
 
 **Note:** Bisecting revisions before the switch to submodules (i.e. more than a couple of months prior to the GHC 7.10.1 release) is quite difficult and is generally not worth the effort. The script below probably won't work in this regime.
 
@@ -118,4 +118,4 @@ collect2: error: ld returned 1 exit status
 ```
 
 
-You are seeing [\#12759](https://gitlab.haskell.org//ghc/ghc/issues/12759) and need to cherry-pick d421a7e2.
+You are seeing [\#12759](https://gitlab.haskell.org/ghc/ghc/issues/12759) and need to cherry-pick d421a7e2.

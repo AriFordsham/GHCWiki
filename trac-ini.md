@@ -25,7 +25,7 @@ Multiple files can be specified using a comma-separated list.
 Note that you can also specify a global option file when creating a new project, by adding the option `--inherit=/path/to/global/trac.ini` to [trac-admin](trac-admin#)'s `initenv` command. If you do not do this but nevertheless intend to use a global option file with your new environment, you will have to go through the newly generated `conf/trac.ini` file and delete the entries that will otherwise override those set in the global file.
 
 
-There are two more entries in the [ \[inherit\] ](trac-ini#) section, `templates_dir` for sharing global templates and `plugins_dir`, for sharing plugins. Those entries can themselves be specified in the shared configuration file, and in fact, configuration files can even be chained if you specify another `[inherit] file` there.
+There are two more entries in the [\[inherit\] ](trac-ini#) section, `templates_dir` for sharing global templates and `plugins_dir`, for sharing plugins. Those entries can themselves be specified in the shared configuration file, and in fact, configuration files can even be chained if you specify another `[inherit] file` there.
 
 
 Note that the templates found in the `templates/` directory of the [TracEnvironment](trac-environment) have precedence over those found in `[inherit] templates_dir`. In turn, the latter have precedence over the installed templates, so be careful about what you put there. Notably, if you override a default template, refresh your modifications when you upgrade to a new version of Trac. The preferred way to perform [TracInterfaceCustomization](trac-interface-customization) is still to write a custom plugin doing an appropriate `ITemplateStreamFilter` transformation.
@@ -37,7 +37,7 @@ This is a brief reference of available configuration options, and their default 
 
 
 
-Documentation improvements should be discussed on the [ trac-dev mailing list](http://trac.edgewall.org/intertrac/MailingList%23Trac-dev) or described in a [ ticket](http://trac.edgewall.org/intertrac/NewTicket). Even better, [ submit a patch](http://trac.edgewall.org/intertrac/TracDev/SubmittingPatches) against the docstrings in the code.
+Documentation improvements should be discussed on the [trac-dev mailing list](http://trac.edgewall.org/intertrac/MailingList%23Trac-dev) or described in a [ ticket](http://trac.edgewall.org/intertrac/NewTicket). Even better, [ submit a patch](http://trac.edgewall.org/intertrac/TracDev/SubmittingPatches) against the docstrings in the code.
 
 
 
@@ -1555,11 +1555,11 @@ e-mails.
 ### `[pygments-lexer]`
 
 
-Configure Pygments [ lexer](http://pygments.org/docs/lexers/) options.
+Configure Pygments [lexer](http://pygments.org/docs/lexers/) options.
 
 
 For example, to set the
-[ PhpLexer](http://pygments.org/docs/lexers/#lexers-for-php-and-related-languages) options
+[PhpLexer](http://pygments.org/docs/lexers/#lexers-for-php-and-related-languages) options
 `startinline` and `funcnamehighlighting`:
 
 

@@ -6,7 +6,7 @@
 This page summarises a possible design that would allow different records to share a single field label.  Although it's a simple enough idea there are numerous ramifications.  Records are a swamp! Nevertheless, this is the simplest proposal that I know that satisfies the main request, that of having multiple records with the same field name.
 
 
-See also a similar [ 2003 proposal by Simon PJ and Greg Morrisset](http://research.microsoft.com/en-us/um/people/simonpj/Haskell/records.html).  It is essentially the same as the proposal below, but (a) has less detail and (b) adds anonymous record types.   Anonymous type could be an add-on feature to the design described here.
+See also a similar [2003 proposal by Simon PJ and Greg Morrisset](http://research.microsoft.com/en-us/um/people/simonpj/Haskell/records.html).  It is essentially the same as the proposal below, but (a) has less detail and (b) adds anonymous record types.   Anonymous type could be an add-on feature to the design described here.
 
 # The base design
 
@@ -440,7 +440,7 @@ There are three problems:
   But that adds complexity, and casts into doubt the proposed syntactic sugar for `Has` predicates.
 
 - Haskell 98's record update can change the type of the record
-  (there is a type-checked response to this bullet point [ here](https://raw.github.com/ntc2/haskell-records/master/GHCWiki_SimpleOverloadedRecordFields.lhs)):
+  (there is a type-checked response to this bullet point [here](https://raw.github.com/ntc2/haskell-records/master/GHCWiki_SimpleOverloadedRecordFields.lhs)):
 
   ```wiki
   data R a = R { x :: a }
@@ -559,7 +559,7 @@ let s = qfmap (undefined :: "x") (const "Hello, world!") r in ...
 # Relationship to Type Directed Name Resolution
 
 
-This proposal is quite closely related to the [ Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) idea, becuase TDNR 
+This proposal is quite closely related to the [Type Directed Name Resolution](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) idea, becuase TDNR 
 would internally generate `Has` constraints exactly as described above.  The difference is
 that TDNR wasn't intended to support *abstraction* over the constraint, and was explained
 rather differently.

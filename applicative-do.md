@@ -4,10 +4,10 @@
 This is a proposal to add support to GHC for desugaring do-notation into Applicative expressions where possible.
 
 
-It's described in some detail in the paper: [ Desugaring Haskell’s do-notation Into Applicative Operations](https://www.microsoft.com/en-us/research/publication/desugaring-haskells-do-notation-into-applicative-operations/) (ICFP'16).
+It's described in some detail in the paper: [Desugaring Haskell’s do-notation Into Applicative Operations](https://www.microsoft.com/en-us/research/publication/desugaring-haskells-do-notation-into-applicative-operations/) (ICFP'16).
 
 
-An implementation was merged for GHC8: [ https://github.com/ghc/ghc/commit/8ecf6d8f7dfee9e5b1844cd196f83f00f3b6b879](https://github.com/ghc/ghc/commit/8ecf6d8f7dfee9e5b1844cd196f83f00f3b6b879).
+An implementation was merged for GHC8: [https://github.com/ghc/ghc/commit/8ecf6d8f7dfee9e5b1844cd196f83f00f3b6b879](https://github.com/ghc/ghc/commit/8ecf6d8f7dfee9e5b1844cd196f83f00f3b6b879).
 
 
 See also [RecursiveDo](recursive-do)
@@ -22,33 +22,33 @@ Use Keyword = `ApplicativeDo` to ensure that a ticket ends up on these lists.
 
 **Open Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10892">#10892</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10892">#10892</a></th>
 <td>ApplicativeDo should use *&gt; and &lt;*</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10976">#10976</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10976">#10976</a></th>
 <td>Applicative Comprehensions</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11982">#11982</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11982">#11982</a></th>
 <td>Typechecking fails for parallel monad comprehensions with polymorphic let (GHC 7.10.3 through 8.6.3)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13309">#13309</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13309">#13309</a></th>
 <td>Use liftA2 in ApplicativeDo</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13511">#13511</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13511">#13511</a></th>
 <td>ApplicativeDo return case doesn&apos;t handle lets</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13905">#13905</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13905">#13905</a></th>
 <td>ApplicativeDo is too strict with newtype patterns</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13906">#13906</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13906">#13906</a></th>
 <td>ApplicativeDo doesn&apos;t handle existentials as well as it could</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14252">#14252</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14252">#14252</a></th>
 <td>ApplicativeDo: Add compiler message about irrefutable pattern matches and Monad constraints</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14700">#14700</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14700">#14700</a></th>
 <td>ApplicativeDo in MonadComprehensions</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15016">#15016</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15016">#15016</a></th>
 <td>Referencing a do-bound variable in a rec block with ApplicativeDo results in variable not in scope during type checking</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15100">#15100</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15100">#15100</a></th>
 <td>`ApplicativeDo` needlessly uses `join` too much</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15344">#15344</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15344">#15344</a></th>
 <td>ApplicativeDo seems to prevent the fail method from being used</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16135">#16135</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16135">#16135</a></th>
 <td>Panic with ExistentialQuantification and ApplicativeDo</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16171">#16171</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16171">#16171</a></th>
 <td>&quot;ApplicativeDo&quot; disables -Wunused-do-binds?</td></tr></table>
 
 
@@ -56,33 +56,33 @@ Use Keyword = `ApplicativeDo` to ensure that a ticket ends up on these lists.
 
 **Closed Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11607">#11607</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11607">#11607</a></th>
 <td>ApplicativeDo easily foiled with `pure`</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11612">#11612</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11612">#11612</a></th>
 <td>Bug in ApplicativeDo</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11835">#11835</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11835">#11835</a></th>
 <td>ApplicativeDo failed to desugar last line with pure $ &lt;expr&gt;</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12143">#12143</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12143">#12143</a></th>
 <td>ApplicativeDo Fails to Desugar &apos;return True&apos;</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12490">#12490</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12490">#12490</a></th>
 <td>With RebindableSyntax, ApplicativeDo should eliminate return/pure</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13242">#13242</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13242">#13242</a></th>
 <td>Panic &quot;StgCmmEnv: variable not found&quot; with ApplicativeDo and ExistentialQuantification</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13648">#13648</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13648">#13648</a></th>
 <td>ApplicativeDo selects &quot;GHC.Base.Monad.return&quot; when actions are used without patterns.</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13875">#13875</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13875">#13875</a></th>
 <td>ApplicativeDo desugaring is lazier than standard desugaring</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14105">#14105</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14105">#14105</a></th>
 <td>ApplicativeDo causes GHC panic on irrefutable list pattern match</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14163">#14163</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14163">#14163</a></th>
 <td>Stack Overflow with ApplicativeDo</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14249">#14249</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14249">#14249</a></th>
 <td>ApplicativeDo: Pattern matching on a bind forces a Monad constraint</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14471">#14471</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14471">#14471</a></th>
 <td>Certain do blocks cause TH to barf when ApplicativeDo is enabled</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14670">#14670</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14670">#14670</a></th>
 <td>-XRebindableSyntax needs return?</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15422">#15422</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15422">#15422</a></th>
 <td>GHCi debugger doesn&apos;t see free variables when using ApplicativeDo</td></tr></table>
 
 
@@ -110,7 +110,7 @@ For a type that is a `Monad`, `ApplicativeDo` implements the same semantics as t
 1. Some Monads have the property that Applicative bind is more
   efficient than Monad bind.  Sometimes this is *really
   important*, such as when the Applicative bind is 
-  concurrent whereas the Monad bind is sequential (c.f. [ Haxl](https://github.com/facebook/Haxl)).  For
+  concurrent whereas the Monad bind is sequential (c.f. [Haxl](https://github.com/facebook/Haxl)).  For
   these monads we would like the do-notation to desugar to
   Applicative bind where possible, to take advantage of the improved
   behaviour but without forcing the user to explicitly choose.
@@ -284,7 +284,7 @@ Note that this isn't the only good way to translate this expression, this is als
 ## Syntax & spec
 
 
-There's a toy implementation which includes the syntax, desugaring, transformation and some examples here: [ https://github.com/simonmar/ado/blob/52ba028cad68af578bcdfb3f1c5b905f5b9c5617/adosim.hs](https://github.com/simonmar/ado/blob/52ba028cad68af578bcdfb3f1c5b905f5b9c5617/adosim.hs)
+There's a toy implementation which includes the syntax, desugaring, transformation and some examples here: [https://github.com/simonmar/ado/blob/52ba028cad68af578bcdfb3f1c5b905f5b9c5617/adosim.hs](https://github.com/simonmar/ado/blob/52ba028cad68af578bcdfb3f1c5b905f5b9c5617/adosim.hs)
 
 
 Syntax: 
@@ -429,8 +429,8 @@ Note that there's no matching on "return" during desugaring, the
 
 ## Related proposals
 
-- [ Max's proposal on haskell-cafe](http://www.haskell.org/pipermail/haskell-cafe/2011-September/095153.html)
-- [ Control.Applicative.QQ.ADo](http://hackage.haskell.org/package/applicative-quoters-0.1.0.7/docs/Control-Applicative-QQ-ADo.html)
+- [Max's proposal on haskell-cafe](http://www.haskell.org/pipermail/haskell-cafe/2011-September/095153.html)
+- [Control.Applicative.QQ.ADo](http://hackage.haskell.org/package/applicative-quoters-0.1.0.7/docs/Control-Applicative-QQ-ADo.html)
 
 ## Implementation
 
@@ -438,7 +438,7 @@ Note that there's no matching on "return" during desugaring, the
 The implementation is tricky, because we want to do a transformation that affects type checking (and renaming, because we might be using `RebindableSyntax`), but we still want type errors in terms of the original source code.  Therefore we calculate everything necessary to do the transformation during renaming, but leave enough information behind to reconstruct the original source code for the purposes of error messages.
 
 
-See comments in [ https://phabricator.haskell.org/D729](https://phabricator.haskell.org/D729) for more details.
+See comments in [https://phabricator.haskell.org/D729](https://phabricator.haskell.org/D729) for more details.
 
 ### Tricky case
 

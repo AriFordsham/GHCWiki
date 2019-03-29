@@ -5,11 +5,11 @@
 
 
 
-UPDATE: We have prepared a higher level technical report about this work, available [ here](http://www.dsic.upv.es/mapa/ingles/informesinv.pl?any=2007).
+UPDATE: We have prepared a higher level technical report about this work, available [here](http://www.dsic.upv.es/mapa/ingles/informesinv.pl?any=2007).
 
 
 
-During the Summer of 2006 I have been working on this project sponsorized by the[ Google SoC](http://code.google.com/soc) initiative. My mentors were Simon Marlow and David Himmelstrup (lemmih).
+During the Summer of 2006 I have been working on this project sponsorized by the[Google SoC](http://code.google.com/soc) initiative. My mentors were Simon Marlow and David Himmelstrup (lemmih).
 
 
 
@@ -78,7 +78,7 @@ Quoting from Simon Marlow in the ghc-cvs list:
 
 
 
-UPDATE: This is now done differently. See ticket [\#1085](https://gitlab.haskell.org//ghc/ghc/issues/1085)
+UPDATE: This is now done differently. See ticket [\#1085](https://gitlab.haskell.org/ghc/ghc/issues/1085)
 
 
 

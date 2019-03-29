@@ -43,23 +43,23 @@ It is not a proposal for any new syntax or runtime behaviour or types. It is not
 ## Rationale
 
 
-There are several examples where one would like access to desugared typeclass dictionary types. For example, creating new instances at runtime like in [ reflection](https://www.fpcomplete.com/user/thoughtpolice/using-reflection#turning-up-the-magic-to-over-9000). Indeed, access to dictionary constructors would probably make the reflection package much simpler and less spooky.
+There are several examples where one would like access to desugared typeclass dictionary types. For example, creating new instances at runtime like in [reflection](https://www.fpcomplete.com/user/thoughtpolice/using-reflection#turning-up-the-magic-to-over-9000). Indeed, access to dictionary constructors would probably make the reflection package much simpler and less spooky.
 
 
-Currently, typeclass dictionary constructors are [ prepended with "D:"](https://github.com/ghc/ghc/blob/4d5f83a8dcf1f1125863a8fb4f847d78766f1617/compiler/basicTypes/OccName.hs#L615), ensuring that no source level Haskell code can access them.  
+Currently, typeclass dictionary constructors are [prepended with "D:"](https://github.com/ghc/ghc/blob/4d5f83a8dcf1f1125863a8fb4f847d78766f1617/compiler/basicTypes/OccName.hs#L615), ensuring that no source level Haskell code can access them.  
 
 
 This proposal is about allowing source level access to the dictionary constructors. Note that it is not about local instances: There would be no way to override the type-based dictionary usage, just like the present. 
 
 
-It would allow, for example, far greater ease of implementation of dictionary-based methods, such as is often needed in constructive category theory. Otherwise, it is [ messy as hell](https://hackage.haskell.org/package/data-category-0.6.1/docs/Data-Category-Monoidal.html#t:MonoidObject). Additionally, this kept coming up while working on the monoidal category proposal for replacing arrow notation; it was a huge barrier to a nice interface/api.
+It would allow, for example, far greater ease of implementation of dictionary-based methods, such as is often needed in constructive category theory. Otherwise, it is [messy as hell](https://hackage.haskell.org/package/data-category-0.6.1/docs/Data-Category-Monoidal.html#t:MonoidObject). Additionally, this kept coming up while working on the monoidal category proposal for replacing arrow notation; it was a huge barrier to a nice interface/api.
 
 
 Another issue which this addresses is the problem of a single datatype having multiple possible instances. For example, the set of integers have two simple monoids available: (1,(\*)) and (0,(+)). To choose between different monoids with the integers, one has to wrap them in newtypes (i.e. the Product and Sum newtypes) which then implement the separate instances.
 
 ## Additional proposals
 
-- Integrate the *reflection* and parts of the *constraints* library into the core class libraries, and this: (code from [ here](https://www.fpcomplete.com/user/thoughtpolice/using-reflection)) 
+- Integrate the *reflection* and parts of the *constraints* library into the core class libraries, and this: (code from [here](https://www.fpcomplete.com/user/thoughtpolice/using-reflection)) 
 
 ```wiki
 newtype Lift (p :: * -> Constraint) (a :: *) (s :: *) = Lift { lower :: a }

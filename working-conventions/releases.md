@@ -25,7 +25,7 @@ To that end, we follow these release policies:
 
 - Minor releases are made throughout the year, with no fixed schedule.  Generally there will be 2-3 minor releases for every major release.
 
-- For each release we make a release candidate first, possibly followed by further release candidates as necessary.  Release candidates are announced on the [ glasgow-haskell-users mailing list](http://www.haskell.org/mailman/listinfo/glasgow-haskell-users).
+- For each release we make a release candidate first, possibly followed by further release candidates as necessary.  Release candidates are announced on the [glasgow-haskell-users mailing list](http://www.haskell.org/mailman/listinfo/glasgow-haskell-users).
 
 ### Major releases
 

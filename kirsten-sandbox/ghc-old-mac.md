@@ -85,7 +85,7 @@
   checking for C compiler default output file name... 
   configure: error: C compiler cannot create executables
   ```
-1.  Start downloading tarball for newer gcc from: [ http://www.opensource.apple.com/darwinsource/August2003GCCUpdate/](http://www.opensource.apple.com/darwinsource/August2003GCCUpdate/). Also consider becoming religious so I can pray for it to be actually useful.
+1.  Start downloading tarball for newer gcc from: [http://www.opensource.apple.com/darwinsource/August2003GCCUpdate/](http://www.opensource.apple.com/darwinsource/August2003GCCUpdate/). Also consider becoming religious so I can pray for it to be actually useful.
 1.  
 
   ```wiki
@@ -271,7 +271,7 @@
 1. Get told that of course I can't exchange money for the goods and services I want, because my four-year-old laptop is *too old*. 
 1. Consider buying a PC.
 1. Post on the GHC mailing list to seek pity (or at least laughs).
-1. Per a resulting suggestion, start downloading the .dmg for gcc 3.3 off [ http://connect.apple.com/](http://connect.apple.com/) (which of course isn't google-able because of course you have to create an account and mumble mumble deep web mumble.)
+1. Per a resulting suggestion, start downloading the .dmg for gcc 3.3 off [http://connect.apple.com/](http://connect.apple.com/) (which of course isn't google-able because of course you have to create an account and mumble mumble deep web mumble.)
 1. Be thankful that at least this one is only going to take 23 minutes to download instead of 34. Get dressed.
 1. Try to install the gcc .pkg. It says I need the December 2002 Developer Tools update too (which is of course exactly what the person on the mailing list said as well.)
 1. Start the Dec. 2002 update downloading. *6-hour download.* Crie.

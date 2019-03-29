@@ -2,13 +2,13 @@
 
 
 This page describes language extension proposal to extend Haskell FFI with support for C structures.
-See also the [\#9700](https://gitlab.haskell.org//ghc/ghc/issues/9700).
+See also the [\#9700](https://gitlab.haskell.org/ghc/ghc/issues/9700).
 
 ## The issue we are trying to solve
 
 
 
-According to Haskell Report [ 8.4.2](http://www.haskell.org/onlinereport/haskell2010/haskellch8.html#x15-1560008.4.2)
+According to Haskell Report [8.4.2](http://www.haskell.org/onlinereport/haskell2010/haskellch8.html#x15-1560008.4.2)
 
 
 >
@@ -156,4 +156,4 @@ test -> \arg1 arg2 ->
 ### Code generator
 
 
-I implemented support for C structures as return type in cmm [ here](https://phabricator.haskell.org/D252). It covers most supported architectures. The amount of platform dependent code is reasonable and it is localized in `genCCall32'` and `genCCall64'` and their helpers.
+I implemented support for C structures as return type in cmm [here](https://phabricator.haskell.org/D252). It covers most supported architectures. The amount of platform dependent code is reasonable and it is localized in `genCCall32'` and `genCCall64'` and their helpers.

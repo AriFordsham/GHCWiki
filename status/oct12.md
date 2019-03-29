@@ -82,26 +82,26 @@ As always there is far more to do than we can handle, and there is loads of spac
 
 
 
-\[1\] Vectorisation avoidance, Gabriele Keller et al, HS'12 [ http://www.cse.unsw.edu.au/\~chak/papers/KCLLP12.html](http://www.cse.unsw.edu.au/~chak/papers/KCLLP12.html) 
+\[1\] Vectorisation avoidance, Gabriele Keller et al, HS'12 [http://www.cse.unsw.edu.au/\~chak/papers/KCLLP12.html](http://www.cse.unsw.edu.au/~chak/papers/KCLLP12.html) 
 
-\[2\] Work-efficient higher-order vectorisation, Ben Lippmeier et al, ICFP'12 [ http://www.cse.unsw.edu.au/\~chak/papers/LCKLP12.html](http://www.cse.unsw.edu.au/~chak/papers/LCKLP12.html) 
+\[2\] Work-efficient higher-order vectorisation, Ben Lippmeier et al, ICFP'12 [http://www.cse.unsw.edu.au/\~chak/papers/LCKLP12.html](http://www.cse.unsw.edu.au/~chak/papers/LCKLP12.html) 
 
-\[6\] Equality proofs and deferred type errors, Dimitrios Vytiniotis et al, ICFP'12, [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/) 
+\[6\] Equality proofs and deferred type errors, Dimitrios Vytiniotis et al, ICFP'12, [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/) 
 
-\[7\] Givng Haskell a promotion, Brent Yorgey et al, TLDI'12 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/) 
+\[7\] Givng Haskell a promotion, Brent Yorgey et al, TLDI'12 [http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/) 
 
-\[8\] The Right Kind of Generic Programming, José Pedro Magalhães, WGP'12 [ http://dreixel.net/research/pdf/trkgp.pdf](http://dreixel.net/research/pdf/trkgp.pdf) 
+\[8\] The Right Kind of Generic Programming, José Pedro Magalhães, WGP'12 [http://dreixel.net/research/pdf/trkgp.pdf](http://dreixel.net/research/pdf/trkgp.pdf) 
 
-\[9\] Dependently typed programming with singletons, Richard Eisenberg et al, HS'12 [ http://www.cis.upenn.edu/\~eir/pubs.html](http://www.cis.upenn.edu/~eir/pubs.html)  
+\[9\] Dependently typed programming with singletons, Richard Eisenberg et al, HS'12 [http://www.cis.upenn.edu/\~eir/pubs.html](http://www.cis.upenn.edu/~eir/pubs.html)  
 
-\[10\] Holes in GHC:  [ http://hackage.haskell.org/trac/ghc/wiki/Holes](http://hackage.haskell.org/trac/ghc/wiki/Holes) 
+\[10\] Holes in GHC:  [http://hackage.haskell.org/trac/ghc/wiki/Holes](http://hackage.haskell.org/trac/ghc/wiki/Holes) 
 
-\[11\] Overlapping type family instances: [ http://hackage.haskell.org/trac/ghc/wiki/NewAxioms](http://hackage.haskell.org/trac/ghc/wiki/NewAxioms) 
+\[11\] Overlapping type family instances: [http://hackage.haskell.org/trac/ghc/wiki/NewAxioms](http://hackage.haskell.org/trac/ghc/wiki/NewAxioms) 
 
-\[12\] Matching on type nats: [ http://hackage.haskell.org/trac/ghc/wiki/TypeNats/MatchingOnNats](http://hackage.haskell.org/trac/ghc/wiki/TypeNats/MatchingOnNats) 
+\[12\] Matching on type nats: [http://hackage.haskell.org/trac/ghc/wiki/TypeNats/MatchingOnNats](http://hackage.haskell.org/trac/ghc/wiki/TypeNats/MatchingOnNats) 
 
-\[13\] Singletons and kinds: [ http://hackage.haskell.org/trac/ghc/wiki/TypeNats/SingletonsAndKinds](http://hackage.haskell.org/trac/ghc/wiki/TypeNats/SingletonsAndKinds) 
+\[13\] Singletons and kinds: [http://hackage.haskell.org/trac/ghc/wiki/TypeNats/SingletonsAndKinds](http://hackage.haskell.org/trac/ghc/wiki/TypeNats/SingletonsAndKinds) 
 
-\[14\] The new codegen is nearly ready to go live [ http://hackage.haskell.org/trac/ghc/blog/newcg-update](http://hackage.haskell.org/trac/ghc/blog/newcg-update) 
+\[14\] The new codegen is nearly ready to go live [http://hackage.haskell.org/trac/ghc/blog/newcg-update](http://hackage.haskell.org/trac/ghc/blog/newcg-update) 
 
 

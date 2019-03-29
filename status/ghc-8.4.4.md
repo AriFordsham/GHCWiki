@@ -181,7 +181,7 @@ Release in Early Fall 2018.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15256">#15256</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15256">#15256</a></th>
 <td>
                     
                   
@@ -207,7 +207,7 @@ Release in Early Fall 2018.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15256">GHCi check .ghci permission on WSL(Linux on Windows)</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15256">GHCi check .ghci permission on WSL(Linux on Windows)</a>
                       
                       
                       
@@ -259,7 +259,7 @@ Release in Early Fall 2018.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15397">#15397</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15397">#15397</a></th>
 <td>
                     
                   
@@ -285,7 +285,7 @@ Release in Early Fall 2018.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15397">Linking Issue on Ubuntu and Fedora with Provided Bindists (GHC-8.4.2)</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15397">Linking Issue on Ubuntu and Fedora with Provided Bindists (GHC-8.4.2)</a>
                       
                       
                       
@@ -389,7 +389,7 @@ Release in Early Fall 2018.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15199">#15199</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15199">#15199</a></th>
 <td>
                     
                   
@@ -415,7 +415,7 @@ Release in Early Fall 2018.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15199">Build fails on Debian armhf (armv7l-unknown-linux-gnueabihf)</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15199">Build fails on Debian armhf (armv7l-unknown-linux-gnueabihf)</a>
                       
                       
                       

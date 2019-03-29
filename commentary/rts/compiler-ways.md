@@ -85,7 +85,7 @@ The code (see below) contains another way, for Glasgow parallel Haskell, which i
 ### Ways for parallel execution on clusters and multicores
 
 
-The parallel Haskell runtime system for Eden (available from [ http://github.com/jberthold/ghc](http://github.com/jberthold/ghc)) defines several RTS-only ways for Eden.
+The parallel Haskell runtime system for Eden (available from [http://github.com/jberthold/ghc](http://github.com/jberthold/ghc)) defines several RTS-only ways for Eden.
 All these ways execute the RTS in multiple instances with distributed heaps, they differ in the communication substrate (and consequently in the platform).
 
 <table><tr><th>Way flag  </th>

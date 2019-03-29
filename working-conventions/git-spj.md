@@ -38,7 +38,7 @@ git config --global remote.origin.push HEAD
 ### Creating tracking branches
 
 
-Here is very useful [ info on tracking branches](http://book.git-scm.com/4_tracking_branches.html).
+Here is very useful [info on tracking branches](http://book.git-scm.com/4_tracking_branches.html).
 
 
 Suppose you create a new branch on your local machine. Now you want to push
@@ -110,7 +110,7 @@ git checkout -b <new-branch-name>
 ```
 
 
-This creates the new branch and switches to it, but **does not change your working files**.  Now you can safely commit on the branch [ Stackoverflow link](http://stackoverflow.com/questions/2569459/git-create-a-branch-from-unstagged-uncommited-changes-on-master).  Then to push to the master repo:
+This creates the new branch and switches to it, but **does not change your working files**.  Now you can safely commit on the branch [Stackoverflow link](http://stackoverflow.com/questions/2569459/git-create-a-branch-from-unstagged-uncommited-changes-on-master).  Then to push to the master repo:
 
 ```wiki
 git push origin <new-branch-name>
@@ -180,7 +180,7 @@ If you have pushed, you make a commit that exactly undoes what you did, and push
 - `git revert HEAD`
 
 
-See [ the Git manual](http://www.kernel.org/pub/software/scm/git/docs/user-manual.html#fixing-mistakes) and [ the Git Book](http://book.git-scm.com/4_undoing_in_git_-_reset,_checkout_and_revert.html) on this topic.
+See [the Git manual](http://www.kernel.org/pub/software/scm/git/docs/user-manual.html#fixing-mistakes) and [ the Git Book](http://book.git-scm.com/4_undoing_in_git_-_reset,_checkout_and_revert.html) on this topic.
 
 ### Using someone else's GHC repo
 
@@ -200,7 +200,7 @@ Suppose John says "my GHC repo here; clone it and try X". Trouble is: the locati
 I’ve been using `git gui` (on Windows at least) as a way to examine and stage changes.  But I suddenly found that it wasn’t displaying the diff in the main pane.  
 
 
-A google search [ http://code.google.com/p/msysgit/issues/detail?id=394](http://code.google.com/p/msysgit/issues/detail?id=394) suggested that (bizarrely) it might have something to do with ‘nice’.  
+A google search [http://code.google.com/p/msysgit/issues/detail?id=394](http://code.google.com/p/msysgit/issues/detail?id=394) suggested that (bizarrely) it might have something to do with ‘nice’.  
 
 
 So I renamed `c:/cygwin/bin/nice.exe to c:/cygwin/bin/cygin-nice.exe`, and that made `git gui` worked fine.  Wierd.

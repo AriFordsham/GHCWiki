@@ -97,4 +97,4 @@ Operations on distributed types and unboxed arrays are inlined, producing code w
 </td></tr></table>
 
 
-See the paper [ Data Parallel Haskell: a status report](http://www.cse.unsw.edu.au/~chak/papers/CLPKM07.html) for an in-depth illustration of this architecture with concrete code of a running example at each transformation stage.
+See the paper [Data Parallel Haskell: a status report](http://www.cse.unsw.edu.au/~chak/papers/CLPKM07.html) for an in-depth illustration of this architecture with concrete code of a running example at each transformation stage.

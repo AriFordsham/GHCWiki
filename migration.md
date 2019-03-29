@@ -13,7 +13,7 @@ Possibly useful information can also be found in the following places:
 - [Commentary/Libraries/VersionHistory](commentary/libraries/version-history) 
 - [LanguagePragmaHistory](language-pragma-history)
 - "Release Notes" chapter in the *GHC User's Guide*
-- GHC Boot Package changelogs on Hackage (e.g. [ base's changelog](http://hackage.haskell.org/package/base/changelog))
+- GHC Boot Package changelogs on Hackage (e.g. [base's changelog](http://hackage.haskell.org/package/base/changelog))
 
 ## Version-specific Migration Guides
 

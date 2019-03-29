@@ -4,13 +4,13 @@
 This page lays out thinking about the design of the `StaticPtr` language extensions.
 
 
-The basic idea is laid out in the original [ Cloud Haskell paper](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/remote.pdf).
+The basic idea is laid out in the original [Cloud Haskell paper](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/remote.pdf).
 
 
 See also
 
 - [the root page for distributed Haskell](distributed-haskell).
-- [ Neil Mitchell's blog post](http://neilmitchell.blogspot.com/2017/09/existential-serialisation.html) on static pointers for existentials.
+- [Neil Mitchell's blog post](http://neilmitchell.blogspot.com/2017/09/existential-serialisation.html) on static pointers for existentials.
 
 ## Tickets
 
@@ -22,19 +22,19 @@ Use Keyword = `StaticPointers` to ensure that a ticket ends up on these lists.
 
 **Open Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12875">#12875</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12875">#12875</a></th>
 <td>GHC fails to link all StaticPointers-defining modules of a library in an executable</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13306">#13306</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13306">#13306</a></th>
 <td>Problems with type inference for static expressions</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13499">#13499</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13499">#13499</a></th>
 <td>&quot;Panic: no skolem info&quot; with StaticPointers and typed hole</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14770">#14770</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14770">#14770</a></th>
 <td>Allow static pointer expressions to have static pointer free variables</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14939">#14939</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14939">#14939</a></th>
 <td>Lint error in forall type</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15395">#15395</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15395">#15395</a></th>
 <td>Make StaticPtr (more) robust to code changes and recompilation</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15603">#15603</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15603">#15603</a></th>
 <td>ref6 example from StaticPointers documentation doesn&apos;t type check</td></tr></table>
 
 
@@ -42,21 +42,21 @@ Use Keyword = `StaticPointers` to ensure that a ticket ends up on these lists.
 
 **Closed Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10446">#10446</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10446">#10446</a></th>
 <td>Fix error message when variables in a static form are not in scope</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12000">#12000</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12000">#12000</a></th>
 <td>static pointer in ghci</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12003">#12003</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12003">#12003</a></th>
 <td>Improve error message about closed variables</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12207">#12207</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12207">#12207</a></th>
 <td>CgStaticPointers fails with -O</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13305">#13305</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13305">#13305</a></th>
 <td>static: check for identifiers should only consider term level variables</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13481">#13481</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13481">#13481</a></th>
 <td>T12622 fails in ghci way</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14204">#14204</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14204">#14204</a></th>
 <td>GHC bug - makeStatic: Unresolved static form at line 13, column 14.</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15035">#15035</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15035">#15035</a></th>
 <td>Panic when using StaticPointers with typed holes</td></tr></table>
 
 
@@ -249,7 +249,7 @@ Notice that *`decodeSA` is not part of the TCB*.  Clients can freely write code 
 # Polymorphism and serialisation
 
 
-Some motivation for polymorphic static pointers can be found at [ https://ghc.haskell.org/trac/ghc/wiki/StaticPointers/NeedForPolymorphism](https://ghc.haskell.org/trac/ghc/wiki/StaticPointers/NeedForPolymorphism) .
+Some motivation for polymorphic static pointers can be found at [https://ghc.haskell.org/trac/ghc/wiki/StaticPointers/NeedForPolymorphism](https://ghc.haskell.org/trac/ghc/wiki/StaticPointers/NeedForPolymorphism) .
 
 
 For this section I'll revert to the un-generalised single-parameter `StaticPtr`.
@@ -351,7 +351,7 @@ For now, I propose to deal with type classes via the Dict Trick, which is entire
 ## Local bindings in the static form
 
 
-See Trac [\#11656](https://gitlab.haskell.org//ghc/ghc/issues/11656).  The static form so far required expressions whose free variables appear bound at the top level. But this is stricter than necessary. Closed local definitions can be considered static as well.
+See Trac [\#11656](https://gitlab.haskell.org/ghc/ghc/issues/11656).  The static form so far required expressions whose free variables appear bound at the top level. But this is stricter than necessary. Closed local definitions can be considered static as well.
 
 
 

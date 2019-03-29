@@ -7,7 +7,7 @@ Here is the list of language extensions added (and sometimes removed) by the Gla
 See also [GHC Boot Library Version History](commentary/libraries/version-history), which tabulates the GHC versions against the versions of the `base` library and other boot libraries.
 
 
-See also [ http://damianfral.github.io/ghcaniuse/](http://damianfral.github.io/ghcaniuse/).
+See also [http://damianfral.github.io/ghcaniuse/](http://damianfral.github.io/ghcaniuse/).
 
 ## Changes in GHC 8.6
 

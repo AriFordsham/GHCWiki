@@ -2,7 +2,7 @@
 This is a proposal (formerly named *pattern families*) for extending pattern synonyms ([PatternSynonyms](pattern-synonyms)) allowing patterns to depend on terms. The implementation is a straightforward desugaring into pattern synonyms and view patterns ([ViewPatterns](view-patterns)) so familiarity with those two extensions is recommended before reading the proposal.
 
 
-The ticket associated with this design is [\#9671](https://gitlab.haskell.org//ghc/ghc/issues/9671).
+The ticket associated with this design is [\#9671](https://gitlab.haskell.org/ghc/ghc/issues/9671).
 
 
 
@@ -88,7 +88,7 @@ foo = \case
 ```
 
 
-Another simple example is the `Between` pattern that matches a particular range (a feature built into [ Rust](http://doc.rust-lang.org/master/tutorial.html#pattern-matching)):
+Another simple example is the `Between` pattern that matches a particular range (a feature built into [Rust](http://doc.rust-lang.org/master/tutorial.html#pattern-matching)):
 
 
 ```
@@ -235,7 +235,7 @@ foo ys = case lookup "five" n of
 ## Static semantics (Typing)
 
 
-If *expr* in the view pattern is an expression of type *t* with free variables *evarid<sub>i</sub>* of type *t<sub>i</sub>* then an *expr<sub>i</sub>* used to instantiate the corresponding *evarid<sub>i</sub>* must have a type *u<sub>i</sub>* that unifies with *t<sub>i</sub>*, the final expression *expr* will have type *t*. Otherwise same typing and scoping rules as [ ViewPatterns](https://ghc.haskell.org/trac/ghc/wiki/ViewPatterns#Semantics).
+If *expr* in the view pattern is an expression of type *t* with free variables *evarid<sub>i</sub>* of type *t<sub>i</sub>* then an *expr<sub>i</sub>* used to instantiate the corresponding *evarid<sub>i</sub>* must have a type *u<sub>i</sub>* that unifies with *t<sub>i</sub>*, the final expression *expr* will have type *t*. Otherwise same typing and scoping rules as [ViewPatterns](https://ghc.haskell.org/trac/ghc/wiki/ViewPatterns#Semantics).
 
 ## Motivating examples
 
@@ -377,7 +377,7 @@ fib (n2 | let n = n2-2, n >= 0) = fib (n + 1) + fib n
 
 
 
-From [ Bidirectional Typing Rules: A Tutorial](http://itu.dk/people/drc/tutorials/bidirectional.pdf):
+From [Bidirectional Typing Rules: A Tutorial](http://itu.dk/people/drc/tutorials/bidirectional.pdf):
 
 
 ```
@@ -466,7 +466,7 @@ pattern x :~= regexp <- ((~= regexp) -> Just x)
 
 
 
-Indexing patterns with prisms from [ Control.Lens.Prism](http://hackage.haskell.org/package/lens-4.2/docs/Control-Lens-Prism.html):
+Indexing patterns with prisms from [Control.Lens.Prism](http://hackage.haskell.org/package/lens-4.2/docs/Control-Lens-Prism.html):
 
 
 ```
@@ -489,7 +489,7 @@ bar _                        = error "..."
 
 
 
-Pattern families can be used to match nested data like JSON, ASTs or XML, here is an example of using it to match on [ Data.Aeson.Lens](http://hackage.haskell.org/package/lens-4.2/docs/Data-Aeson-Lens.html):
+Pattern families can be used to match nested data like JSON, ASTs or XML, here is an example of using it to match on [Data.Aeson.Lens](http://hackage.haskell.org/package/lens-4.2/docs/Data-Aeson-Lens.html):
 
 
 ```

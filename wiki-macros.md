@@ -277,7 +277,7 @@ $Id: macro.py 8545 2010-08-30 21:57:33Z martin_s $
 Extracts an URL from an Wiki link, e.g. to used in macro produced HTML code.
 
 
-Website: [ http://trac-hacks.org/wiki/ExtractUrlPlugin](http://trac-hacks.org/wiki/ExtractUrlPlugin)
+Website: [http://trac-hacks.org/wiki/ExtractUrlPlugin](http://trac-hacks.org/wiki/ExtractUrlPlugin)
 
 `$Id: extracturl.py 8545 2010-08-30 21:57:33Z martin_s $`
 
@@ -415,7 +415,7 @@ The file specification may also refer to:
   `//file` for a server-relative, or `http://server/file` for
   absolute location. An [InterWiki](inter-wiki) prefix may be used.
 - embedded data using the
-  [ rfc2397](http://tools.ietf.org/html/rfc2397) `data` URL scheme,
+  [rfc2397](http://tools.ietf.org/html/rfc2397) `data` URL scheme,
   provided the URL is enclosed in quotes.
 
 
@@ -574,7 +574,7 @@ parse_args('key1=val1,key2="val2a,val2b"', strict=True, delquotes=True)
 # Description for `parse_args()`
 
 
-Website: [ http://trac-hacks.org/wiki/AdvParseArgsPlugin](http://trac-hacks.org/wiki/AdvParseArgsPlugin)
+Website: [http://trac-hacks.org/wiki/AdvParseArgsPlugin](http://trac-hacks.org/wiki/AdvParseArgsPlugin)
 
 
 This function is used in [WikiMacros](wiki-macros) to parse the macro arguments. This enhanced 
@@ -728,7 +728,7 @@ The user interface is the wiki macro `Redirect` (alternativly `redirect`).
 ## Description
 
 
-Website: [ http://trac-hacks.org/wiki/ServerSideRedirectPlugin](http://trac-hacks.org/wiki/ServerSideRedirectPlugin)
+Website: [http://trac-hacks.org/wiki/ServerSideRedirectPlugin](http://trac-hacks.org/wiki/ServerSideRedirectPlugin)
 
 `$Id: plugin.py 11890 2012-08-04 01:37:28Z rjollos $`
 
@@ -1040,7 +1040,7 @@ Display a table of content for the Trac guide.
 This macro shows a quick and dirty way to make a table-of-contents
 for the Help/Guide. The table of contents will contain the Trac\* and
 [WikiFormatting](wiki-formatting) pages, and can't be customized. See the
-[ TocMacro](https://trac-hacks.org/wiki/TocMacro) for a more customizable
+[TocMacro](https://trac-hacks.org/wiki/TocMacro) for a more customizable
 table of contents.
 
 ### `[[TracIni]]`
@@ -1398,18 +1398,18 @@ Reference section headers in the current page. To refer to the section
 ## Macros from around the world
 
 
-The [ Trac Hacks](http://trac-hacks.org/) site provides a wide collection of macros and other Trac [plugins](trac-plugins) contributed by the Trac community. If you are looking for new macros, or have written one that you would like to share, please visit that site.
+The [Trac Hacks](http://trac-hacks.org/) site provides a wide collection of macros and other Trac [plugins](trac-plugins) contributed by the Trac community. If you are looking for new macros, or have written one that you would like to share, please visit that site.
 
 ## Developing Custom Macros
 
 
-Macros, like Trac itself, are written in the [ Python programming language](http://python.org/) and are developed as part of [TracPlugins](trac-plugins).
+Macros, like Trac itself, are written in the [Python programming language](http://python.org/) and are developed as part of [TracPlugins](trac-plugins).
 
 
-For more information about developing macros, see the [ development resources](http://trac.edgewall.org/intertrac/TracDev) on the main project site.
+For more information about developing macros, see the [development resources](http://trac.edgewall.org/intertrac/TracDev) on the main project site.
 
 
-Here are 2 simple examples showing how to create a Macro. Also, have a look at [ Timestamp.py](http://trac.edgewall.org/intertrac/source%3Atags/trac-1.0.2/sample-plugins/Timestamp.py) for an example that shows the difference between old style and new style macros and at the [ macros/README](http://trac.edgewall.org/intertrac/source%3Atags/trac-0.11/wiki-macros/README) which provides more insight about the transition.
+Here are 2 simple examples showing how to create a Macro. Also, have a look at [Timestamp.py](http://trac.edgewall.org/intertrac/source%3Atags/trac-1.0.2/sample-plugins/Timestamp.py) for an example that shows the difference between old style and new style macros and at the [ macros/README](http://trac.edgewall.org/intertrac/source%3Atags/trac-0.11/wiki-macros/README) which provides more insight about the transition.
 
 ### Macro without arguments
 

@@ -1,5 +1,5 @@
 
-The information on this page is slightly out of date; see [GitRepoReorganization](git-repo-reorganization) and [\#8545](https://gitlab.haskell.org//ghc/ghc/issues/8545) for latest news
+The information on this page is slightly out of date; see [GitRepoReorganization](git-repo-reorganization) and [\#8545](https://gitlab.haskell.org/ghc/ghc/issues/8545) for latest news
 
 # Upstream repositories
 
@@ -17,10 +17,10 @@ The mirrors are updated automatically each night, but you can force an immediate
 ## Repository locations
 
 
-Note that the following table might be out of date, please refer to GHC's [ packages](http://git.haskell.org/?p=ghc.git;a=blob;f=packages;hb=HEAD) file which is always up to date as otherwise scripts will break.
+Note that the following table might be out of date, please refer to GHC's [packages](http://git.haskell.org/?p=ghc.git;a=blob;f=packages;hb=HEAD) file which is always up to date as otherwise scripts will break.
 
 
-Moreover, the list of upstream Darcs repos mirrored as Git repositories can be found [ here](http://git.haskell.org/?a=project_list;pf=darcs-mirrors).
+Moreover, the list of upstream Darcs repos mirrored as Git repositories can be found [here](http://git.haskell.org/?a=project_list;pf=darcs-mirrors).
 
 
 Here is where the upstream repositories are, and their mirrors.  The master repository is identified in green.

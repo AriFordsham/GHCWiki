@@ -4,7 +4,7 @@
 This document gives an overview of the runtime system (RTS) support for GHC's STM implementation. We will focus on the case where fine grain locking is used (`STM_FG_LOCKS`).
 
 
-Some details about the implementation can be found in the papers [ Composable Memory Transactions](http://research.microsoft.com/en-us/um/people/simonpj/papers/stm/stm.pdf) and [ Transactional memory with data invariants](http://research.microsoft.com/en-us/um/people/simonpj/papers/stm/stm-invariants.pdf). Additional details can be found in the Harris et al book [ Transactional memory](http://www.morganclaypool.com/doi/abs/10.2200/s00272ed1v01y201006cac011). Some analysis on performance can be found in the paper [ The Limits of Software Transactional Memory](https://www.bscmsrc.eu/sites/default/files/cf-final.pdf) though this work only looks at the coarse grain lock version. Many of the other details here are gleaned from the comments in the source code.
+Some details about the implementation can be found in the papers [Composable Memory Transactions](http://research.microsoft.com/en-us/um/people/simonpj/papers/stm/stm.pdf) and [ Transactional memory with data invariants](http://research.microsoft.com/en-us/um/people/simonpj/papers/stm/stm-invariants.pdf). Additional details can be found in the Harris et al book [ Transactional memory](http://www.morganclaypool.com/doi/abs/10.2200/s00272ed1v01y201006cac011). Some analysis on performance can be found in the paper [ The Limits of Software Transactional Memory](https://www.bscmsrc.eu/sites/default/files/cf-final.pdf) though this work only looks at the coarse grain lock version. Many of the other details here are gleaned from the comments in the source code.
 
 # Background
 
@@ -331,12 +331,12 @@ How do we support a "partial abort"? This introduces the need for a nested trans
 - **Retry** -- As described above, we now need to search the stack for a `CATCH_RETRY_FRAME` and if found, aborting the nested transaction and attempting the alternative or propagating the retry instead of immediately working on blocking.
 - **Validation** -- If we are validating in the middle of a running transaction we will need to validate the whole nest of transactions.
   (See [rts/STM.c](/trac/ghc/browser/ghc/rts/STM.c) `stmValidateNestOfTransactions` and its uses in [rts/Exception.cmm](/trac/ghc/browser/ghc/rts/Exception.cmm) and [rts/Schedule.c](/trac/ghc/browser/ghc/rts/Schedule.c))
-- **Committing** -- Just as we now have a partial abort, we need a partial commit when we finish a branch of an `orElse`. This commit is done with `stmCommitNestedTransaction` which validates just the inner `TRec` and merges updates back into its parent. Note that an update is distinguished from a read only entry by value. This means that if a nested transaction performs a write that reverts a value this is a change and must still propagate to the parent (see ticket [\#7493](https://gitlab.haskell.org//ghc/ghc/issues/7493)).
+- **Committing** -- Just as we now have a partial abort, we need a partial commit when we finish a branch of an `orElse`. This commit is done with `stmCommitNestedTransaction` which validates just the inner `TRec` and merges updates back into its parent. Note that an update is distinguished from a read only entry by value. This means that if a nested transaction performs a write that reverts a value this is a change and must still propagate to the parent (see ticket [\#7493](https://gitlab.haskell.org/ghc/ghc/issues/7493)).
 - **Aborting** -- There is another subtle issue with how choice and blocking interact. When we block we need to wake up if there is a change to *any* accessed `TVar`. Consider a transaction:
   `t = t1 `orElse` t2`
   If both `t1` and `t2` execute `retry` then even though the effects of `t1` are thrown away, it could be that a change to a `TVar` that is only in the access set of `t1` will allow the whole transaction to succeed when it is woken.
   To solve this problem, when a branch on a nested transaction is aborted the access set of the nested transaction is merged as a read set into the parent `TRec`. Specifically if the `TVar` is in *any* `TRec` up the chain of nested transactions it must be ignored, otherwise it is entered as a new entry (retaining just the read) in the parent `TRec`.
-  (See again ticket [\#7493](https://gitlab.haskell.org//ghc/ghc/issues/7493) and [rts/STM.c](/trac/ghc/browser/ghc/rts/STM.c) `merge_read_into`)
+  (See again ticket [\#7493](https://gitlab.haskell.org/ghc/ghc/issues/7493) and [rts/STM.c](/trac/ghc/browser/ghc/rts/STM.c) `merge_read_into`)
 - **Exceptions** -- The only change needed here each `CATCH_RETRY_FRAME` on the stack represents a nested transaction. As the stack is searched for a handler, at each encountered `CATCH_RETRY_FRAME` the nested transaction is aborted. When the `ATOMICALLY_FRAME` is encountered we then know that there is no nested transaction.
   (See [rts/Exception.cmm](/trac/ghc/browser/ghc/rts/Exception.cmm) `stg_raisezh`)
 
@@ -408,7 +408,7 @@ When a transaction completes, execution will reach the `stg_atomically_frame` an
 Which invariants need to be checked for a given transaction? Clearly invariants introduced in the transaction will be checked these are added to the `TRec`s `invariants_to_check` queue directly when `check#` is executed. In addition, once the transaction has finished executing, we can look at each entry in the write set and search its watch queue for any invariants.
 
 
-Note that there is a `check` in the `stm` package in `Control.Monad.STM` which matches the `check` from the [ beauty](http://research.microsoft.com/pubs/74063/beautiful.pdf) chapter of "Beautiful code":
+Note that there is a `check` in the `stm` package in `Control.Monad.STM` which matches the `check` from the [beauty](http://research.microsoft.com/pubs/74063/beautiful.pdf) chapter of "Beautiful code":
 
 ```wiki
 check :: Bool -> STM ()
@@ -560,7 +560,7 @@ In the work of Keir Fraser a transaction state is used for cooperative efforts o
 Note: the first and third columns are the local state of the `TRec`s and the second column is the values of the `TVar` structures. Each `TRec` entry has the expected value followed by the new value and a number of updates field when it is read for validation.
 
 
-At this point `T1` and `T2` both perform their `read_only_check` and both could (at least one will) discover that a `TVar` in their read set is now locked. This leads to both transactions aborting. The chances of this are narrow but not impossible (see ticket [\#7815](https://gitlab.haskell.org//ghc/ghc/issues/7815)). Fraser's work avoids this by using the transaction status and the fact that locks point back to the `TRec` holding the lock to detect other transactions in a read only check (read phase) and resolving conflicts so that at least one of the transactions can commit.
+At this point `T1` and `T2` both perform their `read_only_check` and both could (at least one will) discover that a `TVar` in their read set is now locked. This leads to both transactions aborting. The chances of this are narrow but not impossible (see ticket [\#7815](https://gitlab.haskell.org/ghc/ghc/issues/7815)). Fraser's work avoids this by using the transaction status and the fact that locks point back to the `TRec` holding the lock to detect other transactions in a read only check (read phase) and resolving conflicts so that at least one of the transactions can commit.
 
 
 A simpler example can also cause both transactions to abort. Consider two transactions with the same write set, but the writes entered the `TRec`s in a different order. Both transactions could encounter a lock from the other before they have a chance to release locks and get out of the way. Having an ordering on lock could avoid this problem but would add a little more complexity.

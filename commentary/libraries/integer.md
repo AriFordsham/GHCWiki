@@ -9,7 +9,7 @@ GHC is set up to allow different implementations of the `Integer` type to be cho
 You can select which implementation of Integer is used by defining `INTEGER_LIBRARY` in `mk/build.mk`. This tells the build system to build the library in `libraries/$(INTEGER_LIBRARY)`, and the `cIntegerLibrary` and `cIntegerLibraryType` values in `Config.hs` are defined accordingly.
 
 
-The default value is `integer-gmp`, which uses the [ GNU Multiple Precision Arithmetic Library (GMP)](http://gmplib.org/) to define the Integer type and its operations.
+The default value is `integer-gmp`, which uses the [GNU Multiple Precision Arithmetic Library (GMP)](http://gmplib.org/) to define the Integer type and its operations.
 
 
 The other implementation currently available is `integer-simple`, which uses a simple (but slow, for larger Integers) pure Haskell implementation.
@@ -79,7 +79,7 @@ plusInteger :: Integer -> Integer -> Integer
 
   Constant folding rules for divisions are defined for `quotInteger` and other division functions from `integer-gmp` library. If `quot` was not inlined constant folding rules would not fire. The rules would also not fire if call to `quotInteger` was inlined, but this does not happen because it is marked with NOINLINE pragma - see below.
 
-- **Converting between Int and Integer**.  It's quite commonly the case that, after some inlining, we get something like `integerToInt (intToInteger i)`, which converts an `Int` to an `Integer` and back.  This *must* optimise away (see [\#5767](https://gitlab.haskell.org//ghc/ghc/issues/5767)).  We do this by requiring that the `integer` package exposes
+- **Converting between Int and Integer**.  It's quite commonly the case that, after some inlining, we get something like `integerToInt (intToInteger i)`, which converts an `Int` to an `Integer` and back.  This *must* optimise away (see [\#5767](https://gitlab.haskell.org/ghc/ghc/issues/5767)).  We do this by requiring that the `integer` package exposes
 
   ```
   smallInteger :: Int# -> Integer

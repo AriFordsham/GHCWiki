@@ -197,7 +197,7 @@ This will be a bug-fix release.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15508">#15508</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15508">#15508</a></th>
 <td>
                     
                   
@@ -223,7 +223,7 @@ This will be a bug-fix release.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15508">concprog001 fails with various errors</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15508">concprog001 fails with various errors</a>
                       
                       
                       
@@ -275,7 +275,7 @@ This will be a bug-fix release.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15444">#15444</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15444">#15444</a></th>
 <td>
                     
                   
@@ -301,7 +301,7 @@ This will be a bug-fix release.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15444">8.4.3 has an undocumented dependency on libnuma.</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15444">8.4.3 has an undocumented dependency on libnuma.</a>
                       
                       
                       
@@ -353,7 +353,7 @@ This will be a bug-fix release.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16028">#16028</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16028">#16028</a></th>
 <td>
                     
                   
@@ -379,7 +379,7 @@ This will be a bug-fix release.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16028">tyThingCoAxiom panics while building Agda</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/16028">tyThingCoAxiom panics while building Agda</a>
                       
                       
                       
@@ -483,7 +483,7 @@ This will be a bug-fix release.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16147">#16147</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16147">#16147</a></th>
 <td>
                     
                   
@@ -509,7 +509,7 @@ This will be a bug-fix release.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16147">ghc-pkg deadlocks on macOS</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/16147">ghc-pkg deadlocks on macOS</a>
                       
                       
                       

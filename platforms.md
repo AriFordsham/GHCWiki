@@ -5,7 +5,7 @@ The following table describes to what extent GHC currently supports
 various platforms.  To find out who is responsible for each platform, see [GHC Code Owners](code-owners).
 
 
-For information about what distributions GHC is part of, see the [ distribution packages](http://haskell.org/ghc/distribution_packages) page.
+For information about what distributions GHC is part of, see the [distribution packages](http://haskell.org/ghc/distribution_packages) page.
 
 ## Tier 1 platforms
 
@@ -77,7 +77,7 @@ Criteria for Tier 1 platforms:
 
 
 
-**\*W** Windows DLL support currently quite limited due to platform limitations (see [\#5987](https://gitlab.haskell.org//ghc/ghc/issues/5987))
+**\*W** Windows DLL support currently quite limited due to platform limitations (see [\#5987](https://gitlab.haskell.org/ghc/ghc/issues/5987))
 
 ## Tier 2 platforms
 

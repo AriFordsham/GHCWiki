@@ -17,20 +17,20 @@ The proc-point splitting is also a rather ugly transformation we would like to r
 #### Challenges
 
 
-The address of a basic block is [ not a well-defined concept](http://llvm.org/docs/LangRef.html#addresses-of-basic-blocks) outside of an LLVM function.
+The address of a basic block is [not a well-defined concept](http://llvm.org/docs/LangRef.html#addresses-of-basic-blocks) outside of an LLVM function.
 There has been no movement on this in LLVM due to the key assumption made by LLVM's IR that all basic blocks have *known* predecessors, forming a complete control-flow graph amongst blocks.
 An escaping block label opens up the possibility of an edge from an unknown location.
-This is why an indirect branch instruction must conservatively list [ all possible block targets](http://llvm.org/docs/LangRef.html#i-indirectbr).
+This is why an indirect branch instruction must conservatively list [all possible block targets](http://llvm.org/docs/LangRef.html#i-indirectbr).
 
 #### Proposal
 
 
-We propose to extend LLVM, slightly, to support "CPS calls".  The initial proposal, to the LLVM community, can be found [ here.](http://lists.llvm.org/pipermail/llvm-dev/2017-April/112144.html)  What follows is a somewhat revised version of that proposal.
+We propose to extend LLVM, slightly, to support "CPS calls".  The initial proposal, to the LLVM community, can be found [here.](http://lists.llvm.org/pipermail/llvm-dev/2017-April/112144.html)  What follows is a somewhat revised version of that proposal.
 
 #### Implementation Progress
 
 
-After recieving a helpful [ suggestion](http://lists.llvm.org/pipermail/llvm-dev/2017-April/112214.html) from Ried on the LLVM mailing list, I've extended LLVM with an experimental CPS call. To help understand how it works, let's consider this Core program:
+After recieving a helpful [suggestion](http://lists.llvm.org/pipermail/llvm-dev/2017-April/112214.html) from Ried on the LLVM mailing list, I've extended LLVM with an experimental CPS call. To help understand how it works, let's consider this Core program:
 
 ```wiki
 f x = if x != 0#
@@ -213,12 +213,12 @@ splitting the block, etc.
 ## Tuning LLVM IR Passes
 
 
-The optimization pass sequence in LLVM is well tested for languages like C/C++, but not Haskell. See [\#11295](https://gitlab.haskell.org//ghc/ghc/issues/11295) for details and progress updates.
+The optimization pass sequence in LLVM is well tested for languages like C/C++, but not Haskell. See [\#11295](https://gitlab.haskell.org/ghc/ghc/issues/11295) for details and progress updates.
 
 ## Improving Heap Checks
 
 
-See [\#8905](https://gitlab.haskell.org//ghc/ghc/issues/8905) and [\#12231](https://gitlab.haskell.org//ghc/ghc/issues/12231) and \[Compiling case expressions\] in StgCmmExpr
+See [\#8905](https://gitlab.haskell.org/ghc/ghc/issues/8905) and [\#12231](https://gitlab.haskell.org/ghc/ghc/issues/12231) and \[Compiling case expressions\] in StgCmmExpr
 
 ---
 
@@ -281,5 +281,5 @@ rightSide:
 ### Other Performance Bugs To Consider
 
 
-- [\#12798](https://gitlab.haskell.org//ghc/ghc/issues/12798)
-- [\#12808](https://gitlab.haskell.org//ghc/ghc/issues/12808)
+- [\#12798](https://gitlab.haskell.org/ghc/ghc/issues/12798)
+- [\#12808](https://gitlab.haskell.org/ghc/ghc/issues/12808)

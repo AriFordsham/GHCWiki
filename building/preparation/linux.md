@@ -20,12 +20,12 @@ This way you can still hack on ghc with Emacs, etc, but you are just building fr
 Note that `arc` (the GHC patch submission tool) is installed in the image (although you can also use it from your docker host) along with vim-tiny for editing commit messages.
 
 
-Send pull requests to [ https://github.com/gregwebs/ghc-docker-dev](https://github.com/gregwebs/ghc-docker-dev) if something is out-of-date.
+Send pull requests to [https://github.com/gregwebs/ghc-docker-dev](https://github.com/gregwebs/ghc-docker-dev) if something is out-of-date.
 
 ## Fedora
 
 
-Install the [ required tools](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools) using the following command for Fedora 22 and later (for earlier versions of Fedora, use `yum` instead of `dnf`):
+Install the [required tools](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools) using the following command for Fedora 22 and later (for earlier versions of Fedora, use `yum` instead of `dnf`):
 
 ```wiki
    sudo dnf install glibc-devel ncurses-devel gmp-devel autoconf automake libtool gcc gcc-c++ make perl python ghc happy alex git
@@ -56,7 +56,7 @@ Now the system should be ready to build GHC.
 
 For a quickstart, follow the commands listed under:
 
-[ https://github.com/ghc/ghc\#building--installing](https://github.com/ghc/ghc#building--installing)
+[https://github.com/ghc/ghc\#building--installing](https://github.com/ghc/ghc#building--installing)
 
 ## Debian, Ubuntu, and other Debian-based systems
 
@@ -79,7 +79,7 @@ But this might install some packages you do not use in your system (e.g. Sphinx)
 (`ncurses-dev` is needed by the `terminfo` package, and `g++` is needed by a couple of tests, `ghcilink003` and `ghcilink006`).
 
 
-Optional: install LLVM from \<[ http://apt.llvm.org](http://apt.llvm.org)\> (only necessary to make the `-fllvm` flag work). [Commentary/Compiler/Backends/LLVM/Installing](commentary/compiler/backends/llvm/installing#llvm-support) will tell you which version to install.
+Optional: install LLVM from \<[http://apt.llvm.org](http://apt.llvm.org)\> (only necessary to make the `-fllvm` flag work). [Commentary/Compiler/Backends/LLVM/Installing](commentary/compiler/backends/llvm/installing#llvm-support) will tell you which version to install.
 
 
 Due to the nature of Debian, you may have difficulty building GHC \>7.6 due to version incompatibilities with the Happy and Alex packages.  To alleviate this issue simply install both packages using the `haskell-platform` provided `cabal`.
@@ -121,7 +121,7 @@ For [validating patches](testing-patches) :
 ## Arch
 
 
-Install the [ required tools](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools):
+Install the [required tools](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools):
 
 ```wiki
    sudo pacman -S ghc ghc-static perl gcc make happy alex cabal-install autoconf automake python python-sphinx libedit numactl

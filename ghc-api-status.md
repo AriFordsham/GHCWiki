@@ -3,8 +3,8 @@
 
 This Wiki page shall serve as a central place to collect all issues and ideas related to the GHC API.  If you feel that something is missing from this page, please add a comment to the comment section below.
 
-- [ Source code](http://code.haskell.org/~nominolo/src/ghc/)
-- [ Haddock docs](http://code.haskell.org/~nominolo/html/ghc/) (may occasionally be out of date with the source)
+- [Source code](http://code.haskell.org/~nominolo/src/ghc/)
+- [Haddock docs](http://code.haskell.org/~nominolo/html/ghc/) (may occasionally be out of date with the source)
 
 ---
 
@@ -196,24 +196,24 @@ There are also a few non-functional requirements:
 ## Trac Tickets Related to the GHC API
 
 
-- [\#1467](https://gitlab.haskell.org//ghc/ghc/issues/1467) - GHC API: expose separate compilation stages
-- [\#1886](https://gitlab.haskell.org//ghc/ghc/issues/1886) - GHC API should preserve and provide access to comments
-- [\#654](https://gitlab.haskell.org//ghc/ghc/issues/654) - Cabalization of the GHC library.
+- [\#1467](https://gitlab.haskell.org/ghc/ghc/issues/1467) - GHC API: expose separate compilation stages
+- [\#1886](https://gitlab.haskell.org/ghc/ghc/issues/1886) - GHC API should preserve and provide access to comments
+- [\#654](https://gitlab.haskell.org/ghc/ghc/issues/654) - Cabalization of the GHC library.
 
 ### Possibly Related
 
-- [\#2159](https://gitlab.haskell.org//ghc/ghc/issues/2159) - Use a more efficient representation than `[DynFlag]`
-- [\#1631](https://gitlab.haskell.org//ghc/ghc/issues/1631) - Make the External Package Table contain `ModDetails` not `ModIface`
+- [\#2159](https://gitlab.haskell.org/ghc/ghc/issues/2159) - Use a more efficient representation than `[DynFlag]`
+- [\#1631](https://gitlab.haskell.org/ghc/ghc/issues/1631) - Make the External Package Table contain `ModDetails` not `ModIface`
 
 ## Related Documents and Discussions
 
-- [ The GSoC proposal](http://code.google.com/soc/2008/haskell/appinfo.html?csaid=4189AF2C8AE5E25A)
-- Related GSoC project [ Dynamically Loaded Plugins for the Glasgow Haskell Compiler](http://code.google.com/soc/2008/haskell/appinfo.html?csaid=69C2ABD1E013EE0C)
-- Haskell-cafe question: [ How to get the typechecked AST?](http://www.haskell.org/pipermail/haskell-cafe/2008-May/042616.html)
-- [ Porting HaRe to the GHC API](http://www.cs.kent.ac.uk/pubs/2005/2266/) Technical report describing some difficulties with the current API.
-- [ GHC as a Library](http://www.haskell.org/haskellwiki/GHC/As_a_library), the Haskell Wiki page
-- [ GHC Commentary on the GHC API](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/API) (may be outdated)
-- [ hint, an attempt to provide a simplified and stable subset of the GHC API](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/hint-0.2.1)
+- [The GSoC proposal](http://code.google.com/soc/2008/haskell/appinfo.html?csaid=4189AF2C8AE5E25A)
+- Related GSoC project [Dynamically Loaded Plugins for the Glasgow Haskell Compiler](http://code.google.com/soc/2008/haskell/appinfo.html?csaid=69C2ABD1E013EE0C)
+- Haskell-cafe question: [How to get the typechecked AST?](http://www.haskell.org/pipermail/haskell-cafe/2008-May/042616.html)
+- [Porting HaRe to the GHC API](http://www.cs.kent.ac.uk/pubs/2005/2266/) Technical report describing some difficulties with the current API.
+- [GHC as a Library](http://www.haskell.org/haskellwiki/GHC/As_a_library), the Haskell Wiki page
+- [GHC Commentary on the GHC API](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/API) (may be outdated)
+- [hint, an attempt to provide a simplified and stable subset of the GHC API](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/hint-0.2.1)
 
 ## Various Ideas, Comments, Questions
 
@@ -225,14 +225,14 @@ There are also a few non-functional requirements:
 - **Ast Traversals/Queries**, see: [GhcApiAstTraversals](ghc-api-ast-traversals)
 
   - Is it possible to use standalone deriving to get a **generic programming framework over the ASTs** without blowing up GHC's code for its own use (deriving Data, etc.)? (Claus Reinke)
-  - David Waern mentions [ deriving \`Data.Traversable\`](http://www.haskell.org/pipermail/haskell-cafe/2008-May/042961.html) for GHC's AST
+  - David Waern mentions [deriving \`Data.Traversable\`](http://www.haskell.org/pipermail/haskell-cafe/2008-May/042961.html) for GHC's AST
 - **GHC library directory in GHC API clients**
 
-  - the need to hardcode the libdir is very fragile and troublesome (cf. the [ Haddock version during build](http://www.haskell.org/pipermail/cvs-libraries/2008-June/008942.html) thread on `cvs-libraries` for just one example). would it be possible to integrate the path for the compiling GHC as a default, so that one only needs to specify an explicit path if the default doesn't work (compiling GHC moved/unavailable)? (Claus Reinke) 
-  - this has been addressed by the new [ ghc-paths](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/ghc-paths) package
+  - the need to hardcode the libdir is very fragile and troublesome (cf. the [Haddock version during build](http://www.haskell.org/pipermail/cvs-libraries/2008-June/008942.html) thread on `cvs-libraries` for just one example). would it be possible to integrate the path for the compiling GHC as a default, so that one only needs to specify an explicit path if the default doesn't work (compiling GHC moved/unavailable)? (Claus Reinke) 
+  - this has been addressed by the new [ghc-paths](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/ghc-paths) package
 - **binary incompatibility of GHC versions**
 
-  - this also affects GHC Api clients, see [ the Haddock 2 in GHC build issues](http://www.haskell.org/pipermail/cvs-ghc/2008-July/043568.html) for an infamous example
+  - this also affects GHC Api clients, see [the Haddock 2 in GHC build issues](http://www.haskell.org/pipermail/cvs-ghc/2008-July/043568.html) for an infamous example
 - From `compiler/main/GHC.hs`:
 
   ```wiki
@@ -254,7 +254,7 @@ There are also a few non-functional requirements:
   anyway, but it would be nice to have the ugly bits hidden,
   such as `unsafeCast#`, or whatever it was). that might require
   a standard for typeReps, if I recall correctly.. (Claus Reinke)
-- since the refactoring ideas below mention error handling: it appears that some GHC Api functions output error messages directly, without providing a means to handle/capture them in callers. I ran into one such instance a while ago ([\#1463](https://gitlab.haskell.org//ghc/ghc/issues/1463), comments 8, 10, 11)
+- since the refactoring ideas below mention error handling: it appears that some GHC Api functions output error messages directly, without providing a means to handle/capture them in callers. I ran into one such instance a while ago ([\#1463](https://gitlab.haskell.org/ghc/ghc/issues/1463), comments 8, 10, 11)
 - ... more comments here ...
 
 

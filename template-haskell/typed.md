@@ -3,12 +3,12 @@
 ### Add MetaML-style quotes
 
 
-The [ Template Haskell Proposal](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal) contains a sub-proposal to
-[ Add MetaML-style quotes](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal#PartB:AddMetaML-styletypedquotes).  This requires a more detailed design.
+The [Template Haskell Proposal](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal) contains a sub-proposal to
+[Add MetaML-style quotes](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal#PartB:AddMetaML-styletypedquotes).  This requires a more detailed design.
 
 
 
-In the case of terms (only), we know from MetaML that we can have typed quotations. These are rather useful as the metaocaml exploration of the [ Shonan Challenge report](http://okmij.org/ftp/meta-programming/Shonan-challenge.pdf) and [ code](https://github.com/StagedHPC/shonan-challenge) (amongst others) shows.  Right now, however, all this work is done in (the recently reborn) [ metaocaml](http://okmij.org/ftp/ML/MetaOCaml.html) rather than in (Template) Haskell because of the availability of typed quotes and splices for increased correctness.
+In the case of terms (only), we know from MetaML that we can have typed quotations. These are rather useful as the metaocaml exploration of the [Shonan Challenge report](http://okmij.org/ftp/meta-programming/Shonan-challenge.pdf) and [ code](https://github.com/StagedHPC/shonan-challenge) (amongst others) shows.  Right now, however, all this work is done in (the recently reborn) [ metaocaml](http://okmij.org/ftp/ML/MetaOCaml.html) rather than in (Template) Haskell because of the availability of typed quotes and splices for increased correctness.
 
 
 ### Concrete Steps
@@ -29,7 +29,7 @@ In the case of terms (only), we know from MetaML that we can have typed quotatio
 1.   **Cross-stage persistence will remain unchanged.**  To be able to use an identifier at future stages, it must be fully available, which means that it needs to be defined in a previous compilation unit if it will be spliced (by name) into a term.
 
 
-The justification for (2) and (3) are classical.  For ensuring type-safety (at the current state of knowledge), it is important that `TExp` be abstract, as sound typed-expression manipulation is very hard to achieve, especially in the presence of binders.  A future extension may open this up, whenever this particular tough nut is cracked, but for now we must have (1).  In theory, `unType` (4) is not needed; in practice, it probably will be, but mainly for top-level splices.  (5) is obvious: type information needs to be available for typed splices, and this is not available in the renamer.  (6) comes from MetaML, and basically just means that the renamer will be applied to typed splices as well.  (7) documents a non-change \[which is a little awkward in code, was not present in the old metaocaml, but is actually in the new metaocaml -- see the [ data constructor restriction](http://okmij.org/ftp/ML/MetaOCaml.html#ctors)).
+The justification for (2) and (3) are classical.  For ensuring type-safety (at the current state of knowledge), it is important that `TExp` be abstract, as sound typed-expression manipulation is very hard to achieve, especially in the presence of binders.  A future extension may open this up, whenever this particular tough nut is cracked, but for now we must have (1).  In theory, `unType` (4) is not needed; in practice, it probably will be, but mainly for top-level splices.  (5) is obvious: type information needs to be available for typed splices, and this is not available in the renamer.  (6) comes from MetaML, and basically just means that the renamer will be applied to typed splices as well.  (7) documents a non-change \[which is a little awkward in code, was not present in the old metaocaml, but is actually in the new metaocaml -- see the [data constructor restriction](http://okmij.org/ftp/ML/MetaOCaml.html#ctors)).
 
 ### Syntax
 
@@ -42,12 +42,12 @@ Of course, it would be nice to also use Unicode for something nicer; 〈 e 〉 i
 ### Other Details
 
 
-Quite a number of other items have already been described in detail in the [ Proposal](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal), so there is no point in repeating them here.
+Quite a number of other items have already been described in detail in the [Proposal](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal), so there is no point in repeating them here.
 
 ### Scope Extrusion and effects
 
 
-Since effects in Haskell are typed quite differently than in ocaml, [ scope extrusion](http://okmij.org/ftp/ML/MetaOCaml.html#got-away) is unlikely to be much of a problem.  However, these items should be tested.
+Since effects in Haskell are typed quite differently than in ocaml, [scope extrusion](http://okmij.org/ftp/ML/MetaOCaml.html#got-away) is unlikely to be much of a problem.  However, these items should be tested.
 
 
 Note that there should be no restriction on `a` to be a pure type, i.e. it could be `m a` for some `Monad m`.  Normal Haskell typing rules would just apply.  Since top-level declarations cannot be generated as (typed) terms, all such effects would have to be present in the environment already for things to be typeable.
@@ -71,7 +71,7 @@ Implementation work on Typed Template Haskell is being done on the `th-new` bran
 
 1. Check out the `th-new` branch in `testsuite`.
 
-1. Configure and build as you would normally (see Building). Note that if you want to use the GHC API to perform run time compilation, you will have to build a static GHCi by adding the following to your `mk/build.mk`. See [\#7774](https://gitlab.haskell.org//ghc/ghc/issues/7774).
+1. Configure and build as you would normally (see Building). Note that if you want to use the GHC API to perform run time compilation, you will have to build a static GHCi by adding the following to your `mk/build.mk`. See [\#7774](https://gitlab.haskell.org/ghc/ghc/issues/7774).
 
 ```wiki
 DYNAMIC_BY_DEFAULT = NO

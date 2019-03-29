@@ -197,7 +197,7 @@ This will be a bug-fix release.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15877">#15877</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15877">#15877</a></th>
 <td>
                     
                   
@@ -223,7 +223,7 @@ This will be a bug-fix release.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15877">--flavour=quick followed by --flavour=prof fails</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15877">--flavour=quick followed by --flavour=prof fails</a>
                       
                       
                       

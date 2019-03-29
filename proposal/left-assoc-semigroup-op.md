@@ -1,16 +1,16 @@
 # Left-Associative `Semigroup` Operator Alias
 
 
-Mailing list discussion in progress on [ on {libraries,ghc-devs}\@haskell.org](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/12030)
+Mailing list discussion in progress on [on {libraries,ghc-devs}\@haskell.org](http://thread.gmane.org/gmane.comp.lang.haskell.ghc.devel/12030)
 
 
-related reddit discussion on [ /r/haskell](https://www.reddit.com/r/haskell/comments/4mtf5t/proposal_leftassociative_semigroup_operator_alias/)
+related reddit discussion on [/r/haskell](https://www.reddit.com/r/haskell/comments/4mtf5t/proposal_leftassociative_semigroup_operator_alias/)
 
 ## Problem
 
 
 
-With the implementation of [ prime:Libraries/Proposals/SemigroupMonoid](https://prime.haskell.org/intertrac/Libraries/Proposals/SemigroupMonoid), `Semigroup` will become a superclass of `Monoid`, and consequently `Semigroup((<>))` will be re-exported alongside `Monoid` from the `Prelude` module.
+With the implementation of [prime:Libraries/Proposals/SemigroupMonoid](https://prime.haskell.org/intertrac/Libraries/Proposals/SemigroupMonoid), `Semigroup` will become a superclass of `Monoid`, and consequently `Semigroup((<>))` will be re-exported alongside `Monoid` from the `Prelude` module.
 
 
 ```
@@ -22,7 +22,7 @@ infixr 6 <>
 ```
 
 
-The `infixr 6`-fixity for `<>` was already introduced 4 years ago, when we added `Data.Monoid.<>` as alias for `mappend` (which differs from `infixr 5 ++`). See also [\#3339](https://gitlab.haskell.org//ghc/ghc/issues/3339) for some of the discussion that began in 2009 leading up to the final `infixr 6 <>` decision.
+The `infixr 6`-fixity for `<>` was already introduced 4 years ago, when we added `Data.Monoid.<>` as alias for `mappend` (which differs from `infixr 5 ++`). See also [\#3339](https://gitlab.haskell.org/ghc/ghc/issues/3339) for some of the discussion that began in 2009 leading up to the final `infixr 6 <>` decision.
 
 ### Conflicting fixities of `<>` in pretty printing APIs
 
@@ -72,7 +72,7 @@ infixl 5 $$, $+$
 ```
 
 
-On the other hand, the popular [ hackage:ansi-wl-pprint](http://hackage.haskell.org/package/ansi-wl-pprint) package does use right-associative operators:
+On the other hand, the popular [hackage:ansi-wl-pprint](http://hackage.haskell.org/package/ansi-wl-pprint) package does use right-associative operators:
 
 
 ```
@@ -85,14 +85,14 @@ infixr 6 <+>
 
 Other pretty printers also using a `infixr 6 <>, <+>` definition:
 
-- [ hackage:annotated-wl-pprint](http://hackage.haskell.org/package/annotated-wl-pprint)
-- [ hackage:mainland-pretty](http://hackage.haskell.org/package/mainland-pretty)
+- [hackage:annotated-wl-pprint](http://hackage.haskell.org/package/annotated-wl-pprint)
+- [hackage:mainland-pretty](http://hackage.haskell.org/package/mainland-pretty)
 
 ### Changing `<>`'s associativity in pretty-printing APIs
 
 
 
-Changing the fixity of `pretty`'s `<>` would however results in a semantic change for code which relies on the relative fixity between `<+>` and `<>` as was [ pointed out by Duncan back in 2011](https://mail.haskell.org/pipermail/libraries/2011-November/017066.html) already:
+Changing the fixity of `pretty`'s `<>` would however results in a semantic change for code which relies on the relative fixity between `<+>` and `<>` as was [pointed out by Duncan back in 2011](https://mail.haskell.org/pipermail/libraries/2011-November/017066.html) already:
 
 
 >
@@ -141,7 +141,7 @@ However, there also seems to be a legitimate use-case for a left-associative `<>
 
 
 
-[ David Terei suggests among other things](https://github.com/haskell/pretty/issues/30#issuecomment-161146748) to
+[David Terei suggests among other things](https://github.com/haskell/pretty/issues/30#issuecomment-161146748) to
 
 
 >

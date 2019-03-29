@@ -1,6 +1,6 @@
 # Trees that Grow Guidance
 
-[ The Trees that Grow (TTG) idiom](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf) can be used to provide different forms of extensions and variations on an AST. Since April 2018, the [HsSyn](implementing-trees-that-grow/hs-syn) AST inside GHC supports the TTG idiom. This page provides a set of guiding principles for GHC developers on how to understand and use the TTG idiom in [HsSyn](implementing-trees-that-grow/hs-syn).
+[The Trees that Grow (TTG) idiom](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf) can be used to provide different forms of extensions and variations on an AST. Since April 2018, the [HsSyn](implementing-trees-that-grow/hs-syn) AST inside GHC supports the TTG idiom. This page provides a set of guiding principles for GHC developers on how to understand and use the TTG idiom in [HsSyn](implementing-trees-that-grow/hs-syn).
 
 ## Context and Scope
 
@@ -19,7 +19,7 @@ By "subsume" we mean that it should be possible to instantiate TTG [HsSyn](imple
 
 The subsumption of above five ASTs is done by providing instances for the extension type families.
 For instance, the AST for GHC's parsing, renaming, and typechecking are defined by providing instances of the extension type families using accordingly the indices `GhcPs`, `GhcRn`, and `GhcTc`.
-[ Here](https://github.com/ghc/ghc/blob/master/compiler/hsSyn/HsExpr.hs#L737-L835) is the actual code providing such instances for the `HsExpr` datatype of expressions in the TTG [HsSyn](implementing-trees-that-grow/hs-syn).
+[Here](https://github.com/ghc/ghc/blob/master/compiler/hsSyn/HsExpr.hs#L737-L835) is the actual code providing such instances for the `HsExpr` datatype of expressions in the TTG [HsSyn](implementing-trees-that-grow/hs-syn).
 
 ## General pattern for TTG
 

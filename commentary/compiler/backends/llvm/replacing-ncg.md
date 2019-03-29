@@ -8,9 +8,9 @@ However, there are a few ways that the LLVM backend needs to be improved before 
 
 1.  Compilation speed.  LLVM approximately doubles compilation time. Avoiding going via the textual intermediate syntax would probably help here.
 
-1. Shared library support ([\#4210](https://gitlab.haskell.org//ghc/ghc/issues/4210), [\#5786](https://gitlab.haskell.org//ghc/ghc/issues/5786)).  It works (or worked?) on a couple of platforms.  But even on those platforms it generated worse code than the NCG due to using dynamic references for \*all\* symbols, whereas the NCG knows which symbols live in a separate package and need to use dynamic references.
+1. Shared library support ([\#4210](https://gitlab.haskell.org/ghc/ghc/issues/4210), [\#5786](https://gitlab.haskell.org/ghc/ghc/issues/5786)).  It works (or worked?) on a couple of platforms.  But even on those platforms it generated worse code than the NCG due to using dynamic references for \*all\* symbols, whereas the NCG knows which symbols live in a separate package and need to use dynamic references.
 
-1. Some low-level optimisation problems ([\#4308](https://gitlab.haskell.org//ghc/ghc/issues/4308), [\#5567](https://gitlab.haskell.org//ghc/ghc/issues/5567)).  The LLVM backend generates bad code for certain critical bits of the runtime, perhaps due to lack of good aliasing information.  This hasn't been revisited in the light of the new codegen, so perhaps it's better now.
+1. Some low-level optimisation problems ([\#4308](https://gitlab.haskell.org/ghc/ghc/issues/4308), [\#5567](https://gitlab.haskell.org/ghc/ghc/issues/5567)).  The LLVM backend generates bad code for certain critical bits of the runtime, perhaps due to lack of good aliasing information.  This hasn't been revisited in the light of the new codegen, so perhaps it's better now.
 
 
 Someone should benchmark the LLVM backend against the NCG with new codegen in GHC 7.8.  It's possible that the new codegen is getting a slight boost because it doesn't have to split up proc points, so it can do better code generation for let-no-escapes. It's also possible that LLVM is being penalised a bit for the same reason.

@@ -181,7 +181,7 @@ Release in Late May 2018.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15016">#15016</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15016">#15016</a></th>
 <td>
                     
                   
@@ -207,7 +207,7 @@ Release in Late May 2018.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15016">Referencing a do-bound variable in a rec block with ApplicativeDo results in variable not in scope during type checking</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15016">Referencing a do-bound variable in a rec block with ApplicativeDo results in variable not in scope during type checking</a>
                       
                       
                       
@@ -259,7 +259,7 @@ Release in Late May 2018.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14998">#14998</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14998">#14998</a></th>
 <td>
                     
                   
@@ -285,7 +285,7 @@ Release in Late May 2018.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14998">Sort out the strictness mess for exceptions</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/14998">Sort out the strictness mess for exceptions</a>
                       
                       
                       
@@ -337,7 +337,7 @@ Release in Late May 2018.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15003">#15003</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15003">#15003</a></th>
 <td>
                     
                   
@@ -363,7 +363,7 @@ Release in Late May 2018.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15003">Data.List documentation should list complexities of more functions</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15003">Data.List documentation should list complexities of more functions</a>
                       
                       
                       
@@ -415,7 +415,7 @@ Release in Late May 2018.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15014">#15014</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15014">#15014</a></th>
 <td>
                     
                   
@@ -441,7 +441,7 @@ Release in Late May 2018.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15014">Exhaustivity check should suggest when COMPLETE could be helpful</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15014">Exhaustivity check should suggest when COMPLETE could be helpful</a>
                       
                       
                       
@@ -493,7 +493,7 @@ Release in Late May 2018.
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15015">#15015</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15015">#15015</a></th>
 <td>
                     
                   
@@ -519,7 +519,7 @@ Release in Late May 2018.
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15015">Parsing of exp_doc loses section markers</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/15015">Parsing of exp_doc loses section markers</a>
                       
                       
                       

@@ -18,7 +18,7 @@ to stop Git in the ghc repo from checking for unrecorded changes in the submodul
 ### Locate commit by SHA1
 
 
-You can use `http://git.haskell.org/.findhash/<sha1-prefix>` or the convenient form below (also available at the front page of [ http://git.haskell.org/](http://git.haskell.org/)):
+You can use `http://git.haskell.org/.findhash/<sha1-prefix>` or the convenient form below (also available at the front page of [http://git.haskell.org/](http://git.haskell.org/)):
 
 ### Selectively record changes to commit
 
@@ -163,7 +163,7 @@ As you can see, the `reflog` saved me here: I undid some nasty work in my person
 ## Intermediate Git tricks
 
 
-See [ 25 Tips for Intermediate Git Users](https://www.andyjeffries.co.uk/25-tips-for-intermediate-git-users/) blog post.
+See [25 Tips for Intermediate Git Users](https://www.andyjeffries.co.uk/25-tips-for-intermediate-git-users/) blog post.
 
 ## Advanced Git tricks
 

@@ -6,11 +6,11 @@ This page summarises progress on the Static Argument Transformation.
 
 See:
 
-- [ Andre Sansos's thesis](https://www.microsoft.com/en-us/research/publication/compilation-transformation-non-strict-functional-languages/) which has a whole chapter.
-- [ Danvy's lambda-dropping paper](http://ojs.statsbiblioteket.dk/index.php/brics/article/view/18785)
+- [Andre Sansos's thesis](https://www.microsoft.com/en-us/research/publication/compilation-transformation-non-strict-functional-languages/) which has a whole chapter.
+- [Danvy's lambda-dropping paper](http://ojs.statsbiblioteket.dk/index.php/brics/article/view/18785)
 
 
-In comment:10 of [\#5059](https://gitlab.haskell.org//ghc/ghc/issues/5059), Max notes that SAT provides 20-30% wins in nofib, wow! 
+In comment:10 of [\#5059](https://gitlab.haskell.org/ghc/ghc/issues/5059), Max notes that SAT provides 20-30% wins in nofib, wow! 
 
 ## Tickets
 
@@ -22,21 +22,21 @@ Use Keyword = `StaticArgumentTransformation` to ensure that a ticket ends up on 
 
 **Open Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/888">#888</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/888">#888</a></th>
 <td>Implement the static argument transformation</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5059">#5059</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5059">#5059</a></th>
 <td>Pragma to SPECIALISE on value arguments</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9374">#9374</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9374">#9374</a></th>
 <td>Investigate Static Argument Transformation</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13502">#13502</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13502">#13502</a></th>
 <td>Static argument transformation should also run after specialisation</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13966">#13966</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13966">#13966</a></th>
 <td>Skip-less stream fusion: a missed opportunity</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14211">#14211</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14211">#14211</a></th>
 <td>Compiler is unable to INLINE as well as the programmer can manually</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14231">#14231</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14231">#14231</a></th>
 <td>Core lint error &quot;in result of Static argument&quot;</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14649">#14649</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14649">#14649</a></th>
 <td>ghc panic: mergeSATInfo</td></tr></table>
 
 
@@ -44,7 +44,7 @@ Use Keyword = `StaticArgumentTransformation` to ensure that a ticket ends up on 
 
 **Closed Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9545">#9545</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9545">#9545</a></th>
 <td>Evaluate Takano Akio&apos;s foldrW/buildW fusion framework as a possible replacement for foldr/build</td></tr></table>
 
 

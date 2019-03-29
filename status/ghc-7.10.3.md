@@ -15,18 +15,18 @@ So please tell us if your problem falls in to this category, saying a bit about 
 
 Here's a list of the tickets that appear to fall into this show-stopping category:
 
-- [\#10528](https://gitlab.haskell.org//ghc/ghc/issues/10528), [\#10829](https://gitlab.haskell.org//ghc/ghc/issues/10829), [\#10745](https://gitlab.haskell.org//ghc/ghc/issues/10745) (simplification on LHS and RHS of rules)
-- [\#10726](https://gitlab.haskell.org//ghc/ghc/issues/10726), [\#10795](https://gitlab.haskell.org//ghc/ghc/issues/10795) ([ Ruben Moor email](https://mail.haskell.org/pipermail/glasgow-haskell-users/2015-September/026035.html), [ Moritz Drexl email](https://mail.haskell.org/pipermail/glasgow-haskell-users/2015-September/026049.html))
-- [\#10568](https://gitlab.haskell.org//ghc/ghc/issues/10568), [\#10672](https://gitlab.haskell.org//ghc/ghc/issues/10672) ([ Luke Iannini email](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009973.html))
-- [\#10777](https://gitlab.haskell.org//ghc/ghc/issues/10777) (Windows): some pressure to get these patches into 7.10.3, eg same Moritz Drexl email above
+- [\#10528](https://gitlab.haskell.org/ghc/ghc/issues/10528), [\#10829](https://gitlab.haskell.org/ghc/ghc/issues/10829), [\#10745](https://gitlab.haskell.org/ghc/ghc/issues/10745) (simplification on LHS and RHS of rules)
+- [\#10726](https://gitlab.haskell.org/ghc/ghc/issues/10726), [\#10795](https://gitlab.haskell.org/ghc/ghc/issues/10795) ([Ruben Moor email](https://mail.haskell.org/pipermail/glasgow-haskell-users/2015-September/026035.html), [ Moritz Drexl email](https://mail.haskell.org/pipermail/glasgow-haskell-users/2015-September/026049.html))
+- [\#10568](https://gitlab.haskell.org/ghc/ghc/issues/10568), [\#10672](https://gitlab.haskell.org/ghc/ghc/issues/10672) ([Luke Iannini email](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009973.html))
+- [\#10777](https://gitlab.haskell.org/ghc/ghc/issues/10777) (Windows): some pressure to get these patches into 7.10.3, eg same Moritz Drexl email above
 
 
 Possible (not world ending, but probably not easy to workaround and breaks):
 
-- [\#9238](https://gitlab.haskell.org//ghc/ghc/issues/9238) (Levent Erkok): mentioned [ reddit](https://www.reddit.com/r/haskell/comments/3kwsu4/ghcdev_anyone_need_ghc_7103) as a [ bug for SBV](https://github.com/LeventErkok/sbv/issues/138#issuecomment-139804285)
+- [\#9238](https://gitlab.haskell.org/ghc/ghc/issues/9238) (Levent Erkok): mentioned [reddit](https://www.reddit.com/r/haskell/comments/3kwsu4/ghcdev_anyone_need_ghc_7103) as a [ bug for SBV](https://github.com/LeventErkok/sbv/issues/138#issuecomment-139804285)
 
 
-See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.3) for more.
+See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [Active tickets](https://ghc.haskell.org/trac/ghc/query?status=infoneeded&status=merge&status=new&status=patch&group=status&milestone=7.10.3) for more.
 
 
 ## Tickets slated for 7.10.3
@@ -79,7 +79,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7830">#7830</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7830">#7830</a></th>
 <td>
                     
                   
@@ -105,7 +105,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/7830">Error: operand out of range</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/7830">Error: operand out of range</a>
                       
                       
                       
@@ -157,7 +157,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10489">#10489</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10489">#10489</a></th>
 <td>
                     
                   
@@ -183,7 +183,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10489">Panic in TcEvidence due to wrong role</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10489">Panic in TcEvidence due to wrong role</a>
                       
                       
                       
@@ -235,7 +235,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10826">#10826</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10826">#10826</a></th>
 <td>
                     
                   
@@ -261,7 +261,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10826">[Security] Safe Haskell can be bypassed via annotations</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10826">[Security] Safe Haskell can be bypassed via annotations</a>
                       
                       
                       
@@ -313,7 +313,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11061">#11061</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11061">#11061</a></th>
 <td>
                     
                   
@@ -339,7 +339,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11061">GHC 7.10.3 RC1: build broken on OS X</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/11061">GHC 7.10.3 RC1: build broken on OS X</a>
                       
                       
                       
@@ -391,7 +391,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3242">#3242</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/3242">#3242</a></th>
 <td>
                     
                   
@@ -417,7 +417,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/3242">GHCi linker does not correctly locate static libraries under Windows</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/3242">GHCi linker does not correctly locate static libraries under Windows</a>
                       
                       
                       
@@ -469,7 +469,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9297">#9297</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9297">#9297</a></th>
 <td>
                     
                   
@@ -495,7 +495,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9297">Packages linked against certain Windows .dll files give warnings at runtime</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9297">Packages linked against certain Windows .dll files give warnings at runtime</a>
                       
                       
                       
@@ -547,7 +547,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10375">#10375</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10375">#10375</a></th>
 <td>
                     
                   
@@ -573,7 +573,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10375">arm: ghci hits an illegal instruction</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10375">arm: ghci hits an illegal instruction</a>
                       
                       
                       
@@ -625,7 +625,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10438">#10438</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10438">#10438</a></th>
 <td>
                     
                   
@@ -651,7 +651,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10438">GHC 7.10.1 panic due to PartialTypeSignatures, TypeFamilies, and local bindings</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10438">GHC 7.10.1 panic due to PartialTypeSignatures, TypeFamilies, and local bindings</a>
                       
                       
                       
@@ -703,7 +703,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10516">#10516</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10516">#10516</a></th>
 <td>
                     
                   
@@ -729,7 +729,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10516">PolyKinds results in incorrect reporting of type synonym parameter count</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10516">PolyKinds results in incorrect reporting of type synonym parameter count</a>
                       
                       
                       
@@ -781,7 +781,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10528">#10528</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10528">#10528</a></th>
 <td>
                     
                   
@@ -807,7 +807,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10528">compile time performance regression with OverloadedStrings and Text</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10528">compile time performance regression with OverloadedStrings and Text</a>
                       
                       
                       
@@ -859,7 +859,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10549">#10549</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10549">#10549</a></th>
 <td>
                     
                   
@@ -885,7 +885,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10549">floatExpr tick break&lt;2&gt;</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10549">floatExpr tick break&lt;2&gt;</a>
                       
                       
                       
@@ -937,7 +937,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10672">#10672</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10672">#10672</a></th>
 <td>
                     
                   
@@ -963,7 +963,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10672">GHCi linker does not understand C++ exception tables on Windows</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10672">GHCi linker does not understand C++ exception tables on Windows</a>
                       
                       
                       
@@ -1015,7 +1015,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10689">#10689</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10689">#10689</a></th>
 <td>
                     
                   
@@ -1041,7 +1041,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10689">compiling singletons-1.1.2.1 as -O1 -fspec-constr fails as &apos;Template variable unbound in rewrite rule&apos;</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10689">compiling singletons-1.1.2.1 as -O1 -fspec-constr fails as &apos;Template variable unbound in rewrite rule&apos;</a>
                       
                       
                       
@@ -1093,7 +1093,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10747">#10747</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10747">#10747</a></th>
 <td>
                     
                   
@@ -1119,7 +1119,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10747">Infix pattern synonyms fail to parse (regression)</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10747">Infix pattern synonyms fail to parse (regression)</a>
                       
                       
                       
@@ -1171,7 +1171,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10829">#10829</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10829">#10829</a></th>
 <td>
                     
                   
@@ -1197,7 +1197,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10829">Simplification in the RHS of rules</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10829">Simplification in the RHS of rules</a>
                       
                       
                       
@@ -1249,7 +1249,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10934">#10934</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10934">#10934</a></th>
 <td>
                     
                   
@@ -1275,7 +1275,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10934">Iface type variable out of scope</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10934">Iface type variable out of scope</a>
                       
                       
                       
@@ -1327,7 +1327,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10997">#10997</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10997">#10997</a></th>
 <td>
                     
                   
@@ -1353,7 +1353,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10997">Pattern synonym causes Iface error.</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10997">Pattern synonym causes Iface error.</a>
                       
                       
                       
@@ -1405,7 +1405,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11003">#11003</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11003">#11003</a></th>
 <td>
                     
                   
@@ -1431,7 +1431,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11003">Suggested fix for incorrect directory permissions is wrong</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/11003">Suggested fix for incorrect directory permissions is wrong</a>
                       
                       
                       
@@ -1483,7 +1483,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11127">#11127</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11127">#11127</a></th>
 <td>
                     
                   
@@ -1509,7 +1509,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11127">Update cabal submodule to 1.22.5</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/11127">Update cabal submodule to 1.22.5</a>
                       
                       
                       
@@ -1561,7 +1561,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1407">#1407</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/1407">#1407</a></th>
 <td>
                     
                   
@@ -1587,7 +1587,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/1407">Add the ability to :set -l{foo} in .ghci files</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/1407">Add the ability to :set -l{foo} in .ghci files</a>
                       
                       
                       
@@ -1639,7 +1639,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/6037">#6037</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/6037">#6037</a></th>
 <td>
                     
                   
@@ -1665,7 +1665,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/6037">Compile-time crash with sources with non-representable unicode characters</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/6037">Compile-time crash with sources with non-representable unicode characters</a>
                       
                       
                       
@@ -1717,7 +1717,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8652">#8652</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8652">#8652</a></th>
 <td>
                     
                   
@@ -1743,7 +1743,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8652">Cross-compiling broken for ARM/Linux target</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/8652">Cross-compiling broken for ARM/Linux target</a>
                       
                       
                       
@@ -1795,7 +1795,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9238">#9238</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9238">#9238</a></th>
 <td>
                     
                   
@@ -1821,7 +1821,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9238">Negative zero broken</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9238">Negative zero broken</a>
                       
                       
                       
@@ -1873,7 +1873,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9861">#9861</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9861">#9861</a></th>
 <td>
                     
                   
@@ -1899,7 +1899,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9861">ghc  readme provides out of date git clone directions</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9861">ghc  readme provides out of date git clone directions</a>
                       
                       
                       
@@ -1951,7 +1951,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9878">#9878</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9878">#9878</a></th>
 <td>
                     
                   
@@ -1977,85 +1977,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9878">Static pointers in GHCi cause panic</a>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                    </th>
-<td>
-                  
-                
-                  
-                    
-                    </td>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      normal
-                    </th>
-<td>
-                  
-                
-                  
-                    
-                    </td>
-<th>
-                      
-                      
-                      
-                      
-                      Phyx-
-                      
-                      
-                      
-                      
-                    </th>
-<td>
-                  
-                
-              </td></tr>
-<tr><td>
-                
-                  
-                    </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9907">#9907</a></th>
-<td>
-                    
-                  
-                
-                  
-                    
-                    </td>
-<th>
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      
-                      bug
-                    </th>
-<td>
-                  
-                
-                  
-                    
-                    </td>
-<th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9907">&quot;Unknown PEi386 section name `.text$printf&apos;&quot; error in GHCi on Windows</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9878">Static pointers in GHCi cause panic</a>
                       
                       
                       
@@ -2107,7 +2029,85 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9970">#9970</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9907">#9907</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      bug
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9907">&quot;Unknown PEi386 section name `.text$printf&apos;&quot; error in GHCi on Windows</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      Phyx-
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9970">#9970</a></th>
 <td>
                     
                   
@@ -2133,7 +2133,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9970">Export more types in GHC.RTS.Flags</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/9970">Export more types in GHC.RTS.Flags</a>
                       
                       
                       
@@ -2185,7 +2185,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10409">#10409</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10409">#10409</a></th>
 <td>
                     
                   
@@ -2211,7 +2211,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10409">Binary compiled with ghc-7.10 amd64/linux to aarch64/linux cross compiler segfaults.</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10409">Binary compiled with ghc-7.10 amd64/linux to aarch64/linux cross compiler segfaults.</a>
                       
                       
                       
@@ -2263,7 +2263,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10435">#10435</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10435">#10435</a></th>
 <td>
                     
                   
@@ -2289,7 +2289,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10435">catastrophic exception-handling disablement on Windows Server 2008 R2</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10435">catastrophic exception-handling disablement on Windows Server 2008 R2</a>
                       
                       
                       
@@ -2341,7 +2341,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10495">#10495</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10495">#10495</a></th>
 <td>
                     
                   
@@ -2367,7 +2367,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10495">Poor error message for Coercible constraint unsatisfiability</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10495">Poor error message for Coercible constraint unsatisfiability</a>
                       
                       
                       
@@ -2419,7 +2419,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10498">#10498</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10498">#10498</a></th>
 <td>
                     
                   
@@ -2445,7 +2445,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10498">&quot;if ... then \case -&gt; else ...&quot; causes a &quot;missing else clause&quot; error</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10498">&quot;if ... then \case -&gt; else ...&quot; causes a &quot;missing else clause&quot; error</a>
                       
                       
                       
@@ -2497,7 +2497,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10563">#10563</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10563">#10563</a></th>
 <td>
                     
                   
@@ -2523,7 +2523,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10563">GHC 7.10.1 Win7 x86_64 crash when building reflex-dom-0.1.1</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10563">GHC 7.10.1 Win7 x86_64 crash when building reflex-dom-0.1.1</a>
                       
                       
                       
@@ -2575,7 +2575,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10568">#10568</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10568">#10568</a></th>
 <td>
                     
                   
@@ -2601,7 +2601,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10568">Regression from 7.8.4, loading GLUT into GHCI fails on the Mac</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10568">Regression from 7.8.4, loading GLUT into GHCI fails on the Mac</a>
                       
                       
                       
@@ -2653,7 +2653,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10590">#10590</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10590">#10590</a></th>
 <td>
                     
                   
@@ -2679,7 +2679,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10590">RTS failing with removeThreadFromDeQueue: not found message</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10590">RTS failing with removeThreadFromDeQueue: not found message</a>
                       
                       
                       
@@ -2731,7 +2731,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10596">#10596</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10596">#10596</a></th>
 <td>
                     
                   
@@ -2757,7 +2757,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10596">Template Haskell : getQ and putQ doesn&apos;t work</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10596">Template Haskell : getQ and putQ doesn&apos;t work</a>
                       
                       
                       
@@ -2809,7 +2809,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10660">#10660</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10660">#10660</a></th>
 <td>
                     
                   
@@ -2835,7 +2835,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10660">.dyn_o isn&apos;t generated for .hsig files with -dynamic-too</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10660">.dyn_o isn&apos;t generated for .hsig files with -dynamic-too</a>
                       
                       
                       
@@ -2887,7 +2887,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10665">#10665</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10665">#10665</a></th>
 <td>
                     
                   
@@ -2913,7 +2913,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10665">INLINE breaks rewrite rules when &apos;-g&apos; is used</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10665">INLINE breaks rewrite rules when &apos;-g&apos; is used</a>
                       
                       
                       
@@ -2965,7 +2965,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10667">#10667</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10667">#10667</a></th>
 <td>
                     
                   
@@ -2991,7 +2991,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10667">&apos;-g&apos; option generates invalid assembly when &apos;*/*&apos; operator is used</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10667">&apos;-g&apos; option generates invalid assembly when &apos;*/*&apos; operator is used</a>
                       
                       
                       
@@ -3043,7 +3043,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10668">#10668</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10668">#10668</a></th>
 <td>
                     
                   
@@ -3069,7 +3069,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10668">Missing brackets in import hint with TypeOperators</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10668">Missing brackets in import hint with TypeOperators</a>
                       
                       
                       
@@ -3121,7 +3121,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10700">#10700</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10700">#10700</a></th>
 <td>
                     
                   
@@ -3147,7 +3147,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10700">include/stg/Prim.h isn&apos;t C++ compatible</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10700">include/stg/Prim.h isn&apos;t C++ compatible</a>
                       
                       
                       
@@ -3199,7 +3199,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10713">#10713</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10713">#10713</a></th>
 <td>
                     
                   
@@ -3225,7 +3225,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10713">Type family not reducing over data family</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10713">Type family not reducing over data family</a>
                       
                       
                       
@@ -3277,7 +3277,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10715">#10715</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10715">#10715</a></th>
 <td>
                     
                   
@@ -3303,7 +3303,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10715">Possible regression in Coercible a (X a) between 7.8 and 7.10</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10715">Possible regression in Coercible a (X a) between 7.8 and 7.10</a>
                       
                       
                       
@@ -3355,7 +3355,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10745">#10745</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10745">#10745</a></th>
 <td>
                     
                   
@@ -3381,7 +3381,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10745">Error in fusion when compiling Data.Yaml</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10745">Error in fusion when compiling Data.Yaml</a>
                       
                       
                       
@@ -3433,7 +3433,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10772">#10772</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10772">#10772</a></th>
 <td>
                     
                   
@@ -3459,7 +3459,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10772">Type operator variable in prefix notation fails</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10772">Type operator variable in prefix notation fails</a>
                       
                       
                       
@@ -3511,7 +3511,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10795">#10795</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10795">#10795</a></th>
 <td>
                     
                   
@@ -3537,7 +3537,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10795">Upgrade gcc in 7.10</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10795">Upgrade gcc in 7.10</a>
                       
                       
                       
@@ -3589,7 +3589,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10810">#10810</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10810">#10810</a></th>
 <td>
                     
                   
@@ -3615,7 +3615,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10810">Data constructor operators mis-printed in Template Haskell</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10810">Data constructor operators mis-printed in Template Haskell</a>
                       
                       
                       
@@ -3667,7 +3667,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10817">#10817</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10817">#10817</a></th>
 <td>
                     
                   
@@ -3693,7 +3693,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10817">Looping default associated type family without UndecidableInstances</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10817">Looping default associated type family without UndecidableInstances</a>
                       
                       
                       
@@ -3745,7 +3745,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10855">#10855</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10855">#10855</a></th>
 <td>
                     
                   
@@ -3771,7 +3771,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10855">GHC rejects code that Haskell 2010 report accepts</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10855">GHC rejects code that Haskell 2010 report accepts</a>
                       
                       
                       
@@ -3823,7 +3823,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10870">#10870</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10870">#10870</a></th>
 <td>
                     
                   
@@ -3849,7 +3849,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10870">PPC.Ppr: Shift by 32 bits is not allowed.</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10870">PPC.Ppr: Shift by 32 bits is not allowed.</a>
                       
                       
                       
@@ -3901,7 +3901,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10879">#10879</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10879">#10879</a></th>
 <td>
                     
                   
@@ -3927,7 +3927,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10879">base is not included in the haddock index</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10879">base is not included in the haddock index</a>
                       
                       
                       
@@ -3979,7 +3979,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10882">#10882</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10882">#10882</a></th>
 <td>
                     
                   
@@ -4005,7 +4005,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10882">Fix target triple for Arm</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10882">Fix target triple for Arm</a>
                       
                       
                       
@@ -4057,7 +4057,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10899">#10899</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10899">#10899</a></th>
 <td>
                     
                   
@@ -4083,7 +4083,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10899">Polytype accepted in RHS of default associated type</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10899">Polytype accepted in RHS of default associated type</a>
                       
                       
                       
@@ -4135,7 +4135,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10904">#10904</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10904">#10904</a></th>
 <td>
                     
                   
@@ -4161,7 +4161,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10904">C finalizer may be called on re-used memory</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10904">C finalizer may be called on re-used memory</a>
                       
                       
                       
@@ -4213,7 +4213,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10924">#10924</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10924">#10924</a></th>
 <td>
                     
                   
@@ -4239,7 +4239,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10924">Template variable unbound in rewrite rule</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10924">Template variable unbound in rewrite rule</a>
                       
                       
                       
@@ -4291,7 +4291,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11055">#11055</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11055">#11055</a></th>
 <td>
                     
                   
@@ -4317,7 +4317,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11055">GHC 7.8.4 crash on ARM while building Stack 0.1.7</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/11055">GHC 7.8.4 crash on ARM while building Stack 0.1.7</a>
                       
                       
                       
@@ -4369,7 +4369,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11064">#11064</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11064">#11064</a></th>
 <td>
                     
                   
@@ -4395,7 +4395,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11064">Call Arity has the trivial application case wrong</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/11064">Call Arity has the trivial application case wrong</a>
                       
                       
                       
@@ -4447,7 +4447,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11076">#11076</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11076">#11076</a></th>
 <td>
                     
                   
@@ -4473,7 +4473,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11076">Demand information of foreign calls is wrong</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/11076">Demand information of foreign calls is wrong</a>
                       
                       
                       
@@ -4525,7 +4525,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10390">#10390</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10390">#10390</a></th>
 <td>
                     
                   
@@ -4551,7 +4551,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10390">Constraint order must match with RankNTypes</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10390">Constraint order must match with RankNTypes</a>
                       
                       
                       
@@ -4603,7 +4603,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10413">#10413</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10413">#10413</a></th>
 <td>
                     
                   
@@ -4629,7 +4629,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10413">Incorrect offsets for array size indexing</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10413">Incorrect offsets for array size indexing</a>
                       
                       
                       
@@ -4681,7 +4681,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                 
                   
                     </td>
-<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10476">#10476</a></th>
+<th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10476">#10476</a></th>
 <td>
                     
                   
@@ -4707,7 +4707,7 @@ See [milestone:7.10.3](/trac/ghc/milestone/7.10.3) and [ Active tickets](https:/
                     
                     </td>
 <th>
-                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10476">Wrong ar during cross-compilation</a>
+                      <a href="https://gitlab.haskell.org/ghc/ghc/issues/10476">Wrong ar during cross-compilation</a>
                       
                       
                       

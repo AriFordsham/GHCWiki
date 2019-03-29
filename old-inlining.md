@@ -1,7 +1,7 @@
 # Warning
 
 
-This page is very old. It was create at the same time as [ https://ghc.haskell.org/trac/ghc/ticket/3123](https://ghc.haskell.org/trac/ghc/ticket/3123)
+This page is very old. It was create at the same time as [https://ghc.haskell.org/trac/ghc/ticket/3123](https://ghc.haskell.org/trac/ghc/ticket/3123)
 
 # Inlining
 
@@ -11,7 +11,7 @@ Inlining refers to the unfolding of definitions, ie replacing uses of identifier
 ## Unfolding Recursions
 
 
-Since many definitions in non-trivial programs are recursive, leaving them out alltogether is a serious limitation, especially in view of the encoding of loops via tail recursion. In conventional languages, loop transformations such as loop unrolling are at the heart of optimizing high performance code (for a useful overview, see [ Compiler Transformations for High-Performance Computing, ACM Computing Surveys, 1994](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.41.4885)). As a consequence, many performance-critical Haskell programs contain hand-unrolled recursions, which is error-prone and obscures declarative contents.
+Since many definitions in non-trivial programs are recursive, leaving them out alltogether is a serious limitation, especially in view of the encoding of loops via tail recursion. In conventional languages, loop transformations such as loop unrolling are at the heart of optimizing high performance code (for a useful overview, see [Compiler Transformations for High-Performance Computing, ACM Computing Surveys, 1994](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.41.4885)). As a consequence, many performance-critical Haskell programs contain hand-unrolled recursions, which is error-prone and obscures declarative contents.
 
 
 There is a tension wrt to the stage in the compilation pipeline that should handle loop unrolling: if we are looking only at removing loop administration overhead and code size, then the applicability of unrolling depends on information that is only available in the backend (such as register and cache sizes); if we are looking at enabling other optimizations, then the applicability of unrolling depends on interactions with code that is located in the Core to Core simplifier (such as rewrite rules for array fusion and recycling). We assume that loop transformations should be considered at both stages, for their respective benefits and drawbacks. This page is concerned with Core-level unfolding of recursive definitions, closing the gap in GHC's inliner.
@@ -232,7 +232,7 @@ In the following, let `REC({f g ..})` denote the set of all identifiers belongin
 ## Examples
 
 
-Examples of hand-unrolled/-peeled loops abound in optimized code. `unroll2.hs` demonstrates the usual worker/wrapper split (+static argument transform), which is part of the standard recommendations for writing code with good performance, and is used all through the standard libraries (here, `PEEL` is more important than `UNROLL`. `unroll0.hs` shows an extreme example with a near trivial loop body, so that the loop administration overhead is relatively expensive (`PEEL` makes the loop body available to the loop combinator worker, `UNROLL` reduces loop administration overhead, and reassociation rules enact constant folding). `unroll1.hs` is an example of loop unrolling activating existing optimization `RULES` (array fusion in this case; note that a [ fixpoint fusion](http://www.haskell.org/pipermail/haskell-cafe/2009-March/057295.html) could be even more beneficial than the finite unrolling fusion here).
+Examples of hand-unrolled/-peeled loops abound in optimized code. `unroll2.hs` demonstrates the usual worker/wrapper split (+static argument transform), which is part of the standard recommendations for writing code with good performance, and is used all through the standard libraries (here, `PEEL` is more important than `UNROLL`. `unroll0.hs` shows an extreme example with a near trivial loop body, so that the loop administration overhead is relatively expensive (`PEEL` makes the loop body available to the loop combinator worker, `UNROLL` reduces loop administration overhead, and reassociation rules enact constant folding). `unroll1.hs` is an example of loop unrolling activating existing optimization `RULES` (array fusion in this case; note that a [fixpoint fusion](http://www.haskell.org/pipermail/haskell-cafe/2009-March/057295.html) could be even more beneficial than the finite unrolling fusion here).
 
 ## Open Issues
 
@@ -251,27 +251,27 @@ Examples of hand-unrolled/-peeled loops abound in optimized code. `unroll2.hs` d
 \[0\] GHC mailing list threads, with examples and discussion
 
 
-- [ optimization and rewrite rules questions](http://www.haskell.org/pipermail/glasgow-haskell-users/2009-February/016695.html)
-- [ Loop unrolling + fusion ?](http://www.haskell.org/pipermail/glasgow-haskell-users/2009-February/016729.html)
-  [ continued in March](http://www.haskell.org/pipermail/glasgow-haskell-users/2009-March/016732.html)
+- [optimization and rewrite rules questions](http://www.haskell.org/pipermail/glasgow-haskell-users/2009-February/016695.html)
+- [Loop unrolling + fusion ?](http://www.haskell.org/pipermail/glasgow-haskell-users/2009-February/016729.html)
+  [continued in March](http://www.haskell.org/pipermail/glasgow-haskell-users/2009-March/016732.html)
 
 
-\[1\] [ An Aggressive Approach to Loop Unrolling](http://citeseer.ist.psu.edu/old/620489.html), 1995
-
-
-
-\[2\] [ Compiler Transformations for High-Performance Computing](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.41.4885), ACM Computing Surveys, 1994
+\[1\] [An Aggressive Approach to Loop Unrolling](http://citeseer.ist.psu.edu/old/620489.html), 1995
 
 
 
-\[3\] [ http://en.wikipedia.org/wiki/Loop_transformation](http://en.wikipedia.org/wiki/Loop_transformation)
+\[2\] [Compiler Transformations for High-Performance Computing](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.41.4885), ACM Computing Surveys, 1994
 
 
 
-\[4\] [ loop unrolling vs hardware](http://www.intel.com/software/products/compilers/flin/docs/main_for/mergedprojects/optaps_for/common/optaps_hlo_unrl.htm)
+\[3\] [http://en.wikipedia.org/wiki/Loop_transformation](http://en.wikipedia.org/wiki/Loop_transformation)
 
 
 
-\[5\] [ Unrolling and simplifying expressions with Template Haskell](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.5.9813), Ian Lynagh, 2003
+\[4\] [loop unrolling vs hardware](http://www.intel.com/software/products/compilers/flin/docs/main_for/mergedprojects/optaps_for/common/optaps_hlo_unrl.htm)
+
+
+
+\[5\] [Unrolling and simplifying expressions with Template Haskell](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.5.9813), Ian Lynagh, 2003
 
 

@@ -346,19 +346,19 @@ Another example:
 
 
 The icon library contained herein is composed of the
-[ Fugue icon library](http://p.yusukekamiyamane.com) with additional icons,
+[Fugue icon library](http://p.yusukekamiyamane.com) with additional icons,
 
 and can be used for any commercial or personal projects, but you may not lease,
 license or sublicense the icons.
 
-The [ Fugue icon library](http://p.yusukekamiyamane.com) is released under
-[ Creative Commons Attribution 3.0 license](http://creativecommons.org/licenses/by/3.0/).
+The [Fugue icon library](http://p.yusukekamiyamane.com) is released under
+[Creative Commons Attribution 3.0 license](http://creativecommons.org/licenses/by/3.0/).
 
-Some icons are Copyright (C) [ Yusuke Kamiyamane](http://p.yusukekamiyamane.com/).
+Some icons are Copyright (C) [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/).
 All rights reserved.
 
 Additional icons are released under same
-[ license terms](http://trac.edgewall.org/wiki/TracLicense) as Trac.
+[license terms](http://trac.edgewall.org/wiki/TracLicense) as Trac.
 
-Some icons are Copyright (C) [ Edgewall Software](http://www.edgewall.org).
+Some icons are Copyright (C) [Edgewall Software](http://www.edgewall.org).
 All rights reserved.

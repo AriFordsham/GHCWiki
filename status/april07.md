@@ -54,7 +54,7 @@ are likely to end up in 6.8.
 You can find binary snapshots at
 the download page [http://www.haskell.org/ghc/dist/current/dist/](http://www.haskell.org/ghc/dist/current/dist/)
 or build from sources available via the darcs
-repository ([ http://darcs.haskell.org/ghc/](http://darcs.haskell.org/ghc/)).
+repository ([http://darcs.haskell.org/ghc/](http://darcs.haskell.org/ghc/)).
 
 
 
@@ -68,17 +68,17 @@ Simon Peyton Jones, Simon Marlow, Ian Lynagh
   System FC(X), an extension of System F with explicit equality
   witnesses.  This enables GHC to support GADTs and associated types,
   with two new simple but powerful mechanisms. The paper is 
-  [ System F with Type Equality Coercions](http://research.microsoft.com/~simonpj/papers/ext-f/).
+  [System F with Type Equality Coercions](http://research.microsoft.com/~simonpj/papers/ext-f/).
   Much of the conversion work was done by Kevin Donnelly, while he
   was on an internship at Microsoft.
 
 - Manuel Chakravarty has implemented *data-type families* (aka indexed data types),
   a modest generalisation of the *associated data types*
   of our POPL'05 paper
-  [ Associated types with class](http://research.microsoft.com/~simonpj/papers/assoc-types/).
+  [Associated types with class](http://research.microsoft.com/~simonpj/papers/assoc-types/).
 
   This part is done. Now we are working on *type-synonym families*
-  (aka type functions or [ associated type synonyms (ICFP'05)](http://research.microsoft.com/~simonpj/papers/assoc-types)), which are considerably trickier that
+  (aka type functions or [associated type synonyms (ICFP'05)](http://research.microsoft.com/~simonpj/papers/assoc-types)), which are considerably trickier that
   data type families, at least so far as type inference is concerned.
   Tom Schrijvers is in Cambridge for three months to help us use ides
   from Constraint Handling Rules to solve the inference problem.
@@ -86,20 +86,20 @@ Simon Peyton Jones, Simon Marlow, Ian Lynagh
   by the always-troublesome functional dependencies, so we are quite
   excited about this.
 
-  Details are at [ http://haskell.org/haskellwiki/GHC/Indexed_types](http://haskell.org/haskellwiki/GHC/Indexed_types).
+  Details are at [http://haskell.org/haskellwiki/GHC/Indexed_types](http://haskell.org/haskellwiki/GHC/Indexed_types).
 
 - Simon PJ finally implemented *implication constraints*, which are
   the key to fixing the interaction between
   GADTs and type classes.  GHC's users have been very polite about
   this collection of bugs, but they are now finally fixed.
   Implication constraints are described by Martin Sulzmann in
-  [ A framework for Extended Algebraic Data Types](http://www.comp.nus.edu.sg/~sulzmann/publications/tr-eadt.ps.gz).
+  [A framework for Extended Algebraic Data Types](http://www.comp.nus.edu.sg/~sulzmann/publications/tr-eadt.ps.gz).
 
 - Bjoern Bringert (a GHC Hackathon graduate) implemented
   *standalone deriving*, which allows you to write a `deriving`
   declaration anywhere, rather than only where the data type is
   declared.  Details of the syntax have not yet quite settled. See
-  also [ http://haskell.org/haskellwiki/GHC/StandAloneDeriving](http://haskell.org/haskellwiki/GHC/StandAloneDeriving).
+  also [http://haskell.org/haskellwiki/GHC/StandAloneDeriving](http://haskell.org/haskellwiki/GHC/StandAloneDeriving).
 
 - Lennart Augustsson implemented overloaded string literals.  So now
   just as a numeric literal has type `FAa. Num a => a`,
@@ -108,7 +108,7 @@ Simon Peyton Jones, Simon Marlow, Ian Lynagh
 
 
 A less successful feature of the last year has been the
-story on impredicative instantiation (see the paper [ Boxy types: type inference for higher-rank types and impredicativity](http://research.microsoft.com/~simonpj/papers/boxy)).
+story on impredicative instantiation (see the paper [Boxy types: type inference for higher-rank types and impredicativity](http://research.microsoft.com/~simonpj/papers/boxy)).
 The feature is implemented, but the implementation is significantly
 more complicated than we expected; and it delivers fewer benefits than
 we hoped.  For example, the system described in the paper does not
@@ -131,21 +131,21 @@ impredicative instantiation as it now stands; it might change!
   on the order of 12%.
 
 - Roman Leshchinskiy, Don Stewart, and Duncan Coutts did some beautiful
-  work on *fusion*; see their paper [ Rewriting Haskell strings](http://www.cse.unsw.edu.au/~dons/papers/CSL06.html).
+  work on *fusion*; see their paper [Rewriting Haskell strings](http://www.cse.unsw.edu.au/~dons/papers/CSL06.html).
   This fusion work is already being heavily used in the parallel array library
   (see below), and they are also working on replacing foldr/build fusion with
   stream fusion in the main base library (see their new paper
-  [ Stream Fusion: From Lists to Streams to Nothing at All](http://www.cse.unsw.edu.au/~dons/papers/CLS07.html)).
+  [Stream Fusion: From Lists to Streams to Nothing at All](http://www.cse.unsw.edu.au/~dons/papers/CLS07.html)).
 
   Their work highlighted the importance of the [SpecConstr](spec-constr) transformation, which Simon PJ
   implemented several years ago.  Of course, they suggested many enhancements, many of
-  which Simon PJ duly implemented; see the new paper [ Constructor specialisation for Haskell programs](http://research.microsoft.com/~simonpj/papers/spec-constr/).
+  which Simon PJ duly implemented; see the new paper [Constructor specialisation for Haskell programs](http://research.microsoft.com/~simonpj/papers/spec-constr/).
 
 - Alexey Rodriguez visited us for three months from Utrecht, and implemented
   a new back-end optimisation called *dynamic pointer tagging*.  We have wanted
   to do this for ages, but it needed a skilled and insightful hacker to make it all
   happen, and Alexey is just that.  This optimisation alone buys us another 15%
-  performance for compiled programs: see the paper [ Dynamic pointer tagging](http://research.microsoft.com/~simonpj/papers/ptr-tag/index.htm).
+  performance for compiled programs: see the paper [Dynamic pointer tagging](http://research.microsoft.com/~simonpj/papers/ptr-tag/index.htm).
 
 ## Concurrency
 
@@ -153,16 +153,16 @@ impredicative instantiation as it now stands; it might change!
 - Gabriele Keller, Manuel Chakravarty, and Roman Leshchinskiy, at the
   University of New South Wales, are collaborating with us on support
   for *nested data-parallel computation* in GHC.
-  We presented a paper [ Data parallel Haskell: a status report](http://research.microsoft.com/~simonpj/papers/assoc-types) at the Declarative Aspects of Multicore Programing
+  We presented a paper [Data parallel Haskell: a status report](http://research.microsoft.com/~simonpj/papers/assoc-types) at the Declarative Aspects of Multicore Programing
   workshop in January 2007,
   and made a first release of the
   library in March.
   It's a pretty ambitious project, and we have quite a way to go.
   You can peek at the current status on the project home page:
-  [ http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell).
+  [http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell).
 
 - Tim Harris added support for *invariants* to GHC's Software
-  Transactional Memory (STM) implementation. Paper is [ Transactional memory with data invariants](http://research.microsoft.com/~simonpj/papers/stm/).
+  Transactional Memory (STM) implementation. Paper is [Transactional memory with data invariants](http://research.microsoft.com/~simonpj/papers/stm/).
 
 
     
@@ -171,7 +171,7 @@ impredicative instantiation as it now stands; it might change!
 - At the moment GHC's *garbage collector* is single-threaded,
   even when GHC is running on a multiprocessor.  Roshan James spent
   the summer at Microsoft on an internship, implementing a multi-threaded
-  GC ([ http://hackage.haskell.org/trac/ghc/wiki/MotivationForParallelization](http://hackage.haskell.org/trac/ghc/wiki/MotivationForParallelization)).
+  GC ([http://hackage.haskell.org/trac/ghc/wiki/MotivationForParallelization](http://hackage.haskell.org/trac/ghc/wiki/MotivationForParallelization)).
   It works!  But alas, doing GC with two processors runs no faster than
   with one!  (We do plan to investigate this further and find the source of
   the bottleneck.)
@@ -180,7 +180,7 @@ impredicative instantiation as it now stands; it might change!
 Peng Li, from the University of Pennsylvania, spent an exciting
 three months at Cambridge, working on a whole new architecture for
 concurrency in GHC.  (If you don't know Peng you should read his
-wonderful paper [ Combining Events And Threads For Scalable Network Services](http://www.seas.upenn.edu/~lipeng/homepage/papers/lz07pldi.pdf)
+wonderful paper [Combining Events And Threads For Scalable Network Services](http://www.seas.upenn.edu/~lipeng/homepage/papers/lz07pldi.pdf)
 on implementing a network protocol stack in
 Haskell.)  At the moment GHC's has threads, scheduling, `forkIO`,
 `MVars`, transactional memory, and more besides, all "baked
@@ -209,7 +209,7 @@ environment:
 
 
 - Andy Gill implemented the Haskell Program Coverage
-  ([ http://haskell.org/haskellwiki/GHC/HPC](http://haskell.org/haskellwiki/GHC/HPC))
+  ([http://haskell.org/haskellwiki/GHC/HPC](http://haskell.org/haskellwiki/GHC/HPC))
   option (`-fhpc`) for GHC, which is solid enough to be used to 
   test coverage in GHC itself.  (It turns out that the GHC testsuite
   gives remarkably good coverage over GHC already.)
@@ -236,7 +236,7 @@ environment:
 
 - David Waern has been working on integrating Haddock and GHC during his Google Summer of Code project
   last year.  The parts of this project that involved modifying GHC are done and integrated into the
-  GHC tree.  The new version of Haddock based on GHC is usable but still experimental; the darcs repository is [ here](http://darcs.haskell.org/SoC/haddock.ghc).
+  GHC tree.  The new version of Haddock based on GHC is usable but still experimental; the darcs repository is [here](http://darcs.haskell.org/SoC/haddock.ghc).
 
 ## Libraries
 
@@ -246,4 +246,4 @@ environment:
   releases of these packages from the GHC release process, and also means that development
   builds of GHC are quicker as they don't need to build those libraries.
 
-- We plan to extract parts of the base package into separate smaller packages; see [ this thread](http://www.haskell.org/pipermail/libraries/2007-April/007342.html) on the libraries mailing list.
+- We plan to extract parts of the base package into separate smaller packages; see [this thread](http://www.haskell.org/pipermail/libraries/2007-April/007342.html) on the libraries mailing list.

@@ -69,7 +69,7 @@ See the [CollectionClassFramework](collection-class-framework) for details.
 ## Short terms plans
 
 
-- Have a consistent performance checker. [\#676](https://gitlab.haskell.org//ghc/ghc/issues/676)
+- Have a consistent performance checker. [\#676](https://gitlab.haskell.org/ghc/ghc/issues/676)
 
 
  

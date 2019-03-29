@@ -3,7 +3,7 @@ See the [root page for exceptions](exceptions)
 
 
 
-As of Jan 2019, this is rather obsolete. [\#14998](https://gitlab.haskell.org//ghc/ghc/issues/14998) figured out that we don't really need the whole `ExnStr` business and that the benefits of making `catch#` `strictApply1Dmd` in its argument doesn't bring any performance benefits.
+As of Jan 2019, this is rather obsolete. [\#14998](https://gitlab.haskell.org/ghc/ghc/issues/14998) figured out that we don't really need the whole `ExnStr` business and that the benefits of making `catch#` `strictApply1Dmd` in its argument doesn't bring any performance benefits.
 There probably still are some good ideas on this page, just ignore the bits about `ExnStr`. Joining the demand types of the two arguments to `catch#` like two alts of a case sounds reasonable, for example, but I'm not sold there are actual benefits in doing so. SG
 
 
@@ -12,9 +12,9 @@ There probably still are some good ideas on this page, just ignore the bits abou
 
 There are a couple different problems we have to deal with.
 
-1. [\#13330](https://gitlab.haskell.org//ghc/ghc/issues/13330) was caused by an ugly and somewhat broken hack trying to analyze `catch#` as stricter than it really is. It would be very nice if the *good ideas* that went into that ugly hack could be extracted and repaired to produce a more aggressive analysis that's still correct.
+1. [\#13330](https://gitlab.haskell.org/ghc/ghc/issues/13330) was caused by an ugly and somewhat broken hack trying to analyze `catch#` as stricter than it really is. It would be very nice if the *good ideas* that went into that ugly hack could be extracted and repaired to produce a more aggressive analysis that's still correct.
 
-1. [\#13380](https://gitlab.haskell.org//ghc/ghc/issues/13380) reveals something of a disagreement about how we should view the result of `raiseIO#` (used to implement `throwIO`). Simon Marlow and David Feuer feel pretty strongly that `throwIO` should be viewed as producing an entirely deterministic, well-behaved `IO` action, and that the exception resulting from it should never be mixed up with an imprecise exception. Reid Barton and Simon Peyton Jones seem to wonder if that precision is worth the potential performance cost.
+1. [\#13380](https://gitlab.haskell.org/ghc/ghc/issues/13380) reveals something of a disagreement about how we should view the result of `raiseIO#` (used to implement `throwIO`). Simon Marlow and David Feuer feel pretty strongly that `throwIO` should be viewed as producing an entirely deterministic, well-behaved `IO` action, and that the exception resulting from it should never be mixed up with an imprecise exception. Reid Barton and Simon Peyton Jones seem to wonder if that precision is worth the potential performance cost.
 
 
 Assuming that I (David F.) and Simon M. win this debate, the key problem here is that we analyze `raiseIO# e s` as `ThrowsExn`, the same way we analyze something that either diverges or throws an imprecise exception. Assuming we change this, we want to take some care to recover dead code elimination that the current analysis allows. In particular, given
@@ -40,7 +40,7 @@ Furthermore, for the sake of readability, I uniformly substitute `Either a b` in
 By a **precise** exception, I mean an exception produced by `raiseIO#` (the primop version of `throwIO`).
 
 
-By an **imprecise** exception, I basically mean an exception produced by `throw` (as described in [ A Semantics for Imprecise Exceptions](https://www.microsoft.com/en-us/research/publication/a-semantics-for-imprecise-exceptions/)).
+By an **imprecise** exception, I basically mean an exception produced by `throw` (as described in [A Semantics for Imprecise Exceptions](https://www.microsoft.com/en-us/research/publication/a-semantics-for-imprecise-exceptions/)).
 
 ### Semantics of precise exceptions
 
@@ -73,7 +73,7 @@ Notes
 
 - I believe we likely should expose an actual *catchThrowIO* function. Since it doesn't catch imprecise exceptions, it can be treated much more aggressively. For example, `catchThrowIO (putStrLn x) (\_ -> print 2)` can safely be analyzed as strict in `x`, whereas the equivalent expression using `catch` cannot.
 
-- With the above semantics it is clear that this function ([\#13380](https://gitlab.haskell.org//ghc/ghc/issues/13380) comment:4) whoudl be lazy in `y`:
+- With the above semantics it is clear that this function ([\#13380](https://gitlab.haskell.org/ghc/ghc/issues/13380) comment:4) whoudl be lazy in `y`:
 
   ```wiki
   f :: Int -> Int -> IO Int
@@ -117,7 +117,7 @@ case unIO (putStrLn "About to run y") s of
 
 Is this strict in `y`? No! `y` could turn out to be undefined; if we force it early then we'll never see the message. So I think we can really only consider this strict in `y` in the very special case where the `IO` action is `pure x`.
 
-- Consider`throwIO exn >>= BIG`.  Just inlining shows us that we can discard `BIG`.  Currently (GHC 8) inlining turns this into `case throwIO# exn sn of (# s#, r #) -> BIG r`, which allows us to discard `BIG` because `throwIO#` is treated as diverging.  But [\#13380](https://gitlab.haskell.org//ghc/ghc/issues/13380), comment:4 suggests that it should not.
+- Consider`throwIO exn >>= BIG`.  Just inlining shows us that we can discard `BIG`.  Currently (GHC 8) inlining turns this into `case throwIO# exn sn of (# s#, r #) -> BIG r`, which allows us to discard `BIG` because `throwIO#` is treated as diverging.  But [\#13380](https://gitlab.haskell.org/ghc/ghc/issues/13380), comment:4 suggests that it should not.
 
 ### `catch#` strictness
 
@@ -125,7 +125,7 @@ Is this strict in `y`? No! `y` could turn out to be undefined; if we force it ea
 How strict can `catch# m f s` be? See `Note [Exceptions and strictness]` in `Demand`.  The `ExnStr` business is pretty horrible.
 
 
-Making `catch#` strict made a significant perf difference in libraries: see comment:4 of [\#10712](https://gitlab.haskell.org//ghc/ghc/issues/10712).   Maybe indeed adding `catchThrowIO` as David suggests above, making it strict, and using it in the libraries in place of `catch` , would be the way to go.
+Making `catch#` strict made a significant perf difference in libraries: see comment:4 of [\#10712](https://gitlab.haskell.org/ghc/ghc/issues/10712).   Maybe indeed adding `catchThrowIO` as David suggests above, making it strict, and using it in the libraries in place of `catch` , would be the way to go.
 
 
 We know several things:

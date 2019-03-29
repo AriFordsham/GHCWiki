@@ -35,13 +35,13 @@ benl@greyarea:~/tmp$ ghc --make Main.hs
 GCC version 4.3.x produces assembly files that GHC's "evil mangler" does not yet deal with.
 
 
-GCC version 4.2.x works but takes hours and hours to build the large `.hc` files that GHC generates. It is reported ([\#1293](https://gitlab.haskell.org//ghc/ghc/issues/1293), [\#2906](https://gitlab.haskell.org//ghc/ghc/issues/2906)) that particular modules can take upwards of 5 hours and the overall build takes a couple days. This is due to complexity issues with respect to GCC moving to a unit-at-a-time compilation scheme instead of function-at-a-time.
+GCC version 4.2.x works but takes hours and hours to build the large `.hc` files that GHC generates. It is reported ([\#1293](https://gitlab.haskell.org/ghc/ghc/issues/1293), [\#2906](https://gitlab.haskell.org/ghc/ghc/issues/2906)) that particular modules can take upwards of 5 hours and the overall build takes a couple days. This is due to complexity issues with respect to GCC moving to a unit-at-a-time compilation scheme instead of function-at-a-time.
 
 
 GCC version 4.0.2 does not support thread local state (TLS), at least on SPARC.
 
 
-GCC version 3.4.x is reported ([\#951](https://gitlab.haskell.org//ghc/ghc/issues/951)) to mis-compile the runtime system leading to a runtime error `schedule: re-entered unsafely`.
+GCC version 3.4.x is reported ([\#951](https://gitlab.haskell.org/ghc/ghc/issues/951)) to mis-compile the runtime system leading to a runtime error `schedule: re-entered unsafely`.
 But such a gcc version is sufficient for most user programs in case you just installed a ghc binary distribution. 
 
 ### Using the wrong assembler

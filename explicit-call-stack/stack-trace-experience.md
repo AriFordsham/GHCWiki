@@ -12,7 +12,7 @@ The tools we will be testing are:
 - Hat 2.05, particularly hat-stack and hat-trail (hat stack is just a specialisation of hat-trail).
 - Cost Centre Stacks (CCS) with +RTS -xc -RTS, using ghc version 6.6
 - Andy Gill's HpcT tracer
-- The ghci debugger extended with a simple stack passing transformation. We will try both a full transformation and some kind of partial transformation (where only part of the code is transformed). This is done using a modified version of buddha, which transforms the original program to one which passes stack arguments explicitly. You can find it here: [ http://www.csse.unimelb.edu.au/\~bjpop/buddha-stack.tar.gz](http://www.csse.unimelb.edu.au/~bjpop/buddha-stack.tar.gz)
+- The ghci debugger extended with a simple stack passing transformation. We will try both a full transformation and some kind of partial transformation (where only part of the code is transformed). This is done using a modified version of buddha, which transforms the original program to one which passes stack arguments explicitly. You can find it here: [http://www.csse.unimelb.edu.au/\~bjpop/buddha-stack.tar.gz](http://www.csse.unimelb.edu.au/~bjpop/buddha-stack.tar.gz)
 
 ## Test cases
 
@@ -242,7 +242,7 @@ It is worth noting that, had we transformed the libraries with the explicit stac
 
 
 
-I generated this trace by transforming the program using a heavily modified version of buddha. It implements the transformation as described on [ http://hackage.haskell.org/trac/ghc/wiki/ExplicitCallStack](http://hackage.haskell.org/trac/ghc/wiki/ExplicitCallStack), under the heading **Transformation option 1**.
+I generated this trace by transforming the program using a heavily modified version of buddha. It implements the transformation as described on [http://hackage.haskell.org/trac/ghc/wiki/ExplicitCallStack](http://hackage.haskell.org/trac/ghc/wiki/ExplicitCallStack), under the heading **Transformation option 1**.
 
 
 

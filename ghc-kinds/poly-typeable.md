@@ -4,7 +4,7 @@
 The page describes an improved implementation of the `Typeable` class, using polymorphic kinds, available from GHC 7.8.  Technically it is straightforward, but it represents a non-backward-compatible change to a widely used library, so we had to make a plan for the transition.
 
 
-Relevant tickets we fixed: [\#5391](https://gitlab.haskell.org//ghc/ghc/issues/5391), [\#5863](https://gitlab.haskell.org//ghc/ghc/issues/5863).
+Relevant tickets we fixed: [\#5391](https://gitlab.haskell.org/ghc/ghc/issues/5391), [\#5863](https://gitlab.haskell.org/ghc/ghc/issues/5863).
 
 ## The `Typeable` class before 7.8
 
@@ -33,7 +33,7 @@ type constructors with higher kinds like
 ```
 
 
-See [\#5391](https://gitlab.haskell.org//ghc/ghc/issues/5391).
+See [\#5391](https://gitlab.haskell.org/ghc/ghc/issues/5391).
 
 ## The new `Typeable` class, in GHC 7.8
 
@@ -113,7 +113,7 @@ If you have code involving `Typeable` that fails to compile with 7.8, it might b
 
 - If all else fails, you could just try replacing your `import Data.Typeable` with `import Data.OldTypeable`. But keep in mind that `OldTypeable` is distinct, and incompatible with the new `Typeable`.
 
-- If you want code that compiles with multiple versions of GHC, you should use CPP. The [ tagged package on Hackage](http://hackage.haskell.org/package/tagged) is a good example of how to achieve this.
+- If you want code that compiles with multiple versions of GHC, you should use CPP. The [tagged package on Hackage](http://hackage.haskell.org/package/tagged) is a good example of how to achieve this.
 
 ## A change-over plan
 
@@ -145,4 +145,4 @@ If you have code involving `Typeable` that fails to compile with 7.8, it might b
 ## Aside
 
 
-Open question: what are the corresponding changes to `Data.Data`?  See [\#4896](https://gitlab.haskell.org//ghc/ghc/issues/4896).
+Open question: what are the corresponding changes to `Data.Data`?  See [\#4896](https://gitlab.haskell.org/ghc/ghc/issues/4896).

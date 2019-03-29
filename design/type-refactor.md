@@ -7,7 +7,7 @@ This page is to document several ideas for how to refactor the way types are sto
 This page was started in June 2018.
 
 
-See Trac [\#15479](https://gitlab.haskell.org//ghc/ghc/issues/15479)
+See Trac [\#15479](https://gitlab.haskell.org/ghc/ghc/issues/15479)
 
 ## Desugaring types separately
 

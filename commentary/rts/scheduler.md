@@ -13,7 +13,7 @@ version of the runtime that uses multiple OS threads, because it is by
 far the most complex beast.
 
 
-See also [ Edward Yang's blog post](http://blog.ezyang.com/2013/01/the-ghc-scheduler/) (2013); some of the material there has been incorporated here.
+See also [Edward Yang's blog post](http://blog.ezyang.com/2013/01/the-ghc-scheduler/) (2013); some of the material there has been incorporated here.
 
 
 We begin by discussing the basic abstractions used in the scheduler.
@@ -61,7 +61,7 @@ two kinds of Haskell thread:
   OS thread that made the call; all further foreign calls made by
   this Haskell thread are made in the same OS thread.  (this is part
   of the design of the FFI, described in the paper 
-  [ Extending the Haskell Foreign Function Inteface with Concurrency](http://simonmar.github.io/bib/papers/conc-ffi.pdf)).
+  [Extending the Haskell Foreign Function Inteface with Concurrency](http://simonmar.github.io/bib/papers/conc-ffi.pdf)).
 
 - An *unbound* thread is created by
   `Control.Concurrent.forkIO`.  Foreign calls made by an unbound
@@ -71,7 +71,7 @@ two kinds of Haskell thread:
 Initialization of TSOs is handled in `createThread` in [rts/Threads.c](/trac/ghc/browser/ghc/rts/Threads.c); this function is in turn invoked by `createGenThread`, `createIOThread` and `createStrictIOThread` in [rts/RtsAPI.c](/trac/ghc/browser/ghc/rts/RtsAPI.c). These functions setup the initial stack state, which controls what the thread executes when it actually gets run. These functions are the ones invoked by the `fork#` and other primops (recall entry-points for primops are located in [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm)).
 
 
-Being garbage collected has two major implications for TSOs. First, TSOs are not GC roots, so they will get GC'd if there is nothing holding on to them (e.g. [ in the case of deadlock](http://blog.ezyang.com/2011/07/blockedindefinitelyonmvar)), and their space is not automatically reclaimed when they finish executing (so `ThreadId` can cause memory leaks}}}. Usually, a TSO will be retained by a Capability’s run queue (a GC root), or in the list of waiting threads of some concurrency variable, e.g. an MVar. Second, a TSO must be considered a mutable object, and is thus subject to the conventional GC write barriers necessary for any mutable object in a generational garbage collector. The `dirty` bit tracks whether or not a TSO has been modified; it is always set when a thread is run and also when any of the pointer fields on a TSO are modified.
+Being garbage collected has two major implications for TSOs. First, TSOs are not GC roots, so they will get GC'd if there is nothing holding on to them (e.g. [in the case of deadlock](http://blog.ezyang.com/2011/07/blockedindefinitelyonmvar)), and their space is not automatically reclaimed when they finish executing (so `ThreadId` can cause memory leaks}}}. Usually, a TSO will be retained by a Capability’s run queue (a GC root), or in the list of waiting threads of some concurrency variable, e.g. an MVar. Second, a TSO must be considered a mutable object, and is thus subject to the conventional GC write barriers necessary for any mutable object in a generational garbage collector. The `dirty` bit tracks whether or not a TSO has been modified; it is always set when a thread is run and also when any of the pointer fields on a TSO are modified.
 
 ## Tasks
 
@@ -243,7 +243,7 @@ scheduler(cap)
 ### The run queue
 
 
-The run queue is at the heart of the scheduler, as any runnable thread will hit the run queue before the scheduler actually pops it off the queue and runs it.  There’s one per capability [rts/Capability.h](/trac/ghc/browser/ghc/rts/Capability.h) (in the bad old days, there was a global run queue, but this performed badly for multithreaded processes), and it is implemented as a doubly-linked list `run_queue_hd` and `run_queue_tl`. (It is doubly linked due to ticket [\#3838](https://gitlab.haskell.org//ghc/ghc/issues/3838)). The head and tail pointers mean that the queue is actually a deque: this is important because the scheduler will often have to handle threads that were interrupted in some way, and should let the threads get back on.  The links themselves are on the TSOs and modified with `setTSOLink` and `setTSOPrev`, so modifying the queue dirties the TSOs involved. Otherwise, the run queue is exclusively owned by the scheduler. If there are idle capabilities and if we have more than one thread left in our run queue, threads will be pushed to other queues with `schedulePushWork`.
+The run queue is at the heart of the scheduler, as any runnable thread will hit the run queue before the scheduler actually pops it off the queue and runs it.  There’s one per capability [rts/Capability.h](/trac/ghc/browser/ghc/rts/Capability.h) (in the bad old days, there was a global run queue, but this performed badly for multithreaded processes), and it is implemented as a doubly-linked list `run_queue_hd` and `run_queue_tl`. (It is doubly linked due to ticket [\#3838](https://gitlab.haskell.org/ghc/ghc/issues/3838)). The head and tail pointers mean that the queue is actually a deque: this is important because the scheduler will often have to handle threads that were interrupted in some way, and should let the threads get back on.  The links themselves are on the TSOs and modified with `setTSOLink` and `setTSOPrev`, so modifying the queue dirties the TSOs involved. Otherwise, the run queue is exclusively owned by the scheduler. If there are idle capabilities and if we have more than one thread left in our run queue, threads will be pushed to other queues with `schedulePushWork`.
 
 
 In general, if the thread has exhausted its time slice (`context_switch != 0`), then it goes to the back of the queue, otherwise, it goes on the front and we keep running it.
@@ -255,9 +255,9 @@ In more detail, threads are put **in front** (`pushOnRunQueue`) if:
 
 - A heap overflow occurs; (Sometimes, a heap overflow and a context switch occur simultaneously. If the thread requested a large block, we still always push it in front (because we don’t want another thread to steal our large block); however, otherwise, the context switch takes precedence and the thread is booted to the end of the queue—the context switch is checked as *late* as possible. (See commit [05881ecab/repo](/trac/ghc/changeset/05881ecab/ghc/repo)))
 
-- A task attempts to run a thread, but it is [ bound](http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Concurrent.html#v:forkOS) and the current task is the wrong one;
+- A task attempts to run a thread, but it is [bound](http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Concurrent.html#v:forkOS) and the current task is the wrong one;
 
-- A thread is associated with a black hole (a thunk that is being evaluated), and another thread, possibly on another capability, has blocked on its evaluation (see ticket [\#3838](https://gitlab.haskell.org//ghc/ghc/issues/3838));
+- A thread is associated with a black hole (a thunk that is being evaluated), and another thread, possibly on another capability, has blocked on its evaluation (see ticket [\#3838](https://gitlab.haskell.org/ghc/ghc/issues/3838));
 
 - In the threaded runtime, if a thread was interrupted because another Capability needed to do a stop-the-world GC (see commit [6d18141d8/repo](/trac/ghc/changeset/6d18141d8/ghc/repo));
 
@@ -282,7 +282,7 @@ Threads are put in **back** (`appendToRunQueue`) in the case of pre-emption, or 
 Source files: [rts/Sparks.c](/trac/ghc/browser/ghc/rts/Sparks.c), [rts/Sparks.h](/trac/ghc/browser/ghc/rts/Sparks.h).
 
 
-The [par](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Parallel.html#v%3Apar) operator is used for annotating computations that could be evaluated in parallel.  See also [ Parallel Haskell](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/parallel.html#parallel-haskell) in the GHC User's Guide.
+The [par](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Parallel.html#v%3Apar) operator is used for annotating computations that could be evaluated in parallel.  See also [Parallel Haskell](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/parallel.html#parallel-haskell) in the GHC User's Guide.
 
 
 Par itself is implemented in terms of the `par#` primop, which the code generator compiles into a call to `newSpark` in [rts/Sparks.c](/trac/ghc/browser/ghc/rts/Sparks.c).

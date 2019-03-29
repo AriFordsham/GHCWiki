@@ -191,6 +191,6 @@ I'm not sure of the consequences of this, but it's intriguing.
 
 Here are some Hoopl tickets: 
 
-- [\#9851](https://gitlab.haskell.org//ghc/ghc/issues/9851) - Hoopl library in GHC hides runWithFuel / version number clash
-- [\#9853](https://gitlab.haskell.org//ghc/ghc/issues/9853) - Stateful transformation causes non-termination in Hoopl analysis.
-- [\#8315](https://gitlab.haskell.org//ghc/ghc/issues/8315) - Improve specialized Hoopl module
+- [\#9851](https://gitlab.haskell.org/ghc/ghc/issues/9851) - Hoopl library in GHC hides runWithFuel / version number clash
+- [\#9853](https://gitlab.haskell.org/ghc/ghc/issues/9853) - Stateful transformation causes non-termination in Hoopl analysis.
+- [\#8315](https://gitlab.haskell.org/ghc/ghc/issues/8315) - Improve specialized Hoopl module

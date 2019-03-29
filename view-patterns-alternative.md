@@ -231,7 +231,7 @@ Note the use of the previous argument `x` in later view patterns.
 #### Erlang-style parsing
 
 
-Sagonas et al describe an extension to Erlang that supports pattern-matching on bit-strings ([ "Application, implementation and performance evaluation of bit-stream programming in Erlang", PADL'07](http://user.it.uu.se/~kostis/Papers/index.html#Conference)).  Suppose we had a parsing function thus:
+Sagonas et al describe an extension to Erlang that supports pattern-matching on bit-strings (["Application, implementation and performance evaluation of bit-stream programming in Erlang", PADL'07](http://user.it.uu.se/~kostis/Papers/index.html#Conference)).  Suppose we had a parsing function thus:
 
 ```wiki
   bits :: Int -> ByteString -> Maybe (Word, ByteString)

@@ -1,7 +1,7 @@
 # Injective type families
 
 
-This page summarizes the design of injective type families ([\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018)).
+This page summarizes the design of injective type families ([\#6018](https://gitlab.haskell.org/ghc/ghc/issues/6018)).
 
 
 Injective type families have been merged into HEAD in September 2015 and became available in GHC 8.0 with the `TypeFamilyDependencies` language extension.
@@ -10,20 +10,20 @@ Injective type families have been merged into HEAD in September 2015 and became 
 There are plans to further extend implementation of injective type families to
 match the expressive power of functional dependencies.  The work was started in
 September 2015 but later stalled and was left unfinished.  Partial
-implementation is available as  [ Phab:D1287](https://phabricator.haskell.org/D1287) and on the
+implementation is available as  [Phab:D1287](https://phabricator.haskell.org/D1287) and on the
 wip/T10832-generalised-injectivity branch. The relevant Trac ticket is
-[\#10832](https://gitlab.haskell.org//ghc/ghc/issues/10832). See
-[ this section below](https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies#TypeCinjectivityaka.generalizedinjectivity) for full details.
+[\#10832](https://gitlab.haskell.org/ghc/ghc/issues/10832). See
+[this section below](https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies#TypeCinjectivityaka.generalizedinjectivity) for full details.
 
 
-Other tickets related to further development of injective type families: [\#10833](https://gitlab.haskell.org//ghc/ghc/issues/10833), [\#11511](https://gitlab.haskell.org//ghc/ghc/issues/11511).
+Other tickets related to further development of injective type families: [\#10833](https://gitlab.haskell.org/ghc/ghc/issues/10833), [\#11511](https://gitlab.haskell.org/ghc/ghc/issues/11511).
 
 
 Person responsible for this page is Jan Stolarek (just so you now who is meant
 by "I").  I am also responsible for most of the implementation.  Simon Peyton
 Jones and Richard Eisenberg participated in the development of theory behind
 injective type families, so whenever I say "we" I mean the three of us.  For
-full discussion of injective type families see Haskell Symposium 2015 [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf)
+full discussion of injective type families see Haskell Symposium 2015 [paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf)
 "Injective type families for Haskell" (henceforth referred to as the
 "injectivity paper").
 
@@ -37,23 +37,23 @@ Use Keyword = `InjectiveFamilies` to ensure that a ticket ends up on these lists
 
 **Open Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4259">#4259</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/4259">#4259</a></th>
 <td>Relax restrictions on type family instance overlap</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10227">#10227</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10227">#10227</a></th>
 <td>Type checker cannot deduce type</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10832">#10832</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10832">#10832</a></th>
 <td>Generalize injective type families</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10833">#10833</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10833">#10833</a></th>
 <td>Use injective type families (decomposition) when dealing with givens</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11511">#11511</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11511">#11511</a></th>
 <td>Type family producing infinite type accepted as injective</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13571">#13571</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13571">#13571</a></th>
 <td>Injective type family syntax accepted without TypeFamilyDependencies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13621">#13621</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13621">#13621</a></th>
 <td>Problems with injective type families</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13797">#13797</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13797">#13797</a></th>
 <td>Mark negation injective</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14164">#14164</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14164">#14164</a></th>
 <td>GHC hangs on type family dependency</td></tr></table>
 
 
@@ -61,23 +61,23 @@ Use Keyword = `InjectiveFamilies` to ensure that a ticket ends up on these lists
 
 **Closed Tickets:**
 
-<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/6018">#6018</a></th>
+<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/6018">#6018</a></th>
 <td>Injective type families</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12119">#12119</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12119">#12119</a></th>
 <td>Can&apos;t create injective type family equation with TypeError as the RHS</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12199">#12199</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12199">#12199</a></th>
 <td>GHC is oblivious to injectivity when solving an equality constraint</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12430">#12430</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12430">#12430</a></th>
 <td>TypeFamilyDependencies accepts invalid injectivity annotation</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13643">#13643</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13643">#13643</a></th>
 <td>Core lint error with TypeInType and TypeFamilyDependencies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13651">#13651</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13651">#13651</a></th>
 <td>Invalid redundant pattern matches with -XTypeFamilyDependencies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13822">#13822</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13822">#13822</a></th>
 <td>GHC not using injectivity?</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14369">#14369</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14369">#14369</a></th>
 <td>GHC warns an injective type family &quot;may not be injective&quot;</td></tr>
-<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15691">#15691</a></th>
+<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15691">#15691</a></th>
 <td>Marking Pred(S n) = n as injective</td></tr></table>
 
 
@@ -85,7 +85,7 @@ Use Keyword = `InjectiveFamilies` to ensure that a ticket ends up on these lists
 ## Forms of injectivity
 
 
-The idea behind [\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018) is to allow users to declare that a type family is
+The idea behind [\#6018](https://gitlab.haskell.org/ghc/ghc/issues/6018) is to allow users to declare that a type family is
 injective.  We have identified three forms of injectivity:
 
 1. Injectivity in all the arguments, where knowing the result (right-hand
@@ -374,7 +374,7 @@ Relevant source code notes are:
 
 
 Implementation discussion and progress was recorded in
-[ Phab D202](https://phabricator.haskell.org/D202). That patch is now fully merged and given here only for historical purposes.
+[Phab D202](https://phabricator.haskell.org/D202). That patch is now fully merged and given here only for historical purposes.
 
 ## Injectivity for poly-kinded type families
 
@@ -418,8 +418,8 @@ dependencies. Here are several properties of generalized injectivity annotations
 
 
 I started implementation work on generalized injectivity in September 2015 but
-didn't finish it. The relevant Trac ticket is [\#10832](https://gitlab.haskell.org//ghc/ghc/issues/10832). Partial implementation
-is available as [ Phab:D1287](https://phabricator.haskell.org/D1287) and on the wip/T10832-generalised-injectivity
+didn't finish it. The relevant Trac ticket is [\#10832](https://gitlab.haskell.org/ghc/ghc/issues/10832). Partial implementation
+is available as [Phab:D1287](https://phabricator.haskell.org/D1287) and on the wip/T10832-generalised-injectivity
 branch. In October/November 2016 I tried to rebase this branch on top of HEAD
 and resume work but the typechecker code has changed significantly and I was
 unable to make it work. It seems that the easiest way here is to salvage parser
@@ -727,7 +727,7 @@ Simon Peyton Jones, 23rd July 2015:
 
 1. GHC has an outright bug in its handling of consistency,
   as you both point out.  But it's a bug that seems to be exploited!
-  See Trac [\#10675](https://gitlab.haskell.org//ghc/ghc/issues/10675).
+  See Trac [\#10675](https://gitlab.haskell.org/ghc/ghc/issues/10675).
 
 
   
@@ -960,7 +960,7 @@ Richard Eisenber, 26 July 2015:
 
 ### Inferring injectivity
 
-[Here](https://gitlab.haskell.org//ghc/ghc/issues/6018) it was suggested by Simon that we could infer
+[Here](https://gitlab.haskell.org/ghc/ghc/issues/6018) it was suggested by Simon that we could infer
 injectivity for closed type families. I initially argued that, while inferring
 injectivity of type A should be simple, inferring injectivity of type B would be
 exponential in the numer of arguments to a type family. I take back that claim
@@ -1024,4 +1024,4 @@ There are several concerns to consider before implementing this:
 In the injectivity paper we presented two practical use cases for injectivity.
 If you have more uses cases to demonstrate please add them here.
 
-[ GLambda issue tracker (“Make Val injective”)](https://github.com/goldfirere/glambda/issues/6).
+[GLambda issue tracker (“Make Val injective”)](https://github.com/goldfirere/glambda/issues/6).

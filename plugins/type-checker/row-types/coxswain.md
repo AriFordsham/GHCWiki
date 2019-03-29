@@ -20,7 +20,7 @@ This wiki page outlines the basic design and intended use of the library, use ca
 (**DISCLAIMER** In the following text, I make lots of claims about what the plugin does and doesn't do. But it's very much a work in progress (remember, I'm using it to learn). I don't have anything that's anywhere close to approaching a proof of its correctness.)
 
 
-The plugin code is on GitHub, BSD3. [ https://github.com/nfrisby/coxswain](https://github.com/nfrisby/coxswain)
+The plugin code is on GitHub, BSD3. [https://github.com/nfrisby/coxswain](https://github.com/nfrisby/coxswain)
 
 # Plugin Debug Options
 
@@ -36,7 +36,7 @@ The plugin understands a couple debugging options, if you want to inspect what i
 ## Comparison to the Nice Elm Overview
 
 
-To get a basic sense of what the library feels like, the following code block imitates the well-written and beginner-friendly [ documentation page about records in Elm](http://elm-lang.org/docs/records#what-is-a-record-). It imports the `Data.Sculls.Symbol` module from the `sculls` package, which is my current draft of record types on top of the `coxswain` row types.
+To get a basic sense of what the library feels like, the following code block imitates the well-written and beginner-friendly [documentation page about records in Elm](http://elm-lang.org/docs/records#what-is-a-record-). It imports the `Data.Sculls.Symbol` module from the `sculls` package, which is my current draft of record types on top of the `coxswain` row types.
 
 
 (Please forgive my punny names. Naming is one of the most fun parts for me. If this were to gain enough momentum and "official" adoption, I would suggest renaming it to something plain, like `row-types` and the `RowTypes` module and `record-types` and the `Data.Record` e.g. module.)
@@ -824,7 +824,7 @@ later!). `f x y z` would become `f (mkR .* #foo .= x .* #bar .= y .* #baz .= z)`
 
 
 
-For example, from O'Sullivan's `math-functions` package, the [ \`newtonRaphson\` function](http://hackage.haskell.org/package/math-functions-0.2.1.0/docs/Numeric-RootFinding.html#v:newtonRaphson) has the following signature.
+For example, from O'Sullivan's `math-functions` package, the [\`newtonRaphson\` function](http://hackage.haskell.org/package/math-functions-0.2.1.0/docs/Numeric-RootFinding.html#v:newtonRaphson) has the following signature.
 
 
 ```
@@ -890,7 +890,7 @@ proper Haskell data type or a newtype wrapped record type).
 
 I suspect a Variant of Records would be an excellent center piece of
 the interface to a command-line option parsing library, building upon
-Gonzalez's [ http://hackage.haskell.org/package/options](http://hackage.haskell.org/package/options).
+Gonzalez's [http://hackage.haskell.org/package/options](http://hackage.haskell.org/package/options).
 
 ## YAML/JSON/CSV/etc Format
 
@@ -927,22 +927,22 @@ rows at all) might be better here.
 # Rough Bibilography
 
 
-Gaster and Jones 1996 - [ http://web.cecs.pdx.edu/\~mpj/pubs/polyrec.html](http://web.cecs.pdx.edu/~mpj/pubs/polyrec.html) - The fundamentals of row unification and lacks predicates.
+Gaster and Jones 1996 - [http://web.cecs.pdx.edu/\~mpj/pubs/polyrec.html](http://web.cecs.pdx.edu/~mpj/pubs/polyrec.html) - The fundamentals of row unification and lacks predicates.
 
 
-Leijen 2004 - [ https://www.microsoft.com/en-us/research/publication/first-class-labels-for-extensible-rows/](https://www.microsoft.com/en-us/research/publication/first-class-labels-for-extensible-rows/) - Lots of inspiring use-cases for rows, records, and variants.
+Leijen 2004 - [https://www.microsoft.com/en-us/research/publication/first-class-labels-for-extensible-rows/](https://www.microsoft.com/en-us/research/publication/first-class-labels-for-extensible-rows/) - Lots of inspiring use-cases for rows, records, and variants.
 
 
-Vytiniotis et all 2011 - [ https://www.microsoft.com/en-us/research/publication/outsideinx-modular-type-inference-with-local-assumptions/](https://www.microsoft.com/en-us/research/publication/outsideinx-modular-type-inference-with-local-assumptions/) - Glorious motivation and details of GHC's OutsideIn(X) type checking algorithm. Unfortunately, spares on some details. For example: what is a Derived constraint and where exactly do they come from‽
+Vytiniotis et all 2011 - [https://www.microsoft.com/en-us/research/publication/outsideinx-modular-type-inference-with-local-assumptions/](https://www.microsoft.com/en-us/research/publication/outsideinx-modular-type-inference-with-local-assumptions/) - Glorious motivation and details of GHC's OutsideIn(X) type checking algorithm. Unfortunately, spares on some details. For example: what is a Derived constraint and where exactly do they come from‽
 
 
-Gundry 2015 - [ http://adam.gundry.co.uk/pub/typechecker-plugins/](http://adam.gundry.co.uk/pub/typechecker-plugins/) and [ https://github.com/adamgundry/uom-plugin/](https://github.com/adamgundry/uom-plugin/) - The only published type checker plugin I'm aware of. Very helpful.
+Gundry 2015 - [http://adam.gundry.co.uk/pub/typechecker-plugins/](http://adam.gundry.co.uk/pub/typechecker-plugins/) and [ https://github.com/adamgundry/uom-plugin/](https://github.com/adamgundry/uom-plugin/) - The only published type checker plugin I'm aware of. Very helpful.
 
 
-Gundry et al 2015 - [ https://ghc.haskell.org/trac/ghc/wiki/Plugins/TypeChecker](https://ghc.haskell.org/trac/ghc/wiki/Plugins/TypeChecker) - The most documentation I could find about the type checker plugin API :(. It's helpful but terse; we'll need more going forward.
+Gundry et al 2015 - [https://ghc.haskell.org/trac/ghc/wiki/Plugins/TypeChecker](https://ghc.haskell.org/trac/ghc/wiki/Plugins/TypeChecker) - The most documentation I could find about the type checker plugin API :(. It's helpful but terse; we'll need more going forward.
 
 
-Baaij 2016 - [ http://christiaanb.github.io/posts/type-checker-plugin/](http://christiaanb.github.io/posts/type-checker-plugin/) - A very nice post that overviews the type checker plugin API. Fact: this post made me actually start this project; thanks Christiaan.
+Baaij 2016 - [http://christiaanb.github.io/posts/type-checker-plugin/](http://christiaanb.github.io/posts/type-checker-plugin/) - A very nice post that overviews the type checker plugin API. Fact: this post made me actually start this project; thanks Christiaan.
 
 # Plugin Architecture
 

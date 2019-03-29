@@ -11,7 +11,7 @@ Trac supports accessibility keys for the most common operations. The access keys
 - on Windows, you need to hit `<Shift> + <Alt> + <Key>`. This works for the most common browsers, such as Firefox, Chrome, Safari and Internet Explorer
 
 
-Also see [ access in different browsers](http://en.wikipedia.org/wiki/Access_key#Access_in_different_browsers) for more details.
+Also see [access in different browsers](http://en.wikipedia.org/wiki/Access_key#Access_in_different_browsers) for more details.
 
 ## Global Access Keys
 
