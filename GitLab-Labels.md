@@ -36,6 +36,7 @@ alphabetical order.
  * ~"user-facing": Denotes a merge request which changes the interface exposed by GHC or its core libraries in a user-noticable way. Merge requests so-marked trigger the head.hackage build jobs.
  * ~"info needed": Information is needed from the issue reporter
  * ~"upstream": Things that require coordination with an upstream package
+ * ~"broken test": An issue due to which one or more tests in the testsuite are marked as `expect_broken`
 
 # Bug environmental scope
 
