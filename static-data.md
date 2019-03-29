@@ -19,10 +19,12 @@ Provide helpers (in GHC and in TH) to generate object files (ELF, etc.) containi
 Provide helper to generate unique data symbols and to add symbols referring to the data in the symbol table of the object file.
 
 
+
 At this step, we can already use TH to embed data. We can retrieve the data address from the symbol with:
 
+
 ```
-foreignimportccall"&" myDataSymbol ::Ptr()
+foreign import ccall "&" myDataSymbol :: Ptr ()
 ```
 
 ## Step 3: add GHC primitive
@@ -40,11 +42,12 @@ To make the interface easier to use even when TH is not supported, let's add a `
 They support at least the following primops which are compiled as constants or
 symbols:
 
+
 ```
-   staticDataAddr#::StaticData#->Addr#
-   staticDataSize#::StaticData#->Word#
-   staticDataAlignment#::StaticData#->Word#
-   staticDataIsMutable#::StaticData#->Int#
+   staticDataAddr#      :: StaticData# -> Addr#
+   staticDataSize#      :: StaticData# -> Word#
+   staticDataAlignment# :: StaticData# -> Word#
+   staticDataIsMutable# :: StaticData# -> Int#
 ```
 
 
@@ -52,10 +55,18 @@ The API to create static data is available from Template Haskell. Hence a
 quasiquoter can use it.
 
 
+
 Internal representation in GHC:
 
+
 ```
-dataStaticData=StaticData{ staticDataSize      ::Word, staticDataAlignment ::Word-- ^ Alignment constraint (1 if none), staticDataMutable   ::Bool-- ^ Is the data mutable?, staticDataContents  ::MaybeByteString-- ^ Initialized or not? (maybe support 0-initialized data too?), staticDataSymbol    ::String}
+   data StaticData = StaticData
+      { staticDataSize      :: Word
+      , staticDataAlignment :: Word    -- ^ Alignment constraint (1 if none)
+      , staticDataMutable   :: Bool    -- ^ Is the data mutable?
+      , staticDataContents  :: Maybe ByteString -- ^ Initialized or not? (maybe support 0-initialized data too?)
+      , staticDataSymbol    :: String
+      }
 ```
 
 
@@ -79,22 +90,29 @@ We could use a static compact region embedded in object files (reusing the `Stat
 `StaticObject#` primitive type which is a reference to an object in the static
 compact region.
 
+
+
 `StaticObject#` supports the following primop:
 
+
 ```
-   fromStaticObject#::StaticObject#-> a
+   fromStaticObject# :: StaticObject# -> a
 ```
 
 
 The linter should ensure that the type of the static object is `a`.
 
 
+
 We provide the following GHC/Template Haskell API:
 
+
 ```
--- | Add an object in compact normal form in the static compact region
-   addStaticObject :: a ->QStaticObject#-- | Helper: use addStaticObject and produce "fromStaticObject# obj :: a" expression
-   asStaticObject :: a ->QExpr
+   -- | Add an object in compact normal form in the static compact region
+   addStaticObject :: a -> Q StaticObject#
+
+   -- | Helper: use addStaticObject and produce "fromStaticObject# obj :: a" expression
+   asStaticObject :: a -> Q Expr
 ```
 
 
@@ -112,34 +130,48 @@ to support storage of `MutableByteArray#` which don't have references to other d
 We would like string literals to be `StaticData#` like other data.
 
 
+
 Currently with OverloadedStrings, the following:
 
+
 ```
-"My text"::String"My text"::Text"123456"::ByteString
+   "My text" :: String
+   "My text" :: Text
+   "123456"  :: ByteString
 ```
 
 
 is desugared into:
 
+
 ```
-   fromString "My text"::String
-   fromString "My text"::Text
-   fromString "123456"::ByteString
+   fromString "My text" :: String
+   fromString "My text" :: Text
+   fromString "123456"  :: ByteString
 ```
 
 
 Let's add a `StaticStrings` extension that desugars to this instead:
 
+
 ```
-[string|My text|]::String[text|My text|]::Text[byte|123456|]::ByteString
+   [string|My text|] :: String
+   [text|My text|]   :: Text
+   [byte|123456|]    :: ByteString
 ```
 
 
 Note that the \*quasiquoter is selected from the type\*. I.e., we have:
 
+
 ```
-classStringQuote a where
-      fromStringQuote ::QuasiQuoterinstanceStringQuoteByteStringwhere...instanceStringQuoteStringwhere...instanceStringQuoteTextwhere...instanceStringQuote(Ptr a)where...
+   class StringQuote a where
+      fromStringQuote :: QuasiQuoter
+
+   instance StringQuote ByteString where ...
+   instance StringQuote String where ...
+   instance StringQuote Text where ...
+   instance StringQuote (Ptr a) where ...
 ```
 
 
@@ -156,10 +188,12 @@ Not all GHC support Template Haskell. Hence some StringQuote instances could be 
 ### Desugaring usual strings
 
 
+
 When the StaticStrings extension is not in use, instead of desugaring into a specific string-literal, we can desugar into the following:
 
+
 ```
-   unpackCString#(staticDataAddr# d)
+   unpackCString# (staticDataAddr# d)
 ```
 
 

@@ -11,6 +11,10 @@ It’s stupid, stupid to have both the large `Language.Haskell.TH` data types fo
 - The duplication does not serve our users well.  Sometimes they even need to grapple with BOTH data types in the same probram, and We even have a package that converts from one to the other!
 - The duplication does not serve use as developers well. We are duplicating some pretty serious effort on data type design, pretty printer, analysis, etc etc.
 
+
+              
+
+
 ## Proposal
 
 
@@ -24,9 +28,16 @@ The proposal is simple: we re-build the `template-haskell` library to sit on top
   - The `Q` monad and result types for reify (no equivalent in `haskell-src-exts`)
 
 >
+>
 > I think we can solve all this with some negotiation, but I guess it is just possible that there is some major technical obstacle.
+>
+>
 
 - The massive question is the disruptive effect on existing TH users.  Changing all the data types will be a Real Pain for them.  But the long term benefits seem quite compelling.  We’d need to make a clear blog post/email etc to advertise and seek feedback.
 
 >
+>
 > One possibility is to support BOTH for a while (deprecating the existing data types).  Perhaps by having two package (old and new). Initially “old” is deprecated but is the package you get by default.  But “new” is available, and the same GHC can deal with its data types.  I think this would be possible, with some work.
+>
+>
+

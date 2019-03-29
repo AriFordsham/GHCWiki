@@ -40,81 +40,83 @@ Further details on the available probes are below.
 ## Probe description
 
 
+
 The following probes are being made available by the `HaskellEvent` provider:
 
-<table><tr><th>`create-thread (capability, tid)`</th>
+
+<table><tr><th><tt>create-thread (capability, tid)</tt></th>
 <td>
-Triggered when a new runtime thread is created.  Reports the capability on which the thread is created and the new thread's thread id.
+Triggered when a new runtime thread is created.  Reports the capability on which the thread is created and the new thread&apos;s thread id.
 </td></tr>
-<tr><th>`run-thread (capability, tid)`</th>
+<tr><th><tt>run-thread (capability, tid)</tt></th>
 <td>
 Indicates that the given thread starts to run on the specified capability.
 </td></tr>
-<tr><th>`stop-thread (capability, tid)`</th>
+<tr><th><tt>stop-thread (capability, tid)</tt></th>
 <td>
 The identified thread stops execution on the given capability.
 </td></tr>
-<tr><th>`thread-runnable (capability, tid)`</th>
+<tr><th><tt>thread-runnable (capability, tid)</tt></th>
 <td>
 The given thread has just been appended to the run queue of the specified capability.
 </td></tr>
-<tr><th>`migrate-thread (cap, tid, new_cap)`</th>
+<tr><th><tt>migrate-thread (cap, tid, new_cap)</tt></th>
 <td>
-The specified thread has just been moved from capability `cap` to `new_cap`, either because `cap` is sharing its run queue with `new_cap` or because the migration was explicitly requested.
+The specified thread has just been moved from capability <tt>cap</tt> to <tt>new_cap</tt>, either because <tt>cap</tt> is sharing its run queue with <tt>new_cap</tt> or because the migration was explicitly requested.
 </td></tr>
-<tr><th>`run-spark (capability, tid)`</th>
+<tr><th><tt>run-spark (capability, tid)</tt></th>
 <td>
-We are about to convert a spark into a new parallel thread.  The capability and thread are those determining the spark and converting it, **not** the thread id of the new spark.
+We are about to convert a spark into a new parallel thread.  The capability and thread are those determining the spark and converting it, <b>not</b> the thread id of the new spark.
 </td></tr>
-<tr><th>`steal-spark (cap, tid, victim_cap)`</th>
+<tr><th><tt>steal-spark (cap, tid, victim_cap)</tt></th>
 <td>
-We are about to convert a spark from a different capability, namely `victim_cap`, into a new parallel thread.  Again, the capability and thread are those determining the spark and converting it, **not** the thread id of the new spark.
+We are about to convert a spark from a different capability, namely <tt>victim_cap</tt>, into a new parallel thread.  Again, the capability and thread are those determining the spark and converting it, <b>not</b> the thread id of the new spark.
 </td></tr>
-<tr><th>`shutdown (cap)`</th>
+<tr><th><tt>shutdown (cap)</tt></th>
 <td>
 The specified capability is about to disappear; its run queue and spare worker lists are already empty.
 </td></tr>
-<tr><th>`thread-wakeup (cap, tid, other_cap)`</th>
+<tr><th><tt>thread-wakeup (cap, tid, other_cap)</tt></th>
 <td>
-We just unblocked the specified thread on capability `other_cap`.  (The capability `cap` is the one which performed the unblocking.)
+We just unblocked the specified thread on capability <tt>other_cap</tt>.  (The capability <tt>cap</tt> is the one which performed the unblocking.)
 </td></tr>
-<tr><th>`gc-start (cap)`</th>
+<tr><th><tt>gc-start (cap)</tt></th>
 <td>
 The specified capability gets ready for a garbage collection.
 </td></tr>
-<tr><th>`gc-end (cap)`</th>
+<tr><th><tt>gc-end (cap)</tt></th>
 <td>
 The specified capability completed a garbage collection.
 </td></tr>
-<tr><th>`gc-request-seq-gc (cap)`</th>
+<tr><th><tt>gc-request-seq-gc (cap)</tt></th>
 <td>
 We are about to perform a single-threaded garbage collection (meaning that we will grab all capabilities, and then, perform the GC on the specified capability).
 </td></tr>
-<tr><th>`gc-request-par-gc (cap)`</th>
+<tr><th><tt>gc-request-par-gc (cap)</tt></th>
 <td>
 We are about to perform a parallel garbage collection (this still means all mutator threads need to stop).  We might need to wait for the other capabilities to donate a worker thread each.
 </td></tr>
-<tr><th>`create-spark-thread (cap, tid)`</th>
+<tr><th><tt>create-spark-thread (cap, tid)</tt></th>
 <td>
 We just turned a spark into the specified thread on the given capability.
 </td></tr>
-<tr><th>`startup (num_caps)`</th>
+<tr><th><tt>startup (num_caps)</tt></th>
 <td>
-Initialising the runtime system with the given number of capabilities (that's the value passed with `+RTS -N`).
+Initialising the runtime system with the given number of capabilities (that&apos;s the value passed with <tt>+RTS -N</tt>).
 </td></tr>
-<tr><th>`user-msg (cap, msg)`</th>
+<tr><th><tt>user-msg (cap, msg)</tt></th>
 <td>
-The given user message (a string that you need to copy with `copyinstr()`) was emitted on the given capability; this happens when a call to `traceEvent` is being made, passing the message as an argument.
+The given user message (a string that you need to copy with <tt>copyinstr()</tt>) was emitted on the given capability; this happens when a call to <tt>traceEvent</tt> is being made, passing the message as an argument.
 </td></tr>
-<tr><th>`gc-idle (cap)`</th>
+<tr><th><tt>gc-idle (cap)</tt></th>
 <td>
 The GC worker thread of the specified capability just became idle.
 </td></tr>
-<tr><th>`gc-work (cap)`</th>
+<tr><th><tt>gc-work (cap)</tt></th>
 <td>
 The GC worker thread of the specified capability is about to do some GC work.
 </td></tr>
-<tr><th>`gc-done (cap)`</th>
+<tr><th><tt>gc-done (cap)</tt></th>
 <td>
 The GC worker thread of the specified capability finished doing GC.
 </td></tr></table>

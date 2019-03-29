@@ -76,5 +76,6 @@ addMulDistr: r * (s + t) = (r * s) + (r * t)
 
 References:
 
+
 - [ http://en.wikipedia.org/wiki/Semiring](http://en.wikipedia.org/wiki/Semiring)
 - [ http://en.wikipedia.org/wiki/Cancellation_property](http://en.wikipedia.org/wiki/Cancellation_property)

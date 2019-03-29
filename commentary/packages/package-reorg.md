@@ -10,7 +10,12 @@ None of the ideas herein are claimed to belong to any particular
 person, many of the ideas have been extracted from mailing list
 discussions, eg.
 
+
+>
+>
 > [ http://www.haskell.org/pipermail/libraries/2006-November/006396.html](http://www.haskell.org/pipermail/libraries/2006-November/006396.html)
+>
+>
 
 
 Some of the points are GHC-specific.  Please feel free to insert

@@ -2,8 +2,10 @@
 See the [root page for exceptions](exceptions)
 
 
-As of Jan 2019, this is rather obsolete. [\#14998](https://gitlab.haskell.org//ghc/ghc/issues/14998) figured out that we don't really need the whole `ExnStr` business and that the benefits of making `catch#``strictApply1Dmd` in its argument doesn't bring any performance benefits.
+
+As of Jan 2019, this is rather obsolete. [\#14998](https://gitlab.haskell.org//ghc/ghc/issues/14998) figured out that we don't really need the whole `ExnStr` business and that the benefits of making `catch#` `strictApply1Dmd` in its argument doesn't bring any performance benefits.
 There probably still are some good ideas on this page, just ignore the bits about `ExnStr`. Joining the demand types of the two arguments to `catch#` like two alts of a case sounds reasonable, for example, but I'm not sold there are actual benefits in doing so. SG
+
 
 ## Fixing demand analysis for exceptions
 
@@ -17,8 +19,10 @@ There are a couple different problems we have to deal with.
 
 Assuming that I (David F.) and Simon M. win this debate, the key problem here is that we analyze `raiseIO# e s` as `ThrowsExn`, the same way we analyze something that either diverges or throws an imprecise exception. Assuming we change this, we want to take some care to recover dead code elimination that the current analysis allows. In particular, given
 
+
 ```
-case raiseIO# e s of(# s', a #)->EXPR
+case raiseIO# e s of
+  (# s', a #) -> EXPR
 ```
 
 
@@ -41,16 +45,26 @@ By an **imprecise** exception, I basically mean an exception produced by `throw`
 ### Semantics of precise exceptions
 
 
+
 I (David Feuer) believe that precise exceptions should implement the following model.
 
-```
-newtypeIO a =IO{unIO ::State#RealWorld->(#State#RealWorld,EitherSomeException a #)instanceMonadIOwhere
-  return a =IO$\s ->(# s,Right a #)
-  m >>= f =IO$\s ->case unIO m s of(# s',Left e #)->(# s',Left e #)(# s',Right a #)-> unIO (f a) s'
 
-throwIO::SomeException->IO a
-throwIO e =IO$\s ->(# s,Left e #)-- The name 'catchIO' is, sadly, taken by a less interesting function alreadycatchThrowIO::IO a ->(SomeException->IO a)->IO a
-catchThrowIO m f =IO$\s ->case unIO m s of(# s',Left e #)-> unIO (f e) s'
+```
+newtype IO a = IO {unIO :: State# RealWorld -> (# State# RealWorld, Either SomeException a #)
+instance Monad IO where
+  return a = IO $ \s -> (# s, Right a #)
+  m >>= f = IO $ \s -> case unIO m s of
+    (# s', Left e #) -> (# s', Left e #)
+    (# s', Right a #) -> unIO (f a) s'
+
+throwIO :: SomeException -> IO a
+throwIO e = IO $ \s -> (# s, Left e #)
+
+-- The name 'catchIO' is, sadly, taken by a less interesting function already
+catchThrowIO :: IO a -> (SomeException -> IO a) -> IO a
+catchThrowIO m f = IO $ \s ->
+  case unIO m s of
+    (# s', Left e #) -> unIO (f e) s'
     good -> good
 ```
 
@@ -73,20 +87,31 @@ Notes
 
 The "I/O hack" in the demand analyzer actually does something very important that the note doesn't mention. The note begins
 
+
+>
 >
 > There's a hack here for I/O operations.  Consider
 >
+>
+> >
+> >
 > > `case foo x s of { (# s, r #) -> y }`
+> >
+> >
 >
 >
 > Is this strict in `y`?  Normally yes, but what if `foo` is an I/O
 > operation that simply terminates the program (not in an erroneous way)?
+>
+>
 
 
 In fact, we have to worry about this under *all interesting* conditions. For example, consider
 
+
 ```
-case unIO (putStrLn "About to run y") s of(# s', r #)-> y
+case unIO (putStrLn "About to run y") s of
+  (# s', r #) -> y
 ```
 
 
@@ -128,7 +153,9 @@ I think, first, that we should draw a clear line between imprecise exceptions, g
 Operationally, we need `raise#` and `raiseIO#` to set some flag to allow `catchRaiseIO#` to see which exceptions it should handle.
 
 
-I believe we want `unsafePerformIO` and `unsafeInterleaveIO` to convert precise exceptions into imprecise ones. That is, they should effectively catch any precise exceptions and rethrow them as imprecise ones. Perhaps we can do this in `runRW#`. Currently, `unsafeInterleaveIO` doesn't *use*`runRW#`, but I think we can and probably should change that.
+
+I believe we want `unsafePerformIO` and `unsafeInterleaveIO` to convert precise exceptions into imprecise ones. That is, they should effectively catch any precise exceptions and rethrow them as imprecise ones. Perhaps we can do this in `runRW#`. Currently, `unsafeInterleaveIO` doesn't *use* `runRW#`, but I think we can and probably should change that.
+
 
 
 I strongly suspect there is something to be gained by treating expressions using `catch#` or `catchRaiseIO#` specially in the demand analyzer, but I don't know enough to say just how. I suspect the "result domain" does need to be expanded from the classical one, but in a slightly different direction than what we have now; we want to be able to express that certain things certainly will or certainly won't throw imprecise or precise exceptions.

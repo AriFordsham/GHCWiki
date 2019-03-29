@@ -44,14 +44,20 @@ Replication of scalars and arrays is always a waste of time and space.  However,
 Generally, we don't want to copy replicated data — it's a waste of space!  We definitely don't want to do it for large data structures, and in particular, we don't want to do it for arrays.  After all, that can change the asymptotic work complexity of a program.  To keep it simple, we are for the moment focusing on avoiding replicating arrays, as this is were our current practical problems are coming from.  (Independently of our current plans, some cases of replicated scalars are eliminated by fusion.)
 
 
+
 To clarify the scope of the present work:
+
+
 
 *Goals*
 
-- Avoid physically creating multiple copies of the same array due to `replicateP` and `replicateP^`**introduced by vectorisation.**
+
+- Avoid physically creating multiple copies of the same array due to `replicateP` and `replicateP^` **introduced by vectorisation.**
 - Ensure that consumers of replicated arrays only perform work in proportion to the size of the arrays before replication.
 
+
 *Non-goals* (they are worthwhile goals, but we don't attempt them at the moment)
+
 
 - Avoid physically creating multiple copies of scalars due to `replicateP` (this includes large scalars, such as list or trees).
 - Avoid deep traversals of arrays of trees for `packP` and similar.
@@ -518,7 +524,12 @@ The DPH library is built on the [ vector](http://hackage.haskell.org/package/vec
 ### Replicating and slicing
 
 
+
 When implementing replicated arrays, we need to take into account that (1) a replicated may be a sliced vector and (b) that the partitioning of a parallel array across multiple threads requires to slice that parallel array.
+
+
 
 ****\******* Is this really an issue?  After all, we don't replicated thread-local slices of parallel arrays (which in turn may be sliced vectors), but replicate parallel arrays (which are already distributed over multiple threads).
 **
+
+

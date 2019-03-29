@@ -103,7 +103,8 @@ instance (SingE (KindOf a, Show (Demote a)) => Show (Sing a) where
 ```
 
 
-Easy! We just convert the singleton into an ordinary value (integer or string), and use *its*`Show` instance to display it.
+Easy! We just convert the singleton into an ordinary value (integer or string), and use *its* `Show` instance to display it.
+
 
 
 Next, we show two functions which make it easier to work with singleton types:

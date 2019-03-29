@@ -40,9 +40,6 @@ The `primops.txt.pp` file is processed first by CPP, and then by the `genprimopc
   functions for each of the PrimOps, so that they are accessible from byte-code, and
   so that the [byte-code interpreter](commentary/rts/interpreter) doesn't need to implement any PrimOps at all: it
   just invokes the compiled ones from `GHC.PrimopWrappers`.
-  Note that we compile that module without optimisations. Doing strictness analysis + WW
-  on that module would introduce `absentError`s for the bindings of `prefetchValue0#`,
-  introducing a hidden dependency on `base`.
 
 - `libraries/ghc-prim/dist-install/build/autogen/GHC/Prim.hs`, a generated source file containing dummy declarations for
   all the PrimOps, solely so that Haddock can include documentation for `GHC.Prim`
@@ -113,6 +110,10 @@ To add a new primop, you currently need to update the following files:
   [compiler/codeGen/StgCmmPrim.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmmPrim.hs) defines the translation of
   the primop into `Cmm`.
 
+
+                
+
+
 - for an out-of-line primop:
 
   - [includes/stg/MiscClosures.h](/trac/ghc/browser/ghc/includes/stg/MiscClosures.h) (just add the declaration),
@@ -134,9 +135,15 @@ Not in scope: ‘GHC.Prim.<newPrimOp>’
 run `make clean` so the build system will pick up changes to the generated `GHC.Prim` module.
 
 
+
 In addition, if new primtypes are being added, the following files need to be updated:
 
+
 - [utils/genprimopcode/Main.hs](/trac/ghc/browser/ghc/utils/genprimopcode/Main.hs) -- extend ppType :: Type -\> String function
+
+
+  
+
 
 - [compiler/prelude/PrelNames.hs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.hs) -- add a new unique id using mkPreludeTyConUnique
 

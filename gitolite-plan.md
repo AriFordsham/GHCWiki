@@ -70,14 +70,25 @@ To rewrite a checked out to the new access URLs, you can use the `sync-all` scri
 #### Authenticated read/write access
 
 
+
 For developers (with push permissions) who have already checked out repositories, the only change needed is to go over their repositories and update their git uris from
 
+
+>
+>
 > `ssh://<user>@darcs.haskell.org/srv/darcs/<repo-name>.git`
+>
+>
 
 
 to
 
+
+>
+>
 > `ssh://git@git.haskell.org/<repo-name>.git`
+>
+>
 
 
 This can be accomplished by invoking the `sync-all` script. But **before** you do this, you need to make sure you have the latest version of `sync-all` as well - a few tiny changes were needed.

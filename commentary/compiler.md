@@ -6,7 +6,7 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
 - [Compiler Module Dependencies](module-dependencies) (deals with the arcane mutual recursions among GHC's many data types)
 - [Coding guidelines](commentary/coding-style)
 
-- [Command line arguments](commentary/compiler/command-line-args)
+- [Command line arguments](commentary/compiler/command-line-args) 
 - [The compilation pipeline](commentary/pipeline)
 
 - **Compiling one module: HscMain**
@@ -27,7 +27,7 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
 
 - [Key data types](commentary/compiler/key-data-types)
 
-  - [The source language: HsSyn](commentary/compiler/hs-syn-type)
+  - [The source language: HsSyn](commentary/compiler/hs-syn-type) 
   - [RdrNames, Modules, and OccNames](commentary/compiler/rdr-name-type)
   - [ModIface, ModDetails, ModGuts](commentary/compiler/module-types)
   - [Names](commentary/compiler/name-type)
@@ -43,6 +43,10 @@ The compiler itself is written entirely in Haskell, and lives in the many sub-di
   - [The STG language](commentary/compiler/stg-syn-type)
   - [The Cmm language](commentary/compiler/cmm-type)
   - [Back end types](commentary/compiler/back-end-types)
+
+
+ 
+
 
 - [Compiling more than one module at once](commentary/compiler/driver)
 - [How data type declarations are compiled](commentary/compiler/data-types)
@@ -67,9 +71,15 @@ Here is a block diagram of its top-level structure:
 [](/trac/ghc/attachment/wiki/Commentary/Compiler/ghc-top.png)
 
 
+
 The part called [HscMain](commentary/compiler/hsc-main) deals with compiling a single module.  On top of this is built the **compilation manager** (in blue) that manages the compilation of multiple modules.  It exports an interface called the **GHC API**.  On top of this API are four small front ends:
 
+
 - GHCi, the interactive environment, is implemented in [ghc/GHCi/UI.hs](/trac/ghc/browser/ghc/ghc/GHCi/UI.hs) and [compiler/main/InteractiveEval.hs](/trac/ghc/browser/ghc/compiler/main/InteractiveEval.hs). It sits squarely on top of the GHC API.
+
+
+ 
+
 
 - `--make` is almost a trivial client of the GHC API, and is implemented in [compiler/main/GhcMake.hs](/trac/ghc/browser/ghc/compiler/main/GhcMake.hs). 
 

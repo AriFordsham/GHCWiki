@@ -9,17 +9,28 @@ Issue raised here: [ https://ghc.haskell.org/trac/ghc/ticket/11418](https://ghc.
 Given these two modules:
 
 
+
 Aaa.hs:
 
+
 ```
-moduleAaawhereimportBBbmain::IO()main= putStrLn myString
+module Aaa where
+
+import           BBb
+
+main :: IO ()
+main = putStrLn myString
 ```
 
 
 Bbb.hs:
 
+
 ```
-moduleBbbwheremyString::StringmyString="hi"
+module Bbb where
+
+myString :: String
+myString = "hi"
 ```
 
 

@@ -1,4 +1,57 @@
-Page Contents[Newtype wrappers](#Newtypewrappers)[The problem](#Theproblem)[Goal](#Goal)[Use cases](#Usecases)[The implementation](#Theimplementation)[Discussion of alternatives](#Discussionofalternatives)[Proposal 1](#Proposal1)[Proposal 2](#Proposal2)[Proposal 3](#Proposal3)
+
+#### Page Contents
+
+
+1. 
+1. 
+      [Newtype wrappers](#Newtypewrappers)
+      
+
+  1. 
+  1. 
+            [The problem](#Theproblem)
+          
+  1. 
+  1. 
+            [Goal](#Goal)
+          
+  1. 
+  1. 
+            [Use cases](#Usecases)
+          
+  1. 
+  1. 
+            [The implementation](#Theimplementation)
+          
+  1. 
+  1. 
+            [Discussion of alternatives](#Discussionofalternatives)
+            
+
+    1. 
+    1. 
+                  [Proposal 1](#Proposal1)
+                
+    1. 
+
+
+          
+  1. 
+  1. 
+            [Proposal 2](#Proposal2)
+          
+  1. 
+  1. 
+            [Proposal 3](#Proposal3)
+          
+  1. 
+
+
+    
+1. 
+
+
+
 
 # Newtype wrappers
 

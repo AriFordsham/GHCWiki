@@ -10,9 +10,107 @@ Trac can also be localized, and there is probably a translation available in you
 If you're interested in contributing new translations for other languages or enhancing the existing translations, then please have a look at [ TracL10N](http://trac.edgewall.org/intertrac/wiki%3ATracL10N).
 
 
+
 What follows are generic instructions for installing and setting up Trac. While you may find instructions for installing Trac on specific systems at [ TracInstallPlatforms](http://trac.edgewall.org/intertrac/TracInstallPlatforms), please **first read through these general instructions** to get a good understanding of the tasks involved.
 
-Installation Steps[Dependencies](#Dependencies)[Mandatory Dependencies](#MandatoryDependencies)[Optional Dependencies](#OptionalDependencies)[Installing Trac](#InstallingTrac)[Using  easy_install](#Usingeasy_install)[Using  pip](#Usingpip)[From source](#Fromsource)[Using installer](#Usinginstaller)[Using package manager](#Usingpackagemanager)[Advanced  easy_install  Options](#Advancedeasy_installOptions)[Creating a Project Environment](#CreatingaProjectEnvironment)[Deploying Trac](#DeployingTrac)[Running the Standalone Server](#RunningtheStandaloneServer)[Running Trac on a Web Server](#RunningTraconaWebServer)[Configuring Authentication](#ConfiguringAuthentication)[Granting admin rights to the admin user](#Grantingadminrightstotheadminuser)[Configuring Trac](#ConfiguringTrac)[Using Trac](#UsingTrac)
+
+
+#### Installation Steps
+
+
+    
+
+1. 
+1. 
+          [Dependencies](#Dependencies)
+          
+
+  1. 
+  1. 
+                [Mandatory Dependencies](#MandatoryDependencies)
+              
+  1. 
+  1. 
+                [Optional Dependencies](#OptionalDependencies)
+              
+  1. 
+
+
+        
+1. 
+1. 
+          [Installing Trac](#InstallingTrac)
+          
+
+  1. 
+  1. 
+                [Using  easy_install](#Usingeasy_install)
+              
+  1. 
+  1. 
+                [Using  pip](#Usingpip)
+              
+  1. 
+  1. 
+                [From source](#Fromsource)
+              
+  1. 
+  1. 
+                [Using installer](#Usinginstaller)
+              
+  1. 
+  1. 
+                [Using package manager](#Usingpackagemanager)
+              
+  1. 
+  1. 
+                [Advanced  easy_install  Options](#Advancedeasy_installOptions)
+              
+  1. 
+
+
+        
+1. 
+1. 
+          [Creating a Project Environment](#CreatingaProjectEnvironment)
+        
+1. 
+1. 
+          [Deploying Trac](#DeployingTrac)
+          
+
+  1. 
+  1. 
+                [Running the Standalone Server](#RunningtheStandaloneServer)
+              
+  1. 
+  1. 
+                [Running Trac on a Web Server](#RunningTraconaWebServer)
+              
+  1. 
+
+
+        
+1. 
+1. 
+          [Configuring Authentication](#ConfiguringAuthentication)
+        
+1. 
+1. 
+          [Granting admin rights to the admin user](#Grantingadminrightstotheadminuser)
+        
+1. 
+1. 
+          [Configuring Trac](#ConfiguringTrac)
+        
+1. 
+1. 
+          [Using Trac](#UsingTrac)
+        
+1. 
+
+
+
 
 ## Dependencies
 
@@ -105,7 +203,12 @@ Alternatively you can configure Trac to run in any of the following environments
 - a CGI-capable web server (see [TracCgi](trac-cgi)), **but usage of Trac as a cgi script 
   is highly discouraged**, better use one of the previous options. 
 
+
+   
+
+
 #### Other Python Packages
+
 
 - [ Babel](http://babel.edgewall.org), version 0.9.6 or \>= 1.3, 
   needed for localization support
@@ -164,16 +267,23 @@ More information can be found on the [ setuptools](http://trac.edgewall.org/inte
 To get a Trac installation up and running in less than 5 minutes:
 
 
+
 Assuming you want to have your entire pip installation in `/opt/user/trac`
 
-- ```
+
+- 
+
+  ```
   pip install trac psycopg2 
   ```
 
 
 or
 
-- ```
+
+- 
+
+  ```
   pip install trac mysql-python 
   ```
 
@@ -273,9 +383,13 @@ $ trac-admin /path/to/myproject initenv
 Using the default database connection string will always work as long as you have SQLite installed. For the other [ database backends](http://trac.edgewall.org/intertrac/DatabaseBackend) you should plan ahead and already have a database ready to use at this point.
 
 
+
 Also note that the values you specify here can be changed later using [TracAdmin](trac-admin) or directly editing the [conf/trac.ini](trac-ini) configuration file.
 
-**Filesystem Warning:** When selecting the location of your environment, make sure that the filesystem on which the environment directory resides supports sub-second timestamps (i.e. **not**`ext2` or `ext3` on Linux, or HFS+ on OSX), as the modification time of the `conf/trac.ini` file will be monitored to decide whether an environment restart is needed or not. A too coarse-grained timestamp resolution may result in inconsistencies in Trac \< 1.0.2. The best advice is to opt for a platform with sub-second timestamp resolution, regardless of the Trac version.
+
+
+**Filesystem Warning:** When selecting the location of your environment, make sure that the filesystem on which the environment directory resides supports sub-second timestamps (i.e. **not** `ext2` or `ext3` on Linux, or HFS+ on OSX), as the modification time of the `conf/trac.ini` file will be monitored to decide whether an environment restart is needed or not. A too coarse-grained timestamp resolution may result in inconsistencies in Trac \< 1.0.2. The best advice is to opt for a platform with sub-second timestamp resolution, regardless of the Trac version.
+
 
 
 Finally, make sure the user account under which the web front-end runs will have **write permissions** to the environment directory and all the files inside. This will be the case if you run `trac-admin ... initenv` as this user. If not, you should set the correct user afterwards. For example on Linux, with the web server running as user `apache` and group `apache`, enter:
@@ -297,10 +411,12 @@ The actual username and groupname of the apache server may not be exactly `apach
 If running `tracd`, the environment variable can be set system-wide or for just the user that runs the `tracd` process. There are several ways to accomplish this in addition to what is discussed here, and depending on the distribution of your OS.
 
 
+
 To be effective system-wide a shell script with the `export` statement may be added to `/etc/profile.d`. To be effective for a user session the `export` statement may be added to `~/.profile`.
 
+
 ```
-exportPKG_RESOURCES_CACHE_ZIP_MANIFESTS=1
+export PKG_RESOURCES_CACHE_ZIP_MANIFESTS=1
 ```
 
 
@@ -332,10 +448,12 @@ $ tracd -s --port 8000 /path/to/myproject
 ### Running Trac on a Web Server
 
 
+
 Trac provides various options for connecting to a "real" web server: 
 
+
 - [FastCGI](trac-fast-cgi)
-- [Apache with mod_wsgi](trac-mod-wsgi)
+- [Apache with mod_wsgi](trac-mod-wsgi) 
 - [Apache with mod_python](trac-mod-python)
 - *[CGI](trac-cgi) (should not be used, as the performance is far from optimal)*
 
@@ -375,24 +493,36 @@ There are two primary URL paths for static resources: `/chrome/common` and `/chr
 A single `/chrome` alias can used if the static resources are extracted for all plugins. This means that the `deploy` command must be executed after installing or updating a plugin that provides static resources, or after modifying resources in the `$env/htdocs` directory. This is probably appropriate for most installations but may not be what you want if, for example, you wish to upload plugins through the *Plugins* administration page.
 
 
+
 The resources are extracted using the [trac-admin](trac-admin)` <environment> deploy` command:
-deploy \<directory\>
+
+```wiki
+deploy <directory>
 
     Extract static resources from Trac and all plugins
+
+```
+
+
 
 
 The target `<directory>` will contain an `htdocs` directory with:
 
+
 - `common/` - the static resources of Trac
 - `site/` - a copy of the environment's `htdocs/` directory
-- `shared` - the static resources shared by multiple Trac environments, with a location defined by the `[inherit]``htdocs_dir` option
+- `shared` - the static resources shared by multiple Trac environments, with a location defined by the `[inherit]` `htdocs_dir` option
 - `<plugin>/` - one directory for each resource directory provided by the plugins enabled for this environment
 
 
 The example that follows will create a single `/chrome` alias. If that isn't the correct approach for your installation you simply need to create more specific aliases:
 
+
 ```
-Alias/trac/chrome/common/path/to/trac/htdocs/commonAlias/trac/chrome/site/path/to/trac/htdocs/siteAlias/trac/chrome/shared/path/to/trac/htdocs/sharedAlias/trac/chrome/<plugin> /path/to/trac/htdocs/<plugin>
+Alias /trac/chrome/common /path/to/trac/htdocs/common
+Alias /trac/chrome/site /path/to/trac/htdocs/site
+Alias /trac/chrome/shared /path/to/trac/htdocs/shared
+Alias /trac/chrome/<plugin> /path/to/trac/htdocs/<plugin>
 ```
 
 ##### Example: Apache and `ScriptAlias`
@@ -407,33 +537,60 @@ $ trac-admin /var/trac/env deploy /path/to/shared/trac
 
 Add the following snippet to Apache configuration, changing paths to match your deployment. The snippet must be placed *before* the `ScriptAlias` or `WSGIScriptAlias` directive, because those directives map all requests to the Trac application:
 
+
 ```
-Alias/trac/chrome/path/to/trac/htdocs<Directory"/path/to/www/trac/htdocs"># For Apache 2.2<IfModule!mod_authz_core.c>Order allow,deny
-    Allow from all</IfModule># For Apache 2.4<IfModulemod_authz_core.c>Requireall granted
-  </IfModule></Directory>
+Alias /trac/chrome /path/to/trac/htdocs
+
+<Directory "/path/to/www/trac/htdocs">
+  # For Apache 2.2
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Allow from all
+  </IfModule>
+  # For Apache 2.4
+  <IfModule mod_authz_core.c>
+    Require all granted
+  </IfModule>
+</Directory>
 ```
 
 
 If using mod_python, add this too, otherwise the alias will be ignored:
 
+
 ```
-<Location"/trac/chrome/common">SetHandlerNone</Location>
+<Location "/trac/chrome/common">
+  SetHandler None
+</Location>
 ```
 
 
 Alternatively, if you wish to serve static resources directly from your project's `htdocs` directory rather than the location to which the files are extracted with the `deploy` command, you can configure Apache to serve those resources. Again, put this *before* the `ScriptAlias` or `WSGIScriptAlias` for the .\*cgi scripts, and adjust names and locations to match your installation:
 
+
 ```
-Alias/trac/chrome/site/path/to/projectenv/htdocs<Directory"/path/to/projectenv/htdocs"># For Apache 2.2<IfModule!mod_authz_core.c>Order allow,deny
-    Allow from all</IfModule># For Apache 2.4<IfModulemod_authz_core.c>Requireall granted
-  </IfModule></Directory>
+Alias /trac/chrome/site /path/to/projectenv/htdocs
+
+<Directory "/path/to/projectenv/htdocs">
+  # For Apache 2.2
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Allow from all
+  </IfModule>
+  # For Apache 2.4
+  <IfModule mod_authz_core.c>
+    Require all granted
+  </IfModule>
+</Directory>
 ```
 
 
 Another alternative to aliasing `/trac/chrome/common` is having Trac generate direct links for those static resources (and only those), using the [ \[trac\] htdocs_location](trac-ini#) configuration setting:
 
+
 ```
-[trac]htdocs_location=http://static.example.org/trac-common/
+[trac]
+htdocs_location = http://static.example.org/trac-common/
 ```
 
 
@@ -499,4 +656,7 @@ Keep in mind that *anonymous* (not logged in) users can by default access only a
 ---
 
 
+
 See also: [ TracInstallPlatforms](http://trac.edgewall.org/intertrac/TracInstallPlatforms), [TracGuide](trac-guide), [TracUpgrade](trac-upgrade), [TracPermissions](trac-permissions)
+
+

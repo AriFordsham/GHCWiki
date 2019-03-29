@@ -35,13 +35,17 @@ On each system, the same format is used for executables, shared libraries and in
 </th></tr>
 <tr><th> ELF    </th>
 <th> (no extension)       </th>
-<th>`.so`</th></tr>
+<th> <tt>.so</tt>     
+</th></tr>
 <tr><th> PE     </th>
-<th>`.exe`</th>
-<th>`.dll`</th></tr>
+<th> <tt>.exe</tt>               </th>
+<th> <tt>.dll</tt>    
+</th></tr>
 <tr><th> Mach-O </th>
 <th> (no extension)       </th>
-<th>`.dylib`</th></tr></table>
+<th> <tt>.dylib</tt>  
+</th></tr></table>
+
 
 
 Unfortunately, while static linking is relatively uncomplicated and similar between systems, shared libraries are implemented rather differently between different operating systems and pose somewhat of a management headache.

@@ -31,80 +31,86 @@ Note however that *deletions* are also taken into account immediately,
 so it may be better to use comments for disabling prefixes.
 
 
+
 Also note that InterWiki prefixes are case insensitive.
+
 
 ## List of Active Prefixes
 
-<table><tr><th>*Prefix*</th>
-<th>*Site*</th></tr>
-<tr><th>[Acronym](http://www.acronymfinder.com/af-query.asp?String=exact&Acronym=RecentChanges)</th>
-<th>[http://www.acronymfinder.com/af-query.asp?String=exact&Acronym=](http://www.acronymfinder.com/af-query.asp?String=exact&Acronym=)</th></tr>
-<tr><th>[C2find](http://c2.com/cgi/wiki?FindPage&value=RecentChanges)</th>
-<th>[http://c2.com/cgi/wiki?FindPage&value=](http://c2.com/cgi/wiki?FindPage&value=)</th></tr>
-<tr><th>[c2Wiki](http://c2.com/cgi/wiki?RecentChanges)</th>
-<th>[http://c2.com/cgi/wiki?](http://c2.com/cgi/wiki?)</th></tr>
-<tr><th>[Cache](http://www.google.com/search?q=cache:RecentChanges)</th>
-<th>[http://www.google.com/search?q=cache:](http://www.google.com/search?q=cache:)</th></tr>
-<tr><th>[CheeseShop](http://cheeseshop.python.org/pypi/RecentChanges)</th>
-<th>[Python Package $1 from the Cheese Shop](http://cheeseshop.python.org/pypi/)</th></tr>
-<tr><th>[CPAN](http://search.cpan.org/perldoc?RecentChanges)</th>
-<th>[http://search.cpan.org/perldoc?](http://search.cpan.org/perldoc?)</th></tr>
-<tr><th>[DebianBug](http://bugs.debian.org/RecentChanges)</th>
-<th>[http://bugs.debian.org/](http://bugs.debian.org/)</th></tr>
-<tr><th>[DebianPackage](http://packages.debian.org/RecentChanges)</th>
-<th>[http://packages.debian.org/](http://packages.debian.org/)</th></tr>
-<tr><th>[Dictionary](http://www.dict.org/bin/Dict?Database=*&Form=Dict1&Strategy=*&Query=RecentChanges)</th>
-<th>[http://www.dict.org/bin/Dict?Database=\*&Form=Dict1&Strategy=\*&Query=](http://www.dict.org/bin/Dict?Database=*&Form=Dict1&Strategy=*&Query=)</th></tr>
-<tr><th>[Google](http://www.google.com/search?q=RecentChanges)</th>
-<th>[http://www.google.com/search?q=](http://www.google.com/search?q=)</th></tr>
-<tr><th>[GoogleGroups](http://groups.google.com/group/RecentChanges/msg/)</th>
-<th>[Message $2 in $1 Google Group](http://groups.google.com/group/$1/msg/$2)</th></tr>
-<tr><th>[hackage](http://hackage.haskell.org/package/RecentChanges)</th>
-<th>[Haskell Package $1 from the HackageDB](http://hackage.haskell.org/package/$1)</th></tr>
-<tr><th>[ISO](http://en.wikipedia.org/wiki/ISO_RecentChanges)</th>
-<th>[ISO Standard $1 in Wikipedia](http://en.wikipedia.org/wiki/ISO_)</th></tr>
-<tr><th>[JargonFile](http://downlode.org/perl/jargon-redirect.cgi?term=RecentChanges)</th>
-<th>[http://downlode.org/perl/jargon-redirect.cgi?term=](http://downlode.org/perl/jargon-redirect.cgi?term=)</th></tr>
-<tr><th>[MeatBall](http://www.usemod.com/cgi-bin/mb.pl?RecentChanges)</th>
-<th>[http://www.usemod.com/cgi-bin/mb.pl?](http://www.usemod.com/cgi-bin/mb.pl?)</th></tr>
-<tr><th>[Mercurial](http://www.selenic.com/mercurial/wiki/index.cgi/RecentChanges)</th>
-<th>[the wiki for the Mercurial distributed SCM](http://www.selenic.com/mercurial/wiki/index.cgi/)</th></tr>
-<tr><th>[MetaWiki](http://sunir.org/apps/meta.pl?RecentChanges)</th>
-<th>[http://sunir.org/apps/meta.pl?](http://sunir.org/apps/meta.pl?)</th></tr>
-<tr><th>[MetaWikiPedia](http://meta.wikipedia.org/wiki/RecentChanges)</th>
-<th>[http://meta.wikipedia.org/wiki/](http://meta.wikipedia.org/wiki/)</th></tr>
-<tr><th>[MODPYTHON](http://issues.apache.org/jira/browse/MODPYTHON-RecentChanges)</th>
-<th>[Issue $1 in mod_python's JIRA instance](http://issues.apache.org/jira/browse/MODPYTHON-)</th></tr>
-<tr><th>[MoinMoin](http://moinmoin.wikiwikiweb.de/RecentChanges)</th>
-<th>[http://moinmoin.wikiwikiweb.de/](http://moinmoin.wikiwikiweb.de/)</th></tr>
-<tr><th>[mysql-bugs](http://bugs.mysql.com/bug.php?id=RecentChanges)</th>
-<th>[Bug \#$1 in MySQL's bug database](http://bugs.mysql.com/bug.php?id=)</th></tr>
-<tr><th>[peak](http://peak.telecommunity.com/DevCenter/RecentChanges)</th>
-<th>[$1 in Python Enterprise Application Kit's Wiki](http://peak.telecommunity.com/DevCenter/)</th></tr>
-<tr><th>[PEP](http://www.python.org/peps/pep-RecentChanges.html)</th>
-<th>[Python Enhancement Proposal](http://www.python.org/peps/pep-$1.html)</th></tr>
-<tr><th>[Phab](https://phabricator.haskell.org/RecentChanges)</th>
-<th>[https://phabricator.haskell.org/$1](https://phabricator.haskell.org/$1)</th></tr>
-<tr><th>[Python-issue](http://bugs.python.org/issueRecentChanges)</th>
-<th>[Python Issue \#$1](http://bugs.python.org/issue$1)</th></tr>
-<tr><th>[PythonBug](http://bugs.python.org/issueRecentChanges)</th>
-<th>[Python Issue \#$1](http://bugs.python.org/issue$1)</th></tr>
-<tr><th>[RFC](http://tools.ietf.org/html/rfcRecentChanges)</th>
-<th>[IETF's RFC $1](http://tools.ietf.org/html/rfc$1)</th></tr>
-<tr><th>[SQLite](http://www.sqlite.org/cvstrac/wiki?p=RecentChanges)</th>
-<th>[http://www.sqlite.org/cvstrac/wiki?p=](http://www.sqlite.org/cvstrac/wiki?p=)</th></tr>
-<tr><th>[SvnWiki](http://www.orcaware.com/svn/wiki/RecentChanges)</th>
-<th>[Subversion Wiki](http://www.orcaware.com/svn/wiki/)</th></tr>
-<tr><th>[trac-dev](http://thread.gmane.org/gmane.comp.version-control.subversion.trac.devel/RecentChanges)</th>
-<th>[Message $1 in Trac Development Mailing List](http://thread.gmane.org/gmane.comp.version-control.subversion.trac.devel/)</th></tr>
-<tr><th>[Trac-ML](http://thread.gmane.org/gmane.comp.version-control.subversion.trac.general/RecentChanges)</th>
-<th>[Message $1 in Trac Mailing List](http://thread.gmane.org/gmane.comp.version-control.subversion.trac.general/)</th></tr>
-<tr><th>[WhoIs](http://www.whois.sc/RecentChanges)</th>
-<th>[http://www.whois.sc/](http://www.whois.sc/)</th></tr>
-<tr><th>[Why](http://clublet.com/c/c/why?RecentChanges)</th>
-<th>[http://clublet.com/c/c/why?](http://clublet.com/c/c/why?)</th></tr>
-<tr><th>[WikiPedia](http://en.wikipedia.org/wiki/RecentChanges)</th>
-<th>[http://en.wikipedia.org/wiki/](http://en.wikipedia.org/wiki/)</th></tr></table>
+
+
+<table><tr><th><i>Prefix</i></th>
+<th><i>Site</i></th></tr>
+<tr><th><a href="http://www.acronymfinder.com/af-query.asp?String=exact&amp;Acronym=RecentChanges">Acronym</a></th>
+<th><a href="http://www.acronymfinder.com/af-query.asp?String=exact&amp;Acronym=">http://www.acronymfinder.com/af-query.asp?String=exact&amp;Acronym=</a></th></tr>
+<tr><th><a href="http://c2.com/cgi/wiki?FindPage&amp;value=RecentChanges">C2find</a></th>
+<th><a href="http://c2.com/cgi/wiki?FindPage&amp;value=">http://c2.com/cgi/wiki?FindPage&amp;value=</a></th></tr>
+<tr><th><a href="http://c2.com/cgi/wiki?RecentChanges">c2Wiki</a></th>
+<th><a href="http://c2.com/cgi/wiki?">http://c2.com/cgi/wiki?</a></th></tr>
+<tr><th><a href="http://www.google.com/search?q=cache:RecentChanges">Cache</a></th>
+<th><a href="http://www.google.com/search?q=cache:">http://www.google.com/search?q=cache:</a></th></tr>
+<tr><th><a href="http://cheeseshop.python.org/pypi/RecentChanges">CheeseShop</a></th>
+<th><a href="http://cheeseshop.python.org/pypi/">Python Package $1 from the Cheese Shop</a></th></tr>
+<tr><th><a href="http://search.cpan.org/perldoc?RecentChanges">CPAN</a></th>
+<th><a href="http://search.cpan.org/perldoc?">http://search.cpan.org/perldoc?</a></th></tr>
+<tr><th><a href="http://bugs.debian.org/RecentChanges">DebianBug</a></th>
+<th><a href="http://bugs.debian.org/">http://bugs.debian.org/</a></th></tr>
+<tr><th><a href="http://packages.debian.org/RecentChanges">DebianPackage</a></th>
+<th><a href="http://packages.debian.org/">http://packages.debian.org/</a></th></tr>
+<tr><th><a href="http://www.dict.org/bin/Dict?Database=*&amp;Form=Dict1&amp;Strategy=*&amp;Query=RecentChanges">Dictionary</a></th>
+<th><a href="http://www.dict.org/bin/Dict?Database=*&amp;Form=Dict1&amp;Strategy=*&amp;Query=">http://www.dict.org/bin/Dict?Database=*&amp;Form=Dict1&amp;Strategy=*&amp;Query=</a></th></tr>
+<tr><th><a href="http://www.google.com/search?q=RecentChanges">Google</a></th>
+<th><a href="http://www.google.com/search?q=">http://www.google.com/search?q=</a></th></tr>
+<tr><th><a href="http://groups.google.com/group/RecentChanges/msg/">GoogleGroups</a></th>
+<th><a href="http://groups.google.com/group/$1/msg/$2">Message $2 in $1 Google Group</a></th></tr>
+<tr><th><a href="http://hackage.haskell.org/package/RecentChanges">hackage</a></th>
+<th><a href="http://hackage.haskell.org/package/$1">Haskell Package $1 from the HackageDB</a></th></tr>
+<tr><th><a href="http://en.wikipedia.org/wiki/ISO_RecentChanges">ISO</a></th>
+<th><a href="http://en.wikipedia.org/wiki/ISO_">ISO Standard $1 in Wikipedia</a></th></tr>
+<tr><th><a href="http://downlode.org/perl/jargon-redirect.cgi?term=RecentChanges">JargonFile</a></th>
+<th><a href="http://downlode.org/perl/jargon-redirect.cgi?term=">http://downlode.org/perl/jargon-redirect.cgi?term=</a></th></tr>
+<tr><th><a href="http://www.usemod.com/cgi-bin/mb.pl?RecentChanges">MeatBall</a></th>
+<th><a href="http://www.usemod.com/cgi-bin/mb.pl?">http://www.usemod.com/cgi-bin/mb.pl?</a></th></tr>
+<tr><th><a href="http://www.selenic.com/mercurial/wiki/index.cgi/RecentChanges">Mercurial</a></th>
+<th><a href="http://www.selenic.com/mercurial/wiki/index.cgi/">the wiki for the Mercurial distributed SCM</a></th></tr>
+<tr><th><a href="http://sunir.org/apps/meta.pl?RecentChanges">MetaWiki</a></th>
+<th><a href="http://sunir.org/apps/meta.pl?">http://sunir.org/apps/meta.pl?</a></th></tr>
+<tr><th><a href="http://meta.wikipedia.org/wiki/RecentChanges">MetaWikiPedia</a></th>
+<th><a href="http://meta.wikipedia.org/wiki/">http://meta.wikipedia.org/wiki/</a></th></tr>
+<tr><th><a href="http://issues.apache.org/jira/browse/MODPYTHON-RecentChanges">MODPYTHON</a></th>
+<th><a href="http://issues.apache.org/jira/browse/MODPYTHON-">Issue $1 in mod_python&apos;s JIRA instance</a></th></tr>
+<tr><th><a href="http://moinmoin.wikiwikiweb.de/RecentChanges">MoinMoin</a></th>
+<th><a href="http://moinmoin.wikiwikiweb.de/">http://moinmoin.wikiwikiweb.de/</a></th></tr>
+<tr><th><a href="http://bugs.mysql.com/bug.php?id=RecentChanges">mysql-bugs</a></th>
+<th><a href="http://bugs.mysql.com/bug.php?id=">Bug #$1 in MySQL&apos;s bug database</a></th></tr>
+<tr><th><a href="http://peak.telecommunity.com/DevCenter/RecentChanges">peak</a></th>
+<th><a href="http://peak.telecommunity.com/DevCenter/">$1 in Python Enterprise Application Kit&apos;s Wiki</a></th></tr>
+<tr><th><a href="http://www.python.org/peps/pep-RecentChanges.html">PEP</a></th>
+<th><a href="http://www.python.org/peps/pep-$1.html">Python Enhancement Proposal</a></th></tr>
+<tr><th><a href="https://phabricator.haskell.org/RecentChanges">Phab</a></th>
+<th><a href="https://phabricator.haskell.org/$1">https://phabricator.haskell.org/$1</a></th></tr>
+<tr><th><a href="http://bugs.python.org/issueRecentChanges">Python-issue</a></th>
+<th><a href="http://bugs.python.org/issue$1">Python Issue #$1</a></th></tr>
+<tr><th><a href="http://bugs.python.org/issueRecentChanges">PythonBug</a></th>
+<th><a href="http://bugs.python.org/issue$1">Python Issue #$1</a></th></tr>
+<tr><th><a href="http://tools.ietf.org/html/rfcRecentChanges">RFC</a></th>
+<th><a href="http://tools.ietf.org/html/rfc$1">IETF&apos;s RFC $1</a></th></tr>
+<tr><th><a href="http://www.sqlite.org/cvstrac/wiki?p=RecentChanges">SQLite</a></th>
+<th><a href="http://www.sqlite.org/cvstrac/wiki?p=">http://www.sqlite.org/cvstrac/wiki?p=</a></th></tr>
+<tr><th><a href="http://www.orcaware.com/svn/wiki/RecentChanges">SvnWiki</a></th>
+<th><a href="http://www.orcaware.com/svn/wiki/">Subversion Wiki</a></th></tr>
+<tr><th><a href="http://thread.gmane.org/gmane.comp.version-control.subversion.trac.devel/RecentChanges">trac-dev</a></th>
+<th><a href="http://thread.gmane.org/gmane.comp.version-control.subversion.trac.devel/">Message $1 in Trac Development Mailing List</a></th></tr>
+<tr><th><a href="http://thread.gmane.org/gmane.comp.version-control.subversion.trac.general/RecentChanges">Trac-ML</a></th>
+<th><a href="http://thread.gmane.org/gmane.comp.version-control.subversion.trac.general/">Message $1 in Trac Mailing List</a></th></tr>
+<tr><th><a href="http://www.whois.sc/RecentChanges">WhoIs</a></th>
+<th><a href="http://www.whois.sc/">http://www.whois.sc/</a></th></tr>
+<tr><th><a href="http://clublet.com/c/c/why?RecentChanges">Why</a></th>
+<th><a href="http://clublet.com/c/c/why?">http://clublet.com/c/c/why?</a></th></tr>
+<tr><th><a href="http://en.wikipedia.org/wiki/RecentChanges">WikiPedia</a></th>
+<th><a href="http://en.wikipedia.org/wiki/">http://en.wikipedia.org/wiki/</a></th></tr></table>
+
+
 
 ---
 

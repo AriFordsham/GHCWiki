@@ -1,6 +1,11 @@
 # Type Checking with Indexed Type Synonyms
 
+
+>
+>
 > **This is OLD and OUT OF DATE material.**
+>
+>
 
 
 GHC has now F<sub>C</sub> as its typed intermediate language.

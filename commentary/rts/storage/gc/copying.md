@@ -22,15 +22,20 @@ Evacuation is implemented in the file [rts/sm/Evac.c](/trac/ghc/browser/ghc/rts/
 Scavenging is implemented in the file [rts/sm/Scav.c](/trac/ghc/browser/ghc/rts/sm/Scav.c).
 
 
+
 The principle APIs are
 
-<table><tr><th>`void evacuate (StgClosure **p)`</th>
+
+<table><tr><th><tt>void evacuate (StgClosure **p)</tt></th>
 <td>
-which evacuates the object pointed to by the pointer at `p`, and updates `p` to point to the new location.
+which evacuates the object pointed to by the pointer at <tt>p</tt>, and updates <tt>p</tt> to point to the new location.
 </td></tr></table>
 
-<table><tr><th>`void scavenge_block (bdescr *bd)`</th>
+
+<table><tr><th><tt>void scavenge_block (bdescr *bd)</tt></th>
 <td>
-which scavenges all the objects in the block `bd` (objects between `bd->u.scan` and `bd->free` are assumed to
+which scavenges all the objects in the block <tt>bd</tt> (objects between <tt>bd->u.scan</tt> and <tt>bd->free</tt> are assumed to
 be unscavenged so far).
 </td></tr></table>
+
+

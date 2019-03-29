@@ -38,6 +38,10 @@ So `?location :: Location` is a rather special implicit parameter, but the *only
     w = push <w's srcloc> g
   ```
 
+
+ 
+
+
 - If there is no enclosing "given" constraint, the wanted constraint is solved with a unit stack:
 
   ```wiki
@@ -68,7 +72,9 @@ The `Location` type is abstract, but has functions to:
   ```
 
 >
+>
 > Here we will not propagate a stack from `xs`'s useage site.  But if we wrote
+>
 >
 > ```wiki
 > xs :: (?location :: Location) => [Int]
@@ -77,9 +83,13 @@ The `Location` type is abstract, but has functions to:
 >
 >
 > then we would.  Of course, that would mean `xs` was evaluated once per usage site, but at least that fact becomes 100% clear.
+>
+>
 
 >
+>
 > Similarly, overloading behaves predictably. Consider
+>
 >
 > ```wiki
 > class C a where
@@ -91,6 +101,8 @@ The `Location` type is abstract, but has functions to:
 >
 >
 > Since `op`'s signature does not have `(?location :: Location`), the crash does not have access to `op`'s call site. You would have to change the class signature to get that.  Doing so might be fine if it's your class, awkward if it's a library class, and impossible if it's a Prelude class.
+>
+>
 
 - There's an open design choice for functions with an inferred type, e.g.
 
@@ -117,7 +129,11 @@ These notes are based on the updated implementation at [ https://phabricator.has
   1. `GHC.Stack.SrcLoc`, a single source location including package/module/file names and a source span, and
   1. `GHC.Stack.CallStack`, a `[(String, SrcLoc)]`s. The `String` always corresponds to the name of the function that was called, and the list is sorted by most recent call.
 
+>
+>
 > `CallStack` is kept abstract so that we may experiment with extensions to the system, for example the call-stack "grooming" functionality described in the next section.
+>
+>
 
 - GHC ignores the name of an implicit CallStack parameter, e.g.
 
@@ -138,7 +154,7 @@ These notes are based on the updated implementation at [ https://phabricator.has
   f = print (?location :: CallStack)
   ```
 
-  the printed call-stack will be empty, it will **not include**`f`s call-site.
+  the printed call-stack will be empty, it will **not include** `f`s call-site.
 
 - Responding to the open question above, GHC will infer implicit CallStack constraints as for any other implicit parameter.
 
@@ -237,7 +253,10 @@ freezeCallStack = FreezeCallStack
 ```
 
 >
+>
 > so we can keep `CallStack` abstract
+>
+>
 
 1. We define `pushCallStack` to be a no-op on frozen call-stacks
 

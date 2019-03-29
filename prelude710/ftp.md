@@ -16,11 +16,13 @@ You can try out both of these solutions today simply by downloading GHC 7.10RC2.
 It has recently been highlighted that as these changes affect the `Prelude`, and thus affect what users of Haskell see out of the box, they should be held to a higher bar than the usual libraries@ traffic. In particular, there was concern that while the [ Applicative/Monad Proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal) was warned about extensively in GHC 7.8, the [ Foldable/Traversable Proposal](https://wiki.haskell.org/Foldable_Traversable_In_Prelude) was not nearly as well broadcast.
 
 
+
 However, there are many good reasons to do both the AMP and FTP generalizations at this time.
+
 
 - **`Foldable` and `Traversable` have seen long use in the Haskell community**, predating even the existence of `Applicative`, dating back into the early 2000s. We know and have tested these abstractions, and they have deep explanatory power.
 
-- `Traversable` in particular has given us insight into the nature of finitary traversals and have been the subject of many papers since Jeremy Gibbons wrote [ The Essence of the Iterator Pattern](http://www.cs.ox.ac.uk/jeremy.gibbons/publications/iterator.pdf) each of which has managed to narrow the set of laws until we're left with only the **obvious generalization of the `Functor` laws** that allows for `Applicative` effects. [ An Investigation of the Laws of Traversals](http://arxiv.org/pdf/1202.2919v1.pdf) is one such paper, providing the common sense reading of the `Traversable` laws.
+-  `Traversable` in particular has given us insight into the nature of finitary traversals and have been the subject of many papers since Jeremy Gibbons wrote [ The Essence of the Iterator Pattern](http://www.cs.ox.ac.uk/jeremy.gibbons/publications/iterator.pdf) each of which has managed to narrow the set of laws until we're left with only the **obvious generalization of the `Functor` laws** that allows for `Applicative` effects. [ An Investigation of the Laws of Traversals](http://arxiv.org/pdf/1202.2919v1.pdf) is one such paper, providing the common sense reading of the `Traversable` laws.
 
 - However, `Traversable` is too strong a requirement for many of the operations it enables. `foldMap` is what you get when you limit the power of `traverse` to just consumption, so `Foldable` has a role in this hierarchy. It is particularly telling that almost all the interesting combinators enabled by `Traversable` are actually enabled by merely `Foldable` constraints, including some at-first-surprising results such as `traverse_`. **`Foldable` shows us a fairly deep connection between 33+ seemingly unrelated operations** from the `Prelude`. `Traversable` adds connections between several more to that mix.
 
@@ -65,22 +67,26 @@ The details of the current implementation are available on the [ Foldable/Traver
 # `Foldable` has lots of class members. Why is it so complicated?
 
 
+
 The first variant of `Foldable` that people tend to propose is to reduce it to something like
 
+
 ```
-classFoldable f where
-  toList :: f a ->[a]
+class Foldable f where
+  toList :: f a -> [a]
 ```
 
 
 But this requires us to be able to fully re-associate all of the elements of the structure `f` to the right to make a list out of them.
 
 
+
 To repair that we need to switch to something like
 
+
 ```
-classFoldable f where
-  foldMap ::Monoid m =>(a -> m)-> f a -> m
+class Foldable f where
+  foldMap :: Monoid m => (a -> m) -> f a -> m
 ```
 
 
@@ -96,10 +102,14 @@ It turns out that `foldr` implemented in terms of `foldMap` builds up a gigantic
 Some combinators in `Foldable` compute their answers by different means than their Prelude counterparts, even just by exploiting the `Monoid` laws. e.g. `sum = getSum . foldMap Sum`, for some containers can compute in exponentially faster time than the traditional `Prelude`'s `sum = foldl (+) 0` definition.
 
 
+
 There are at least 3 different camps out there for what the proper definition of `sum` should be:
 
+
 ```
-sum= foldl (+)0sum= getSum . foldMap Sumsum= foldl' (+)0
+sum = foldl (+) 0
+sum = getSum . foldMap Sum
+sum = foldl' (+) 0
 ```
 
 
@@ -243,30 +253,43 @@ It would seem remarkably backwards to finally unify all the work on `Applicative
 Tip: These functions actually work for more than just I/O; they work for any `Monad`. For now, wherever you see `m`, just think `IO`.
 
 
+
 Moreover, at least two books aimed at beginners (the very popular [ Learn You a Haskell](http://learnyouahaskell.com/functors-applicative-functors-and-monoids) as well as "Beginning Haskell") already teach and promote the `Foldable` and `Traversable` abstractions with words like
 
+
+>
 >
 > Because there are so many data structures that work nicely with folds,
 > the `Foldable` type class was introduced. Much like `Functor` is for
 > things that can be mapped over, `Foldable` is for things that can be
 > folded up!
+>
+>
 
 
 or
 
+
+>
 >
 > As you saw in the previous chapter, lots of different algorithms can be
 > expressed using folds. The module Data.Foldable includes most of them,
 > like maximum or elem. One easy way to make your functions more general
 > is hiding the functions with those names from the Prelude and importing
 > the ones using Foldable.
+>
+>
 
 
 ...and go on to promote their use with the words
 
+
+>
 >
 > But now that you know about them, you should aim for the largest
 > degree of abstraction that you can achieve.
+>
+>
 
 
 So, generalizations such as `Foldable`/`Traversable` are in fact taught (and recommended) to beginners via existing books. Its use is rather going to increase the more newcomers read those books, so we should rather make sure they're properly integrated into the standard libraries than sending mixed signals by making them awkward to use.

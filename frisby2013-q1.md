@@ -114,7 +114,7 @@ TODO "estimations of various run time consequences"
     - cf [\#TickyCounters](frisby2013-q1#ticky-counters)
 - inspect the compilation outputs for differences
 
-  - cf [\#CoreDiving](frisby2013-q1#core-diving)[\#Core-STG-CMM](frisby2013-q1#)
+  - cf [\#CoreDiving](frisby2013-q1#core-diving) [\#Core-STG-CMM](frisby2013-q1#)
 - allocation changes probably won't require more work (unless its delicate GC stuff, I suppose)
 - for runtime, isolate the changes
 

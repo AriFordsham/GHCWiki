@@ -39,17 +39,21 @@ data NameSort
 			-- OccName is very uninformative (like 's')
 ```
 
-<table><tr><th>`Internal`, `System`</th>
+<table><tr><th><tt>Internal</tt>, <tt>System</tt></th>
 <td>
-An `Internal``Name` has only an occurrence name. Distinct `Internal``Names` may have the same occurrence name; the `n_uniq` distinguishes them.  
+An <tt>Internal</tt> <tt>Name</tt> has only an occurrence name. Distinct <tt>Internal</tt> <tt>Names</tt> may have the same occurrence name; the <tt>n_uniq</tt> distinguishes them.  
 </td></tr></table>
 
+
+>
 >
 > There is only a tiny difference between `Internal` and `System`; the former simply remembers that the name was originally written by the programmer, which helps when generating error messages.
+>
+>
 
-<table><tr><th>`External`</th>
+<table><tr><th><tt>External</tt></th>
 <td>
-An `External``Name` has a globally-unique (module, occurrence name) pair, namely the original name of the entity, that describes where the thing was originally defined. So for example, if we have 
+An <tt>External</tt> <tt>Name</tt> has a globally-unique (module, occurrence name) pair, namely the original name of the entity, that describes where the thing was originally defined. So for example, if we have 
 
 ```wiki
 module M where
@@ -62,19 +66,31 @@ module A where
   a = Q.f + g
 ```
 
-then in module `A`, the function `Q.f` has an External Name `M.f`.
+then in module <tt>A</tt>, the function <tt>Q.f</tt> has an External Name <tt>M.f</tt>.
 </td></tr></table>
 
+
+>
+> >
 > >
 > > During any invocation of GHC, each (module, occurrence-name) gets one, and only one, `Unique`, stored in the `n_uniq` field of the `Name`.  This association remains fixed even when GHC finishes one module and starts to compile another.  This association between (module, occurrence-name) pairs and the corresponding `Name` (with its `n_uniq` field) is maintained by the Name Cache.
+> >
+> >
+>
 
-<table><tr><th>`WiredIn`</th>
+<table><tr><th><tt>WiredIn</tt></th>
 <td>
-A `WiredIn``Name` is a special sort of `External``Name`, one that is completely known to the compiler (e.g. the `Bool` type constructor).  See [Commentary/Compiler/WiredIn](commentary/compiler/wired-in).
+A <tt>WiredIn</tt> <tt>Name</tt> is a special sort of <tt>External</tt> <tt>Name</tt>, one that is completely known to the compiler (e.g. the <tt>Bool</tt> type constructor).  See <a href="commentary/compiler/wired-in">Commentary/Compiler/WiredIn</a>.
 </td></tr></table>
 
+
+>
+> >
 > >
 > > The `BuiltInSyntax` field is just a boolean yes/no flag that identifies entities that are denoted by built-in syntax, such as `[]` for the empty list.  These `Names` aren't "in scope" as such, and we occasionally need to know that.
+> >
+> >
+>
 
 ## Entities and `Names`
 

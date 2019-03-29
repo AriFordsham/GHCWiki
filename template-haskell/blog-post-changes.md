@@ -54,7 +54,10 @@ Consider this, which has a quasi-quoted pattern:
 ```
 
 >
+>
 > Is the "x" in "x+1" bound by the outer `\x` or by the 'x' that might be brought into scope by the `[pads| blah |]` quasi-quote?  The only way to know is to run the quasi-quote, so that's what happens.
+>
+>
 
 - **All other Template Haskell stuff is run in the typechecker**.  Why?  Because we try to typecheck quotations before feeding them into TH functions.  More on this below.
 
@@ -247,7 +250,10 @@ On the "make-it-weaker" front, here's what I propose:
 - **Run TH splices in the renamer**, uniformly with quasi-quotes.  Of course, we must still typecheck the code we are about to run.  But there's an *existing* TH restriction that code run in top-level splices must be imported.  So we can typecheck this code even during renaming, because it can only mention imported (and hence already fully-typechecked) code.
 
 >
+>
 > This solves [\#4364](https://gitlab.haskell.org//ghc/ghc/issues/4364) because we run the splice in the renamer, so things are sorted out by the time we are checking for cycles (in the type checker).
+>
+>
 
 - **Allow quoted names as patterns** as [ requested by Conal Eliott](http://www.haskell.org/pipermail/libraries/2012-January/017449.html).  This is just a variation on allowing splices in patterns, since a quoted name `'x` is really just a simple splice
 
@@ -345,11 +351,12 @@ In the case of terms (only), we know how from MetaML to
 have *typed* quotations.  Here's a proposed extension to TH to add
 typed term quotes: 
 
-- **Add a new type of typed expressions**`TExp a`
 
-- **Add a new term quotation form**`[|| e ||]`, called a *typed quote*; the type of the quote is `TExp ty`, where `ty` is the type of `e`.  In the type-system jargon, this is the "introduction form" for `TExp`.
+- **Add a new type of typed expressions** `TExp a`
 
-- **Add a new splice form**`$$e`, called a *typed splice*.  The term `e` must have type `TExp ty`, and the splice `$$e` then has type `ty`.  This is the "elimination form" for `TExp`.
+- **Add a new term quotation form** `[|| e ||]`, called a *typed quote*; the type of the quote is `TExp ty`, where `ty` is the type of `e`.  In the type-system jargon, this is the "introduction form" for `TExp`.
+
+- **Add a new splice form** `$$e`, called a *typed splice*.  The term `e` must have type `TExp ty`, and the splice `$$e` then has type `ty`.  This is the "elimination form" for `TExp`.
 
 - **Add a constant which takes a typed quote and returns an untyped one**: `unType :: TExp a -> Q Exp`
 
@@ -566,8 +573,17 @@ This part is unrelated to the preceding proposals, and is responding to [\#4372]
 
   If TH provided such parsers, you could use them to parse antiquotes.  That seems better to than having strings in the TH syntax.
 
+
+ 
+
+
+>
+> >
 > >
 > > See [\#4430](https://gitlab.haskell.org//ghc/ghc/issues/4430) for an excellent point about fixities.
+> >
+> >
+>
 
 - For [\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372), I'm a bit agnostic.  There is no technical issue here; it's just about syntax.  Read the notes on the ticket.
 
@@ -578,6 +594,8 @@ This part is unrelated to the preceding proposals, and is responding to [\#4372]
 ## Part E: Other minor issues
 
 
+
 This section collects other TH changes that I think should be done.
+
 
 - The `InfixE` constructor of `Syntax.Exp` should only allow a `Var` in the operator position.  See Trac [\#4877](https://gitlab.haskell.org//ghc/ghc/issues/4877)

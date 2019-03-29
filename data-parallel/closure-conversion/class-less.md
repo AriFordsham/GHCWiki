@@ -80,7 +80,8 @@ For a type constructor `T` and its data constructors `C`, we have three alternat
 1. A converted variant `T_CC` exists and differs from `T`.
 
 
-In the last two cases, we also have a *conversion constructor*`isoT` whose type and meaning is described below.
+In the last two cases, we also have a *conversion constructor* `isoT` whose type and meaning is described below.
+
 
 
 An example of a feature that prevents conversion are unboxed values.  We cannot make a closure from a function that has an unboxed argument, as we can neither instantiate the parametric polymorphic closure type with unboxed types, nor can we put unboxed values into the existentially quantified environment of a closure.
@@ -267,9 +268,11 @@ iso<f (Int -> Int)> = ???
 #### Conversion rules
 
 
+
 If a type declaration for constructor `T` occurs in a converted module, we need to decide whether to convert the declaration of `T`.  We decide this as follows:
 
-1. If the declaration of `T` mentions another algebraic type constructor `S` for which there is **no**`S_CC`, then we cannot convert `T`.
+
+1. If the declaration of `T` mentions another algebraic type constructor `S` for which there is **no** `S_CC`, then we cannot convert `T`.
 1. If **all** algebraic type constructors `S` mentioned in `T`'s definiton have a conversion `S_CC  == S`, we do not convert `T`, but set `T_CC == T` and generate a suitable conversion constructor `isoT`.  (NB: The condition implies that `T` does not mention any function arrows.)
 1. If the declaration of `T` uses any features that we cannot (or for the moment, don't want to) convert, simply don't convert it.
 1. Otherwise, we generate a converted type declaration `T_CC` together with a conversion constructor `isoT`.  Conversion proceeds by converting all data constructors (see below).

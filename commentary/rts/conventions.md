@@ -146,12 +146,17 @@ external header file).
     #endif
   ```
 
+>
+> >
 > >
 > > The problem is that things change from one version of an OS to
 > > another - things get added, things get deleted, things get broken,
 > > some things are optional extras.  Using "feature tests" instead of
 > > "system tests" makes things a lot less brittle.  Things also tend to
 > > get documented better.
+> >
+> >
+>
 
 ## Debugging/robustness tricks
 
@@ -249,16 +254,26 @@ Particular guidelines for writing robust code:
 
 - **Important:** Put "redundant" braces or parens in your code.
 
+>
+> >
 > >
 > > Omitting braces and parens leads to very hard to spot bugs -
 > > especially if you use macros (and you might have noticed that GHC
 > > does this a lot!)
+> >
+> >
+>
 
+>
+> >
 > >
 > > In particular, put braces round the body of for loops, while loops,
 > > if statements, etc.  even if they "aren't needed" because it's
 > > really hard to find the resulting bug if you mess up.  Indent them
 > > any way you like but put them in there!
+> >
+> >
+>
 
 - When defining a macro, always put parens round args - just in case.
   For example, write:
@@ -325,8 +340,11 @@ Particular guidelines for writing robust code:
   printing values with enum types and gdb will let you use the name
   in expressions you type.
 
+>
+> >
 > >
 > > Examples:
+> >
 > >
 > > ```wiki
 > >     typedef enum { /* N.B. Used as indexes into arrays */
@@ -343,6 +361,7 @@ Particular guidelines for writing robust code:
 > >
 > > instead of
 > >
+> >
 > > ```wiki
 > >     # define NO_HEAP_PROFILING	0	/* N.B. Used as indexes into arrays */
 > >     # define HEAP_BY_CC		1
@@ -355,6 +374,7 @@ Particular guidelines for writing robust code:
 > >
 > >
 > > and 
+> >
 > >
 > > ```wiki
 > >     typedef enum {
@@ -370,6 +390,7 @@ Particular guidelines for writing robust code:
 > >
 > > instead of
 > >
+> >
 > > ```wiki
 > >     # define CCchar    'C'
 > >     # define MODchar   'M'
@@ -378,6 +399,8 @@ Particular guidelines for writing robust code:
 > >     # define TYPEchar  'Y'
 > >     # define TIMEchar  'T'
 > > ```
+>
+>
 
 - When commenting out large chunks of code, use `#ifdef 0 ... #endif` 
   rather than `/* ... */` because C doesn't have
@@ -419,9 +442,12 @@ of side effects, evaluation order, multiple evaluation, etc.
   -O0 or -fkeep-inline-functions.  If you use macros, you'd better know
   what they expand to.
 
+>
+> >
 > >
 > > However, note that macros can serve as both l-values and r-values and
 > > can be "polymorphic" as these examples show:
+> >
 > >
 > > ```wiki
 > >   // you can use this as an l-value or an r-value
@@ -431,27 +457,45 @@ of side effects, evaluation order, multiple evaluation, etc.
 > >   // but note that min(min(1,2),3) does 3 comparisons instead of 2!
 > >   #define min(x,y) (((x)<=(y)) ? (x) : (y))
 > > ```
+>
+>
 
 
 There are three macros to do inline portably.  Don't use `inline` directly, use these instead:
 
+
+
 `INLINE_HEADER`
 
+
+>
 >
 > An inline function in a header file.  This is just like a macro.  We never emit
 > a standalone copy of the function, so it *must* be inlined everywhere.
+>
+>
+
 
 `STATIC_INLINE`
 
+
+>
 >
 > An inline function in a C source file.  Again, it is always inlined, and we never
 > emit a standalone copy. 
+>
+>
+
 
 `EXTERN_INLINE`
 
+
+>
 >
 > A function which is optionally inlined.  The C compiler is told to inline if possible,
 > but we also generated a standalone copy of the function just in case (see [source:rts/Inlines.c](/trac/ghc/browser/rts/Inlines.c)[](/trac/ghc/export/HEAD/ghc/rts/Inlines.c)).
+>
+>
 
 ## Source-control issues
 

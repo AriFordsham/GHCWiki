@@ -1,1 +1,1 @@
-redirect(wiki:Commentary/Rts/Storage/GC/CAFs)?
+Page moved to [Commentary/Rts/Storage/GC/CAFs](commentary/rts/storage/gc/ca-fs)

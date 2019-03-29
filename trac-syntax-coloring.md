@@ -34,704 +34,713 @@ Rich content may be directly *rendered* instead of syntax highlighted. This usua
 In a similar way, a document with the mimetype `text/x-trac-wiki` is rendered using the Trac wiki formatter, unless the `trac.mimeview.api.WikiTextRenderer` component is disabled.
 
 
+
 HTML documents are directly rendered only if the `render_unsafe_html` settings are enabled in the [TracIni](trac-ini) (those settings are present in multiple sections, as there are different security concerns depending where the document comes from). If you want to ensure that an HTML document gets syntax highlighted and not rendered, use the `text/xml` mimetype.
+
 
 ### Known MIME types
 
+
+
 <table><tr><th>MIME Types</th>
-<th>[WikiProcessors](/trac/ghc/wiki/WikiProcessors)</th></tr>
-<tr><th>`application/atom+xml`</th>
-<th>`xml`</th></tr>
-<tr><th>`application/json`</th>
-<th>`json`</th></tr>
-<tr><th>`application/json-object`</th>
-<th>`json-object`</th></tr>
-<tr><th>`application/kal`</th>
-<th>`kal`</th></tr>
-<tr><th>`application/ld+json`</th>
-<th>`json-ld jsonld`</th></tr>
-<tr><th>`application/msword`</th>
-<th>`doc dot`</th></tr>
-<tr><th>`application/pdf`</th>
-<th>`pdf`</th></tr>
-<tr><th>`application/postscript`</th>
-<th>`postscr postscript ps`</th></tr>
-<tr><th>`application/rss+xml`</th>
-<th>`rss`</th></tr>
-<tr><th>`application/rtf`</th>
-<th>`rtf`</th></tr>
-<tr><th>`application/sparql-query`</th>
-<th>`sparql`</th></tr>
-<tr><th>`application/vnd.wolfram.cdf`</th>
-<th>`mathematica mma nb`</th></tr>
-<tr><th>`application/x-awk`</th>
-<th>`awk gawk mawk nawk`</th></tr>
-<tr><th>`application/x-befunge`</th>
-<th>`befunge`</th></tr>
-<tr><th>`application/x-brainfuck`</th>
-<th>`bf brainfuck`</th></tr>
-<tr><th>`application/x-chaiscript`</th>
-<th>`chai chaiscript`</th></tr>
-<tr><th>`application/x-clojure`</th>
-<th>`clj clojure`</th></tr>
-<tr><th>`application/x-clojurescript`</th>
-<th>`cljs clojurescript`</th></tr>
-<tr><th>`application/x-coldfusion`</th>
-<th>`cfm`</th></tr>
-<tr><th>`application/x-csh`</th>
-<th>`csh tcsh`</th></tr>
-<tr><th>`application/x-cython`</th>
-<th>`cython pyrex pyx`</th></tr>
-<tr><th>`application/x-dos-batch`</th>
-<th>`bat batch cmd dos dosbatch winbatch`</th></tr>
-<tr><th>`application/x-ecl`</th>
-<th>`ecl`</th></tr>
-<tr><th>`application/x-elisp`</th>
-<th>`elisp emacs emacs-lisp`</th></tr>
-<tr><th>`application/x-evoque`</th>
-<th>`evoque`</th></tr>
-<tr><th>`application/x-fantom`</th>
-<th>`fan`</th></tr>
-<tr><th>`application/x-fish`</th>
-<th>`fish fishshell`</th></tr>
-<tr><th>`application/x-forth`</th>
-<th>`forth`</th></tr>
-<tr><th>`application/x-gooddata-maql`</th>
-<th>`maql`</th></tr>
-<tr><th>`application/x-httpd-lasso[89]`</th>
-<th>`html+lasso`</th></tr>
-<tr><th>`application/x-httpd-php5`</th>
-<th>`html+php`</th></tr>
-<tr><th>`application/x-hy`</th>
-<th>`hylang`</th></tr>
-<tr><th>`application/x-hybris`</th>
-<th>`hy hybris`</th></tr>
-<tr><th>`application/x-jinja`</th>
-<th>`django jinja`</th></tr>
-<tr><th>`application/x-jsp`</th>
-<th>`jsp`</th></tr>
-<tr><th>`application/x-julia`</th>
-<th>`jl julia`</th></tr>
-<tr><th>`application/x-kid`</th>
-<th>`genshi kid xml+genshi xml+kid`</th></tr>
-<tr><th>`application/x-lua`</th>
-<th>`lua`</th></tr>
-<tr><th>`application/x-mako`</th>
-<th>`mako`</th></tr>
-<tr><th>`application/x-mason`</th>
-<th>`mason`</th></tr>
-<tr><th>`application/x-moonscript`</th>
-<th>`moon moonscript`</th></tr>
-<tr><th>`application/x-myghty`</th>
-<th>`myghty`</th></tr>
-<tr><th>`application/x-newlisp`</th>
-<th>`newlisp`</th></tr>
-<tr><th>`application/x-openedge`</th>
-<th>`abl openedge progress`</th></tr>
-<tr><th>`application/x-perl`</th>
-<th>`perl pl`</th></tr>
-<tr><th>`application/x-perl6`</th>
-<th>`perl6 pl6`</th></tr>
-<tr><th>`application/x-pygments-tokens`</th>
-<th>`raw`</th></tr>
-<tr><th>`application/x-pypylog`</th>
-<th>`pypy pypylog`</th></tr>
-<tr><th>`application/x-python`</th>
-<th>`py python sage`</th></tr>
-<tr><th>`application/x-python3`</th>
-<th>`py3 python3`</th></tr>
-<tr><th>`application/x-qt.qbs+qml`</th>
-<th>`qbs qml`</th></tr>
-<tr><th>`application/x-racket`</th>
-<th>`racket rkt`</th></tr>
-<tr><th>`application/x-ruby`</th>
-<th>`duby rb ruby`</th></tr>
-<tr><th>`application/x-ruby-templating`</th>
-<th>`erb`</th></tr>
-<tr><th>`application/x-sas`</th>
-<th>`sas`</th></tr>
-<tr><th>`application/x-scheme`</th>
-<th>`scheme scm`</th></tr>
-<tr><th>`application/x-sh-session`</th>
-<th>`console shell-session`</th></tr>
-<tr><th>`application/x-shellscript`</th>
-<th>`bash ksh sh shell zsh`</th></tr>
-<tr><th>`application/x-shen`</th>
-<th>`shen`</th></tr>
-<tr><th>`application/x-smarty`</th>
-<th>`smarty`</th></tr>
-<tr><th>`application/x-spitfire`</th>
-<th>`cheetah spitfire`</th></tr>
-<tr><th>`application/x-ssp`</th>
-<th>`ssp`</th></tr>
-<tr><th>`application/x-standardml`</th>
-<th>`sml`</th></tr>
-<tr><th>`application/x-stata`</th>
-<th>`do stata`</th></tr>
-<tr><th>`application/x-tcl`</th>
-<th>`tcl`</th></tr>
-<tr><th>`application/x-terraform`</th>
-<th>`terraform tf`</th></tr>
-<tr><th>`application/x-thrift`</th>
-<th>`thrift`</th></tr>
-<tr><th>`application/x-troff`</th>
-<th>`roff troff`</th></tr>
-<tr><th>`application/x-turtle`</th>
-<th>`turtle`</th></tr>
-<tr><th>`application/x-twig`</th>
-<th>`twig`</th></tr>
-<tr><th>`application/x-urbiscript`</th>
-<th>`urbiscript`</th></tr>
-<tr><th>`application/x-yaml`</th>
-<th>`yml`</th></tr>
-<tr><th>`application/xhtml+xml`</th>
-<th>`html`</th></tr>
-<tr><th>`application/xml+evoque`</th>
-<th>`xml+evoque`</th></tr>
-<tr><th>`application/xml+jinja`</th>
-<th>`xml+django xml+jinja`</th></tr>
-<tr><th>`application/xml+lasso`</th>
-<th>`xml+lasso`</th></tr>
-<tr><th>`application/xml+mako`</th>
-<th>`xml+mako`</th></tr>
-<tr><th>`application/xml+myghty`</th>
-<th>`xml+myghty`</th></tr>
-<tr><th>`application/xml+php`</th>
-<th>`xml+php`</th></tr>
-<tr><th>`application/xml+ruby`</th>
-<th>`xml+erb xml+ruby`</th></tr>
-<tr><th>`application/xml+smarty`</th>
-<th>`xml+smarty`</th></tr>
-<tr><th>`application/xml+spitfire`</th>
-<th>`xml+cheetah xml+spitfire`</th></tr>
-<tr><th>`application/xml+velocity`</th>
-<th>`xml+velocity`</th></tr>
-<tr><th>`application/xml-dtd`</th>
-<th>`dtd`</th></tr>
-<tr><th>`application/xquery`</th>
-<th>`xq xql xqm xquery xqy`</th></tr>
-<tr><th>`application/xsl+xml`</th>
-<th>`xsl`</th></tr>
-<tr><th>`application/xslt+xml`</th>
-<th>`xslt`</th></tr>
-<tr><th>`image/svg+xml`</th>
-<th>`svg`</th></tr>
-<tr><th>`image/x-icon`</th>
-<th>`ico`</th></tr>
-<tr><th>`model/vrml`</th>
-<th>`vrml wrl`</th></tr>
-<tr><th>`text/actionscript`</th>
-<th>`actionscript as`</th></tr>
-<tr><th>`text/actionscript3`</th>
-<th>`actionscript3 as3`</th></tr>
-<tr><th>`text/basic`</th>
-<th>`basic qbasic`</th></tr>
-<tr><th>`text/coffeescript`</th>
-<th>`coffee coffee-script coffeescript`</th></tr>
-<tr><th>`text/css`</th>
-<th>`css`</th></tr>
-<tr><th>`text/css+genshi`</th>
-<th>`css+genshi css+genshitext`</th></tr>
-<tr><th>`text/css+jinja`</th>
-<th>`css+django css+jinja`</th></tr>
-<tr><th>`text/css+lasso`</th>
-<th>`css+lasso`</th></tr>
-<tr><th>`text/css+mako`</th>
-<th>`css+mako`</th></tr>
-<tr><th>`text/css+myghty`</th>
-<th>`css+myghty`</th></tr>
-<tr><th>`text/css+php`</th>
-<th>`css+php`</th></tr>
-<tr><th>`text/css+ruby`</th>
-<th>`css+erb css+ruby`</th></tr>
-<tr><th>`text/css+smarty`</th>
-<th>`css+smarty`</th></tr>
-<tr><th>`text/gettext`</th>
-<th>`po pot`</th></tr>
-<tr><th>`text/html`</th>
-<th>`htm`</th></tr>
-<tr><th>`text/html+evoque`</th>
-<th>`html+evoque`</th></tr>
-<tr><th>`text/html+genshi`</th>
-<th>`html+genshi html+kid`</th></tr>
-<tr><th>`text/html+jinja`</th>
-<th>`html+django html+jinja htmldjango`</th></tr>
-<tr><th>`text/html+mako`</th>
-<th>`html+mako`</th></tr>
-<tr><th>`text/html+myghty`</th>
-<th>`html+myghty`</th></tr>
-<tr><th>`text/html+ruby`</th>
-<th>`html+erb html+ruby rhtml`</th></tr>
-<tr><th>`text/html+smarty`</th>
-<th>`html+smarty`</th></tr>
-<tr><th>`text/html+spitfire`</th>
-<th>`html+cheetah html+spitfire htmlcheetah`</th></tr>
-<tr><th>`text/html+twig`</th>
-<th>`html+twig`</th></tr>
-<tr><th>`text/html+velocity`</th>
-<th>`html+velocity`</th></tr>
-<tr><th>`text/idl`</th>
-<th>`idl`</th></tr>
-<tr><th>`text/inf`</th>
-<th>`cfg dosini ini`</th></tr>
-<tr><th>`text/ipf`</th>
-<th>`igor igorpro`</th></tr>
-<tr><th>`text/javascript`</th>
-<th>`javascript js`</th></tr>
-<tr><th>`text/javascript+genshi`</th>
-<th>`javascript+genshi javascript+genshitext js+genshi js+genshitext`</th></tr>
-<tr><th>`text/javascript+jinja`</th>
-<th>`javascript+django javascript+jinja js+django js+jinja`</th></tr>
-<tr><th>`text/javascript+lasso`</th>
-<th>`javascript+lasso js+lasso`</th></tr>
-<tr><th>`text/javascript+mako`</th>
-<th>`javascript+mako js+mako`</th></tr>
-<tr><th>`text/javascript+mygthy`</th>
-<th>`javascript+myghty js+myghty`</th></tr>
-<tr><th>`text/javascript+php`</th>
-<th>`javascript+php js+php`</th></tr>
-<tr><th>`text/javascript+ruby`</th>
-<th>`javascript+erb javascript+ruby js+erb js+ruby`</th></tr>
-<tr><th>`text/javascript+smarty`</th>
-<th>`javascript+smarty js+smarty`</th></tr>
-<tr><th>`text/javascript+spitfire`</th>
-<th>`javascript+cheetah javascript+spitfire js+cheetah js+spitfire`</th></tr>
-<tr><th>`text/jsgf`</th>
-<th>`jsgf`</th></tr>
-<tr><th>`text/juttle`</th>
-<th>`juttle`</th></tr>
-<tr><th>`text/limbo`</th>
-<th>`limbo`</th></tr>
-<tr><th>`text/livescript`</th>
-<th>`live-script livescript`</th></tr>
-<tr><th>`text/matlab`</th>
-<th>`matlab`</th></tr>
-<tr><th>`text/ncl`</th>
-<th>`ncl`</th></tr>
-<tr><th>`text/octave`</th>
-<th>`octave`</th></tr>
-<tr><th>`text/odin`</th>
-<th>`odin`</th></tr>
-<tr><th>`text/plain`</th>
-<th>`AUTHORS COPYING ChangeLog INSTALL README RELEASE TXT text txt`</th></tr>
-<tr><th>`text/prs.fallenstein.rst`</th>
-<th>`rest restructuredtext rst`</th></tr>
-<tr><th>`text/rsl`</th>
-<th>`rsl`</th></tr>
-<tr><th>`text/rust`</th>
-<th>`rust`</th></tr>
-<tr><th>`text/scilab`</th>
-<th>`scilab`</th></tr>
-<tr><th>`text/smali`</th>
-<th>`smali`</th></tr>
-<tr><th>`text/supercollider`</th>
-<th>`sc supercollider`</th></tr>
-<tr><th>`text/swig`</th>
-<th>`swig`</th></tr>
-<tr><th>`text/troff`</th>
-<th>`groff man nroff`</th></tr>
-<tr><th>`text/x-abap`</th>
-<th>`abap`</th></tr>
-<tr><th>`text/x-abnf`</th>
-<th>`abnf`</th></tr>
-<tr><th>`text/x-ada`</th>
-<th>`ada ada2005 ada95 adb ads`</th></tr>
-<tr><th>`text/x-agda`</th>
-<th>`agda`</th></tr>
-<tr><th>`text/x-alloy`</th>
-<th>`alloy`</th></tr>
-<tr><th>`text/x-ambienttalk`</th>
-<th>`ambienttalk ambienttalk/2 at`</th></tr>
-<tr><th>`text/x-apacheconf`</th>
-<th>`aconf apache apacheconf`</th></tr>
-<tr><th>`text/x-arduino`</th>
-<th>`arduino`</th></tr>
-<tr><th>`text/x-asp`</th>
-<th>`asp`</th></tr>
-<tr><th>`text/x-aspectj`</th>
-<th>`aspectj`</th></tr>
-<tr><th>`text/x-asymptote`</th>
-<th>`asy asymptote`</th></tr>
-<tr><th>`text/x-autohotkey`</th>
-<th>`ahk autohotkey`</th></tr>
-<tr><th>`text/x-autoit`</th>
-<th>`autoit`</th></tr>
-<tr><th>`text/x-bb`</th>
-<th>`b3d blitzbasic bplus`</th></tr>
-<tr><th>`text/x-bbcode`</th>
-<th>`bbcode`</th></tr>
-<tr><th>`text/x-bibtex`</th>
-<th>`bib bibtex`</th></tr>
-<tr><th>`text/x-bmx`</th>
-<th>`blitzmax bmax`</th></tr>
-<tr><th>`text/x-bnf`</th>
-<th>`bnf`</th></tr>
-<tr><th>`text/x-boo`</th>
-<th>`boo`</th></tr>
-<tr><th>`text/x-c++hdr`</th>
-<th>`H HH c++hdr hh hpp`</th></tr>
-<tr><th>`text/x-c++src`</th>
-<th>`C C++ CC c++ c++src cc cpp`</th></tr>
-<tr><th>`text/x-c-objdump`</th>
-<th>`c-objdump`</th></tr>
-<tr><th>`text/x-ceylon`</th>
-<th>`ceylon`</th></tr>
-<tr><th>`text/x-chdr`</th>
-<th>`chdr h`</th></tr>
-<tr><th>`text/x-cirru`</th>
-<th>`cirru`</th></tr>
-<tr><th>`text/x-clay`</th>
-<th>`clay`</th></tr>
-<tr><th>`text/x-cmake`</th>
-<th>`cmake`</th></tr>
-<tr><th>`text/x-cobol`</th>
-<th>`cobol`</th></tr>
-<tr><th>`text/x-common-lisp`</th>
-<th>`cl common-lisp lisp`</th></tr>
-<tr><th>`text/x-component-pascal`</th>
-<th>`componentpascal cp`</th></tr>
-<tr><th>`text/x-coq`</th>
-<th>`coq`</th></tr>
-<tr><th>`text/x-cpp-objdump`</th>
-<th>`c++-objdumb cpp-objdump cxx-objdump`</th></tr>
-<tr><th>`text/x-crocsrc`</th>
-<th>`croc`</th></tr>
-<tr><th>`text/x-cryptol`</th>
-<th>`cry cryptol`</th></tr>
-<tr><th>`text/x-crystal`</th>
-<th>`cr crystal`</th></tr>
-<tr><th>`text/x-csharp`</th>
-<th>`C# c# cs csharp`</th></tr>
-<tr><th>`text/x-csrc`</th>
-<th>`c csrc xs`</th></tr>
-<tr><th>`text/x-cuda`</th>
-<th>`cu cuda`</th></tr>
-<tr><th>`text/x-d-objdump`</th>
-<th>`d-objdump`</th></tr>
-<tr><th>`text/x-dart`</th>
-<th>`dart`</th></tr>
-<tr><th>`text/x-dg`</th>
-<th>`dg`</th></tr>
-<tr><th>`text/x-diff`</th>
-<th>`patch`</th></tr>
-<tr><th>`text/x-dockerfile-config`</th>
-<th>`docker dockerfile`</th></tr>
-<tr><th>`text/x-dsrc`</th>
-<th>`d`</th></tr>
-<tr><th>`text/x-dylan`</th>
-<th>`dylan`</th></tr>
-<tr><th>`text/x-dylan-console`</th>
-<th>`dylan-console dylan-repl`</th></tr>
-<tr><th>`text/x-dylan-lid`</th>
-<th>`dylan-lid lid`</th></tr>
-<tr><th>`text/x-earl-grey`</th>
-<th>`earl-grey earlgrey eg`</th></tr>
-<tr><th>`text/x-easytrieve`</th>
-<th>`easytrieve`</th></tr>
-<tr><th>`text/x-ebnf`</th>
-<th>`ebnf`</th></tr>
-<tr><th>`text/x-ecsrc`</th>
-<th>`ec`</th></tr>
-<tr><th>`text/x-eiffel`</th>
-<th>`e eiffel`</th></tr>
-<tr><th>`text/x-elisp`</th>
-<th>`el`</th></tr>
-<tr><th>`text/x-elixir`</th>
-<th>`elixir ex exs`</th></tr>
-<tr><th>`text/x-elixir-shellsession`</th>
-<th>`iex`</th></tr>
-<tr><th>`text/x-elm`</th>
-<th>`elm`</th></tr>
-<tr><th>`text/x-erl-shellsession`</th>
-<th>`erl`</th></tr>
-<tr><th>`text/x-erlang`</th>
-<th>`erlang`</th></tr>
-<tr><th>`text/x-ezhil`</th>
-<th>`ezhil`</th></tr>
-<tr><th>`text/x-factor`</th>
-<th>`factor`</th></tr>
-<tr><th>`text/x-fancysrc`</th>
-<th>`fancy fy`</th></tr>
-<tr><th>`text/x-felix`</th>
-<th>`felix flx`</th></tr>
-<tr><th>`text/x-flatline`</th>
-<th>`flatline`</th></tr>
-<tr><th>`text/x-fortran`</th>
-<th>`f fortran`</th></tr>
-<tr><th>`text/x-fsharp`</th>
-<th>`fsharp`</th></tr>
-<tr><th>`text/x-gas`</th>
-<th>`asm gas`</th></tr>
-<tr><th>`text/x-genshi`</th>
-<th>`genshitext`</th></tr>
-<tr><th>`text/x-gherkin`</th>
-<th>`cucumber gherkin`</th></tr>
-<tr><th>`text/x-glslsrc`</th>
-<th>`glsl`</th></tr>
-<tr><th>`text/x-gnuplot`</th>
-<th>`gnuplot`</th></tr>
-<tr><th>`text/x-gooddata-cl`</th>
-<th>`gooddata-cl`</th></tr>
-<tr><th>`text/x-gosrc`</th>
-<th>`go`</th></tr>
-<tr><th>`text/x-gosu`</th>
-<th>`gosu`</th></tr>
-<tr><th>`text/x-gosu-template`</th>
-<th>`gst`</th></tr>
-<tr><th>`text/x-groovy`</th>
-<th>`groovy`</th></tr>
-<tr><th>`text/x-haml`</th>
-<th>`haml`</th></tr>
-<tr><th>`text/x-handlebars-template`</th>
-<th>`html+handlebars`</th></tr>
-<tr><th>`text/x-haskell`</th>
-<th>`haskell hs`</th></tr>
-<tr><th>`text/x-hsail`</th>
-<th>`hsa hsail`</th></tr>
-<tr><th>`text/x-hx`</th>
-<th>`haxe hx hxsl`</th></tr>
-<tr><th>`text/x-idl`</th>
-<th>`ice`</th></tr>
-<tr><th>`text/x-idris`</th>
-<th>`idr idris`</th></tr>
-<tr><th>`text/x-inf`</th>
-<th>`inf`</th></tr>
-<tr><th>`text/x-iokesrc`</th>
-<th>`ik ioke`</th></tr>
-<tr><th>`text/x-iosrc`</th>
-<th>`io`</th></tr>
-<tr><th>`text/x-irclog`</th>
-<th>`irc`</th></tr>
-<tr><th>`text/x-isabelle`</th>
-<th>`isabelle`</th></tr>
-<tr><th>`text/x-j`</th>
-<th>`j`</th></tr>
-<tr><th>`text/x-jade`</th>
-<th>`jade pug`</th></tr>
-<tr><th>`text/x-java`</th>
-<th>`java`</th></tr>
-<tr><th>`text/x-java-properties`</th>
-<th>`jproperties properties`</th></tr>
-<tr><th>`text/x-jbst`</th>
-<th>`duel jbst jsonml+bst`</th></tr>
-<tr><th>`text/x-jcl`</th>
-<th>`jcl`</th></tr>
-<tr><th>`text/x-kconfig`</th>
-<th>`kconfig kernel-config linux-config menuconfig`</th></tr>
-<tr><th>`text/x-koka`</th>
-<th>`koka`</th></tr>
-<tr><th>`text/x-kotlin`</th>
-<th>`kotlin`</th></tr>
-<tr><th>`text/x-lasso`</th>
-<th>`lasso lassoscript`</th></tr>
-<tr><th>`text/x-latex`</th>
-<th>`latex tex`</th></tr>
-<tr><th>`text/x-lean`</th>
-<th>`lean`</th></tr>
-<tr><th>`text/x-less-css`</th>
-<th>`less`</th></tr>
-<tr><th>`text/x-lighttpd-conf`</th>
-<th>`lighttpd lighty`</th></tr>
-<tr><th>`text/x-literate-agda`</th>
-<th>`lagda literate-agda`</th></tr>
-<tr><th>`text/x-literate-cryptol`</th>
-<th>`lcry lcryptol literate-cryptol`</th></tr>
-<tr><th>`text/x-literate-haskell`</th>
-<th>`lhaskell lhs literate-haskell`</th></tr>
-<tr><th>`text/x-literate-idris`</th>
-<th>`lidr lidris literate-idris`</th></tr>
-<tr><th>`text/x-llvm`</th>
-<th>`llvm`</th></tr>
-<tr><th>`text/x-logos`</th>
-<th>`logos`</th></tr>
-<tr><th>`text/x-logtalk`</th>
-<th>`logtalk`</th></tr>
-<tr><th>`text/x-lsl`</th>
-<th>`lsl`</th></tr>
-<tr><th>`text/x-m4`</th>
-<th>`m4`</th></tr>
-<tr><th>`text/x-mail`</th>
-<th>`mail`</th></tr>
-<tr><th>`text/x-makefile`</th>
-<th>`GNUMakefile Makefile bsdmake make makefile mf mk`</th></tr>
-<tr><th>`text/x-markdown`</th>
-<th>`md`</th></tr>
-<tr><th>`text/x-mask`</th>
-<th>`mask`</th></tr>
-<tr><th>`text/x-minidsrc`</th>
-<th>`minid`</th></tr>
-<tr><th>`text/x-modelica`</th>
-<th>`modelica`</th></tr>
-<tr><th>`text/x-modula2`</th>
-<th>`m2 modula2`</th></tr>
-<tr><th>`text/x-monkey`</th>
-<th>`monkey`</th></tr>
-<tr><th>`text/x-moocode`</th>
-<th>`moo moocode`</th></tr>
-<tr><th>`text/x-mql`</th>
-<th>`mq4 mq5 mql mql4 mql5`</th></tr>
-<tr><th>`text/x-mysql`</th>
-<th>`mysql`</th></tr>
-<tr><th>`text/x-nasm`</th>
-<th>`nasm`</th></tr>
-<tr><th>`text/x-nasm-objdump`</th>
-<th>`objdump-nasm`</th></tr>
-<tr><th>`text/x-nemerle`</th>
-<th>`nemerle`</th></tr>
-<tr><th>`text/x-nescsrc`</th>
-<th>`nesc`</th></tr>
-<tr><th>`text/x-newspeak`</th>
-<th>`newspeak`</th></tr>
-<tr><th>`text/x-nginx-conf`</th>
-<th>`nginx nginx-conf`</th></tr>
-<tr><th>`text/x-nim`</th>
-<th>`nim nimrod`</th></tr>
-<tr><th>`text/x-nix`</th>
-<th>`nix nixos`</th></tr>
-<tr><th>`text/x-nsis`</th>
-<th>`nsh nsi nsis`</th></tr>
-<tr><th>`text/x-objc`</th>
-<th>`m mm`</th></tr>
-<tr><th>`text/x-objdump`</th>
-<th>`objdump`</th></tr>
-<tr><th>`text/x-objective-c`</th>
-<th>`obj-c objc objective-c objectivec`</th></tr>
-<tr><th>`text/x-objective-c++`</th>
-<th>`obj-c++ objc++ objective-c++ objectivec++`</th></tr>
-<tr><th>`text/x-objective-j`</th>
-<th>`obj-j objective-j objectivej objj`</th></tr>
-<tr><th>`text/x-ocaml`</th>
-<th>`ml mli ocaml`</th></tr>
-<tr><th>`text/x-ooc`</th>
-<th>`ooc`</th></tr>
-<tr><th>`text/x-opa`</th>
-<th>`opa`</th></tr>
-<tr><th>`text/x-parasail`</th>
-<th>`parasail`</th></tr>
-<tr><th>`text/x-pascal`</th>
-<th>`delphi objectpascal pas pascal`</th></tr>
-<tr><th>`text/x-patch`</th>
-<th>`diff udiff`</th></tr>
-<tr><th>`text/x-pawn`</th>
-<th>`pawn`</th></tr>
-<tr><th>`text/x-perl`</th>
-<th>`PL pm`</th></tr>
-<tr><th>`text/x-php`</th>
-<th>`php php3 php4 php5`</th></tr>
-<tr><th>`text/x-pig`</th>
-<th>`pig`</th></tr>
-<tr><th>`text/x-pike`</th>
-<th>`pike`</th></tr>
-<tr><th>`text/x-plpgsql`</th>
-<th>`plpgsql`</th></tr>
-<tr><th>`text/x-postgresql`</th>
-<th>`postgres postgresql`</th></tr>
-<tr><th>`text/x-postgresql-psql`</th>
-<th>`postgres-console postgresql-console psql`</th></tr>
-<tr><th>`text/x-povray`</th>
-<th>`pov`</th></tr>
-<tr><th>`text/x-powershell`</th>
-<th>`posh powershell ps1 psm1`</th></tr>
-<tr><th>`text/x-prolog`</th>
-<th>`prolog`</th></tr>
-<tr><th>`text/x-psp`</th>
-<th>`psp`</th></tr>
-<tr><th>`text/x-python-doctest`</th>
-<th>`pycon python-doctest`</th></tr>
-<tr><th>`text/x-python-traceback`</th>
-<th>`pytb`</th></tr>
-<tr><th>`text/x-python3-traceback`</th>
-<th>`py3tb`</th></tr>
-<tr><th>`text/x-r-doc`</th>
-<th>`rd`</th></tr>
-<tr><th>`text/x-r-profile`</th>
-<th>`r s splus`</th></tr>
-<tr><th>`text/x-rebol`</th>
-<th>`rebol`</th></tr>
-<tr><th>`text/x-red-system`</th>
-<th>`red red/system`</th></tr>
-<tr><th>`text/x-rexx`</th>
-<th>`arexx rexx`</th></tr>
-<tr><th>`text/x-rfc`</th>
-<th>`rfc`</th></tr>
-<tr><th>`text/x-robotframework`</th>
-<th>`robotframework`</th></tr>
-<tr><th>`text/x-rpm-spec`</th>
-<th>`spec`</th></tr>
-<tr><th>`text/x-rql`</th>
-<th>`rql`</th></tr>
-<tr><th>`text/x-ruby-shellsession`</th>
-<th>`irb rbcon`</th></tr>
-<tr><th>`text/x-sass`</th>
-<th>`sass`</th></tr>
-<tr><th>`text/x-scala`</th>
-<th>`scala`</th></tr>
-<tr><th>`text/x-scaml`</th>
-<th>`scaml`</th></tr>
-<tr><th>`text/x-scss`</th>
-<th>`scss`</th></tr>
-<tr><th>`text/x-slim`</th>
-<th>`slim`</th></tr>
-<tr><th>`text/x-sls`</th>
-<th>`salt sls yaml+jinja`</th></tr>
-<tr><th>`text/x-smalltalk`</th>
-<th>`smalltalk squeak st`</th></tr>
-<tr><th>`text/x-snobol`</th>
-<th>`snobol`</th></tr>
-<tr><th>`text/x-sourcepawn`</th>
-<th>`sp`</th></tr>
-<tr><th>`text/x-sql`</th>
-<th>`sql`</th></tr>
-<tr><th>`text/x-sqlite3-console`</th>
-<th>`sqlite3`</th></tr>
-<tr><th>`text/x-squidconf`</th>
-<th>`squid squid.conf squidconf`</th></tr>
-<tr><th>`text/x-swift`</th>
-<th>`swift`</th></tr>
-<tr><th>`text/x-systemverilog`</th>
-<th>`sv systemverilog`</th></tr>
-<tr><th>`text/x-tasm`</th>
-<th>`tasm`</th></tr>
-<tr><th>`text/x-tea`</th>
-<th>`tea`</th></tr>
-<tr><th>`text/x-textile`</th>
-<th>`textile txtl`</th></tr>
-<tr><th>`text/x-todo`</th>
-<th>`todotxt`</th></tr>
-<tr><th>`text/x-trac-wiki`</th>
-<th>`moin trac-wiki`</th></tr>
-<tr><th>`text/x-tsql`</th>
-<th>`t-sql tsql`</th></tr>
-<tr><th>`text/x-typescript`</th>
-<th>`ts typescript`</th></tr>
-<tr><th>`text/x-typoscript`</th>
-<th>`typoscript`</th></tr>
-<tr><th>`text/x-vala`</th>
-<th>`vala vapi`</th></tr>
-<tr><th>`text/x-vba`</th>
-<th>`bas vb vb.net vba vbnet`</th></tr>
-<tr><th>`text/x-vclsnippet`</th>
-<th>`vclsnippet vclsnippets`</th></tr>
-<tr><th>`text/x-vclsrc`</th>
-<th>`vcl`</th></tr>
-<tr><th>`text/x-verilog`</th>
-<th>`v verilog`</th></tr>
-<tr><th>`text/x-vhdl`</th>
-<th>`vhd vhdl`</th></tr>
-<tr><th>`text/x-vim`</th>
-<th>`vim`</th></tr>
-<tr><th>`text/x-whiley`</th>
-<th>`whiley`</th></tr>
-<tr><th>`text/x-windows-registry`</th>
-<th>`registry`</th></tr>
-<tr><th>`text/x-x10`</th>
-<th>`x10 xten`</th></tr>
-<tr><th>`text/x-xtend`</th>
-<th>`xtend`</th></tr>
-<tr><th>`text/x-yaml`</th>
-<th>`yaml`</th></tr></table>
+<th><a href="/trac/ghc/wiki/WikiProcessors">WikiProcessors</a></th></tr>
+<tr><th><tt>application/atom+xml</tt></th>
+<th><tt>xml</tt></th></tr>
+<tr><th><tt>application/json</tt></th>
+<th><tt>json</tt></th></tr>
+<tr><th><tt>application/json-object</tt></th>
+<th><tt>json-object</tt></th></tr>
+<tr><th><tt>application/kal</tt></th>
+<th><tt>kal</tt></th></tr>
+<tr><th><tt>application/ld+json</tt></th>
+<th><tt>json-ld jsonld</tt></th></tr>
+<tr><th><tt>application/msword</tt></th>
+<th><tt>doc dot</tt></th></tr>
+<tr><th><tt>application/pdf</tt></th>
+<th><tt>pdf</tt></th></tr>
+<tr><th><tt>application/postscript</tt></th>
+<th><tt>postscr postscript ps</tt></th></tr>
+<tr><th><tt>application/rss+xml</tt></th>
+<th><tt>rss</tt></th></tr>
+<tr><th><tt>application/rtf</tt></th>
+<th><tt>rtf</tt></th></tr>
+<tr><th><tt>application/sparql-query</tt></th>
+<th><tt>sparql</tt></th></tr>
+<tr><th><tt>application/vnd.wolfram.cdf</tt></th>
+<th><tt>mathematica mma nb</tt></th></tr>
+<tr><th><tt>application/x-awk</tt></th>
+<th><tt>awk gawk mawk nawk</tt></th></tr>
+<tr><th><tt>application/x-befunge</tt></th>
+<th><tt>befunge</tt></th></tr>
+<tr><th><tt>application/x-brainfuck</tt></th>
+<th><tt>bf brainfuck</tt></th></tr>
+<tr><th><tt>application/x-chaiscript</tt></th>
+<th><tt>chai chaiscript</tt></th></tr>
+<tr><th><tt>application/x-clojure</tt></th>
+<th><tt>clj clojure</tt></th></tr>
+<tr><th><tt>application/x-clojurescript</tt></th>
+<th><tt>cljs clojurescript</tt></th></tr>
+<tr><th><tt>application/x-coldfusion</tt></th>
+<th><tt>cfm</tt></th></tr>
+<tr><th><tt>application/x-csh</tt></th>
+<th><tt>csh tcsh</tt></th></tr>
+<tr><th><tt>application/x-cython</tt></th>
+<th><tt>cython pyrex pyx</tt></th></tr>
+<tr><th><tt>application/x-dos-batch</tt></th>
+<th><tt>bat batch cmd dos dosbatch winbatch</tt></th></tr>
+<tr><th><tt>application/x-ecl</tt></th>
+<th><tt>ecl</tt></th></tr>
+<tr><th><tt>application/x-elisp</tt></th>
+<th><tt>elisp emacs emacs-lisp</tt></th></tr>
+<tr><th><tt>application/x-evoque</tt></th>
+<th><tt>evoque</tt></th></tr>
+<tr><th><tt>application/x-fantom</tt></th>
+<th><tt>fan</tt></th></tr>
+<tr><th><tt>application/x-fish</tt></th>
+<th><tt>fish fishshell</tt></th></tr>
+<tr><th><tt>application/x-forth</tt></th>
+<th><tt>forth</tt></th></tr>
+<tr><th><tt>application/x-gooddata-maql</tt></th>
+<th><tt>maql</tt></th></tr>
+<tr><th><tt>application/x-httpd-lasso[89]</tt></th>
+<th><tt>html+lasso</tt></th></tr>
+<tr><th><tt>application/x-httpd-php5</tt></th>
+<th><tt>html+php</tt></th></tr>
+<tr><th><tt>application/x-hy</tt></th>
+<th><tt>hylang</tt></th></tr>
+<tr><th><tt>application/x-hybris</tt></th>
+<th><tt>hy hybris</tt></th></tr>
+<tr><th><tt>application/x-jinja</tt></th>
+<th><tt>django jinja</tt></th></tr>
+<tr><th><tt>application/x-jsp</tt></th>
+<th><tt>jsp</tt></th></tr>
+<tr><th><tt>application/x-julia</tt></th>
+<th><tt>jl julia</tt></th></tr>
+<tr><th><tt>application/x-kid</tt></th>
+<th><tt>genshi kid xml+genshi xml+kid</tt></th></tr>
+<tr><th><tt>application/x-lua</tt></th>
+<th><tt>lua</tt></th></tr>
+<tr><th><tt>application/x-mako</tt></th>
+<th><tt>mako</tt></th></tr>
+<tr><th><tt>application/x-mason</tt></th>
+<th><tt>mason</tt></th></tr>
+<tr><th><tt>application/x-moonscript</tt></th>
+<th><tt>moon moonscript</tt></th></tr>
+<tr><th><tt>application/x-myghty</tt></th>
+<th><tt>myghty</tt></th></tr>
+<tr><th><tt>application/x-newlisp</tt></th>
+<th><tt>newlisp</tt></th></tr>
+<tr><th><tt>application/x-openedge</tt></th>
+<th><tt>abl openedge progress</tt></th></tr>
+<tr><th><tt>application/x-perl</tt></th>
+<th><tt>perl pl</tt></th></tr>
+<tr><th><tt>application/x-perl6</tt></th>
+<th><tt>perl6 pl6</tt></th></tr>
+<tr><th><tt>application/x-pygments-tokens</tt></th>
+<th><tt>raw</tt></th></tr>
+<tr><th><tt>application/x-pypylog</tt></th>
+<th><tt>pypy pypylog</tt></th></tr>
+<tr><th><tt>application/x-python</tt></th>
+<th><tt>py python sage</tt></th></tr>
+<tr><th><tt>application/x-python3</tt></th>
+<th><tt>py3 python3</tt></th></tr>
+<tr><th><tt>application/x-qt.qbs+qml</tt></th>
+<th><tt>qbs qml</tt></th></tr>
+<tr><th><tt>application/x-racket</tt></th>
+<th><tt>racket rkt</tt></th></tr>
+<tr><th><tt>application/x-ruby</tt></th>
+<th><tt>duby rb ruby</tt></th></tr>
+<tr><th><tt>application/x-ruby-templating</tt></th>
+<th><tt>erb</tt></th></tr>
+<tr><th><tt>application/x-sas</tt></th>
+<th><tt>sas</tt></th></tr>
+<tr><th><tt>application/x-scheme</tt></th>
+<th><tt>scheme scm</tt></th></tr>
+<tr><th><tt>application/x-sh-session</tt></th>
+<th><tt>console shell-session</tt></th></tr>
+<tr><th><tt>application/x-shellscript</tt></th>
+<th><tt>bash ksh sh shell zsh</tt></th></tr>
+<tr><th><tt>application/x-shen</tt></th>
+<th><tt>shen</tt></th></tr>
+<tr><th><tt>application/x-smarty</tt></th>
+<th><tt>smarty</tt></th></tr>
+<tr><th><tt>application/x-spitfire</tt></th>
+<th><tt>cheetah spitfire</tt></th></tr>
+<tr><th><tt>application/x-ssp</tt></th>
+<th><tt>ssp</tt></th></tr>
+<tr><th><tt>application/x-standardml</tt></th>
+<th><tt>sml</tt></th></tr>
+<tr><th><tt>application/x-stata</tt></th>
+<th><tt>do stata</tt></th></tr>
+<tr><th><tt>application/x-tcl</tt></th>
+<th><tt>tcl</tt></th></tr>
+<tr><th><tt>application/x-terraform</tt></th>
+<th><tt>terraform tf</tt></th></tr>
+<tr><th><tt>application/x-thrift</tt></th>
+<th><tt>thrift</tt></th></tr>
+<tr><th><tt>application/x-troff</tt></th>
+<th><tt>roff troff</tt></th></tr>
+<tr><th><tt>application/x-turtle</tt></th>
+<th><tt>turtle</tt></th></tr>
+<tr><th><tt>application/x-twig</tt></th>
+<th><tt>twig</tt></th></tr>
+<tr><th><tt>application/x-urbiscript</tt></th>
+<th><tt>urbiscript</tt></th></tr>
+<tr><th><tt>application/x-yaml</tt></th>
+<th><tt>yml</tt></th></tr>
+<tr><th><tt>application/xhtml+xml</tt></th>
+<th><tt>html</tt></th></tr>
+<tr><th><tt>application/xml+evoque</tt></th>
+<th><tt>xml+evoque</tt></th></tr>
+<tr><th><tt>application/xml+jinja</tt></th>
+<th><tt>xml+django xml+jinja</tt></th></tr>
+<tr><th><tt>application/xml+lasso</tt></th>
+<th><tt>xml+lasso</tt></th></tr>
+<tr><th><tt>application/xml+mako</tt></th>
+<th><tt>xml+mako</tt></th></tr>
+<tr><th><tt>application/xml+myghty</tt></th>
+<th><tt>xml+myghty</tt></th></tr>
+<tr><th><tt>application/xml+php</tt></th>
+<th><tt>xml+php</tt></th></tr>
+<tr><th><tt>application/xml+ruby</tt></th>
+<th><tt>xml+erb xml+ruby</tt></th></tr>
+<tr><th><tt>application/xml+smarty</tt></th>
+<th><tt>xml+smarty</tt></th></tr>
+<tr><th><tt>application/xml+spitfire</tt></th>
+<th><tt>xml+cheetah xml+spitfire</tt></th></tr>
+<tr><th><tt>application/xml+velocity</tt></th>
+<th><tt>xml+velocity</tt></th></tr>
+<tr><th><tt>application/xml-dtd</tt></th>
+<th><tt>dtd</tt></th></tr>
+<tr><th><tt>application/xquery</tt></th>
+<th><tt>xq xql xqm xquery xqy</tt></th></tr>
+<tr><th><tt>application/xsl+xml</tt></th>
+<th><tt>xsl</tt></th></tr>
+<tr><th><tt>application/xslt+xml</tt></th>
+<th><tt>xslt</tt></th></tr>
+<tr><th><tt>image/svg+xml</tt></th>
+<th><tt>svg</tt></th></tr>
+<tr><th><tt>image/x-icon</tt></th>
+<th><tt>ico</tt></th></tr>
+<tr><th><tt>model/vrml</tt></th>
+<th><tt>vrml wrl</tt></th></tr>
+<tr><th><tt>text/actionscript</tt></th>
+<th><tt>actionscript as</tt></th></tr>
+<tr><th><tt>text/actionscript3</tt></th>
+<th><tt>actionscript3 as3</tt></th></tr>
+<tr><th><tt>text/basic</tt></th>
+<th><tt>basic qbasic</tt></th></tr>
+<tr><th><tt>text/coffeescript</tt></th>
+<th><tt>coffee coffee-script coffeescript</tt></th></tr>
+<tr><th><tt>text/css</tt></th>
+<th><tt>css</tt></th></tr>
+<tr><th><tt>text/css+genshi</tt></th>
+<th><tt>css+genshi css+genshitext</tt></th></tr>
+<tr><th><tt>text/css+jinja</tt></th>
+<th><tt>css+django css+jinja</tt></th></tr>
+<tr><th><tt>text/css+lasso</tt></th>
+<th><tt>css+lasso</tt></th></tr>
+<tr><th><tt>text/css+mako</tt></th>
+<th><tt>css+mako</tt></th></tr>
+<tr><th><tt>text/css+myghty</tt></th>
+<th><tt>css+myghty</tt></th></tr>
+<tr><th><tt>text/css+php</tt></th>
+<th><tt>css+php</tt></th></tr>
+<tr><th><tt>text/css+ruby</tt></th>
+<th><tt>css+erb css+ruby</tt></th></tr>
+<tr><th><tt>text/css+smarty</tt></th>
+<th><tt>css+smarty</tt></th></tr>
+<tr><th><tt>text/gettext</tt></th>
+<th><tt>po pot</tt></th></tr>
+<tr><th><tt>text/html</tt></th>
+<th><tt>htm</tt></th></tr>
+<tr><th><tt>text/html+evoque</tt></th>
+<th><tt>html+evoque</tt></th></tr>
+<tr><th><tt>text/html+genshi</tt></th>
+<th><tt>html+genshi html+kid</tt></th></tr>
+<tr><th><tt>text/html+jinja</tt></th>
+<th><tt>html+django html+jinja htmldjango</tt></th></tr>
+<tr><th><tt>text/html+mako</tt></th>
+<th><tt>html+mako</tt></th></tr>
+<tr><th><tt>text/html+myghty</tt></th>
+<th><tt>html+myghty</tt></th></tr>
+<tr><th><tt>text/html+ruby</tt></th>
+<th><tt>html+erb html+ruby rhtml</tt></th></tr>
+<tr><th><tt>text/html+smarty</tt></th>
+<th><tt>html+smarty</tt></th></tr>
+<tr><th><tt>text/html+spitfire</tt></th>
+<th><tt>html+cheetah html+spitfire htmlcheetah</tt></th></tr>
+<tr><th><tt>text/html+twig</tt></th>
+<th><tt>html+twig</tt></th></tr>
+<tr><th><tt>text/html+velocity</tt></th>
+<th><tt>html+velocity</tt></th></tr>
+<tr><th><tt>text/idl</tt></th>
+<th><tt>idl</tt></th></tr>
+<tr><th><tt>text/inf</tt></th>
+<th><tt>cfg dosini ini</tt></th></tr>
+<tr><th><tt>text/ipf</tt></th>
+<th><tt>igor igorpro</tt></th></tr>
+<tr><th><tt>text/javascript</tt></th>
+<th><tt>javascript js</tt></th></tr>
+<tr><th><tt>text/javascript+genshi</tt></th>
+<th><tt>javascript+genshi javascript+genshitext js+genshi js+genshitext</tt></th></tr>
+<tr><th><tt>text/javascript+jinja</tt></th>
+<th><tt>javascript+django javascript+jinja js+django js+jinja</tt></th></tr>
+<tr><th><tt>text/javascript+lasso</tt></th>
+<th><tt>javascript+lasso js+lasso</tt></th></tr>
+<tr><th><tt>text/javascript+mako</tt></th>
+<th><tt>javascript+mako js+mako</tt></th></tr>
+<tr><th><tt>text/javascript+mygthy</tt></th>
+<th><tt>javascript+myghty js+myghty</tt></th></tr>
+<tr><th><tt>text/javascript+php</tt></th>
+<th><tt>javascript+php js+php</tt></th></tr>
+<tr><th><tt>text/javascript+ruby</tt></th>
+<th><tt>javascript+erb javascript+ruby js+erb js+ruby</tt></th></tr>
+<tr><th><tt>text/javascript+smarty</tt></th>
+<th><tt>javascript+smarty js+smarty</tt></th></tr>
+<tr><th><tt>text/javascript+spitfire</tt></th>
+<th><tt>javascript+cheetah javascript+spitfire js+cheetah js+spitfire</tt></th></tr>
+<tr><th><tt>text/jsgf</tt></th>
+<th><tt>jsgf</tt></th></tr>
+<tr><th><tt>text/juttle</tt></th>
+<th><tt>juttle</tt></th></tr>
+<tr><th><tt>text/limbo</tt></th>
+<th><tt>limbo</tt></th></tr>
+<tr><th><tt>text/livescript</tt></th>
+<th><tt>live-script livescript</tt></th></tr>
+<tr><th><tt>text/matlab</tt></th>
+<th><tt>matlab</tt></th></tr>
+<tr><th><tt>text/ncl</tt></th>
+<th><tt>ncl</tt></th></tr>
+<tr><th><tt>text/octave</tt></th>
+<th><tt>octave</tt></th></tr>
+<tr><th><tt>text/odin</tt></th>
+<th><tt>odin</tt></th></tr>
+<tr><th><tt>text/plain</tt></th>
+<th><tt>AUTHORS COPYING ChangeLog INSTALL README RELEASE TXT text txt</tt></th></tr>
+<tr><th><tt>text/prs.fallenstein.rst</tt></th>
+<th><tt>rest restructuredtext rst</tt></th></tr>
+<tr><th><tt>text/rsl</tt></th>
+<th><tt>rsl</tt></th></tr>
+<tr><th><tt>text/rust</tt></th>
+<th><tt>rust</tt></th></tr>
+<tr><th><tt>text/scilab</tt></th>
+<th><tt>scilab</tt></th></tr>
+<tr><th><tt>text/smali</tt></th>
+<th><tt>smali</tt></th></tr>
+<tr><th><tt>text/supercollider</tt></th>
+<th><tt>sc supercollider</tt></th></tr>
+<tr><th><tt>text/swig</tt></th>
+<th><tt>swig</tt></th></tr>
+<tr><th><tt>text/troff</tt></th>
+<th><tt>groff man nroff</tt></th></tr>
+<tr><th><tt>text/x-abap</tt></th>
+<th><tt>abap</tt></th></tr>
+<tr><th><tt>text/x-abnf</tt></th>
+<th><tt>abnf</tt></th></tr>
+<tr><th><tt>text/x-ada</tt></th>
+<th><tt>ada ada2005 ada95 adb ads</tt></th></tr>
+<tr><th><tt>text/x-agda</tt></th>
+<th><tt>agda</tt></th></tr>
+<tr><th><tt>text/x-alloy</tt></th>
+<th><tt>alloy</tt></th></tr>
+<tr><th><tt>text/x-ambienttalk</tt></th>
+<th><tt>ambienttalk ambienttalk/2 at</tt></th></tr>
+<tr><th><tt>text/x-apacheconf</tt></th>
+<th><tt>aconf apache apacheconf</tt></th></tr>
+<tr><th><tt>text/x-arduino</tt></th>
+<th><tt>arduino</tt></th></tr>
+<tr><th><tt>text/x-asp</tt></th>
+<th><tt>asp</tt></th></tr>
+<tr><th><tt>text/x-aspectj</tt></th>
+<th><tt>aspectj</tt></th></tr>
+<tr><th><tt>text/x-asymptote</tt></th>
+<th><tt>asy asymptote</tt></th></tr>
+<tr><th><tt>text/x-autohotkey</tt></th>
+<th><tt>ahk autohotkey</tt></th></tr>
+<tr><th><tt>text/x-autoit</tt></th>
+<th><tt>autoit</tt></th></tr>
+<tr><th><tt>text/x-bb</tt></th>
+<th><tt>b3d blitzbasic bplus</tt></th></tr>
+<tr><th><tt>text/x-bbcode</tt></th>
+<th><tt>bbcode</tt></th></tr>
+<tr><th><tt>text/x-bibtex</tt></th>
+<th><tt>bib bibtex</tt></th></tr>
+<tr><th><tt>text/x-bmx</tt></th>
+<th><tt>blitzmax bmax</tt></th></tr>
+<tr><th><tt>text/x-bnf</tt></th>
+<th><tt>bnf</tt></th></tr>
+<tr><th><tt>text/x-boo</tt></th>
+<th><tt>boo</tt></th></tr>
+<tr><th><tt>text/x-c++hdr</tt></th>
+<th><tt>H HH c++hdr hh hpp</tt></th></tr>
+<tr><th><tt>text/x-c++src</tt></th>
+<th><tt>C C++ CC c++ c++src cc cpp</tt></th></tr>
+<tr><th><tt>text/x-c-objdump</tt></th>
+<th><tt>c-objdump</tt></th></tr>
+<tr><th><tt>text/x-ceylon</tt></th>
+<th><tt>ceylon</tt></th></tr>
+<tr><th><tt>text/x-chdr</tt></th>
+<th><tt>chdr h</tt></th></tr>
+<tr><th><tt>text/x-cirru</tt></th>
+<th><tt>cirru</tt></th></tr>
+<tr><th><tt>text/x-clay</tt></th>
+<th><tt>clay</tt></th></tr>
+<tr><th><tt>text/x-cmake</tt></th>
+<th><tt>cmake</tt></th></tr>
+<tr><th><tt>text/x-cobol</tt></th>
+<th><tt>cobol</tt></th></tr>
+<tr><th><tt>text/x-common-lisp</tt></th>
+<th><tt>cl common-lisp lisp</tt></th></tr>
+<tr><th><tt>text/x-component-pascal</tt></th>
+<th><tt>componentpascal cp</tt></th></tr>
+<tr><th><tt>text/x-coq</tt></th>
+<th><tt>coq</tt></th></tr>
+<tr><th><tt>text/x-cpp-objdump</tt></th>
+<th><tt>c++-objdumb cpp-objdump cxx-objdump</tt></th></tr>
+<tr><th><tt>text/x-crocsrc</tt></th>
+<th><tt>croc</tt></th></tr>
+<tr><th><tt>text/x-cryptol</tt></th>
+<th><tt>cry cryptol</tt></th></tr>
+<tr><th><tt>text/x-crystal</tt></th>
+<th><tt>cr crystal</tt></th></tr>
+<tr><th><tt>text/x-csharp</tt></th>
+<th><tt>C# c# cs csharp</tt></th></tr>
+<tr><th><tt>text/x-csrc</tt></th>
+<th><tt>c csrc xs</tt></th></tr>
+<tr><th><tt>text/x-cuda</tt></th>
+<th><tt>cu cuda</tt></th></tr>
+<tr><th><tt>text/x-d-objdump</tt></th>
+<th><tt>d-objdump</tt></th></tr>
+<tr><th><tt>text/x-dart</tt></th>
+<th><tt>dart</tt></th></tr>
+<tr><th><tt>text/x-dg</tt></th>
+<th><tt>dg</tt></th></tr>
+<tr><th><tt>text/x-diff</tt></th>
+<th><tt>patch</tt></th></tr>
+<tr><th><tt>text/x-dockerfile-config</tt></th>
+<th><tt>docker dockerfile</tt></th></tr>
+<tr><th><tt>text/x-dsrc</tt></th>
+<th><tt>d</tt></th></tr>
+<tr><th><tt>text/x-dylan</tt></th>
+<th><tt>dylan</tt></th></tr>
+<tr><th><tt>text/x-dylan-console</tt></th>
+<th><tt>dylan-console dylan-repl</tt></th></tr>
+<tr><th><tt>text/x-dylan-lid</tt></th>
+<th><tt>dylan-lid lid</tt></th></tr>
+<tr><th><tt>text/x-earl-grey</tt></th>
+<th><tt>earl-grey earlgrey eg</tt></th></tr>
+<tr><th><tt>text/x-easytrieve</tt></th>
+<th><tt>easytrieve</tt></th></tr>
+<tr><th><tt>text/x-ebnf</tt></th>
+<th><tt>ebnf</tt></th></tr>
+<tr><th><tt>text/x-ecsrc</tt></th>
+<th><tt>ec</tt></th></tr>
+<tr><th><tt>text/x-eiffel</tt></th>
+<th><tt>e eiffel</tt></th></tr>
+<tr><th><tt>text/x-elisp</tt></th>
+<th><tt>el</tt></th></tr>
+<tr><th><tt>text/x-elixir</tt></th>
+<th><tt>elixir ex exs</tt></th></tr>
+<tr><th><tt>text/x-elixir-shellsession</tt></th>
+<th><tt>iex</tt></th></tr>
+<tr><th><tt>text/x-elm</tt></th>
+<th><tt>elm</tt></th></tr>
+<tr><th><tt>text/x-erl-shellsession</tt></th>
+<th><tt>erl</tt></th></tr>
+<tr><th><tt>text/x-erlang</tt></th>
+<th><tt>erlang</tt></th></tr>
+<tr><th><tt>text/x-ezhil</tt></th>
+<th><tt>ezhil</tt></th></tr>
+<tr><th><tt>text/x-factor</tt></th>
+<th><tt>factor</tt></th></tr>
+<tr><th><tt>text/x-fancysrc</tt></th>
+<th><tt>fancy fy</tt></th></tr>
+<tr><th><tt>text/x-felix</tt></th>
+<th><tt>felix flx</tt></th></tr>
+<tr><th><tt>text/x-flatline</tt></th>
+<th><tt>flatline</tt></th></tr>
+<tr><th><tt>text/x-fortran</tt></th>
+<th><tt>f fortran</tt></th></tr>
+<tr><th><tt>text/x-fsharp</tt></th>
+<th><tt>fsharp</tt></th></tr>
+<tr><th><tt>text/x-gas</tt></th>
+<th><tt>asm gas</tt></th></tr>
+<tr><th><tt>text/x-genshi</tt></th>
+<th><tt>genshitext</tt></th></tr>
+<tr><th><tt>text/x-gherkin</tt></th>
+<th><tt>cucumber gherkin</tt></th></tr>
+<tr><th><tt>text/x-glslsrc</tt></th>
+<th><tt>glsl</tt></th></tr>
+<tr><th><tt>text/x-gnuplot</tt></th>
+<th><tt>gnuplot</tt></th></tr>
+<tr><th><tt>text/x-gooddata-cl</tt></th>
+<th><tt>gooddata-cl</tt></th></tr>
+<tr><th><tt>text/x-gosrc</tt></th>
+<th><tt>go</tt></th></tr>
+<tr><th><tt>text/x-gosu</tt></th>
+<th><tt>gosu</tt></th></tr>
+<tr><th><tt>text/x-gosu-template</tt></th>
+<th><tt>gst</tt></th></tr>
+<tr><th><tt>text/x-groovy</tt></th>
+<th><tt>groovy</tt></th></tr>
+<tr><th><tt>text/x-haml</tt></th>
+<th><tt>haml</tt></th></tr>
+<tr><th><tt>text/x-handlebars-template</tt></th>
+<th><tt>html+handlebars</tt></th></tr>
+<tr><th><tt>text/x-haskell</tt></th>
+<th><tt>haskell hs</tt></th></tr>
+<tr><th><tt>text/x-hsail</tt></th>
+<th><tt>hsa hsail</tt></th></tr>
+<tr><th><tt>text/x-hx</tt></th>
+<th><tt>haxe hx hxsl</tt></th></tr>
+<tr><th><tt>text/x-idl</tt></th>
+<th><tt>ice</tt></th></tr>
+<tr><th><tt>text/x-idris</tt></th>
+<th><tt>idr idris</tt></th></tr>
+<tr><th><tt>text/x-inf</tt></th>
+<th><tt>inf</tt></th></tr>
+<tr><th><tt>text/x-iokesrc</tt></th>
+<th><tt>ik ioke</tt></th></tr>
+<tr><th><tt>text/x-iosrc</tt></th>
+<th><tt>io</tt></th></tr>
+<tr><th><tt>text/x-irclog</tt></th>
+<th><tt>irc</tt></th></tr>
+<tr><th><tt>text/x-isabelle</tt></th>
+<th><tt>isabelle</tt></th></tr>
+<tr><th><tt>text/x-j</tt></th>
+<th><tt>j</tt></th></tr>
+<tr><th><tt>text/x-jade</tt></th>
+<th><tt>jade pug</tt></th></tr>
+<tr><th><tt>text/x-java</tt></th>
+<th><tt>java</tt></th></tr>
+<tr><th><tt>text/x-java-properties</tt></th>
+<th><tt>jproperties properties</tt></th></tr>
+<tr><th><tt>text/x-jbst</tt></th>
+<th><tt>duel jbst jsonml+bst</tt></th></tr>
+<tr><th><tt>text/x-jcl</tt></th>
+<th><tt>jcl</tt></th></tr>
+<tr><th><tt>text/x-kconfig</tt></th>
+<th><tt>kconfig kernel-config linux-config menuconfig</tt></th></tr>
+<tr><th><tt>text/x-koka</tt></th>
+<th><tt>koka</tt></th></tr>
+<tr><th><tt>text/x-kotlin</tt></th>
+<th><tt>kotlin</tt></th></tr>
+<tr><th><tt>text/x-lasso</tt></th>
+<th><tt>lasso lassoscript</tt></th></tr>
+<tr><th><tt>text/x-latex</tt></th>
+<th><tt>latex tex</tt></th></tr>
+<tr><th><tt>text/x-lean</tt></th>
+<th><tt>lean</tt></th></tr>
+<tr><th><tt>text/x-less-css</tt></th>
+<th><tt>less</tt></th></tr>
+<tr><th><tt>text/x-lighttpd-conf</tt></th>
+<th><tt>lighttpd lighty</tt></th></tr>
+<tr><th><tt>text/x-literate-agda</tt></th>
+<th><tt>lagda literate-agda</tt></th></tr>
+<tr><th><tt>text/x-literate-cryptol</tt></th>
+<th><tt>lcry lcryptol literate-cryptol</tt></th></tr>
+<tr><th><tt>text/x-literate-haskell</tt></th>
+<th><tt>lhaskell lhs literate-haskell</tt></th></tr>
+<tr><th><tt>text/x-literate-idris</tt></th>
+<th><tt>lidr lidris literate-idris</tt></th></tr>
+<tr><th><tt>text/x-llvm</tt></th>
+<th><tt>llvm</tt></th></tr>
+<tr><th><tt>text/x-logos</tt></th>
+<th><tt>logos</tt></th></tr>
+<tr><th><tt>text/x-logtalk</tt></th>
+<th><tt>logtalk</tt></th></tr>
+<tr><th><tt>text/x-lsl</tt></th>
+<th><tt>lsl</tt></th></tr>
+<tr><th><tt>text/x-m4</tt></th>
+<th><tt>m4</tt></th></tr>
+<tr><th><tt>text/x-mail</tt></th>
+<th><tt>mail</tt></th></tr>
+<tr><th><tt>text/x-makefile</tt></th>
+<th><tt>GNUMakefile Makefile bsdmake make makefile mf mk</tt></th></tr>
+<tr><th><tt>text/x-markdown</tt></th>
+<th><tt>md</tt></th></tr>
+<tr><th><tt>text/x-mask</tt></th>
+<th><tt>mask</tt></th></tr>
+<tr><th><tt>text/x-minidsrc</tt></th>
+<th><tt>minid</tt></th></tr>
+<tr><th><tt>text/x-modelica</tt></th>
+<th><tt>modelica</tt></th></tr>
+<tr><th><tt>text/x-modula2</tt></th>
+<th><tt>m2 modula2</tt></th></tr>
+<tr><th><tt>text/x-monkey</tt></th>
+<th><tt>monkey</tt></th></tr>
+<tr><th><tt>text/x-moocode</tt></th>
+<th><tt>moo moocode</tt></th></tr>
+<tr><th><tt>text/x-mql</tt></th>
+<th><tt>mq4 mq5 mql mql4 mql5</tt></th></tr>
+<tr><th><tt>text/x-mysql</tt></th>
+<th><tt>mysql</tt></th></tr>
+<tr><th><tt>text/x-nasm</tt></th>
+<th><tt>nasm</tt></th></tr>
+<tr><th><tt>text/x-nasm-objdump</tt></th>
+<th><tt>objdump-nasm</tt></th></tr>
+<tr><th><tt>text/x-nemerle</tt></th>
+<th><tt>nemerle</tt></th></tr>
+<tr><th><tt>text/x-nescsrc</tt></th>
+<th><tt>nesc</tt></th></tr>
+<tr><th><tt>text/x-newspeak</tt></th>
+<th><tt>newspeak</tt></th></tr>
+<tr><th><tt>text/x-nginx-conf</tt></th>
+<th><tt>nginx nginx-conf</tt></th></tr>
+<tr><th><tt>text/x-nim</tt></th>
+<th><tt>nim nimrod</tt></th></tr>
+<tr><th><tt>text/x-nix</tt></th>
+<th><tt>nix nixos</tt></th></tr>
+<tr><th><tt>text/x-nsis</tt></th>
+<th><tt>nsh nsi nsis</tt></th></tr>
+<tr><th><tt>text/x-objc</tt></th>
+<th><tt>m mm</tt></th></tr>
+<tr><th><tt>text/x-objdump</tt></th>
+<th><tt>objdump</tt></th></tr>
+<tr><th><tt>text/x-objective-c</tt></th>
+<th><tt>obj-c objc objective-c objectivec</tt></th></tr>
+<tr><th><tt>text/x-objective-c++</tt></th>
+<th><tt>obj-c++ objc++ objective-c++ objectivec++</tt></th></tr>
+<tr><th><tt>text/x-objective-j</tt></th>
+<th><tt>obj-j objective-j objectivej objj</tt></th></tr>
+<tr><th><tt>text/x-ocaml</tt></th>
+<th><tt>ml mli ocaml</tt></th></tr>
+<tr><th><tt>text/x-ooc</tt></th>
+<th><tt>ooc</tt></th></tr>
+<tr><th><tt>text/x-opa</tt></th>
+<th><tt>opa</tt></th></tr>
+<tr><th><tt>text/x-parasail</tt></th>
+<th><tt>parasail</tt></th></tr>
+<tr><th><tt>text/x-pascal</tt></th>
+<th><tt>delphi objectpascal pas pascal</tt></th></tr>
+<tr><th><tt>text/x-patch</tt></th>
+<th><tt>diff udiff</tt></th></tr>
+<tr><th><tt>text/x-pawn</tt></th>
+<th><tt>pawn</tt></th></tr>
+<tr><th><tt>text/x-perl</tt></th>
+<th><tt>PL pm</tt></th></tr>
+<tr><th><tt>text/x-php</tt></th>
+<th><tt>php php3 php4 php5</tt></th></tr>
+<tr><th><tt>text/x-pig</tt></th>
+<th><tt>pig</tt></th></tr>
+<tr><th><tt>text/x-pike</tt></th>
+<th><tt>pike</tt></th></tr>
+<tr><th><tt>text/x-plpgsql</tt></th>
+<th><tt>plpgsql</tt></th></tr>
+<tr><th><tt>text/x-postgresql</tt></th>
+<th><tt>postgres postgresql</tt></th></tr>
+<tr><th><tt>text/x-postgresql-psql</tt></th>
+<th><tt>postgres-console postgresql-console psql</tt></th></tr>
+<tr><th><tt>text/x-povray</tt></th>
+<th><tt>pov</tt></th></tr>
+<tr><th><tt>text/x-powershell</tt></th>
+<th><tt>posh powershell ps1 psm1</tt></th></tr>
+<tr><th><tt>text/x-prolog</tt></th>
+<th><tt>prolog</tt></th></tr>
+<tr><th><tt>text/x-psp</tt></th>
+<th><tt>psp</tt></th></tr>
+<tr><th><tt>text/x-python-doctest</tt></th>
+<th><tt>pycon python-doctest</tt></th></tr>
+<tr><th><tt>text/x-python-traceback</tt></th>
+<th><tt>pytb</tt></th></tr>
+<tr><th><tt>text/x-python3-traceback</tt></th>
+<th><tt>py3tb</tt></th></tr>
+<tr><th><tt>text/x-r-doc</tt></th>
+<th><tt>rd</tt></th></tr>
+<tr><th><tt>text/x-r-profile</tt></th>
+<th><tt>r s splus</tt></th></tr>
+<tr><th><tt>text/x-rebol</tt></th>
+<th><tt>rebol</tt></th></tr>
+<tr><th><tt>text/x-red-system</tt></th>
+<th><tt>red red/system</tt></th></tr>
+<tr><th><tt>text/x-rexx</tt></th>
+<th><tt>arexx rexx</tt></th></tr>
+<tr><th><tt>text/x-rfc</tt></th>
+<th><tt>rfc</tt></th></tr>
+<tr><th><tt>text/x-robotframework</tt></th>
+<th><tt>robotframework</tt></th></tr>
+<tr><th><tt>text/x-rpm-spec</tt></th>
+<th><tt>spec</tt></th></tr>
+<tr><th><tt>text/x-rql</tt></th>
+<th><tt>rql</tt></th></tr>
+<tr><th><tt>text/x-ruby-shellsession</tt></th>
+<th><tt>irb rbcon</tt></th></tr>
+<tr><th><tt>text/x-sass</tt></th>
+<th><tt>sass</tt></th></tr>
+<tr><th><tt>text/x-scala</tt></th>
+<th><tt>scala</tt></th></tr>
+<tr><th><tt>text/x-scaml</tt></th>
+<th><tt>scaml</tt></th></tr>
+<tr><th><tt>text/x-scss</tt></th>
+<th><tt>scss</tt></th></tr>
+<tr><th><tt>text/x-slim</tt></th>
+<th><tt>slim</tt></th></tr>
+<tr><th><tt>text/x-sls</tt></th>
+<th><tt>salt sls yaml+jinja</tt></th></tr>
+<tr><th><tt>text/x-smalltalk</tt></th>
+<th><tt>smalltalk squeak st</tt></th></tr>
+<tr><th><tt>text/x-snobol</tt></th>
+<th><tt>snobol</tt></th></tr>
+<tr><th><tt>text/x-sourcepawn</tt></th>
+<th><tt>sp</tt></th></tr>
+<tr><th><tt>text/x-sql</tt></th>
+<th><tt>sql</tt></th></tr>
+<tr><th><tt>text/x-sqlite3-console</tt></th>
+<th><tt>sqlite3</tt></th></tr>
+<tr><th><tt>text/x-squidconf</tt></th>
+<th><tt>squid squid.conf squidconf</tt></th></tr>
+<tr><th><tt>text/x-swift</tt></th>
+<th><tt>swift</tt></th></tr>
+<tr><th><tt>text/x-systemverilog</tt></th>
+<th><tt>sv systemverilog</tt></th></tr>
+<tr><th><tt>text/x-tasm</tt></th>
+<th><tt>tasm</tt></th></tr>
+<tr><th><tt>text/x-tea</tt></th>
+<th><tt>tea</tt></th></tr>
+<tr><th><tt>text/x-textile</tt></th>
+<th><tt>textile txtl</tt></th></tr>
+<tr><th><tt>text/x-todo</tt></th>
+<th><tt>todotxt</tt></th></tr>
+<tr><th><tt>text/x-trac-wiki</tt></th>
+<th><tt>moin trac-wiki</tt></th></tr>
+<tr><th><tt>text/x-tsql</tt></th>
+<th><tt>t-sql tsql</tt></th></tr>
+<tr><th><tt>text/x-typescript</tt></th>
+<th><tt>ts typescript</tt></th></tr>
+<tr><th><tt>text/x-typoscript</tt></th>
+<th><tt>typoscript</tt></th></tr>
+<tr><th><tt>text/x-vala</tt></th>
+<th><tt>vala vapi</tt></th></tr>
+<tr><th><tt>text/x-vba</tt></th>
+<th><tt>bas vb vb.net vba vbnet</tt></th></tr>
+<tr><th><tt>text/x-vclsnippet</tt></th>
+<th><tt>vclsnippet vclsnippets</tt></th></tr>
+<tr><th><tt>text/x-vclsrc</tt></th>
+<th><tt>vcl</tt></th></tr>
+<tr><th><tt>text/x-verilog</tt></th>
+<th><tt>v verilog</tt></th></tr>
+<tr><th><tt>text/x-vhdl</tt></th>
+<th><tt>vhd vhdl</tt></th></tr>
+<tr><th><tt>text/x-vim</tt></th>
+<th><tt>vim</tt></th></tr>
+<tr><th><tt>text/x-whiley</tt></th>
+<th><tt>whiley</tt></th></tr>
+<tr><th><tt>text/x-windows-registry</tt></th>
+<th><tt>registry</tt></th></tr>
+<tr><th><tt>text/x-x10</tt></th>
+<th><tt>x10 xten</tt></th></tr>
+<tr><th><tt>text/x-xtend</tt></th>
+<th><tt>xtend</tt></th></tr>
+<tr><th><tt>text/x-yaml</tt></th>
+<th><tt>yaml</tt></th></tr></table>
+
+
 
 ---
 
 
+
 See also: [WikiProcessors](wiki-processors), [WikiFormatting](wiki-formatting), [TracWiki](trac-wiki), [TracBrowser](trac-browser)
+
+

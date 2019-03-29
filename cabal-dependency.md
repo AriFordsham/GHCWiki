@@ -72,7 +72,7 @@ Consequences:
 
 - When you upgrade Cabal, you probably want to upgrade `ghc-pkg` too, since it depends on the `Cabal` package.  But you don't *have* to.  Cabal and `ghc-pkg` communicate through a text file interface. If new sexy Cabal adds a field, old `ghc-pkg` simply ignores it. Everything works, except that new sexy Cabal won't benefit from the new field being stored in the database.
 
-- One consequence is that `bin-package-db`*must not* depend on Cabal (else you could not upgrade Cabal without upgrading GHC).  So `bin-package-db` cannot know what new sexy meta-data the upgraded Cabal (and `ghc-pkg`) are storing.  Yet it alone writes the binary file. So the read/write interface that `bin-package-db` offers has an argument for "and store this too in the binary file".
+- One consequence is that `bin-package-db` *must not* depend on Cabal (else you could not upgrade Cabal without upgrading GHC).  So `bin-package-db` cannot know what new sexy meta-data the upgraded Cabal (and `ghc-pkg`) are storing.  Yet it alone writes the binary file. So the read/write interface that `bin-package-db` offers has an argument for "and store this too in the binary file".
 
 
 Implementation notes:
@@ -86,7 +86,10 @@ Implementation notes:
 - **Binary format**.  Now that there are two types for installed packages, what is the format of the database that bin-package-db writes? The `ghc-pkg` tool (as required by the Cabal spec) must consume, and regurgitate package descriptions in an external representation defined by the Cabal spec. Thus, the binary package database must contain all the information as per *Cabal's* type; better yet, it would be best if we directly used Cabal's library for this (so that we don't have to keep two representations in sync). However, doing this directly is a bit troublesome for GHC, which doesn't want to know anything about Cabal's types, and only wants its subset of the installed package info (GHC's type).
 
 >
+>
 > We employ a trick in the binary database to support both cases: it contains all the packages in two different representations, once using Cabal types and once using GHC's types. These are contained in two sections of the package.cache binary file inside each package database directory. One section contains the Cabal representation. This section is read back by ghc-pkg when reading the package database. The other section contains the GHC representation. This section is read by GHC. The length of Cabal's section is explicitly recorded in the file, so GHC does not need to know anything about the internal contents of the other section to be able to read its own section. The ghc-pkg tool knows about the representation of both sections and writes both.
+>
+>
 
 - Note that in principle `ghc-pkg` could keep just GHC's types in the binary cache file, and read the information for Cabal from the text files in the package database directory. The reason we keep Cabal's types in binary format as well is simply for performance. Reading all the text files is somewhat slow (both in terms of I/O and the parsing). The main case where this matters is `ghc-pkg dump` which is used by tools like `cabal` and `Setup.hs` to get all the installed packages. It's also worth noting that the section of the package.cache binary file that GHC reads comes first, and so it is not slowed down by the presence of the second section.
 

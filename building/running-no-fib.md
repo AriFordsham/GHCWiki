@@ -1,8 +1,5 @@
 # The NoFib Benchmark Suite
 
-**Note** the up to date documentation is in the [ https://gitlab.haskell.org/ghc/nofib/blob/master/README.md](https://gitlab.haskell.org/ghc/nofib/blob/master/README.md)
-
----
 
 
 The NoFib benchmark suite is a collection of (mostly old) Haskell programs that we use for benchmarking GHC. 
@@ -22,8 +19,9 @@ Running NoFib requires the `time` utility to be present on the system path. On U
 
 To get a local copy of NoFib:
 
+
 ```wiki
-  $ git clone https://gitlab.haskell.org/ghc/nofib.git
+  $ git clone http://git.haskell.org/nofib.git
 ```
 
 ## Benchmarking

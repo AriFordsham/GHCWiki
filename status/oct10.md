@@ -6,7 +6,10 @@ GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.
 - As long promised, Simon PJ and Dimitrios have spent a good chunk of the summer doing a **complete rewrite of the constraint solver in the type inference engine**.  Because of GHC's myriad type-system extensions, especially GADTs and type families, the old engine had begun to resemble the final stages of a game of Jenga.  It was a delicately-balanced pile of blocks that lived in constant danger of complete collapse, and had become extremely different to modify (or even to understand).  The new inference engine is much more modular and robust; it is described in detail in our paper [ http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn](http://haskell.org/haskellwiki/Simonpj/Talk:OutsideIn OutsideIn).  A blog post describes some consequential changes to let generalisation [ http://hackage.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7 LetGen](http://hackage.haskell.org/trac/ghc/blog/LetGeneralisationInGhc7 LetGen).
 
 >
+>
 > As a result we have closed dozens of open type inference bugs, especially related to GADTs and type families.
+>
+>
 
 - There is a new, **robust implementation of INLINE pragmas**, that behaves much more intuitively. GHC now captures the original RHS of an INLINE function, and keeps it more-or-less pristine, ready to inline at call sites.  Separately, the original RHS is optimised in the usual way.  Suppose you say
 
@@ -21,7 +24,10 @@ GHC is humming along.  We are currently deep into the release cycle for GHC 7.0.
   Here, `f` will be inlined into `g1` as you'd expect, but obviously not into `g2` (since it's not applied to anything).  However `f`'s right hand side will be optimised (separately from the copy retained for inlining) so that the call from `g2` runs optimised code.
 
 >
+>
 > There's a raft of other small changes to the optimisation pipeline too.  The net effect can be dramatic: Bryan O'Sullivan reports some five-fold (!) improvements in his text-equality functions, and concludes "The difference between 6.12 and 7 is so dramatic, there's a strong temptation for me to say 'wait for 7!' to people who report weaker than desired performance." [ http://www.serpentine.com/blog/2010/10/19/a-brief-tale-of-faster-equality/ Bryan](http://www.serpentine.com/blog/2010/10/19/a-brief-tale-of-faster-equality/ Bryan)
+>
+>
 
 - David Terei implemented a new **back end for GHC using LLVM**. In certain situations using the LLVM backend can give fairly substantial performance improvements to your code, particularly if you're using the Vector libraries, DPH or making heavy use of fusion. In the general case it should give as good performance or slightly better than GHC's native code generator and C backend. You can use it through the '-fllvm' compiler flag. More details of the backend can be found in David's and Manuel Chakravarty's Haskell Symposium paper [ http://www.cse.unsw.edu.au/\~davidt/downloads/ghc-llvm-hs10.pdf Llvm](http://www.cse.unsw.edu.au/~davidt/downloads/ghc-llvm-hs10.pdf Llvm).
 
@@ -97,7 +103,9 @@ Progress on the project will be reported to the community. Since there are now m
 ## Data Parallel Haskell
 
 
-Since the last report, we have continued to improve support for nested parallel divide-and-conquer algorithms.  We started with [ http://darcs.haskell.org/packages/dph/dph-examples/spectral/QuickHull/dph/QuickHullVect.hs QuickHull](http://darcs.haskell.org/packages/dph/dph-examples/spectral/QuickHull/dph/QuickHullVect.hs QuickHull) and are now working on an implementation of the [ http://darcs.haskell.org/packages/dph/dph-examples/real/BarnesHut/Solver/NestedBH/Solver.hs Barnes-Hut](http://darcs.haskell.org/packages/dph/dph-examples/real/BarnesHut/Solver/NestedBH/Solver.hs Barnes-Hut)*n*-body algorithm.  The latter is not only significantly more complex, but also requires the vectorisation of recursive tree data-structures, going well beyond the capabilities of conventional parallel-array languages.  In time for the stable branch of GHC 7.0, we replaced the old, per-core sequential array infrastructure (which was part of the sub-package `dph-prim-seq`) by  the [ http://hackage.haskell.org/package/vector vector package](http://hackage.haskell.org/package/vector vector package) — vector started its life as a next-generation spin off of `dph-prim-seq`, but now enjoys significant popularity independent of DPH. 
+
+Since the last report, we have continued to improve support for nested parallel divide-and-conquer algorithms.  We started with [ http://darcs.haskell.org/packages/dph/dph-examples/spectral/QuickHull/dph/QuickHullVect.hs QuickHull](http://darcs.haskell.org/packages/dph/dph-examples/spectral/QuickHull/dph/QuickHullVect.hs QuickHull) and are now working on an implementation of the [ http://darcs.haskell.org/packages/dph/dph-examples/real/BarnesHut/Solver/NestedBH/Solver.hs Barnes-Hut](http://darcs.haskell.org/packages/dph/dph-examples/real/BarnesHut/Solver/NestedBH/Solver.hs Barnes-Hut) *n*-body algorithm.  The latter is not only significantly more complex, but also requires the vectorisation of recursive tree data-structures, going well beyond the capabilities of conventional parallel-array languages.  In time for the stable branch of GHC 7.0, we replaced the old, per-core sequential array infrastructure (which was part of the sub-package `dph-prim-seq`) by  the [ http://hackage.haskell.org/package/vector vector package](http://hackage.haskell.org/package/vector vector package) — vector started its life as a next-generation spin off of `dph-prim-seq`, but now enjoys significant popularity independent of DPH. 
+
 
 
 The new handling of INLINE pragmas as well as other changes to the Simplifier improved the stability of DPH optimisations (and in particular, array stream fusion) substantially.  However, the current candidate for GHC 7.0.1 still contains some performance regressions that affect the DPH and [ http://hackage.haskell.org/package/repa Repa](http://hackage.haskell.org/package/repa Repa) libraries and to avoid holding up the 7.0.1 release, we decided to push fixing these regressions to GHC 7.0.2.  More precisely, we are planning a release of DPH and Repa that is suitable for use with GHC 7.0 for the end of the year, to coincide with the release of GHC 7.0.2.  From GHC 7.0 onwards, the library component of DPH will be shipped separately from GHC itself and will be available to download and install from Hackage as for other libraries.
@@ -139,4 +147,4 @@ Meanwhile, the Mac OS X installer has received some attention from Evan Laforge.
 
 - \[TemplateHaskell\] New directions for Template Haskell, Peyton Jones, blog post October 2010, [ http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal)
 
-- \[Hoopl\] Hoopl: A Modular, Reusable Library for Dataflow Analysis and Transformation, [ http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/dfopt.pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/dfopt.pdf)
+- \[Hoopl\] Hoopl: A Modular, Reusable Library for Dataflow Analysis and Transformation, [ http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/dfopt.pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/dfopt.pdf) 

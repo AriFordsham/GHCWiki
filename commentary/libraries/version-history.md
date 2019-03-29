@@ -4,40 +4,42 @@
 This table lists the versions of GHC against those of its boot libraries, including most notably the `base` library.  This may be useful if you ever want to find out which version of the `base` package was bundled with which version of GHC or vice versa.
 
 
+
 See also: [LanguagePragmaHistory](language-pragma-history), which lists the language extensions added and/or removed in each GHC version.
 
-<table><tr><th></th>
-<th>**HEAD**</th>
-<th>**8.6.3**</th>
-<th>**8.6.2**</th>
-<th>**8.6.1**</th>
-<th>**8.4.3**</th>
-<th>**8.4.2**</th>
-<th>**8.4.1**</th>
-<th>**8.2.2**</th>
-<th>**8.2.1**</th>
-<th>**8.0.2**</th>
-<th>**8.0.1**</th>
-<th>**7.10.3**</th>
-<th>**7.10.2**</th>
-<th>**7.10.1**</th>
-<th>**7.8.4**</th>
-<th>**7.8.3**</th>
-<th>**7.8.2**</th>
-<th>**7.8.1**</th>
-<th>**7.6.3**</th>
-<th>**7.6.2**</th>
-<th>**7.6.1**</th>
-<th>**7.4.2**</th>
-<th>**7.4.1**</th>
-<th>**7.2.2**</th>
-<th>**7.2.1**</th>
-<th>**7.0.4**</th>
-<th>**7.0.3**</th>
-<th>**7.0.2**</th>
-<th>**7.0.1**</th></tr>
-<tr><th>`Cabal`</th>
-<th>  2.5.0.0  </th>
+
+<table><tr><th> </th>
+<th>  <b>HEAD</b>  </th>
+<th>  <b>8.6.2</b>  </th>
+<th>  <b>8.6.1</b>  </th>
+<th>  <b>8.4.3</b>  </th>
+<th>  <b>8.4.2</b>  </th>
+<th>  <b>8.4.1</b>  </th>
+<th>  <b>8.2.2</b>  </th>
+<th>  <b>8.2.1</b>  </th>
+<th>  <b>8.0.2</b>  </th>
+<th>  <b>8.0.1</b>  </th>
+<th>  <b>7.10.3</b>  </th>
+<th>  <b>7.10.2</b>  </th>
+<th>  <b>7.10.1</b>  </th>
+<th>  <b>7.8.4</b>  </th>
+<th>  <b>7.8.3</b>  </th>
+<th>  <b>7.8.2</b>  </th>
+<th>  <b>7.8.1</b>  </th>
+<th>  <b>7.6.3</b>  </th>
+<th>  <b>7.6.2</b>  </th>
+<th>  <b>7.6.1</b>  </th>
+<th>  <b>7.4.2</b>  </th>
+<th>  <b>7.4.1</b>  </th>
+<th>  <b>7.2.2</b>  </th>
+<th>  <b>7.2.1</b>  </th>
+<th>  <b>7.0.4</b>  </th>
+<th>  <b>7.0.3</b>  </th>
+<th>  <b>7.0.2</b>  </th>
+<th>  <b>7.0.1</b>  
+</th></tr>
+<tr><th><tt>Cabal</tt> </th>
+<th>  2.3.0.0  </th>
 <th>  2.4.0.1  </th>
 <th>  2.2.0.1  </th>
 <th>  2.2.0.0  </th>
@@ -65,14 +67,13 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`Win32`</th>
-<th>*none*</th>
+<tr><th><tt>Win32</tt> </th>
+<th>  <i>none</i>  </th>
 <th>  2.6.1.0  </th>
-<th>*none*</th>
+<th>  <i>none</i>  </th>
 <th>  2.5.4.1  </th>
-<th>*none*</th>
+<th>  <i>none</i>  </th>
 <th>  2.3.1.1  </th>
 <th>  2.3.1.0  </th>
 <th>  2.3.0.2  </th>
@@ -96,9 +97,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`array`</th>
+<tr><th><tt>array</tt> </th>
 <th>  0.5.2.0  </th>
 <th>  0.5.3.0  </th>
 <th>  0.5.2.0  </th>
@@ -127,9 +127,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`base`</th>
+<tr><th><tt>base</tt> </th>
 <th>  4.12.0.0  </th>
 <th>  4.11.1.0  </th>
 <th>  4.11.0.0  </th>
@@ -158,10 +157,9 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`bin-package-db`</th>
-<th>*none*</th>
+<tr><th><tt>bin-package-db</tt> </th>
+<th>  <i>none</i>  </th>
 <th>  0.0.0.0  
 </th>
 <th></th>
@@ -189,9 +187,9 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`binary`</th>
+<tr><th><tt>binary</tt> </th>
+<th>  0.8.5.1  </th>
 <th>  0.8.6.0  </th>
 <th>  0.8.5.1  </th>
 <th>  0.8.3.0  </th>
@@ -200,10 +198,9 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th>  0.7.1.0  </th>
 <th>  0.5.1.1  </th>
 <th>  0.5.1.0  </th>
-<th>  0.5.0.2\*  </th>
-<th>*none*</th>
-<th></th>
-<th></th>
+<th>  0.5.0.2*  </th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -221,8 +218,7 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`bytestring`</th>
-<th>  0.10.9.0  </th>
+<tr><th><tt>bytestring</tt> </th>
 <th>  0.10.8.2  </th>
 <th>  0.10.8.1  </th>
 <th>  0.10.6.0  </th>
@@ -252,7 +248,7 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`containers`</th>
+<tr><th><tt>containers</tt> </th>
 <th>  0.6.0.1  </th>
 <th>  0.5.11.0  </th>
 <th>  0.5.10.2  </th>
@@ -281,9 +277,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`deepseq`</th>
+<tr><th><tt>deepseq</tt> </th>
 <th>  1.4.4.0  </th>
 <th>  1.4.3.0  </th>
 <th>  1.4.2.0  </th>
@@ -291,8 +286,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th>  1.3.0.2  </th>
 <th>  1.3.0.1  </th>
 <th>  1.3.0.0  </th>
-<th>*none*</th>
-<th></th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -313,8 +308,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`directory`</th>
-<th>  1.3.3.1  </th>
+<tr><th><tt>directory</tt> </th>
+<th>  1.3.2.3  </th>
 <th>  1.3.3.0  </th>
 <th>  1.3.1.5  </th>
 <th>  1.3.0.2  </th>
@@ -342,10 +337,9 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`extensible-exceptions`</th>
-<th>*none*</th>
+<tr><th><tt>extensible-exceptions</tt> </th>
+<th>  <i>none</i>  </th>
 <th>  0.1.1.4  </th>
 <th>  0.1.1.3  </th>
 <th>  0.1.1.2  
@@ -373,10 +367,9 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`ffi`</th>
-<th>*none*</th>
+<tr><th><tt>ffi</tt> </th>
+<th>  <i>none</i>  </th>
 <th>  1.0  
 </th>
 <th></th>
@@ -404,9 +397,9 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`filepath`</th>
+<tr><th><tt>filepath</tt> </th>
+<th>  1.4.2  </th>
 <th>  1.4.2.1  </th>
 <th>  1.4.2  </th>
 <th>  1.4.1.2  </th>
@@ -434,43 +427,40 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`ghc`</th>
-<th>  8.7\*  </th>
-<th>  8.6.3  </th>
-<th>  8.6.2\*  </th>
-<th>  8.6.1\*  </th>
-<th>  8.4.3\*  </th>
-<th>  8.4.2\*  </th>
-<th>  8.4.1\*  </th>
-<th>  8.2.2\*  </th>
-<th>  8.2.1\*  </th>
+<tr><th><tt>ghc</tt> </th>
+<th>  8.7*  </th>
+<th>  8.6.2*  </th>
+<th>  8.6.1*  </th>
+<th>  8.4.3*  </th>
+<th>  8.4.2*  </th>
+<th>  8.4.1*  </th>
+<th>  8.2.2*  </th>
+<th>  8.2.1*  </th>
 <th>  8.0.2  </th>
-<th>  8.0.1\*  </th>
-<th>  7.10.3\*  </th>
-<th>  7.10.2\*  </th>
-<th>  7.10.1\*  </th>
-<th>  7.8.4\*  </th>
-<th>  7.8.3\*  </th>
-<th>  7.8.2\*  </th>
-<th>  7.8.1\*  </th>
-<th>  7.6.3\*  </th>
-<th>  7.6.2\*  </th>
-<th>  7.6.1\*  </th>
-<th>  7.4.2\*  </th>
-<th>  7.4.1\*  </th>
-<th>  7.2.2\*  </th>
-<th>  7.2.1\*  </th>
-<th>  7.0.4\*  </th>
-<th>  7.0.3\*  </th>
-<th>  7.0.2\*  </th>
-<th>  7.0.1\*  
+<th>  8.0.1*  </th>
+<th>  7.10.3*  </th>
+<th>  7.10.2*  </th>
+<th>  7.10.1*  </th>
+<th>  7.8.4*  </th>
+<th>  7.8.3*  </th>
+<th>  7.8.2*  </th>
+<th>  7.8.1*  </th>
+<th>  7.6.3*  </th>
+<th>  7.6.2*  </th>
+<th>  7.6.1*  </th>
+<th>  7.4.2*  </th>
+<th>  7.4.1*  </th>
+<th>  7.2.2*  </th>
+<th>  7.2.1*  </th>
+<th>  7.0.4*  </th>
+<th>  7.0.3*  </th>
+<th>  7.0.2*  </th>
+<th>  7.0.1*  
 </th></tr>
-<tr><th>`ghc-binary`</th>
-<th>*none*</th>
-<th>  0.5.0.2\*  
+<tr><th><tt>ghc-binary</tt> </th>
+<th>  <i>none</i>  </th>
+<th>  0.5.0.2*  
 </th>
 <th></th>
 <th></th>
@@ -497,11 +487,9 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`ghc-boot`</th>
+<tr><th><tt>ghc-boot</tt> </th>
 <th>  8.7  </th>
-<th>  8.6.3  </th>
 <th>  8.6.2  </th>
 <th>  8.6.1  </th>
 <th>  8.4.3  </th>
@@ -511,7 +499,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th>  8.2.1  </th>
 <th>  8.0.2  </th>
 <th>  8.0.1  </th>
-<th>*none*</th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -529,9 +518,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`ghc-boot-th`</th>
+<tr><th><tt>ghc-boot-th</tt> </th>
 <th>  8.7  </th>
-<th>  8.6.3  </th>
 <th>  8.6.2  </th>
 <th>  8.6.1  </th>
 <th>  8.4.3  </th>
@@ -541,7 +529,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th>  8.2.1  </th>
 <th>  8.0.2  </th>
 <th>  8.0.1  </th>
-<th>*none*</th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -559,10 +548,10 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`ghc-compact`</th>
+<tr><th><tt>ghc-compact</tt> </th>
 <th>  0.1.0.0  </th>
-<th>*none*</th>
-<th></th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -589,12 +578,12 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`ghc-heap`</th>
+<tr><th><tt>ghc-heap</tt> </th>
 <th>  8.7  </th>
-<th>  8.6.3  </th>
 <th>  8.6.2  </th>
 <th>  8.6.1  </th>
-<th>*none*</th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -619,7 +608,7 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`ghc-prim`</th>
+<tr><th><tt>ghc-prim</tt> </th>
 <th>  0.5.3  </th>
 <th>  0.5.2.0  </th>
 <th>  0.5.1.0  </th>
@@ -648,11 +637,9 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`ghci`</th>
+<tr><th><tt>ghci</tt> </th>
 <th>  8.7  </th>
-<th>  8.6.3  </th>
 <th>  8.6.2  </th>
 <th>  8.6.1  </th>
 <th>  8.4.3  </th>
@@ -662,7 +649,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th>  8.2.1  </th>
 <th>  8.0.2  </th>
 <th>  8.0.1  </th>
-<th>*none*</th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -680,7 +668,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`haskeline`</th>
+<tr><th><tt>haskeline</tt> </th>
+<th>  0.7.4.2  </th>
 <th>  0.7.4.3  </th>
 <th>  0.7.4.2  </th>
 <th>  0.7.4.0  </th>
@@ -688,9 +677,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th>  0.7.2.3  </th>
 <th>  0.7.2.1  </th>
 <th>  0.7.1.2  </th>
-<th>*none*</th>
-<th></th>
-<th></th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -710,13 +698,13 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`haskell2010`</th>
-<th>*none*</th>
-<th>  1.1.2.0\*  </th>
-<th>  1.1.1.0\*  </th>
-<th>  1.1.0.1\*  </th>
-<th>  1.1.0.0\*  </th>
-<th>  1.0.0.0\*  
+<tr><th><tt>haskell2010</tt> </th>
+<th>  <i>none</i>  </th>
+<th>  1.1.2.0*  </th>
+<th>  1.1.1.0*  </th>
+<th>  1.1.0.1*  </th>
+<th>  1.1.0.0*  </th>
+<th>  1.0.0.0*  
 </th>
 <th></th>
 <th></th>
@@ -739,14 +727,13 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`haskell98`</th>
-<th>*none*</th>
-<th>  2.0.0.3\*  </th>
-<th>  2.0.0.2\*  </th>
-<th>  2.0.0.1\*  </th>
-<th>  2.0.0.0\*  </th>
+<tr><th><tt>haskell98</tt> </th>
+<th>  <i>none</i>  </th>
+<th>  2.0.0.3*  </th>
+<th>  2.0.0.2*  </th>
+<th>  2.0.0.1*  </th>
+<th>  2.0.0.0*  </th>
 <th>  1.1.0.1  </th>
 <th>  1.1.0.0  
 </th>
@@ -770,10 +757,9 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`hoopl`</th>
-<th>*none*</th>
+<tr><th><tt>hoopl</tt> </th>
+<th>  <i>none</i>  </th>
 <th>  3.10.2.2  </th>
 <th>  3.10.2.1  </th>
 <th>  3.10.0.2  </th>
@@ -781,8 +767,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th>  3.9.0.0  </th>
 <th>  3.8.7.3  </th>
 <th>  3.8.7.1  </th>
-<th>*none*</th>
-<th></th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -802,7 +788,7 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`hpc`</th>
+<tr><th><tt>hpc</tt> </th>
 <th>  0.6.0.3  </th>
 <th>  0.6.0.2  </th>
 <th>  0.6.0.1  </th>
@@ -831,9 +817,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`integer-gmp`</th>
+<tr><th><tt>integer-gmp</tt> </th>
 <th>  1.0.2.0  </th>
 <th>  1.0.1.0  </th>
 <th>  1.0.0.1  </th>
@@ -862,13 +847,12 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`libiserv`</th>
-<th>  8.7  </th>
-<th>  8.6.3  </th>
+<tr><th><tt>libiserv</tt> </th>
+<th>  8.7.1  </th>
 <th>  8.6.1  </th>
-<th>*none*</th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -894,10 +878,10 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`mtl`</th>
+<tr><th><tt>mtl</tt> </th>
 <th>  2.2.2  </th>
-<th>*none*</th>
-<th></th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -924,8 +908,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`old-locale`</th>
-<th>*none*</th>
+<tr><th><tt>old-locale</tt> </th>
+<th>  <i>none</i>  </th>
 <th>  1.0.0.6  </th>
 <th>  1.0.0.5  </th>
 <th>  1.0.0.4  </th>
@@ -953,10 +937,9 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`old-time`</th>
-<th>*none*</th>
+<tr><th><tt>old-time</tt> </th>
+<th>  <i>none</i>  </th>
 <th>  1.1.0.2  </th>
 <th>  1.1.0.1  </th>
 <th>  1.1.0.0  </th>
@@ -984,13 +967,12 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`parsec`</th>
+<tr><th><tt>parsec</tt> </th>
+<th>  3.1.13.0.0.0.0.0  </th>
 <th>  3.1.13.0  </th>
-<th>*none*</th>
-<th></th>
-<th></th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -1016,7 +998,7 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`pretty`</th>
+<tr><th><tt>pretty</tt> </th>
 <th>  1.1.3.6  </th>
 <th>  1.1.3.3  </th>
 <th>  1.1.2.0  </th>
@@ -1045,9 +1027,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`process`</th>
+<tr><th><tt>process</tt> </th>
 <th>  1.6.3.0  </th>
 <th>  1.6.1.0  </th>
 <th>  1.4.3.0  </th>
@@ -1076,14 +1057,14 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`random`</th>
-<th>*none*</th>
+<tr><th><tt>random</tt> </th>
 <th>  1.1  </th>
-<th>*none*</th>
+<th>  <i>none</i>  </th>
 <th>  1.1  </th>
-<th>*none*</th>
+<th>  <i>none</i>  </th>
+<th>  1.1  </th>
+<th>  <i>none</i>  </th>
 <th>  1.0.0.3  
 </th>
 <th></th>
@@ -1106,10 +1087,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`rts`</th>
+<tr><th><tt>rts</tt> </th>
 <th>  1.0  
 </th>
 <th></th>
@@ -1138,13 +1117,12 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`stm`</th>
+<tr><th><tt>stm</tt> </th>
 <th>  2.5.0.0  </th>
 <th>  2.4.5.0  </th>
-<th>*none*</th>
-<th></th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -1170,8 +1148,7 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`template-haskell`</th>
-<th>  2.15.0.0  </th>
+<tr><th><tt>template-haskell</tt> </th>
 <th>  2.14.0.0  </th>
 <th>  2.13.0.0  </th>
 <th>  2.12.0.0  </th>
@@ -1201,16 +1178,16 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`terminfo`</th>
+<tr><th><tt>terminfo</tt> </th>
+<th>  0.4.1.1  </th>
 <th>  0.4.1.2  </th>
 <th>  0.4.1.1  </th>
 <th>  0.4.1.0  </th>
 <th>  0.4.0.2  </th>
 <th>  0.4.0.1  </th>
 <th>  0.4.0.0  </th>
-<th>*none*</th>
-<th></th>
-<th></th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -1231,12 +1208,12 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`text`</th>
+<tr><th><tt>text</tt> </th>
+<th>  1.2.3.0  </th>
 <th>  1.2.3.1  </th>
 <th>  1.2.3.0  </th>
-<th>*none*</th>
-<th></th>
-<th></th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -1261,8 +1238,7 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`time`</th>
-<th>  1.9.2  </th>
+<tr><th><tt>time</tt> </th>
 <th>  1.8.0.2  </th>
 <th>  1.6.0.1  </th>
 <th>  1.5.0.1  </th>
@@ -1292,13 +1268,13 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`transformers`</th>
+<tr><th><tt>transformers</tt> </th>
 <th>  0.5.5.0  </th>
 <th>  0.5.2.0  </th>
 <th>  0.4.2.0  </th>
 <th>  0.3.0.0  </th>
-<th>*none*</th>
-<th></th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -1322,7 +1298,8 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>`unix`</th>
+<tr><th><tt>unix</tt> </th>
+<th>  2.8.0.0  </th>
 <th>  2.7.2.2  </th>
 <th>  2.7.2.1  </th>
 <th>  2.7.2.0  </th>
@@ -1350,16 +1327,14 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th>
-<th></th>
-<th></th>
 <th></th></tr>
-<tr><th>`xhtml`</th>
+<tr><th><tt>xhtml</tt> </th>
+<th>  3000.2.2  </th>
 <th>  3000.2.2.1  </th>
 <th>  3000.2.2  </th>
 <th>  3000.2.1  </th>
-<th>*none*</th>
-<th></th>
-<th></th>
+<th>  <i>none</i>  
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -1383,39 +1358,43 @@ See also: [LanguagePragmaHistory](language-pragma-history), which lists the lang
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th></th>
-<th>**HEAD**</th>
-<th>**8.6.3**</th>
-<th>**8.6.2**</th>
-<th>**8.6.1**</th>
-<th>**8.4.3**</th>
-<th>**8.4.2**</th>
-<th>**8.4.1**</th>
-<th>**8.2.2**</th>
-<th>**8.2.1**</th>
-<th>**8.0.2**</th>
-<th>**8.0.1**</th>
-<th>**7.10.3**</th>
-<th>**7.10.2**</th>
-<th>**7.10.1**</th>
-<th>**7.8.4**</th>
-<th>**7.8.3**</th>
-<th>**7.8.2**</th>
-<th>**7.8.1**</th>
-<th>**7.6.3**</th>
-<th>**7.6.2**</th>
-<th>**7.6.1**</th>
-<th>**7.4.2**</th>
-<th>**7.4.1**</th>
-<th>**7.2.2**</th>
-<th>**7.2.1**</th>
-<th>**7.0.4**</th>
-<th>**7.0.3**</th>
-<th>**7.0.2**</th>
-<th>**7.0.1**</th></tr></table>
+<tr><th> </th>
+<th>  <b>HEAD</b>  </th>
+<th>  <b>8.6.2</b>  </th>
+<th>  <b>8.6.1</b>  </th>
+<th>  <b>8.4.3</b>  </th>
+<th>  <b>8.4.2</b>  </th>
+<th>  <b>8.4.1</b>  </th>
+<th>  <b>8.2.2</b>  </th>
+<th>  <b>8.2.1</b>  </th>
+<th>  <b>8.0.2</b>  </th>
+<th>  <b>8.0.1</b>  </th>
+<th>  <b>7.10.3</b>  </th>
+<th>  <b>7.10.2</b>  </th>
+<th>  <b>7.10.1</b>  </th>
+<th>  <b>7.8.4</b>  </th>
+<th>  <b>7.8.3</b>  </th>
+<th>  <b>7.8.2</b>  </th>
+<th>  <b>7.8.1</b>  </th>
+<th>  <b>7.6.3</b>  </th>
+<th>  <b>7.6.2</b>  </th>
+<th>  <b>7.6.1</b>  </th>
+<th>  <b>7.4.2</b>  </th>
+<th>  <b>7.4.1</b>  </th>
+<th>  <b>7.2.2</b>  </th>
+<th>  <b>7.2.1</b>  </th>
+<th>  <b>7.0.4</b>  </th>
+<th>  <b>7.0.3</b>  </th>
+<th>  <b>7.0.2</b>  </th>
+<th>  <b>7.0.1</b>  
+</th></tr></table>
+
 
 
 Note: A `*` after the version number denotes the package being hidden by default.
 
 
+
 A table covering some GHC 6.\* releases can be found at [ https://wiki.haskell.org/Libraries_released_with_GHC](https://wiki.haskell.org/Libraries_released_with_GHC)
+
+

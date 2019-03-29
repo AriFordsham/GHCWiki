@@ -69,48 +69,75 @@ be fine for an initial implementation.
 Usage example:
 
 
+
 module Library where
 
+
+>
 >
 > import Data.Text (Text)
+>
+>
 
 
 ...
 
+
+>
 >
 > type ISBN = Text
 > module Book where
 >
+>
+> >
 > >
 > > import Data.Text (Text)
 > > data T = New { name :: Text, iSBN :: ISBN }
+> >
+> >
 >
 >
 > module Checkout where
 >
+>
+> >
 > >
 > > import Data.Time
 > > import qualified Library.Book as Book
 > > import qualified Library.Borrower as Borrower
 > > data T = New
 > >
+> >
+> > >
 > > >
 > > > { book :: Book.T, borrower :: Borrower.T, dueDate :: Day }
+> > >
+> > >
+> >
 >
 >
 > module Borrower where
 >
+>
+> >
 > >
 > > import Data.Text (Text)
 > > data T = New { name :: Text, address :: Text }
+> >
+> >
 >
 >
 > module History where
 >
+>
+> >
 > >
 > > import qualified Library.Borrower as Borrower
 > > import qualified Library.Checkout as Checkout
 > > data T = New { borrower :: Borrower.T, checkouts :: \[Checkout.T\] }
+> >
+> >
+>
 
 
 This makes available in the module Library the

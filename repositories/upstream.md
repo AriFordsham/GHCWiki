@@ -97,7 +97,7 @@ Here is where the upstream repositories are, and their mirrors.  The master repo
 <th>http://darcs.haskell.org/git-mirrors/time/.git/</th>
 <th>http://darcs.haskell.org/packages/time.git/</th>
 <th>libraries/time</th></tr>
-<tr><th>http://code.haskell.org/\~ross/transformers</th>
+<tr><th>http://code.haskell.org/~ross/transformers</th>
 <th>http://darcs.haskell.org/darcs-mirrors/transformers/</th>
 <th></th>
 <th>http://darcs.haskell.org/git-mirrors/transformers/.git/</th>

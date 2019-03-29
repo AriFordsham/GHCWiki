@@ -346,4 +346,8 @@ ghc -O2 -fllvm -optlo-O3 Main.hs
 
 Benchmarking shows that `filterN` function is about 55-65% faster than the `filter` function based on stream fusion (tested for unboxed vectors containing 10 thousand and 10 million elements). Below is an example benchmarking report from criterion:
 
+
+
 [](/trac/ghc/attachment/wiki/PrimBool/prim-bool-criterion.png)
+
+

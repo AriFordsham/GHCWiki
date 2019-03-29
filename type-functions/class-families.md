@@ -26,7 +26,8 @@ class Set s where
 ```
 
 
-Here, the **associated class**`C` of `Set` is indexed by the class parameter `s`.
+Here, the **associated class** `C` of `Set` is indexed by the class parameter `s`.
+
 
 
 In instances for sets as lists
@@ -92,9 +93,13 @@ instance ctxt' => C s1 .. sn where { .. }
 then we need to have that each `si` is a type instance of `ti` for this to be a class instance of the class-family instance `C t1 .. tn`.
 
 
+
 As with data families, the class families can be associated with a class by declaring them in the class.  In this case, we omit the keywords `family` and `instance` in the family and instance declarations, respectively.  Moreover, all type indexes of an associated class need to be class parameters of the parent class.
 
-**OPEN QUESTIONs:**
+
+
+**OPEN QUESTIONs:** 
+
 
 - Should an associated class be a (kind of) superclass of its parent.  At least, we may want to add it implicitly to the signature of each method.  Not sure about this, but Roman suggested it, too.
 - Do we allow associated types and classes(?!?) in class-family instances?

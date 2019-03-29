@@ -120,7 +120,10 @@ When we build a distribution of GHC, it includes at least some libraries, otherw
 Alas, since the `ghc` package (implementing the GHC API) is certainly an installed package, all the packages on which it depends must also be installed, and hence willy-nilly become part of the Haskell Platform.  In practice that means that almost all the Boot Packages are installed.  In some cases that is unfortunate.  For example, we currently have a special version of the `binary` library, which we don't really expect Haskell users to use; in this case, we call it `ghc-binary`, and informally discourage its use.
 
 
-Currently the Boot Packages that are not installed are `haskeline`, `mtl`, and `terminfo`; these are needed to build the GHC front-end, but not to build the `ghc`*package*.
+
+Currently the Boot Packages that are not installed are `haskeline`, `mtl`, and `terminfo`; these are needed to build the GHC front-end, but not to build the `ghc` *package*.
+
+
 
 **QUESTION**: where in the build system is the list of installed packages defined?
 
@@ -136,10 +139,18 @@ Currently the Boot Packages that are not installed are `haskeline`, `mtl`, and `
   - `integer-simple`
 
 >
+>
 > The two have the same interface, and only one of the two is used. (When we want to be vague about which one, we call it `integer-impl`.)  They provide a definition of the `Integer` type (on top of the C `gmp` library, or in plain Haskell, respectively). Which functionality is provided in `ghc-prim` is mostly driven by what functionality the `integer-impl` packages need. By default `integer-gmp` is used; to use `integer-simple` define `INTEGER_LIBRARY=integer-simple` in `mk/build.mk`.
+>
+>
 
+>
+> >
 > >
 > > See "WARNING: pattern matching" below.
+> >
+> >
+>
 
 - Next is the **`base`** package. This contains a large number of modules, many of which are in one big cyclic import knot, mostly due to the `Exception` type.
 

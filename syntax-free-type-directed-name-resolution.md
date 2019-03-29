@@ -27,13 +27,19 @@ However, these would greatly complicate the implementation, and the above defini
 # Example
 
 
+
 Adapted from [ TDNR](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution):
 
-```
-{-# LANGUAGE TDNR #-}moduleFoowhereimportButton(Button, reset )importCanvas(Canvas, reset )
 
-  f ::Button->Canvas->IO()
-  f b c =do{ reset b; reset c }
+```
+{-# LANGUAGE TDNR #-}
+
+module Foo where
+  import Button( Button, reset )
+  import Canvas( Canvas, reset )
+
+  f :: Button -> Canvas -> IO ()
+  f b c = do { reset b; reset c }
 ```
 
 
@@ -52,5 +58,9 @@ Activating this extension would have no effect on existing programs. It will onl
 - TDNR only allows the compiler to qualify bear names, makes no changes to the type system, and applies to all names.
 
 >
+>
 > AntC: This section should also compare to [ https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/DuplicateRecordFields](https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields/DuplicateRecordFields).
 > See the discussion starting [ https://mail.haskell.org/pipermail/glasgow-haskell-users/2016-May/026225.html](https://mail.haskell.org/pipermail/glasgow-haskell-users/2016-May/026225.html).
+>
+>
+

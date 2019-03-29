@@ -12,31 +12,33 @@ If you don't live in the UK, you can run the following to see when the next meet
 date -d 'wed 4pm BST'
 ```
 
-<table><tr><th>[Log](/trac/ghc/attachment/wiki/IRC_Meetings/ghc-2008-07-16.log)[](/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-2008-07-16.log)</th>
+<table><tr><th><a href="/trac/ghc/attachment/wiki/IRC_Meetings/ghc-2008-07-16.log">Log</a><a href="/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-2008-07-16.log"></a></th>
 <th>First meeting, 2008-07-16, 4pm UK time</th>
 <th>The Haskell Platform
 </th></tr>
-<tr><th>[Log](/trac/ghc/attachment/wiki/IRC_Meetings/ghc-metting-2008-07-23.log)[](/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-metting-2008-07-23.log)</th>
+<tr><th><a href="/trac/ghc/attachment/wiki/IRC_Meetings/ghc-metting-2008-07-23.log">Log</a><a href="/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-metting-2008-07-23.log"></a></th>
 <th>Second meeting, 2008-07-23, 4pm UK time</th>
 <th>Version Control System for GHC
 </th></tr>
-<tr><th>[Log](/trac/ghc/attachment/wiki/IRC_Meetings/ghc-meeting-2008-07-30.log)[](/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-meeting-2008-07-30.log)</th>
+<tr><th><a href="/trac/ghc/attachment/wiki/IRC_Meetings/ghc-meeting-2008-07-30.log">Log</a><a href="/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-meeting-2008-07-30.log"></a></th>
 <th>Third meeting, 2008-07-30, 4pm UK time</th>
 <th>Build System and Version Control System for GHC
 </th></tr>
-<tr><th>[Log](/trac/ghc/attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-06.log)[](/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-06.log)</th>
+<tr><th><a href="/trac/ghc/attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-06.log">Log</a><a href="/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-06.log"></a></th>
 <th>Fourth meeting, 2008-08-06, 4pm UK time</th>
 <th>Build System, Build System and Version Control System
 </th></tr>
-<tr><th>[Log](/trac/ghc/attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-13.log)[](/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-13.log)</th>
+<tr><th><a href="/trac/ghc/attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-13.log">Log</a><a href="/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-13.log"></a></th>
 <th>Fifth meeting, 2008-08-13, 4pm UK time</th>
 <th>Darcs vs. Git - The War Continues
 </th></tr>
-<tr><th>[Log](/trac/ghc/attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-20.log)[](/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-20.log)</th>
+<tr><th><a href="/trac/ghc/attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-20.log">Log</a><a href="/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-meeting-2008-08-20.log"></a></th>
 <th>Sixth meeting, 2008-08-20, 4pm UK time</th>
 <th>build system, epoll for GHC rts 
 </th></tr>
-<tr><th>[Log](/trac/ghc/attachment/wiki/IRC_Meetings/ghc-meeting-2008-09-03.log)[](/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-meeting-2008-09-03.log)</th>
+<tr><th><a href="/trac/ghc/attachment/wiki/IRC_Meetings/ghc-meeting-2008-09-03.log">Log</a><a href="/trac/ghc/raw-attachment/wiki/IRC_Meetings/ghc-meeting-2008-09-03.log"></a></th>
 <th>Eighth meeting, 2008-09-03, 4pm UK time</th>
 <th>GHC 6.10 release, HP/extralibs 
 </th></tr></table>
+
+

@@ -61,13 +61,13 @@ We have the following repositories:
 - HEAD: the main GHC git repo. `http://darcs.haskell.org/ghc.git`
 
 - HooplMaster: the master Hoopl Git repository.
-  **Location**: `http://ghc.cs.tufts.edu/hoopl/hoopl.git/`
+   **Location**: `http://ghc.cs.tufts.edu/hoopl/hoopl.git/`
    (Physical location: `linux.cs.tufts.edu:/r/ghc/www/hoopl/hoopl.git`)
 
 - HooplLag: a Git repo that is guaranteed to work with GHC HEAD.    It is
   not automatically updated by pushes to HooplMaster.  Instead a manual
   process (below) updates it; hence "lag".
-  **Location**: `http://darcs.haskell.org/packages/hoopl.git`.
+   **Location**: `http://darcs.haskell.org/packages/hoopl.git`.
 
 
 Normal GHC developers, who are uninterested in Hoopl, ignore all

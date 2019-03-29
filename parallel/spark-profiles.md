@@ -52,9 +52,14 @@ This page is just working notes, not really intended for public consumption (tho
   Hence we'll decide to spark x but not y... which is precisel
   what we want!!
 
+>
+> >
 > >
 > > But if (+) evaluates the right-left, we won't spark either x or y!
 > > (You can use seq to control this, of course.)
+> >
+> >
+>
 
 - Note \[Tension between thunks and parallelism\]
 

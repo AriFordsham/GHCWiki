@@ -15,4 +15,5 @@ GHC's storage manager is designed to be quite flexible: there are a large number
 
 See also:
 
+
 - [Pointer tagging](commentary/rts/haskell-execution/pointer-tagging)

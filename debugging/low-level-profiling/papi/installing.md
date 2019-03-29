@@ -80,7 +80,7 @@ AC_PROG_CC
 AC_PROG_F77
 ```
 
-- `autoconf`
+- `autoconf`  
 - We have a choice about whether to use the `libperfctr` in the PAPI distribution, or the one that comes with `perfctr`.  The
   latter is probably more correct, but the former also worked for me.
 - `./configure --with-perfctr-prefix=$HOME/local` --prefix=$HOME/local

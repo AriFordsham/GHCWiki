@@ -13,48 +13,53 @@ The relevant ticket is [\#9637](https://gitlab.haskell.org//ghc/ghc/issues/9637)
 Use Keyword = `CustomTypeErrors` to ensure that a ticket ends up on these lists.
 
 
+
 Open Tickets:
 
-<table><tr><th>[\#11099](https://gitlab.haskell.org//ghc/ghc/issues/11099)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11099">#11099</a></th>
 <td>Incorrect warning about redundant constraints</td></tr>
-<tr><th>[\#11503](https://gitlab.haskell.org//ghc/ghc/issues/11503)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11503">#11503</a></th>
 <td>TypeError woes (incl. pattern match checker)</td></tr>
-<tr><th>[\#11967](https://gitlab.haskell.org//ghc/ghc/issues/11967)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11967">#11967</a></th>
 <td>Custom message when showing functions, comparing functions, ...</td></tr>
-<tr><th>[\#12048](https://gitlab.haskell.org//ghc/ghc/issues/12048)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12048">#12048</a></th>
 <td>Allow CustomTypeErrors in type synonyms (+ evaluate nested type family?)</td></tr>
-<tr><th>[\#12049](https://gitlab.haskell.org//ghc/ghc/issues/12049)</th>
-<td>\`OverloadedStrings\` for types</td></tr>
-<tr><th>[\#13775](https://gitlab.haskell.org//ghc/ghc/issues/13775)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12049">#12049</a></th>
+<td>`OverloadedStrings` for types</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13775">#13775</a></th>
 <td>Type family expansion is too lazy, allows accepting of ill-typed terms</td></tr>
-<tr><th>[\#14141](https://gitlab.haskell.org//ghc/ghc/issues/14141)</th>
-<td>Custom type errors don't trigger when matching on a GADT constructor with an error in the constraint</td></tr>
-<tr><th>[\#14771](https://gitlab.haskell.org//ghc/ghc/issues/14771)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14141">#14141</a></th>
+<td>Custom type errors don&apos;t trigger when matching on a GADT constructor with an error in the constraint</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14771">#14771</a></th>
 <td>TypeError reported too eagerly</td></tr>
-<tr><th>[\#14983](https://gitlab.haskell.org//ghc/ghc/issues/14983)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14983">#14983</a></th>
 <td>Have custom type errors imply Void</td></tr></table>
+
+
 
 
 Closed Tickets:
 
-<table><tr><th>[\#11391](https://gitlab.haskell.org//ghc/ghc/issues/11391)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11391">#11391</a></th>
 <td>TypeError is fragile</td></tr>
-<tr><th>[\#12104](https://gitlab.haskell.org//ghc/ghc/issues/12104)</th>
-<td>Type families, \`TypeError\`, and \`-fdefer-type-errors\` cause "opt_univ fell into a hole"</td></tr>
-<tr><th>[\#12119](https://gitlab.haskell.org//ghc/ghc/issues/12119)</th>
-<td>Can't create injective type family equation with TypeError as the RHS</td></tr>
-<tr><th>[\#12237](https://gitlab.haskell.org//ghc/ghc/issues/12237)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12104">#12104</a></th>
+<td>Type families, `TypeError`, and `-fdefer-type-errors` cause &quot;opt_univ fell into a hole&quot;</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12119">#12119</a></th>
+<td>Can&apos;t create injective type family equation with TypeError as the RHS</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12237">#12237</a></th>
 <td>Constraint resolution vs. type family resolution vs. TypeErrors</td></tr>
-<tr><th>[\#14339](https://gitlab.haskell.org//ghc/ghc/issues/14339)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14339">#14339</a></th>
 <td>GHC 8.2.1 regression when combining GND with TypeError (solveDerivEqns: probable loop)</td></tr>
-<tr><th>[\#15052](https://gitlab.haskell.org//ghc/ghc/issues/15052)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15052">#15052</a></th>
 <td>DeriveAnyClass instances may skip TypeError constraints</td></tr>
-<tr><th>[\#15232](https://gitlab.haskell.org//ghc/ghc/issues/15232)</th>
-<td>TypeError is reported as "redundant constraint" starting with GHC 8.2</td></tr>
-<tr><th>[\#16362](https://gitlab.haskell.org//ghc/ghc/issues/16362)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15232">#15232</a></th>
+<td>TypeError is reported as &quot;redundant constraint&quot; starting with GHC 8.2</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16362">#16362</a></th>
 <td>Deriving a class via an instance that has a TypeError constraint using standalone deriving fails during compilation.</td></tr>
-<tr><th>[\#16377](https://gitlab.haskell.org//ghc/ghc/issues/16377)</th>
-<td>\`TypeError\` in a pattern should flag inaccessible code</td></tr></table>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16377">#16377</a></th>
+<td>`TypeError` in a pattern should flag inaccessible code</td></tr></table>
+
+
 
 ### The Problem
 
@@ -74,10 +79,12 @@ report an EDSL specific error, rather than a generic error about an ambiguous ty
 ### A Solution
 
 
+
 One way to solve the above problem is by adding a single uninterpreted type-function as follows:
 
+
 ```
-typefamilyTypeError(msg ::ErrorMessage):: k
+type family TypeError (msg :: ErrorMessage) :: k
 ```
 
 
@@ -86,20 +93,30 @@ The intention is that users will never define instances of `TypeError`, so one m
 will never evaluate to anything, and it is basically very similar to the polymorphic type-level value `Any`, which is already present in GHC.
 
 
+
 The kind `ErrorMessage` is a small DSL for constructing error messages, and may be defined using a promoted datatype:
 
+
 ```
-data{-kind-}ErrorMessage=TextSymbol-- Show this text as is| forall t.ShowType t               -- Pretty print a type|ErrorMessage:<>:ErrorMessage-- Put two chunks of error message next to each other|ErrorMessage:$$:ErrorMessage-- Put two chunks of error message above each other
+data {-kind-} ErrorMessage =
+    Text Symbol                        -- Show this text as is
+  | forall t. ShowType t               -- Pretty print a type
+  | ErrorMessage :<>: ErrorMessage     -- Put two chunks of error message next to each other
+  | ErrorMessage :$$: ErrorMessage     -- Put two chunks of error message above each other
 ```
 
 ### Examples
 
 
+
 Here are some examples of how one might use these:
 
+
 ```
-instanceTypeError(Text"Cannot 'Show' functions.":$$:Text"Perhaps there is a missing argument?")=>Show(a -> b)where
-   showsPrec =error"unreachable"
+instance TypeError (Text "Cannot 'Show' functions." :$$: 
+                    Text "Perhaps there is a missing argument?")
+         => Show (a -> b) where
+   showsPrec = error "unreachable"
 ```
 
 
@@ -175,6 +192,11 @@ The implementation in GHC is fairly straight-forward:
 
 This approach would be quite a bit simpler than your current story, where you specially recognise type functions whose RHS is `TypeError`, and also have to suppress calls to `TypeError` that appear embedded in types.
 
+
+
+  
+
+
 ### Alternative Design
 
 
@@ -193,24 +215,42 @@ have to think of more syntax and implement it.
 1. What happens with Given `TypeError` constraints? Naively, the `TypeError` constraint on an instance would seem to lead to an "inaccessible code" error. (And this point would be right! It *is* inaccessible code.)  *Lennart*:  Yes, we know any methods are inaccessible, but I don't think the compiler needs to know specially about `TypeError`.  Instead the method definition will be treated as usual.  This can always be refined later if we want. *RAE:* But I think people will want this:
 
   ```
-  instanceTypeError"You can't compare functions for equality"=>Eq(a -> b)
+  instance TypeError "You can't compare functions for equality" => Eq (a -> b)
   ```
 
 >
+>
 > If that's inaccessible code and an error, they can't do this.
+>
+>
 
+>
+>
 > *Lennart:* I don't think it will be so bad to write
 >
+>
 > ```
-> instanceTypeError"You can't compare functions for equality"=>Eq(a -> b)where(==)= undefined
+> instance TypeError "You can't compare functions for equality" => Eq (a -> b) where (==) = undefined
 > ```
+
 
 >
+>
 > I see no reason to complicate the compiler for this.
+>
+>
 
+>
+>
 > *RAE:* But that code will issue an "inaccessible code" error. I'm OK (but I don't love it) if the user has to write out bogus method definitions -- that's not what I'm worried about.
+>
+>
 
+>
+>
 > *Lennart:* I don't understand how you can get an inaccessible code error, unless you perform a link-time check if all instances have actually been used.  Since instances are always exported there is no module level check you can make to see if an instance is used.
+>
+>
 
 1. Relatedly, when definition an instance with a `TypeError` constraint, what should users write in the body? Leaving it empty causes warnings, but anything written in there would never be called.  *Lennart*: See above.
 
@@ -253,13 +293,19 @@ I found this page by accident, but find this a very interesting idea.  Very usef
 1. Why are we calling this \*Type\*Error?  I suspect we can use this for many not strictly type-related features.  For example
 
 ```
-     deprecatedFn ::TypeWarning(Text"deprecatedFn is deprecated.  Use someOtherFn instead!")=>SomeType
+     deprecatedFn :: TypeWarning (Text "deprecatedFn is deprecated.  Use someOtherFn instead!") => 
+                     SomeType
 
-     removedFn ::TypeError(Text"removedFn has been removed. Use someOtherFn instead!")=>ItsOldType
+     removedFn :: TypeError (Text "removedFn has been removed. Use someOtherFn instead!") => ItsOldType
 ```
 
+>
+> >
 > >
 > > What about `Error` and `Warning` instead?
+> >
+> >
+>
 
 ## Extended Example
 

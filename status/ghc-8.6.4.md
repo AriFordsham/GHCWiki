@@ -19,56 +19,192 @@ See Libraries? and [Migration/8.6](migration/8.6).
 ## Release highlights (planned)
 
 
+
 This will be a bug-fix release.
+
 
 ### Library changes
 
+
 ### Build system and miscellaneous changes
+
 
 ## Tickets marked merge with no milestone
 
-<table><tr><th>Ticket (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
-<th>Type (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
-<th>Owner (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>
+
+
+
+  
+  
+  
+  
+  
+    
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td></tr>
+<tr><td>
+          </td>
+<th>
             No tickets found
           </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr></table>
+<td>
+        </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr></table>
+
+
+  
+
+
 
 ## Tickets slated for 8.6.4
 
+
 ### merge/patch/upstream
 
-<table><tr><th>Ticket (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: id)</th>
-<th>Type (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, desc: 1, order: priority)</th>
-<th>Differential Rev(s) (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: differential)</th>
-<th>Owner (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: owner)</th></tr>
-<tr><th>
+
+
+
+  
+  
+  
+  
+  
+    
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Differential Rev(s) (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: differential)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: owner)
+      </th>
+<td>
+    </td></tr>
+<tr><td>
+          </td>
+<th>
             No tickets found
           </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr></table>
+<td>
+        </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr></table>
+
+
+  
+
+
 
 ### new
 
+
+
+
+  
+  
+  
+  
+  
+    
+
 ## Status: new (3 matches)
 
-<table><tr><th>Ticket (Ticket query: status: new, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
-<th>Type (Ticket query: status: new, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: new, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: new, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
-<th>Owner (Ticket query: status: new, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>[\#15508](https://gitlab.haskell.org//ghc/ghc/issues/15508)</th>
+
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: new, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: new, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: new, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: new, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: new, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15508">#15508</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -80,7 +216,29 @@ This will be a bug-fix release.
                       
                       bug
                     </th>
-<th>[concprog001 fails with various errors](https://gitlab.haskell.org//ghc/ghc/issues/15508)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15508">concprog001 fails with various errors</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -92,8 +250,39 @@ This will be a bug-fix release.
                       
                       highest
                     </th>
-<th>osa1</th></tr>
-<tr><th>[\#15444](https://gitlab.haskell.org//ghc/ghc/issues/15444)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      osa1
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15444">#15444</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -105,7 +294,29 @@ This will be a bug-fix release.
                       
                       bug
                     </th>
-<th>[8.4.3 has an undocumented dependency on libnuma.](https://gitlab.haskell.org//ghc/ghc/issues/15444)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15444">8.4.3 has an undocumented dependency on libnuma.</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -117,8 +328,39 @@ This will be a bug-fix release.
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#16028](https://gitlab.haskell.org//ghc/ghc/issues/16028)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16028">#16028</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -130,7 +372,29 @@ This will be a bug-fix release.
                       
                       bug
                     </th>
-<th>[tyThingCoAxiom panics while building Agda](https://gitlab.haskell.org//ghc/ghc/issues/16028)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16028">tyThingCoAxiom panics while building Agda</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -142,18 +406,91 @@ This will be a bug-fix release.
                       
                       normal
                     </th>
-<th></th></tr></table>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr></table>
+
+
+  
+
+
 
 ### infoneeded
 
+
+
+
+  
+  
+  
+  
+  
+    
+
 ## Status: infoneeded (1 match)
 
-<table><tr><th>Ticket (Ticket query: status: infoneeded, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
-<th>Type (Ticket query: status: infoneeded, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: infoneeded, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: infoneeded, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
-<th>Owner (Ticket query: status: infoneeded, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>[\#16147](https://gitlab.haskell.org//ghc/ghc/issues/16147)</th>
+
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: infoneeded, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: infoneeded, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: infoneeded, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: infoneeded, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: infoneeded, milestone: 8.6.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16147">#16147</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -165,7 +502,29 @@ This will be a bug-fix release.
                       
                       bug
                     </th>
-<th>[ghc-pkg deadlocks on macOS](https://gitlab.haskell.org//ghc/ghc/issues/16147)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16147">ghc-pkg deadlocks on macOS</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -177,4 +536,30 @@ This will be a bug-fix release.
                       
                       normal
                     </th>
-<th></th></tr></table>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr></table>
+
+
+  
+
+
+

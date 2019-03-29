@@ -126,9 +126,15 @@ Often a contributor will want to run performance tests on their local machine to
 ### Git Notes Format
 
 
+
 The results of performance test are store in git notes as tab separated values with columns:
 
+
+>
+>
 > [platform](performance/tests#), test name, [build way](commentary/rts/compiler-ways), performance metric, result
+>
+>
 
 
 In order to isolate the git notes, the 'ref/notes/perf' ref is used (see the gite notes [ --ref](https://git-scm.com/docs/git-notes#git-notes---refltrefgt) option). This allows users to make their own git notes without interfering with the performance result git notes. E.g. to see the git notes in the format above for commit `$COMMIT` simply do:

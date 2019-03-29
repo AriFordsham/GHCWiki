@@ -139,27 +139,46 @@ Windows has a few ways of locating DLLs. Unfortunately none are perfect.
 1. Find them in the same dir as the .exe
 
 >
+>
 > This means you have to copy all the required dlls into the dir with the .exe. That's just about OK for a `cabal install` command but clearly not ok for `ghc --make`.
+>
+>
 
 1. Find them on the system (Windows/System dir)
 
+
+  
+
+
+>
 >
 > This is the old "DLL hell" approach and is clearly out.
+>
+>
 
 1. Stick them on the $PATH
 
 >
+>
 > This just about works but is very fragile. You could imagine that there was one central place where cabal installed all libs and that we tried to ensure that location is on the $PATH. This is exactly the approach that the Gtk2Hs installer on Windows takes. As that example demonsrates however this solution is very fragile: it's easy to end up with other libs getting in the way and misc other issues.
+>
+>
 
 1. Use local assemblies
 
 >
+>
 > This is the modern variation of option 1. The dynamic linker in Win XP and later has this new system of assemblies. An assembly is a bundle of one or more DLLs that live together in a dir. An .exe can have an xml manifest baked into it that specifies dependent assemblies (by GUID). Local assemblies mean that the assembly dirs are subdirs of where the .exe lives, so instead of dumping all the dll files into the same dir as the .exe, you put them in subdirs, one per assembly. This is obviously better but they do still have to be local to where the .exe lives. You can't link to assemblies that live in arbitrary locations in the file system.
+>
+>
 
 1. Use global assemblies
 
 >
+>
 > This is very nearly perfect except for one massive problem which makes it no good as a general solution. In addition to local assemblies, the dynamic linker looks for assemblies in a global location. Then the .exe xml manifest specifies the assembly GUID and it just gets looked up in the global "SxS" assembly area. This is great. The only problem is you have to be administrator to install assemblies in the global "SxS" location. There is no per-user or non-priviledged location. So while this would be ok for global ghc installs, we still have to support installing ghc and other Haskell packages for non-root users.
+>
+>
 
 ## Conclusions
 

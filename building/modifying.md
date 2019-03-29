@@ -24,40 +24,46 @@ Here are the techniques that we use.  Note, for many of these diagnosis techniqu
 [phase ordering](building/architecture/idiom/phase-ordering) machinery of the top-level
 `Makefile`.
 
-<table><tr><th>`$(warning ... message ...)`</th>
+
+<table><tr><th><tt>$(warning ... message ...)</tt></th>
 <td>
-equivalent to "printf-debugging" in a C program: this causes
-**make** to print a message when it reads the `$(warning ..)`
+equivalent to &quot;printf-debugging&quot; in a C program: this causes
+<b>make</b> to print a message when it reads the <tt>$(warning ..)</tt>
 expression, and the message can include variable references.  Very
-useful for finding out what **make** thinks the value of a
-variable is at a particular point in the `Makefile`, or for finding
-out the parameters for a particular macro call.    Want to test your hypothesis about what the variable `rts_C_SRCS` contains?  Just add a `$(warning $(rts_C_SRCS))` somewhere.
+useful for finding out what <b>make</b> thinks the value of a
+variable is at a particular point in the <tt>Makefile</tt>, or for finding
+out the parameters for a particular macro call.    Want to test your hypothesis about what the variable <tt>rts_C_SRCS</tt> contains?  Just add a <tt>$(warning $(rts_C_SRCS))</tt> somewhere.
 </td></tr></table>
 
-<table><tr><th>`make show VALUE=VAR`</th>
+
+<table><tr><th><tt>make show VALUE=VAR</tt></th>
 <td>
-prints the value of variable `VAR`.  Useful for quick diagnosis.
+prints the value of variable <tt>VAR</tt>.  Useful for quick diagnosis.
 </td></tr></table>
 
-<table><tr><th>`make show! VALUE=VAR`</th>
+
+<table><tr><th><tt>make show! VALUE=VAR</tt></th>
 <td>
-same as `make show`, but works right after ./configure (it skips reading package-data.mk files).
+same as <tt>make show</tt>, but works right after ./configure (it skips reading package-data.mk files).
 </td></tr></table>
 
-<table><tr><th>`make TRACE=1`</th>
+
+<table><tr><th><tt>make TRACE=1</tt></th>
 <td>
-prints messages about certain macros that are called and their arguments.  This is basically a system of `$(warning)` calls enabled when the value of `$(TRACE)` is non-empty.  To see how it works, look at the file [rules/trace.mk](/trac/ghc/browser/rules/trace.mk)[](/trac/ghc/export/HEAD/ghc/rules/trace.mk), and feel free to add trace calls to more places in the build system.
+prints messages about certain macros that are called and their arguments.  This is basically a system of <tt>$(warning)</tt> calls enabled when the value of <tt>$(TRACE)</tt> is non-empty.  To see how it works, look at the file <a href="/trac/ghc/browser/rules/trace.mk">rules/trace.mk</a><a href="/trac/ghc/export/HEAD/ghc/rules/trace.mk"></a>, and feel free to add trace calls to more places in the build system.
 </td></tr></table>
 
-<table><tr><th>`make --debug=b --debug=m`</th>
+
+<table><tr><th><tt>make --debug=b --debug=m</tt></th>
 <td>
-causes **make** to show the sequence of dependencies that it is
-following, which will often tell you *why* something is being
+causes <b>make</b> to show the sequence of dependencies that it is
+following, which will often tell you <i>why</i> something is being
 built.  This can help to track down missing or incorrect
 dependencies.
 </td></tr></table>
 
-<table><tr><th>`make -p`</th>
+
+<table><tr><th><tt>make -p</tt></th>
 <td>
 prints out all the generated rules and variables.  The output can be
 huge; so pipe it to a file, and search through it for the bits of
@@ -105,7 +111,10 @@ To retire a GHC source file that is no longer needed:
   or `make all_compiler_stage2` if you prefer.
 
 >
+>
 > If you wish something slower but more confident, you may `cd $TOP; ./configure; make`.
+>
+>
 
 ### Adding a source file to the RTS
 

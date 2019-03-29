@@ -38,7 +38,11 @@ release notes for [  1.2](http://trac.edgewall.org/intertrac/wiki%3ATracDev/Rele
 * 1.1.x releases are development releases leading eventually to Trac 1.2. See them as kind of snapshots of [ source:trunk](http://trac.edgewall.org/intertrac/source%3Atrunk).
 *
 
-** No guarantees of feature and API compatibility is made from one 1.1.x release to the next. ****
+
+
+** No guarantees of feature and API compatibility is made from one 1.1.x release to the next. *
+***
+
 
 ### 1.2rc1
 
@@ -48,13 +52,15 @@ release notes for [  1.2](http://trac.edgewall.org/intertrac/wiki%3ATracDev/Rele
 The first Trac 1.2 release candidate is the culmination of nearly 4 years of development.
 
 
+
 Highlights of the changes since 1.1.6:
 
+
 - Pygments lexer options can be specified as [WikiProcessor](wiki-processors) arguments and defaults can be set in the environment configuration ([ \#5654](http://trac.edgewall.org/intertrac/%235654)).
-- Usernames are replaced with full names when `[trac]``show_full_names` is true ([ \#7339](http://trac.edgewall.org/intertrac/%237339)).
+- Usernames are replaced with full names when `[trac]` `show_full_names` is true ([ \#7339](http://trac.edgewall.org/intertrac/%237339)).
 - Enum tables on the Ticket Admin pages can be reordered by drag and drop. ([ \#11682](http://trac.edgewall.org/intertrac/%2311682)).
 - Ticket changelog is restyled and has a new *Show comments* preference ([ \#11835](http://trac.edgewall.org/intertrac/%2311835)).
-- Authentication cookies can be shared across subdomains when `[trac]``auth_cookie_domain` is configured ([ \#12251](http://trac.edgewall.org/intertrac/%2312251)).
+- Authentication cookies can be shared across subdomains when `[trac]` `auth_cookie_domain` is configured ([ \#12251](http://trac.edgewall.org/intertrac/%2312251)).
 
 
 For more information see the [ API changes](http://trac.edgewall.org/intertrac/wiki%3ATracDev/ApiChanges/1.1) and the detailed
@@ -154,18 +160,20 @@ for 1.0.3).
 *(October 23, 2014)*
 
 
+
 The following list contains highlights of the changes:
+
 
 - Dropped support for Python 2.5. Trac can no longer be run on Python 2.5 as incompatible changes have been made in the source code ([ \#11600](http://trac.edgewall.org/intertrac/%2311600)).
 - The new ticket workflow action `may_set_owner` is similar to `set_owner` but the owner defaults to the existing ticket owner rather than the current user ([ \#10018](http://trac.edgewall.org/intertrac/%2310018)).
-- The new option `[ticket]``optional_fields` specifies ticket select fields that are treated as optional (i.e. an empty value is allowed) ([ \#10772](http://trac.edgewall.org/intertrac/%2310772)).
+- The new option `[ticket]` `optional_fields` specifies ticket select fields that are treated as optional (i.e. an empty value is allowed) ([ \#10772](http://trac.edgewall.org/intertrac/%2310772)).
 - Line number and row highlighting annotations can be specified for WikiProcessor code blocks ([ \#10834](http://trac.edgewall.org/intertrac/%2310834)).
 - The *default handler* can be set as a session preference ([ \#11597](http://trac.edgewall.org/intertrac/%2311597)), and the default value for all users can be set from the *Basic Settings* admin page ([ \#11519](http://trac.edgewall.org/intertrac/%2311519)).
 - Attachments can't be added to read-only wiki pages ([ \#11244](http://trac.edgewall.org/intertrac/%2311244)).
 - Tables on the admin pages have a *Select all* checkbox in the header ([ \#10994](http://trac.edgewall.org/intertrac/%2310994)).
 - Submit buttons are disabled if the required items are not selected ([ \#11056](http://trac.edgewall.org/intertrac/%2311056)).
 - The Admin *Permissions* page has a *Copy Permissions* form for copying permissions between users and groups ([ \#11099](http://trac.edgewall.org/intertrac/%2311099)).
-- The new option `[milestone]``default_retarget_to` determines the default milestone for retargeting tickets when a milestone is deleted or closed, and can be specified from the *Milestone* admin page ([ \#10010](http://trac.edgewall.org/intertrac/%2310010)).
+- The new option `[milestone]` `default_retarget_to` determines the default milestone for retargeting tickets when a milestone is deleted or closed, and can be specified from the *Milestone* admin page ([ \#10010](http://trac.edgewall.org/intertrac/%2310010)).
 - The *retarget* select is not shown when closing or deleting a milestone which has no tickets associated with it ([ \#11366](http://trac.edgewall.org/intertrac/%2311366)).
 - *Clear default* buttons allow the ticket system default values (e.g. `default_milestone`, `default_version`) to be cleared through the corresponding admin pages ([ \#10772](http://trac.edgewall.org/intertrac/%2310772), [ \#11300](http://trac.edgewall.org/intertrac/%2311300)).
 - The `TitleIndex` macro supports relative path prefixes when used on wiki pages ([ \#11455](http://trac.edgewall.org/intertrac/%2311455)).
@@ -191,7 +199,7 @@ The following list contains only a few highlights:
 - Added support for custom ticket fields of type time ([ \#1942](http://trac.edgewall.org/intertrac/%231942))
 - In new tickets, custom time ticket fields may default to an absolute or relative date / time ([ \#10853](http://trac.edgewall.org/intertrac/%2310853))
 - In [TracBatchModify](trac-batch-modify), custom time ticket fields can be changed with a date(time)picker popup control ([ \#10854](http://trac.edgewall.org/intertrac/%2310854))
-- Optionally display the component of tickets in their timeline entries (`[timeline]``ticket_show_component` setting) ([ \#10885](http://trac.edgewall.org/intertrac/%2310885))
+- Optionally display the component of tickets in their timeline entries (`[timeline]` `ticket_show_component` setting) ([ \#10885](http://trac.edgewall.org/intertrac/%2310885))
 - Fixed batch modification when no fields are changed ([ \#10924](http://trac.edgewall.org/intertrac/%2310924))
 - Dynamic variables can be used in the report title and description ([ \#10979](http://trac.edgewall.org/intertrac/%2310979))
 - jQuery upgraded to 1.8.3, jQuery UI upgraded to 1.9.2 and jQuery UI Timepicker upgraded to 1.1.1 ([ \#10976](http://trac.edgewall.org/intertrac/%2310976))
@@ -327,12 +335,14 @@ See the detailed release notes for [  1.0.7](http://trac.edgewall.org/intertrac/
 *(May 20, 2015)*
 
 
+
 Trac 1.0.6 provides more than 20 fixes and enhancements. The following are some highlights:
 
+
 - Hash changeset ids and branch names can be used in revision ranges ([ \#11050](http://trac.edgewall.org/intertrac/%2311050))
-- Improved rendering performance using chunked response when `[trac]``use_chunked_encoding` is `True` ([ \#11802](http://trac.edgewall.org/intertrac/%2311802))
+- Improved rendering performance using chunked response when `[trac]` `use_chunked_encoding` is `True` ([ \#11802](http://trac.edgewall.org/intertrac/%2311802))
 - Improved performance of Git repositories ([ \#11971](http://trac.edgewall.org/intertrac/%2311971)).
-- Header to send when `[trac]``use_xsendfile` is `True` can be specified through the option `[trac]``xsendfile_header`. X-Sendfile is supported in Nginx by specifying `X-Accel-Redirect` for the header ([ \#11981](http://trac.edgewall.org/intertrac/%2311981)).
+- Header to send when `[trac]` `use_xsendfile` is `True` can be specified through the option `[trac]` `xsendfile_header`. X-Sendfile is supported in Nginx by specifying `X-Accel-Redirect` for the header ([ \#11981](http://trac.edgewall.org/intertrac/%2311981)).
 - Symbolic link can be used for `conf/trac.ini` in environment directory ([ \#12000](http://trac.edgewall.org/intertrac/%2312000)).
 - Hyphen character can be used in WikiProcessor parameter name ([ \#12023](http://trac.edgewall.org/intertrac/%2312023)).
 
@@ -391,7 +401,7 @@ The following list contains only a few highlights:
 - Merge changesets are shown as differences against first parent, resulting
   in less noisy changesets ([ \#10740](http://trac.edgewall.org/intertrac/%2310740)).
 - Pygments 2.0 is supported ([ \#11796](http://trac.edgewall.org/intertrac/%2311796)).
-- Fixed error when completing the `initenv`[TracAdmin](trac-admin) command ([ \#11797](http://trac.edgewall.org/intertrac/%2311797)).
+- Fixed error when completing the `initenv` [TracAdmin](trac-admin) command ([ \#11797](http://trac.edgewall.org/intertrac/%2311797)).
 - Performance improvement on systems with many thousands of authenticated
   users due to caching of Environment.get_known_users ([ \#11868](http://trac.edgewall.org/intertrac/%2311868)).
 - Distribution metadata of wheel package is supported and displayed on the

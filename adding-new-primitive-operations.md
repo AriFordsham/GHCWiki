@@ -96,10 +96,14 @@ is about adding `Integer` primitive operations and they are not inline
 The part about the User's Guide is also not accurate: In "The Glasgow
 Haskell Copiler User's Guide, Version 6.2", section 7.2, I read that
 
+
+>
 >
 > There used to be long section about \[the primitives\] here in the User
 > Guide, but it became out of date and wrong information is worse than
 > none.
+>
+>
 
 
 So that's a relief.

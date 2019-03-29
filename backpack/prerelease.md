@@ -1,6 +1,9 @@
 # Backpack pre-release
 
-**This page is out of date; Backpack is released in GHC 8.2! See [ https://ghc.haskell.org/trac/ghc/wiki/Backpack](https://ghc.haskell.org/trac/ghc/wiki/Backpack)**
+
+
+**This page is out of date; Backpack is released in GHC 8.2! See [ https://ghc.haskell.org/trac/ghc/wiki/Backpack](https://ghc.haskell.org/trac/ghc/wiki/Backpack) **
+
 
 
 If you would like to try out our new Backpack support in GHC, we invite you to download and install a pre-release version of GHC with various Backpack: [ http://web.stanford.edu/\~ezyang/backpack/](http://web.stanford.edu/~ezyang/backpack/) You can build the sources using  the instructions in [Building/QuickStart](building/quick-start), and there are also some binary distributions available.
@@ -123,7 +126,11 @@ executable Main where
     main-is: Main
 ```
 
+>
+>
 > **In progress:** At the moment, order matters! Make sure the `directory` include (providing the implementation) comes before the `p` include (requiring the implementation).
+>
+>
 
 
 This juxtaposition triggers a linking step, where GHC recognizes that `p` has a hole (signature without an implementation) named `System.Directory`, while `directory`.
@@ -160,11 +167,21 @@ These files will compile with `ghc --backpack importlist.bkp`.
 You can check that other functions from `System.Directory` are not available by editing `P.hs` or `Q.hs` to attempt to use another function from the module, e.g. `doesDirectoryExist`.
 
 
+
 In general, to import a subset of the interface of a module, you create an hsig file which contains the signatures you want. Additionally, an actual implementation of the module must not be in scope (if it is in scope, it takes precedence over the signatures).
 
-> **Under construction:** The error message you get when you attempt to use a function which is available from the underlying implementation but not from your signature could be improved.
 
+>
+>
+> **Under construction:** The error message you get when you attempt to use a function which is available from the underlying implementation but not from your signature could be improved.
+>
+>
+
+>
+>
 > **Open question:** Should there be an easier way of loading a specific implementation narrowed to some interface? The most general way to use Backpack suggests that you should commit to an implementation as late as possible, which means this style of development should be discouraged.
+>
+>
 
 ## Type classes
 
@@ -189,7 +206,11 @@ package IntOrd-sig where
     exposed-signatures: IntOrd  
 ```
 
-> **Remark:**`Int` in this example refers to the `Int` implicitly imported via `Prelude`. To become abstract in the data type as well, you could add a `data Int` declaration to the signature file.
+>
+>
+> **Remark:** `Int` in this example refers to the `Int` implicitly imported via `Prelude`. To become abstract in the data type as well, you could add a `data Int` declaration to the signature file.
+>
+>
 
 
 We can write a few implementations for this function, which we do in the package `IntOrd-impls`:
@@ -218,7 +239,12 @@ package IntOrd-impls where
 
 That is to say, the signature is completely independent from the implementation.
 
+
+>
+>
 > **Open question:** While they are independent, it is desirable to immediately check that `IntOrd.Asc` and `IntOrd.Desc` properly implement `IntOrd`.  However, it's probably not correct for `IntOrd-impls` to have a dependency on `IntOrd-sigs`; in general, no such dependency exists. 
+>
+>
 
 
 Now, to actually write the sorted list module, we simply **import** the signature:
@@ -328,4 +354,9 @@ You can compile with:
 ghc --backpack sorted.bkp
 ```
 
+>
+>
 > **Remark:** It is interesting to observe how Haskell went down an evolutionarily different path in order to support the case of multiple instances on a single data type.  In Haskell'98, the way to reuse the `insert` function with different `Ord` instances is to either use the non-overloaded version `insertBy`; in modern GHC Haskell you can newtype `Int`, and use the new `coerce` function described in [Roles](roles) in order to get from a `[Int]` to a `[DescInt]` in constant time.
+>
+>
+

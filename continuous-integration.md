@@ -14,7 +14,10 @@ If you are looking for information about how to maintain our new CircleCI and Ap
 
 ## Requirements
 
-**Primary**
+
+
+**Primary** 
+
 
 - Build GHC for Tier 1 platforms (Windows, Linux & macOS), run `./validate`, and produce release artefacts (distributions and documentation).
 - Build PRs (differentials) and run `./validate` on Linux/x86-64.
@@ -176,16 +179,65 @@ Below, we track all work that needs to be done until we have achieved the follow
 ### Relevant Trac tickets
 
 
+
 The following are issues about the CI system itself,
+
+
+
+
+  
+  
+  
+  
+  
+    
 
 ## Status: new (18 matches)
 
-<table><tr><th>Ticket (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
-<th>Type (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
-<th>Owner (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>[\#11958](https://gitlab.haskell.org//ghc/ghc/issues/11958)</th>
+
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: new, component: Continuous+Integration, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11958">#11958</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -197,7 +249,29 @@ The following are issues about the CI system itself,
                       
                       task
                     </th>
-<th>[Improved testing of cross-compiler](https://gitlab.haskell.org//ghc/ghc/issues/11958)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11958">Improved testing of cross-compiler</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -209,8 +283,39 @@ The following are issues about the CI system itself,
                       
                       low
                     </th>
-<th>bgamari</th></tr>
-<tr><th>[\#13122](https://gitlab.haskell.org//ghc/ghc/issues/13122)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13122">#13122</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -222,7 +327,29 @@ The following are issues about the CI system itself,
                       
                       task
                     </th>
-<th>[Investigate reporting build errors with harbormaster.sendmessage](https://gitlab.haskell.org//ghc/ghc/issues/13122)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13122">Investigate reporting build errors with harbormaster.sendmessage</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -234,8 +361,39 @@ The following are issues about the CI system itself,
                       
                       normal
                     </th>
-<th>bgamari</th></tr>
-<tr><th>[\#14416](https://gitlab.haskell.org//ghc/ghc/issues/14416)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14416">#14416</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -247,7 +405,29 @@ The following are issues about the CI system itself,
                       
                       task
                     </th>
-<th>[CI with CircleCI](https://gitlab.haskell.org//ghc/ghc/issues/14416)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14416">CI with CircleCI</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -259,8 +439,39 @@ The following are issues about the CI system itself,
                       
                       highest
                     </th>
-<th>bgamari</th></tr>
-<tr><th>[\#14475](https://gitlab.haskell.org//ghc/ghc/issues/14475)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14475">#14475</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -272,7 +483,29 @@ The following are issues about the CI system itself,
                       
                       task
                     </th>
-<th>[Upload documentation dumps](https://gitlab.haskell.org//ghc/ghc/issues/14475)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14475">Upload documentation dumps</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -284,8 +517,39 @@ The following are issues about the CI system itself,
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#14502](https://gitlab.haskell.org//ghc/ghc/issues/14502)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14502">#14502</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -297,7 +561,29 @@ The following are issues about the CI system itself,
                       
                       task
                     </th>
-<th>[Build Alpine Linux binary distributions](https://gitlab.haskell.org//ghc/ghc/issues/14502)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14502">Build Alpine Linux binary distributions</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -309,8 +595,39 @@ The following are issues about the CI system itself,
                       
                       normal
                     </th>
-<th>bgamari</th></tr>
-<tr><th>[\#14505](https://gitlab.haskell.org//ghc/ghc/issues/14505)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14505">#14505</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -322,7 +639,29 @@ The following are issues about the CI system itself,
                       
                       bug
                     </th>
-<th>[CircleCI only builds pushed heads](https://gitlab.haskell.org//ghc/ghc/issues/14505)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14505">CircleCI only builds pushed heads</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -334,8 +673,39 @@ The following are issues about the CI system itself,
                       
                       normal
                     </th>
-<th>bgamari</th></tr>
-<tr><th>[\#14508](https://gitlab.haskell.org//ghc/ghc/issues/14508)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14508">#14508</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -347,7 +717,29 @@ The following are issues about the CI system itself,
                       
                       task
                     </th>
-<th>[Bring up Appveyor for Windows CI](https://gitlab.haskell.org//ghc/ghc/issues/14508)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14508">Bring up Appveyor for Windows CI</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -359,8 +751,39 @@ The following are issues about the CI system itself,
                       
                       normal
                     </th>
-<th>mrkkrp</th></tr>
-<tr><th>[\#14599](https://gitlab.haskell.org//ghc/ghc/issues/14599)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      mrkkrp
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14599">#14599</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -372,7 +795,29 @@ The following are issues about the CI system itself,
                       
                       bug
                     </th>
-<th>[32-bit Windows test environment](https://gitlab.haskell.org//ghc/ghc/issues/14599)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14599">32-bit Windows test environment</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -384,8 +829,39 @@ The following are issues about the CI system itself,
                       
                       normal
                     </th>
-<th>bgamari</th></tr>
-<tr><th>[\#14949](https://gitlab.haskell.org//ghc/ghc/issues/14949)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14949">#14949</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -397,7 +873,29 @@ The following are issues about the CI system itself,
                       
                       bug
                     </th>
-<th>[Perform builds on non-Debian-based systems on Circle CI](https://gitlab.haskell.org//ghc/ghc/issues/14949)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14949">Perform builds on non-Debian-based systems on Circle CI</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -409,8 +907,39 @@ The following are issues about the CI system itself,
                       
                       normal
                     </th>
-<th>mrkkrp</th></tr>
-<tr><th>[\#15011](https://gitlab.haskell.org//ghc/ghc/issues/15011)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      mrkkrp
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15011">#15011</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -422,7 +951,29 @@ The following are issues about the CI system itself,
                       
                       task
                     </th>
-<th>[Automate update of VersionHistory table](https://gitlab.haskell.org//ghc/ghc/issues/15011)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15011">Automate update of VersionHistory table</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -434,8 +985,39 @@ The following are issues about the CI system itself,
                       
                       normal
                     </th>
-<th>bgamari</th></tr>
-<tr><th>[\#15582](https://gitlab.haskell.org//ghc/ghc/issues/15582)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15582">#15582</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -447,7 +1029,29 @@ The following are issues about the CI system itself,
                       
                       bug
                     </th>
-<th>[Phabricator shows "drafts" by default](https://gitlab.haskell.org//ghc/ghc/issues/15582)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15582">Phabricator shows &quot;drafts&quot; by default</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -459,8 +1063,39 @@ The following are issues about the CI system itself,
                       
                       normal
                     </th>
-<th>bgamari</th></tr>
-<tr><th>[\#15699](https://gitlab.haskell.org//ghc/ghc/issues/15699)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15699">#15699</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -472,7 +1107,29 @@ The following are issues about the CI system itself,
                       
                       bug
                     </th>
-<th>[Run sanity checker in more testsuite runs](https://gitlab.haskell.org//ghc/ghc/issues/15699)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15699">Run sanity checker in more testsuite runs</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -484,8 +1141,39 @@ The following are issues about the CI system itself,
                       
                       normal
                     </th>
-<th>bgamari</th></tr>
-<tr><th>[\#15749](https://gitlab.haskell.org//ghc/ghc/issues/15749)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15749">#15749</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -497,7 +1185,29 @@ The following are issues about the CI system itself,
                       
                       bug
                     </th>
-<th>[Long Harbormaster builds](https://gitlab.haskell.org//ghc/ghc/issues/15749)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15749">Long Harbormaster builds</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -509,8 +1219,39 @@ The following are issues about the CI system itself,
                       
                       normal
                     </th>
-<th>bgamari</th></tr>
-<tr><th>[\#15972](https://gitlab.haskell.org//ghc/ghc/issues/15972)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15972">#15972</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -522,7 +1263,29 @@ The following are issues about the CI system itself,
                       
                       bug
                     </th>
-<th>[Test nofib tests for correctness in CI](https://gitlab.haskell.org//ghc/ghc/issues/15972)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15972">Test nofib tests for correctness in CI</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -534,8 +1297,39 @@ The following are issues about the CI system itself,
                       
                       high
                     </th>
-<th>bgamari</th></tr>
-<tr><th>[\#16134](https://gitlab.haskell.org//ghc/ghc/issues/16134)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16134">#16134</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -547,7 +1341,29 @@ The following are issues about the CI system itself,
                       
                       bug
                     </th>
-<th>[Continuous integration on FreeBSD](https://gitlab.haskell.org//ghc/ghc/issues/16134)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16134">Continuous integration on FreeBSD</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -559,8 +1375,39 @@ The following are issues about the CI system itself,
                       
                       normal
                     </th>
-<th>bgamari</th></tr>
-<tr><th>[\#16200](https://gitlab.haskell.org//ghc/ghc/issues/16200)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16200">#16200</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -572,7 +1419,29 @@ The following are issues about the CI system itself,
                       
                       bug
                     </th>
-<th>[Mechanical checking of submodule versions for releases](https://gitlab.haskell.org//ghc/ghc/issues/16200)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16200">Mechanical checking of submodule versions for releases</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -584,8 +1453,39 @@ The following are issues about the CI system itself,
                       
                       normal
                     </th>
-<th>bgamari</th></tr>
-<tr><th>[\#16264](https://gitlab.haskell.org//ghc/ghc/issues/16264)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16264">#16264</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -597,7 +1497,29 @@ The following are issues about the CI system itself,
                       
                       bug
                     </th>
-<th>[Install reqlib'd libraries during CI](https://gitlab.haskell.org//ghc/ghc/issues/16264)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16264">Install reqlib&apos;d libraries during CI</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -609,8 +1531,39 @@ The following are issues about the CI system itself,
                       
                       normal
                     </th>
-<th>bgamari</th></tr>
-<tr><th>[\#16355](https://gitlab.haskell.org//ghc/ghc/issues/16355)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16355">#16355</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -622,7 +1575,29 @@ The following are issues about the CI system itself,
                       
                       task
                     </th>
-<th>[Save CI performance metrics on windows jobs](https://gitlab.haskell.org//ghc/ghc/issues/16355)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16355">Save CI performance metrics on windows jobs</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -634,19 +1609,92 @@ The following are issues about the CI system itself,
                       
                       normal
                     </th>
-<th>davide</th></tr></table>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      davide
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr></table>
+
+
+  
+
+
 
 
 The following are GHC issues which are currently breaking CI builds,
 
+
+
+
+  
+  
+  
+  
+  
+    
+
 ## Status: new (11 matches)
 
-<table><tr><th>Ticket (Ticket query: status: new, keywords: \~ci-breakage, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
-<th>Type (Ticket query: status: new, keywords: \~ci-breakage, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: new, keywords: \~ci-breakage, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: new, keywords: \~ci-breakage, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
-<th>Owner (Ticket query: status: new, keywords: \~ci-breakage, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>[\#14823](https://gitlab.haskell.org//ghc/ghc/issues/14823)</th>
+
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: new, keywords: ~ci-breakage, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: new, keywords: ~ci-breakage, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: new, keywords: ~ci-breakage, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: new, keywords: ~ci-breakage, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: new, keywords: ~ci-breakage, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14823">#14823</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -658,7 +1706,29 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       bug
                     </th>
-<th>[Test profiling/should_run/scc001 fails on Circle CI](https://gitlab.haskell.org//ghc/ghc/issues/14823)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14823">Test profiling/should_run/scc001 fails on Circle CI</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -670,8 +1740,39 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       normal
                     </th>
-<th>bgamari</th></tr>
-<tr><th>[\#15059](https://gitlab.haskell.org//ghc/ghc/issues/15059)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15059">#15059</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -683,7 +1784,29 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       bug
                     </th>
-<th>[ghcpkg05 fails](https://gitlab.haskell.org//ghc/ghc/issues/15059)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15059">ghcpkg05 fails</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -695,8 +1818,39 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#15064](https://gitlab.haskell.org//ghc/ghc/issues/15064)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15064">#15064</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -708,7 +1862,29 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       bug
                     </th>
-<th>[T8089 mysteriously fails when GHC is built with LLVM](https://gitlab.haskell.org//ghc/ghc/issues/15064)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15064">T8089 mysteriously fails when GHC is built with LLVM</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -720,8 +1896,39 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       highest
                     </th>
-<th>osa1</th></tr>
-<tr><th>[\#15072](https://gitlab.haskell.org//ghc/ghc/issues/15072)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      osa1
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15072">#15072</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -733,7 +1940,29 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       task
                     </th>
-<th>[Teach the testsuite driver about response files](https://gitlab.haskell.org//ghc/ghc/issues/15072)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15072">Teach the testsuite driver about response files</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -745,8 +1974,39 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       normal
                     </th>
-<th>ckoparkar</th></tr>
-<tr><th>[\#15382](https://gitlab.haskell.org//ghc/ghc/issues/15382)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      ckoparkar
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15382">#15382</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -758,7 +2018,29 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       bug
                     </th>
-<th>[heapprof001 segfaults in prof_hc_hb way on i386](https://gitlab.haskell.org//ghc/ghc/issues/15382)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15382">heapprof001 segfaults in prof_hc_hb way on i386</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -770,8 +2052,39 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#16085](https://gitlab.haskell.org//ghc/ghc/issues/16085)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16085">#16085</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -783,7 +2096,29 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       bug
                     </th>
-<th>[ffi018_ghci fails when unregisterised](https://gitlab.haskell.org//ghc/ghc/issues/16085)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16085">ffi018_ghci fails when unregisterised</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -795,8 +2130,39 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#16100](https://gitlab.haskell.org//ghc/ghc/issues/16100)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16100">#16100</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -808,7 +2174,29 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       bug
                     </th>
-<th>[T11627a fails sometimes on CI](https://gitlab.haskell.org//ghc/ghc/issues/16100)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16100">T11627a fails sometimes on CI</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -820,8 +2208,39 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#16193](https://gitlab.haskell.org//ghc/ghc/issues/16193)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16193">#16193</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -833,7 +2252,29 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       bug
                     </th>
-<th>[Nondeterministic T15897 timeout failures](https://gitlab.haskell.org//ghc/ghc/issues/16193)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16193">Nondeterministic T15897 timeout failures</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -845,8 +2286,39 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#16349](https://gitlab.haskell.org//ghc/ghc/issues/16349)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16349">#16349</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -858,7 +2330,29 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       bug
                     </th>
-<th>[Nondeterministic T3424 timeouts on CI](https://gitlab.haskell.org//ghc/ghc/issues/16349)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16349">Nondeterministic T3424 timeouts on CI</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -870,8 +2364,39 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#16350](https://gitlab.haskell.org//ghc/ghc/issues/16350)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16350">#16350</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -883,7 +2408,29 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       bug
                     </th>
-<th>[Nondeterministic T5559 failures on CI](https://gitlab.haskell.org//ghc/ghc/issues/16350)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16350">Nondeterministic T5559 failures on CI</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -895,8 +2442,39 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#16361](https://gitlab.haskell.org//ghc/ghc/issues/16361)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16361">#16361</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -908,7 +2486,29 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       bug
                     </th>
-<th>[Non-deterministic hs_try_putmvar00 failure on CI](https://gitlab.haskell.org//ghc/ghc/issues/16361)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16361">Non-deterministic hs_try_putmvar00 failure on CI</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -920,9 +2520,35 @@ The following are GHC issues which are currently breaking CI builds,
                       
                       normal
                     </th>
-<th></th></tr></table>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr></table>
+
+
+  
+
+
 
 ### General
+
 
 - Talk to CircleCI about increased limits for the free plan for GHC. Determine how much on top of that we need.
 - AppVeyor has a 1h limit for OSS projects by default. Determine how much on top of the OSS plan we need and whether they are willing to relax the limits for a visible OSS project. **Status:** wrote email, but no response yet.
@@ -930,11 +2556,14 @@ The following are GHC issues which are currently breaking CI builds,
 ### Per-commit build on Linux/x86_64
 
 
+
 Probably easiest to just trigger those builds from GitHub (as all commits are mirrored there anyway).
+
 
 - Need to get builds on every individual commit (e.g., to do easy bisection) — see [\#14505](https://gitlab.haskell.org//ghc/ghc/issues/14505). **Alternative:** Use GitHub PRs instead of pushing to master directly.
 
 ### Daily builds on Linux/i386, macOS/x86_64 & Windows/x86_64
+
 
 - Implement AppVeyor build config. **Blocked:** waiting for AppVeyor to increase time limit. (Apparently, Rust are on a payed plan, so maybe we have to do that, too.)
 - Linux/i386 ought to be a small change on Linux/x86_64, or is there more to it?
@@ -948,6 +2577,7 @@ Probably easiest to just trigger those builds from GitHub (as all commits are mi
 - Implement CircleCI/GitHub integration for PRs.
 
 ### Daily release artifacts for all Tier 1 platforms
+
 
 - Tar balls are currently being put into CircleCI artefacts store (where they will be kept for one month).
 - *Low priority:* Implement S3 upload for longer term storage.

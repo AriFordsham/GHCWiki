@@ -212,7 +212,7 @@ noNewCon x = case x of {}
 data RdrName    -- = the definition of RdrName
 data Name       -- = the definition of Name
 data Id         -- = the definition of Id
-data Type       -- = the definition of Type
+data Type       -- = the definition of SrcSpan
 data UnboundVar -- = the definition of UnboundVar
 data SrcSpan    -- = the definition of SrcSpan
   deriving Eq

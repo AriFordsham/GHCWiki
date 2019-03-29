@@ -3,7 +3,9 @@
 ## Foreign Import "wrapper"
 
 
-Files [rts/Adjustor.c](/trac/ghc/browser/ghc/rts/Adjustor.c)[rts/AdjustorAsm.S](/trac/ghc/browser/ghc/rts/AdjustorAsm.S).
+
+Files [rts/Adjustor.c](/trac/ghc/browser/ghc/rts/Adjustor.c)  [rts/AdjustorAsm.S](/trac/ghc/browser/ghc/rts/AdjustorAsm.S).
+
 
 
 Occasionally, it is convenient to treat Haskell closures as C function pointers.
@@ -43,6 +45,11 @@ the code is through with it, it has to be freed in order to release Haskell
 and C resources. Failure to do so will result in memory leaks on both the C and
 Haskell side.
 
+
 ---
 
+
+
 [CategoryStub](category-stub)
+
+

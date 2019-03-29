@@ -1,1 +1,1 @@
-redirect(wiki:Commentary/Rts/Storage/HeapAlloced)?
+Page moved to [Commentary/Rts/Storage/HeapAlloced](commentary/rts/storage/heap-alloced)

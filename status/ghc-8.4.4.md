@@ -9,52 +9,186 @@ If you believe your favorite thing belongs in this list, but isn't there, please
 ## Dates
 
 
+
 Release in Early Fall 2018.
+
 
 ## Tickets marked merge with no milestone
 
-<table><tr><th>Ticket (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
-<th>Type (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
-<th>Owner (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>
+
+
+
+  
+  
+  
+  
+  
+    
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td></tr>
+<tr><td>
+          </td>
+<th>
             No tickets found
           </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr></table>
+<td>
+        </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr></table>
+
+
+  
+
+
 
 ## Tickets slated for 8.4.4
 
+
 ### merge/patch/upstream
 
-<table><tr><th>Ticket (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: id)</th>
-<th>Type (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, desc: 1, order: priority)</th>
-<th>Differential Rev(s) (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: differential)</th>
-<th>Owner (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: owner)</th></tr>
-<tr><th>
+
+
+
+  
+  
+  
+  
+  
+    
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Differential Rev(s) (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: differential)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: owner)
+      </th>
+<td>
+    </td></tr>
+<tr><td>
+          </td>
+<th>
             No tickets found
           </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr></table>
+<td>
+        </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr></table>
+
+
+  
+
+
 
 ### new
 
+
+
+
+  
+  
+  
+  
+  
+    
+
 ## Status: new (2 matches)
 
-<table><tr><th>Ticket (Ticket query: status: new, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
-<th>Type (Ticket query: status: new, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: new, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: new, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
-<th>Owner (Ticket query: status: new, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>[\#15256](https://gitlab.haskell.org//ghc/ghc/issues/15256)</th>
+
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: new, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: new, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: new, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: new, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: new, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15256">#15256</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -66,7 +200,29 @@ Release in Early Fall 2018.
                       
                       bug
                     </th>
-<th>[GHCi check .ghci permission on WSL(Linux on Windows)](https://gitlab.haskell.org//ghc/ghc/issues/15256)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15256">GHCi check .ghci permission on WSL(Linux on Windows)</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -78,8 +234,39 @@ Release in Early Fall 2018.
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#15397](https://gitlab.haskell.org//ghc/ghc/issues/15397)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15397">#15397</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -91,7 +278,29 @@ Release in Early Fall 2018.
                       
                       bug
                     </th>
-<th>[Linking Issue on Ubuntu and Fedora with Provided Bindists (GHC-8.4.2)](https://gitlab.haskell.org//ghc/ghc/issues/15397)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15397">Linking Issue on Ubuntu and Fedora with Provided Bindists (GHC-8.4.2)</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -103,18 +312,91 @@ Release in Early Fall 2018.
                       
                       normal
                     </th>
-<th></th></tr></table>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr></table>
+
+
+  
+
+
 
 ### infoneeded
 
+
+
+
+  
+  
+  
+  
+  
+    
+
 ## Status: infoneeded (1 match)
 
-<table><tr><th>Ticket (Ticket query: status: infoneeded, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
-<th>Type (Ticket query: status: infoneeded, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: infoneeded, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: infoneeded, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
-<th>Owner (Ticket query: status: infoneeded, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>[\#15199](https://gitlab.haskell.org//ghc/ghc/issues/15199)</th>
+
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: infoneeded, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: infoneeded, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: infoneeded, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: infoneeded, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: infoneeded, milestone: 8.4.4, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15199">#15199</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -126,7 +408,29 @@ Release in Early Fall 2018.
                       
                       bug
                     </th>
-<th>[Build fails on Debian armhf (armv7l-unknown-linux-gnueabihf)](https://gitlab.haskell.org//ghc/ghc/issues/15199)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15199">Build fails on Debian armhf (armv7l-unknown-linux-gnueabihf)</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -138,4 +442,30 @@ Release in Early Fall 2018.
                       
                       normal
                     </th>
-<th></th></tr></table>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr></table>
+
+
+  
+
+
+

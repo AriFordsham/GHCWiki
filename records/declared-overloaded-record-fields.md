@@ -48,14 +48,20 @@ Record declarations generate a `Has` instance for each record type/field combina
 ```
 
 
-Note that the**`Has` mechanism** uses a Proxy as the type 'peg' for a field (this is the wildcard argument to `get` and `set`):
+Note that the** `Has` mechanism** uses a Proxy as the type 'peg' for a field (this is the wildcard argument to `get` and `set`):
+
 
 - There must be a Proxy_type declared for each distinct field name.
 - The Proxy must be declared once, and the Proxy is then under regular name control.
 - The field selector function also must be declared once, defined using the Proxy.
 
+>
+> >
 > >
 > > It is an error to declare a record field without there being a Proxy in scope. The desugar for the data decl would create the instance to use the Proxy, but then the instance would fail.
+> >
+> >
+>
 
 
 To generate the correct declarations, there is to be a new `fieldLabel` sugar:
@@ -97,14 +103,16 @@ To generate the correct declarations, there is to be a new `fieldLabel` sugar:
 ## DORF Full motivation and examples
 
 
+
 Explained in 5 wiki pages (these proposals are linked but somewhat orthogonal):
 
-- **[No Record Selector Functions](records/declared-overloaded-record-fields/no-mono-record-fields)**   (precursor to DORF)
+
+- ** [No Record Selector Functions](records/declared-overloaded-record-fields/no-mono-record-fields) **   (precursor to DORF)
 - ** DORF -- Application Programmer's view **     (this page)
-- **[DORF -- Implementer's view](records/declared-overloaded-record-fields/implementors-view)**
-- **[DORF -- Comparison to SORF (and TDNR)](records/declared-overloaded-record-fields/c-ompare-sorf)**
-- **[Dot as Postfix Function Apply](records/declared-overloaded-record-fields/dot-postfix)**   (***optional*** syntactic sugar)
-- **[Polymorphic Record Patterns](records/declared-overloaded-record-fields/poly-record-pattern)**   (***speculative*** future)
+- ** [DORF -- Implementer's view](records/declared-overloaded-record-fields/implementors-view) **
+- ** [DORF -- Comparison to SORF (and TDNR)](records/declared-overloaded-record-fields/c-ompare-sorf) **
+- ** [Dot as Postfix Function Apply](records/declared-overloaded-record-fields/dot-postfix) **   (***optional*** syntactic sugar)
+- ** [Polymorphic Record Patterns](records/declared-overloaded-record-fields/poly-record-pattern) **   (***speculative*** future)
 
 ## Application Programmer's view
 
@@ -113,10 +121,15 @@ This proposal is addressing the "narrow issue" of namespacing for record field n
 [Records](records)
 
 
+
 I'm avoiding giving implementation details here -- see:
 
+
+>
 >
 > The Implementer's view; and Comparison to SORF   (links above)
+>
+>
 
 
 I'm not saying anything about field selection via pattern matching or record construction using explicit data constructors -- those are to behave as currently (using the approach per ‑XDisambiguateRecordFields and friends).
@@ -130,7 +143,8 @@ Currently in Haskell two records in the same module can't share a field name. Th
 - rather, we have one field name, and we lack the syntax/semantics for sharing it between different records.
 
 
-An example: let's say I have a database application with a field (meaning type) `customer_id`. Then it appears in records for name and address, pricing, order entry, etc. This is not a name 'clash', it's 'intended sharing'. (It really galls me to even put it that way for explanatory purposes. Really it's the **same**`customer_id`.)
+An example: let's say I have a database application with a field (meaning type) `customer_id`. Then it appears in records for name and address, pricing, order entry, etc. This is not a name 'clash', it's 'intended sharing'. (It really galls me to even put it that way for explanatory purposes. Really it's the **same** `customer_id`.)
+
 
 
 In data model design you'd typically go about identifying all the fields (types aka attributes) and putting them in a data dictionary. Then you'd construct your records from them. You might (possibly) put the data dictionary in a distinct module, for easy maintenance. But you'd certainly want all the customer-related records in the same module. So a data decl:
@@ -170,7 +184,11 @@ We need a way to declare that a name is available as an overloadable field name 
 ```
 
 >
+>
 > (The `r{ ... }` is added by the desugarer.)
+>
+>
+
 
 **Option Two: explicit record constraint on the function:**
 
@@ -179,12 +197,20 @@ We need a way to declare that a name is available as an overloadable field name 
 ```
 
 >
+>
 > (See discussion at [Wild afterthought](records/declared-overloaded-record-fields/c-ompare-sorf#the-string-type-parameter-to-has-,-and-scope-control).)
+>
+>
+
 
 **Option Three: Mixed In-situ and Declared ORF:**
 
+
+>
 >
 > \[Added 3-March in response to concerns at the extra effort needed to declare a `fieldLabel` for every field, not just the shared ones.\]
+>
+>
 
 
 Provide a way of 'flagging' in the record declaration whether field names are intended to be shared. Possible syntax:
@@ -208,12 +234,18 @@ Or perhaps:
 
 That is:
 
+
 - for `share` fields, this is declaring them as sharable.
 
-**[Option Four: Type Punning on the \`fieldLabel\`](records/declared-overloaded-record-fields/option-four-type-punning)** q.v.
+
+** [Option Four: Type Punning on the \`fieldLabel\`](records/declared-overloaded-record-fields/option-four-type-punning) ** q.v.
+
 
 >
+>
 > \[End of 3-March addition.\]
+>
+>
 
 
 The field selector's result type `-> Int` means the field's domain (type) is `Int` -- it's just a type.
@@ -241,17 +273,29 @@ Now we can use the field in a record, and that in effect declares an instance fo
 ### Field Selection
 
 
+
 With those records declared, a field selection expression like:
 
+
+>
+>
 > `... (customer_id r) ...`          -- H98 style field application
+>
+>
 
 
 uses familiar type instance resolution to figure out from record type `r` how to extract the `customer_id`.
 
 
+
 \[Possibly that expression could be:
 
+
+>
+>
 > `... r.customer_id ...`
+>
+>
 
 
 See [Dot as Postfix Function Apply](records/declared-overloaded-record-fields/dot-postfix) for that dot notation, but note that nothing in this proposal assumes dot notation will be needed.\]
@@ -337,8 +381,12 @@ module M( x, T )       where
 
 Here only the field selector function `x` and type `T` are exported. The representation is abstract, the client can't construct or dismantle a record type `T`;
 
+
+>
 >
 > The existence of field `y` is hidden altogether.
+>
+>
 
 
 If you say:
@@ -355,10 +403,15 @@ module M( T( x ) )       where
 then you are exporting the `x` field within record type `T`, but not the field selector `x` (nor the generated type 'peg' `Proxy_x`).
 
 
+
 Type `T` and field label `x` are exported, but not data constructor `MkT`, so `x` is unusable. (It can't even be used to update an existing record using syntax: `r{ x = 57 }`, because that syntax now has a different semantics.)
 
+
+>
 >
 > The existence of field `y` is hidden altogether.
+>
+>
 
 
 With:
@@ -471,7 +524,10 @@ You can update multiple fields at the same time:
 ```
 
 >
+>
 > \[There's a poor story to tell here in implementation terms: we split into two calls to `set`, one nested inside the other. It's wasteful to build the intermediate record. Worse, the two fields' types might be parametric in the record type or polymorphically related (perhaps one is a method to apply to the other), then we get a type failure on the intermediate record.\]
+>
+>
 
 
 Note that where there is a genuine business-as-usual name clash you'd need qualified names in polymorphic update syntax, as currently:

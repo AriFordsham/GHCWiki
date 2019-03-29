@@ -1,4 +1,7 @@
-**[Index by Title](title-index)** \| ** Index by Date **
+
+** [Index by Title](title-index) ** \| ** Index by Date **
+
+
 
 ### Mar 8, 2019
 
@@ -3094,3 +3097,6 @@
 ### Dec 8, 2005
 
 - [UsingGhcAsLibrary](/trac/ghc/wiki/UsingGhcAsLibrary)<small> ([diff](/trac/ghc/wiki/UsingGhcAsLibrary?action=diff&version=4))</small>
+
+
+

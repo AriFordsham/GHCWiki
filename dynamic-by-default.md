@@ -60,170 +60,174 @@ As well as the [ticket for implementing dynamic-by-default (\#3658)](https://git
 <th>Affects Windows x86?</th>
 <th>Affects other platforms?
 </th></tr>
-<tr><th>[\#781 GHCi on x86_64, cannot link to static data in shared libs](https://gitlab.haskell.org//ghc/ghc/issues/781)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/781">#781 GHCi on x86_64, cannot link to static data in shared libs</a></th>
 <th>no</th>
 <th>no</th>
-<th>**YES**</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no
-</th></tr>
-<tr><th>[\#1883 GHC can't find library using "short" name](https://gitlab.haskell.org//ghc/ghc/issues/1883)</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**probably**</th>
-<th>**YES**</th>
-<th>no
-</th></tr>
-<tr><th>[\#2283 WIndows: loading objects that refer to DLL symbols](https://gitlab.haskell.org//ghc/ghc/issues/2283)</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**probably**</th>
-<th>**YES**</th>
-<th>no
-</th></tr>
-<tr><th>[\#3242 ghci: can't load .so/.DLL for: m (addDLL: could not load DLL)](https://gitlab.haskell.org//ghc/ghc/issues/3242)</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**probably**</th>
-<th>**YES**</th>
-<th>no
-</th></tr>
-<tr><th>[\#3654 Mach-O GHCi linker lacks support for a range of relocation entries](https://gitlab.haskell.org//ghc/ghc/issues/3654)</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>no</th>
+<th><b>YES</b></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th>[\#4244 Use system linker in GHCi to support alpha, ia64, ppc64](https://gitlab.haskell.org//ghc/ghc/issues/4244)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1883">#1883 GHC can&apos;t find library using &quot;short&quot; name</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
+<th><b>probably</b></th>
+<th><b>YES</b></th>
+<th>no
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2283">#2283 WIndows: loading objects that refer to DLL symbols</a></th>
 <th>no</th>
 <th>no</th>
-<th>**YES**</th></tr>
-<tr><th>[\#5062 Patch: Debug output for OS X linker and coding standard upgrades](https://gitlab.haskell.org//ghc/ghc/issues/5062)</th>
-<th>**YES**</th>
-<th>**YES**</th>
+<th>no</th>
+<th>no</th>
+<th><b>probably</b></th>
+<th><b>YES</b></th>
+<th>no
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3242">#3242 ghci: can&apos;t load .so/.DLL for: m (addDLL: could not load DLL)</a></th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th><b>probably</b></th>
+<th><b>YES</b></th>
+<th>no
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3654">#3654 Mach-O GHCi linker lacks support for a range of relocation entries</a></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th>[\#5197 Support static linker semantics for archives and weak symbols](https://gitlab.haskell.org//ghc/ghc/issues/5197)</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th></tr>
-<tr><th>[\#5435 GHCi linker should run constructors for linked libraries](https://gitlab.haskell.org//ghc/ghc/issues/5435)</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th></tr>
-<tr><th>[\#6107 GHCi runtime linker cannot link with duplicate common symbols](https://gitlab.haskell.org//ghc/ghc/issues/6107)</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th></tr>
-<tr><th>[\#7043 32-bit GHC ceiling of negative float SEGFAULT: 11](https://gitlab.haskell.org//ghc/ghc/issues/7043)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4244">#4244 Use system linker in GHCi to support alpha, ia64, ppc64</a></th>
 <th>no</th>
-<th>**YES**</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th><b>YES</b>
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5062">#5062 Patch: Debug output for OS X linker and coding standard upgrades</a></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th>[\#7056 GHCi loadArchive "libiconv.a":failed Unknown PEi386 section name \`.drectve'](https://gitlab.haskell.org//ghc/ghc/issues/7056)</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**probably**</th>
-<th>**YES**</th>
-<th>no
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5197">#5197 Support static linker semantics for archives and weak symbols</a></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b>
 </th></tr>
-<tr><th>[\#7072 GHC interpreter does not find stat64 symbol on Linux](https://gitlab.haskell.org//ghc/ghc/issues/7072)</th>
-<th>no</th>
-<th>no</th>
-<th>**YES**</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5435">#5435 GHCi linker should run constructors for linked libraries</a></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b>
 </th></tr>
-<tr><th>[\#7097 linker fails to load package with binding to foreign library](https://gitlab.haskell.org//ghc/ghc/issues/7097)</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**probably**</th>
-<th>**YES**</th>
-<th>no
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/6107">#6107 GHCi runtime linker cannot link with duplicate common symbols</a></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b>
 </th></tr>
-<tr><th>[\#7103 Compiler panic, when loading wxc in GHCi](https://gitlab.haskell.org//ghc/ghc/issues/7103)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7043">#7043 32-bit GHC ceiling of negative float SEGFAULT: 11</a></th>
 <th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**probably**</th>
-<th>**YES**</th>
-<th>no
-</th></tr>
-<tr><th>[\#7134 ghc-7.6.0.20120810-x86_64-windows.exe -\> internal error R_X86_64_PC32](https://gitlab.haskell.org//ghc/ghc/issues/7134)</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**YES**</th>
-<th>no</th>
-<th>no
-</th></tr>
-<tr><th>[\#7207 linker fails to load package with binding to foreign library (win64)](https://gitlab.haskell.org//ghc/ghc/issues/7207)</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**YES**</th>
-<th>no</th>
-<th>no
-</th></tr>
-<tr><th>[\#7299 threadDelay broken in ghci, Mac OS X](https://gitlab.haskell.org//ghc/ghc/issues/7299)</th>
-<th>**YES**</th>
-<th>**YES**</th>
+<th><b>YES</b></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th>[\#7357 GHC.exe gives an internal error while linking vector's Monadic.hs](https://gitlab.haskell.org//ghc/ghc/issues/7357)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7056">#7056 GHCi loadArchive &quot;libiconv.a&quot;:failed Unknown PEi386 section name `.drectve&apos;</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
-<th>**YES**</th>
+<th><b>probably</b></th>
+<th><b>YES</b></th>
+<th>no
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7072">#7072 GHC interpreter does not find stat64 symbol on Linux</a></th>
+<th>no</th>
+<th>no</th>
+<th><b>YES</b></th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7097">#7097 linker fails to load package with binding to foreign library</a></th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th><b>probably</b></th>
+<th><b>YES</b></th>
+<th>no
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7103">#7103 Compiler panic, when loading wxc in GHCi</a></th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th><b>probably</b></th>
+<th><b>YES</b></th>
+<th>no
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7134">#7134 ghc-7.6.0.20120810-x86_64-windows.exe -&gt; internal error R_X86_64_PC32</a></th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th><b>YES</b></th>
+<th>no</th>
+<th>no
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7207">#7207 linker fails to load package with binding to foreign library (win64)</a></th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th><b>YES</b></th>
+<th>no</th>
+<th>no
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7299">#7299 threadDelay broken in ghci, Mac OS X</a></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7357">#7357 GHC.exe gives an internal error while linking vector&apos;s Monadic.hs</a></th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th><b>YES</b></th>
 <th>no</th>
 <th>no
 </th></tr></table>
@@ -258,18 +262,31 @@ On OS X x86, the situation is not so nice. On x86 we are very short on registers
 On Linux x86_64 we have more registers, so the effect of giving one up for PIC isn't so pronounced, but we still lose a few percent performance overall.
 
 
+
 For unknown reasons, x86 Linux suffers even worse than x86 OS X, with around a 30% performance penalty.
 
+
 <table><tr><th></th>
-<th>static -\> dynamic
-on OS X x86_64</th>
-<th>static -\> dynamic
-on OS X x86</th>
-<th>static -\> dynamic
-on Linux x86_64</th>
-<th>static -\> dynamic
-on Linux x86</th></tr>
+<td>
+    </td>
+<th>static -&gt; dynamic<br>on OS X x86_64</th>
+<td>
+    </td>
+<th>static -&gt; dynamic<br>on OS X x86</th>
+<td>
+    </td>
+<th>static -&gt; dynamic<br>on Linux x86_64</th>
+<td>
+    </td>
+<th>static -&gt; dynamic<br>on Linux x86</th>
+<td>
+</td></tr>
 <tr><th>Binary Sizes</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -278,18 +295,38 @@ on Linux x86</th></tr>
 <th>-95.8%</th>
 <th>-95.8%</th>
 <th>-95.8%</th>
-<th>-95.9%</th></tr>
+<th>-95.9%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>+1 s.d.</th>
 <th>-93.1%</th>
 <th>-92.8%</th>
 <th>-92.6%</th>
-<th>-92.4%</th></tr>
+<th>-92.4%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>Average</th>
 <th>-94.6%</th>
 <th>-94.5%</th>
 <th>-94.5%</th>
-<th>-94.4%</th></tr>
+<th>-94.4%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>Run Time</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -298,18 +335,38 @@ on Linux x86</th></tr>
 <th>-1.2%</th>
 <th>+11.7%</th>
 <th>-2.5%</th>
-<th>+16.6%</th></tr>
+<th>+16.6%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>+1 s.d.</th>
 <th>+1.6%</th>
 <th>+20.0%</th>
 <th>+9.6%</th>
-<th>+40.3%</th></tr>
+<th>+40.3%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>Average</th>
 <th>+0.2%</th>
 <th>+15.8%</th>
 <th>+3.3%</th>
-<th>+27.9%</th></tr>
+<th>+27.9%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>Elapsed Time</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -318,18 +375,38 @@ on Linux x86</th></tr>
 <th>-6.9%</th>
 <th>+10.3%</th>
 <th>-2.5%</th>
-<th>+16.6%</th></tr>
+<th>+16.6%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>+1 s.d.</th>
 <th>-0.3%</th>
 <th>+20.4%</th>
 <th>+9.6%</th>
-<th>+40.3%</th></tr>
+<th>+40.3%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>Average</th>
 <th>-3.7%</th>
 <th>+15.2%</th>
 <th>+3.3%</th>
-<th>+27.9%</th></tr>
+<th>+27.9%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>Mutator Time</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -338,18 +415,38 @@ on Linux x86</th></tr>
 <th>-1.3%</th>
 <th>+8.9%</th>
 <th>-5.0%</th>
-<th>+18.3%</th></tr>
+<th>+18.3%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>+1 s.d.</th>
 <th>+1.9%</th>
 <th>+18.3%</th>
 <th>+7.5%</th>
-<th>+46.8%</th></tr>
+<th>+46.8%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>Average</th>
 <th>+0.3%</th>
 <th>+13.5%</th>
 <th>+1.1%</th>
-<th>+31.8%</th></tr>
+<th>+31.8%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>Mutator Elapsed Time</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -358,18 +455,38 @@ on Linux x86</th></tr>
 <th>-4.5%</th>
 <th>+7.7%</th>
 <th>-5.0%</th>
-<th>+18.3%</th></tr>
+<th>+18.3%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>+1 s.d.</th>
 <th>+0.3%</th>
 <th>+18.8%</th>
 <th>+7.5%</th>
-<th>+46.8%</th></tr>
+<th>+46.8%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>Average</th>
 <th>-2.1%</th>
 <th>+13.1%</th>
 <th>+1.1%</th>
-<th>+31.8%</th></tr>
+<th>+31.8%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>GC Time</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -378,18 +495,38 @@ on Linux x86</th></tr>
 <th>-1.4%</th>
 <th>+16.3%</th>
 <th>+5.6%</th>
-<th>+13.4%</th></tr>
+<th>+13.4%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>+1 s.d.</th>
 <th>+1.8%</th>
 <th>+27.1%</th>
 <th>+11.2%</th>
-<th>+24.0%</th></tr>
+<th>+24.0%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>Average</th>
 <th>+0.2%</th>
 <th>+21.6%</th>
 <th>+8.4%</th>
-<th>+18.6%</th></tr>
+<th>+18.6%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>GC Elapsed Time</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -398,18 +535,38 @@ on Linux x86</th></tr>
 <th>-1.5%</th>
 <th>+15.8%</th>
 <th>+5.6%</th>
-<th>+13.4%</th></tr>
+<th>+13.4%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>+1 s.d.</th>
 <th>+1.3%</th>
 <th>+25.6%</th>
 <th>+11.2%</th>
-<th>+24.0%</th></tr>
+<th>+24.0%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>Average</th>
 <th>-0.1%</th>
 <th>+20.6%</th>
 <th>+8.4%</th>
-<th>+18.6%</th></tr>
+<th>+18.6%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>Compile Times</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -418,17 +575,33 @@ on Linux x86</th></tr>
 <th>-11.7%</th>
 <th>+6.2%</th>
 <th>-1.8%</th>
-<th>+27.0%</th></tr>
+<th>+27.0%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>+1 s.d.</th>
 <th>-0.5%</th>
 <th>+18.2%</th>
 <th>+7.8%</th>
-<th>+37.8%</th></tr>
+<th>+37.8%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr>
 <tr><th>Average</th>
 <th>-6.3%</th>
 <th>+12.1%</th>
 <th>+2.9%</th>
-<th>+32.3%</th></tr></table>
+<th>+32.3%</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th></tr></table>
+
 
 ### OS X x86 vs x86_64
 
@@ -449,14 +622,14 @@ The left-hand column shows the status quo: x86_64 only beats x86 in mutator time
 The middle column shows what the situation would be if we switch to dynamic instead. Allocations, memory use etc remain higher due to all word-sized things being twice as big. However, the combination of x86_64's performance improving, and x86's performance getting worse, means that x86_64 is now faster overall.
 
 
+
 The right-hand column shows the difference between static x86 and dynamic x86_64.
 
+
 <table><tr><th></th>
-<th>x86 -\> x86_64
-when static by default</th>
-<th>x86 -\> x86_64
-when dynamic by default</th>
-<th>x86 static -\> x86_64 dynamic</th></tr>
+<th>x86 -&gt; x86_64<br>when static by default</th>
+<th>x86 -&gt; x86_64<br>when dynamic by default</th>
+<th>x86 static -&gt; x86_64 dynamic</th></tr>
 <tr><th>Binary Sizes</th>
 <th></th>
 <th></th>

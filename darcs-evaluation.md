@@ -42,9 +42,15 @@ GHC has been using darcs for version control since the beginning of 2006.  It ha
 ## Current status
 
 
+
 On the 23rd July 2008 an IRC meeting on the \#ghc channel decided to make a serious effort to replace Darcs, due to all the problems described above. The logs of that meeting are available in full at [ http://hackage.haskell.org/trac/ghc/attachment/wiki/IRC_Meetings/ghc-metting-2008-07-23.log](http://hackage.haskell.org/trac/ghc/attachment/wiki/IRC_Meetings/ghc-metting-2008-07-23.log), but the main conclusions were:
 
+
 - The GHC developers have sufficient problems with Darcs that a change would be beneficial
+
+
+ 
+
 
 - We want to stick with distributed version control, and have a widely-used and well-supported system, so Mercurial and Git and bzr are the only real
   contenders
@@ -580,7 +586,12 @@ username = My Name <foo@bar.com>
 
 Other issues:
 
+
 - (Note: not nearly as bad as I first thought, this only applies to the use of an extension called win32text: There appears to be poor support for Windows with the transplant command [ http://www.selenic.com/mercurial/bts/issue1077](http://www.selenic.com/mercurial/bts/issue1077))
+
+
+ 
+
 
 - The transplant command wiki page [ http://www.selenic.com/mercurial/wiki/index.cgi/TransplantExtension](http://www.selenic.com/mercurial/wiki/index.cgi/TransplantExtension) contains the text "Three-way merge doesn't cope particularly well with transplanted patches - it will tend to generate false conflicts",
   which doesn't fill me with confidence. However, we only want to use transplant to maintain a branch (e.g. 6.8) which we won't merge back into the one we are pulling from (e.g. HEAD), so this may be a non-issue
@@ -627,21 +638,26 @@ Disadvantages:
 
 #### Darcs / Git Command Comparison
 
-<table><tr><th>`darcs whatsnew -s`</th>
-<th>`git status`</th></tr>
-<tr><th>`darcs whatsnew`</th>
-<th>`git diff`</th></tr>
-<tr><th>`darcs record`</th>
-<th>`git add --patch` (goes through all changes)/`git add -i` (starts with a file-based view) Git add only marks changes for commit.  This can be nicer if you want to check some things first before you commit them.
+
+<table><tr><th><tt>darcs whatsnew -s</tt></th>
+<th><tt>git status</tt>
 </th></tr>
-<tr><th></th>
-<th>`git commit` (do the actual commit)
+<tr><th><tt>darcs whatsnew</tt>   </th>
+<th><tt>git diff</tt>
 </th></tr>
-<tr><th>`darcs record -a -m foo`</th>
-<th>`git commit -a -m foo`</th></tr>
-<tr><th>`darcs pull`</th>
-<th>`git pull` then `git cherry-pick`/`gitk` + select patches using mouse.  It's probably best to have one local branch correspond to the remote branch and then cherry-pick from that.  You can also create local names for several remote repositories.
+<tr><th><tt>darcs record</tt>     </th>
+<th><tt>git add --patch</tt> (goes through all changes)/<tt>git add -i</tt> (starts with a file-based view) Git add only marks changes for commit.  This can be nicer if you want to check some things first before you commit them.
+</th></tr>
+<tr><th> </th>
+<th><tt>git commit</tt> (do the actual commit)
+</th></tr>
+<tr><th><tt>darcs record -a -m foo</tt></th>
+<th><tt>git commit -a -m foo</tt>
+</th></tr>
+<tr><th><tt>darcs pull</tt></th>
+<th><tt>git pull</tt> then <tt>git cherry-pick</tt>/<tt>gitk</tt> + select patches using mouse.  It&apos;s probably best to have one local branch correspond to the remote branch and then cherry-pick from that.  You can also create local names for several remote repositories.
 </th></tr></table>
+
 
 ### Bzr
 
@@ -674,9 +690,11 @@ Disadvantages
 ### Benchmarks
 
 
+
 These benchmark figures were obtained with a warm disk cache on a clean tree, using OS X 10.5:
 
-<table><tr><th></th>
+
+<table><tr><th>     </th>
 <th>Annotate</th>
 <th>Log   </th>
 <th>Status</th>
@@ -701,23 +719,29 @@ These benchmark figures were obtained with a warm disk cache on a clean tree, us
 <th>49.788s 
 </th></tr>
 <tr><th>Darcs</th>
-<th>47.080s\*</th>
+<th>47.080s*</th>
 <th>2.115s</th>
 <th>0.053s</th>
-<th>28.276****
+<th>28.276<b>
+</b></th></tr></table>
+
 
 
 Footnotes:
 
+
 - `darcs annotate` fails with `Stack space overflow: current size 8388608 bytes.`, so you don't get an answer
 
-**`darcs get` fails with `Unapplicable patch` due to the case-insensitivity of HFS+, so you don't get a clone
+
+** `darcs get` fails with `Unapplicable patch` due to the case-insensitivity of HFS+, so you don't get a clone
 **
+
 
 
 These figures were obtained with a warm disk cache on a clean tree, using a Windows XP Parallels virtual machine running under OS X 10.5:
 
-<table><tr><th></th>
+
+<table><tr><th>     </th>
 <th>Annotate</th>
 <th>Log   </th>
 <th>Status</th>
@@ -746,9 +770,11 @@ These figures were obtained with a warm disk cache on a clean tree, using a Wind
 The Bzr clone time is high because it does an actual copy rather than just using hard links, by design (you can use the shared repository feature instead). However, even on the other commands it seems to be about twice as slow as Hg, which is on average somewhat slower than Git.
 
 
+
 Note that this is a very limited benchmark: it doesn't even test merging / pulling or the cost of cloning over a network.
 
-<table><tr><th></th>
+
+<table><tr><th>    </th>
 <th>HTTP Clone (darcs.haskell.org)
 </th></tr>
 <tr><th>Git </th>
@@ -802,30 +828,3 @@ Posts/blogs:
 - [ cgit = super-fast](http://community.livejournal.com/evan_tech/236528.html)
 - [ How I stopped missing Darcs and started loving Git](http://blog.moertel.com/articles/2007/12/10/how-i-stopped-missing-darcs-and-started-loving-git)
 - [ Thomas Schilling converts the GHC tree to Git](http://nominolo.blogspot.com/2008/05/thing-that-should-not-be-or-how-to.html)
-
-### Attachments (2)
-
-- [Darcs-vs-Hg-Bugs.png](/trac/ghc/attachment/wiki/DarcsEvaluation/Darcs-vs-Hg-Bugs.png)[](/trac/ghc/raw-attachment/wiki/DarcsEvaluation/Darcs-vs-Hg-Bugs.png) (44.9 KB) - added by batterseapower[11 years ago](/trac/ghc/timeline?from=2008-07-24T11%3A14%3A03Z&precision=second).
-                Due diligence on hg bug tracker: relative numbers of bugs of each status for hg and darcs
-- [dag-version-control.txt](/trac/ghc/attachment/wiki/DarcsEvaluation/dag-version-control.txt)[](/trac/ghc/raw-attachment/wiki/DarcsEvaluation/dag-version-control.txt) (22.4 KB) - added by guest[11 years ago](/trac/ghc/timeline?from=2008-07-30T22%3A11%3A26Z&precision=second).
-                Discussion of how to conduct versioning on a git/hg style system versus Darcs
-
-
-            Download all attachments as: [.zip](/trac/ghc/zip-attachment/wiki/DarcsEvaluation/)
-
-### Download in other formats:
-
-- [Plain Text](/trac/ghc/wiki/DarcsEvaluation?version=62&format=txt)
-
----
-
-[](http://trac.edgewall.org/)
-
-Powered by [Trac 1.2.2](/trac/ghc/about)
-
-        By [Edgewall Software](http://www.edgewall.org/).
-
-Visit the Trac open source project at
-[http://trac.edgewall.org/](http://trac.edgewall.org/)
-
-</th></tr></table>

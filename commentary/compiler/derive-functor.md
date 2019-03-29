@@ -1,25 +1,37 @@
 # Support for deriving `Functor`, `Foldable`, and `Traversable` instances
 
 
+
+
+
+
 GHC 6.12.1 introduces an extension to the `deriving` mechanism allowing for automatic derivation of `Functor`, `Foldable`, and `Traversable` instances using the `DeriveFunctor`, `DeriveFoldable`, and `DeriveTraversable` extensions, respectively. Twan van Laarhoven [ first proposed this feature](https://mail.haskell.org/pipermail/haskell-prime/2007-March/002137.html) in 2007, and [ opened a related GHC Trac ticket](https://ghc.haskell.org/trac/ghc/ticket/2953) in 2009.
+
 
 ## Example
 
+
 ```
-{-# LANGUAGE DeriveFunctor, DeriveFoldable, DeriveTraversable #-}dataExample a =Ex a Char(Example a)(ExampleChar)deriving(Functor,Foldable,Traversable)
+{-# LANGUAGE DeriveFunctor, DeriveFoldable, DeriveTraversable #-}
+
+data Example a = Ex a Char (Example a) (Example Char)
+  deriving (Functor, Foldable, Traversable)
 ```
 
 
 The derived code would look something like this:
 
-```
-instanceFunctorExamplewhere
-    fmap f (Ex a1 a2 a3 a4)=Ex(f a1) a2 (fmap f a3) a4
 
-instanceFoldableExamplewhere
-    foldr f z (Ex a1 a2 a3 a4)= f a1 (foldr f z a3)
-    foldMap f (Ex a1 a2 a3 a4)= mappend (f a1)(foldMap f a3)instanceTraversableExamplewhere
-    traverse f (Ex a1 a2 a3 a4)= fmap (\b1 b3 ->Ex b1 a2 b3 a4)(f a1)<*> traverse f a3
+```
+instance Functor Example where
+    fmap f (Ex a1 a2 a3 a4) = Ex (f a1) a2 (fmap f a3) a4
+
+instance Foldable Example where
+    foldr f z (Ex a1 a2 a3 a4) = f a1 (foldr f z a3)
+    foldMap f (Ex a1 a2 a3 a4) = mappend (f a1) (foldMap f a3)
+
+instance Traversable Example where
+    traverse f (Ex a1 a2 a3 a4) = fmap (\b1 b3 -> Ex b1 a2 b3 a4) (f a1) <*> traverse f a3
 ```
 
 ## Algorithm description
@@ -194,17 +206,24 @@ removes all such types from consideration.
 ### Covariant and contravariant positions
 
 
+
 One challenge of deriving `Functor` instances for arbitrary data types is handling function types. To illustrate this, note that these all can have derived `Functor` instances:
 
+
 ```
-dataCovFun1 a =CovFun1(Int-> a)dataCovFun2 a =CovFun2((a ->Int)-> a)dataCovFun3 a =CovFun3(((Int-> a)->Int)-> a)
+data CovFun1 a = CovFun1 (Int -> a)
+data CovFun2 a = CovFun2 ((a -> Int) -> a)
+data CovFun3 a = CovFun3 (((Int -> a) -> Int) -> a)
 ```
 
 
 but none of these can:
 
+
 ```
-dataContraFun1 a =ContraFun1(a ->Int)dataContraFun2 a =ContraFun2((Int-> a)->Int)dataContraFun3 a =ContraFun3(((a ->Int)-> a)->Int)
+data ContraFun1 a = ContraFun1 (a -> Int)
+data ContraFun2 a = ContraFun2 ((Int -> a) -> Int)
+data ContraFun3 a = ContraFun3 (((a -> Int) -> a) -> Int)
 ```
 
 
@@ -235,7 +254,10 @@ This mechanism cannot derive `Functor`, `Foldable`, or `Traversable` instances f
 1. The data type's last type parameter cannot be used in the "wrong place" in any constructor's data arguments. For example, in `data Right a = Right [a] (Either Int a)`, the type parameter `a` is only ever used as the last type argument in `[]` and `Either`, so both `[a]` and `Either Int a` values can be `fmap`ped. However, in `data Wrong a = Wrong (Either a a)`, the type variable `a` appears in a position other than the last, so trying to `fmap` an `Either a a` value would not typecheck.
 
 >
+>
 > Note that there are two exceptions to this rule: tuple and function types.
+>
+>
 
 1. The data type's last type variable cannot used in a `-XDatatypeContexts` constraint. For example, `data Ord a => O a = O a deriving Functor` would be rejected.
 
@@ -246,7 +268,14 @@ In addition, GHC performs checks for certain classes only:
 1. For derived `Functor` and `Traversable` instances, the data type's last type variable must be truly universally quantified, i.e., it must not have any class or equality constraints. This means that the following is legal:
 
 ```
-dataT a b whereT1:: a -> b ->T a b      -- Fine! Vanilla H-98T2:: b -> c ->T a b      -- Fine! Existential c, but we can still map over 'b'T3:: b ->TInt b         -- Fine! Constraint 'a', but 'b' is still polymorphicderivinginstanceFunctor(T a){-
+data T a b where
+    T1 :: a -> b -> T a b      -- Fine! Vanilla H-98
+    T2 :: b -> c -> T a b      -- Fine! Existential c, but we can still map over 'b'
+    T3 :: b -> T Int b         -- Fine! Constraint 'a', but 'b' is still polymorphic
+
+deriving instance Functor (T a)
+
+{-
 instance Functor (T a) where
     fmap f (T1 a b) = T1 a (f b)
     fmap f (T2 b c) = T2 (f b) c
@@ -255,115 +284,142 @@ instance Functor (T a) where
 ```
 
 >
+>
 > but the following is not legal:
+>
+>
 
 ```
-dataT a b whereT4::Ord b => b ->T a b  -- No!  'b' is constrainedT5:: b ->T b b           -- No!  'b' is constrainedT6::T a (b,b)-- No!  'b' is constrained
+data T a b where
+    T4 :: Ord b => b -> T a b  -- No!  'b' is constrained
+    T5 :: b -> T b b           -- No!  'b' is constrained
+    T6 :: T a (b,b)            -- No!  'b' is constrained
 ```
 
 >
+>
 > This restriction does not apply to derived `Foldable` instances. See the following section for more details.
+>
+>
 
 ### Relaxed universality check for `DeriveFoldable`
 
 `DeriveFunctor` and `DeriveTraversable` cannot be used with data types that use existential constraints, since the type signatures of `fmap` and `traverse` make this impossible. However, `Foldable` instances are unique in that they do not produce constraints, but only consume them. Therefore, it is permissible to derive `Foldable` instances for constrained data types (e.g., GADTs).
 
 
+
 For example, consider the following GADT:
 
+
 ```
-dataT a whereT1::Ord a => a ->T a
+data T a where
+    T1 :: Ord a => a -> T a
 ```
 
 
 In the type signatures for `fmap :: Functor t => (a -> b) -> t a -> t b` and `traverse :: (Applicative f, Traversable t) => (a -> f b) -> t a -> f (t b)`, the `t` parameter appears both in an argument and the result type, so pattern-matching on a value of `t` must not impose any constraints, as neither `fmap` nor `traverse` would typecheck.
 
+
+
 `Foldable`, however, only mentions `t` in argument types:
 
+
 ```
-classFoldable t where
-    fold ::Monoid m => t m -> m
-    foldMap ::Monoid m =>(a -> m)-> t a -> m
-    foldr ::(a -> b -> b)-> b -> t a -> b
-    foldr' ::(a -> b -> b)-> b -> t a -> b
-    foldl ::(b -> a -> b)-> b -> t a -> b
-    foldl' ::(b -> a -> b)-> b -> t a -> b
-    foldr1 ::(a -> a -> a)-> t a -> a
-    foldl1 ::(a -> a -> a)-> t a -> a
-    toList :: t a ->[a]
-    null :: t a ->Bool
-    length :: t a ->Int
-    elem ::Eq a => a -> t a ->Bool
-    maximum :: forall a.Ord a => t a -> a
-    minimum :: forall a.Ord a => t a -> a
-    sum ::Num a => t a -> a
-    product ::Num a => t a -> a
+class Foldable t where
+    fold :: Monoid m => t m -> m
+    foldMap :: Monoid m => (a -> m) -> t a -> m
+    foldr :: (a -> b -> b) -> b -> t a -> b
+    foldr' :: (a -> b -> b) -> b -> t a -> b
+    foldl :: (b -> a -> b) -> b -> t a -> b
+    foldl' :: (b -> a -> b) -> b -> t a -> b
+    foldr1 :: (a -> a -> a) -> t a -> a
+    foldl1 :: (a -> a -> a) -> t a -> a
+    toList :: t a -> [a]
+    null :: t a -> Bool
+    length :: t a -> Int
+    elem :: Eq a => a -> t a -> Bool
+    maximum :: forall a. Ord a => t a -> a
+    minimum :: forall a. Ord a => t a -> a
+    sum :: Num a => t a -> a
+    product :: Num a => t a -> a
 ```
 
 
 Therefore, a derived `Foldable` instance for `T` typechecks:
 
+
 ```
-instanceFoldableTwhere
-    foldr f z (T1 a)= f a z -- foldr :: Ord a => (a -> b -> b) -> b -> T a -> b
-    foldMap f (T1 a)= f a   -- foldMap :: (Monoid m, Ord a) => (a -> m) -> T a -> m
+instance Foldable T where
+    foldr f z (T1 a) = f a z -- foldr :: Ord a => (a -> b -> b) -> b -> T a -> b
+    foldMap f (T1 a) = f a   -- foldMap :: (Monoid m, Ord a) => (a -> m) -> T a -> m
 ```
 
 
 Deriving `Foldable` instances for GADTs with equality constraints could become murky, however. Consider this GADT:
 
+
 ```
-dataE a whereE1::(a ~Int)=> a   ->E a
-    E2::Int->EIntE3::(a ~Int)=> a   ->EIntE4::(a ~Int)=>Int->E a
+data E a where
+    E1 :: (a ~ Int) => a   -> E a
+    E2 ::              Int -> E Int
+    E3 :: (a ~ Int) => a   -> E Int
+    E4 :: (a ~ Int) => Int -> E a
 ```
 
 
 All four `E` constructors have the same "shape" in that they all take an argument of type `a` (or `Int`, to which `a` is constrained to be equal). Does that mean all four constructors would have their arguments folded over? While it is possible to derive perfectly valid code which would do so:
 
-```
-instanceFoldableEwhere
-    foldr f z (E1 e)= f e z
-    foldr f z (E2 e)= f e z
-    foldr f z (E3 e)= f e z
-    foldr f z (E4 e)= f e z
 
-    foldMap f (E1 e)= f e
-    foldMap f (E2 e)= f e
-    foldMap f (E3 e)= f e
-    foldMap f (E4 e)= f e
+```
+instance Foldable E where
+    foldr f z (E1 e) = f e z
+    foldr f z (E2 e) = f e z
+    foldr f z (E3 e) = f e z
+    foldr f z (E4 e) = f e z
+
+    foldMap f (E1 e) = f e
+    foldMap f (E2 e) = f e
+    foldMap f (E3 e) = f e
+    foldMap f (E4 e) = f e
 ```
 
 
 it is much harder to determine which arguments are equivalent to `a`. Also consider this case:
 
+
 ```
-dataUnknownConstraints a whereUC::Mystery a =>Int->UnknownConstraints a
+data UnknownConstraints a where
+    UC :: Mystery a => Int -> UnknownConstraints a
 ```
 
 
 For all we know, it may be that `a ~ Int => Mystery a`. Does this mean that the `Int` argument in `UC` should be folded over?
 
 
+
 To avoid these thorny edge cases, we only consider constructor arguments (1) whose types are *syntactically* equivalent to the last type parameter and (2) in cases when the last type parameter is a truly universally polymorphic. In the above `E` example, only `E1` fits the bill, so the derived `Foldable` instance is actually:
 
-```
-instanceFoldableEwhere
-    foldr f z (E1 e)= f e z
-    foldr f z (E2 e)= z
-    foldr f z (E3 e)= z
-    foldr f z (E4 e)= z
 
-    foldMap f (E1 e)= f e
-    foldMap f (E2 e)= mempty
-    foldMap f (E3 e)= mempty
-    foldMap f (E4 e)= mempty
+```
+instance Foldable E where
+    foldr f z (E1 e) = f e z
+    foldr f z (E2 e) = z
+    foldr f z (E3 e) = z
+    foldr f z (E4 e) = z
+
+    foldMap f (E1 e) = f e
+    foldMap f (E2 e) = mempty
+    foldMap f (E3 e) = mempty
+    foldMap f (E4 e) = mempty
 ```
 
 
 To expound more on the meaning of criterion (2), we want not only to avoid cases like `E2 :: Int -> E Int`, but also something like this:
 
+
 ```
-dataHigherKinded f a whereHigherKinded:: f a ->HigherKinded f (f a)
+data HigherKinded f a where
+    HigherKinded :: f a -> HigherKinded f (f a)
 ```
 
 
@@ -375,29 +431,33 @@ For the original discussion on this proposal, see [ \#10447](https://ghc.haskell
 ## Alternative strategy for deriving `Foldable` and `Traversable`
 
 
+
 We adapt the algorithms for `-XDeriveFoldable` and `-XDeriveTraversable` based on that of `-XDeriveFunctor`. However, there is an important difference between deriving the former two typeclasses and the latter one (as of GHC 8.2, addressing [ Trac \#11174](https://ghc.haskell.org/trac/ghc/ticket/11174)), which is best illustrated by the following scenario:
 
+
 ```
-dataWithInt a =WithInt a Int#deriving(Functor,Foldable,Traversable)
+data WithInt a = WithInt a Int# deriving (Functor, Foldable, Traversable)
 ```
 
 
 The generated code for the `Functor` instance is straightforward:
 
+
 ```
-instanceFunctorWithIntwhere
-  fmap f (WithInt a i)=WithInt(f a) i
+instance Functor WithInt where
+  fmap f (WithInt a i) = WithInt (f a) i
 ```
 
 
 But if we use too similar of a strategy for deriving the `Foldable` and `Traversable` instances, we end up with this code:
 
-```
-instanceFoldableWithIntwhere
-  foldMap f (WithInt a i)= f a <> mempty
 
-instanceTraversableWithIntwhere
-  traverse f (WithInt a i)= fmap WithInt(f a)<*> pure i
+```
+instance Foldable WithInt where
+  foldMap f (WithInt a i) = f a <> mempty
+
+instance Traversable WithInt where
+  traverse f (WithInt a i) = fmap WithInt (f a) <*> pure i
 ```
 
 
@@ -418,19 +478,25 @@ We can fix both of these issues by incorporating a slight twist to the usual alg
 - `{b_i, ..., b_k}` is a subset of `{a_1, ..., a_n}` whose indices correspond to the arguments whose types mention the last type parameter. As a consequence, taking the difference of `{a_1, ..., a_n}` and `{b_i, ..., b_k}` yields the all the argument values of `ConName` whose types do not mention the last type parameter. Note that `[i, ..., k]` is a strictly increasing—but not necessarily consecutive—integer sequence.
 
 >
+>
 > For example, the datatype
+>
+>
 
 ```
-dataFoo a =FooInt a Int a
+data Foo a = Foo Int a Int a
 ```
 
 >
+>
 > would generate the following `Traversable` instance:
+>
+>
 
 ```
-instanceTraversableFoowhere
-  traverse f (Foo a1 a2 a3 a4)=
-    fmap (\b2 b4 ->Foo a1 b2 a3 b4)(f a2)<*> f a4
+instance Traversable Foo where
+  traverse f (Foo a1 a2 a3 a4) =
+    fmap (\b2 b4 -> Foo a1 b2 a3 b4) (f a2) <*> f a4
 ```
 
 
@@ -441,25 +507,34 @@ Technically, this approach would also work for `-XDeriveFunctor` as well, but we
 1. There would be certain datatypes for which the above strategy would generate `Functor` code that would fail to typecheck. For example:
 
 ```
-dataBar f a =Bar(forall f.Functor f => f a)derivingFunctor
+data Bar f a = Bar (forall f. Functor f => f a) deriving Functor
 ```
 
+>
 >
 > With the conventional algorithm, it would generate something like:
+>
+>
 
 ```
-fmap f (Bar a)=Bar(fmap f a)
+fmap f (Bar a) = Bar (fmap f a)
 ```
 
+>
 >
 > which typechecks. But with the strategy mentioned above, it would generate:
+>
+>
 
 ```
-fmap f (Bar a)=(\b ->Bar b)(fmap f a)
+fmap f (Bar a) = (\b -> Bar b) (fmap f a)
 ```
 
 >
+>
 > which does not typecheck, since GHC cannot unify the rank-2 type variables in the types of `b` and `fmap f a`.
+>
+>
 
 ## Future work
 
@@ -475,40 +550,58 @@ In GHC 8.0, higher-order versions of the `Eq`, `Ord`, `Read`, and `Show` typecla
 ### Classes
 
 
+
 The `Bifunctor`, `Bifoldable`, and `Bitraversable` classes are defined as follows:
 
+
 ```
-classBifunctor p where
-    bimap ::(a -> b)->(c -> d)-> p a c -> p b d
+class Bifunctor p where
+    bimap :: (a -> b) -> (c -> d) -> p a c -> p b d
 
-classBifoldable p where
-    bifoldMap ::Monoid m =>(a -> m)->(b -> m)-> p a b -> m
-    bifoldr ::(a -> c -> c)->(b -> c -> c)-> c -> p a b -> c
+class Bifoldable p where
+    bifoldMap :: Monoid m => (a -> m) -> (b -> m) -> p a b -> m
+    bifoldr :: (a -> c -> c) -> (b -> c -> c) -> c -> p a b -> c
 
-class(Bifunctor t,Bifoldable t)=>Bitraversable t where
-    bitraverse ::Applicative f =>(a -> f c)->(b -> f d)-> t a b -> f (t c d)
+class (Bifunctor t, Bifoldable t) => Bitraversable t where
+    bitraverse :: Applicative f => (a -> f c) -> (b -> f d) -> t a b -> f (t c d)
 ```
 
 
 Each class contains further methods, but they can be defined in terms of the above ones. Therefore, we need only derive implementations for them. This also mirrors how the algorithms currently work in the one-parameter cases, as they only implement `fmap`, `foldMap`, `foldr`, and `traverse`.
 
 
+
 The typeclasses in `Data.Functor.Classes` are defined as follows:
 
+
 ```
-classEq1 f where
-    liftEq ::(a -> b ->Bool)-> f a -> f b ->Boolclass(Eq1 f)=>Ord1 f where
-    liftCompare ::(a -> b ->Ordering)-> f a -> f b ->OrderingclassRead1 f where
-    liftReadsPrec ::(Int->ReadS a)->ReadS[a]->Int->ReadS(f a)
-    liftReadList  ::(Int->ReadS a)->ReadS[a]->ReadS[f a]classShow1 f where
-    liftShowsPrec ::(Int-> a ->ShowS)->([a]->ShowS)->Int->  f a  ->ShowS
-    liftShowList  ::(Int-> a ->ShowS)->([a]->ShowS)->[f a]->ShowSclassEq2 f where
-    liftEq2 ::(a -> b ->Bool)->(c -> d ->Bool)-> f a c -> f b d ->Boolclass(Eq2 f)=>Ord2 f where
-    liftCompare2 ::(a -> b ->Ordering)->(c -> d ->Ordering)-> f a c -> f b d ->OrderingclassRead2 f where
-    liftReadsPrec2 ::(Int->ReadS a)->ReadS[a]->(Int->ReadS b)->ReadS[b]->Int->ReadS(f a b)
-    liftReadList2  ::(Int->ReadS a)->ReadS[a]->(Int->ReadS b)->ReadS[b]->ReadS[f a b]classShow2 f where
-    liftShowsPrec2 ::(Int-> a ->ShowS)->([a]->ShowS)->(Int-> b ->ShowS)->([b]->ShowS)->Int->  f a b ->ShowS
-    liftShowList2  ::(Int-> a ->ShowS)->([a]->ShowS)->(Int-> b ->ShowS)->([b]->ShowS)->[f a b]->ShowS
+class Eq1 f where
+    liftEq :: (a -> b -> Bool) -> f a -> f b -> Bool
+
+class (Eq1 f) => Ord1 f where
+    liftCompare :: (a -> b -> Ordering) -> f a -> f b -> Ordering
+
+class Read1 f where
+    liftReadsPrec :: (Int -> ReadS a) -> ReadS [a] -> Int -> ReadS (f a)
+    liftReadList  :: (Int -> ReadS a) -> ReadS [a]        -> ReadS [f a]
+
+class Show1 f where
+    liftShowsPrec :: (Int -> a -> ShowS) -> ([a] -> ShowS) -> Int ->  f a  -> ShowS
+    liftShowList  :: (Int -> a -> ShowS) -> ([a] -> ShowS)        -> [f a] -> ShowS
+
+class Eq2 f where
+    liftEq2 :: (a -> b -> Bool) -> (c -> d -> Bool) -> f a c -> f b d -> Bool
+
+class (Eq2 f) => Ord2 f where
+    liftCompare2 :: (a -> b -> Ordering) -> (c -> d -> Ordering) -> f a c -> f b d -> Ordering
+
+class Read2 f where
+    liftReadsPrec2 :: (Int -> ReadS a) -> ReadS [a] -> (Int -> ReadS b) -> ReadS [b] -> Int -> ReadS (f a b)
+    liftReadList2  :: (Int -> ReadS a) -> ReadS [a] -> (Int -> ReadS b) -> ReadS [b]        -> ReadS [f a b]
+
+class Show2 f where
+    liftShowsPrec2 :: (Int -> a -> ShowS) -> ([a] -> ShowS) -> (Int -> b -> ShowS) -> ([b] -> ShowS) -> Int ->  f a b - > ShowS
+    liftShowList2  :: (Int -> a -> ShowS) -> ([a] -> ShowS) -> (Int -> b -> ShowS) -> ([b] -> ShowS)        -> [f a b] -> ShowS
 ```
 
 ### Algorithms
@@ -561,28 +654,34 @@ This algorithm isn't terribly different from the one above for generating an `fm
 (The caveats in [ https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor\#AlternativestrategyforderivingFoldableandTraversable](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor#AlternativestrategyforderivingFoldableandTraversable) apply.)
 
 
+
 There's one part of the `bifoldMap` algorithm that deserves futher discussion: the overlapping cases for `T c1 c1 c3`. Whenever an argument to a constructor has a type  where each of the last two type variables mention `a` or `b`, we opt to generate `bifoldMap` instead of `foldMap`. We *could* go the other way, though. For instance, the following is a valid implementation of `Bifoldable` for `newtype T a b = T (Either a b)`:
 
+
 ```
-instanceBifoldableTwhere
-  bifoldMap _ g (T e)= foldMap g e
+instance Bifoldable T where
+  bifoldMap _ g (T e) = foldMap g e
 ```
 
 
 But this is unsatisfying for a couple of reasons, though. One obvious issue is that this definition blatantly ignores the first argument to `bifoldMap`, preventing users from folding over the `a` type parameter. Another problem is that doing this would be inconsistent with how `bimap` and `bitraverse` are generated. Unlike with `bifoldMap`, parametricity forces there to be one definition for `bimap` and `bitraverse` (see [ https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor\#RelaxeduniversalitycheckforDeriveFoldable](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor#RelaxeduniversalitycheckforDeriveFoldable) for more info):
 
+
 ```
-instanceBifunctorTwhere
-  bimap f g (T e)=T(bimap f g e)instanceBitraversableTwhere
-  bitraverse f g (T e)= fmap T(bitraverse f g e)
+instance Bifunctor T where
+  bimap f g (T e) = T (bimap f g e)
+
+instance Bitraversable T where
+  bitraverse f g (T e) = fmap T (bitraverse f g e)
 ```
 
 
 Therefore, it feels far more natural to generate this `Bifoldable` instance:
 
+
 ```
-instanceBifoldableTwhere
-  bifoldMap f g (T e)= bifoldMap f g e
+instance Bifoldable T where
+  bifoldMap f g (T e) = bifoldMap f g e
 ```
 
 
@@ -591,20 +690,24 @@ This also ensures that [ bifoldMapDefault](http://hackage.haskell.org/package/bi
 #### Corner case: GADTs
 
 
+
 Consider the following code:
 
-```
-dataBoth a b whereBothCon:: x -> x ->Both x x
 
-derivinginstanceBifoldableBoth
+```
+data Both a b where
+  BothCon :: x -> x -> Both x x
+
+deriving instance Bifoldable Both
 ```
 
 
 What should be the definition of `bifoldMap` for `Both`? We have a choice, since both the function argument of type `(a -> m)` and of type `(b -> m)` can be applied to either argument. In such a scenario, the second fold function takes precedence over the first fold function, so the derived `Bifoldable` instance would be:
 
+
 ```
-instanceBifoldableBothwhere
-  bifoldMap _ g (BothCon x1 x2)= g x1 <> g x2
+instance Bifoldable Both where
+  bifoldMap _ g (BothCon x1 x2) = g x1 <> g x2
 ```
 
 

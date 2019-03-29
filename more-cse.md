@@ -6,43 +6,51 @@
 The CSE pass is pretty simple at the moment.  Here are tickets that identify currently-missed opportunities.
 
 
+
 Use Keyword = `CSE` to ensure that a ticket ends up on these lists.
+
+
 
 **Open Tickets:**
 
-<table><tr><th>[\#149](https://gitlab.haskell.org//ghc/ghc/issues/149)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/149">#149</a></th>
 <td>missed CSE opportunity</td></tr>
-<tr><th>[\#701](https://gitlab.haskell.org//ghc/ghc/issues/701)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/701">#701</a></th>
 <td>Better CSE optimisation</td></tr>
-<tr><th>[\#947](https://gitlab.haskell.org//ghc/ghc/issues/947)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/947">#947</a></th>
 <td>ghc -O space leak: CSE between different CAFs</td></tr>
-<tr><th>[\#5344](https://gitlab.haskell.org//ghc/ghc/issues/5344)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5344">#5344</a></th>
 <td>CSE should look through coercions</td></tr>
-<tr><th>[\#7596](https://gitlab.haskell.org//ghc/ghc/issues/7596)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7596">#7596</a></th>
 <td>Opportunity to improve CSE</td></tr>
-<tr><th>[\#9688](https://gitlab.haskell.org//ghc/ghc/issues/9688)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9688">#9688</a></th>
 <td>Improve the interaction between CSE and the join point transformation</td></tr>
-<tr><th>[\#12620](https://gitlab.haskell.org//ghc/ghc/issues/12620)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12620">#12620</a></th>
 <td>Allow the user to prevent floating and CSE</td></tr>
-<tr><th>[\#13219](https://gitlab.haskell.org//ghc/ghc/issues/13219)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13219">#13219</a></th>
 <td>CSE for join points</td></tr>
-<tr><th>[\#13589](https://gitlab.haskell.org//ghc/ghc/issues/13589)</th>
-<td>Possible inconsistency in CSE's treatment of NOINLINE</td></tr>
-<tr><th>[\#13694](https://gitlab.haskell.org//ghc/ghc/issues/13694)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13589">#13589</a></th>
+<td>Possible inconsistency in CSE&apos;s treatment of NOINLINE</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13694">#13694</a></th>
 <td>CSE runs before SpecConstr</td></tr>
-<tr><th>[\#14186](https://gitlab.haskell.org//ghc/ghc/issues/14186)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14186">#14186</a></th>
 <td>CSE fails to CSE two identical large top-level functions</td></tr>
-<tr><th>[\#14222](https://gitlab.haskell.org//ghc/ghc/issues/14222)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14222">#14222</a></th>
 <td>Simple text fusion example results in rather duplicative code</td></tr>
-<tr><th>[\#14684](https://gitlab.haskell.org//ghc/ghc/issues/14684)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14684">#14684</a></th>
 <td>combineIdenticalAlts is only partially implemented</td></tr></table>
+
+
+
 
 **Closed Tickets:**
 
-<table><tr><th>[\#2940](https://gitlab.haskell.org//ghc/ghc/issues/2940)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2940">#2940</a></th>
 <td>Do CSE after CorePrep</td></tr>
-<tr><th>[\#9441](https://gitlab.haskell.org//ghc/ghc/issues/9441)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9441">#9441</a></th>
 <td>CSE should deal with letrec</td></tr></table>
+
+
 
 ## More aggressive CSE
 

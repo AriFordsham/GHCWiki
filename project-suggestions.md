@@ -31,11 +31,18 @@ Here are some suggestions for projects related to GHC that could be undertaken b
 ### Turning GHC into a platform
 
 
+
 Projects aimed at making GHC into a user-extensible plug-in platform, and less of a monolithic compiler.
+
 
 - **Allow much finer and more modular control over the way in which rewrite rules and inlining directives are ordered**.  See this [ email thread](http://www.haskell.org/pipermail/haskell-cafe/2008-January/038196.html)
 
+
+  
+
+
 ### Types
+
 
 - **Allow unboxed tuples as function arguments**.   Currently unboxed tuples are second class; fixing this would be a nice simplification.
 
@@ -58,20 +65,29 @@ Projects aimed at making GHC into a user-extensible plug-in platform, and less o
 # Just Hacking
 
 
+
 Projects for people who want a decent-sized hacking project, with less research content.
+
 
 ## Compiler
 
-- 
 
-  <table><tr><th>[\#602](https://gitlab.haskell.org//ghc/ghc/issues/602)</th>
+- <table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/602">#602</a></th>
   <td>Warning Suppression</td></tr></table>
 
-  Whole-program dead-code detection (with `--make`).
-  Whole-program overloading elimination (with `--make`).
-  Evolve a better ordering for the optimisation passes using [ Acovea](http://www.coyotegulch.com/products/acovea/).
-  Build system[\#989](https://gitlab.haskell.org//ghc/ghc/issues/989)Build GHC on Windows using Microsoft toolchainToolsUpdate/improve [ Visual Haskell](http://www.haskell.org/visualhaskell) to use the (free) [ Visual Studio Shell](http://msdn2.microsoft.com/en-us/vsx2008/products/bb933751.aspx).
-  Download in other formats:[Plain Text](/trac/ghc/wiki/ProjectSuggestions?version=22&format=txt)[](http://trac.edgewall.org/)Powered by [Trac 1.2.2](/trac/ghc/about)
 
-          By [Edgewall Software](http://www.edgewall.org/).Visit the Trac open source project at
-  [http://trac.edgewall.org/](http://trac.edgewall.org/)
+- Whole-program dead-code detection (with `--make`).
+- Whole-program overloading elimination (with `--make`).
+- Evolve a better ordering for the optimisation passes using [ Acovea](http://www.coyotegulch.com/products/acovea/).
+
+## Build system
+
+
+- <table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/989">#989</a></th>
+  <td>Build GHC on Windows using Microsoft toolchain</td></tr></table>
+
+
+## Tools
+
+
+- Update/improve [ Visual Haskell](http://www.haskell.org/visualhaskell) to use the (free) [ Visual Studio Shell](http://msdn2.microsoft.com/en-us/vsx2008/products/bb933751.aspx).

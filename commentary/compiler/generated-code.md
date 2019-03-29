@@ -167,8 +167,9 @@ order:
 <table><tr><th>Entry code</th>
 <td>
 The actual machine code that the STG machine will execute upon
-"entry". Entry means different things for different heap objects.
+&quot;entry&quot;. Entry means different things for different heap objects.
 </td></tr></table>
+
 
 - For *thunks*, entry is when the thunk is forced by some demand
   for its value, such as a `case` expression scrutinising it
@@ -272,24 +273,35 @@ pointer and arity for.
 Application of functions is the bread and butter of the STG
 machine. Correspondingly, this first Haskell program
 
+
 ```
-{-# NOINLINE known_fun #-}known_fun:: a -> a
+{-# NOINLINE known_fun #-}
+known_fun :: a -> a
 known_fun x = x
 
-known_app::()->Intknown_app_= known_fun 10
+known_app :: () -> Int
+known_app _ = known_fun 10
 ```
 
 
 compiles to very simple C-- code
 
+
 ```
-Main_knownzuapp_entry(){cl3:
-        I32[Sp +0]= stg_INTLIKE_closure+209;
-        jump Main_knownzufun_entry();}
+Main_knownzuapp_entry() {
+    cl3:
+        I32[Sp + 0] = stg_INTLIKE_closure+209;
+        jump Main_knownzufun_entry ();
+}
 ```
 
 ```
-_Main_knownzuapp_entry:Lcl3:movlL_stg_INTLIKE_closure$non_lazy_ptr,%eaxaddl$209,%eaxmovl%eax,(%ebp)jmp_Main_knownzufun_entry
+_Main_knownzuapp_entry:
+Lcl3:
+    movl L_stg_INTLIKE_closure$non_lazy_ptr,%eax
+    addl $209,%eax
+    movl %eax,(%ebp)
+    jmp _Main_knownzufun_entry
 ```
 
 
@@ -313,28 +325,51 @@ tail-call into the entry code of `known_fun`.
 This Haskell code is apparently little more complicated than the
 previous example
 
-```
-{-# NOINLINE known_fun_2 #-}known_fun_2:: a -> a -> a
-known_fun_2 x _= x
 
-known_app_2::()->Intknown_app_2_= known_fun_2 1010
+```
+{-# NOINLINE known_fun_2 #-}
+known_fun_2 :: a -> a -> a
+known_fun_2 x _ = x
+
+known_app_2 :: () -> Int
+known_app_2 _ = known_fun_2 10 10
 ```
 
 
 however, it generates radically different C-- code:
 
+
 ```
-Main_knownzuappzu2_entry(){clE:if(Sp -4< SpLim)goto clH;
-        I32[Sp +0]= stg_INTLIKE_closure+209;
-        I32[Sp -4]= stg_INTLIKE_closure+209;
-        Sp = Sp -4;
-        jump Main_knownzufunzu2_entry();clH:
+Main_knownzuappzu2_entry() {
+    clE:
+        if (Sp - 4 < SpLim) goto clH;
+        I32[Sp + 0] = stg_INTLIKE_closure+209;
+        I32[Sp - 4] = stg_INTLIKE_closure+209;
+        Sp = Sp - 4;
+        jump Main_knownzufunzu2_entry ();
+    clH:
         R1 = Main_knownzuappzu2_closure;
-        jump stg_gc_fun();}
+        jump stg_gc_fun ();
+}
 ```
 
 ```
-_Main_knownzuappzu2_entry:LclE:leal-4(%ebp),%eaxcmpl84(%ebx),%eaxjbLclHmovlL_stg_INTLIKE_closure$non_lazy_ptr,%eaxaddl$209,%eaxmovl%eax,(%ebp)movlL_stg_INTLIKE_closure$non_lazy_ptr,%eaxaddl$209,%eaxmovl%eax,-4(%ebp)addl$-4,%ebpjmp_Main_knownzufunzu2_entryLclH:movl$_Main_knownzuappzu2_closure,%esijmp*-4(%ebx)
+_Main_knownzuappzu2_entry:
+LclE:
+    leal -4(%ebp),%eax
+    cmpl 84(%ebx),%eax
+    jb LclH
+    movl L_stg_INTLIKE_closure$non_lazy_ptr,%eax
+    addl $209,%eax
+    movl %eax,(%ebp)
+    movl L_stg_INTLIKE_closure$non_lazy_ptr,%eax
+    addl $209,%eax
+    movl %eax,-4(%ebp)
+    addl $-4,%ebp
+    jmp _Main_knownzufunzu2_entry
+LclH:
+    movl $_Main_knownzuappzu2_closure,%esi
+    jmp *-4(%ebx)
 ```
 
 
@@ -351,8 +386,9 @@ First, we check to see if growing the stack would overflow
 allocated stack space, by comparing the STG stack pointer register
 `Sp` with the stack limit register `SpLim`:
 
+
 ```
-if(Sp -4< SpLim)goto clH;
+    if (Sp - 4 < SpLim) goto clH;
 ```
 
 
@@ -362,7 +398,7 @@ current `Sp`). If the stack check fails, we branch to `clH`:
 ```
 clH:
     R1 = Main_knownzuappzu2_closure;
-    jump stg_gc_fun();
+    jump stg_gc_fun ();
 ```
 
 
@@ -383,42 +419,56 @@ and write the two arguments to `known_fun_2` into the top two stack
 slots (overwriting our own first argument in the process, of
 course):
 
+
 ```
-    I32[Sp +0]= stg_INTLIKE_closure+209;
-    I32[Sp -4]= stg_INTLIKE_closure+209;
-    Sp = Sp -4;
+    I32[Sp + 0] = stg_INTLIKE_closure+209;
+    I32[Sp - 4] = stg_INTLIKE_closure+209;
+    Sp = Sp - 4;
 ```
 
 
 A simple tail call to the new function finishes us off:
 
+
 ```
-    jump Main_knownzufunzu2_entry();
+    jump Main_knownzufunzu2_entry ();
 ```
 
 ## Example 3: Unsaturated applications to known functions
 
 
+
 Despite describing an undersaturated call, this Haskell code
 
-```
-{-# NOINLINE known_fun_2 #-}known_fun_2:: a -> a -> a
-known_fun_2 x _= x
 
-known_undersaturated_app::()->Int->Intknown_undersaturated_app_= known_fun_2 10
+```
+{-# NOINLINE known_fun_2 #-}
+known_fun_2 :: a -> a -> a
+known_fun_2 x _ = x
+
+known_undersaturated_app :: () -> Int -> Int
+known_undersaturated_app _ = known_fun_2 10
 ```
 
 
 compiles to straightforward C-- as follows
 
+
 ```
-Main_knownzuundersaturatedzuapp_entry(){cmd:
-        I32[Sp +0]= stg_INTLIKE_closure+209;
-        jump Main_knownzufunzu2_entry();}
+Main_knownzuundersaturatedzuapp_entry() {
+    cmd:
+        I32[Sp + 0] = stg_INTLIKE_closure+209;
+        jump Main_knownzufunzu2_entry ();
+}
 ```
 
 ```
-_Main_knownzuundersaturatedzuapp_entry:Lcmd:movlL_stg_INTLIKE_closure$non_lazy_ptr,%eaxaddl$209,%eaxmovl%eax,(%ebp)jmp_Main_knownzufunzu2_entry
+_Main_knownzuundersaturatedzuapp_entry:
+Lcmd:
+    movl L_stg_INTLIKE_closure$non_lazy_ptr,%eax
+    addl $209,%eax
+    movl %eax,(%ebp)
+    jmp _Main_knownzufunzu2_entry
 ```
 
 
@@ -436,22 +486,31 @@ until we've considered happens to calls to statically-unknown
 functions. To see what these look like, we are going to use the
 following Haskell code
 
+
 ```
-unknown_app::(Int->Int)->Int->Intunknown_app f x = f x
+unknown_app :: (Int -> Int) -> Int -> Int
+unknown_app f x = f x
 ```
 
 
 Which compiles to this C-- function
 
+
 ```
-Main_unknownzuapp_entry(){cnO:
-        R1 = I32[Sp +0];
-        Sp = Sp +4;
-        jump stg_ap_p_fast();}
+Main_unknownzuapp_entry() {
+    cnO:
+        R1 = I32[Sp + 0];
+        Sp = Sp + 4;
+        jump stg_ap_p_fast ();
+}
 ```
 
 ```
-_Main_unknownzuapp_entry:Lcn0:movl(%ebp),%esiaddl$4,%ebpjmp_stg_ap_p_fast
+_Main_unknownzuapp_entry:
+Lcn0:
+    movl (%ebp),%esi
+    addl $4,%ebp
+    jmp _stg_ap_p_fast
 ```
 
 
@@ -511,12 +570,14 @@ applications.
 ### Making the call to the generic application code
 
 
+
 Let's remind ourselves of the original code:
 
+
 ```
-    R1 = I32[Sp +0];
-    Sp = Sp +4;
-    jump stg_ap_p_fast();
+    R1 = I32[Sp + 0];
+    Sp = Sp + 4;
+    jump stg_ap_p_fast ();
 ```
 
 
@@ -529,32 +590,57 @@ deals with all the cases for `f` described above.
 ## Example 5: oversaturated applications to known functions
 
 
+
 This Haskell code
 
-```
-{-# NOINLINE known_fun_2 #-}known_fun_2:: a -> a -> a
-known_fun_2 x _= x
 
-known_oversat_app::()->Intknown_oversat_app_= known_fun_2 id id 10
+```
+{-# NOINLINE known_fun_2 #-}
+known_fun_2 :: a -> a -> a
+known_fun_2 x _ = x
+
+known_oversat_app :: () -> Int
+known_oversat_app _ = known_fun_2 id id 10
 ```
 
 
 compiles to the following C-- function
 
+
 ```
-Main_knownzuoversatzuapp_entry(){cmj:if(Sp -12< SpLim)goto cmm;
-        I32[Sp +0]= stg_INTLIKE_closure+209;
-        I32[Sp -4]= stg_ap_p_info;
-        I32[Sp -8]= base_GHCziBase_id_closure;
-        I32[Sp -12]= base_GHCziBase_id_closure;
-        Sp = Sp -12;
-        jump Main_knownzufunzu2_entry();cmm:
+Main_knownzuoversatzuapp_entry() {
+    cmj:
+        if (Sp - 12 < SpLim) goto cmm;
+        I32[Sp + 0] = stg_INTLIKE_closure+209;
+        I32[Sp - 4] = stg_ap_p_info;
+        I32[Sp - 8] = base_GHCziBase_id_closure;
+        I32[Sp - 12] = base_GHCziBase_id_closure;
+        Sp = Sp - 12;
+        jump Main_knownzufunzu2_entry ();
+    cmm:
         R1 = Main_knownzuoversatzuapp_closure;
-        jump stg_gc_fun();}
+        jump stg_gc_fun ();
+}
 ```
 
 ```
-_Main_knownzuoversatzuapp_entry:Lcmj:leal-12(%ebp),%eaxcmpl84(%ebx),%eaxjbLcmmmovlL_stg_INTLIKE_closure$non_lazy_ptr,%eaxaddl$209,%eaxmovl%eax,(%ebp)movlL_stg_ap_p_info$non_lazy_ptr,%eaxmovl%eax,-4(%ebp)movl$_base_GHCziBase_id_closure,-8(%ebp)movl$_base_GHCziBase_id_closure,-12(%ebp)addl$-12,%ebpjmp_Main_knownzufunzu2_entryLcmm:movl$_Main_knownzuoversatzuapp_closure,%esijmp*-4(%ebx)
+_Main_knownzuoversatzuapp_entry:
+Lcmj:
+    leal -12(%ebp),%eax
+    cmpl 84(%ebx),%eax
+    jb Lcmm
+    movl L_stg_INTLIKE_closure$non_lazy_ptr,%eax
+    addl $209,%eax
+    movl %eax,(%ebp)
+    movl L_stg_ap_p_info$non_lazy_ptr,%eax
+    movl %eax,-4(%ebp)
+    movl $_base_GHCziBase_id_closure,-8(%ebp)
+    movl $_base_GHCziBase_id_closure,-12(%ebp)
+    addl $-12,%ebp
+    jmp _Main_knownzufunzu2_entry
+Lcmm:
+    movl $_Main_knownzuoversatzuapp_closure,%esi
+    jmp *-4(%ebx)
 ```
 
 
@@ -568,12 +654,13 @@ we saw this check is that we are not only allocating space for
 arguments on the stack, but also for a *continuation*. We set up
 these new stack entries as follows:
 
+
 ```
-    I32[Sp +0]= stg_INTLIKE_closure+209;
-    I32[Sp -4]= stg_ap_p_info;
-    I32[Sp -8]= base_GHCziBase_id_closure;
-    I32[Sp -12]= base_GHCziBase_id_closure;
-    Sp = Sp -12;
+    I32[Sp + 0] = stg_INTLIKE_closure+209;
+    I32[Sp - 4] = stg_ap_p_info;
+    I32[Sp - 8] = base_GHCziBase_id_closure;
+    I32[Sp - 12] = base_GHCziBase_id_closure;
+    Sp = Sp - 12;
 ```
 
 
@@ -644,30 +731,58 @@ common characteristics:
 Let us look at how a thunk and a data constructor get allocated in
 a simple setting:
 
+
 ```
-build_data::Int->MaybeIntbuild_data x =Just(x +1)
+build_data :: Int -> Maybe Int
+build_data x = Just (x + 1)
 ```
 
 
 This compiles into the following C--:
 
+
 ```
-Main_buildzudata_entry(){clE:
-        Hp = Hp +20;if(Hp > HpLim)goto clH;
-        I32[Hp -16]= slk_info;
-        I32[Hp -8]= I32[Sp +0];
-        I32[Hp -4]= base_DataziMaybe_Just_con_info;
-        I32[Hp +0]= Hp -16;
-        R1 = Hp -2;
-        Sp = Sp +4;
-        jump (I32[I32[Sp +0]])();clI:
+Main_buildzudata_entry() {
+    clE:
+        Hp = Hp + 20;
+        if (Hp > HpLim) goto clH;
+        I32[Hp - 16] = slk_info;
+        I32[Hp - 8] = I32[Sp + 0];
+        I32[Hp - 4] = base_DataziMaybe_Just_con_info;
+        I32[Hp + 0] = Hp - 16;
+        R1 = Hp - 2;
+        Sp = Sp + 4;
+        jump (I32[I32[Sp + 0]]) ();
+    clI:
         R1 = Main_buildzudata_closure;
-        jump stg_gc_fun();clH:
-        HpAlloc =20;goto clI;}
+        jump stg_gc_fun ();
+    clH:
+        HpAlloc = 20;
+        goto clI;
+}
 ```
 
 ```
-_Main_buildzudata_entry:LclE:addl$20,%edicmpl92(%ebx),%edijaLclHmovl$_slk_info,-16(%edi)movl(%ebp),%eaxmovl%eax,-8(%edi)movl$_base_DataziMaybe_Just_con_info,-4(%edi)leal-16(%edi),%eaxmovl%eax,(%edi)leal-2(%edi),%esiaddl$4,%ebpmovl(%ebp),%eaxjmp*(%eax)LclH:movl$20,112(%ebx)LclI:movl$_Main_buildzudata_closure,%esijmp*-4(%ebx)
+_Main_buildzudata_entry:
+LclE:
+    addl $20,%edi
+    cmpl 92(%ebx),%edi
+    ja LclH
+    movl $_slk_info,-16(%edi)
+    movl (%ebp),%eax
+    movl %eax,-8(%edi)
+    movl $_base_DataziMaybe_Just_con_info,-4(%edi)
+    leal -16(%edi),%eax
+    movl %eax,(%edi)
+    leal -2(%edi),%esi
+    addl $4,%ebp
+    movl (%ebp),%eax
+    jmp *(%eax)
+LclH:
+    movl $20,112(%ebx)
+LclI:
+    movl $_Main_buildzudata_closure,%esi
+    jmp *-4(%ebx)
 ```
 
 
@@ -685,12 +800,18 @@ garbage collector in order to get the heap cleaned up and
 Hence, the first thing any such function does is check to see if
 enough memory is available for its purposes:
 
+
 ```
 clE:
-    Hp = Hp +20;if(Hp > HpLim)goto clH;...clI:
+    Hp = Hp + 20;
+    if (Hp > HpLim) goto clH;
+...
+clI:
     R1 = Main_buildzudata_closure;
-    jump stg_gc_fun();clH:
-    HpAlloc =20;goto clI;
+    jump stg_gc_fun ();
+clH:
+    HpAlloc = 20;
+    goto clI;
 ```
 
 
@@ -723,11 +844,12 @@ Once the heap check succeeds, we will be able to enter the body of
 the function proper. Since the `Hp` has already been incremented,
 we can just construct the new heap objects directly:
 
+
 ```
-    I32[Hp -16]= slk_info;
-    I32[Hp -8]= I32[Sp +0];
-    I32[Hp -4]= base_DataziMaybe_Just_con_info;
-    I32[Hp +0]= Hp -16;
+    I32[Hp - 16] = slk_info;
+    I32[Hp - 8] = I32[Sp + 0];
+    I32[Hp - 4] = base_DataziMaybe_Just_con_info;
+    I32[Hp + 0] = Hp - 16;
 ```
 
 
@@ -761,10 +883,11 @@ Now that we have allocated the data we entered the function in
 order to construct, we need to return it to the caller. This is
 achieved by the following code:
 
+
 ```
-    R1 = Hp -2;
-    Sp = Sp +4;
-    jump (I32[I32[Sp +0]])();
+    R1 = Hp - 2;
+    Sp = Sp + 4;
+    jump (I32[I32[Sp + 0]]) ();
 ```
 
 
@@ -858,26 +981,62 @@ case_scrut x = case x of Just x -> x; Nothing -> 10
 
 Produces this C-- code
 
-```
-Main_casezuscrut_entry(){ccx:
-        R1 = I32[Sp +0];
-        I32[Sp +0]= scj_info;if(R1 &3!=0)goto ccA;
-        jump (I32[I32[R1]])();ccA:
-        jump (I32[scj_info])();}
 
-scj_ret(){cct:
-        _ccu::I32 = R1 &3;if(_ccu::I32 >=2)goto ccv;
+```
+Main_casezuscrut_entry() {
+    ccx:
+        R1 = I32[Sp + 0];
+        I32[Sp + 0] = scj_info;
+        if (R1 & 3 != 0) goto ccA;
+        jump (I32[I32[R1]]) ();
+    ccA:
+        jump (I32[scj_info]) ();
+}
+
+scj_ret() {
+    cct:
+        _ccu::I32 = R1 & 3;
+        if (_ccu::I32 >= 2) goto ccv;
         R1 = stg_INTLIKE_closure+209;
-        Sp = Sp +4;
-        jump (I32[I32[Sp +0]])();ccv:
-        R1 = I32[R1 +2];
-        Sp = Sp +4;
-        R1 = R1 &(-4);
-        jump (I32[I32[R1]])();}
+        Sp = Sp + 4;
+        jump (I32[I32[Sp + 0]]) ();
+    ccv:
+        R1 = I32[R1 + 2];
+        Sp = Sp + 4;
+        R1 = R1 & (-4);
+        jump (I32[I32[R1]]) ();
+}
 ```
 
 ```
-_Main_casezuscrut_entry:Lccx:movl(%ebp),%esimovl$_scj_info,(%ebp)testl$3,%esijneLccAmovl(%esi),%eaxjmp*(%eax)LccA:jmp*_scj_info_scj_ret:Lcct:movl%esi,%eaxandl$3,%eaxcmpl$2,%eaxjaeLccvmovlL_stg_INTLIKE_closure$non_lazy_ptr,%eaxleal209(%eax),%esiaddl$4,%ebpmovl(%ebp),%eaxjmp*(%eax)Lccv:movl2(%esi),%esiaddl$4,%ebpandl$-4,%esimovl(%esi),%eaxjmp*(%eax)
+_Main_casezuscrut_entry:
+Lccx:
+    movl (%ebp),%esi
+    movl $_scj_info,(%ebp)
+    testl $3,%esi
+    jne LccA
+    movl (%esi),%eax
+    jmp *(%eax)
+LccA:
+    jmp *_scj_info
+
+_scj_ret:
+Lcct:
+    movl %esi,%eax
+    andl $3,%eax
+    cmpl $2,%eax
+    jae Lccv
+    movl L_stg_INTLIKE_closure$non_lazy_ptr,%eax
+    leal 209(%eax),%esi
+    addl $4,%ebp
+    movl (%ebp),%eax
+    jmp *(%eax)
+Lccv:
+    movl 2(%esi),%esi
+    addl $4,%ebp
+    andl $-4,%esi
+    movl (%esi),%eax
+    jmp *(%eax)
 ```
 
 
@@ -893,12 +1052,15 @@ work!
 When we first call the `case_scrut` function, its entry code begins
 executing:
 
+
 ```
 ccx:
-    R1 = I32[Sp +0];
-    I32[Sp +0]= scj_info;if(R1 &3!=0)goto ccA;
-    jump (I32[I32[R1]])();ccA:
-    jump (I32[scj_info])();
+    R1 = I32[Sp + 0];
+    I32[Sp + 0] = scj_info;
+    if (R1 & 3 != 0) goto ccA;
+    jump (I32[I32[R1]]) ();
+ccA:
+    jump (I32[scj_info]) ();
 ```
 
 
@@ -928,9 +1090,10 @@ present at the top of the stack.
 The code starts off by saving this argument (the `x`) temporarily
 into `R1`:
 
+
 ```
 ccx:
-    R1 = I32[Sp +0];
+    R1 = I32[Sp + 0];
 ```
 
 
@@ -940,8 +1103,9 @@ This is the code that will be invoked after `x` has been evaluated
 into WHNF, and which will do the test to decide whether to continue
 as the `Nothing` or as the `Just` branch of the case:
 
+
 ```
-    I32[Sp +0]= scj_info;
+    I32[Sp + 0] = scj_info;
 ```
 
 
@@ -965,10 +1129,12 @@ directly to the code for the continuation. If it is not tagged, we
 are forced to make the jump into the entry code for `x`. This
 choice is embodied by the following code:
 
+
 ```
-if(R1 &3!=0)goto ccA;
-    jump (I32[I32[R1]])();ccA:
-    jump (I32[scj_info])();
+    if (R1 & 3 != 0) goto ccA;
+    jump (I32[I32[R1]]) ();
+ccA:
+    jump (I32[scj_info]) ();
 ```
 
 
@@ -995,18 +1161,22 @@ after `x` becomes a value.
 ### Dealing with the forced scrutinee
 
 
+
 The continuation code is a little more complicated:
+
 
 ```
 cct:
-    _ccu::I32 = R1 &3;if(_ccu::I32 >=2)goto ccv;
+    _ccu::I32 = R1 & 3;
+    if (_ccu::I32 >= 2) goto ccv;
     R1 = stg_INTLIKE_closure+209;
-    Sp = Sp +4;
-    jump (I32[I32[Sp +0]])();ccv:
-    R1 = I32[R1 +2];
-    Sp = Sp +4;
-    R1 = R1 &(-4);
-    jump (I32[I32[R1]])();
+    Sp = Sp + 4;
+    jump (I32[I32[Sp + 0]]) ();
+ccv:
+    R1 = I32[R1 + 2];
+    Sp = Sp + 4;
+    R1 = R1 & (-4);
+    jump (I32[I32[R1]]) ();
 ```
 
 
@@ -1018,9 +1188,11 @@ that was just evaluated. Because we are scrutinising a `Maybe` type
 continuation is able to use the tag bits on the returned pointer to
 decide which of the two branches to take:
 
+
 ```
 cct:
-    _ccu::I32 = R1 &3;if(_ccu::I32 >=2)goto ccv;
+    _ccu::I32 = R1 & 3;
+    if (_ccu::I32 >= 2) goto ccv;
 ```
 
 
@@ -1037,12 +1209,13 @@ case, we need to continue by forcing the thunk inside the `Just`
 and returning that value to our caller, which is what these lines
 are doing:
 
+
 ```
 ccv:
-    R1 = I32[R1 +2];
-    Sp = Sp +4;
-    R1 = R1 &(-4);
-    jump (I32[I32[R1]])();
+    R1 = I32[R1 + 2];
+    Sp = Sp + 4;
+    R1 = R1 & (-4);
+    jump (I32[I32[R1]]) ();
 ```
 
 
@@ -1070,36 +1243,87 @@ previous section will behave when it is actually forced. To remind
 you, the thunk we saw was constructed by the following Haskell
 code:
 
+
 ```
-build_data::Int->MaybeIntbuild_data x =Just(x +1)
+build_data :: Int -> Maybe Int
+build_data x = Just (x + 1)
 ```
 
 
 So how does the `x + 1` thunk work? An excellent question! Let's
 take a look at the C-- for its entry code and find out:
 
-```
-slk_entry(){cph:if(Sp -12< SpLim)goto cpj;
-        I32[Sp -8]= stg_upd_frame_info;
-        I32[Sp -4]= R1;
-        R1 = I32[R1 +8];
-        I32[Sp -12]= soN_info;
-        Sp = Sp -12;if(R1 &3!=0)goto cpk;
-        jump (I32[I32[R1]])();cpj: jump stg_gc_enter_1 ();cpk: jump (I32[soN_info])();}
-
-soN_ret(){cp7:
-        Hp = Hp +8;if(Hp > HpLim)goto cpc;
-        _soL::I32 = I32[R1 +3]+1;
-        I32[Hp -4]= ghczmprim_GHCziTypes_Izh_con_info;
-        I32[Hp +0]= _soL::I32;
-        R1 = Hp -3;
-        Sp = Sp +4;
-        jump (I32[stg_upd_frame_info])();cpd: jump stg_gc_enter_1 ();cpc:
-        HpAlloc =8;goto cpd;}
-```
 
 ```
-_sst_entry:Lcph:leal-12(%ebp),%eaxcmpl84(%ebx),%eaxjbLcpjmovlL_stg_upd_frame_info$non_lazy_ptr,%eaxmovl%eax,-8(%ebp)movl%esi,-4(%ebp)movl8(%esi),%esimovl$_soN_info,-12(%ebp)addl$-12,%ebptestl$3,%esijneLcpkmovl(%esi),%eaxjmp*(%eax)Lcpj:jmp*-8(%ebx)Lcpk:jmp*_soN_info_soN_ret:Lcp7:addl$8,%edicmpl92(%ebx),%edijaLcpcmovl3(%esi),%eaxincl%eaxmovl$_ghczmprim_GHCziTypes_Izh_con_info,-4(%edi)movl%eax,(%edi)leal-3(%edi),%esiaddl$4,%ebpmovlL_stg_upd_frame_info$non_lazy_ptr,%eaxjmp*(%eax)Lcpc:movl$8,112(%ebx)Lcpd:jmp*-8(%ebx)
+slk_entry() {
+    cph:
+        if (Sp - 12 < SpLim) goto cpj;
+        I32[Sp - 8] = stg_upd_frame_info;
+        I32[Sp - 4] = R1;
+        R1 = I32[R1 + 8];
+        I32[Sp - 12] = soN_info;
+        Sp = Sp - 12;
+        if (R1 & 3 != 0) goto cpk;
+        jump (I32[I32[R1]]) ();
+    cpj: jump stg_gc_enter_1 ();
+    cpk: jump (I32[soN_info]) ();
+}
+
+soN_ret() {
+    cp7:
+        Hp = Hp + 8;
+        if (Hp > HpLim) goto cpc;
+        _soL::I32 = I32[R1 + 3] + 1;
+        I32[Hp - 4] = ghczmprim_GHCziTypes_Izh_con_info;
+        I32[Hp + 0] = _soL::I32;
+        R1 = Hp - 3;
+        Sp = Sp + 4;
+        jump (I32[stg_upd_frame_info]) ();
+    cpd: jump stg_gc_enter_1 ();
+    cpc:
+        HpAlloc = 8;
+        goto cpd;
+}
+```
+
+```
+_sst_entry:
+Lcph:
+    leal -12(%ebp),%eax
+    cmpl 84(%ebx),%eax
+    jb Lcpj
+    movl L_stg_upd_frame_info$non_lazy_ptr,%eax
+    movl %eax,-8(%ebp)
+    movl %esi,-4(%ebp)
+    movl 8(%esi),%esi
+    movl $_soN_info,-12(%ebp)
+    addl $-12,%ebp
+    testl $3,%esi
+    jne Lcpk
+    movl (%esi),%eax
+    jmp *(%eax)
+Lcpj:
+    jmp *-8(%ebx)
+Lcpk:
+    jmp *_soN_info
+
+_soN_ret:
+Lcp7:
+    addl $8,%edi
+    cmpl 92(%ebx),%edi
+    ja Lcpc
+    movl 3(%esi),%eax
+    incl %eax
+    movl $_ghczmprim_GHCziTypes_Izh_con_info,-4(%edi)
+    movl %eax,(%edi)
+    leal -3(%edi),%esi
+    addl $4,%ebp
+    movl L_stg_upd_frame_info$non_lazy_ptr,%eax
+    jmp *(%eax)
+Lcpc:
+    movl $8,112(%ebx)
+Lcpd:
+    jmp *-8(%ebx)
 ```
 
 
@@ -1107,8 +1331,9 @@ The original Haskell code read `x + 1`, but GHC has inlined the
 actual code for the addition operation on `Int`s, which looks
 something like:
 
+
 ```
-plusInt(I# a)(I# b)=I#(a + b)
+plusInt (I# a) (I# b) = I# (a + b)
 ```
 
 
@@ -1124,12 +1349,13 @@ the `a` argument to `plusInt`.
 This evaluation is what is being done by the thunk entry code
 `slk_entry`. Ignoring the stack check, the C-- begins thusly:
 
+
 ```
-    I32[Sp -8]= stg_upd_frame_info;
-    I32[Sp -4]= R1;
-    R1 = I32[R1 +8];
-    I32[Sp -12]= soN_info;
-    Sp = Sp -12;
+    I32[Sp - 8] = stg_upd_frame_info;
+    I32[Sp - 4] = R1;
+    R1 = I32[R1 + 8];
+    I32[Sp - 12] = soN_info;
+    Sp = Sp - 12;
 ```
 
 
@@ -1160,9 +1386,11 @@ the free variable of the thunk (which was set up in
 Finally, the entry code evaluates that free variable (checking the
 tag bits of the pointer first, as usual):
 
+
 ```
-if(R1 &3!=0)goto cpk;
-    jump (I32[I32[R1]])();cpk: jump (I32[soN_info])();
+    if (R1 & 3 != 0) goto cpk;
+    jump (I32[I32[R1]]) ();
+cpk: jump (I32[soN_info]) ();
 ```
 
 
@@ -1205,13 +1433,14 @@ constructor to hold the result of the addition. Because of the
 allocation, `soN_ret` begins with a heap check. Ignoring that
 check, we have the following code:
 
+
 ```
-    _soL::I32 = I32[R1 +3]+1;
-    I32[Hp -4]= ghczmprim_GHCziTypes_Izh_con_info;
-    I32[Hp +0]= _soL::I32;
-    R1 = Hp -3;
-    Sp = Sp +4;
-    jump (I32[stg_upd_frame_info])();
+    _soL::I32 = I32[R1 + 3] + 1;
+    I32[Hp - 4] = ghczmprim_GHCziTypes_Izh_con_info;
+    I32[Hp + 0] = _soL::I32;
+    R1 = Hp - 3;
+    Sp = Sp + 4;
+    jump (I32[stg_upd_frame_info]) ();
 ```
 
 

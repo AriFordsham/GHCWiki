@@ -26,21 +26,29 @@ There is a ticket to track progress: [\#9476](https://gitlab.haskell.org//ghc/gh
 ## Tickets
 
 
+
 Use Keyword = `LateLamLift` to ensure that a ticket ends up on these lists.
+
+
 
 **Open Tickets:**
 
-<table><tr><th>[\#9279](https://gitlab.haskell.org//ghc/ghc/issues/9279)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9279">#9279</a></th>
 <td>Local wrapper function remains in final program; result = extra closure allocation</td></tr>
-<tr><th>[\#9374](https://gitlab.haskell.org//ghc/ghc/issues/9374)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9374">#9374</a></th>
 <td>Investigate Static Argument Transformation</td></tr></table>
+
+
+
 
 **Closed Tickets:**  NB: closed tickets may be closed as duplicates; but may still have very illuminating test cases.
 
-<table><tr><th>[\#5945](https://gitlab.haskell.org//ghc/ghc/issues/5945)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5945">#5945</a></th>
 <td>Lambda lifting</td></tr>
-<tr><th>[\#9476](https://gitlab.haskell.org//ghc/ghc/issues/9476)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9476">#9476</a></th>
 <td>Implement late lambda-lifting</td></tr></table>
+
+
 
 ## Implementation
 
@@ -186,18 +194,36 @@ that turns closures into extra arguments *when doing so is viable*.
 ### Syntactic Consequences of Lifting
 
 
+
 Lifting a dynamic function closure has four immediate consequences.
 
+
+>
+>
 > **C1** It eliminates the let.
+>
+>
 
+>
+>
 > **C2** It creates a new top-level definition.
+>
+>
 
+>
+>
 > **C3** It replaces all occurrences of the lifted function in the let's
 > body with a (partial) application. E.g., all occurences of `f1` were
 > replaced by `$lf1 b`.
+>
+>
 
+>
+>
 > **C4** All non-top-level variables that occured in the let's RHS become
 > occurrences of parameters.
+>
+>
 
 ### Operational Consequences of Lifting
 
@@ -219,18 +245,31 @@ implemented in `StgLiftLams.Analysis.goodToLift`.
 - C3 might increase or decrease heap allocation. If `f` occurs in
   a closure in the let body, then
 
+>
+> >
 > >
 > > A) it can increase heap allocation, if the additional arguments to
 > > `f` did not previously occur in that closure
+> >
+> >
+>
 
+>
+> >
 > >
 > > B) it can decrease heap allocation, if those additional arguments
 > > did already occur in the closure.
+> >
+> >
+>
 
+>
 >
 > We call the sum result of A and B *closure growth*. Estimating closure
 > growth is paramount to achieving unambiguously good results.
 > See "Closure Growth" below.
+>
+>
 
 - C4 might increase stack allocation and/or increase register
   pressure, depending on how many arguments the new top-level function

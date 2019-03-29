@@ -1,1 +1,1 @@
-redirect(wiki:Building/AddingLibs)?
+Page moved to [Building/AddingLibs](building/adding-libs)

@@ -245,21 +245,25 @@ from. With DWARF backtraces the situation improves a bit, as you get
 source locations for the backtrace, which can give valuable input.
 
 
+
 To do this, you can compile the second stage with `-g`, like
 
+
 ```
-make V=1GhcStage2HcOpts="-O1 -g"
+make V=1 GhcStage2HcOpts="-O1 -g"
 ```
 
 
 (or equivalent), assuming the miscompilation is triggered by an optimisation.
 
 
+
 Then modify the GHC wrapper `inplace/bin/ghc-stage2` to end with:
+
 
 ```
 rm -f /tmp/${USER}-gdb
-echo run -B"$topdir"${1+"$@"} > /tmp/${USER}-gdb
+echo run -B"$topdir" ${1+"$@"} > /tmp/${USER}-gdb
 exec gdb --tui "$executablename" -x /tmp/${USER}-gdb
 ```
 
@@ -429,11 +433,14 @@ a bit:
   package separately.
 
 >
+>
 > (Also note that tools with more knowledge about the Haskell stack
 > can work around this issue somewhat by using info tables to traverse
 > the Haskell stack. Explaining this strategy to DWARF readers might
 > also be possible, Nathan Howell has done some experiments on this if
 > I remember correctly.)
+>
+>
 
 - Windows situation completely unclear.
 

@@ -11,8 +11,12 @@ Despite all the frenzied comment on ghc-users, nobody's questioned the arbitrari
 
 Here's why: the ideas in DORF were triggered from this contribution by Chris Done (on the Records front page):
 
+
+>
 >
 > Suppose I have 112 hand-crafted data types in my project (e.g. see attachment 51369.txt), this creates a lot of conflicts in field names and constructor names. For example:
+>
+>
 
 ```wiki
 data Comment = Comment {
@@ -27,7 +31,10 @@ data Comment = Comment {
 ```
 
 >
+>
 > This is a real type in my project. ...
+>
+>
 
 
 So for every field name, there's already a type with the same name (upshifted). And this is a standard, disciplined approach to building the naming structure for a large-scale database application.

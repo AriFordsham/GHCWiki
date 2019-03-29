@@ -6,7 +6,9 @@ Trac is extensible with [ plugins](http://trac.edgewall.org/intertrac/PluginList
 ## Plugin discovery
 
 
-From the user's point of view, a plugin is either a standalone .py file or an .egg package. Trac looks for plugins in Python's `site-packages` directory, the [global shared](trac-ini#global-configuration)`plugins` directory and the [project environment](trac-environment)`plugins` directory. Components defined in globally-installed plugins must be explicitly enabled in the [ \[components\] ](trac-ini#) section of the `trac.ini` file. Components defined in the `plugins` directory of the project environment are enabled, unless explicitly disabled in the `[components]` section of the `trac.ini` file.
+
+From the user's point of view, a plugin is either a standalone .py file or an .egg package. Trac looks for plugins in Python's `site-packages` directory, the [global shared](trac-ini#global-configuration) `plugins` directory and the [project environment](trac-environment) `plugins` directory. Components defined in globally-installed plugins must be explicitly enabled in the [ \[components\] ](trac-ini#) section of the `trac.ini` file. Components defined in the `plugins` directory of the project environment are enabled, unless explicitly disabled in the `[components]` section of the `trac.ini` file.
+
 
 ## Requirements for Trac eggs
 
@@ -29,7 +31,9 @@ Plugins can also consist of a single `.py` file dropped directly into either the
 ## Installing a Trac plugin
 
 
-The instructions below are applicable to a plugin packaged as an egg. Plugins implemented as a single `py` file should be downloaded and copied to the [project environment](trac-environment)`plugins` directory or the [global shared](trac-ini#global-configuration) plugins directory.
+
+The instructions below are applicable to a plugin packaged as an egg. Plugins implemented as a single `py` file should be downloaded and copied to the [project environment](trac-environment) `plugins` directory or the [global shared](trac-ini#global-configuration) plugins directory.
+
 
 ### For a single project
 
@@ -100,10 +104,13 @@ $ easy_install https://trac-hacks.org/svn/tagsplugin/trunk
 Unlike plugins installed per environment, you'll have to explicitly enable globally installed plugins via [trac.ini](trac-ini). This also applies to plugins installed in the shared plugins directory, ie the path specified in the `[inherit] plugins_dir` configuration option. 
 
 
+
 This is done in the `[components]` section of the configuration file `trac.ini`. For example:
 
+
 ```
-[components]tractags.*=enabled
+[components]
+tractags.* = enabled
 ```
 
 
@@ -137,8 +144,11 @@ Neither `easy_install` nor `python setup.py` have an uninstall feature. However,
 
 If you are uncertain about the location of the egg file, you can try to locate it by replacing `myplugin` with whatever namespace the plugin uses (as used when enabling the plugin):
 
+
 ```
->>> importmyplugin>>> print myplugin.__file__/opt/local/python24/lib/site-packages/myplugin-0.4.2-py2.4.egg/myplugin/__init__.pyc
+>>> import myplugin
+>>> print myplugin.__file__
+/opt/local/python24/lib/site-packages/myplugin-0.4.2-py2.4.egg/myplugin/__init__.pyc
 ```
 
 ## Setting up the plugin cache
@@ -157,20 +167,29 @@ SetEnv PYTHON_EGG_CACHE /path/to/dir
 This works whether you're using the [CGI](trac-cgi) or the [mod_python](trac-mod-python) front-end. Put this directive next to where you set the path to the [Trac environment](trac-environment), ie in the same `<Location>` block.
 
 
+
 For example for CGI:
 
+
 ```
-<Location/trac>SetEnv TRAC_ENV /path/to/projenvSetEnv PYTHON_EGG_CACHE /path/to/dir</Location>
+ <Location /trac>
+   SetEnv TRAC_ENV /path/to/projenv
+   SetEnv PYTHON_EGG_CACHE /path/to/dir
+ </Location>
 ```
 
 
 Or for mod_python:
 
+
 ```
-<Location/trac>SetHandler mod_python
+ <Location /trac>
+   SetHandler mod_python
    ...
-   SetEnv PYTHON_EGG_CACHE /path/to/dir</Location>
+   SetEnv PYTHON_EGG_CACHE /path/to/dir
+ </Location>
 ```
+
 
 **Note**: SetEnv requires the `mod_env` module, which needs to be activated for Apache. In this case the SetEnv directive can also be used in the `mod_python` Location block.
 
@@ -199,8 +218,10 @@ The [ WebAdmin](http://trac.edgewall.org/intertrac/WebAdmin) interface offers li
 
 If you wish to disable the second function for security reasons, add the following to your `trac.ini` file:
 
+
 ```
-[components]trac.admin.web_ui.PluginAdminPanel=disabled
+[components]
+trac.admin.web_ui.PluginAdminPanel = disabled
 ```
 
 

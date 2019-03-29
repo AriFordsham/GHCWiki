@@ -27,11 +27,14 @@ libraries like `distributed-closure` to be written in an entirely type-safe way.
 See also this ticket about rationalising the runtime reflection naming structures: [\#10068](https://gitlab.haskell.org//ghc/ghc/issues/10068).
 
 
+
 Much of what is suggested here is implemented, in some form, in two existing projects
 
-- **Cloud Haskell libraries**[ distributed-static](https://hackage.haskell.org/package/distributed-static) and [ rank1dynamic](https://hackage.haskell.org/package/rank1dynamic).  Background in the paper [ Towards Haskell in the Cloud](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/remote.pdf).
 
-- **HdpH libraries**[ hdph](https://hackage.haskell.org/package/hdph) and [ hdph-closure](https://hackage.haskell.org/package/hdph-closure). Background in the paper [ Implementing a high-level distributed-memory parallel Haskell in Haskell](http://www.dcs.gla.ac.uk/~pmaier/papers/Maier_Trinder_IFL2011_XT.pdf)
+- **Cloud Haskell libraries** [ distributed-static](https://hackage.haskell.org/package/distributed-static) and [ rank1dynamic](https://hackage.haskell.org/package/rank1dynamic).  Background in the paper [ Towards Haskell in the Cloud](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/remote.pdf).
+
+- **HdpH libraries** [ hdph](https://hackage.haskell.org/package/hdph) and [ hdph-closure](https://hackage.haskell.org/package/hdph-closure). Background in the paper [ Implementing a high-level distributed-memory parallel Haskell in Haskell](http://www.dcs.gla.ac.uk/~pmaier/papers/Maier_Trinder_IFL2011_XT.pdf)
+
 
 [Simon PJ's long blog post](/trac/ghc/blog/simonpj/StaticPointers) is also relevant, but mainly as background.  It should eventually be fully subsumed by the above pages.
 

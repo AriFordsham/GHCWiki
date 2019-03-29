@@ -7,12 +7,17 @@
 ## Status as of June 2017
 
 
+
 The following was extracted from Ben's response to Siddharth Bhat on [ ghc-devs](https://mail.haskell.org/pipermail/ghc-devs/2017-June/014280.html) in June 2017,
 
+
+>
 >
 > I saw this ticket on trac: [\#8809](https://gitlab.haskell.org//ghc/ghc/issues/8809).
 > I would like to take this up, but I'd like help / pointers and stuff. I
 > have GHC setup, I know how to use phabricator, but.. where do I start? :)
+>
+>
 
 
 This ticket has recently seen quite a bit of activity and I've been
@@ -54,6 +59,8 @@ However, there are two impediments to switching,
   rise, GHC API users are stuck using whatever dependency versions GHC
   uses, release engineering is a bit more complicated).
 
+>
+> >
 > >
 > > Currently GHC has its own abstractions for working with text
 > > efficiently, LitString and FastString. FastString is used throughout
@@ -61,6 +68,9 @@ However, there are two impediments to switching,
 > > dense UTF-8 buffer (and a hash for quick comparison). It's not clear that we
 > > would want to move it to `text` as this would introduce UTF-8/UTF-16
 > > conversion.
+> >
+> >
+>
 
 - `prettyprinter` doesn't support rendering to `String`. This
   essentially means that we either use `Text` or fork the package.
@@ -100,10 +110,12 @@ surrounding whether the values carried by the error message should be
 statically or dynamically typed. In particular, Richard Eisenberg
 advocated that error message documents look like,
 
-```
--- A dynamically typed value embedded in an error messagedataErrItem= forall a.(Outputable a,Typeable a).ErrItem a
 
-typeErrDoc=DocErrItem
+```
+-- A dynamically typed value embedded in an error message
+data ErrItem = forall a. (Outputable a, Typeable a). ErrItem a
+
+type ErrDoc = Doc ErrItem
 ```
 
 
@@ -112,8 +124,14 @@ especially when one considers GHC API users. Rather, I say that we
 should encode the "vocabulary" of things that may appear in an error
 message explicitly,
 
+
 ```
-dataErrItem=ErrTypeType|ErrSpanSpan|ErrTermHsExpr|ErrInstanceClsInst|ErrVarVar|...
+data ErrItem = ErrType Type
+             | ErrSpan Span
+             | ErrTerm HsExpr
+             | ErrInstance ClsInst
+             | ErrVar  Var
+             | ...
 ```
 
 
@@ -134,8 +152,16 @@ should consist of. I think the above are pretty non-controversial but I
 can think of a variety of items which would more precisely capture
 some common patterns,
 
+
 ```
-dataErrItem=...|ErrExpectedActualTypeType-- ^ e.g. "Expected type: ty1, Actual type: ty2"|ErrContextType-- ^ Like ErrType but specifically captures a context|ErrPotentialInstances[ClsInst]-- ^ A list of potentially matching instances|...
+data ErrItem = ...
+             | ErrExpectedActual Type Type
+               -- ^ e.g. "Expected type: ty1, Actual type: ty2"
+             | ErrContext Type
+               -- ^ Like ErrType but specifically captures a context
+             | ErrPotentialInstances [ClsInst]
+               -- ^ A list of potentially matching instances
+             | ...
 ```
 
 

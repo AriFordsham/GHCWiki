@@ -45,14 +45,20 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 With the super-major GHC 8.0 release out the door, plans have begun to form for the next major release, 8.2. Given that 8.0 saw a remarkable amount of churn, we hope to make the focus of 8.2 consolidation, stabilization, and optimization.  For this reason, we hope you'll note there are relatively few *new* features in the lists below; instead we'd like to encourage contributors to polish, optimize, document, refactor, or finish the features we already have.
 
 
+
 Of course, GHC only evolves because of its contributors. Please let us know if you have a pet project that you'd like to see merged!
+
 
 ## Libraries, source language, type system
 
-- **Indexed `Typeable` representations**[Typeable/BenGamari](typeable/ben-gamari) (Ben Gamari, Simon Peyton Jones, et al). While GHC has long supported runtime type reflection through the `Typeable` typeclass, its current incarnation requires care to use, providing little in the way of type-safety. For this reason the implementation of types like `Data.Dynamic` must be implemented in terms of `unsafeCoerce` with no compiler verification.
+
+- **Indexed `Typeable` representations** [Typeable/BenGamari](typeable/ben-gamari) (Ben Gamari, Simon Peyton Jones, et al). While GHC has long supported runtime type reflection through the `Typeable` typeclass, its current incarnation requires care to use, providing little in the way of type-safety. For this reason the implementation of types like `Data.Dynamic` must be implemented in terms of `unsafeCoerce` with no compiler verification.
 
 >
+>
 > GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/) for an description of the proposal and the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for the current status of the implementation.
+>
+>
 
 - Backpack is targeting to be merged in GHC 8.2. More to come here. (Edward Z Yang)
 - Merge `Bifoldable` and `Bitraversable` into `base` (Edward Kmett, Ryan Scott)
@@ -69,7 +75,10 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 - Further improvements to debugging information (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the runtime system during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging information to be used by end-user code in production.
 
 >
+>
 > With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [ DWARF status page](https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status) for futher information.
+>
+>
 
 - Support for NUMA systems (Simon Marlow, [ in-progress](https://github.com/simonmar/ghc/tree/numa)).  The aim is to reduce the number of remote memory accesses for multi-socket systems that have a mixture of local and remote memory.
 
@@ -104,6 +113,10 @@ In recent years the growth of the Haskell community has required that we better 
 - `Semigroup`-`Monoid` proposal: the `Data.Semigroup` module is now available in `base` and there are now opt-in warnings for missing `Semigroup` instances in preparation for the eventual addition of `Semigroup` as a superclass of `Monoid`
 
 - `MonadFail` proposal: the `Control.Monad.Fail` module is available in `base` and a `-XMonadFailDesugaring` language extension has been added, allowing users to use the new class in `do` desugaring
+
+
+ 
+
 
 - `ExpandFloating` proposal: `expm1`, `log1p`, `log1pexp`, `log1mexp` have been added to the `Floating` class with defaults
 

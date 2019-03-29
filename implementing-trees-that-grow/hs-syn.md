@@ -20,14 +20,20 @@ In the shorter term, though, this page documents the design of both the base dat
 ## The base data type
 
 
+
 The base data type looks like this:
 
+
 ```
-dataHsExpr x
-  =HsVar(XVar x)(XId x)|HsApp(XApp x)(HsExpr x)(HsExpr x)|NewExpr(XNewExpr x)-- The extension constructortypefamilyXId x
-typefamilyXVar x
-typefamilyXApp x
-tyepfamilyXNewExpr x
+data HsExpr x
+  = HsVar (XVar x) (XId x)
+  | HsApp (XApp x) (HsExpr x) (HsExpr x)
+  | NewExpr (XNewExpr x) -- The extension constructor
+
+type family XId x
+type family XVar x
+type family XApp x
+tyep family XNewExpr x
 ```
 
 
@@ -48,11 +54,32 @@ Notice:
 ## GHC's instantiation of the base type
 
 
+
 GHC, as one client of the base TTG `HsSyn` types, instantiates them as follows.
 
+
 ```
-dataLocated a =LSrcSpan a   -- This data type has been in GHC for agesdataGhcPhase=Ps|Rn|TcdataGHC(p ::GhcPhase)dataHsExpr x
-  =HsVar(XVar x)(XId x)|HsApp(XApp x)(HsExpr x)(HsExpr x)|NewExpr(XNewExpr x)-- The extension constructordataNoExt=NoExttypeinstanceXVar(GHC_)=NoExt-- Note 1typeinstanceXApp(GHC_)=NoExt-- Note 1typeinstanceXId(GHC p)=Located(GhcId p)-- Note 2typeinstanceXNewExpr(GHC p)=Located(HsExpr p)-- Note 3typefamilyGhcId(p ::Phase)whereGhcIdPs=RdrNameGhcIdRn=NameGhcIdTc=Id
+data Located a = L SrcSpan a   -- This data type has been in GHC for ages
+
+data GhcPhase = Ps | Rn | Tc
+data GHC (p :: GhcPhase)
+
+data HsExpr x
+  = HsVar (XVar x) (XId x)
+  | HsApp (XApp x) (HsExpr x) (HsExpr x)
+  | NewExpr (XNewExpr x) -- The extension constructor
+
+data NoExt = NoExt
+
+type instance XVar (GHC _)     = NoExt              -- Note 1
+type instance XApp (GHC _)     = NoExt              -- Note 1
+type instance XId  (GHC p)     = Located (GhcId p)  -- Note 2
+type instance XNewExpr (GHC p) = Located (HsExpr p) -- Note 3
+
+type family GhcId (p :: Phase) where
+  GhcId Ps = RdrName
+  GhcId Rn = Name
+  GhcId Tc = Id
 ```
 
 

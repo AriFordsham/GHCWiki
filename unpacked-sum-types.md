@@ -15,42 +15,47 @@ See also [UnliftedDataTypes](unlifted-data-types)
 Use **Keyword** = `UnboxedSums` to ensure that a ticket ends up on these lists.
 
 
+
 Open Tickets:
 
-<table><tr><th>[\#13276](https://gitlab.haskell.org//ghc/ghc/issues/13276)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13276">#13276</a></th>
 <td>Unboxed sums are not Typeable</td></tr>
-<tr><th>[\#14259](https://gitlab.haskell.org//ghc/ghc/issues/14259)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14259">#14259</a></th>
 <td>Worker/Wrapper for sum return</td></tr>
-<tr><th>[\#14727](https://gitlab.haskell.org//ghc/ghc/issues/14727)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14727">#14727</a></th>
 <td>Unboxed sum performance surprisingly poor</td></tr>
-<tr><th>[\#14865](https://gitlab.haskell.org//ghc/ghc/issues/14865)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14865">#14865</a></th>
 <td>GHC Defeats Manual Worker Wrapper with Unboxed Sum</td></tr>
-<tr><th>[\#15358](https://gitlab.haskell.org//ghc/ghc/issues/15358)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15358">#15358</a></th>
 <td>no way to talk about unpacking sum types / unpacking tuples</td></tr></table>
+
+
 
 
 Closed Tickets:
 
-<table><tr><th>[\#12417](https://gitlab.haskell.org//ghc/ghc/issues/12417)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12417">#12417</a></th>
 <td>API annotations for unboxed sums needs reworking</td></tr>
-<tr><th>[\#12478](https://gitlab.haskell.org//ghc/ghc/issues/12478)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12478">#12478</a></th>
 <td>Template Haskell support for unboxed sums</td></tr>
-<tr><th>[\#12514](https://gitlab.haskell.org//ghc/ghc/issues/12514)</th>
-<td>Can't write unboxed sum type constructors in prefix form</td></tr>
-<tr><th>[\#12711](https://gitlab.haskell.org//ghc/ghc/issues/12711)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12514">#12514</a></th>
+<td>Can&apos;t write unboxed sum type constructors in prefix form</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12711">#12711</a></th>
 <td>GHC Internal error, unboxed sums</td></tr>
-<tr><th>[\#14051](https://gitlab.haskell.org//ghc/ghc/issues/14051)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14051">#14051</a></th>
 <td>Unboxed sums-related panic: getUnboxedSumName 513</td></tr>
-<tr><th>[\#14228](https://gitlab.haskell.org//ghc/ghc/issues/14228)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14228">#14228</a></th>
 <td>PatternSynonyms Non-exhaustive with UnboxedSums</td></tr>
-<tr><th>[\#14742](https://gitlab.haskell.org//ghc/ghc/issues/14742)</th>
-<td>Unboxed sums can treat Word\#s as Int\#s</td></tr>
-<tr><th>[\#14752](https://gitlab.haskell.org//ghc/ghc/issues/14752)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14742">#14742</a></th>
+<td>Unboxed sums can treat Word#s as Int#s</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14752">#14752</a></th>
 <td>Unboxed sums documentation looks wrong</td></tr>
-<tr><th>[\#15067](https://gitlab.haskell.org//ghc/ghc/issues/15067)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15067">#15067</a></th>
 <td>When Typeable and unboxed sums collide, GHC panics</td></tr>
-<tr><th>[\#15300](https://gitlab.haskell.org//ghc/ghc/issues/15300)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15300">#15300</a></th>
 <td>Unboxed Sums Crash</td></tr></table>
+
+
 
 ## Motivation
 
@@ -87,10 +92,13 @@ together with the union of the fields of `T1` inside `C`. Conceptually the
 memory layout would look like this (in practice we group pointer and
 non-pointer fields together):
 
+
 <table><tr><th> T2 info table pointer </th>
 <th> T1 constructor tag </th>
-<th> Fields of `Some`</th>
-<th> Fields of `None`</th></tr></table>
+<th> Fields of <tt>Some</tt> </th>
+<th> Fields of <tt>None</tt> 
+</th></tr></table>
+
 
 
 (In this case `None` has no fields.)
@@ -208,10 +216,13 @@ pointer and non-pointer arguments we might need. Example:
 <table><tr><th> Core </th>
 <th> STG 
 </th></tr>
-<tr><th>` f :: (# Int# | Bool #) -> ... `</th>
-<th>` f :: Word -> Word -> Pointer -> ... `</th></tr>
-<tr><th>` f :: (# Int# | Word# #) -> ... `</th>
-<th>` f :: Word -> Word -> ... `</th></tr></table>
+<tr><th> <tt> f :: (# Int# | Bool #) -> ... </tt> </th>
+<th> <tt> f :: Word -> Word -> Pointer -> ... </tt> 
+</th></tr>
+<tr><th> <tt> f :: (# Int# | Word# #) -> ... </tt> </th>
+<th> <tt> f :: Word -> Word -> ... </tt> 
+</th></tr></table>
+
 
 
 See notes in [compiler/simplStg/UnariseStg.hs](/trac/ghc/browser/ghc/compiler/simplStg/UnariseStg.hs) for more details.

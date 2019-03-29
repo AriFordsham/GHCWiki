@@ -39,12 +39,18 @@ The Roadmap supports the [ iCalendar](http://www.ietf.org/rfc/rfc2445.txt) forma
 
 To subscribe to the roadmap, copy the iCalendar link from the roadmap (found at the bottom of the page) and choose the "Subscribe to remote calendar" action (or similar) of your calendar application, and insert the URL just copied.
 
+
+
 **Note:** For tickets to be included in the calendar as tasks, you need to be logged in when copying the link. You will only see tickets assigned to yourself and associated with a milestone.
+
+
 
 **Note:** To include the milestones in Google Calendar you might need to rewrite the URL:
 
+
 ```
-RewriteEngineonRewriteRule ([^/.]+)/roadmap/([^/.]+)/ics /$1/roadmap?user=$2&format=ics
+RewriteEngine on
+RewriteRule ([^/.]+)/roadmap/([^/.]+)/ics /$1/roadmap?user=$2&format=ics
 ```
 
 
@@ -53,4 +59,7 @@ More information about iCalendar can be found at [ Wikipedia](http://en.wikipedi
 ---
 
 
+
 See also: [TracTickets](trac-tickets), [TracReports](trac-reports), [TracQuery](trac-query), [ TracRoadmapCustomGroups](http://trac.edgewall.org/intertrac/TracRoadmapCustomGroups)
+
+

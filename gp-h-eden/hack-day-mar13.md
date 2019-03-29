@@ -28,8 +28,9 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
 <tr><th> 11:00 </th>
 <th> Pair programming on selected topics 
 </th></tr>
-<tr><th></th>
-<th></th></tr>
+<tr><th>       </th>
+<th> 
+</th></tr>
 <tr><th> 13:00 </th>
 <th> Lunch 
 </th></tr>
@@ -52,7 +53,11 @@ So far: Hans-Wolfgang Loidl (HWL), Jost Berthold (JB), Vladimir Janjic (VJ), Vla
 
 ## General Info
 
-[ http://james.mathematik.uni-marburg.de:8080/gitweb/ Eden gitweb](http://james.mathematik.uni-marburg.de:8080/gitweb/ Eden gitweb)[ http://www.macs.hw.ac.uk/\~hwloidl/hackspace/IDX IDX file](http://www.macs.hw.ac.uk/~hwloidl/hackspace/IDX IDX file)
+
+
+[ http://james.mathematik.uni-marburg.de:8080/gitweb/ Eden gitweb](http://james.mathematik.uni-marburg.de:8080/gitweb/ Eden gitweb)
+[ http://www.macs.hw.ac.uk/\~hwloidl/hackspace/IDX IDX file](http://www.macs.hw.ac.uk/~hwloidl/hackspace/IDX IDX file)
+
 
 ## Potential Topics
 

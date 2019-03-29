@@ -6,69 +6,77 @@ This is the root page for material about functional dependencies in GHC.
 ## Tickets
 
 
+
 Use Keyword = `FunDeps` to ensure that a ticket ends up on these lists.
+
+
 
 **Open Tickets:**
 
-<table><tr><th>[\#816](https://gitlab.haskell.org//ghc/ghc/issues/816)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/816">#816</a></th>
 <td>Weird fundep behavior (with -fallow-undecidable-instances)</td></tr>
-<tr><th>[\#9210](https://gitlab.haskell.org//ghc/ghc/issues/9210)</th>
-<td>"overlapping instances" through FunctionalDependencies</td></tr>
-<tr><th>[\#10675](https://gitlab.haskell.org//ghc/ghc/issues/10675)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9210">#9210</a></th>
+<td>&quot;overlapping instances&quot; through FunctionalDependencies</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10675">#10675</a></th>
 <td>GHC does not check the functional dependency consistency condition correctly</td></tr>
-<tr><th>[\#11534](https://gitlab.haskell.org//ghc/ghc/issues/11534)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11534">#11534</a></th>
 <td>Allow class associated types to reference functional dependencies</td></tr>
-<tr><th>[\#11641](https://gitlab.haskell.org//ghc/ghc/issues/11641)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11641">#11641</a></th>
 <td>Allow wildcards for parameters functionally determined (also type synonyms)</td></tr>
-<tr><th>[\#11655](https://gitlab.haskell.org//ghc/ghc/issues/11655)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11655">#11655</a></th>
 <td>Ambiguous types in pattern synonym not determined by functional dependencies</td></tr>
-<tr><th>[\#12647](https://gitlab.haskell.org//ghc/ghc/issues/12647)</th>
-<td>Can't capture improvement of functional dependencies</td></tr>
-<tr><th>[\#12704](https://gitlab.haskell.org//ghc/ghc/issues/12704)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12647">#12647</a></th>
+<td>Can&apos;t capture improvement of functional dependencies</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12704">#12704</a></th>
 <td>Check if constraint synonym satisfies functional dependencies</td></tr>
-<tr><th>[\#12860](https://gitlab.haskell.org//ghc/ghc/issues/12860)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12860">#12860</a></th>
 <td>GeneralizedNewtypeDeriving + MultiParamTypeClasses sends typechecker into an infinite loop</td></tr>
-<tr><th>[\#14745](https://gitlab.haskell.org//ghc/ghc/issues/14745)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14745">#14745</a></th>
 <td>Functional dependency conflicts in givens</td></tr>
-<tr><th>[\#14778](https://gitlab.haskell.org//ghc/ghc/issues/14778)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14778">#14778</a></th>
 <td>FunDep origin not correctly attributed</td></tr>
-<tr><th>[\#15632](https://gitlab.haskell.org//ghc/ghc/issues/15632)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15632">#15632</a></th>
 <td>Undependable Dependencies</td></tr>
-<tr><th>[\#15927](https://gitlab.haskell.org//ghc/ghc/issues/15927)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15927">#15927</a></th>
 <td>Weird interaction between fundeps and overlappable instances</td></tr></table>
+
+
+
 
 **Closed Tickets:**
 
-<table><tr><th>[\#3108](https://gitlab.haskell.org//ghc/ghc/issues/3108)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3108">#3108</a></th>
 <td>Do a better job of solving recursive type-class constraints with functional dependencies</td></tr>
-<tr><th>[\#7128](https://gitlab.haskell.org//ghc/ghc/issues/7128)</th>
-<td>Panic "lookupVarEnv_NF" when using a functional dependency with a kind variable</td></tr>
-<tr><th>[\#7171](https://gitlab.haskell.org//ghc/ghc/issues/7171)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7128">#7128</a></th>
+<td>Panic &quot;lookupVarEnv_NF&quot; when using a functional dependency with a kind variable</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7171">#7171</a></th>
 <td>erroneous overlapping instances reported with FunDeps</td></tr>
-<tr><th>[\#7384](https://gitlab.haskell.org//ghc/ghc/issues/7384)</th>
-<td>Panic "ctEvTerm" when using functional dependencies and PolyKinds</td></tr>
-<tr><th>[\#7777](https://gitlab.haskell.org//ghc/ghc/issues/7777)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7384">#7384</a></th>
+<td>Panic &quot;ctEvTerm&quot; when using functional dependencies and PolyKinds</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7777">#7777</a></th>
 <td>ghc panic: varargs + sets</td></tr>
-<tr><th>[\#10109](https://gitlab.haskell.org//ghc/ghc/issues/10109)</th>
-<td>Kinds aren't checked in the coverage condition</td></tr>
-<tr><th>[\#10564](https://gitlab.haskell.org//ghc/ghc/issues/10564)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10109">#10109</a></th>
+<td>Kinds aren&apos;t checked in the coverage condition</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10564">#10564</a></th>
 <td>GHC 7.10.2 RC cannot build HList-0.4.0.0</td></tr>
-<tr><th>[\#10570](https://gitlab.haskell.org//ghc/ghc/issues/10570)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10570">#10570</a></th>
 <td>Terrible error message with fundeps and PolyKinds</td></tr>
-<tr><th>[\#10797](https://gitlab.haskell.org//ghc/ghc/issues/10797)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10797">#10797</a></th>
 <td>Kind-level functional dependencies are not resolved properly</td></tr>
-<tr><th>[\#12763](https://gitlab.haskell.org//ghc/ghc/issues/12763)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12763">#12763</a></th>
 <td>Incorrect behavior with empty functional dependencies</td></tr>
-<tr><th>[\#13506](https://gitlab.haskell.org//ghc/ghc/issues/13506)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13506">#13506</a></th>
 <td>Spurious extra error message due to functional dependencies</td></tr>
-<tr><th>[\#13774](https://gitlab.haskell.org//ghc/ghc/issues/13774)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13774">#13774</a></th>
 <td>Singletons code fails to typecheck when type signature involving type family is added</td></tr>
-<tr><th>[\#14327](https://gitlab.haskell.org//ghc/ghc/issues/14327)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14327">#14327</a></th>
 <td>Type error in program caused by unrelated definition</td></tr>
-<tr><th>[\#14763](https://gitlab.haskell.org//ghc/ghc/issues/14763)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14763">#14763</a></th>
 <td>GHC 8.4.1-alpha regression with FunctionalDependencies</td></tr>
-<tr><th>[\#15355](https://gitlab.haskell.org//ghc/ghc/issues/15355)</th>
-<td>Functional dependencies can get GHC to print "UnkSkol"</td></tr></table>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15355">#15355</a></th>
+<td>Functional dependencies can get GHC to print &quot;UnkSkol&quot;</td></tr></table>
+
+
 
 ## Consistency of Functional Dependencies
 
@@ -171,12 +179,17 @@ if we find that we have assumed a contradiction:  this simply means
 that the two instances can never be used at the same time, so
 the FD-consistency follows trivially.
 
+
 ### Examples
+
 
 - FD-consistency is orthogonal to instance coherence.
 
+>
+> >
 > >
 > > FD-consistent but not coherent:
+> >
 > >
 > > ```wiki
 > >          instance C Int Int Int where f = definition_1
@@ -186,15 +199,22 @@ the FD-consistency follows trivially.
 > >
 > > Coherent but not FD-consistent:
 > >
+> >
 > > ```wiki
 > >          instance C Int  Int Char where ...
 > >          instance C Char Int Bool where ...
 > > ```
+>
+>
 
 - FD-consistency is orthogonal to termination of instances.
 
+>
+> >
+> > >
 > > >
 > > > FD-consistent but "non-terminating":
+> > >
 > > >
 > > > ```wiki
 > > >          instance C a b c => C a b c
@@ -203,7 +223,12 @@ the FD-consistency follows trivially.
 > > >
 > > > Terminating but not FD-consistent:
 > > >
+> > >
 > > > ```wiki
 > > >          instance C Int  Int Char where ...
 > > >          instance C Char Int Bool where ...
 > > > ```
+> >
+> >
+>
+

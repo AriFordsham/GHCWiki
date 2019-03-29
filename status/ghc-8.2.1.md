@@ -41,10 +41,14 @@ Below are the major highlights of 8.2.
 
 #### Front-end changes
 
-- **Indexed `Typeable` representations**[Typeable/BenGamari](typeable/ben-gamari) (Ben Gamari, Simon Peyton Jones, et al). While GHC has long supported runtime type reflection through the `Typeable` typeclass, its current incarnation requires care to use, providing little in the way of type-safety. For this reason the implementation of types like `Data.Dynamic` must be implemented in terms of `unsafeCoerce` with no compiler verification.
+
+- **Indexed `Typeable` representations** [Typeable/BenGamari](typeable/ben-gamari) (Ben Gamari, Simon Peyton Jones, et al). While GHC has long supported runtime type reflection through the `Typeable` typeclass, its current incarnation requires care to use, providing little in the way of type-safety. For this reason the implementation of types like `Data.Dynamic` must be implemented in terms of `unsafeCoerce` with no compiler verification.
 
 >
+>
 > GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ paper](http://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/) for an description of the proposal and the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for the current status of the implementation.
+>
+>
 
 - **Deriving**:
 
@@ -80,7 +84,10 @@ Below are the major highlights of 8.2.
 - **Further improvements to debugging information** (Ben Gamari): There are still a number of outstanding issues with GHC's DWARF implementation, some of which even carry the potential to crash the runtime system during stacktrace collection. GHC 8.2 will hopefully have these issues resolved, allowing debugging   - TODO information to be used by end-user code in production.
 
 >
+>
 > With stable stack unwinding support comes a number of opportunities for new serial and parallel performance analysis tools (e.g. statistical profiling) and debugging. As GHC's debugging information improves, we expect to see tooling developed to support these applications. See the [ DWARF status page](https://ghc.haskell.org/trac/ghc/wiki/DWARF/80Status) for further information.
+>
+>
 
 ### Optimiser and intermediate language
 
@@ -96,48 +103,180 @@ Below are the major highlights of 8.2.
 
 ## Tickets marked merge with no milestone
 
-<table><tr><th>Ticket (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
-<th>Type (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
-<th>Owner (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>
+
+
+
+  
+  
+  
+  
+  
+    
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td></tr>
+<tr><td>
+          </td>
+<th>
             No tickets found
           </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr></table>
+<td>
+        </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr></table>
+
+
+  
+
+
 
 ## Tickets slated for 8.2.1
 
+
 ### merge/patch/upstream
 
-<table><tr><th>Ticket (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: id)</th>
-<th>Type (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, desc: 1, order: priority)</th>
-<th>Differential Rev(s) (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: differential)</th>
-<th>Owner (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: owner)</th></tr>
-<tr><th>
+
+
+
+  
+  
+  
+  
+  
+    
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Differential Rev(s) (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: differential)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: owner)
+      </th>
+<td>
+    </td></tr>
+<tr><td>
+          </td>
+<th>
             No tickets found
           </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr></table>
+<td>
+        </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr></table>
+
+
+  
+
+
 
 ### new
 
+
+
+
+  
+  
+  
+  
+  
+    
+
 ## Status: new (5 matches)
 
-<table><tr><th>Ticket (Ticket query: status: new, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
-<th>Type (Ticket query: status: new, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: new, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: new, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
-<th>Owner (Ticket query: status: new, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>[\#8040](https://gitlab.haskell.org//ghc/ghc/issues/8040)</th>
+
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: new, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: new, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: new, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: new, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: new, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8040">#8040</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -149,7 +288,29 @@ Below are the major highlights of 8.2.
                       
                       bug
                     </th>
-<th>[installed include/HsVersions.h  wants to \#include "../includes/ghcautoconf.h"](https://gitlab.haskell.org//ghc/ghc/issues/8040)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8040">installed include/HsVersions.h  wants to #include &quot;../includes/ghcautoconf.h&quot;</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -161,8 +322,39 @@ Below are the major highlights of 8.2.
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#10010](https://gitlab.haskell.org//ghc/ghc/issues/10010)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10010">#10010</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -174,7 +366,29 @@ Below are the major highlights of 8.2.
                       
                       bug
                     </th>
-<th>[LLVM/optimized code for sqrt incorrect for negative values](https://gitlab.haskell.org//ghc/ghc/issues/10010)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10010">LLVM/optimized code for sqrt incorrect for negative values</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -186,8 +400,39 @@ Below are the major highlights of 8.2.
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#10249](https://gitlab.haskell.org//ghc/ghc/issues/10249)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10249">#10249</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -199,7 +444,29 @@ Below are the major highlights of 8.2.
                       
                       bug
                     </th>
-<th>[GHCi leaky abstraction: error message mentions \`ghciStepIO\`](https://gitlab.haskell.org//ghc/ghc/issues/10249)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10249">GHCi leaky abstraction: error message mentions `ghciStepIO`</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -211,8 +478,39 @@ Below are the major highlights of 8.2.
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#13194](https://gitlab.haskell.org//ghc/ghc/issues/13194)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13194">#13194</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -224,7 +522,29 @@ Below are the major highlights of 8.2.
                       
                       bug
                     </th>
-<th>[Concurrent modifications of package.cache are not safe](https://gitlab.haskell.org//ghc/ghc/issues/13194)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13194">Concurrent modifications of package.cache are not safe</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -236,8 +556,39 @@ Below are the major highlights of 8.2.
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#14503](https://gitlab.haskell.org//ghc/ghc/issues/14503)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14503">#14503</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -249,7 +600,29 @@ Below are the major highlights of 8.2.
                       
                       bug
                     </th>
-<th>[Killing a thread will block if there is another process reading from a handle](https://gitlab.haskell.org//ghc/ghc/issues/14503)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14503">Killing a thread will block if there is another process reading from a handle</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -261,18 +634,91 @@ Below are the major highlights of 8.2.
                       
                       normal
                     </th>
-<th></th></tr></table>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr></table>
+
+
+  
+
+
 
 ### infoneeded
 
+
+
+
+  
+  
+  
+  
+  
+    
+
 ## Status: infoneeded (1 match)
 
-<table><tr><th>Ticket (Ticket query: status: infoneeded, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
-<th>Type (Ticket query: status: infoneeded, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: infoneeded, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: infoneeded, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
-<th>Owner (Ticket query: status: infoneeded, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>[\#13739](https://gitlab.haskell.org//ghc/ghc/issues/13739)</th>
+
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: infoneeded, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: infoneeded, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: infoneeded, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: infoneeded, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: infoneeded, milestone: 8.2.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13739">#13739</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -284,7 +730,29 @@ Below are the major highlights of 8.2.
                       
                       bug
                     </th>
-<th>[very slow linking of executables with ld.bfd \< 2.27](https://gitlab.haskell.org//ghc/ghc/issues/13739)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13739">very slow linking of executables with ld.bfd &lt; 2.27</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -296,4 +764,30 @@ Below are the major highlights of 8.2.
                       
                       high
                     </th>
-<th></th></tr></table>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr></table>
+
+
+  
+
+
+

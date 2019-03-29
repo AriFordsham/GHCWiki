@@ -189,7 +189,10 @@ Continuing with this rule would mean that `Strict` would not allow recursive or 
   - **(SPLIT)**. Replace any binding `p = e`, where `p` is not a variable, with `v = e; x1 = case v of p -> x1; ...; xn = case v of p -> xn`, where `v` is fresh and `x1`..`xn` are the bound variables of `p`.  Again if `e` is a variable, you can optimised his by not introducing a fresh variable.
 
 >
+>
 > The result will be a (possibly) recursive set of bindings, binding only simple variables on the LHS.  (One could go one step further, as in the Haskell Report and make the recursive bindings non-recursive using `fix`, but we do not do so in Core, and it only obfuscates matters, so we do not do so here.)
+>
+>
 
 
 Here are some examples of how this translation works.  The first expression of each sequence is Haskell source; the subsequent ones are Core.

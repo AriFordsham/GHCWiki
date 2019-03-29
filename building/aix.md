@@ -25,8 +25,14 @@ A consequence of this is that building a GHC crosscompiler targetting AIX is qui
 Sadly (at the time of writing), `binutils`'s `ld` has only partial support for AIX. IBM's `ld` must be used. Also, IBM's `ar` is recommended over `binutils`'s. 
 
 
+
 Having said that, IBM's `as` has deficiencies which cause problems when compiling GHC. So `gas` from `binutils` is recommended for building GHC.
+
 
 ## Building
 
+
+
 TODO
+
+

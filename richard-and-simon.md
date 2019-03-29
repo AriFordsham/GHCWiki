@@ -7,19 +7,19 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 These things are all either new features, or significant refactorings.  All aimed at "filling out" what Haskell does to be simple and consistent.
 
 
+
 We should be clear about the dependencies between items on this list.
 
-- `tcSyntaxOp` simplification: [\#14963](https://gitlab.haskell.org//ghc/ghc/issues/14963). See [comment:11:ticket:14963](https://gitlab.haskell.org//ghc/ghc/issues/14963). But we have a new and simpler plan, sketched in our Slack channel.
 
-- DONE[ Proposal 81: Visible dependent quantification](https://github.com/ghc-proposals/ghc-proposals/pull/81).  Just syntax!  Lets you say `forall a -> ty` in types.  See [GhcKinds/KindInference](ghc-kinds/kind-inference) and [GhcKinds/KindInference/Examples](ghc-kinds/kind-inference/examples).  [\#16326](https://gitlab.haskell.org//ghc/ghc/issues/16326).
+- [ Proposal 81: Visible dependent quantification](https://github.com/ghc-proposals/ghc-proposals/pull/81).  Just syntax!  Lets you say `forall a -> ty` in types.  See [GhcKinds/KindInference](ghc-kinds/kind-inference) and [GhcKinds/KindInference/Examples](ghc-kinds/kind-inference/examples).
 
-- [ Proposal 99: explicit specificity](https://github.com/ghc-proposals/ghc-proposals/pull/99).  Lets us write `T :: forall {k} (a :: k).blah`.  Vlad will work on this.
+- [ Proposal 99: explicit specificity](https://github.com/ghc-proposals/ghc-proposals/pull/99).  Lets us write `T :: forall {k} (a :: k).blah`.
 
 - [ Proposal 179: tweak printing of foralls](https://github.com/ghc-proposals/ghc-proposals/pull/179)
 
 - [ Proposal 54: top-level kind signatures for type constuctors](https://github.com/ghc-proposals/ghc-proposals/pull/54) (depends on Proposal 81)
 
-- DONE[ Proposal 103: treat kind and type variables identically in forall](https://github.com/ghc-proposals/ghc-proposals/pull/103) (depends on Proposal 83). Includes applying the "forall-or-nothing rule" to kind variables. The proposal says "wait until two releases after Proposal 83 is done (which was in 8.6)".  So we can do this in HEAD as soon as 8.8 forks.  Subsumes [\#14548](https://gitlab.haskell.org//ghc/ghc/issues/14548).
+- [ Proposal 103: treat kind and type variables identically in forall](https://github.com/ghc-proposals/ghc-proposals/pull/103) (depends on Proposal 83). Includes applying the "forall-or-nothing rule" to kind variables. The proposal says "wait until two releases after Proposal 83 is done (which was in 8.6)".  So we can do this in HEAD as soon as 8.8 forks.  Subsumes [\#14548](https://gitlab.haskell.org//ghc/ghc/issues/14548).
 
 - [\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088): SCC for kind inference: we know what to do, it's just a question of doing it. See also [\#7503](https://gitlab.haskell.org//ghc/ghc/issues/7503), [\#14451](https://gitlab.haskell.org//ghc/ghc/issues/14451).  This will be much easier once Proposal 54 is done.
 
@@ -27,10 +27,8 @@ We should be clear about the dependencies between items on this list.
 
 # Refactoring of existing stuff that we'd like to get done
 
-- [\#15579](https://gitlab.haskell.org//ghc/ghc/issues/15579): `topNormaliseType`; also [\#14729](https://gitlab.haskell.org//ghc/ghc/issues/14729), [\#15549](https://gitlab.haskell.org//ghc/ghc/issues/15549).  This is high priority: it's an outright bug causing Lint failures; it's not hard; and fixing it will close three tickets.
 
-- [\#16082](https://gitlab.haskell.org//ghc/ghc/issues/16082), [\#16292](https://gitlab.haskell.org//ghc/ghc/issues/16292): underscores in types
-- [\#16320](https://gitlab.haskell.org//ghc/ghc/issues/16320): tidy up printing of foralls
+- [\#15579](https://gitlab.haskell.org//ghc/ghc/issues/15579): `topNormaliseType`; also [\#14729](https://gitlab.haskell.org//ghc/ghc/issues/14729), [\#15549](https://gitlab.haskell.org//ghc/ghc/issues/15549).  This is high priority: it's an outright bug causing Lint failures; it's not hard; and fixing it will close three tickets.
 
 - [\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095): coercion zapping.  Nearly done!  But not quite.  And will be valuable for everyone.
 
@@ -54,7 +52,18 @@ We should be clear about the dependencies between items on this list.
 
 - Homogeneous flattener ([\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919), [\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643)).  [ Phab:D3848](https://phabricator.haskell.org/D3848).   [ Phab:D4451](https://phabricator.haskell.org/D4451) is a patch to D3848 that fixes performance
 
-- [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715): constraint vs \*.  Plus the `mkCastTy` mess ([\#15918](https://gitlab.haskell.org//ghc/ghc/issues/15918)).  On the latter point at some time we wrote these notes:
+- [\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715): constraint vs \*
+
+- How to fix [\#11719](https://gitlab.haskell.org//ghc/ghc/issues/11719). We can't ever infer a type variable to have a higher-rank kind (as would seem necessary in this example). But perhaps we should type-check type patterns in a different manner than ordinary types, just like `tcPat` is distinct from `tcExpr`. Then, we could use bidirectional type-checking to get things to work out. This is a pretty significant refactor, though. Is it worth it? Or do we just wait until we have dependent types?
+
+# Fuller list
+
+
+- [\#12564](https://gitlab.haskell.org//ghc/ghc/issues/12564): type family calls on the LHS of type instance equations.  Vladislav cares about this, and something looks do-able.
+
+- Deliver on [\#13959](https://gitlab.haskell.org//ghc/ghc/issues/13959) (`substTyVar` etc)
+- Change flattener to be homogeneous ([\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919), [\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643))
+- Sort out `mkCastTy`
 
   - Implement KPush in `splitTyConApp`. ([\#13650](https://gitlab.haskell.org//ghc/ghc/issues/13650))
   - Some invariants to make sure of: No nested `CastTy`s. No `AppTy (TyConApp ... |> co) ty`. No reflexive coercions.
@@ -66,18 +75,13 @@ We should be clear about the dependencies between items on this list.
     Left g : t1 ~ s1
     ```
 
-> > >
-> > > There is more work to do to make this homogeneous.
-
-- How to fix [\#11719](https://gitlab.haskell.org//ghc/ghc/issues/11719). We can't ever infer a type variable to have a higher-rank kind (as would seem necessary in this example). But perhaps we should type-check type patterns in a different manner than ordinary types, just like `tcPat` is distinct from `tcExpr`. Then, we could use bidirectional type-checking to get things to work out. This is a pretty significant refactor, though. Is it worth it? Or do we just wait until we have dependent types?
-
-# Fuller list
-
-- [\#12564](https://gitlab.haskell.org//ghc/ghc/issues/12564): type family calls on the LHS of type instance equations.  Vladislav cares about this, and something looks do-able.
-
-- Deliver on [\#13959](https://gitlab.haskell.org//ghc/ghc/issues/13959) (`substTyVar` etc)
-- Change flattener to be homogeneous ([\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919), [\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643))
-- Sort out `mkCastTy`
+>
+> >
+> >
+> > There is more work to do to make this homogeneous.
+> >
+> >
+>
 
 - Implement homogeneous as per Stephanie's paper
 
@@ -96,7 +100,7 @@ We should be clear about the dependencies between items on this list.
   - Also: consider making a closed-type-family axiom into a bunch of top-level axioms using some proof of apartness. It might simplify the step in coercion optimization where we optimize a c.t.f. coercion only to abandon the changes because they break apartness constraints. It would also allow us to delete gobs of code dealing with "branched axioms" vs regular ones.
 - Fix all the `TypeInType` bugs
 - Clean up pure unifier to make the fact that kind coercions *only* affect type variables by using, e.g., `getCastedTyVar_maybe`.
-- It seems that `quantifyTyVars` is duplicating some logic from `simplifyInfer`, in that it removes covars. This should really be done in `kindGeneralize`, because `simplifyInfer`*uses*`quantifyTyVars`. This should be just about possible, but with some twists and turns:
+- It seems that `quantifyTyVars` is duplicating some logic from `simplifyInfer`, in that it removes covars. This should really be done in `kindGeneralize`, because `simplifyInfer` *uses* `quantifyTyVars`. This should be just about possible, but with some twists and turns:
 
   - H98 constructors are strange in that they have tyvars that aren't mentioned in the type. So be careful here and make sure the type is closed (w.r.t. user-written tyvars) before calling `kindGeneralize`.
   - `tcFamTyPats` needs a hard look

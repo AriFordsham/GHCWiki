@@ -18,11 +18,27 @@ Assume this code could simply rely on the function behind the pointer expecting 
 Before going in the how, the question is: Is it worth it?
 
 
+
 Here is a micro benchmark:
 
+
 ```
--- Foo.hsmoduleFoowherefoo::(Int->Int->Int)->Intfoo f = go 00where go a 999999999= a
-        go a n = a `seq` go (f a n)(n+1){-# NOINLINE foo #-}-- Main.hsimportFoofun::Int->Int->Intfun x y =(x*x)+(y*y)main= print $ foo fun
+-- Foo.hs
+module Foo where
+
+foo :: (Int -> Int -> Int) -> Int
+foo f = go 0 0
+  where go a 999999999 = a
+        go a n = a `seq` go (f a n) (n+1)
+{-# NOINLINE foo #-}
+
+-- Main.hs
+import Foo
+
+fun :: Int -> Int -> Int
+fun x y = (x*x)+(y*y)
+
+main = print $ foo fun
 ```
 
 
@@ -40,26 +56,44 @@ $ ghc -O Foo.o Main.o -o test-fast
 
 In the edit step, I replaced
 
+
 ```
-movq%rbx,%rdxmovq%rax,%rbxmovq%rdx,-16(%rbp)movq%rcx,-8(%rbp)addq$-24,%rbpjmpstg_ap_pp_fast.sizes1F8_info,.-s1F8_info
+        movq %rbx,%rdx
+        movq %rax,%rbx
+        movq %rdx,-16(%rbp)
+        movq %rcx,-8(%rbp)
+        addq $-24,%rbp
+        jmp stg_ap_pp_fast
+        .size s1F8_info, .-s1F8_info
 ```
 
 
 with
 
+
 ```
-movq%rbx,%rdxmovq%rax,%rbxmovq%rdx,-16(%rbp)movq%rcx,-8(%rbp)addq$-24,%rbpjmp*-2(%rax).sizes1F8_info,.-s1F8_info
+        movq %rbx,%rdx
+        movq %rax,%rbx
+        movq %rdx,-16(%rbp)
+        movq %rcx,-8(%rbp)
+        addq $-24,%rbp
+        jmp *-2(%rax)
+        .size s1F8_info, .-s1F8_info
 ```
 
 
 (yes, that works!)
 
 
+
 Then I timed the resulting binaries with
 
+
 ```
-$ python -m timeit -n 10 -r 3'import os; os.system("./test-fast")';10 loops, best of 3: 4.94 sec per loop
-$ python -m timeit -n 10 -r 3'import os; os.system("./test-slow")';10 loops, best of 3: 5.49 sec per loop
+$ python -m timeit -n 10 -r 3 'import os; os.system("./test-fast")';
+10 loops, best of 3: 4.94 sec per loop
+$ python -m timeit -n 10 -r 3 'import os; os.system("./test-slow")';
+10 loops, best of 3: 5.49 sec per loop
 ```
 
 

@@ -97,7 +97,8 @@ Here is the `Has` class with instances for the above Customer record, and exampl
 ```
 
 
-Note that the**`Has` mechanism** uses **the field's type itself** to locate the field within the record:
+Note that the** `Has` mechanism** uses **the field's type itself** to locate the field within the record:
+
 
 - Each field must be a distinct type.
 - The Type must be declared once (within the scope), and is then under regular name control.
@@ -110,8 +111,13 @@ Note that the**`Has` mechanism** uses **the field's type itself** to locate the 
   (See below for syntactic sugar to declare these.)
 - Possible **downside:** for non-`sharing` fields, what's the risk there's already a Type with the same name (upshifted) and that the name is an 'accidental' clash?
 
+>
+> >
 > >
 > > It is an error to be `sharing` a record field without there being a same-named Type in scope. The desugar for the data decl would create the instance to use the Type, but then the instance would fail.
+> >
+> >
+>
 
 
 To generate the correct field selector function, there is to be a new deriving class; and for record decls a shorthand:

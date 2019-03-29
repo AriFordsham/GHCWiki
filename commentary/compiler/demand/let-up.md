@@ -230,8 +230,10 @@ The previous ideas greatly simplify by ignoring `Termation`/`DmdResult`s.
 In fact, the bugs encountered while implementing the first proposal were all due to complex interplay with `Termination`.
 
 
+
 Consider the two `DmdType`s `{}` (e.g. empty, terminating) and `{y-><S,1*U>}x` (uses `y` exactly once and throws, like in `error y`).
-When these are `lub`ed, we want the `DmdType``{y-><L,1*U>}` (uses `y` at most once, possibly terminating) as a result.
+When these are `lub`ed, we want the `DmdType` `{y-><L,1*U>}` (uses `y` at most once, possibly terminating) as a result.
+
 
 
 The status quo is to compute the new `DmdEnv` by `plusVarEnv_CD lubDmd env1 (defaultDmd res1) env2 (defaultDmd res2)`.

@@ -61,10 +61,14 @@ data StaticPtr
 
 ---
 
+
 ## Implementation notes for interim version
 
-**`StaticPtr` is defined as follows:
+
+
+** `StaticPtr` is defined as follows:
 **
+
 
 ```wiki
 data StaticPtr a = StaticPtr !Fingerprint StaticPtrInfo a

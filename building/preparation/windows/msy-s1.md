@@ -25,7 +25,10 @@ Other documentation for Windows includes:
   - [ LLVM](http://www.llvm.org/releases/download.html) (Optional, for using GHC's LLVM backend, grab the file called 'LLVM Binaries for Mingw32/x86')
 
 >
+>
 > We recommend using the **default install locations** for all these tools.  If you choose your own paths, then we recommend not using a path containing spaces if the default did not have spaces.
+>
+>
 
 1. **Install the MinGW and MSYS tools:**
 
@@ -44,10 +47,15 @@ Other documentation for Windows includes:
   - The Haskell platform installer should have already done the work needed to make GHC, `happy`, and `alex` available on the path, but if not add them too: `$HP/bin` and `$HP/lib/extralibs/bin`. 
 
 >
+>
 > Moreover, **these must precede the standard `c:/windows/system32`**: see below for the Awful Warnings about your PATH.  
+>
+>
 
 >
+>
 > We recommend doing this by creating a file `.profile` in your home directory (by default `c:/MinGW/msys/1.0/home/<username>`). The contents of your `.profile` should be something like this:
+>
 >
 > ```wiki
 > # Add Python to path
@@ -100,7 +108,10 @@ If you want to build HTML Help, you have to install the [ HTML Help SDK](http://
 ## Awful warnings about your PATH
 
 
-It is very important to put the msys/mingw stuff on your path *before*`c:/windows/system32`. Here is what happens if you don't.
+
+It is very important to put the msys/mingw stuff on your path *before* `c:/windows/system32`. Here is what happens if you don't.
+
+
 
 **Symptom**: `sh libtool` hangs indefinitely.  The process manager shows an extant `cmd` and `sed`, but nothing else.  `libtool` is a shell script that comes from a tarball, and is unpacked into `libraries/integer-gmp/gmp/gmpbuild/libtool`
 

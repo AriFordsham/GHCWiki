@@ -1,20 +1,28 @@
 
 On 5 May 2008, Isaac Dupree asked
 
+
+>
 >
 > Is there documentation (e.g. on the GHC Commentary somewhere I can't
 > find) an explanation of what C-- "kinds" are or how they're useful/used? 
+>
+>
 
 
 Probably not.  GHC Cmm is a sort of pidgin version of C-- 2.0, and
 true C-- kinds are explained in the [ C-- specification, section 5.1](http://www.cminusminus.org/code.html).
 
+
+>
 >
 > When I was portabilizing that code area a while ago I had ignorantly 
 > changed some of the uses of "kind" to "hint" for consistency (both names 
 > had been being used for the same thing via type-synonym.) and because I 
 > could guess how the code make sense if it was, informally, a hint about 
 > what to do.
+>
+>
 
 
 Hint was the word used originally, and several people (including

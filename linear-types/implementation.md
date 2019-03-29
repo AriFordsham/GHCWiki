@@ -58,10 +58,16 @@ In binders, where we stored a type, we now store a pair of type and multiplicity
 ### Typechecking
 
 
+
 The internal representation of a multiplicity is called `Mult`. Its (slightly simplified) definition is as follows:
 
+
 ```
-dataMult=One|Omega|MultAddMultMult|MultMulMultMult|MultThingType
+data Mult = One
+          | Omega
+          | MultAdd Mult Mult
+          | MultMul Mult Mult
+          | MultThing Type
 ```
 
 
@@ -91,8 +97,13 @@ Concretely, there are precisely two places where we check how often variables ar
 
   - `tcSubMult` emits constraints of the form `π ⩽ ρ`. In `check_binder` there is a call to `submultMaybe` which checks for obvious cases before we delegate to `tcSubMult` which decomposes multiplication and addition constraints
 
+>
+> >
 > >
 > > before calling `tcEqMult` in order to check for precise equality of types. This function will also do unification of variables.
+> >
+> >
+>
 
 1. In `tc_sub_type_ds`, In the `FunTy` case, we unify the arrow multiplicity which can lead to the unification of multiplicity variables.
 
@@ -140,42 +151,57 @@ Calls to `isMultiplicityVar` are used in places where we do defaulting.
 ### HsType
 
 
+
 We need to distinguish `a -> b`, `a ->. b` and `a -->.(m) b` in the surface syntax. The `HsFunTy` constructor has an extra field containing `HsArrow`, which stores this information:
 
+
 ```
-dataHsArrow pass
-  =HsUnrestrictedArrow-- ^ a -> b|HsLinearArrow-- ^ a ->. b|HsExplicitMult(LHsType pass)-- ^ a -->.(m) b (very much including `a -->.(Omega) b`! This is how the-- programmer wrote it). It is stored as an `HsType` so as to preserve the-- syntax as written in the program.
+data HsArrow pass
+  = HsUnrestrictedArrow
+    -- ^ a -> b
+  | HsLinearArrow
+    -- ^ a ->. b
+  | HsExplicitMult (LHsType pass)
+    -- ^ a -->.(m) b (very much including `a -->.(Omega) b`! This is how the
+    -- programmer wrote it). It is stored as an `HsType` so as to preserve the
+    -- syntax as written in the program.
 ```
 
 ### Data Constructors are polymorphic
 
 
+
 A key part of the original proposal was the type of data constructors was linear.
 
+
 ```
-(,):: a ->. b ->.(a, b)
+(,) :: a ->. b ->. (a, b)
 ```
 
 
 They were then automatically η-expanded automatically when needed to be used as unrestricted types. That is
 
+
 ```
-((,):: a -> b ->(a, b))
+( (,) :: a -> b -> (a, b))
 ```
 
 
 would typecheck because it would be elaborated into `\x y -> (x, y)`, which can be given the type `a -> b -> (a, b)`.
 
 
+
 However, besides the fact that over-eager η-expansion is undesirable (it is not perfectly preserving: `undefined `seq` True` loops, while `(\x -> undefined x) `seq` True` terminates, it also runs contrary to the [ plans on polymorphism](https://www.microsoft.com/en-us/research/publication/guarded-impredicative-polymorphism/)), it was found to be also insufficient for backwards compatibility. Below are two examples of perfectly good Haskell code which would start failing with this strategy.
+
 
 #### Example 1
 
-```
-foo::Identity(a -> b)-> a -> b
-foo= unIdentity
 
-foo(IdentityJust)
+```
+foo :: Identity (a -> b) -> a -> b
+foo = unIdentity
+
+foo (Identity Just)
 ```
 
 
@@ -194,8 +220,11 @@ The second problem is much more obvious in retrospect: there are
 typeclasses defined on (-\>), and they can fail to apply when using
 linear function.
 
+
 ```
-importControl.CategoryJust.Just-- fails
+import Control.Category
+
+Just . Just -- fails
 ```
 
 
@@ -206,24 +235,31 @@ corresponding instance for `(⊸)`. Anyway, even if we have a `Category`
 instance for `(⊸)`, it is not clear what expression will typecheck:
 probably, one of the following will fail
 
+
 ```
-importControl.Category(Just::_->_).JustJust.(Just::_->_)
+import Control.Category
+
+(Just :: _ -> _) . Just
+Just . (Just :: _ -> _)
 ```
 
 #### Polymorphic Constructors
 
 
+
 Simon suggested a solution to these problems. To make the type of linear data constructors polymorphic, when they are used as terms (their type stays linear when they are used in patterns).
 
+
 ```
-(,):: forall (p ::Multiplicity)(q ::Multiplicity). a -->.(p) b  -->.(q)->(a, b)
+(,) :: forall (p :: Multiplicity) (q :: Multiplicity). a -->.(p) b  -->.(q) -> (a, b)
 ```
 
 
 Currently simplified as having a single multiplicity variable for the sake of a simpler implementation
 
+
 ```
-(,):: forall (p ::Multiplicity). a -->.(p) b -->.(p)->(a, b)
+(,) :: forall (p :: Multiplicity). a -->.(p) b -->.(p) -> (a, b)
 ```
 
 
@@ -349,16 +385,20 @@ are then inserted later. These are returned in `SimplFloats`.
 However, we have to be somewhat careful here when it comes to linearity
 as if we create a floating binding x in the scrutinee position.
 
+
 ```
-case_w(let x[1]="Foo"inQux x)ofQux_->"Bar"
+case_w (let x[1] = "Foo" in Qux x) of
+  Qux _ -> "Bar"
 ```
 
 
 then the let will end up outside the `case` if we perform KnownBranch or
 the case of case optimisation.
 
+
 ```
-let x[1]="Foo"in"Bar"
+let x[1] = "Foo"
+in "Bar"
 ```
 
 
@@ -369,18 +409,23 @@ Omega times as well. The failure was that we created a \[1\] binding
 whilst inside this context and it then escaped without being scaled.
 
 
+
 We also have to be careful as if we have a \[1\] case
 
+
 ```
-case_1(let x[1]="Foo"inQux x)ofQux x -> x
+case_1 (let x[1] = "Foo" in Qux x) of
+  Qux x -> x
 ```
 
 
 then the binding maintains the correct linearity once it is floated rom
 the case and KnownBranch is performed.
 
+
 ```
-let x[1]="Foo"in x
+let x[1] = "Foo"
+in x
 ```
 
 
@@ -406,19 +451,24 @@ For an in-depth discussion see: [ https://github.com/tweag/ghc/issues/78](https:
 #### Pushing function-type coercions
 
 
+
 Coercions of kind `a -> b ~ c -> d` are routinely pushed through lambdas or application as follows
 
-```
-(f |> co) u  ~~>(f (u |> co_arg))|> co_res
 
-(\x -> u)|> co  ~~>\x' -> u[x\(x |> co_arg)]|> co_res
+```
+(f |> co) u  ~~>  (f (u |> co_arg)) |> co_res
+
+(\x -> u) |> co  ~~>  \x' -> u[x\(x |> co_arg)] |> co_res
 ```
 
 
 However, this can't always be done when multiplicities are involved: the multiplicity could be coerced (in particular, by `unsafeCoerce`). So, it's possible that the left hand side of these rules is well-typed, while the right hand side isn't. Here is an example of this phenomenon.
 
+
 ```
--- Assuming co :: (Int -> ()) ~ (Int ->. ())fun x ::(1)Int->(fun _->()|> co) x  ~~>  fun x ::(1)Int->(fun _::(ω)Int->()) x
+-- Assuming co :: (Int -> ()) ~ (Int ->. ())
+
+fun x ::(1) Int -> (fun _ -> () |> co) x  ~~>  fun x ::(1) Int -> (fun _ ::(ω) Int -> ()) x
 ```
 
 
@@ -432,24 +482,34 @@ I (aspiwack) believe we are only checking whether the coercion is syntactically 
 ##### Case multiplicity
 
 
+
 The CPR split transforms a function
 
+
 ```
-f::A->B
+f :: A -> B
 ```
 
 
 Into a pair
 
+
 ```
-$wf ::A->(#C,D#)-- supposing f's B is built with a constructor with two argumentsf x =case$wf x of(# y, z #)->B y z
+$wf :: A -> (# C, D #) -- supposing f's B is built with a constructor with two arguments
+
+f x = case $wf x of
+  (# y, z #) -> B y z
 ```
 
 
 With linear types, we still need to choose a multiplicity for the case. The correct multiplicity is `1`. It works whether `f` has linear arguments or not. So, the linear transformation is:
 
+
 ```
-$wf ::A->(#C,D#)-- supposing f's B is built with a constructor with two argumentsf x = case_1 $wf x of(# y, z #)->B y z
+$wf :: A -> (# C, D #) -- supposing f's B is built with a constructor with two arguments
+
+f x = case_1 $wf x of
+  (# y, z #) -> B y z
 ```
 
 
@@ -458,30 +518,42 @@ The worker is defined similarly, and also uses a `case_1`.
 ##### Unrestricted fields
 
 
+
 Consider a function
 
+
 ```
-f::Int->UnrestrictedA
+f :: Int -> Unrestricted A
 ```
 
 
 The argument type doesn't matter, the result type does.
 
 
+
 The CPR split yields:
 
+
 ```
-$wf ::Int->(#A#)f x = case_1 $wf x of(# y #)->Unrestricted y
+$wf :: Int -> (# A #)
+
+f x = case_1 $wf x of
+  (# y #) -> Unrestricted y
 ```
 
 
 This is ill-typed unless `(# #)` has an unrestricted field (currently, all fields of an unboxed tuple are linear).
 
 
+
 The principled solution is to have unboxed tuple be parametrised by the multiplicity of their field, that is
 
+
 ```
-type(#,#):: forall r s.Multiplicity->Multiplicity->TYPE r ->TYPE s ->TYPE…data(#,#) p q a b where(#,#):: a :p-> b :q->(#,#) p q a b
+type (#,#) :: forall r s. Multiplicity -> Multiplicity -> TYPE r -> TYPE s -> TYPE …
+
+data (#,#) p q a b where
+  (#,#) :: a :p-> b :q-> (#,#) p q a b
 ```
 
 

@@ -18,9 +18,11 @@ This wiki page is meant as a scratch-pad to describe the plans/ideas behind the 
 
 ## Roadmap
 
+
 ### For GHC 7.10.1
 
-- ***(done)*** Switch to `integer-gmp2` as default `INTEGER_LIBRARY`
+
+- ***(done)*** Switch to `integer-gmp2` as default `INTEGER_LIBRARY` 
 
   - but leave `INTEGER_LIBRARY=integer-gmp` in place as build-option
 - ***(done)*** Leave the package name as `integer-gmp`, i.e. for
@@ -41,10 +43,46 @@ This wiki page is meant as a scratch-pad to describe the plans/ideas behind the 
 
 ## Rough Design
 
+
 ### Haskell-side API Types
 
+
 ```
--- | Type representing /raw/ arbitrary-precision Naturals---- This is common type used by 'Natural' and 'Integer'.  As this type-- consists of a single constructor wrapping a 'ByteArray#' it can be-- unpacked.---- Essential invariants:----  - 'ByteArray#' size is an exact multiple of 'Word#' size--  - limbs are stored in least-significant-limb-first order,--  - the most-significant limb must be non-zero, except for--  - @0@ which is represented as a 1-limb.dataBigNat=BN#ByteArray#-- | Invariant: 'Jn#' and 'Jp#' are used iff value doesn't fit in 'SI#'---- Useful properties resulting from the invariants:----  - @abs ('S#' _) <= abs ('Jp#' _)@--  - @abs ('S#' _) <  abs ('Jn#' _)@--dataInteger=S#Int#-- ^ iff value in @[minBound::'Int', maxBound::'Int']@ range|Jp#{-# UNPACK #-}!BigNat-- ^ iff value in @]maxBound::'Int', +inf[@ range|Jn#{-# UNPACK #-}!BigNat-- ^ iff value in @]-inf, minBound::'Int'[@ rangederiving(Eq)-- | Type representing arbitrary-precision Naturals---- Invariant: 'NatJ#' is used iff when value doesn't fit in 'NatS#'dataNatural=NatS#Word#-- ^ @[0, maxBound::Word]@|NatJ#{-# UNPACK #-}!BigNat-- ^ @]maxBound::GmpLimb, +inf[@deriving(Eq,Ord)
+-- | Type representing /raw/ arbitrary-precision Naturals
+--
+-- This is common type used by 'Natural' and 'Integer'.  As this type
+-- consists of a single constructor wrapping a 'ByteArray#' it can be
+-- unpacked.
+--
+-- Essential invariants:
+--
+--  - 'ByteArray#' size is an exact multiple of 'Word#' size
+--  - limbs are stored in least-significant-limb-first order,
+--  - the most-significant limb must be non-zero, except for
+--  - @0@ which is represented as a 1-limb.
+data BigNat = BN# ByteArray#
+
+-- | Invariant: 'Jn#' and 'Jp#' are used iff value doesn't fit in 'SI#'
+--
+-- Useful properties resulting from the invariants:
+--
+--  - @abs ('S#' _) <= abs ('Jp#' _)@
+--  - @abs ('S#' _) <  abs ('Jn#' _)@
+--
+data Integer  = S#                  Int#
+                -- ^ iff value in @[minBound::'Int', maxBound::'Int']@ range
+              | Jp# {-# UNPACK #-} !BigNat
+                -- ^ iff value in @]maxBound::'Int', +inf[@ range
+              | Jn# {-# UNPACK #-} !BigNat
+                -- ^ iff value in @]-inf, minBound::'Int'[@ range
+              deriving (Eq)
+
+-- | Type representing arbitrary-precision Naturals
+--
+-- Invariant: 'NatJ#' is used iff when value doesn't fit in 'NatS#'
+data Natural = NatS#                 Word#    -- ^ @[0, maxBound::Word]@
+             | NatJ# {-# UNPACK #-} !BigNat   -- ^ @]maxBound::GmpLimb, +inf[@
+             deriving (Eq,Ord)
 ```
 
 - `BigNat` is an internal common type to `Integer` and `Natural` and not exposed through `base`
@@ -64,21 +102,34 @@ This wiki page is meant as a scratch-pad to describe the plans/ideas behind the 
 - `integer-gmp2` needs only about a dozen of rather generic low-level primitive arithmetic BigNum operations, such as e.g.
 
   ```
-  -- mp_limb_t mpn_add_1 (mp_limb_t *rp, const mp_limb_t *s1p, mp_size_t n,--                      mp_limb_t s2limb)foreignimportccall unsafe "gmp.h __gmpn_add_1"
-    c_mpn_add_1 ::MutableByteArray# s ->ByteArray#->GmpSize#->GmpLimb#->IOGmpLimb-- mp_limb_t mpn_add (mp_limb_t *rp, const mp_limb_t *s1p, mp_size_t s1n,--                    const mp_limb_t *s2p, mp_size_t s2n)foreignimportccall unsafe "gmp.h __gmpn_add"
-    c_mpn_add ::MutableByteArray# s ->ByteArray#->GmpSize#->ByteArray#->GmpSize#->IOGmpLimb
+  -- mp_limb_t mpn_add_1 (mp_limb_t *rp, const mp_limb_t *s1p, mp_size_t n,
+  --                      mp_limb_t s2limb)
+  foreign import ccall unsafe "gmp.h __gmpn_add_1"
+    c_mpn_add_1 :: MutableByteArray# s -> ByteArray# -> GmpSize# -> GmpLimb# -> IO GmpLimb
+
+  -- mp_limb_t mpn_add (mp_limb_t *rp, const mp_limb_t *s1p, mp_size_t s1n,
+  --                    const mp_limb_t *s2p, mp_size_t s2n)
+  foreign import ccall unsafe "gmp.h __gmpn_add"
+    c_mpn_add :: MutableByteArray# s -> ByteArray# -> GmpSize# -> ByteArray# -> GmpSize# -> IO GmpLimb
   ```
 
 - The plan is to write a small shim-like C library that implements a uniform adapter for `integer-gmp2` to call into, that wraps libraries such as GMP or `bsdnt`. This small adapter is then selected at link-time by `ghc --make` similiar to how `ghc` selects one of its various runtimes (threaded, debugging, non-threaded, ...)
 
 ## Simplifying 3rd party GMP-addon packages
 
+
 - `integer-gmp-1.0.0` provides an installed `<ghc-gmp.h>` header which is supposed to either include the system-wide `<gmp.h>` header, or correspond to the in-tree's GMP headers content.
 
-- `integer-gmp-1.0.0` persists meta-information about the build-time GMP library used in `HsIntegerGmp.h`.
+-  `integer-gmp-1.0.0` persists meta-information about the build-time GMP library used in `HsIntegerGmp.h`.
+
+
+ 
+
 
 >
+>
 > Here's an example for the definitions created for the in-tree GMP:
+>
 >
 > ```
 > #define GHC_GMP_INTREE     1
@@ -91,6 +142,7 @@ This wiki page is meant as a scratch-pad to describe the plans/ideas behind the 
 >
 > And here's an example for a system-installed GMP:
 >
+>
 > ```
 > #define GHC_GMP_INTREE     0
 > #define GHC_GMP_VERSION_MJ 6
@@ -98,3 +150,5 @@ This wiki page is meant as a scratch-pad to describe the plans/ideas behind the 
 > #define GHC_GMP_VERSION_PL 0
 > #define GHC_GMP_VERSION   (6 * 10000 + 0 * 100 + 0)
 > ```
+
+

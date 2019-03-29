@@ -72,7 +72,10 @@ How can you get a value of type `HasEq a`.
   For all free variables in `HasEq (...)` add `Eq (...)` to the context where the variable is bound.
 
 >
+>
 > Listing of all places where explicit types appear.
+>
+>
 
 - Haskell98
 
@@ -124,12 +127,22 @@ How can you get a value of type `HasEq a`.
   - Functional Dependencies: TODO
   - GADTs: TODO
 
+
+      
+
+
 1. Functions in modules without this extension.
   Maybe it's possible to add the contexts when the functions are imported. I don't know.
 
 ## Uses
 
+
 ## Related
 
+
+
 [\#8026](https://gitlab.haskell.org//ghc/ghc/issues/8026)
+
 [ http://www.haskell.org/pipermail/haskell-prime/2010-July/003249.html](http://www.haskell.org/pipermail/haskell-prime/2010-July/003249.html)
+
+

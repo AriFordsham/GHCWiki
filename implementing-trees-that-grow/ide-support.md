@@ -13,7 +13,9 @@ Original discussion on `ghc-devs`: [ https://mail.haskell.org/pipermail/ghc-devs
 ## Motivation
 
 
-At the moment, if a tool such as `HaRe`[(1)](implementing-trees-that-grow/ide-support#) is used to make changes to the `hsSyn` AST and convert the updated AST back to source, it has to compile with `Opt_KeepRawTokenStream` set, to tell the parser to keep the [ApiAnnotations](api-annotations), and then use the `ghc-exactprint`[(2)](implementing-trees-that-grow/ide-support#) library, and some complex bookkeeping, to make sure the connection between the (modified) API Annotations and the AST is kept intact.
+
+At the moment, if a tool such as `HaRe`[(1)](implementing-trees-that-grow/ide-support#) is used to make changes to the `hsSyn` AST and convert the updated AST back to source, it has to compile with `Opt_KeepRawTokenStream` set, to tell the parser to keep the [ApiAnnotations](api-annotations), and then use the `ghc-exactprint` [(2)](implementing-trees-that-grow/ide-support#) library, and some complex bookkeeping, to make sure the connection between the (modified) API Annotations and the AST is kept intact.
+
 
 
 Given that Trees that Grow is now in the `hsSyn` AST, I propose to move the API Annotations to where they belong, inside the AST.
@@ -28,17 +30,33 @@ The existing API Annotations are only kept if requested, as they impose a space 
 A way to avoid this penalty, and to allow the additional information stored to grow relatively freely without having to worry too much about optimising the straight compilation process, is to have two variants of the AST, one for compiling with Api Annotations, one for without, as selected by using the `Opt_KeepRawTokenStream` dynamic flag, as used at present.
 
 
+
 This can be achieved by making use of the mechanics listed below. If it turns out that the penalty is moderate, and the additional complexity of having two variants is not worth it, this step need not be taken.
 
-(1)[ https://hackage.haskell.org/package/HaRe](https://hackage.haskell.org/package/HaRe)
-(2)[ https://hackage.haskell.org/package/ghc-exactprint](https://hackage.haskell.org/package/ghc-exactprint)
+
+
+(1) [ https://hackage.haskell.org/package/HaRe](https://hackage.haskell.org/package/HaRe) 
+
+(2) [ https://hackage.haskell.org/package/ghc-exactprint](https://hackage.haskell.org/package/ghc-exactprint)
+
 
 ## Mechanics
 
+
+
 `hsSyn/HsExtension.hs` would be extended to
 
+
 ```
--- | Used as a data type index for the hsSyn ASTdataGhcPass(c ::Pass)dataPass=ParsedProcess|Renamed|TypecheckeddataProcess=WithApiAnnotations|WithoutApiAnnotationstypeGhcPs=GhcPass('Parsed'WithoutApiAnnotations)typeGhcPsI=GhcPass('Parsed'WithApiAnnotations)
+-- | Used as a data type index for the hsSyn AST
+data GhcPass (c :: Pass)
+
+data Pass = Parsed Process | Renamed | Typechecked
+
+data Process = WithApiAnnotations | WithoutApiAnnotations
+
+type GhcPs   = GhcPass ('Parsed 'WithoutApiAnnotations)
+type GhcPsI  = GhcPass ('Parsed 'WithApiAnnotations)
 ```
 
 
@@ -70,14 +88,24 @@ A longer term goal is to use a modified `happy` to generate a fully incremental 
 In preparation for that, the updated Api Annotations would be defined in a position-independent way, rather than being based on exact line and column positions.
 
 
-This will probably be based on the approach currently taken in `Coda`[(4)](implementing-trees-that-grow/ide-support#).
 
-(3)[ https://github.com/haskell/haskell-ide-engine](https://github.com/haskell/haskell-ide-engine)
-(4)[ https://github.com/ekmett/coda](https://github.com/ekmett/coda)
+This will probably be based on the approach currently taken in `Coda` [(4)](implementing-trees-that-grow/ide-support#).
+
+
+
+(3) [ https://github.com/haskell/haskell-ide-engine](https://github.com/haskell/haskell-ide-engine) 
+
+(4) [ https://github.com/ekmett/coda](https://github.com/ekmett/coda)
+
 
 ## Even Longer Term
 
 
+
 Incremental renaming and type checking.  See related work at [(1)](implementing-trees-that-grow/ide-support#)
 
-(1)[ https://arxiv.org/pdf/1805.00155.pdf](https://arxiv.org/pdf/1805.00155.pdf)
+
+
+(1) [ https://arxiv.org/pdf/1805.00155.pdf](https://arxiv.org/pdf/1805.00155.pdf)
+
+

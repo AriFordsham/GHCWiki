@@ -1,11 +1,15 @@
 ## Startup / Shutdown support in the RTS
 
 
+
 A common property of all our parallel variants is, the runtime system starts in several coordinated instances on different machines, and also needs to coordinate the clean shutdown.
+
 
 - We added a suitable (deliberately simple) message passing layer (== PVM \| MPI \| home brewn, corresponding to `parpvm | mpi | cp`)
 
-`rts/parallel/MPSystem.h` is the interface  `rts/parallel/PVMComm.c|MPIComm.c|CpComm.c` implement the methods (TODO`CpComm.c` are only stubs for now)
+
+`rts/parallel/MPSystem.h` is the interface  `rts/parallel/PVMComm.c|MPIComm.c|CpComm.c` implement the methods (TODO `CpComm.c` are only stubs for now)
+
 
 - Managing the startup of several machines (parsed by start script)
 
@@ -20,4 +24,8 @@ A common property of all our parallel variants is, the runtime system starts in 
 
 In a first version, the empty scheduler instances blocked on a call to MP_recv in `getRemoteWork`. Now, we handle it inside a more complex message processing function, when we have more types of messages between the machines).
 
+
+
 [--\> back to GpHEden](gp-h-eden)
+
+

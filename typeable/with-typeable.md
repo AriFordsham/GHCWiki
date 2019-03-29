@@ -16,12 +16,14 @@ A facility like this is needed by Edward Kmett: see [2439\#comment:25](https://g
 ## Fully general approach
 
 
+
 One sledgehammer of a solution is to have some way of creating any local instance, anywhere. We can imagine some primitive/keyword -- call it `withdict` -- that takes all the members of a class and magically creates an instance. So, if we have
 
+
 ```
-classSuper a =>C a where
+class Super a => C a where
   meth1 :: a -> a
-  meth2 ::[a]->Bool
+  meth2 :: [a] -> Bool
 ```
 
 

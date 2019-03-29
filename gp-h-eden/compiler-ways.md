@@ -59,4 +59,8 @@ Changes in `compiler/main/DriverPipeline.hs`:
 
 A run-phase `moveBinary`, calling a function `moveBinary` and helpers, rename/move the compiled binary and generate a start script to be called by the user.  This start script will later be extended for tracing (trace post-processing the trace files of several machines). TODO We should think again about the MPI support: when the script calls `mpirun`, node names should be passed as RTS options (removed before passing the flags to the program). Or we probably switch to spawning the non-main instances from inside the program (using MPI-2) (which is a bigger change).
 
+
+
 [--\> back to GpHEden](gp-h-eden)
+
+

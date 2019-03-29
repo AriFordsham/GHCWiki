@@ -1,1 +1,1 @@
-redirect(wiki:Building/Preparation)?
+Page moved to [Building/Preparation](building/preparation)

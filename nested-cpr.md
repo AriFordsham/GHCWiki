@@ -36,40 +36,54 @@ Tickets with example of code that would benefit from nested CPR:
 ### Tickets
 
 
+
 Use Keyword = `CPRAnalysis` to ensure that a ticket ends up on these lists.
+
+
 
 **Open Tickets:**
 
-<table><tr><th>[\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1600">#1600</a></th>
 <td>Optimisation: CPR the results of IO</td></tr>
-<tr><th>[\#1885](https://gitlab.haskell.org//ghc/ghc/issues/1885)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1885">#1885</a></th>
 <td>Improve CPR analysis</td></tr>
-<tr><th>[\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2289">#2289</a></th>
 <td>Needless reboxing of values when returning from a tight loop</td></tr>
-<tr><th>[\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2387">#2387</a></th>
 <td>Optimizer misses unboxing opportunity</td></tr>
-<tr><th>[\#5075](https://gitlab.haskell.org//ghc/ghc/issues/5075)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5075">#5075</a></th>
 <td>CPR optimisation for sum types if only one constructor is used</td></tr>
-<tr><th>[\#8598](https://gitlab.haskell.org//ghc/ghc/issues/8598)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8598">#8598</a></th>
 <td>IO hack in demand analyzer gets in the way of CPR</td></tr>
-<tr><th>[\#8655](https://gitlab.haskell.org//ghc/ghc/issues/8655)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8655">#8655</a></th>
 <td>Evaluate know-to-terminate-soon thunks</td></tr>
-<tr><th>[\#12364](https://gitlab.haskell.org//ghc/ghc/issues/12364)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12364">#12364</a></th>
 <td>Demand analysis for sum types</td></tr>
-<tr><th>[\#14259](https://gitlab.haskell.org//ghc/ghc/issues/14259)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14259">#14259</a></th>
 <td>Worker/Wrapper for sum return</td></tr>
-<tr><th>[\#16040](https://gitlab.haskell.org//ghc/ghc/issues/16040)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16040">#16040</a></th>
 <td>Unboxing-Related Performance Issue with Polymorphic Functions</td></tr>
-<tr><th>[\#16335](https://gitlab.haskell.org//ghc/ghc/issues/16335)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16335">#16335</a></th>
 <td>Make CPR Analysis more aggressive for inductive cases</td></tr></table>
 
-**Closed Tickets:**No results
+
+
+
+**Closed Tickets:**
+No results
+
 
 ### Related testcases
 
+
 - Everything in [source:testsuite/tests/stranal/sigs/](/trac/ghc/browser/testsuite/tests/stranal/sigs)
 
+
+ 
+
+
 ### TODOs
+
 
 - Paper-Writeup of CPR
 - Shouldn’t nested CPR help a lot with Complex-heavy code? Is there something in nofib?
@@ -85,10 +99,12 @@ Use Keyword = `CPRAnalysis` to ensure that a ticket ends up on these lists.
 ### Motivating examples
 
 
+
 Motivation is always good. Here I try to look at examples where people were expecting or hoping for nested CPR, and see how we are fairing:
 
+
 - `facIO` in [\#1600](https://gitlab.haskell.org//ghc/ghc/issues/1600): Not eligible for nested CPR, as the result is not forced. Using `return $!` makes this work.
-- `mean` in [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): Not eligible for nested CRP. The base case `go x l s | x > m      = P s l` is – to the demand analyzer – lazy in `s` and `l`, so doing nested CRP would make that stricter. It works with `s `seq` l `seq` P s`. But `P`*is* a strict constructor! When the demand analyser runs, it still sees the wrapper `$WP`. Maybe it just needs to be inlined earlier? Tried inlining more aggressively, helps, and does not seem to hurt.
+- `mean` in [\#2289](https://gitlab.haskell.org//ghc/ghc/issues/2289): Not eligible for nested CRP. The base case `go x l s | x > m      = P s l` is – to the demand analyzer – lazy in `s` and `l`, so doing nested CRP would make that stricter. It works with `s `seq` l `seq` P s`. But `P` *is* a strict constructor! When the demand analyser runs, it still sees the wrapper `$WP`. Maybe it just needs to be inlined earlier? Tried inlining more aggressively, helps, and does not seem to hurt.
 - [\#2387](https://gitlab.haskell.org//ghc/ghc/issues/2387) works nicely! (but note that `go` uses a `!n` pattern already)
 
 ### Degradation exploration and explanation

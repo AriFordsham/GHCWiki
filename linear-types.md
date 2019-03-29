@@ -68,17 +68,21 @@ There are two reasons:
 # Isn't a linear function that diverges unsound?
 
 
+
 Our proposed type system allows you to give a linear type to list concatenation:
 
+
 ```
-(++)::[a]->.[a]->.[a]
+(++) :: [a] ->. [a] ->. [a]
 ```
 
 
 So we can write
 
+
 ```
-strange::Int->.[Int]strange x =(repeat 1)++[x]
+strange :: Int ->. [Int]
+strange x = (repeat 1) ++ [x]
 ```
 
 
@@ -90,23 +94,30 @@ But there is no cause for panic: `strange` only promises to consume `x` if its r
 # In the motivations of the proposal, there is a linear IO monad. Isn't linear IO unsound in presence of exception?
 
 
+
 It is not, but as always, we need to careful about how we type primitives of the `IO` monad. For example, [ catch](https://github.com/tweag/linear-base/blob/007b884ebb0e3182ea73e450683f9660b7a92f40/src/System/IO/Linear.hs#L144-L146) should not have a linear type. It should be typed as follows:
 
+
 ```
-catch::Exception e
-  =>IO(Unrestricted a)->(e ->IO(Unrestricted a))->IO(Unrestricted a)
+catch
+  :: Exception e
+  => IO (Unrestricted a) -> (e -> IO (Unrestricted a)) -> IO (Unrestricted a)
 ```
 
 
 This means that neither the body nor the handler of `catch` can capture linear variables. Otherwise, you could lose track of them.
 
 
+
 If, say, the body of `catch` was linear, we could write:
 
+
 ```
-oops:: a ->.IO(Unrestricted())oops x =
+oops :: a ->. IO (Unrestricted ())
+oops x =
   catch
-    (throwIO "This is bad">> oops a)(\_-> return $Unrestricted())
+    (throwIO "This is bad" >> oops a)
+    (\_ -> return $ Unrestricted ())
 ```
 
 # Don't linear guarantees degrade to affine in the presence of exceptions?
@@ -118,23 +129,30 @@ When an exception is raised during the consumption of `f u`, `u` may not have be
 Linear functions do have the property that: /if their result is consumed at most once, then their argument is consumed at most once/. This is a more relevant phenomenon in case exceptions are raised: exceptions interrupt the consumption of the result, which is only partial.
 
 
+
 In fact, linear functions have the property that if their result is consumed with multiplicity X, then their argument is also consumed with multiplicity X. Whatever we choose X to mean. Which can be internalised in the language as follows
 
-```
-dataMult(p ::Multiplicity)(a ::*)whereMult:: a :p->Multp p a
 
-multMap::(a ->. b)->Mult p a ->Mult p b
-multMap f (Mult x)=Mult(f x)
+```
+data Mult (p :: Multiplicity) (a :: *) where
+  Mult :: a :p-> Multp p a
+
+multMap :: (a ->. b) -> Mult p a -> Mult p b
+multMap f (Mult x) = Mult (f x)
 ```
 
 # Wouldn't it be just as good to have affine types, since they are simpler?
 
 
+
 Having affine types would makes some things easier. For instance `catch` is allowed to capture affine variables:
 
+
 ```
--- Writing A for the multiplicity of affine functionscatch::Exception e
-  =>IO(Unrestricted a):'A->(e ->IO(Unrestricted a)):'A->IO(Unrestricted a)
+-- Writing A for the multiplicity of affine functions
+catch
+  :: Exception e
+  => IO (Unrestricted a) :'A-> (e -> IO (Unrestricted a)) :'A-> IO (Unrestricted a)
 ```
 
 
@@ -176,19 +194,22 @@ The centrepiece of our design is to avoid code duplication. Crucially, the same 
 # Is this type for monads in the paper correct?
 
 
+
 The linear types proposal features monads with the following interface
 
+
 ```
-return:: a ->. m a
-(>>=):: m a ->.(a ->. m b)->. m b
+return :: a ->. m a
+(>>=) :: m a ->. (a ->. m b) ->. m b
 ```
 
 
 But unfolding the definitions of the Kleisli extension and unit of a monad you would get instead
 
+
 ```
-return:: a -> m a
-extend::(a ->. m b)->(m a ->. m b)
+return :: a -> m a
+extend :: (a ->. m b) -> (m a ->. m b)
 ```
 
 

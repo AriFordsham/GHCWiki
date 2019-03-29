@@ -147,4 +147,7 @@ hscCompileOneShot' hsc_env extCore_filename mod_summary src_changed
 ## List all currently available hooks
 
 
+
 Todo, add list here, see [ demo program](https://gist.github.com/luite/6444273)
+
+

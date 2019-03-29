@@ -18,8 +18,16 @@ This has several advantages:
 - Via C compilation is consistent with the other backend with respect to FFI declarations:
   all bind to the ABI, not the API.
 
+
+  
+
+
 - foreign calls can now be inlined freely across module boundaries, since
   a header file is not required when compiling the call.
+
+
+  
+
 
 - bootstrapping via C will be more reliable, because this difference
   in behavior between the two backends has been removed.
@@ -33,6 +41,10 @@ There are some disadvantages:
   is correct.
 
 - we can't benefit from inline definitions in header files.
+
+
+  
+
 
 ## Prototypes
 

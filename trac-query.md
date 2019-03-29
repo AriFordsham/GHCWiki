@@ -67,7 +67,12 @@ You may want to save some queries so that you can come back to them later. You c
 
 Which is displayed as:
 
+
+>
+>
 > Active tickets against 1.0 (Ticket query: status: new, status: assigned, status: reopened, version: 1.0, order: priority)
+>
+>
 
 
 This uses a very simple query language to specify the criteria, see [Query Language](trac-query#query-language).
@@ -82,7 +87,12 @@ Alternatively, you can copy the query string of a query and paste that into the 
 
 Which is displayed as:
 
+
+>
+>
 > Assigned tickets by owner (Ticket query: status: new, status: assigned, status: reopened, group: owner)
+>
+>
 
 ### Customizing the *table* format
 
@@ -96,17 +106,127 @@ You can also customize the columns displayed in the table format (*format=table*
 
 This is displayed as:
 
+
+  
+
 ##
-    Results (1 - 3 of 11842)
+    Results (1 - 3 of 11843)
+  
 
-12 (Ticket query: status: closed, max: 3, page: 2, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)3 (Ticket query: status: closed, max: 3, page: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)4 (Ticket query: status: closed, max: 3, page: 4, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)5 (Ticket query: status: closed, max: 3, page: 5, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)6 (Ticket query: status: closed, max: 3, page: 6, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)7 (Ticket query: status: closed, max: 3, page: 7, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)8 (Ticket query: status: closed, max: 3, page: 8, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)9 (Ticket query: status: closed, max: 3, page: 9, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)10 (Ticket query: status: closed, max: 3, page: 10, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)11 (Ticket query: status: closed, max: 3, page: 11, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)→ (Ticket query: status: closed, max: 3, page: 2, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
 
-<table><tr><th>Ticket (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: id)</th>
-<th>Resolution (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: resolution)</th>
-<th>Summary (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: summary)</th>
-<th>Owner (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: owner)</th>
-<th>Reporter (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: reporter)</th></tr>
-<tr><th>[\#16410](https://gitlab.haskell.org//ghc/ghc/issues/16410)</th>
+  
+
+
+
+    
+    
+      
+        1
+      
+      
+    
+      
+      
+        2 (Ticket query: status: closed, max: 3, page: 2, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        3 (Ticket query: status: closed, max: 3, page: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        4 (Ticket query: status: closed, max: 3, page: 4, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        5 (Ticket query: status: closed, max: 3, page: 5, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        6 (Ticket query: status: closed, max: 3, page: 6, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        7 (Ticket query: status: closed, max: 3, page: 7, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        8 (Ticket query: status: closed, max: 3, page: 8, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        9 (Ticket query: status: closed, max: 3, page: 9, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        10 (Ticket query: status: closed, max: 3, page: 10, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        11 (Ticket query: status: closed, max: 3, page: 11, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+    
+      → (Ticket query: status: closed, max: 3, page: 2, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+    
+
+
+  
+  
+  
+    
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: id)
+      </th>
+<th>
+        
+        Resolution (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: resolution)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: summary)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: owner)
+      </th>
+<th>
+        
+        Reporter (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: reporter)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16410">#16410</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -118,10 +238,73 @@ This is displayed as:
                       
                       duplicate
                     </th>
-<th>[Order of declarations matters](https://gitlab.haskell.org//ghc/ghc/issues/16410)</th>
-<th></th>
-<th>Iceland_jack</th></tr>
-<tr><th>[\#16401](https://gitlab.haskell.org//ghc/ghc/issues/16401)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16410">Order of declarations matters</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      Iceland_jack
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16401">#16401</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -133,10 +316,73 @@ This is displayed as:
                       
                       duplicate
                     </th>
-<th>[Bad error message if we use TypeApplications with an identifier that doesn't exist](https://gitlab.haskell.org//ghc/ghc/issues/16401)</th>
-<th></th>
-<th>Fuuzetsu</th></tr>
-<tr><th>[\#16394](https://gitlab.haskell.org//ghc/ghc/issues/16394)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16401">Bad error message if we use TypeApplications with an identifier that doesn&apos;t exist</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      Fuuzetsu
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16394">#16394</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -148,11 +394,130 @@ This is displayed as:
                       
                       fixed
                     </th>
-<th>[GHC internal error while typechecking of instance definition](https://gitlab.haskell.org//ghc/ghc/issues/16394)</th>
-<th></th>
-<th>Day1721</th></tr></table>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16394">GHC internal error while typechecking of instance definition</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      Day1721
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr></table>
 
-12 (Ticket query: status: closed, max: 3, page: 2, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)3 (Ticket query: status: closed, max: 3, page: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)4 (Ticket query: status: closed, max: 3, page: 4, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)5 (Ticket query: status: closed, max: 3, page: 5, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)6 (Ticket query: status: closed, max: 3, page: 6, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)7 (Ticket query: status: closed, max: 3, page: 7, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)8 (Ticket query: status: closed, max: 3, page: 8, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)9 (Ticket query: status: closed, max: 3, page: 9, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)10 (Ticket query: status: closed, max: 3, page: 10, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)11 (Ticket query: status: closed, max: 3, page: 11, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)→ (Ticket query: status: closed, max: 3, page: 2, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+
+  
+
+
+
+    
+    
+      
+        1
+      
+      
+    
+      
+      
+        2 (Ticket query: status: closed, max: 3, page: 2, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        3 (Ticket query: status: closed, max: 3, page: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        4 (Ticket query: status: closed, max: 3, page: 4, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        5 (Ticket query: status: closed, max: 3, page: 5, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        6 (Ticket query: status: closed, max: 3, page: 6, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        7 (Ticket query: status: closed, max: 3, page: 7, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        8 (Ticket query: status: closed, max: 3, page: 8, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        9 (Ticket query: status: closed, max: 3, page: 9, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        10 (Ticket query: status: closed, max: 3, page: 10, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+      
+      
+        11 (Ticket query: status: closed, max: 3, page: 11, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+      
+    
+    
+      → (Ticket query: status: closed, max: 3, page: 2, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+    
+
+
+
 
 #### Full rows
 
@@ -166,17 +531,127 @@ In *table* format you can also have full rows by using *rows=\<field\>*:
 
 This is displayed as:
 
+
+  
+
 ##
-    Results (1 - 3 of 11842)
+    Results (1 - 3 of 11843)
+  
 
-12 (Ticket query: status: closed, max: 3, page: 2, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)3 (Ticket query: status: closed, max: 3, page: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)4 (Ticket query: status: closed, max: 3, page: 4, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)5 (Ticket query: status: closed, max: 3, page: 5, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)6 (Ticket query: status: closed, max: 3, page: 6, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)7 (Ticket query: status: closed, max: 3, page: 7, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)8 (Ticket query: status: closed, max: 3, page: 8, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)9 (Ticket query: status: closed, max: 3, page: 9, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)10 (Ticket query: status: closed, max: 3, page: 10, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)11 (Ticket query: status: closed, max: 3, page: 11, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)→ (Ticket query: status: closed, max: 3, page: 2, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
 
-<table><tr><th>Ticket (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: id, row: description)</th>
-<th>Resolution (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: resolution, row: description)</th>
-<th>Summary (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: summary, row: description)</th>
-<th>Owner (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: owner, row: description)</th>
-<th>Reporter (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: reporter, row: description)</th></tr>
-<tr><th>[\#16410](https://gitlab.haskell.org//ghc/ghc/issues/16410)</th>
+  
+
+
+
+    
+    
+      
+        1
+      
+      
+    
+      
+      
+        2 (Ticket query: status: closed, max: 3, page: 2, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        3 (Ticket query: status: closed, max: 3, page: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        4 (Ticket query: status: closed, max: 3, page: 4, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        5 (Ticket query: status: closed, max: 3, page: 5, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        6 (Ticket query: status: closed, max: 3, page: 6, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        7 (Ticket query: status: closed, max: 3, page: 7, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        8 (Ticket query: status: closed, max: 3, page: 8, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        9 (Ticket query: status: closed, max: 3, page: 9, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        10 (Ticket query: status: closed, max: 3, page: 10, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        11 (Ticket query: status: closed, max: 3, page: 11, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+    
+      → (Ticket query: status: closed, max: 3, page: 2, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+    
+
+
+  
+  
+  
+    
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: id, row: description)
+      </th>
+<th>
+        
+        Resolution (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: resolution, row: description)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: summary, row: description)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: owner, row: description)
+      </th>
+<th>
+        
+        Reporter (Ticket query: status: closed, max: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, order: reporter, row: description)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16410">#16410</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -188,22 +663,111 @@ This is displayed as:
                       
                       duplicate
                     </th>
-<th>[Order of declarations matters](https://gitlab.haskell.org//ghc/ghc/issues/16410)</th>
-<th></th>
-<th>Iceland_jack</th></tr>
-<tr><th>Description</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16410">Order of declarations matters</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      Iceland_jack
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                    </td>
+<th>Description</th>
+<td>
+                    
+                    </td>
+<th>
+                      
+
+
 This piece of code works.
 
+
 ```
-{-# Language DataKinds    #-}{-# Language GADTs        #-}{-# Language InstanceSigs #-}{-# Language PolyKinds    #-}{-# Language TypeFamilies #-}importData.KindclassCategory(tag::Type)wheretypeStrip tag ::TypeclassCategory tag =>Stripped tag wheretypeHom tag::Strip tag ->Strip tag ->TypeinstanceCategory()wheretypeStrip()=()instanceStripped()wheretypeHom()=Unit1dataUnit1::()->()->TypewhereU1::Unit1'()'()dataTagdataUnit2::()->()->TypewhereU2::Unit2'()'()instanceCategoryTagwheretypeStripTag=()instanceStrippedTagwheretypeHomTag=Unit2
+{-# Language DataKinds    #-}
+{-# Language GADTs        #-}
+{-# Language InstanceSigs #-}
+{-# Language PolyKinds    #-}
+{-# Language TypeFamilies #-}
+
+import Data.Kind
+
+class Category (tag::Type) where
+ type Strip tag :: Type
+
+class Category tag => Stripped tag where
+ type Hom tag::Strip tag -> Strip tag -> Type
+
+instance Category () where
+ type Strip () = ()
+instance Stripped () where
+ type Hom () = Unit1
+
+data Unit1 :: () -> () -> Type where U1 :: Unit1 '() '()
+data Tag
+data Unit2 :: () -> () -> Type where U2 :: Unit2 '() '()
+
+instance Category Tag where
+ type Strip Tag = ()
+instance Stripped Tag where
+ type Hom Tag = Unit2
 ```
 
 
-Note that `Unit1` and `Unit2` are declared identically, separated by `data Tag`. The order is important.
+Note that <tt>Unit1</tt> and <tt>Unit2</tt> are declared identically, separated by <tt>data Tag</tt>. The order is important.
 
 
-If we change the last line to `Hom Tag = Unit1` (same as `Hom ()`) we get
+
+If we change the last line to <tt>Hom Tag = Unit1</tt> (same as <tt>Hom ()</tt>) we get
+
 
 ```wiki
 $ ghc -ignore-dot-ghci 1152_bug.hs
@@ -224,33 +788,60 @@ Prelude>
 ```
 
 
-even though `Strip Tag` is defined to equal `()`. Here comes the weird part.
+even though <tt>Strip Tag</tt> is defined to equal <tt>()</tt>. Here comes the weird part.
 
 
-If I move `Unit1` decl beneath `data Tag`
+
+If I move <tt>Unit1</tt> decl beneath <tt>data Tag</tt>
+
 
 ```
-dataTagdataUnit1::()->()->TypewhereU1::Unit1'()'()dataUnit2::()->()->TypewhereU2::Unit2'()'()
-```
-
-
-then `type Hom Tag = Unit1` and `type Hom Tag = Unit2` both work well.
-
-
-If I move `Unit2` decl above `data Tag` then both `Hom Tag = Unit1` and `Hom Tag = Unit2` fail!
-
-```
-dataUnit1::()->()->TypewhereU1::Unit1'()'()dataUnit2::()->()->TypewhereU2::Unit2'()'()dataTag
+data Tag
+data Unit1 :: () -> () -> Type where U1 :: Unit1 '() '()
+data Unit2 :: () -> () -> Type where U2 :: Unit2 '() '()
 ```
 
 
-If I replace all occurrences of `Tag` with `Bool` it succeeds.
+then <tt>type Hom Tag = Unit1</tt> and <tt>type Hom Tag = Unit2</tt> both work well.
 
-</th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>[\#16401](https://gitlab.haskell.org//ghc/ghc/issues/16401)</th>
+
+
+If I move <tt>Unit2</tt> decl above <tt>data Tag</tt> then both <tt>Hom Tag = Unit1</tt> and <tt>Hom Tag = Unit2</tt> fail!
+
+
+```
+data Unit1 :: () -> () -> Type where U1 :: Unit1 '() '()
+data Unit2 :: () -> () -> Type where U2 :: Unit2 '() '()
+data Tag
+```
+
+
+If I replace all occurrences of <tt>Tag</tt> with <tt>Bool</tt> it succeeds.
+
+
+
+                    </th>
+<td>
+                    
+                  </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16401">#16401</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -262,12 +853,79 @@ If I replace all occurrences of `Tag` with `Bool` it succeeds.
                       
                       duplicate
                     </th>
-<th>[Bad error message if we use TypeApplications with an identifier that doesn't exist](https://gitlab.haskell.org//ghc/ghc/issues/16401)</th>
-<th></th>
-<th>Fuuzetsu</th></tr>
-<tr><th>Description</th>
-<th>```
-{-# LANGUAGE TypeApplications #-}{-# LANGUAGE DataKinds #-}moduleBadErrorwherefoo::Intfoo= doesNotExist @123{-
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16401">Bad error message if we use TypeApplications with an identifier that doesn&apos;t exist</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      Fuuzetsu
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                    </td>
+<th>Description</th>
+<td>
+                    
+                    </td>
+<th>
+                      
+
+```
+{-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE DataKinds #-}
+module BadError where
+
+foo :: Int
+foo = doesNotExist @123
+
+{-
 [1 of 1] Compiling BadError         ( BadError.hs, BadError.o )
 
 BadError.hs:6:7: error:
@@ -281,13 +939,32 @@ BadError.hs:6:7: error:
 ```
 
 
-What I would expect is for it to say that `doesNotExist` is not bound as one might reasonably expect. This is very, very confusing and easy to hit in real life. If you are exposing a function `f`, using it somewhere with `f @123` but then later decide to remove or rename `f`, the error message doesn't suggest at all that `f` has disappeared and leaves the user scratching their head.
+What I would expect is for it to say that <tt>doesNotExist</tt> is not bound as one might reasonably expect. This is very, very confusing and easy to hit in real life. If you are exposing a function <tt>f</tt>, using it somewhere with <tt>f @123</tt> but then later decide to remove or rename <tt>f</tt>, the error message doesn&apos;t suggest at all that <tt>f</tt> has disappeared and leaves the user scratching their head.
 
-</th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>[\#16394](https://gitlab.haskell.org//ghc/ghc/issues/16394)</th>
+
+
+                    </th>
+<td>
+                    
+                  </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16394">#16394</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -299,17 +976,84 @@ What I would expect is for it to say that `doesNotExist` is not bound as one mig
                       
                       fixed
                     </th>
-<th>[GHC internal error while typechecking of instance definition](https://gitlab.haskell.org//ghc/ghc/issues/16394)</th>
-<th></th>
-<th>Day1721</th></tr>
-<tr><th>Description</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
-Hello. 
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16394">GHC internal error while typechecking of instance definition</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      Day1721
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                    </td>
+<th>Description</th>
+<td>
+                    
+                    </td>
+<th>
+                      
 
-This code won't typecheck because of GHC internal error.
+
+Hello. <br>
+This code won&apos;t typecheck because of GHC internal error.
+
 
 ```
-{-# LANGUAGE PolyKinds, TypeFamilies, DataKinds #-}classC a wheretypeT(n :: a)--       v--DIFF--vinstanceC a =>C b =>C(a, b)wheretypeT'(n, m)=(T n,T m)
+{-# LANGUAGE PolyKinds, TypeFamilies, DataKinds #-}
+
+class C a where
+    type T (n :: a)
+
+--       v--DIFF--v
+instance C a => C b => C (a, b) where
+    type T '(n, m) = (T n, T m)
 ```
 
 
@@ -332,73 +1076,167 @@ Failed, no modules loaded.
 
 but this works fine:
 
+
 ```
-{-# LANGUAGE PolyKinds, TypeFamilies, DataKinds #-}classC a wheretypeT(n :: a)--       v--DIFF--vinstance(C a,C b)=>C(a, b)wheretypeT'(n, m)=(T n,T m)
+{-# LANGUAGE PolyKinds, TypeFamilies, DataKinds #-}
+
+class C a where
+    type T (n :: a)
+
+--       v--DIFF--v
+instance (C a, C b) => C (a, b) where
+    type T '(n, m) = (T n, T m)
 ```
 
 
 Not sure is a bug, but either way it would be better to make more understandable error message
 
-</th>
-<th></th>
-<th></th>
-<th></th></tr></table>
 
-12 (Ticket query: status: closed, max: 3, page: 2, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)3 (Ticket query: status: closed, max: 3, page: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)4 (Ticket query: status: closed, max: 3, page: 4, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)5 (Ticket query: status: closed, max: 3, page: 5, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)6 (Ticket query: status: closed, max: 3, page: 6, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)7 (Ticket query: status: closed, max: 3, page: 7, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)8 (Ticket query: status: closed, max: 3, page: 8, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)9 (Ticket query: status: closed, max: 3, page: 9, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)10 (Ticket query: status: closed, max: 3, page: 10, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)11 (Ticket query: status: closed, max: 3, page: 11, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)→ (Ticket query: status: closed, max: 3, page: 2, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+
+                    </th>
+<td>
+                    
+                  </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr></table>
+
+
+  
+
+
+
+    
+    
+      
+        1
+      
+      
+    
+      
+      
+        2 (Ticket query: status: closed, max: 3, page: 2, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        3 (Ticket query: status: closed, max: 3, page: 3, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        4 (Ticket query: status: closed, max: 3, page: 4, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        5 (Ticket query: status: closed, max: 3, page: 5, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        6 (Ticket query: status: closed, max: 3, page: 6, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        7 (Ticket query: status: closed, max: 3, page: 7, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        8 (Ticket query: status: closed, max: 3, page: 8, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        9 (Ticket query: status: closed, max: 3, page: 9, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        10 (Ticket query: status: closed, max: 3, page: 10, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+      
+      
+        11 (Ticket query: status: closed, max: 3, page: 11, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id, row: description)
+      
+    
+    
+      → (Ticket query: status: closed, max: 3, page: 2, col: id, col: resolution, col: summary, col: owner, col: reporter, desc: 1, order: id)
+    
+
+
+
 
 ## Query Language
 
-`query:`[TracLinks](trac-links) and the `[[TicketQuery]]` macro both use a mini “query language” for specifying query filters. Filters are separated by ampersands (`&`). Each filter consists of the ticket field name, an operator and one or more values. More than one value are separated by a pipe (`|`), meaning that the filter matches any of the values. To include a literal `&` or `|` in a value, escape the character with a backslash (`\`).
+
+
+`query:` [TracLinks](trac-links) and the `[[TicketQuery]]` macro both use a mini “query language” for specifying query filters. Filters are separated by ampersands (`&`). Each filter consists of the ticket field name, an operator and one or more values. More than one value are separated by a pipe (`|`), meaning that the filter matches any of the values. To include a literal `&` or `|` in a value, escape the character with a backslash (`\`).
+
 
 
 The available operators are:
 
-<table><tr><th>**`=`**</th>
+
+<table><tr><th> <b><tt>=</tt></b> </th>
 <th> the field content exactly matches one of the values 
 </th></tr>
-<tr><th>**`~=`**</th>
+<tr><th> <b><tt>~=</tt></b> </th>
 <th> the field content contains one or more of the values 
 </th></tr>
-<tr><th>**`^=`**</th>
+<tr><th> <b><tt>^=</tt></b> </th>
 <th> the field content starts with one of the values 
 </th></tr>
-<tr><th>**`$=`**</th>
+<tr><th> <b><tt>$=</tt></b> </th>
 <th> the field content ends with one of the values 
 </th></tr></table>
 
 
+
 All of these operators can also be negated:
 
-<table><tr><th>**`!=`**</th>
+
+<table><tr><th> <b><tt>!=</tt></b> </th>
 <th> the field content matches none of the values 
 </th></tr>
-<tr><th>**`!~=`**</th>
+<tr><th> <b><tt>!~=</tt></b> </th>
 <th> the field content does not contain any of the values 
 </th></tr>
-<tr><th>**`!^=`**</th>
+<tr><th> <b><tt>!^=</tt></b> </th>
 <th> the field content does not start with any of the values 
 </th></tr>
-<tr><th>**`!$=`**</th>
+<tr><th> <b><tt>!$=</tt></b> </th>
 <th> the field content does not end with any of the values 
 </th></tr></table>
 
 
+
 The date fields `created` and `modified` can be constrained by using the `=` operator and specifying a value containing two dates separated by two dots (`..`). Either end of the date range can be left empty, meaning that the corresponding end of the range is open. The date parser understands a few natural date specifications like "3 weeks ago", "last month" and "now", as well as Bugzilla-style date specifications like "1d", "2w", "3m" or "4y" for 1 day, 2 weeks, 3 months and 4 years, respectively. Spaces in date specifications can be omitted to avoid having to quote the query string. 
 
-<table><tr><th>**`created=2007-01-01..2008-01-01`**</th>
+
+<table><tr><th> <b><tt>created=2007-01-01..2008-01-01</tt></b> </th>
 <th> query tickets created in 2007 
 </th></tr>
-<tr><th>**`created=lastmonth..thismonth`**</th>
+<tr><th> <b><tt>created=lastmonth..thismonth</tt></b> </th>
 <th> query tickets created during the previous month 
 </th></tr>
-<tr><th>**`modified=1weekago..`**</th>
+<tr><th> <b><tt>modified=1weekago..</tt></b> </th>
 <th> query tickets that have been modified in the last week 
 </th></tr>
-<tr><th>**`modified=..30daysago`**</th>
+<tr><th> <b><tt>modified=..30daysago</tt></b> </th>
 <th> query tickets that have been inactive for the last 30 days 
 </th></tr></table>
 
 ---
 
 
+
 See also: [TracTickets](trac-tickets), [TracReports](trac-reports), [TracGuide](trac-guide), [TicketQuery](ticket-query)
+
+

@@ -1,7 +1,12 @@
+
 TODO This page is possibly outdated. Update to the latest information.
 
+
+>
 >
 > See also [Code Generator](commentary/compiler/code-gen) and [compiler/cmm/cmm-notes](/trac/ghc/browser/ghc/compiler/cmm/cmm-notes).
+>
+>
 
 ### Note To Reader
 
@@ -195,11 +200,38 @@ The Haskell representation of Cmm separates contiguous code into:
 
 Cmm modules contain static data elements (see [Literals and Labels](commentary/compiler/cmm-type#literals-and-labels)) and [Basic Blocks](commentary/compiler/cmm-type#), collected together in `Cmm`, a type synonym for `GenCmm`, defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs):
 
-```
-newtypeGenCmmdi=Cmm[GenCmmTopdi]typeCmm=GenCmmCmmStaticCmmStmtdataGenCmmTopdi=CmmProc[d]-- Info table, may be emptyCLabel-- Used to generate both info & entry labels[LocalReg]-- Argument locals live on entry (C-- procedure params)[GenBasicBlocki]-- Code, may be empty.  The first block is-- the entry point.  The order is otherwise initially -- unimportant, but at some point the code gen will-- fix the order.-- the BlockId of the first block does not give rise-- to a label.  To jump to the first block in a Proc,-- use the appropriate CLabel.-- some static data.|CmmDataSection[d]-- constant values onlytypeCmmTop=GenCmmTopCmmStaticCmmStmt
+
 ```
 
+newtype GenCmm d i = Cmm [GenCmmTop d i]
+
+type Cmm = GenCmm CmmStatic CmmStmt
+
+
+data GenCmmTop d i
+  = CmmProc
+     [d]	       -- Info table, may be empty
+     CLabel            -- Used to generate both info & entry labels
+     [LocalReg]        -- Argument locals live on entry (C-- procedure params)
+     [GenBasicBlock i] -- Code, may be empty.  The first block is
+                       -- the entry point.  The order is otherwise initially 
+                       -- unimportant, but at some point the code gen will
+                       -- fix the order.
+
+		       -- the BlockId of the first block does not give rise
+		       -- to a label.  To jump to the first block in a Proc,
+		       -- use the appropriate CLabel.
+
+  -- some static data.
+  | CmmData Section [d]	-- constant values only
+
+type CmmTop = GenCmmTop CmmStatic CmmStmt
+```
+
+
+
 `CmmStmt` is described in [Statements and Calls](commentary/compiler/cmm-type#statements-and-calls);
+
 `Section` is described in [Sections and Directives](commentary/compiler/cmm-type#sections-and-directives);
 
 the static data in `[d]` is \[`CmmStatic`\] from the type synonym `Cmm`;
@@ -208,20 +240,34 @@ the static data in `[d]` is \[`CmmStatic`\] from the type synonym `Cmm`;
 #### Basic Blocks and Procedures
 
 
+
 Cmm procedures are represented by the first constructor in `GenCmmTop d i`:
 
+
 ```
-CmmProc[d]CLabel[LocalReg][GenBasicBlocki]
+
+    CmmProc [d] CLabel [LocalReg] [GenBasicBlock i]
 ```
 
 
 For a description of Cmm labels and the `CLabel` data type, see the subsection [Literals and Labels](commentary/compiler/cmm-type#literals-and-labels), below.
 
 
+
 Cmm Basic Blocks are labeled blocks of Cmm code ending in an explicit jump.  Sections (see [Sections and Directives](commentary/compiler/cmm-type#sections-and-directives)) have no jumps--in Cmm, Sections cannot contain nested Procedures (see, e.g., [Compiling Cmm with GHC](commentary/compiler/cmm-type#compiling-cmm-with-ghc)).  Basic Blocks encapsulate parts of Procedures.  The data type `GenBasicBlock` and the type synonym `CmmBasicBlock` encapsulate Basic Blocks; they are defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs):
 
+
 ```
-dataGenBasicBlocki=BasicBlockBlockId[i]typeCmmBasicBlock=GenBasicBlockCmmStmtnewtypeBlockId=BlockIdUniquederiving(Eq,Ord)instanceUniquableBlockIdwheregetUnique(BlockIdu)=u
+
+data GenBasicBlock i = BasicBlock BlockId [i]
+
+type CmmBasicBlock = GenBasicBlock CmmStmt
+
+newtype BlockId = BlockId Unique
+  deriving (Eq,Ord)
+
+instance Uniquable BlockId where
+  getUnique (BlockId u) = u
 ```
 
 
@@ -237,57 +283,89 @@ The `BlockId` data type simply carries a `Unique` with each Basic Block.  For de
 Like other high level assembly languages, all variables in C-- are machine registers, separated into different types according to bit length (8, 16, 32, 64, 80, 128) and register type (integral or floating point). The C-- standard specifies little more type information about a register than its bit length: there are no distinguishing types for signed or unsigned integrals, or for "pointers" (registers holding a memory address).  A C-- standard compiler supports additional information on the type of a register value through compiler *hints*.  In a foreign call, a `"signed" bits8` would be sign-extended and may be passed as a 32-bit value.  Cmm diverges from the C-- specification on this point somewhat (see below).  C-- and Cmm do not represent special registers, such as a Condition Register (`CR`) or floating point unit (FPU) status and control register (`FPSCR` on the PowerPC, `MXCSR` on Intel x86 processors), as these are a matter for the [Backends](commentary/compiler/backends).
 
 
+
 C-- and Cmm hide the actual number of registers available on a particular machine by assuming an "infinite" supply of registers.  A backend, such as the NCG or C compiler on GHC, will later optimise the number of registers used and assign the Cmm variables to actual machine registers; the NCG temporarily stores any overflow in a small memory stack called the *spill stack*, while the C compiler relies on C's own runtime system.  Haskell handles Cmm registers with three data types: `LocalReg`, `GlobalReg` and `CmmReg`.  `LocalReg`s and `GlobalRegs` are collected together in a single `Cmm` data type:
 
+
 ```
-dataCmmReg=CmmLocalLocalReg|CmmGlobalGlobalRegderiving(Eq)
+
+data CmmReg 
+  = CmmLocal  LocalReg
+  | CmmGlobal GlobalReg
+  deriving( Eq )
 ```
+
 
 #### Local Registers
 
 
+
 Local Registers exist within the scope of a Procedure:
 
+
 ```
-dataLocalReg=LocalReg!UniqueMachRep
+
+data LocalReg
+  = LocalReg !Unique MachRep
 ```
 
 
 For a list of references with information on `Unique`, see the [Basic Blocks and Procedures](commentary/compiler/cmm-type#basic-blocks-and-procedures) section, above.
 
 
+
 A `MachRep`, the type of a machine register, is defined in [compiler/cmm/CmmMachOp.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmMachOp.hs):
 
+
 ```
-dataMachRep=I8-- integral type, 8 bits wide (a byte)|I16-- integral type, 16 bits wide|I32-- integral type, 32 bits wide|I64-- integral type, 64 bits wide|I128-- integral type, 128 bits wide (an integral vector register)|F32-- floating point type, 32 bits wide (float)|F64-- floating point type, 64 bits wide (double)|F80-- extended double-precision, used in x86 native codegen only.deriving(Eq,Ord,Show)
+
+data MachRep
+  = I8		-- integral type, 8 bits wide (a byte)
+  | I16		-- integral type, 16 bits wide
+  | I32		-- integral type, 32 bits wide
+  | I64		-- integral type, 64 bits wide
+  | I128	-- integral type, 128 bits wide (an integral vector register)
+  | F32		-- floating point type, 32 bits wide (float)
+  | F64		-- floating point type, 64 bits wide (double)
+  | F80		-- extended double-precision, used in x86 native codegen only.
+  deriving (Eq, Ord, Show)
 ```
+
 
 
 There is currently no register for floating point vectors, such as `F128`.  The types of Cmm variables are defined in the Happy parser file [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y) and the Alex lexer file [compiler/cmm/CmmLex.x](/trac/ghc/browser/ghc/compiler/cmm/CmmLex.x).  (Happy and Alex will compile these into `CmmParse.hs` and `CmmLex.hs`, respectively.)  Cmm recognises the following `C--` types as parseable tokens, listed next to their corresponding `define`s in [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cmm.h) and their STG types:
 
-<table><tr><th>**Cmm Token**</th>
-<th>**Cmm.h \#define**</th>
-<th>**STG type**</th></tr>
-<tr><th>`bits8`</th>
-<th>`I8`</th>
-<th>`StgChar` or `StgWord8`</th></tr>
-<tr><th>`bits16`</th>
-<th>`I16`</th>
-<th>`StgWord16`</th></tr>
-<tr><th>`bits32`</th>
-<th>`I32`, `CInt`, `CLong`</th>
-<th>`StgWord32`; `StgWord` (depending on architecture) 
+
+<table><tr><th> <b>Cmm Token</b> </th>
+<th> <b>Cmm.h #define</b> </th>
+<th> <b>STG type</b> 
 </th></tr>
-<tr><th>`bits64`</th>
-<th>`I64`, `CInt`, `CLong`, `L_`</th>
-<th>`StgWord64`; `StgWord` (depending on architecture) 
+<tr><th> <tt>bits8</tt> </th>
+<th> <tt>I8</tt> </th>
+<th> <tt>StgChar</tt> or <tt>StgWord8</tt> 
 </th></tr>
-<tr><th>`float32`</th>
-<th>`F_`</th>
-<th>`StgFloat`</th></tr>
-<tr><th>`float64`</th>
-<th>`D_`</th>
-<th>`StgDouble`</th></tr></table>
+<tr><th> <tt>bits16</tt> </th>
+<th> <tt>I16</tt> </th>
+<th> <tt>StgWord16</tt> 
+</th></tr>
+<tr><th> <tt>bits32</tt> </th>
+<th> <tt>I32</tt>, <tt>CInt</tt>, <tt>CLong</tt> </th>
+<th> <tt>StgWord32</tt>; <tt>StgWord</tt> (depending on architecture) 
+</th></tr>
+<tr><th> <tt>bits64</tt> </th>
+<th> <tt>I64</tt>, <tt>CInt</tt>, <tt>CLong</tt>, <tt>L_</tt> </th>
+<th> <tt>StgWord64</tt>; <tt>StgWord</tt> (depending on architecture) 
+</th></tr>
+<tr><th> <tt>float32</tt> </th>
+<th> <tt>F_</tt> </th>
+<th> <tt>StgFloat</tt> 
+</th></tr>
+<tr><th> <tt>float64</tt> </th>
+<th> <tt>D_</tt> </th>
+<th> <tt>StgDouble</tt> 
+</th></tr></table>
+
+
 
 [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cmm.h) also defines `L_` for `bits64`, so `F_`, `D_` and `L_` correspond to the `GlobalReg` data type constructors `FloatReg`, `DoubleReg` and `LongReg`.  Note that although GHC may generate other register types supported by the `MachRep` data type, such as `I128`, they are not parseable tokens.  That is, they are internal to GHC.  The special defines `CInt` and `CLong` are used for compatibility with C on the target architecture, typically for making `foreign "C"` calls.
 
@@ -299,30 +377,79 @@ There is currently no register for floating point vectors, such as `F128`.  The 
 #### Global Registers and Hints
 
 
+
 These are universal both to a Cmm module and to the whole compiled program.  Variables are global if they are declared at the top-level of a compilation unit (outside any procedure).  Global Variables are marked as external symbols with the `.globl` assembler directive.  In Cmm, global registers are used for special STG registers and specific registers for passing arguments and returning values.  The Haskell representation of Global Variables (Registers) is the `GlobalReg` data type, defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs):
 
+
 ```
-dataGlobalReg-- Argument and return registers=VanillaReg-- pointers, unboxed ints and chars{-# UNPACK #-}!Int-- register number, such as R3, R11|FloatReg-- single-precision floating-point registers{-# UNPACK #-}!Int-- register number|DoubleReg-- double-precision floating-point registers{-# UNPACK #-}!Int-- register number|LongReg-- long int registers (64-bit, really){-# UNPACK #-}!Int-- register number-- STG registers|Sp-- Stack ptr; points to last occupied stack location.|SpLim-- Stack limit|Hp-- Heap ptr; points to last occupied heap location.|HpLim-- Heap limit register|CurrentTSO-- pointer to current thread's TSO|CurrentNursery-- pointer to allocation area|HpAlloc-- allocation count for heap check failure-- We keep the address of some commonly-called -- functions in the register table, to keep code-- size down:|GCEnter1-- stg_gc_enter_1|GCFun-- stg_gc_fun-- Base offset for the register table, used for accessing registers-- which do not have real registers assigned to them.  This register-- will only appear after we have expanded GlobalReg into memory accesses-- (where necessary) in the native code generator.|BaseReg-- Base Register for PIC (position-independent code) calculations-- Only used inside the native code generator. It's exact meaning differs-- from platform to platform  (see compiler/nativeGen/PositionIndependentCode.hs).|PicBaseReg
+
+data GlobalReg
+  -- Argument and return registers
+  = VanillaReg			-- pointers, unboxed ints and chars
+	{-# UNPACK #-} !Int	-- register number, such as R3, R11
+
+  | FloatReg		        -- single-precision floating-point registers
+	{-# UNPACK #-} !Int	-- register number
+
+  | DoubleReg		        -- double-precision floating-point registers
+	{-# UNPACK #-} !Int	-- register number
+
+  | LongReg	                -- long int registers (64-bit, really)
+	{-# UNPACK #-} !Int	-- register number
+
+  -- STG registers
+  | Sp			-- Stack ptr; points to last occupied stack location.
+  | SpLim		-- Stack limit
+  | Hp			-- Heap ptr; points to last occupied heap location.
+  | HpLim		-- Heap limit register
+  | CurrentTSO		-- pointer to current thread's TSO
+  | CurrentNursery	-- pointer to allocation area
+  | HpAlloc		-- allocation count for heap check failure
+
+  -- We keep the address of some commonly-called 
+  -- functions in the register table, to keep code
+  -- size down:
+  | GCEnter1		-- stg_gc_enter_1
+  | GCFun		-- stg_gc_fun
+
+  -- Base offset for the register table, used for accessing registers
+  -- which do not have real registers assigned to them.  This register
+  -- will only appear after we have expanded GlobalReg into memory accesses
+  -- (where necessary) in the native code generator.
+  | BaseReg
+
+  -- Base Register for PIC (position-independent code) calculations
+  -- Only used inside the native code generator. It's exact meaning differs
+  -- from platform to platform  (see compiler/nativeGen/PositionIndependentCode.hs).
+  | PicBaseReg
 ```
 
 
-For a description of the `Hp` and `Sp`*virtual registers*, see [The Haskell Execution Model](commentary/rts/haskell-execution) page.  General `GlobalReg`s are clearly visible in Cmm code according to the following syntax defined in [compiler/cmm/CmmLex.x](/trac/ghc/browser/ghc/compiler/cmm/CmmLex.x):
 
-<table><tr><th>**`GlobalReg` Constructor**</th>
-<th>**Syntax**</th>
-<th>**Examples**</th></tr>
-<tr><th>`VanillaReg Int`</th>
-<th>`R ++ Int`</th>
-<th>`R1`, `R10`</th></tr>
-<tr><th>`FloatReg Int`</th>
-<th>`F ++ Int`</th>
-<th>`F1`, `F10`</th></tr>
-<tr><th>`DoubleReg Int`</th>
-<th>`D ++ Int`</th>
-<th>`D1`, `D10`</th></tr>
-<tr><th>`LongReg Int`</th>
-<th>`L ++ Int`</th>
-<th>`L1`, `L10`</th></tr></table>
+For a description of the `Hp` and `Sp` *virtual registers*, see [The Haskell Execution Model](commentary/rts/haskell-execution) page.  General `GlobalReg`s are clearly visible in Cmm code according to the following syntax defined in [compiler/cmm/CmmLex.x](/trac/ghc/browser/ghc/compiler/cmm/CmmLex.x):
+
+
+<table><tr><th> <b><tt>GlobalReg</tt> Constructor</b> </th>
+<th> <b>Syntax</b> </th>
+<th> <b>Examples</b> 
+</th></tr>
+<tr><th> <tt>VanillaReg Int</tt> </th>
+<th> <tt>R ++ Int</tt> </th>
+<th> <tt>R1</tt>, <tt>R10</tt> 
+</th></tr>
+<tr><th> <tt>FloatReg Int</tt> </th>
+<th> <tt>F ++ Int</tt> </th>
+<th> <tt>F1</tt>, <tt>F10</tt> 
+</th></tr>
+<tr><th> <tt>DoubleReg Int</tt> </th>
+<th> <tt>D ++ Int</tt> </th>
+<th> <tt>D1</tt>, <tt>D10</tt> 
+</th></tr>
+<tr><th> <tt>LongReg Int</tt> </th>
+<th> <tt>L ++ Int</tt> </th>
+<th> <tt>L1</tt>, <tt>L10</tt> 
+</th></tr></table>
+
 
 
 General `GlobalRegs` numbers are decimal integers, see the `parseInteger` function in [compiler/utils/StringBuffer.hs](/trac/ghc/browser/ghc/compiler/utils/StringBuffer.hs).  The remainder of the `GlobalReg` constructors, from `Sp` to `BaseReg` are lexical tokens exactly like their name in the data type; `PicBaseReg` does not have a lexical token since it is used only inside the NCG.  See [Position Independent Code and Dynamic Linking](commentary/position-independent-code) for an in-depth description of PIC implementations in the NCG.
@@ -352,8 +479,14 @@ foreign "C" labelThread(R1 "ptr", R2 "ptr") [];
 
 Hints are represented in Haskell as `MachHint`s, defined near `MachRep` in [compiler/cmm/CmmMachOp.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmMachOp.hs):
 
+
 ```
-dataMachHint=NoHint-- string: "NoHint"	Cmm syntax: [empty]|PtrHint-- string: "PtrHint"    Cmm syntax: "ptr"    (C-- uses "address")|SignedHint-- string: "SignedHint"	Cmm syntax: "signed"|FloatHint-- string: "FloatHint"	Cmm syntax: "float" 
+
+data MachHint
+  = NoHint	-- string: "NoHint"	Cmm syntax: [empty]
+  | PtrHint	-- string: "PtrHint"    Cmm syntax: "ptr"    (C-- uses "address")
+  | SignedHint	-- string: "SignedHint"	Cmm syntax: "signed"
+  | FloatHint	-- string: "FloatHint"	Cmm syntax: "float" 
 ```
 
 
@@ -376,7 +509,9 @@ W_ w, code, val;  // W_ is a cpp #define for StgWord,
 Remember that Cmm code is run through the C preprocessor.  `W_` will be transformed into `bits32`, `bits64` or whatever is the `bits`*size* of the machine word, as defined in [includes/Cmm.h](/trac/ghc/browser/ghc/includes/Cmm.h).  In Haskell code, you may use the [compiler/cmm/CmmMachOp.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmMachOp.hs) functions `wordRep` and `halfWordRep` to dynamically determine the machine word size.  For a description of word sizes in GHC, see the [Word](commentary/rts/word) page.
 
 
-The variables `w`, `code` and `val` should be real registers. With the above declaration the variables are uninitialised.  Initialisation requires an assignment *statement*.  Cmm does not recognise C-- "`{`*literal*, ... `}`" initialisation syntax, such as `bits32{10}` or `bits32[3] {1, 2, 3}`.  Cmm does recognise initialisation with a literal:
+
+The variables `w`, `code` and `val` should be real registers. With the above declaration the variables are uninitialised.  Initialisation requires an assignment *statement*.  Cmm does not recognise C-- "`{` *literal*, ... `}`" initialisation syntax, such as `bits32{10}` or `bits32[3] {1, 2, 3}`.  Cmm does recognise initialisation with a literal:
+
 
 ```wiki
 string_name:	bits8[] "twenty character string\n\0";
@@ -484,10 +619,31 @@ I32[frame + SIZEOF_StgHeader + 0] = R1;
 ### Literals and Labels
 
 
+
 Cmm literals are exactly like C-- literals, including the Haskell-style type syntax, for example: `0x00000001::bits32`.  Cmm literals may be used for initialisation by assignment or in expressions. The `CmmLit` and `CmmStatic` data types, defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs) together represent Cmm literals, static information and Cmm labels:
 
+
 ```
-dataCmmLit=CmmIntIntegerMachRep-- Interpretation: the 2's complement representation of the value-- is truncated to the specified size.  This is easier than trying-- to keep the value within range, because we don't know whether-- it will be used as a signed or unsigned value (the MachRep doesn't-- distinguish between signed & unsigned).|CmmFloatRationalMachRep|CmmLabelCLabel-- Address of label|CmmLabelOffCLabelInt-- Address of label + byte offset-- Due to limitations in the C backend, the following-- MUST ONLY be used inside the info table indicated by label2-- (label2 must be the info label), and label1 must be an-- SRT, a slow entrypoint or a large bitmap (see the Mangler)-- Don't use it at all unless tablesNextToCode.-- It is also used inside the NCG during when generating-- position-independent code. |CmmLabelDiffOffCLabelCLabelInt-- label1 - label2 + offset
+
+data CmmLit
+  = CmmInt Integer  MachRep
+	-- Interpretation: the 2's complement representation of the value
+	-- is truncated to the specified size.  This is easier than trying
+	-- to keep the value within range, because we don't know whether
+	-- it will be used as a signed or unsigned value (the MachRep doesn't
+	-- distinguish between signed & unsigned).
+  | CmmFloat  Rational MachRep
+  | CmmLabel    CLabel			-- Address of label
+  | CmmLabelOff CLabel Int		-- Address of label + byte offset
+  
+        -- Due to limitations in the C backend, the following
+        -- MUST ONLY be used inside the info table indicated by label2
+        -- (label2 must be the info label), and label1 must be an
+        -- SRT, a slow entrypoint or a large bitmap (see the Mangler)
+        -- Don't use it at all unless tablesNextToCode.
+        -- It is also used inside the NCG during when generating
+        -- position-independent code. 
+  | CmmLabelDiffOff CLabel CLabel Int   -- label1 - label2 + offset
 ```
 
 
@@ -497,10 +653,23 @@ Note how the `CmmLit` constructor `CmmInt Integer MachRep` contains sign informa
 The `MachRep` of a literal, such as `CmmInt Integer MachRep` or `CmmFloat Rational MachRep` may not always require the size defined by `MachRep`.  The NCG optimiser, [compiler/nativeGen/MachCodeGen.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachCodeGen.hs), will test a literal such as `1::bits32` (in Haskell, `CmmInt (1::Integer) I32`) for whether it would fit into the bit-size of Assembler instruction literals on that particular architecture with a function defined in [compiler/nativeGen/MachRegs.lhs](/trac/ghc/browser/ghc/compiler/nativeGen/MachRegs.lhs), such as `fits16Bits` on the PPC.  If the Integer literal fits, the function `makeImmediate` will truncate it to the specified size if possible and store it in a NCG data type, `Imm`, specifically `Maybe Imm`.  (These are also defined in [compiler/nativeGen/MachRegs.lhs](/trac/ghc/browser/ghc/compiler/nativeGen/MachRegs.lhs).)
 
 
+
 The Haskell representation of Cmm separates unchangeable Cmm values into a separate data type, `CmmStatic`, defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs):
 
+
 ```
-dataCmmStatic=CmmStaticLitCmmLit-- a literal value, size given by cmmLitRep of the literal.|CmmUninitialisedInt-- uninitialised data, N bytes long|CmmAlignInt-- align to next N-byte boundary (N must be a power of 2).|CmmDataLabelCLabel-- label the current position in this section.|CmmString[Word8]-- string of 8-bit values only, not zero terminated.
+
+data CmmStatic
+  = CmmStaticLit CmmLit	
+	-- a literal value, size given by cmmLitRep of the literal.
+  | CmmUninitialised Int
+	-- uninitialised data, N bytes long
+  | CmmAlign Int
+	-- align to next N-byte boundary (N must be a power of 2).
+  | CmmDataLabel CLabel
+	-- label the current position in this section.
+  | CmmString [Word8]
+	-- string of 8-bit values only, not zero terminated.
 ```
 
 
@@ -520,51 +689,132 @@ Remember that C--/Cmm names consist of a string where the first character is:
 
 Cmm labels conform to the C-- specification.  C--/Cmm uses labels to refer to memory locations in code--if you use a data directive but do not give it a label, you will have no means of referring to the memory!  For `GlobalReg`s (transformed to assembler `.globl`), labels serve as both symbols and labels (in the assembler meaning of the terms).  The Haskell representation of Cmm Labels is contained in the `CmmLit` data type, see [Literals](commentary/compiler/cmm-type#) section, above.  Note how Cmm Labels are `CLabel`s with address information.  The `Clabel` data type, defined in [compiler/cmm/CLabel.hs](/trac/ghc/browser/ghc/compiler/cmm/CLabel.hs), is used throughout the Compiler for symbol information in binary files.  Here it is:
 
+
 ```
-dataCLabel=IdLabel-- A family of labels related to theName-- definition of a particular Id or ConIdLabelInfo|DynIdLabel-- like IdLabel, but in a separate package,Name-- and might therefore need a dynamicIdLabelInfo-- reference.|CaseLabel-- A family of labels related to a particular-- case expression.{-# UNPACK #-}!Unique-- Unique says which case expressionCaseLabelInfo|AsmTempLabel{-# UNPACK #-}!Unique|StringLitLabel{-# UNPACK #-}!Unique|ModuleInitLabelModule-- the module nameString-- its "way"Bool-- True <=> is in a different package-- at some point we might want some kind of version number in-- the module init label, to guard against compiling modules in-- the wrong order.  We can't use the interface file version however,-- because we don't always recompile modules which depend on a module-- whose version has changed.|PlainModuleInitLabel-- without the vesrion & way infoModuleBool-- True <=> is in a different package|ModuleRegdLabel|RtsLabelRtsLabelInfo|ForeignLabelFastString-- a 'C' (or otherwise foreign) label(MaybeInt)-- possible '@n' suffix for stdcall functions-- When generating C, the '@n' suffix is omitted, but when-- generating assembler we must add it to the label.Bool-- True <=> is dynamic|CC_LabelCostCentre|CCS_LabelCostCentreStack-- Dynamic Linking in the NCG:-- generated and used inside the NCG only,-- see module PositionIndependentCode for details.|DynamicLinkerLabelDynamicLinkerLabelInfoCLabel-- special variants of a label used for dynamic linking|PicBaseLabel-- a label used as a base for PIC calculations-- on some platforms.-- It takes the form of a local numeric-- assembler label '1'; it is pretty-printed-- as 1b, referring to the previous definition-- of 1: in the assembler source file.|DeadStripPreventerCLabel-- label before an info table to prevent excessive dead-stripping on darwin|HpcTicksLabelModule-- Per-module table of tick locations|HpcModuleNameLabel-- Per-module name of the module for Hpc|HpcModuleOffsetLabelModule-- Per-module offset of the module for Hpc (dynamically generated)deriving(Eq,Ord)
+
+data CLabel
+  = IdLabel	    		-- A family of labels related to the
+	Name			-- definition of a particular Id or Con
+	IdLabelInfo
+
+  | DynIdLabel			-- like IdLabel, but in a separate package,
+	Name			-- and might therefore need a dynamic
+	IdLabelInfo		-- reference.
+
+  | CaseLabel			-- A family of labels related to a particular
+				-- case expression.
+	{-# UNPACK #-} !Unique	-- Unique says which case expression
+	CaseLabelInfo
+
+  | AsmTempLabel 
+	{-# UNPACK #-} !Unique
+
+  | StringLitLabel
+	{-# UNPACK #-} !Unique
+
+  | ModuleInitLabel 
+	Module			-- the module name
+	String			-- its "way"
+	Bool			-- True <=> is in a different package
+	-- at some point we might want some kind of version number in
+	-- the module init label, to guard against compiling modules in
+	-- the wrong order.  We can't use the interface file version however,
+	-- because we don't always recompile modules which depend on a module
+	-- whose version has changed.
+
+  | PlainModuleInitLabel	-- without the vesrion & way info
+	Module
+	Bool			-- True <=> is in a different package
+
+  | ModuleRegdLabel
+
+  | RtsLabel RtsLabelInfo
+
+  | ForeignLabel FastString	-- a 'C' (or otherwise foreign) label
+	(Maybe Int) 		-- possible '@n' suffix for stdcall functions
+		-- When generating C, the '@n' suffix is omitted, but when
+		-- generating assembler we must add it to the label.
+	Bool			-- True <=> is dynamic
+
+  | CC_Label  CostCentre
+  | CCS_Label CostCentreStack
+
+      -- Dynamic Linking in the NCG:
+      -- generated and used inside the NCG only,
+      -- see module PositionIndependentCode for details.
+      
+  | DynamicLinkerLabel DynamicLinkerLabelInfo CLabel
+        -- special variants of a label used for dynamic linking
+
+  | PicBaseLabel                -- a label used as a base for PIC calculations
+                                -- on some platforms.
+                                -- It takes the form of a local numeric
+                                -- assembler label '1'; it is pretty-printed
+                                -- as 1b, referring to the previous definition
+                                -- of 1: in the assembler source file.
+
+  | DeadStripPreventer CLabel
+    -- label before an info table to prevent excessive dead-stripping on darwin
+
+  | HpcTicksLabel Module       -- Per-module table of tick locations
+  | HpcModuleNameLabel         -- Per-module name of the module for Hpc
+  | HpcModuleOffsetLabel Module-- Per-module offset of the module for Hpc (dynamically generated)
+
+  deriving (Eq, Ord)
 ```
+
 
 ### Sections and Directives
 
 
+
 The Haskell representation of Cmm Section directives, in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs) as the first part of the "Static Data" section, is:
 
+
 ```
-dataSection=Text|Data|ReadOnlyData|RelocatableReadOnlyData|UninitialisedData|ReadOnlyData16-- .rodata.cst16 on x86_64, 16-byte aligned|OtherSectionString
+
+data Section
+  = Text
+  | Data
+  | ReadOnlyData
+  | RelocatableReadOnlyData
+  | UninitialisedData
+  | ReadOnlyData16	-- .rodata.cst16 on x86_64, 16-byte aligned
+  | OtherSection String
 ```
+
 
 
 Cmm supports the following directives, corresponding to the assembler directives pretty-printed by the `pprSectionHeader` function in [compiler/nativeGen/PprMach.hs](/trac/ghc/browser/ghc/compiler/nativeGen/PprMach.hs):
 
-<table><tr><th>**`Section` Constructor**</th>
-<th>**Cmm section directive**</th>
-<th>**Assembler Directive**</th></tr>
-<tr><th>`Text`</th>
-<th>`"text"`</th>
-<th>`.text`</th></tr>
-<tr><th>`Data`</th>
-<th>`"data"`</th>
-<th>`.data`</th></tr>
-<tr><th>`ReadOnlyData`</th>
-<th>`"rodata"`</th>
-<th>`.rodata`
-(generally; varies by arch,OS) 
+
+<table><tr><th> <b><tt>Section</tt> Constructor</b> </th>
+<th> <b>Cmm section directive</b> </th>
+<th> <b>Assembler Directive</b> 
 </th></tr>
-<tr><th>`RelocatableReadOnlyData`</th>
-<th> no parse (GHC internal), output: `"relreadonly"`</th>
-<th>`.const_data`
-`.section .rodata`
-(generally; varies by arch,OS) 
+<tr><th> <tt>Text</tt> </th>
+<th> <tt>"text"</tt> </th>
+<th> <tt>.text</tt> 
 </th></tr>
-<tr><th>`UninitialisedData`</th>
-<th>`"bss"`, output: `"uninitialised"`</th>
-<th>`.bss`</th></tr>
-<tr><th>`ReadOnlyData16`</th>
+<tr><th> <tt>Data</tt> </th>
+<th> <tt>"data"</tt> </th>
+<th> <tt>.data</tt> 
+</th></tr>
+<tr><th> <tt>ReadOnlyData</tt> </th>
+<th> <tt>"rodata"</tt> </th>
+<th> <tt>.rodata</tt><br>(generally; varies by arch,OS) 
+</th></tr>
+<tr><th> <tt>RelocatableReadOnlyData</tt> </th>
+<th> no parse (GHC internal), output: <tt>"relreadonly"</tt> </th>
+<th> <tt>.const_data</tt><br><tt>.section .rodata</tt><br>(generally; varies by arch,OS) 
+</th></tr>
+<tr><th> <tt>UninitialisedData</tt> </th>
+<th> <tt>"bss"</tt>, output: <tt>"uninitialised"</tt> </th>
+<th> <tt>.bss</tt> 
+</th></tr>
+<tr><th> <tt>ReadOnlyData16</tt> </th>
 <th> no parse (GHC internal), output: none </th>
-<th>`.const`
-`.section .rodata`
-(generally; on x86_64:
-`.section .rodata.cst16`) 
+<th> <tt>.const</tt><br><tt>.section .rodata</tt><br>(generally; on x86_64:<br><tt>.section .rodata.cst16</tt>) 
 </th></tr></table>
 
 
@@ -648,19 +898,32 @@ Cmm expressions may include
 
 These are all included as constructors in the `CmmExpr` data type, defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs):
 
+
 ```
-dataCmmExpr=CmmLitCmmLit-- Literal or Label (name)|CmmLoadCmmExprMachRep-- Read memory location (memory reference)|CmmRegCmmReg-- Contents of register|CmmMachOpMachOp[CmmExpr]-- operation (+, -, *, etc.)|CmmRegOffCmmRegInt
+
+data CmmExpr
+  = CmmLit CmmLit               -- Literal or Label (name)
+  | CmmLoad CmmExpr MachRep     -- Read memory location (memory reference)
+  | CmmReg CmmReg		-- Contents of register
+  | CmmMachOp MachOp [CmmExpr]  -- operation (+, -, *, etc.)
+  | CmmRegOff CmmReg Int
 ```
+
 
 
 Note that `CmmRegOff reg i` is only shorthand for a specific `CmmMachOp` application:
 
+
 ```
-CmmMachOp(MO_Add rep) [(CmmReg reg),(CmmLit(CmmInt i rep))]where rep =cmmRegRep reg
+
+CmmMachOp (MO_Add rep) [(CmmReg reg),(CmmLit (CmmInt i rep))]
+	where rep = cmmRegRep reg
 ```
 
 
-The function `cmmRegRep` is described below.  Note: the original comment following `CmmExpr` in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs) is erroneous (cf., `mangleIndexTree` in [compiler/nativeGen/MachCodeGen.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachCodeGen.hs)) but makes the same point described here.  The offset, `(CmmLit (CmmInt i rep))`, is a literal (`CmmLit`), not a name (`CLabel`).  A `CmmExpr` for an offset must be reducible to a `CmmInt`*in Haskell*; in other words, offsets in Cmm expressions may not be external symbols whose addresses are not resolvable in the current context.
+
+The function `cmmRegRep` is described below.  Note: the original comment following `CmmExpr` in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs) is erroneous (cf., `mangleIndexTree` in [compiler/nativeGen/MachCodeGen.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachCodeGen.hs)) but makes the same point described here.  The offset, `(CmmLit (CmmInt i rep))`, is a literal (`CmmLit`), not a name (`CLabel`).  A `CmmExpr` for an offset must be reducible to a `CmmInt` *in Haskell*; in other words, offsets in Cmm expressions may not be external symbols whose addresses are not resolvable in the current context.
+
 
 
 Boolean comparisons are not boolean conditions.  Boolean comparisons involve relational operators, such as `>`, `<` and `==`, and map to `MachOp`s that are converted to comparison followed by branch instructions.  For example, `<` would map to `MO_S_Lt` for signed operands, [compiler/nativeGen/MachCodeGen.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachCodeGen.hs) would transform `MO_S_Lt` into the `LTT` constructor of the `Cond` union data type defined in [compiler/nativeGen/MachInstrs.hs](/trac/ghc/browser/ghc/compiler/nativeGen/MachInstrs.hs) and [compiler/nativeGen/PprMach.hs](/trac/ghc/browser/ghc/compiler/nativeGen/PprMach.hs) would transform `LTT` to the distinguishing comparison type for an assembler comparison instruction.  You already know that the result of a comparison instruction is actually a change in the state of the Condition Register (CR), so Cmm boolean expressions do have a kind of side-effect but that is to be expected.  In fact, it is necessary since at the least a conditional expression becomes two assembler instructions, in PPC Assembler: 
@@ -674,20 +937,35 @@ blt      Lch    ; branch instruction
 This condition mapping does have an unfortunate consequence: conditional expressions do not fold into single instructions.  In Cmm, as in C--, expressions with relational operators may evaluate to an integral (`0`, nonzero) instead of evaluating to a boolean type.  For certain cases, such as an arithmetic operation immediately followed by a comparison, extended mnemonics such as `addi.` might eliminate the comparison instruction.  See [Cmm Design: Observations and Areas for Potential Improvement](commentary/compiler/cmm-type#cmm-design:-observations-and-areas-for-potential-improvement) for more discussion and potential solutions to this situation.
 
 
+
 Boolean conditions include: `&&`, `||`, `!` and parenthetical combinations of boolean conditions.  The `if expr { }` and `if expr { } else { }` statements contain boolean conditions.  The C-- type produced by conditional expressions is `bool`, in Cmm, type `BoolExpr` in [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y):
 
+
 ```
-dataBoolExpr=BoolExpr`BoolAnd`BoolExpr|BoolExpr`BoolOr`BoolExpr|BoolNotBoolExpr|BoolTestCmmExpr
+
+data BoolExpr
+  = BoolExpr `BoolAnd` BoolExpr
+  | BoolExpr `BoolOr`  BoolExpr
+  | BoolNot BoolExpr
+  | BoolTest CmmExpr
 ```
 
 
 The type `BoolExpr` maps to the `CmmCondBranch` or `CmmBranch` constructors of type `CmmStmt`, defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs), see [Statements and Calls](commentary/compiler/cmm-type#statements-and-calls).
 
 
+
 The `CmmExpr` constructor `CmmMachOp MachOp [CmmExpr]` is the core of every operator-based expression; the key here is `MachOp`, which in turn depends on the type of `MachRep` for each operand.  See [Fundamental and PrimitiveOperators](commentary/compiler/cmm-type#).  In order to process `CmmExpr`s, the data type comes with a deconstructor function to obtain the relevant `MachRep`s, defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs):
 
+
 ```
-cmmExprRep::CmmExpr->MachRepcmmExprRep(CmmLitlit)=cmmLitReplitcmmExprRep(CmmLoad_rep)=repcmmExprRep(CmmRegreg)=cmmRegRepregcmmExprRep(CmmMachOpop_)=resultRepOfMachOpopcmmExprRep(CmmRegOffreg_)=cmmRegRepreg
+
+cmmExprRep :: CmmExpr -> MachRep
+cmmExprRep (CmmLit lit)      = cmmLitRep lit
+cmmExprRep (CmmLoad _ rep)   = rep
+cmmExprRep (CmmReg reg)      = cmmRegRep reg
+cmmExprRep (CmmMachOp op _)  = resultRepOfMachOp op
+cmmExprRep (CmmRegOff reg _) = cmmRegRep reg
 ```
 
 
@@ -710,58 +988,84 @@ res = first + second;
 
 Remember that the assignment operator, `=`, is a statement since it has the "side effect" of modifying the value in `res`.  The `+` expression in the above statement, for a 32-bit architecture, would be represented in Haskell as:
 
+
 ```
-CmmMachOp(MO_AddI32)[CmmReg(CmmLocaluniqI32),CmmReg(CmmLocaluniqI32)]
+
+CmmMachOp (MO_Add I32) [CmmReg (CmmLocal uniq I32), CmmReg (CmmLocal uniq I32)]
 ```
+
 
 
 The `expr` production rule in the Cmm Parser [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y) maps tokens to "values", such as `+` to an addition operation, `MO_Add`.  The `mkMachOp` function in the Parser determines the `MachOp` type in `CmmMachOp MachOp [CmmExpr]` from the token value and the `MachRep` type of the `head` variable.  Notice that the simple `+` operator did not contain sign information, only the `MachRep`.  For `expr`, signed and other `MachOps`, see the `machOps` function in [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y).  Here is a table of operators and the corresponding `MachOp`s recognised by Cmm (listed in order of precedence):
 
-<table><tr><th>**Operator**</th>
-<th>**`MachOp`**</th></tr>
-<tr><th>`/`</th>
-<th>`MO_U_Quot`</th></tr>
-<tr><th>`*`</th>
-<th>`MO_Mul`</th></tr>
-<tr><th>`%`</th>
-<th>`MO_U_Rem`</th></tr>
-<tr><th>`-`</th>
-<th>`MO_Sub`</th></tr>
-<tr><th>`+`</th>
-<th>`MO_Add`</th></tr>
-<tr><th>`>>`</th>
-<th>`MO_U_Shr`</th></tr>
-<tr><th>`<<`</th>
-<th>`MO_Shl`</th></tr>
-<tr><th>`&`</th>
-<th>`MO_And`</th></tr>
-<tr><th>`^`</th>
-<th>`MO_Xor`</th></tr>
-<tr><th>`|`</th>
-<th>`MO_Or`</th></tr>
-<tr><th>`>=`</th>
-<th>`MO_U_Ge`</th></tr>
-<tr><th>`>`</th>
-<th>`MO_U_Gt`</th></tr>
-<tr><th>`<=`</th>
-<th>`MO_U_Le`</th></tr>
-<tr><th>`<`</th>
-<th>`MO_U_Lt`</th></tr>
-<tr><th>`!=`</th>
-<th>`MO_Ne`</th></tr>
-<tr><th>`==`</th>
-<th>`MO_Eq`</th></tr>
-<tr><th>`~`</th>
-<th>`MO_Not`</th></tr>
-<tr><th>`-`</th>
-<th>`MO_S_Neg`</th></tr></table>
+
+<table><tr><th> <b>Operator</b> </th>
+<th> <b><tt>MachOp</tt></b> 
+</th></tr>
+<tr><th> <tt>/</tt> </th>
+<th> <tt>MO_U_Quot</tt> 
+</th></tr>
+<tr><th> <tt>*</tt> </th>
+<th> <tt>MO_Mul</tt> 
+</th></tr>
+<tr><th> <tt>%</tt> </th>
+<th> <tt>MO_U_Rem</tt> 
+</th></tr>
+<tr><th> <tt>-</tt> </th>
+<th> <tt>MO_Sub</tt> 
+</th></tr>
+<tr><th> <tt>+</tt> </th>
+<th> <tt>MO_Add</tt> 
+</th></tr>
+<tr><th> <tt>>></tt> </th>
+<th> <tt>MO_U_Shr</tt> 
+</th></tr>
+<tr><th> <tt><<</tt> </th>
+<th> <tt>MO_Shl</tt> 
+</th></tr>
+<tr><th> <tt>&</tt> </th>
+<th> <tt>MO_And</tt> 
+</th></tr>
+<tr><th> <tt>^</tt> </th>
+<th> <tt>MO_Xor</tt> 
+</th></tr>
+<tr><th> <tt>|</tt> </th>
+<th> <tt>MO_Or</tt> 
+</th></tr>
+<tr><th> <tt>>=</tt> </th>
+<th> <tt>MO_U_Ge</tt> 
+</th></tr>
+<tr><th> <tt>></tt> </th>
+<th> <tt>MO_U_Gt</tt> 
+</th></tr>
+<tr><th> <tt><=</tt> </th>
+<th> <tt>MO_U_Le</tt> 
+</th></tr>
+<tr><th> <tt><</tt> </th>
+<th> <tt>MO_U_Lt</tt> 
+</th></tr>
+<tr><th> <tt>!=</tt> </th>
+<th> <tt>MO_Ne</tt> 
+</th></tr>
+<tr><th> <tt>==</tt> </th>
+<th> <tt>MO_Eq</tt> 
+</th></tr>
+<tr><th> <tt>~</tt> </th>
+<th> <tt>MO_Not</tt> 
+</th></tr>
+<tr><th> <tt>-</tt> </th>
+<th> <tt>MO_S_Neg</tt> 
+</th></tr></table>
+
 
 #### Quasi-operator Syntax
 
 
-If you read to the end of `expr` in [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y), in the next production rule, `expr0`, you will notice that Cmm expressions also recognise a set of name (not symbol) based operators that would probably be better understood as *quasi-operators*.  The syntax for these quasi-operators is in some cases similar to syntax for Cmm statements and generally conform to the C-- specification, sections 3.3.2 (`expr`) and 7.4.1 (syntax of primitive operators), *except that* 3. *and, by the equivalence of the two,* 1. *may return***multiple*** arguments*. In Cmm, quasi-operators may have side effects. The syntax for quasi-operators may be:
 
-1. `expr0```name```expr0`
+If you read to the end of `expr` in [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y), in the next production rule, `expr0`, you will notice that Cmm expressions also recognise a set of name (not symbol) based operators that would probably be better understood as *quasi-operators*.  The syntax for these quasi-operators is in some cases similar to syntax for Cmm statements and generally conform to the C-- specification, sections 3.3.2 (`expr`) and 7.4.1 (syntax of primitive operators), *except that* 3. *and, by the equivalence of the two,* 1. *may return* **multiple** * arguments*. In Cmm, quasi-operators may have side effects. The syntax for quasi-operators may be:
+
+
+1. `expr0` ``name`` `expr0`
   (just like infix-functions in Haskell);
 1. `type[ expression ]`
   (the memory access quasi-expression described in [Memory Access](commentary/compiler/cmm-type#memory-access); the Haskell representation of this syntax is `CmmLoad CmmExpr MachRep`); 
@@ -840,10 +1144,42 @@ Cmm does not implement the `return` statement (C-- spec, sec. 6.8.2) but provide
 In the above macros, `P` stands for `PtrArg` and `N` stands for `NonPtrArg`; both are `CgRep` constructors.  These return macros provide greater control for the [CodeGen](commentary/compiler/code-gen) and integrate with the RTS but limit the number and type of return arguments in Cmm: you may only return according to these macros!  The returns are processed by the `emitRetUT` function in [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y), which in turn calls several functions from [compiler/codeGen/CgMonad.lhs](/trac/ghc/browser/ghc/compiler/codeGen/CgMonad.lhs), notably `emitStmts`, which is the core Code Generator function for emitting `CmmStmt` data.
 
 
+
 The Haskell representation of Cmm Statements is the data type `CmmStmt`, defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs):
 
+
 ```
-dataCmmStmt=CmmNop|CmmCommentFastString|CmmAssignCmmRegCmmExpr-- Assign to register|CmmStoreCmmExprCmmExpr-- Assign to memory location.  Size is-- given by cmmExprRep of the rhs.|CmmCall-- A foreign call, with CmmCallTarget[(CmmReg,MachHint)]-- zero or more results[(CmmExpr,MachHint)]-- zero or more arguments(Maybe[GlobalReg])-- Global regs that may need to be saved-- if they will be clobbered by the call.-- Nothing <=> save *all* globals that-- might be clobbered.|CmmBranchBlockId-- branch to another BB in this fn|CmmCondBranchCmmExprBlockId-- conditional branch|CmmSwitchCmmExpr[MaybeBlockId]-- Table branch-- The scrutinee is zero-based; --	zero -> first block--	one  -> second block etc-- Undefined outside range, and when there's a Nothing|CmmJumpCmmExpr[LocalReg]-- Jump to another function, with these -- parameters.
+
+data CmmStmt
+  = CmmNop
+  | CmmComment FastString
+
+  | CmmAssign CmmReg CmmExpr	 -- Assign to register
+
+  | CmmStore CmmExpr CmmExpr     -- Assign to memory location.  Size is
+                                 -- given by cmmExprRep of the rhs.
+
+  | CmmCall	 		 -- A foreign call, with 
+     CmmCallTarget
+     [(CmmReg,MachHint)]	 -- zero or more results
+     [(CmmExpr,MachHint)]	 -- zero or more arguments
+     (Maybe [GlobalReg])	 -- Global regs that may need to be saved
+				 -- if they will be clobbered by the call.
+				 -- Nothing <=> save *all* globals that
+				 -- might be clobbered.
+
+  | CmmBranch BlockId             -- branch to another BB in this fn
+
+  | CmmCondBranch CmmExpr BlockId -- conditional branch
+
+  | CmmSwitch CmmExpr [Maybe BlockId]   -- Table branch
+	-- The scrutinee is zero-based; 
+	--	zero -> first block
+	--	one  -> second block etc
+	-- Undefined outside range, and when there's a Nothing
+
+  | CmmJump CmmExpr [LocalReg]    -- Jump to another function, with these 
+				  -- parameters.
 ```
 
 
@@ -876,15 +1212,31 @@ The computed procedure address, in this case `(bits32[x+4])`, should always be t
 Cmm calls include both calls to foreign functions and calls to Cmm quasi-operators using expression syntax (see [Quasi-operator Syntax](commentary/compiler/cmm-type#quasi-operator-syntax)). Although Cmm does not implement any of the control flow statements of C-- specification (section 6.8.1), foreign calls from Cmm are one of the most complex components of the system due to various differences between the Cmm and C calling conventions.
 
 
+
 The data type, `CmmCallTarget` is defined in [compiler/cmm/Cmm.hs](/trac/ghc/browser/ghc/compiler/cmm/Cmm.hs) as:
 
+
 ```
-dataCmmCallTarget=CmmForeignCall-- Call to a foreign functionCmmExpr-- literal label <=> static call-- other expression <=> dynamic callCCallConv-- The calling convention|CmmPrim-- Call to a "primitive" (eg. sin, cos)CallishMachOp-- These might be implemented as inline-- code by the backend.
+
+data CmmCallTarget
+  = CmmForeignCall		-- Call to a foreign function
+	CmmExpr 		-- literal label <=> static call
+				-- other expression <=> dynamic call
+	CCallConv		-- The calling convention
+
+  | CmmPrim			-- Call to a "primitive" (eg. sin, cos)
+	CallishMachOp		-- These might be implemented as inline
+				-- code by the backend.
 ```
+
+
 
 `CCallConv` is defined in [compiler/prelude/ForeignCall.hs](/trac/ghc/browser/ghc/compiler/prelude/ForeignCall.hs); for information on register assignments, see comments in [compiler/codeGen/CgCallConv.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgCallConv.hs).
 
+
+
 `CallishMachOp` is defined in [compiler/cmm/CmmMachOp.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmMachOp.hs); see, also, below [Primitive Operations](commentary/compiler/cmm-type#primitive-operations).  `CallishMachOp`s are generally used for floating point computations (without implementing any floating point exceptions).  Here is an example of using a `CallishMachOp` (not yet implemented):
+
 
 ```wiki
   add, carry = %addWithCarry(x, y);
@@ -907,12 +1259,57 @@ Cmm generally conforms to the C-- specification for operators and "primitive ope
 The `MachOp` and `CallishMachOp` data types are defined in [compiler/cmm/CmmMachOp.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmMachOp.hs).
 
 
+
 Both Cmm Operators and Primitive Operations are handled in Haskell as [Inline PrimOps](commentary/prim-ops#inline-primops), though what I am calling Cmm *primitive operations* may be implemented as out-of-line foreign calls.
+
 
 #### Operators
 
+
 ```
-dataMachOp-- Integer operations=MO_AddMachRep|MO_SubMachRep|MO_EqMachRep|MO_NeMachRep|MO_MulMachRep-- low word of multiply|MO_S_MulMayOfloMachRep-- nonzero if signed multiply overflows|MO_S_QuotMachRep-- signed / (same semantics as IntQuotOp)|MO_S_RemMachRep-- signed % (same semantics as IntRemOp)|MO_S_NegMachRep-- unary -|MO_U_MulMayOfloMachRep-- nonzero if unsigned multiply overflows|MO_U_QuotMachRep-- unsigned / (same semantics as WordQuotOp)|MO_U_RemMachRep-- unsigned % (same semantics as WordRemOp)-- Signed comparisons (floating-point comparisons also use these)|MO_S_GeMachRep|MO_S_LeMachRep|MO_S_GtMachRep|MO_S_LtMachRep-- Unsigned comparisons|MO_U_GeMachRep|MO_U_LeMachRep|MO_U_GtMachRep|MO_U_LtMachRep-- Bitwise operations.  Not all of these may be supported at all sizes,-- and only integral MachReps are valid.|MO_AndMachRep|MO_OrMachRep|MO_XorMachRep|MO_NotMachRep|MO_ShlMachRep|MO_U_ShrMachRep-- unsigned shift right|MO_S_ShrMachRep-- signed shift right-- Conversions.  Some of these will be NOPs.-- Floating-point conversions use the signed variant.|MO_S_ConvMachRep{-from-}MachRep{-to-}-- signed conversion|MO_U_ConvMachRep{-from-}MachRep{-to-}-- unsigned conversion
+
+data MachOp
+
+  -- Integer operations
+  = MO_Add    MachRep
+  | MO_Sub    MachRep
+  | MO_Eq     MachRep
+  | MO_Ne     MachRep
+  | MO_Mul    MachRep		-- low word of multiply
+  | MO_S_MulMayOflo MachRep 	-- nonzero if signed multiply overflows
+  | MO_S_Quot MachRep		-- signed / (same semantics as IntQuotOp)
+  | MO_S_Rem  MachRep		-- signed % (same semantics as IntRemOp)
+  | MO_S_Neg  MachRep		-- unary -
+  | MO_U_MulMayOflo MachRep	-- nonzero if unsigned multiply overflows
+  | MO_U_Quot MachRep		-- unsigned / (same semantics as WordQuotOp)
+  | MO_U_Rem  MachRep		-- unsigned % (same semantics as WordRemOp)
+
+  -- Signed comparisons (floating-point comparisons also use these)
+  | MO_S_Ge MachRep
+  | MO_S_Le MachRep
+  | MO_S_Gt MachRep
+  | MO_S_Lt MachRep
+
+  -- Unsigned comparisons
+  | MO_U_Ge MachRep
+  | MO_U_Le MachRep
+  | MO_U_Gt MachRep
+  | MO_U_Lt MachRep
+
+  -- Bitwise operations.  Not all of these may be supported at all sizes,
+  -- and only integral MachReps are valid.
+  | MO_And   MachRep
+  | MO_Or    MachRep
+  | MO_Xor   MachRep
+  | MO_Not   MachRep
+  | MO_Shl   MachRep
+  | MO_U_Shr MachRep	-- unsigned shift right
+  | MO_S_Shr MachRep	-- signed shift right
+
+  -- Conversions.  Some of these will be NOPs.
+  -- Floating-point conversions use the signed variant.
+  | MO_S_Conv MachRep{-from-} MachRep{-to-}	-- signed conversion
+  | MO_U_Conv MachRep{-from-} MachRep{-to-}	-- unsigned conversion
 ```
 
 
@@ -921,10 +1318,52 @@ Each `MachOp` generally corresponds to a machine instruction but may have its va
 #### Primitive Operations
 
 
+
 Primitive Operations generally involve more than one machine instruction and may not always be inlined.  
 
+
 ```
--- These MachOps tend to be implemented by foreign calls in some backends,-- so we separate them out.  In Cmm, these can only occur in a-- statement position, in contrast to an ordinary MachOp which can occur-- anywhere in an expression.dataCallishMachOp=MO_F64_Pwr|MO_F64_Sin|MO_F64_Cos|MO_F64_Tan|MO_F64_Sinh|MO_F64_Cosh|MO_F64_Tanh|MO_F64_Asin|MO_F64_Acos|MO_F64_Atan|MO_F64_Log|MO_F64_Exp|MO_F64_Sqrt|MO_F32_Pwr|MO_F32_Sin|MO_F32_Cos|MO_F32_Tan|MO_F32_Sinh|MO_F32_Cosh|MO_F32_Tanh|MO_F32_Asin|MO_F32_Acos|MO_F32_Atan|MO_F32_Log|MO_F32_Exp|MO_F32_Sqrt|MO_WriteBarrier|MO_Touch-- Keep variables live (when using interior pointers)-- Note that these three MachOps all take 1 extra parameter than the-- standard C lib versions. The extra (last) parameter contains-- alignment of the pointers. Used for optimisation in backends.|MO_Memcpy|MO_Memset|MO_Memmove
+
+-- These MachOps tend to be implemented by foreign calls in some backends,
+-- so we separate them out.  In Cmm, these can only occur in a
+-- statement position, in contrast to an ordinary MachOp which can occur
+-- anywhere in an expression.
+data CallishMachOp
+  = MO_F64_Pwr
+  | MO_F64_Sin
+  | MO_F64_Cos
+  | MO_F64_Tan
+  | MO_F64_Sinh
+  | MO_F64_Cosh
+  | MO_F64_Tanh
+  | MO_F64_Asin
+  | MO_F64_Acos
+  | MO_F64_Atan
+  | MO_F64_Log
+  | MO_F64_Exp
+  | MO_F64_Sqrt
+  | MO_F32_Pwr
+  | MO_F32_Sin
+  | MO_F32_Cos
+  | MO_F32_Tan
+  | MO_F32_Sinh
+  | MO_F32_Cosh
+  | MO_F32_Tanh
+  | MO_F32_Asin
+  | MO_F32_Acos
+  | MO_F32_Atan
+  | MO_F32_Log
+  | MO_F32_Exp
+  | MO_F32_Sqrt
+  | MO_WriteBarrier
+  | MO_Touch         -- Keep variables live (when using interior pointers)
+  
+  -- Note that these three MachOps all take 1 extra parameter than the
+  -- standard C lib versions. The extra (last) parameter contains
+  -- alignment of the pointers. Used for optimisation in backends.
+  | MO_Memcpy
+  | MO_Memset
+  | MO_Memmove
 ```
 
 
@@ -957,10 +1396,12 @@ Some higher level languages provide facilities to handle these exceptions, inclu
 A potential solution to the problem of implementing Cmm exceptions, especially for floating point operations, is at [Cmm: Implementing Exception Handling](commentary/cmm-exceptions).  
 
 
+
 The C-- Language Specification mentions over 75 primitive operators.  The Specification lists separate operators for integral and floating point (signed) arithmetic (including carry, borrow and overflow checking), logical comparisons and conversions (from one size float to another, from float to integral and vice versa, etc.).  C-- also includes special operators for floating point number values, such as `NaN`, `mzero`*k* and `pzero`*k*, and rounding modes; integral kinds also include bitwise operators, unsigned variants, and bit extraction for width changing and sign or zero-extension.  A C-- implementation may conveniently map each of these operators to a machine instruction, or to a simulated operation on architectures that do not support a single instruction.  There seem to be two main problems with the current GHC-implementation of Cmm:
 
+
 1. not enough operators
-1. no implementation of vector (SIMD) registers (though there is a `I128``MachRep`)
+1. no implementation of vector (SIMD) registers (though there is a `I128` `MachRep`)
 
 
 If a particular architecture supports it, assembler includes instructions such as mnemonics with the `.` ("dot") suffix (`add., fsub.`), which set the Condition Register (CR) thereby saving you at least one instruction.  (Extended mnemonics can save you even more.)  Extended mnemonics with side effects may be implemented as new `CallishMachOps`, see [Primitive Operations](commentary/compiler/cmm-type#primitive-operations) and [Cmm Calls](commentary/compiler/cmm-type#cmm-calls).  Assembler also supports machine exceptions, especially exceptions for floating-point operations, invalid storage access or misalignment (effective address alignment).  The current implementation of Cmm cannot model such exceptions through flow control because no flow control is implemented, see [Cmm Calls](commentary/compiler/cmm-type#cmm-calls).

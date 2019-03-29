@@ -24,6 +24,7 @@ GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that th
   check is run by `-dcore-lint`.
 
 >
+>
 > With the advent of GADTs and type families, the type system of the
 > Core had to grow a little.  For a few
 > years we have been using an extension of System F, called System
@@ -37,6 +38,8 @@ GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that th
 > equivalent smaller ones. All this is described in our new paper [ NewFC](http://research.microsoft.com/~simonpj/papers/ext-f/).
 > These changes will (finally) complete the type-family story by
 > making so-called "equality superclasses" work for the first time in GHC 7.2.
+>
+>
 
 - **José Pedro Magalhães** has nearly completed his implementation of the
   **derivable type classes** mechanism described in his 2010
@@ -56,6 +59,10 @@ GHC is still busy as ever. The GHC 7.0 branch has come and gone, and now that th
 - Simon Marlow and **Ryan Newton** have developed a neat new library for deterministic parallel progarmming in Haskell; read their ICFP submission [ http://research.microsoft.com/\~simonpj/papers/parallel/ DetPar](http://research.microsoft.com/~simonpj/papers/parallel/ DetPar). The model is monadic and has explicit control over granularity, but allows dynamic construction of dataflow networks that are scheduled at runtime, while remaining deterministic and pure.
 
 - **Simon Marlow** Has been busy implementing and benchmarking a new garbage collector.  GHC's current garbage collector is of the parallel "stop-the-world" variety, where to collect the heap all cores stop running the program and collect the heap in parallel.  The new collector is a "local heap" collector, in which each core has a private heap that can be collected independently of the other cores, meanwhile there is a shared global heap that is collected (much less frequently) by the usual parallel stop-the-world algorithm.  We have a paper describing the new design which has been accepted at ISMM'11 (and will be online shortly).  The results are mixed; while on average performance improves with the new collector for parallel programs, the improvements are not dramatic (at least up to 24 cores).  The new collector is significantly more complex than GHC's current collector.  Hence we do not plan to merge it into the mainline yet, but will maintain it on a git branch for the time being, while we continue to experiment with and tune it.  Some improvements from the branch that were independent of the new GC algorithm have already been merged into the mainline, so 7.2.1 will see some small improvements in GC performance and stats reporting.
+
+
+ 
+
 
 - **Simon Marlow** has implemented a chunked stack representation, which should improve the performance of programs that need large stacks.  See the [ http://hackage.haskell.org/trac/ghc/blog/stack-chunks ChunkedStack](http://hackage.haskell.org/trac/ghc/blog/stack-chunks ChunkedStack).  This is already in the mainline and will be in the 7.2.1 release.
 
@@ -94,6 +101,10 @@ Here's a selection that we know about.
 
 - **Max Bolingbroke** continues his PhD work on supercompilation, with a nice new paper [ http://research.microsoft.com/\~simonpj/papers/supercompilation/ ImprovingSupercompilation](http://research.microsoft.com/~simonpj/papers/supercompilation/ ImprovingSupercompilation).  The plan is to make his supercompiler part of GHC, over the next year or so.
 
+
+ 
+
+
 - **David Terei** at Stanford is busy implementing **[ Safe Haskell](http://hackage.haskell.org/trac/ghc/wiki/SafeHaskell)**, a flag for GHC that will guarantee that your program has certain properties such as referential transparency and constructor access control, while still having the same semantics as it normally would. The flag basically allows you to trust the types of your program, giving you if you will a more 'pure' version of Haskell where 'unsafePerformIO' is outlawed, abstract data types are actually abstract and safety is provided by the compiler not the user. This is being done as part of a larger project by the [ Stanford Secure Computing Systems](http://www.scs.stanford.edu/) group involving the use of dynamic information flow based security in Haskell to build a secure web framework that allows the inclusion of third party untrusted code.
 
 - **Ranjit Jhala** at UC San Diego is working on implementing Liquid Types [ http://goto.ucsd.edu/\~rjhala/liquid Liquid](http://goto.ucsd.edu/~rjhala/liquid Liquid) within GHC. The goal is to allow programmers to use lightweight refinement types to specify key invariants which can then be verified through a combination of type inference and SMT solving.
@@ -120,11 +131,14 @@ For more details, see the **link:**parallel GHC project entry, and the project h
 The main user-visible development concerning data-parallel programming with GHC since the last status report is the release of our library for regular, multi-dimensional, shape-polymorphic arrays: [ http://hackage.haskell.org/package/repa Repa](http://hackage.haskell.org/package/repa Repa).  The current release on Hackage performs well with GHC 7.0.3 and already includes Ben's recent work on high-performance stencil-based convolutions — see also the draft paper [ Stencil](http://www.cse.unsw.edu.au/~benl/papers/stencil/stencil-icfp2011-sub.pdf) and Ben's screencast [ http://code.ouroborus.net/beholder/video/Edge480.mov EdgeDetect](http://code.ouroborus.net/beholder/video/Edge480.mov EdgeDetect) of a real-time edge detection application, written in Objective-C and Haskell, using the new Repa library.
 
 
+
 We have pushed back the release of a stable version of the main DPH libraries again.  They are now scheduled to be released with the forthcoming GHC 7.2.
+
 
 ## Bibliography
 
-- \[ChunkedStack\] *An overhaul of stack management, and some performance improvements*, Simon Marlow, blog post, Dec2010, [ http://hackage.haskell.org/trac/ghc/blog/stack-chunks](http://hackage.haskell.org/trac/ghc/blog/stack-chunks)
+
+- \[ChunkedStack\] *An overhaul of stack management, and some performance improvements*, Simon Marlow, blog post, Dec2010, [ http://hackage.haskell.org/trac/ghc/blog/stack-chunks](http://hackage.haskell.org/trac/ghc/blog/stack-chunks) 
 
 - \[Cloud\] *Haskell for the cloud*, Epstein, Black, Peyton Jones, submitted to ICFP 2011, [ http://research.microsoft.com/\~simonpj/papers/parallel/](http://research.microsoft.com/~simonpj/papers/parallel/)
 

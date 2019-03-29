@@ -8,16 +8,27 @@ to present information about tickets in the Trac database.
 Rather than have its own report definition format, [TracReports](trac-reports) relies on standard SQL
 `SELECT` statements for custom report definition. 
 
-> **Note:***The report module is being phased out in its current form because it seriously limits the ability of the Trac team to make adjustments to the underlying database schema. We believe that the [query module](trac-query) is a good replacement that provides more flexibility and better usability. While there are certain reports that cannot yet be handled by the query module, we intend to further enhance it so that at some point the reports module can be completely removed. This also means that there will be no major enhancements to the report module anymore.*
 
+>
+>
+> **Note:** *The report module is being phased out in its current form because it seriously limits the ability of the Trac team to make adjustments to the underlying database schema. We believe that the [query module](trac-query) is a good replacement that provides more flexibility and better usability. While there are certain reports that cannot yet be handled by the query module, we intend to further enhance it so that at some point the reports module can be completely removed. This also means that there will be no major enhancements to the report module anymore.*
+>
+>
+
+>
+>
 > *You can already completely replace the reports module by the query module simply by disabling the former in [trac.ini](trac-ini):*
+>
 >
 > ```wiki
 > [components]
 > trac.ticket.report.* = disabled
 > ```
 >
+>
 > *This will make the query module the default handler for the “View Tickets” navigation item. We encourage you to try this configuration and report back what kind of features of reports you are missing, if any.*
+>
+>
 
 
 A report consists of these basic parts:
@@ -247,11 +258,19 @@ assumed to be *formatting hints*, affecting the appearance of the row.
 - **`__color__`** — Should be a numeric value ranging from 1 to 5 to select a pre-defined row color. Typically used to color rows by issue priority.
 
   Defaults:
-  Color 1Color 2Color 3Color 4Color 5
+  Color 1
+  Color 2
+  Color 3
+  Color 4
+  Color 5
+
+
 - **`__style__`** — A custom CSS style expression to use on the `<tr>` element of the current row.
 - **`__class__`** — Zero or more space-separated CSS class names to be set on the `<tr>` element of the current row. These classes are added to the class name derived from `__color__` and the odd / even indicator.
 
-**Example:***List active tickets, grouped by milestone, group header linked to milestone page, colored by priority*
+
+**Example:** *List active tickets, grouped by milestone, group header linked to milestone page, colored by priority*
+
 
 ```wiki
 SELECT p.value AS __color__,
@@ -282,7 +301,9 @@ also possible to create multi-line report entries.
 - **`_column`** — *Hide data*. Prepending an underscore ('_') to a column name instructs Trac to hide the contents from the HTML output. This is useful for information to be visible only if downloaded in other formats (like CSV or RSS/XML).
   This can be used to hide any kind of column, even important ones required for identifying the resource, e.g. `id as _id` will hide the **Id** column but the link to the ticket will be present.
 
-**Example:***List active tickets, grouped by milestone, colored by priority, with  description and multi-line layout*
+
+**Example:** *List active tickets, grouped by milestone, colored by priority, with  description and multi-line layout*
+
 
 ```wiki
 SELECT p.value AS __color__,
@@ -390,4 +411,7 @@ If you want to always sort first by priority and only then by the user selected 
 ---
 
 
+
 See also: [TracTickets](trac-tickets), [TracQuery](trac-query), [TracGuide](trac-guide), [ Query Language Understood by SQLite](http://www.sqlite.org/lang_expr.html)
+
+

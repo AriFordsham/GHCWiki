@@ -19,48 +19,61 @@ improved error messages, and additional improvements to code generation.
 While the emphasis of 8.2 is on performance, stability, and
 consolidation, it also includes a number of new features.
 
+
 ### Libraries, source language, and type system
 
-- **Indexed Typeable representations.** While GHC has long supported runtime type reflection through the `Typeable` typeclass, its current incarnation requires careful use, providing little in the way of type-safety. For this reason the implementation of types like `Data.Dynamic` must be implemented in terms of `unsafeCoerce` with no compiler verification.
 
+-   **Indexed Typeable representations.** While GHC has long supported runtime type reflection through the `Typeable` typeclass, its current incarnation requires careful use, providing little in the way of type-safety. For this reason the implementation of types like `Data.Dynamic` must be implemented in terms of `unsafeCoerce` with no compiler verification.
+
+>
 >
 > GHC 8.2 will address this by introducing indexed type representations, leveraging the type-checker to verify many programs using type reflection. This allows facilities like `Data.Dynamic` to be implemented in a fully type-safe manner. See the [ paper](https://research.microsoft.com/en-us/um/people/simonpj/papers/haskell-dynamic/)\] for a description of the proposed interface and the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/Typeable/BenGamari) for current implementation status.
+>
+>
 
-- **Backpack.** Backpack has merged with GHC, Cabal and `cabal-install`, allowing you to write libraries which are parametrized by signatures, letting users decide how to instantiate them at a later point in time. If you want to just play around with the signature language, there is a new major mode `ghc –backpack`; at the Cabal syntax level, there are two new fields `signatures` and `mixins` which permit you to define parametrized packages, and instantiate them in a flexible way. More details are on the Backpack [Wiki page](backpack).
+-   **Backpack.** Backpack has merged with GHC, Cabal and `cabal-install`, allowing you to write libraries which are parametrized by signatures, letting users decide how to instantiate them at a later point in time. If you want to just play around with the signature language, there is a new major mode `ghc –backpack`; at the Cabal syntax level, there are two new fields `signatures` and `mixins` which permit you to define parametrized packages, and instantiate them in a flexible way. More details are on the Backpack [Wiki page](backpack).
 
-- **Levity polymorphism.** GHC 8.0 reworked GHC’s kind system introducing the notion of levity to describe a type’s runtime representation. However, the ability to write functions which were polymorphic over levity was purposefully withheld.
+-   **Levity polymorphism.** GHC 8.0 reworked GHC’s kind system introducing the notion of levity to describe a type’s runtime representation. However, the ability to write functions which were polymorphic over levity was purposefully withheld.
 
 >
+>
 > While GHC’s current compilation model doesn’t allow arbitrary levity polymorphism, GHC 8.2 enables certain classes of polymorphism which were either disallowed or broken in 8.0. See the [ paper](https://www.microsoft.com/en-us/research/publication/levity-polymorphism/) for details.
+>
+>
 
-- **`deriving` strategies.** GHC now provides the programmer with a precise mechanism to distinguish between the three ways to derive typeclass instances: the usual way, the `GeneralizedNewtypeDeriving` way, and the `DeriveAnyClass` way. See the `DerivingStrategies`[ Wiki page](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DerivingStrategies) for more details.
+-   **`deriving` strategies.** GHC now provides the programmer with a precise mechanism to distinguish between the three ways to derive typeclass instances: the usual way, the `GeneralizedNewtypeDeriving` way, and the `DeriveAnyClass` way. See the `DerivingStrategies` [ Wiki page](https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/DerivingStrategies) for more details.
 
-- **New classes in `base`.** The `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base` library.
+-   **New classes in `base`.** The `Bifoldable`, and `Bitraversable` typeclasses are now included in the `base` library.
 
-- **Unboxed sums.** GHC 8.2 has a new language extension, `UnboxedSums`, that enables unboxed representation for non-recursive sum types. GHC 8.2 doesn’t use unboxed sums automatically, but the extension comes with new syntax, so users can manually unpack sums. More details can be found in the [ Wiki page](https://ghc.haskell.org/trac/ghc/wiki/UnpackedSumTypes).
+-   **Unboxed sums.** GHC 8.2 has a new language extension, `UnboxedSums`, that enables unboxed representation for non-recursive sum types. GHC 8.2 doesn’t use unboxed sums automatically, but the extension comes with new syntax, so users can manually unpack sums. More details can be found in the [ Wiki page](https://ghc.haskell.org/trac/ghc/wiki/UnpackedSumTypes).
 
 ### Runtime system
 
-- **Compact regions**. This runtime system feature allows a referentially “closed” set of heap objects to be collected into a “compact region,” allowing cheaper garbage collection, sharing of heap-objects between processes, and the possibility of inexpensive serialization. See the [ paper](http://ezyang.com/papers/ezyang15-cnf.pdf) for details.
 
-- **Better profiling support.** The cost-center profiler now better integrates with the GHC event-log. Heap profile samples can now be dumped to the event log, allowing heap behavior to be more easily correlated with other program events. Moreover, the cost center stack output (e.g. `.prof` files) can now be produced in a machine-readable JSON format for easier integration with external tooling.
+-   **Compact regions**. This runtime system feature allows a referentially “closed” set of heap objects to be collected into a “compact region,” allowing cheaper garbage collection, sharing of heap-objects between processes, and the possibility of inexpensive serialization. See the [ paper](http://ezyang.com/papers/ezyang15-cnf.pdf) for details.
 
-- **More robust DWARF output.** GHC 8.2 will be the first release with reliable support for DWARF debugging information. A number of bugs leading to incorrect debug information for foreign calls have been fixed, meaning it should now be safe to enable debugging information in production builds.
+-   **Better profiling support.** The cost-center profiler now better integrates with the GHC event-log. Heap profile samples can now be dumped to the event log, allowing heap behavior to be more easily correlated with other program events. Moreover, the cost center stack output (e.g. `.prof` files) can now be produced in a machine-readable JSON format for easier integration with external tooling.
+
+-   **More robust DWARF output.** GHC 8.2 will be the first release with reliable support for DWARF debugging information. A number of bugs leading to incorrect debug information for foreign calls have been fixed, meaning it should now be safe to enable debugging information in production builds.
 
 >
+>
 > With stable DWARF support comes a number of opportunities for new performance analysis and debugging tools (e.g. statistical profiling, cheap execution stacks). As GHC’s debugging information improves, we expect to see tooling developed to support these applications. See the DWARF status page on the [ GHC Wiki](https://ghc.haskell.org/trac/ghc/wiki/DWARF/Status) for further information.
+>
+>
 
-- **Better support for NUMA platforms.** Machines with non-uniform memory access costs are becoming more and more common as core counts continue to rise. The runtime system is now better equipped to efficiently run on such systems.
+-   **Better support for NUMA platforms.** Machines with non-uniform memory access costs are becoming more and more common as core counts continue to rise. The runtime system is now better equipped to efficiently run on such systems.
 
-- **Experimental changes to the scheduler** that enable the number of threads used for garbage collection to be lower than the `-N` setting.
+-   **Experimental changes to the scheduler** that enable the number of threads used for garbage collection to be lower than the `-N` setting.
 
-- **Support for `StaticPointers` in GHCi.** At long last programs making use of the `StaticPointers` language extension will have first-class bytecode interpreter support, allowing such programs to be loaded into GHCi.
+-   **Support for `StaticPointers` in GHCi.** At long last programs making use of the `StaticPointers` language extension will have first-class bytecode interpreter support, allowing such programs to be loaded into GHCi.
 
-- **Reduced CPU usage at idle.** A long-standing regression resulting in unnecessary wake-ups in an otherwise idle program was fixed. This should lower CPU utilization and improve power consumption for some programs.
+-   **Reduced CPU usage at idle.** A long-standing regression resulting in unnecessary wake-ups in an otherwise idle program was fixed. This should lower CPU utilization and improve power consumption for some programs.
 
 ### Miscellaneous
 
-- **Compiler Determinism.** GHC 8.0.2 is the first release of GHC which produces deterministic interface files. This helps consumers like Nix and caching build systems, and presents new opportunities for compile-time improvements. See the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/DeterministicBuilds) for details.
+
+-   **Compiler Determinism.** GHC 8.0.2 is the first release of GHC which produces deterministic interface files. This helps consumers like Nix and caching build systems, and presents new opportunities for compile-time improvements. See the [ Wiki](https://ghc.haskell.org/trac/ghc/wiki/DeterministicBuilds) for details.
 
 ## Development updates and acknowledgments
 
@@ -151,14 +164,24 @@ in between, please come speak to us either on IRC (`#ghc` on
 -   GHC website:
 
 >
+>
 > \<[ https://haskell.org/ghc/](https://haskell.org/ghc/)\>
+>
+>
 
 -   GHC users guide:
 
 >
+>
 > \<[ https://downloads.haskell.org/\~ghc/master/users-guide/](https://downloads.haskell.org/~ghc/master/users-guide/)\>
+>
+>
 
-- `ghc-devs` mailing list:
+-   `ghc-devs` mailing list:
 
 >
+>
 > \<[ https://mail.haskell.org/mailman/listinfo/ghc-devs](https://mail.haskell.org/mailman/listinfo/ghc-devs)\>
+>
+>
+

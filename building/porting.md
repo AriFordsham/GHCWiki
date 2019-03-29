@@ -37,13 +37,18 @@ Lots of useful information about the innards of GHC is available in
 the [Commentary](commentary), which might be helpful if you run into some
 code which needs tweaking for your system.
 
+
 ## Cross-compiling to produce an unregisterised GHC
+
+
 
 **NOTE**: Versions supported: 6.11+.
 
+
+
 **NOTE**: for current issues, see 
 
-<table><tr><th>[\#3472](https://gitlab.haskell.org//ghc/ghc/issues/3472)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3472">#3472</a></th>
 <td>Porting through .hc files broken</td></tr></table>
 
 
@@ -179,7 +184,9 @@ Now build the compiler:
 **NOTE**: ./libraries/unix/dist-install/build/System/Posix/\*.hs gets
 filled with offsets, sizes, etc. for the host, not the target. This
 needs to be fixed by hand after make (marked by "LINE"), and then run
-make again to generate \*.hc****
+make again to generate \*.hc**
+**
+
 
 
 You may need to work around problems that occur due to differences
@@ -307,43 +314,48 @@ tweaks in order to get a registerised build going.
 The following files need architecture-specific code for a registerised
 build:
 
-<table><tr><th>`includes/MachRegs.h`</th>
+
+<table><tr><th><tt>includes/MachRegs.h</tt></th>
 <td>
 Defines the STG-register to machine-register
-mapping.  You need to know your platform's C calling
+mapping.  You need to know your platform&apos;s C calling
 convention, and which registers are generally available
 for mapping to global register variables.  There are
 plenty of useful comments in this file.
 </td></tr></table>
 
-<table><tr><th>`includes/TailCalls.h`</th>
+
+<table><tr><th><tt>includes/TailCalls.h</tt></th>
 <td>
 Macros that make proper tail-calls work.
 </td></tr></table>
 
-<table><tr><th>`rts/Adjustor.c`</th>
+
+<table><tr><th><tt>rts/Adjustor.c</tt></th>
 <td>
-Support for `foreign import "wrapper"`.
+Support for <tt>foreign import "wrapper"</tt>.
 Not essential for getting GHC bootstrapped, so this file
 can be deferred until later if necessary.
 </td></tr></table>
 
-<table><tr><th>`rts/StgCRun.c`</th>
+
+<table><tr><th><tt>rts/StgCRun.c</tt></th>
 <td>
 The little assembly layer between the C world and
 the Haskell world.  See the comments and code for the
 other architectures in this file for pointers.
 </td></tr></table>
 
-<table><tr><th>`rts/sm/MBlock.h`, `rts/sm/MBlock.c`</th>
+
+<table><tr><th><tt>rts/sm/MBlock.h</tt>, <tt>rts/sm/MBlock.c</tt></th>
 <td>
 These files are really OS-specific rather than
-architecture-specific.  In `MBlock.h`
+architecture-specific.  In <tt>MBlock.h</tt>
 is specified the absolute location at which the RTS
 should try to allocate memory on your platform (try to
-find an area which doesn't conflict with code or dynamic
-libraries).  In `Mblock.c` you might
-need to tweak the call to `mmap()` for
+find an area which doesn&apos;t conflict with code or dynamic
+libraries).  In <tt>Mblock.c</tt> you might
+need to tweak the call to <tt>mmap()</tt> for
 your OS.
 </td></tr></table>
 

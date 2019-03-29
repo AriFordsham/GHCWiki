@@ -1,8 +1,11 @@
 
 Occasionally there will be a type, usually a GADT, shaped exactly like this:
 
+
 ```
-dataCounter t1 ...whereBase:: f1 ->...->Counter...Step::!(Counter...)->Counter...
+data Counter t1 ... where
+  Base :: f1 -> ... -> Counter ...
+  Step :: !(Counter ...) -> Counter ...
 ```
 
 

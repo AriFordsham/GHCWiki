@@ -22,7 +22,9 @@ The non-primitive wired-in type constructors are defined in [compiler/prelude/Ty
 All the non-primitive wired-in things are *also* defined in GHC's libraries, because even though GHC knows about them we still need to generate code for them. For example, `Bool` is a wired-in type constructor, but it is still defined in `GHC.Base` because we need the info table etc for the data constructors.  Arbitrarily bad things will happen if the wired-in definition in [compiler/prelude/TysWiredIn.hs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.hs) differs from that in the library module.
 
 
-All wired-in things have a `WiredIn``Name` (see [Names](commentary/compiler/name-type)), which in turn contains the thing.  See [a case study of Bool implementation](commentary/compiler/case-studies/bool) for more details.
+
+All wired-in things have a `WiredIn` `Name` (see [Names](commentary/compiler/name-type)), which in turn contains the thing.  See [a case study of Bool implementation](commentary/compiler/case-studies/bool) for more details.
+
 
 ## Known-key things
 
@@ -59,7 +61,9 @@ knownKeyNames = map getName wiredInThings ++ basicKnownKeyNames ++ templateHaske
 
 Notice that the initialisation embraces both the wired-in and ("basic") known-key names.
 
-## `Orig``RdrName` things
+
+## `Orig` `RdrName` things
+
 
 
 An **Orig RdrName thing** has a top-level definition of a `RdrName`, using the `Orig` constructor.  Here, the baked-in information is:

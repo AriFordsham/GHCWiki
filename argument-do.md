@@ -4,21 +4,24 @@
 This page documents a proposed syntactical extension called `ArgumentDo`. The feature request is tracked at [\#10843](https://gitlab.haskell.org//ghc/ghc/issues/10843).
 
 
+
 This extension would allow a `do` block, a lambda, and a few other syntactic constructs to be placed directly as a function argument, without parentheses or a `$`. For example,
 
+
 ```
-atomicallydo
+atomically do
   v <- readTVar tv
-  writeTVar tv $! v +1
+  writeTVar tv $! v + 1
 ```
 
 
 would be equivalent to
 
+
 ```
-atomically(do
+atomically (do
   v <- readTVar tv
-  writeTVar tv $! v +1)
+  writeTVar tv $! v + 1)
 ```
 
 
@@ -89,10 +92,15 @@ aexp  →  qvar                              (variable)
 Now the `lexp` nonterminal is redundant and can be dropped from the grammar.
 
 
+
 Note that this change relies on an existing meta-rule to resolve ambiguities:
 
+
+>
 >
 > The grammar is ambiguous regarding the extent of lambda abstractions, let expressions, and conditionals. The ambiguity is resolved by the meta-rule that each of these constructs extends as far to the right as possible.
+>
+>
 
 
 For example, `f \a -> a b` will be parsed as `f (\a -> a b)`, not as `f (\a -> a) b`.
@@ -102,33 +110,43 @@ For example, `f \a -> a b` will be parsed as `f (\a -> a b)`, not as `f (\a -> a
 ## Deleting parentheses
 
 
+
 This extension will most often allow deletion of just one `$` operator per application. However, sometimes it does more. For example, in the following example, you can't simply replace the parentheses with a `$`:
 
+
 ```
-pi+ f (do...)
+pi + f (do
+  ...
+  )
 ```
 
 
 With `ArgumentDo`, you would be able to write the following instead:
 
+
 ```
-pi+ f do...
+pi + f do
+   ...
 ```
 
 ## Multiple block arguments
 
 
+
 A function may take multiple `do` blocks:
 
+
 ```
-fdo{ x }do{ y }
+f do{ x } do { y }
 ```
 
 
 or
 
+
 ```
-fdo x
+f
+  do x
   do y
 ```
 

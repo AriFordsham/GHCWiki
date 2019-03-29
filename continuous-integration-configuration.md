@@ -45,6 +45,11 @@ check_interval = 0
 
 ```
 
+Also add a cron job to prune things:
+```bash
+echo "@daily root docker volume prune -f" | sudo tee /etc/cron.d/docker-prune
+```
+
 ## Job tags
 
 The following job tags are currently defined:

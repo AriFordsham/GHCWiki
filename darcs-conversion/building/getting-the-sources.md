@@ -78,9 +78,13 @@ Instead, follow the following steps:
   - `ghc-HEAD-2007-08-29-ghc.tar.bz2` (60 Mbytes)
 
 >
+>
 > Each of these is a subset of the previous one; pick the smallest one that has what you need.  Of course, the dates may vary.
+>
+>
 
 1. Unpack the bundle, which will create a directory called `ghc`.  You can rename this directory freely.
+
 1. Change into the new directory, and pull patches from the main GHC repository:
 
   ```wiki

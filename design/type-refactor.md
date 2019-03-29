@@ -12,10 +12,13 @@ See Trac [\#15479](https://gitlab.haskell.org//ghc/ghc/issues/15479)
 ## Desugaring types separately
 
 
+
 Currently (June 2018), GHC sports these two functions:
 
+
 ```
-tc_hs_type::TcTyMode->HsTypeGhcRn->TcKind->TcMTcType-- in TcHsType.hstcExpr::HsExprGhcRn->ExpRhoType->TcM(HsExprGhcTcId)-- in TcExpr.hs
+tc_hs_type :: TcTyMode -> HsType GhcRn -> TcKind -> TcM TcType -- in TcHsType.hs
+tcExpr :: HsExpr GhcRn -> ExpRhoType -> TcM (HsExpr GhcTcId)   -- in TcExpr.hs
 ```
 
 
@@ -31,8 +34,9 @@ The first goal in this refactor is to align these functions. Desugaring separate
 
 We thus want
 
+
 ```
-tc_hs_type::TcTyMode->HsTypeGhcRn->TcKind->TcM(HsTypeGhcTc)
+tc_hs_type :: TcTyMode -> HsType GhcRn -> TcKind -> TcM (HsType GhcTc)
 ```
 
 
@@ -46,7 +50,9 @@ Is there ever a case where we do not want to immediately desugar?  **End SLPJ**.
 **RAE**: I would argue that during type-checking, we want to add `f :: Int -> Int` into the environment using a `HsType GhcTc`, not a `Type`. Then, if we ever have to print `f`'s type, we can print it correctly. For example, suppose the user wrote `f :: (->) Int Int`. Let's print that! **End RAE**
 
 
-Problematically, we need to be able to compare types for equality. **SLPJ**: where, precisely? **End SLPJ****RAE:** In `unifyType`, for example. **End RAE**  (We don't do this for terms, at least outside the simplifier.) So storing type-checked types in `HsType` can be troublesome -- we don't want to have to compute equality over `HsType`s. So we'll need to make liberal use of the extension fields to store the `Type` equivalent of each node in the `HsType`. With this, getting from an `HsType GhcTc` to a `TcType` is just a field access.
+
+Problematically, we need to be able to compare types for equality. **SLPJ**: where, precisely? **End SLPJ** **RAE:** In `unifyType`, for example. **End RAE**  (We don't do this for terms, at least outside the simplifier.) So storing type-checked types in `HsType` can be troublesome -- we don't want to have to compute equality over `HsType`s. So we'll need to make liberal use of the extension fields to store the `Type` equivalent of each node in the `HsType`. With this, getting from an `HsType GhcTc` to a `TcType` is just a field access.
+
 
 
 This plan will require changing zonking to work over `HsType GhcTc` and will require adding rules in the desugarer to desugar `HsType`s. Of course, desugaring is dead simple: just retrieve the core type from the extension field.

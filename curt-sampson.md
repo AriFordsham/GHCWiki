@@ -6,4 +6,5 @@
 
 Common ticket queries I use:
 
+
 - Tickets reported by cjs. (Ticket query: reporter: \~cjs, col: id, col: summary, col: status, col: type, col: priority, col: milestone, col: component, desc: 1, order: id, row: description)

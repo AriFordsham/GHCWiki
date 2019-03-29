@@ -47,6 +47,11 @@ I'm especially interested in cases where this framework does not fit your applic
 ## Note
 
 
+
 Attachment below is outdated, but the library can be found on Hackage:
 
+
+
 [ http://hackage.haskell.org/cgi-bin/hackage-scripts/package/collections-0.3](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/collections-0.3)
+
+

@@ -82,9 +82,14 @@ deserialiseAnnEnv :: Typeable t => ([Word8] -> t) -> AnnEnv -> NameEnv t
 
 This function could be in main/Annotations.lhs.
 
+
 ## OLD Implementation Notes
 
-****
+
+
+**
+**
+
 
 
 In this old implementation, annotations look like this:
@@ -150,9 +155,15 @@ Evaluation of the actual value of the annotation is done at the point they are a
 ## Evolved Implementation
 
 
+
 The Summer of Code implementation had some drawbacks:
 
+
 - You don't detect non-terminating or otherwise "wrong" annotations at compile time
+
+
+ 
+
 
 - It is difficult to specify an API that allows adding annotations to the program being compiled because that API needs both a value (that represents the annotation to plugins that may be later on in the pipeline) and a Core expression (that is inserted into the actual target program). What's more, you need to ensure that you are able to find a Typeable dictionary in the program being compiled that corresponds to the dictionary supplied by the user of the API.
 
@@ -352,6 +363,10 @@ f :: ...
 ```
 
 - **(Only in SoC implementation)** Plugins cannot currently add further annotations during compilation that will be compiled into the result. I.e. any annotations they add are transient and disappear at the end of that particular run of the Core pipeline.
+
+
+ 
+
 
 - We might want to add attribute metadata, so users can specify the multiplicity attributes should take, what sorts of things they can be attached to (value, type, module), and perhaps even what types they can be attached to (e.g. "only things of type a -\> Bool for some a"), similar to C\# ([ http://msdn.microsoft.com/en-us/library/tw5zxet9(VS.80).aspx](http://msdn.microsoft.com/en-us/library/tw5zxet9(VS.80).aspx)) or Java.
 

@@ -55,9 +55,15 @@ The safe dialect basically disallows some dangerous features in Haskell to guara
 ## Safe Imports
 
 
+
 A small extension to the syntax of import statements, adding a `safe` keyword:
 
+
+>
+>
 > `impdecl -> `import` [`safe`] [`qualified`] modid [`as` modid] [impspec]`
+>
+>
 
 
 When enabled, a module imported with the safe keyword must be a trusted module, otherwise a compilation error will result. Safe imports are enabled through either `-XSafe`, `-XTrustworthy` or `-XUnsafe`.
@@ -192,8 +198,11 @@ We have this relation between the flags:
 
 In summary we have the following LANGUAGE options and effects:
 
+
 - **`-XSafe`**:
 
+>
+> >
 > >
 > > To be trusted, all of the module's direct imports must be
 > > trusted, but the module itself need not reside in a trusted
@@ -201,13 +210,26 @@ In summary we have the following LANGUAGE options and effects:
 > > The "safe" keyword is allowed but meaningless in import
 > > statements--conceptually every import is safe whether or not so
 > > tagged.
+> >
+> >
+>
 
+>
+> >
+> >
 > > **Module Trusted**: Yes 
+> >
 > > **Haskell Language**: Restricted to Safe Language 
+> >
 > > **Imported Modules**: All forced to be safe imports, all must be trusted 
+> >
+> >
+>
 
 - **`-XTrustworthy`**:
 
+>
+> >
 > >
 > > This establishes that the module is trusted, but the guarantee is
 > > provided by the module's author. A client of this module then
@@ -215,22 +237,49 @@ In summary we have the following LANGUAGE options and effects:
 > > trust the package containing the module. `-XTrustworthy` has
 > > no effect on the accepted range of Haskell programs or their
 > > semantics.
+> >
+> >
+>
 
+>
+> >
+> >
 > > **Module Trusted**: Yes 
+> >
 > > **Haskell Language**: Unrestricted 
+> >
 > > **Imported Modules**: Under control of module author which ones must be trusted 
+> >
+> >
+>
 
 - **`-XUnsafe`**:
 
+>
+> >
 > >
 > > Explicitly mark the module as unsafe. Don't allow the Safe Haskell inference mechanism to
 > >
+> >
+> > >
 > > >
 > > > record it as safe.
+> > >
+> > >
+> >
+>
 
+>
+> >
+> >
 > > **Module Trusted**: No 
+> >
 > > **Haskell Language**: Unrestricted 
+> >
 > > **Imported Modules**: Under control of module author which ones must be trusted 
+> >
+> >
+>
 
 
 All of the above flags can also be combined with the `-fpackage-trust` flag, resulting in: 
@@ -238,23 +287,47 @@ All of the above flags can also be combined with the `-fpackage-trust` flag, res
 - **`-fpackage-trust -XSafe`**
   Enable package trust checking plus restrictions normally enabled by `-XSafe` on its own.
 
+>
+> >
+> >
 > > **Module Trusted**: Yes 
+> >
 > > **Haskell Language**: Restricted to Safe Language 
+> >
 > > **Imported Modules**: All forced to be safe imports, all must be trusted 
+> >
+> >
+>
 
 - **`-fpackage-trust -XTrustworthy`**
   Enable package trust checking and marks a module as trustworthy.
 
+>
+> >
+> >
 > > **Module Trusted**: Yes if the package it resides in is trusted 
+> >
 > > **Haskell Language**: Unrestricted 
+> >
 > > **Imported Modules**: Under control of module author which ones must be trusted 
+> >
+> >
+>
 
 - **`-fpackage-trust -XUnsafe`**
   Enable package trust checking and mark the module as unsafe.
 
+>
+> >
+> >
 > > **Module Trusted**: No 
+> >
 > > **Haskell Language**: Unrestricted 
+> >
 > > **Imported Modules**: Under control of module author which ones must be trusted 
+> >
+> >
+>
 
 
 While it seems that `-fpackage-trust -XSafe` has the same effect as just `-XSafe`, it doesn't. As trust checking is a transitive operation, turning on package trust may require some package that a depdencies resides in needs to now be trusted.
@@ -262,11 +335,13 @@ While it seems that `-fpackage-trust -XSafe` has the same effect as just `-XSafe
 ### Specifying Package Trust
 
 
+
 On the command line, several new options control which packages are trusted:
 
-- `-trust`P - exposes package P (if it was hidden), and considers it a trusted package regardless of the contents of the package database.
 
-- `-distrust`P - exposes package P (if it was hidden), and considers it an untrusted package, regardless of the contents of the package database.
+- `-trust` P - exposes package P (if it was hidden), and considers it a trusted package regardless of the contents of the package database.
+
+- `-distrust` P - exposes package P (if it was hidden), and considers it an untrusted package, regardless of the contents of the package database.
 
 - `-distrust-all-packages` - considers all packages untrusted unless they are explicitly trusted by subsequent command-line options.  (This option does not change the exposed/hidden status of packages, so is not equivalent to applying `-distrust` to all packages on the system.)
 

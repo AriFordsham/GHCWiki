@@ -1,4 +1,11 @@
-**Error: Macro BackLinks(BuildBot) failed**'Environment' object has no attribute 'get_db_cnx'
+
+**Error: Macro BackLinks(BuildBot) failed**
+
+```
+'Environment' object has no attribute 'get_db_cnx'
+```
+
+
 
 # Current status
 
@@ -12,7 +19,12 @@ The GHC buildbot builds GHC on various platforms in various different ways each 
         
 To see the current status of the builds:
 
+
+>
+>
 > [ http://darcs.haskell.org/buildbot](http://darcs.haskell.org/buildbot)
+>
+>
 
 ## To create a new build slave
 
@@ -169,3 +181,5 @@ http://darcs.haskell.org/ghc
 
 
 To resolve this, there is some extra work to do when you configure your buildbot client: [ http://buildbot.net/trac/wiki/UsingLaunchd](http://buildbot.net/trac/wiki/UsingLaunchd)
+
+

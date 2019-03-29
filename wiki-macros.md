@@ -32,11 +32,14 @@ Detailed help on a specific macro can be obtained by passing it as an argument t
 ### Example
 
 
+
 A list of the 3 most recently changed wiki pages starting with 'Trac':
+
 
 <table><tr><th> Wiki Markup </th>
 <th> Display 
-</th></tr>
+</th>
+<th></th></tr>
 <tr><th>```wiki
 [[RecentChanges(Trac,3)]]
 ```
@@ -46,22 +49,27 @@ A list of the 3 most recently changed wiki pages starting with 'Trac':
 
 ### Jan 4, 2019
 
-- [TracWikiMisc](/trac/ghc/wiki/TracWikiMisc)<small> ([diff](/trac/ghc/wiki/TracWikiMisc?action=diff&version=14))</small>
+- <a href="/trac/ghc/wiki/TracWikiMisc">TracWikiMisc</a><small> (<a href="/trac/ghc/wiki/TracWikiMisc?action=diff&amp;version=14">diff</a>)</small>
 
 ### Feb 12, 2017
 
-- [TracSearch](/trac/ghc/wiki/TracSearch)<small> ([diff](/trac/ghc/wiki/TracSearch?action=diff&version=4))</small>
-- [TracSyntaxColoring](/trac/ghc/wiki/TracSyntaxColoring)<small> ([diff](/trac/ghc/wiki/TracSyntaxColoring?action=diff&version=5))</small>
+- <a href="/trac/ghc/wiki/TracSearch">TracSearch</a><small> (<a href="/trac/ghc/wiki/TracSearch?action=diff&amp;version=4">diff</a>)</small>
+- <a href="/trac/ghc/wiki/TracSyntaxColoring">TracSyntaxColoring</a><small> (<a href="/trac/ghc/wiki/TracSyntaxColoring?action=diff&amp;version=5">diff</a>)</small>
 
-</th></tr>
-<tr><th>```wiki
+
+
+</th>
+<th></th></tr>
+<tr><td>
+</td>
+<th>```wiki
 [[RecentChanges?(Trac,3)]]
 ```
 
 </th>
 <th>
 
-### `[[RecentChanges]]`
+### <tt>[[RecentChanges]]</tt>
 
 
 List all pages that have recently been modified, ordered by the
@@ -81,43 +89,54 @@ The second parameter is the maximum number of pages to include in the
 list.
 
 
-The `group` parameter determines how the list is presented:
 
-<table><tr><th>`group=date`</th>
+The <tt>group</tt> parameter determines how the list is presented:
+
+
+<table><tr><th><tt>group=date</tt></th>
 <td>The pages are presented in bulleted lists that are
 grouped by date (default).
 </td></tr>
-<tr><th>`group=none`</th>
+<tr><th><tt>group=none</tt></th>
 <td>The pages are presented in a single bulleted list.
 </td></tr></table>
 
 
+
 Tip: if you only want to specify a maximum number of entries and
-don't want to filter by prefix, specify an empty first parameter,
-e.g. `[[RecentChanges(,10,group=none)]]`.
+don&apos;t want to filter by prefix, specify an empty first parameter,
+e.g. <tt>[[RecentChanges(,10,group=none)]]</tt>.
+
+
+
 
 </th></tr>
-<tr><th>```wiki
+<tr><td>
+</td>
+<th>```wiki
 [[?]]
 ```
 
 </th>
-<th>### `[[Image]]`
+<th>
+
+### <tt>[[Image]]</tt>
 
 Embed an image in wiki-formatted text.
-The first argument is the file, as in `[[Image(filename.png)]]`
+The first argument is the file, as in <tt>[[Image(filename.png)]]</tt>
 
-### `[[InterTrac]]`
+### <tt>[[InterTrac]]</tt>
 
-Provide a list of known [InterTrac](/wiki/InterTrac) prefixes.
+Provide a list of known <a href="/wiki/InterTrac">InterTrac</a> prefixes.
 
-### `[[InterWiki]]`
+### <tt>[[InterWiki]]</tt>
 
-Provide a description list for the known [InterWiki](/wiki/InterWiki) prefixes.
+Provide a description list for the known <a href="/wiki/InterWiki">InterWiki</a> prefixes.
 
-### `[[KnownMimeTypes]]`
+### <tt>[[KnownMimeTypes]]</tt>
 
-List all known mime-types which can be used as [WikiProcessors](/wiki/WikiProcessors).
+List all known mime-types which can be used as <a href="/wiki/WikiProcessors">WikiProcessors</a>.
+
 
 
 etc.
@@ -193,15 +212,17 @@ of 'inline' list it will render all found as default unless restricted. Addition
 'float' and 'full' it will truncate content if it is larger than a max_size (if set).
 
 
+
 The `format=` keyword argument supports rendering these formats:
 
-<table><tr><th>`format=inline`</th>
+
+<table><tr><th><tt>format=inline</tt></th>
 <th>Renders an unordered list in the normal text flow (default).
 </th></tr>
-<tr><th>`format=float`</th>
+<tr><th><tt>format=float</tt></th>
 <th>A floating box out on the side of the page with slightly more detail.
 </th></tr>
-<tr><th>`format=full`</th>
+<tr><th><tt>format=full</tt></th>
 <th>Full rendering like on period, category and author listings inside blog.
 </th></tr></table>
 
@@ -241,7 +262,8 @@ This macro is intended for code testing by the developers of the above function
 and has no real usage for normal Trac users.
 
 
-Macro usage: `[[ExtractUrl(traclink)]]`
+
+Macro usage: `[[ExtractUrl(traclink)]]` 
 
 Result: The URL extracted by `extract_url`
 
@@ -287,12 +309,15 @@ from tracextracturl import extract_url
 
 Inside [WikiMacros](wiki-macros):
 
-```
-fromtracextracturlimport extract_url
 
-defMyMacro(WikiMacroBase):defexpand_macro(self, formatter, name, content):# e.g. wikilink = 'wiki:WikiStart' or 'attachment:file.ext'
+```
+from tracextracturl import extract_url
+
+def MyMacro(WikiMacroBase):
+  def expand_macro (self, formatter, name, content):
+     # e.g. wikilink = 'wiki:WikiStart' or 'attachment:file.ext'
      url = extract_url(self.env, formatter.context, wikilink)
-     rawurl = extract_url(self.env, formatter.context, wikilink,True)
+     rawurl = extract_url(self.env, formatter.context, wikilink, True)
 ```
 
 ## Example
@@ -390,7 +415,7 @@ The file specification may also refer to:
   `//file` for a server-relative, or `http://server/file` for
   absolute location. An [InterWiki](inter-wiki) prefix may be used.
 - embedded data using the
-  [ rfc2397](http://tools.ietf.org/html/rfc2397)`data` URL scheme,
+  [ rfc2397](http://tools.ietf.org/html/rfc2397) `data` URL scheme,
   provided the URL is enclosed in quotes.
 
 
@@ -521,8 +546,9 @@ simplify the testing process and has no real value for normal Trac users.
 
 will call
 
+
 ```
-parse_args(arguments_to_parse,**parser_options)
+parse_args(arguments_to_parse, **parser_options)
 ```
 
 
@@ -541,6 +567,10 @@ will call
 parse_args('key1=val1,key2="val2a,val2b"', strict=True, delquotes=True)
 ```
 
+
+    
+
+
 # Description for `parse_args()`
 
 
@@ -555,69 +585,84 @@ is the support for quoting the delimiter, e.g.
 the value of `key2`. The original `parse_args` function would return '`"some`' 
 and handle '`text"`' as separate argument.
 
+
+
 `$Id: parseargs.py 13612 2014-01-24 00:45:47Z rjollos $`
+
 
 ## Documentation
 
+
 ### Definition
 
+
 ```
-defparse_args(args, strict =True, multi =False, listonly =False, minlen =0,
-        quotechar ='"', escchar ='\\', delim =',', delquotes =False)
+def parse_args (args, strict = True, multi = False, listonly = False, minlen = 0,
+        quotechar = '"', escchar = '\\', delim = ',', delquotes = False)
 ```
 
 ### Usage Example
 
-```
-# Instead of: from trac.wiki.macros import parse_args# Use:fromtracadvparseargsimport parse_args
 
-classSomeMacro(WikiMacroBase):defexpand_macro(self, formatter, name, args):
-        largs, kwargs = parse_args( args,<options>)
+```
+# Instead of: from trac.wiki.macros import parse_args
+# Use:
+from tracadvparseargs import parse_args
+
+class SomeMacro(WikiMacroBase):
+    def expand_macro(self, formatter, name, args):
+        largs, kwargs = parse_args( args, <options> )
 ```
 
 ### Parameters
 
-<table><tr><th>`args`</th>
-<td>The argument string; 'content' in \`expand_macro.
+
+<table><tr><th><tt>args</tt></th>
+<td>The argument string; &apos;content&apos; in `expand_macro.
 </td></tr>
-<tr><th>`strict`</th>
+<tr><th><tt>strict</tt></th>
 <td>Enables strict checking of keys.
 </td></tr>
-<tr><th>`multi`</th>
-<td>Enables folding of muliple given keys into list.
-
-If set to `True`, values of multiple given keys will be returned
-as list, but single given keys will return a scalar.
-
+<tr><th><tt>multi</tt></th>
+<td>Enables folding of muliple given keys into list.<br>
+If set to <tt>True</tt>, values of multiple given keys will be returned
+as list, but single given keys will return a scalar.<br>
 If set to a list, only the values of the listed keys will be
 returned as list, but always as list even when there is only one
-value.
-
-If this list contains `'*'`, all values are always 
+value.<br>
+If this list contains <tt>'*'</tt>, all values are always 
 returned as list.
 </td></tr>
-<tr><th>`listonly`</th>
+<tr><th><tt>listonly</tt></th>
 <td>If true only a list is returned, no directionary.
 </td></tr>
-<tr><th>`minlen`</th>
+<tr><th><tt>minlen</tt></th>
 <td>Extend returned list to given minimum length. Only used when
-`listonly=True`.
+<tt>listonly=True</tt>.
 </td></tr></table>
+
+
 
 **Parser parameters**
 
-<table><tr><th>`quotechar`</th>
+
+<table><tr><th><tt>quotechar</tt></th>
 <td>The quote character to be used.
 </td></tr>
-<tr><th>`escchar`</th>
+<tr><th><tt>escchar</tt></th>
 <td>The escape character to be used.
 </td></tr>
-<tr><th>`delim`</th>
+<tr><th><tt>delim</tt></th>
 <td>The delimiter character to be used.
 </td></tr>
-<tr><th>`delquotes`</th>
+<tr><th><tt>delquotes</tt></th>
 <td>Selects if quotes should be removed.
 </td></tr></table>
+
+
+
+    
+
 
 ### `[[ProjectStats]]`
 
@@ -657,13 +702,15 @@ The second parameter is the maximum number of pages to include in the
 list.
 
 
+
 The `group` parameter determines how the list is presented:
 
-<table><tr><th>`group=date`</th>
+
+<table><tr><th><tt>group=date</tt></th>
 <td>The pages are presented in bulleted lists that are
 grouped by date (default).
 </td></tr>
-<tr><th>`group=none`</th>
+<tr><th><tt>group=none</tt></th>
 <td>The pages are presented in a single bulleted list.
 </td></tr></table>
 
@@ -736,35 +783,41 @@ Any other [TracLink](trac-links) can be used:
 [[Redirect(http://www.example.com/)]]
 ```
 
+
+    
+
+
 ### `[[RepositoryIndex]]`
 
 
 Display the list of available repositories.
 
 
+
 Can be given the following named arguments:
 
-<table><tr><th>*format*</th>
+
+<table><tr><th><i>format</i></th>
 <td>
 Select the rendering format:
 
-- *compact* produces a comma-separated list of repository prefix
+- <i>compact</i> produces a comma-separated list of repository prefix
   names (default)
-- *list* produces a description list of repository prefix names
-- *table* produces a table view, similar to the one visible in
-  the *Browse View* page
+- <i>list</i> produces a description list of repository prefix names
+- <i>table</i> produces a table view, similar to the one visible in
+  the <i>Browse View</i> page
 
 </td></tr>
-<tr><th>*glob*</th>
+<tr><th><i>glob</i></th>
 <td>
-Do a glob-style filtering on the repository names (defaults to '\*')
+Do a glob-style filtering on the repository names (defaults to &apos;*&apos;)
 </td></tr>
-<tr><th>*order*</th>
+<tr><th><i>order</i></th>
 <td>
-Order repositories by the given column (one of "name", "date" or
-"author")
+Order repositories by the given column (one of &quot;name&quot;, &quot;date&quot; or
+&quot;author&quot;)
 </td></tr>
-<tr><th>*desc*</th>
+<tr><th><i>desc</i></th>
 <td>
 When set to 1, order by descending order
 </td></tr></table>
@@ -1131,22 +1184,34 @@ where
   the box is decorated with an icon (except for `news`) and
   colored, depending on what *urgency* the type represents:
 
-> > <table><tr><th> Urgency *(box color)*</th>
+>
+> >
+> > <table><tr><th> Urgency <i>(box color)</i> </th>
 > > <th> type 
 > > </th></tr>
-> > <tr><th> warn *(red)*</th>
-> > <th>`bug`, `critical`, `error`, `important`, `stop`, `warning`</th></tr>
-> > <tr><th> highlight *(yellow)*</th>
-> > <th>`help`, `information`, `note`, `question`, `tips`</th></tr>
-> > <tr><th> elaborate *(blue)*</th>
-> > <th>`bad`, `chat`, `comment`, `discussion`, `good`, `no`, `nok`, `ok`, `talk`, `yes`</th></tr>
-> > <tr><th> news *(green)*</th>
-> > <th>`news`</th></tr>
-> > <tr><th> normal *(white)*</th>
-> > <th>`configuration`, `configure`, `details`, `look`, `magnifier`, `tool`</th></tr></table>
+> > <tr><th> warn <i>(red)</i> </th>
+> > <th> <tt>bug</tt>, <tt>critical</tt>, <tt>error</tt>, <tt>important</tt>, <tt>stop</tt>, <tt>warning</tt> 
+> > </th></tr>
+> > <tr><th> highlight <i>(yellow)</i> </th>
+> > <th> <tt>help</tt>, <tt>information</tt>, <tt>note</tt>, <tt>question</tt>, <tt>tips</tt> 
+> > </th></tr>
+> > <tr><th> elaborate <i>(blue)</i> </th>
+> > <th> <tt>bad</tt>, <tt>chat</tt>, <tt>comment</tt>, <tt>discussion</tt>, <tt>good</tt>, <tt>no</tt>, <tt>nok</tt>, <tt>ok</tt>, <tt>talk</tt>, <tt>yes</tt> 
+> > </th></tr>
+> > <tr><th> news <i>(green)</i> </th>
+> > <th> <tt>news</tt> 
+> > </th></tr>
+> > <tr><th> normal <i>(white)</i> </th>
+> > <th> <tt>configuration</tt>, <tt>configure</tt>, <tt>details</tt>, <tt>look</tt>, <tt>magnifier</tt>, <tt>tool</tt> 
+> > </th></tr></table>
+> >
+> >
 > >
 > > `type` may be abbreviated as long as the abbreviation is
 > > unique for one of the keywords above.
+> >
+> >
+>
 
 - `align` is optionally one of `right`, `left` or `center`.
   The `rbox` macro is an alias for `align=right`.
@@ -1270,22 +1335,34 @@ where
   the box is decorated with an icon (except for `news`) and
   colored, depending on what *urgency* the type represents:
 
-> > <table><tr><th> Urgency *(box color)*</th>
+>
+> >
+> > <table><tr><th> Urgency <i>(box color)</i> </th>
 > > <th> type 
 > > </th></tr>
-> > <tr><th> warn *(red)*</th>
-> > <th>`bug`, `critical`, `error`, `important`, `stop`, `warning`</th></tr>
-> > <tr><th> highlight *(yellow)*</th>
-> > <th>`help`, `information`, `note`, `question`, `tips`</th></tr>
-> > <tr><th> elaborate *(blue)*</th>
-> > <th>`bad`, `chat`, `comment`, `discussion`, `good`, `no`, `nok`, `ok`, `talk`, `yes`</th></tr>
-> > <tr><th> news *(green)*</th>
-> > <th>`news`</th></tr>
-> > <tr><th> normal *(white)*</th>
-> > <th>`configuration`, `configure`, `details`, `look`, `magnifier`, `tool`</th></tr></table>
+> > <tr><th> warn <i>(red)</i> </th>
+> > <th> <tt>bug</tt>, <tt>critical</tt>, <tt>error</tt>, <tt>important</tt>, <tt>stop</tt>, <tt>warning</tt> 
+> > </th></tr>
+> > <tr><th> highlight <i>(yellow)</i> </th>
+> > <th> <tt>help</tt>, <tt>information</tt>, <tt>note</tt>, <tt>question</tt>, <tt>tips</tt> 
+> > </th></tr>
+> > <tr><th> elaborate <i>(blue)</i> </th>
+> > <th> <tt>bad</tt>, <tt>chat</tt>, <tt>comment</tt>, <tt>discussion</tt>, <tt>good</tt>, <tt>no</tt>, <tt>nok</tt>, <tt>ok</tt>, <tt>talk</tt>, <tt>yes</tt> 
+> > </th></tr>
+> > <tr><th> news <i>(green)</i> </th>
+> > <th> <tt>news</tt> 
+> > </th></tr>
+> > <tr><th> normal <i>(white)</i> </th>
+> > <th> <tt>configuration</tt>, <tt>configure</tt>, <tt>details</tt>, <tt>look</tt>, <tt>magnifier</tt>, <tt>tool</tt> 
+> > </th></tr></table>
+> >
+> >
 > >
 > > `type` may be abbreviated as long as the abbreviation is
 > > unique for one of the keywords above.
+> >
+> >
+>
 
 - `width` is optional and sets the width of the box (defaults
   a fixed width). Use `width=auto` for an automatically sized
@@ -1337,33 +1414,44 @@ Here are 2 simple examples showing how to create a Macro. Also, have a look at [
 ### Macro without arguments
 
 
+
 To test the following code, save it in a `timestamp_sample.py` file located in the [TracEnvironment](trac-environment)'s `plugins/` directory.
 
+
 ```
-fromdatetimeimport datetime
-# Note: since Trac 0.11, datetime objects are used internallyfromgenshi.builderimport tag
+from datetime import datetime
+# Note: since Trac 0.11, datetime objects are used internally
 
-fromtrac.util.datefmtimport format_datetime, utc
-fromtrac.wiki.macrosimport WikiMacroBase
+from genshi.builder import tag
 
-classTimeStampMacro(WikiMacroBase):"""Inserts the current time (in seconds) into the wiki page."""
+from trac.util.datefmt import format_datetime, utc
+from trac.wiki.macros import WikiMacroBase
 
-    revision ="$Rev$"
-    url ="$URL$"defexpand_macro(self, formatter, name, text):
-        t = datetime.now(utc)return tag.strong(format_datetime(t,'%c'))
+class TimeStampMacro(WikiMacroBase):
+    """Inserts the current time (in seconds) into the wiki page."""
+
+    revision = "$Rev$"
+    url = "$URL$"
+
+    def expand_macro(self, formatter, name, text):
+        t = datetime.now(utc)
+        return tag.strong(format_datetime(t, '%c'))
 ```
 
 ### Macro with arguments
 
 
+
 To test the following code, save it in a `helloworld_sample.py` file located in the [TracEnvironment](trac-environment)'s `plugins/` directory.
 
+
 ```
-fromgenshi.coreimport Markup
+from genshi.core import Markup
 
-fromtrac.wiki.macrosimport WikiMacroBase
+from trac.wiki.macros import WikiMacroBase
 
-classHelloWorldMacro(WikiMacroBase):"""Simple HelloWorld macro.
+class HelloWorldMacro(WikiMacroBase):
+    """Simple HelloWorld macro.
 
     Note that the name of the class is meaningful:
      - it must end with "Macro"
@@ -1374,8 +1462,11 @@ classHelloWorldMacro(WikiMacroBase):"""Simple HelloWorld macro.
     the !MacroList macro (usually used in the WikiMacros page).
     """
 
-    revision ="$Rev$"
-    url ="$URL$"defexpand_macro(self, formatter, name, text, args):"""Return some output that will be displayed in the Wiki content.
+    revision = "$Rev$"
+    url = "$URL$"
+
+    def expand_macro(self, formatter, name, text, args):
+        """Return some output that will be displayed in the Wiki content.
 
         `name` is the actual name of the macro (no surprise, here it'll be
         `'HelloWorld'`),
@@ -1384,12 +1475,15 @@ classHelloWorldMacro(WikiMacroBase):"""Simple HelloWorld macro.
           [[HelloWorld]]), then `text` is `None`.
         `args` are the arguments passed when HelloWorld is called using a
         `#!HelloWorld` code block.
-        """return'Hello World, text = %s, args = %s'% \
+        """
+        return 'Hello World, text = %s, args = %s' % \
             (Markup.escape(text), Markup.escape(repr(args)))
+
 ```
 
 
-Note that `expand_macro` optionally takes a 4<sup>th</sup> parameter *`args`*. When the macro is called as a [WikiProcessor](wiki-processors), it is also possible to pass `key=value`[processor parameters](wiki-processors#). If given, those are stored in a dictionary and passed in this extra `args` parameter. In the other case, when called as a macro, `args` is `None`. (*since 0.12*).
+Note that `expand_macro` optionally takes a 4<sup>th</sup> parameter *`args`*. When the macro is called as a [WikiProcessor](wiki-processors), it is also possible to pass `key=value` [processor parameters](wiki-processors#). If given, those are stored in a dictionary and passed in this extra `args` parameter. In the other case, when called as a macro, `args` is `None`. (*since 0.12*).
+
 
 
 For example, when writing:
@@ -1419,14 +1513,21 @@ Hello World, text = <Hello World!>, args = None
 Note that the return value of `expand_macro` is **not** HTML escaped. Depending on the expected result, you should escape it yourself (using `return Markup.escape(result)`) or, if this is indeed HTML, wrap it in a Markup object (`return Markup(result)`) with `Markup` coming from Genshi (`from genshi.core import Markup`).
 
 
+
 You can also recursively use a wiki Formatter (`from trac.wiki import Formatter`) to process the `text` as wiki markup:
 
+
 ```
-fromgenshi.coreimport Markup
-fromtrac.wiki.macrosimport WikiMacroBase
-fromtrac.wikiimport Formatter
-importStringIOclassHelloWorldMacro(WikiMacroBase):defexpand_macro(self, formatter, name, text, args):
-        text ="whatever '''wiki''' markup you want, even containing other macros"# Convert Wiki markup to HTML, new style
+from genshi.core import Markup
+from trac.wiki.macros import WikiMacroBase
+from trac.wiki import Formatter
+import StringIO
+
+class HelloWorldMacro(WikiMacroBase):
+    def expand_macro(self, formatter, name, text, args):
+        text = "whatever '''wiki''' markup you want, even containing other macros"
+        # Convert Wiki markup to HTML, new style
         out = StringIO.StringIO()
-        Formatter(self.env, formatter.context).format(text, out)return Markup(out.getvalue())
+        Formatter(self.env, formatter.context).format(text, out)
+        return Markup(out.getvalue())
 ```

@@ -1,1 +1,1 @@
-redirect(wiki:Commentary/Rts/Storage/GC/Pinned)?
+Page moved to [Commentary/Rts/Storage/GC/Pinned](commentary/rts/storage/gc/pinned)

@@ -44,30 +44,35 @@ We'll see why that is if we consider which platforms the various parts of the bu
 - **libs install**: libs that are built by the Stage 1 GHC, and installed by `make install`.
 - **Stage 2**: the final GHC built, compiled by the Stage 1 GHC, and linked with libs-install
 
-<table><tr><th></th>
-<th>**Stage 0**</th>
-<th>**libs boot**</th>
-<th>**Stage 1**</th>
-<th>**libs install**</th>
-<th>**Stage 2**</th></tr>
-<tr><th>**built on**</th>
+<table><tr><th>               </th>
+<th><b>Stage 0</b> </th>
+<th> <b>libs boot</b> </th>
+<th> <b>Stage 1</b> </th>
+<th> <b>libs install</b> </th>
+<th> <b>Stage 2</b> 
+</th></tr>
+<tr><th><b>built on</b> </th>
 <th> ---          </th>
-<th>*build*</th>
-<th>*build*</th>
-<th>*host*</th>
-<th>*host*</th></tr>
-<tr><th>**runs on**</th>
-<th>*build*</th>
-<th>*build*</th>
-<th>*host*</th>
-<th>*target*</th>
-<th>*target*</th></tr>
-<tr><th>**targets**</th>
-<th>*build*</th>
+<th> <i>build</i>       </th>
+<th> <i>build</i>     </th>
+<th> <i>host</i>           </th>
+<th> <i>host</i>      
+</th></tr>
+<tr><th><b>runs on</b>  </th>
+<th><i>build</i>     </th>
+<th> <i>build</i>       </th>
+<th> <i>host</i>      </th>
+<th> <i>target</i>         </th>
+<th> <i>target</i>    
+</th></tr>
+<tr><th><b>targets</b>  </th>
+<th><i>build</i>     </th>
 <th> ---             </th>
-<th>*target*</th>
+<th> <i>target</i>    </th>
 <th> ---                </th>
-<th>*target*</th></tr></table>
+<th> <i>target</i>    
+</th></tr></table>
+
 
 
 (this is not the only way we could have done it, for more rationale see [CrossCompilation](cross-compilation))

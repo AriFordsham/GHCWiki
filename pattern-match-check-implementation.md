@@ -18,10 +18,22 @@ We discuss each one separately below.
 ## The `PmExpr` Datatype and Friends
 
 
+
 The module exports the following data types:
 
+
 ```
-dataPmExpr=PmExprVarName|PmExprConDataCon[PmExpr]|PmExprLitPmLit|PmExprEqPmExprPmExpr-- Syntactic equality|PmExprOther(HsExprId)-- Note [PmExprOther in PmExpr]dataPmLit=PmSLitHsLit-- simple|PmOLitBool{- is it negated? -}(HsOverLitId)-- overloadedtypeSimpleEq=(Id,PmExpr)typeComplexEq=(PmExpr,PmExpr)
+data PmExpr = PmExprVar   Name
+            | PmExprCon   DataCon [PmExpr]
+            | PmExprLit   PmLit
+            | PmExprEq    PmExpr PmExpr  -- Syntactic equality
+            | PmExprOther (HsExpr Id)    -- Note [PmExprOther in PmExpr]
+
+data PmLit = PmSLit HsLit                                    -- simple
+           | PmOLit Bool {- is it negated? -} (HsOverLit Id) -- overloaded
+
+type SimpleEq  = (Id, PmExpr)
+type ComplexEq = (PmExpr, PmExpr)
 ```
 
 
@@ -29,16 +41,18 @@ Type `PmExpr` represents Haskell expressions. Since the term oracle is minimal a
 and the rest are wrapped in a `PmExprOther`. Note that `PmExprEq` is not function `(==)` but represents structural equality and
 is used for non-overloaded literals. E.g. the constraint \*x is not equal to 5\* is represented as (False \~ (x \~ 5)):
 
+
 ```
-PmExprEq(PmExprCon<False>[])(PmExprEq(PmExprVar<x>)(PmExprLit(PmSLit<5>)))
+PmExprEq (PmExprCon <False> []) (PmExprEq (PmExprVar <x>) (PmExprLit (PmSLit <5>)))
 ```
 
 
 Type `PmLit` represents literals (both overloaded and non-overloaded). Literal
 equality is defined with signature:
 
+
 ```
-eqPmLit::PmLit->PmLit->Bool
+eqPmLit :: PmLit -> PmLit -> Bool
 ```
 
 
@@ -67,8 +81,9 @@ As explained in the paper, the algorithm depends on external solvers for checkin
 the satisfiability of term and type constraints. For checking type constraints we
 simply call GHC's existing inference engine (OutsideIn(X)), using a simple interface:
 
+
 ```
-tyOracle::BagEvVar->PmMBool
+tyOracle :: Bag EvVar -> PmM Bool
 ```
 
 
@@ -76,8 +91,11 @@ For the satisfiability of term constraints, we have implemented a simple oracle
 (solver). The term oracle lives in `deSugar/TmOracle.hs` and has the following
 signature(s):
 
+
 ```
-solveOneEq::TmState->ComplexEq->MaybeTmStatetmOracle::TmState->[ComplexEq]->MaybeTmStateextendSubst::Id->PmExpr->TmState->TmState
+solveOneEq  :: TmState -> ComplexEq -> Maybe TmState
+tmOracle    :: TmState -> [ComplexEq] -> Maybe TmState
+extendSubst :: Id -> PmExpr -> TmState -> TmState
 ```
 
 
@@ -92,11 +110,16 @@ variable does not already exist in the state.
 The state of the oracle
 `TmState` is represented as follows:
 
+
 ```
-typePmVarEnv=Map.MapNamePmExprtypeTmOracleEnv=(Bool,PmVarEnv)typeTmState=([ComplexEq],TmOracleEnv)
+type PmVarEnv    = Map.Map Name PmExpr
+type TmOracleEnv = (Bool, PmVarEnv)
+type TmState     = ([ComplexEq], TmOracleEnv)
 ```
 
+
 `TmState` contains the following components:
+
 
 1. A list of complex constraints that cannot be solved until we have more information,
 1. A boolean (`True` iff at least one unhandled constraint has appeared),
@@ -124,14 +147,18 @@ The strategy of the term oracle is quite simplistic and proceeds as follows (for
 
 Function `solveOneEq` implements the above:
 
+
 ```
-solveOneEq::TmState->ComplexEq->MaybeTmStatesolveOneEq solver_env@(_,(_,env)) complex
+solveOneEq :: TmState -> ComplexEq -> Maybe TmState
+solveOneEq solver_env@(_,(_,env)) complex
   = solveComplexEq solver_env
   $ simplifyComplexEq
   $ applySubstComplexEq env complex
 
-tmOracle::TmState->[ComplexEq]->MaybeTmStatetmOracle tm_state eqs = foldlM solveOneEq tm_state eqs
+tmOracle :: TmState -> [ComplexEq] -> Maybe TmState
+tmOracle tm_state eqs = foldlM solveOneEq tm_state eqs
 ```
+
 
 **Note:** We have not implemented an OccursCheck, since it is not needed at the moment. If extended though,
 the oracle will need an occurs check to ensure termination (e.g. if function applications are unfolded by
@@ -140,10 +167,26 @@ the oracle).
 ## The Actual Check
 
 
+
 The check itself is implemented in module `deSugar/Check.hs`. Exported functions:
 
+
 ```
--- Issue warningsdsPmWarn::DynFlags->DsMatchContext->DsMPmResult->DsM()-- Compute the covered/uncovered/divergent sets and-- issue the warnings if the respective flags are enabledcheckSingle::DynFlags->DsMatchContext->Id->PatId->DsM()-- letcheckMatches::DynFlags->DsMatchContext->[Id]->[LMatchId(LHsExprId)]->DsM()-- case/functions-- Nested pattern matchinggenCaseTmCs1::Maybe(LHsExprId)->[Id]->BagSimpleEqgenCaseTmCs2::Maybe(LHsExprId)-- Scrutinee->[PatId]-- LHS       (should have length 1)->[Id]-- MatchVars (should have length 1)->DsM(BagSimpleEq)
+-- Issue warnings
+dsPmWarn :: DynFlags -> DsMatchContext -> DsM PmResult -> DsM ()
+
+-- Compute the covered/uncovered/divergent sets and
+-- issue the warnings if the respective flags are enabled
+checkSingle :: DynFlags -> DsMatchContext -> Id -> Pat Id -> DsM ()                      -- let
+checkMatches :: DynFlags -> DsMatchContext -> [Id] -> [LMatch Id (LHsExpr Id)] -> DsM () -- case/functions
+
+-- Nested pattern matching
+genCaseTmCs1 :: Maybe (LHsExpr Id) -> [Id] -> Bag SimpleEq
+
+genCaseTmCs2 :: Maybe (LHsExpr Id) -- Scrutinee
+             -> [Pat Id]           -- LHS       (should have length 1)
+             -> [Id]               -- MatchVars (should have length 1)
+             -> DsM (Bag SimpleEq)
 ```
 
 - `checkSingle` performs the check on a single pattern (let bindings)
@@ -157,12 +200,26 @@ Before explaining what each function does, we first discuss the types used.
 ### The `PmPat` datatype and friends
 
 
+
 The `PmPat` data type is defined in `deSugar/Check.hs` as:
 
+
 ```
-dataPatTy=PAT|VA-- Used only as a kind, to index PmPatdataPmPat::PatTy->*wherePmCon::{ pm_con_con     ::DataCon, pm_con_arg_tys ::[Type], pm_con_tvs     ::[TyVar], pm_con_dicts   ::[EvVar], pm_con_args    ::[PmPat t]}->PmPat t
-            -- For PmCon arguments' meaning see @ConPatOut@ in hsSyn/HsPat.hsPmVar::{ pm_var_id   ::Id}->PmPat t
-  PmLit::{ pm_lit_lit  ::PmLit}->PmPat t -- See Note [Literals in PmPat]PmNLit::{ pm_lit_id   ::Id, pm_lit_not  ::[PmLit]}->PmPatVAPmGrd::{ pm_grd_pv   ::PatVec, pm_grd_expr ::PmExpr}->PmPatPAT
+data PatTy = PAT | VA -- Used only as a kind, to index PmPat
+
+data PmPat :: PatTy -> * where
+  PmCon  :: { pm_con_con     :: DataCon
+            , pm_con_arg_tys :: [Type]
+            , pm_con_tvs     :: [TyVar]
+            , pm_con_dicts   :: [EvVar]
+            , pm_con_args    :: [PmPat t] } -> PmPat t
+            -- For PmCon arguments' meaning see @ConPatOut@ in hsSyn/HsPat.hs
+  PmVar  :: { pm_var_id   :: Id    } -> PmPat t
+  PmLit  :: { pm_lit_lit  :: PmLit } -> PmPat t -- See Note [Literals in PmPat]
+  PmNLit :: { pm_lit_id   :: Id
+            , pm_lit_not  :: [PmLit] } -> PmPat VA
+  PmGrd  :: { pm_grd_pv   :: PatVec
+            , pm_grd_expr :: PmExpr  } -> PmPat PAT
 ```
 
 
@@ -180,16 +237,23 @@ treatment of GADTs.
 Apart from the literal/negative literal patterns, both value abstractions and patterns look exactly
 like in the paper, and are both implemented by the `PmPat` type:
 
+
 ```
-typePattern=PmPatPAT-- ^ PatternstypeValAbs=PmPatVA-- ^ Value Abstractions
+type Pattern = PmPat PAT -- ^ Patterns
+type ValAbs  = PmPat VA  -- ^ Value Abstractions
 ```
 
 
 Similarly, a pattern vector is just a list of patterns, while a value vector abstraction looks
 like the paper, that is, it is a list of value abstractions, accompanied by a set of constraints `Delta`:
 
+
 ```
-typePatVec=[Pattern]-- ^ Pattern VectorsdataValVec=ValVec[ValAbs]Delta-- ^ Value Vector AbstractionsdataDelta=MkDelta{ delta_ty_cs ::BagEvVar, delta_tm_cs ::TmState}
+type PatVec = [Pattern]             -- ^ Pattern Vectors
+data ValVec = ValVec [ValAbs] Delta -- ^ Value Vector Abstractions
+
+data Delta = MkDelta { delta_ty_cs :: Bag EvVar
+                     , delta_tm_cs :: TmState }
 ```
 
 
@@ -200,11 +264,15 @@ have significantly better performance, especially since we have an incremental i
 ### Value Set Abstractions (Covered, Uncovered and Divergent Sets)
 
 
+
 Value set abstractions are just represented as a list of value vector abstractions:
 
+
 ```
-typeValSetAbs=[ValVec]-- ^ Value Set AbstractionstypeUncovered=ValSetAbs
+type ValSetAbs = [ValVec]  -- ^ Value Set Abstractions
+type Uncovered = ValSetAbs
 ```
+
 
 **NOTE**: We have attempted to use a nicer representation of value set abstractions as prefix trees but
 we faced some performance issues. Hence, we created the task [\#11528](https://gitlab.haskell.org//ghc/ghc/issues/11528) to further investigate whether such
@@ -224,12 +292,18 @@ The algorithm process as follows:
   is the workhorse):
 
   ```
-  translatePat::FamInstEnvs->PatId->PmMPatVectranslateGuards::FamInstEnvs->[GuardStmtId]->PmMPatVectranslateMatch::FamInstEnvs->LMatchId(LHsExprId)->PmM(PatVec,[PatVec])
+  translatePat    :: FamInstEnvs -> Pat Id -> PmM PatVec
+  translateGuards :: FamInstEnvs -> [GuardStmt Id] -> PmM PatVec
+  translateMatch  :: FamInstEnvs -> LMatch Id (LHsExpr Id) -> PmM (PatVec,[PatVec])
   ```
 - Call function `pmcheck` on the transformed clause:
 
   ```
-  pmcheck::PatVec->[PatVec]->ValVec->PmMTriplepmcheckHd::Pattern->PatVec->[PatVec]->ValAbs->ValVec->PmMTriplepmcheckGuards::[PatVec]->ValVec->PmMTripletypeTriple=(Bool,Uncovered,Bool)
+  pmcheck       ::            PatVec -> [PatVec]           -> ValVec -> PmM Triple
+  pmcheckHd     :: Pattern -> PatVec -> [PatVec] -> ValAbs -> ValVec -> PmM Triple
+  pmcheckGuards ::                      [PatVec]           -> ValVec -> PmM Triple
+
+  type Triple = (Bool, Uncovered, Bool)
   ```
 
 
@@ -265,8 +339,10 @@ bounded. Hence, three variants are used in the recursive positions: `pmcheckI`, 
 (`I` comes from "increment"). All three variants simply call the respective function, after increasing a counter
 of the iterations elapsed. For example, `pmcheckI` is defined as follows:
 
+
 ```
-pmcheckI::PatVec->[PatVec]->ValVec->PmMTriplepmcheckI ps guards vva = incrCheckPmIterDs >> pmcheck ps guards vva
+pmcheckI :: PatVec -> [PatVec] -> ValVec -> PmM Triple
+pmcheckI ps guards vva = incrCheckPmIterDs >> pmcheck ps guards vva
 ```
 
 
@@ -280,8 +356,13 @@ warning if the limit is exceeded.
 Since we want to handle nested pattern matching too, two more functions are exported by `deSugar/Check.hs`
 which are used to generate constraints for case expressions:
 
+
 ```
-genCaseTmCs1::Maybe(LHsExprId)->[Id]->BagSimpleEqgenCaseTmCs2::Maybe(LHsExprId)-- Scrutinee->[PatId]-- LHS       (should have length 1)->[Id]-- MatchVars (should have length 1)->DsM(BagSimpleEq)
+genCaseTmCs1 :: Maybe (LHsExpr Id) -> [Id] -> Bag SimpleEq
+genCaseTmCs2 :: Maybe (LHsExpr Id) -- Scrutinee
+             -> [Pat Id]           -- LHS       (should have length 1)
+             -> [Id]               -- MatchVars (should have length 1)
+             -> DsM (Bag SimpleEq)
 ```
 
 - Function `genCaseTmCs1` takes a scrutinee of a case expression `e` and a variable `x` and generates the
@@ -292,8 +373,13 @@ genCaseTmCs1::Maybe(LHsExprId)->[Id]->BagSimpleEqgenCaseTmCs2::Maybe(LHsExprId)-
   example:
 
   ```
-  f::Bool->()f y =case y of
-          x@True->-- genCaseTmCs2 generates: y ~ True, y ~ xcase x ofTrue->()False->()-- genCaseTmCs1 generates: x ~ False (*)False->()
+  f :: Bool -> ()
+  f y = case y of
+          x@True ->                 -- genCaseTmCs2 generates: y ~ True, y ~ x
+                    case x of
+                      True  -> ()
+                      False -> ()   -- genCaseTmCs1 generates: x ~ False (*)
+          False  -> ()
   ```
 
 
@@ -317,7 +403,9 @@ in GHC required several approximations and simplifications:
   example:
 
   ```
-  f::Bool->()f x@True=()f y@False=()
+  f :: Bool -> ()
+  f x@True  = ()
+  f y@False = ()
   ```
 
   The uncovered set with the above translation is `{ x |> {x ~ False, x ~ y, y ~ True} }`. Obviously this is
@@ -333,20 +421,26 @@ in GHC required several approximations and simplifications:
   In summary, the following will be generated:
 
   ```
-  f::Bool->()fTrue(x <-True)=()-- uncovered: { False |> { x ~ True } }fFalse(y <-False)=()-- uncovered: {}
+  f :: Bool -> ()
+  f True  (x <- True)  = () -- uncovered: { False |> { x ~ True } }
+  f False (y <- False) = () -- uncovered: {}
   ```
 
 1. In general, when a guard is not going to contribute, during translation we transform it to a `can fail`
   pattern:
 
   ```
-  -- | A fake guard pattern (True <- _) used to represent cases we cannot handlefake_pat::Patternfake_pat=PmGrd{ pm_grd_pv   =[truePattern], pm_grd_expr =PmExprOtherEWildPat}
+  -- | A fake guard pattern (True <- _) used to represent cases we cannot handle
+  fake_pat :: Pattern
+  fake_pat = PmGrd { pm_grd_pv   = [truePattern]
+                   , pm_grd_expr = PmExprOther EWildPat }
   ```
 
   Later when we check (with `pmcheck`), in case we reach a guard, we short-circuit if it is a "fake" one.
   This trick saves a lot of effort in practice (in terms of both memory consumption and performance):
 
   ```
-  pmcheck(p@(PmGrd pv e): ps) guards vva@(ValVec vas delta)| isFakeGuard pv e = forces . mkCons vva <$> pmcheckI ps guards vva
-    | otherwise =...
+  pmcheck (p@(PmGrd pv e) : ps) guards vva@(ValVec vas delta)
+    | isFakeGuard pv e = forces . mkCons vva <$> pmcheckI ps guards vva
+    | otherwise = ...
   ```

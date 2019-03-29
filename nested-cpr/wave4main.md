@@ -7,11 +7,13 @@ Baseline: \[0e2fd3/ghc\], Tested: nested-cpr (without nesting inside sum-types, 
 Found a 11% increase in allocation, around `9000000` bytes.
 
 
+
 The most obvious change in ticky-ticky-number are:
+
 
 - `FUNCTION ENTRIES` and `ENTERS` increasing by \~100000
 - `RETURNS` doubling from 140745 to 280795
-- `ALLOC_FUN_ctr` and `ALLOC_FUN_gds` almost doubling, by \~18000 resp. 9000000
+-  `ALLOC_FUN_ctr` and `ALLOC_FUN_gds` almost doubling, by \~18000 resp. 9000000
 
 
 So we are allocating more function closures. First guess: Join point property destroyed somewhere.

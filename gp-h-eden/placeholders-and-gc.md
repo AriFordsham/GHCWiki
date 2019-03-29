@@ -44,6 +44,11 @@ Functionality for data messages is implemented in a new module `rts/parallel/Dat
 During GC, the runtime can detect placeholders which are not needed by the local computation. The senders sending to these inports will be informed by TERMINATE messages. In order for this to work, we have to keep alive all threads which are registered with a process in the runtime table, since threads may be blocked on a placeholder that looks like garbage to the local system, but will be updated from outside.
 
 
+
 Functionality for this has been implemented inside the storage management code (due to the change in the runtime tables preventing direct evacuation of known threads). *The code needs a review*.
 
+
+
 [--\> back to GpHEden](gp-h-eden)
+
+

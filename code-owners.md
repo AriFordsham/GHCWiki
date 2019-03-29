@@ -59,6 +59,10 @@ tree that are most directly implicated.
   - Austin Seipp
   - Directories: `mk/`, `distrib/, `ghc-tarballs/, `rules/`, `utils/`, `compiler/main`
 
+
+ 
+
+
 - Foreign function interface (FFI)
 
   - Austin Seipp
@@ -83,6 +87,10 @@ tree that are most directly implicated.
 
   - Simon Peyton Jones
   - Directories: `compiler/types`, `compiler/typecheck`, `compiler/iface`
+
+
+   
+
 
 - Core, System FC, Simplifier and other optimisations on Core
 

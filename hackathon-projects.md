@@ -44,6 +44,10 @@ Add your suggestions for the hackathon below...
 
 - Whole-program overloading elimination (with `--make`).
 
+
+ 
+
+
 - Work on Haddock on top of the GHC API (see [ this message](http://www.haskell.org/pipermail/haskell/2006-August/018415.html)).
 
 - `-Ofile`: take the list of optimisation passes to run from a file instead of current hard-wired sequence.
@@ -51,6 +55,10 @@ Add your suggestions for the hackathon below...
 - `-fmonad-comprehension`: Reuse existing list comprehension code to restore it for arbitrary monads.
 
 - Improve the profiler (longer stacks reported while heap profiling, for example)
+
+
+ 
+
 
 - Add type parameter to [HsSyn](commentary/compiler/hs-syn-type) for the post-typechecking type to ensure it does not exist until after typechecking
 

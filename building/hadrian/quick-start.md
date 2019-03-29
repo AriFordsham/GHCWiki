@@ -67,57 +67,59 @@ Below is an equivalence table between make and hadrian commands, with a short de
 <th> hadrian command </th>
 <th> description 
 </th></tr>
-<tr><th>`make`</th>
-<th>`build`</th>
-<th> Build a complete stage2 compiler with libraries and with the default flavour (`perf`) 
+<tr><th> <tt>make</tt>         </th>
+<th> <tt>build</tt>           </th>
+<th> Build a complete stage2 compiler with libraries and with the default flavour (<tt>perf</tt>) 
 </th></tr>
-<tr><th>`make inplace/bin/ghc-stage1`</th>
-<th>`build _build/stage0/bin/ghc`</th>
+<tr><th> <tt>make inplace/bin/ghc-stage1</tt> </th>
+<th> <tt>build _build/stage0/bin/ghc</tt> </th>
 <th> Build a stage1 GHC executable 
 </th></tr>
-<tr><th>`make inplace/bin/ghc-stage2`</th>
-<th>`build _build/stage1/bin/ghc`</th>
+<tr><th> <tt>make inplace/bin/ghc-stage2</tt> </th>
+<th> <tt>build _build/stage1/bin/ghc</tt> </th>
 <th> Build a stage2 GHC executable 
 </th></tr>
-<tr><th>`make inplace/lib/package.conf.d/text-1.2.3.0.conf`</th>
-<th>`build _build/stage1/lib/package.conf.d/text-1.2.3.0.conf`</th>
+<tr><th> <tt>make inplace/lib/package.conf.d/text-1.2.3.0.conf</tt> </th>
+<th> <tt>build _build/stage1/lib/package.conf.d/text-1.2.3.0.conf</tt> </th>
 <th> Build and register text-1.2.3.0.conf with the stage2 haskell compiler 
 </th></tr>
-<tr><th>`make inplace/lib/platformConstants`</th>
-<th>`build _build/stage{0,1}/lib/platformConstants`</th>
-<th> Generate the `platformConstants` file to be used for stage 1 or stage 2 GHC 
+<tr><th> <tt>make inplace/lib/platformConstants</tt> </th>
+<th> <tt>build _build/stage{0,1}/lib/platformConstants</tt> </th>
+<th> Generate the <tt>platformConstants</tt> file to be used for stage 1 or stage 2 GHC 
 </th></tr>
-<tr><th>`make libraries/base/dist-install/build/libHSbase-4.12.0.0.a`</th>
-<th>`build _build/stage1/libraries/base/build/libHSbase-4.12.0.0.a`</th>
-<th> Build static library for `base` with the stage 1 compiler 
+<tr><th> <tt>make libraries/base/dist-install/build/libHSbase-4.12.0.0.a</tt> </th>
+<th> <tt>build _build/stage1/libraries/base/build/libHSbase-4.12.0.0.a</tt> </th>
+<th> Build static library for <tt>base</tt> with the stage 1 compiler 
 </th></tr>
-<tr><th>`make docs`</th>
-<th>`build docs`</th>
+<tr><th> <tt>make docs</tt> </th>
+<th> <tt>build docs</tt> </th>
 <th> Generate haddocks, user guide and more 
 </th></tr>
 <tr><th> N/A </th>
-<th>`build _build/docs/html/libraries/index.html`</th>
+<th> <tt>build _build/docs/html/libraries/index.html</tt> </th>
 <th> Generate haddocks only 
 </th></tr>
-<tr><th>`make clean ; make boot ; make 2>&1 | tee nofib-log`</th>
-<th>`build nofib`</th>
+<tr><th> <tt>make clean ; make boot ; make 2>&1 | tee nofib-log</tt> </th>
+<th> <tt>build nofib</tt> </th>
 <th> Run the nofib suite (building a compiler if necessary) 
 </th></tr>
-<tr><th>*Setting `BuildFlavour=quickest` in build.mk*</th>
-<th>`build --flavour=quickest`</th>
-<th> Build a `quickest`-flavoured stage 2 compiler 
+<tr><th> <i>Setting <tt>BuildFlavour=quickest</tt> in build.mk</i> </th>
+<th> <tt>build --flavour=quickest</tt> </th>
+<th> Build a <tt>quickest</tt>-flavoured stage 2 compiler 
 </th></tr>
-<tr><th>`make test`</th>
-<th>`build test`</th>
+<tr><th> <tt>make test</tt> </th>
+<th> <tt>build test</tt> </th>
 <th> Run the testsuite 
 </th></tr>
-<tr><th>`make test TEST=abcd`</th>
-<th>`build test --only=abcd`</th>
-<th> Run only the test named `abcd`</th></tr>
+<tr><th> <tt>make test TEST=abcd</tt> </th>
+<th> <tt>build test --only=abcd</tt> </th>
+<th> Run only the test named <tt>abcd</tt> 
+</th></tr>
 <tr><th> N/A </th>
-<th>`build --build-root=ghc-T9999`</th>
-<th> Build a complete stage2 compiler under a user specified build root (`./ghc-T9999/` here). Hadrian places all build artifacts under that directory 
+<th> <tt>build --build-root=ghc-T9999</tt> </th>
+<th> Build a complete stage2 compiler under a user specified build root (<tt>./ghc-T9999/</tt> here). Hadrian places all build artifacts under that directory 
 </th></tr></table>
+
 
 ## Command line options
 
@@ -135,7 +137,10 @@ currently supports several many others, among which the important ones described
   ```
 
 >
+>
 > Beware that with this flag Hadrian may do network I/O on Windows to download necessary tarballs, which may sometimes be undesirable.
+>
+>
 
 - `--flavour=FLAVOUR`: choose a build flavour. The following settings are currently supported: `default`, `quick`, `quickest`, `perf`, `prof`, `devel1` and `devel2`. As an example, the `quickest` flavour adds `-O0` flag to all GHC invocations and builds libraries only in the `vanilla` way, which speeds up builds by 3-4x. Build flavours are documented [ here](https://github.com/snowleopard/hadrian/blob/master/doc/flavours.md).
 

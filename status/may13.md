@@ -37,17 +37,26 @@ Meanwhile others have been adding new features.
   ```
 
 >
+>
 > With this change comes the ability to derive `Typeable` instances for every user datatype, and even for type classes. This means user defined instances of `Typeable` are unnecessary. Furthermore, since ill-defined user instances can lead to runtime errors, they are now forbidden; the only way to get `Typeable` instances is by using the deriving mechanism. User-defined instances will be ignored, with a warning.
+>
+>
 
+>
 >
 > Migrating to this new `Typeable` is easy. Code that only derived `Typeable` instances, and did not mention
 > any of the `TypeableN` classes, should work as before. Code that mentioned the `TypeableN` classes should be
 > adapted to replace these by the poly-kinded `Typeable` class. User-defined instances of `Typeable` should be
 > replaced by derived instances.
+>
+>
 
+>
 >
 > Additionally, a new compiler pragma `AutoDeriveTypeable` triggers automatic derivation of `Typeable` instances
 > for all datatypes and classes defined in the module.
+>
+>
 
 - **Type holes.** A GHC extension called "type holes" \[TYH\] was added by Thijs Alkemade, under supervision of Sean Leather and with help from Simon Peyton Jones. When GHC encounters a hole in an expression, written as "`_`", it will generate an error message describing the type that is needed in place of that hole. It gives some helpful additional information, such as the origins of the type variables in the hole's type and the local bindings that can be used. Together with `-fdefer-type-errors` this should make it easier to write code step-by-step, using hints from the compiler about the unfinished parts.
 
@@ -74,13 +83,22 @@ Meanwhile others have been adding new features.
 - **The new code generator.** \[entry copied from Oct 2012 status report\] Several years since this project was started, the new code generator is finally working  \[CG\], and is now switched on by default in `master`.  It will be in GHC 7.8.1.  From a user's perspective there should be very little difference, though some programs will be faster.
 
 >
+>
 > There are three important improvements in the generated code.  One is that `let-no-escape` functions are now compiled much more efficiently: a recursive `let-no-escape` now turns into a real loop in C--.  The second improvement is that global registers (R1, R2, etc.) are now available for the register allocator to use within a function, provided they aren't in use for argument passing.  This means that there are more registers available for complex code sequences.  The third improvement is that we have a new sinking pass that replaces the old "mini-inliner" from the native code generator, and is capable of optimisations that the old pass couldn't do.
+>
+>
 
+>
 >
 > Hand-written C-- code can now be written in a higher-level style with real function calls, and most of the hand-written C-- code in the RTS has been converted into the new style.  High-level C-- does not mention global registers such as R1 explicitly, nor does it manipulate the stack; all this is handled by the C-- code generator in GHC.  This is more robust and simpler, and means that we no longer need a special calling-convention for primops - they now use the same calling convention as ordinary Haskell functions.
+>
+>
 
 >
+>
 > We're interested in hearing about both performance improvements and regressions due to the new code generator.
+>
+>
 
 - **Support for vector (SSE/AVX) instructions.** \[**Geoffrey Mainland**\] Support for SSE vector instructions, which permit 128-bit vectors, is now in HEAD. As part of this work, up to 6 arguments of type Double, Float, or vector can be passed in registers. Previously only 4 Float and 2 Double arguments could be passed in registers. AVX support will be added soon pending a refactoring of the code that implements vector primops.
 
@@ -133,16 +151,19 @@ Three connected projects concerned cross-compilation
 Thanks to Ian Lynagh for making it easy for us with integration, makefile refactoring and patience, and to David Terei for LLVM assistance.
 
 
-\[TYH\] Type holes [ Type Holes](http://www.haskell.org/haskellwiki/GHC/TypeHoles)
 
-\[OL\] Overloaded lists [overloaded lists](overloaded-lists)
+\[TYH\] Type holes [ Type Holes](http://www.haskell.org/haskellwiki/GHC/TypeHoles) 
 
-\[KD\] Kinds without data [ http://hackage.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://hackage.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
+\[OL\] Overloaded lists [overloaded lists](overloaded-lists) 
 
-\[OTF\] Overlapping type family instances [ http://hackage.haskell.org/trac/ghc/wiki/NewAxioms](http://hackage.haskell.org/trac/ghc/wiki/NewAxioms)
+\[KD\] Kinds without data [ http://hackage.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://hackage.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData) 
 
-\[CG\] The new codegen is nearly ready to go live [ http://hackage.haskell.org/trac/ghc/blog/newcg-update](http://hackage.haskell.org/trac/ghc/blog/newcg-update)
+\[OTF\] Overlapping type family instances [ http://hackage.haskell.org/trac/ghc/wiki/NewAxioms](http://hackage.haskell.org/trac/ghc/wiki/NewAxioms) 
+
+\[CG\] The new codegen is nearly ready to go live [ http://hackage.haskell.org/trac/ghc/blog/newcg-update](http://hackage.haskell.org/trac/ghc/blog/newcg-update) 
 
 \[PIO\] The results are amazing [ https://twitter.com/bos31337/status/284701554458640384](https://twitter.com/bos31337/status/284701554458640384)\] 
 
 \[IOS\] Building for Apple iOS targets [ http://hackage.haskell.org/trac/ghc/wiki/Building/CrossCompiling/iOS](http://hackage.haskell.org/trac/ghc/wiki/Building/CrossCompiling/iOS)
+
+

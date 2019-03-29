@@ -13,14 +13,16 @@
 Support for version control systems is provided by optional components distributed with Trac, which are disabled by default *(since 1.0)*. Subversion and Git must be explicitly enabled if you wish to use them.
 
 
+
 The version control systems can be enabled by adding the following to the `[components]` section of your [trac.ini](trac-ini#), or enabling the components in the *Plugins* admin panel.
 
+
 ```
-tracopt.versioncontrol.svn.*=enabled
+tracopt.versioncontrol.svn.* = enabled
 ```
 
 ```
-tracopt.versioncontrol.git.*=enabled
+tracopt.versioncontrol.git.* = enabled
 ```
 
 ## Specifying repositories
@@ -32,30 +34,36 @@ Trac supports multiple repositories per environment, and the repositories may be
 It is possible to define aliases of repositories, that act as "pointers" to real repositories. This can be useful when renaming a repository, to avoid breaking links to the old name.
 
 
+
 A number of attributes can be associated with each repository. The attributes define the repository's location, type, name and how it is displayed in the source browser. The following attributes are supported:
 
-<table><tr><th>**Attribute**</th>
-<th>**Description**</th></tr>
-<tr><th>`alias`</th>
-<th>A repository having an `alias` attribute is an alias to a real repository. All [TracLinks](trac-links) referencing the alias resolve to the aliased repository. Note that multiple indirection is not supported, so an alias must always point to a real repository. The `alias` and `dir` attributes are mutually exclusive. 
+
+<table><tr><th><b>Attribute</b> </th>
+<th><b>Description</b> 
 </th></tr>
-<tr><th>`description`</th>
-<th>The text specified in the `description` attribute is displayed below the top-level entry for the repository in the source browser. It supports [WikiFormatting](wiki-formatting). 
+<tr><th><tt>alias</tt> 
+</th>
+<th>A repository having an <tt>alias</tt> attribute is an alias to a real repository. All <a href="trac-links">TracLinks</a> referencing the alias resolve to the aliased repository. Note that multiple indirection is not supported, so an alias must always point to a real repository. The <tt>alias</tt> and <tt>dir</tt> attributes are mutually exclusive. 
 </th></tr>
-<tr><th>`dir`</th>
-<th>The `dir` attribute specifies the location of the repository in the filesystem. It corresponds to the value previously specified in the option `[trac] repository_dir`. The `alias` and `dir` attributes are mutually exclusive. 
+<tr><th><tt>description</tt> 
+</th>
+<th>The text specified in the <tt>description</tt> attribute is displayed below the top-level entry for the repository in the source browser. It supports <a href="wiki-formatting">WikiFormatting</a>. 
 </th></tr>
-<tr><th>`hidden`</th>
-<th>When set to `true`, the repository is hidden from the repository index page in the source browser. Browsing the repository is still possible, and links referencing the repository remain valid. 
+<tr><th><tt>dir</tt> 
+</th>
+<th>The <tt>dir</tt> attribute specifies the location of the repository in the filesystem. It corresponds to the value previously specified in the option <tt>[trac] repository_dir</tt>. The <tt>alias</tt> and <tt>dir</tt> attributes are mutually exclusive. 
 </th></tr>
-<tr><th>`sync_per_request`</th>
-<th>When set to `true` the repository will be synced on every request. This is not recommended, instead a post-commit hook should be configured to provide [explicit synchronization](trac-repository-admin#) and `sync_per_request` should be set to `false`.
+<tr><th><tt>hidden</tt> </th>
+<th>When set to <tt>true</tt>, the repository is hidden from the repository index page in the source browser. Browsing the repository is still possible, and links referencing the repository remain valid. 
 </th></tr>
-<tr><th>`type`</th>
-<th>The `type` attribute sets the type of version control system used by the repository. Trac supports Subversion and Git out-of-the-box, and plugins add support for many other systems. If `type` is not specified, it defaults to the value of the `[trac] repository_type` option. 
+<tr><th><tt>sync_per_request</tt></th>
+<th>When set to <tt>true</tt> the repository will be synced on every request. This is not recommended, instead a post-commit hook should be configured to provide <a href="trac-repository-admin#">explicit synchronization</a> and <tt>sync_per_request</tt> should be set to <tt>false</tt>.
 </th></tr>
-<tr><th>`url`</th>
-<th>The `url` attribute specifies the root URL to be used for checking out from the repository. When specified, a "Repository URL" link is added to the context navigation links in the source browser, that can be copied into the tool used for creating the working copy. 
+<tr><th><tt>type</tt> </th>
+<th>The <tt>type</tt> attribute sets the type of version control system used by the repository. Trac supports Subversion and Git out-of-the-box, and plugins add support for many other systems. If <tt>type</tt> is not specified, it defaults to the value of the <tt>[trac] repository_type</tt> option. 
+</th></tr>
+<tr><th><tt>url</tt> </th>
+<th>The <tt>url</tt> attribute specifies the root URL to be used for checking out from the repository. When specified, a &quot;Repository URL&quot; link is added to the context navigation links in the source browser, that can be copied into the tool used for creating the working copy. 
 </th></tr></table>
 
 
@@ -65,9 +73,11 @@ A repository `name` and one of `alias` or `dir` attributes are mandatory. All ot
 For some version control systems, it is possible to specify not only the path to the repository in the `dir` attribute, but also a *scope* within the repository. Trac will then only show information related to the files and changesets below that scope. The Subversion backend for Trac supports this. For other types, check the corresponding plugin's documentation.
 
 
+
 After adding a repository, the cache for that repository must be re-synchronized once with the `trac-admin $ENV repository resync` command.
 
-<table><tr><th>`repository resync <repos>`</th>
+
+<table><tr><th><tt>repository resync <repos></tt></th>
 <td>
 Re-synchronize Trac with a repository.
 </td></tr></table>
@@ -81,10 +91,24 @@ Repositories and repository attributes can be specified in the `[repositories]` 
 The main advantage of specifying repositories in `trac.ini` is that they can be inherited from a global configuration (see the [global configuration](trac-ini#global-configuration) section of [TracIni](trac-ini)). One drawback is that, due to limitations in the `ConfigParser` class used to parse `trac.ini`, the repository name is always all-lowercase.
 
 
+
 The following example defines two Subversion repositories named `project` and `lib`, and an alias to `project` as the default repository. This is a typical use case where a Trac environment previously had a single repository (the `project` repository), and was converted to multiple repositories. The alias ensures that links predating the change continue to resolve to the `project` repository.
 
+
 ```
-[repositories]project.dir=/var/repos/projectproject.description=This is the ''main'' project repository.project.type=svnproject.url=http://example.com/svn/projectproject.hidden=truelib.dir=/var/repos/liblib.description=This is the secondary library code.lib.type=svnlib.url=http://example.com/svn/lib.alias=project
+[repositories]
+project.dir = /var/repos/project
+project.description = This is the ''main'' project repository.
+project.type = svn
+project.url = http://example.com/svn/project
+project.hidden = true
+
+lib.dir = /var/repos/lib
+lib.description = This is the secondary library code.
+lib.type = svn
+lib.url = http://example.com/svn/lib
+
+.alias = project
 ```
 
 
@@ -99,26 +123,31 @@ Repositories can also be specified in the database, using either the "Repositori
 The admin panel shows the list of all repositories defined in the Trac environment. It allows adding repositories and aliases, editing repository attributes and removing repositories. Note that repositories defined in `trac.ini` are displayed but cannot be edited.
 
 
+
 The following [trac-admin](trac-admin) commands can be used to perform repository operations from the command line.
 
-<table><tr><th>`repository add <repos> <dir> [type]`</th>
+
+<table><tr><th><tt>repository add <repos> <dir> [type]</tt></th>
 <td>
-Add a repository `<repos>` located at `<dir>`, and optionally specify its type.
+Add a repository <tt><repos></tt> located at <tt><dir></tt>, and optionally specify its type.
 </td></tr></table>
 
-<table><tr><th>`repository alias <name> <target>`</th>
+
+<table><tr><th><tt>repository alias <name> <target></tt></th>
 <td>
-Create an alias `<name>` for the repository `<target>`.
+Create an alias <tt><name></tt> for the repository <tt><target></tt>.
 </td></tr></table>
 
-<table><tr><th>`repository remove <repos>`</th>
+
+<table><tr><th><tt>repository remove <repos></tt></th>
 <td>
-Remove the repository `<repos>`.
+Remove the repository <tt><repos></tt>.
 </td></tr></table>
 
-<table><tr><th>`repository set <repos> <key> <value>`</th>
+
+<table><tr><th><tt>repository set <repos> <key> <value></tt></th>
 <td>
-Set the attribute `<key>` to `<value>` for the repository `<repos>`. 
+Set the attribute <tt><key></tt> to <tt><value></tt> for the repository <tt><repos></tt>. 
 </td></tr></table>
 
 
@@ -130,7 +159,9 @@ Note that the default repository has an empty name, so it will likely need to be
 The Subversion and Git repository connectors support caching, which improves the performance browsing the repository, viewing logs and viewing changesets. Cached repositories must be [synchronized](trac-repository-admin#); either explicit or implicit synchronization can be used. When searching changesets, only cached repositories are searched.
 
 
-Subversion repositories are cached unless the type is `direct-svnfs`. Git repositories are cached when `[git]`[cached_repository](trac-ini#) is `true`.
+
+Subversion repositories are cached unless the type is `direct-svnfs`. Git repositories are cached when `[git]` [cached_repository](trac-ini#) is `true`.
+
 
 ## Repository synchronization
 
@@ -148,14 +179,17 @@ Please note that at the time of writing, no initial resynchronization or any hoo
 ### Explicit synchronization
 
 
+
 This is the preferred method of repository synchronization. It requires setting the `sync_per_request` attribute to `false`, and adding a call to `trac-admin` in the `post-commit` hook of each repository. Additionally, if a repository allows changing revision metadata, a call to `trac-admin` must be added to the `post-revprop-change` hook as well.
 
-<table><tr><th>`changeset added <repos> <rev> […]`</th>
+
+<table><tr><th><tt>changeset added <repos> <rev> […]</tt></th>
 <td>
 Notify Trac that one or more changesets have been added to a repository.
 </td></tr></table>
 
-<table><tr><th>`changeset modified <repos> <rev> […]`</th>
+
+<table><tr><th><tt>changeset modified <repos> <rev> […]</tt></th>
 <td>
 Notify Trac that metadata on one or more changesets in a repository has been modified.
 </td></tr></table>
@@ -169,36 +203,41 @@ Note that you may have to set the environment variable `PYTHON_EGG_CACHE` to the
 #### Subversion
 
 
+
 The following examples are complete post-commit and post-revprop-change scripts for Subversion. They should be edited for the specific environment, marked executable (where applicable) and placed in the `hooks` directory of each repository. On Unix (`post-commit`):
+
 
 ```
 #!/bin/sh
-exportPYTHON_EGG_CACHE="/path/to/dir"
-/usr/bin/trac-admin /path/to/env changeset added "$1""$2"
+export PYTHON_EGG_CACHE="/path/to/dir"
+/usr/bin/trac-admin /path/to/env changeset added "$1" "$2"
 ```
 
 
 Note: Check with `whereis trac-admin`, whether `trac-admin` is really installed under `/usr/bin/` or maybe under `/usr/local/bin/` and adapt the path.
 On Windows (`post-commit.cmd`):
 
+
 ```
-@C:\Python26\Scripts\trac-admin.exe C:\path\to\env changeset added "%1""%2"
+@C:\Python26\Scripts\trac-admin.exe C:\path\to\env changeset added "%1" "%2"
 ```
 
 
 The post-revprop-change hook for Subversion is very similar. On Unix (`post-revprop-change`):
 
+
 ```
 #!/bin/sh
-exportPYTHON_EGG_CACHE="/path/to/dir"
-/usr/bin/trac-admin /path/to/env changeset modified "$1""$2"
+export PYTHON_EGG_CACHE="/path/to/dir"
+/usr/bin/trac-admin /path/to/env changeset modified "$1" "$2"
 ```
 
 
 On Windows (`post-revprop-change.cmd`):
 
+
 ```
-@C:\Python26\Scripts\trac-admin.exe C:\path\to\env changeset modified "%1""%2"
+@C:\Python26\Scripts\trac-admin.exe C:\path\to\env changeset modified "%1" "%2"
 ```
 
 
@@ -218,7 +257,7 @@ Git hooks can be used in the same way for explicit syncing of Git repositories. 
 ```
 #!/bin/sh 
 REV=$(git rev-parse HEAD) 
-trac-admin /path/to/env changeset added <repos> $REV
+trac-admin /path/to/env changeset added <repos> $REV 
 ```
 
 
@@ -227,12 +266,14 @@ Alternately, if your repository is one that only gets pushed to, add the followi
 ```
 #!/bin/sh
 tracenv=/path/to/env     # change with your Trac environment's path
-repos=# change with your repository's name
-whileread oldrev newrev refname;doif["$oldrev"=0000000000000000000000000000000000000000];then
+repos=                   # change with your repository's name
+while read oldrev newrev refname; do
+    if [ "$oldrev" = 0000000000000000000000000000000000000000 ]; then
         git rev-list --reverse "$newrev" --
     else
-        git rev-list --reverse "$newrev""^$oldrev" --
-    fi| xargs trac-admin "$tracenv" changeset added "$repos"done
+        git rev-list --reverse "$newrev" "^$oldrev" --
+    fi | xargs trac-admin "$tracenv" changeset added "$repos"
+done
 ```
 
 
@@ -241,10 +282,23 @@ The `<repos>` argument can be either a repository name (use "`(default)`" for th
 #### Mercurial
 
 
+
 For Mercurial, add the following entries to the `.hgrc` file of each repository accessed by Trac (if [ TracMercurial](http://trac.edgewall.org/intertrac/TracMercurial) is installed in a Trac `plugins` directory, download [ hooks.py](http://trac.edgewall.org/intertrac/source%3Amercurial-plugin/tracext/hg/hooks.py) and place it somewhere accessible):
 
+
 ```
-[hooks]; If mercurial-plugin is installed globallycommit=python:tracext.hg.hooks.add_changesetschangegroup=python:tracext.hg.hooks.add_changesets; If mercurial-plugin is installed in a Trac plugins directorycommit=python:/path/to/hooks.py:add_changesetschangegroup=python:/path/to/hooks.py:add_changesets[trac]env=/path/to/envtrac-admin=/path/to/trac-admin
+[hooks]
+; If mercurial-plugin is installed globally
+commit = python:tracext.hg.hooks.add_changesets
+changegroup = python:tracext.hg.hooks.add_changesets
+
+; If mercurial-plugin is installed in a Trac plugins directory
+commit = python:/path/to/hooks.py:add_changesets
+changegroup = python:/path/to/hooks.py:add_changesets
+
+[trac]
+env = /path/to/env
+trac-admin = /path/to/trac-admin
 ```
 
 ### Per-request synchronization
@@ -266,8 +320,9 @@ You can automatically add a reference to the changeset as a ticket comment whene
 
 This functionality requires installing a post-commit hook as described in [\#ExplicitSync](trac-repository-admin#), and enabling the optional commit updater components by adding the following line to the `[components]` section of your [trac.ini](trac-ini#), or enabling the components in the *Plugins* admin panel.
 
+
 ```
-tracopt.ticket.commit_updater.*=enabled
+tracopt.ticket.commit_updater.* = enabled
 ```
 
 

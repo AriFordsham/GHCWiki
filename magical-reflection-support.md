@@ -4,50 +4,72 @@ Using `Data.Reflection` has some runtime costs. Notably, there can be no inlinin
 ## The problem
 
 
+
 The following is a somewhat modified version of the main idea in `Data.Reflection`, with some relatively minor changes to clean up the very core of it.
 
+
 ```
--- Edward Kmett found these were necessary for his library, so they're likely necessary here too, for now.{-# OPTIONS_GHC -fno-cse #-}{-# OPTIONS_GHC -fno-full-laziness #-}{-# OPTIONS_GHC -fno-float-in #-}newtypeTagged s a =Tagged{ unTagged :: a }unproxy::(Proxy s -> a)->Tagged s a
-unproxy f =Tagged(f Proxy)classReifies s a | s -> a where
-  reflect' ::Tagged s a
+-- Edward Kmett found these were necessary for his library, so they're likely necessary here too, for now.
+{-# OPTIONS_GHC -fno-cse #-}
+{-# OPTIONS_GHC -fno-full-laziness #-}
+{-# OPTIONS_GHC -fno-float-in #-}
 
--- For conveniencereflect:: forall s a proxy .Reifies s a => proxy s -> a
-reflect_= unTagged (reflect' ::Tagged s a)-- The key function--see below regarding implementationreify'::(forall s .Reifies s a =>Tagged s r)-> a -> r
+newtype Tagged s a = Tagged { unTagged :: a }
 
--- For conveniencereify:: a ->(forall s .Reifies s a =>Proxy s -> r)-> r
+unproxy :: (Proxy s -> a) -> Tagged s a
+unproxy f = Tagged (f Proxy)
+
+class Reifies s a | s -> a where
+  reflect' :: Tagged s a
+
+-- For convenience
+reflect :: forall s a proxy . Reifies s a => proxy s -> a
+reflect _ = unTagged (reflect' :: Tagged s a)
+
+-- The key function--see below regarding implementation
+reify' :: (forall s . Reifies s a => Tagged s r) -> a -> r
+
+-- For convenience
+reify :: a -> (forall s . Reifies s a => Proxy s -> r) -> r
 reify a f = reify' (unproxy f) a
 ```
 
 
 The key idea of `reify'` is that something of type
 
+
 ```
-forall s .Reifies s a =>Tagged s r
+forall s . Reifies s a => Tagged s r
 ```
 
 
 is represented in memory exactly the same as a function of type `a -> r`.
 
 
+
 We currently use `unsafeCoerce` to interpret one as the other. Following the general approach of the library, we can do this as such:
 
+
 ```
-newtypeMagic a r =Magic(forall s .Reifies s a =>Tagged s r)reify'::(forall s .Reifies s a =>Tagged s r)-> a -> r
+newtype Magic a r = Magic (forall s . Reifies s a => Tagged s r)
+reify' :: (forall s . Reifies s a => Tagged s r) -> a -> r
 reify' f = unsafeCoerce (Magic f)
 ```
 
 
 This certainly works. The trouble is that any knowledge about what is reflected goes unused. For instance, if I write
 
+
 ```
-reify12$\p -> reflect p +3
+reify 12 $ \p -> reflect p + 3
 ```
 
 
 then GHC will not see, at compile time, that the result is 15. If I write
 
+
 ```
-reify(+1)$\p -> reflect p x
+reify (+1) $ \p -> reflect p x
 ```
 
 
@@ -56,18 +78,36 @@ then GHC will never inline the application of `(+1)`. Etc. It appears that the `
 ### A larger example of the problem
 
 
+
 mpickering asked for a more substantial example, so here's one:
 
+
 ```
-newtypeM s =M{getM ::Int}mkM::Reifies s Int=>Int->M s
-mkM= normalize .M{-# INLINE mkM #-}instanceReifies s Int=>Num(M s)whereM x +M y = normalize (M(x + y))M x -M y = normalize (M(x - y))M x *M y = normalize (M(x * y))
+newtype M s = M {getM :: Int}
+
+mkM :: Reifies s Int => Int -> M s
+mkM = normalize . M
+{-# INLINE mkM #-}
+
+instance Reifies s Int => Num (M s) where
+  M x + M y = normalize (M (x + y))
+  M x - M y = normalize (M (x - y))
+  M x * M y = normalize (M (x * y))
   abs x = x
-  signum x =1
+  signum x = 1
   fromInteger = mkM . fromIntegral
-  {-# INLINE (+) #-}normalize::Reifies s Int=>M s ->M s
-normalize m@(M x)=M$ x `mod` reflect m
-{-# INLINE normalize #-}unInt::Int->Int#unInt(I# x)= x
-{-# INLINE unInt #-}test1::Int#->Int#->Int#->Int#test1 m x y = unInt $ reify (I# m)$\(_::Proxy s)-> getM $(mkM (I# x)+ mkM (I# y)::M s)
+  {-# INLINE (+) #-}
+
+normalize :: Reifies s Int => M s -> M s
+normalize m@(M x) = M $ x `mod` reflect m
+{-# INLINE normalize #-}
+
+unInt :: Int -> Int#
+unInt (I# x) = x
+{-# INLINE unInt #-}
+
+test1 :: Int# -> Int# -> Int# -> Int#
+test1 m x y = unInt $ reify (I# m) $ \(_ :: Proxy s) -> getM $ (mkM (I# x) + mkM (I# y) :: M s)
 ```
 
 
@@ -121,50 +161,67 @@ Simon Peyton Jones suggests making `reify#` a class method and using the class d
 *
 
 
+
 His first choice thus far seems to be
 
+
 ```
-classReifiable(a ::*)wheretypeRC a ::Constraint
-  reify#::(RC a => r)-> a -> r
+class Reifiable (a :: *) where
+  type RC a :: Constraint
+  reify# :: (RC a => r) -> a -> r
 ```
 
 
 but he also mentions an alternative class design, which I'll rename for clarity:
 
+
 ```
-classReflectableTF(c ::Constraint)wheretypeRL c ::*
-  reify#::(c => r)->RL c -> r
+class ReflectableTF (c :: Constraint) where
+  type RL c :: *
+  reify# :: (c => r) -> RL c -> r
 ```
+
 
 `Reifiable` seems to have reasonably good ergonomics, but it seems a bit odd to me for the payload type to determine the class. Furthermore, it's not at all clear to me how the class could be *named* in the `deriving` clause. `ReflectableTF` strikes me as rather better behaved, but it has fairly bad ergonomics (it requires explicit type application to pin down `c` when calling `reify#`).
 
 
+
 One last class-based option I think might be worthy of consideration is to use `Reflectable` with a data family:
 
+
 ```
-classReflectableDF(c ::Constraint)wheredataRL c ::*
-  reify#::(c => r)->RL c -> r
+class ReflectableDF (c :: Constraint) where
+  data RL c :: *
+  reify# :: (c => r) -> RL c -> r
 ```
 
 
 This offers much better inference than `ReflectableTF`, because the instance is selected by the second argument to `reify#`. The constructor name could be chosen by the deriving mechanism to match the class name, so we'd get, e.g.,
 
+
 ```
-instanceReflectableDF(Typeable a)wherenewtypeRL(Typeable a)=Typeable(TypeRep a)
-  reify# f =...
+instance ReflectableDF (Typeable a) where
+  newtype RL (Typeable a) = Typeable (TypeRep a)
+  reify# f = ...
 ```
+
 
 **SLPJ** Oh, I like this!
 
+
+
 **Iceland_jack** This could be levity-polymorphic (`RC :: TYPE rep -> Constraint`, `RL :: Constraint -> TYPE rep`)
+
 
 ### Non-class-based
 
 
+
 I'm personally reluctant to commit to any particular class-based solution before it's been tried out in user-space. None of them are perfect, and we don't know for sure which will work out best in practice. My current thinking is that perhaps the best way to *start* is to add a `reify#` function
 
+
 ```
-reify#::(c => r)-> a -> r
+reify# :: (c => r) -> a -> r
 ```
 
 

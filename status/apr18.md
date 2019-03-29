@@ -46,9 +46,11 @@
 ## GHC proposals
 
 
+
 Since the launch of the [ GHC proposals process](https://github.com/ghc-proposals/ghc-proposals), over 128 proposals have been created, 41 have been submitted to the committee and 19 have been accepted. These are:
 
-- [OverloadedRecordFields](overloaded-record-fields)[ (PR \#6)](https://github.com/ghc-proposals/ghc-proposals/pull/6)
+
+- [OverloadedRecordFields](overloaded-record-fields) [ (PR \#6)](https://github.com/ghc-proposals/ghc-proposals/pull/6)
 - Update levity polymorphism [ (PR \#29)](https://github.com/ghc-proposals/ghc-proposals/pull/29)
 - Make Constraint not apart from Type [ (PR \#32)](https://github.com/ghc-proposals/ghc-proposals/pull/32)
 - Hex floats [ (PR \#37)](https://github.com/ghc-proposals/ghc-proposals/pull/37)
@@ -57,7 +59,7 @@ Since the launch of the [ GHC proposals process](https://github.com/ghc-proposal
 - Overhaul deriving instances for empty data types proposal [ (PR \#63)](https://github.com/ghc-proposals/ghc-proposals/pull/63)
 - Require namespacing fixity declarations for type names [ (PR \#65)](https://github.com/ghc-proposals/ghc-proposals/pull/65)
 - Extend -Wall with incomplete-uni-patterns and incomplete-record-updates [ (PR \#71)](https://github.com/ghc-proposals/ghc-proposals/pull/71)
-- Add small primitive types, like `Int8#`/`Word8#`[ (PR \#74)](https://github.com/ghc-proposals/ghc-proposals/pull/74)
+- Add small primitive types, like `Int8#`/`Word8#` [ (PR \#74)](https://github.com/ghc-proposals/ghc-proposals/pull/74)
 - Propose underscores in numeric literals [ (PR \#76)](https://github.com/ghc-proposals/ghc-proposals/pull/76)
 - Deprecate STM invariant mechanism [ (PR \#77)](https://github.com/ghc-proposals/ghc-proposals/pull/77)
 - Type-level type applications [ (PR \#80)](https://github.com/ghc-proposals/ghc-proposals/pull/80)

@@ -1,17 +1,68 @@
 ## Current Status
 
+
+
 **As of 26 June 2017**
+
 
 ### Tickets
 
+
+
+
+  
+  
+  
+  
+  
+    
+
 ## Status: closed (2 matches)
 
-<table><tr><th>Ticket (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
-<th>Type (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
-<th>Owner (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>[\#8033](https://gitlab.haskell.org//ghc/ghc/issues/8033)</th>
+
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8033">#8033</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -23,7 +74,29 @@
                       
                       task
                     </th>
-<th>[add AVX register support to llvm calling convention](https://gitlab.haskell.org//ghc/ghc/issues/8033)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8033">add AVX register support to llvm calling convention</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -35,8 +108,39 @@
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#10286](https://gitlab.haskell.org//ghc/ghc/issues/10286)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10286">#10286</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -48,7 +152,29 @@
                       
                       bug
                     </th>
-<th>[native code generator: GHC crash at GHC.Prim SIMD vector](https://gitlab.haskell.org//ghc/ghc/issues/10286)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10286">native code generator: GHC crash at GHC.Prim SIMD vector</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -60,20 +186,88 @@
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>## Status: new (5 matches)
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+          </td>
+<th>
+            
+    
 
-</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Ticket (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
-<th>Type (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
-<th>Owner (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>[\#3557](https://gitlab.haskell.org//ghc/ghc/issues/3557)</th>
+## Status: new (5 matches)
+
+
+  
+          </th>
+<td>
+        </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: keywords: SIMD, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3557">#3557</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -85,7 +279,29 @@
                       
                       feature request
                     </th>
-<th>[CPU Vector instructions in GHC.Prim](https://gitlab.haskell.org//ghc/ghc/issues/3557)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/3557">CPU Vector instructions in GHC.Prim</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -97,8 +313,39 @@
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#7741](https://gitlab.haskell.org//ghc/ghc/issues/7741)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7741">#7741</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -110,7 +357,29 @@
                       
                       feature request
                     </th>
-<th>[Add SIMD support to x86/x86_64 NCG](https://gitlab.haskell.org//ghc/ghc/issues/7741)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/7741">Add SIMD support to x86/x86_64 NCG</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -122,8 +391,39 @@
                       
                       normal
                     </th>
-<th>abhir00p</th></tr>
-<tr><th>[\#10648](https://gitlab.haskell.org//ghc/ghc/issues/10648)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      abhir00p
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10648">#10648</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -135,7 +435,29 @@
                       
                       bug
                     </th>
-<th>[Some 64-vector SIMD primitives are absolutely useless](https://gitlab.haskell.org//ghc/ghc/issues/10648)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10648">Some 64-vector SIMD primitives are absolutely useless</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -147,8 +469,39 @@
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#13852](https://gitlab.haskell.org//ghc/ghc/issues/13852)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13852">#13852</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -160,7 +513,29 @@
                       
                       feature request
                     </th>
-<th>[Can we have more SIMD primops, corresponding to the untapped AVX etc. instructions?](https://gitlab.haskell.org//ghc/ghc/issues/13852)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13852">Can we have more SIMD primops, corresponding to the untapped AVX etc. instructions?</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -172,8 +547,39 @@
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#12412](https://gitlab.haskell.org//ghc/ghc/issues/12412)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12412">#12412</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -185,7 +591,29 @@
                       
                       bug
                     </th>
-<th>[SIMD things introduce a metric ton of known key things](https://gitlab.haskell.org//ghc/ghc/issues/12412)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12412">SIMD things introduce a metric ton of known key things</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -197,7 +625,32 @@
                       
                       low
                     </th>
-<th></th></tr></table>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr></table>
+
+
+  
+
+
 
 ### Vector types
 
@@ -243,8 +696,11 @@ Integrating variable-sized vectors with GHC's calling convention is a challenge.
 ### Memory alignment for vectors
 
 
+
 The implementation does not attempt to align memory containing SIMD vectors. SIMD vector loads and stores do not assume alignment.
 
+
 ### Other resources of interest
+
 
 - This `ghc-devs` discussion: [ https://mail.haskell.org/pipermail/ghc-devs/2017-March/013899.html](https://mail.haskell.org/pipermail/ghc-devs/2017-March/013899.html)

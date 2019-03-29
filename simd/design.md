@@ -29,24 +29,27 @@ Note: we will need to be clear with users that initially this SIMD work is not s
 ### Existing SIMD instruction sets
 
 
+
 Intel and AMD CPUs use the [ SSE family](http://en.wikipedia.org/wiki/Streaming_SIMD_Extensions) of extensions and, more recently (since Q1 2011), the [ AVX](http://en.wikipedia.org/wiki/Advanced_Vector_Extensions) extensions.  ARM CPUs (Cortex A series) use the [ NEON](http://www.arm.com/products/processors/technologies/neon.php) extensions. PowerPC and SPARC have similar vector extensions. Variations between different families of SIMD extensions and between different family members in one family of extensions include the following:
 
-<table><tr><th>**Register width**</th>
+
+<table><tr><th><b>Register width</b></th>
 <td>
 SSE registers are 128 bits, whereas AVX registers are 256 bits, but they can also still be used as 128 bit registers with old SSE instructions. NEON registers can be used as 64-bit or 128-bit register.
 </td></tr>
-<tr><th>**Register number**</th>
+<tr><th><b>Register number</b></th>
 <td>
-SSE sports 8 SIMD registers in the 32-bit i386 instruction set and 16 SIMD registers in the 64-bit x84_64 instruction set. (AVX still has 16 SIMD registers.) NEON's SIMD registers can be used as 32 64-bit registers or 16 128-bit registers.
+SSE sports 8 SIMD registers in the 32-bit i386 instruction set and 16 SIMD registers in the 64-bit x84_64 instruction set. (AVX still has 16 SIMD registers.) NEON&apos;s SIMD registers can be used as 32 64-bit registers or 16 128-bit registers.
 </td></tr>
-<tr><th>**Register types**</th>
+<tr><th><b>Register types</b></th>
 <td>
 In the original SSE extension, SIMD registers could only hold 32-bit single-precision floats, whereas SSE2 extend that to include 64-bit double precision floats as well as 8 to 64 bit integral types. The extension from 128 bits to 256 bits in register size only applies to floating-point types in AVX. This is expected to be extended to integer types in AVX2, but in AVX, SIMD operations on integral types can only use the lower 128 bits of the SIMD registers. NEON registers can hold 8 to 64 bit integral types and 32-bit single-precision floats.
 </td></tr>
-<tr><th>**Alignment requirements**</th>
+<tr><th><b>Alignment requirements</b></th>
 <td>
-SSE requires alignment on 16 byte boundaries. With AVX, it seems that operations on 128 bit SIMD vectors may be unaligned, but operations on 256 bit SIMD vectors needs to be aligned to 32 byte boundaries. NEON suggests to align SIMD vectors with *n*-bit elements to *n*-bit boundaries.
+SSE requires alignment on 16 byte boundaries. With AVX, it seems that operations on 128 bit SIMD vectors may be unaligned, but operations on 256 bit SIMD vectors needs to be aligned to 32 byte boundaries. NEON suggests to align SIMD vectors with <i>n</i>-bit elements to <i>n</i>-bit boundaries.
 </td></tr></table>
+
 
 ### SIMD/vector support in other compilers
 
@@ -72,8 +75,11 @@ We need to implement support for vectors in several layers of GHC + Libraries, f
 ### Vector types
 
 
+
 We intend to provide vectors of the following basic types:
 
+
+>
 > <table><tr><th> Int8  </th>
 > <th> Int16  </th>
 > <th> Int32  </th>
@@ -84,11 +90,13 @@ We intend to provide vectors of the following basic types:
 > <th> Word32 </th>
 > <th> Word64 
 > </th></tr>
-> <tr><th></th>
-> <th></th>
+> <tr><th>       </th>
+> <th>        </th>
 > <th> Float  </th>
 > <th> Double 
 > </th></tr></table>
+>
+>
 
 ### Fixed and variable sized vectors
 
@@ -96,21 +104,24 @@ We intend to provide vectors of the following basic types:
 The hardware supports only small fixed sized vectors. High level libraries would like to be able to use arbitrary sized vectors. Similar to the design in GCC and LLVM we will provide primitive Haskell types and operations for fixed-size vectors. The task of implementing variable sized vectors in terms of fixed-size vector types and primops is left to the next layer up (DPH, vector lib).
 
 
+
 That is, in the core primop layer and down, vector support is only for fixed-size vectors. The fixed sizes will be only powers of 2 and only up to some maximum size. The choice of maximum size should reflect the largest vector size supported by the current range of CPUs (256bit with AVX):
 
+
+>
 > <table><tr><th> types </th>
-> <th></th>
-> <th></th>
+> <th>        </th>
+> <th>        </th>
 > <th> vector sizes    
 > </th></tr>
 > <tr><th> Int8  </th>
 > <th> Word8  </th>
-> <th></th>
+> <th>        </th>
 > <th> 2, 4, 8, 16, 32 
 > </th></tr>
 > <tr><th> Int16 </th>
 > <th> Word16 </th>
-> <th></th>
+> <th>        </th>
 > <th> 2, 4, 8, 16     
 > </th></tr>
 > <tr><th> Int32 </th>
@@ -125,9 +136,11 @@ That is, in the core primop layer and down, vector support is only for fixed-siz
 > </th></tr>
 > <tr><th> Int   </th>
 > <th> Word   </th>
-> <th></th>
+> <th>        </th>
 > <th> 2, 4            
 > </th></tr></table>
+>
+>
 
 
 In addition, we will support vector types with fixed but architecture-dependent sizes (see below).
@@ -235,30 +248,33 @@ for multiplicity {m} in 2, 4, 8, 16, 32
 Syntax note: here {m} is meta-syntax, not concrete syntax
 
 
+
 Hence we have individual type names with the following naming convention:
 
-> <table><tr><th></th>
+
+>
+> <table><tr><th>              </th>
 > <th> length 2     </th>
 > <th> length 4     </th>
 > <th> length 8     </th>
 > <th> etc 
 > </th></tr>
-> <tr><th> native `Int`</th>
-> <th>`IntVec2#`</th>
-> <th>`IntVec4#`</th>
-> <th>`IntVec8#`</th>
+> <tr><th> native <tt>Int</tt> </th>
+> <th> <tt>IntVec2#</tt>   </th>
+> <th> <tt>IntVec4#</tt>   </th>
+> <th> <tt>IntVec8#</tt>   </th>
 > <th> ... 
 > </th></tr>
-> <tr><th>`Int8`</th>
-> <th>`Int8Vec2#`</th>
-> <th>`Int8Vec4#`</th>
-> <th>`Int8Vec8#`</th>
+> <tr><th> <tt>Int8</tt>       </th>
+> <th> <tt>Int8Vec2#</tt>  </th>
+> <th> <tt>Int8Vec4#</tt>  </th>
+> <th> <tt>Int8Vec8#</tt>  </th>
 > <th> ... 
 > </th></tr>
-> <tr><th>`Int16`</th>
-> <th>`Int16Vec2#`</th>
-> <th>`Int16Vec4#`</th>
-> <th>`Int16Vec8#`</th>
+> <tr><th> <tt>Int16</tt>      </th>
+> <th> <tt>Int16Vec2#</tt> </th>
+> <th> <tt>Int16Vec4#</tt> </th>
+> <th> <tt>Int16Vec8#</tt> </th>
 > <th> ... 
 > </th></tr>
 > <tr><th> etc          </th>
@@ -267,6 +283,8 @@ Hence we have individual type names with the following naming convention:
 > <th> ...          </th>
 > <th> ... 
 > </th></tr></table>
+>
+>
 
 
 Similarly there will be families of primops:
@@ -282,30 +300,33 @@ From the point of view of the Haskell namespace for values and types, each membe
 ### Optional extension: extra syntax
 
 
+
 We could add a new concrete syntax using `<...>` to suggest a paramater, but have it really still part of the name:
 
-> <table><tr><th></th>
+
+>
+> <table><tr><th>              </th>
 > <th> length 2       </th>
 > <th> length 4       </th>
 > <th> length 8       </th>
 > <th> etc 
 > </th></tr>
-> <tr><th> native `Int`</th>
-> <th>`IntVec<2>#`</th>
-> <th>`IntVec<4>#`</th>
-> <th>`IntVec<8>#`</th>
+> <tr><th> native <tt>Int</tt> </th>
+> <th> <tt>IntVec<2>#</tt>   </th>
+> <th> <tt>IntVec<4>#</tt>   </th>
+> <th> <tt>IntVec<8>#</tt>   </th>
 > <th> ... 
 > </th></tr>
-> <tr><th>`Int8`</th>
-> <th>`Int8Vec<2>#`</th>
-> <th>`Int8Vec<4>#`</th>
-> <th>`Int8Vec<8>#`</th>
+> <tr><th> <tt>Int8</tt>       </th>
+> <th> <tt>Int8Vec<2>#</tt>  </th>
+> <th> <tt>Int8Vec<4>#</tt>  </th>
+> <th> <tt>Int8Vec<8>#</tt>  </th>
 > <th> ... 
 > </th></tr>
-> <tr><th>`Int16`</th>
-> <th>`Int16Vec<2>#`</th>
-> <th>`Int16Vec<4>#`</th>
-> <th>`Int16Vec<8>#`</th>
+> <tr><th> <tt>Int16</tt>      </th>
+> <th> <tt>Int16Vec<2>#</tt> </th>
+> <th> <tt>Int16Vec<4>#</tt> </th>
+> <th> <tt>Int16Vec<8>#</tt> </th>
 > <th> ... 
 > </th></tr>
 > <tr><th> etc          </th>
@@ -314,6 +335,8 @@ We could add a new concrete syntax using `<...>` to suggest a paramater, but hav
 > <th> ...            </th>
 > <th> ... 
 > </th></tr></table>
+>
+>
 
 ### Primop generation and representation
 
@@ -411,34 +434,37 @@ Without a native sized vector, libraries would be forced to use CPP to pick a go
 Note that the actual size of the native vector size will be fixed per architecture and will not vary based on "sub-architecture" features like SSE vs AVX. We will pick the size to be the maximum of all the sub-architectures. That is we would pick the AVX size for x86-64. The rationale for this is ABI compatibility which is discussed below. In this respect, the IntVec\# is like Int\#, the size of both is crucial for the ABI and is determined by the target platform/architecture.
 
 
+
 So we extend our family of vector types with:
 
-> <table><tr><th></th>
+
+>
+> <table><tr><th>              </th>
 > <th> native length </th>
 > <th> length 2     </th>
 > <th> length 4     </th>
 > <th> length 8     </th>
 > <th> etc 
 > </th></tr>
-> <tr><th> native `Int`</th>
-> <th>`IntVec#`</th>
-> <th>`IntVec2#`</th>
-> <th>`IntVec4#`</th>
-> <th>`IntVec8#`</th>
+> <tr><th> native <tt>Int</tt> </th>
+> <th> <tt>IntVec#</tt>     </th>
+> <th> <tt>IntVec2#</tt>   </th>
+> <th> <tt>IntVec4#</tt>   </th>
+> <th> <tt>IntVec8#</tt>   </th>
 > <th> ... 
 > </th></tr>
-> <tr><th>`Int8`</th>
-> <th>`Int8Vec#`</th>
-> <th>`Int8Vec2#`</th>
-> <th>`Int8Vec4#`</th>
-> <th>`Int8Vec8#`</th>
+> <tr><th> <tt>Int8</tt>       </th>
+> <th> <tt>Int8Vec#</tt>    </th>
+> <th> <tt>Int8Vec2#</tt>  </th>
+> <th> <tt>Int8Vec4#</tt>  </th>
+> <th> <tt>Int8Vec8#</tt>  </th>
 > <th> ... 
 > </th></tr>
-> <tr><th>`Int16`</th>
-> <th>`Int16Vec#`</th>
-> <th>`Int16Vec2#`</th>
-> <th>`Int16Vec4#`</th>
-> <th>`Int16Vec8#`</th>
+> <tr><th> <tt>Int16</tt>      </th>
+> <th> <tt>Int16Vec#</tt>   </th>
+> <th> <tt>Int16Vec2#</tt> </th>
+> <th> <tt>Int16Vec4#</tt> </th>
+> <th> <tt>Int16Vec8#</tt> </th>
 > <th> ... 
 > </th></tr>
 > <tr><th> etc          </th>
@@ -448,6 +474,8 @@ So we extend our family of vector types with:
 > <th> ...          </th>
 > <th> ... 
 > </th></tr></table>
+>
+>
 
 
 and there are some top level constants describing the vector size so as to enable their portable use

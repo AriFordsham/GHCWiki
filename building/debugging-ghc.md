@@ -1,1 +1,1 @@
-redirect(wiki:Debugging)?
+Page moved to [Debugging](debugging)

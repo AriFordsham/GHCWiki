@@ -13,10 +13,11 @@ However, there are situations where we do need to meddle with low-level concerns
 
 In such situations, the compiler's assumption of free reign over low-level memory management concerns, and our desire to manipulate pointers and memory allocation more directly, are at odds: for example, taking a pointer to a managed value may lead to that pointer escaping the managed value's lifespan. For example, consider this hypothetical example:
 
+
 ```
-main=do
+main = do
     p <- allocaBytes 4
-    poke p (12345::Word32)
+    poke p (12345 :: Word32)
     peek p >>= putStrLn
 ```
 
@@ -30,8 +31,9 @@ If we were to implement the above, we would have to decide how to manage the lif
 
 A somewhat obvious solution is to change `allocaBytes` to have a different type: instead of `allocaBytes :: Int -> IO (Ptr a)`, we make it `allocaBytes :: Int -> (Ptr a -> IO b) -> IO b`. This is the tried-and-tested bracket pattern, allowing us to run deallocation code after the payload action has finished. A simple implementation might look like this:
 
+
 ```
-allocaBytes n action =do
+allocaBytes n action = do
     p <- mallocBytes n
     retval <- action p
     free p
@@ -42,10 +44,12 @@ allocaBytes n action =do
 And this would actually work. However, `malloc` isn't very efficient compared to the Haskell heap, so ideally, we would want to have the cake and eat it by allocating from the Haskell heap, while still keeping the memory alive until the action has finished. This means that we need a magical token that tells the GC that the memory we allocated is still alive, and which we can place in a strategic position right after the action. 
 
 
+
 That magical construct is the `touch#` primop, which essentially says "I will need this value to be alive until at least this point". So `allocaBytes` can be implemented as the moral equivalent of:
 
+
 ```
-allocaBytes n action =do
+allocaBytes n action = do
     a <- newByteArray n
     p <- addressOf a
     retval <- action p
@@ -66,10 +70,12 @@ The first workaround for this was to add a `NOINLINE` pragma on `allocaBytes` - 
 This prevents the problem, but it's not a great solution. By preventing inlining, we may also miss out on other, valid, optimizations, so it's a sledgehammer solution; and it's also one that requires manual diligence - we have to get the inlining pragmas just right for every usage of `touch#`. Clearly this isn't ideal.
 
 
+
 So we take a different route. Instead of a primop that says "please consider this value alive at this point in time", we provide one that says "please consider this value alive as long as the primop itself is alive". That primop is `with#`, and it is the moral equivalent of `with :: a -> IO b -> IO b`, meaning: "keep the first argument alive for as long as the second argument runs". And we can rewrite `allocaBytes` to the moral equivalent of:
 
+
 ```
-allocaBytes n action =do
+allocaBytes n action = do
     p <- allocateMemory n
     with# p action
 ```

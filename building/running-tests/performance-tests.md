@@ -6,7 +6,7 @@ The test suit contains a number of performance tests included as part of a norma
 ## Performance Metrics are Logged
 
 
-Whenever a performance test is run, the resulting metrics are stored using [ git notes](https://git-scm.com/docs/git-notes) under the "perf" [ ref space](https://git-scm.com/docs/git-notes#git-notes---refltrefgt) on the current commit. Git notes are generally stored locally, and not shared between git repositories (e.g. when pushing/pulling branches). This is desirable as performance is largely dependent on the machine on which the tests are run. Each metric saved has the following data:
+Whenever a performance test is run, the resulting metrics are stored using [git notes](https://git-scm.com/docs/git-notes) under the "perf" [ref space](https://git-scm.com/docs/git-notes#git-notes---refltrefgt) on the current commit. Git notes are generally stored locally, and not shared between git repositories (e.g. when pushing/pulling branches). This is desirable as performance is largely dependent on the machine on which the tests are run. Each metric saved has the following data:
 
 - **Environment** usually just 'local' unless run on CI.
 - **Test** the name of the test.
@@ -15,12 +15,12 @@ Whenever a performance test is run, the resulting metrics are stored using [ git
 - **Value** the observed value of the metric.
 
 
-While you're free to delete notes manually via the [ git notes --ref=perf](https://git-scm.com/docs/git-notes) command, the test runner will never delete results, so multiple values for the same test may be recorded.
+While you're free to delete notes manually via the [git notes --ref=perf](https://git-scm.com/docs/git-notes) command, the test runner will never delete results, so multiple values for the same test may be recorded.
 
 ### CI Performance Metrics
 
 
-Gitlab CI is setup to collect performance metrics and push them (again as git notes) to a separate repo: [ https://gitlab.haskell.org/ghc/ghc-performance-notes.git](https://gitlab.haskell.org/ghc/ghc-performance-notes.git). You can fetch these results to the "ci/perf" ref space using the following command:
+Gitlab CI is setup to collect performance metrics and push them (again as git notes) to a separate repo: [https://gitlab.haskell.org/ghc/ghc-performance-notes.git](https://gitlab.haskell.org/ghc/ghc-performance-notes.git). You can fetch these results to the "ci/perf" ref space using the following command:
 
 ```wiki
 $ git fetch https://gitlab.haskell.org/ghc/ghc-performance-notes.git refs/notes/perf:refs/notes/ci/perf

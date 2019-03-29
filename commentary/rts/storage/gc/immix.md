@@ -1,7 +1,9 @@
 # Immix Garbage Collector
 
 
-In a [ Google Summer of Code project](http://socghop.appspot.com/gsoc/student_project/show/google/gsoc2010/haskell/t127230760695), [ marcot](http://wiki.debian.org/MarcoSilva) started an implementation of the Immix Garbage Collector in GHC.  It's not in a state where it can be included in GHC yet, but it's functional, don't have known bugs and gets better results than the default GC in the [ nofib](http://www.dcs.gla.ac.uk/fp/software/ghc/nofib.html) suite.  On the other hand, it gets worse results than the default GC for the nofib/gc suite.  The implementation was reported on these blog posts: [ 1](http://marcotmarcot.wordpress.com/2010/05/17/google-summer-of-code-weekly-report-1/)[ 3](http://marcotmarcot.wordpress.com/2010/05/31/summer-of-code-weekly-report-3/)[ 4](http://marcotmarcot.wordpress.com/2010/06/04/summer-of-code-weekly-report-4/)[ 5](http://marcotmarcot.wordpress.com/2010/06/15/summer-of-code-weekly-report-5/)[ 6](http://marcotmarcot.wordpress.com/2010/06/18/immix-on-ghc-summer-of-code-weekly-report-6/)[ 7](http://marcotmarcot.wordpress.com/2010/06/29/immix-on-ghc-summer-of-code-weekly-report-7/)[ 8](http://marcotmarcot.wordpress.com/2010/07/05/immix-on-ghc-summer-of-code-weekly-report-8/)[ 9](http://marcotmarcot.wordpress.com/2010/07/07/immix-on-ghc-summer-of-code-weekly-report-9/)[ 10](http://marcotmarcot.wordpress.com/2010/07/21/immix-on-ghc-summer-of-code-weekly-report-10/)[ 11](http://marcotmarcot.wordpress.com/2010/08/10/immix-on-ghc-summer-of-code-report-11/)[ 12](http://marcotmarcot.wordpress.com/2010/08/13/immix-on-ghc-summer-of-code-report-12-debconf-debian-day-bh/)
+
+In a [ Google Summer of Code project](http://socghop.appspot.com/gsoc/student_project/show/google/gsoc2010/haskell/t127230760695), [ marcot](http://wiki.debian.org/MarcoSilva) started an implementation of the Immix Garbage Collector in GHC.  It's not in a state where it can be included in GHC yet, but it's functional, don't have known bugs and gets better results than the default GC in the [ nofib](http://www.dcs.gla.ac.uk/fp/software/ghc/nofib.html) suite.  On the other hand, it gets worse results than the default GC for the nofib/gc suite.  The implementation was reported on these blog posts: [ 1](http://marcotmarcot.wordpress.com/2010/05/17/google-summer-of-code-weekly-report-1/) [ 3](http://marcotmarcot.wordpress.com/2010/05/31/summer-of-code-weekly-report-3/) [ 4](http://marcotmarcot.wordpress.com/2010/06/04/summer-of-code-weekly-report-4/) [ 5](http://marcotmarcot.wordpress.com/2010/06/15/summer-of-code-weekly-report-5/) [ 6](http://marcotmarcot.wordpress.com/2010/06/18/immix-on-ghc-summer-of-code-weekly-report-6/) [ 7](http://marcotmarcot.wordpress.com/2010/06/29/immix-on-ghc-summer-of-code-weekly-report-7/) [ 8](http://marcotmarcot.wordpress.com/2010/07/05/immix-on-ghc-summer-of-code-weekly-report-8/) [ 9](http://marcotmarcot.wordpress.com/2010/07/07/immix-on-ghc-summer-of-code-weekly-report-9/) [ 10](http://marcotmarcot.wordpress.com/2010/07/21/immix-on-ghc-summer-of-code-weekly-report-10/) [ 11](http://marcotmarcot.wordpress.com/2010/08/10/immix-on-ghc-summer-of-code-report-11/) [ 12](http://marcotmarcot.wordpress.com/2010/08/13/immix-on-ghc-summer-of-code-report-12-debconf-debian-day-bh/)
+
 
 # The patches
 
@@ -16,14 +18,16 @@ There are [ some patches available](http://people.debian.org/~marcot/immix/).
 
 This patch includes the basic implementation of Immix.  It's tested, and has no known bugs.  In [ the measurements](http://people.debian.org/~marcot/immix/log.tar.gz), it has shown these results:
 
-<table><tr><th></th>
-<th>**Runtime**</th>
-<th>**Memory used**</th></tr>
-<tr><th>**nofib**</th>
+
+<table><tr><th> </th>
+<th> <b>Runtime</b> </th>
+<th> <b>Memory used</b> 
+</th></tr>
+<tr><th> <b>nofib</b> </th>
 <th> -2.9% </th>
 <th> -1.7% 
 </th></tr>
-<tr><th>**nofib/gc**</th>
+<tr><th> <b>nofib/gc</b> </th>
 <th> +4.3% </th>
 <th> +1.2% 
 </th></tr></table>

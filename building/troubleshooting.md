@@ -1,3 +1,7 @@
+
+ 
+
+
 # Troubleshooting the GHC build
 
 
@@ -473,8 +477,9 @@ We added a workaround for install-detection in GHC 6.8.1 (see [\#1271](https://g
 It's *very important* that you specify a 
 native Windows path for `gcc`, not a Cygwin path, because GHC (which
 uses this path to invoke `gcc`) is a Windows program and won't
-understand a Cygwin path.  For example, you want to say something like `--with-gcc=c:/mingw/bin/gcc.exe` and *not*`--with-gcc=/cygdrive/c/mingw/bin/gcc.exe` or `--with-gcc=/mingw/bin/gcc.exe`.  If you get this wrong, the failure might come with no error message whatsoever.  GHC simply fails silently when first invoked, 
+understand a Cygwin path.  For example, you want to say something like `--with-gcc=c:/mingw/bin/gcc.exe` and *not* `--with-gcc=/cygdrive/c/mingw/bin/gcc.exe` or `--with-gcc=/mingw/bin/gcc.exe`.  If you get this wrong, the failure might come with no error message whatsoever.  GHC simply fails silently when first invoked, 
 typically leaving you with this:
+
 
 ```wiki
 make[4]: Leaving directory `/cygdrive/e/ghc-stage1/ghc/rts/gmp'

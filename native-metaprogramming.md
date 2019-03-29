@@ -65,20 +65,30 @@ extra fields and constructors (I refer to these as annotations).
 For example, compare the following representations of lambda terms with n-ary
 tuples.
 
+
+
 [ Annotation free variant](https://github.com/shayan-najd/NativeMetaprogramming/blob/master/Comparison/Unannotated.hs):
 
+
 ```
-dataExp id
-  =Var id
-  |Abs id (Exp id)|App(Exp id)(Exp id)|Tpl[Exp id]
+data Exp id
+  = Var id
+  | Abs id (Exp id)
+  | App (Exp id) (Exp id)
+  | Tpl [Exp id]
 ```
+
 
 [ Annotated Variant](https://github.com/shayan-najd/NativeMetaprogramming/blob/master/Comparison/Annotated.hs):
 
+
 ```
-dataExp id
-  =Var            id
-  |AbsTypSrcLoc id (Exp id)|AppTyp(Exp id)(Exp id)|Tpl[Typ][Exp id]|OutTyp(Exp id)
+data Exp id
+  = Var            id
+  | Abs Typ SrcLoc id (Exp id)
+  | App Typ        (Exp id) (Exp id)
+  | Tpl [Typ]      [Exp id]
+  | Out Typ        (Exp id)
 ```
 
 
@@ -205,11 +215,26 @@ are multiple criteria to what solutions are acceptable.
 Before explaining the details let us have a look at a definition of extensible
 datatypes using a tool that I have developed to help in defining them:
 
+
 ```
-desugarExtensible"Ext"[d|{-# ANN type Exp Extensible #-}dataExp id
-        =Var id
-        |Abs id       (Exp id)|App(Exp id)(Exp id)|Tpl[Exp id]{-# ANN type ExpAS (Extends "Exp") #-}dataExpAS id
-        =VarAS(Extends"Var")|AbsAS(Extends"Abs")TypSrcLoc-- (Extends ...) is a dummy field-- that I used for simulating syntax.|AppAS(Extends"App")Typ|TplAS(Extends"Tpl")[Typ]|OutASTyp(ExpAS id)|]
+desugarExtensible "Ext"
+  [d| {-# ANN type Exp Extensible #-}
+      data Exp id
+        = Var id
+        | Abs id       (Exp id)
+        | App (Exp id) (Exp id)
+        | Tpl [Exp id]
+
+      {-# ANN type ExpAS (Extends "Exp") #-}
+      data ExpAS id
+        = VarAS (Extends "Var")
+        | AbsAS (Extends "Abs") Typ SrcLoc
+                -- (Extends ...) is a dummy field
+                -- that I used for simulating syntax.
+        | AppAS (Extends "App") Typ
+        | TplAS (Extends "Tpl") [Typ]
+        | OutAS  Typ (ExpAS id)
+  |]
 ```
 
 
@@ -218,32 +243,40 @@ Then it defines an extention to it, named `ExpAS`, which represent the annotated
 variant of `Exp` from earlier.
 
 
+
 Above produces the following code:
 
+
 ```
-dataExp ext id
-      =ExpExt(ext "ExpExt")|Var(ext "Var") id
-      |Abs(ext "Abs") id (Exp ext id)|App(ext "App")(Exp ext id)(Exp ext id)|Tpl(ext "Tpl")[Exp ext id]datafamilyExt id (lbl ::Symbol)typeExpAS id =Exp(Ext id) id
+   data Exp ext id
+      = ExpExt (ext "ExpExt")
+      | Var (ext "Var") id
+      | Abs (ext "Abs") id (Exp ext id)
+      | App (ext "App") (Exp ext id) (Exp ext id)
+      | Tpl (ext "Tpl") [Exp ext id]
 
-    datainstanceExt id "Var"=VarX
-    pattern VarAS:: id ->ExpAS id
-    pattern VarAS      x   =VarVarX x
+    data family Ext id (lbl :: Symbol)
+    type ExpAS id = Exp (Ext id) id
 
-    datainstanceExt id "Abs"=AbsXTypSrcLoc
-    pattern AbsAS::Typ->SrcLoc-> id ->ExpAS id ->ExpAS id
-    pattern AbsAS t  s x n =Abs(AbsX t s) x n
+    data instance Ext id "Var" = VarX
+    pattern VarAS :: id -> ExpAS id
+    pattern VarAS      x   = Var    VarX x
 
-    datainstanceExt id "App"=AppXTyp
-    pattern AppAS::Typ->ExpAS id ->ExpAS id ->ExpAS id
-    pattern AppAS t    l m =App(AppX t) l m
+    data instance Ext id "Abs" = AbsX Typ SrcLoc
+    pattern AbsAS :: Typ -> SrcLoc -> id -> ExpAS id -> ExpAS id
+    pattern AbsAS t  s x n = Abs    (AbsX t s) x n
 
-    datainstanceExt id "Tpl"=TplX[Typ]
-    pattern TplAS::[Typ]->[ExpAS id]->ExpAS id
-    pattern TplAS ts   ms  =Tpl(TplX ts) ms
+    data instance Ext id "App" = AppX Typ
+    pattern AppAS :: Typ -> ExpAS id -> ExpAS id -> ExpAS id
+    pattern AppAS t    l m = App    (AppX t) l m
 
-    datainstanceExt id "ExpExt"=OutASXTyp(ExpAS id)
-    pattern OutAS::Typ->ExpAS id ->ExpAS id
-    pattern OutAS t    m   =ExpExt(OutA t m)
+    data instance Ext id "Tpl" = TplX [Typ]
+    pattern TplAS :: [Typ] -> [ExpAS id] -> ExpAS id
+    pattern TplAS ts   ms  = Tpl    (TplX ts) ms
+
+    data instance Ext id "ExpExt" = OutASX Typ (ExpAS id)
+    pattern OutAS :: Typ -> ExpAS id -> ExpAS id
+    pattern OutAS t    m   = ExpExt (OutA t m)
 ```
 
 

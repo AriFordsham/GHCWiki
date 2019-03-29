@@ -64,7 +64,8 @@ f (_:_:_)        = 4
 ```
 
 
-the two `Single` patterns are put in one `PgSyn``PatGroup`.
+the two `Single` patterns are put in one `PgSyn` `PatGroup`.
+
 
 ### Matching
 

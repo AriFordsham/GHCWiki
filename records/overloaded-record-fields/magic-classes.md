@@ -11,32 +11,43 @@ The `HasField`-part or the proposal is merged into GHC, see [ Phab:D2708](https:
 ## Design
 
 
+
 Under this proposal, when GHC encounters a data type declaration with record fields, it generates (or behaves as if it generates -- see "Implementation" below) instances of two new classes, `HasField` and `UpdateField`, defined like this:
 
-```
--- | HasField x r a means that r is a record type with a field x of type aclassHasField(x ::Symbol) r a | x r -> a where-- | Extract the field from the record
-  getField ::Proxy# x -> r -> a
 
--- | UpdateField x s t b means that s is a record type with a field x--   that can be assigned a value of type b, giving a record of type tclassUpdateField(x ::Symbol) s t b | x t -> b, x s b -> t where-- | Set the field in the record
-  setField ::Proxy# x -> s -> b -> t
+```
+-- | HasField x r a means that r is a record type with a field x of type a
+class HasField (x :: Symbol) r a | x r -> a where
+  -- | Extract the field from the record
+  getField :: Proxy# x -> r -> a
+
+-- | UpdateField x s t b means that s is a record type with a field x
+--   that can be assigned a value of type b, giving a record of type t
+class UpdateField (x :: Symbol) s t b | x t -> b, x s b -> t where
+  -- | Set the field in the record
+  setField :: Proxy# x -> s -> b -> t
 ```
 
+>
 >
 > For example, given
 >
+>
 > ```
-> dataT=MkT{ x ::Int}
+> data T = MkT { x :: Int }
 > ```
+
 
 
 GHC will behave as if instances roughly like this were generated:
 
-```
-instanceHasField"x"TIntwhere
-  getField _= x
 
-instanceUpdateField"x"TTIntwhere
-  setField _(MkT_) x =MkT x
+```
+instance HasField "x" T Int where
+  getField _ = x
+
+instance UpdateField "x" T T Int where
+  setField _ (MkT _) x = MkT x
 ```
 
 
@@ -46,10 +57,12 @@ There is substantial bikeshedding to be done about the details of these classes 
 GHC will solve a constraint `HasField "x" (T p q r) t` or `UpdateField "x" (T p q r) (T p' q' r') t` when T has a field `x` that has a rank-0 type containing no existential variables. It will constraint `t` to be equal to the type of the field `x`. (Rank-1 types are out, because they violate the functional dependency on `HasField`, and higher ranks would need impredicative polymorphism.)
 
 
+
 Note the record type appears twice in the arguments to `UpdateField`, because the parameters may vary before and after the update. There are some slightly subtle conditions about when `UpdateField` permits updates to change parameter types, as described in [the original design](records/overloaded-record-fields/design#). For example, if we have
 
+
 ```
-dataS a =MkS{ foo :: a, bar :: a }
+data S a = MkS { foo :: a, bar :: a }
 ```
 
 

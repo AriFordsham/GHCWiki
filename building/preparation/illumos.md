@@ -23,10 +23,15 @@ Use `cabal` to install the following:
 
 From here return to [Building](building) and follow [Getting the sources](building/getting-the-sources) then [Just building and installing GHC](building/quick-start).
 
+
 ## [OpenIndiana](building/preparation/open-indiana)
 
+
+>
 >
 > These instructions have only been checked for GHC 7.6.3 on [OpenIndiana](building/preparation/open-indiana) 151a8. They should also apply to earlier and later versions of GHC. 
+>
+>
 
 ### **Installing pre-compiled GHC 7.2.2 binary package **
 

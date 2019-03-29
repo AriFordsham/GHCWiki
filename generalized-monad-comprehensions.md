@@ -86,7 +86,12 @@ class Functor f => FunctorZip f where
 
 I noticed this in particular when I wanted to use length-indexed lists with a monad comprehension using *only* the (trivially defined) `Applicative` and `FunctorZip` instances, but was forced to define the `Monad` instance that was of no use for my particular case.
 
+
 ## Specification
+
+
 
 *To be done''
 *
+
+

@@ -218,8 +218,10 @@ To make this work, we need to be careful that `seq` is **not** desguared
 into a case expression on the LHS of a rule.
 
 
+
 To increase applicability of these user-defined rules, we also
-have the following built-in rule for `seq`
+have the following built-in rule for `seq` 
+
 
 ```wiki
   seq (x |> co) y = seq x y

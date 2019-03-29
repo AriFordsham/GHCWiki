@@ -1,33 +1,132 @@
 # Upgrade Instructions
 
-1. [Instructions](#Instructions)
 
-  1. [1. Bring your server off-line](#a1.Bringyourserveroff-line)
-  1. [2. Update the Trac Code](#UpdatetheTracCode)
-  1. [3. Upgrade the Trac Environment](#UpgradetheTracEnvironment)
-  1. [4. Update the Trac Documentation](#UpdatetheTracDocumentation)
-  1. [5. Refresh static resources](#a5.Refreshstaticresources)
-  1. [6. Steps specific to a given Trac version](#a6.StepsspecifictoagivenTracversion)
 
-    1. [Upgrading from Trac 1.0 to 1.2](#to1.2)
-    1. [Upgrading from Trac 0.12 to Trac 1.0](#to1.0)
-    1. [Upgrading from Trac 0.11 to Trac 0.12](#UpgradingfromTrac0.11toTrac0.12)
-    1. [Upgrading from Trac 0.10 to Trac 0.11](#UpgradingfromTrac0.10toTrac0.11)
-  1. [7. Restart the Web Server](#RestarttheWebServer)
-1. [Known Issues](#KnownIssues)
 
-  1. [Customized Templates](#CustomizedTemplates)
-  1. [ZipImportError](#ZipImportError)
-  1. [Wiki Upgrade](#WikiUpgrade)
-  1. [Trac database upgrade](#Tracdatabaseupgrade)
-  1. [Parent dir](#Parentdir)
-1. [Related topics](#Relatedtopics)
 
-  1. [Upgrading Python](#UpgradingPython)
+    
 
-    1. [Windows and Python 2.6](#WindowsandPython2.6)
-  1. [Changing Database Backend](#ChangingDatabaseBackend)
-  1. [Upgrading from older versions of Trac](#OlderVersions)
+1. 
+1. 
+          [Instructions](#Instructions)
+          
+
+  1. 
+  1. 
+                [1. Bring your server off-line](#a1.Bringyourserveroff-line)
+              
+  1. 
+  1. 
+                [2. Update the Trac Code](#UpdatetheTracCode)
+              
+  1. 
+  1. 
+                [3. Upgrade the Trac Environment](#UpgradetheTracEnvironment)
+              
+  1. 
+  1. 
+                [4. Update the Trac Documentation](#UpdatetheTracDocumentation)
+              
+  1. 
+  1. 
+                [5. Refresh static resources](#a5.Refreshstaticresources)
+              
+  1. 
+  1. 
+                [6. Steps specific to a given Trac version](#a6.StepsspecifictoagivenTracversion)
+                
+
+    1. 
+    1. 
+                      [Upgrading from Trac 1.0 to 1.2](#to1.2)
+                    
+    1. 
+    1. 
+                      [Upgrading from Trac 0.12 to Trac 1.0](#to1.0)
+                    
+    1. 
+    1. 
+                      [Upgrading from Trac 0.11 to Trac 0.12](#UpgradingfromTrac0.11toTrac0.12)
+                    
+    1. 
+    1. 
+                      [Upgrading from Trac 0.10 to Trac 0.11](#UpgradingfromTrac0.10toTrac0.11)
+                    
+    1. 
+
+
+              
+  1. 
+  1. 
+                [7. Restart the Web Server](#RestarttheWebServer)
+              
+  1. 
+
+
+        
+1. 
+1. 
+          [Known Issues](#KnownIssues)
+          
+
+  1. 
+  1. 
+                [Customized Templates](#CustomizedTemplates)
+              
+  1. 
+  1. 
+                [ZipImportError](#ZipImportError)
+              
+  1. 
+  1. 
+                [Wiki Upgrade](#WikiUpgrade)
+              
+  1. 
+  1. 
+                [Trac database upgrade](#Tracdatabaseupgrade)
+              
+  1. 
+  1. 
+                [Parent dir](#Parentdir)
+              
+  1. 
+
+
+        
+1. 
+1. 
+          [Related topics](#Relatedtopics)
+          
+
+  1. 
+  1. 
+                [Upgrading Python](#UpgradingPython)
+                
+
+    1. 
+    1. 
+                      [Windows and Python 2.6](#WindowsandPython2.6)
+                    
+    1. 
+
+
+              
+  1. 
+  1. 
+                [Changing Database Backend](#ChangingDatabaseBackend)
+              
+  1. 
+  1. 
+                [Upgrading from older versions of Trac](#OlderVersions)
+              
+  1. 
+
+
+        
+1. 
+
+
+
 
 ## Instructions
 
@@ -127,10 +226,12 @@ Upgrade Python to at least 2.6 or 2.7, but not 3.0 or greater.
 ##### Obsolete Plugins
 
 
+
 Trac has added functionality equivalent to the following plugins:
 
+
 - [ AdminEnumListPlugin](https://trac-hacks.org/wiki/AdminEnumListPlugin)
-- [ DateFieldPlugin](https://trac-hacks.org/wiki/DateFieldPlugin): see the **time**[custom field type](trac-tickets-custom-fields#available-field-types-and-options)
+- [ DateFieldPlugin](https://trac-hacks.org/wiki/DateFieldPlugin): see the **time** [custom field type](trac-tickets-custom-fields#available-field-types-and-options)
 - [ GroupBasedRedirectionPlugin](https://trac-hacks.org/wiki/GroupBasedRedirectionPlugin): the default handler can set as a user preference.
 - [ LinenoMacro](https://trac-hacks.org/wiki/LinenoMacro): see [WikiProcessors\#AvailableProcessors](wiki-processors#)
 - [ NeverNotifyUpdaterPlugin](https://trac-hacks.org/wiki/NeverNotifyUpdaterPlugin): see [notification subscribers](trac-notification#)
@@ -148,10 +249,13 @@ The ticket creation step is controlled with a workflow action. The default workf
 ##### New permissions policy for read-only wiki pages
 
 
+
 Since 1.1.2 the read-only attribute of wiki pages is enabled and enforced only when `ReadonlyWikiPolicy` is in the list of active permission policies. If `[trac] permission_policy` has the default value `DefaultPermissionPolicy, LegacyAttachmentPolicy`, then `ReadonlyWikiPolicy` should be automatically appended to the list when upgrading the environment:
 
+
 ```
-[trac]permission_policies=ReadonlyWikiPolicy,
+[trac]
+permission_policies = ReadonlyWikiPolicy,
  DefaultPermissionPolicy,
  LegacyAttachmentPolicy
 ```
@@ -181,10 +285,13 @@ The plugins should be removed when upgrading Trac to 1.0.
 ##### Subversion components not enabled by default for new installations
 
 
+
 The Trac components for Subversion support are no longer enabled by default. To enable the svn support, you need to make sure the `tracopt.versioncontrol.svn` components are enabled, for example by setting the following in the [TracIni](trac-ini):
 
+
 ```
-[components]tracopt.versioncontrol.svn.*=enabled
+[components]
+tracopt.versioncontrol.svn.* = enabled
 ```
 
 
@@ -219,11 +326,13 @@ SQLite v2.x is no longer supported. If you still use a Trac database of this for
 ##### Obsolete Plugins
 
 
+
 Trac has added functionality equivalent to the following plugins:
+
 
 - [ AutoQueryPlugin](https://trac-hacks.org/wiki/AutoQueryPlugin)
 - [ AdminConsoleProviderPatch](https://trac-hacks.org/wiki/AdminConsoleProviderPatch)
-- [ AnchorMacro](https://trac-hacks.org/wiki/AnchorMacro): see [WikiFormatting\#SettingAnchors](wiki-formatting#setting-anchors)
+- [ AnchorMacro](https://trac-hacks.org/wiki/AnchorMacro): see [WikiFormatting\#SettingAnchors](wiki-formatting#)
 - [ TicketChangePlugin](https://trac-hacks.org/wiki/TicketChangePlugin): see [TICKET_EDIT_COMMENT permission](trac-permissions#ticket-system)
 - [ TicketDeletePlugin](https://trac-hacks.org/wiki/TicketDeletePlugin): see `tracopt.ticket.deleter`
 - [ SubversionLocationPlugin](https://trac-hacks.org/wiki/SubversionLocationPlugin): see [TracRepositoryAdmin\#Repositories](trac-repository-admin#repositories)
@@ -373,4 +482,7 @@ For upgrades from versions older than Trac 0.10, refer first to [ wiki:0.10/Trac
 ---
 
 
+
 See also: [TracGuide](trac-guide), [TracInstall](trac-install)
+
+

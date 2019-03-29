@@ -39,41 +39,79 @@ Here are the projects we're currently working on:
 
 - **Support for SSE primitives when using the LLVM back end** (Geoffrey M). The `simd` git branch of GHC adds support for primitive 128-bit SIMD vector types and associated primops when using the LLVM back end, meaning this branch can now generate SSE instructions on x86 platforms. We hope this support will make it into 7.6.1. Experimental versions of the vector library \[8\] and DPH \[9\] provide higher-level interfaces to the new primitives. Initial benchmarks indicate that numerical code can benefit substantially.
 
-- **Data Parallel Haskell**. The vectorisation transformation underlying our implementation of nested data parallelism in GHC had a fundamental and long standing asymptotic complexity problem that we were finally able to resolve. Details are in a recent draft paper entitled *Work Efficient Higher-Order Vectorisation*\[11\]. The implementation described in the paper is available in the DPH packages from Hackage (which need to be used with GHC 7.4.1). The new implementation of the DPH libraries still needs to be optimised; hence, our next step will be to optimise constant factors.
+- **Data Parallel Haskell**. The vectorisation transformation underlying our implementation of nested data parallelism in GHC had a fundamental and long standing asymptotic complexity problem that we were finally able to resolve. Details are in a recent draft paper entitled *Work Efficient Higher-Order Vectorisation* \[11\]. The implementation described in the paper is available in the DPH packages from Hackage (which need to be used with GHC 7.4.1). The new implementation of the DPH libraries still needs to be optimised; hence, our next step will be to optimise constant factors.
 
+>
 >
 > In addition, we released Repa 3 \[12\], which uses type-indices to control array representations. This leads to more predictable performance. You can install Repa 3, which requires GHC 7.4.1, from Hackage. We are currently writing a paper describing the new design in detail.
+>
+>
 
 >
+>
 > Finally, we are about to release (it may be out by the time you read this) a stable, end-user ready version of the Repa-like array library Accelerate for GPU computing on Hackage. It integrates with Repa, so you can mix GPU and CPU multicore computing, and via the new `meta-par` package you can share workload between CPUs and GPUs \[13\]. This new version 0.12 is already available on GitHub \[14\]. You need a CUDA-capable NVIDIA GPU to use it.
+>
+>
 
 - **Lightweight concurrency substrate** (Sivaramakrishnan Krishnamoorthy Chandrasekaran, aka "KC").  During his internship at MSR Cambridge, KC has been working on replacing the RTS scheduler with some APIs that enable the scheduler to be implemented in Haskell.  The aim is to not just move the scheduler into Haskell, but also enable user-defined schedulers to coexist, which will ultimately enable much greater control over scheduling behaviour.  This follows on from previous work \[15\] with Peng Li and Andrew Tolmach, but this time we are taking a slightly different approach that has a couple of important benefits.
 
 >
+>
 > Firstly, KC found a way to enable concurrency abstractions to be defined without depending on a particular scheduler.  This means for example that we can provide `MVar`s that work with any user-defined scheduler, rather than needing one `MVar` implementation per scheduler.  Secondly, we found ways to coexist with some of the existing RTS machinery for handling blackholes and asynchronous exceptions in particular, which means that these facilities will continue to work as before (with the same performance), and writers of user-defined schedulers do not need to worry about them.  Furthermore this significantly lowers the barrier for writing a new scheduler.
+>
+>
 
 >
+>
 > This is all still very much experimental, and it is not clear whether it will ever be in GHC proper.  It depends on whether we can achieve good enough performance, amongst other things.  All we can say for now is that the approach is promising.  You can find KC's work on the `ghc-lwc` branch of the git repo.
+>
+>
+
+
+ 
+
 
 - **Full support for GHCi on ARM** (Ben Gamari).  Thanks to Ben, we now have support for ARM in the GHCi linker \[21\].  This will be shipped in 7.4.2 (it wasn't in 7.4.1).
 
-\[1\][ http://hackage.haskell.org/trac/ghc/query?status=closed&order=priority&col=id&col=summary&col=status&col=owner&col=type&col=priority&col=component&milestone=7.4.2&resolution=fixed](http://hackage.haskell.org/trac/ghc/query?status=closed&order=priority&col=id&col=summary&col=status&col=owner&col=type&col=priority&col=component&milestone=7.4.2&resolution=fixed)
-\[2\][ http://hackage.haskell.org/trac/ghc/wiki/Status/Oct11](http://hackage.haskell.org/trac/ghc/wiki/Status/Oct11)
-\[3\][http://www.haskell.org/ghc/docs/7.4.1/html/users_guide/kind-polymorphism-and-promotion.html\#kind-polymorphism](http://www.haskell.org/ghc/docs/7.4.1/html/users_guide/kind-polymorphism-and-promotion.html#kind-polymorphism)
-\[4\][http://www.haskell.org/ghc/docs/7.4.1/html/users_guide/constraint-kind.html](http://www.haskell.org/ghc/docs/7.4.1/html/users_guide/constraint-kind.html)
-\[5\][ https://plus.google.com/107890464054636586545/posts/GsfcJfdkEYL](https://plus.google.com/107890464054636586545/posts/GsfcJfdkEYL)
-\[6\][ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen)
-\[7\][ http://www.cs.tufts.edu/\~nr/pubs/dfopt-abstract.html](http://www.cs.tufts.edu/~nr/pubs/dfopt-abstract.html)
-\[9\][ http://ghc-simd.blogspot.co.uk/2012/03/simd-support-for-vector-library.html](http://ghc-simd.blogspot.co.uk/2012/03/simd-support-for-vector-library.html)
-\[10\][ http://ghc-simd.blogspot.co.uk/2012/04/adding-simd-support-to-data-parallel.html](http://ghc-simd.blogspot.co.uk/2012/04/adding-simd-support-to-data-parallel.html)
-\[11\][ http://www.cse.unsw.edu.au/\~chak/papers/LCKLP12.html](http://www.cse.unsw.edu.au/~chak/papers/LCKLP12.html)
-\[12\][ http://repa.ouroborus.net/](http://repa.ouroborus.net/)
-\[13\][ http://parfunk.blogspot.com.au/2012/05/how-to-write-hybrid-cpugpu-programs.html](http://parfunk.blogspot.com.au/2012/05/how-to-write-hybrid-cpugpu-programs.html)
-\[14\][ https://github.com/AccelerateHS/accelerate](https://github.com/AccelerateHS/accelerate)
-\[15\][ http://community.haskell.org/\~simonmar/papers/conc-substrate.pdf](http://community.haskell.org/~simonmar/papers/conc-substrate.pdf)
-\[16\] Deferring type errors to runtime [ http://hackage.haskell.org/trac/ghc/wiki/DeferErrorsToRuntime](http://hackage.haskell.org/trac/ghc/wiki/DeferErrorsToRuntime)
-\[17\] Equality proofs and deferred type errors [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
-\[18\] Holes in GHC: [ http://hackage.haskell.org/trac/ghc/wiki/Holes](http://hackage.haskell.org/trac/ghc/wiki/Holes)
-\[19\] Modular type inference with local assumptions: OutsideIn(X) [ http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn](http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn)
-\[20\] Type level literals.  [ http://hackage.haskell.org/trac/ghc/wiki/TypeNats/Basics](http://hackage.haskell.org/trac/ghc/wiki/TypeNats/Basics)
+
+\[1\] [ http://hackage.haskell.org/trac/ghc/query?status=closed&order=priority&col=id&col=summary&col=status&col=owner&col=type&col=priority&col=component&milestone=7.4.2&resolution=fixed](http://hackage.haskell.org/trac/ghc/query?status=closed&order=priority&col=id&col=summary&col=status&col=owner&col=type&col=priority&col=component&milestone=7.4.2&resolution=fixed) 
+
+\[2\] [ http://hackage.haskell.org/trac/ghc/wiki/Status/Oct11](http://hackage.haskell.org/trac/ghc/wiki/Status/Oct11)
+
+\[3\] [http://www.haskell.org/ghc/docs/7.4.1/html/users_guide/kind-polymorphism-and-promotion.html\#kind-polymorphism](http://www.haskell.org/ghc/docs/7.4.1/html/users_guide/kind-polymorphism-and-promotion.html#kind-polymorphism) 
+
+\[4\] [http://www.haskell.org/ghc/docs/7.4.1/html/users_guide/constraint-kind.html](http://www.haskell.org/ghc/docs/7.4.1/html/users_guide/constraint-kind.html) 
+
+\[5\] [ https://plus.google.com/107890464054636586545/posts/GsfcJfdkEYL](https://plus.google.com/107890464054636586545/posts/GsfcJfdkEYL) 
+
+\[6\] [ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/NewCodeGen) 
+
+\[7\] [ http://www.cs.tufts.edu/\~nr/pubs/dfopt-abstract.html](http://www.cs.tufts.edu/~nr/pubs/dfopt-abstract.html) 
+
+\[9\] [ http://ghc-simd.blogspot.co.uk/2012/03/simd-support-for-vector-library.html](http://ghc-simd.blogspot.co.uk/2012/03/simd-support-for-vector-library.html) 
+
+\[10\] [ http://ghc-simd.blogspot.co.uk/2012/04/adding-simd-support-to-data-parallel.html](http://ghc-simd.blogspot.co.uk/2012/04/adding-simd-support-to-data-parallel.html) 
+
+\[11\] [ http://www.cse.unsw.edu.au/\~chak/papers/LCKLP12.html](http://www.cse.unsw.edu.au/~chak/papers/LCKLP12.html) 
+
+\[12\] [ http://repa.ouroborus.net/](http://repa.ouroborus.net/) 
+
+\[13\] [ http://parfunk.blogspot.com.au/2012/05/how-to-write-hybrid-cpugpu-programs.html](http://parfunk.blogspot.com.au/2012/05/how-to-write-hybrid-cpugpu-programs.html) 
+
+\[14\] [ https://github.com/AccelerateHS/accelerate](https://github.com/AccelerateHS/accelerate) 
+
+\[15\] [ http://community.haskell.org/\~simonmar/papers/conc-substrate.pdf](http://community.haskell.org/~simonmar/papers/conc-substrate.pdf) 
+
+\[16\] Deferring type errors to runtime [ http://hackage.haskell.org/trac/ghc/wiki/DeferErrorsToRuntime](http://hackage.haskell.org/trac/ghc/wiki/DeferErrorsToRuntime) 
+
+\[17\] Equality proofs and deferred type errors [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/) 
+
+\[18\] Holes in GHC: [ http://hackage.haskell.org/trac/ghc/wiki/Holes](http://hackage.haskell.org/trac/ghc/wiki/Holes) 
+
+\[19\] Modular type inference with local assumptions: OutsideIn(X) [ http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn](http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn) 
+
+\[20\] Type level literals.  [ http://hackage.haskell.org/trac/ghc/wiki/TypeNats/Basics](http://hackage.haskell.org/trac/ghc/wiki/TypeNats/Basics) 
+
 \[21\] ARM linker support. [ http://hackage.haskell.org/trac/ghc/changeset/27302c9094909e04eb73f200d52d5e9370c34a8a](http://hackage.haskell.org/trac/ghc/changeset/27302c9094909e04eb73f200d52d5e9370c34a8a)
+
+

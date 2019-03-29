@@ -9,24 +9,35 @@ This is the result of discussion between Alejandro Serrano Mena \<A.SerranoMena@
 **The most up-to-date description is available here: [Impredicativity in GHC (PDF)](/trac/ghc/attachment/wiki/ImpredicativePolymorphism/Impredicative-2015/impredicativity.pdf)[](/trac/ghc/raw-attachment/wiki/ImpredicativePolymorphism/Impredicative-2015/impredicativity.pdf)**
 
 
+
 The rest of the document is kept for historical purposes, and because it contains useful information about how the design is implemented inside GHC.
+
 
 ## Notation
 
+
 <table><tr><th>Type variables                   </th>
-<th>`alpha`, `beta`, `gamma`</th></tr>
+<th> <tt>alpha</tt>, <tt>beta</tt>, <tt>gamma</tt> 
+</th></tr>
 <tr><th>Type constructors                </th>
-<th>`T`</th></tr>
+<th> <tt>T</tt>                      
+</th></tr>
 <tr><th>Type families                    </th>
-<th>`F`</th></tr>
+<th> <tt>F</tt>                      
+</th></tr>
 <tr><th>Constraints                      </th>
-<th>`Q`</th></tr>
+<th> <tt>Q</tt>                      
+</th></tr>
 <tr><th>Monomorphic types                </th>
-<th>`mu    ::= alpha | a | mu -> mu | T mu ... mu | F mu ... mu`</th></tr>
-<tr><th>Types without top-level `forall`</th>
-<th>`tau   ::= alpha | a | sigma -> sigma | T sigma ... sigma | F sigma ... sigma`</th></tr>
+<th> <tt>mu    ::= alpha | a | mu -> mu | T mu ... mu | F mu ... mu</tt>                   
+</th></tr>
+<tr><th>Types without top-level <tt>forall</tt> </th>
+<th> <tt>tau   ::= alpha | a | sigma -> sigma | T sigma ... sigma | F sigma ... sigma</tt> 
+</th></tr>
 <tr><th>Polymorphic types                </th>
-<th>`sigma ::= forall a. Q => tau`</th></tr></table>
+<th> <tt>sigma ::= forall a. Q => tau</tt>                                                 
+</th></tr></table>
+
 
 ## Some basic facts
 

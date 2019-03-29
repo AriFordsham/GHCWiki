@@ -23,32 +23,45 @@ review how exception handling currently works in GHC Haskell.
 ## Primitive operations
 
 
+
 All (synchronous) exception handling in GHC is built on a few primitive operations,
 
-```
-catch#::(State#RealWorld->(#State#RealWorld, a #))->(b ->State#RealWorld->(#State#RealWorld, a #))->State#RealWorld->(#State#RealWorld, a #)raise#:: a -> b
 
-raiseIO#:: a ->State#RealWorld->(#State#RealWorld, b #)
+```
+catch# :: (State# RealWorld -> (# State# RealWorld, a #))
+       -> (b -> State# RealWorld -> (# State# RealWorld, a #))
+       -> State# RealWorld
+       -> (# State# RealWorld, a #)
+
+raise# :: a -> b
+
+raiseIO# :: a -> State# RealWorld -> (# State# RealWorld, b #)
 ```
 
 
 Which we can roughly interpret as,
 
+
 ```
-catch#::IO a
-       ->(b ->IO a)->IO a
+catch# :: IO a
+       -> (b -> IO a)
+       -> IO a
 
-raise#:: a -> b
+raise# :: a -> b
 
-raiseIO#:: a ->IO b
+raiseIO# :: a -> IO b
 ```
 
 
 Note how, like many primops, none of these care in the slightest about the types you give
 them. In fact, it is trivial to realize `unsafePerformIO` equipped with them,
 
+
 ```
-λ>IO$ catch#(raiseIO#48)(\a s1 ->(# s1, a::Char#))'0'λ>IO$ catch#(raiseIO#[1,2,3::Int])(\a s1 ->(# s1, a::Int#))8646911832613230923
+λ> IO $ catch# (raiseIO# 48) (\a s1 -> (# s1, a::Char #))
+'0'
+λ> IO $ catch# (raiseIO# [1,2,3::Int]) (\a s1 -> (# s1, a::Int #))
+8646911832613230923
 ```
 
 
@@ -59,11 +72,19 @@ For this reason, `base` implements a far safer interface on top of this mechanis
 `Control.Exception` provides a type-guided mechanism for exception
 handling,
 
-```
-class(Typeable e,Show e)=>Exception e where...-- | A value of any type in @Exception@ can be raised as an exceptionthrow::Exception e => e -> a
 
--- | Run a potentially failing computation, catching and handling-- exceptions of a particular type @e@.catch::Exception e
-      =>IO a         -- ^ potentially failing computation->(e ->IO a)-- ^ a handler->IO a
+```
+class (Typeable e, Show e) => Exception e where ...
+
+-- | A value of any type in @Exception@ can be raised as an exception
+throw :: Exception e => e -> a
+
+-- | Run a potentially failing computation, catching and handling
+-- exceptions of a particular type @e@.
+catch :: Exception e
+      => IO a         -- ^ potentially failing computation
+      -> (e -> IO a)  -- ^ a handler
+      -> IO a
 ```
 
 
@@ -79,8 +100,9 @@ lest the handler has no idea how to interpret the closure it is handed.
 For this, we introduce a type allowing us to box the exception value
 itself along with an `Exception` dictionary,
 
+
 ```
-dataSomeException= forall e.Exception e =>SomeException e
+data SomeException = forall e. Exception e => SomeException e
 ```
 
 
@@ -89,11 +111,13 @@ identify the type of the exception contained within. We can now safely
 define `throw` without having to worry about being unable to reconstruct
 the type of the thrown exception later,
 
-```
-class(Typeable e,Show e)=>Exception e
 
-throw::Exception e => e -> a
-throw e =let e' =SomeException e
+```
+class (Typeable e, Show e) => Exception e
+
+throw :: Exception e => e -> a
+throw e =
+    let e' = SomeException e
     in raise# e'
 ```
 
@@ -103,14 +127,19 @@ value thrown was of type `SomeException`. This provides us the ability to
 determine whether a given exception is appropriate for a given handler
 using `Typeable`'s `cast` function,
 
-```
--- | From 'Data.Typeable'cast::(Typeable a,Typeable b)=> a ->Maybe b
 
-catchException::Exception e =>IO a ->(e ->IO a)->IO a
-catchException(IO io) handler =IO$ catch# io handler'
+```
+-- | From 'Data.Typeable'
+cast :: (Typeable a, Typeable b) => a -> Maybe b
+
+catchException :: Exception e => IO a -> (e -> IO a) -> IO a
+catchException (IO io) handler = IO $ catch# io handler'
   where
-    handler' ::SomeException->IO a
-    handler' se@(SomeException e)=case cast e ofJust e' -> unIO (handler e')Nothing-> raiseIO# se
+    handler' :: SomeException -> IO a
+    handler' se@(SomeException e) =
+      case cast e of
+        Just e' -> unIO (handler e')
+        Nothing -> raiseIO# se
 ```
 
 
@@ -139,10 +168,16 @@ handler once it has been collected.
 We begin by modifying `SomeException` to add an optional `StackTrace`
 field, using pattern synonyms to preserve the existing interface,
 
-```
--- | Some notion of a stack tracedataStackTracedataSomeException= forall e.Exception e =>SomeExceptionWithStack!(MaybeStackTrace) e
 
--- | Preserve compatibility for existing userspatternSomeException e <-SomeExceptionWithStack_ e whereSomeException e =SomeExceptionWithStackNothing e
+```
+-- | Some notion of a stack trace
+data StackTrace
+
+data SomeException = forall e. Exception e => SomeExceptionWithStack !(Maybe StackTrace) e
+
+-- | Preserve compatibility for existing users
+pattern SomeException e <- SomeExceptionWithStack _ e where
+    SomeException e = SomeExceptionWithStack Nothing e
 
 ```
 
@@ -150,14 +185,19 @@ field, using pattern synonyms to preserve the existing interface,
 We can now easily introduce a variant of catch which can provide this
 optional stack trace to the handler,
 
+
 ```
-catchExceptionWithStack::Exception e
-                        =>IO a
-                        ->(MaybeStackTrace-> e ->IO a)->IO a
-catchExceptionWithStack(IO io) handler =IO$ catch# io handler'
+catchExceptionWithStack :: Exception e
+                        => IO a
+                        -> (Maybe StackTrace -> e -> IO a)
+                        -> IO a
+catchExceptionWithStack (IO io) handler = IO $ catch# io handler'
   where
-    handler' ::SomeException->IO a
-    handler' se@(SomeExceptionWithStack stack e)=case cast e ofJust e' -> unIO (handler stack e')Nothing-> raiseIO# se
+    handler' :: SomeException -> IO a
+    handler' se@(SomeExceptionWithStack stack e) =
+      case cast e of
+        Just e' -> unIO (handler stack e')
+        Nothing -> raiseIO# se
 ```
 
 
@@ -235,9 +275,14 @@ even per-process basis.
 Up until this point we have been ignoring asychronous exceptions, which
 build upon the `killThread#` primitive operation,
 
+
 ```
-killThread#::ThreadId#-> a
-            ->State#RealWorld->State#RealWorldthrowTo::Exception e =>ThreadId-> e ->IO()throwTo(ThreadId tid) ex =IO$\ s ->case(killThread# tid (toException ex) s)of s1 ->(# s1,()#)
+killThread# :: ThreadId# -> a
+            -> State# RealWorld -> State# RealWorld
+
+throwTo :: Exception e => ThreadId -> e -> IO ()
+throwTo (ThreadId tid) ex = IO $ \ s ->
+   case (killThread# tid (toException ex) s) of s1 -> (# s1, () #)
 ```
 
 
@@ -258,8 +303,10 @@ simply takes the exception and begins the usual unwinding process (TODO check th
 The easiest way to fit stack traces into this story would be to introduce a variant
 of `killThread#`,
 
+
 ```
-killThreadWithStack#::ThreadId#->(MaybeStackTrace-> a)->State#RealWorld->State#RealWorld
+killThreadWithStack# :: ThreadId# -> (Maybe StackTrace -> a)
+                     -> State# RealWorld -> State# RealWorld
 ```
 
 

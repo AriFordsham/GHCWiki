@@ -117,10 +117,15 @@ For the global variables, I'm not so sure about that: it's feasible to have inte
 ### Solution 1: the `Globals.c` mechanism
 
 
+
 Simon Marlow said:
 
+
+>
 >
 > "I haven't been following this in detail, but I think you're encountering the same problem we had with various top-level IORefs in the base package.  The solution we have there is grotesque but it works.  Take a look at libraries/base/GHC/Conc/Signal.hs, search for getOrSetGHCConcSignalSignalHandlerStore.  There is some corresponding RTS gunk to help with this in rts/Globals.c."
+>
+>
 
 
 This workaround keeps a table of `StgStablePtr`s in the RTS for a fixed set of symbols (that's managed by `rts/Globals.c`). That table is accessed via C functions named with the scheme `getOrSet<key>`. So we add one such function there (and in `includes/rts/Globals.h`: `getOrSetLibHSghcFastStringTable`.

@@ -7,10 +7,15 @@ See also the [\#9700](https://gitlab.haskell.org//ghc/ghc/issues/9700).
 ## The issue we are trying to solve
 
 
+
 According to Haskell Report [ 8.4.2](http://www.haskell.org/onlinereport/haskell2010/haskellch8.html#x15-1560008.4.2)
 
+
+>
 >
 > Only a subset of Haskell’s types are permissible as foreign types, as only a restricted set of types can be canonically transferred between the Haskell context and an external context.
+>
+>
 
 
 Briefly, this subset is limited to basic foreign types, their synonyms and newtypes. Obviously there is no way to represent C structure as foreign type in Haskell. 
@@ -29,15 +34,25 @@ To work with such libraries, we have to write special C functions to wrap origin
 ## Proposal
 
 
+
 I propose to extend the definition of marshallable foreign types with the following clause:
 
+
+>
 >
 > a type **T t'<sub>1</sub>** ... **t'<sub>n</sub>** where **T** is defined by data declaration
 >
-> > *data***T a<sub>1</sub>** ... **a<sub>n</sub>** = **C t<sub>1</sub>** ... **t<sub>k</sub>**
+>
+> >
+> >
+> > *data* **T a<sub>1</sub>** ... **a<sub>n</sub>** = **C t<sub>1</sub>** ... **t<sub>k</sub>**
+> >
+> >
 >
 >
 > and
+>
+>
 
 - **k** \> 0
 - the constructor **C** is visible where **T** is used

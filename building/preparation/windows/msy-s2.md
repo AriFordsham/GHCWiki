@@ -1,1 +1,1 @@
-redirect(wiki:Building/Preparation/Windows)?
+Page moved to [Building/Preparation/Windows](building/preparation/windows)

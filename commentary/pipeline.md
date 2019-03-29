@@ -75,7 +75,7 @@ Let's take a look at the overall structure of the driver pipeline. When we compi
 
 - Run the **C preprocessor**, `cpp`, (if `-cpp` is specified), generating `Foo.hspp`.
 
-- Run **the compiler itself**. This does not start a separate process; it's just a call to a Haskell function.  This step always generates an ['interface file'](commentary/compiler/iface-files)`Foo.hi`, and depending on what flags you give, it also generates a compiled file. As GHC supports three backend code generators currently (a native code generator, a C code generator and an llvm code generator) the possible range of outputs depends on the backend used. All three support assembly output:
+- Run **the compiler itself**. This does not start a separate process; it's just a call to a Haskell function.  This step always generates an ['interface file'](commentary/compiler/iface-files) `Foo.hi`, and depending on what flags you give, it also generates a compiled file. As GHC supports three backend code generators currently (a native code generator, a C code generator and an llvm code generator) the possible range of outputs depends on the backend used. All three support assembly output:
 
   - Object code: no flags required, file `Foo.o` (supported by all three backends)
   - Assembly code: flag `-S`, file `Foo.s` (supported by all three backends)

@@ -6,491 +6,500 @@ This is where we track various efforts to characterize and improve the performan
 ## Relevant tickets
 
 
+
 Identify tickets by using "Compile time performance bug" for the "Type of failure field".
+
+
 
 **Open Tickets:**
 
-<table><tr><th>[\#16382](https://gitlab.haskell.org//ghc/ghc/issues/16382)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16382">#16382</a></th>
 <td>Lifting a function from where clause to top level causes compilation time to triple</td></tr>
-<tr><th>[\#16017](https://gitlab.haskell.org//ghc/ghc/issues/16017)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16017">#16017</a></th>
 <td>ghc-8.6.1 and ghc-8.6.2 use a log of memory</td></tr>
-<tr><th>[\#15751](https://gitlab.haskell.org//ghc/ghc/issues/15751)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15751">#15751</a></th>
 <td>GHC takes huge amounts of memory and compile time when compiling ZipWith from accelerate</td></tr>
-<tr><th>[\#15703](https://gitlab.haskell.org//ghc/ghc/issues/15703)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15703">#15703</a></th>
 <td>Significant compilation time blowup when refactoring singletons-heavy code</td></tr>
-<tr><th>[\#15646](https://gitlab.haskell.org//ghc/ghc/issues/15646)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15646">#15646</a></th>
 <td>ghci takes super long time to find the type of large fractional number</td></tr>
-<tr><th>[\#15577](https://gitlab.haskell.org//ghc/ghc/issues/15577)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15577">#15577</a></th>
 <td>TypeApplications-related infinite loop (GHC 8.6+ only)</td></tr>
-<tr><th>[\#15488](https://gitlab.haskell.org//ghc/ghc/issues/15488)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15488">#15488</a></th>
 <td>GHC takes up huge amount of memory when compiling accelerate 1.2.0</td></tr>
-<tr><th>[\#15455](https://gitlab.haskell.org//ghc/ghc/issues/15455)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15455">#15455</a></th>
 <td>Memory usage when compiling jsaddle-dom exploded in 8.4.3</td></tr>
-<tr><th>[\#15304](https://gitlab.haskell.org//ghc/ghc/issues/15304)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15304">#15304</a></th>
 <td>Huge increase of compile time and memory use from 8.0.2 to 8.2.2 or 8.4.2</td></tr>
-<tr><th>[\#15090](https://gitlab.haskell.org//ghc/ghc/issues/15090)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15090">#15090</a></th>
 <td>Do more coercion optimisation on the fly</td></tr>
-<tr><th>[\#15019](https://gitlab.haskell.org//ghc/ghc/issues/15019)</th>
-<td>Fix performance regressions from \#14737</td></tr>
-<tr><th>[\#14988](https://gitlab.haskell.org//ghc/ghc/issues/14988)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15019">#15019</a></th>
+<td>Fix performance regressions from #14737</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14988">#14988</a></th>
 <td>Memory strain while compiling HLint</td></tr>
-<tr><th>[\#14974](https://gitlab.haskell.org//ghc/ghc/issues/14974)</th>
-<td>2-fold memory usage regression GHC 8.2.2 -\> GHC 8.4.1 compiling \`mmark\` package</td></tr>
-<tr><th>[\#14944](https://gitlab.haskell.org//ghc/ghc/issues/14944)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14974">#14974</a></th>
+<td>2-fold memory usage regression GHC 8.2.2 -&gt; GHC 8.4.1 compiling `mmark` package</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14944">#14944</a></th>
 <td>Compile speed regression</td></tr>
-<tr><th>[\#14923](https://gitlab.haskell.org//ghc/ghc/issues/14923)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14923">#14923</a></th>
 <td>Recompilation avoidance fails after a LANGUAGE change</td></tr>
-<tr><th>[\#14854](https://gitlab.haskell.org//ghc/ghc/issues/14854)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14854">#14854</a></th>
 <td>The size of FastString table is suboptimal for large codebases</td></tr>
-<tr><th>[\#14766](https://gitlab.haskell.org//ghc/ghc/issues/14766)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14766">#14766</a></th>
 <td>Hole-y partial type signatures greatly slow down compile times</td></tr>
-<tr><th>[\#14741](https://gitlab.haskell.org//ghc/ghc/issues/14741)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14741">#14741</a></th>
 <td>High-memory usage during compilation using Template Haskell</td></tr>
-<tr><th>[\#14738](https://gitlab.haskell.org//ghc/ghc/issues/14738)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14738">#14738</a></th>
 <td>Investigate performance of CoreTidy</td></tr>
-<tr><th>[\#14594](https://gitlab.haskell.org//ghc/ghc/issues/14594)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14594">#14594</a></th>
 <td>2 modules / 2500LOC takes nearly 3 minutes to build</td></tr>
-<tr><th>[\#14281](https://gitlab.haskell.org//ghc/ghc/issues/14281)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14281">#14281</a></th>
 <td>Minor regressions from removal of non-linear behavior from simplifier</td></tr>
-<tr><th>[\#14165](https://gitlab.haskell.org//ghc/ghc/issues/14165)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14165">#14165</a></th>
 <td>Investigate regressions from simplifier refactor</td></tr>
-<tr><th>[\#14031](https://gitlab.haskell.org//ghc/ghc/issues/14031)</th>
-<td>Linker paths carry substantial N\*M overhead when many libaries are used</td></tr>
-<tr><th>[\#13993](https://gitlab.haskell.org//ghc/ghc/issues/13993)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14031">#14031</a></th>
+<td>Linker paths carry substantial N*M overhead when many libaries are used</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13993">#13993</a></th>
 <td>Certain inter-module specializations run out of simplifier ticks</td></tr>
-<tr><th>[\#13745](https://gitlab.haskell.org//ghc/ghc/issues/13745)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13745">#13745</a></th>
 <td>Investigate compile-time regressions in regex-tdfa-1.2.2</td></tr>
-<tr><th>[\#13744](https://gitlab.haskell.org//ghc/ghc/issues/13744)</th>
-<td>Compile-time regression in 8.2 when compiling bloodhound's test suite</td></tr>
-<tr><th>[\#13586](https://gitlab.haskell.org//ghc/ghc/issues/13586)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13744">#13744</a></th>
+<td>Compile-time regression in 8.2 when compiling bloodhound&apos;s test suite</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13586">#13586</a></th>
 <td>ghc --make seems to leak memory</td></tr>
-<tr><th>[\#13565](https://gitlab.haskell.org//ghc/ghc/issues/13565)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13565">#13565</a></th>
 <td>Compiler allocations on sched in nofib regressed by 10% between 091333313 and 1883afb2</td></tr>
-<tr><th>[\#13564](https://gitlab.haskell.org//ghc/ghc/issues/13564)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13564">#13564</a></th>
 <td>Why does memory usage increase so much during CoreTidy?</td></tr>
-<tr><th>[\#13535](https://gitlab.haskell.org//ghc/ghc/issues/13535)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13535">#13535</a></th>
 <td>vector test suite uses excessive memory on GHC 8.2</td></tr>
-<tr><th>[\#13426](https://gitlab.haskell.org//ghc/ghc/issues/13426)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13426">#13426</a></th>
 <td>compile-time memory-usage regression for DynFlags between GHC 8.0 and GHC 8.2</td></tr>
-<tr><th>[\#13386](https://gitlab.haskell.org//ghc/ghc/issues/13386)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13386">#13386</a></th>
 <td>Poor compiler performance with type families</td></tr>
-<tr><th>[\#13353](https://gitlab.haskell.org//ghc/ghc/issues/13353)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13353">#13353</a></th>
 <td>foldr/nil rule not applied consistently</td></tr>
-<tr><th>[\#13282](https://gitlab.haskell.org//ghc/ghc/issues/13282)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13282">#13282</a></th>
 <td>Introduce fast path through simplifier for static bindings</td></tr>
-<tr><th>[\#13270](https://gitlab.haskell.org//ghc/ghc/issues/13270)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13270">#13270</a></th>
 <td>Make Core Lint faster</td></tr>
-<tr><th>[\#13253](https://gitlab.haskell.org//ghc/ghc/issues/13253)</th>
-<td>Exponential compilation time with RWST & ReaderT stack with \`-02\`</td></tr>
-<tr><th>[\#13226](https://gitlab.haskell.org//ghc/ghc/issues/13226)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13253">#13253</a></th>
+<td>Exponential compilation time with RWST &amp; ReaderT stack with `-02`</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13226">#13226</a></th>
 <td>Compiler allocation regressions from top-level string literal patch</td></tr>
-<tr><th>[\#13092](https://gitlab.haskell.org//ghc/ghc/issues/13092)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13092">#13092</a></th>
 <td>family instance consistency checks are too pessimistic</td></tr>
-<tr><th>[\#13063](https://gitlab.haskell.org//ghc/ghc/issues/13063)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13063">#13063</a></th>
 <td>Program uses 8GB of memory</td></tr>
-<tr><th>[\#13048](https://gitlab.haskell.org//ghc/ghc/issues/13048)</th>
-<td>Splitter is O(n\^2)</td></tr>
-<tr><th>[\#12896](https://gitlab.haskell.org//ghc/ghc/issues/12896)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13048">#13048</a></th>
+<td>Splitter is O(n^2)</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12896">#12896</a></th>
 <td>Consider using compact regions in GHC itself to reduce GC overhead</td></tr>
-<tr><th>[\#12860](https://gitlab.haskell.org//ghc/ghc/issues/12860)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12860">#12860</a></th>
 <td>GeneralizedNewtypeDeriving + MultiParamTypeClasses sends typechecker into an infinite loop</td></tr>
-<tr><th>[\#12765](https://gitlab.haskell.org//ghc/ghc/issues/12765)</th>
-<td>Don't optimize coercions with -O0</td></tr>
-<tr><th>[\#12506](https://gitlab.haskell.org//ghc/ghc/issues/12506)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12765">#12765</a></th>
+<td>Don&apos;t optimize coercions with -O0</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12506">#12506</a></th>
 <td>Compile time regression in GHC 8.</td></tr>
-<tr><th>[\#12412](https://gitlab.haskell.org//ghc/ghc/issues/12412)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12412">#12412</a></th>
 <td>SIMD things introduce a metric ton of known key things</td></tr>
-<tr><th>[\#12274](https://gitlab.haskell.org//ghc/ghc/issues/12274)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12274">#12274</a></th>
 <td>GHC panic: simplifier ticks exhausted</td></tr>
-<tr><th>[\#12032](https://gitlab.haskell.org//ghc/ghc/issues/12032)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12032">#12032</a></th>
 <td>Performance regression with large numbers of equation-style decls</td></tr>
-<tr><th>[\#12028](https://gitlab.haskell.org//ghc/ghc/issues/12028)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12028">#12028</a></th>
 <td>Large let bindings are 6x slower (since 6.12.x to 7.10.x)</td></tr>
-<tr><th>[\#11822](https://gitlab.haskell.org//ghc/ghc/issues/11822)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11822">#11822</a></th>
 <td>Pattern match checker exceeded (2000000) iterations</td></tr>
-<tr><th>[\#11735](https://gitlab.haskell.org//ghc/ghc/issues/11735)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11735">#11735</a></th>
 <td>Optimize coercionKind</td></tr>
-<tr><th>[\#11545](https://gitlab.haskell.org//ghc/ghc/issues/11545)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11545">#11545</a></th>
 <td>Strictness signature blowup</td></tr>
-<tr><th>[\#11528](https://gitlab.haskell.org//ghc/ghc/issues/11528)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11528">#11528</a></th>
 <td>Representation of value set abstractions as trees causes performance issues</td></tr>
-<tr><th>[\#11380](https://gitlab.haskell.org//ghc/ghc/issues/11380)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11380">#11380</a></th>
 <td>Compiling a 10.000 line file exhausts memory</td></tr>
-<tr><th>[\#11323](https://gitlab.haskell.org//ghc/ghc/issues/11323)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11323">#11323</a></th>
 <td>powerpc64: recomp015 fails with redundant linking</td></tr>
-<tr><th>[\#11263](https://gitlab.haskell.org//ghc/ghc/issues/11263)</th>
-<td>"Simplifier ticks exhausted" that resolves with fsimpl-tick-factor=200</td></tr>
-<tr><th>[\#11260](https://gitlab.haskell.org//ghc/ghc/issues/11260)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11263">#11263</a></th>
+<td>&quot;Simplifier ticks exhausted&quot; that resolves with fsimpl-tick-factor=200</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11260">#11260</a></th>
 <td>Re-compilation driver/recomp11 test fails</td></tr>
-<tr><th>[\#11196](https://gitlab.haskell.org//ghc/ghc/issues/11196)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11196">#11196</a></th>
 <td>TypeInType performance regressions</td></tr>
-<tr><th>[\#11151](https://gitlab.haskell.org//ghc/ghc/issues/11151)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11151">#11151</a></th>
 <td>T3064 regresses with wildcard refactor</td></tr>
-<tr><th>[\#10980](https://gitlab.haskell.org//ghc/ghc/issues/10980)</th>
-<td>Deriving Read instance from datatype with N fields leads to N\^2 code size growth</td></tr>
-<tr><th>[\#10844](https://gitlab.haskell.org//ghc/ghc/issues/10844)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10980">#10980</a></th>
+<td>Deriving Read instance from datatype with N fields leads to N^2 code size growth</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10844">#10844</a></th>
 <td>CallStack should not be inlined</td></tr>
-<tr><th>[\#10818](https://gitlab.haskell.org//ghc/ghc/issues/10818)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10818">#10818</a></th>
 <td>GHC 7.10.2 takes much longer to compile some packages</td></tr>
-<tr><th>[\#10584](https://gitlab.haskell.org//ghc/ghc/issues/10584)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10584">#10584</a></th>
 <td>Installation of SFML failed</td></tr>
-<tr><th>[\#10228](https://gitlab.haskell.org//ghc/ghc/issues/10228)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10228">#10228</a></th>
 <td>Increased memory usage with GHC 7.10.1</td></tr>
-<tr><th>[\#9979](https://gitlab.haskell.org//ghc/ghc/issues/9979)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9979">#9979</a></th>
 <td>Performance regression GHC 7.8.4 to GHC HEAD</td></tr>
-<tr><th>[\#9780](https://gitlab.haskell.org//ghc/ghc/issues/9780)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9780">#9780</a></th>
 <td>dep_orphs in Dependencies redundantly records type family orphans</td></tr>
-<tr><th>[\#9675](https://gitlab.haskell.org//ghc/ghc/issues/9675)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9675">#9675</a></th>
 <td>Unreasonable memory usage on large data structures</td></tr>
-<tr><th>[\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9669">#9669</a></th>
 <td>Long compile time/high memory usage for modules with many deriving clauses</td></tr>
-<tr><th>[\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9557">#9557</a></th>
 <td>Deriving instances is slow</td></tr>
-<tr><th>[\#9370](https://gitlab.haskell.org//ghc/ghc/issues/9370)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9370">#9370</a></th>
 <td>unfolding info as seen when building a module depends on flags in a previously-compiled module</td></tr>
-<tr><th>[\#9221](https://gitlab.haskell.org//ghc/ghc/issues/9221)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9221">#9221</a></th>
 <td>(super!) linear slowdown of parallel builds on 40 core machine</td></tr>
-<tr><th>[\#9198](https://gitlab.haskell.org//ghc/ghc/issues/9198)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9198">#9198</a></th>
 <td>large performance regression in type checker speed in 7.8</td></tr>
-<tr><th>[\#9020](https://gitlab.haskell.org//ghc/ghc/issues/9020)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9020">#9020</a></th>
 <td>Massive blowup of code size on trivial program</td></tr>
-<tr><th>[\#8774](https://gitlab.haskell.org//ghc/ghc/issues/8774)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8774">#8774</a></th>
 <td>Transitivity of Auto-Specialization</td></tr>
-<tr><th>[\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8731">#8731</a></th>
 <td>long compilation time for module with large data type and partial record selectors</td></tr>
-<tr><th>[\#8523](https://gitlab.haskell.org//ghc/ghc/issues/8523)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8523">#8523</a></th>
 <td>blowup in space/time for type checking and object size for high arity tuples</td></tr>
-<tr><th>[\#8211](https://gitlab.haskell.org//ghc/ghc/issues/8211)</th>
-<td>ghc -c recompiles TH every time while --make doesn't</td></tr>
-<tr><th>[\#8173](https://gitlab.haskell.org//ghc/ghc/issues/8173)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8211">#8211</a></th>
+<td>ghc -c recompiles TH every time while --make doesn&apos;t</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8173">#8173</a></th>
 <td>GHC uses nub</td></tr>
-<tr><th>[\#8147](https://gitlab.haskell.org//ghc/ghc/issues/8147)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8147">#8147</a></th>
 <td>Exponential behavior in instance resolution on fixpoint-of-sum</td></tr>
-<tr><th>[\#8144](https://gitlab.haskell.org//ghc/ghc/issues/8144)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8144">#8144</a></th>
 <td>Interface hashes include time stamp of dependent files (UsageFile mtime)</td></tr>
-<tr><th>[\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8095">#8095</a></th>
 <td>TypeFamilies painfully slow</td></tr>
-<tr><th>[\#7803](https://gitlab.haskell.org//ghc/ghc/issues/7803)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7803">#7803</a></th>
 <td>Superclass methods are left unspecialized</td></tr>
-<tr><th>[\#7450](https://gitlab.haskell.org//ghc/ghc/issues/7450)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7450">#7450</a></th>
 <td>Regression in optimisation time of functions with many patterns (6.12 to 7.4)?</td></tr>
-<tr><th>[\#7428](https://gitlab.haskell.org//ghc/ghc/issues/7428)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7428">#7428</a></th>
 <td>GHC compile times are seriously non-linear in program size</td></tr>
-<tr><th>[\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7258">#7258</a></th>
 <td>Compiling DynFlags is jolly slow</td></tr>
-<tr><th>[\#6047](https://gitlab.haskell.org//ghc/ghc/issues/6047)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/6047">#6047</a></th>
 <td>GHC retains unnecessary binding</td></tr>
-<tr><th>[\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5642">#5642</a></th>
 <td>Deriving Generic of a big type takes a long time and lots of space</td></tr>
-<tr><th>[\#5224](https://gitlab.haskell.org//ghc/ghc/issues/5224)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5224">#5224</a></th>
 <td>Improve consistency checking for family instances</td></tr>
-<tr><th>[\#3831](https://gitlab.haskell.org//ghc/ghc/issues/3831)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3831">#3831</a></th>
 <td>SpecConstr should exploit cases where there is exactly one call pattern</td></tr>
-<tr><th>[\#2988](https://gitlab.haskell.org//ghc/ghc/issues/2988)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2988">#2988</a></th>
 <td>Improve float-in</td></tr>
-<tr><th>[\#2346](https://gitlab.haskell.org//ghc/ghc/issues/2346)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2346">#2346</a></th>
 <td>Compilation of large source files requires a lot of RAM</td></tr>
-<tr><th>[\#1290](https://gitlab.haskell.org//ghc/ghc/issues/1290)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1290">#1290</a></th>
 <td>ghc runs preprocessor too much</td></tr></table>
+
+
+
 
 **Closed Tickets:**
 
-<table><tr><th>[\#15473](https://gitlab.haskell.org//ghc/ghc/issues/15473)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15473">#15473</a></th>
 <td>GHC 8.6+ loops infinitely on an UndecidableInstances error message</td></tr>
-<tr><th>[\#15380](https://gitlab.haskell.org//ghc/ghc/issues/15380)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15380">#15380</a></th>
 <td>Infinite typechecker loop in GHC 8.6</td></tr>
-<tr><th>[\#15164](https://gitlab.haskell.org//ghc/ghc/issues/15164)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15164">#15164</a></th>
 <td>Slowdown in ghc compile times from GHC 8.0.2 to GHC 8.2.1 when doing Called arity analysis</td></tr>
-<tr><th>[\#15051](https://gitlab.haskell.org//ghc/ghc/issues/15051)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15051">#15051</a></th>
 <td>-split-objs generates excessively many files on Windows</td></tr>
-<tr><th>[\#14969](https://gitlab.haskell.org//ghc/ghc/issues/14969)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14969">#14969</a></th>
 <td>Underconstrained typed holes are non-performant</td></tr>
-<tr><th>[\#14928](https://gitlab.haskell.org//ghc/ghc/issues/14928)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14928">#14928</a></th>
 <td>TH eats 50 GB memory when creating ADT with multiple constructors</td></tr>
-<tr><th>[\#14737](https://gitlab.haskell.org//ghc/ghc/issues/14737)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14737">#14737</a></th>
 <td>Improve performance of Simplify.simplCast</td></tr>
-<tr><th>[\#14723](https://gitlab.haskell.org//ghc/ghc/issues/14723)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14723">#14723</a></th>
 <td>GHC 8.4.1-alpha loops infinitely when typechecking</td></tr>
-<tr><th>[\#14697](https://gitlab.haskell.org//ghc/ghc/issues/14697)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14697">#14697</a></th>
 <td>Redundant computation in fingerprintDynFlags when compiling many modules</td></tr>
-<tr><th>[\#14693](https://gitlab.haskell.org//ghc/ghc/issues/14693)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14693">#14693</a></th>
 <td>Computing imp_finst can take up significant amount of time</td></tr>
-<tr><th>[\#14683](https://gitlab.haskell.org//ghc/ghc/issues/14683)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14683">#14683</a></th>
 <td>Slow compile times for Happy-generated source</td></tr>
-<tr><th>[\#14667](https://gitlab.haskell.org//ghc/ghc/issues/14667)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14667">#14667</a></th>
 <td>Compiling a function with a lot of alternatives bottlenecks on insertIntHeap</td></tr>
-<tr><th>[\#14657](https://gitlab.haskell.org//ghc/ghc/issues/14657)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14657">#14657</a></th>
 <td>Quadratic constructor tag allocation</td></tr>
-<tr><th>[\#14450](https://gitlab.haskell.org//ghc/ghc/issues/14450)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14450">#14450</a></th>
 <td>GHCi spins forever</td></tr>
-<tr><th>[\#14435](https://gitlab.haskell.org//ghc/ghc/issues/14435)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14435">#14435</a></th>
 <td>GHC 8.2.1 regression: -ddump-tc-trace hangs forever</td></tr>
-<tr><th>[\#14378](https://gitlab.haskell.org//ghc/ghc/issues/14378)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14378">#14378</a></th>
 <td>Unreasonably high memory use when compiling with profiling and -O2/-O2</td></tr>
-<tr><th>[\#14254](https://gitlab.haskell.org//ghc/ghc/issues/14254)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14254">#14254</a></th>
 <td>The Binary instance for TypeRep smells a bit expensive</td></tr>
-<tr><th>[\#14161](https://gitlab.haskell.org//ghc/ghc/issues/14161)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14161">#14161</a></th>
 <td>Performance Problems on AST Dump</td></tr>
-<tr><th>[\#14037](https://gitlab.haskell.org//ghc/ghc/issues/14037)</th>
-<td>Fix fusion for GHC's utility functions</td></tr>
-<tr><th>[\#13789](https://gitlab.haskell.org//ghc/ghc/issues/13789)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14037">#14037</a></th>
+<td>Fix fusion for GHC&apos;s utility functions</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13789">#13789</a></th>
 <td>Look into haddock performance regressions due to desugaring on -fno-code</td></tr>
-<tr><th>[\#13719](https://gitlab.haskell.org//ghc/ghc/issues/13719)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13719">#13719</a></th>
 <td>checkFamInstConsistency dominates compile time</td></tr>
-<tr><th>[\#13701](https://gitlab.haskell.org//ghc/ghc/issues/13701)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13701">#13701</a></th>
 <td>GHCi 2x slower without -keep-tmp-files</td></tr>
-<tr><th>[\#13659](https://gitlab.haskell.org//ghc/ghc/issues/13659)</th>
-<td>Bug report: "AThing evaluated unexpectedly tcTyVar a_alF"</td></tr>
-<tr><th>[\#13639](https://gitlab.haskell.org//ghc/ghc/issues/13639)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13659">#13659</a></th>
+<td>Bug report: &quot;AThing evaluated unexpectedly tcTyVar a_alF&quot;</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13639">#13639</a></th>
 <td>Skylighting package compilation is glacial</td></tr>
-<tr><th>[\#13395](https://gitlab.haskell.org//ghc/ghc/issues/13395)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13395">#13395</a></th>
 <td>3x slowdown on GHC HEAD with file containing lots of overloaded string literals</td></tr>
-<tr><th>[\#13379](https://gitlab.haskell.org//ghc/ghc/issues/13379)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13379">#13379</a></th>
 <td>Space leak / quadratic behavior when inlining</td></tr>
-<tr><th>[\#13344](https://gitlab.haskell.org//ghc/ghc/issues/13344)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13344">#13344</a></th>
 <td>Core string literal patch regresses compiler performance considerably</td></tr>
-<tr><th>[\#13279](https://gitlab.haskell.org//ghc/ghc/issues/13279)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13279">#13279</a></th>
 <td>Check known-key lists</td></tr>
-<tr><th>[\#13188](https://gitlab.haskell.org//ghc/ghc/issues/13188)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13188">#13188</a></th>
 <td>COMPLETE pragma causes compilation to hang forever under certain scenarios</td></tr>
-<tr><th>[\#13081](https://gitlab.haskell.org//ghc/ghc/issues/13081)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13081">#13081</a></th>
 <td>Code size explosion with with inlined instances for fixed point of functor</td></tr>
-<tr><th>[\#13059](https://gitlab.haskell.org//ghc/ghc/issues/13059)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13059">#13059</a></th>
 <td>High memory usage during compilation</td></tr>
-<tr><th>[\#13056](https://gitlab.haskell.org//ghc/ghc/issues/13056)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13056">#13056</a></th>
 <td>Deriving Foldable causes GHC to take a long time (GHC 8.0 ONLY)</td></tr>
-<tr><th>[\#12878](https://gitlab.haskell.org//ghc/ghc/issues/12878)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12878">#12878</a></th>
 <td>Use gold linker by default if available on ELF systems</td></tr>
-<tr><th>[\#12847](https://gitlab.haskell.org//ghc/ghc/issues/12847)</th>
-<td>ghci -fobject-code -O2 doesn't do the same optimisations as ghc --make -O2</td></tr>
-<tr><th>[\#12790](https://gitlab.haskell.org//ghc/ghc/issues/12790)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12847">#12847</a></th>
+<td>ghci -fobject-code -O2 doesn&apos;t do the same optimisations as ghc --make -O2</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12790">#12790</a></th>
 <td>GHC 8.0.1 uses copious amounts of RAM and time when trying to compile lambdabot-haskell-plugins</td></tr>
-<tr><th>[\#12754](https://gitlab.haskell.org//ghc/ghc/issues/12754)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12754">#12754</a></th>
 <td>Adding an explicit export list halves compilation time.</td></tr>
-<tr><th>[\#12567](https://gitlab.haskell.org//ghc/ghc/issues/12567)</th>
-<td>\`ghc --make\` recompiles unchanged files when using \`-fplugin\` OPTIONS</td></tr>
-<tr><th>[\#12545](https://gitlab.haskell.org//ghc/ghc/issues/12545)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12567">#12567</a></th>
+<td>`ghc --make` recompiles unchanged files when using `-fplugin` OPTIONS</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12545">#12545</a></th>
 <td>Compilation time/space regression in GHC 8.0/8.1 (search in type-level lists and -O)</td></tr>
-<tr><th>[\#12425](https://gitlab.haskell.org//ghc/ghc/issues/12425)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12425">#12425</a></th>
 <td>With -O1 and above causes ghc to use all available memory before being killed by OOM killer</td></tr>
-<tr><th>[\#12367](https://gitlab.haskell.org//ghc/ghc/issues/12367)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12367">#12367</a></th>
 <td>Commit adding instances to GHC.Generics regression compiler performance</td></tr>
-<tr><th>[\#12357](https://gitlab.haskell.org//ghc/ghc/issues/12357)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12357">#12357</a></th>
 <td>Increasing maximum constraint tuple size significantly blows up compiler allocations</td></tr>
-<tr><th>[\#12234](https://gitlab.haskell.org//ghc/ghc/issues/12234)</th>
-<td>'deriving Eq' on recursive datatype makes ghc eat a lot of CPU and RAM</td></tr>
-<tr><th>[\#12227](https://gitlab.haskell.org//ghc/ghc/issues/12227)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12234">#12234</a></th>
+<td>&apos;deriving Eq&apos; on recursive datatype makes ghc eat a lot of CPU and RAM</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12227">#12227</a></th>
 <td>regression: out of memory with -O2 -ddump-hi on a complex INLINE function</td></tr>
-<tr><th>[\#12191](https://gitlab.haskell.org//ghc/ghc/issues/12191)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12191">#12191</a></th>
 <td>7% allocation regression in Haddock performance tests</td></tr>
-<tr><th>[\#12150](https://gitlab.haskell.org//ghc/ghc/issues/12150)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12150">#12150</a></th>
 <td>Compile time performance degradation on code that uses undefined/error with CallStacks</td></tr>
-<tr><th>[\#11991](https://gitlab.haskell.org//ghc/ghc/issues/11991)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11991">#11991</a></th>
 <td>Generics deriving is quadratic</td></tr>
-<tr><th>[\#11800](https://gitlab.haskell.org//ghc/ghc/issues/11800)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11800">#11800</a></th>
 <td>T9872d bytes allocated has regressed terribly on 32-bit Linux</td></tr>
-<tr><th>[\#11598](https://gitlab.haskell.org//ghc/ghc/issues/11598)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11598">#11598</a></th>
 <td>Cache coercion kinds and roles</td></tr>
-<tr><th>[\#11597](https://gitlab.haskell.org//ghc/ghc/issues/11597)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11597">#11597</a></th>
 <td>Optimize cmpTypeX</td></tr>
-<tr><th>[\#11518](https://gitlab.haskell.org//ghc/ghc/issues/11518)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11518">#11518</a></th>
 <td>Test TcCoercibleFail hangs with substitution sanity checks enabled</td></tr>
-<tr><th>[\#11443](https://gitlab.haskell.org//ghc/ghc/issues/11443)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11443">#11443</a></th>
 <td>SPECIALIZE pragma does not work + compilation times regression in GHC 8.0-rc1</td></tr>
-<tr><th>[\#11415](https://gitlab.haskell.org//ghc/ghc/issues/11415)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11415">#11415</a></th>
 <td>pandoc-types fails to build on 4 GB machine</td></tr>
-<tr><th>[\#11407](https://gitlab.haskell.org//ghc/ghc/issues/11407)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11407">#11407</a></th>
 <td>-XTypeInType uses up all memory when used in data family instance</td></tr>
-<tr><th>[\#11379](https://gitlab.haskell.org//ghc/ghc/issues/11379)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11379">#11379</a></th>
 <td>Solver hits iteration limit in code without recursive constraints</td></tr>
-<tr><th>[\#11375](https://gitlab.haskell.org//ghc/ghc/issues/11375)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11375">#11375</a></th>
 <td>Type aliases twice as slow to compile as closed type families.</td></tr>
-<tr><th>[\#11303](https://gitlab.haskell.org//ghc/ghc/issues/11303)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11303">#11303</a></th>
 <td>Pattern matching against sets of strings sharing a prefix blows up pattern checker</td></tr>
-<tr><th>[\#11285](https://gitlab.haskell.org//ghc/ghc/issues/11285)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11285">#11285</a></th>
 <td>Split objects makes static linking really slow</td></tr>
-<tr><th>[\#11163](https://gitlab.haskell.org//ghc/ghc/issues/11163)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11163">#11163</a></th>
 <td>New exhaustiveness checker breaks T5642</td></tr>
-<tr><th>[\#11162](https://gitlab.haskell.org//ghc/ghc/issues/11162)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11162">#11162</a></th>
 <td>T783 regresses severely in allocations with new pattern match checker</td></tr>
-<tr><th>[\#11161](https://gitlab.haskell.org//ghc/ghc/issues/11161)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11161">#11161</a></th>
 <td>New exhaustiveness checker breaks concurrent/prog001</td></tr>
-<tr><th>[\#11160](https://gitlab.haskell.org//ghc/ghc/issues/11160)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11160">#11160</a></th>
 <td>New exhaustiveness checker breaks ghcirun004</td></tr>
-<tr><th>[\#11095](https://gitlab.haskell.org//ghc/ghc/issues/11095)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11095">#11095</a></th>
 <td>-O0 -g slows GHC down on list literals (compared to -O0 without -g)</td></tr>
-<tr><th>[\#11074](https://gitlab.haskell.org//ghc/ghc/issues/11074)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11074">#11074</a></th>
 <td>invalid fixup in runtime linker</td></tr>
-<tr><th>[\#11030](https://gitlab.haskell.org//ghc/ghc/issues/11030)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11030">#11030</a></th>
 <td>D757 (emit Typeable at type definition site) regresses T3294 max_bytes_used by factor of two</td></tr>
-<tr><th>[\#10858](https://gitlab.haskell.org//ghc/ghc/issues/10858)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10858">#10858</a></th>
 <td>Smaller generated Ord instances</td></tr>
-<tr><th>[\#10852](https://gitlab.haskell.org//ghc/ghc/issues/10852)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10852">#10852</a></th>
 <td>ghc 7.8.4 on arm - panic: Simplifier ticks exhausted</td></tr>
-<tr><th>[\#10837](https://gitlab.haskell.org//ghc/ghc/issues/10837)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10837">#10837</a></th>
 <td>Constant-time indexing of closed type family axioms</td></tr>
-<tr><th>[\#10800](https://gitlab.haskell.org//ghc/ghc/issues/10800)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10800">#10800</a></th>
 <td>vector-0.11 compile time increased substantially with 7.10.1</td></tr>
-<tr><th>[\#10711](https://gitlab.haskell.org//ghc/ghc/issues/10711)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10711">#10711</a></th>
 <td>Defining mapM_ in terms of traverse_ causes substantial blow-up in ByteCodeAsm</td></tr>
-<tr><th>[\#10693](https://gitlab.haskell.org//ghc/ghc/issues/10693)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10693">#10693</a></th>
 <td>Profile ghc -j with an eye for performance issues</td></tr>
-<tr><th>[\#10528](https://gitlab.haskell.org//ghc/ghc/issues/10528)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10528">#10528</a></th>
 <td>compile time performance regression with OverloadedStrings and Text</td></tr>
-<tr><th>[\#10491](https://gitlab.haskell.org//ghc/ghc/issues/10491)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10491">#10491</a></th>
 <td>Regression, simplifier explosion with Accelerate, cannot compile, increasing tick factor is not a workaround</td></tr>
-<tr><th>[\#10370](https://gitlab.haskell.org//ghc/ghc/issues/10370)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10370">#10370</a></th>
 <td>Compile time regression in OpenGLRaw</td></tr>
-<tr><th>[\#10293](https://gitlab.haskell.org//ghc/ghc/issues/10293)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10293">#10293</a></th>
 <td>CallArity taking 20% of compile time</td></tr>
-<tr><th>[\#10289](https://gitlab.haskell.org//ghc/ghc/issues/10289)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10289">#10289</a></th>
 <td>compiling huge HashSet hogs memory</td></tr>
-<tr><th>[\#9961](https://gitlab.haskell.org//ghc/ghc/issues/9961)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9961">#9961</a></th>
 <td>compile-time performance regression compiling genprimcode</td></tr>
-<tr><th>[\#9960](https://gitlab.haskell.org//ghc/ghc/issues/9960)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9960">#9960</a></th>
 <td>Performance problem with TrieMap</td></tr>
-<tr><th>[\#9771](https://gitlab.haskell.org//ghc/ghc/issues/9771)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9771">#9771</a></th>
 <td>Excessive memory usage compiling T3064</td></tr>
-<tr><th>[\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9630">#9630</a></th>
 <td>compile-time performance regression (probably due to Generics)</td></tr>
-<tr><th>[\#9400](https://gitlab.haskell.org//ghc/ghc/issues/9400)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9400">#9400</a></th>
 <td>poor performance when compiling modules with many Text literals at -O1</td></tr>
-<tr><th>[\#9243](https://gitlab.haskell.org//ghc/ghc/issues/9243)</th>
-<td>Recompilation avoidance doesn't work for -fno-code/-fwrite-interface</td></tr>
-<tr><th>[\#9233](https://gitlab.haskell.org//ghc/ghc/issues/9233)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9243">#9243</a></th>
+<td>Recompilation avoidance doesn&apos;t work for -fno-code/-fwrite-interface</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9233">#9233</a></th>
 <td>Compiler performance regression</td></tr>
-<tr><th>[\#9229](https://gitlab.haskell.org//ghc/ghc/issues/9229)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9229">#9229</a></th>
 <td>Compiler memory use regression</td></tr>
-<tr><th>[\#9077](https://gitlab.haskell.org//ghc/ghc/issues/9077)</th>
-<td>Forcing the type to be IO {} instead of IO() causes a "panic! The impossible has happened" output.</td></tr>
-<tr><th>[\#9073](https://gitlab.haskell.org//ghc/ghc/issues/9073)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9077">#9077</a></th>
+<td>Forcing the type to be IO {} instead of IO() causes a &quot;panic! The impossible has happened&quot; output.</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9073">#9073</a></th>
 <td>small SPECIALIZE INLINE program taking gigabytes of memory to compile</td></tr>
-<tr><th>[\#8962](https://gitlab.haskell.org//ghc/ghc/issues/8962)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8962">#8962</a></th>
 <td>compile hang and memory blowup when using profiling and optimization</td></tr>
-<tr><th>[\#8852](https://gitlab.haskell.org//ghc/ghc/issues/8852)</th>
-<td>7.8.1 uses a lot of memory when compiling attoparsec programs using \<\|\></td></tr>
-<tr><th>[\#8691](https://gitlab.haskell.org//ghc/ghc/issues/8691)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8852">#8852</a></th>
+<td>7.8.1 uses a lot of memory when compiling attoparsec programs using &lt;|&gt;</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8691">#8691</a></th>
 <td>Investigate recent 32bit compiler performance regressions</td></tr>
-<tr><th>[\#8654](https://gitlab.haskell.org//ghc/ghc/issues/8654)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8654">#8654</a></th>
 <td>Exponential-long compilation of code with Implicit params</td></tr>
-<tr><th>[\#8229](https://gitlab.haskell.org//ghc/ghc/issues/8229)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8229">#8229</a></th>
 <td>Linking in Windows is slow</td></tr>
-<tr><th>[\#8174](https://gitlab.haskell.org//ghc/ghc/issues/8174)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8174">#8174</a></th>
 <td>GHC should not load packages for TH if they are not used</td></tr>
-<tr><th>[\#7960](https://gitlab.haskell.org//ghc/ghc/issues/7960)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7960">#7960</a></th>
 <td>Compiling profiling CCS registration .c file takes far too long</td></tr>
-<tr><th>[\#7847](https://gitlab.haskell.org//ghc/ghc/issues/7847)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7847">#7847</a></th>
 <td>Maintain per-generation lists of weak pointers</td></tr>
-<tr><th>[\#7846](https://gitlab.haskell.org//ghc/ghc/issues/7846)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7846">#7846</a></th>
 <td>GHC 7.7 cannot link primitives</td></tr>
-<tr><th>[\#7702](https://gitlab.haskell.org//ghc/ghc/issues/7702)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7702">#7702</a></th>
 <td>Memory Leak in CoreM (CoreWriter)</td></tr>
-<tr><th>[\#7637](https://gitlab.haskell.org//ghc/ghc/issues/7637)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7637">#7637</a></th>
 <td>split-objs not supported for ARM</td></tr>
-<tr><th>[\#7414](https://gitlab.haskell.org//ghc/ghc/issues/7414)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7414">#7414</a></th>
 <td>plugins always trigger recompilation</td></tr>
-<tr><th>[\#7286](https://gitlab.haskell.org//ghc/ghc/issues/7286)</th>
-<td>GHC doesn't optimise away primitive identity conversions</td></tr>
-<tr><th>[\#7231](https://gitlab.haskell.org//ghc/ghc/issues/7231)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7286">#7286</a></th>
+<td>GHC doesn&apos;t optimise away primitive identity conversions</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7231">#7231</a></th>
 <td>GHCi erroneously unloads modules after a failed :reload</td></tr>
-<tr><th>[\#7198](https://gitlab.haskell.org//ghc/ghc/issues/7198)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7198">#7198</a></th>
 <td>New codegen more than doubles compile time of T3294</td></tr>
-<tr><th>[\#7068](https://gitlab.haskell.org//ghc/ghc/issues/7068)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7068">#7068</a></th>
 <td>Extensive Memory usage (regression)</td></tr>
-<tr><th>[\#6104](https://gitlab.haskell.org//ghc/ghc/issues/6104)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/6104">#6104</a></th>
 <td>Regression: space leak in HEAD vs. 7.4</td></tr>
-<tr><th>[\#5981](https://gitlab.haskell.org//ghc/ghc/issues/5981)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5981">#5981</a></th>
 <td>quadratic slowdown with very long module names</td></tr>
-<tr><th>[\#5970](https://gitlab.haskell.org//ghc/ghc/issues/5970)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5970">#5970</a></th>
 <td>Type checker hangs</td></tr>
-<tr><th>[\#5905](https://gitlab.haskell.org//ghc/ghc/issues/5905)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5905">#5905</a></th>
 <td>ghc with incorrect arguments deletes source file</td></tr>
-<tr><th>[\#5652](https://gitlab.haskell.org//ghc/ghc/issues/5652)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5652">#5652</a></th>
 <td>T3016 takes long time to compile with LLVM</td></tr>
-<tr><th>[\#5631](https://gitlab.haskell.org//ghc/ghc/issues/5631)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5631">#5631</a></th>
 <td>Compilation slowdown from 7.0.x to 7.2.x</td></tr>
-<tr><th>[\#5522](https://gitlab.haskell.org//ghc/ghc/issues/5522)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5522">#5522</a></th>
 <td>mc03 -O -fliberate-case -fspec-constr runs out of memory</td></tr>
-<tr><th>[\#5352](https://gitlab.haskell.org//ghc/ghc/issues/5352)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5352">#5352</a></th>
 <td>Very slow (nonterminating?) compilation if libraries compiled with -fexpose-all-unfoldings</td></tr>
-<tr><th>[\#5321](https://gitlab.haskell.org//ghc/ghc/issues/5321)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5321">#5321</a></th>
 <td>Very slow constraint solving for type families</td></tr>
-<tr><th>[\#5284](https://gitlab.haskell.org//ghc/ghc/issues/5284)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5284">#5284</a></th>
 <td>Simplifier performance regression (or infinite loop)</td></tr>
-<tr><th>[\#5271](https://gitlab.haskell.org//ghc/ghc/issues/5271)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5271">#5271</a></th>
 <td>Compilation speed regression</td></tr>
-<tr><th>[\#5156](https://gitlab.haskell.org//ghc/ghc/issues/5156)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5156">#5156</a></th>
 <td>New codegen: CmmStackLayout igraph memory explosion</td></tr>
-<tr><th>[\#5102](https://gitlab.haskell.org//ghc/ghc/issues/5102)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5102">#5102</a></th>
 <td>ghc struggles to compile a large case statement</td></tr>
-<tr><th>[\#5030](https://gitlab.haskell.org//ghc/ghc/issues/5030)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5030">#5030</a></th>
 <td>Slow type checking of type-level computation heavy code.</td></tr>
-<tr><th>[\#4856](https://gitlab.haskell.org//ghc/ghc/issues/4856)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4856">#4856</a></th>
 <td>Performance regression in the type checker regression for GADTs and type families</td></tr>
-<tr><th>[\#4849](https://gitlab.haskell.org//ghc/ghc/issues/4849)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4849">#4849</a></th>
 <td>object code size fairly large for ghc-7.0.1 with optimization</td></tr>
-<tr><th>[\#4838](https://gitlab.haskell.org//ghc/ghc/issues/4838)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4838">#4838</a></th>
 <td>LLVM mangler takes too long at runtime</td></tr>
-<tr><th>[\#4528](https://gitlab.haskell.org//ghc/ghc/issues/4528)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4528">#4528</a></th>
 <td>stand-alone deriving sometimes fails for GADTs</td></tr>
-<tr><th>[\#4435](https://gitlab.haskell.org//ghc/ghc/issues/4435)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4435">#4435</a></th>
 <td>T3016 failed with timeout (hpc and optasm)</td></tr>
-<tr><th>[\#4434](https://gitlab.haskell.org//ghc/ghc/issues/4434)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4434">#4434</a></th>
 <td>barton-mangler-bug failed with timeout (multiple ways)</td></tr>
-<tr><th>[\#4421](https://gitlab.haskell.org//ghc/ghc/issues/4421)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4421">#4421</a></th>
 <td>Compilation performance regression</td></tr>
-<tr><th>[\#4367](https://gitlab.haskell.org//ghc/ghc/issues/4367)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4367">#4367</a></th>
 <td>Compiler space regression in 7.0.1 RC 1</td></tr>
-<tr><th>[\#4324](https://gitlab.haskell.org//ghc/ghc/issues/4324)</th>
-<td>Template Haskell: Splicing Infinite Syntax Tree doesn't stop</td></tr>
-<tr><th>[\#4235](https://gitlab.haskell.org//ghc/ghc/issues/4235)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4324">#4324</a></th>
+<td>Template Haskell: Splicing Infinite Syntax Tree doesn&apos;t stop</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4235">#4235</a></th>
 <td>deriving Enum fails for data instances</td></tr>
-<tr><th>[\#4029](https://gitlab.haskell.org//ghc/ghc/issues/4029)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4029">#4029</a></th>
 <td>ghci leaks memory when loading a file</td></tr>
-<tr><th>[\#3972](https://gitlab.haskell.org//ghc/ghc/issues/3972)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3972">#3972</a></th>
 <td>ghc 6.12.1 and 6.13.20090922 consume a lot more memory than 6.10.4 when compiling language-python package</td></tr>
-<tr><th>[\#3897](https://gitlab.haskell.org//ghc/ghc/issues/3897)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3897">#3897</a></th>
 <td>reading a large String as Double takes too long</td></tr>
-<tr><th>[\#3829](https://gitlab.haskell.org//ghc/ghc/issues/3829)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3829">#3829</a></th>
 <td>GHC leaks memory when compiling many files</td></tr>
-<tr><th>[\#3796](https://gitlab.haskell.org//ghc/ghc/issues/3796)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3796">#3796</a></th>
 <td>GHC 6.12 dependency checking many times slower than 6.10</td></tr>
-<tr><th>[\#3664](https://gitlab.haskell.org//ghc/ghc/issues/3664)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3664">#3664</a></th>
 <td>Ghc eats tremendous heaps of RAM in -prof build (highlighting-kate)</td></tr>
-<tr><th>[\#3629](https://gitlab.haskell.org//ghc/ghc/issues/3629)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3629">#3629</a></th>
 <td>Code compiled WITHOUT profiling many times slower than compiled WITH profiling on</td></tr>
-<tr><th>[\#3294](https://gitlab.haskell.org//ghc/ghc/issues/3294)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3294">#3294</a></th>
 <td>Large compilation time/memory consumption</td></tr>
-<tr><th>[\#3064](https://gitlab.haskell.org//ghc/ghc/issues/3064)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3064">#3064</a></th>
 <td>Very long compile times with type functions</td></tr>
-<tr><th>[\#2859](https://gitlab.haskell.org//ghc/ghc/issues/2859)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2859">#2859</a></th>
 <td>Reduce coercion terms to normal form</td></tr>
-<tr><th>[\#2762](https://gitlab.haskell.org//ghc/ghc/issues/2762)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2762">#2762</a></th>
 <td>Excessive heap usage</td></tr>
-<tr><th>[\#2680](https://gitlab.haskell.org//ghc/ghc/issues/2680)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2680">#2680</a></th>
 <td>Type-checking performance regression</td></tr>
-<tr><th>[\#2609](https://gitlab.haskell.org//ghc/ghc/issues/2609)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2609">#2609</a></th>
 <td>Compiling with -O2 is 7x slower than -O</td></tr>
-<tr><th>[\#2438](https://gitlab.haskell.org//ghc/ghc/issues/2438)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2438">#2438</a></th>
 <td>memory performance problem when compiling lots of derived instances in a single file</td></tr>
-<tr><th>[\#2328](https://gitlab.haskell.org//ghc/ghc/issues/2328)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2328">#2328</a></th>
 <td>Compiling DoCon with 6.8.3 has 3x slow-down compared with 6.8.2</td></tr>
-<tr><th>[\#2159](https://gitlab.haskell.org//ghc/ghc/issues/2159)</th>
-<td>Use a more efficient representation than \[DynFlag\]</td></tr>
-<tr><th>[\#2089](https://gitlab.haskell.org//ghc/ghc/issues/2089)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2159">#2159</a></th>
+<td>Use a more efficient representation than [DynFlag]</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2089">#2089</a></th>
 <td>reading the package db is slow</td></tr>
-<tr><th>[\#2002](https://gitlab.haskell.org//ghc/ghc/issues/2002)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2002">#2002</a></th>
 <td>problems with very large (list) literals</td></tr>
-<tr><th>[\#1969](https://gitlab.haskell.org//ghc/ghc/issues/1969)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1969">#1969</a></th>
 <td>enormous compile times</td></tr>
-<tr><th>[\#1875](https://gitlab.haskell.org//ghc/ghc/issues/1875)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1875">#1875</a></th>
 <td>Compiling with -O is 30 times slower than with -Onot</td></tr>
-<tr><th>[\#1747](https://gitlab.haskell.org//ghc/ghc/issues/1747)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1747">#1747</a></th>
 <td>debugger: :trace is wasting time</td></tr>
-<tr><th>[\#1136](https://gitlab.haskell.org//ghc/ghc/issues/1136)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1136">#1136</a></th>
 <td>High memory use when compiling many let bindings.</td></tr></table>
 
+
+
 ---
+
 
 ### Type pile-up
 
@@ -537,12 +546,58 @@ Another theme often seen is issues characterized by perceived slowness during co
 
 While it's possible to fix (1) and (2), (3) is inherent.
 
-<table><tr><th>Ticket (Ticket query: keywords: deriving-perf, status: new, status: fixed, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
-<th>Type (Ticket query: keywords: deriving-perf, status: new, status: fixed, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: keywords: deriving-perf, status: new, status: fixed, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: keywords: deriving-perf, status: new, status: fixed, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
-<th>Owner (Ticket query: keywords: deriving-perf, status: new, status: fixed, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>[\#1544](https://gitlab.haskell.org//ghc/ghc/issues/1544)</th>
+
+
+
+  
+  
+  
+  
+  
+    
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: keywords: deriving-perf, status: new, status: fixed, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: keywords: deriving-perf, status: new, status: fixed, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: keywords: deriving-perf, status: new, status: fixed, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: keywords: deriving-perf, status: new, status: fixed, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: keywords: deriving-perf, status: new, status: fixed, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1544">#1544</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -554,7 +609,29 @@ While it's possible to fix (1) and (2), (3) is inherent.
                       
                       bug
                     </th>
-<th>[Derived Read instances for recursive datatypes with infix constructors are too inefficient](https://gitlab.haskell.org//ghc/ghc/issues/1544)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/1544">Derived Read instances for recursive datatypes with infix constructors are too inefficient</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -566,8 +643,39 @@ While it's possible to fix (1) and (2), (3) is inherent.
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#7258](https://gitlab.haskell.org//ghc/ghc/issues/7258)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7258">#7258</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -579,7 +687,29 @@ While it's possible to fix (1) and (2), (3) is inherent.
                       
                       bug
                     </th>
-<th>[Compiling DynFlags is jolly slow](https://gitlab.haskell.org//ghc/ghc/issues/7258)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/7258">Compiling DynFlags is jolly slow</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -591,8 +721,39 @@ While it's possible to fix (1) and (2), (3) is inherent.
                       
                       normal
                     </th>
-<th>simonpj</th></tr>
-<tr><th>[\#8731](https://gitlab.haskell.org//ghc/ghc/issues/8731)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      simonpj
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8731">#8731</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -604,7 +765,29 @@ While it's possible to fix (1) and (2), (3) is inherent.
                       
                       bug
                     </th>
-<th>[long compilation time for module with large data type and partial record selectors](https://gitlab.haskell.org//ghc/ghc/issues/8731)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8731">long compilation time for module with large data type and partial record selectors</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -616,8 +799,39 @@ While it's possible to fix (1) and (2), (3) is inherent.
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#9557](https://gitlab.haskell.org//ghc/ghc/issues/9557)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9557">#9557</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -629,7 +843,29 @@ While it's possible to fix (1) and (2), (3) is inherent.
                       
                       bug
                     </th>
-<th>[Deriving instances is slow](https://gitlab.haskell.org//ghc/ghc/issues/9557)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9557">Deriving instances is slow</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -641,8 +877,39 @@ While it's possible to fix (1) and (2), (3) is inherent.
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#9669](https://gitlab.haskell.org//ghc/ghc/issues/9669)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9669">#9669</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -654,7 +921,29 @@ While it's possible to fix (1) and (2), (3) is inherent.
                       
                       bug
                     </th>
-<th>[Long compile time/high memory usage for modules with many deriving clauses](https://gitlab.haskell.org//ghc/ghc/issues/9669)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9669">Long compile time/high memory usage for modules with many deriving clauses</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -666,8 +955,39 @@ While it's possible to fix (1) and (2), (3) is inherent.
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#10980](https://gitlab.haskell.org//ghc/ghc/issues/10980)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10980">#10980</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -679,7 +999,29 @@ While it's possible to fix (1) and (2), (3) is inherent.
                       
                       bug
                     </th>
-<th>[Deriving Read instance from datatype with N fields leads to N\^2 code size growth](https://gitlab.haskell.org//ghc/ghc/issues/10980)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10980">Deriving Read instance from datatype with N fields leads to N^2 code size growth</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -691,8 +1033,39 @@ While it's possible to fix (1) and (2), (3) is inherent.
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#13280](https://gitlab.haskell.org//ghc/ghc/issues/13280)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13280">#13280</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -704,7 +1077,29 @@ While it's possible to fix (1) and (2), (3) is inherent.
                       
                       task
                     </th>
-<th>[Consider deriving more Foldable methods](https://gitlab.haskell.org//ghc/ghc/issues/13280)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13280">Consider deriving more Foldable methods</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -716,7 +1111,32 @@ While it's possible to fix (1) and (2), (3) is inherent.
                       
                       normal
                     </th>
-<th>dfeuer</th></tr></table>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      dfeuer
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr></table>
+
+
+  
+
+
 
 ### Uncategorised compiler performance issues
 
@@ -746,7 +1166,12 @@ While it's possible to fix (1) and (2), (3) is inherent.
 - A bit difficult to decipher, since a lot of the stats/surrounding numbers were totally rewritten due to some Testsuite API overhauls.
 - The results are a mix; there are things like `peak_megabytes_allocated` being bumped up a lot, but a lot of them also had `bytes_allocated` go down as well. This one seems pretty mixed.
 
+
+  
+
+
 ### 7.8 vs 7.10
+
 
 - Things mostly got **better** according to these, not worse!
 - Many of them had drops in `bytes_allocated`, for example, `T4801`.
@@ -799,4 +1224,10 @@ Random note: GHC 7.10's build system actually disabled DPH (half a dozen more pa
 
 ### GHC 8.2 to GHC 8.4
 
+
 - Regressions: [\#14944](https://gitlab.haskell.org//ghc/ghc/issues/14944), [\#14928](https://gitlab.haskell.org//ghc/ghc/issues/14928), [\#14974](https://gitlab.haskell.org//ghc/ghc/issues/14974)
+
+
+ 
+
+

@@ -41,7 +41,10 @@ let { customer_id_via = customer_id r; ... }
 ```
 
 >
+>
 > \[Implementor's note: can we improve this?\]
+>
+>
 
 
 Within the body we can indeed use polymorphic record update syntax to reconstitute the record:

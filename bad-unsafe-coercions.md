@@ -17,8 +17,12 @@ According to the [ documentation in GHC.Prim](http://hackage.haskell.org/package
 However GHC doesn't check if it's safe to use `unsafeCoerce#` as a result bugs can appear, see [9035](https://gitlab.haskell.org//ghc/ghc/issues/9035).
 In order to solve this problem a solution was proposed by Simon in [9122](https://gitlab.haskell.org//ghc/ghc/issues/9122), quote:
 
+
+>
 >
 > I think it would be a great idea for Core Lint to check for uses of `unsafeCoerce` that don't obey the rules. It won't catch all cases, of course, but it would have caught [\#9035](https://gitlab.haskell.org//ghc/ghc/issues/9035). 
+>
+>
 
 
 This proposal is about implementation of the task.
@@ -50,6 +54,10 @@ G |-co t1 ==>!_R t2 : t1 ~R k2 t2
 1. If types are unlifted then their *size* should be equal, see `primRepSizeW` in [source:compiler/types/TyCon.hs](/trac/ghc/browser/compiler/types/TyCon.hs)[](/trac/ghc/export/HEAD/ghc/compiler/types/TyCon.hs)
 
 1. If types are unlifted then they either should be both floating or both integral.  Reason: on many architectures, floating point values are held in special registers.
+
+
+   
+
 
 1. No coercions between vector ([wiki:SIMD](simd) SIMD pages) types are allowed at all. (Reason: there is no correct rules for such coercions)
 

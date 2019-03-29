@@ -166,7 +166,8 @@ $sel:x:MkT (MkT x) = x
 ```
 
 
-This allows the same field label to occur multiple times in the same module, but with distinct `Name`s. Correspondingly, the renamer has to treat field labels specially, so that it finds `$sel:x:MkT` when looking up the `RdrName``x`.
+This allows the same field label to occur multiple times in the same module, but with distinct `Name`s. Correspondingly, the renamer has to treat field labels specially, so that it finds `$sel:x:MkT` when looking up the `RdrName` `x`.
+
 
 ### `FieldLabel`
 
@@ -219,7 +220,8 @@ module N ( F (..) ) where
 ```
 
 
-then `N` exports two different selectors with the `FieldLabelString``"foo"`. Similar tricks can be used to generate parents that have a mixture of overloaded and non-overloaded fields as children.
+then `N` exports two different selectors with the `FieldLabelString` `"foo"`. Similar tricks can be used to generate parents that have a mixture of overloaded and non-overloaded fields as children.
+
 
 ### `Parent` and `GlobalRdrElt`
 

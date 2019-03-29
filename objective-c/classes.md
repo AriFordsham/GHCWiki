@@ -41,8 +41,9 @@ foreign export objc "-[MyClass doSomethingCool:]" doSomethingCool
 ```
 
 
-\[**FIXME***Need to make sure that we can determine the ObjC signature from the Haskell signature in every case.*\]
-\[**FIXME***Shouldn't that be "-\[MyClass doSomethingCool:(UIView\*)\]"?  Or will the types be filled in somehow?*\]
+\[**FIXME** *Need to make sure that we can determine the ObjC signature from the Haskell signature in every case.*\]
+\[**FIXME** *Shouldn't that be "-\[MyClass doSomethingCool:(UIView\*)\]"?  Or will the types be filled in somehow?*\]
+
 
 ### Ivars and properties
 
@@ -60,4 +61,7 @@ foreign import objc "@synthesize myProperty -[MyClass setMyProperty:]" setMyProp
 The synthesize directive includes the property name, as the property declaration may have specified non-default names for the setter and getter.  Moreover, the directive should be duplicated by specifying it in the setter and getter (except for a `readonly` property) – this is much like header file specifications are replicated across foreign declarations in the C FFI.
 
 
+
 We provide no special support to access the ivars directly beyond the functionality already available in the C FFI for Haskell. *This approach is not valid for the non-fragile runtime used in 64-bit processes and on iOS.*
+
+

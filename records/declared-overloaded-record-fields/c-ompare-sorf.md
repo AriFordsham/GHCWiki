@@ -21,9 +21,13 @@ There is, however, a significant difference on scoping/namespacing: the Proxy ty
 The module namespacing in DORF is deliberate, and for exactly the same reason as namespacing in general: a different developer in a different module might 'accidentally' create a clashing name which is unrelated (that is, a name for a field or a record or both). As far as DORF is concerned, these are different names, so need the module name qualification.
 
 
+
 In contrast: "The \[SORF\] proposal ... doesn't allow label names to be scoped: if one module internally uses "field" as a label name then another module can break the abstraction by using the same string "field".". DORF does not need any innovations around instances or type inference.
 
-**Wild afterthought:**
+
+
+**Wild afterthought:** 
+
 
 - DORF does need to apply module control/representation hiding to the field selector function.
 - But if that's controlled, perhaps it doesn't need to control the Proxy type(?)
@@ -45,22 +49,39 @@ Perhaps then we could avoid the need for the new `fieldLabel`, instead this decl
 ```
 
 >
+>
 > makes `customer_id` available as a field label. (That is, the record constraint is not added by the compiler, you must put it explicitly.)
+>
+>
 
+>
 >
 > (The compiler still needs to generate the binding for `customer_id = Library.Has.get` -- eta-reduced, because I'm assuming the proxy/Kind argument is not needed.)
+>
+>
 
+>
 >
 > \[Phew! avoided a reserved word.\]
+>
+>
 
+>
 >
 > \[I'm liking this, it's getting more minimal: If you don't want field selector functions, don't declare them. The instances for `Has/get/set` (generated from the record decl) don't need them, only the 'peg' provided by the Kind. Occam's razor rules!
+>
+>
 
+>
 >
 > Perhaps we then provide something like [Polymorphic Record Pattern](records/declared-overloaded-record-fields/poly-record-pattern) as an alternative record access mechanism??\]
+>
+>
 
 >
+>
 > Note that declaration for customer_id is different to something like:
+>
 >
 > ```wiki
 >         fullName :: r{ firstName, lastName :: String } => r -> String   -- yes, an explicit record constraint,
@@ -70,6 +91,9 @@ Perhaps then we could avoid the need for the new `fieldLabel`, instead this decl
 >
 >
 > The program must provide a binding.
+>
+>
+
 
 **Except ... (sober reflection):** 
 Did that just re-open the back door to the abstraction?
@@ -79,10 +103,15 @@ Did that just re-open the back door to the abstraction?
 ```
 
 >
+>
 > ?I didn't need `e`'s record type in scope nor its field `x` to call `set`.
+>
+>
 
 >
+>
 > So I can break the abstraction by updating a record/field I can't even `get` ?? Perhaps the desugarring should be:
+>
 >
 > ```wiki
 >                 ===> set (undefined ::: "x")
@@ -91,8 +120,12 @@ Did that just re-open the back door to the abstraction?
 >                          e                                     --         yeuch!! hack with bells on 
 > ```
 
+
+>
 >
 > Also, without the signature for `customer_id`, I don't know its result type. So I can't cleanly generate type instances for `GetResult`. (That is, I'd generate a type instance for each record type it appears in, with every one returning result `Int`.)
+>
+>
 
 ### Should `get` have a Proxy argument? (and should `set` ?)
 
@@ -200,12 +233,18 @@ It used an extra type function `SetTy`, with an extra forall'd type argument bou
 ```
 
 >
+>
 > SPJ has quickly reviewed the prototype:
 >
+>
+> >
 > >
 > > "Your trick with `SetTy` to support update of polymorphic fields is, I belive, an (ingenious) hack that does not scale. I think it works only for fields that are quantified over one type variable with no constraints.
 > >
 > > So, I think that update of polymorphic fields remains problematic. "
+> >
+> >
+>
 
 - Note that the "(ingenious)" and unscalable "hack" appears only in compiler-generated code.
 
@@ -226,8 +265,13 @@ It used an extra type function `SetTy`, with an extra forall'd type argument bou
             ...
   ```
 
+>
+> >
 > >
 > > \[I suspect this'll score no more merits for "ingenious", and a great many more demerits for "hack".\]
+> >
+> >
+>
 
 
 Is it a requirement to be able to update polymorphic fields? Is it sufficient to be able to update other (monomorphic) fields in records that also contain poly fields?

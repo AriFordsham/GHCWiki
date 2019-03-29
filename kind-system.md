@@ -16,12 +16,17 @@ Note: the aim here initially is to implement a small useful extension to Haskell
 ## Motivation
 
 
+
 Consider the simple example of lists parameterised by their lengths.  There are many variations on this theme in the Haskell lore, this authors favourite follows thusly:
 
-```
-dataZerodataSucc n
 
-dataList::*->*->*whereNil::List a ZeroCons:: a ->List n a ->List a (Succ n)
+```
+data Zero
+data Succ n
+
+data List :: * -> * -> * where
+  Nil   :: List a Zero
+  Cons  :: a -> List n a -> List a (Succ n)
 ```
 
 
@@ -31,11 +36,16 @@ There are many eugh moments in this code:
 - `Zero` has kind `*`, and `Succ` has kind `* -> *`, so it is perfectly valid to create a haskell function with a signature:
 
 ```
-foo::Zero->SuccZero->Bool
+foo :: Zero -> Succ Zero -> Bool
 ```
 
+>
+> >
 > >
 > > Really the programmers intent is that `Zero` and `Succ` are in a disjoint namespace from \*-kinded types, and thus this function signature should be disallowed.
+> >
+> >
+>
 
 - `Succ` has kind `* -> *`, whereas really the programmer wants to enforce that the argument to `Succ` will only ever consist of `Zero`s or `Succ`s.  i.e. the `* -> *` kind given to `Succ` is far to relaxed.
 
@@ -52,13 +62,20 @@ foo::Zero->SuccZero->Bool
 ## Basic proposal
 
 
+
 We propose to add new base kinds other than `*` using a simple notation.  The above example *could* become:
 
+
 ```
-data kind Nat=Zero|SuccNatdataList::*->Nat->*whereNil::List a Zero-- Cons :: a -> List n a -> List a (Succ n)  -- Compiler detects error Cons:: a ->List a n ->List a (Succ n)
+data kind Nat = Zero | Succ Nat
+
+data List :: * -> Nat -> * where
+  Nil :: List a Zero
+  -- Cons :: a -> List n a -> List a (Succ n)  -- Compiler detects error 
+  Cons :: a -> List a n -> List a (Succ n)
 ```
 
-- We first declare a new *kind*`Nat`, that is defined by two types, `Zero` and `Succ`.  Although `Zero` and `Succ` are types, they do not classify any haskell values (including undefined/bottom).  So the ` foo :: Zero -> Succ Zero -> Bool ` type signature from earlier would be rejected by the compiler.
+- We first declare a new *kind* `Nat`, that is defined by two types, `Zero` and `Succ`.  Although `Zero` and `Succ` are types, they do not classify any haskell values (including undefined/bottom).  So the ` foo :: Zero -> Succ Zero -> Bool ` type signature from earlier would be rejected by the compiler.
 
 - We then declare the type `List`, but we now say the second argument to `List` has to be a type of kind `Nat`.  With this extra information, the compiler can statically detect our erroneous `Cons` declaration and would also reject silly types like `List Int Int`.
 
@@ -71,20 +88,24 @@ In the basic proposal the `data kind` declaration has no kind parameters.  (See 
 The idea would be to mirror existing Haskell data declarations.  There is a clear analogy as we are now creating new kinds consiting of type constructors as opposed to new types consisting of data constructors.
 
 
+
 To destinguish kind declarations from data declarations we can either add a new form of *kind* declaration:
 
+
 ```
-kindBool=True|False
+kind Bool = True | False
 ```
 
 
 However this steals `kind` as syntax with the usual problems of breaking existing programs.
 
 
+
 Alternatively (preferably), we can add a modifier to data declarations to indicate that we mean a kind declaration:
 
+
 ```
-data kind Bool=True|False
+data kind Bool = True | False
 ```
 
 ### Interaction with normal functions
@@ -100,10 +121,16 @@ bad :: Zero -> Bool   -- Zero has kind Nat
 This follows straighforwardly from the kind of (-\>) in GHC already: `?? -> ? -> *`, see [IntermediateTypes](intermediate-types)
 
 
+
 Type variables may however be inferred to have non-\* kinds.  E.g.
 
+
 ```
-dataNatRep::Nat->*whereZeroRep::NatRepZeroSuccRep::(NatRep n)->NatRep(Succ n)tReplicate:: forall n a .NatRep n -> a ->List a n
+data NatRep :: Nat -> * where
+  ZeroRep :: NatRep Zero
+  SuccRep :: (NatRep n) -> NatRep (Succ n)
+
+tReplicate :: forall n a . NatRep n -> a -> List a n
 ...
 ```
 
@@ -113,10 +140,17 @@ In the above, `n` would be inferred to have kind `Nat` and `a` would have kind `
 ### Interaction with (G)ADTs
 
 
+
 (G)ADTs can already be annotated with a mixture of names with optional explicit kind signatures and just kind signatures. These kind signatures would now be able to refer to the newly declared, non-\* kinds.  However the ultimate kind of a (G)ADT must still be `*`. i.e.
 
+
 ```
-dataOk a (b ::Bool)::Nat->*whereOkC::OkIntTrueZeroOkC'::OkStringFalse(SuccZero)dataBad a ::Nat->Natwhere-- result kind is not *...
+data Ok a (b :: Bool) :: Nat -> * where
+  OkC :: Ok Int True Zero
+  OkC' :: Ok String False (Succ Zero)
+
+data Bad a :: Nat -> Nat where  -- result kind is not *
+  ...
 ```
 
 
@@ -203,16 +237,27 @@ Strictly, the new kinds that have been introduced using `data kind` syntax inhab
 Many simple data declarations it would be convinient to also have at the type level.  Assuming we resolve [Design/TypeNaming](design/type-naming) and some ambiguity issues, we could support automatically deriving the data kind based on the data.
 
 
+
 There are some other issues to be wary of (care of Simon PJ):
 
+
 - Auto lifting of:
+
+
+    
+
 
 ```wiki
 data Foo = Foo Int
 ```
 
+>
+> >
 > >
 > > Automated lifting this would try and create a kind `Foo` with type constructor `Foo`.  But we've just declared a type `Foo` in the data declaration.
+> >
+> >
+>
 
 - Automatic lifting of GADTs / existentials and parametric types is tricky until we have a story for them.
 
@@ -238,11 +283,18 @@ will impliclty create a kind `Foo` and types `Bar` and `Baz`
 **Option 1: Steal the `deriving` syntax**
 This has an advantage of allowing standalone deriving for those data types that are declared elsewhere but not with Kind equivalents
 
-```
-dataBool=True|Falsederiving(Kind)derivinginstance(KindBool)
+
 ```
 
+data Bool = True | False
+  deriving (Kind)
+
+deriving instance (Kind Bool)
+```
+
+
 **Option 2: Add an extra flag to the `data` keyword**
+
 
 ```wiki
 data and kind Bool = True | False

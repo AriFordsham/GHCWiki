@@ -60,34 +60,61 @@ which as a key comprising the SrcSpan of the original element and the
 TyeRep of the stored annotation, if it were wrapped in a Just.
 
 
+
 This allows code using the annotation to access this as follows
 
+
 ```
-processHsLet::ApiAnns->LHsExpr->CustomReturnTypeprocessHsLet anns (L l (HsExpr localBinds expr))= r
-  whereJust letPos = getAnnotation anns l AnnLetJust inPos  = getAnnotation anns l AnnIn...
+processHsLet :: ApiAnns -> LHsExpr -> CustomReturnType
+processHsLet anns (L l (HsExpr localBinds expr)) = r
+  where
+    Just letPos = getAnnotation anns l AnnLet
+    Just inPos  = getAnnotation anns l AnnIn
+    ...
 ```
 
 
 Key data structures
 
+
 ```
-typeApiAnns=Map.MapApiAnnKeySrcSpandataApiAnnKey=AKSrcSpanAnnderiving(Eq,Ord,Show)
+type ApiAnns = Map.Map ApiAnnKey SrcSpan
+
+data ApiAnnKey = AK SrcSpan Ann
+                  deriving (Eq,Ord,Show)
 ```
 
 
 This allows the annotation to be retrieved by
 
+
 ```
--- | Retrieve an annotation based on the SrcSpan of the annotated AST-- element, and the known type of the annotation.getAnnotation::ApiAnns->SrcSpan->Ann->MaybeSrcSpangetAnnotation anns span ann =Map.lookup (AK span ann) anns
+-- | Retrieve an annotation based on the SrcSpan of the annotated AST
+-- element, and the known type of the annotation.
+getAnnotation :: ApiAnns -> SrcSpan -> Ann -> Maybe SrcSpan
+getAnnotation anns span ann = Map.lookup (AK span ann) anns
 ```
 
 ### Annotation structures
 
 
+
 Each annotation is simply a `SrcSpan`.
 
+
 ```
--- | Note: in general the names of these are taken from the-- corresponding token, unless otherwise noteddataAnn=AnnAs|AnnAt|AnnBang|AnnBy|AnnCase|AnnClass|AnnClose-- ^ } or ] or ) or #) etc|AnnColon|AnnColon2..
+-- | Note: in general the names of these are taken from the
+-- corresponding token, unless otherwise noted
+data Ann = AnnAs
+         | AnnAt
+         | AnnBang
+         | AnnBy
+         | AnnCase
+         | AnnClass
+         | AnnClose -- ^ } or ] or ) or #) etc
+         | AnnColon
+         | AnnColon2
+         ..
 ```
 
 
@@ -102,47 +129,82 @@ Points to note:
 ### Capturing in the parser
 
 
+
 The annotations are captured in the lexer / parser by extending `PState` to include a field
 
+
 ```
-dataPState=PState{...
-        annotations ::[(ApiAnnKey,SrcSpan)]}
+data PState = PState {
+       ...
+        annotations :: [(ApiAnnKey,SrcSpan)]
+       }
 ```
 
 
 The lexer exposes a helper function to add an annotation
 
+
 ```
-addAnnotation::SrcSpan->Ann->SrcSpan->P()addAnnotation l a v =P$\s ->POk s {
-  annotations =((AK l a), v): annotations s
-  }()
+addAnnotation :: SrcSpan -> Ann -> SrcSpan -> P ()
+addAnnotation l a v = P $ \s -> POk s {
+  annotations = ((AK l a), v) : annotations s
+  } ()
 ```
 
 
 The parser also has some helper functions of the form
 
-```
-typeMaybeAnn=Maybe(SrcSpan->P())gl= getLoc
-gj x =Just(gl x)aa::Located a ->(Ann,Located c)->P(Located a)aa a@(L l _)(b,s)= addAnnotation l b (gl s)>> return a
 
-ams::Located a ->[MaybeAnn]->P(Located a)ams a@(L l _) bs =(mapM_ (\a -> a l)$ catMaybes bs)>> return a
+```
+type MaybeAnn = Maybe (SrcSpan -> P ())
+
+gl = getLoc
+gj x = Just (gl x)
+
+aa :: Located a -> (Ann,Located c) -> P (Located a)
+aa a@(L l _) (b,s) = addAnnotation l b (gl s) >> return a
+
+ams :: Located a -> [MaybeAnn] -> P (Located a)
+ams a@(L l _) bs = (mapM_ (\a -> a l) $ catMaybes bs) >> return a
 ```
 
 
 This allows the annotations to be added in the parser productions as follows
 
+
 ```
-ctypedoc::{LHsTypeRdrName}: 'forall' tv_bndrs '.' ctypedoc {% hintExplicitForall (getLoc $1)>>
-                                            ams (LL$ mkExplicitHsForAllTy $2(noLoc [])$4)[mj AnnForall$1,mj AnnDot$3]}| context '=>' ctypedoc         {% ams (LL$ mkQualifiedHsForAllTy   $1$3)[mj AnnDarrow$2]}| ipvar '::'type{% ams (LL(HsIParamTy(unLoc $1)$3))[mj AnnDcolon$2]}| typedoc                       {$1}
+ctypedoc :: { LHsType RdrName }
+        : 'forall' tv_bndrs '.' ctypedoc {% hintExplicitForall (getLoc $1) >>
+                                            ams (LL $ mkExplicitHsForAllTy $2 (noLoc []) $4)
+                                                [mj AnnForall $1,mj AnnDot $3] }
+        | context '=>' ctypedoc         {% ams (LL $ mkQualifiedHsForAllTy   $1 $3)
+                                               [mj AnnDarrow $2] }
+        | ipvar '::' type               {% ams (LL (HsIParamTy (unLoc $1) $3))
+                                               [mj AnnDcolon $2] }
+        | typedoc                       { $1 }
 ```
 
 ### Parse result
 
+
 ```
-dataHsParsedModule=HsParsedModule{
-    hpm_module    ::Located(HsModuleRdrName),
-    hpm_src_files ::[FilePath],-- ^ extra source files (e.g. from #includes).  The lexer collects-- these from '# <file> <line>' pragmas, which the C preprocessor-- leaves behind.  These files and their timestamps are stored in-- the .hi file, so that we can force recompilation if any of-- them change (#3589)
-    hpm_annotations ::ApiAnns}-- | The result of successful parsing.dataParsedModule=ParsedModule{ pm_mod_summary   ::ModSummary, pm_parsed_source ::ParsedSource, pm_extra_src_files ::[FilePath], pm_annotations ::ApiAnns}
+data HsParsedModule = HsParsedModule {
+    hpm_module    :: Located (HsModule RdrName),
+    hpm_src_files :: [FilePath],
+       -- ^ extra source files (e.g. from #includes).  The lexer collects
+       -- these from '# <file> <line>' pragmas, which the C preprocessor
+       -- leaves behind.  These files and their timestamps are stored in
+       -- the .hi file, so that we can force recompilation if any of
+       -- them change (#3589)
+    hpm_annotations :: ApiAnns
+  }
+
+-- | The result of successful parsing.
+data ParsedModule =
+  ParsedModule { pm_mod_summary   :: ModSummary
+               , pm_parsed_source :: ParsedSource
+               , pm_extra_src_files :: [FilePath]
+               , pm_annotations :: ApiAnns }
 ```
 
 ### Implications
@@ -156,12 +218,23 @@ Also, initial `./validate` tests show that haddock complains of increased memory
 ## Notes / Shortcomings
 
 
+
 Currently the annotations are only guaranteed to apply to the `ParsedSource`, the renaming process flattens some of the location hooks for
 
+
 ```
-dataHsType name
-  ...|HsRecTy[Located[ConDeclField name]]-- Only in data type declarations...-- andHsDataDefn{...
-                 dd_cons   ::[Located[LConDecl name]],-- ^ Data constructors...
+data HsType name
+  ...
+  | HsRecTy [Located [ConDeclField name]] -- Only in data type declarations
+  ...
+
+-- and
+
+    HsDataDefn { 
+    ...
+                 dd_cons   :: [Located [LConDecl name]],
+                     -- ^ Data constructors
+   ...
 ```
 
 # Possible Extension for Comments
@@ -184,33 +257,65 @@ These are then available for retrieval at the and, as with the existing annotati
 
 1. It is possible to put the lexer into `Opt_Haddock` mode, a flag which is currently unset when `Opt_KeepRawTokenStream` is enabled. If these were made inclusive, it would be possible to explicitly tag the comments as being of type haddock, so that at a future date the annotations could possibly be used directly by haddock, rather than the very complicated parsing rules currently in place.
 
+
+ 
+
+
 # Early design discussion
+
 
 ## Richard Eisenberg response
 
 
+
 For what it's worth, my thought is not to use SrcSpanInfo (which, to me, is the wrong way to slice the abstraction) but instead to add SrcSpan fields to the relevant nodes. For example:
 
+
 ```
-|HsDoSrcSpan-- of the word "do"BlockSrcSpans(HsStmtContextName)-- The parameterisation is unimportant-- because in this context we never use-- the PatGuard or ParStmt variant[ExprLStmt id]-- "do":one or more stmtsPostTcType-- Type of the whole expression...dataBlockSrcSpans=LayoutBlockInt-- the parameter is the indentation level...-- stuff to track the appearance of any semicolons|BracesBlock...-- stuff to track the braces and semicolons
+
+  | HsDo        SrcSpan              -- of the word "do"
+                BlockSrcSpans
+                (HsStmtContext Name) -- The parameterisation is unimportant
+                                     -- because in this context we never use
+                                     -- the PatGuard or ParStmt variant
+                [ExprLStmt id]       -- "do":one or more stmts
+                PostTcType           -- Type of the whole expression
+
+...
+
+data BlockSrcSpans = LayoutBlock Int  -- the parameter is the indentation level
+                                 ...  -- stuff to track the appearance of any semicolons
+                   | BracesBlock ...  -- stuff to track the braces and semicolons
 ```
 
 
 The way I understand it, the SrcSpanInfo proposal means that we would have lots of empty SrcSpanInfos, no? Most interior nodes don't need one, I think.
 
 
+
 Popping up a level, I do support the idea of including this info in the AST.
+
 
 ## SPJ response to concern re extra noise in AST
 
+
+>
 >
 > I thiink the key question is whether it is acceptable to sprinkle this kind of information throughout the AST. For someone interested in source-to-source conversions (like me) this is great, others may find it intrusive.
+>
+>
 
 
 It’s probably not too bad if you use record syntax; thus
 
+
 ```
-|HsDo{ hsdo_do_loc ::SrcSpan-- of the word "do", hsdo_blocks ::BlockSrcSpans, hsdo_ctxt   ::HsStmtContextName, hsdo_stmts  ::[ExprLStmt id], hsdo_type    ::PostTcType}
+  | HsDo  { hsdo_do_loc :: SrcSpan              -- of the word "do"
+          , hsdo_blocks :: BlockSrcSpans
+          , hsdo_ctxt   :: HsStmtContext Name
+          , hsdo_stmts  :: [ExprLStmt id]
+          , hsdo_type    :: PostTcType }
+
 ```
 
 ## Other issues
@@ -231,16 +336,25 @@ The `TypeCheckedSource` further changes the `RenamedSource` to replace the origi
 So manipulations need to happen at the `ParsedSource` level, but with the ability to query information from the `RenamedSource` or `TypecheckedSource` as required.
 
 
+
 At the moment HaRe manages this by building up a token tree indexed by SrcSpan with tokens at the leaves, constructed from the `ParsedSource`, and then indexes into it for changes based on the `RenamedSource`.  The token tree is fiddly and brittle, so it would be better to keep this information directy in the AST.
+
 
 ## Abortive annotation parameter attempt
 
+
+
 [ D246](https://phabricator.haskell.org/D246) captures an attempt to work through a type parameter. This exploded in complexity, and was abandoned.
+
 
 ## SPJ alternative suggestion
 
+
+>
 >
 > Another way to tackle this would be to ensure that syntax tree nodes have a "node-key" (a bit like their source location) that clients could use in a finite map, to map node-key to values of their choice.
+>
+>
 
 
 An initial investigation shows some complexity blow up too.  The same effect can be achieved with a virtual node key.
@@ -261,30 +375,43 @@ constructor. This can then be emitted from the parser, if the
 appropriate flag is set to enable it.
 
 
+
 So
 
-```
-dataApiAnnKey=AKSrcSpanTypeRep
 
-    mkApiAnnKey ::(Located e)->ApiAnnKey
-    mkApiAnnKey =...dataAnn=....|AnnHsLetSrcSpan-- of the word "let"SrcSpan-- of the word "in"|AnnHsDoSrcSpan-- of the word "do"
+```
+
+    data ApiAnnKey = AK SrcSpan TypeRep
+
+    mkApiAnnKey :: (Located e) -> ApiAnnKey
+    mkApiAnnKey = ...
+
+    data Ann =
+      ....
+      | AnnHsLet    SrcSpan -- of the word "let"
+                    SrcSpan -- of the word "in"
+
+      | AnnHsDo     SrcSpan -- of the word "do"
 ```
 
 
 And then in the parser
 
+
 ```
-| 'let' binds 'in' exp   { mkAnnHsLet $1$3(LL$HsLet(unLoc $2)$4)}
+
+        | 'let' binds 'in' exp   { mkAnnHsLet $1 $3 (LL $ HsLet (unLoc $2) $4) }
 ```
 
 
 The helper is
 
+
 ```
 
-    mkAnnHsLet ::Located a ->Located b ->LHsExprRdrName->P(LHsExprRdrName)
-    mkAnnHsLet (L l_let _)(L l_in _) e =do
-      addAnnotation (mkAnnKey e)(AnnHsLet l_let l_in)
+    mkAnnHsLet :: Located a -> Located b -> LHsExpr RdrName -> P (LHsExpr RdrName)
+    mkAnnHsLet (L l_let _) (L l_in _) e = do
+      addAnnotation (mkAnnKey e) (AnnHsLet l_let l_in)
       return e;
 ```
 
@@ -336,8 +463,10 @@ people who use it, which is relatively few people.
 That said, as a tweak to the API, rather than a single data type for
 all annotations, you could have:
 
+
 ```
-dataAnnIfThenElse=AnnIfThenElse{posIf, posThen, posElse ::SrcSpan}dataAnnDo=AnnDo{posDo ::SrcSpan}
+data AnnIfThenElse = AnnIfThenElse {posIf, posThen, posElse :: SrcSpan}
+data AnnDo = AnnDo {posDo :: SrcSpan}
 ```
 
 
@@ -345,8 +474,9 @@ Then you could just have an opaque `Map (SrcSpan, TypeRep) Dynamic`,
 with the invariant that the `TypeRep` in the key matches the `Dynamic`.
 Then you can have: 
 
+
 ```
-getAnnotation::Typeable a =>Annotations->SrcSpan->Maybe a
+getAnnotation :: Typeable a => Annotations -> SrcSpan -> Maybe a
 ```
 
 
@@ -357,38 +487,65 @@ you are engaging in with `mkAnnKey`.
 There was some further email between AZ and NDM (teaching AZ some basics) resulting in the following
 
 
+
 This allows code using the annotation to access this as follows
 
+
 ```
-processHsLet::ApiAnns->LHsExpr->CustomReturnTypeprocessHsLet anns (L l (HsExpr localBinds expr))= r
-  whereJust ann = getAnnotation anns l ::MaybeAnnHsLet...
+processHsLet :: ApiAnns -> LHsExpr -> CustomReturnType
+processHsLet anns (L l (HsExpr localBinds expr)) = r
+  where
+    Just ann = getAnnotation anns l :: Maybe AnnHsLet
+    ...
 ```
 
 
 Key data structures
 
+
 ```
-typeApiAnns=Map.MapApiAnnKeyValuedataApiAnnKey=AKSrcSpanTypeRepderiving(Eq,Ord,Show)mkApiAnnKey::(Typeable a)=>SrcSpan-> a ->ApiAnnKeymkApiAnnKey l a =AK l (typeOf (Just a))dataValue= forall a .(Eq a,Show a,Typeable a,Outputable a)=>Value a
+type ApiAnns = Map.Map ApiAnnKey Value
 
-newValue::(Eq a,Show a,Typeable a,Outputable a)=> a ->ValuenewValue=ValuetypeValue::Value->TypeReptypeValue(Value x)= typeOf x
+data ApiAnnKey = AK SrcSpan TypeRep
+                  deriving (Eq,Ord,Show)
 
-fromValue::Typeable a =>Value-> a
-fromValue(Value x)= fromMaybe (error errMsg)$ res
+mkApiAnnKey :: (Typeable a) => SrcSpan -> a -> ApiAnnKey
+mkApiAnnKey l a = AK l (typeOf (Just a))
+
+data Value = forall a . (Eq a, Show a, Typeable a, Outputable a) => Value a
+
+newValue :: (Eq a, Show a, Typeable a, Outputable a) => a -> Value
+newValue = Value
+
+typeValue :: Value -> TypeRep
+typeValue (Value x) = typeOf x
+
+fromValue :: Typeable a => Value -> a
+fromValue (Value x) = fromMaybe (error errMsg) $ res
   where
     res = cast x
-    errMsg ="fromValue, bad cast from "++ show (typeOf x)++" to "++ show (typeOf res)
+    errMsg = "fromValue, bad cast from " ++ show (typeOf x)
+                ++ " to " ++ show (typeOf res)
+
 ```
 
 
 Note that the `Value` type is based on the one in [ shake](https://github.com/ndmitchell/shake/blob/master/Development/Shake/Value.hs)
 
 
+
 This allows the annotation to be retrieved by
 
+
 ```
--- | Retrieve an annotation based on the SrcSpan of the annotated AST-- element, and the known type of the annotation.getAnnotation::(Typeable a)=>ApiAnns->SrcSpan->Maybe a
+
+-- | Retrieve an annotation based on the SrcSpan of the annotated AST
+-- element, and the known type of the annotation.
+getAnnotation :: (Typeable a) => ApiAnns -> SrcSpan -> Maybe a
 getAnnotation anns span = res
-  where res =caseMap.lookup (AK span (typeOf res)) anns ofNothing->NothingJust d ->Just$ fromValue d
+  where res = case  Map.lookup (AK span (typeOf res)) anns of
+                       Nothing -> Nothing
+                       Just d -> Just $ fromValue d
 ```
 
 ### Annotation structures
@@ -400,10 +557,19 @@ Each annotation is a separate data structure, named specifically for the constru
 So if we have an AST element `L l ConstructorXXX` the corresponding annotation will be called `AnnConstructorXXX`.
 
 
+
 An examples
 
+
 ```
--- TyClDecldataAnnClassDecl=AnnClassDecl{ aclassdecl_class   ::SrcSpan, aclassdecl_mwhere  ::MaybeSrcSpan, aclassdecl_mbraces ::Maybe(SrcSpan,SrcSpan)}deriving(Eq,Data,Typeable,Show)
+
+-- TyClDecl
+data AnnClassDecl = AnnClassDecl
+        { aclassdecl_class   :: SrcSpan
+        , aclassdecl_mwhere  :: Maybe SrcSpan
+        , aclassdecl_mbraces :: Maybe (SrcSpan,SrcSpan) }
+            deriving (Eq,Data,Typeable,Show)
+
 ```
 
 ## Open Questions (AZ)
@@ -428,12 +594,19 @@ This has the drawback that all instances of the AST item annotation have the pos
 This is the current approach I am taking, modelled on the OrdList implementation, but with an extra constructor to capture the separator location.
 
 
+
 Thus
 
+
 ```
-dataHsCommaList a
-  =Empty|Cons a (HsCommaList a)|ExtraCommaSrcSpan(HsCommaList a)-- ^ We need a SrcSpan for the annotation|Snoc(HsCommaList a) a
-  |Two(HsCommaList a)-- Invariant: non-empty(HsCommaList a)-- Invariant: non-empty
+data HsCommaList a
+  = Empty
+  | Cons a (HsCommaList a)
+  | ExtraComma SrcSpan (HsCommaList a)
+       -- ^ We need a SrcSpan for the annotation
+  | Snoc (HsCommaList a) a
+  | Two (HsCommaList a) -- Invariant: non-empty
+        (HsCommaList a) -- Invariant: non-empty
 ```
 
 1. Change the lists to be of type `[Either SrcSpan a]` to explicitly capture the comma locations in the list.
@@ -452,12 +625,36 @@ However, the structure is being misused in that `ExtraComma` is used to capture 
 ## Update 2014-10-12
 
 
+
 Based on further feedback from Neil Mitchell and SPJ, the basic annotation is now
 
-```
-typeApiAnns=Map.MapApiAnnKeySrcSpandataApiAnnKey=AKSrcSpanAnnderiving(Eq,Ord,Show)-- ----------------------------------------------------------------------- | Retrieve an annotation based on the SrcSpan of the annotated AST-- element, and the known type of the annotation.getAnnotation::ApiAnns->SrcSpan->Ann->MaybeSrcSpangetAnnotation anns span ann =Map.lookup (AK span ann) anns
 
--- ---------------------------------------------------------------------- | Note: in general the names of these are taken from the-- corresponding token, unless otherwise noteddataAnn=AnnAs|AnnBang|AnnClass|AnnClose-- ^ } or ] or ) or #) etc|AnnComma|AnnDarrow|AnnData|AnnDcolon....
+```
+type ApiAnns = Map.Map ApiAnnKey SrcSpan
+
+data ApiAnnKey = AK SrcSpan Ann
+                  deriving (Eq,Ord,Show)
+
+-- ---------------------------------------------------------------------
+
+-- | Retrieve an annotation based on the SrcSpan of the annotated AST
+-- element, and the known type of the annotation.
+getAnnotation :: ApiAnns -> SrcSpan -> Ann -> Maybe SrcSpan
+getAnnotation anns span ann = Map.lookup (AK span ann) anns
+
+-- --------------------------------------------------------------------
+
+-- | Note: in general the names of these are taken from the
+-- corresponding token, unless otherwise noted
+data Ann = AnnAs
+         | AnnBang
+         | AnnClass
+         | AnnClose -- ^ } or ] or ) or #) etc
+         | AnnComma
+         | AnnDarrow
+         | AnnData
+         | AnnDcolon
+         ....
 ```
 
 

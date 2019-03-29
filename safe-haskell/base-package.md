@@ -21,14 +21,17 @@ For splitting modules that contain both Safe and Unsafe Symbols, I've moved the 
 
 ## Base Package
 
-<table><tr><th>**Top Level**</th>
-<th>**Control**</th>
-<th>**Data**</th>
-<th>**Debug**</th>
-<th>**Foreign**</th>
-<th>**System**</th>
-<th>**Text**</th>
-<th>**Unsafe**</th></tr>
+
+
+<table><tr><th> <b>Top Level</b>       </th>
+<th> <b>Control</b>            </th>
+<th> <b>Data</b>               </th>
+<th> <b>Debug</b>      </th>
+<th> <b>Foreign</b>            </th>
+<th> <b>System</b>             </th>
+<th> <b>Text</b>                   </th>
+<th> <b>Unsafe</b>      </th>
+<td> </td></tr>
 <tr><th> Foreign </th>
 <th> Applicative </th>
 <th> Bits         </th>
@@ -36,429 +39,550 @@ For splitting modules that contain both Safe and Unsafe Symbols, I've moved the 
 <th> C           </th>
 <th> CPUTime      </th>
 <th> Printf          </th>
-<th> Coerce </th></tr>
+<th> Coerce </th>
+<td> </td></tr>
 <tr><th> Numeric   </th>
 <th> Arrow        </th>
 <th> Bool         </th>
-<th></th>
+<th>                   </th>
 <th> Concurren   </th>
 <th> Enviornment </th>
 <th> Read             </th>
-<th></th></tr>
+<th>                    </th>
+<td> </td></tr>
 <tr><th> Prelude   </th>
 <th> Category     </th>
 <th> Char         </th>
-<th></th>
+<th>                   </th>
 <th> ForeignPtr </th>
 <th> Exit        </th>
 <th> Show            </th>
-<th></th></tr>
-<tr><th></th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> Concurrent   </th>
 <th> Complex      </th>
-<th></th>
+<th>                   </th>
 <th> Marshal     </th>
 <th> IO           </th>
-<th>**Text.ParserCombinators**</th>
-<th></th></tr>
-<tr><th></th>
+<th> <b>Text.ParserCombinators</b> </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> Exception    </th>
 <th> Data          </th>
-<th></th>
+<th>                   </th>
 <th> Ptr          </th>
 <th> Info        </th>
 <th> ReadP            </th>
-<th></th></tr>
-<tr><th></th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> Monad        </th>
 <th> Dynamic       </th>
-<th></th>
+<th>                   </th>
 <th> StablePtr   </th>
 <th> Mem         </th>
 <th> ReadPrec         </th>
-<th></th></tr>
-<tr><th></th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> OldException </th>
 <th> Either       </th>
-<th></th>
+<th>                   </th>
 <th> Storable     </th>
 <th> Timeout      </th>
-<th>**Text.Read**</th>
-<th></th></tr>
-<tr><th></th>
-<th>**Control.Concurrent**</th>
+<th> <b>Text.Read</b>              </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
+<th> <b>Control.Concurrent</b> </th>
 <th> Eq           </th>
-<th></th>
-<th>**Foregin.C**</th>
-<th>**System.Console**</th>
+<th>                   </th>
+<th> <b>Foregin.C</b>          </th>
+<th> <b>System.Console</b>     </th>
 <th> Lex              </th>
-<th></th></tr>
-<tr><th></th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> Chan         </th>
 <th> Fixed        </th>
-<th></th>
+<th>                   </th>
 <th> Error        </th>
 <th> GetOpt      </th>
-<th>**Text.Show**</th>
-<th></th></tr>
-<tr><th></th>
+<th> <b>Text.Show</b>              </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> MVar         </th>
 <th> Foldable     </th>
-<th></th>
+<th>                   </th>
 <th> String       </th>
-<th>**System.IO**</th>
+<th> <b>System.IO</b>          </th>
 <th> Functions       </th>
-<th></th></tr>
-<tr><th></th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> QSem         </th>
 <th> Function    </th>
-<th></th>
+<th>                   </th>
 <th> Types        </th>
 <th> Error        </th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> QSemN        </th>
 <th> Functor      </th>
-<th></th>
-<th>**Foreign.Marshal**</th>
-<th>**System.Mem**</th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
+<th>                   </th>
+<th> <b>Foreign.Marshal</b>    </th>
+<th> <b>System.Mem</b>         </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> SampleVar    </th>
 <th> HashTable    </th>
-<th></th>
+<th>                   </th>
 <th> Alloc        </th>
 <th> StableName   </th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
-<th>**Control.Exception**</th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
+<th> <b>Control.Exception</b>  </th>
 <th> IORef        </th>
-<th></th>
+<th>                   </th>
 <th> Array        </th>
 <th> Weak        </th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> Base         </th>
 <th> Int          </th>
-<th></th>
+<th>                   </th>
 <th> Error        </th>
-<th>**System.Posix**</th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
-<th>**Control.Monad**</th>
+<th> <b>System.Posix</b>       </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
+<th> <b>Control.Monad</b>      </th>
 <th> Ix           </th>
-<th></th>
+<th>                   </th>
 <th> Pool         </th>
 <th> Internals    </th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> Fix         </th>
 <th> List         </th>
-<th></th>
+<th>                   </th>
 <th> Utils        </th>
 <th> Types        </th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> Group        </th>
 <th> Maybe        </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
+<th>                   </th>
+<th>                           </th>
+<th>                           </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> Instances   </th>
 <th> Monoid       </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
+<th>                   </th>
+<th>                           </th>
+<th>                           </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> ST         </th>
 <th> Ord          </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
+<th>                   </th>
+<th>                           </th>
+<th>                           </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> Zip         </th>
 <th> Ratio       </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
-<th>**Control.Monad.ST**</th>
+<th>                   </th>
+<th>                           </th>
+<th>                           </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
+<th> <b>Control.Monad.ST</b>   </th>
 <th> STRef       </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
+<th>                   </th>
+<th>                           </th>
+<th>                           </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> Lazy       </th>
 <th> String       </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
+<th>                   </th>
+<th>                           </th>
+<th>                           </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
 <th> Strict     </th>
 <th> Traversable </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
-<th></th>
+<th>                   </th>
+<th>                           </th>
+<th>                           </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
+<th>                           </th>
 <th> Tuple        </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
-<th></th>
+<th>                   </th>
+<th>                           </th>
+<th>                           </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
+<th>                           </th>
 <th> Typeable      </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
-<th></th>
+<th>                   </th>
+<th>                           </th>
+<th>                           </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
+<th>                           </th>
 <th> Unique       </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
-<th></th>
+<th>                   </th>
+<th>                           </th>
+<th>                           </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
+<th>                           </th>
 <th> Version      </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
-<th></th>
+<th>                   </th>
+<th>                           </th>
+<th>                           </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
+<th>                           </th>
 <th> Word         </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
-<th></th>
-<th>**Data.STRef**</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
-<th></th>
+<th>                   </th>
+<th>                           </th>
+<th>                           </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
+<th>                           </th>
+<th> <b>Data.STRef</b>         </th>
+<th>                   </th>
+<th>                           </th>
+<th>                           </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
+<th>                           </th>
 <th> Lazy        </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
-<th></th>
+<th>                   </th>
+<th>                           </th>
+<th>                           </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr>
+<tr><th>                        </th>
+<th>                           </th>
 <th> Strict      </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr></table>
+<th>                   </th>
+<th>                           </th>
+<th>                           </th>
+<th>                               </th>
+<th>                    </th>
+<td> </td></tr></table>
+
 
 ## GHC
 
 
+
 Below is the breakdown for just the GHC modules in base:
 
-<table><tr><th>**GHC**</th>
-<th>**GHC.Conc**</th>
-<th>**GHC.Float**</th>
-<th>**GHC.IO**</th></tr>
-<tr><th>Arr          </th>
+
+
+<table><tr><td> </td>
+<th> <b>GHC</b>                 </th>
+<th> <b>GHC.Conc</b>        </th>
+<th> <b>GHC.Float</b>             </th>
+<th> <b>GHC.IO</b>                    </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Arr          </th>
 <th> IO      </th>
 <th> ConversionUtils </th>
-<th> Buffer              </th></tr>
-<tr><th>Base            </th>
+<th> Buffer              </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Base            </th>
 <th> Signal    </th>
 <th> RealFracMethods </th>
-<th> BufferedIO          </th></tr>
-<tr><th>Classes        </th>
+<th> BufferedIO          </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Classes        </th>
 <th> Sync    </th>
-<th></th>
-<th> Device              </th></tr>
-<tr><th>Conc         </th>
+<th>                              </th>
+<th> Device              </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Conc         </th>
 <th> Windows </th>
-<th></th>
-<th> Encoding            </th></tr>
-<tr><th>ConsoleHandler </th>
-<th></th>
-<th></th>
-<th> Exception           </th></tr>
-<tr><th>Constants      </th>
-<th></th>
-<th></th>
-<th> FD                  </th></tr>
-<tr><th>Desugar        </th>
-<th></th>
-<th></th>
-<th> Handle              </th></tr>
-<tr><th>Enum           </th>
-<th></th>
-<th></th>
-<th> IOMode              </th></tr>
-<tr><th>Environment    </th>
-<th></th>
-<th></th>
-<th>**GHC.IO.Encoding**</th></tr>
-<tr><th>Err            </th>
-<th></th>
-<th></th>
-<th> CodePage            </th></tr>
-<tr><th>Event          </th>
-<th></th>
-<th></th>
-<th> Failure             </th></tr>
-<tr><th>Exception      </th>
-<th></th>
-<th></th>
-<th> Iconv               </th></tr>
-<tr><th>Exts            </th>
-<th></th>
-<th></th>
-<th> Latin1              </th></tr>
-<tr><th>Float          </th>
-<th></th>
-<th></th>
-<th> Types               </th></tr>
-<tr><th>Foreign        </th>
-<th></th>
-<th></th>
-<th> UTF16               </th></tr>
-<tr><th>ForeignPtr   </th>
-<th></th>
-<th></th>
-<th> UTF32               </th></tr>
-<tr><th>Handle         </th>
-<th></th>
-<th></th>
-<th> UTF8                </th></tr>
-<tr><th>IO           </th>
-<th></th>
-<th></th>
-<th>**GHC.IO.Encoding.CodePage**</th></tr>
-<tr><th>IOArray      </th>
-<th></th>
-<th></th>
-<th> Table                </th></tr>
-<tr><th>IOBase          </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>IORef        </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Int            </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>List           </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>MVar         </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Num            </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>PArr           </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Pack            </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Ptr          </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Prim            </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Read           </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Real           </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>ST           </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>STRef        </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Show           </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Stable       </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Storable       </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>TopHandler     </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Unicode        </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Weak\*           </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Windows        </th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Word           </th>
-<th></th>
-<th></th>
-<th></th></tr></table>
+<th>                              </th>
+<th> Encoding            </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>ConsoleHandler </th>
+<th>                        </th>
+<th>                              </th>
+<th> Exception           </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Constants      </th>
+<th>                        </th>
+<th>                              </th>
+<th> FD                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Desugar        </th>
+<th>                        </th>
+<th>                              </th>
+<th> Handle              </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Enum           </th>
+<th>                        </th>
+<th>                              </th>
+<th> IOMode              </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Environment    </th>
+<th>                        </th>
+<th>                              </th>
+<th> <b>GHC.IO.Encoding</b>           </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Err            </th>
+<th>                        </th>
+<th>                              </th>
+<th> CodePage            </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Event          </th>
+<th>                        </th>
+<th>                              </th>
+<th> Failure             </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Exception      </th>
+<th>                        </th>
+<th>                              </th>
+<th> Iconv               </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Exts            </th>
+<th>                        </th>
+<th>                              </th>
+<th> Latin1              </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Float          </th>
+<th>                        </th>
+<th>                              </th>
+<th> Types               </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Foreign        </th>
+<th>                        </th>
+<th>                              </th>
+<th> UTF16               </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>ForeignPtr   </th>
+<th>                        </th>
+<th>                              </th>
+<th> UTF32               </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Handle         </th>
+<th>                        </th>
+<th>                              </th>
+<th> UTF8                </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>IO           </th>
+<th>                        </th>
+<th>                              </th>
+<th> <b>GHC.IO.Encoding.CodePage</b>  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>IOArray      </th>
+<th>                        </th>
+<th>                              </th>
+<th> Table                </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>IOBase          </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>IORef        </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Int            </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>List           </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>MVar         </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Num            </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>PArr           </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Pack            </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Ptr          </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Prim            </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Read           </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Real           </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>ST           </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>STRef        </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Show           </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Stable       </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Storable       </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>TopHandler     </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Unicode        </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Weak*           </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Windows        </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr>
+<tr><td> </td>
+<th>Word           </th>
+<th>                        </th>
+<th>                              </th>
+<th>                                  </th>
+<td> </td></tr></table>
+
 
 
 \*I tried to split Weak into Unsafe and Safe modules and have GHC.Weak just expose the Safe api (i.e this would make it a yellow box like the others). However I wasn't able to figure out how to move the definition of Weak. Many of the GHC modules are wired in and require changes to compiler/prelude/PreNames. For all other modules I was able to update their builtin location fine but for Weak I continually got links errors when trying to build libRts.a if I tried to move the definition of GHC.Weak around.

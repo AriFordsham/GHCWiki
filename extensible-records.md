@@ -71,52 +71,58 @@ The **Heterogeneous Collections** system introduces user defined Label Namespace
 # Type Systems
 
 
+
 The most important difference between the various record proposals seems to be the expressive power of their type systems. Most systems depend on special predicates in the type context to govern the possible forms of record polymorphism. As usual there is a trade-off between power and simplicity.
 
-<table><tr><th>No predicates</th>
-<td>You can get away without any predicates if you are prepared to allow records to have multiple fields with the same label. In the **scoped labels** system, the syntactic form of the type matches that of the record, so you can type the operators by
 
-- `(. L) :: a ::+ {L :: b} -> b`
-- `(- L) :: a ::+ {L :: b} -> a`
-- `(+ {L = v}) :: a -> a ::+ {L :: b}`
-- `(<- {L = v}) :: a ::+ {L :: b} -> a ::+ {L :: b}`
+<table><tr><th>No predicates</th>
+<td>You can get away without any predicates if you are prepared to allow records to have multiple fields with the same label. In the <b>scoped labels</b> system, the syntactic form of the type matches that of the record, so you can type the operators by
+
+- <tt>(. L) :: a ::+ {L :: b} -> b</tt>
+- <tt>(- L) :: a ::+ {L :: b} -> a</tt>
+- <tt>(+ {L = v}) :: a -> a ::+ {L :: b}</tt>
+- <tt>(<- {L = v}) :: a ::+ {L :: b} -> a ::+ {L :: b}</tt>
 
 </td></tr></table>
+
 
 <table><tr><th>Positive predicates</th>
-<td>If you allow only positive information about records in the context, you can only type some of the operators. In **A proposal for records in Haskell** the condition `a <: {L1::t1, L2 :: t2, ...}` means that `a` is a record type with at least the fields `L1, L2, ...` of types `t1, t2, ...` respectively. You can type the following operators:
+<td>If you allow only positive information about records in the context, you can only type some of the operators. In <b>A proposal for records in Haskell</b> the condition <tt>a <: {L1::t1, L2 :: t2, ...}</tt> means that <tt>a</tt> is a record type with at least the fields <tt>L1, L2, ...</tt> of types <tt>t1, t2, ...</tt> respectively. You can type the following operators:
 
-- `(. L) :: a <: {L :: b} => a -> b`
-- `(<- {L = v}) :: a <: {L :: b} => a -> a`
+- <tt>(. L) :: a <: {L :: b} => a -> b</tt>
+- <tt>(<- {L = v}) :: a <: {L :: b} => a -> a</tt>
 
 </td></tr></table>
+
 
 <table><tr><th>Lacks predicates</th>
-<td>In order to type the other operators, we need negative information about records. In the Hugs **Trex** system the condition `a \ L` means that `a` is a record type without a field `L`. You can type all the operators if you restrict the right-hand sides to constant shape records:
+<td>In order to type the other operators, we need negative information about records. In the Hugs <b>Trex</b> system the condition <tt>a \ L</tt> means that <tt>a</tt> is a record type without a field <tt>L</tt>. You can type all the operators if you restrict the right-hand sides to constant shape records:
 
-- `(. L) :: a \ L => a ::+ {L :: b} -> b`
-- `(- L) :: a \ L => a ::+ {L :: b} -> a`
-- `(+ {L = v}) :: a \ L => a -> a ::+ {L :: b}`
-- `(<- {L = v}) :: a \ L => a ::+ {L :: b} -> a ::+ {L :: b}`
+- <tt>(. L) :: a \ L => a ::+ {L :: b} -> b</tt>
+- <tt>(- L) :: a \ L => a ::+ {L :: b} -> a</tt>
+- <tt>(+ {L = v}) :: a \ L => a -> a ::+ {L :: b}</tt>
+- <tt>(<- {L = v}) :: a \ L => a ::+ {L :: b} -> a ::+ {L :: b}</tt>
 
 </td></tr></table>
+
 
 <table><tr><th>General predicates, using type families</th>
-<td>The **Type Families** system uses three predicates: ` a `Contains` L ` means that `a` is a record type with a field labelled `L`; ` a `Disjoint` b ` means that `a` and `b` are record types with no fields in common; and ` a `Subrecord` b ` means that `a` and `b` are record types, and every field of `a` also occurs in `b` (with the same type). You can type all the operators:
+<td>The <b>Type Families</b> system uses three predicates: <tt> a `Contains` L </tt> means that <tt>a</tt> is a record type with a field labelled <tt>L</tt>; <tt> a `Disjoint` b </tt> means that <tt>a</tt> and <tt>b</tt> are record types with no fields in common; and <tt> a `Subrecord` b </tt> means that <tt>a</tt> and <tt>b</tt> are record types, and every field of <tt>a</tt> also occurs in <tt>b</tt> (with the same type). You can type all the operators:
 
-- ` (. L) :: a `Contains` L => a -> a ::. L `
-- ` (- L) :: a `Contains` L => a -> a ::- L `
-- ` (+) :: a `Disjoint` b => a -> b -> a ::+ b `
-- ` (<-) :: a `Subrecord` b => b -> a -> b `
+- <tt> (. L) :: a `Contains` L => a -> a ::. L </tt>
+- <tt> (- L) :: a `Contains` L => a -> a ::- L </tt>
+- <tt> (+) :: a `Disjoint` b => a -> b -> a ::+ b </tt>
+- <tt> (<-) :: a `Subrecord` b => b -> a -> b </tt>
 
 </td></tr></table>
 
-<table><tr><th>General predicates, using functional dependencies</th>
-<td>The **Heterogeneous Collections** and **Poor Man's Records** systems achieve the same as the **Type Families** system, using the relational style of functional dependencies. In **Poor Man's Records**, `Select L a b` means that `a` is a record type with a field labelled `L`, and `b = a ::. L`; `Remove L a b` means that `a` is a record type with a field labelled `L`, and `b = a ::- L`; and `Concat a b c` means that `a` and `b` are record types with no fields in common, and `c = a ::+ b`. You can type the operators:
 
-- ` (. L) :: Select L a b => a -> b `
-- ` (- L) :: Remove L a b => a -> b `
-- ` (+) :: Concat a b c => a -> b -> c `
+<table><tr><th>General predicates, using functional dependencies</th>
+<td>The <b>Heterogeneous Collections</b> and <b>Poor Man&apos;s Records</b> systems achieve the same as the <b>Type Families</b> system, using the relational style of functional dependencies. In <b>Poor Man&apos;s Records</b>, <tt>Select L a b</tt> means that <tt>a</tt> is a record type with a field labelled <tt>L</tt>, and <tt>b = a ::. L</tt>; <tt>Remove L a b</tt> means that <tt>a</tt> is a record type with a field labelled <tt>L</tt>, and <tt>b = a ::- L</tt>; and <tt>Concat a b c</tt> means that <tt>a</tt> and <tt>b</tt> are record types with no fields in common, and <tt>c = a ::+ b</tt>. You can type the operators:
+
+- <tt> (. L) :: Select L a b => a -> b </tt>
+- <tt> (- L) :: Remove L a b => a -> b </tt>
+- <tt> (+) :: Concat a b c => a -> b -> c </tt>
 
 </td></tr></table>
 
@@ -226,7 +232,9 @@ patterns: {n1 = p1, ... , nn = pn, ..} --> (viewUnderlyingRecord n1 -> (p1, ... 
 
 Libraries could then implement `mkUnderlyingRecord`, `underlyingEmptyRecord`, `MkUnderlyingRecord`, `UnderlyingEmptyRecord`, `viewUnderlyingRecord`  and `viewUnderlyingEmptyRecord` in whatever way is best. What do you think?
 
+
 # See Also
+
 
 - [ HaskellWiki](http://www.haskell.org/haskellwiki/Extensible_record)
 - [ Haskell'](http://hackage.haskell.org/trac/haskell-prime/wiki/FirstClassLabels)

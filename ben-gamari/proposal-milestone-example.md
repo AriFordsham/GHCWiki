@@ -13,88 +13,109 @@ Introducing `Semigroup` as a superclass of `Monoid` has been proposed several ti
 ## Final API
 
 
+
 The final API (suitable for Haskell Report inclusion) we want to end up with is
 
-```
-moduleData.SemigroupwhereclassSemigroup a where(<>):: a -> a -> a
 
-    sconcat ::NonEmpty a -> a
-    sconcat (a :| as)= go a as
+```
+module Data.Semigroup where
+
+class Semigroup a where
+    (<>) :: a -> a -> a
+
+    sconcat :: NonEmpty a -> a
+    sconcat (a :| as) = go a as
       where
-        go b (c:cs)= b <> go c cs
-        go b []= b
+        go b (c:cs) = b <> go c cs
+        go b []     = b
 
     -- GHC extension, not needed for Haskell Report
-    stimes ::Integral b => b -> a -> a
-    stimes y0 x0 ={- default impl -}
+    stimes :: Integral b => b -> a -> a
+    stimes y0 x0 = {- default impl -}
 ```
 
 ```
-moduleData.MonoidwhereclassSemigroup a =>Monoid a where
+module Data.Monoid where
+
+class Semigroup a => Monoid a where
     mempty  :: a
 
-    mconcat ::[a]-> a
+    mconcat :: [a] -> a
     mconcat = foldr (<>) mempty
 
     -- GHC extension, not needed for Haskell Report
-    mtimes ::Integral b => b -> a -> a
-    mtimes y0 x0 ={- default impl -}-- GHC Extension: Legacy alias not needed for Haskell Reportmappend::Semigroup a => a -> a -> a
-mappend=(<>)
+    mtimes :: Integral b => b -> a -> a
+    mtimes y0 x0 = {- default impl -}
+
+-- GHC Extension: Legacy alias not needed for Haskell Report
+mappend :: Semigroup a => a -> a -> a
+mappend = (<>)
 ```
 
 ## Migration plan
 
-<table><tr><th>**Milestone**</th>
-<th>**GHC release**</th>
-<th>**Date**</th>
-<th>**What changed?**</th>
-<th>**Action required**</th></tr>
-<tr><th>**warnings introduced**</th>
+
+<table><tr><th> <b>Milestone</b>            </th>
+<th> <b>GHC release</b> </th>
+<th> <b>Date</b>        </th>
+<th> <b>What changed?</b>                                                 </th>
+<th> <b>Action required</b>                                             
+</th></tr>
+<tr><th> <b>warnings introduced</b>    </th>
 <th> 8.0               </th>
 <th> Winter 2016       </th>
-<th>`-Wmonoid-semigroup` introduced                                     </th>
-<th></th></tr>
-<tr><th></th>
-<th></th>
-<th></th>
-<th></th>
-<th>*optional* Add Semigroup instances  and `semigroups` dependency 
+<th> <tt>-Wmonoid-semigroup</tt> introduced                                     </th>
+<th>                                                                   
 </th></tr>
-<tr><th>**warnings actionable**</th>
+<tr><th>                            </th>
+<th>                   </th>
+<th>                   </th>
+<th>                                                                     </th>
+<th> <i>optional</i> Add Semigroup instances  and <tt>semigroups</tt> dependency 
+</th></tr>
+<tr><th> <b>warnings actionable</b>    </th>
 <th> 8.4               </th>
 <th> Winter 2018       </th>
-<th>`Data.Semigroup` available in `base` under three-release policy     </th>
-<th></th></tr>
-<tr><th></th>
-<th></th>
-<th></th>
-<th></th>
-<th> Add `Semigroup` instances                                         
+<th> <tt>Data.Semigroup</tt> available in <tt>base</tt> under three-release policy     </th>
+<th>                                                                   
 </th></tr>
-<tr><th>**warnings become errors**</th>
+<tr><th>                            </th>
+<th>                   </th>
+<th>                   </th>
+<th>                                                                     </th>
+<th> Add <tt>Semigroup</tt> instances                                         
+</th></tr>
+<tr><th> <b>warnings become errors</b> </th>
 <th> 8.6               </th>
 <th> Winter 2019       </th>
-<th>`Semigroup` becomes superclass of `Monoid`</th>
-<th></th></tr>
-<tr><th></th>
-<th></th>
-<th></th>
-<th></th>
-<th> Remove `mappend` from `Monoid` instances                          
+<th> <tt>Semigroup</tt> becomes superclass of <tt>Monoid</tt>                          </th>
+<th>                                                                   
 </th></tr>
-<tr><th>**warnings become errors**</th>
+<tr><th>                            </th>
+<th>                   </th>
+<th>                   </th>
+<th>                                                                     </th>
+<th> Remove <tt>mappend</tt> from <tt>Monoid</tt> instances                          
+</th></tr>
+<tr><th> <b>warnings become errors</b> </th>
 <th> 8.8               </th>
 <th> Winter 2020       </th>
-<th>`mappend` removed from `Monoid`</th>
-<th></th></tr></table>
+<th> <tt>mappend</tt> removed from <tt>Monoid</tt>                                     </th>
+<th>                                                                   
+</th></tr></table>
+
 
 ### Adding `Semigroup` instances
 
 
+
 Consider a `Monoid` instance,
 
+
 ```
-importData.MonoidinstanceMonoidMyTypewhere
+import Data.Monoid
+
+instance Monoid MyType where
     mempty  = my_empty
     mappend = my_mappend
 ```
@@ -102,28 +123,40 @@ importData.MonoidinstanceMonoidMyTypewhere
 
 Between 8.0 and 8.4 this code would become,
 
-```
-importData.SemigroupinstanceSemigroupMyTypewhere(<>)= my_mappend
 
-instanceMonoidMyTypewhere
+```
+import Data.Semigroup
+
+instance Semigroup MyType where
+    (<>) = my_mappend
+
+instance Monoid MyType where
     mempty = my_mempty
-    mappend =(<>)
+    mappend = (<>)
 ```
 
 
 with an added dependency on the `semigroups` library.
 
 
+
 After 8.4 the `semigroups` dependency can be dropped.
+
 
 ### Dropping `mappend`
 
+
+
 `mappend` will remain a method of `Monoid` until 8.8, but can be safely removed after 8.6 resulting in,
 
-```
-importData.SemigroupinstanceSemigroupMyTypewhere(<>)= my_mappend
 
-instanceMonoidMyTypewhere
+```
+import Data.Semigroup
+
+instance Semigroup MyType where
+    (<>) = my_mappend
+
+instance Monoid MyType where
     mempty = my_mempty
 ```
 

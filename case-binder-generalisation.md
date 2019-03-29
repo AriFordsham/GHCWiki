@@ -1,27 +1,43 @@
 # Case Binder Generalisation
 
 
+
 These are Joachim’s random scribblings in order to solve [\#9291](https://gitlab.haskell.org//ghc/ghc/issues/9291). This is wip, but of course if you want to comment on this, let me know.
+
 
 ## The problem
 
+
 ```
-fun::EitherIntString->EitherStringStringfun x =case x ofLeft int ->Left(show int)Right str ->Right str
+fun :: Either Int String -> Either String String
+fun x = case x of
+    Left int -> Left (show int)
+    Right str -> Right str
 ```
 
 
 produces this (prettified) Core
 
+
 ```
-fun::EitherIntString->EitherStringStringfun=\(x ::EitherIntString)->case x of b  {Left int ->Left@String@String(GHC.Show.$fShowInt_$cshow int);Right str ->Right@String@String str
+fun :: Either Int String -> Either String String
+fun = \ (x :: Either Int String) ->
+    case x of b  {
+      Left int ->  Left  @String @String (GHC.Show.$fShowInt_$cshow int);
+      Right str -> Right @String @String str
     }
 ```
 
 
 The `Right` branch is allocating a `Right` data constructor with a pointer to `str`. But this will be bit-for-bit identical to `x`! That is stupid! But the obvious code
 
+
 ```
-fun::EitherIntString->EitherStringStringfun=\(x ::EitherIntString)->case x of b  {Left int ->Left@String@String(GHC.Show.$fShowInt_$cshow int);Right str -> b
+fun :: Either Int String -> Either String String
+fun = \ (x :: Either Int String) ->
+    case x of b  {
+      Left int ->  Left  @String @String (GHC.Show.$fShowInt_$cshow int);
+      Right str -> b
     }
 ```
 
@@ -34,12 +50,16 @@ If we would not change the type of the `Either` here, then this would be ok, and
 ## The approach
 
 
+
 The observation that we make here is that it is type-safe to use `b` at a more general type inside each branches of the case. But one variable `b` cannot have different types in different scopes. So it seems we do not get around having separate case binders in each branch:
 
+
 ```
-fun::EitherIntString->EitherStringStringfun=\(x ::EitherIntString)->case x of{
-      bLeft  ::(forall a.EitherString a).Left int  ->Left@String@String(GHC.Show.$fShowInt_$cshow int);
-      bRight ::(forall a.Either a String).Right str ->Right@String@String str
+fun :: Either Int String -> Either String String
+fun = \ (x :: Either Int String) ->
+    case x of {
+      bLeft  :: (forall a. Either String a) . Left int  ->  Left  @String @String (GHC.Show.$fShowInt_$cshow int);
+      bRight :: (forall a. Either a String) . Right str -> Right @String @String str
     }
 ```
 
@@ -47,19 +67,24 @@ fun::EitherIntString->EitherStringStringfun=\(x ::EitherIntString)->case x of{
 This describes what we know about the case binder in each branch more precisely.
 
 
+
 Then CSE (which probably needs to be instrumented to do these things) could then apply the translation
 
+
 ```
-Right@t @String str ⇝ bRight @t
+Right @t @String str ⇝ bRight @t
 ```
 
 
 for any type `t` in the RHS of this alternative, yielding the desired code:
 
+
 ```
-fun::EitherIntString->EitherStringStringfun=\(x ::EitherIntString)->case x of{
-      bLeft  ::(forall a.EitherString a).Left int ->Left@String@String(GHC.Show.$fShowInt_$cshow int);
-      bRight ::(forall a.Either a String).Right str -> bRight @t
+fun :: Either Int String -> Either String String
+fun = \ (x :: Either Int String) ->
+    case x of {
+      bLeft  :: (forall a. Either String a) . Left int ->  Left  @String @String (GHC.Show.$fShowInt_$cshow int);
+      bRight :: (forall a. Either a String) . Right str -> bRight @t
     }
 ```
 

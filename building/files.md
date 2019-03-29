@@ -1,1 +1,1 @@
-redirect(wiki:Commentary/SourceTree)?
+Page moved to [Commentary/SourceTree](commentary/source-tree)

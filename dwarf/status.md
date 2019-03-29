@@ -6,11 +6,13 @@
 Happily, DWARF support should finally be stable in GHC 8.2.1. This means that it should now be possible to use the `GHC.ExecutionStack` interface to request stacktraces from within a Haskell program without fear of causing a program crash.
 
 
+
 Enabling DWARF support in 8.2 requires building a compiler with the following in `mk/build.mk`,
 
+
 ```
-GhcLibHcOpts+= -g3
-GhcRtsHcOpts+= -g3
+GhcLibHcOpts += -g3
+GhcRtsHcOpts += -g3
 ```
 
 
@@ -65,9 +67,11 @@ All of this requires that the program is compiled with GHC's `-g` flag. To get r
 These are in various states of completion which I (Ben Gamari) will encode with the
 following designations,
 
+
 <table><tr><th>MERGED</th>
-<td>Already merged to `master`, listed here for completeness
+<td>Already merged to <tt>master</tt>, listed here for completeness
 </td></tr></table>
+
 
 <table><tr><th>READY</th>
 <td>Believed to be finished with no expectation of major rework

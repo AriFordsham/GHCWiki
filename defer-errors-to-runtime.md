@@ -9,21 +9,29 @@ For more information, see the associated [ Equality Proofs and Deferred Type Err
 ## Tickets
 
 
+
 Use Keyword = `DeferredErrors` to ensure that a ticket ends up on these lists.
+
+
 
 **Open Tickets:**
 
-<table><tr><th>[\#11197](https://gitlab.haskell.org//ghc/ghc/issues/11197)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11197">#11197</a></th>
 <td>Overeager deferred type errors</td></tr>
-<tr><th>[\#14370](https://gitlab.haskell.org//ghc/ghc/issues/14370)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14370">#14370</a></th>
 <td>improve documentation of -fdefer-typed-holes for naked expressions in ghci</td></tr>
-<tr><th>[\#14722](https://gitlab.haskell.org//ghc/ghc/issues/14722)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14722">#14722</a></th>
 <td>Error message points to wrong location</td></tr></table>
+
+
+
 
 **Closed Tickets:**
 
-<table><tr><th>[\#14325](https://gitlab.haskell.org//ghc/ghc/issues/14325)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14325">#14325</a></th>
 <td>Erroneous program emits no errors</td></tr></table>
+
+
 
 ## Overview
 

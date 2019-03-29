@@ -197,8 +197,10 @@ names).  The pattern is: *directory*_*distdir*_*variable*.
 ## Idiom: macros
 
 
-The build system makes extensive use of Gnu **make****macros**.  A macro is defined in
+
+The build system makes extensive use of Gnu **make** **macros**.  A macro is defined in
 GNU **make** using `define`, e.g.
+
 
 ```wiki
 define build-package
@@ -373,8 +375,9 @@ clean :
 Each time **make** is invoked, we recursively invoke **make** in several
 *phases*:
 
+
 - **Phase 0**: invoke `inc.mk` with `PHASE=0`.  This brings `inc1.mk` 
-  up-to-date (and *only*`inc1.mk`).  
+  up-to-date (and *only* `inc1.mk`).  
 
 - **Final phase**: invoke `inc.mk` again (with `PHASE` unset).  Now we can be sure 
   that `inc1.mk` is up-to-date and proceed to generate `inc2.mk`.  

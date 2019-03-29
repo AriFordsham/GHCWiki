@@ -22,21 +22,40 @@ execute each one, keeping a track of the number of tests run, and
 which ones succeeded and failed.
 
 
+
 The script runtests.py takes several options:
 
+
+>
 >
 > -e \<stmt\>
+>
+>
 
+>
+> >
 > >
 > > executes the Python statement \<stmt\> before running any tests.
 > > The main purpose of this option is to allow certain
 > > configuration options to be tweaked from the command line; for
 > > example, the build system adds '-e config.accept=1' to the
 > > command line when 'make accept' is invoked.
+> >
+> >
+>
 
 >
+>
 > --config-file \<file\>
+>
+>
 
+
+  
+
+
+>
+> >
 > >
 > > \<file\> is just a file containing Python code which is 
 > > executed.   The purpose of this option is so that a file
@@ -44,95 +63,183 @@ The script runtests.py takes several options:
 > > be specified on the command line.  Multiple --config-file 
 > > options may be given. (There is a depreciated --configfile
 > > flag that exists so the testsuite runs on older commits) 
+> >
+> >
+>
 
 >
+>
 > --config \<field\>
+>
+>
 
+>
+> >
 > >
 > > This command is the single-field variant of --config-file.
 > > Multiple --config options may be given.
+> >
+> >
+>
 
 >
+>
 > --rootdir \<dir\>
+>
+>
 
+>
+> >
 > >
 > > \<dir\> is the directory below which to search for .T files
 > > to run.
+> >
+> >
+>
 
 >
+>
 > --summary-file \<file\>
+>
+>
 
+>
+> >
 > >
 > > In addition to dumping the test summary to stdout, also
 > > put it in \<file\>.  (stdout also gets a lot of other output
 > > when running a series of tests, so redirecting it isn't  
 > > always the right thing).
+> >
+> >
+>
 
 >
+>
 > --no-print-summary
+>
+>
 
+>
+> >
 > >
 > > If this flag is given on the commandline, the summary will 
 > > not be printed.
+> >
+> >
+>
 
 >
+>
 > --only \<test\>
+>
+>
 
+>
+> >
 > >
 > > Only run tests named \<test\> will be run; multiple --only options 
 > > can be given.  Useful for running a single test from a .T file
 > > containing multiple tests.
+> >
+> >
+>
 
+>
 >
 > --way \<way\>
 >
+>
+> >
 > >
 > > Only ways named \<way\> will be run; multiple --way options can
 > > be given.
+> >
+> >
+>
 
+>
 >
 > --skipway \<way\>
 >
+>
+> >
 > >
 > > The inverse of --way. \<way\> will be skipped if it would
 > > otherwise be ran.
+> >
+> >
+>
 
+>
 >
 > --threads \<number\>
 >
+>
+> >
 > >
 > > Execute the testsuite in parallel.
+> >
+> >
+>
 
+>
 >
 > --verbose \<number\>
 >
+>
+> >
 > >
 > > A verbosity value between 0 and 5. 0 is silent, 4 and higher
 > > activates extra output.
+> >
+> >
+>
 
+>
 >
 > --skip-perf-tests
 >
+>
+> >
 > >
 > > All performance tests will be skipped.
+> >
+> >
+>
 
+>
 >
 > --only-perf-tests
 >
+>
+> >
 > >
 > > Skips all tests except for performance tests. Useful for
 > > quickly determining if any changes have introduced a
 > > performance regression.
+> >
+> >
+>
 
+>
 >
 > --junit \<file\>
 >
+>
+> >
 > >
 > > Writes the testsuite summary to \<file\> in JUnit format.
+> >
+> >
+>
 
+>
 >
 > --test-env \<string\>
 >
+>
+> >
 > >
 > > Test-env defaults to 'local' if this flag is not given.
 > > If given, the performance test output (which is saved to
@@ -142,6 +249,9 @@ The script runtests.py takes several options:
 > > numbers due to hardware differences; it can also be used
 > > as an ad-hoc "tag" with the comparison tool to separate
 > > out different test-runs without committing.
+> >
+> >
+>
 
 
 Most of the code for running tests is located in driver/testlib.py.
@@ -170,8 +280,12 @@ idea is that it contains a sequence of calls to the function test(),
 which resides in testlib.py.  As described above, test() takes four
 arguments:
 
+
+>
 >
 > test(\<name\>, \<opt-fn\>, \<test-fn\>, \<args\>)
+>
+>
 
 
 The function \<opt-fn\> is allowed to be any Python callable object,

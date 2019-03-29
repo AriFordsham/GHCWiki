@@ -49,7 +49,9 @@ We can then use `P` in seven different situations. Precisely those locations whe
 We can use `P` to construct a value of type `T a1 ... am` by using `P` in an application `P v1 ... vn` where `v1 .. vn` have types `t1 ... tn`. In order to construct this type, we substitute `v1` for `f1` in `pat`. 
 
 
-Further, we can also use record syntax to construct the same value. `P { fi = vi, ..., fj = vj }` where for all `i, j``fi` is distinct from `fj` and all field labels `fk` are labels of `P`. We then perform the obvious substitution `pat[fi/vi]...[fj/vj]` in order to construct the value.
+
+Further, we can also use record syntax to construct the same value. `P { fi = vi, ..., fj = vj }` where for all `i, j` `fi` is distinct from `fj` and all field labels `fk` are labels of `P`. We then perform the obvious substitution `pat[fi/vi]...[fj/vj]` in order to construct the value.
+
 
 ### Record Updates
 
@@ -57,10 +59,15 @@ Further, we can also use record syntax to construct the same value. `P { fi = vi
 We extend record updates such that if we have the record update `e1 { fi = vi, ..., fj = vj }` then if `fi,...,fj` are all field labels from the same pattern synonym `P` then we behave as follows.
 
 
+
 First define `pick`:
 
+
+>
 >
 > If the ith component of a pattern synonym P has the field label f, and if f = v appears in the binding list bs, then pick_i P bs d is v. Otherwise, pick_i P bs d is the default value d.
+>
+>
 
 ```wiki
 e1 {bs} = case e1 of
@@ -156,7 +163,10 @@ baz = Pat { foo = 5 }
 ```
 
 >
+>
 > Here, I'm intending `Pat { foo = 5 }` to be a record *update*, not a record *construction*. But it's confusing! Does this work?
+>
+>
 
 #### Answer
 
@@ -170,4 +180,8 @@ pattern Pat { a } = Just a
 ```
 
 >
+>
 > then we should be able to write any of the following in an export list: `pattern Pat`, `pattern Pat(..)`, `pattern Pat(a)`. (The last two mean the same thing.) It would only be logical to extend this syntax to also allow record data constructors to operate the same way. Question: should record data constructors be allowed to use this syntax when exported without the `pattern` keyword?
+>
+>
+

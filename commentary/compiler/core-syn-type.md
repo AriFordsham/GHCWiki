@@ -133,7 +133,12 @@ case (reverse xs) of y { DEFAULT -> f y }
 
 Case expressions have several invariants
 
+
 - The `res_ty` type is the same as the type of any of the right-hand sides (up to refining unification -- coreRefineTys in [compiler/types/Unify.hs](/trac/ghc/browser/ghc/compiler/types/Unify.hs) -- in pre-[FC](commentary/compiler/fc)).
+
+
+ 
+
 
 - If there is a `DEFAULT` alternative, it must appear first.  This makes finding a `DEFAULT` alternative easy, when it exists.
 
@@ -143,7 +148,10 @@ Case expressions have several invariants
   - lit, for `LitAlt`s
 
 >
+>
 > This makes finding the relevant constructor easy, and makes comparison easier too.
+>
+>
 
 - The list of alternatives is **always exhaustive**, meaning that it covers **all reachable cases**.  Note, however, that an "exhausive" case does not necessarily mention all constructors:
 

@@ -67,9 +67,13 @@ The key feature of this proposal is its modesty, rather than its ambition:
 It is essentially some simple syntactic sugar for patterns.
 However, sometimes modest syntactic sugar can have profound consequences. In this case, it's possible that people would start routinely hiding the data representation and exporting view functions instead, which would be an excellent thing.
 
+
 ### Semantics
 
-**Scoping** for *pat*`|`*quals*:
+
+
+**Scoping** for *pat* `|` *quals*:
+
 
 - The variables bound by the view pattern are the variables bound by *pat* and *quals*.
 - Variables bound by patterns to the left of a view pattern expression are in scope.  For example:
@@ -97,11 +101,16 @@ There is no way to *localise* how many variables are brought into scope.  For ex
 
 Here, both `x` and `y` are in scope in `rhs`; and there is no way to say "only bind `y` in this pattern".
 
+
+
 **Typing**
-If *pat*`|`*quals* has same type as *pat*, and the "quals" must be well typed in the same way as for pattern guards.
+If *pat* `|` *quals* has same type as *pat*, and the "quals" must be well typed in the same way as for pattern guards.
+
+
 
 **Evaluation**
-To match a value *v* against a pattern (*pat*`|`*quals*), match "v" against *pat* and then match the *quals*.
+To match a value *v* against a pattern (*pat* `|` *quals*), match "v" against *pat* and then match the *quals*.
+
 
 ### Examples
 
@@ -306,20 +315,26 @@ And used as follows:
 ## Comparison with existing view patterns
 
 
+
 There are straightforward translations between old and new style view patterns:
-*pat*`<-`*exp*
+
+*pat* `<-` *exp* 
 
 translates to
-*x*`|`*pat*`<-`*exp x*
+
+*x* `|` *pat* `<-` *exp x*
 
 where *x* is a fresh variable.
 
 
+
 And in the other direction
-*pat*`|`*quals*
+
+*pat* `|` *quals*
 
 translates to
-`Just`*vs*`<- let`*f**pat*`|`*quals*`= Just`*vs*`;`*f*`_ = Nothing in`*f*
+
+`Just` *vs* `<- let` *f* *pat* `|` *quals* `= Just` *vs*`;` *f* `_ = Nothing in` *f*
 
 where *vs* are all the variables bound in *pat* and *quals* and *f* is fresh.
 

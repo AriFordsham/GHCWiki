@@ -32,14 +32,17 @@ The main issue when handling `deriving` clauses for data instances in `TcDeriv` 
 ## Core representation of signatures of indexed families
 
 
+
 The function `TcTyClsDecls.tcTyClsDecls` produces `TypeRep.TyThing`s from type and class declarations.  The `TyThing`s produced from the new declaration forms are the following:
 
-<table><tr><th>`type family`</th>
+
+<table><tr><th><tt>type family</tt></th>
 <td>
-Type synonym families are represented by the standard `TyCon` variant for synonyms, namely `SynTyCon`.  They are distinguished from ordinary type synonyms by the value of the field `synTcRhs`, which is now of a new data type `SynTyConRhs`, which has a variant `OpenSynTyCon resKind` to represent families.
-`data family`\`::
-Data families are represented by the `TyCon` variant `AlgTyCon`, as are their non-indexed counter parts, with the difference that the field `algTcRhs` has the one of the newly introduced values `OpenDataTyCon` or `OpenNewTyCon`.
+Type synonym families are represented by the standard <tt>TyCon</tt> variant for synonyms, namely <tt>SynTyCon</tt>.  They are distinguished from ordinary type synonyms by the value of the field <tt>synTcRhs</tt>, which is now of a new data type <tt>SynTyConRhs</tt>, which has a variant <tt>OpenSynTyCon resKind</tt> to represent families.
+<tt>data family</tt>`::
+Data families are represented by the <tt>TyCon</tt> variant <tt>AlgTyCon</tt>, as are their non-indexed counter parts, with the difference that the field <tt>algTcRhs</tt> has the one of the newly introduced values <tt>OpenDataTyCon</tt> or <tt>OpenNewTyCon</tt>.
 </td></tr></table>
+
 
 ### Synonym type constructors: `SynTyCon`
 

@@ -6,29 +6,33 @@
 The LLVM backend is now included in GHC HEAD. Just grab the git HEAD version of GHC and build it. The backend now also supports all modes that GHC can be built in so you shouldn't need to change your build.mk file either.
 
 
+
 For instructions on building GHC go [ here](http://hackage.haskell.org/trac/ghc/wiki/Building)
+
 
 ## LLVM Support
 
-<table><tr><th></th>
-<th>**HEAD**</th>
-<th>**8.6**</th>
-<th>**8.4**</th>
-<th>**8.2**</th>
-<th>**8.0**</th>
-<th>**7.10**</th>
-<th>**7.8**</th>
-<th>**7.6**</th>
-<th>**7.4**</th>
-<th>**7.2**</th>
-<th>**7.0**</th></tr>
+
+<table><tr><th> </th>
+<th> <b>HEAD</b> </th>
+<th> <b>8.6</b> </th>
+<th> <b>8.4</b> </th>
+<th> <b>8.2</b> </th>
+<th> <b>8.0</b> </th>
+<th> <b>7.10</b> </th>
+<th> <b>7.8</b> </th>
+<th> <b>7.6</b> </th>
+<th> <b>7.4</b> </th>
+<th> <b>7.2</b> </th>
+<th> <b>7.0</b> 
+</th></tr>
 <tr><th> LLVM version </th>
 <th> 7.0 </th>
 <th> 6.0 </th>
 <th> 5.0 </th>
 <th> 3.9 </th>
 <th> 3.7 </th>
-<th> 3.5 (3.5.2 on ARM ([\#9920](https://gitlab.haskell.org//ghc/ghc/issues/9920)) </th>
+<th> 3.5 (3.5.2 on ARM (<a href="https://gitlab.haskell.org//ghc/ghc/issues/9920">#9920</a>) </th>
 <th> ?? </th>
 <th> ?? </th>
 <th> ?? </th>
@@ -87,25 +91,7 @@ A quick summary of the results are that for the 'nofib' benchmark suite, the LLV
 </th></tr></table>
 
 
+
 A nice demonstration of the improvements the LLVM back-end can bring to some code though can be see at [ http://donsbot.wordpress.com/2010/02/21/smoking-fast-haskell-code-using-ghcs-new-llvm-codegen/](http://donsbot.wordpress.com/2010/02/21/smoking-fast-haskell-code-using-ghcs-new-llvm-codegen/)
 
-### Nofib Performance, Jan 2019
 
-
-These were run on a Sandy Bridge Xeon using LLVM 6.0 and GHC HEAD
-
-<table><tr><th> Backend </th>
-<th> Runtime </th>
-<th> Compile Time
-</th></tr>
-<tr><th>NCG </th>
-<th> Baseline </th>
-<th> Baseline
-</th></tr>
-<tr><th>LLVM </th>
-<th> -4.9% </th>
-<th> +22%
-</th></tr></table>
-
-
-Worth mentioning though that a few programs got a LOT faster using LLVM (Improvements of 10-20% and more).

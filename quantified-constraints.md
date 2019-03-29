@@ -34,137 +34,143 @@ Here are some resources
 Use Keyword = `QuantifiedConstraints` to ensure that a ticket ends up on these lists.
 
 
+
 Open Tickets:
 
-<table><tr><th>[\#8516](https://gitlab.haskell.org//ghc/ghc/issues/8516)</th>
-<td>Add (-\>) representation and the Invariant class to GHC.Generics</td></tr>
-<tr><th>[\#13153](https://gitlab.haskell.org//ghc/ghc/issues/13153)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8516">#8516</a></th>
+<td>Add (-&gt;) representation and the Invariant class to GHC.Generics</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13153">#13153</a></th>
 <td>Several Traversable instances have an extra fmap</td></tr>
-<tr><th>[\#14317](https://gitlab.haskell.org//ghc/ghc/issues/14317)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14317">#14317</a></th>
 <td>Solve Coercible constraints over type constructors</td></tr>
-<tr><th>[\#14831](https://gitlab.haskell.org//ghc/ghc/issues/14831)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14831">#14831</a></th>
 <td>QuantifiedConstraints: Odd superclass constraint</td></tr>
-<tr><th>[\#14832](https://gitlab.haskell.org//ghc/ghc/issues/14832)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14832">#14832</a></th>
 <td>QuantifiedConstraints: Adding to the context causes failure</td></tr>
-<tr><th>[\#14860](https://gitlab.haskell.org//ghc/ghc/issues/14860)</th>
-<td>QuantifiedConstraints: Can't quantify constraint involving type family</td></tr>
-<tr><th>[\#14877](https://gitlab.haskell.org//ghc/ghc/issues/14877)</th>
-<td>QuantifiedConstraints: Can't deduce \`xx' from \`(xx =\> a, xx)'</td></tr>
-<tr><th>[\#14879](https://gitlab.haskell.org//ghc/ghc/issues/14879)</th>
-<td>QuantifiedConstraints: Big error message + can't substitute (=\>) with a class alias</td></tr>
-<tr><th>[\#14896](https://gitlab.haskell.org//ghc/ghc/issues/14896)</th>
-<td>QuantifiedConstraints: GHC does doesn't discharge constraints if they are quantified</td></tr>
-<tr><th>[\#14937](https://gitlab.haskell.org//ghc/ghc/issues/14937)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14860">#14860</a></th>
+<td>QuantifiedConstraints: Can&apos;t quantify constraint involving type family</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14877">#14877</a></th>
+<td>QuantifiedConstraints: Can&apos;t deduce `xx&apos; from `(xx =&gt; a, xx)&apos;</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14879">#14879</a></th>
+<td>QuantifiedConstraints: Big error message + can&apos;t substitute (=&gt;) with a class alias</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14896">#14896</a></th>
+<td>QuantifiedConstraints: GHC does doesn&apos;t discharge constraints if they are quantified</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14937">#14937</a></th>
 <td>QuantifiedConstraints: Reify implication constraints from terms lacking them</td></tr>
-<tr><th>[\#14943](https://gitlab.haskell.org//ghc/ghc/issues/14943)</th>
-<td>Make (=\>) polykinded (:: k -\> k -\> Constraint)</td></tr>
-<tr><th>[\#14958](https://gitlab.haskell.org//ghc/ghc/issues/14958)</th>
-<td>QuantifiedConstraints: Doesn't apply implication for existential?</td></tr>
-<tr><th>[\#14968](https://gitlab.haskell.org//ghc/ghc/issues/14968)</th>
-<td>QuantifiedConstraints: Can't be RHS of type family instances</td></tr>
-<tr><th>[\#14983](https://gitlab.haskell.org//ghc/ghc/issues/14983)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14943">#14943</a></th>
+<td>Make (=&gt;) polykinded (:: k -&gt; k -&gt; Constraint)</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14958">#14958</a></th>
+<td>QuantifiedConstraints: Doesn&apos;t apply implication for existential?</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14968">#14968</a></th>
+<td>QuantifiedConstraints: Can&apos;t be RHS of type family instances</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14983">#14983</a></th>
 <td>Have custom type errors imply Void</td></tr>
-<tr><th>[\#14995](https://gitlab.haskell.org//ghc/ghc/issues/14995)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14995">#14995</a></th>
 <td>QuantifiedConstraints: Incorrect pretty printing</td></tr>
-<tr><th>[\#15347](https://gitlab.haskell.org//ghc/ghc/issues/15347)</th>
-<td>QuantifiedConstraints: Implication constraints with type families don't work</td></tr>
-<tr><th>[\#15351](https://gitlab.haskell.org//ghc/ghc/issues/15351)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15347">#15347</a></th>
+<td>QuantifiedConstraints: Implication constraints with type families don&apos;t work</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15351">#15351</a></th>
 <td>QuantifiedConstraints ignore FunctionalDependencies</td></tr>
-<tr><th>[\#15409](https://gitlab.haskell.org//ghc/ghc/issues/15409)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15409">#15409</a></th>
 <td>Quantified constraints half-work with equality constraints</td></tr>
-<tr><th>[\#15639](https://gitlab.haskell.org//ghc/ghc/issues/15639)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15639">#15639</a></th>
 <td>Surprising failure combining QuantifiedConstraints with Coercible</td></tr>
-<tr><th>[\#15888](https://gitlab.haskell.org//ghc/ghc/issues/15888)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15888">#15888</a></th>
 <td>Quantified constraints can be loopy</td></tr>
-<tr><th>[\#16139](https://gitlab.haskell.org//ghc/ghc/issues/16139)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16139">#16139</a></th>
 <td>GHC confused about type synonym kind with QuantifiedConstraints</td></tr>
-<tr><th>[\#16140](https://gitlab.haskell.org//ghc/ghc/issues/16140)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16140">#16140</a></th>
 <td>Cannot create type synonym for quantified constraint without ImpredicativeTypes</td></tr>
-<tr><th>[\#16173](https://gitlab.haskell.org//ghc/ghc/issues/16173)</th>
-<td>Move \`Data.Profunctor\` from \`profunctors\` package to \`base\`</td></tr>
-<tr><th>[\#16245](https://gitlab.haskell.org//ghc/ghc/issues/16245)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16173">#16173</a></th>
+<td>Move `Data.Profunctor` from `profunctors` package to `base`</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16245">#16245</a></th>
 <td>GHC panic (No skolem info) with QuantifiedConstraints and strange scoping</td></tr>
-<tr><th>[\#16365](https://gitlab.haskell.org//ghc/ghc/issues/16365)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16365">#16365</a></th>
 <td>Inconsistency in quantified constraint solving</td></tr></table>
+
+
 
 
 Closed Tickets:
 
-<table><tr><th>[\#2256](https://gitlab.haskell.org//ghc/ghc/issues/2256)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2256">#2256</a></th>
 <td>Incompleteness of type inference: must quantify over implication constraints</td></tr>
-<tr><th>[\#2893](https://gitlab.haskell.org//ghc/ghc/issues/2893)</th>
-<td>Implement "Quantified constraints" proposal</td></tr>
-<tr><th>[\#5927](https://gitlab.haskell.org//ghc/ghc/issues/5927)</th>
-<td>A type-level "implies" constraint on Constraints</td></tr>
-<tr><th>[\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2893">#2893</a></th>
+<td>Implement &quot;Quantified constraints&quot; proposal</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5927">#5927</a></th>
+<td>A type-level &quot;implies&quot; constraint on Constraints</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9123">#9123</a></th>
 <td>Emit quantified Coercible constraints in GeneralizedNewtypeDeriving</td></tr>
-<tr><th>[\#12245](https://gitlab.haskell.org//ghc/ghc/issues/12245)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12245">#12245</a></th>
 <td>Deriving Data at higher kinds</td></tr>
-<tr><th>[\#14070](https://gitlab.haskell.org//ghc/ghc/issues/14070)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14070">#14070</a></th>
 <td>Allow ‘unsafe’ deriving strategy, deriving code with ‘unsafeCoerce’</td></tr>
-<tr><th>[\#14733](https://gitlab.haskell.org//ghc/ghc/issues/14733)</th>
-<td>Won't use (forall xx. f xx) with -XQuantifiedConstraints</td></tr>
-<tr><th>[\#14734](https://gitlab.haskell.org//ghc/ghc/issues/14734)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14733">#14733</a></th>
+<td>Won&apos;t use (forall xx. f xx) with -XQuantifiedConstraints</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14734">#14734</a></th>
 <td>QuantifiedConstraints conflated with impredicative polymorphism?</td></tr>
-<tr><th>[\#14735](https://gitlab.haskell.org//ghc/ghc/issues/14735)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14735">#14735</a></th>
 <td>GHC Panic with QuantifiedConstraints</td></tr>
-<tr><th>[\#14744](https://gitlab.haskell.org//ghc/ghc/issues/14744)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14744">#14744</a></th>
 <td>Non-exhaustive patterns in case in GHCi with quantified class contexts</td></tr>
-<tr><th>[\#14748](https://gitlab.haskell.org//ghc/ghc/issues/14748)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14748">#14748</a></th>
 <td>Infer context for Data instance of (data Foo f = Foo (f Bool) (f Int))</td></tr>
-<tr><th>[\#14799](https://gitlab.haskell.org//ghc/ghc/issues/14799)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14799">#14799</a></th>
 <td>QuantifiedConstraints: Problems with Typeable</td></tr>
-<tr><th>[\#14822](https://gitlab.haskell.org//ghc/ghc/issues/14822)</th>
-<td>-XQuantifiedConstraints: Turn term-level entailments (:-) into constraints (=\>)</td></tr>
-<tr><th>[\#14833](https://gitlab.haskell.org//ghc/ghc/issues/14833)</th>
-<td>QuantifiedConstraints: GHC can't deduce (() :: Constraint)?</td></tr>
-<tr><th>[\#14835](https://gitlab.haskell.org//ghc/ghc/issues/14835)</th>
-<td>QuantifiedConstraints: Can't deduce "(a, b)" from "a" and "b"</td></tr>
-<tr><th>[\#14840](https://gitlab.haskell.org//ghc/ghc/issues/14840)</th>
-<td>QuantifiedConstraints: Can't define class alias</td></tr>
-<tr><th>[\#14861](https://gitlab.haskell.org//ghc/ghc/issues/14861)</th>
-<td>QuantifiedConstraints: Can't use forall'd variable in context</td></tr>
-<tr><th>[\#14863](https://gitlab.haskell.org//ghc/ghc/issues/14863)</th>
-<td>QuantifiedConstraints: Can't deduce \`c' from \`(a, b)' and \`a \|- b \|- c'</td></tr>
-<tr><th>[\#14878](https://gitlab.haskell.org//ghc/ghc/issues/14878)</th>
-<td>Can't witness transitivity ((.)) of isomorphism of Constraints</td></tr>
-<tr><th>[\#14883](https://gitlab.haskell.org//ghc/ghc/issues/14883)</th>
-<td>QuantifiedConstraints don't kick in when used in TypeApplications</td></tr>
-<tr><th>[\#14897](https://gitlab.haskell.org//ghc/ghc/issues/14897)</th>
-<td>QuantifiedConstraints: Can't print type of quantified constraint</td></tr>
-<tr><th>[\#14942](https://gitlab.haskell.org//ghc/ghc/issues/14942)</th>
-<td>QuantifiedConstraints: GHC can't infer</td></tr>
-<tr><th>[\#14961](https://gitlab.haskell.org//ghc/ghc/issues/14961)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14822">#14822</a></th>
+<td>-XQuantifiedConstraints: Turn term-level entailments (:-) into constraints (=&gt;)</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14833">#14833</a></th>
+<td>QuantifiedConstraints: GHC can&apos;t deduce (() :: Constraint)?</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14835">#14835</a></th>
+<td>QuantifiedConstraints: Can&apos;t deduce &quot;(a, b)&quot; from &quot;a&quot; and &quot;b&quot;</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14840">#14840</a></th>
+<td>QuantifiedConstraints: Can&apos;t define class alias</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14861">#14861</a></th>
+<td>QuantifiedConstraints: Can&apos;t use forall&apos;d variable in context</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14863">#14863</a></th>
+<td>QuantifiedConstraints: Can&apos;t deduce `c&apos; from `(a, b)&apos; and `a |- b |- c&apos;</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14878">#14878</a></th>
+<td>Can&apos;t witness transitivity ((.)) of isomorphism of Constraints</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14883">#14883</a></th>
+<td>QuantifiedConstraints don&apos;t kick in when used in TypeApplications</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14897">#14897</a></th>
+<td>QuantifiedConstraints: Can&apos;t print type of quantified constraint</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14942">#14942</a></th>
+<td>QuantifiedConstraints: GHC can&apos;t infer</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14961">#14961</a></th>
 <td>QuantifiedConstraints: introducing classes through equality constraints fails</td></tr>
-<tr><th>[\#14993](https://gitlab.haskell.org//ghc/ghc/issues/14993)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14993">#14993</a></th>
 <td>QuantifiedConstraints and principal types</td></tr>
-<tr><th>[\#15008](https://gitlab.haskell.org//ghc/ghc/issues/15008)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15008">#15008</a></th>
 <td>Type synonyms with hidden, determined type variables</td></tr>
-<tr><th>[\#15231](https://gitlab.haskell.org//ghc/ghc/issues/15231)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15231">#15231</a></th>
 <td>UndecidableInstances validity checking is wrong in the presence of QuantifiedConstraints</td></tr>
-<tr><th>[\#15244](https://gitlab.haskell.org//ghc/ghc/issues/15244)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15244">#15244</a></th>
 <td>Ambiguity checks in QuantifiedConstraints</td></tr>
-<tr><th>[\#15290](https://gitlab.haskell.org//ghc/ghc/issues/15290)</th>
-<td>QuantifiedConstraints: panic "addTcEvBind NoEvBindsVar"</td></tr>
-<tr><th>[\#15316](https://gitlab.haskell.org//ghc/ghc/issues/15316)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15290">#15290</a></th>
+<td>QuantifiedConstraints: panic &quot;addTcEvBind NoEvBindsVar&quot;</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15316">#15316</a></th>
 <td>Regarding coherence and implication loops in presence of QuantifiedConstraints</td></tr>
-<tr><th>[\#15334](https://gitlab.haskell.org//ghc/ghc/issues/15334)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15334">#15334</a></th>
 <td>(forall x. c x, forall x. d x) is not equivalent to forall x. (c x, d x)</td></tr>
-<tr><th>[\#15359](https://gitlab.haskell.org//ghc/ghc/issues/15359)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15359">#15359</a></th>
 <td>Quantified constraints do not work with equality constraints</td></tr>
-<tr><th>[\#15507](https://gitlab.haskell.org//ghc/ghc/issues/15507)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15507">#15507</a></th>
 <td>Deriving with QuantifiedConstraints is unable to penetrate type families</td></tr>
-<tr><th>[\#15593](https://gitlab.haskell.org//ghc/ghc/issues/15593)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15593">#15593</a></th>
 <td>QuantifiedConstraints: trouble with type family</td></tr>
-<tr><th>[\#15625](https://gitlab.haskell.org//ghc/ghc/issues/15625)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15625">#15625</a></th>
 <td>GHC panic, with QuantifiedConstraints</td></tr>
-<tr><th>[\#15635](https://gitlab.haskell.org//ghc/ghc/issues/15635)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15635">#15635</a></th>
 <td>Implication introduction for quantified constraints</td></tr>
-<tr><th>[\#15636](https://gitlab.haskell.org//ghc/ghc/issues/15636)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15636">#15636</a></th>
 <td>Implication constraint priority breaks default class implementations</td></tr>
-<tr><th>[\#15943](https://gitlab.haskell.org//ghc/ghc/issues/15943)</th>
-<td>"ASSERT failed" with quantified constraints</td></tr>
-<tr><th>[\#15974](https://gitlab.haskell.org//ghc/ghc/issues/15974)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15943">#15943</a></th>
+<td>&quot;ASSERT failed&quot; with quantified constraints</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15974">#15974</a></th>
 <td>QuantifiedConstraints: Spurious error involving superclass constraints</td></tr>
-<tr><th>[\#16123](https://gitlab.haskell.org//ghc/ghc/issues/16123)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16123">#16123</a></th>
 <td>QuantifiedConstraints fails to deduce trivial constraint</td></tr></table>
+
+
+

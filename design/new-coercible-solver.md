@@ -19,12 +19,18 @@ There are several benefits of this change:
 - A custom canonicalizer for representational equality would allow code like
 
 ```
-importData.Type.CoercionimportData.Coercefoo::Coercible(Maybe a)(Maybe b)=>Coercion a b
-foo=Coercion
+import Data.Type.Coercion
+import Data.Coerce
+
+foo :: Coercible (Maybe a) (Maybe b) => Coercion a b
+foo = Coercion
 ```
 
 >
+>
 > That module is currently rejected, because GHC can't unpack the `Coercible a b` from the given.
+>
+>
 
 - To my shock and horror, if I want kind equalities, I need the solver to think about both lifted and unlifted nominal equality (I knew that) and also (very sadly) lifted and unlifted representational equality. The current setup has just enough room for me to somewhat-ungracefully shoehorn unlifted nominal equality into the solver, but there's just no way to squeeze in unlifted representational equality without drastic changes.
 
@@ -79,10 +85,16 @@ This all seems like a lot of work, but it also seems like it will create a nice 
 - As I was updating the cases of `can_eq_nc'`, I was trying to figure out how to deal with newtypes. In previous implementation plans, I thought more of the struggle to deal with `AppTy`s, which have funny roles. (The type on the right of an `AppTy` must be nominal.) Bit. of course, the canonicalizer must also deal with newtypes. I thought of writing a clause of `can_eq_nc'` which unwraps one newtype, but I got worried about recursive newtypes and infinite loops. (Recall that recursive newtypes are allowed without any extensions, and I *don't* want GHC to be able to loop without any extensions enabled!) So, I was stuck.
 
 >
+>
 > Then, I hit on this key idea: *When solving for representational equality, newtypes are just like type families.* (Well, not exactly like, because newtypes can appear unsaturated, but it's close.) So, instead of trying to unwrap newtypes in the canonicalizer, it seems more sensible to unwrap newtypes in the flattener.
+>
+>
 
 >
+>
 > Accordingly, I've rewritten `FlattenEnv` like this:
+>
+>
 
 ```wiki
 data FlattenEnv
@@ -93,10 +105,16 @@ data FlattenEnv
 ```
 
 >
+>
 > This gets rid of the `CtEvidence` field, which was only used for G/W/D distinction and `CtLoc`, in favor of storing the individual pieces. (The new `CtNature` type is just an enumeration between G, W, and D.) There is also now an `EqRel` field, saying the equality relation that should be respected during flattening.
+>
+>
 
 >
+>
 > The idea of flattening is to replace one type with another "equivalent" type (and to produce evidence of the equality). Previously, we've always used nominal equality. But, this same idea applies equally well to representational equality. So, the `EqRel` field says what equality should be respected during flattening. If `fe_eq_rel` is `ReprEq`, then the flattener will unwrap newtypes just as it reduces type families.
+>
+>
 
 
 The aborted implementation of this idea is at [ https://github.com/goldfirere/ghc/tree/two-flatteners](https://github.com/goldfirere/ghc/tree/two-flatteners)

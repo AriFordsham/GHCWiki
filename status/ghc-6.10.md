@@ -1,9 +1,11 @@
 # Plans for GHC 6.10
 
 
+
 We expect to release GHC 6.10 around ICFP 2008.  
 
-- [ Beta released](http://www.haskell.org/pipermail/glasgow-haskell-users/2008-September/015539.html). 
+
+-  [ Beta released](http://www.haskell.org/pipermail/glasgow-haskell-users/2008-September/015539.html). 
 
 ## Things that are done already
 
@@ -14,7 +16,11 @@ We expect to release GHC 6.10 around ICFP 2008.
   - Quasiquotation
   - Generalised list comprehensions
 
+>
+>
 > **Done**: these are all in the HEAD already.
+>
+>
 
 - **Parallel garbage collection** (see [ Parallel generational-copying garbage collection with a block-structured heap](http://research.microsoft.com/%7Esimonpj/papers/parallel-gc/index.htm)).  **Done**.
 
@@ -42,6 +48,10 @@ We expect to release GHC 6.10 around ICFP 2008.
 - **[ Type families](http://haskell.org/haskellwiki/GHC/Indexed_types)**, fully working. *Manuel Chakravarty and Simon PJ*
 
 - **[ Nested data parallelism](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell)**, in some form. *Roman Leshchinskiy, Gabriele Keller, Manuel Chakravarty, Simon PJ*
+
+
+ 
+
 
 - More library reorg ([\#1338](https://gitlab.haskell.org//ghc/ghc/issues/1338)).  The goal here is to shift stuff out of boot-libs and into the Haskell Library Platform, which is independently upgradable.  Not hugely urgent, nice to have.
 
@@ -76,6 +86,10 @@ This is a list of things that are floating about in our minds for what to do bey
   ***
 
 - **Visual Haskell**: a Visual Studio plugin.  There is one, but it has suffered bit-rot.
+
+
+ 
+
 
 - **GHC as a platform** is the aspiration that it should be easy to plug extensions into GHC, and easy to use GHC to extend other software.
 

@@ -27,4 +27,7 @@ When renaming a page, you'll be offered the possibility to create a page at the 
 ---
 
 
+
 See also: [TracWiki](trac-wiki), [PageTemplates](page-templates), [WikiFormatting](wiki-formatting), [TracLinks](trac-links), [WikiDeletePage](wiki-delete-page)
+
+

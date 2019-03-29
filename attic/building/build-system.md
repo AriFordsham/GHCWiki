@@ -131,6 +131,11 @@ Every `Makefile` includes a
 file at the top.  In this section we discuss what is in this
 file.  In general:
 
+
+
+      
+
+
 - `boilerplate.mk` consists of:
 
   - *Definitions of millions of
@@ -149,6 +154,9 @@ file.  In general:
     from another. These rules are becoming more and more
     redundant as we move to building with Cabal instead.
 
+>
+> >
+> >
 > > `boilerplate.mk` needs to be
 > > `include`d at the *top*
 > > of each `Makefile`, so that the user can
@@ -162,6 +170,7 @@ file.  In general:
 > > *augment* them. For example, a
 > > `Makefile` might say:
 > >
+> >
 > > ```wiki
 > > SRC_HC_OPTS += -O
 > > ```
@@ -170,6 +179,9 @@ file.  In general:
 > > thereby adding "`-O`" to
 > > the end of
 > > `SRC_HC_OPTS`.
+> >
+> >
+>
 
 - `target.mk` is part of the old build system, but is still used
   to compile some parts of GHC. It contains
@@ -226,6 +238,11 @@ If you look at
 you will find that it consists of the following sections, each
 held in a separate file:
 
+
+
+      
+
+
 ### `config.mk`
 
 
@@ -249,6 +266,11 @@ thing.
 The following variables may be set in the
 `Makefile` to affect how the automatic
 source file search is done:
+
+
+
+            
+
 
 - `ALL_DIRS`
   Set to a list of directories to search in
@@ -274,14 +296,23 @@ source file search is done:
   considered.
 
 
+            
+
+
+
 The results of the automatic source file search are
 placed in the following make variables:
+
+
+
+            
+
 
 - `SRCS`
   All source files found, sorted and without
   duplicates, including those which might not exist
   yet but will be derived from other existing sources.
-  `SRCS`*can* be
+  `SRCS` *can* be
   overriden if necessary, in which case the variables
   below will follow suit.
 
@@ -330,6 +361,10 @@ placed in the following make variables:
   `$(SCRIPT_OBJS)`.
 
 
+            
+
+
+
 Any or all of these definitions can easily be
 overriden by giving new definitions in your
 `Makefile`.
@@ -359,6 +394,11 @@ the option strings to pass to the Haskell compiler.  See
 is part of the old build system, i.e. it is not used by packages that are built with Cabal.
 
 `suffix.mk` defines standard pattern rules--see [Pattern rules and options](#Patternrulesandoptions).
+
+
+
+      
+
 
 
 Any of the variables and pattern rules defined by the
@@ -473,6 +513,11 @@ The four variables from which
 `CC_OPTS` is built have the following
 meaning:
 
+
+
+      
+
+
 - `SRC_CC_OPTS`:
   options passed to all C compilations.
 
@@ -498,7 +543,17 @@ meaning:
   extra options to pass to all C compilations.  This
   is intended for command line use, thus:
 
+>
+> >
+> >
 > > `$ make libHS.a EXTRA_HC_OPTS="-v"`
+> >
+> >
+>
+
+
+      
+
 
 ## The main `mk/target.mk` file
 
@@ -517,6 +572,11 @@ rules you get, what variables control them, and what the rules
 do.  Hopefully, you will also get enough of an idea of what is
 supposed to happen that you can read and understand any weird
 special cases yourself.
+
+
+
+      
+
 
 - `HS_PROG`.
   If `HS_PROG` is defined,
@@ -545,6 +605,10 @@ special cases yourself.
   library archive `$(LIBRARY)`,
   and `install` installs it in
   `$(libdir)`.
+
+
+      
+
 
 
 Some rules are "double-colon" rules,
@@ -662,6 +726,11 @@ then used when constructing file names.
 So how does `make` ever get recursively
 invoked with `way` set?  There are two ways
 in which this happens:
+
+
+
+      
+
 
 - For some (but not all) of the standard targets, when
   in a leaf sub-directory, `make` is

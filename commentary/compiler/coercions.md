@@ -192,6 +192,10 @@ OK now the new proposal is to *treat equality evidence just like any other sort 
 
 - Coercion application is call-by value.  Ditto let-bindings.  You must have the evidence before calling the function.
 
+
+ 
+
+
 - So it doesn't make sense to have recursive coercion bindings.
 
 - If we see `Let (NonRec c (Coercion g)) e` we can substitute `(Coercion g)` for any term-level occurrences of `c` in the term `e`, and `g` for `c` in any occurrences of `c` in coercions inside `e`.  (This seems a bit messy.)

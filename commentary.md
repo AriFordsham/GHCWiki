@@ -49,12 +49,20 @@ Try to link to source files as much as possible by using this macro: `[[GhcFile(
   - [The Haskell Execution Model](commentary/rts/haskell-execution)
   - [The memory layout of heap and stack objects](commentary/rts/storage)
 
+
+ 
+
+
 - Cross-cutting concerns: topics which span both the compiler and the runtime system
 
   - [Profiling](commentary/profiling)
   - [Wired-in and known-key things](commentary/compiler/wired-in)
   - [Primitive Operations (PrimOps)](commentary/prim-ops)
   - [The Package System](commentary/packages)
+
+
+ 
+
 
 - [The User Manual](commentary/user-manual) (formatting guidelines etc)
 
@@ -118,7 +126,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [Type families/type functions](type-functions): Notes concerning the implementation of type families, associated types, and equality constraints as well as the extension of the type checker with a contraint solver for equality constraints.
   - [Magic to do with \`seq\` and friends](commentary/compiler/seq-magic)
   - [Compiler plug-ins](new-plugins)
-  - [memcpy/memmove/memset optimizations](memcpy-optimizations)
+  - [memcpy/memmove/memset optimizations](memcpy-optimizations)  
   - [Backend Ideas](back-end-notes): Some ideas and notes about the back end.
   - [Notes about the new code generator](commentary/compiler/new-code-gen)
   - [A record of improvements made to the performance of the Hoopl library for dataflow optimisation](commentary/compiler/hoopl-performance)
@@ -190,6 +198,10 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [Haskell Program Coverage](commentary/hpc): How HPC works
 
 - [Parallel Haskell Variants](gp-h-eden): All aspects of the GpH and Eden parallel variants of GHC.
+
+
+ 
+
 
 ## Old Documentation
 

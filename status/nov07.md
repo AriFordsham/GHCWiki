@@ -68,12 +68,19 @@ Several people have developed syntactic innovations, which are (or will shortly 
     are two 'x's in scope.  Record field disambiguation just uses the constructor
     to decide which 'x' you mus mean.
 
+>
+> >
+> > >
 > > >
 > > > None of these changes tackle the deeper issue of whether or not
 > > > Haskell's current approach to records is the Right Way; rather the
 > > > changes just make the current approach work a bit better. 
 > > > Furthermore, they are all somewhat controversial, because they make it
 > > > harder to see where something comes into scope.  Let's see what you think!
+> > >
+> > >
+> >
+>
 
 - **View patterns** are implemented, by Dan Licata. Here's a simple example:
 
@@ -97,8 +104,17 @@ Several people have developed syntactic innovations, which are (or will shortly 
   	, then take 5 ]
   ```
 
+>
+> >
 > >
 > > More details [ here](http://hackage.haskell.org/trac/ghc/wiki/SQLLikeComprehensions).
+> >
+> >
+>
+
+
+        
+
 
 - We are keen to get Geoff Mainland's **quasi-quoting mechanism** into
   GHC (see "Why It's Nice to be Quoted: Quasiquoting for Haskell",

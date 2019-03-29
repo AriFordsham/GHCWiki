@@ -1,9 +1,15 @@
 # Adding kind equalities to GHC
 
 
+
 This page -- a description of the first phase of integrating full dependent types into GHC -- has two main parts: 
 
+
 - The first stretch describes user-facing changes in GHC 8.
+
+
+ 
+
 
 - The second is notes I put together for discussion with other implementors, chiefly Simon PJ.
 
@@ -16,472 +22,477 @@ See also the parent page [DependentHaskell](dependent-haskell).
 Use Keyword = `TypeInType` to ensure that a ticket ends up on these lists.
 
 
+
 Open Tickets:
 
-<table><tr><th>[\#7503](https://gitlab.haskell.org//ghc/ghc/issues/7503)</th>
-<td>Bug with PolyKinds, type synonyms & GADTs</td></tr>
-<tr><th>[\#10141](https://gitlab.haskell.org//ghc/ghc/issues/10141)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7503">#7503</a></th>
+<td>Bug with PolyKinds, type synonyms &amp; GADTs</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10141">#10141</a></th>
 <td>CUSK mysteries</td></tr>
-<tr><th>[\#11196](https://gitlab.haskell.org//ghc/ghc/issues/11196)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11196">#11196</a></th>
 <td>TypeInType performance regressions</td></tr>
-<tr><th>[\#11197](https://gitlab.haskell.org//ghc/ghc/issues/11197)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11197">#11197</a></th>
 <td>Overeager deferred type errors</td></tr>
-<tr><th>[\#11198](https://gitlab.haskell.org//ghc/ghc/issues/11198)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11198">#11198</a></th>
 <td>TypeInType error message regressions</td></tr>
-<tr><th>[\#11962](https://gitlab.haskell.org//ghc/ghc/issues/11962)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11962">#11962</a></th>
 <td>Support induction recursion</td></tr>
-<tr><th>[\#12088](https://gitlab.haskell.org//ghc/ghc/issues/12088)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12088">#12088</a></th>
 <td>Type/data family instances in kind checking</td></tr>
-<tr><th>[\#12102](https://gitlab.haskell.org//ghc/ghc/issues/12102)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12102">#12102</a></th>
 <td>“Constraints in kinds” illegal family application in instance (+ documentation issues?)</td></tr>
-<tr><th>[\#12564](https://gitlab.haskell.org//ghc/ghc/issues/12564)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12564">#12564</a></th>
 <td>Type family in type pattern kind</td></tr>
-<tr><th>[\#12612](https://gitlab.haskell.org//ghc/ghc/issues/12612)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12612">#12612</a></th>
 <td>Allow kinds of associated types to depend on earlier associated types</td></tr>
-<tr><th>[\#12766](https://gitlab.haskell.org//ghc/ghc/issues/12766)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12766">#12766</a></th>
 <td>Allow runtime-representation polymorphic data families</td></tr>
-<tr><th>[\#12928](https://gitlab.haskell.org//ghc/ghc/issues/12928)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12928">#12928</a></th>
 <td>Too easy to trigger CUSK condition using TH</td></tr>
-<tr><th>[\#13365](https://gitlab.haskell.org//ghc/ghc/issues/13365)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13365">#13365</a></th>
 <td>Notify user when adding a CUSK might help fix a type error</td></tr>
-<tr><th>[\#13408](https://gitlab.haskell.org//ghc/ghc/issues/13408)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13408">#13408</a></th>
 <td>Consider inferring a higher-rank kind for type synonyms</td></tr>
-<tr><th>[\#13650](https://gitlab.haskell.org//ghc/ghc/issues/13650)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13650">#13650</a></th>
 <td>Implement KPush in types</td></tr>
-<tr><th>[\#13933](https://gitlab.haskell.org//ghc/ghc/issues/13933)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13933">#13933</a></th>
 <td>Support Typeable instances for types with coercions</td></tr>
-<tr><th>[\#14040](https://gitlab.haskell.org//ghc/ghc/issues/14040)</th>
-<td>Typed holes regression in GHC 8.0.2: No skolem info: z_a1sY\[sk:2\]</td></tr>
-<tr><th>[\#14119](https://gitlab.haskell.org//ghc/ghc/issues/14119)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14040">#14040</a></th>
+<td>Typed holes regression in GHC 8.0.2: No skolem info: z_a1sY[sk:2]</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14119">#14119</a></th>
 <td>Refactor type patterns</td></tr>
-<tr><th>[\#14155](https://gitlab.haskell.org//ghc/ghc/issues/14155)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14155">#14155</a></th>
 <td>GHC mentions unlifted types out of the blue (to me anyway)</td></tr>
-<tr><th>[\#14180](https://gitlab.haskell.org//ghc/ghc/issues/14180)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14180">#14180</a></th>
 <td>Strange/bad error message binding unboxed type variable</td></tr>
-<tr><th>[\#14198](https://gitlab.haskell.org//ghc/ghc/issues/14198)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14198">#14198</a></th>
 <td>Inconsistent treatment of implicitly bound kind variables as free-floating</td></tr>
-<tr><th>[\#14319](https://gitlab.haskell.org//ghc/ghc/issues/14319)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14319">#14319</a></th>
 <td>Stuck type families can lead to lousy error messages</td></tr>
-<tr><th>[\#14419](https://gitlab.haskell.org//ghc/ghc/issues/14419)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14419">#14419</a></th>
 <td>Check kinds for ambiguity</td></tr>
-<tr><th>[\#14514](https://gitlab.haskell.org//ghc/ghc/issues/14514)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14514">#14514</a></th>
 <td>Error messages: suggest annotating with higher-rank kind</td></tr>
-<tr><th>[\#14645](https://gitlab.haskell.org//ghc/ghc/issues/14645)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14645">#14645</a></th>
 <td>Allow type family in data family return kind</td></tr>
-<tr><th>[\#14668](https://gitlab.haskell.org//ghc/ghc/issues/14668)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14668">#14668</a></th>
 <td>Ordering of declarations can cause typechecking to fail</td></tr>
-<tr><th>[\#14873](https://gitlab.haskell.org//ghc/ghc/issues/14873)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14873">#14873</a></th>
 <td>The well-kinded type invariant (in TcType)</td></tr>
-<tr><th>[\#15474](https://gitlab.haskell.org//ghc/ghc/issues/15474)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15474">#15474</a></th>
 <td>Error message mentions Any</td></tr>
-<tr><th>[\#15561](https://gitlab.haskell.org//ghc/ghc/issues/15561)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15561">#15561</a></th>
 <td>TypeInType: Type error conditioned on ordering of GADT and type family definitions</td></tr>
-<tr><th>[\#15577](https://gitlab.haskell.org//ghc/ghc/issues/15577)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15577">#15577</a></th>
 <td>TypeApplications-related infinite loop (GHC 8.6+ only)</td></tr>
-<tr><th>[\#15588](https://gitlab.haskell.org//ghc/ghc/issues/15588)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15588">#15588</a></th>
 <td>Panic when abusing kind inference</td></tr>
-<tr><th>[\#15589](https://gitlab.haskell.org//ghc/ghc/issues/15589)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15589">#15589</a></th>
 <td>Always promoting metavariables during type inference may be wrong</td></tr>
-<tr><th>[\#15710](https://gitlab.haskell.org//ghc/ghc/issues/15710)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15710">#15710</a></th>
 <td>Should GHC accept a type signature that needs coercion quantification?</td></tr>
-<tr><th>[\#15862](https://gitlab.haskell.org//ghc/ghc/issues/15862)</th>
-<td>Panic with promoted types that Typeable doesn't support</td></tr>
-<tr><th>[\#15869](https://gitlab.haskell.org//ghc/ghc/issues/15869)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15862">#15862</a></th>
+<td>Panic with promoted types that Typeable doesn&apos;t support</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15869">#15869</a></th>
 <td>Discrepancy between seemingly equivalent type synonym and type family</td></tr>
-<tr><th>[\#15872](https://gitlab.haskell.org//ghc/ghc/issues/15872)</th>
-<td>Odd pretty printing of equality constraint in kind ('GHC.Types.Eq\# \<\>)</td></tr>
-<tr><th>[\#15883](https://gitlab.haskell.org//ghc/ghc/issues/15883)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15872">#15872</a></th>
+<td>Odd pretty printing of equality constraint in kind (&apos;GHC.Types.Eq# &lt;&gt;)</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15883">#15883</a></th>
 <td>GHC panic: newtype F rep = F (forall (a :: TYPE rep). a)</td></tr>
-<tr><th>[\#15942](https://gitlab.haskell.org//ghc/ghc/issues/15942)</th>
-<td>Associated type family can't be used at the kind level within other parts of parent class</td></tr>
-<tr><th>[\#16244](https://gitlab.haskell.org//ghc/ghc/issues/16244)</th>
-<td>Couldn't match kind ‘k1’ with ‘k1’</td></tr>
-<tr><th>[\#16245](https://gitlab.haskell.org//ghc/ghc/issues/16245)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15942">#15942</a></th>
+<td>Associated type family can&apos;t be used at the kind level within other parts of parent class</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16244">#16244</a></th>
+<td>Couldn&apos;t match kind ‘k1’ with ‘k1’</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16245">#16245</a></th>
 <td>GHC panic (No skolem info) with QuantifiedConstraints and strange scoping</td></tr>
-<tr><th>[\#16247](https://gitlab.haskell.org//ghc/ghc/issues/16247)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16247">#16247</a></th>
 <td>GHC 8.6 Core Lint regression (Kind application error)</td></tr>
-<tr><th>[\#16347](https://gitlab.haskell.org//ghc/ghc/issues/16347)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16347">#16347</a></th>
 <td>GHC HEAD regression: piResultTys1</td></tr></table>
+
+
 
 
 Closed Tickets:
 
-<table><tr><th>[\#11241](https://gitlab.haskell.org//ghc/ghc/issues/11241)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11241">#11241</a></th>
 <td>Kind-level PartialTypeSignatures causes internal error</td></tr>
-<tr><th>[\#11246](https://gitlab.haskell.org//ghc/ghc/issues/11246)</th>
-<td>Regression typechecking type synonym which includes \`Any\`.</td></tr>
-<tr><th>[\#11252](https://gitlab.haskell.org//ghc/ghc/issues/11252)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11246">#11246</a></th>
+<td>Regression typechecking type synonym which includes `Any`.</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11252">#11252</a></th>
 <td>:kind command hides the explicit kind</td></tr>
-<tr><th>[\#11266](https://gitlab.haskell.org//ghc/ghc/issues/11266)</th>
-<td>Can't :browse some modules with GHCi 7.11</td></tr>
-<tr><th>[\#11334](https://gitlab.haskell.org//ghc/ghc/issues/11334)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11266">#11266</a></th>
+<td>Can&apos;t :browse some modules with GHCi 7.11</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11334">#11334</a></th>
 <td>GHC panic when calling typeOf on a promoted data constructor</td></tr>
-<tr><th>[\#11356](https://gitlab.haskell.org//ghc/ghc/issues/11356)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11356">#11356</a></th>
 <td>GHC panic</td></tr>
-<tr><th>[\#11357](https://gitlab.haskell.org//ghc/ghc/issues/11357)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11357">#11357</a></th>
 <td>Regression when deriving Generic1 on poly-kinded data family</td></tr>
-<tr><th>[\#11362](https://gitlab.haskell.org//ghc/ghc/issues/11362)</th>
-<td>T6137 doesn't pass with reversed uniques</td></tr>
-<tr><th>[\#11399](https://gitlab.haskell.org//ghc/ghc/issues/11399)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11362">#11362</a></th>
+<td>T6137 doesn&apos;t pass with reversed uniques</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11399">#11399</a></th>
 <td>Ill-kinded instance head involving -XTypeInType can invoke GHC panic</td></tr>
-<tr><th>[\#11400](https://gitlab.haskell.org//ghc/ghc/issues/11400)</th>
-<td>\* is not an indexed type family</td></tr>
-<tr><th>[\#11401](https://gitlab.haskell.org//ghc/ghc/issues/11401)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11400">#11400</a></th>
+<td>* is not an indexed type family</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11401">#11401</a></th>
 <td>No match in record selector ctev_dest</td></tr>
-<tr><th>[\#11404](https://gitlab.haskell.org//ghc/ghc/issues/11404)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11404">#11404</a></th>
 <td>The type variable used in a kind is still used</td></tr>
-<tr><th>[\#11405](https://gitlab.haskell.org//ghc/ghc/issues/11405)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11405">#11405</a></th>
 <td>Incorrect failure of type-level skolem escape check</td></tr>
-<tr><th>[\#11407](https://gitlab.haskell.org//ghc/ghc/issues/11407)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11407">#11407</a></th>
 <td>-XTypeInType uses up all memory when used in data family instance</td></tr>
-<tr><th>[\#11410](https://gitlab.haskell.org//ghc/ghc/issues/11410)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11410">#11410</a></th>
 <td>Quantification over unlifted type variable</td></tr>
-<tr><th>[\#11416](https://gitlab.haskell.org//ghc/ghc/issues/11416)</th>
-<td>GHC mistakenly believes datatype with type synonym in its type can't be eta-reduced</td></tr>
-<tr><th>[\#11453](https://gitlab.haskell.org//ghc/ghc/issues/11453)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11416">#11416</a></th>
+<td>GHC mistakenly believes datatype with type synonym in its type can&apos;t be eta-reduced</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11453">#11453</a></th>
 <td>Kinds in type synonym/data declarations can unexpectedly unify</td></tr>
-<tr><th>[\#11463](https://gitlab.haskell.org//ghc/ghc/issues/11463)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11463">#11463</a></th>
 <td>Template Haskell applies too many arguments to kind synonym</td></tr>
-<tr><th>[\#11471](https://gitlab.haskell.org//ghc/ghc/issues/11471)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11471">#11471</a></th>
 <td>Kind polymorphism and unboxed types: bad things are happening</td></tr>
-<tr><th>[\#11473](https://gitlab.haskell.org//ghc/ghc/issues/11473)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11473">#11473</a></th>
 <td>Levity polymorphism checks are inadequate</td></tr>
-<tr><th>[\#11484](https://gitlab.haskell.org//ghc/ghc/issues/11484)</th>
-<td>Type synonym using -XTypeInType can't be spliced with TH</td></tr>
-<tr><th>[\#11485](https://gitlab.haskell.org//ghc/ghc/issues/11485)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11484">#11484</a></th>
+<td>Type synonym using -XTypeInType can&apos;t be spliced with TH</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11485">#11485</a></th>
 <td>Very unhelpful message resulting from kind mismatch</td></tr>
-<tr><th>[\#11519](https://gitlab.haskell.org//ghc/ghc/issues/11519)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11519">#11519</a></th>
 <td>Inferring non-tau kinds</td></tr>
-<tr><th>[\#11520](https://gitlab.haskell.org//ghc/ghc/issues/11520)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11520">#11520</a></th>
 <td>GHC falls into a hole if given incorrect kind signature</td></tr>
-<tr><th>[\#11548](https://gitlab.haskell.org//ghc/ghc/issues/11548)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11548">#11548</a></th>
 <td>Absolutely misleading error message on kind error</td></tr>
-<tr><th>[\#11549](https://gitlab.haskell.org//ghc/ghc/issues/11549)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11549">#11549</a></th>
 <td>Add -fshow-runtime-rep</td></tr>
-<tr><th>[\#11554](https://gitlab.haskell.org//ghc/ghc/issues/11554)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11554">#11554</a></th>
 <td>Self quantification in GADT data declarations</td></tr>
-<tr><th>[\#11560](https://gitlab.haskell.org//ghc/ghc/issues/11560)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11560">#11560</a></th>
 <td>panic: isInjectiveTyCon sees a TcTyCon</td></tr>
-<tr><th>[\#11592](https://gitlab.haskell.org//ghc/ghc/issues/11592)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11592">#11592</a></th>
 <td>Self-kinded type variable accepted</td></tr>
-<tr><th>[\#11614](https://gitlab.haskell.org//ghc/ghc/issues/11614)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11614">#11614</a></th>
 <td>document TypeInType</td></tr>
-<tr><th>[\#11635](https://gitlab.haskell.org//ghc/ghc/issues/11635)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11635">#11635</a></th>
 <td>Higher-rank kind in datatype definition rejected</td></tr>
-<tr><th>[\#11642](https://gitlab.haskell.org//ghc/ghc/issues/11642)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11642">#11642</a></th>
 <td>Heterogeneous type equality evidence ignored</td></tr>
-<tr><th>[\#11648](https://gitlab.haskell.org//ghc/ghc/issues/11648)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11648">#11648</a></th>
 <td>assertPprPanic, called at compiler/types/TyCoRep.hs:1932</td></tr>
-<tr><th>[\#11672](https://gitlab.haskell.org//ghc/ghc/issues/11672)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11672">#11672</a></th>
 <td>Poor error message</td></tr>
-<tr><th>[\#11699](https://gitlab.haskell.org//ghc/ghc/issues/11699)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11699">#11699</a></th>
 <td>Type families mistakingly report kind variables as unbound type variables</td></tr>
-<tr><th>[\#11716](https://gitlab.haskell.org//ghc/ghc/issues/11716)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11716">#11716</a></th>
 <td>Make TypeInType stress test work</td></tr>
-<tr><th>[\#11719](https://gitlab.haskell.org//ghc/ghc/issues/11719)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11719">#11719</a></th>
 <td>Cannot use higher-rank kinds with type families</td></tr>
-<tr><th>[\#11732](https://gitlab.haskell.org//ghc/ghc/issues/11732)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11732">#11732</a></th>
 <td>Deriving Generic1 interacts poorly with TypeInType</td></tr>
-<tr><th>[\#11785](https://gitlab.haskell.org//ghc/ghc/issues/11785)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11785">#11785</a></th>
 <td>Merge types and kinds in Template Haskell</td></tr>
-<tr><th>[\#11811](https://gitlab.haskell.org//ghc/ghc/issues/11811)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11811">#11811</a></th>
 <td>GHC sometimes misses a CUSK</td></tr>
-<tr><th>[\#11821](https://gitlab.haskell.org//ghc/ghc/issues/11821)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11821">#11821</a></th>
 <td>Internal error: not in scope during type checking, but it passed the renamer</td></tr>
-<tr><th>[\#11963](https://gitlab.haskell.org//ghc/ghc/issues/11963)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11963">#11963</a></th>
 <td>GHC introduces kind equality without TypeInType</td></tr>
-<tr><th>[\#11964](https://gitlab.haskell.org//ghc/ghc/issues/11964)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11964">#11964</a></th>
 <td>Without TypeInType, inconsistently accepts Data.Kind.Type but not type synonym</td></tr>
-<tr><th>[\#11966](https://gitlab.haskell.org//ghc/ghc/issues/11966)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11966">#11966</a></th>
 <td>Surprising behavior with higher-rank quantification of kind variables</td></tr>
-<tr><th>[\#11995](https://gitlab.haskell.org//ghc/ghc/issues/11995)</th>
-<td>Can't infer type</td></tr>
-<tr><th>[\#12029](https://gitlab.haskell.org//ghc/ghc/issues/12029)</th>
-<td>Notify user to import \* from Data.Kind with TypeInType on</td></tr>
-<tr><th>[\#12030](https://gitlab.haskell.org//ghc/ghc/issues/12030)</th>
-<td>GHCi Proposal: Display (Data.Kind.)Type instead of \*</td></tr>
-<tr><th>[\#12045](https://gitlab.haskell.org//ghc/ghc/issues/12045)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11995">#11995</a></th>
+<td>Can&apos;t infer type</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12029">#12029</a></th>
+<td>Notify user to import * from Data.Kind with TypeInType on</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12030">#12030</a></th>
+<td>GHCi Proposal: Display (Data.Kind.)Type instead of *</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12045">#12045</a></th>
 <td>Visible kind application</td></tr>
-<tr><th>[\#12081](https://gitlab.haskell.org//ghc/ghc/issues/12081)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12081">#12081</a></th>
 <td>TypeInType Compile-time Panic</td></tr>
-<tr><th>[\#12174](https://gitlab.haskell.org//ghc/ghc/issues/12174)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12174">#12174</a></th>
 <td>Recursive use of type-in-type results in infinite loop</td></tr>
-<tr><th>[\#12176](https://gitlab.haskell.org//ghc/ghc/issues/12176)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12176">#12176</a></th>
 <td>Failure of bidirectional type inference at the kind level</td></tr>
-<tr><th>[\#12239](https://gitlab.haskell.org//ghc/ghc/issues/12239)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12239">#12239</a></th>
 <td>Dependent type family does not reduce</td></tr>
-<tr><th>[\#12369](https://gitlab.haskell.org//ghc/ghc/issues/12369)</th>
-<td>data families shouldn't be required to have return kind \*, data instances should</td></tr>
-<tr><th>[\#12442](https://gitlab.haskell.org//ghc/ghc/issues/12442)</th>
-<td>Pure unifier usually doesn't need to unify kinds</td></tr>
-<tr><th>[\#12503](https://gitlab.haskell.org//ghc/ghc/issues/12503)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12369">#12369</a></th>
+<td>data families shouldn&apos;t be required to have return kind *, data instances should</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12442">#12442</a></th>
+<td>Pure unifier usually doesn&apos;t need to unify kinds</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12503">#12503</a></th>
 <td>Template Haskell regression: GHC erroneously thinks a type variable is also a kind</td></tr>
-<tr><th>[\#12534](https://gitlab.haskell.org//ghc/ghc/issues/12534)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12534">#12534</a></th>
 <td>GHC 8.0 accepts recursive kind signature that GHC 7.10 rejects</td></tr>
-<tr><th>[\#12553](https://gitlab.haskell.org//ghc/ghc/issues/12553)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12553">#12553</a></th>
 <td>Reference kind in a type instance declaration defined in another instance declaration</td></tr>
-<tr><th>[\#12742](https://gitlab.haskell.org//ghc/ghc/issues/12742)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12742">#12742</a></th>
 <td>Instantiation of invisible type family arguments is too eager</td></tr>
-<tr><th>[\#12919](https://gitlab.haskell.org//ghc/ghc/issues/12919)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12919">#12919</a></th>
 <td>Equality not used for substitution</td></tr>
-<tr><th>[\#12922](https://gitlab.haskell.org//ghc/ghc/issues/12922)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12922">#12922</a></th>
 <td>Kind classes compile with PolyKinds</td></tr>
-<tr><th>[\#12931](https://gitlab.haskell.org//ghc/ghc/issues/12931)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12931">#12931</a></th>
 <td>tc_infer_args does not set in-scope set correctly</td></tr>
-<tr><th>[\#12933](https://gitlab.haskell.org//ghc/ghc/issues/12933)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12933">#12933</a></th>
 <td>Wrong class instance selection with Data.Kind.Type</td></tr>
-<tr><th>[\#12938](https://gitlab.haskell.org//ghc/ghc/issues/12938)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12938">#12938</a></th>
 <td>Polykinded associated type family rejected on false pretenses</td></tr>
-<tr><th>[\#13109](https://gitlab.haskell.org//ghc/ghc/issues/13109)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13109">#13109</a></th>
 <td>CUSK improvements</td></tr>
-<tr><th>[\#13333](https://gitlab.haskell.org//ghc/ghc/issues/13333)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13333">#13333</a></th>
 <td>Typeable regression in GHC HEAD</td></tr>
-<tr><th>[\#13337](https://gitlab.haskell.org//ghc/ghc/issues/13337)</th>
-<td>GHC doesn't think a type is of kind \*, despite having evidence for it</td></tr>
-<tr><th>[\#13364](https://gitlab.haskell.org//ghc/ghc/issues/13364)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13337">#13337</a></th>
+<td>GHC doesn&apos;t think a type is of kind *, despite having evidence for it</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13364">#13364</a></th>
 <td>Remove checkValidTelescope</td></tr>
-<tr><th>[\#13391](https://gitlab.haskell.org//ghc/ghc/issues/13391)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13391">#13391</a></th>
 <td>PolyKinds is more permissive in GHC 8</td></tr>
-<tr><th>[\#13399](https://gitlab.haskell.org//ghc/ghc/issues/13399)</th>
-<td>Location of \`forall\` matters with higher-rank kind polymorphism</td></tr>
-<tr><th>[\#13407](https://gitlab.haskell.org//ghc/ghc/issues/13407)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13399">#13399</a></th>
+<td>Location of `forall` matters with higher-rank kind polymorphism</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13407">#13407</a></th>
 <td>Fix printing of higher-rank kinds</td></tr>
-<tr><th>[\#13409](https://gitlab.haskell.org//ghc/ghc/issues/13409)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13409">#13409</a></th>
 <td>Data types with higher-rank kinds are pretty-printed strangely</td></tr>
-<tr><th>[\#13530](https://gitlab.haskell.org//ghc/ghc/issues/13530)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13530">#13530</a></th>
 <td>Horrible error message due to TypeInType</td></tr>
-<tr><th>[\#13546](https://gitlab.haskell.org//ghc/ghc/issues/13546)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13546">#13546</a></th>
 <td>Kind error with type equality</td></tr>
-<tr><th>[\#13549](https://gitlab.haskell.org//ghc/ghc/issues/13549)</th>
-<td>GHC 8.2.1's typechecker rejects code generated by singletons that 8.0 accepts</td></tr>
-<tr><th>[\#13555](https://gitlab.haskell.org//ghc/ghc/issues/13555)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13549">#13549</a></th>
+<td>GHC 8.2.1&apos;s typechecker rejects code generated by singletons that 8.0 accepts</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13555">#13555</a></th>
 <td>Typechecker regression when combining PolyKinds and MonoLocalBinds</td></tr>
-<tr><th>[\#13585](https://gitlab.haskell.org//ghc/ghc/issues/13585)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13585">#13585</a></th>
 <td>ala from Control.Lens.Wrapped panics</td></tr>
-<tr><th>[\#13601](https://gitlab.haskell.org//ghc/ghc/issues/13601)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13601">#13601</a></th>
 <td>GHC errors but hangs</td></tr>
-<tr><th>[\#13603](https://gitlab.haskell.org//ghc/ghc/issues/13603)</th>
-<td>Can't resolve levity polymorphic superclass</td></tr>
-<tr><th>[\#13625](https://gitlab.haskell.org//ghc/ghc/issues/13625)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13603">#13603</a></th>
+<td>Can&apos;t resolve levity polymorphic superclass</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13625">#13625</a></th>
 <td>GHC internal error: ‘Y’ is not in scope during type checking, but it passed the renamer</td></tr>
-<tr><th>[\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13643">#13643</a></th>
 <td>Core lint error with TypeInType and TypeFamilyDependencies</td></tr>
-<tr><th>[\#13674](https://gitlab.haskell.org//ghc/ghc/issues/13674)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13674">#13674</a></th>
 <td>Poor error message which masks occurs-check failure</td></tr>
-<tr><th>[\#13761](https://gitlab.haskell.org//ghc/ghc/issues/13761)</th>
-<td>Can't create poly-kinded GADT with TypeInType enabled, but can without</td></tr>
-<tr><th>[\#13762](https://gitlab.haskell.org//ghc/ghc/issues/13762)</th>
-<td>TypeInType is not documented in the users' guide flag reference</td></tr>
-<tr><th>[\#13777](https://gitlab.haskell.org//ghc/ghc/issues/13777)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13761">#13761</a></th>
+<td>Can&apos;t create poly-kinded GADT with TypeInType enabled, but can without</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13762">#13762</a></th>
+<td>TypeInType is not documented in the users&apos; guide flag reference</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13777">#13777</a></th>
 <td>Poor error message around CUSKs</td></tr>
-<tr><th>[\#13780](https://gitlab.haskell.org//ghc/ghc/issues/13780)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13780">#13780</a></th>
 <td>Nightmarish pretty-printing of equality type in GHC 8.2 error message</td></tr>
-<tr><th>[\#13781](https://gitlab.haskell.org//ghc/ghc/issues/13781)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13781">#13781</a></th>
 <td>(a :: (k :: Type)) is too exotic for Template Haskell</td></tr>
-<tr><th>[\#13790](https://gitlab.haskell.org//ghc/ghc/issues/13790)</th>
-<td>GHC doesn't reduce type family in kind signature unless its arm is twisted</td></tr>
-<tr><th>[\#13822](https://gitlab.haskell.org//ghc/ghc/issues/13822)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13790">#13790</a></th>
+<td>GHC doesn&apos;t reduce type family in kind signature unless its arm is twisted</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13822">#13822</a></th>
 <td>GHC not using injectivity?</td></tr>
-<tr><th>[\#13871](https://gitlab.haskell.org//ghc/ghc/issues/13871)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13871">#13871</a></th>
 <td>GHC panic in 8.2 only: typeIsTypeable(Coercion)</td></tr>
-<tr><th>[\#13872](https://gitlab.haskell.org//ghc/ghc/issues/13872)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13872">#13872</a></th>
 <td>Strange Typeable error message involving TypeInType</td></tr>
-<tr><th>[\#13879](https://gitlab.haskell.org//ghc/ghc/issues/13879)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13879">#13879</a></th>
 <td>Strange interaction between higher-rank kinds and type synonyms</td></tr>
-<tr><th>[\#13895](https://gitlab.haskell.org//ghc/ghc/issues/13895)</th>
-<td>"Illegal constraint in a type" error - is it fixable?</td></tr>
-<tr><th>[\#13909](https://gitlab.haskell.org//ghc/ghc/issues/13909)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13895">#13895</a></th>
+<td>&quot;Illegal constraint in a type&quot; error - is it fixable?</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13909">#13909</a></th>
 <td>Misleading error message when partially applying a data type with a visible quantifier in its kind</td></tr>
-<tr><th>[\#13910](https://gitlab.haskell.org//ghc/ghc/issues/13910)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13910">#13910</a></th>
 <td>Inlining a definition causes GHC to panic (repSplitTyConApp_maybe)</td></tr>
-<tr><th>[\#13913](https://gitlab.haskell.org//ghc/ghc/issues/13913)</th>
-<td>Can't apply higher-ranked kind in type family</td></tr>
-<tr><th>[\#13915](https://gitlab.haskell.org//ghc/ghc/issues/13915)</th>
-<td>GHC 8.2 regression: "Can't find interface-file declaration" for promoted data family instance</td></tr>
-<tr><th>[\#13929](https://gitlab.haskell.org//ghc/ghc/issues/13929)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13913">#13913</a></th>
+<td>Can&apos;t apply higher-ranked kind in type family</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13915">#13915</a></th>
+<td>GHC 8.2 regression: &quot;Can&apos;t find interface-file declaration&quot; for promoted data family instance</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13929">#13929</a></th>
 <td>GHC panic with levity polymorphism</td></tr>
-<tr><th>[\#13938](https://gitlab.haskell.org//ghc/ghc/issues/13938)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13938">#13938</a></th>
 <td>Iface type variable out of scope:  k1</td></tr>
-<tr><th>[\#13963](https://gitlab.haskell.org//ghc/ghc/issues/13963)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13963">#13963</a></th>
 <td>Runtime representation confusingly displayed</td></tr>
-<tr><th>[\#13972](https://gitlab.haskell.org//ghc/ghc/issues/13972)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13972">#13972</a></th>
 <td>GHC 8.2 error message around indexes for associated type instances is baffling</td></tr>
-<tr><th>[\#13988](https://gitlab.haskell.org//ghc/ghc/issues/13988)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13988">#13988</a></th>
 <td>GADT constructor with kind equality constraint quantifies unused existential type variables</td></tr>
-<tr><th>[\#14042](https://gitlab.haskell.org//ghc/ghc/issues/14042)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14042">#14042</a></th>
 <td>Datatypes cannot use a type family in their return kind</td></tr>
-<tr><th>[\#14086](https://gitlab.haskell.org//ghc/ghc/issues/14086)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14086">#14086</a></th>
 <td>Empty case does not detect kinds</td></tr>
-<tr><th>[\#14091](https://gitlab.haskell.org//ghc/ghc/issues/14091)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14091">#14091</a></th>
 <td>When PolyKinds is on, suggested type signatures seem to require TypeInType</td></tr>
-<tr><th>[\#14139](https://gitlab.haskell.org//ghc/ghc/issues/14139)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14139">#14139</a></th>
 <td>Kind signature not accepted (singletons)</td></tr>
-<tr><th>[\#14162](https://gitlab.haskell.org//ghc/ghc/issues/14162)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14162">#14162</a></th>
 <td>Core Lint error</td></tr>
-<tr><th>[\#14174](https://gitlab.haskell.org//ghc/ghc/issues/14174)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14174">#14174</a></th>
 <td>GHC panic with TypeInType and type family</td></tr>
-<tr><th>[\#14175](https://gitlab.haskell.org//ghc/ghc/issues/14175)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14175">#14175</a></th>
 <td>Panic repSplitTyConApp_maybe</td></tr>
-<tr><th>[\#14203](https://gitlab.haskell.org//ghc/ghc/issues/14203)</th>
-<td>GHC-inferred type signature doesn't actually typecheck</td></tr>
-<tr><th>[\#14207](https://gitlab.haskell.org//ghc/ghc/issues/14207)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14203">#14203</a></th>
+<td>GHC-inferred type signature doesn&apos;t actually typecheck</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14207">#14207</a></th>
 <td>Levity polymorphic GADT requires extra type signatures</td></tr>
-<tr><th>[\#14209](https://gitlab.haskell.org//ghc/ghc/issues/14209)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14209">#14209</a></th>
 <td>GHC 8.2.1 regression involving telescoping kind signature</td></tr>
-<tr><th>[\#14230](https://gitlab.haskell.org//ghc/ghc/issues/14230)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14230">#14230</a></th>
 <td>Gruesome kind mismatch errors for associated data family instances</td></tr>
-<tr><th>[\#14238](https://gitlab.haskell.org//ghc/ghc/issues/14238)</th>
-<td>\`:kind\` suppresses visible dependent quantifiers by default in GHCi 8.2.1</td></tr>
-<tr><th>[\#14350](https://gitlab.haskell.org//ghc/ghc/issues/14350)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14238">#14238</a></th>
+<td>`:kind` suppresses visible dependent quantifiers by default in GHCi 8.2.1</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14350">#14350</a></th>
 <td>Infinite loop when typechecking incorrect implementation (GHC HEAD only)</td></tr>
-<tr><th>[\#14352](https://gitlab.haskell.org//ghc/ghc/issues/14352)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14352">#14352</a></th>
 <td>Higher-rank kind ascription oddities</td></tr>
-<tr><th>[\#14366](https://gitlab.haskell.org//ghc/ghc/issues/14366)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14366">#14366</a></th>
 <td>Type family equation refuses to unify wildcard type patterns</td></tr>
-<tr><th>[\#14394](https://gitlab.haskell.org//ghc/ghc/issues/14394)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14394">#14394</a></th>
 <td>Inferred type for pattern synonym has redundant equality constraint</td></tr>
-<tr><th>[\#14441](https://gitlab.haskell.org//ghc/ghc/issues/14441)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14441">#14441</a></th>
 <td>GHC HEAD regression involving type families in kinds</td></tr>
-<tr><th>[\#14450](https://gitlab.haskell.org//ghc/ghc/issues/14450)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14450">#14450</a></th>
 <td>GHCi spins forever</td></tr>
-<tr><th>[\#14451](https://gitlab.haskell.org//ghc/ghc/issues/14451)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14451">#14451</a></th>
 <td>Need proper SCC analysis of type declarations, taking account of CUSKs</td></tr>
-<tr><th>[\#14507](https://gitlab.haskell.org//ghc/ghc/issues/14507)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14507">#14507</a></th>
 <td>Core Lint error with Type.Reflection and pattern synonyms</td></tr>
-<tr><th>[\#14515](https://gitlab.haskell.org//ghc/ghc/issues/14515)</th>
-<td>"Same" higher-rank kind synonyms behave differently</td></tr>
-<tr><th>[\#14520](https://gitlab.haskell.org//ghc/ghc/issues/14520)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14515">#14515</a></th>
+<td>&quot;Same&quot; higher-rank kind synonyms behave differently</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14520">#14520</a></th>
 <td>GHC panic (TypeInType)</td></tr>
-<tr><th>[\#14552](https://gitlab.haskell.org//ghc/ghc/issues/14552)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14552">#14552</a></th>
 <td>GHC panic on pattern synonym</td></tr>
-<tr><th>[\#14554](https://gitlab.haskell.org//ghc/ghc/issues/14554)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14554">#14554</a></th>
 <td>Core Lint error mixing</td></tr>
-<tr><th>[\#14555](https://gitlab.haskell.org//ghc/ghc/issues/14555)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14555">#14555</a></th>
 <td>GHC Panic with TypeInType / levity polymorphism</td></tr>
-<tr><th>[\#14556](https://gitlab.haskell.org//ghc/ghc/issues/14556)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14556">#14556</a></th>
 <td>Core Lint error: Ill-kinded result in coercion</td></tr>
-<tr><th>[\#14563](https://gitlab.haskell.org//ghc/ghc/issues/14563)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14563">#14563</a></th>
 <td>GHC Panic with TypeInType / levity polymorphism</td></tr>
-<tr><th>[\#14580](https://gitlab.haskell.org//ghc/ghc/issues/14580)</th>
-<td>GHC panic (TypeInType) (the 'impossible' happened)</td></tr>
-<tr><th>[\#14584](https://gitlab.haskell.org//ghc/ghc/issues/14584)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14580">#14580</a></th>
+<td>GHC panic (TypeInType) (the &apos;impossible&apos; happened)</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14584">#14584</a></th>
 <td>Core Lint error</td></tr>
-<tr><th>[\#14605](https://gitlab.haskell.org//ghc/ghc/issues/14605)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14605">#14605</a></th>
 <td>Core Lint error</td></tr>
-<tr><th>[\#14607](https://gitlab.haskell.org//ghc/ghc/issues/14607)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14607">#14607</a></th>
 <td>Core Lint error</td></tr>
-<tr><th>[\#14720](https://gitlab.haskell.org//ghc/ghc/issues/14720)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14720">#14720</a></th>
 <td>GHC 8.4.1-alpha regression with TypeInType</td></tr>
-<tr><th>[\#14749](https://gitlab.haskell.org//ghc/ghc/issues/14749)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14749">#14749</a></th>
 <td>T13822 fails</td></tr>
-<tr><th>[\#14764](https://gitlab.haskell.org//ghc/ghc/issues/14764)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14764">#14764</a></th>
 <td>Make $! representation-polymorphic</td></tr>
-<tr><th>[\#14795](https://gitlab.haskell.org//ghc/ghc/issues/14795)</th>
-<td>Data type return kinds don't obey the forall-or-nothing rule</td></tr>
-<tr><th>[\#14845](https://gitlab.haskell.org//ghc/ghc/issues/14845)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14795">#14795</a></th>
+<td>Data type return kinds don&apos;t obey the forall-or-nothing rule</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14845">#14845</a></th>
 <td>TypeInType, index GADT by constraint witness</td></tr>
-<tr><th>[\#14846](https://gitlab.haskell.org//ghc/ghc/issues/14846)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14846">#14846</a></th>
 <td>Renamer hangs (because of -XInstanceSigs?)</td></tr>
-<tr><th>[\#14847](https://gitlab.haskell.org//ghc/ghc/issues/14847)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14847">#14847</a></th>
 <td>Inferring dependent kinds for non-recursive types</td></tr>
-<tr><th>[\#14880](https://gitlab.haskell.org//ghc/ghc/issues/14880)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14880">#14880</a></th>
 <td>GHC panic: updateRole</td></tr>
-<tr><th>[\#14887](https://gitlab.haskell.org//ghc/ghc/issues/14887)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14887">#14887</a></th>
 <td>Explicitly quantifying a kind variable causes a telescope to fail to kind-check</td></tr>
-<tr><th>[\#14904](https://gitlab.haskell.org//ghc/ghc/issues/14904)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14904">#14904</a></th>
 <td>Compiler panic (piResultTy)</td></tr>
-<tr><th>[\#14938](https://gitlab.haskell.org//ghc/ghc/issues/14938)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14938">#14938</a></th>
 <td>Pattern matching on GADT does not refine type family parameters</td></tr>
-<tr><th>[\#14991](https://gitlab.haskell.org//ghc/ghc/issues/14991)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14991">#14991</a></th>
 <td>GHC HEAD regression involving TYPEs in type families</td></tr>
-<tr><th>[\#15039](https://gitlab.haskell.org//ghc/ghc/issues/15039)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15039">#15039</a></th>
 <td>Bizarre pretty-printing of inferred Coercible constraint in partial type signature</td></tr>
-<tr><th>[\#15076](https://gitlab.haskell.org//ghc/ghc/issues/15076)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15076">#15076</a></th>
 <td>Typed hole with higher-rank kind causes GHC to panic (No skolem info)</td></tr>
-<tr><th>[\#15079](https://gitlab.haskell.org//ghc/ghc/issues/15079)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15079">#15079</a></th>
 <td>GHC HEAD regression: cannot instantiate higher-rank kind</td></tr>
-<tr><th>[\#15116](https://gitlab.haskell.org//ghc/ghc/issues/15116)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15116">#15116</a></th>
 <td>GHC internal error when GADT return type mentions its own constructor name</td></tr>
-<tr><th>[\#15122](https://gitlab.haskell.org//ghc/ghc/issues/15122)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15122">#15122</a></th>
 <td>GHC HEAD typechecker regression</td></tr>
-<tr><th>[\#15142](https://gitlab.haskell.org//ghc/ghc/issues/15142)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15142">#15142</a></th>
 <td>GHC HEAD regression: tcTyVarDetails</td></tr>
-<tr><th>[\#15170](https://gitlab.haskell.org//ghc/ghc/issues/15170)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15170">#15170</a></th>
 <td>GHC HEAD panic (dischargeFmv)</td></tr>
-<tr><th>[\#15195](https://gitlab.haskell.org//ghc/ghc/issues/15195)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15195">#15195</a></th>
 <td>Merge -XPolyKinds with -XTypeInType</td></tr>
-<tr><th>[\#15245](https://gitlab.haskell.org//ghc/ghc/issues/15245)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15245">#15245</a></th>
 <td>Data family promotion is possible</td></tr>
-<tr><th>[\#15282](https://gitlab.haskell.org//ghc/ghc/issues/15282)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15282">#15282</a></th>
 <td>Document how equality-bearing constructors are promoted in Core</td></tr>
-<tr><th>[\#15308](https://gitlab.haskell.org//ghc/ghc/issues/15308)</th>
-<td>Error message prints explicit kinds when it shouldn't</td></tr>
-<tr><th>[\#15330](https://gitlab.haskell.org//ghc/ghc/issues/15330)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15308">#15308</a></th>
+<td>Error message prints explicit kinds when it shouldn&apos;t</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15330">#15330</a></th>
 <td>Error message prints invisible kind arguments in a visible matter</td></tr>
-<tr><th>[\#15343](https://gitlab.haskell.org//ghc/ghc/issues/15343)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15343">#15343</a></th>
 <td>Implicitly quantifying a kind variable causes GHC 8.6 to panic (coercionKind)</td></tr>
-<tr><th>[\#15346](https://gitlab.haskell.org//ghc/ghc/issues/15346)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15346">#15346</a></th>
 <td>Core Lint error in GHC 8.6.1: From-type of Cast differs from type of enclosed expression</td></tr>
-<tr><th>[\#15361](https://gitlab.haskell.org//ghc/ghc/issues/15361)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15361">#15361</a></th>
 <td>Error message displays redundant equality constraint</td></tr>
-<tr><th>[\#15370](https://gitlab.haskell.org//ghc/ghc/issues/15370)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15370">#15370</a></th>
 <td>Typed hole panic on GHC 8.6 (tcTyVarDetails)</td></tr>
-<tr><th>[\#15380](https://gitlab.haskell.org//ghc/ghc/issues/15380)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15380">#15380</a></th>
 <td>Infinite typechecker loop in GHC 8.6</td></tr>
-<tr><th>[\#15419](https://gitlab.haskell.org//ghc/ghc/issues/15419)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15419">#15419</a></th>
 <td>GHC 8.6.1 regression (buildKindCoercion)</td></tr>
-<tr><th>[\#15428](https://gitlab.haskell.org//ghc/ghc/issues/15428)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15428">#15428</a></th>
 <td>Oversaturated type family application panicks GHC (piResultTys2)</td></tr>
-<tr><th>[\#15472](https://gitlab.haskell.org//ghc/ghc/issues/15472)</th>
-<td>GHC HEAD type inference regression post-"Remove decideKindGeneralisationPlan"</td></tr>
-<tr><th>[\#15497](https://gitlab.haskell.org//ghc/ghc/issues/15497)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15472">#15472</a></th>
+<td>GHC HEAD type inference regression post-&quot;Remove decideKindGeneralisationPlan&quot;</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15497">#15497</a></th>
 <td>Coercion Quantification</td></tr>
-<tr><th>[\#15515](https://gitlab.haskell.org//ghc/ghc/issues/15515)</th>
-<td>Bogus "No instance" error when type families appear in kinds</td></tr>
-<tr><th>[\#15545](https://gitlab.haskell.org//ghc/ghc/issues/15545)</th>
-<td>Forced to enable TypeInType because of (i \~ i)</td></tr>
-<tr><th>[\#15583](https://gitlab.haskell.org//ghc/ghc/issues/15583)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15515">#15515</a></th>
+<td>Bogus &quot;No instance&quot; error when type families appear in kinds</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15545">#15545</a></th>
+<td>Forced to enable TypeInType because of (i ~ i)</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15583">#15583</a></th>
 <td>Treating Constraint as Type when using (type C = Constraint)</td></tr>
-<tr><th>[\#15597](https://gitlab.haskell.org//ghc/ghc/issues/15597)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15597">#15597</a></th>
 <td>GHC shouting: panic!</td></tr>
-<tr><th>[\#15629](https://gitlab.haskell.org//ghc/ghc/issues/15629)</th>
-<td>"No skolem info" panic (GHC 8.6 only)</td></tr>
-<tr><th>[\#15658](https://gitlab.haskell.org//ghc/ghc/issues/15658)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15629">#15629</a></th>
+<td>&quot;No skolem info&quot; panic (GHC 8.6 only)</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15658">#15658</a></th>
 <td>strange inferred kind with TypeInType</td></tr>
-<tr><th>[\#15664](https://gitlab.haskell.org//ghc/ghc/issues/15664)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15664">#15664</a></th>
 <td>Core Lint error</td></tr>
-<tr><th>[\#15709](https://gitlab.haskell.org//ghc/ghc/issues/15709)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15709">#15709</a></th>
 <td>GHC panic using TypeInType with minimal source code</td></tr>
-<tr><th>[\#15711](https://gitlab.haskell.org//ghc/ghc/issues/15711)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15711">#15711</a></th>
 <td>Kind inference of class variables does not examine associated types</td></tr>
-<tr><th>[\#15740](https://gitlab.haskell.org//ghc/ghc/issues/15740)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15740">#15740</a></th>
 <td>Type family with higher-rank result is too accepting</td></tr>
-<tr><th>[\#15778](https://gitlab.haskell.org//ghc/ghc/issues/15778)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15778">#15778</a></th>
 <td>GHC HEAD-only panic (zonkTcTyVarToTyVar)</td></tr>
-<tr><th>[\#15787](https://gitlab.haskell.org//ghc/ghc/issues/15787)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15787">#15787</a></th>
 <td>GHC panic using kind application</td></tr>
-<tr><th>[\#15789](https://gitlab.haskell.org//ghc/ghc/issues/15789)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15789">#15789</a></th>
 <td>GHC panic using visible kind applications and a higher-rank kind</td></tr>
-<tr><th>[\#15795](https://gitlab.haskell.org//ghc/ghc/issues/15795)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15795">#15795</a></th>
 <td>Core lint error with unused kind variable in data type return kind</td></tr>
-<tr><th>[\#15817](https://gitlab.haskell.org//ghc/ghc/issues/15817)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15817">#15817</a></th>
 <td>Data family quantification = GHC panic, ‘impossible’ happened</td></tr>
-<tr><th>[\#15852](https://gitlab.haskell.org//ghc/ghc/issues/15852)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15852">#15852</a></th>
 <td>Bad axiom produced for polykinded data family</td></tr>
-<tr><th>[\#15859](https://gitlab.haskell.org//ghc/ghc/issues/15859)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15859">#15859</a></th>
 <td>Dependent quantification, GHC panic</td></tr>
-<tr><th>[\#15874](https://gitlab.haskell.org//ghc/ghc/issues/15874)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15874">#15874</a></th>
 <td>Data families with higher-rank kinds</td></tr>
-<tr><th>[\#15881](https://gitlab.haskell.org//ghc/ghc/issues/15881)</th>
-<td>GHC Panic: data A n (a :: n) :: a -\> Type</td></tr>
-<tr><th>[\#16008](https://gitlab.haskell.org//ghc/ghc/issues/16008)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15881">#15881</a></th>
+<td>GHC Panic: data A n (a :: n) :: a -&gt; Type</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16008">#16008</a></th>
 <td>GHC HEAD type family regression involving invisible arguments</td></tr>
-<tr><th>[\#16263](https://gitlab.haskell.org//ghc/ghc/issues/16263)</th>
-<td>Rework GHC's treatment of constraints in kinds</td></tr>
-<tr><th>[\#16310](https://gitlab.haskell.org//ghc/ghc/issues/16310)</th>
-<td>Program fails with "Impossible case alternative" when optimized</td></tr>
-<tr><th>[\#16391](https://gitlab.haskell.org//ghc/ghc/issues/16391)</th>
-<td>"Quantified type's kind mentions quantified type variable" error with fancy-kinded GADT</td></tr></table>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16263">#16263</a></th>
+<td>Rework GHC&apos;s treatment of constraints in kinds</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16310">#16310</a></th>
+<td>Program fails with &quot;Impossible case alternative&quot; when optimized</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16391">#16391</a></th>
+<td>&quot;Quantified type&apos;s kind mentions quantified type variable&quot; error with fancy-kinded GADT</td></tr></table>
+
+
 
 # User-facing changes
 
@@ -594,11 +605,34 @@ This feature will not carry over to data families (which for reasons beyond the 
 GHC tracks three different levels of visibility: `Invisible` binders are never user-written, `Specified` ones are available for visible type applications, and `Visible` ones are always user-written. See `Note [TyBinders and VisibilityFlags]` in [ TyCoRep](https://github.com/ghc/ghc/blob/master/compiler/types/TyCoRep.hs).
 
 
+
 The problem is what to do in higher-rank kind situations. Consider these definitions:
 
+
 ```
-dataP1 k (a :: k)-- P1 :: forall k -> k -> *-- P1 *  Int   is OK-- P1 _  Int   is OK-- P1 @* Int   is NOT OK-- P1    Int   is NOT OKdataP2(a :: k)-- P2 :: forall k. k -> *-- P2 @* Int   is OK-- P2 @_ Int   is OK-- P2    Int   is OK-- P2 *  Int   is NOT OKdataP3 a
--- P3 :: forall {k}. k -> *-- P3    Int    is OK-- P3 @* Int    is NOT OK-- P3 @_ Int    is NOT OK-- P3 *  Int    is NOT OKdataX(a :: forall k. k ->*)-- X :: (forall k. k -> *) -> *
+data P1 k (a :: k)
+-- P1 :: forall k -> k -> *
+-- P1 *  Int   is OK
+-- P1 _  Int   is OK
+-- P1 @* Int   is NOT OK
+-- P1    Int   is NOT OK
+
+data P2 (a :: k)
+-- P2 :: forall k. k -> *
+-- P2 @* Int   is OK
+-- P2 @_ Int   is OK
+-- P2    Int   is OK
+-- P2 *  Int   is NOT OK
+
+data P3 a
+-- P3 :: forall {k}. k -> *
+-- P3    Int    is OK
+-- P3 @* Int    is NOT OK
+-- P3 @_ Int    is NOT OK
+-- P3 *  Int    is NOT OK
+
+data X (a :: forall k. k -> *)
+-- X :: (forall k. k -> *) -> *
 ```
 
 
@@ -620,9 +654,13 @@ The question before the house is: which of the following are accepted?
 Before delving into possible answers, we should note that any of these are sound to accept. The types of `P1`, `P2`, and `P3` are all identical, except for the visibility of the binder for `k`. So it's not silly to consider this question. It comes down to how we'd like the language to behave.
 
 
+
 There seem to be three defensible choices for which of these to accept.
 
-1. 1. YES
+
+1. 
+
+  1. YES
   1. YES
   1. YES
 
@@ -637,7 +675,9 @@ This version simply ignores visibility flags on binders when doing an equality c
 - The bullet above argues that `X (P1 k :: forall k. k -> *)` should be accepted. But plan (A) says that `X P1` should be accepted. It surely can't hurt to add a type signature, so that means that `X (P1 :: forall k. k -> *)` should be accepted. And this is quite bizarre to accept that last one alongside the first one.
 - In the term-level type inference rules for a polytype type annotation, the first thing that happens is skolemization. It would be a bit odd for the type-level type inference rules to be different, yet such a difference is required if we are to accept `P1 :: forall k. k -> *`.
 
-1. 1. NO
+1. 
+
+  1. NO
   1. YES
   1. YES
 
@@ -649,7 +689,9 @@ This version is a bit harder to implement, discerning between visible/not visibl
 - This plan (as does plan (A)) fails source level substitution. Specifically, if `a` (the variable of type `forall k. k -> *` bound in the declaration for `X`) is used as `a @* Int` in the definition of `X`, then `X P3` would expand to mention `P3 @* Int`, which is disallowed. Substitution is restored if we substitute along with a type annotation, thus: `(P3 :: forall k. k -> *) @* Int`.
 - This one seems most similar to the term-level treatment. It's hard to fully compare, because case (1) does not exist in terms.
 
-1. 1. NO
+1. 
+
+  1. NO
   1. YES
   1. NO
 
@@ -693,7 +735,7 @@ The new type system adheres rather closely to what is proposed in the original "
                          --   considered equivalent
   ```
 
-  A `ProofIrrelProv``UnivCo` requires that the two types in the `UnivCo` are both just coercions. Proofs are irrelevant in FC. A `PhantomProv``UnivCo` requires that the role of the `UnivCo` be `Phantom`. These checks are part of CoreLint.
+  A `ProofIrrelProv` `UnivCo` requires that the two types in the `UnivCo` are both just coercions. Proofs are irrelevant in FC. A `PhantomProv` `UnivCo` requires that the role of the `UnivCo` be `Phantom`. These checks are part of CoreLint.
 
 - [NoSubKinds](no-sub-kinds).
 
@@ -717,7 +759,10 @@ The resulting `EvBind`s then must be dealt with. However, there is often no plac
 - TcFlatten has a bit of a sorry story. It seems the following is a nice invariant to have: a flattened type always has a flattened kind. However, flattening now (even in HEAD) takes roles into account. Because the role of a kind coercion is representation, no matter the role of the type coercion, it only makes sense to say that a flattened type's kind is flattened with respect to *representational* equality.
 
 >
+>
 > If we have `newtype Age = MkAge Int` and `data Proxy k (a :: k) = P` (where the kind parameter is explicit), flattening `Proxy Age` (w.r.t. nominal equality) gives us `(Proxy Age) |> (axAge -> <*>) :: Int -> *`, which is generally not what we want. See `Note [Kinds when flattening an AppTy]` in TcFlatten. This problem is surmountable, but this wrinkle demands more thought. There are several comments throughout TcFlatten about issues emanating from this one that will need to get fixed.
+>
+>
 
 - Final zonking (in TcHsSyn) now works with a `CvSubstEnv` extracted from the `EvBind`s. This is so that the zonked types used in `TyCon` definitions have their coercion variables inlined. It wouldn't work just to do zonking as before and then substitute, because we would need to zonk again, and then substitute again, etc. (Plus, we're sometimes in the typechecking knot, when we're forced to do it all in one pass.)
 
@@ -807,7 +852,9 @@ data Proxy2 k (a :: k) = P2
 `Proxy1`'s kind argument is `Invisible` and `Proxy2`'s is `Visible`.  **SLPJ** Don't understand. Is this some new source-Haskell feature?
 
 
-Currently, any `Named``ForAllTy`s classifying *terms* are all `Invisible`.
+
+Currently, any `Named` `ForAllTy`s classifying *terms* are all `Invisible`.
+
 
 
 This design change has a number of knock-on effects. In particular, `splitForAllTys` now splits regular functions, too. In some cases, this actually simplified code. In others, the code had to use the new `splitNamedForAllTys`, which is equivalent to the old `splitForAllTys`.
@@ -815,7 +862,9 @@ This design change has a number of knock-on effects. In particular, `splitForAll
 **SLPJ**: Do you really mean `splitNamedForAllTys` here, or do you mean `splitTypeLevelForAlls`?  That is, are you trying to split on *visibilty* or on *erasibility*?  And why?
 
 
-Another knock-on effect is that `mkForAllTy` now takes a `Binder`. To make this easier for callers, there is a new `mkInvForAllTy :: TyCoVar -> Type -> Type` which makes a `Named`, `Invisible``Binder` for the `ForAllTy`.
+
+Another knock-on effect is that `mkForAllTy` now takes a `Binder`. To make this easier for callers, there is a new `mkInvForAllTy :: TyCoVar -> Type -> Type` which makes a `Named`, `Invisible` `Binder` for the `ForAllTy`.
+
 
 
 In general, I've been happy with this new design. In some preliminary work toward Pi, `Binder` has added a few more bits, making this redesign even better going forward.
@@ -990,10 +1039,16 @@ data T :: Bool -> *
 ```
 
 >
+>
 > Now, we wish to unify `T True` with `a b`, where `a :: Bool2 -> *` and `b :: Bool2`. A solution exists: `[a |-> T |> (sym axBool2 -> *), b |-> True |> sym axBool2]`. But the substitution requires `axBool2`, which isn't mentioned in the input. Figuring out this kind of unification is beyond the scope of the unifier. (It gets even harder to justify with open type families.)
+>
+>
 
 >
+>
 > My solution is to say that `(T |> (axBool2 -> *)) (True |> sym axBool)` is **not** equal to `T True`. When doing the erased equality check, we also check the kind of every application argument. Because the kind of `True |> sym axBool` differs from the kind of `True`, the types above differ. With this change, unification is complete. Note that the issue comes up only with `AppTy`s, never `TyConApp`s, because a `TyCon`'s kind is always closed. If there is a difference in the kind of an argument, that difference must show up earlier in a kind argument. See also `Note [Non-trivial definitional equality]` in TyCoRep.
+>
+>
 
 - We need a `TypeMap` now to treat all `eqType` types equally. This takes some work, implemented in TrieMap.
 
@@ -1019,7 +1074,9 @@ There are several scenarios (in particular, in TcTyClsDecls) where we need to ex
 Now that kind errors in types can be deferred to the solver, all the error-message generating machinery in TcHsType is gone. Instead, I've had to add a lot of ad-hoc processing in TcErrors in an attempt to recreate the errors just as before. (We can debate whether the messages should be reformatted, but I wanted to ensure there was no degradation in the quality of errors.) The changes to TcErrors are mostly terrible, and the whole lot needs refactoring. This state of affairs is somewhat intentional, because I was really unsure what was going to be necessary to get good errors. As I get closer to 0 testsuite failures, the picture is becoming clearer. Soon, I'll be able to figure out a better way to do TcErrors and will refactor. In the meantime, we deal with the mess.
 
 
-One particular step I had to take is to include extra information in the `TypeEqOrigin``CtOrigin`. Previously, it had fields for "expected type" and "actual type". It now includes a flag whether the error message should say "type" or "kind", along with the thing that has the actual type. This "thing with actual type" is not used in term-level error message printing, in order to avoid spurious testsuite failures, but it could (and should) be. See `TcRnTypes.CtOrigin`.
+
+One particular step I had to take is to include extra information in the `TypeEqOrigin` `CtOrigin`. Previously, it had fields for "expected type" and "actual type". It now includes a flag whether the error message should say "type" or "kind", along with the thing that has the actual type. This "thing with actual type" is not used in term-level error message printing, in order to avoid spurious testsuite failures, but it could (and should) be. See `TcRnTypes.CtOrigin`.
+
 
 ### Unboxed tuples are more parameterized
 

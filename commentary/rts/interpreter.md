@@ -12,10 +12,17 @@ Nevertheless, GHC's linker certainly adds functionality, and this has been enoug
 Implementation of the linker cuts three axes: object file format (ELF, Mach-O, PEi386), operating system (Linux, MingW, Darwin, etc), and architecture (i386, x86_64, powerpc, arm), and there are corresponding sets of macros for fiddling with each (`OBJFORMAT_*`, `*_HOST_OS` and `*_HOST_ARCH`). A large part of the unpleasantness of the current linker is the fact that all of these different concerns are jumbled in one file; refactoring these out to separate files would be a very nice service.
 
 
+
 (write more here)
+
 
 ## Bytecode Interpreter
 
+
 ---
 
+
+
 [CategoryStub](category-stub)
+
+

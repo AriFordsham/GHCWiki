@@ -39,14 +39,21 @@ Types
 
 # Spark Pool and par
 
+
 # Weak References
+
 
 # Stable Pointers
 
+
 # CAF
 
+
+>
 >
 > CAF stands for Constant Applicative Form. 
+>
+>
 
 # Black Holes
 

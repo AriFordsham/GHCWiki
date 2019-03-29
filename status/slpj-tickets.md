@@ -100,14 +100,19 @@ Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
   - [\#7411](https://gitlab.haskell.org//ghc/ghc/issues/7411): state hack changes exception semantics
   - [\#2284](https://gitlab.haskell.org//ghc/ghc/issues/2284), [\#1168](https://gitlab.haskell.org//ghc/ghc/issues/1168), [\#7561](https://gitlab.haskell.org//ghc/ghc/issues/7561), [\#9349](https://gitlab.haskell.org//ghc/ghc/issues/9349): the state-hack "optimisation" causes much re-computation
 
+
+  
+
+
 ## INLINE problems / ticks exhausted
+
 
 - [\#13027](https://gitlab.haskell.org//ghc/ghc/issues/13027): let/app invariant
 - [\#12603](https://gitlab.haskell.org//ghc/ghc/issues/12603)
 - [\#12747](https://gitlab.haskell.org//ghc/ghc/issues/12747)
 - [\#12790](https://gitlab.haskell.org//ghc/ghc/issues/12790): too much inlining 
 
-- [\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613), [\#9070](https://gitlab.haskell.org//ghc/ghc/issues/9070), [\#8319](https://gitlab.haskell.org//ghc/ghc/issues/8319), [\#7521](https://gitlab.haskell.org//ghc/ghc/issues/7521), [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459), [\#10584](https://gitlab.haskell.org//ghc/ghc/issues/10584), [\#10565](https://gitlab.haskell.org//ghc/ghc/issues/10565), [\#12274](https://gitlab.haskell.org//ghc/ghc/issues/12274): simplifier ticks exhausted (there are others). 
+-  [\#8613](https://gitlab.haskell.org//ghc/ghc/issues/8613), [\#9070](https://gitlab.haskell.org//ghc/ghc/issues/9070), [\#8319](https://gitlab.haskell.org//ghc/ghc/issues/8319), [\#7521](https://gitlab.haskell.org//ghc/ghc/issues/7521), [\#10459](https://gitlab.haskell.org//ghc/ghc/issues/10459), [\#10584](https://gitlab.haskell.org//ghc/ghc/issues/10584), [\#10565](https://gitlab.haskell.org//ghc/ghc/issues/10565), [\#12274](https://gitlab.haskell.org//ghc/ghc/issues/12274): simplifier ticks exhausted (there are others). 
 
 ## Urgent or in-flight
 
@@ -352,9 +357,15 @@ See [Edward's collection of code-generation stupidities](commentary/compiler/new
 - [\#9394](https://gitlab.haskell.org//ghc/ghc/issues/9394): Display type/data family instance information in `:info`
 - [\#4017](https://gitlab.haskell.org//ghc/ghc/issues/4017): unhelpful GHCi message
 
+
+ 
+
+
 ---
 
+
 ## Outright bugs
+
 
 - [\#1241](https://gitlab.haskell.org//ghc/ghc/issues/1241): Lifting the Coverage Condition for functional dependencies isn’t the Right Thing        Manuel
 

@@ -282,13 +282,21 @@ eta-expand.
 Desugaring of type classes to dictionary code brings up new case statements to evaluate the dictionaries. As an example, the expression
 
 
+
 {{{boolfun x y = let {-\# NOINLINE z \#-}
 
->
-> z = show y in 
 
 >
+>
+> z = show y in 
+>
+>
+
+>
+>
 > if x then "2"++z else "3"++z
+>
+>
 
 
 }}}

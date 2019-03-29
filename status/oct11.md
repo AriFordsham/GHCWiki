@@ -36,7 +36,10 @@ Significant changes planned for the 7.4 branch are:
     GHC will now infer the polymorphic kind signature above, rather that "defaulting" to `T :: (*->*) -> * -> *` as Haskell98 does.
 
 >
+>
 > These new kind-system developents are described in "Giving Haskell a promotion" [ http://research.microsoft.com/\~simonpj/papers/ext-f/ KindPolymorphism](http://research.microsoft.com/~simonpj/papers/ext-f/ KindPolymorphism).  Julien Cretin and Pedro Magalhães have done all the implementation.
+>
+>
 
 - **Constraint kinds.** Max Bolingbroke has implemented another extension to GHC's kind system, by adding the kind `Constraint` that classifies type constraints.  This turns out to be a rather neat way to implement all the joy of Tom Schrijvers and Dominic Orchard's paper "Haskell type constraints unleashed" [ http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html Unleashed](http://tomschrijvers.blogspot.com/2009/11/haskell-type-constraints-unleashed.html Unleashed).  For example, you can now say
 
@@ -78,16 +81,22 @@ Significant changes planned for the 7.4 branch are:
 - **Monad comprehensions.**  After a long absence, monad comprehensions are back, thanks to George Giorgidze and his colleagues.  With `{-# LANGUAGE MonadComprehensions #-}` the comprehension `[ f x | x <- xs, x>4 ]` is interpreted in an arbitrary monad, rather than being restricted to lists.  Not only that, it also generalises nicely for parallel/zip and SQL-like comprehensions. The aforementioned generalisations can be turned on by enabling the `MonadComprehensions` extension in conjunction with the `ParallelListComp` and `TransformListComp` extensions.
 
 >
+>
 > Rebindable syntax is fully supported for standard monad comprehensions with generators and filters. We also plan to allow rebinding of the parallel/zip and SQL-like monad comprehension notations.
+>
+>
 
 >
+>
 > For further details and usage examples, see the paper "Bringing back monad comprehensions" [ http://db.inf.uni-tuebingen.de/files/giorgidze/haskell2011.pdf MonadComp](http://db.inf.uni-tuebingen.de/files/giorgidze/haskell2011.pdf MonadComp) at the 2011 Haskell Symposium.
+>
+>
 
 - **Improvements to the implementation of type constraints.**  Over the last six months, Dimitrios and Simon PJ (with Stephanie Weirich and Brent Yorgey) have figured out several improvements to the GHC's type constraint solver and its strongly-typed Core language.  The changes to the constraint solver eliminate hundreds of lines of code, and make it more efficient as well.  The changes to the Core language make it treat equality constraints uniformly with other type constraints; this makes the internals vastly more uniform.  These changes are mostly invisible to programmers, but the changes to Core allow us to support equality superclasses for the first time.  Details in our paper "Practical aspects of evidence-based compilation in System FC" [ http://research.microsoft.com/\~simonpj/papers/ext-f/ NewFC](http://research.microsoft.com/~simonpj/papers/ext-f/ NewFC)
 
 - **Profiling and hpc overhaul.** GHC currently has three different ways of tracking which pieces of code are executed: const-centre profiling, HPC coverage, and GHCi debugger breakpoints.  Each is implemented in a different, and somewhat *ad hoc* way.  Simon Marlow has overhauled the whole system, unifiying the three mechanisms into one.  On the way he has improved the semantics of cost centre stacks, which should lead to more useful time and space profiles.  The `+RTS -xc` runtime flag, which displays a stack backtrace when an exception is thrown, has been greatly improved and should now produce useful information in most cases (it is still only available when the program is compiled for profiling, however).
 
-- **Changes to the way Safe Haskell works**[ http://www.scs.stanford.edu/\~davidt/safehaskell.html SafeHaskell](http://www.scs.stanford.edu/~davidt/safehaskell.html SafeHaskell). David Terei has improved the design of Safe Haskell since the 7.2.1 release. In particular, it will no longer cause build failures for users who do not explicitly enable it. The checking that a package is trusted will only be done now if the `-fpackage-trust` flag is present. This allows package authors to use the `Trustworthy` pragma as they please and not worry that a users local package configuration will cause build failures. Users who are explicitly using Safe Haskell to construct secure systems should make use of the `-fpackage-trust` flag to maintain the security of the old design. Also since the 7.2.1 release, the safe status of a module will now be automatically inferred by Safe Haskell. These two changes make Safe Haskell easier to use and push it behind the scenes where it mostly belongs.
+- **Changes to the way Safe Haskell works** [ http://www.scs.stanford.edu/\~davidt/safehaskell.html SafeHaskell](http://www.scs.stanford.edu/~davidt/safehaskell.html SafeHaskell). David Terei has improved the design of Safe Haskell since the 7.2.1 release. In particular, it will no longer cause build failures for users who do not explicitly enable it. The checking that a package is trusted will only be done now if the `-fpackage-trust` flag is present. This allows package authors to use the `Trustworthy` pragma as they please and not worry that a users local package configuration will cause build failures. Users who are explicitly using Safe Haskell to construct secure systems should make use of the `-fpackage-trust` flag to maintain the security of the old design. Also since the 7.2.1 release, the safe status of a module will now be automatically inferred by Safe Haskell. These two changes make Safe Haskell easier to use and push it behind the scenes where it mostly belongs.
 
 ## Joining in
 
@@ -124,10 +133,16 @@ Work continues on improving GHC in various directions. Active projects we know a
 - **Data Parallel Haskell**. GHC 7.2 includes rudimentary support for Data Parallel Haskell — just enough for a little experimentation and to run simple benchmarks. We are working on significantly improving this for GHC 7.4. In particular, we aim to support the use of basic types and classes from the standard Prelude (replacing the minimalistic mock Prelude that DPH programs had to use so far), and we are working on drastically improved space and time complexity for shared data structures in nested parallel programs, such as the Barnes-Hut n-body algorithm.
 
 >
+>
 > Binary distributions of GHC 7.x require the installation of separate Data Parallel Haskell libraries from Hackage — follow the instructions in the wiki documentation [ http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell DPH](http://haskell.org/haskellwiki/GHC/Data_Parallel_Haskell DPH).
+>
+>
 
 >
+>
 > Moreover, we are working at the third revision of the regular parallel array library [ http://hackage.haskell.org/package/repa Repa](http://hackage.haskell.org/package/repa Repa). It uses indexed types to distinguish multiple array representations, which helps to guide users to write high-performance code.  To see it in action, check out Ben Lippmeier's recent demo [ http://youtu.be/v_0Yyl19fiI Quasicrystals](http://youtu.be/v_0Yyl19fiI Quasicrystals).
+>
+>
 
 - **Contracts**.  Work on adding contracts to Haskell, along the lines of Dana Xu's these, but using a first order logic theorem prover to check contract satisfaction (with Koen Claessen, Dimitrios Vytiniotis, Charles-Pierre Astolfi, and Nathan Collins).
 
@@ -150,6 +165,10 @@ Work continues on improving GHC in various directions. Active projects we know a
 
 - \[KindPolymorphism\] *Giving Hasell a promotion*, Brent Yorgey, Stephanie Weirich, Julien Cretin, Dimitrios Vytiniotis, and Simon Peyton Jones, submitted to TLDI'12, [ http://research.microsoft.com/\~simonpj/papers/ext-f/](http://research.microsoft.com/~simonpj/papers/ext-f/)
 
+
+ 
+
+
 - \[Liquid\] *Liquid types home page*, Ranjit Jhala, [ http://goto.ucsd.edu/\~rjhala/liquid](http://goto.ucsd.edu/~rjhala/liquid)
 
 - \[MonadComp\] *Bringing back monad comprehensions*, George Giorgidze, Torsten Grust, Nils Schweinsberg, and Jeroen Weijers, Haskell Symposium 2011, [ http://db.inf.uni-tuebingen.de/files/giorgidze/haskell2011.pdf](http://db.inf.uni-tuebingen.de/files/giorgidze/haskell2011.pdf)
@@ -160,7 +179,7 @@ Work continues on improving GHC in various directions. Active projects we know a
 
 - \[ParallelGhcProject\] *The Parallel GHC Project home page*, [ http://www.haskell.org/haskellwiki/Parallel_GHC_Project](http://www.haskell.org/haskellwiki/Parallel_GHC_Project)
 
-- \[Quasicrystals\] Quasicrystals Demo, Ben Lippmeier, [ http://youtu.be/v_0Yyl19fiI](http://youtu.be/v_0Yyl19fiI)
+- \[Quasicrystals\] Quasicrystals Demo, Ben Lippmeier, [ http://youtu.be/v_0Yyl19fiI](http://youtu.be/v_0Yyl19fiI) 
 
 - \[Repa\] Repa: Regular, shape-polymorphic parallel arrays in Haskell, [ http://hackage.haskell.org/package/repa](http://hackage.haskell.org/package/repa)
 

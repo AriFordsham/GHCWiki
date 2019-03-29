@@ -34,7 +34,9 @@ Two things occurred after I slept on it. Both relate to Example 6 from the 20181
 My core hypothesis is that levels can help us determine if a wanted equality `w` can be floated out from under a set `gs` of given constraints without thereby losing access to some possible solutions of `w` (those involving at least one `g` in `gs`). Currently, GHC is quite conservative and does not float `w` if it's possible that one of the givens might be an equality. With more effort, it should be possible to determine that particular givens are not relevant to a particular wanted equality, and that's what I'm exploring. I'm specifically focused on skolems with a greater `TcLevel`, which arise from `RankNTypes`.
 
 
-Notation: single character tyvars are skolems (i.e. bound by some `forall`), greek tyvars are metavars (i.e. unification variables or "taus"), `fsk0``fsk1` and so on are flattening skolems. I haven't even begun considerings flattening meta vars, but they would be `fmv0``fmv1` and so on. I write the `TcLevel` of a metavar as a suffix in brackets on at least one of its occurrences, e.g. `alpha[2]`. I'll only do that for skolems if I'm not showing their binding `forall`, which is where I prefer to put the level. (This all seems pretty standard for discussions on Trac at least.)
+
+Notation: single character tyvars are skolems (i.e. bound by some `forall`), greek tyvars are metavars (i.e. unification variables or "taus"), `fsk0` `fsk1` and so on are flattening skolems. I haven't even begun considerings flattening meta vars, but they would be `fmv0` `fmv1` and so on. I write the `TcLevel` of a metavar as a suffix in brackets on at least one of its occurrences, e.g. `alpha[2]`. I'll only do that for skolems if I'm not showing their binding `forall`, which is where I prefer to put the level. (This all seems pretty standard for discussions on Trac at least.)
+
 
 ### Example 1 - the motivator
 
@@ -50,8 +52,12 @@ forall[3] (g : x ~ Int) =>
 
 GHC 8.6 conservatively concludes "Yes", just because `g` is an equality. But `g` is indeed not relevant to `w`: allowing the use of `g` does not increase the set of possible solutions of `w`. The intuitive explanation is that `x` does not occur in `w`'s type and cannot be introduced into it when we learn new things. As an example of "learning a new thing", consider if some other constraint somewhere else in the scope of `alpha` causes the solver to assign `alpha := a[1]`. Because of that assignment, GHC would replace `alpha` by `a[1]` thereby introducing `a` as a new free variable of `w`'s type. The fundamental insight is that `x` cannot be introduced that way, because `x` is level 2 while `alpha` is level 1, so it'd be a skolem-escape bug if `alpha` were assigned to something with `x` free.
 
+
+>
 >
 > Remark. The "elsewhere" constraints that assigned `alpha := a[1]` in that example aren't typically shown or even mentioned: we just assume that any metavar can be replaced at any time by any type whose free variables exclude the metavar and do not have a level greater than that of the metavar.
+>
+>
 
 
 Thus, we could actually soundly float `w` all the way to level 1, and once it's there, GHC could solve `w` by unification, assigning `alpha := Int` and then discharging `w` by reflexivity. (GHC can't do that here at level 3, because a metavar is "untouchable" at any level but its own, and `alpha` is level 1. See `jfp-outsidein.pdf` for the motivation of that rule, which is the whole reason we need to be able to float some equalities in the first place!)
@@ -196,10 +202,15 @@ TODO I'm currently under the impression that fmvs cannot occur in a given CTyEqC
 If it weren't for the mutability issue, we could address the `EQSAME` issue by withholding our judgement until all the givens are inert. Unlike `EQDIFF`, GHC implements `EQSAME` as written, by creating a new constraint. We'll wait until the givens are inert so we can simply judge any induced equalities instead of trying to anticipate the `EQSAME` interactions and their possible cascades.
 
 
+
 However, an inert set of CTyEqCans might not be inert after one of their LHSs changes, so the mutability issue subverts our planned reliance on inertness.
 
+
+>
 >
 > 💫 😵 💫
+>
+>
 
 
 I'm getting dizzy. Let's zoom back out. Our basic rule is: float `w` past `g` if `M < L` and do not otherwise. So if we float, and then the LHS of `g` somehow becomes a tyvar with a level \>= L, we might have thus lost a possible solution to `w`.
@@ -221,10 +232,14 @@ Thus, the RHS should prevent floating only if it is a flattening skolem whose de
 ### Rule for Consideration
 
 
+
 After working through the above examples, I'm considering the following rule. The basic shape is informed by Example 5.
 
+
+>
 >
 > Rule 20181104. Float a (canonical) wanted `w : alpha[L] ~ <t>` from level K \> L to level L if all the constraints given by the levels from L+1 to K (inclusive) are inert and each satifies P\[L\], where
+>
 >
 > ```wiki
 > nonflat_fvs t = the free variables of the type t, recurring on fsks instead of including them
@@ -242,6 +257,9 @@ After working through the above examples, I'm considering the following rule. Th
 >
 >
 > and `nonflat_fvs(<t>)` doesn't have any skolems with level \> L.
+>
+>
+
 
 TODO Any other restrictions on `<t>`?
 
@@ -543,8 +561,12 @@ forall[3] y. () =>
 
 The naive intuition is
 
+
+>
 >
 > We can float `w1` out from under `g` if `y` doesn't occur (free) in `<W1>`.
+>
+>
 
 
 In fact, according to the jfp-outsidein.pdf "Simplification Rules", `g` will eventually simplify `w1` into some `w2 : <W2>` such that `y` does not occur in `<W2>`.
@@ -645,23 +667,36 @@ forall[3] y. () =>
 
 from
 
+
+>
 >
 > We can float `w1` out from under `g` if `y` does not occur in `<W1>`.
+>
+>
 
 
 to
 
+
+>
 >
 > We can float `w1` out from under `g` if `y` does not **and can never again** occur in `<W1>`.
+>
+>
 
 
 How do we decide that much stronger predicate? There are a few options (e.g. there is no sibling `u` wanted), but I currently favor checking that no uvar in `<W1>` has a level `>= 3` (this check should inspect the RHS of any flattening vars that occur in `<W1>`). That prohibits the problematic reintroduction of `y` via uvar assignment after floating.
 
 
+
 Thus:
 
+
 >
-> We can float `w1` out from under `g` if `y` does not occur in `<W1>`**and all unification variables in `<W1>` have level `< 3`**.
+>
+> We can float `w1` out from under `g` if `y` does not occur in `<W1>` **and all unification variables in `<W1>` have level `< 3`**.
+>
+>
 
 
 After I thought about this for a bit, I realized there might be another way for `y` to be reintroduced into `<W1>` in the more general case where that outer implication has givens.
@@ -689,14 +724,22 @@ forall[3] y. (o : <O>) =>
 
 by refining from
 
+
+>
 >
 > We can float `w1` out from under `g` if `y` does not occur in `<W1>` and all unification variables in `<W1>` have level `< 3`.
+>
+>
 
 
 to
 
+
+>
 >
 > We can float `w1` out from under `g` if **all givens are inert** and `y` does not occur in `<W1>` and all unification variables in `<W1>` have level `< 3`.
+>
+>
 
 
 If I understand the jfp-outsidein.pdf "Interaction Rules", `o : x[sk:2] ~ Maybe y` and `g` ought to interact to yield something like
@@ -783,7 +826,8 @@ and even explicitly says
 ```
 
 
-Note that `co_a1bZ` and `co_a1c0` never "interacted" as `EQDIFF` suggests they should. However, they both rewrote the wanted. (In fact, it's unflattening that seems to do this, even though there are no type families involved! See [ the definition of](https://github.com/ghc/ghc/blob/8bed140099f8ab78e3e728fd2e50dd73d7210e84/compiler/typecheck/TcFlatten.hs#L1846)`flatten_tyvar2`.)
+Note that `co_a1bZ` and `co_a1c0` never "interacted" as `EQDIFF` suggests they should. However, they both rewrote the wanted. (In fact, it's unflattening that seems to do this, even though there are no type families involved! See [ the definition of](https://github.com/ghc/ghc/blob/8bed140099f8ab78e3e728fd2e50dd73d7210e84/compiler/typecheck/TcFlatten.hs#L1846) `flatten_tyvar2`.)
+
 
 ### Comparison to status quo
 
@@ -814,22 +858,35 @@ forall[3] y. ( (o1 : z[sk:2] ~ T x[sk:2] ) , (o2 : alpha[tau:2] ~ T (Maybe y)) )
 Note that the equalities `o1` and `o2` contain `x` and `y` respectively, but do not have any shared variables. However, solving another part of the implication tree might assign `alpha := z`, in which case `o1` and `o2` will interact, yielding a constraint that then canonicalizes to the familiar `o : x ~ Maybe y`. This is actually the same lesson as in the first failure mode "`alpha[tau:i]` can become any variable at level `<= i`", but in the givens this time and one step removed from affecting our float.
 
 
+
 Our second refinement makes
 
+
+>
 >
 > We can float `w1` out from under `g` if `y` does not and can never again occur in `<W1>`.
+>
+>
 
 
 more formal as
 
+
+>
 >
 > We can float `w1` out from under `g` if the transitive closure of the "can step to" relation does not relate any free variable of `<W1>` to `y`.
+>
+>
 
 
 which we can shorten to
 
+
+>
 >
 > We can float `w1` out from under `g` if no free variable of `<W1>` "can become" `y`.
+>
+>
 
 
 by defining the following (over-estimating) properties.
@@ -867,7 +924,10 @@ forall[3] y. theta =>
 ```
 
 >
+>
 > We can float `w1` out from under `g` if no free variable of `<W1>` "can become" `y`.
+>
+>
 
 - CB1 "can become" includes the transitive closure of "can step to"
 - CS1 `x` (any flavor and level) can step to itself

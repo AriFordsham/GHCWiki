@@ -75,4 +75,11 @@ In short, the compiler can be untouched EXCEPT for any jiggery pokery to do with
 ## The runtime system
 
 
+
 You'd need to build two versions of the runtime system too, one omitting all the GMP goop.
+
+
+
+ 
+
+

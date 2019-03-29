@@ -39,6 +39,10 @@ We expect to release a working version of Data Parallel Haskell as part of GHC 6
 
 - Thomas Schilling is doing a Google Summer of Code project to improve the **GHC API**.
 
+
+ 
+
+
 - Max Bolingbroke is doing a Google Summer of Code project to make it easy to build a **plug-in** for GHC; for example, a new optimisation or analysis pass.
 
 ## Release plans

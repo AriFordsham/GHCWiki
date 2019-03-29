@@ -121,10 +121,13 @@ Don't forget to "ssh ec2 sudo halt" when you've finished.
 ## AMIs
 
 
+
 We've prepared the following AMIs for GHC development:
 
-<table><tr><th>**Region**</th>
-<th>**AMI**</th>
+
+<table><tr><th><b>Region</b></th>
+<th><b>AMI</b>
+</th>
 <th></th></tr>
 <tr><th>us-east</th>
 <th>ami-916c81f8</th>

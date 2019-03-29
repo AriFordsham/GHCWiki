@@ -17,7 +17,14 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
   - The **[Typechecker](commentary/compiler/type-checker)** transforms this further, to `HsSyn` parameterised by **[Id](commentary/compiler/entity-types)**.  To a first approximation, an `Id` is a `Name` plus a type. In addition, the type-checker converts class declarations to `Class`es, and type declarations to `TyCon`s and `DataCon`s.  And of course, the type-checker deals in `Type`s and `TyVar`s. The [data types for these entities](commentary/compiler/entity-types) (`Type`, `TyCon`, `Class`, `Id`, `TyVar`) are pervasive throughout the rest of the compiler. (`-ddump-tc`)
 
 >
+>
 > These three passes can all discover programmer errors, which are sorted and reported to the user.
+>
+>
+
+
+ 
+
 
 - The **Desugarer** ([compiler/deSugar/Desugar.hs](/trac/ghc/browser/ghc/compiler/deSugar/Desugar.hs)) converts from the massive `HsSyn` type to [GHC's intermediate language, CoreSyn](commentary/compiler/core-syn-type).  This Core-language data type is unusually tiny: just eight constructors.) (`-ddump-ds`)
 
@@ -39,26 +46,41 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 
 - Then the **CoreTidy pass** gets the code into a form in which it can be imported into subsequent modules (when using `--make`) and/or put into an interface file.  
 
->
-> It makes a difference whether or not you are using `-O` at this stage.  With `-O` (or rather, with `-fomit-interface-pragmas` which is a consequence of `-O`), the tidied program (produced by `tidyProgram`) has unfoldings for Ids, and RULES.  Without `-O` the unfoldings and RULES are omitted from the tidied program.  And that, in turn, affects the interface file generated subsequently.
+
+ 
+
 
 >
+>
+> It makes a difference whether or not you are using `-O` at this stage.  With `-O` (or rather, with `-fomit-interface-pragmas` which is a consequence of `-O`), the tidied program (produced by `tidyProgram`) has unfoldings for Ids, and RULES.  Without `-O` the unfoldings and RULES are omitted from the tidied program.  And that, in turn, affects the interface file generated subsequently.
+>
+>
+
+>
+>
 > There are good notes at the top of the file [compiler/main/TidyPgm.hs](/trac/ghc/browser/ghc/compiler/main/TidyPgm.hs); the main function is `tidyProgram`, documented as "Plan B" ("Plan A" is a simplified tidy pass that is run when we have only typechecked, but haven't run the desugarer or simplifier).
+>
+>
 
 - At this point, the data flow forks.  First, the tidied program is dumped into an interface file.  This part happens in two stages:
 
   - It is **converted to `IfaceSyn`** (defined in [compiler/iface/IfaceSyn.hs](/trac/ghc/browser/ghc/compiler/iface/IfaceSyn.hs) and [compiler/iface/IfaceType.hs](/trac/ghc/browser/ghc/compiler/iface/IfaceType.hs)).
   - The `IfaceSyn` is **serialised into a binary output file** ([compiler/iface/BinIface.hs](/trac/ghc/browser/ghc/compiler/iface/BinIface.hs)).
 
+>
+> >
 > >
 > > The serialisation does (pretty much) nothing except serialise.  All the intelligence is in the `Core`-to-`IfaceSyn` conversion; or, rather, in the reverse of that step.
+> >
+> >
+>
 
 - The same, tidied Core program is now fed to the Back End.  First there is a two-stage conversion from `CoreSyn` to [GHC's intermediate language, StgSyn](commentary/compiler/stg-syn-type).
 
   - The first step is called **CorePrep**, a Core-to-Core pass that puts the program into A-normal form (ANF).  In ANF, the argument of every application is a variable or literal; more complicated arguments are let-bound.  Actually `CorePrep` does quite a bit more: there is a detailed list at the top of the file [compiler/coreSyn/CorePrep.hs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.hs).
   - The second step, **CoreToStg**, moves to the `StgSyn` data type ([compiler/stgSyn/CoreToStg.hs](/trac/ghc/browser/ghc/compiler/stgSyn/CoreToStg.hs)).  The output of CorePrep is carefully arranged to exactly match what `StgSyn` allows (notably ANF), so there is very little work to do. However, `StgSyn` is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by `CoreToStg`.
 
-- Next, the **[Code Generator](commentary/compiler/code-gen)** converts the STG program to a `C--` program.  The code generator is a Big Mother, and lives in directory [compiler/codeGen](/trac/ghc/browser/ghc/compiler/codeGen)
+- Next, the **[Code Generator](commentary/compiler/code-gen)** converts the STG program to a `C--` program.  The code generator is a Big Mother, and lives in directory [compiler/codeGen](/trac/ghc/browser/ghc/compiler/codeGen)  
 
 - Now the path forks again:
 
@@ -69,6 +91,11 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 # The Diagram
 
 
+
 This diagram is also located [here](commentary/compiler/hsc-pipe), so that you can open it in a separate window.
 
+
+
 [](/trac/ghc/attachment/wiki/Commentary/Compiler/HscPipe/HscPipe2.png)
+
+

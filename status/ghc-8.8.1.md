@@ -47,38 +47,134 @@ Below are the major highlights of 8.8.
 
 ## Landed in `master` branch
 
+
 ### Library changes
+
 
 ### Build system and miscellaneous changes
 
+
 ## Tickets marked merge with no milestone
 
-<table><tr><th>Ticket (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)</th>
-<th>Type (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)</th>
-<th>Owner (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>
+
+
+
+  
+  
+  
+  
+  
+    
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td></tr>
+<tr><td>
+          </td>
+<th>
             No tickets found
           </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr></table>
+<td>
+        </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr></table>
+
+
+  
+
+
 
 ## Tickets slated for 8.8.1
 
+
 ### merge/patch/upstream
+
+
+
+
+  
+  
+  
+  
+  
+    
 
 ## Status: merge (22 matches)
 
-<table><tr><th>Ticket (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: id)</th>
-<th>Type (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, desc: 1, order: priority)</th>
-<th>Differential Rev(s) (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: differential)</th>
-<th>Owner (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: owner)</th></tr>
-<tr><th>[\#16141](https://gitlab.haskell.org//ghc/ghc/issues/16141)</th>
+
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Differential Rev(s) (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: differential)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: owner)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16141">#16141</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -90,7 +186,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[StrictData and TypeFamilies regression](https://gitlab.haskell.org//ghc/ghc/issues/16141)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16141">StrictData and TypeFamilies regression</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -102,9 +220,56 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/88](https://gitlab.haskell.org/ghc/ghc/merge_requests/88)</th>
-<th></th></tr>
-<tr><th>[\#16188](https://gitlab.haskell.org//ghc/ghc/issues/16188)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/88"> https://gitlab.haskell.org/ghc/ghc/merge_requests/88</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16188">#16188</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -116,7 +281,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[GHC HEAD-only panic (buildKindCoercion)](https://gitlab.haskell.org//ghc/ghc/issues/16188)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16188">GHC HEAD-only panic (buildKindCoercion)</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -128,9 +315,56 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/207](https://gitlab.haskell.org/ghc/ghc/merge_requests/207)</th>
-<th>goldfire</th></tr>
-<tr><th>[\#16204](https://gitlab.haskell.org//ghc/ghc/issues/16204)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/207"> https://gitlab.haskell.org/ghc/ghc/merge_requests/207</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      goldfire
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16204">#16204</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -142,7 +376,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[GHC HEAD-only Core Lint error (Argument value doesn't match argument type)](https://gitlab.haskell.org//ghc/ghc/issues/16204)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16204">GHC HEAD-only Core Lint error (Argument value doesn&apos;t match argument type)</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -154,9 +410,56 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/207](https://gitlab.haskell.org/ghc/ghc/merge_requests/207)</th>
-<th></th></tr>
-<tr><th>[\#16225](https://gitlab.haskell.org//ghc/ghc/issues/16225)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/207"> https://gitlab.haskell.org/ghc/ghc/merge_requests/207</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16225">#16225</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -168,7 +471,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[GHC HEAD-only Core Lint error (Trans coercion mis-match)](https://gitlab.haskell.org//ghc/ghc/issues/16225)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16225">GHC HEAD-only Core Lint error (Trans coercion mis-match)</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -180,9 +505,56 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/207](https://gitlab.haskell.org/ghc/ghc/merge_requests/207)</th>
-<th></th></tr>
-<tr><th>[\#16331](https://gitlab.haskell.org//ghc/ghc/issues/16331)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/207"> https://gitlab.haskell.org/ghc/ghc/merge_requests/207</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16331">#16331</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -194,7 +566,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[REGRESSION: --supported-languages lies about supported languages, again](https://gitlab.haskell.org//ghc/ghc/issues/16331)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16331">REGRESSION: --supported-languages lies about supported languages, again</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -206,9 +600,56 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/383](https://gitlab.haskell.org/ghc/ghc/merge_requests/383)</th>
-<th></th></tr>
-<tr><th>[\#16195](https://gitlab.haskell.org//ghc/ghc/issues/16195)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/383"> https://gitlab.haskell.org/ghc/ghc/merge_requests/383</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16195">#16195</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -220,7 +661,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Program with trivial polymorphism leads to out of scope dictionary](https://gitlab.haskell.org//ghc/ghc/issues/16195)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16195">Program with trivial polymorphism leads to out of scope dictionary</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -232,9 +695,56 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th></th>
-<th></th></tr>
-<tr><th>[\#8657](https://gitlab.haskell.org//ghc/ghc/issues/8657)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8657">#8657</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -246,7 +756,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[-fregs-graph still has a limit on spill slots](https://gitlab.haskell.org//ghc/ghc/issues/8657)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8657">-fregs-graph still has a limit on spill slots</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -258,9 +790,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/219](https://gitlab.haskell.org/ghc/ghc/merge_requests/219)</th>
-<th>archblob</th></tr>
-<tr><th>[\#14729](https://gitlab.haskell.org//ghc/ghc/issues/14729)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/219"> https://gitlab.haskell.org/ghc/ghc/merge_requests/219</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      archblob
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14729">#14729</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -272,7 +851,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[normaliseType is not well-kinded](https://gitlab.haskell.org//ghc/ghc/issues/14729)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14729">normaliseType is not well-kinded</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -284,9 +885,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/208](https://gitlab.haskell.org/ghc/ghc/merge_requests/208)</th>
-<th></th></tr>
-<tr><th>[\#15549](https://gitlab.haskell.org//ghc/ghc/issues/15549)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/208"> https://gitlab.haskell.org/ghc/ghc/merge_requests/208</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15549">#15549</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -298,7 +946,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Core Lint error with EmptyCase](https://gitlab.haskell.org//ghc/ghc/issues/15549)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15549">Core Lint error with EmptyCase</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -310,9 +980,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/208](https://gitlab.haskell.org/ghc/ghc/merge_requests/208)</th>
-<th></th></tr>
-<tr><th>[\#15733](https://gitlab.haskell.org//ghc/ghc/issues/15733)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/208"> https://gitlab.haskell.org/ghc/ghc/merge_requests/208</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15733">#15733</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -324,7 +1041,29 @@ Below are the major highlights of 8.8.
                       
                       task
                     </th>
-<th>[Several links in GHC.Exts.Heap documentation are broken](https://gitlab.haskell.org//ghc/ghc/issues/15733)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15733">Several links in GHC.Exts.Heap documentation are broken</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -336,6 +1075,12 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -347,8 +1092,39 @@ Below are the major highlights of 8.8.
                       
                       
                     </th>
-<th></th></tr>
-<tr><th>[\#15849](https://gitlab.haskell.org//ghc/ghc/issues/15849)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15849">#15849</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -360,7 +1136,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Error message: "Perhaps you need a let in a do block", when there is no do block.](https://gitlab.haskell.org//ghc/ghc/issues/15849)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15849">Error message: &quot;Perhaps you need a let in a do block&quot;, when there is no do block.</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -372,9 +1170,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/330](https://gitlab.haskell.org/ghc/ghc/merge_requests/330)</th>
-<th>nineonine</th></tr>
-<tr><th>[\#15897](https://gitlab.haskell.org//ghc/ghc/issues/15897)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/330"> https://gitlab.haskell.org/ghc/ghc/merge_requests/330</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      nineonine
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15897">#15897</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -386,7 +1231,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Negative MUT time in +RTS -s -RTS when heap profiling is enabled](https://gitlab.haskell.org//ghc/ghc/issues/15897)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15897">Negative MUT time in +RTS -s -RTS when heap profiling is enabled</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -398,9 +1265,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th></th>
-<th></th></tr>
-<tr><th>[\#16183](https://gitlab.haskell.org//ghc/ghc/issues/16183)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16183">#16183</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -412,7 +1326,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[GHC HEAD regression: -ddump-splices incorrectly parenthesizes HsKindSig applications](https://gitlab.haskell.org//ghc/ghc/issues/16183)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16183">GHC HEAD regression: -ddump-splices incorrectly parenthesizes HsKindSig applications</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -424,9 +1360,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/121](https://gitlab.haskell.org/ghc/ghc/merge_requests/121)</th>
-<th></th></tr>
-<tr><th>[\#16230](https://gitlab.haskell.org//ghc/ghc/issues/16230)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/121"> https://gitlab.haskell.org/ghc/ghc/merge_requests/121</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16230">#16230</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -438,7 +1421,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[API Annotations: more explicit foralls fixup](https://gitlab.haskell.org//ghc/ghc/issues/16230)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16230">API Annotations: more explicit foralls fixup</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -450,9 +1455,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/284](https://gitlab.haskell.org/ghc/ghc/merge_requests/284)</th>
-<th>alanz</th></tr>
-<tr><th>[\#16236](https://gitlab.haskell.org//ghc/ghc/issues/16236)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/284"> https://gitlab.haskell.org/ghc/ghc/merge_requests/284</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      alanz
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16236">#16236</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -464,7 +1516,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[API Annotations: AnnAt disconnected for TYPEAPP](https://gitlab.haskell.org//ghc/ghc/issues/16236)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16236">API Annotations: AnnAt disconnected for TYPEAPP</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -476,9 +1550,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/284](https://gitlab.haskell.org/ghc/ghc/merge_requests/284)</th>
-<th>alanz</th></tr>
-<tr><th>[\#16255](https://gitlab.haskell.org//ghc/ghc/issues/16255)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/284"> https://gitlab.haskell.org/ghc/ghc/merge_requests/284</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      alanz
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16255">#16255</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -490,7 +1611,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Visible kind application defeats type family with higher-rank result kind](https://gitlab.haskell.org//ghc/ghc/issues/16255)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16255">Visible kind application defeats type family with higher-rank result kind</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -502,9 +1645,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/260](https://gitlab.haskell.org/ghc/ghc/merge_requests/260)</th>
-<th></th></tr>
-<tr><th>[\#16265](https://gitlab.haskell.org//ghc/ghc/issues/16265)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/260"> https://gitlab.haskell.org/ghc/ghc/merge_requests/260</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16265">#16265</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -516,7 +1706,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[API Annotations: parens anns discarded for \`(\*)\` operator](https://gitlab.haskell.org//ghc/ghc/issues/16265)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16265">API Annotations: parens anns discarded for `(*)` operator</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -528,9 +1740,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th></th>
-<th>alanz</th></tr>
-<tr><th>[\#16279](https://gitlab.haskell.org//ghc/ghc/issues/16279)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      alanz
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16279">#16279</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -542,7 +1801,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Lexer: Alternate Layout Rule injects actual not virtual braces](https://gitlab.haskell.org//ghc/ghc/issues/16279)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16279">Lexer: Alternate Layout Rule injects actual not virtual braces</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -554,9 +1835,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/284](https://gitlab.haskell.org/ghc/ghc/merge_requests/284)</th>
-<th>alanz</th></tr>
-<tr><th>[\#16287](https://gitlab.haskell.org//ghc/ghc/issues/16287)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/284"> https://gitlab.haskell.org/ghc/ghc/merge_requests/284</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      alanz
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16287">#16287</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -568,7 +1896,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[:kind accepts bogus type](https://gitlab.haskell.org//ghc/ghc/issues/16287)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16287">:kind accepts bogus type</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -580,9 +1930,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/293](https://gitlab.haskell.org/ghc/ghc/merge_requests/293)</th>
-<th></th></tr>
-<tr><th>[\#16303](https://gitlab.haskell.org//ghc/ghc/issues/16303)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/293"> https://gitlab.haskell.org/ghc/ghc/merge_requests/293</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16303">#16303</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -594,7 +1991,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[checkStack sanity check fails](https://gitlab.haskell.org//ghc/ghc/issues/16303)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16303">checkStack sanity check fails</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -606,9 +2025,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th></th>
-<th></th></tr>
-<tr><th>[\#16311](https://gitlab.haskell.org//ghc/ghc/issues/16311)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16311">#16311</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -620,7 +2086,29 @@ Below are the major highlights of 8.8.
                       
                       task
                     </th>
-<th>[Suggest -XExistentialQuantification for 'forall' in data declarations](https://gitlab.haskell.org//ghc/ghc/issues/16311)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16311">Suggest -XExistentialQuantification for &apos;forall&apos; in data declarations</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -632,9 +2120,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/363](https://gitlab.haskell.org/ghc/ghc/merge_requests/363)</th>
-<th></th></tr>
-<tr><th>[\#16339](https://gitlab.haskell.org//ghc/ghc/issues/16339)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/363"> https://gitlab.haskell.org/ghc/ghc/merge_requests/363</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16339">#16339</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -646,7 +2181,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Cannot put (.) or (!) type operators into an export list](https://gitlab.haskell.org//ghc/ghc/issues/16339)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16339">Cannot put (.) or (!) type operators into an export list</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -658,23 +2215,112 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/403](https://gitlab.haskell.org/ghc/ghc/merge_requests/403)</th>
-<th></th></tr>
-<tr><th>## Status: patch (7 matches)
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/403"> https://gitlab.haskell.org/ghc/ghc/merge_requests/403</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+          </td>
+<th>
+            
+    
 
-</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Ticket (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: id)</th>
-<th>Type (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, desc: 1, order: priority)</th>
-<th>Differential Rev(s) (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: differential)</th>
-<th>Owner (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: owner)</th></tr>
-<tr><th>[\#16022](https://gitlab.haskell.org//ghc/ghc/issues/16022)</th>
+## Status: patch (7 matches)
+
+
+  
+          </th>
+<td>
+        </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Differential Rev(s) (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: differential)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: owner)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16022">#16022</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -686,7 +2332,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Hadrian appears to link against libffi unconditionally](https://gitlab.haskell.org//ghc/ghc/issues/16022)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16022">Hadrian appears to link against libffi unconditionally</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -698,9 +2366,56 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>[ Phab:D5427](https://phabricator.haskell.org/D5427)</th>
-<th></th></tr>
-<tr><th>[\#16201](https://gitlab.haskell.org//ghc/ghc/issues/16201)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://phabricator.haskell.org/D5427"> Phab:D5427</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16201">#16201</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -712,7 +2427,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[ghci063 failing on Darwin](https://gitlab.haskell.org//ghc/ghc/issues/16201)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16201">ghci063 failing on Darwin</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -724,9 +2461,56 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/440](https://gitlab.haskell.org/ghc/ghc/merge_requests/440)</th>
-<th></th></tr>
-<tr><th>[\#16378](https://gitlab.haskell.org//ghc/ghc/issues/16378)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/440"> https://gitlab.haskell.org/ghc/ghc/merge_requests/440</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16378">#16378</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -738,7 +2522,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[bkpcabal01 fails with recent Cabal](https://gitlab.haskell.org//ghc/ghc/issues/16378)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16378">bkpcabal01 fails with recent Cabal</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -750,9 +2556,56 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>[ https://gitlab.haskell.org/ghc/ghc/merge_requests/512](https://gitlab.haskell.org/ghc/ghc/merge_requests/512)</th>
-<th></th></tr>
-<tr><th>[\#11126](https://gitlab.haskell.org//ghc/ghc/issues/11126)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://gitlab.haskell.org/ghc/ghc/merge_requests/512"> https://gitlab.haskell.org/ghc/ghc/merge_requests/512</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11126">#11126</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -764,7 +2617,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Entered absent arg in a Repa program](https://gitlab.haskell.org//ghc/ghc/issues/11126)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11126">Entered absent arg in a Repa program</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -776,9 +2651,56 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th>[ Phab:D3221](https://phabricator.haskell.org/D3221)</th>
-<th>bgamari</th></tr>
-<tr><th>[\#10069](https://gitlab.haskell.org//ghc/ghc/issues/10069)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://phabricator.haskell.org/D3221"> Phab:D3221</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10069">#10069</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -790,7 +2712,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[CPR related performance issue](https://gitlab.haskell.org//ghc/ghc/issues/10069)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10069">CPR related performance issue</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -802,6 +2746,12 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -813,8 +2763,39 @@ Below are the major highlights of 8.8.
                       
                       
                     </th>
-<th></th></tr>
-<tr><th>[\#15656](https://gitlab.haskell.org//ghc/ghc/issues/15656)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15656">#15656</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -826,7 +2807,29 @@ Below are the major highlights of 8.8.
                       
                       task
                     </th>
-<th>[Extend -Wall with incomplete-uni-patterns and incomplete-record-updates](https://gitlab.haskell.org//ghc/ghc/issues/15656)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15656">Extend -Wall with incomplete-uni-patterns and incomplete-record-updates</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -838,9 +2841,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ Phab:D5415](https://phabricator.haskell.org/D5415)</th>
-<th>ckoparkar</th></tr>
-<tr><th>[\#15896](https://gitlab.haskell.org//ghc/ghc/issues/15896)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://phabricator.haskell.org/D5415"> Phab:D5415</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      ckoparkar
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15896">#15896</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -852,7 +2902,29 @@ Below are the major highlights of 8.8.
                       
                       task
                     </th>
-<th>[GHC API: add function to allow looking up Name for Located RdrName](https://gitlab.haskell.org//ghc/ghc/issues/15896)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15896">GHC API: add function to allow looking up Name for Located RdrName</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -864,23 +2936,112 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ Phab:D5330](https://phabricator.haskell.org/D5330)</th>
-<th>alanz</th></tr>
-<tr><th>## Status: upstream (5 matches)
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://phabricator.haskell.org/D5330"> Phab:D5330</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      alanz
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+          </td>
+<th>
+            
+    
 
-</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr>
-<tr><th>Ticket (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: id)</th>
-<th>Type (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, desc: 1, order: priority)</th>
-<th>Differential Rev(s) (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: differential)</th>
-<th>Owner (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: owner)</th></tr>
-<tr><th>[\#13897](https://gitlab.haskell.org//ghc/ghc/issues/13897)</th>
+## Status: upstream (5 matches)
+
+
+  
+          </th>
+<td>
+        </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Differential Rev(s) (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: differential)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: merge, status: patch, status: upstream, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: differential, col: owner, order: owner)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13897">#13897</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -892,7 +3053,29 @@ Below are the major highlights of 8.8.
                       
                       task
                     </th>
-<th>[Ship check-ppr in bindist and compile during testsuite run](https://gitlab.haskell.org//ghc/ghc/issues/13897)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13897">Ship check-ppr in bindist and compile during testsuite run</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -904,9 +3087,56 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th>[ Phab:D4039](https://phabricator.haskell.org/D4039)</th>
-<th>alanz</th></tr>
-<tr><th>[\#9775](https://gitlab.haskell.org//ghc/ghc/issues/9775)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://phabricator.haskell.org/D4039"> Phab:D4039</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      alanz
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9775">#9775</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -918,7 +3148,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>["Failed to remove" errors during Windows build from hsc2hs](https://gitlab.haskell.org//ghc/ghc/issues/9775)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9775">&quot;Failed to remove&quot; errors during Windows build from hsc2hs</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -930,9 +3182,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th></th>
-<th></th></tr>
-<tr><th>[\#10822](https://gitlab.haskell.org//ghc/ghc/issues/10822)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10822">#10822</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -944,7 +3243,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[GHC inconsistently handles \\\\?\\ for long paths on Windows](https://gitlab.haskell.org//ghc/ghc/issues/10822)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10822">GHC inconsistently handles \\?\ for long paths on Windows</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -956,9 +3277,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ Phab:D4416](https://phabricator.haskell.org/D4416)</th>
-<th></th></tr>
-<tr><th>[\#12965](https://gitlab.haskell.org//ghc/ghc/issues/12965)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://phabricator.haskell.org/D4416"> Phab:D4416</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12965">#12965</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -970,7 +3338,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[String merging broken on Windows](https://gitlab.haskell.org//ghc/ghc/issues/12965)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12965">String merging broken on Windows</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -982,9 +3372,56 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th>[ Phab:D3384](https://phabricator.haskell.org/D3384)</th>
-<th></th></tr>
-<tr><th>[\#15074](https://gitlab.haskell.org//ghc/ghc/issues/15074)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      <a href="https://phabricator.haskell.org/D3384"> Phab:D3384</a>
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15074">#15074</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -996,7 +3433,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Possible uninitialised values in ffi64.c](https://gitlab.haskell.org//ghc/ghc/issues/15074)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15074">Possible uninitialised values in ffi64.c</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1008,19 +3467,108 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th></th>
-<th></th></tr></table>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr></table>
+
+
+  
+
+
 
 ### new
 
+
+
+
+  
+  
+  
+  
+  
+    
+
 ## Status: new (31 matches)
 
-<table><tr><th>Ticket (Ticket query: status: new, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
-<th>Type (Ticket query: status: new, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: new, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: new, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
-<th>Owner (Ticket query: status: new, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>[\#14375](https://gitlab.haskell.org//ghc/ghc/issues/14375)</th>
+
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: new, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: new, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: new, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: new, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: new, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14375">#14375</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1032,7 +3580,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Implement with\# primop](https://gitlab.haskell.org//ghc/ghc/issues/14375)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14375">Implement with# primop</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1044,8 +3614,39 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>bgamari</th></tr>
-<tr><th>[\#15064](https://gitlab.haskell.org//ghc/ghc/issues/15064)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15064">#15064</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1057,7 +3658,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[T8089 mysteriously fails when GHC is built with LLVM](https://gitlab.haskell.org//ghc/ghc/issues/15064)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15064">T8089 mysteriously fails when GHC is built with LLVM</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1069,8 +3692,39 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>osa1</th></tr>
-<tr><th>[\#15779](https://gitlab.haskell.org//ghc/ghc/issues/15779)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      osa1
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15779">#15779</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1082,7 +3736,29 @@ Below are the major highlights of 8.8.
                       
                       task
                     </th>
-<th>[Follow-ups to D5169](https://gitlab.haskell.org//ghc/ghc/issues/15779)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15779">Follow-ups to D5169</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1094,8 +3770,39 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th></th></tr>
-<tr><th>[\#15919](https://gitlab.haskell.org//ghc/ghc/issues/15919)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15919">#15919</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1107,7 +3814,29 @@ Below are the major highlights of 8.8.
                       
                       task
                     </th>
-<th>[Deprecate split objects](https://gitlab.haskell.org//ghc/ghc/issues/15919)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15919">Deprecate split objects</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1119,8 +3848,39 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th></th></tr>
-<tr><th>[\#15948](https://gitlab.haskell.org//ghc/ghc/issues/15948)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15948">#15948</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1132,7 +3892,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Hadrian build fails on Windows when invoked without --configure flag](https://gitlab.haskell.org//ghc/ghc/issues/15948)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15948">Hadrian build fails on Windows when invoked without --configure flag</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1144,8 +3926,39 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th></th></tr>
-<tr><th>[\#16051](https://gitlab.haskell.org//ghc/ghc/issues/16051)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16051">#16051</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1157,7 +3970,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Cross compilation broken under Hadrian](https://gitlab.haskell.org//ghc/ghc/issues/16051)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16051">Cross compilation broken under Hadrian</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1169,8 +4004,39 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th>alpmestan</th></tr>
-<tr><th>[\#16058](https://gitlab.haskell.org//ghc/ghc/issues/16058)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      alpmestan
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16058">#16058</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1182,7 +4048,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[GHC built on macOS Mojave nondeterministically segfaults](https://gitlab.haskell.org//ghc/ghc/issues/16058)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16058">GHC built on macOS Mojave nondeterministically segfaults</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1194,8 +4082,39 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th></th></tr>
-<tr><th>[\#16398](https://gitlab.haskell.org//ghc/ghc/issues/16398)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16398">#16398</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1207,7 +4126,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Missing documentation in Windows bindist tarball](https://gitlab.haskell.org//ghc/ghc/issues/16398)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16398">Missing documentation in Windows bindist tarball</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1219,8 +4160,39 @@ Below are the major highlights of 8.8.
                       
                       highest
                     </th>
-<th></th></tr>
-<tr><th>[\#8095](https://gitlab.haskell.org//ghc/ghc/issues/8095)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8095">#8095</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1232,7 +4204,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[TypeFamilies painfully slow](https://gitlab.haskell.org//ghc/ghc/issues/8095)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8095">TypeFamilies painfully slow</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1244,8 +4238,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th>goldfire</th></tr>
-<tr><th>[\#8949](https://gitlab.haskell.org//ghc/ghc/issues/8949)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      goldfire
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8949">#8949</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1257,7 +4282,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[switch -msse2 to be on by default](https://gitlab.haskell.org//ghc/ghc/issues/8949)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8949">switch -msse2 to be on by default</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1269,8 +4316,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#12758](https://gitlab.haskell.org//ghc/ghc/issues/12758)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12758">#12758</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1282,7 +4360,29 @@ Below are the major highlights of 8.8.
                       
                       task
                     </th>
-<th>[Bring sanity to our performance testsuite](https://gitlab.haskell.org//ghc/ghc/issues/12758)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12758">Bring sanity to our performance testsuite</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1294,8 +4394,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#13253](https://gitlab.haskell.org//ghc/ghc/issues/13253)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13253">#13253</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1307,7 +4438,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Exponential compilation time with RWST & ReaderT stack with \`-02\`](https://gitlab.haskell.org//ghc/ghc/issues/13253)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13253">Exponential compilation time with RWST &amp; ReaderT stack with `-02`</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1319,8 +4472,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th>bgamari, osa1</th></tr>
-<tr><th>[\#13786](https://gitlab.haskell.org//ghc/ghc/issues/13786)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bgamari, osa1
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13786">#13786</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1332,7 +4516,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[GHCi linker is dependent upon object file order](https://gitlab.haskell.org//ghc/ghc/issues/13786)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13786">GHCi linker is dependent upon object file order</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1344,8 +4550,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#14069](https://gitlab.haskell.org//ghc/ghc/issues/14069)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14069">#14069</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1357,7 +4594,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[RTS linker maps code as writable](https://gitlab.haskell.org//ghc/ghc/issues/14069)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14069">RTS linker maps code as writable</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1369,8 +4628,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th>rockbmb</th></tr>
-<tr><th>[\#14974](https://gitlab.haskell.org//ghc/ghc/issues/14974)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      rockbmb
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14974">#14974</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1382,7 +4672,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[2-fold memory usage regression GHC 8.2.2 -\> GHC 8.4.1 compiling \`mmark\` package](https://gitlab.haskell.org//ghc/ghc/issues/14974)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14974">2-fold memory usage regression GHC 8.2.2 -&gt; GHC 8.4.1 compiling `mmark` package</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1394,8 +4706,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th>davide</th></tr>
-<tr><th>[\#15059](https://gitlab.haskell.org//ghc/ghc/issues/15059)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      davide
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15059">#15059</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1407,7 +4750,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[ghcpkg05 fails](https://gitlab.haskell.org//ghc/ghc/issues/15059)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15059">ghcpkg05 fails</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1419,8 +4784,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#15262](https://gitlab.haskell.org//ghc/ghc/issues/15262)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15262">#15262</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1432,7 +4828,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[GHC and iserv cannot agree on what an Integer is; insanity ensues](https://gitlab.haskell.org//ghc/ghc/issues/15262)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15262">GHC and iserv cannot agree on what an Integer is; insanity ensues</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1444,8 +4862,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#15383](https://gitlab.haskell.org//ghc/ghc/issues/15383)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15383">#15383</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1457,7 +4906,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[T3171 doesn't terminate with Interrupted message on Darwin](https://gitlab.haskell.org//ghc/ghc/issues/15383)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15383">T3171 doesn&apos;t terminate with Interrupted message on Darwin</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1469,8 +4940,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#15442](https://gitlab.haskell.org//ghc/ghc/issues/15442)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15442">#15442</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1482,7 +4984,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[GhcStage3HcOpts passed to ghc-stage1](https://gitlab.haskell.org//ghc/ghc/issues/15442)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15442">GhcStage3HcOpts passed to ghc-stage1</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1494,8 +5018,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#15503](https://gitlab.haskell.org//ghc/ghc/issues/15503)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15503">#15503</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1507,7 +5062,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[interpreter: sequence_ (replicate 100000000 (return ()))  gobbles up memory](https://gitlab.haskell.org//ghc/ghc/issues/15503)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15503">interpreter: sequence_ (replicate 100000000 (return ()))  gobbles up memory</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1519,8 +5096,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th>osa1</th></tr>
-<tr><th>[\#15577](https://gitlab.haskell.org//ghc/ghc/issues/15577)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      osa1
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15577">#15577</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1532,7 +5140,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[TypeApplications-related infinite loop (GHC 8.6+ only)](https://gitlab.haskell.org//ghc/ghc/issues/15577)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15577">TypeApplications-related infinite loop (GHC 8.6+ only)</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1544,8 +5174,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#15703](https://gitlab.haskell.org//ghc/ghc/issues/15703)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15703">#15703</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1557,7 +5218,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Significant compilation time blowup when refactoring singletons-heavy code](https://gitlab.haskell.org//ghc/ghc/issues/15703)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15703">Significant compilation time blowup when refactoring singletons-heavy code</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1569,8 +5252,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#15913](https://gitlab.haskell.org//ghc/ghc/issues/15913)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15913">#15913</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1582,7 +5296,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[ghc-8.6.2 fails to build on s390x (unregisterised): ‘stg_MUT_ARR_PTRS_FROZEN0_info’ undeclared (first use in this function); did you mean ‘stg_MUT_ARR_PTRS_FROZEN_DIRTY_info’?](https://gitlab.haskell.org//ghc/ghc/issues/15913)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15913">ghc-8.6.2 fails to build on s390x (unregisterised): ‘stg_MUT_ARR_PTRS_FROZEN0_info’ undeclared (first use in this function); did you mean ‘stg_MUT_ARR_PTRS_FROZEN_DIRTY_info’?</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1594,8 +5330,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#15971](https://gitlab.haskell.org//ghc/ghc/issues/15971)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15971">#15971</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1607,7 +5374,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Hadrian fails Shake's linter on Windows](https://gitlab.haskell.org//ghc/ghc/issues/15971)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15971">Hadrian fails Shake&apos;s linter on Windows</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1619,8 +5408,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#15982](https://gitlab.haskell.org//ghc/ghc/issues/15982)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15982">#15982</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1632,7 +5452,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Hadrian's \`--configure\` flag is broken on Windows](https://gitlab.haskell.org//ghc/ghc/issues/15982)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15982">Hadrian&apos;s `--configure` flag is broken on Windows</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1644,8 +5486,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#16037](https://gitlab.haskell.org//ghc/ghc/issues/16037)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16037">#16037</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1657,7 +5530,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[memcpy test inexplicably failing](https://gitlab.haskell.org//ghc/ghc/issues/16037)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16037">memcpy test inexplicably failing</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1669,8 +5564,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#16073](https://gitlab.haskell.org//ghc/ghc/issues/16073)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16073">#16073</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1682,7 +5608,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Hadrian build fails on Windows](https://gitlab.haskell.org//ghc/ghc/issues/16073)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16073">Hadrian build fails on Windows</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1694,8 +5642,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#16085](https://gitlab.haskell.org//ghc/ghc/issues/16085)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16085">#16085</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1707,7 +5686,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[ffi018_ghci fails when unregisterised](https://gitlab.haskell.org//ghc/ghc/issues/16085)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16085">ffi018_ghci fails when unregisterised</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1719,8 +5720,39 @@ Below are the major highlights of 8.8.
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#15990](https://gitlab.haskell.org//ghc/ghc/issues/15990)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15990">#15990</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1732,7 +5764,29 @@ Below are the major highlights of 8.8.
                       
                       bug
                     </th>
-<th>[Dynamically built GHC crashes on MacOS](https://gitlab.haskell.org//ghc/ghc/issues/15990)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15990">Dynamically built GHC crashes on MacOS</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1744,8 +5798,39 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#16165](https://gitlab.haskell.org//ghc/ghc/issues/16165)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16165">#16165</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1757,7 +5842,29 @@ Below are the major highlights of 8.8.
                       
                       task
                     </th>
-<th>[Move Hadrian (github) wiki information to in-tree docs](https://gitlab.haskell.org//ghc/ghc/issues/16165)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16165">Move Hadrian (github) wiki information to in-tree docs</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1769,8 +5876,39 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#16217](https://gitlab.haskell.org//ghc/ghc/issues/16217)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16217">#16217</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1782,7 +5920,29 @@ Below are the major highlights of 8.8.
                       
                       task
                     </th>
-<th>[check-api-annotations should check that an annotation does not precede its span](https://gitlab.haskell.org//ghc/ghc/issues/16217)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16217">check-api-annotations should check that an annotation does not precede its span</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1794,19 +5954,85 @@ Below are the major highlights of 8.8.
                       
                       normal
                     </th>
-<th></th></tr></table>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr></table>
+
+
+  
+
+
 
 ### infoneeded
 
-<table><tr><th>Ticket (Ticket query: status: infoneeded, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)</th>
-<th>Type (Ticket query: status: infoneeded, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)</th>
-<th>Summary (Ticket query: status: infoneeded, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: infoneeded, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
-<th>Owner (Ticket query: status: infoneeded, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>
+
+
+
+  
+  
+  
+  
+  
+    
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: infoneeded, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)
+      </th>
+<th>
+        
+        Type (Ticket query: status: infoneeded, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: infoneeded, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: infoneeded, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: infoneeded, milestone: 8.8.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td></tr>
+<tr><td>
+          </td>
+<th>
             No tickets found
           </th>
-<th></th>
-<th></th>
-<th></th>
-<th></th></tr></table>
+<td>
+        </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr></table>
+
+
+  
+
+
+

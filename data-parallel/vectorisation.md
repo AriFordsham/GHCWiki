@@ -1,9 +1,15 @@
 ## Vectorisation
 
 
+
 This page describes our approach to implementing vectorisation by extending our earlier implementation of closure conversion.  A central aspect is the ability to mix modules compiled with vectorisation with modules compiled without vectorisation.
 
+
+>
+>
 > **The following description is incomplete.  For a detailed account of vectorisation, see [ http://www.cse.unsw.edu.au/\~chak/papers/PLKC08.html](http://www.cse.unsw.edu.au/~chak/papers/PLKC08.html).**
+>
+>
 
 ### General strategy
 

@@ -75,6 +75,9 @@ where `~/ghc` is the repository you want to branch and `~/ghc-branch` is where y
 
 ## Tracking the full repository state (pre-March 2014, e.g., the 7.8.\* branches)
 
+
+
+ 
 **Since [db19c665e/ghc](/trac/ghc/changeset/db19c665e/ghc), all used repositories are submodules, so this is only relevant to track older states, e.g., for GHC 7.8.\*.** 
  
 The full state of a GHC repository includes the current state of the repositories for all of the GHC boot libraries that are used to to build GHC ([list of boot libraries](repositories)). For GHC 7.8.\* the repositories for these libraries are fetched and updated by the `sync-all` script. To record the full repository state (including boot libraries), git submodules can be used starting from March 2014, but for 7.8.\* they are not fully usable, so fingerprints are provided instead in annotated & gpg-signed release tags, such as [ http://git.haskell.org/ghc.git/tag/refs/tags/ghc-7.8.3-release](http://git.haskell.org/ghc.git/tag/refs/tags/ghc-7.8.3-release).

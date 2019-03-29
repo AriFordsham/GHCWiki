@@ -25,30 +25,36 @@ GHC draws its information about what packages are installed from one or more pac
 ## Package-related types
 
 
+
 Source files: [compiler/main/PackageConfig.hs](/trac/ghc/browser/ghc/compiler/main/PackageConfig.hs), [compiler/main/Packages.lhs](/trac/ghc/browser/ghc/compiler/main/Packages.lhs)
 
-<table><tr><th>`PackageId`</th>
+
+<table><tr><th><tt>PackageId</tt></th>
 <td>
-The most important package type inside ghc is `PackageId`, representing the full name of a package (including its version).
-It is represented as a `FastString` for fast comparison.
+The most important package type inside ghc is <tt>PackageId</tt>, representing the full name of a package (including its version).
+It is represented as a <tt>FastString</tt> for fast comparison.
 </td></tr></table>
 
-<table><tr><th>`PackageConfig`</th>
+
+<table><tr><th><tt>PackageConfig</tt></th>
 <td>
-The information contained in the package database about a package.  Currently this is a synonym for `InstalledPackageInfo`,
+The information contained in the package database about a package.  Currently this is a synonym for <tt>InstalledPackageInfo</tt>,
 later it might contain extra GHC-specific info, or have a more optimised representation.
 </td></tr></table>
 
-<table><tr><th>`PackageConfigMap`</th>
+
+<table><tr><th><tt>PackageConfigMap</tt></th>
 <td>
-A mapping (actually `UniqFM`) from `PackageId` to `PackageConfig`.
+A mapping (actually <tt>UniqFM</tt>) from <tt>PackageId</tt> to <tt>PackageConfig</tt>.
 </td></tr></table>
 
-<table><tr><th>`PackageState`</th>
+
+<table><tr><th><tt>PackageState</tt></th>
 <td>
-Everything the compiler knows about the package database.  This is built by `initPackages` in 
-[compiler/main/Packages.lhs](/trac/ghc/browser/ghc/compiler/main/Packages.lhs), and stashed in the `DynFlags`.
+Everything the compiler knows about the package database.  This is built by <tt>initPackages</tt> in 
+<a href="/trac/ghc/browser/ghc/compiler/main/Packages.lhs">compiler/main/Packages.lhs</a>, and stashed in the <tt>DynFlags</tt>.
 </td></tr></table>
+
 
 ## Modules
 

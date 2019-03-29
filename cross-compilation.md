@@ -40,61 +40,74 @@ The GHC build, in general, is a two stage process, involving three GHC compilers
 
 One way we could have done this is:
 
-<table><tr><th></th>
-<th>**Stage 0**</th>
-<th>**libs boot**</th>
-<th>**Stage 1**</th>
-<th>**libs install**</th>
-<th>**Stage 2**</th></tr>
-<tr><th>**built on**</th>
+
+<table><tr><th>               </th>
+<th><b>Stage 0</b> </th>
+<th> <b>libs boot</b> </th>
+<th> <b>Stage 1</b> </th>
+<th> <b>libs install</b> </th>
+<th> <b>Stage 2</b> 
+</th></tr>
+<tr><th><b>built on</b> </th>
 <th> ---          </th>
-<th>*build*</th>
-<th>*build*</th>
-<th>*build*</th>
-<th>*build*</th></tr>
-<tr><th>**runs on**</th>
-<th>*build*</th>
-<th>*build*</th>
-<th>*build*</th>
-<th>*host*</th>
-<th>*host*</th></tr>
-<tr><th>**targets**</th>
-<th>*build*</th>
+<th> <i>build</i>       </th>
+<th> <i>build</i>     </th>
+<th> <i>build</i>          </th>
+<th> <i>build</i>     
+</th></tr>
+<tr><th><b>runs on</b>  </th>
+<th><i>build</i>     </th>
+<th> <i>build</i>       </th>
+<th> <i>build</i>     </th>
+<th> <i>host</i>           </th>
+<th> <i>host</i>      
+</th></tr>
+<tr><th><b>targets</b>  </th>
+<th><i>build</i>     </th>
 <th> ---             </th>
-<th>*host*</th>
+<th> <i>host</i>      </th>
 <th> ---                </th>
-<th>*target*</th></tr></table>
+<th> <i>target</i>    
+</th></tr></table>
+
 
 
 But that isn't terribly useful, because if *host* /= *target*, then libs-install can't be used with the stage 2 compiler.  Furthermore, the build only allows for probing for the properties (word size, library function availability, etc...) of one platform.  So this setup would not support *host* /= *target*.  To cross-compile you would set *host* to something different from *build*.
 
 
+
 An alternative way to set it up is:
 
-<table><tr><th></th>
-<th>**Stage 0**</th>
-<th>**libs boot**</th>
-<th>**Stage 1**</th>
-<th>**libs install**</th>
-<th>**Stage 2**</th></tr>
-<tr><th>**built on**</th>
+
+<table><tr><th>               </th>
+<th><b>Stage 0</b> </th>
+<th> <b>libs boot</b> </th>
+<th> <b>Stage 1</b> </th>
+<th> <b>libs install</b> </th>
+<th> <b>Stage 2</b> 
+</th></tr>
+<tr><th><b>built on</b> </th>
 <th> ---          </th>
-<th>*build*</th>
-<th>*build*</th>
-<th>*host*</th>
-<th>*host*</th></tr>
-<tr><th>**runs on**</th>
-<th>*build*</th>
-<th>*host*</th>
-<th>*host*</th>
-<th>*target*</th>
-<th>*target*</th></tr>
-<tr><th>**targets**</th>
-<th>*host*</th>
+<th> <i>build</i>       </th>
+<th> <i>build</i>     </th>
+<th> <i>host</i>           </th>
+<th> <i>host</i>      
+</th></tr>
+<tr><th><b>runs on</b>  </th>
+<th><i>build</i>     </th>
+<th> <i>host</i>        </th>
+<th> <i>host</i>      </th>
+<th> <i>target</i>         </th>
+<th> <i>target</i>    
+</th></tr>
+<tr><th><b>targets</b>  </th>
+<th><i>host</i>      </th>
 <th> ---             </th>
-<th>*target*</th>
+<th> <i>target</i>    </th>
 <th> ---                </th>
-<th>*target*</th></tr></table>
+<th> <i>target</i>    
+</th></tr></table>
+
 
 
 Which is actually equivalent, but it makes *target* the platform you set (which is more natural, we expect to set *target* when configuring a cross-compiler).  In this setup, *build* must equal *host*, because we must be able to run the stage 1 compiler to compile libs-install.

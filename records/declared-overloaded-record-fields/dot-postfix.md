@@ -121,25 +121,46 @@ This must be valid (note no embedded spaces):
 
 The syntax rule is:
 
+
 -  A name to the left of a dot starting upper case is a module,
 
+>
+> >
 > >
 > > and the dot binds most tightly.
+> >
+> >
+>
 
 -  A name to the left starting lower case is postfix apply,
 
+>
+> >
 > >
 > > and binds less tightly, but tighter than usual function apply.
+> >
+> >
+>
 
 -  A name at the rightmost end starting upper case is valid,
 
+>
+> >
 > >
 > > it must be a data constructor.
+> >
+> >
+>
 
 -  You can use parentheses to override the binding.
 
+>
+> >
 > >
 > > (And parens would be needed where embedding a data constructor.)
+> >
+> >
+>
 
 ### Why no embedded spaces? -- And a code-breaking change
 

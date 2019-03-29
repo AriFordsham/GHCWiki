@@ -9,10 +9,13 @@ Trac monitors the timestamp of the file to trigger a complete environment reload
 ## Global Configuration
 
 
+
 Configuration can be shared among environments using one or more global configuration files. Options in the global configuration will be merged with the environment-specific options, with local options overriding global options. The global configuration file is specified as follows:
 
+
 ```
-[inherit]file=/path/to/global/trac.ini
+[inherit]
+file = /path/to/global/trac.ini
 ```
 
 
@@ -33,224 +36,257 @@ Note that the templates found in the `templates/` directory of the [TracEnvironm
 This is a brief reference of available configuration options, and their default settings.
 
 
+
 Documentation improvements should be discussed on the [ trac-dev mailing list](http://trac.edgewall.org/intertrac/MailingList%23Trac-dev) or described in a [ ticket](http://trac.edgewall.org/intertrac/NewTicket). Even better, [ submit a patch](http://trac.edgewall.org/intertrac/TracDev/SubmittingPatches) against the docstrings in the code.
+
+
 
 ### `[account-manager]`
 
-<table><tr><th>[account_changes_notify_addresses](#account-manager-account_changes_notify_addresses-option)</th>
+<table><tr><th><a href="#account-manager-account_changes_notify_addresses-option">account_changes_notify_addresses</a></th>
 <th>
 List of email addresses that get notified of user changes, ie,
 new user, password change and delete user.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[allow_delete_account](#account-manager-allow_delete_account-option)</th>
+<tr><th><a href="#account-manager-allow_delete_account-option">allow_delete_account</a></th>
 <th>
 Allow users to delete their own account.
 
+
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[auth_init](#account-manager-auth_init-option)</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#account-manager-auth_init-option">auth_init</a></th>
 <th>
 Launch an initial Trac authentication setup.
 
+
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[cookie_refresh_pct](#account-manager-cookie_refresh_pct-option)</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#account-manager-cookie_refresh_pct-option">cookie_refresh_pct</a></th>
 <th>
 Persistent sessions randomly get a new session cookie ID with
 likelihood in percent per work hour given here (zero equals to never)
 to decrease vulnerability of long-lasting sessions.
 
+
 </th>
-<th>`10`</th></tr>
-<tr><th>[db_htdigest_realm](#account-manager-db_htdigest_realm-option)</th>
+<th><tt>10</tt></th></tr>
+<tr><th><a href="#account-manager-db_htdigest_realm-option">db_htdigest_realm</a></th>
 <th>
 Realm to select relevant htdigest db entries
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[db_htpasswd_hash_type](#account-manager-db_htpasswd_hash_type-option)</th>
+<tr><th><a href="#account-manager-db_htpasswd_hash_type-option">db_htpasswd_hash_type</a></th>
 <th>
 Default hash type of new/updated passwords
 
+
 </th>
-<th>`crypt`</th></tr>
-<tr><th>[email_regexp](#account-manager-email_regexp-option)</th>
+<th><tt>crypt</tt></th></tr>
+<tr><th><a href="#account-manager-email_regexp-option">email_regexp</a></th>
 <th>
 A validation regular expression describing new account emails.
 Define constraints for a valid email address. A custom pattern can
 narrow or widen scope i.e. to accept UTF-8 characters.
 
+
 </th>
-<th>`(?i)^[A-Z0-9._%+-]+@(?:[A-Z0-9-]+\.)+[A-Z0-9-]{2,63}$`</th></tr>
-<tr><th>[environ_auth_overwrite](#account-manager-environ_auth_overwrite-option)</th>
+<th><tt>(?i)^[A-Z0-9._%+-]+@(?:[A-Z0-9-]+\.)+[A-Z0-9-]{2,63}$</tt></th></tr>
+<tr><th><a href="#account-manager-environ_auth_overwrite-option">environ_auth_overwrite</a></th>
 <th>
 Whether environment variable REMOTE_USER should get overwritten
 after processing login form input. Otherwise it will only be set,
 if unset at the time of authentication.
 
-</th>
-<th>`enabled`</th></tr>
-<tr><th>[force_passwd_change](#account-manager-force_passwd_change-option)</th>
-<th>
-Force the user to change password when it's reset.
 
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[generated_password_length](#account-manager-generated_password_length-option)</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#account-manager-force_passwd_change-option">force_passwd_change</a></th>
+<th>
+Force the user to change password when it&apos;s reset.
+
+
+</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#account-manager-generated_password_length-option">generated_password_length</a></th>
 <th>
 Length of the randomly-generated passwords created when resetting
 the password for an account.
 
+
 </th>
-<th>`8`</th></tr>
-<tr><th>[hash_method](#account-manager-hash_method-option)</th>
+<th><tt>8</tt></th></tr>
+<tr><th><a href="#account-manager-hash_method-option">hash_method</a></th>
 <th>
 IPasswordHashMethod used to create new/updated passwords
 
+
 </th>
-<th>`HtDigestHashMethod`</th></tr>
-<tr><th>[login_attempt_max_count](#account-manager-login_attempt_max_count-option)</th>
+<th><tt>HtDigestHashMethod</tt></th></tr>
+<tr><th><a href="#account-manager-login_attempt_max_count-option">login_attempt_max_count</a></th>
 <th>
 Lock user account after specified number of login attempts.
 Value zero means no limit.
 
+
 </th>
-<th>`0`</th></tr>
-<tr><th>[login_opt_list](#account-manager-login_opt_list-option)</th>
+<th><tt>0</tt></th></tr>
+<tr><th><a href="#account-manager-login_opt_list-option">login_opt_list</a></th>
 <th>
 Set to True, to switch login page style showing alternative actions
 in a single listing together.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[notify_actions](#account-manager-notify_actions-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#account-manager-notify_actions-option">notify_actions</a></th>
 <th>
 Comma separated list of actions to notify of.
-Available actions 'new', 'change', 'delete'.
+Available actions &apos;new&apos;, &apos;change&apos;, &apos;delete&apos;.
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[password_store](#account-manager-password_store-option)</th>
+<tr><th><a href="#account-manager-password_store-option">password_store</a></th>
 <th>
 Ordered list of password stores, queried in turn.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[persistent_sessions](#account-manager-persistent_sessions-option)</th>
+<tr><th><a href="#account-manager-persistent_sessions-option">persistent_sessions</a></th>
 <th>
 Allow the user to be remembered across sessions without
 needing to re-authenticate. This is, user checks a
-"Remember Me" checkbox and, next time he visits the site,
-he'll be remembered.
+&quot;Remember Me&quot; checkbox and, next time he visits the site,
+he&apos;ll be remembered.
+
 
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[refresh_passwd](#account-manager-refresh_passwd-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#account-manager-refresh_passwd-option">refresh_passwd</a></th>
 <th>
 Re-set passwords on successful authentication.
 This is most useful to move users to a new password store or
 enforce new store configuration (i.e. changed hash type),
 but should be disabled/unset otherwise.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[register_basic_question](#account-manager-register_basic_question-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#account-manager-register_basic_question-option">register_basic_question</a></th>
 <th>
 A question to ask instead of the standard prompt, to which the value of register_basic_token is the answer. Setting to empty string (default value) keeps the standard prompt.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[register_basic_token](#account-manager-register_basic_token-option)</th>
+<tr><th><a href="#account-manager-register_basic_token-option">register_basic_token</a></th>
 <th>
 A string required as input to pass verification.
 
-</th>
-<th>(no default)</th></tr>
-<tr><th>[register_check](#account-manager-register_check-option)</th>
-<th>
-Ordered list of IAccountRegistrationInspector's to use for
-registration checks.
 
 </th>
-<th>`BasicCheck,EmailCheck,BotTrapCheck,RegExpCheck,UsernamePermCheck`</th></tr>
-<tr><th>[require_approval](#account-manager-require_approval-option)</th>
+<th>(no default)</th></tr>
+<tr><th><a href="#account-manager-register_check-option">register_check</a></th>
+<th>
+Ordered list of IAccountRegistrationInspector&apos;s to use for
+registration checks.
+
+
+</th>
+<th><tt>BasicCheck,EmailCheck,BotTrapCheck,RegExpCheck,UsernamePermCheck</tt></th></tr>
+<tr><th><a href="#account-manager-require_approval-option">require_approval</a></th>
 <th>
 Whether account registration requires administrative approval to
 enable the account or not.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[reset_password](#account-manager-reset_password-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#account-manager-reset_password-option">reset_password</a></th>
 <th>
 Set to False, if there is no email system setup.
 
-</th>
-<th>`enabled`</th></tr>
-<tr><th>[user_lock_max_time](#account-manager-user_lock_max_time-option)</th>
-<th>
-Limit user account lock time to specified time (seconds).
-This is relevant only with user_lock_time_progression \> 1.
 
 </th>
-<th>`86400`</th></tr>
-<tr><th>[user_lock_time](#account-manager-user_lock_time-option)</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#account-manager-user_lock_max_time-option">user_lock_max_time</a></th>
+<th>
+Limit user account lock time to specified time (seconds).
+This is relevant only with user_lock_time_progression &gt; 1.
+
+
+</th>
+<th><tt>86400</tt></th></tr>
+<tr><th><a href="#account-manager-user_lock_time-option">user_lock_time</a></th>
 <th>
 Drop user account lock after specified time (seconds).
 Value zero means unlimited lock time.
 
+
 </th>
-<th>`0`</th></tr>
-<tr><th>[user_lock_time_progression](#account-manager-user_lock_time_progression-option)</th>
+<th><tt>0</tt></th></tr>
+<tr><th><a href="#account-manager-user_lock_time_progression-option">user_lock_time_progression</a></th>
 <th>
 Extend user account lock time incrementally. This is
 based on logarithmic calculation and decimal numbers accepted:
-Value '1' means constant lock time per failed login attempt.
-Value '2' means double locktime after 2nd lock activation,
+Value &apos;1&apos; means constant lock time per failed login attempt.
+Value &apos;2&apos; means double locktime after 2nd lock activation,
 four times the initial locktime after 3rd, and so on.
 
+
 </th>
-<th>`1`</th></tr>
-<tr><th>[username_char_blacklist](#account-manager-username_char_blacklist-option)</th>
+<th><tt>1</tt></th></tr>
+<tr><th><a href="#account-manager-username_char_blacklist-option">username_char_blacklist</a></th>
 <th>
 Always exclude some special characters from usernames.
 This is enforced upon new user registration.
 
+
 </th>
-<th>`:[]`</th></tr>
-<tr><th>[username_regexp](#account-manager-username_regexp-option)</th>
+<th><tt>:[]</tt></th></tr>
+<tr><th><a href="#account-manager-username_regexp-option">username_regexp</a></th>
 <th>
 A validation regular expression describing new usernames. Define
 constraints for allowed user names corresponding to local naming
 policy.
 
+
 </th>
-<th>`(?i)^[A-Z0-9.\-_]{5,}$`</th></tr>
-<tr><th>[verify_email](#account-manager-verify_email-option)</th>
+<th><tt>(?i)^[A-Z0-9.\-_]{5,}$</tt></th></tr>
+<tr><th><a href="#account-manager-verify_email-option">verify_email</a></th>
 <th>
 Verify the email address of Trac users.
 
+
 </th>
-<th>`enabled`</th></tr></table>
+<th><tt>enabled</tt></th></tr></table>
 
 ### `[attachment]`
 
-<table><tr><th>[max_size](#attachment-max_size-option)</th>
+<table><tr><th><a href="#attachment-max_size-option">max_size</a></th>
 <th>
 Maximum allowed file size (in bytes) for attachments.
 
-</th>
-<th>`262144`</th></tr>
-<tr><th>[max_zip_size](#attachment-max_zip_size-option)</th>
-<th>
-Maximum allowed total size (in bytes) for an attachment list to be
-downloadable as a `.zip`. Set this to -1 to disable download as `.zip`.
-(*since 1.0*)
 
 </th>
-<th>`2097152`</th></tr>
-<tr><th>[render_unsafe_content](#attachment-render_unsafe_content-option)</th>
+<th><tt>262144</tt></th></tr>
+<tr><th><a href="#attachment-max_zip_size-option">max_zip_size</a></th>
+<th>
+Maximum allowed total size (in bytes) for an attachment list to be
+downloadable as a <tt>.zip</tt>. Set this to -1 to disable download as <tt>.zip</tt>.
+(<i>since 1.0</i>)
+
+
+</th>
+<th><tt>2097152</tt></th></tr>
+<tr><th><a href="#attachment-render_unsafe_content-option">render_unsafe_content</a></th>
 <th>
 Whether attachments should be rendered in the browser, or
 only made downloadable.
@@ -264,85 +300,96 @@ scripting attacks.
 For public sites where anonymous users can create attachments it is
 recommended to leave this option disabled.
 
+
 </th>
-<th>`disabled`</th></tr></table>
+<th><tt>disabled</tt></th></tr></table>
 
 ### `[browser]`
 
-<table><tr><th>[color_scale](#browser-color_scale-option)</th>
+<table><tr><th><a href="#browser-color_scale-option">color_scale</a></th>
 <th>
-Enable colorization of the *age* column.
+Enable colorization of the <i>age</i> column.
+
 
 
 This uses the same color scale as the source code annotation:
 blue is older, red is newer.
 
+
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[downloadable_paths](#browser-downloadable_paths-option)</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#browser-downloadable_paths-option">downloadable_paths</a></th>
 <th>
 List of repository paths that can be downloaded.
 
 
+
 Leave this option empty if you want to disable all downloads, otherwise
 set it to a comma-separated list of authorized paths (those paths are
-glob patterns, i.e. "\*" can be used as a wild card). In a
+glob patterns, i.e. &quot;*&quot; can be used as a wild card). In a
 multi-repository environment, the path must be qualified with the
 repository name if the path does not point to the default repository
 (e.g. /reponame/trunk). Note that a simple prefix matching is
-performed on the paths, so aliases won't get automatically resolved.
+performed on the paths, so aliases won&apos;t get automatically resolved.
+
 
 </th>
-<th>`/trunk,/branches/*,/tags/*`</th></tr>
-<tr><th>[hide_properties](#browser-hide_properties-option)</th>
+<th><tt>/trunk,/branches/*,/tags/*</tt></th></tr>
+<tr><th><a href="#browser-hide_properties-option">hide_properties</a></th>
 <th>
 Comma-separated list of version control properties to hide from
 the repository browser.
 
+
 </th>
-<th>`svk:merge`</th></tr>
-<tr><th>[intermediate_color](#browser-intermediate_color-option)</th>
+<th><tt>svk:merge</tt></th></tr>
+<tr><th><a href="#browser-intermediate_color-option">intermediate_color</a></th>
 <th>
 (r,g,b) color triple to use for the color corresponding
 to the intermediate color, if two linear interpolations are used
-for the color scale (see `intermediate_point`).
-If not set, the intermediate color between `oldest_color` and
-`newest_color` will be used.
+for the color scale (see <tt>intermediate_point</tt>).
+If not set, the intermediate color between <tt>oldest_color</tt> and
+<tt>newest_color</tt> will be used.
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[intermediate_point](#browser-intermediate_point-option)</th>
+<tr><th><a href="#browser-intermediate_point-option">intermediate_point</a></th>
 <th>
 If set to a value between 0 and 1 (exclusive), this will be the
-point chosen to set the `intermediate_color` for interpolating
+point chosen to set the <tt>intermediate_color</tt> for interpolating
 the color value.
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[newest_color](#browser-newest_color-option)</th>
+<tr><th><a href="#browser-newest_color-option">newest_color</a></th>
 <th>
 (r,g,b) color triple to use for the color corresponding
-to the newest color, for the color scale used in *blame* or
-the browser *age* column if `color_scale` is enabled.
+to the newest color, for the color scale used in <i>blame</i> or
+the browser <i>age</i> column if <tt>color_scale</tt> is enabled.
+
 
 </th>
-<th>`(255, 136, 136)`</th></tr>
-<tr><th>[oldest_color](#browser-oldest_color-option)</th>
+<th><tt>(255, 136, 136)</tt></th></tr>
+<tr><th><a href="#browser-oldest_color-option">oldest_color</a></th>
 <th>
 (r,g,b) color triple to use for the color corresponding
-to the oldest color, for the color scale used in *blame* or
-the browser *age* column if `color_scale` is enabled.
+to the oldest color, for the color scale used in <i>blame</i> or
+the browser <i>age</i> column if <tt>color_scale</tt> is enabled.
+
 
 </th>
-<th>`(136, 136, 255)`</th></tr>
-<tr><th>[oneliner_properties](#browser-oneliner_properties-option)</th>
+<th><tt>(136, 136, 255)</tt></th></tr>
+<tr><th><a href="#browser-oneliner_properties-option">oneliner_properties</a></th>
 <th>
 Comma-separated list of version control properties to render
 as oneliner wiki content in the repository browser.
 
+
 </th>
-<th>`trac:summary`</th></tr>
-<tr><th>[render_unsafe_content](#browser-render_unsafe_content-option)</th>
+<th><tt>trac:summary</tt></th></tr>
+<tr><th><a href="#browser-render_unsafe_content-option">render_unsafe_content</a></th>
 <th>
 Whether raw files should be rendered in the browser, or only made
 downloadable.
@@ -356,34 +403,38 @@ scripting attacks.
 For open repositories where anyone can check-in a file, it is
 recommended to leave this option disabled.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[wiki_properties](#browser-wiki_properties-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#browser-wiki_properties-option">wiki_properties</a></th>
 <th>
 Comma-separated list of version control properties to render
 as wiki content in the repository browser.
 
+
 </th>
-<th>`trac:description`</th></tr></table>
+<th><tt>trac:description</tt></th></tr></table>
 
 ### `[changeset]`
 
-<table><tr><th>[max_diff_bytes](#changeset-max_diff_bytes-option)</th>
+<table><tr><th><a href="#changeset-max_diff_bytes-option">max_diff_bytes</a></th>
 <th>
 Maximum total size in bytes of the modified files (their old size
 plus their new size) for which the changeset view will attempt to show
 the diffs inlined.
 
+
 </th>
-<th>`10000000`</th></tr>
-<tr><th>[max_diff_files](#changeset-max_diff_files-option)</th>
+<th><tt>10000000</tt></th></tr>
+<tr><th><a href="#changeset-max_diff_files-option">max_diff_files</a></th>
 <th>
 Maximum number of modified files for which the changeset view will
 attempt to show the diffs inlined.
 
+
 </th>
-<th>`0`</th></tr>
-<tr><th>[wiki_format_messages](#changeset-wiki_format_messages-option)</th>
+<th><tt>0</tt></th></tr>
+<tr><th><a href="#changeset-wiki_format_messages-option">wiki_format_messages</a></th>
 <th>
 Whether wiki formatting should be applied to changeset messages.
 
@@ -391,8 +442,9 @@ Whether wiki formatting should be applied to changeset messages.
 If this option is disabled, changeset messages will be rendered as
 pre-formatted text.
 
+
 </th>
-<th>`enabled`</th></tr></table>
+<th><tt>enabled</tt></th></tr></table>
 
 ### `[components]`
 
@@ -429,149 +481,172 @@ the `acct_mgr` package. Note that the trailing wildcard is
 required for module/package matching.
 
 
+
 To view the list of active components, go to the *Plugins*
-page on *About Trac* (requires `CONFIG_VIEW`[permissions](trac-permissions)).
+page on *About Trac* (requires `CONFIG_VIEW`
+[permissions](trac-permissions)).
+
 
 
 See also: [TracPlugins](trac-plugins)
 
+
 ### `[fullblog]`
 
-<table><tr><th>[all_rss_icons](#fullblog-all_rss_icons-option)</th>
+<table><tr><th><a href="#fullblog-all_rss_icons-option">all_rss_icons</a></th>
 <th>
 Controls whether or not to display rss icons more than once
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[archive_rss_icon](#fullblog-archive_rss_icon-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#fullblog-archive_rss_icon-option">archive_rss_icon</a></th>
 <th>
 Controls whether or not to display the rss icon
 
+
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[default_postname](#fullblog-default_postname-option)</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#fullblog-default_postname-option">default_postname</a></th>
 <th>
 Option for a default naming scheme for new posts. The string
 can include substitution markers for time (UTC) and user: %Y=year,
 %m=month, %d=day, %H=hour, %M=minute, %S=second, $USER.
-Example template string: `%Y/%m/%d/my_topic`
+Example template string: <tt>%Y/%m/%d/my_topic</tt>
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[month_names](#fullblog-month_names-option)</th>
+<tr><th><a href="#fullblog-month_names-option">month_names</a></th>
 <th>
 Ability to specify a list of month names for display in groupings.
 If empty it will make a list from default locale setting.
 Enter list of 12 months like:
-`month_names = January, February, ..., December`
+<tt>month_names = January, February, ..., December</tt>
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[num_items_front](#fullblog-num_items_front-option)</th>
+<tr><th><a href="#fullblog-num_items_front-option">num_items_front</a></th>
 <th>
 Option to specify how many recent posts to display on the
 front page of the Blog (and RSS feeds).
 
-</th>
-<th>`20`</th></tr>
-<tr><th>[personal_blog](#fullblog-personal_blog-option)</th>
-<th>
-When using the Blog as a personal blog (only one author), setting to 'True'
-will disable the display of 'Browse by author:' in sidebar, and also removes
-various author links and references.
 
 </th>
-<th>`disabled`</th></tr></table>
+<th><tt>20</tt></th></tr>
+<tr><th><a href="#fullblog-personal_blog-option">personal_blog</a></th>
+<th>
+When using the Blog as a personal blog (only one author), setting to &apos;True&apos;
+will disable the display of &apos;Browse by author:&apos; in sidebar, and also removes
+various author links and references.
+
+
+</th>
+<th><tt>disabled</tt></th></tr></table>
 
 ### `[git]`
 
-<table><tr><th>[cached_repository](#git-cached_repository-option)</th>
+<table><tr><th><a href="#git-cached_repository-option">cached_repository</a></th>
 <th>
-Wrap `GitRepository` in `CachedRepository`.
+Wrap <tt>GitRepository</tt> in <tt>CachedRepository</tt>.
+
 
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[git_bin](#git-git_bin-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#git-git_bin-option">git_bin</a></th>
 <th>
 Path to the git executable.
 
+
 </th>
-<th>`git`</th></tr>
-<tr><th>[git_fs_encoding](#git-git_fs_encoding-option)</th>
+<th><tt>git</tt></th></tr>
+<tr><th><a href="#git-git_fs_encoding-option">git_fs_encoding</a></th>
 <th>
 Define charset encoding of paths within git repositories.
 
+
 </th>
-<th>`utf-8`</th></tr>
-<tr><th>[persistent_cache](#git-persistent_cache-option)</th>
+<th><tt>utf-8</tt></th></tr>
+<tr><th><a href="#git-persistent_cache-option">persistent_cache</a></th>
 <th>
 Enable persistent caching of commit tree.
 
-</th>
-<th>`disabled`</th></tr>
-<tr><th>[shortrev_len](#git-shortrev_len-option)</th>
-<th>
-The length at which a sha1 should be abbreviated to (must
-be \>= 4 and \<= 40).
 
 </th>
-<th>`7`</th></tr>
-<tr><th>[trac_user_rlookup](#git-trac_user_rlookup-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#git-shortrev_len-option">shortrev_len</a></th>
+<th>
+The length at which a sha1 should be abbreviated to (must
+be &gt;= 4 and &lt;= 40).
+
+
+</th>
+<th><tt>7</tt></th></tr>
+<tr><th><a href="#git-trac_user_rlookup-option">trac_user_rlookup</a></th>
 <th>
 Enable reverse mapping of git email addresses to trac user ids.
 Performance will be reduced if there are many users and the
-`cached_repository` option is `disabled`.
+<tt>cached_repository</tt> option is <tt>disabled</tt>.
+
 
 
 A repository resync is required after changing the value of this
 option.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[use_committer_id](#git-use_committer_id-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#git-use_committer_id-option">use_committer_id</a></th>
 <th>
 Use git-committer id instead of git-author id for the
-changeset *Author* field.
+changeset <i>Author</i> field.
+
 
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[use_committer_time](#git-use_committer_time-option)</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#git-use_committer_time-option">use_committer_time</a></th>
 <th>
 Use git-committer timestamp instead of git-author timestamp
-for the changeset *Timestamp* field.
+for the changeset <i>Timestamp</i> field.
+
 
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[wikishortrev_len](#git-wikishortrev_len-option)</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#git-wikishortrev_len-option">wikishortrev_len</a></th>
 <th>
 The minimum length of an hex-string for which
-auto-detection as sha1 is performed (must be \>= 4 and \<= 40).
+auto-detection as sha1 is performed (must be &gt;= 4 and &lt;= 40).
+
 
 </th>
-<th>`40`</th></tr></table>
+<th><tt>40</tt></th></tr></table>
 
 ### `[gitweb-repositories]`
 
-<table><tr><th>[projects_base](#gitweb-repositories-projects_base-option)</th>
+<table><tr><th><a href="#gitweb-repositories-projects_base-option">projects_base</a></th>
 <th>
 Path to the base of your git projects
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[projects_list](#gitweb-repositories-projects_list-option)</th>
+<tr><th><a href="#gitweb-repositories-projects_list-option">projects_list</a></th>
 <th>
 Path to a gitweb-formatted projects.list
 
-</th>
-<th>(no default)</th></tr>
-<tr><th>[projects_url](#gitweb-repositories-projects_url-option)</th>
-<th>
-Template for project URLs. `%s` will be replaced with the repo
-name
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[sync_per_request](#gitweb-repositories-sync_per_request-option)</th>
+<tr><th><a href="#gitweb-repositories-projects_url-option">projects_url</a></th>
+<th>
+Template for project URLs. <tt>%s</tt> will be replaced with the repo
+name
+
+
+</th>
+<th>(no default)</th></tr>
+<tr><th><a href="#gitweb-repositories-sync_per_request-option">sync_per_request</a></th>
 <th>
 Repositories to sync on every request
 (not recommended).
@@ -581,66 +656,75 @@ Repositories to sync on every request
 
 ### `[header_logo]`
 
-<table><tr><th>[alt](#header_logo-alt-option)</th>
+<table><tr><th><a href="#header_logo-alt-option">alt</a></th>
 <th>
 Alternative text for the header logo.
 
+
 </th>
-<th>`(please configure the [header_logo] section in trac.ini)`</th></tr>
-<tr><th>[height](#header_logo-height-option)</th>
+<th><tt>(please configure the [header_logo] section in trac.ini)</tt></th></tr>
+<tr><th><a href="#header_logo-height-option">height</a></th>
 <th>
 Height of the header logo image in pixels.
 
+
 </th>
-<th>`-1`</th></tr>
-<tr><th>[link](#header_logo-link-option)</th>
+<th><tt>-1</tt></th></tr>
+<tr><th><a href="#header_logo-link-option">link</a></th>
 <th>
 URL to link to, from the header logo.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[src](#header_logo-src-option)</th>
+<tr><th><a href="#header_logo-src-option">src</a></th>
 <th>
 URL of the image to use as header logo.
 It can be absolute, server relative or relative.
 
 
-If relative, it is relative to one of the `/chrome` locations:
-`site/your-logo.png` if `your-logo.png` is located in the `htdocs`
-folder within your [TracEnvironment](trac-environment);
-`common/your-logo.png` if `your-logo.png` is located in the
-folder mapped to the [htdocs_location](trac-ini#) URL.
-Only specifying `your-logo.png` is equivalent to the latter.
+
+If relative, it is relative to one of the <tt>/chrome</tt> locations:
+<tt>site/your-logo.png</tt> if <tt>your-logo.png</tt> is located in the <tt>htdocs</tt>
+folder within your <a href="trac-environment">TracEnvironment</a>;
+<tt>common/your-logo.png</tt> if <tt>your-logo.png</tt> is located in the
+folder mapped to the <a href="trac-ini#">htdocs_location</a> URL.
+Only specifying <tt>your-logo.png</tt> is equivalent to the latter.
+
 
 </th>
-<th>`site/your_project_logo.png`</th></tr>
-<tr><th>[width](#header_logo-width-option)</th>
+<th><tt>site/your_project_logo.png</tt></th></tr>
+<tr><th><a href="#header_logo-width-option">width</a></th>
 <th>
 Width of the header logo image in pixels.
 
+
 </th>
-<th>`-1`</th></tr></table>
+<th><tt>-1</tt></th></tr></table>
 
 ### `[httpauth]`
 
-<table><tr><th>[formats](#httpauth-formats-option)</th>
+<table><tr><th><a href="#httpauth-formats-option">formats</a></th>
 <th>
 Request formats to force HTTP authentication on
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[paths](#httpauth-paths-option)</th>
+<tr><th><a href="#httpauth-paths-option">paths</a></th>
 <th>
 Paths to force HTTP authentication on.
 
+
 </th>
-<th>`/login/xmlrpc`</th></tr></table>
+<th><tt>/login/xmlrpc</tt></th></tr></table>
 
 ### `[inherit]`
 
-<table><tr><th>[htdocs_dir](#inherit-htdocs_dir-option)</th>
+<table><tr><th><a href="#inherit-htdocs_dir-option">htdocs_dir</a></th>
 <th>
-Path to the *shared htdocs directory*.
+Path to the <i>shared htdocs directory</i>.
+
 
 
 Static resources in that directory are mapped to /chrome/shared
@@ -651,28 +735,34 @@ This can be useful in site.html for common interface customization
 of multiple Trac environments.
 
 
-(*since 1.0*)
+
+(<i>since 1.0</i>)
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[plugins_dir](#inherit-plugins_dir-option)</th>
+<tr><th><a href="#inherit-plugins_dir-option">plugins_dir</a></th>
 <th>
-Path to the *shared plugins directory*.
+Path to the <i>shared plugins directory</i>.
+
 
 
 Plugins in that directory are loaded in addition to those in
-the directory of the environment `plugins`, with this one
+the directory of the environment <tt>plugins</tt>, with this one
 taking precedence.
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[templates_dir](#inherit-templates_dir-option)</th>
+<tr><th><a href="#inherit-templates_dir-option">templates_dir</a></th>
 <th>
-Path to the *shared templates directory*.
+Path to the <i>shared templates directory</i>.
+
 
 
 Templates in that directory are loaded in addition to those in the
-environments `templates` directory, but the latter take precedence.
+environments <tt>templates</tt> directory, but the latter take precedence.
+
 
 </th>
 <th>(no default)</th></tr></table>
@@ -726,60 +816,72 @@ tsvn = tsvn: Interact with TortoiseSvn
 
 ### `[logging]`
 
-<table><tr><th>[log_file](#logging-log_file-option)</th>
+<table><tr><th><a href="#logging-log_file-option">log_file</a></th>
 <th>
-If `log_type` is `file`, this should be a path to the
-log-file.  Relative paths are resolved relative to the `log`
+If <tt>log_type</tt> is <tt>file</tt>, this should be a path to the
+log-file.  Relative paths are resolved relative to the <tt>log</tt>
 directory of the environment.
 
+
 </th>
-<th>`trac.log`</th></tr>
-<tr><th>[log_format](#logging-log_format-option)</th>
+<th><tt>trac.log</tt></th></tr>
+<tr><th><a href="#logging-log_format-option">log_format</a></th>
 <th>
 Custom logging format.
 
 
+
 If nothing is set, the following will be used:
 
-`Trac[$(module)s] $(levelname)s: $(message)s`
+
+
+<tt>Trac[$(module)s] $(levelname)s: $(message)s</tt>
+
 
 
 In addition to regular key names supported by the
-[ Python logger library](http://docs.python.org/library/logging.html)
+<a href="http://docs.python.org/library/logging.html"> Python logger library</a>
 one could use:
 
-- `$(path)s`     the path for the current environment
-- `$(basename)s` the last path component of the current environment
-- `$(project)s`  the project name
+
+- <tt>$(path)s</tt>     the path for the current environment
+- <tt>$(basename)s</tt> the last path component of the current environment
+- <tt>$(project)s</tt>  the project name
 
 
-Note the usage of `$(...)s` instead of `%(...)s` as the latter form
+Note the usage of <tt>$(...)s</tt> instead of <tt>%(...)s</tt> as the latter form
 would be interpreted by the ConfigParser itself.
 
 
+
 Example:
-`($(thread)d) Trac[$(basename)s:$(module)s] $(levelname)s: $(message)s`
+<tt>($(thread)d) Trac[$(basename)s:$(module)s] $(levelname)s: $(message)s</tt>
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[log_level](#logging-log_level-option)</th>
+<tr><th><a href="#logging-log_level-option">log_level</a></th>
 <th>
 Level of verbosity in log.
 
 
-Should be one of (`CRITICAL`, `ERROR`, `WARNING`, `INFO`, `DEBUG`).
+
+Should be one of (<tt>CRITICAL</tt>, <tt>ERROR</tt>, <tt>WARNING</tt>, <tt>INFO</tt>, <tt>DEBUG</tt>).
+
 
 </th>
-<th>`DEBUG`</th></tr>
-<tr><th>[log_type](#logging-log_type-option)</th>
+<th><tt>DEBUG</tt></th></tr>
+<tr><th><a href="#logging-log_type-option">log_type</a></th>
 <th>
 Logging facility to use.
 
 
-Should be one of (`none`, `file`, `stderr`, `syslog`, `winlog`).
+
+Should be one of (<tt>none</tt>, <tt>file</tt>, <tt>stderr</tt>, <tt>syslog</tt>, <tt>winlog</tt>).
+
 
 </th>
-<th>`none`</th></tr></table>
+<th><tt>none</tt></th></tr></table>
 
 ### `[mainnav]`
 
@@ -799,89 +901,106 @@ The following example renames the link to [WikiStart](wiki-start) to *Home*,
 links the *View Tickets* entry to a specific report and disables
 the *Search* entry.
 
+
 ```
-[mainnav]wiki.label=Hometickets.href=/report/24search=disabled
+[mainnav]
+wiki.label = Home
+tickets.href = /report/24
+search = disabled
 ```
 
 
 See [TracNavigation](trac-navigation) for more details.
 
+
 ### `[mastertickets]`
 
-<table><tr><th>[acceptable_formats](#mastertickets-acceptable_formats-option)</th>
+<table><tr><th><a href="#mastertickets-acceptable_formats-option">acceptable_formats</a></th>
 <th>
 The formats that may be chosen; execute dot -T? for a
 list of options.
 
+
 </th>
-<th>`png,cmapx`</th></tr>
-<tr><th>[closed_color](#mastertickets-closed_color-option)</th>
+<th><tt>png,cmapx</tt></th></tr>
+<tr><th><a href="#mastertickets-closed_color-option">closed_color</a></th>
 <th>
 Color of closed tickets
 
+
 </th>
-<th>`green`</th></tr>
-<tr><th>[closed_text](#mastertickets-closed_text-option)</th>
+<th><tt>green</tt></th></tr>
+<tr><th><a href="#mastertickets-closed_text-option">closed_text</a></th>
 <th>
 Text for key showing closed tickets
 
+
 </th>
-<th>`Done`</th></tr>
-<tr><th>[dot_path](#mastertickets-dot_path-option)</th>
+<th><tt>Done</tt></th></tr>
+<tr><th><a href="#mastertickets-dot_path-option">dot_path</a></th>
 <th>
 Path to the dot executable.
 
+
 </th>
-<th>`dot`</th></tr>
-<tr><th>[full_graph](#mastertickets-full_graph-option)</th>
+<th><tt>dot</tt></th></tr>
+<tr><th><a href="#mastertickets-full_graph-option">full_graph</a></th>
 <th>
 Show full dep. graph, not just direct blocking links
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[graph_direction](#mastertickets-graph_direction-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#mastertickets-graph_direction-option">graph_direction</a></th>
 <th>
 Direction of the dependency graph (TD = Top Down,
 DT = Down Top, LR = Left Right, RL = Right Left).
 
+
 </th>
-<th>`TD`</th></tr>
-<tr><th>[gs_path](#mastertickets-gs_path-option)</th>
+<th><tt>TD</tt></th></tr>
+<tr><th><a href="#mastertickets-gs_path-option">gs_path</a></th>
 <th>
 Path to the ghostscript executable.
 
+
 </th>
-<th>`gs`</th></tr>
-<tr><th>[highlight_target](#mastertickets-highlight_target-option)</th>
+<th><tt>gs</tt></th></tr>
+<tr><th><a href="#mastertickets-highlight_target-option">highlight_target</a></th>
 <th>
 Highlight target tickets in graph
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[opened_color](#mastertickets-opened_color-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#mastertickets-opened_color-option">opened_color</a></th>
 <th>
 Color of opened tickets
 
+
 </th>
-<th>`red`</th></tr>
-<tr><th>[opened_text](#mastertickets-opened_text-option)</th>
+<th><tt>red</tt></th></tr>
+<tr><th><a href="#mastertickets-opened_text-option">opened_text</a></th>
 <th>
 Text for key showing opened tickets
 
+
 </th>
-<th>`ToDo`</th></tr>
-<tr><th>[show_key](#mastertickets-show_key-option)</th>
+<th><tt>ToDo</tt></th></tr>
+<tr><th><a href="#mastertickets-show_key-option">show_key</a></th>
 <th>
 Show a key for open/closed nodes
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[use_gs](#mastertickets-use_gs-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#mastertickets-use_gs-option">use_gs</a></th>
 <th>
 If enabled, use ghostscript to produce nicer output.
 
+
 </th>
-<th>`disabled`</th></tr></table>
+<th><tt>disabled</tt></th></tr></table>
 
 ### `[metanav]`
 
@@ -893,37 +1012,43 @@ same as for `[mainnav]`. Additionally, a special entry is supported -
 `logout.redirect` is the page the user sees after hitting the logout
 button. For example:
 
+
 ```
-[metanav]logout.redirect=wiki/Logout
+[metanav]
+logout.redirect = wiki/Logout
 ```
 
 
 See [TracNavigation](trac-navigation) for more details.
 
+
 ### `[milestone]`
 
-<table><tr><th>[default_group_by](#milestone-default_group_by-option)</th>
+<table><tr><th><a href="#milestone-default_group_by-option">default_group_by</a></th>
 <th>
 Default field to use for grouping tickets in the grouped
-progress bar. (*since 1.2*)
+progress bar. (<i>since 1.2</i>)
+
 
 </th>
-<th>`component`</th></tr>
-<tr><th>[default_retarget_to](#milestone-default_retarget_to-option)</th>
+<th><tt>component</tt></th></tr>
+<tr><th><a href="#milestone-default_retarget_to-option">default_retarget_to</a></th>
 <th>
 Default milestone to which tickets are retargeted when
-closing or deleting a milestone. (*since 1.1.2*)
+closing or deleting a milestone. (<i>since 1.1.2</i>)
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[stats_provider](#milestone-stats_provider-option)</th>
+<tr><th><a href="#milestone-stats_provider-option">stats_provider</a></th>
 <th>
-Name of the component implementing `ITicketGroupStatsProvider`,
+Name of the component implementing <tt>ITicketGroupStatsProvider</tt>,
 which is used to collect statistics on groups of tickets for display
 in the milestone views.
 
+
 </th>
-<th>`DefaultTicketGroupStatsProvider`</th></tr></table>
+<th><tt>DefaultTicketGroupStatsProvider</tt></th></tr></table>
 
 ### `[milestone-groups]`
 
@@ -990,300 +1115,349 @@ CSS rule: `table.progress td.<class> { background: <color> }`
 to a [site/style.css](trac-interface-customization#site-appearance) file
 for example.
 
+
 ### `[mimeviewer]`
 
-<table><tr><th>[max_preview_size](#mimeviewer-max_preview_size-option)</th>
+<table><tr><th><a href="#mimeviewer-max_preview_size-option">max_preview_size</a></th>
 <th>
 Maximum file size for HTML preview.
 
+
 </th>
-<th>`262144`</th></tr>
-<tr><th>[mime_map](#mimeviewer-mime_map-option)</th>
+<th><tt>262144</tt></th></tr>
+<tr><th><a href="#mimeviewer-mime_map-option">mime_map</a></th>
 <th>
 List of additional MIME types and keyword mappings.
 Mappings are comma-separated, and for each MIME type,
-there's a colon (":") separated list of associated keywords
+there&apos;s a colon (&quot;:&quot;) separated list of associated keywords
 or file extensions.
 
+
 </th>
-<th>`text/x-dylan:dylan,text/x-idl:ice,text/x-ada:ads:adb`</th></tr>
-<tr><th>[mime_map_patterns](#mimeviewer-mime_map_patterns-option)</th>
+<th><tt>text/x-dylan:dylan,text/x-idl:ice,text/x-ada:ads:adb</tt></th></tr>
+<tr><th><a href="#mimeviewer-mime_map_patterns-option">mime_map_patterns</a></th>
 <th>
 List of additional MIME types associated to filename patterns.
 Mappings are comma-separated, and each mapping consists of a MIME type
 and a Python regexp used for matching filenames, separated by a colon
-(":"). (*since 1.0*)
+(&quot;:&quot;). (<i>since 1.0</i>)
+
 
 </th>
-<th>`text/plain:README(?!\.rst)|INSTALL(?!\.rst)|COPYING.*`</th></tr>
-<tr><th>[pygments_default_style](#mimeviewer-pygments_default_style-option)</th>
+<th><tt>text/plain:README(?!\.rst)|INSTALL(?!\.rst)|COPYING.*</tt></th></tr>
+<tr><th><a href="#mimeviewer-pygments_default_style-option">pygments_default_style</a></th>
 <th>
 The default style to use for Pygments syntax highlighting.
 
+
 </th>
-<th>`trac`</th></tr>
-<tr><th>[pygments_modes](#mimeviewer-pygments_modes-option)</th>
+<th><tt>trac</tt></th></tr>
+<tr><th><a href="#mimeviewer-pygments_modes-option">pygments_modes</a></th>
 <th>
 List of additional MIME types known by Pygments.
 
 
-For each, a tuple `mimetype:mode:quality` has to be
-specified, where `mimetype` is the MIME type,
-`mode` is the corresponding Pygments mode to be used
-for the conversion and `quality` is the quality ratio
+
+For each, a tuple <tt>mimetype:mode:quality</tt> has to be
+specified, where <tt>mimetype</tt> is the MIME type,
+<tt>mode</tt> is the corresponding Pygments mode to be used
+for the conversion and <tt>quality</tt> is the quality ratio
 associated to this conversion. That can also be used
 to override the default quality ratio used by the
 Pygments render.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[tab_width](#mimeviewer-tab_width-option)</th>
+<tr><th><a href="#mimeviewer-tab_width-option">tab_width</a></th>
 <th>
 Displayed tab width in file preview.
 
+
 </th>
-<th>`8`</th></tr>
-<tr><th>[treat_as_binary](#mimeviewer-treat_as_binary-option)</th>
+<th><tt>8</tt></th></tr>
+<tr><th><a href="#mimeviewer-treat_as_binary-option">treat_as_binary</a></th>
 <th>
 Comma-separated list of MIME types that should be treated as
 binary data.
 
+
 </th>
-<th>`application/octet-stream,application/pdf,application/postscript,application/msword,application/rtf`</th></tr></table>
+<th><tt>application/octet-stream,application/pdf,application/postscript,application/msword,application/rtf</tt></th></tr></table>
 
 ### `[notification]`
 
-<table><tr><th>[admit_domains](#notification-admit_domains-option)</th>
+<table><tr><th><a href="#notification-admit_domains-option">admit_domains</a></th>
 <th>
 Comma-separated list of domains that should be considered as
 valid for email addresses (such as localdomain).
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[ambiguous_char_width](#notification-ambiguous_char_width-option)</th>
+<tr><th><a href="#notification-ambiguous_char_width-option">ambiguous_char_width</a></th>
 <th>
 Width of ambiguous characters that should be used in the table
 of the notification mail.
 
 
-If `single`, the same width as characters in US-ASCII. This is
-expected by most users. If `double`, twice the width of
-US-ASCII characters.  This is expected by CJK users. (*since
-0.12.2*)
+
+If <tt>single</tt>, the same width as characters in US-ASCII. This is
+expected by most users. If <tt>double</tt>, twice the width of
+US-ASCII characters.  This is expected by CJK users. (<i>since
+0.12.2</i>)
+
 
 </th>
-<th>`single`</th></tr>
-<tr><th>[batch_subject_template](#notification-batch_subject_template-option)</th>
+<th><tt>single</tt></th></tr>
+<tr><th><a href="#notification-batch_subject_template-option">batch_subject_template</a></th>
 <th>
-Like `ticket_subject_template` but for batch modifications.
-(*since 1.0*)
+Like <tt>ticket_subject_template</tt> but for batch modifications.
+(<i>since 1.0</i>)
+
 
 </th>
-<th>`${prefix} Batch modify: ${tickets_descr}`</th></tr>
-<tr><th>[default_format.email](#notification-default_format.email-option)</th>
+<th><tt>${prefix} Batch modify: ${tickets_descr}</tt></th></tr>
+<tr><th><a href="#notification-default_format.email-option">default_format.email</a></th>
 <th>
 Default format to distribute email notifications.
 
+
 </th>
-<th>`text/plain`</th></tr>
-<tr><th>[email_address_resolvers](#notification-email_address_resolvers-option)</th>
+<th><tt>text/plain</tt></th></tr>
+<tr><th><a href="#notification-email_address_resolvers-option">email_address_resolvers</a></th>
 <th>
 Comma separated list of email resolver components in the order
 they will be called.  If an email address is resolved, the remaining
 resolvers will not be called.
 
+
 </th>
-<th>`SessionEmailResolver`</th></tr>
-<tr><th>[email_sender](#notification-email_sender-option)</th>
+<th><tt>SessionEmailResolver</tt></th></tr>
+<tr><th><a href="#notification-email_sender-option">email_sender</a></th>
 <th>
-Name of the component implementing `IEmailSender`.
+Name of the component implementing <tt>IEmailSender</tt>.
+
 
 
 This component is used by the notification system to send emails.
-Trac currently provides `SmtpEmailSender` for connecting to an SMTP
-server, and `SendmailEmailSender` for running a `sendmail`-compatible
-executable. (*since 0.12*)
+Trac currently provides <tt>SmtpEmailSender</tt> for connecting to an SMTP
+server, and <tt>SendmailEmailSender</tt> for running a <tt>sendmail</tt>-compatible
+executable. (<i>since 0.12</i>)
+
 
 </th>
-<th>`SmtpEmailSender`</th></tr>
-<tr><th>[ignore_domains](#notification-ignore_domains-option)</th>
+<th><tt>SmtpEmailSender</tt></th></tr>
+<tr><th><a href="#notification-ignore_domains-option">ignore_domains</a></th>
 <th>
 Comma-separated list of domains that should not be considered
 part of email addresses (for usernames with Kerberos domains).
 
-</th>
-<th>(no default)</th></tr>
-<tr><th>[message_id_hash](#notification-message_id_hash-option)</th>
-<th>
-Hash algorithm to create unique Message-ID header.
-*(since 1.0.13)*
 
 </th>
-<th>`md5`</th></tr>
-<tr><th>[mime_encoding](#notification-mime_encoding-option)</th>
+<th>(no default)</th></tr>
+<tr><th><a href="#notification-message_id_hash-option">message_id_hash</a></th>
+<th>
+Hash algorithm to create unique Message-ID header.
+<i>(since 1.0.13)</i>
+
+
+</th>
+<th><tt>md5</tt></th></tr>
+<tr><th><a href="#notification-mime_encoding-option">mime_encoding</a></th>
 <th>
 Specifies the MIME encoding scheme for emails.
 
 
-Supported values are: `none`, the default value which uses 7-bit
-encoding if the text is plain ASCII or 8-bit otherwise. `base64`,
+
+Supported values are: <tt>none</tt>, the default value which uses 7-bit
+encoding if the text is plain ASCII or 8-bit otherwise. <tt>base64</tt>,
 which works with any kind of content but may cause some issues with
-touchy anti-spam/anti-virus engine. `qp` or `quoted-printable`,
+touchy anti-spam/anti-virus engine. <tt>qp</tt> or <tt>quoted-printable</tt>,
 which works best for european languages (more compact than base64) if
 8-bit encoding cannot be used.
 
+
 </th>
-<th>`none`</th></tr>
-<tr><th>[sendmail_path](#notification-sendmail_path-option)</th>
+<th><tt>none</tt></th></tr>
+<tr><th><a href="#notification-sendmail_path-option">sendmail_path</a></th>
 <th>
 Path to the sendmail executable.
 
 
-The sendmail program must accept the `-i` and `-f` options.
+
+The sendmail program must accept the <tt>-i</tt> and <tt>-f</tt> options.
+
 
 >
-> (*since 0.12*)
+>
+> (<i>since 0.12</i>)
+>
+>
 
 </th>
-<th>`sendmail`</th></tr>
-<tr><th>[smtp_always_bcc](#notification-smtp_always_bcc-option)</th>
+<th><tt>sendmail</tt></th></tr>
+<tr><th><a href="#notification-smtp_always_bcc-option">smtp_always_bcc</a></th>
 <th>
 Comma-separated list of email addresses to always send
 notifications to. Addresses are not public (Bcc:).
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[smtp_always_cc](#notification-smtp_always_cc-option)</th>
+<tr><th><a href="#notification-smtp_always_cc-option">smtp_always_cc</a></th>
 <th>
 Comma-separated list of email addresses to always send
 notifications to. Addresses can be seen by all recipients
 (Cc:).
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[smtp_default_domain](#notification-smtp_default_domain-option)</th>
+<tr><th><a href="#notification-smtp_default_domain-option">smtp_default_domain</a></th>
 <th>
 Default host/domain to append to addresses that do not specify
 one. Fully qualified addresses are not modified. The default
 domain is appended to all username/login for which an email
 address cannot be found in the user settings.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[smtp_enabled](#notification-smtp_enabled-option)</th>
+<tr><th><a href="#notification-smtp_enabled-option">smtp_enabled</a></th>
 <th>
 Enable email notification.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[smtp_from](#notification-smtp_from-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#notification-smtp_from-option">smtp_from</a></th>
 <th>
 Sender address to use in notification emails.
 
 
-At least one of `smtp_from` and `smtp_replyto` must be set, otherwise
+
+At least one of <tt>smtp_from</tt> and <tt>smtp_replyto</tt> must be set, otherwise
 Trac refuses to send notification mails.
 
+
 </th>
-<th>`trac@localhost`</th></tr>
-<tr><th>[smtp_from_author](#notification-smtp_from_author-option)</th>
+<th><tt>trac@localhost</tt></th></tr>
+<tr><th><a href="#notification-smtp_from_author-option">smtp_from_author</a></th>
 <th>
 Use the author of the change as the sender in notification emails
 (e.g. reporter of a new ticket, author of a comment). If the
-author hasn't set an email address, `smtp_from` and
-`smtp_from_name` are used instead.
-(*since 1.0*)
+author hasn&apos;t set an email address, <tt>smtp_from</tt> and
+<tt>smtp_from_name</tt> are used instead.
+(<i>since 1.0</i>)
+
 
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[smtp_from_name](#notification-smtp_from_name-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#notification-smtp_from_name-option">smtp_from_name</a></th>
 <th>
 Sender name to use in notification emails.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[smtp_password](#notification-smtp_password-option)</th>
+<tr><th><a href="#notification-smtp_password-option">smtp_password</a></th>
 <th>
 Password for authenticating with SMTP server.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[smtp_port](#notification-smtp_port-option)</th>
+<tr><th><a href="#notification-smtp_port-option">smtp_port</a></th>
 <th>
 SMTP server port to use for email notification.
 
+
 </th>
-<th>`25`</th></tr>
-<tr><th>[smtp_replyto](#notification-smtp_replyto-option)</th>
+<th><tt>25</tt></th></tr>
+<tr><th><a href="#notification-smtp_replyto-option">smtp_replyto</a></th>
 <th>
 Reply-To address to use in notification emails.
 
 
-At least one of `smtp_from` and `smtp_replyto` must be set, otherwise
+
+At least one of <tt>smtp_from</tt> and <tt>smtp_replyto</tt> must be set, otherwise
 Trac refuses to send notification mails.
 
+
 </th>
-<th>`trac@localhost`</th></tr>
-<tr><th>[smtp_server](#notification-smtp_server-option)</th>
+<th><tt>trac@localhost</tt></th></tr>
+<tr><th><a href="#notification-smtp_server-option">smtp_server</a></th>
 <th>
 SMTP server hostname to use for email notifications.
 
+
 </th>
-<th>`localhost`</th></tr>
-<tr><th>[smtp_subject_prefix](#notification-smtp_subject_prefix-option)</th>
+<th><tt>localhost</tt></th></tr>
+<tr><th><a href="#notification-smtp_subject_prefix-option">smtp_subject_prefix</a></th>
 <th>
 Text to prepend to subject line of notification emails.
 
 
-If the setting is not defined, then `[$project_name]` is used as the
+
+If the setting is not defined, then <tt>[$project_name]</tt> is used as the
 prefix. If no prefix is desired, then specifying an empty option
 will disable it.
 
+
 </th>
-<th>`__default__`</th></tr>
-<tr><th>[smtp_user](#notification-smtp_user-option)</th>
+<th><tt>__default__</tt></th></tr>
+<tr><th><a href="#notification-smtp_user-option">smtp_user</a></th>
 <th>
 Username for authenticating with SMTP server.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[ticket_subject_template](#notification-ticket_subject_template-option)</th>
+<tr><th><a href="#notification-ticket_subject_template-option">ticket_subject_template</a></th>
 <th>
 A Genshi text template snippet used to get the notification
 subject.
 
 
+
 The template variables are documented on the
-[TracNotification](trac-notification#) page.
+<a href="trac-notification#">TracNotification</a> page.
+
 
 </th>
-<th>`${prefix} #${ticket.id}: ${summary}`</th></tr>
-<tr><th>[use_public_cc](#notification-use_public_cc-option)</th>
+<th><tt>${prefix} #${ticket.id}: ${summary}</tt></th></tr>
+<tr><th><a href="#notification-use_public_cc-option">use_public_cc</a></th>
 <th>
 Addresses in the To and Cc fields are visible to all recipients.
 
 
+
 If this option is disabled, recipients are put in the Bcc list.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[use_short_addr](#notification-use_short_addr-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#notification-use_short_addr-option">use_short_addr</a></th>
 <th>
 Permit email address without a host/domain (i.e. username only).
 
 
+
 The SMTP server should accept those addresses, and either append
-a FQDN or use local delivery. See also `smtp_default_domain`. Do not
+a FQDN or use local delivery. See also <tt>smtp_default_domain</tt>. Do not
 use this option with a public SMTP server.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[use_tls](#notification-use_tls-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#notification-use_tls-option">use_tls</a></th>
 <th>
 Use SSL/TLS to send notifications over SMTP.
 
+
 </th>
-<th>`disabled`</th></tr></table>
+<th><tt>disabled</tt></th></tr></table>
 
 ### `[notification-subscriber]`
 
@@ -1300,70 +1474,80 @@ Available subscribers:
 
 <table><tr><th>Subscriber</th>
 <th>Description</th></tr>
-<tr><th>`AlwaysEmailSubscriber`</th>
+<tr><th><tt>AlwaysEmailSubscriber</tt></th>
 <th></th></tr>
-<tr><th>`CarbonCopySubscriber`</th>
-<th>Ticket that I'm listed in the CC field is modified</th></tr>
-<tr><th>`TicketAlwaysEmailSubscriber`</th>
+<tr><th><tt>CarbonCopySubscriber</tt></th>
+<th>Ticket that I&apos;m listed in the CC field is modified</th></tr>
+<tr><th><tt>TicketAlwaysEmailSubscriber</tt></th>
 <th></th></tr>
-<tr><th>`TicketOwnerSubscriber`</th>
+<tr><th><tt>TicketOwnerSubscriber</tt></th>
 <th>Ticket that I own is created or modified</th></tr>
-<tr><th>`TicketPreviousUpdatersSubscriber`</th>
+<tr><th><tt>TicketPreviousUpdatersSubscriber</tt></th>
 <th>Ticket that I previously updated is modified</th></tr>
-<tr><th>`TicketReporterSubscriber`</th>
+<tr><th><tt>TicketReporterSubscriber</tt></th>
 <th>Ticket that I reported is modified</th></tr>
-<tr><th>`TicketUpdaterSubscriber`</th>
+<tr><th><tt>TicketUpdaterSubscriber</tt></th>
 <th>I update a ticket</th></tr></table>
+
+
 
 ### `[project]`
 
-<table><tr><th>[admin](#project-admin-option)</th>
+<table><tr><th><a href="#project-admin-option">admin</a></th>
 <th>
-E-Mail address of the project's administrator.
+E-Mail address of the project&apos;s administrator.
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[admin_trac_url](#project-admin_trac_url-option)</th>
+<tr><th><a href="#project-admin_trac_url-option">admin_trac_url</a></th>
 <th>
 Base URL of a Trac instance where errors in this Trac
 should be reported.
 
 
-This can be an absolute or relative URL, or '.' to reference
+
+This can be an absolute or relative URL, or &apos;.&apos; to reference
 this Trac instance. An empty value will disable the reporting
 buttons.
 
+
 </th>
-<th>`.`</th></tr>
-<tr><th>[descr](#project-descr-option)</th>
+<th><tt>.</tt></th></tr>
+<tr><th><a href="#project-descr-option">descr</a></th>
 <th>
 Short description of the project.
 
+
 </th>
-<th>`My example project`</th></tr>
-<tr><th>[footer](#project-footer-option)</th>
+<th><tt>My example project</tt></th></tr>
+<tr><th><a href="#project-footer-option">footer</a></th>
 <th>
 Page footer text (right-aligned).
 
+
 </th>
-<th>`Visit the Trac open source project at<br /><a href="http://trac.edgewall.org/">http://trac.edgewall.org/</a>`</th></tr>
-<tr><th>[icon](#project-icon-option)</th>
+<th><tt>Visit the Trac open source project at<br /><a href="http://trac.edgewall.org/">http://trac.edgewall.org/</a></tt></th></tr>
+<tr><th><a href="#project-icon-option">icon</a></th>
 <th>
 URL of the icon of the project.
 
+
 </th>
-<th>`common/trac.ico`</th></tr>
-<tr><th>[name](#project-name-option)</th>
+<th><tt>common/trac.ico</tt></th></tr>
+<tr><th><a href="#project-name-option">name</a></th>
 <th>
 Name of the project.
 
+
 </th>
-<th>`My Project`</th></tr>
-<tr><th>[url](#project-url-option)</th>
+<th><tt>My Project</tt></th></tr>
+<tr><th><a href="#project-url-option">url</a></th>
 <th>
 URL of the main project web site, usually the website in
-which the `base_url` resides. This is used in notification
+which the <tt>base_url</tt> resides. This is used in notification
 e-mails.
+
 
 </th>
 <th>(no default)</th></tr></table>
@@ -1378,8 +1562,11 @@ For example, to set the
 [ PhpLexer](http://pygments.org/docs/lexers/#lexers-for-php-and-related-languages) options
 `startinline` and `funcnamehighlighting`:
 
+
 ```
-[pygments-lexer]php.startinline=Truephp.funcnamehighlighting=True
+[pygments-lexer]
+php.startinline = True
+php.funcnamehighlighting = True
 ```
 
 
@@ -1387,56 +1574,66 @@ The lexer name is derived from the class name, with `Lexer` stripped
 from the end. The lexer *short names* can also be used in place
 of the lexer name.
 
+
 ### `[query]`
 
-<table><tr><th>[default_anonymous_query](#query-default_anonymous_query-option)</th>
+<table><tr><th><a href="#query-default_anonymous_query-option">default_anonymous_query</a></th>
 <th>
 The default query for anonymous users. The query is either
-in [query language](trac-query#query-language) syntax, or a URL query
-string starting with `?` as used in `query:`[Trac links](trac-query#using-traclinks).
+in <a href="trac-query#query-language">query language</a> syntax, or a URL query
+string starting with <tt>?</tt> as used in <tt>query:</tt>
+<a href="trac-query#using-traclinks">Trac links</a>.
+
 
 </th>
-<th>`status!=closed&cc~=$USER`</th></tr>
-<tr><th>[default_query](#query-default_query-option)</th>
+<th><tt>status!=closed&cc~=$USER</tt></th></tr>
+<tr><th><a href="#query-default_query-option">default_query</a></th>
 <th>
 The default query for authenticated users. The query is either
-in [query language](trac-query#query-language) syntax, or a URL query
-string starting with `?` as used in `query:`[Trac links](trac-query#using-traclinks).
+in <a href="trac-query#query-language">query language</a> syntax, or a URL query
+string starting with <tt>?</tt> as used in <tt>query:</tt>
+<a href="trac-query#using-traclinks">Trac links</a>.
+
 
 </th>
-<th>`status!=closed&owner=$USER`</th></tr>
-<tr><th>[items_per_page](#query-items_per_page-option)</th>
+<th><tt>status!=closed&owner=$USER</tt></th></tr>
+<tr><th><a href="#query-items_per_page-option">items_per_page</a></th>
 <th>
 Number of tickets displayed per page in ticket queries,
 by default.
 
+
 </th>
-<th>`100`</th></tr>
-<tr><th>[ticketlink_query](#query-ticketlink_query-option)</th>
+<th><tt>100</tt></th></tr>
+<tr><th><a href="#query-ticketlink_query-option">ticketlink_query</a></th>
 <th>
 The base query to be used when linkifying values of ticket
 fields. The query is a URL query
-string starting with `?` as used in `query:`[Trac links](trac-query#using-traclinks).
-(*since 0.12*)
+string starting with <tt>?</tt> as used in <tt>query:</tt>
+<a href="trac-query#using-traclinks">Trac links</a>.
+(<i>since 0.12</i>)
+
 
 </th>
-<th>`?status=!closed`</th></tr></table>
+<th><tt>?status=!closed</tt></th></tr></table>
 
 ### `[report]`
 
-<table><tr><th>[items_per_page](#report-items_per_page-option)</th>
+<table><tr><th><a href="#report-items_per_page-option">items_per_page</a></th>
 <th>
 Number of tickets displayed per page in ticket reports,
 by default.
 
+
 </th>
-<th>`100`</th></tr>
-<tr><th>[items_per_page_rss](#report-items_per_page_rss-option)</th>
+<th><tt>100</tt></th></tr>
+<tr><th><a href="#report-items_per_page_rss-option">items_per_page_rss</a></th>
 <th>
 Number of tickets displayed in the rss feeds for reports.
 
+
 </th>
-<th>`0`</th></tr></table>
+<th><tt>0</tt></th></tr></table>
 
 ### `[repositories]`
 
@@ -1455,58 +1652,65 @@ about the format adopted for this section and the rest of that page for
 the other alternatives.
 
 
+
 (*since 0.12*)
+
 
 ### `[revisionlog]`
 
-<table><tr><th>[default_log_limit](#revisionlog-default_log_limit-option)</th>
+<table><tr><th><a href="#revisionlog-default_log_limit-option">default_log_limit</a></th>
 <th>
-Default value for the limit argument in the [TracRevisionLog](trac-revision-log).
+Default value for the limit argument in the <a href="trac-revision-log">TracRevisionLog</a>.
+
 
 </th>
-<th>`100`</th></tr>
-<tr><th>[graph_colors](#revisionlog-graph_colors-option)</th>
+<th><tt>100</tt></th></tr>
+<tr><th><a href="#revisionlog-graph_colors-option">graph_colors</a></th>
 <th>
-Comma-separated list of colors to use for the [TracRevisionLog](trac-revision-log)
-graph display. (*since 1.0*)
+Comma-separated list of colors to use for the <a href="trac-revision-log">TracRevisionLog</a>
+graph display. (<i>since 1.0</i>)
+
 
 </th>
-<th>`#cc0,#0c0,#0cc,#00c,#c0c,#c00`</th></tr></table>
+<th><tt>#cc0,#0c0,#0cc,#00c,#c0c,#c00</tt></th></tr></table>
 
 ### `[roadmap]`
 
-<table><tr><th>[stats_provider](#roadmap-stats_provider-option)</th>
+<table><tr><th><a href="#roadmap-stats_provider-option">stats_provider</a></th>
 <th>
-Name of the component implementing `ITicketGroupStatsProvider`,
+Name of the component implementing <tt>ITicketGroupStatsProvider</tt>,
 which is used to collect statistics on groups of tickets for display
 in the roadmap views.
 
+
 </th>
-<th>`DefaultTicketGroupStatsProvider`</th></tr></table>
+<th><tt>DefaultTicketGroupStatsProvider</tt></th></tr></table>
 
 ### `[search]`
 
-<table><tr><th>[default_disabled_filters](#search-default_disabled_filters-option)</th>
+<table><tr><th><a href="#search-default_disabled_filters-option">default_disabled_filters</a></th>
 <th>
 Specifies which search filters should be disabled by
 default on the search page. This will also restrict the
 filters for the quick search function. The filter names
-defined by default components are: `wiki`, `ticket`,
-`milestone` and `changeset`.  For plugins, look for
+defined by default components are: <tt>wiki</tt>, <tt>ticket</tt>,
+<tt>milestone</tt> and <tt>changeset</tt>.  For plugins, look for
 their implementation of the ISearchSource interface, in
-the `get_search_filters()` method, the first member of
+the <tt>get_search_filters()</tt> method, the first member of
 returned tuple. Once disabled, search filters can still
 be manually enabled by the user on the search page.
-(*since 0.12*)
+(<i>since 0.12</i>)
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[min_query_length](#search-min_query_length-option)</th>
+<tr><th><a href="#search-min_query_length-option">min_query_length</a></th>
 <th>
 Minimum length of query string allowed when performing a search.
 
+
 </th>
-<th>`3`</th></tr></table>
+<th><tt>3</tt></th></tr></table>
 
 ### `[spam-filter]`
 
@@ -1514,367 +1718,424 @@ Minimum length of query string allowed when performing a search.
 This section is used to handle all configurations used by
 spam filter plugin.
 
-<table><tr><th>[account_karma](#spam-filter-account_karma-option)</th>
+
+<table><tr><th><a href="#spam-filter-account_karma-option">account_karma</a></th>
 <th>
 By how many points a failed registration check impacts
 the overall score.
 
+
 </th>
-<th>`0`</th></tr>
-<tr><th>[account_replace_checks](#spam-filter-account_replace_checks-option)</th>
+<th><tt>0</tt></th></tr>
+<tr><th><a href="#spam-filter-account_replace_checks-option">account_replace_checks</a></th>
 <th>
 Replace checks in account manager totally.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[akismet_api_key](#spam-filter-akismet_api_key-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#spam-filter-akismet_api_key-option">akismet_api_key</a></th>
 <th>
 Wordpress key required to use the Akismet API.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[akismet_api_url](#spam-filter-akismet_api_url-option)</th>
+<tr><th><a href="#spam-filter-akismet_api_url-option">akismet_api_url</a></th>
 <th>
 URL of the Akismet service.
 
+
 </th>
-<th>`rest.akismet.com/1.1/`</th></tr>
-<tr><th>[akismet_karma](#spam-filter-akismet_karma-option)</th>
+<th><tt>rest.akismet.com/1.1/</tt></th></tr>
+<tr><th><a href="#spam-filter-akismet_karma-option">akismet_karma</a></th>
 <th>
 By how many points an Akismet reject impacts the overall karma of
 a submission.
 
+
 </th>
-<th>`10`</th></tr>
-<tr><th>[attachment_karma](#spam-filter-attachment_karma-option)</th>
+<th><tt>10</tt></th></tr>
+<tr><th><a href="#spam-filter-attachment_karma-option">attachment_karma</a></th>
 <th>
 The karma given to attachments.
 
+
 </th>
-<th>`0`</th></tr>
-<tr><th>[attachment_sample_size](#spam-filter-attachment_sample_size-option)</th>
+<th><tt>0</tt></th></tr>
+<tr><th><a href="#spam-filter-attachment_sample_size-option">attachment_sample_size</a></th>
 <th>
 The maximum number of bytes from an attachment to pass through
 the spam filters.
 
-</th>
-<th>`16384`</th></tr>
-<tr><th>[authenticated_karma](#spam-filter-authenticated_karma-option)</th>
-<th>
-The karma given to authenticated users, in case
-`trust_authenticated` is false.
 
 </th>
-<th>`20`</th></tr>
-<tr><th>[badcontent_file](#spam-filter-badcontent_file-option)</th>
+<th><tt>16384</tt></th></tr>
+<tr><th><a href="#spam-filter-authenticated_karma-option">authenticated_karma</a></th>
 <th>
-Local file to be loaded to get [BadContent](bad-content). Can be used in
-addition to [BadContent](bad-content) wiki page.
+The karma given to authenticated users, in case
+<tt>trust_authenticated</tt> is false.
+
+
+</th>
+<th><tt>20</tt></th></tr>
+<tr><th><a href="#spam-filter-badcontent_file-option">badcontent_file</a></th>
+<th>
+Local file to be loaded to get <a href="bad-content">BadContent</a>. Can be used in
+addition to <a href="bad-content">BadContent</a> wiki page.
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[bayes_karma](#spam-filter-bayes_karma-option)</th>
+<tr><th><a href="#spam-filter-bayes_karma-option">bayes_karma</a></th>
 <th>
 By what factor Bayesian spam probability score affects the overall
 karma of a submission.
 
+
 </th>
-<th>`15`</th></tr>
-<tr><th>[bayes_min_training](#spam-filter-bayes_min_training-option)</th>
+<th><tt>15</tt></th></tr>
+<tr><th><a href="#spam-filter-bayes_min_training-option">bayes_min_training</a></th>
 <th>
 The minimum number of submissions in the training database required
 for the filter to start impacting the karma of submissions.
 
+
 </th>
-<th>`25`</th></tr>
-<tr><th>[blogspam_json_api_url](#spam-filter-blogspam_json_api_url-option)</th>
+<th><tt>25</tt></th></tr>
+<tr><th><a href="#spam-filter-blogspam_json_api_url-option">blogspam_json_api_url</a></th>
 <th>
 URL of the BlogSpam service.
 
+
 </th>
-<th>`test.blogspam.net:9999`</th></tr>
-<tr><th>[blogspam_json_skip_tests](#spam-filter-blogspam_json_skip_tests-option)</th>
+<th><tt>test.blogspam.net:9999</tt></th></tr>
+<tr><th><a href="#spam-filter-blogspam_json_skip_tests-option">blogspam_json_skip_tests</a></th>
 <th>
 Comma separated list of tests to skip.
 
+
 </th>
-<th>`45-wordcount.js,60-drone.js,80-sfs.js`</th></tr>
-<tr><th>[blogspam_karma](#spam-filter-blogspam_karma-option)</th>
+<th><tt>45-wordcount.js,60-drone.js,80-sfs.js</tt></th></tr>
+<tr><th><a href="#spam-filter-blogspam_karma-option">blogspam_karma</a></th>
 <th>
 By how many points an BlogSpam reject impacts the overall karma of
 a submission.
 
+
 </th>
-<th>`5`</th></tr>
-<tr><th>[botscout_api_key](#spam-filter-botscout_api_key-option)</th>
+<th><tt>5</tt></th></tr>
+<tr><th><a href="#spam-filter-botscout_api_key-option">botscout_api_key</a></th>
 <th>
 API key required to use BotScout.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[botscout_karma](#spam-filter-botscout_karma-option)</th>
+<tr><th><a href="#spam-filter-botscout_karma-option">botscout_karma</a></th>
 <th>
 By how many points a BotScout reject impacts the overall karma of
 a submission.
 
+
 </th>
-<th>`3`</th></tr>
-<tr><th>[captcha](#spam-filter-captcha-option)</th>
+<th><tt>3</tt></th></tr>
+<tr><th><a href="#spam-filter-captcha-option">captcha</a></th>
 <th>
 CAPTCHA method to use for verifying humans.
 
+
 </th>
-<th>`ExpressionCaptcha`</th></tr>
-<tr><th>[captcha_areyouahuman_host](#spam-filter-captcha_areyouahuman_host-option)</th>
+<th><tt>ExpressionCaptcha</tt></th></tr>
+<tr><th><a href="#spam-filter-captcha_areyouahuman_host-option">captcha_areyouahuman_host</a></th>
 <th>
 Host name for AreYouAHuman usage.
 
+
 </th>
-<th>`ws.areyouahuman.com`</th></tr>
-<tr><th>[captcha_areyouahuman_publisher_key](#spam-filter-captcha_areyouahuman_publisher_key-option)</th>
+<th><tt>ws.areyouahuman.com</tt></th></tr>
+<tr><th><a href="#spam-filter-captcha_areyouahuman_publisher_key-option">captcha_areyouahuman_publisher_key</a></th>
 <th>
 Publisher key for AreYouAHuman usage.
 
-</th>
-<th>(no default)</th></tr>
-<tr><th>[captcha_areyouahuman_scoring_key](#spam-filter-captcha_areyouahuman_scoring_key-option)</th>
-<th>
-Scoring key for AreYouAHuman usage.
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[captcha_expression_ceiling](#spam-filter-captcha_expression_ceiling-option)</th>
+<tr><th><a href="#spam-filter-captcha_areyouahuman_scoring_key-option">captcha_areyouahuman_scoring_key</a></th>
+<th>
+Scoring key for AreYouAHuman usage.
+
+
+</th>
+<th>(no default)</th></tr>
+<tr><th><a href="#spam-filter-captcha_expression_ceiling-option">captcha_expression_ceiling</a></th>
 <th>
 Maximum value of individual terms in numeric CAPTCHA
 expression.
 
+
 </th>
-<th>`10`</th></tr>
-<tr><th>[captcha_expression_terms](#spam-filter-captcha_expression_terms-option)</th>
+<th><tt>10</tt></th></tr>
+<tr><th><a href="#spam-filter-captcha_expression_terms-option">captcha_expression_terms</a></th>
 <th>
 Number of terms in numeric CAPTCHA expression.
 
+
 </th>
-<th>`3`</th></tr>
-<tr><th>[captcha_failed_karma](#spam-filter-captcha_failed_karma-option)</th>
+<th><tt>3</tt></th></tr>
+<tr><th><a href="#spam-filter-captcha_failed_karma-option">captcha_failed_karma</a></th>
 <th>
 By how many points a failed CAPTCHA impacts the overall score.
 
+
 </th>
-<th>`1`</th></tr>
-<tr><th>[captcha_image_alphabet](#spam-filter-captcha_image_alphabet-option)</th>
+<th><tt>1</tt></th></tr>
+<tr><th><a href="#spam-filter-captcha_image_alphabet-option">captcha_image_alphabet</a></th>
 <th>
 Alphabet to choose image CAPTCHA challenge from.
 
+
 </th>
-<th>`abcdefghkmnopqrstuvwxyz`</th></tr>
-<tr><th>[captcha_image_font_size](#spam-filter-captcha_image_font_size-option)</th>
+<th><tt>abcdefghkmnopqrstuvwxyz</tt></th></tr>
+<tr><th><a href="#spam-filter-captcha_image_font_size-option">captcha_image_font_size</a></th>
 <th>
 Font size to use in image CAPTCHA.
 
+
 </th>
-<th>`25`</th></tr>
-<tr><th>[captcha_image_fonts](#spam-filter-captcha_image_fonts-option)</th>
+<th><tt>25</tt></th></tr>
+<tr><th><a href="#spam-filter-captcha_image_fonts-option">captcha_image_fonts</a></th>
 <th>
 Set of fonts to choose from when generating image CAPTCHA.
 
+
 </th>
-<th>`vera.ttf`</th></tr>
-<tr><th>[captcha_image_letters](#spam-filter-captcha_image_letters-option)</th>
+<th><tt>vera.ttf</tt></th></tr>
+<tr><th><a href="#spam-filter-captcha_image_letters-option">captcha_image_letters</a></th>
 <th>
 Number of letters to use in image CAPTCHA challenge.
 
+
 </th>
-<th>`6`</th></tr>
-<tr><th>[captcha_karma](#spam-filter-captcha_karma-option)</th>
+<th><tt>6</tt></th></tr>
+<tr><th><a href="#spam-filter-captcha_karma-option">captcha_karma</a></th>
 <th>
 By how many points a successful CAPTCHA response increases the
 overall score.
 
+
 </th>
-<th>`20`</th></tr>
-<tr><th>[captcha_karma_lifetime](#spam-filter-captcha_karma_lifetime-option)</th>
+<th><tt>20</tt></th></tr>
+<tr><th><a href="#spam-filter-captcha_karma_lifetime-option">captcha_karma_lifetime</a></th>
 <th>
 Time in seconds that a successful CAPTCHA response increases
 karma.
 
+
 </th>
-<th>`86400`</th></tr>
-<tr><th>[captcha_keycaptcha_private_key](#spam-filter-captcha_keycaptcha_private_key-option)</th>
+<th><tt>86400</tt></th></tr>
+<tr><th><a href="#spam-filter-captcha_keycaptcha_private_key-option">captcha_keycaptcha_private_key</a></th>
 <th>
 Private key for KeyCaptcha usage.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[captcha_keycaptcha_user_id](#spam-filter-captcha_keycaptcha_user_id-option)</th>
+<tr><th><a href="#spam-filter-captcha_keycaptcha_user_id-option">captcha_keycaptcha_user_id</a></th>
 <th>
 User id for KeyCaptcha usage.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[captcha_lifetime](#spam-filter-captcha_lifetime-option)</th>
+<tr><th><a href="#spam-filter-captcha_lifetime-option">captcha_lifetime</a></th>
 <th>
 Time in seconds before database cleanup is called.
 
+
 </th>
-<th>`3600`</th></tr>
-<tr><th>[captcha_recaptcha_private_key](#spam-filter-captcha_recaptcha_private_key-option)</th>
+<th><tt>3600</tt></th></tr>
+<tr><th><a href="#spam-filter-captcha_recaptcha_private_key-option">captcha_recaptcha_private_key</a></th>
 <th>
 Private key for reCaptcha usage.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[captcha_recaptcha_public_key](#spam-filter-captcha_recaptcha_public_key-option)</th>
+<tr><th><a href="#spam-filter-captcha_recaptcha_public_key-option">captcha_recaptcha_public_key</a></th>
 <th>
 Public key for reCaptcha usage.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[extlinks_allowed_domains](#spam-filter-extlinks_allowed_domains-option)</th>
+<tr><th><a href="#spam-filter-extlinks_allowed_domains-option">extlinks_allowed_domains</a></th>
 <th>
 List of domains that should be allowed in external links
 
+
 </th>
-<th>`example.com,example.org`</th></tr>
-<tr><th>[extlinks_karma](#spam-filter-extlinks_karma-option)</th>
+<th><tt>example.com,example.org</tt></th></tr>
+<tr><th><a href="#spam-filter-extlinks_karma-option">extlinks_karma</a></th>
 <th>
 By how many points too many external links in a submission impact
 the overall score.
 
+
 </th>
-<th>`2`</th></tr>
-<tr><th>[fspamlist_api_key](#spam-filter-fspamlist_api_key-option)</th>
+<th><tt>2</tt></th></tr>
+<tr><th><a href="#spam-filter-fspamlist_api_key-option">fspamlist_api_key</a></th>
 <th>
 API key required to use FSpamList.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[fspamlist_karma](#spam-filter-fspamlist_karma-option)</th>
+<tr><th><a href="#spam-filter-fspamlist_karma-option">fspamlist_karma</a></th>
 <th>
 By how many points a FSpamList reject impacts the overall karma of
 a submission.
 
+
 </th>
-<th>`3`</th></tr>
-<tr><th>[httpbl_api_key](#spam-filter-httpbl_api_key-option)</th>
+<th><tt>3</tt></th></tr>
+<tr><th><a href="#spam-filter-httpbl_api_key-option">httpbl_api_key</a></th>
 <th>
 Http:BL API key required for use.
 
-</th>
-<th>(no default)</th></tr>
-<tr><th>[httpbl_spammer_karma](#spam-filter-httpbl_spammer_karma-option)</th>
-<th>
-By how many points listing as "comment spammer" impacts the
-overall karma of a submission.
 
 </th>
-<th>`6`</th></tr>
-<tr><th>[ip6_blacklist_servers](#spam-filter-ip6_blacklist_servers-option)</th>
+<th>(no default)</th></tr>
+<tr><th><a href="#spam-filter-httpbl_spammer_karma-option">httpbl_spammer_karma</a></th>
+<th>
+By how many points listing as &quot;comment spammer&quot; impacts the
+overall karma of a submission.
+
+
+</th>
+<th><tt>6</tt></th></tr>
+<tr><th><a href="#spam-filter-ip6_blacklist_servers-option">ip6_blacklist_servers</a></th>
 <th>
 Servers used for IPv6 blacklisting.
 
+
 </th>
-<th>`all.s5h.net,dnsbl.dronebl.org,bl.ipv6.spameatingmonkey.net`</th></tr>
-<tr><th>[ip_blacklist_karma](#spam-filter-ip_blacklist_karma-option)</th>
+<th><tt>all.s5h.net,dnsbl.dronebl.org,bl.ipv6.spameatingmonkey.net</tt></th></tr>
+<tr><th><a href="#spam-filter-ip_blacklist_karma-option">ip_blacklist_karma</a></th>
 <th>
 By how many points blacklisting by a single server impacts the
 overall karma of a submission.
 
+
 </th>
-<th>`5`</th></tr>
-<tr><th>[ip_blacklist_servers](#spam-filter-ip_blacklist_servers-option)</th>
+<th><tt>5</tt></th></tr>
+<tr><th><a href="#spam-filter-ip_blacklist_servers-option">ip_blacklist_servers</a></th>
 <th>
 Servers used for IPv4 blacklisting.
 
+
 </th>
-<th>`list.blogspambl.com,all.s5h.net,dnsbl.tornevall.org,dnsbl.dronebl.org`</th></tr>
-<tr><th>[ip_throttle_karma](#spam-filter-ip_throttle_karma-option)</th>
+<th><tt>list.blogspambl.com,all.s5h.net,dnsbl.tornevall.org,dnsbl.dronebl.org</tt></th></tr>
+<tr><th><a href="#spam-filter-ip_throttle_karma-option">ip_throttle_karma</a></th>
 <th>
 By how many points exceeding the configured maximum number of posts
 per hour impacts the overall score.
 
+
 </th>
-<th>`3`</th></tr>
-<tr><th>[ipbadcontent_file](#spam-filter-ipbadcontent_file-option)</th>
+<th><tt>3</tt></th></tr>
+<tr><th><a href="#spam-filter-ipbadcontent_file-option">ipbadcontent_file</a></th>
 <th>
 Local file to be loaded to get BadIP. Can be used in
 addition to BadIP wiki page.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[ipregex_karma](#spam-filter-ipregex_karma-option)</th>
+<tr><th><a href="#spam-filter-ipregex_karma-option">ipregex_karma</a></th>
 <th>
 By how many points a match with a pattern on the BadIP page
 impacts the overall karma of a submission.
 
+
 </th>
-<th>`20`</th></tr>
-<tr><th>[is_forwarded](#spam-filter-is_forwarded-option)</th>
+<th><tt>20</tt></th></tr>
+<tr><th><a href="#spam-filter-is_forwarded-option">is_forwarded</a></th>
 <th>
 Interpret X-Forwarded-For header for IP checks.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[logging_enabled](#spam-filter-logging_enabled-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#spam-filter-logging_enabled-option">logging_enabled</a></th>
 <th>
 Whether all content submissions and spam filtering activity should
 be logged to the database.
 
+
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[max_external_links](#spam-filter-max_external_links-option)</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#spam-filter-max_external_links-option">max_external_links</a></th>
 <th>
 The maximum number of external links allowed in a submission until
 that submission gets negative karma.
 
+
 </th>
-<th>`4`</th></tr>
-<tr><th>[max_posts_by_ip](#spam-filter-max_posts_by_ip-option)</th>
+<th><tt>4</tt></th></tr>
+<tr><th><a href="#spam-filter-max_posts_by_ip-option">max_posts_by_ip</a></th>
 <th>
 The maximum allowed number of submissions per hour from a single IP
 address. If this limit is exceeded, subsequent submissions get negative
 karma.
 
+
 </th>
-<th>`10`</th></tr>
-<tr><th>[min_karma](#spam-filter-min_karma-option)</th>
+<th><tt>10</tt></th></tr>
+<tr><th><a href="#spam-filter-min_karma-option">min_karma</a></th>
 <th>
 The minimum score required for a submission to be allowed.
 
+
 </th>
-<th>`0`</th></tr>
-<tr><th>[purge_age](#spam-filter-purge_age-option)</th>
+<th><tt>0</tt></th></tr>
+<tr><th><a href="#spam-filter-purge_age-option">purge_age</a></th>
 <th>
 The number of days after which log entries should be purged.
 
-</th>
-<th>`7`</th></tr>
-<tr><th>[regex_karma](#spam-filter-regex_karma-option)</th>
-<th>
-By how many points a match with a pattern on the [BadContent](bad-content) page
-impacts the overall karma of a submission.
 
 </th>
-<th>`5`</th></tr>
-<tr><th>[register_karma](#spam-filter-register_karma-option)</th>
+<th><tt>7</tt></th></tr>
+<tr><th><a href="#spam-filter-regex_karma-option">regex_karma</a></th>
+<th>
+By how many points a match with a pattern on the <a href="bad-content">BadContent</a> page
+impacts the overall karma of a submission.
+
+
+</th>
+<th><tt>5</tt></th></tr>
+<tr><th><a href="#spam-filter-register_karma-option">register_karma</a></th>
 <th>
 The karma given to registrations.
 
+
 </th>
-<th>`0`</th></tr>
-<tr><th>[reject_handler](#spam-filter-reject_handler-option)</th>
+<th><tt>0</tt></th></tr>
+<tr><th><a href="#spam-filter-reject_handler-option">reject_handler</a></th>
 <th>
 The handler used to reject content.
 
+
 </th>
-<th>`FilterSystem`</th></tr>
-<tr><th>[report_pages](#spam-filter-report_pages-option)</th>
+<th><tt>FilterSystem</tt></th></tr>
+<tr><th><a href="#spam-filter-report_pages-option">report_pages</a></th>
 <th>
 List of page types to add spam report link
 
+
 </th>
-<th>`wiki,attachment,ticket`</th></tr>
-<tr><th>[session_karma](#spam-filter-session_karma-option)</th>
+<th><tt>wiki,attachment,ticket</tt></th></tr>
+<tr><th><a href="#spam-filter-session_karma-option">session_karma</a></th>
 <th>
 By how many points an existing and configured session improves the
 overall karma of the submission. A third of the points is granted for
@@ -1882,206 +2143,235 @@ having an existing session at all, the other two thirds are granted
 when the user has his name and/or email address set in the session,
 respectively.
 
+
 </th>
-<th>`9`</th></tr>
-<tr><th>[show_blacklisted](#spam-filter-show_blacklisted-option)</th>
+<th><tt>9</tt></th></tr>
+<tr><th><a href="#spam-filter-show_blacklisted-option">show_blacklisted</a></th>
 <th>
 Show the matched bad content patterns in rejection message.
 
+
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[show_blacklisted_ip](#spam-filter-show_blacklisted_ip-option)</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#spam-filter-show_blacklisted_ip-option">show_blacklisted_ip</a></th>
 <th>
 Show the matched bad IP patterns in rejection message.
 
+
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[show_train_only](#spam-filter-show_train_only-option)</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#spam-filter-show_train_only-option">show_train_only</a></th>
 <th>
 Show the buttons for training without deleting entry.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[skip_external](#spam-filter-skip_external-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#spam-filter-skip_external-option">skip_external</a></th>
 <th>
 Skip external calls when this negative karma is already reached
 by internal tests.
 
+
 </th>
-<th>`20`</th></tr>
-<tr><th>[skip_externalham](#spam-filter-skip_externalham-option)</th>
+<th><tt>20</tt></th></tr>
+<tr><th><a href="#spam-filter-skip_externalham-option">skip_externalham</a></th>
 <th>
 Skip external calls when this positive karma is already reached
 by internal tests.
 
+
 </th>
-<th>`30`</th></tr>
-<tr><th>[spam_monitor_entries](#spam-filter-spam_monitor_entries-option)</th>
+<th><tt>30</tt></th></tr>
+<tr><th><a href="#spam-filter-spam_monitor_entries-option">spam_monitor_entries</a></th>
 <th>
 How many monitor entries are displayed by default (between 5 and 10000).
 
+
 </th>
-<th>`100`</th></tr>
-<tr><th>[spam_report_entries](#spam-filter-spam_report_entries-option)</th>
+<th><tt>100</tt></th></tr>
+<tr><th><a href="#spam-filter-spam_report_entries-option">spam_report_entries</a></th>
 <th>
 How many report entries are displayed by default (between 5 and 10000).
 
+
 </th>
-<th>`100`</th></tr>
-<tr><th>[spam_user_defaultmode](#spam-filter-spam_user_defaultmode-option)</th>
+<th><tt>100</tt></th></tr>
+<tr><th><a href="#spam-filter-spam_user_defaultmode-option">spam_user_defaultmode</a></th>
 <th>
 Default mode for spam user admin panel.
 
+
 </th>
-<th>`overview`</th></tr>
-<tr><th>[spam_user_maxage](#spam-filter-spam_user_maxage-option)</th>
+<th><tt>overview</tt></th></tr>
+<tr><th><a href="#spam-filter-spam_user_maxage-option">spam_user_maxage</a></th>
 <th>
 How many days no login are considered for dead accounts.
 
+
 </th>
-<th>`200`</th></tr>
-<tr><th>[spam_user_minwiki](#spam-filter-spam_user_minwiki-option)</th>
+<th><tt>200</tt></th></tr>
+<tr><th><a href="#spam-filter-spam_user_minwiki-option">spam_user_minwiki</a></th>
 <th>
 How many wiki edits are still an unused account.
 
+
 </th>
-<th>`0`</th></tr>
-<tr><th>[stop_external](#spam-filter-stop_external-option)</th>
+<th><tt>0</tt></th></tr>
+<tr><th><a href="#spam-filter-stop_external-option">stop_external</a></th>
 <th>
 Stop external calls when this negative karma is reached.
 
+
 </th>
-<th>`50`</th></tr>
-<tr><th>[stop_externalham](#spam-filter-stop_externalham-option)</th>
+<th><tt>50</tt></th></tr>
+<tr><th><a href="#spam-filter-stop_externalham-option">stop_externalham</a></th>
 <th>
 Stop external calls when this positive karma is reached.
 
+
 </th>
-<th>`50`</th></tr>
-<tr><th>[stopforumspam_api_key](#spam-filter-stopforumspam_api_key-option)</th>
+<th><tt>50</tt></th></tr>
+<tr><th><a href="#spam-filter-stopforumspam_api_key-option">stopforumspam_api_key</a></th>
 <th>
 API key used to report SPAM.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[stopforumspam_karma](#spam-filter-stopforumspam_karma-option)</th>
+<tr><th><a href="#spam-filter-stopforumspam_karma-option">stopforumspam_karma</a></th>
 <th>
 By how many points a StopForumSpam reject impacts the overall karma of
 a submission.
 
+
 </th>
-<th>`4`</th></tr>
-<tr><th>[train_external](#spam-filter-train_external-option)</th>
+<th><tt>4</tt></th></tr>
+<tr><th><a href="#spam-filter-train_external-option">train_external</a></th>
 <th>
 Allow training of external services.
 
+
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[trap_karma](#spam-filter-trap_karma-option)</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#spam-filter-trap_karma-option">trap_karma</a></th>
 <th>
 By how many points a trap reject impacts the overall karma of
 a submission.
 
+
 </th>
-<th>`10`</th></tr>
-<tr><th>[trap_name](#spam-filter-trap_name-option)</th>
+<th><tt>10</tt></th></tr>
+<tr><th><a href="#spam-filter-trap_name-option">trap_name</a></th>
 <th>
 Name of the invisible trap field, should contain some reference
 to e-mail for better results.
 
+
 </th>
-<th>`sfp_email`</th></tr>
-<tr><th>[trap_name_hidden](#spam-filter-trap_name_hidden-option)</th>
+<th><tt>sfp_email</tt></th></tr>
+<tr><th><a href="#spam-filter-trap_name_hidden-option">trap_name_hidden</a></th>
 <th>
 Name of the hidden trap field, should contain some reference
 to e-mail for better results.
 
+
 </th>
-<th>`sfph_mail`</th></tr>
-<tr><th>[trap_name_register](#spam-filter-trap_name_register-option)</th>
+<th><tt>sfph_mail</tt></th></tr>
+<tr><th><a href="#spam-filter-trap_name_register-option">trap_name_register</a></th>
 <th>
 Name of the register trap field, should contain some reference
 to web/homepage for better results.
 
+
 </th>
-<th>`spf_homepage`</th></tr>
-<tr><th>[trust_authenticated](#spam-filter-trust_authenticated-option)</th>
+<th><tt>spf_homepage</tt></th></tr>
+<tr><th><a href="#spam-filter-trust_authenticated-option">trust_authenticated</a></th>
 <th>
 Whether content submissions by authenticated users should be trusted
 without checking for potential spam or other abuse.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[url_blacklist_karma](#spam-filter-url_blacklist_karma-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#spam-filter-url_blacklist_karma-option">url_blacklist_karma</a></th>
 <th>
 By how many points blacklisting by a single bad URL impacts the
 overall karma of a submission.
 
+
 </th>
-<th>`3`</th></tr>
-<tr><th>[url_blacklist_servers](#spam-filter-url_blacklist_servers-option)</th>
+<th><tt>3</tt></th></tr>
+<tr><th><a href="#spam-filter-url_blacklist_servers-option">url_blacklist_servers</a></th>
 <th>
 Servers used for URL blacklisting.
 
+
 </th>
-<th>`urired.spameatingmonkey.net,multi.surbl.org,dbl.spamhaus.org`</th></tr>
-<tr><th>[use_external](#spam-filter-use_external-option)</th>
+<th><tt>urired.spameatingmonkey.net,multi.surbl.org,dbl.spamhaus.org</tt></th></tr>
+<tr><th><a href="#spam-filter-use_external-option">use_external</a></th>
 <th>
 Allow usage of external services.
 
+
 </th>
-<th>`enabled`</th></tr></table>
+<th><tt>enabled</tt></th></tr></table>
 
 ### `[sqlite]`
 
-<table><tr><th>[extensions](#sqlite-extensions-option)</th>
+<table><tr><th><a href="#sqlite-extensions-option">extensions</a></th>
 <th>
-Paths to [ sqlite extensions](https://sqlite.org/loadext.html).
+Paths to <a href="https://sqlite.org/loadext.html"> sqlite extensions</a>.
 The paths may be absolute or relative to the Trac environment.
-(*since 0.12*)
+(<i>since 0.12</i>)
+
 
 </th>
 <th>(no default)</th></tr></table>
 
 ### `[svn]`
 
-<table><tr><th>[authz_file](#svn-authz_file-option)</th>
+<table><tr><th><a href="#svn-authz_file-option">authz_file</a></th>
 <th>
 The path to the Subversion
-[ authorization (authz) file](http://svnbook.red-bean.com/en/1.7/svn.serverconfig.pathbasedauthz.html).
-To enable authz permission checking, the `AuthzSourcePolicy` permission
-policy must be added to `[trac] permission_policies`. Non-absolute
-paths are relative to the Environment `conf` directory.
+<a href="http://svnbook.red-bean.com/en/1.7/svn.serverconfig.pathbasedauthz.html"> authorization (authz) file</a>.
+To enable authz permission checking, the <tt>AuthzSourcePolicy</tt> permission
+policy must be added to <tt>[trac] permission_policies</tt>. Non-absolute
+paths are relative to the Environment <tt>conf</tt> directory.
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[authz_module_name](#svn-authz_module_name-option)</th>
+<tr><th><a href="#svn-authz_module_name-option">authz_module_name</a></th>
 <th>
-The module prefix used in the `authz_file` for the default
+The module prefix used in the <tt>authz_file</tt> for the default
 repository. If left empty, the global section is used.
+
 
 </th>
 <th>(no default)</th></tr></table>
 
 ### `[tags]`
 
-<table><tr><th>[listtagged_items_per_page](#tags-listtagged_items_per_page-option)</th>
+<table><tr><th><a href="#tags-listtagged_items_per_page-option">listtagged_items_per_page</a></th>
 <th>
-Number of tagged resources displayed per page of tag query results requested by `ListTagged` macros and from `/tags`.
+Number of tagged resources displayed per page of tag query results requested by <tt>ListTagged</tt> macros and from <tt>/tags</tt>.
+
 
 </th>
-<th>`100`</th></tr></table>
+<th><tt>100</tt></th></tr></table>
 
 ### `[ticket]`
 
-<table><tr><th>[allowed_empty_fields](#ticket-allowed_empty_fields-option)</th>
+<table><tr><th><a href="#ticket-allowed_empty_fields-option">allowed_empty_fields</a></th>
 <th>
-Comma-separated list of `select` fields that can have
-an empty value. (*since 1.1.2*)
+Comma-separated list of <tt>select</tt> fields that can have
+an empty value. (<i>since 1.1.2</i>)
+
 
 </th>
-<th>`milestone,version`</th></tr>
-<tr><th>[commit_ticket_update_check_perms](#ticket-commit_ticket_update_check_perms-option)</th>
+<th><tt>milestone,version</tt></th></tr>
+<tr><th><a href="#ticket-commit_ticket_update_check_perms-option">commit_ticket_update_check_perms</a></th>
 <th>
 Check that the committer has permission to perform the requested
 operations on the referenced tickets.
@@ -2090,159 +2380,185 @@ operations on the referenced tickets.
 This requires that the user names be the same for Trac and repository
 operations.
 
+
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[commit_ticket_update_commands.close](#ticket-commit_ticket_update_commands.close-option)</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#ticket-commit_ticket_update_commands.close-option">commit_ticket_update_commands.close</a></th>
 <th>
 Commands that close tickets, as a space-separated list.
 
+
 </th>
-<th>`close closed closes fix fixed fixes`</th></tr>
-<tr><th>[commit_ticket_update_commands.refs](#ticket-commit_ticket_update_commands.refs-option)</th>
+<th><tt>close closed closes fix fixed fixes</tt></th></tr>
+<tr><th><a href="#ticket-commit_ticket_update_commands.refs-option">commit_ticket_update_commands.refs</a></th>
 <th>
 Commands that add a reference, as a space-separated list.
 
 
-If set to the special value `<ALL>`, all tickets referenced by the
+
+If set to the special value <tt><ALL></tt>, all tickets referenced by the
 message will get a reference to the changeset.
 
+
 </th>
-<th>`addresses re references refs see`</th></tr>
-<tr><th>[commit_ticket_update_envelope](#ticket-commit_ticket_update_envelope-option)</th>
+<th><tt>addresses re references refs see</tt></th></tr>
+<tr><th><a href="#ticket-commit_ticket_update_envelope-option">commit_ticket_update_envelope</a></th>
 <th>
 Require commands to be enclosed in an envelope.
 
 
-Must be empty or contain two characters. For example, if set to `[]`,
-then commands must be in the form of `[closes #4]`.
+
+Must be empty or contain two characters. For example, if set to <tt>[]</tt>,
+then commands must be in the form of <tt>[closes #4]</tt>.
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[commit_ticket_update_notify](#ticket-commit_ticket_update_notify-option)</th>
+<tr><th><a href="#ticket-commit_ticket_update_notify-option">commit_ticket_update_notify</a></th>
 <th>
 Send ticket change notification when updating a ticket.
 
+
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[default_cc](#ticket-default_cc-option)</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#ticket-default_cc-option">default_cc</a></th>
 <th>
 Default cc: list for newly created tickets.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[default_component](#ticket-default_component-option)</th>
+<tr><th><a href="#ticket-default_component-option">default_component</a></th>
 <th>
 Default component for newly created tickets.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[default_description](#ticket-default_description-option)</th>
+<tr><th><a href="#ticket-default_description-option">default_description</a></th>
 <th>
 Default description for newly created tickets.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[default_keywords](#ticket-default_keywords-option)</th>
+<tr><th><a href="#ticket-default_keywords-option">default_keywords</a></th>
 <th>
 Default keywords for newly created tickets.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[default_milestone](#ticket-default_milestone-option)</th>
+<tr><th><a href="#ticket-default_milestone-option">default_milestone</a></th>
 <th>
 Default milestone for newly created tickets.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[default_owner](#ticket-default_owner-option)</th>
+<tr><th><a href="#ticket-default_owner-option">default_owner</a></th>
 <th>
 Default owner for newly created tickets.
 
+
 </th>
-<th>`< default >`</th></tr>
-<tr><th>[default_priority](#ticket-default_priority-option)</th>
+<th><tt>< default ></tt></th></tr>
+<tr><th><a href="#ticket-default_priority-option">default_priority</a></th>
 <th>
 Default priority for newly created tickets.
 
+
 </th>
-<th>`major`</th></tr>
-<tr><th>[default_resolution](#ticket-default_resolution-option)</th>
+<th><tt>major</tt></th></tr>
+<tr><th><a href="#ticket-default_resolution-option">default_resolution</a></th>
 <th>
 Default resolution for resolving (closing) tickets.
 
+
 </th>
-<th>`fixed`</th></tr>
-<tr><th>[default_severity](#ticket-default_severity-option)</th>
+<th><tt>fixed</tt></th></tr>
+<tr><th><a href="#ticket-default_severity-option">default_severity</a></th>
 <th>
 Default severity for newly created tickets.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[default_summary](#ticket-default_summary-option)</th>
+<tr><th><a href="#ticket-default_summary-option">default_summary</a></th>
 <th>
 Default summary (title) for newly created tickets.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[default_type](#ticket-default_type-option)</th>
+<tr><th><a href="#ticket-default_type-option">default_type</a></th>
 <th>
 Default type for newly created tickets.
 
+
 </th>
-<th>`defect`</th></tr>
-<tr><th>[default_version](#ticket-default_version-option)</th>
+<th><tt>defect</tt></th></tr>
+<tr><th><a href="#ticket-default_version-option">default_version</a></th>
 <th>
 Default version for newly created tickets.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[max_comment_size](#ticket-max_comment_size-option)</th>
+<tr><th><a href="#ticket-max_comment_size-option">max_comment_size</a></th>
 <th>
 Maximum allowed comment size in characters.
 
+
 </th>
-<th>`262144`</th></tr>
-<tr><th>[max_description_size](#ticket-max_description_size-option)</th>
+<th><tt>262144</tt></th></tr>
+<tr><th><a href="#ticket-max_description_size-option">max_description_size</a></th>
 <th>
 Maximum allowed description size in characters.
 
-</th>
-<th>`262144`</th></tr>
-<tr><th>[max_summary_size](#ticket-max_summary_size-option)</th>
-<th>
-Maximum allowed summary size in characters. (*since 1.0.2*)
 
 </th>
-<th>`262144`</th></tr>
-<tr><th>[preserve_newlines](#ticket-preserve_newlines-option)</th>
+<th><tt>262144</tt></th></tr>
+<tr><th><a href="#ticket-max_summary_size-option">max_summary_size</a></th>
+<th>
+Maximum allowed summary size in characters. (<i>since 1.0.2</i>)
+
+
+</th>
+<th><tt>262144</tt></th></tr>
+<tr><th><a href="#ticket-preserve_newlines-option">preserve_newlines</a></th>
 <th>
 Whether Wiki formatter should respect the new lines present
 in the Wiki text.
-If set to 'default', this is equivalent to 'yes' for new environments
-but keeps the old behavior for upgraded environments (i.e. 'no').
+If set to &apos;default&apos;, this is equivalent to &apos;yes&apos; for new environments
+but keeps the old behavior for upgraded environments (i.e. &apos;no&apos;).
+
 
 </th>
-<th>`default`</th></tr>
-<tr><th>[restrict_owner](#ticket-restrict_owner-option)</th>
+<th><tt>default</tt></th></tr>
+<tr><th><a href="#ticket-restrict_owner-option">restrict_owner</a></th>
 <th>
 Make the owner field of tickets use a drop-down menu.
 Be sure to understand the performance implications before activating
 this option. See
-[Assign-to as Drop-Down List](trac-tickets#).
+<a href="trac-tickets#">Assign-to as Drop-Down List</a>.
 
 
-Please note that e-mail addresses are **not** obfuscated in the
+
+Please note that e-mail addresses are <b>not</b> obfuscated in the
 resulting drop-down menu, so this option should not be used if
 e-mail addresses must remain protected.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[workflow](#ticket-workflow-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#ticket-workflow-option">workflow</a></th>
 <th>
 Ordered list of workflow controllers to use for ticket actions.
 
+
 </th>
-<th>`ConfigurableTicketWorkflow`</th></tr></table>
+<th><tt>ConfigurableTicketWorkflow</tt></th></tr></table>
 
 ### `[ticket-custom]`
 
@@ -2258,9 +2574,10 @@ there's only a `ConfigurableTicketWorkflow` component in charge.
 That component allows the workflow to be configured via this section
 in the `trac.ini` file. See [TracWorkflow](trac-workflow) for more details.
 
+
 ### `[timeline]`
 
-<table><tr><th>[abbreviated_messages](#timeline-abbreviated_messages-option)</th>
+<table><tr><th><a href="#timeline-abbreviated_messages-option">abbreviated_messages</a></th>
 <th>
 Whether wiki-formatted event messages should be truncated or not.
 
@@ -2268,77 +2585,88 @@ Whether wiki-formatted event messages should be truncated or not.
 This only affects the default rendering, and can be overriden by
 specific event providers, see their own documentation.
 
+
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[changeset_collapse_events](#timeline-changeset_collapse_events-option)</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#timeline-changeset_collapse_events-option">changeset_collapse_events</a></th>
 <th>
 Whether consecutive changesets from the same author having
 exactly the same message should be presented as one event.
 That event will link to the range of changesets in the log view.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[changeset_long_messages](#timeline-changeset_long_messages-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#timeline-changeset_long_messages-option">changeset_long_messages</a></th>
 <th>
 Whether wiki-formatted changeset messages should be multiline or
 not.
 
 
-If this option is not specified or is false and `wiki_format_messages`
+
+If this option is not specified or is false and <tt>wiki_format_messages</tt>
 is set to true, changeset messages will be single line only, losing
 some formatting (bullet points, etc).
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[changeset_show_files](#timeline-changeset_show_files-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#timeline-changeset_show_files-option">changeset_show_files</a></th>
 <th>
-Number of files to show (`-1` for unlimited, `0` to disable).
+Number of files to show (<tt>-1</tt> for unlimited, <tt>0</tt> to disable).
 
 
-This can also be `location`, for showing the common prefix for the
+
+This can also be <tt>location</tt>, for showing the common prefix for the
 changed files.
 
+
 </th>
-<th>`0`</th></tr>
-<tr><th>[default_daysback](#timeline-default_daysback-option)</th>
+<th><tt>0</tt></th></tr>
+<tr><th><a href="#timeline-default_daysback-option">default_daysback</a></th>
 <th>
 Default number of days displayed in the Timeline, in days.
 
+
 </th>
-<th>`30`</th></tr>
-<tr><th>[max_daysback](#timeline-max_daysback-option)</th>
+<th><tt>30</tt></th></tr>
+<tr><th><a href="#timeline-max_daysback-option">max_daysback</a></th>
 <th>
 Maximum number of days (-1 for unlimited) displayable in the
 Timeline.
 
-</th>
-<th>`90`</th></tr>
-<tr><th>[newticket_formatter](#timeline-newticket_formatter-option)</th>
-<th>
-Which formatter flavor (e.g. 'html' or 'oneliner') should be
-used when presenting the description for new tickets.
-If 'oneliner', the \[timeline\] abbreviated_messages option applies.
 
 </th>
-<th>`oneliner`</th></tr>
-<tr><th>[ticket_show_component](#timeline-ticket_show_component-option)</th>
+<th><tt>90</tt></th></tr>
+<tr><th><a href="#timeline-newticket_formatter-option">newticket_formatter</a></th>
+<th>
+Which formatter flavor (e.g. &apos;html&apos; or &apos;oneliner&apos;) should be
+used when presenting the description for new tickets.
+If &apos;oneliner&apos;, the [timeline] abbreviated_messages option applies.
+
+
+</th>
+<th><tt>oneliner</tt></th></tr>
+<tr><th><a href="#timeline-ticket_show_component-option">ticket_show_component</a></th>
 <th>
 Enable the display of component of tickets in the timeline.
-(*since 1.1.1*)
+(<i>since 1.1.1</i>)
+
 
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[ticket_show_details](#timeline-ticket_show_details-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#timeline-ticket_show_details-option">ticket_show_details</a></th>
 <th>
 Enable the display of all ticket changes in the timeline, not only
 open / close operations.
 
+
 </th>
-<th>`disabled`</th></tr></table>
+<th><tt>disabled</tt></th></tr></table>
 
 ### `[trac]`
 
-<table><tr><th>[auth_cookie_lifetime](#trac-auth_cookie_lifetime-option)</th>
+<table><tr><th><a href="#trac-auth_cookie_lifetime-option">auth_cookie_lifetime</a></th>
 <th>
 Lifetime of the authentication cookie, in seconds.
 
@@ -2347,40 +2675,45 @@ This value determines how long the browser will cache
 authentication information, and therefore, after how much
 inactivity a user will have to log in again. The default value
 of 0 makes the cookie expire at the end of the browsing
-session. (*since 0.12*)
+session. (<i>since 0.12</i>)
+
 
 </th>
-<th>`0`</th></tr>
-<tr><th>[auth_cookie_path](#trac-auth_cookie_path-option)</th>
+<th><tt>0</tt></th></tr>
+<tr><th><a href="#trac-auth_cookie_path-option">auth_cookie_path</a></th>
 <th>
 Path for the authentication cookie. Set this to the common
 base path of several Trac instances if you want them to share
-the cookie.  (*since 0.12*)
+the cookie.  (<i>since 0.12</i>)
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[auto_preview_timeout](#trac-auto_preview_timeout-option)</th>
+<tr><th><a href="#trac-auto_preview_timeout-option">auto_preview_timeout</a></th>
 <th>
 Inactivity timeout in seconds after which the automatic wiki preview
 triggers an update. This option can contain floating-point values. The
 lower the setting, the more requests will be made to the server. Set
-this to 0 to disable automatic preview. (*since 0.12*)
+this to 0 to disable automatic preview. (<i>since 0.12</i>)
+
 
 </th>
-<th>`2.0`</th></tr>
-<tr><th>[auto_reload](#trac-auto_reload-option)</th>
+<th><tt>2.0</tt></th></tr>
+<tr><th><a href="#trac-auto_reload-option">auto_reload</a></th>
 <th>
 Automatically reload template files after modification.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[backup_dir](#trac-backup_dir-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#trac-backup_dir-option">backup_dir</a></th>
 <th>
 Database backup location
 
+
 </th>
-<th>`db`</th></tr>
-<tr><th>[base_url](#trac-base_url-option)</th>
+<th><tt>db</tt></th></tr>
+<tr><th><a href="#trac-base_url-option">base_url</a></th>
 <th>
 Reference URL for the Trac deployment.
 
@@ -2390,114 +2723,130 @@ documents that will be used outside of the web browsing
 context, like for example when inserting URLs pointing to Trac
 resources in notification e-mails.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[check_auth_ip](#trac-check_auth_ip-option)</th>
+<tr><th><a href="#trac-check_auth_ip-option">check_auth_ip</a></th>
 <th>
 Whether the IP address of the user should be checked for
-authentication (*since 0.9*).
+authentication (<i>since 0.9</i>).
+
 
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[database](#trac-database-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#trac-database-option">database</a></th>
 <th>
 Database connection
-[string](trac-environment#database-connection-strings) for this
+<a href="trac-environment#database-connection-strings">string</a> for this
 project
 
+
 </th>
-<th>`sqlite:db/trac.db`</th></tr>
-<tr><th>[debug_sql](#trac-debug_sql-option)</th>
+<th><tt>sqlite:db/trac.db</tt></th></tr>
+<tr><th><a href="#trac-debug_sql-option">debug_sql</a></th>
 <th>
 Show the SQL queries in the Trac log, at DEBUG level.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[default_charset](#trac-default_charset-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#trac-default_charset-option">default_charset</a></th>
 <th>
 Charset to be used when in doubt.
 
+
 </th>
-<th>`utf-8`</th></tr>
-<tr><th>[default_date_format](#trac-default_date_format-option)</th>
+<th><tt>utf-8</tt></th></tr>
+<tr><th><a href="#trac-default_date_format-option">default_date_format</a></th>
 <th>
-The date format. Valid options are 'iso8601' for selecting
+The date format. Valid options are &apos;iso8601&apos; for selecting
 ISO 8601 format, or leave it empty which means the default
-date format will be inferred from the browser's default
-language. (*since 1.0*)
+date format will be inferred from the browser&apos;s default
+language. (<i>since 1.0</i>)
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[default_dateinfo_format](#trac-default_dateinfo_format-option)</th>
+<tr><th><a href="#trac-default_dateinfo_format-option">default_dateinfo_format</a></th>
 <th>
-The date information format. Valid options are 'relative' for
-displaying relative format and 'absolute' for displaying absolute
-format. (*since 1.0*)
+The date information format. Valid options are &apos;relative&apos; for
+displaying relative format and &apos;absolute&apos; for displaying absolute
+format. (<i>since 1.0</i>)
+
 
 </th>
-<th>`relative`</th></tr>
-<tr><th>[default_handler](#trac-default_handler-option)</th>
+<th><tt>relative</tt></th></tr>
+<tr><th><a href="#trac-default_handler-option">default_handler</a></th>
 <th>
 Name of the component that handles requests to the base
 URL.
 
 
-Options include `TimelineModule`, `RoadmapModule`,
-`BrowserModule`, `QueryModule`, `ReportModule`, `TicketModule`
-and `WikiModule`.
+
+Options include <tt>TimelineModule</tt>, <tt>RoadmapModule</tt>,
+<tt>BrowserModule</tt>, <tt>QueryModule</tt>, <tt>ReportModule</tt>, <tt>TicketModule</tt>
+and <tt>WikiModule</tt>.
+
 
 </th>
-<th>`WikiModule`</th></tr>
-<tr><th>[default_language](#trac-default_language-option)</th>
+<th><tt>WikiModule</tt></th></tr>
+<tr><th><a href="#trac-default_language-option">default_language</a></th>
 <th>
 The preferred language to use if no user preference has
-been set. (*since 0.12.1*)
+been set. (<i>since 0.12.1</i>)
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[default_timezone](#trac-default_timezone-option)</th>
+<tr><th><a href="#trac-default_timezone-option">default_timezone</a></th>
 <th>
 The default timezone to use
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[genshi_cache_size](#trac-genshi_cache_size-option)</th>
+<tr><th><a href="#trac-genshi_cache_size-option">genshi_cache_size</a></th>
 <th>
 The maximum number of templates that the template loader will cache
 in memory. You may want to choose a higher value if your site uses a
 larger number of templates, and you have enough memory to spare, or
 you can reduce it if you are short on memory.
 
+
 </th>
-<th>`128`</th></tr>
-<tr><th>[htdocs_location](#trac-htdocs_location-option)</th>
+<th><tt>128</tt></th></tr>
+<tr><th><a href="#trac-htdocs_location-option">htdocs_location</a></th>
 <th>
 Base URL for serving the core static resources below
-`/chrome/common/`.
+<tt>/chrome/common/</tt>.
+
 
 
 It can be left empty, and Trac will simply serve those resources
 itself.
 
 
+
 Advanced users can use this together with
-[trac-admin ... deploy \<deploydir\>](trac-admin) to allow serving the
+<a href="trac-admin">trac-admin ... deploy &lt;deploydir&gt;</a> to allow serving the
 static resources for Trac directly from the web server.
-Note however that this only applies to the `<deploydir>/htdocs/common`
+Note however that this only applies to the <tt><deploydir>/htdocs/common</tt>
 directory, the other deployed resources (i.e. those from plugins)
 will not be made available this way and additional rewrite
 rules will be needed in the web server.
 
-</th>
-<th>(no default)</th></tr>
-<tr><th>[ignore_auth_case](#trac-ignore_auth_case-option)</th>
-<th>
-Whether login names should be converted to lower case
-(*since 0.9*).
 
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[jquery_location](#trac-jquery_location-option)</th>
+<th>(no default)</th></tr>
+<tr><th><a href="#trac-ignore_auth_case-option">ignore_auth_case</a></th>
+<th>
+Whether login names should be converted to lower case
+(<i>since 0.9</i>).
+
+
+</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#trac-jquery_location-option">jquery_location</a></th>
 <th>
 Location of the jQuery JavaScript library (version 1.11.3).
 
@@ -2505,17 +2854,20 @@ Location of the jQuery JavaScript library (version 1.11.3).
 An empty value loads jQuery from the copy bundled with Trac.
 
 
+
 Alternatively, jQuery could be loaded from a CDN, for example:
-[ http://code.jquery.com/jquery-1.11.3.min.js](http://code.jquery.com/jquery-1.11.3.min.js),
-[ http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js](http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js) or
-[ https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js](https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js).
+<a href="http://code.jquery.com/jquery-1.11.3.min.js"> http://code.jquery.com/jquery-1.11.3.min.js</a>,
+<a href="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"> http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js</a> or
+<a href="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"> https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js</a>.
 
 
-(*since 1.0*)
+
+(<i>since 1.0</i>)
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[jquery_ui_location](#trac-jquery_ui_location-option)</th>
+<tr><th><a href="#trac-jquery_ui_location-option">jquery_ui_location</a></th>
 <th>
 Location of the jQuery UI JavaScript library (version 1.11.4).
 
@@ -2523,17 +2875,20 @@ Location of the jQuery UI JavaScript library (version 1.11.4).
 An empty value loads jQuery UI from the copy bundled with Trac.
 
 
+
 Alternatively, jQuery UI could be loaded from a CDN, for example:
-[ https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js](https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js)
+<a href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"> https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js</a>
 or
-[ http://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/jquery-ui.min.js](http://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/jquery-ui.min.js).
+<a href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/jquery-ui.min.js"> http://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/jquery-ui.min.js</a>.
 
 
-(*since 1.0*)
+
+(<i>since 1.0</i>)
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[jquery_ui_theme_location](#trac-jquery_ui_theme_location-option)</th>
+<tr><th><a href="#trac-jquery_ui_theme_location-option">jquery_ui_theme_location</a></th>
 <th>
 Location of the theme to be used with the jQuery UI JavaScript
 library (version 1.11.4).
@@ -2543,300 +2898,347 @@ An empty value loads the custom Trac jQuery UI theme from the copy
 bundled with Trac.
 
 
+
 Alternatively, a jQuery UI theme could be loaded from a CDN, for
 example:
-[ https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/start/jquery-ui.css](https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/start/jquery-ui.css)
+<a href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/start/jquery-ui.css"> https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/start/jquery-ui.css</a>
 or
-[ http://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/themes/start/jquery-ui.css](http://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/themes/start/jquery-ui.css).
+<a href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/themes/start/jquery-ui.css"> http://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/themes/start/jquery-ui.css</a>.
 
 
-(*since 1.0*)
+
+(<i>since 1.0</i>)
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[never_obfuscate_mailto](#trac-never_obfuscate_mailto-option)</th>
+<tr><th><a href="#trac-never_obfuscate_mailto-option">never_obfuscate_mailto</a></th>
 <th>
-Never obfuscate `mailto:` links explicitly written in the wiki,
-even if `show_email_addresses` is false or the user doesn't have
+Never obfuscate <tt>mailto:</tt> links explicitly written in the wiki,
+even if <tt>show_email_addresses</tt> is false or the user doesn&apos;t have
 EMAIL_VIEW permission.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[permission_policies](#trac-permission_policies-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#trac-permission_policies-option">permission_policies</a></th>
 <th>
-List of components implementing `IPermissionPolicy`, in the order
+List of components implementing <tt>IPermissionPolicy</tt>, in the order
 in which they will be applied. These components manage fine-grained
 access control to Trac resources.
 
-</th>
-<th>`ReadonlyWikiPolicy,DefaultPermissionPolicy,LegacyAttachmentPolicy`</th></tr>
-<tr><th>[permission_store](#trac-permission_store-option)</th>
-<th>
-Name of the component implementing `IPermissionStore`, which is used
-for managing user and group permissions.
 
 </th>
-<th>`DefaultPermissionStore`</th></tr>
-<tr><th>[pg_dump_path](#trac-pg_dump_path-option)</th>
+<th><tt>ReadonlyWikiPolicy,DefaultPermissionPolicy,LegacyAttachmentPolicy</tt></th></tr>
+<tr><th><a href="#trac-permission_store-option">permission_store</a></th>
+<th>
+Name of the component implementing <tt>IPermissionStore</tt>, which is used
+for managing user and group permissions.
+
+
+</th>
+<th><tt>DefaultPermissionStore</tt></th></tr>
+<tr><th><a href="#trac-pg_dump_path-option">pg_dump_path</a></th>
 <th>
 Location of pg_dump for Postgres database backups
 
+
 </th>
-<th>`pg_dump`</th></tr>
-<tr><th>[request_filters](#trac-request_filters-option)</th>
+<th><tt>pg_dump</tt></th></tr>
+<tr><th><a href="#trac-request_filters-option">request_filters</a></th>
 <th>
 Ordered list of filters to apply to all requests.
 
-</th>
-<th>(no default)</th></tr>
-<tr><th>[resizable_textareas](#trac-resizable_textareas-option)</th>
-<th>
-Make `<textarea>` fields resizable. Requires JavaScript.
-(*since 0.12*)
 
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[secure_cookies](#trac-secure_cookies-option)</th>
+<th>(no default)</th></tr>
+<tr><th><a href="#trac-resizable_textareas-option">resizable_textareas</a></th>
+<th>
+Make <tt><textarea></tt> fields resizable. Requires JavaScript.
+(<i>since 0.12</i>)
+
+
+</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#trac-secure_cookies-option">secure_cookies</a></th>
 <th>
 Restrict cookies to HTTPS connections.
 
 
-When true, set the `secure` flag on all cookies so that they
+
+When true, set the <tt>secure</tt> flag on all cookies so that they
 are only sent to the server on HTTPS connections. Use this if
 your Trac instance is only accessible through HTTPS.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[show_email_addresses](#trac-show_email_addresses-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#trac-show_email_addresses-option">show_email_addresses</a></th>
 <th>
 Show email addresses instead of usernames. If false, email
-addresses are obfuscated for users that don't have EMAIL_VIEW
+addresses are obfuscated for users that don&apos;t have EMAIL_VIEW
 permission.
 
-</th>
-<th>`disabled`</th></tr>
-<tr><th>[show_full_names](#trac-show_full_names-option)</th>
-<th>
-Show full names instead of usernames. (*since 1.2*)
 
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[show_ip_addresses](#trac-show_ip_addresses-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#trac-show_full_names-option">show_full_names</a></th>
+<th>
+Show full names instead of usernames. (<i>since 1.2</i>)
+
+
+</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#trac-show_ip_addresses-option">show_ip_addresses</a></th>
 <th>
 Show IP addresses for resource edits (e.g. wiki). Since 1.0.5 this
 option is deprecated and will be removed in 1.3.1.
 
-</th>
-<th>`disabled`</th></tr>
-<tr><th>[timeout](#trac-timeout-option)</th>
-<th>
-Timeout value for database connection, in seconds.
-Use '0' to specify *no timeout*.
 
 </th>
-<th>`20`</th></tr>
-<tr><th>[use_base_url_for_redirect](#trac-use_base_url_for_redirect-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#trac-timeout-option">timeout</a></th>
 <th>
-Optionally use `[trac] base_url` for redirects.
+Timeout value for database connection, in seconds.
+Use &apos;0&apos; to specify <i>no timeout</i>.
+
+
+</th>
+<th><tt>20</tt></th></tr>
+<tr><th><a href="#trac-use_base_url_for_redirect-option">use_base_url_for_redirect</a></th>
+<th>
+Optionally use <tt>[trac] base_url</tt> for redirects.
+
 
 
 In some configurations, usually involving running Trac behind
-a HTTP proxy, Trac can't automatically reconstruct the URL
+a HTTP proxy, Trac can&apos;t automatically reconstruct the URL
 that is used to access it. You may need to use this option to
-force Trac to use the `base_url` setting also for
+force Trac to use the <tt>base_url</tt> setting also for
 redirects. This introduces the obvious limitation that this
 environment will only be usable when accessible from that URL,
 as redirects are frequently used.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[use_chunked_encoding](#trac-use_chunked_encoding-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#trac-use_chunked_encoding-option">use_chunked_encoding</a></th>
 <th>
 If enabled, send contents as chunked encoding in HTTP/1.1.
-Otherwise, send contents with `Content-Length` header after entire of
-the contents are rendered. (*since 1.0.6*)
+Otherwise, send contents with <tt>Content-Length</tt> header after entire of
+the contents are rendered. (<i>since 1.0.6</i>)
+
 
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[use_xsendfile](#trac-use_xsendfile-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#trac-use_xsendfile-option">use_xsendfile</a></th>
 <th>
-When true, send a `X-Sendfile` header and no content when sending
+When true, send a <tt>X-Sendfile</tt> header and no content when sending
 files from the filesystem, so that the web server handles the content.
 This requires a web server that knows how to handle such a header,
-like Apache with `mod_xsendfile` or lighttpd. (*since 1.0*)
+like Apache with <tt>mod_xsendfile</tt> or lighttpd. (<i>since 1.0</i>)
+
 
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[wiki_toolbars](#trac-wiki_toolbars-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#trac-wiki_toolbars-option">wiki_toolbars</a></th>
 <th>
-Add a simple toolbar on top of Wiki \<textarea\>s.
-(*since 1.0.2*)
+Add a simple toolbar on top of Wiki &lt;textarea&gt;s.
+(<i>since 1.0.2</i>)
+
 
 </th>
-<th>`enabled`</th></tr>
-<tr><th>[xsendfile_header](#trac-xsendfile_header-option)</th>
+<th><tt>enabled</tt></th></tr>
+<tr><th><a href="#trac-xsendfile_header-option">xsendfile_header</a></th>
 <th>
-The header to use if `use_xsendfile` is enabled. If Nginx is used,
-set `X-Accel-Redirect`. (*since 1.0.6*)
+The header to use if <tt>use_xsendfile</tt> is enabled. If Nginx is used,
+set <tt>X-Accel-Redirect</tt>. (<i>since 1.0.6</i>)
+
 
 </th>
-<th>`X-Sendfile`</th></tr></table>
+<th><tt>X-Sendfile</tt></th></tr></table>
 
 ### `[versioncontrol]`
 
-<table><tr><th>[allowed_repository_dir_prefixes](#versioncontrol-allowed_repository_dir_prefixes-option)</th>
+<table><tr><th><a href="#versioncontrol-allowed_repository_dir_prefixes-option">allowed_repository_dir_prefixes</a></th>
 <th>
 Comma-separated list of allowed prefixes for repository
 directories when adding and editing repositories in the repository
 admin panel. If the list is empty, all repository directories are
-allowed. (*since 0.12.1*)
+allowed. (<i>since 0.12.1</i>)
+
 
 </th>
 <th>(no default)</th></tr>
-<tr><th>[default_repository_type](#versioncontrol-default_repository_type-option)</th>
+<tr><th><a href="#versioncontrol-default_repository_type-option">default_repository_type</a></th>
 <th>
 Default repository connector type.
 
 
+
 This is used as the default repository type for repositories defined
-in the [TracIni\#repositories-section repositories](trac-ini#) section or using
-the "Repositories" admin panel. (*since 0.12*)
+in the <a href="trac-ini#">TracIni#repositories-section repositories</a> section or using
+the &quot;Repositories&quot; admin panel. (<i>since 0.12</i>)
+
 
 </th>
-<th>`svn`</th></tr></table>
+<th><tt>svn</tt></th></tr></table>
 
 ### `[wiki]`
 
-<table><tr><th>[default_edit_area_height](#wiki-default_edit_area_height-option)</th>
+<table><tr><th><a href="#wiki-default_edit_area_height-option">default_edit_area_height</a></th>
 <th>
 Default height of the textarea on the wiki edit page.
-(*Since 1.1.5*)
+(<i>Since 1.1.5</i>)
+
 
 </th>
-<th>`20`</th></tr>
-<tr><th>[ignore_missing_pages](#wiki-ignore_missing_pages-option)</th>
+<th><tt>20</tt></th></tr>
+<tr><th><a href="#wiki-ignore_missing_pages-option">ignore_missing_pages</a></th>
 <th>
-Enable/disable highlighting [CamelCase](camel-case) links to missing pages.
+Enable/disable highlighting <a href="camel-case">CamelCase</a> links to missing pages.
+
 
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[max_size](#wiki-max_size-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#wiki-max_size-option">max_size</a></th>
 <th>
 Maximum allowed wiki page size in characters.
 
+
 </th>
-<th>`262144`</th></tr>
-<tr><th>[render_unsafe_content](#wiki-render_unsafe_content-option)</th>
+<th><tt>262144</tt></th></tr>
+<tr><th><a href="#wiki-render_unsafe_content-option">render_unsafe_content</a></th>
 <th>
-Enable/disable the use of unsafe HTML tags such as `<script>` or
-`<embed>` with the HTML [WikiProcessor](wiki-processors).
+Enable/disable the use of unsafe HTML tags such as <tt><script></tt> or
+<tt><embed></tt> with the HTML <a href="wiki-processors">WikiProcessor</a>.
+
 
 
 For public sites where anonymous users can edit the wiki it is
 recommended to leave this option disabled.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[safe_origins](#wiki-safe_origins-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#wiki-safe_origins-option">safe_origins</a></th>
 <th>
-List of URIs considered "safe cross-origin", that will be
-rendered as `img` element without `crossorigin="anonymous"` attribute
-or used in `url()` of inline style attribute even if
-`[wiki] render_unsafe_content` is `false` (*since 1.0.15*).
+List of URIs considered &quot;safe cross-origin&quot;, that will be
+rendered as <tt>img</tt> element without <tt>crossorigin="anonymous"</tt> attribute
+or used in <tt>url()</tt> of inline style attribute even if
+<tt>[wiki] render_unsafe_content</tt> is <tt>false</tt> (<i>since 1.0.15</i>).
 
 
-To make any origins safe, specify "\*" in the list.
+
+To make any origins safe, specify &quot;*&quot; in the list.
+
 
 </th>
-<th>`data:`</th></tr>
-<tr><th>[safe_schemes](#wiki-safe_schemes-option)</th>
+<th><tt>data:</tt></th></tr>
+<tr><th><a href="#wiki-safe_schemes-option">safe_schemes</a></th>
 <th>
-List of URI schemes considered "safe", that will be rendered as
-external links even if `[wiki] render_unsafe_content` is `false`.
+List of URI schemes considered &quot;safe&quot;, that will be rendered as
+external links even if <tt>[wiki] render_unsafe_content</tt> is <tt>false</tt>.
+
 
 </th>
-<th>`cvs,file,ftp,git,irc,http,https,news,sftp,smb,ssh,svn,svn+ssh`</th></tr>
-<tr><th>[split_page_names](#wiki-split_page_names-option)</th>
+<th><tt>cvs,file,ftp,git,irc,http,https,news,sftp,smb,ssh,svn,svn+ssh</tt></th></tr>
+<tr><th><a href="#wiki-split_page_names-option">split_page_names</a></th>
 <th>
-Enable/disable splitting the [WikiPageNames](wiki-page-names) with space characters.
+Enable/disable splitting the <a href="wiki-page-names">WikiPageNames</a> with space characters.
+
 
 </th>
-<th>`disabled`</th></tr></table>
+<th><tt>disabled</tt></th></tr></table>
 
 ### `[wikiextras]`
 
-<table><tr><th>[done_phrases](#wikiextras-done_phrases-option)</th>
+<table><tr><th><a href="#wikiextras-done_phrases-option">done_phrases</a></th>
 <th>
-Analogous to `FIXME`-phrases, but presentation is less eye-catching.
+Analogous to <tt>FIXME</tt>-phrases, but presentation is less eye-catching.
+
 
 </th>
-<th>`DONE,DEBUGGED,FIXED,REVIEWED`</th></tr>
-<tr><th>[fixme_phrases](#wikiextras-fixme_phrases-option)</th>
+<th><tt>DONE,DEBUGGED,FIXED,REVIEWED</tt></th></tr>
+<tr><th><a href="#wikiextras-fixme_phrases-option">fixme_phrases</a></th>
 <th>
 A list of attentional phrases or single words, separated by comma
-(`,`) that will be highlighted to catch attention. Any delimiter
-`():<>` adjacent to a phrase will not be presented. (i.e. do not
+(<tt>,</tt>) that will be highlighted to catch attention. Any delimiter
+<tt>():<></tt> adjacent to a phrase will not be presented. (i.e. do not
 include any of these delimiters in this list). This makes it possible
-to naturally write, for example, `FIXME:` in a wiki text, but view the
-phrase highlighted without the colon (`:`) which would not look
-natural. Use the `ShowPhrases` macro to show a list of currently
+to naturally write, for example, <tt>FIXME:</tt> in a wiki text, but view the
+phrase highlighted without the colon (<tt>:</tt>) which would not look
+natural. Use the <tt>ShowPhrases</tt> macro to show a list of currently
 defined phrases.
 
+
 </th>
-<th>`BUG,FIXME`</th></tr>
-<tr><th>[icon_limit](#wikiextras-icon_limit-option)</th>
+<th><tt>BUG,FIXME</tt></th></tr>
+<tr><th><a href="#wikiextras-icon_limit-option">icon_limit</a></th>
 <th>
 To prevent exhaustive network traffic, limit the maximum number of
-icons generated by the macro `Icon`. Set to 0 for unlimited number of
+icons generated by the macro <tt>Icon</tt>. Set to 0 for unlimited number of
 icons (this will produce exhaustive network traffic--you have been
 warned!)
 
+
 </th>
-<th>`32`</th></tr>
-<tr><th>[rbox_width](#wikiextras-rbox_width-option)</th>
+<th><tt>32</tt></th></tr>
+<tr><th><a href="#wikiextras-rbox_width-option">rbox_width</a></th>
 <th>
 Width of right aligned boxes.
 
+
 </th>
-<th>`300`</th></tr>
-<tr><th>[shadowless_boxes](#wikiextras-shadowless_boxes-option)</th>
+<th><tt>300</tt></th></tr>
+<tr><th><a href="#wikiextras-shadowless_boxes-option">shadowless_boxes</a></th>
 <th>
 Use shadowless boxes.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[shadowless_icons](#wikiextras-shadowless_icons-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#wikiextras-shadowless_icons-option">shadowless_icons</a></th>
 <th>
 Use shadowless icons.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[showicons_limit](#wikiextras-showicons_limit-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#wikiextras-showicons_limit-option">showicons_limit</a></th>
 <th>
 To prevent exhaustive network traffic, limit the maximum number of
-icons generated by the macro `ShowIcons`. Set to 0 for
+icons generated by the macro <tt>ShowIcons</tt>. Set to 0 for
 unlimited number of icons (this will produce exhaustive network
 traffic--you have been warned!)
 
-</th>
-<th>`96`</th></tr>
-<tr><th>[todo_phrases](#wikiextras-todo_phrases-option)</th>
-<th>
-Analogous to `FIXME`-phrases, but presentation is less eye-catching.
 
 </th>
-<th>`REVIEW,TODO`</th></tr>
-<tr><th>[wide_toc](#wikiextras-wide_toc-option)</th>
+<th><tt>96</tt></th></tr>
+<tr><th><a href="#wikiextras-todo_phrases-option">todo_phrases</a></th>
+<th>
+Analogous to <tt>FIXME</tt>-phrases, but presentation is less eye-catching.
+
+
+</th>
+<th><tt>REVIEW,TODO</tt></th></tr>
+<tr><th><a href="#wikiextras-wide_toc-option">wide_toc</a></th>
 <th>
 Right aligned boxes with table of contents,
-produced by the `PageOutline` macro, are either
-as wide as ordinary right aligned boxes (`true`) or
-narrow (`false`).
+produced by the <tt>PageOutline</tt> macro, are either
+as wide as ordinary right aligned boxes (<tt>true</tt>) or
+narrow (<tt>false</tt>).
+
 
 </th>
-<th>`disabled`</th></tr></table>
+<th><tt>disabled</tt></th></tr></table>
+
+
 
 ---
 
 
+
 See also: [TracGuide](trac-guide), [TracAdmin](trac-admin), [TracEnvironment](trac-environment)
+
+

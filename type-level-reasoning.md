@@ -64,9 +64,10 @@ gcast :: (Typeable a, Typeable b) => c a -> Maybe (c b) -- it is now polykinded
 ### Why are all of these in *base*?
 
 
+
 This is a great question. The reason the Data.Type.Equality module is in base
 is so that it can be used in Data.Typeable for `eqTypeable`. Does
-`eqTypeable`*need* to be in *base*? No, I (Richard) don't think so.
+`eqTypeable` *need* to be in *base*? No, I (Richard) don't think so.
 If `gcast` is in *base*, `eqTypeable` can be implemented as `gcast Refl`. It seems a little strange to have something like `eqTypeable`
 defined somewhere other than Data.Typeable, but there is no technical
 restriction here. By moving `eqTypeable` out of Data.Typeable, then

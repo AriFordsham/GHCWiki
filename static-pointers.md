@@ -15,43 +15,51 @@ See also
 ## Tickets
 
 
+
 Use Keyword = `StaticPointers` to ensure that a ticket ends up on these lists.
+
+
 
 **Open Tickets:**
 
-<table><tr><th>[\#12875](https://gitlab.haskell.org//ghc/ghc/issues/12875)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12875">#12875</a></th>
 <td>GHC fails to link all StaticPointers-defining modules of a library in an executable</td></tr>
-<tr><th>[\#13306](https://gitlab.haskell.org//ghc/ghc/issues/13306)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13306">#13306</a></th>
 <td>Problems with type inference for static expressions</td></tr>
-<tr><th>[\#13499](https://gitlab.haskell.org//ghc/ghc/issues/13499)</th>
-<td>"Panic: no skolem info" with StaticPointers and typed hole</td></tr>
-<tr><th>[\#14770](https://gitlab.haskell.org//ghc/ghc/issues/14770)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13499">#13499</a></th>
+<td>&quot;Panic: no skolem info&quot; with StaticPointers and typed hole</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14770">#14770</a></th>
 <td>Allow static pointer expressions to have static pointer free variables</td></tr>
-<tr><th>[\#14939](https://gitlab.haskell.org//ghc/ghc/issues/14939)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14939">#14939</a></th>
 <td>Lint error in forall type</td></tr>
-<tr><th>[\#15395](https://gitlab.haskell.org//ghc/ghc/issues/15395)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15395">#15395</a></th>
 <td>Make StaticPtr (more) robust to code changes and recompilation</td></tr>
-<tr><th>[\#15603](https://gitlab.haskell.org//ghc/ghc/issues/15603)</th>
-<td>ref6 example from StaticPointers documentation doesn't type check</td></tr></table>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15603">#15603</a></th>
+<td>ref6 example from StaticPointers documentation doesn&apos;t type check</td></tr></table>
+
+
+
 
 **Closed Tickets:**
 
-<table><tr><th>[\#10446](https://gitlab.haskell.org//ghc/ghc/issues/10446)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10446">#10446</a></th>
 <td>Fix error message when variables in a static form are not in scope</td></tr>
-<tr><th>[\#12000](https://gitlab.haskell.org//ghc/ghc/issues/12000)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12000">#12000</a></th>
 <td>static pointer in ghci</td></tr>
-<tr><th>[\#12003](https://gitlab.haskell.org//ghc/ghc/issues/12003)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12003">#12003</a></th>
 <td>Improve error message about closed variables</td></tr>
-<tr><th>[\#12207](https://gitlab.haskell.org//ghc/ghc/issues/12207)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12207">#12207</a></th>
 <td>CgStaticPointers fails with -O</td></tr>
-<tr><th>[\#13305](https://gitlab.haskell.org//ghc/ghc/issues/13305)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13305">#13305</a></th>
 <td>static: check for identifiers should only consider term level variables</td></tr>
-<tr><th>[\#13481](https://gitlab.haskell.org//ghc/ghc/issues/13481)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13481">#13481</a></th>
 <td>T12622 fails in ghci way</td></tr>
-<tr><th>[\#14204](https://gitlab.haskell.org//ghc/ghc/issues/14204)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14204">#14204</a></th>
 <td>GHC bug - makeStatic: Unresolved static form at line 13, column 14.</td></tr>
-<tr><th>[\#15035](https://gitlab.haskell.org//ghc/ghc/issues/15035)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15035">#15035</a></th>
 <td>Panic when using StaticPointers with typed holes</td></tr></table>
+
+
 
 ## Background
 
@@ -92,7 +100,7 @@ decodeStatic :: forall a. ByteString -> Maybe (StaticPtr a, ByteString)
 ```
 
 
-And it's immediately apparent that `decodeStatic`*cannot* be right. 
+And it's immediately apparent that `decodeStatic` *cannot* be right. 
 I could get a `ByteString` from anywhere, apply `decodeStatic` to it,
 and thereby get a `StaticPtr a`.  Then use
 `unStatic` and you have a value of type `a`, for, *for any type `a`*!!
@@ -346,13 +354,17 @@ For now, I propose to deal with type classes via the Dict Trick, which is entire
 See Trac [\#11656](https://gitlab.haskell.org//ghc/ghc/issues/11656).  The static form so far required expressions whose free variables appear bound at the top level. But this is stricter than necessary. Closed local definitions can be considered static as well.
 
 
+
 Consider the following example
 
+
 ```
-test::Int->(StaticPtr([[Int]]->[[Int]]),Int)test x =(static (filter hasZero), c)where
+test :: Int -> (StaticPtr ([[Int]] -> [[Int]]), Int)
+test x = (static (filter hasZero), c)
+  where
     hasZero = any isZero
-    isZero  =(0==)
-    c = x +1
+    isZero  = (0 ==)
+    c = x + 1
 ```
 
 
@@ -372,18 +384,27 @@ In our running example,
 - Step (3) desugars the static form to produce something like:
 
   ```
-  test::Int->(StaticPtr([[Int]]->[[Int]]),Int)test x =(StaticPtr"key1"(filter hasZero), c)where
+  test :: Int -> (StaticPtr ([[Int]] -> [[Int]]), Int)
+  test x = (StaticPtr "key1" (filter hasZero), c)
+    where
       hasZero = any isZero
-      isZero  =(0==)
-      c = x +1
+      isZero  = (0 ==)
+      c = x + 1
   ```
 - Step (4) runs the [FloatOut](float-out) pass that should move to the top level all needed bindings and subexpressions.
 
   ```
-  static1::StaticPtr([[Int]]->[[Int]])static1=StaticPtr"key1"(filter hasZero)hasZero= any isZero
+  static1 :: StaticPtr ([[Int]] -> [[Int]])
+  static1 = StaticPtr "key1" (filter hasZero)
 
-  isZero=(0==)test::Int->(StaticPtr([[Int]]->[[Int]]),Int)test x =(static1, c)where
-      c = x +1
+  hasZero = any isZero
+
+  isZero  = (0 ==)
+
+  test :: Int -> (StaticPtr ([[Int]] -> [[Int]]), Int)
+  test x = (static1, c)
+    where
+      c = x + 1
   ```
 - Step (5) finds the binding `static1` and inserts it in the SPT.
 
@@ -396,10 +417,14 @@ Ideally, [FloatOut](float-out) would leave bindings of the form `v = Static ...`
 ### On testing closedness
 
 
+
 Whether `hasZero` and `isZero` are given general types or not shouldn't affect the result in this case. However, constraints can be problematic:
 
+
 ```
-test2::Binary a => a ->StaticPtrByteStringtest2 x = static (g x)where
+test2 :: Binary a => a -> StaticPtr ByteString
+test2 x = static (g x)
+  where
     g = encode
 ```
 

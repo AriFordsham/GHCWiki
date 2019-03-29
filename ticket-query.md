@@ -84,91 +84,238 @@ given to the macro, it will be used to specify the `format`.
 Also, using "&" as a field separator still works (except for `order`)
 but is deprecated.
 
+
+
+
 ## Example
 
-<table><tr><th>**Example**</th>
-<th>**Result**</th>
-<th>**Macro**</th></tr>
-<tr><th>Number of Triage tickets (Ticket query: status: new, milestone: , order: priority): 
+
+<table><tr><th> <b>Example</b> </th>
+<th> <b>Result</b> </th>
+<th> <b>Macro</b> 
 </th>
-<th>**2276 (Ticket query: status: new, milestone: , max: 0, order: id)**</th>
-<th>`[[TicketQuery(status=new&milestone=,count)]]`</th></tr>
-<tr><th>Number of new tickets: 
+<th></th></tr>
+<tr><td>
+</td>
+<th>Number of Triage tickets (Ticket query: status: new, milestone: , order: priority): 
 </th>
-<th>**3007 (Ticket query: status: new, max: 0, order: id)**</th>
-<th>`[[TicketQuery(status=new,count)]]`</th></tr>
-<tr><th>Number of reopened tickets: 
+<th> <b>2275 (Ticket query: status: new, milestone: , max: 0, order: id)</b>
 </th>
-<th>**0 (Ticket query: status: reopened, max: 0, order: id)**</th>
-<th>`[[TicketQuery(status=reopened,count)]]`</th></tr>
-<tr><th>Number of assigned tickets: 
+<th> <tt>[[TicketQuery(status=new&milestone=,count)]]</tt> 
+</th></tr>
+<tr><td>
+</td>
+<th>Number of new tickets: 
 </th>
-<th>**0 (Ticket query: status: assigned, max: 0, order: id)**</th>
-<th>`[[TicketQuery(status=assigned,count)]]`</th></tr>
-<tr><th>Number of invalid tickets: 
+<th> <b>3006 (Ticket query: status: new, max: 0, order: id)</b>
 </th>
-<th>**1118 (Ticket query: status: closed, resolution: invalid, max: 0, order: id)**</th>
-<th>`[[TicketQuery(status=closed,resolution=invalid,count)]]`</th></tr>
-<tr><th>Number of worksforme tickets: 
+<th> <tt>[[TicketQuery(status=new,count)]]</tt> 
+</th></tr>
+<tr><td>
+</td>
+<th>Number of reopened tickets: 
 </th>
-<th>**360 (Ticket query: status: closed, resolution: worksforme, max: 0, order: id)**</th>
-<th>`[[TicketQuery(status=closed,resolution=worksforme,count)]]`</th></tr>
-<tr><th>Number of duplicate tickets: 
+<th> <b>0 (Ticket query: status: reopened, max: 0, order: id)</b>
 </th>
-<th>**1340 (Ticket query: status: closed, resolution: duplicate, max: 0, order: id)**</th>
-<th>`[[TicketQuery(status=closed,resolution=duplicate,count)]]`</th></tr>
-<tr><th>Number of wontfix tickets: 
+<th> <tt>[[TicketQuery(status=reopened,count)]]</tt> 
+</th></tr>
+<tr><td>
+</td>
+<th>Number of assigned tickets: 
 </th>
-<th>**676 (Ticket query: status: closed, resolution: wontfix, max: 0, order: id)**</th>
-<th>`[[TicketQuery(status=closed,resolution=wontfix,count)]]`</th></tr>
-<tr><th>Number of fixed tickets: 
+<th> <b>0 (Ticket query: status: assigned, max: 0, order: id)</b>
 </th>
-<th>**7839 (Ticket query: status: closed, resolution: fixed, max: 0, order: id)**</th>
-<th>`[[TicketQuery(status=closed,resolution=fixed,count)]]`</th></tr>
-<tr><th>Total number of tickets: 
+<th> <tt>[[TicketQuery(status=assigned,count)]]</tt> 
+</th></tr>
+<tr><td>
+</td>
+<th>Number of invalid tickets: 
 </th>
-<th>**15046 (Ticket query: max: 0, order: id)**</th>
-<th>`[[TicketQuery(count)]]`</th></tr>
-<tr><th>Number of tickets reported **or** owned by current user: 
+<th> <b>1118 (Ticket query: status: closed, resolution: invalid, max: 0, order: id)</b>
 </th>
-<th>**7 (Ticket query: reporter: %24USER, or: , owner: %24USER, max: 0, order: id)**</th>
-<th>`[[TicketQuery(reporter=$USER,or,owner=$USER,count)]]`</th></tr>
-<tr><th>Number of tickets created this month: 
+<th> <tt>[[TicketQuery(status=closed,resolution=invalid,count)]]</tt> 
+</th></tr>
+<tr><td>
+</td>
+<th>Number of worksforme tickets: 
 </th>
-<th>**40 (Ticket query: time: thismonth.., max: 0, order: id)**</th>
-<th>`[[TicketQuery(created=thismonth..,count)]]`</th></tr>
-<tr><th>Last 3 modified tickets: 
+<th> <b>360 (Ticket query: status: closed, resolution: worksforme, max: 0, order: id)</b>
 </th>
-<th>**[\#18](https://gitlab.haskell.org//ghc/ghc/issues/18), [\#19](https://gitlab.haskell.org//ghc/ghc/issues/19), [\#20](https://gitlab.haskell.org//ghc/ghc/issues/20)**</th>
-<th>`[[TicketQuery(max=3,order=modified,desc=1,compact)]]`</th></tr>
-<tr><th>
-Details of ticket [\#1](https://gitlab.haskell.org//ghc/ghc/issues/1):
+<th> <tt>[[TicketQuery(status=closed,resolution=worksforme,count)]]</tt> 
+</th></tr>
+<tr><td>
+</td>
+<th>Number of duplicate tickets: 
+</th>
+<th> <b>1340 (Ticket query: status: closed, resolution: duplicate, max: 0, order: id)</b>
+</th>
+<th> <tt>[[TicketQuery(status=closed,resolution=duplicate,count)]]</tt> 
+</th></tr>
+<tr><td>
+</td>
+<th>Number of wontfix tickets: 
+</th>
+<th> <b>676 (Ticket query: status: closed, resolution: wontfix, max: 0, order: id)</b>
+</th>
+<th> <tt>[[TicketQuery(status=closed,resolution=wontfix,count)]]</tt> 
+</th></tr>
+<tr><td>
+</td>
+<th>Number of fixed tickets: 
+</th>
+<th> <b>7840 (Ticket query: status: closed, resolution: fixed, max: 0, order: id)</b>
+</th>
+<th> <tt>[[TicketQuery(status=closed,resolution=fixed,count)]]</tt> 
+</th></tr>
+<tr><td>
+</td>
+<th>Total number of tickets: 
+</th>
+<th> <b>15046 (Ticket query: max: 0, order: id)</b>
+</th>
+<th> <tt>[[TicketQuery(count)]]</tt> 
+</th></tr>
+<tr><td>
+</td>
+<th>Number of tickets reported <b>or</b> owned by current user: 
+</th>
+<th> <b>7 (Ticket query: reporter: %24USER, or: , owner: %24USER, max: 0, order: id)</b>
+</th>
+<th> <tt>[[TicketQuery(reporter=$USER,or,owner=$USER,count)]]</tt> 
+</th></tr>
+<tr><td>
+</td>
+<th>Number of tickets created this month: 
+</th>
+<th> <b>40 (Ticket query: time: thismonth.., max: 0, order: id)</b>
+</th>
+<th> <tt>[[TicketQuery(created=thismonth..,count)]]</tt> 
+</th></tr>
+<tr><td>
+</td>
+<th>Last 3 modified tickets: 
+</th>
+<th><b><a href="https://gitlab.haskell.org//ghc/ghc/issues/18">#18</a>, <a href="https://gitlab.haskell.org//ghc/ghc/issues/19">#19</a>, <a href="https://gitlab.haskell.org//ghc/ghc/issues/20">#20</a></b>
+</th>
+<th> <tt>[[TicketQuery(max=3,order=modified,desc=1,compact)]]</tt> 
+</th></tr>
+<tr><td>
+</td>
+<th>
+Details of ticket <a href="https://gitlab.haskell.org//ghc/ghc/issues/1">#1</a>:
+
 
 </th>
 <th></th>
-<th>`[[TicketQuery(id=1,col=id|owner|reporter,rows=summary,table)]]`
+<th>
+<tt>[[TicketQuery(id=1,col=id|owner|reporter,rows=summary,table)]]</tt>
+
 
 </th></tr>
-<tr><th>
+<tr><td>
+</td>
+<th>
 
-<table><tr><th>Ticket (Ticket query: id: 1, max: 0, col: id, col: owner, col: reporter, desc: 1, order: id, row: summary)</th>
-<th>Owner (Ticket query: id: 1, max: 0, col: id, col: owner, col: reporter, order: owner, row: summary)</th>
-<th>Reporter (Ticket query: id: 1, max: 0, col: id, col: owner, col: reporter, order: reporter, row: summary)</th></tr>
-<tr><th>[\#1](https://gitlab.haskell.org//ghc/ghc/issues/1)</th>
-<th>nobody</th>
-<th>nobody</th></tr>
-<tr><th>Summary</th>
+
+  
+  
+  
+  
+  
+    
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: id: 1, max: 0, col: id, col: owner, col: reporter, desc: 1, order: id, row: summary)
+      </th>
+<th>
+        
+        Owner (Ticket query: id: 1, max: 0, col: id, col: owner, col: reporter, order: owner, row: summary)
+      </th>
+<th>
+        
+        Reporter (Ticket query: id: 1, max: 0, col: id, col: owner, col: reporter, order: reporter, row: summary)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1">#1</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      nobody
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      nobody
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                    </td>
+<th>Summary</th>
+<td>
+                    
+                    
+                    </td>
 <th>
                       
                         Implicit parameters cause strange behavi
                       
                     </th>
-<th></th></tr></table>
+<td>
+                  </td>
+<td></td>
+<td></td></tr></table>
+
+
+  
+
+
 
 </th>
-<th></th>
-<th></th></tr>
-<tr><td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+</td>
+<td></td>
 <td></td>
 <td></td></tr></table>
 
@@ -187,7 +334,12 @@ Example:
 
 This is displayed as:
 
+
+>
+>
 > No results
+>
+>
 
 
 Just like the [query: wiki links](trac-query#using-traclinks), the parameter of this macro expects a query string formatted according to the rules of the simple [ticket query language](trac-query#query-language). This also displays the link and description of a single ticket:
@@ -199,8 +351,14 @@ Just like the [query: wiki links](trac-query#using-traclinks), the parameter of 
 
 This is displayed as:
 
-> <table><tr><th>[\#123](https://gitlab.haskell.org//ghc/ghc/issues/123)</th>
+
+>
+>
+> <table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/123">#123</a></th>
 > <td>Unix manual pages not in release bundles</td></tr></table>
+>
+>
+>
 
 
 A more compact representation without the ticket summaries is:
@@ -212,7 +370,12 @@ A more compact representation without the ticket summaries is:
 
 This is displayed as:
 
+
+>
+>
 > No results
+>
+>
 
 
 If you wish to receive only the number of defects that match the query, use the `count` parameter:
@@ -224,7 +387,12 @@ If you wish to receive only the number of defects that match the query, use the 
 
 This is displayed as:
 
+
+>
+>
 > 0 (Ticket query: version: 0.6, version: 0.7, resolution: duplicate, max: 0, order: id)
+>
+>
 
 
 A graphical use of the macro is with the `format=progress` attribute:
@@ -236,9 +404,18 @@ A graphical use of the macro is with the `format=progress` attribute:
 
 For example for one of the upcoming milestones, bars are shown by ticket type:
 
+
+  
+
 <table></table>
+
+
+
 
 ---
 
 
+
 See also: [TracQuery](trac-query), [TracTickets](trac-tickets), [TracReports](trac-reports), [TracGuide](trac-guide)
+
+

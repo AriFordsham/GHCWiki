@@ -22,63 +22,86 @@ and any other text fields explicitly marked as supporting [WikiFormatting](wiki-
 <th> Display 
 </th></tr>
 <tr><th><table><tr><th>Wiki pages</th>
-<td>`CamelCase` or `wiki:CamelCase`</td></tr>
+<td><tt>CamelCase</tt> or <tt>wiki:CamelCase</tt>
+</td></tr>
 <tr><th>Parent page</th>
-<td>`[..]`</td></tr>
+<td><tt>[..]</tt>
+</td></tr>
 <tr><th>Tickets</th>
-<td>`#1` or `ticket:1`</td></tr>
+<td><tt>#1</tt> or <tt>ticket:1</tt>
+</td></tr>
 <tr><th>Ticket comments</th>
-<td>`comment:1:ticket:2`</td></tr>
+<td><tt>comment:1:ticket:2</tt>
+</td></tr>
 <tr><th>Reports</th>
-<td>`{1}` or `report:1`</td></tr>
+<td><tt>{1}</tt> or <tt>report:1</tt>
+</td></tr>
 <tr><th>Milestones</th>
-<td>`milestone:1.0`</td></tr>
+<td><tt>milestone:1.0</tt>
+</td></tr>
 <tr><th>Attachment</th>
-<td>`attachment:example.tgz` (for current page attachment), `attachment:attachment.1073.diff:ticket:944` (absolute path)
+<td><tt>attachment:example.tgz</tt> (for current page attachment), <tt>attachment:attachment.1073.diff:ticket:944</tt> (absolute path)
 </td></tr>
 <tr><th>Changesets</th>
-<td>`r1`, `[1]`, `changeset:1` or (restricted) `[1/trunk]`, `changeset:1/trunk`, `[1/repository]`</td></tr>
+<td><tt>r1</tt>, <tt>[1]</tt>, <tt>changeset:1</tt> or (restricted) <tt>[1/trunk]</tt>, <tt>changeset:1/trunk</tt>, <tt>[1/repository]</tt>
+</td></tr>
 <tr><th>Revision log</th>
-<td>`r1:3`, `[1:3]` or `log:@1:3`, `log:trunk@1:3`, `[2:5/trunk]`</td></tr>
+<td><tt>r1:3</tt>, <tt>[1:3]</tt> or <tt>log:@1:3</tt>, <tt>log:trunk@1:3</tt>, <tt>[2:5/trunk]</tt>
+</td></tr>
 <tr><th>Diffs</th>
-<td>`diff:@1:3`, `diff:plugins/0.12/mercurial-plugin@9128:9953`,
-`diff:tags/trac-0.9.2/wiki-default//tags/trac-0.9.3/wiki-default` 
-or `diff:trunk/trac@3538//sandbox/vc-refactoring@3539`</td></tr>
+<td><tt>diff:@1:3</tt>, <tt>diff:plugins/0.12/mercurial-plugin@9128:9953</tt>,
+<tt>diff:tags/trac-0.9.2/wiki-default//tags/trac-0.9.3/wiki-default</tt> 
+or <tt>diff:trunk/trac@3538//sandbox/vc-refactoring@3539</tt>
+</td></tr>
 <tr><th>Files</th>
-<td>`source:trunk/COPYING`, `source:/trunk/COPYING@200` (at version 200), `source:/trunk/COPYING@200#L25` (at version 200, line 25)
+<td><tt>source:trunk/COPYING</tt>, <tt>source:/trunk/COPYING@200</tt> (at version 200), <tt>source:/trunk/COPYING@200#L25</tt> (at version 200, line 25)
 </td></tr></table>
+
 
 </th>
 <th><table><tr><th>Wiki pages</th>
-<td>[CamelCase](camel-case) or [wiki:CamelCase](camel-case)</td></tr>
+<td><a href="camel-case">CamelCase</a> or <a href="camel-case">wiki:CamelCase</a>
+</td></tr>
 <tr><th>Parent page</th>
-<td>[..](/trac/ghc/wiki)</td></tr>
+<td><a href="/trac/ghc/wiki">..</a>
+</td></tr>
 <tr><th>Tickets</th>
-<td>[\#1](https://gitlab.haskell.org//ghc/ghc/issues/1) or [ticket:1](https://gitlab.haskell.org//ghc/ghc/issues/1)</td></tr>
+<td><a href="https://gitlab.haskell.org//ghc/ghc/issues/1">#1</a> or <a href="https://gitlab.haskell.org//ghc/ghc/issues/1">ticket:1</a>
+</td></tr>
 <tr><th>Ticket comments</th>
-<td>comment:1:ticket:2</td></tr>
+<td>comment:1:ticket:2 
+</td></tr>
 <tr><th>Reports</th>
-<td>[{1}](/trac/ghc/report/1) or [report:1](/trac/ghc/report/1)</td></tr>
+<td><a href="/trac/ghc/report/1">{1}</a> or <a href="/trac/ghc/report/1">report:1</a>
+</td></tr>
 <tr><th>Milestones</th>
-<td>milestone:1.0</td></tr>
+<td>milestone:1.0
+</td></tr>
 <tr><th>Attachment</th>
 <td>attachment:example.tgz (for current page attachment), attachment:attachment.1073.diff:ticket:944 (absolute path)
 </td></tr>
 <tr><th>Changesets</th>
-<td>r1, \[1\], changeset:1 or (restricted) \[1/trunk\], changeset:1/trunk, \[1/repository\]</td></tr>
+<td>r1, [1], changeset:1 or (restricted) [1/trunk], changeset:1/trunk, [1/repository]
+</td></tr>
 <tr><th>Revision log</th>
-<td>[r1:3](/trac/ghc/log/ghc/?revs=1%3A3), [\[1:3\]](/trac/ghc/log/ghc/?revs=1%3A3) or [log:\@1:3](/trac/ghc/log/ghc/?revs=1%3A3), [log:trunk\@1:3](/trac/ghc/log/ghc/trunk?revs=1%3A3), [\[2:5/trunk\]](/trac/ghc/log/ghc/trunk?revs=2%3A5)</td></tr>
+<td><a href="/trac/ghc/log/ghc/?revs=1%3A3">r1:3</a>, <a href="/trac/ghc/log/ghc/?revs=1%3A3">[1:3]</a> or <a href="/trac/ghc/log/ghc/?revs=1%3A3">log:@1:3</a>, <a href="/trac/ghc/log/ghc/trunk?revs=1%3A3">log:trunk@1:3</a>, <a href="/trac/ghc/log/ghc/trunk?revs=2%3A5">[2:5/trunk]</a>
+</td></tr>
 <tr><th>Diffs</th>
-<td>[diff:\@1:3](/trac/ghc/changeset?new=3&old=1), [diff:plugins/0.12/mercurial-plugin\@9128:9953](/trac/ghc/changeset?new=9953&new_path=plugins%2F0.12%2Fmercurial-plugin&old=9128&old_path=plugins%2F0.12%2Fmercurial-plugin),
-[diff:tags/trac-0.9.2/wiki-default//tags/trac-0.9.3/wiki-default](/trac/ghc/changeset?new_path=tags%2Ftrac-0.9.3%2Fwiki-default&old_path=tags%2Ftrac-0.9.2%2Fwiki-default) 
-or [diff:trunk/trac\@3538//sandbox/vc-refactoring\@3539](/trac/ghc/changeset?new=3539&new_path=sandbox%2Fvc-refactoring&old=3538&old_path=trunk%2Ftrac)</td></tr>
+<td><a href="/trac/ghc/changeset?new=3&amp;old=1">diff:@1:3</a>, <a href="/trac/ghc/changeset?new=9953&amp;new_path=plugins%2F0.12%2Fmercurial-plugin&amp;old=9128&amp;old_path=plugins%2F0.12%2Fmercurial-plugin">diff:plugins/0.12/mercurial-plugin@9128:9953</a>,
+<a href="/trac/ghc/changeset?new_path=tags%2Ftrac-0.9.3%2Fwiki-default&amp;old_path=tags%2Ftrac-0.9.2%2Fwiki-default">diff:tags/trac-0.9.2/wiki-default//tags/trac-0.9.3/wiki-default</a> 
+or <a href="/trac/ghc/changeset?new=3539&amp;new_path=sandbox%2Fvc-refactoring&amp;old=3538&amp;old_path=trunk%2Ftrac">diff:trunk/trac@3538//sandbox/vc-refactoring@3539</a>
+</td></tr>
 <tr><th>Files</th>
-<td>source:trunk/COPYING, source:/trunk/COPYING\@200 (at version 200), source:/trunk/COPYING\@200\#L25 (at version 200, line 25)
+<td>source:trunk/COPYING, source:/trunk/COPYING@200 (at version 200), source:/trunk/COPYING@200#L25 (at version 200, line 25)
 </td></tr></table>
+
 
 </th></tr></table>
 
+
+
 **Note:** The [wiki:CamelCase](camel-case) form is rarely used, but it can be convenient to refer to pages whose names do not follow [WikiPageNames](wiki-page-names) rules, ie single words, non-alphabetic characters, etc. See [WikiPageNames](wiki-page-names) for more about features specific to links to Wiki page names.
+
 
 <table><tr><th> Trac links using the full (non-shorthand) notation can also be given a custom link title like this: 
 </th>
@@ -89,45 +112,54 @@ or [diff:trunk/trac\@3538//sandbox/vc-refactoring\@3539](/trac/ghc/changeset?new
 ```
 
 </th>
-<th>[This is a link to ticket number one](https://gitlab.haskell.org//ghc/ghc/issues/1) or
-[This is another link to ticket number one](https://gitlab.haskell.org//ghc/ghc/issues/1).
+<th>
+<a href="https://gitlab.haskell.org//ghc/ghc/issues/1">This is a link to ticket number one</a> or
+<a href="https://gitlab.haskell.org//ghc/ghc/issues/1">This is another link to ticket number one</a>.
+
 
 </th></tr>
-<tr><th> If the title is omitted, only the id (the part after the colon) is displayed:  
-</th>
-<th></th></tr>
+<tr><td>
+</td>
+<th> If the title is omitted, only the id (the part after the colon) is displayed:  
+</th></tr>
 <tr><th>```wiki
 [ticket:1] or [[ticket:2]]
 ```
 
 </th>
-<th>[1](https://gitlab.haskell.org//ghc/ghc/issues/1) or [2](https://gitlab.haskell.org//ghc/ghc/issues/2)
+<th>
+<a href="https://gitlab.haskell.org//ghc/ghc/issues/1">1</a> or <a href="https://gitlab.haskell.org//ghc/ghc/issues/2">2</a>
+
 
 </th></tr>
-<tr><th>`wiki` is the default if the namespace part of a full link is omitted:  
-</th>
-<th></th></tr>
+<tr><td>
+</td>
+<th> <tt>wiki</tt> is the default if the namespace part of a full link is omitted:  
+</th></tr>
 <tr><th>```wiki
 [SandBox the sandbox] or
 [[SandBox|the sandbox]]
 ```
 
 </th>
-<th>[the sandbox](sand-box) or
-[the sandbox](sand-box)
+<th>
+<a href="sand-box">the sandbox</a> or
+<a href="sand-box">the sandbox</a>
+
 
 </th></tr>
-<tr><th> The short form *realm:target* can also be wrapped within a \<...\> pair, 
- which allow for arbitrary characters (i.e. anything but \>)  
-</th>
-<th></th></tr>
+<tr><td>
+</td>
+<th> The short form <i>realm:target</i> can also be wrapped within a &lt;...&gt; pair, <br> which allow for arbitrary characters (i.e. anything but &gt;)  
+</th></tr>
 <tr><th>```wiki
 <wiki:Strange(page@!)>
 ```
 
 </th>
 <th>
-\<wiki:Strange(page@!)?\>
+&lt;wiki:Strange(page@!)?&gt;
+
 
 </th></tr></table>
 
@@ -151,7 +183,11 @@ To link from a [ SubWiki](http://trac.edgewall.org/intertrac/SubWiki) page to a 
   [..] or [[..]]
 ```
 
+>
+>
 > [..](/trac/ghc/wiki) or [..](/trac/ghc/wiki)
+>
+>
 
 
 To link from a [ SubWiki](http://trac.edgewall.org/intertrac/SubWiki) page to a sibling page, use a '../':
@@ -160,7 +196,11 @@ To link from a [ SubWiki](http://trac.edgewall.org/intertrac/SubWiki) page to a 
   [../Sibling see next sibling] or [[../Sibling|see next sibling]]
 ```
 
+>
+>
 > see next sibling? or see next sibling?
+>
+>
 
 
 But in practice you often won't need to add the `../` prefix to link to a sibling page.
@@ -179,7 +219,11 @@ To create a link to a specific anchor in a page, use '\#':
  [#Linkanchors Link anchors] or [[#Linkanchors|Link anchors]]
 ```
 
+>
+>
 > [Link anchors](trac-links#link-anchors) or [Link anchors](trac-links#link-anchors)
+>
+>
 
 
 Hint: when you move your mouse over the title of a section, a '¶' character will be displayed. This is a link to that specific section and you can use this to copy the `#...` part inside a relative link to an anchor.
@@ -192,8 +236,12 @@ To create a link to the first or last occurrence of a term on a page, use a *pse
  [#?Milestone last occurrence of Milestone]
 ```
 
+>
+>
 > [first occurrence of Milestone](trac-links#) or
 > [last occurrence of Milestone](trac-links#)
+>
+>
 
 
 This will also highlight all other matches on the linked page. By default only case sensitive matches are considered. To include case insensitive matches append '/i':
@@ -203,8 +251,13 @@ This will also highlight all other matches on the linked page. By default only c
  [#?Milestone/i last occurrence of Milestone or milestone]
 ```
 
+>
+>
 > [first occurrence of Milestone or milestone](trac-links#) or
 > [last occurrence of Milestone or milestone](trac-links#)
+>
+>
+
 
 *(since Trac 1.0)*
 
@@ -216,8 +269,12 @@ Such anchors can be very useful for linking to specific lines in a file in the s
  [trac:source:tags/trac-0.12/trac/ticket/roadmap.py#L47 Line 47]
 ```
 
+>
+>
 > [ Line 127](http://trac.edgewall.org/intertrac/source%3Atags/trac-0.12/trac/wiki/api.py%23L127) or
 > [ Line 47](http://trac.edgewall.org/intertrac/source%3Atags/trac-0.12/trac/ticket/roadmap.py%23L47)
+>
+>
 
 
 (Hint: The line numbers displayed in the source browser are links to anchors on the respective lines.)
@@ -230,8 +287,12 @@ Since such links become outdated when the file changes, it can be useful to link
  [trac:source:trunk/trac/env.py#/ISystemInfoProvider ISystemInfoProvider]
 ```
 
+>
+>
 > [ IWikiSyntaxProvider](http://trac.edgewall.org/intertrac/source%3Atrunk/trac/wiki/api.py%23/IWikiSyntaxProvider) or
 > [ ISystemInfoProvider](http://trac.edgewall.org/intertrac/source%3Atrunk/trac/env.py%23/ISystemInfoProvider)
+>
+>
 
 ### [InterWiki](inter-wiki) links
 
@@ -264,7 +325,9 @@ To link to resources inside the project, use either an absolute path from the pr
 ```
 
 
-Display: [Create a new ticket](/trac/ghc/newticket) or [Create a new ticket](/newticket)[home](/trac/ghc/) or [home](/trac/ghc/)
+Display: [Create a new ticket](/trac/ghc/newticket) or [Create a new ticket](/newticket)
+[home](/trac/ghc/) or [home](/trac/ghc/)
+
 
 
 To link to another location on the server (possibly outside the project but on the same host), use the `//` prefix (*Changed in 0.11*):
@@ -306,9 +369,13 @@ To prevent parsing of a TracLink, you can escape it by preceding it with a '!' (
 
 Display:
 
+
+>
 >
 > NoLinkHere.
 > \[42\] is not a link either.
+>
+>
 
 ### Parameterized Trac links
 
@@ -355,7 +422,8 @@ See also [\#export:links](trac-links#).
 When you're inside a given ticket, you can simply write e.g. comment:3 to link to the third change comment.
 It is possible to link to a comment of a specific ticket from anywhere using one of the following syntax:
 
-- `comment:3:ticket:123`
+
+- `comment:3:ticket:123` 
 - `ticket:123#comment:3` (note that you can't write `#123#!comment:3`!)
 
 
@@ -378,11 +446,18 @@ See [TracQuery\#UsingTracLinks](trac-query#using-traclinks) and [\#ticket:links]
 ### search: links
 
 
-See [TracSearch\#SearchLinks](trac-search#search-links)
+
+See [TracSearch\#SearchLinks](trac-search#search-links) 
+
 
 ### ticket: links
 
-> *aliases:*`bug:`, `issue:`
+
+>
+>
+> *aliases:* `bug:`, `issue:`
+>
+>
 
 
 Besides the obvious `ticket:id` form, it is also possible to specify a list of tickets or even a range of tickets instead of the `id`. This generates a link to a custom query view containing this fixed set of tickets.
@@ -419,11 +494,18 @@ See [WikiPageNames](wiki-page-names) and [quoting space in TracLinks](trac-links
 It should be noted that multiple repository support works by creating a kind of virtual namespace for versioned files in which the toplevel folders correspond to the repository names. Therefore, in presence of multiple repositories, a */path* specification in the syntax of links detailed below should start with the name of the repository. If omitted, the default repository is used. In case a toplevel folder of the default repository has the same name as a repository, the latter "wins". One can always access such folder by fully qualifying it. The default repository can be an alias of a named repository, or conversely, it is always possible to create an alias for the default repository, ask your Trac administrator.
 
 
+
 For example, `source:/trunk/COPYING` targets the path `/trunk/COPYING` in the default repository, whereas `source:/projectA/trunk/COPYING` targets the path `/trunk/COPYING` in the repository named `projectA`. This can be the same file if `'projectA'` is an alias to the default repository or if `''` (the default repository) is an alias to `'projectA'`.
+
 
 #### source: links
 
-> *aliases:*`browser:`, `repos:`
+
+>
+>
+> *aliases:* `browser:`, `repos:`
+>
+>
 
 
 The default behavior for a `source:/some/path link` is to open the browser in that directory directory if the path points to a directory or to show the latest content of the file.
@@ -495,4 +577,7 @@ In the presence of multiple repositories, the name of the repository should be s
 ---
 
 
+
 See also: [WikiFormatting](wiki-formatting), [TracWiki](trac-wiki), [WikiPageNames](wiki-page-names), [InterTrac](inter-trac), [InterWiki](inter-wiki)
+
+

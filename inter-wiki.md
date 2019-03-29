@@ -28,12 +28,19 @@ The argument list is formed by splitting the page identifier using the ":" separ
 ### \[interwiki\]
 
 
+
 Every option in the `[interwiki]` section in [TracIni](trac-ini) defines one [InterWiki](inter-wiki) prefix. The option name defines the prefix. The option value defines the URL, optionally followed by a description separated from the URL by whitespace. Parametric URLs are supported as well.
+
+
 
 **Example:**
 
+
 ```
-[interwiki]MeatBall=http://www.usemod.com/cgi-bin/mb.pl?PEP=http://www.python.org/peps/pep-$1.html Python Enhancement Proposal $1tsvn=tsvn: Interact with TortoiseSvn
+[interwiki]
+MeatBall = http://www.usemod.com/cgi-bin/mb.pl?
+PEP = http://www.python.org/peps/pep-$1.html Python Enhancement Proposal $1
+tsvn = tsvn: Interact with TortoiseSvn
 ```
 
 ## Examples
@@ -73,4 +80,7 @@ Then,
 ---
 
 
+
 See also: [InterTrac](inter-trac), [InterMapTxt](inter-map-txt)
+
+

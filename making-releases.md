@@ -9,11 +9,18 @@
 ## Core libraries
 
 
+
 A few weeks before the first alpha release the release manager should contact the core library upstream maintainers to determine which core library versions will ship with the new GHC release. See [WorkingConventions/BootLibraries](working-conventions/boot-libraries) for details. 
+
 
 ## Test policy
 
+
 - Run `./validate --slow` on all [tier 1 platforms](platforms) before release.
+
+
+ 
+
 
 ## Branching the tree
 
@@ -297,7 +304,10 @@ There are a variety of things that should also be done,
 
 ## Uploading libraries
 
-TODOFIXME Normally Herbert and upstream maintainers take care of this - we always attempt to have full releases for all package by the time the final release happens (although not necessarily so for an RC - they may ship slight interim states).
+
+
+TODO FIXME Normally Herbert and upstream maintainers take care of this - we always attempt to have full releases for all package by the time the final release happens (although not necessarily so for an RC - they may ship slight interim states).
+
 
 
 Heuristic for detecting submodule libraries which have no proper release:

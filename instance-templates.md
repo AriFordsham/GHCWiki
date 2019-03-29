@@ -1,25 +1,31 @@
 
 This page documents yet another proposal to make class hierarchies easier to deal with. A good counterpoint is the [IntrinsicSuperclasses](intrinsic-superclasses) proposal, which shares many of the motivations.
 
+
 ## Example
 
-```
-classMonad m where
-  return :: a -> m a
-  (>>=):: m a ->(a -> m b)-> m b
 
-  derivinginstanceFunctor m where
+```
+class Monad m where
+  return :: a -> m a
+  (>>=) :: m a -> (a -> m b) -> m b
+
+  deriving instance Functor m where
     fmap = lift1
 
-  derivinginstanceApplicative m where
+  deriving instance Applicative m where
     pure = return
-    (<*>)= ap
+    (<*>) = ap
 
-instanceMonadMaybewhere
-  return =JustNothing>>=_=Nothing(Just x)>>= f = f x
+instance Monad Maybe where
+  return = Just
+  Nothing >>= _  = Nothing
+  (Just x) >>= f = f x
 
-  deriving(Functor,Applicative)-- these inherit the constraints and params above-- ORderivinginstanceFunctor m
-  derivinginstanceApplicative m   -- these specify constraints
+  deriving (Functor, Applicative)   -- these inherit the constraints and params above
+  -- OR
+  deriving instance Functor m
+  deriving instance Applicative m   -- these specify constraints
 ```
 
 ## Proposal
@@ -96,24 +102,27 @@ In a deep class hierarchy (i.e. with long chains of superclasses), it may be con
 
 For example:
 
+
 ```
-classFunctor f where
-  fmap ::(a -> b)-> f a -> f b
+class Functor f where
+  fmap :: (a -> b) -> f a -> f b
 
-classFunctor f =>Applicative f where
+class Functor f => Applicative f where
   pure :: a -> f a
-  (<*>):: f (a -> b)-> f a -> f b
+  (<*>) :: f (a -> b) -> f a -> f b
 
-  derivingdefaultinstanceFunctor f where
-    fmap f =(pure f <*>)classApplicative m =>Monad m where
+  deriving default instance Functor f where
+    fmap f = (pure f <*>)
+
+class Applicative m => Monad m where
   return :: a -> m a
-  (>>=):: m a ->(a -> m b)-> m b
-  fail ::String-> m a
+  (>>=) :: m a -> (a -> m b) -> m b
+  fail :: String -> m a
 
-  derivingdefaultinstanceApplicative m where
+  deriving default instance Applicative m where
     pure = return
-    (<*>)= ap
-  derivingdefaultFunctor
+    (<*>) = ap
+  deriving default Functor
 ```
 
 
@@ -125,31 +134,39 @@ In the last line, we see a combination of extensions 1 and 3, which causes no ad
 This proposal does not address directly how to split a class into pieces, but the features described here can be used to do so, with the perhaps-unfortunate consequence if requiring new names to be introduced. (Contrast with [IntrinsicSuperclasses](intrinsic-superclasses), which supports splitting directly, but has the perhaps-unfortunate consequence that method definitions in instances do not always belong to the class they appear to be defined for.)
 
 
+
 Here is a class we want to split:
 
+
 ```
-classNum a where(+):: a -> a -> a
-  (*):: a -> a -> a
+class Num a where
+  (+) :: a -> a -> a
+  (*) :: a -> a -> a
 ```
 
 
 And here is how we might split it:
 
+
 ```
-classAdditive a where
+class Additive a where
   add :: a -> a -> a
-classMultiplicative a where
+class Multiplicative a where
   mult :: a -> a -> a
 
-class(Additive a,Multiplicative a)=>Num a where(+):: a -> a -> a
-  (+)= add
+class (Additive a, Multiplicative a) => Num a where
+  (+) :: a -> a -> a
+  (+) = add
 
-  (*):: a -> a -> a
-  (*)= mult
+  (*) :: a -> a -> a
+  (*) = mult
 
-  derivingdefaultinstanceAdditive a where
-    add =(+)derivingdefaultinstanceMultiplicative a where
-    mult =(*){-# MINIMAL (add | (+)), (mult | (*)) #-}
+  deriving default instance Additive a where
+    add = (+)
+  deriving default instance Multiplicative a where
+    mult = (*)
+
+  {-# MINIMAL (add | (+)), (mult | (*)) #-}
 ```
 
 

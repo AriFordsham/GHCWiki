@@ -28,11 +28,20 @@ If more than one revision is involved in the set of changes being displayed, the
 A colored rectangle indicates how the file is affected by the changeset:
  
 
-> ** Green: Added 
-> ** Red: Removed 
-> ** Yellow: Modified 
-> ** Blue: Copied 
-> ** Gray: Moved 
+
+>
+>
+> *  * Green: Added 
+>
+> *  * Red: Removed 
+>
+> *  * Yellow: Modified 
+>
+> *  * Blue: Copied 
+>
+> *  * Gray: Moved 
+>
+>
 
 
 The color legend is located below the header as a reminder.
@@ -88,4 +97,7 @@ This link will take you to the last change that was made on that path. From ther
 ---
 
 
+
 See also: [TracGuide](trac-guide), [TracBrowser](trac-browser)
+
+

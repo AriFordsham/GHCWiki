@@ -10,16 +10,30 @@ implementation of the GHC extension for overloading Haskell's list notation (add
 Let us briefly recap the notation for constructing lists. In Haskell, the list
 notation can be be used in the following seven ways:
 
+
 ```
-[]-- Empty list[x]-- x : [][x,y,z]-- x : y : z : [][x ..]-- enumFrom x[x,y ..]-- enumFromThen x y[x .. y]-- enumFromTo x y[x,y .. z]-- enumFromThenTo x y z
+[]          -- Empty list
+[x]         -- x : []
+[x,y,z]     -- x : y : z : []
+[x .. ]     -- enumFrom x
+[x,y ..]    -- enumFromThen x y
+[x .. y]    -- enumFromTo x y
+[x,y .. z]  -- enumFromThenTo x y z
 ```
 
 
 When the `OverloadedLists` extension is turned on, the aforementioned seven
 notations are desugared as follows:
 
+
 ```
-[]-- fromListN 0 [][x]-- fromListN 1 (x : [])[x,y,z]-- fromListN 3 (x : y : z : [])[x ..]-- fromList (enumFrom x)[x,y ..]-- fromList (enumFromThen x y)[x .. y]-- fromList (enumFromTo x y)[x,y .. z]-- fromList (enumFromThenTo x y z)
+[]          -- fromListN 0 []
+[x]         -- fromListN 1 (x : [])
+[x,y,z]     -- fromListN 3 (x : y : z : [])
+[x .. ]     -- fromList (enumFrom x)
+[x,y ..]    -- fromList (enumFromThen x y)
+[x .. y]    -- fromList (enumFromTo x y)
+[x,y .. z]  -- fromList (enumFromThenTo x y z)
 ```
 
 
@@ -27,23 +41,31 @@ This extension allows programmers to use the list notation for construction of
 structures like: `Set`, `Map`, `IntMap`, `Vector`, `Text`
 and `Array`. The following code listing gives a few examples:
 
+
 ```
-['0'..'9']::SetChar[1..10]::VectorInt[("default",0),(k1,v1)]::MapStringInt['a'..'z']::Text
+['0' .. '9']             :: Set Char
+[1 .. 10]                :: Vector Int
+[("default",0), (k1,v1)] :: Map String Int
+['a' .. 'z']             :: Text
 ```
 
 
 List patterns are also overloaded. When the `OverloadedLists` extension is turned on, the
 definitions
 
+
 ```
-f[]=...g[x,y,z]=...
+f [] = ...
+g [x,y,z] = ...
 ```
 
 
 will be treated as
 
+
 ```
-f(toList ->[])=...g(toList ->[x,y,z])=...
+f (toList -> []) = ...
+g (toList -> [x,y,z]) = ...
 ```
 
 
@@ -56,13 +78,15 @@ That said, the `GHC.Exts` module exports the `IsList` class that can
 be used to overload `fromListN` and `fromListN` for different
 structures. The type class is defined as follows:
 
-```
-classIsList l wheretypeItem l
-  fromList  ::[Item l]-> l
-  toList    :: l ->[Item l]
 
-  fromListN ::Int->[Item l]-> l
-  fromListN _= fromList  
+```
+class IsList l where
+  type Item l
+  fromList  :: [Item l] -> l
+  toList    :: l -> [Item l]
+
+  fromListN :: Int -> [Item l] -> l
+  fromListN _ = fromList  
 ```
 
 
@@ -80,39 +104,47 @@ behaviour of `fromListN` is not specified.
 The instances of the `IsList` class should satisfy the following
 property:
 
+
 ```
-fromList. toList = id
+fromList . toList = id
 ```
 
 
 In the following, we give several example instances of the `IsList` type
 class:
 
+
 ```
-instanceIsList[a]wheretypeItem[a]= a
+instance IsList [a] where
+  type Item [a] = a
   fromList = id
   toList   = id
 
-instance(Ord a)=>IsList(Set a)wheretypeItem(Set a)= a
-  fromList =Set.fromList
-  toList   =Set.toList
+instance (Ord a) => IsList (Set a) where
+  type Item (Set a) = a
+  fromList = Set.fromList
+  toList   = Set.toList
 
-instance(Ord k)=>IsList(Map k v)wheretypeItem(Map k v)=(k,v)
-  fromList =Map.fromList
-  toList   =Map.toList
+instance (Ord k) => IsList (Map k v) where
+  type Item (Map k v) = (k,v)
+  fromList = Map.fromList
+  toList   = Map.toList
 
-instanceIsList(IntMap v)wheretypeItem(IntMap v)=(Int,v)
-  fromList =IntMap.fromList
-  toList   =IntMap.toList
+instance IsList (IntMap v) where
+  type Item (IntMap v) = (Int,v)
+  fromList = IntMap.fromList
+  toList   = IntMap.toList
 
-instanceIsListTextwheretypeItemText=Char
-  fromList =Text.pack
-  toList   =Text.unpack
+instance IsList Text where
+  type Item Text = Char
+  fromList = Text.pack
+  toList   = Text.unpack
 
-instanceIsList(Vector a)wheretypeItem(Vector a)= a
-  fromList  =Vector.fromList
-  toList    =Vector.toList
-  fromListN =Vector.fromListN
+instance IsList (Vector a) where
+  type Item (Vector a) = a
+  fromList  = Vector.fromList
+  toList    = Vector.toList
+  fromListN = Vector.fromListN
 
 ```
 
@@ -149,10 +181,14 @@ http://www.mail-archive.com/haskell-cafe@haskell.org/msg101412.html
 ## Heterogeneous Lists
 
 
+
 The `OverloadedLists` extension as, implemented above, would not be able to be used on heterogeneous lists, for example, as implemented below:
 
+
 ```
-dataHList::[*]->*whereHNil::HList'[]HCons:: a ->HList xs ->HList(a ': xs)
+data HList :: [*] -> * where
+    HNil :: HList '[]
+    HCons :: a -> HList xs -> HList (a ': xs)
 ```
 
 
@@ -161,10 +197,17 @@ This is a bit disappointing. However, I'm not really sure how you could make thi
 ## Length-{indexed,observed} Vectors
 
 
+
 The current extension can't be used to represent list literals for length-indexed vectors as e.g.
 
+
 ```
--- (alternatively, GHC.TypeLits.Nat)dataNat=Ze|SuNatdataVec::*->Nat->*whereNil::Vec a ZeCons:: a ->Vec a n ->Vec a (Su n)
+-- (alternatively, GHC.TypeLits.Nat)
+data Nat = Ze | Su Nat
+
+data Vec :: * -> Nat -> * where
+  Nil  :: Vec a Ze
+  Cons :: a -> Vec a n -> Vec a (Su n)
 ```
 
 

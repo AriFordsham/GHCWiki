@@ -1,1 +1,1 @@
-redirect(wiki:SharedLibraries/PlatformSupport)?
+Page moved to [SharedLibraries/PlatformSupport](shared-libraries/platform-support)

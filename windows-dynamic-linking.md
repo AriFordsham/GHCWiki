@@ -35,6 +35,10 @@ Import libraries are a very simple format, actually there are two formats:
 - The PE spec defines one called "short import library format" which defines a new layout to essentially tell you where you can find a symbol. e.g. `free => my_c_lib.dll`
   These are produced by the Microsoft tool `lib.exe` (ending with the `.lib` extension) and are very small and compact and supported by virtually all Windows compilers, including GCC.
 
+
+   
+
+
 - GCC defines it's own import format (files commonly ending with `.dll.a` or `.a` extension). The format of the GCC variant is exactly the same as a normal archive. Except it contains no
   code. the `.idata` sections will contain the symbol and the dll in which to find the symbol. This import format can be produced by `libtool`.
 
@@ -44,7 +48,9 @@ Import libraries essentially allow us to "promise" the linker that the symbols a
 This is how mutual recursive linking is done on Windows.
 
 
-Import libraries are commonly created by means of a `Module Definition file`[ https://msdn.microsoft.com/en-us/library/28d6s79h.aspx](https://msdn.microsoft.com/en-us/library/28d6s79h.aspx)
+
+Import libraries are commonly created by means of a `Module Definition file` [ https://msdn.microsoft.com/en-us/library/28d6s79h.aspx](https://msdn.microsoft.com/en-us/library/28d6s79h.aspx)
+
 
 
 This file allows quite a few things (like symbol hiding, forwarding, proxying, renaming etc).
@@ -63,52 +69,95 @@ EXPORTS
 Using `libtool` we can create an import library from the `.def` file.
 
 
+
 It's also important to note that there is two types of import libraries:
+
 
 - Normal import libraries:
 
+>
+> >
 > >
 > > In this case, the dll is added to the IAT of the PE file it was linked into and the symbols used from the dll
 > > are added into the import list of the IAT entry. This allows the OS loader to load the DLL and all it's dependency.
 > > The OS loader is of course smart enough to not recurse endlessly.
+> >
+> >
+>
+
+
+        
+
 
 - Second variant is a delay load import library:
 
+>
+> >
 > >
 > > In this variant the dll and symbols are not added to the IAT, but instead the linker produces stubs around the use of the
 > > symbols in question. When the symbol is first used this forces the load of the dll. So this means that the dll is not loaded 
 > > at startup but only as needed.
+> >
+> >
+>
 
+
+        
+
+
+>
+> >
 > >
 > > This is important, because it allows us to, if needed, use OS hooks to change where it looks for DLLs. [ https://msdn.microsoft.com/en-us/library/z9h1h6ty.aspx](https://msdn.microsoft.com/en-us/library/z9h1h6ty.aspx)
 > > For instance, if we want to allow distribution of a Haskell runtime separately from GHC (like .NET, JAVA etc allow) then we can 
 > > use this to place the dlls anywhere and have the main of a haskell program locate the runtime.
+> >
+> >
+>
+
+
+        
+
 
 #### Implementation
 
 
+
 The implementation does the following:
 
+
+>
 >
 > 1) creates a .def files from all the symbols defined in the input object files
 > 2) counts and splits the object files in X number of partitions. Making there's enough room
 >
+>
+> >
 > >
 > > for the entire object file in the dll (so that all the symbols of one object file end up in the same dll).
+> >
+> >
 >
 >
 > 3) creates X .def files and import libraries for these X dlls to be created.
 > 4) creates X dlls using the import libraries on the link to break the cyclic dependencies. 
 >
+>
+> >
 > >
 > > The dlls are given the suffix `-pt<num>.dll` to indicate that they were split.
+> >
+> >
 >
 >
 > 5) Finally merges the X import libraries into one import libraries which does multiple redirections.
 >
+>
+> >
 > >
 > > This removes the need for any other parts of the system to know the dlls were split.
 > > Because of LD's search order:
+> >
 > >
 > > ```wiki
 > > libxxx.dll.a
@@ -121,6 +170,9 @@ The implementation does the following:
 > >
 > >
 > > specifying `-lfoo` will always pick the import library. So by merging it they don't have to know about the merge happening.
+> >
+> >
+>
 
 
 This splitting is done automatically in the build system. As a consequence `dll-split` and related functionality can be completely removed.
@@ -246,5 +298,8 @@ During compilation of a `.exe` we can then set the search path using `AddDllDire
 and all the DLLs since they are all in the same process space as the `exe` and so will inherit the search path.
 
 
+
 For dynamic libraries we can override the `hs_init` function and do the same. I think we can use ld's `--wrap symbol` for this so existing code don't need any changing:
 [ http://ftp.gnu.org/pub/old-gnu/Manuals/ld-2.9.1/html_node/ld_3.html](http://ftp.gnu.org/pub/old-gnu/Manuals/ld-2.9.1/html_node/ld_3.html)
+
+

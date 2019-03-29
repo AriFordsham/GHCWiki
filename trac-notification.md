@@ -28,10 +28,13 @@ When using apache and mod_kerb for authentication against Kerberos / Active Dire
 ### Ticket attachment notifications
 
 
+
 Since 1.0.3 Trac will send notifications when a ticket attachment is added or deleted. Usually attachment notifications will be enabled in an environment by default. To disable the attachment notifications for an environment the `TicketAttachmentNotifier` component must be disabled:
 
+
 ```
-[components]trac.ticket.notification.TicketAttachmentNotifier=disabled
+[components]
+trac.ticket.notification.TicketAttachmentNotifier = disabled
 ```
 
 ## Configuring SMTP Notification
@@ -41,241 +44,284 @@ Since 1.0.3 Trac will send notifications when a ticket attachment is added or de
 ### Configuration Options
 
 
+
 These are the available options for the `[notification]` section in trac.ini:
+
+
 
 ### `[notification]`
 
-<table><tr><th>[admit_domains](#notification-admit_domains-option)</th>
+<table><tr><th><a href="#notification-admit_domains-option">admit_domains</a></th>
 <th>
 Comma-separated list of domains that should be considered as
 valid for email addresses (such as localdomain).
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[ambiguous_char_width](#notification-ambiguous_char_width-option)</th>
+<tr><th><a href="#notification-ambiguous_char_width-option">ambiguous_char_width</a></th>
 <th>
 Width of ambiguous characters that should be used in the table
 of the notification mail.
 
 
-If `single`, the same width as characters in US-ASCII. This is
-expected by most users. If `double`, twice the width of
-US-ASCII characters.  This is expected by CJK users. (*since
-0.12.2*)
+
+If <tt>single</tt>, the same width as characters in US-ASCII. This is
+expected by most users. If <tt>double</tt>, twice the width of
+US-ASCII characters.  This is expected by CJK users. (<i>since
+0.12.2</i>)
+
 
 </th>
-<th>`single`</th></tr>
-<tr><th>[batch_subject_template](#notification-batch_subject_template-option)</th>
+<th><tt>single</tt></th></tr>
+<tr><th><a href="#notification-batch_subject_template-option">batch_subject_template</a></th>
 <th>
-Like `ticket_subject_template` but for batch modifications.
-(*since 1.0*)
+Like <tt>ticket_subject_template</tt> but for batch modifications.
+(<i>since 1.0</i>)
+
 
 </th>
-<th>`${prefix} Batch modify: ${tickets_descr}`</th></tr>
-<tr><th>[default_format.email](#notification-default_format.email-option)</th>
+<th><tt>${prefix} Batch modify: ${tickets_descr}</tt></th></tr>
+<tr><th><a href="#notification-default_format.email-option">default_format.email</a></th>
 <th>
 Default format to distribute email notifications.
 
+
 </th>
-<th>`text/plain`</th></tr>
-<tr><th>[email_address_resolvers](#notification-email_address_resolvers-option)</th>
+<th><tt>text/plain</tt></th></tr>
+<tr><th><a href="#notification-email_address_resolvers-option">email_address_resolvers</a></th>
 <th>
 Comma separated list of email resolver components in the order
 they will be called.  If an email address is resolved, the remaining
 resolvers will not be called.
 
+
 </th>
-<th>`SessionEmailResolver`</th></tr>
-<tr><th>[email_sender](#notification-email_sender-option)</th>
+<th><tt>SessionEmailResolver</tt></th></tr>
+<tr><th><a href="#notification-email_sender-option">email_sender</a></th>
 <th>
-Name of the component implementing `IEmailSender`.
+Name of the component implementing <tt>IEmailSender</tt>.
+
 
 
 This component is used by the notification system to send emails.
-Trac currently provides `SmtpEmailSender` for connecting to an SMTP
-server, and `SendmailEmailSender` for running a `sendmail`-compatible
-executable. (*since 0.12*)
+Trac currently provides <tt>SmtpEmailSender</tt> for connecting to an SMTP
+server, and <tt>SendmailEmailSender</tt> for running a <tt>sendmail</tt>-compatible
+executable. (<i>since 0.12</i>)
+
 
 </th>
-<th>`SmtpEmailSender`</th></tr>
-<tr><th>[ignore_domains](#notification-ignore_domains-option)</th>
+<th><tt>SmtpEmailSender</tt></th></tr>
+<tr><th><a href="#notification-ignore_domains-option">ignore_domains</a></th>
 <th>
 Comma-separated list of domains that should not be considered
 part of email addresses (for usernames with Kerberos domains).
 
-</th>
-<th>(no default)</th></tr>
-<tr><th>[message_id_hash](#notification-message_id_hash-option)</th>
-<th>
-Hash algorithm to create unique Message-ID header.
-*(since 1.0.13)*
 
 </th>
-<th>`md5`</th></tr>
-<tr><th>[mime_encoding](#notification-mime_encoding-option)</th>
+<th>(no default)</th></tr>
+<tr><th><a href="#notification-message_id_hash-option">message_id_hash</a></th>
+<th>
+Hash algorithm to create unique Message-ID header.
+<i>(since 1.0.13)</i>
+
+
+</th>
+<th><tt>md5</tt></th></tr>
+<tr><th><a href="#notification-mime_encoding-option">mime_encoding</a></th>
 <th>
 Specifies the MIME encoding scheme for emails.
 
 
-Supported values are: `none`, the default value which uses 7-bit
-encoding if the text is plain ASCII or 8-bit otherwise. `base64`,
+
+Supported values are: <tt>none</tt>, the default value which uses 7-bit
+encoding if the text is plain ASCII or 8-bit otherwise. <tt>base64</tt>,
 which works with any kind of content but may cause some issues with
-touchy anti-spam/anti-virus engine. `qp` or `quoted-printable`,
+touchy anti-spam/anti-virus engine. <tt>qp</tt> or <tt>quoted-printable</tt>,
 which works best for european languages (more compact than base64) if
 8-bit encoding cannot be used.
 
+
 </th>
-<th>`none`</th></tr>
-<tr><th>[sendmail_path](#notification-sendmail_path-option)</th>
+<th><tt>none</tt></th></tr>
+<tr><th><a href="#notification-sendmail_path-option">sendmail_path</a></th>
 <th>
 Path to the sendmail executable.
 
 
-The sendmail program must accept the `-i` and `-f` options.
+
+The sendmail program must accept the <tt>-i</tt> and <tt>-f</tt> options.
+
 
 >
-> (*since 0.12*)
+>
+> (<i>since 0.12</i>)
+>
+>
 
 </th>
-<th>`sendmail`</th></tr>
-<tr><th>[smtp_always_bcc](#notification-smtp_always_bcc-option)</th>
+<th><tt>sendmail</tt></th></tr>
+<tr><th><a href="#notification-smtp_always_bcc-option">smtp_always_bcc</a></th>
 <th>
 Comma-separated list of email addresses to always send
 notifications to. Addresses are not public (Bcc:).
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[smtp_always_cc](#notification-smtp_always_cc-option)</th>
+<tr><th><a href="#notification-smtp_always_cc-option">smtp_always_cc</a></th>
 <th>
 Comma-separated list of email addresses to always send
 notifications to. Addresses can be seen by all recipients
 (Cc:).
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[smtp_default_domain](#notification-smtp_default_domain-option)</th>
+<tr><th><a href="#notification-smtp_default_domain-option">smtp_default_domain</a></th>
 <th>
 Default host/domain to append to addresses that do not specify
 one. Fully qualified addresses are not modified. The default
 domain is appended to all username/login for which an email
 address cannot be found in the user settings.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[smtp_enabled](#notification-smtp_enabled-option)</th>
+<tr><th><a href="#notification-smtp_enabled-option">smtp_enabled</a></th>
 <th>
 Enable email notification.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[smtp_from](#notification-smtp_from-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#notification-smtp_from-option">smtp_from</a></th>
 <th>
 Sender address to use in notification emails.
 
 
-At least one of `smtp_from` and `smtp_replyto` must be set, otherwise
+
+At least one of <tt>smtp_from</tt> and <tt>smtp_replyto</tt> must be set, otherwise
 Trac refuses to send notification mails.
 
+
 </th>
-<th>`trac@localhost`</th></tr>
-<tr><th>[smtp_from_author](#notification-smtp_from_author-option)</th>
+<th><tt>trac@localhost</tt></th></tr>
+<tr><th><a href="#notification-smtp_from_author-option">smtp_from_author</a></th>
 <th>
 Use the author of the change as the sender in notification emails
 (e.g. reporter of a new ticket, author of a comment). If the
-author hasn't set an email address, `smtp_from` and
-`smtp_from_name` are used instead.
-(*since 1.0*)
+author hasn&apos;t set an email address, <tt>smtp_from</tt> and
+<tt>smtp_from_name</tt> are used instead.
+(<i>since 1.0</i>)
+
 
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[smtp_from_name](#notification-smtp_from_name-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#notification-smtp_from_name-option">smtp_from_name</a></th>
 <th>
 Sender name to use in notification emails.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[smtp_password](#notification-smtp_password-option)</th>
+<tr><th><a href="#notification-smtp_password-option">smtp_password</a></th>
 <th>
 Password for authenticating with SMTP server.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[smtp_port](#notification-smtp_port-option)</th>
+<tr><th><a href="#notification-smtp_port-option">smtp_port</a></th>
 <th>
 SMTP server port to use for email notification.
 
+
 </th>
-<th>`25`</th></tr>
-<tr><th>[smtp_replyto](#notification-smtp_replyto-option)</th>
+<th><tt>25</tt></th></tr>
+<tr><th><a href="#notification-smtp_replyto-option">smtp_replyto</a></th>
 <th>
 Reply-To address to use in notification emails.
 
 
-At least one of `smtp_from` and `smtp_replyto` must be set, otherwise
+
+At least one of <tt>smtp_from</tt> and <tt>smtp_replyto</tt> must be set, otherwise
 Trac refuses to send notification mails.
 
+
 </th>
-<th>`trac@localhost`</th></tr>
-<tr><th>[smtp_server](#notification-smtp_server-option)</th>
+<th><tt>trac@localhost</tt></th></tr>
+<tr><th><a href="#notification-smtp_server-option">smtp_server</a></th>
 <th>
 SMTP server hostname to use for email notifications.
 
+
 </th>
-<th>`localhost`</th></tr>
-<tr><th>[smtp_subject_prefix](#notification-smtp_subject_prefix-option)</th>
+<th><tt>localhost</tt></th></tr>
+<tr><th><a href="#notification-smtp_subject_prefix-option">smtp_subject_prefix</a></th>
 <th>
 Text to prepend to subject line of notification emails.
 
 
-If the setting is not defined, then `[$project_name]` is used as the
+
+If the setting is not defined, then <tt>[$project_name]</tt> is used as the
 prefix. If no prefix is desired, then specifying an empty option
 will disable it.
 
+
 </th>
-<th>`__default__`</th></tr>
-<tr><th>[smtp_user](#notification-smtp_user-option)</th>
+<th><tt>__default__</tt></th></tr>
+<tr><th><a href="#notification-smtp_user-option">smtp_user</a></th>
 <th>
 Username for authenticating with SMTP server.
 
+
 </th>
 <th>(no default)</th></tr>
-<tr><th>[ticket_subject_template](#notification-ticket_subject_template-option)</th>
+<tr><th><a href="#notification-ticket_subject_template-option">ticket_subject_template</a></th>
 <th>
 A Genshi text template snippet used to get the notification
 subject.
 
 
+
 The template variables are documented on the
-[TracNotification](trac-notification#) page.
+<a href="trac-notification#">TracNotification</a> page.
+
 
 </th>
-<th>`${prefix} #${ticket.id}: ${summary}`</th></tr>
-<tr><th>[use_public_cc](#notification-use_public_cc-option)</th>
+<th><tt>${prefix} #${ticket.id}: ${summary}</tt></th></tr>
+<tr><th><a href="#notification-use_public_cc-option">use_public_cc</a></th>
 <th>
 Addresses in the To and Cc fields are visible to all recipients.
 
 
+
 If this option is disabled, recipients are put in the Bcc list.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[use_short_addr](#notification-use_short_addr-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#notification-use_short_addr-option">use_short_addr</a></th>
 <th>
 Permit email address without a host/domain (i.e. username only).
 
 
+
 The SMTP server should accept those addresses, and either append
-a FQDN or use local delivery. See also `smtp_default_domain`. Do not
+a FQDN or use local delivery. See also <tt>smtp_default_domain</tt>. Do not
 use this option with a public SMTP server.
 
+
 </th>
-<th>`disabled`</th></tr>
-<tr><th>[use_tls](#notification-use_tls-option)</th>
+<th><tt>disabled</tt></th></tr>
+<tr><th><a href="#notification-use_tls-option">use_tls</a></th>
 <th>
 Use SSL/TLS to send notifications over SMTP.
 
+
 </th>
-<th>`disabled`</th></tr></table>
+<th><tt>disabled</tt></th></tr></table>
 
 ### `[notification-subscriber]`
 
@@ -292,31 +338,48 @@ Available subscribers:
 
 <table><tr><th>Subscriber</th>
 <th>Description</th></tr>
-<tr><th>`AlwaysEmailSubscriber`</th>
+<tr><th><tt>AlwaysEmailSubscriber</tt></th>
 <th></th></tr>
-<tr><th>`CarbonCopySubscriber`</th>
-<th>Ticket that I'm listed in the CC field is modified</th></tr>
-<tr><th>`TicketAlwaysEmailSubscriber`</th>
+<tr><th><tt>CarbonCopySubscriber</tt></th>
+<th>Ticket that I&apos;m listed in the CC field is modified</th></tr>
+<tr><th><tt>TicketAlwaysEmailSubscriber</tt></th>
 <th></th></tr>
-<tr><th>`TicketOwnerSubscriber`</th>
+<tr><th><tt>TicketOwnerSubscriber</tt></th>
 <th>Ticket that I own is created or modified</th></tr>
-<tr><th>`TicketPreviousUpdatersSubscriber`</th>
+<tr><th><tt>TicketPreviousUpdatersSubscriber</tt></th>
 <th>Ticket that I previously updated is modified</th></tr>
-<tr><th>`TicketReporterSubscriber`</th>
+<tr><th><tt>TicketReporterSubscriber</tt></th>
 <th>Ticket that I reported is modified</th></tr>
-<tr><th>`TicketUpdaterSubscriber`</th>
+<tr><th><tt>TicketUpdaterSubscriber</tt></th>
 <th>I update a ticket</th></tr></table>
+
+
+
+
 
 ### Example Configuration (SMTP)
 
+
 ```
-[notification]smtp_enabled=truesmtp_server=mail.example.comsmtp_from=notifier@example.comsmtp_replyto=myproj@projects.example.comsmtp_always_cc=ticketmaster@example.com, theboss+myproj@example.com
+[notification]
+smtp_enabled = true
+smtp_server = mail.example.com
+smtp_from = notifier@example.com
+smtp_replyto = myproj@projects.example.com
+smtp_always_cc = ticketmaster@example.com, theboss+myproj@example.com
 ```
 
 ### Example Configuration (`sendmail`)
 
+
 ```
-[notification]smtp_enabled=trueemail_sender=SendmailEmailSendersendmail_path=/usr/sbin/sendmailsmtp_from=notifier@example.comsmtp_replyto=myproj@projects.example.comsmtp_always_cc=ticketmaster@example.com, theboss+myproj@example.com
+[notification]
+smtp_enabled = true
+email_sender = SendmailEmailSender
+sendmail_path = /usr/sbin/sendmail
+smtp_from = notifier@example.com
+smtp_replyto = myproj@projects.example.com
+smtp_always_cc = ticketmaster@example.com, theboss+myproj@example.com
 ```
 
 ### Subscriber Configuration
@@ -339,19 +402,19 @@ Available subscribers:
 
 <table><tr><th>Subscriber</th>
 <th>Description</th></tr>
-<tr><th>`AlwaysEmailSubscriber`</th>
+<tr><th><tt>AlwaysEmailSubscriber</tt></th>
 <th></th></tr>
-<tr><th>`CarbonCopySubscriber`</th>
-<th>Ticket that I'm listed in the CC field is modified</th></tr>
-<tr><th>`TicketAlwaysEmailSubscriber`</th>
+<tr><th><tt>CarbonCopySubscriber</tt></th>
+<th>Ticket that I&apos;m listed in the CC field is modified</th></tr>
+<tr><th><tt>TicketAlwaysEmailSubscriber</tt></th>
 <th></th></tr>
-<tr><th>`TicketOwnerSubscriber`</th>
+<tr><th><tt>TicketOwnerSubscriber</tt></th>
 <th>Ticket that I own is created or modified</th></tr>
-<tr><th>`TicketPreviousUpdatersSubscriber`</th>
+<tr><th><tt>TicketPreviousUpdatersSubscriber</tt></th>
 <th>Ticket that I previously updated is modified</th></tr>
-<tr><th>`TicketReporterSubscriber`</th>
+<tr><th><tt>TicketReporterSubscriber</tt></th>
 <th>Ticket that I reported is modified</th></tr>
-<tr><th>`TicketUpdaterSubscriber`</th>
+<tr><th><tt>TicketUpdaterSubscriber</tt></th>
 <th>I update a ticket</th></tr></table>
 
 
@@ -380,17 +443,22 @@ The following variables are available in the template:
 ### Customizing the e-mail content
 
 
+
 The notification e-mail content is generated based on `ticket_notify_email.txt` in `trac/ticket/templates`. You can add your own version of this template by adding a `ticket_notify_email.txt` to the templates directory of your environment. The default looks like this:
 
+
 ```
-$ticket_body_hdr$ticket_props
+$ticket_body_hdr
+$ticket_props
 {% choose ticket.new %}\
 {%   when True %}\
 $ticket.description
 {%   end %}\
 {%   otherwise %}\
 {%     if changes_body %}\
-${_('Changes (by %(author)s):', author=change.author)}$changes_body
+${_('Changes (by %(author)s):', author=change.author)}
+
+$changes_body
 {%     end %}\
 {%     if changes_descr %}\
 {%       if not changes_body and not change.comment and change.author %}\
@@ -401,13 +469,16 @@ $changes_descr
 {%     end %}\
 {%     if change.comment %}\
 
-${changes_body and _('Comment:')or _('Comment (by %(author)s):', author=change.author)}$change.comment
+${changes_body and _('Comment:') or _('Comment (by %(author)s):', author=change.author)}
+
+$change.comment
 {%     end %}\
 {%   end %}\
 {% end %}\
 
 -- 
-${_('Ticket URL: <%(link)s>', link=ticket.link)}$project.name<${project.url or abs_href()}>
+${_('Ticket URL: <%(link)s>', link=ticket.link)}
+$project.name <${project.url or abs_href()}>
 $project.descr
 ```
 
@@ -474,7 +545,7 @@ The table of ticket properties is replaced with a list of a selection of the pro
 --------------------------------------------------------------------------
 
 <table><tr><th>Reporter:</th>
-<th>jonas\@example.com</th></tr>
+<th>jonas@example.com</th></tr>
 <tr><th>Owner:</th>
 <th>anonymous</th></tr>
 <tr><th>Type:</th>
@@ -490,9 +561,9 @@ The table of ticket properties is replaced with a list of a selection of the pro
 <tr><th>Severity:</th>
 <th>major</th></tr>
 <tr><th>Resolution:</th>
-<th></th></tr>
+<th> </th></tr>
 <tr><th>Keywords:</th>
-<th></th></tr></table>
+<th> </th></tr></table>
 
 
 --------------------------------------------------------------------------
@@ -533,10 +604,19 @@ However, the solution is still a workaround to an automatically HTML-formatted e
 ## Using GMail as the SMTP relay host
 
 
+
 Use the following configuration snippet:
 
+
 ```
-[notification]smtp_enabled=trueuse_tls=truemime_encoding=base64smtp_server=smtp.gmail.comsmtp_port=587smtp_user=usersmtp_password=password
+[notification]
+smtp_enabled = true
+use_tls = true
+mime_encoding = base64
+smtp_server = smtp.gmail.com
+smtp_port = 587
+smtp_user = user
+smtp_password = password
 ```
 
 
@@ -613,4 +693,7 @@ Quoted printable encoding works better with languages that use one of the Latin 
 ---
 
 
+
 See also: [TracTickets](trac-tickets), [TracIni](trac-ini), [TracGuide](trac-guide), [ TracDev/NotificationApi](http://trac.edgewall.org/intertrac/TracDev/NotificationApi)
+
+

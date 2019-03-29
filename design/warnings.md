@@ -56,12 +56,14 @@ By reusing the GCC CLI convention for warning-flags, we can make GHC's CLI a bit
 
   making it easier to silence specific warnings via e.g. `-Wno-missing-signatures`
 
-**Anytime someone is motivated**
+
+**Anytime someone is motivated** 
+
 
 - ([\#11219](https://gitlab.haskell.org//ghc/ghc/issues/11219)) Introduce variant of `-Werror` (c.f. GCC's `-Werror=*`) which allows to specify the individual warnings to be promoted to errors, e.g.
 
   - `-Wall -Werror=orphans` would only promote `-Worphans` warnings into errors
-  - `-Wall -Werror -Wno-error=missing-methods` would promote all warnings *except*`-Wmissing-methods` into errors
+  - `-Wall -Werror -Wno-error=missing-methods` would promote all warnings *except* `-Wmissing-methods` into errors
 
 -  (this is subsumed by `-Weverything` now)~~Introduce `-Wpedantic`, which turns on warnings that `-Wall` doesn't turn on (e.g., `-Wredundant-constraints` and `-Wunused-type-patterns`)~~
 

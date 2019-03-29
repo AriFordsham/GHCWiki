@@ -389,9 +389,15 @@ Since Git keeps several branches in the same repository it is very useful to [ s
 # Git Overview
 
 
+
 For an overview of what repositories (or parts of repositories) are modified by various git commands:
 
+
+>
+>
 > [ http://osteele.com/images/2008/git-transport.png](http://osteele.com/images/2008/git-transport.png)
+>
+>
 
 
 The git "local repository" corresponds to darcs internal store of patches.  The git "workspace" corresponds to your normal code tree in darcs. The git "index" is a staging area within the current repository, for storing partially-committed hunks.  It has no equivalent in darcs.

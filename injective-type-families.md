@@ -30,49 +30,57 @@ full discussion of injective type families see Haskell Symposium 2015 [ paper](h
 ## Tickets
 
 
+
 Use Keyword = `InjectiveFamilies` to ensure that a ticket ends up on these lists.
+
+
 
 **Open Tickets:**
 
-<table><tr><th>[\#4259](https://gitlab.haskell.org//ghc/ghc/issues/4259)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4259">#4259</a></th>
 <td>Relax restrictions on type family instance overlap</td></tr>
-<tr><th>[\#10227](https://gitlab.haskell.org//ghc/ghc/issues/10227)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10227">#10227</a></th>
 <td>Type checker cannot deduce type</td></tr>
-<tr><th>[\#10832](https://gitlab.haskell.org//ghc/ghc/issues/10832)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10832">#10832</a></th>
 <td>Generalize injective type families</td></tr>
-<tr><th>[\#10833](https://gitlab.haskell.org//ghc/ghc/issues/10833)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10833">#10833</a></th>
 <td>Use injective type families (decomposition) when dealing with givens</td></tr>
-<tr><th>[\#11511](https://gitlab.haskell.org//ghc/ghc/issues/11511)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11511">#11511</a></th>
 <td>Type family producing infinite type accepted as injective</td></tr>
-<tr><th>[\#13571](https://gitlab.haskell.org//ghc/ghc/issues/13571)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13571">#13571</a></th>
 <td>Injective type family syntax accepted without TypeFamilyDependencies</td></tr>
-<tr><th>[\#13621](https://gitlab.haskell.org//ghc/ghc/issues/13621)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13621">#13621</a></th>
 <td>Problems with injective type families</td></tr>
-<tr><th>[\#13797](https://gitlab.haskell.org//ghc/ghc/issues/13797)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13797">#13797</a></th>
 <td>Mark negation injective</td></tr>
-<tr><th>[\#14164](https://gitlab.haskell.org//ghc/ghc/issues/14164)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14164">#14164</a></th>
 <td>GHC hangs on type family dependency</td></tr></table>
+
+
+
 
 **Closed Tickets:**
 
-<table><tr><th>[\#6018](https://gitlab.haskell.org//ghc/ghc/issues/6018)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/6018">#6018</a></th>
 <td>Injective type families</td></tr>
-<tr><th>[\#12119](https://gitlab.haskell.org//ghc/ghc/issues/12119)</th>
-<td>Can't create injective type family equation with TypeError as the RHS</td></tr>
-<tr><th>[\#12199](https://gitlab.haskell.org//ghc/ghc/issues/12199)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12119">#12119</a></th>
+<td>Can&apos;t create injective type family equation with TypeError as the RHS</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12199">#12199</a></th>
 <td>GHC is oblivious to injectivity when solving an equality constraint</td></tr>
-<tr><th>[\#12430](https://gitlab.haskell.org//ghc/ghc/issues/12430)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12430">#12430</a></th>
 <td>TypeFamilyDependencies accepts invalid injectivity annotation</td></tr>
-<tr><th>[\#13643](https://gitlab.haskell.org//ghc/ghc/issues/13643)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13643">#13643</a></th>
 <td>Core lint error with TypeInType and TypeFamilyDependencies</td></tr>
-<tr><th>[\#13651](https://gitlab.haskell.org//ghc/ghc/issues/13651)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13651">#13651</a></th>
 <td>Invalid redundant pattern matches with -XTypeFamilyDependencies</td></tr>
-<tr><th>[\#13822](https://gitlab.haskell.org//ghc/ghc/issues/13822)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13822">#13822</a></th>
 <td>GHC not using injectivity?</td></tr>
-<tr><th>[\#14369](https://gitlab.haskell.org//ghc/ghc/issues/14369)</th>
-<td>GHC warns an injective type family "may not be injective"</td></tr>
-<tr><th>[\#15691](https://gitlab.haskell.org//ghc/ghc/issues/15691)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14369">#14369</a></th>
+<td>GHC warns an injective type family &quot;may not be injective&quot;</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15691">#15691</a></th>
 <td>Marking Pred(S n) = n as injective</td></tr></table>
+
+
 
 ## Forms of injectivity
 
@@ -85,48 +93,64 @@ injective.  We have identified three forms of injectivity:
   side. Examples:
 
 ```
-typefamilyId a whereId a = a
+type family Id a where
+     Id a = a
 ```
 
 ```
-typefamilyF a b c
-typeinstanceFIntCharBool=BooltypeinstanceFCharBoolInt=InttypeinstanceFBoolIntChar=Char
+type family F a b c
+type instance F Int  Char Bool = Bool
+type instance F Char Bool Int  = Int
+type instance F Bool Int  Char = Char
 ```
 
 1. Injectivity in some of the arguments, where knowing the RHS of a type
   family determines only some of the arguments on the LHS. Example:
 
 ```
-typefamilyG a b c
-typeinstanceGIntCharBool=BooltypeinstanceGIntCharInt=BooltypeinstanceGBoolIntInt=Int
+type family G a b c
+type instance G Int  Char Bool = Bool
+type instance G Int  Char Int  = Bool
+type instance G Bool Int  Int  = Int
 ```
 
 >
+>
 > Here knowing the RHS allows us to determine first two arguments, but not the
 > third one.
+>
+>
 
 1. Injectivity in some of the arguments, where knowing the RHS of a type
   family and some of the LHS arguments determines other (possibly not all)
   LHS arguments. Examples:
 
 ```
-typefamilyPlus a b wherePlusZ     n = n
-     Plus(S m) n =S(Plus m n)
+type family Plus a b where
+     Plus Z     n = n
+     Plus (S m) n = S (Plus m n)
 ```
 
 >
+>
 > Here knowing the RHS and the first argument uniquely determines the remaining
 > argument.
+>
+>
 
 ```
-typefamilyH a b c
-typeinstanceHIntCharDouble=InttypeinstanceHBoolDoubleDouble=Int
+type family H a b c
+type instance H Int  Char   Double = Int
+type instance H Bool Double Double = Int
 ```
 
+>
 >
 > Knowing the RHS and either `a` or `b` allows to uniquely determine the
 > remaining two arguments, but knowing the RHS and `c` gives us no information
 > about `a` or `b`.
+>
+>
 
 
 In the following text I will refer to these three forms of injectivity as A, B
@@ -158,8 +182,12 @@ write `= tyvar` or `= (tyvar :: kind)` annotations in addition to already
 allowed `:: kind` annotation. In other words all these declaration are
 well-formed:
 
+
 ```
-typefamilyPlus(a ::Nat)(b ::Nat)where...typefamilyPlus(a ::Nat)(b ::Nat)::Natwhere...typefamilyPlus(a ::Nat)(b ::Nat)= c where...typefamilyPlus(a ::Nat)(b ::Nat)=(c ::Nat)where...
+type family Plus (a :: Nat) (b :: Nat) where ...
+type family Plus (a :: Nat) (b :: Nat) :: Nat where ...
+type family Plus (a :: Nat) (b :: Nat) = c where ...
+type family Plus (a :: Nat) (b :: Nat) = (c :: Nat) where ...
 ```
 
 
@@ -168,8 +196,9 @@ injectivity annotation. The injectivity annotation itself begins with `|`
 following the result type variable.  `|` is followed by an injectivity
 condition. Injectivity condition has the form:
 
+
 ```
-A->B
+A -> B
 ```
 
 
@@ -181,11 +210,14 @@ the RHS of an injectivity condition. Variables may be skipped if a type family
 is not injective in a given argument.
 
 
+
 Here are examples of injectivity declarations using proposed syntax:
 
+
 ```
-typefamilyId a = result | result -> a where{...}typefamilyF a b c = d | d -> c a b
-typefamilyG a b c = foo | foo -> a b where{...}
+type family Id a = result | result -> a where { ... }
+type family F a b c = d | d -> c a b
+type family G a b c = foo | foo -> a b where { ... }
 ```
 
 
@@ -195,8 +227,10 @@ comma-separated injectivity conditions.  Second change is that LHS of
 injectivity condition can mention type variables that name the arguments, not
 just the result.  With this extended syntax we could write:
 
+
 ```
-typefamilyPlus a b =(sum ::Nat)| sum a -> b, sum b -> a wheretypefamilyH a b c = xyz | xyz a -> b c, xyz b -> a c
+type family Plus a b = (sum :: Nat) | sum a -> b, sum b -> a where
+type family H a b c = xyz | xyz a -> b c, xyz b -> a c
 ```
 
 
@@ -398,60 +432,160 @@ relevant emails here so they don't get lost and are available to anyone who
 decides to take up the work.
 
 
+
 Richard Eisenber, 16 July 2015:
 
+
+>
 >
 > Here is an interesting case:
+>
+>
 
+
+  
+
+
+>
 >
 > type family F a b = r \| r a -\> b where
 >
+>
+> >
 > >
 > > F Int  a = Maybe (F a Int)
 > > F Bool a = \[a\]
 > > F Char a = \[a\]
+> >
+> >
+>
 
+
+  
+
+
+>
 >
 > This should be rejected, because of the following facts:
 >
+>
+> >
 > >
 > > F Int Bool \~ Maybe \[Int\]
 > > F Int Char \~ Maybe \[Int\]
+> >
+> >
 >
 >
 > Thus, the first parameter and the result do not, in concert, uniquely determine the second parameter.
+>
+>
+
+
+  
+
 
 >
+>
 > Yet Simon's "just tuple them up" approach would label F as injective. The only interesting pairwise check is the first equation against itself. We run this:
+>
+>
 
+
+  
+
+
+>
+> >
 > >
 > > U( ( (Int, Maybe (F a Int)), (Int, Maybe (F b Int)) )
+> >
+> >
+>
 
-> <table><tr><td>If we are to recur into F via equation (7), then we get a substitution \[a\> b\], and the pairwise check (erroneously) succeeds. Simon said that the arguments to the left of -\> need to be syntactically identical, which this case fails. But now consider this:
+
+  
+
+
+>
+> <table><tr><td>If we are to recur into F via equation (7), then we get a substitution [a&gt; b], and the pairwise check (erroneously) succeeds. Simon said that the arguments to the left of -&gt; need to be syntactically identical, which this case fails. But now consider this:
 > </td></tr></table>
+>
+>
 
+
+  
+
+
+>
 >
 > type family G a b = r \| r a -\> b where
 >
+>
+> >
 > >
 > > G Int  (a,b) = (Maybe (G a b), a)
 > > G Bool a     = \[a\]
 > > G Char a     = \[a\]
+> >
+> >
+>
 
+
+  
+
+
+>
+> >
 > >
 > > U( (Int, (Maybe (G a b), a)) , (Int, (Maybe (G c d), c)) )
+> >
+> >
+>
 
-> <table><tr><td>Here, it is OK to recur via equation (7), because the presence of a and c outside of the recursive call gets them to unify. Indeed we must recur to accept G, because we need to look under G to get the mapping \[b\> d\]. (The fundep version of F is rejected and the fundep version of G is accepted.)
+
+  
+
+
+>
+> <table><tr><td>Here, it is OK to recur via equation (7), because the presence of a and c outside of the recursive call gets them to unify. Indeed we must recur to accept G, because we need to look under G to get the mapping [b&gt; d]. (The fundep version of F is rejected and the fundep version of G is accepted.)
 > </td></tr></table>
+>
+>
 
+
+  
+
+
+>
 >
 > I believe this G exemplifies the order-dependency Jan was worried about. We somehow need to unify the second component of that tuple before looking under G.
+>
+>
 
+
+  
+
+
+>
 >
 > So the question is: when can equation (7) apply?
+>
+>
+
+
+  
+
 
 >
+>
 > I naturally tried to answer this myself, via comparison with functional dependencies. My guess was that our check is a little more liberal than the fundep check, in that we accept benign overlap between equations. When I pushed this on the fundep side, I discovered that fundeps as implemented in 7.10.1 are broken! Here is the test case:
+>
+>
+
+
+  
+
 
 ```wiki
 {-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies,
@@ -476,45 +610,108 @@ x = foo :: (Int, (Bool, Bool), Char, (Maybe Bool, Bool))
 y = foo :: (Int, (Bool, Double), (), (Maybe Bool, Bool))
 ```
 
+
+  
+
+
+>
 >
 > This compiles in 7.10.1. Yet we can see that GHC finds instances (1) and (2) marked above, even though these violate the second functional dependency on G: r and a do \*not\* uniquely determine b. (The c parameter is there simply to avoid overlapping instances.)
+>
+>
 
+
+  
+
+
+>
 >
 > So perhaps the story \*is\* rather more complicated than we thought, and fundeps' simplicity in this matter is bogus.
+>
+>
+
+
+  
+
 
 >
+>
 > And, quite separately, I'm also worried about the bare-type-variable-on-the-right problem. But let's solve this before tackling that.
+>
+>
 
 
 Simon Peyton Jones, 23rd July 2015:
 
+
+>
 >
 > I'm being slow here, but I have learned some things.
+>
+>
+
+
+  
+
 
 1. As you'll see from "Understanding FDs using CHRs", we have to check 
   TWO things for FDs:
 
+
+  
+
+
+>
+> >
 > >
 > > class C a b \| a -\> b
+> >
+> >
+>
+
+
+  
+
 
 - Coverage: for each instance, individually, check coverage
 
+>
+> >
 > >
 > > instance Q =\> C s t
+> >
+> >
 >
 >
 > The naïve version just checks that fvs(s) is a superset of fvs(t).
 > The "liberal" coverage condition takes account of Q.
+>
+>
+
+
+  
+
 
 - Consistency: compare all instances pairwise to check that they are consistent
 
+>
+> >
 > >
 > > instance Q1 =\> C s1 t1
 > > instance Q2 =\> C s2 t2
+> >
+> >
 >
 >
 > if S = unify(s1,s2), then check that S(t1) = S(t2)
 > Notice that this does not take account of Q1, S2 at all.
+>
+>
+
+
+  
+  
+
 
 1. In our paper we have ONE check.  But I believe that 
 
@@ -523,81 +720,180 @@ Simon Peyton Jones, 23rd July 2015:
 
   So that makes our approach rather nicely uniform.
 
+
+  
+  
+
+
 1. GHC has an outright bug in its handling of consistency,
   as you both point out.  But it's a bug that seems to be exploited!
   See Trac [\#10675](https://gitlab.haskell.org//ghc/ghc/issues/10675).
+
+
+  
+
 
 1. For \*consistency\*, our approach is a little more liberal than FDs,
   because the FD stuff takes no account of Q1, Q2.  Example
   (in type-family form)
 
+>
+> >
 > >
 > > F (a,Int)  = (\[G a\],    Maybe Int)
 > > F (Bool,b) = (\[G Bool\], Maybe b)
+> >
+> >
 >
 >
 > where G is injective, and F is claimed to be.
 > We find that F is injective because, using the injectivity
 > of G, we unify a:=Bool.
+>
+>
 
+
+  
+
+
+>
+> >
 > >
 > > But in FD form
 > >
+> >
+> > >
 > > >
 > > > class F a r \| r -\> a
 > > > instance G a r    =\> F (a,Int) (\[r\], Maybe Int)
 > > > instance G Bool r =\> F (Bool,b) (\[r\], Maybe b)
+> > >
+> > >
+> >
+>
 
+
+  
+
+
+>
+> >
 > >
 > > These two will be rejected by the FD world because of
 > > ignoring Q1, Q2.
+> >
+> >
+>
 
+
+  
+
+
+>
+> >
 > >
 > > That said, I don't think this additional expressiveness
 > > is very useful. The BIG thing about our ability to exploit
 > > injectivity comes when comparing an equation with itself i=j.
+> >
+> >
+>
+
+
+  
+
 
 1. For \*coverage\*, the "liberal" coverage condition behaves
   very like our "exploiting injectivity in algorithm U" idea.
 
+
+  
+
+
+>
+> >
 > >
 > > However if we extend to injectivity constraints like
 > >
+> >
+> > >
 > > >
 > > > a r -\> b
+> > >
+> > >
 > >
 > >
 > > then, as you both point out, we'll need some kind of
 > > iterative scheme.  Suppose we have
 > >
+> >
+> > >
 > > >
 > > > type family F a b = r \| r a -\> b
+> > >
+> > >
 > >
 > >
 > > Then Rule (7) would become something like
 > >
+> >
+> > >
 > > >
 > > > U(F s1 s2, F t1 t2) T = U(s2,t2) T,   if T(s1)=T(t1)
+> > >
+> > >
 > >
 > >
 > > and the side condition (syntactic equality) might change 
 > > as unification progresses.
+> >
+> >
+>
 
+
+  
+
+
+>
+> >
 > >
 > > What happens for coverage for fudeps?  We don't use unification;
 > > we use free variables, as in Defn 7 of the paper.  But crucially
 > > we use an iterative algorithm that iterates to a fixpoint;
 > > see [FunDeps](fun-deps).oclose.
-
 > >
-> > We would have to do the same, in some form.
+> >
+>
+
+
+  
+
 
 >
+> >
+> >
+> > We would have to do the same, in some form.
+> >
+> >
+>
+
+
+  
+
+
+>
+>
 > Questions:
+>
+>
 
 - FDs uses different technology for the coverage (i/i) and
   consistency (i/j) tests.  We could do so too; after all,
   in the i/I case we know that the type structure matches!
+
+
+  
+
 
 - Do we really care about the extra expressiveness of rule (7)
   for the (i/j) case?
@@ -605,15 +901,34 @@ Simon Peyton Jones, 23rd July 2015:
 
 Simon Peyton Jones, 24rd July 2015:
 
+
+>
 >
 > Jan says (and I can see) that we ALREADY use different 
 > mechanisms for i/j and i/i.
+>
+>
+
+
+  
+
 
 >
+>
 > So I propose that:
+>
+>
+
+
+  
+
 
 - We elaborate the i/i (coverage) test to do the iterative 
   'oclose' thing.  This already does not use algorithm U at all.
+
+
+  
+
 
 - We simplify algorithm U by dropping Rule (7) altogether.
 
@@ -626,11 +941,22 @@ Simon Peyton Jones, 24rd July 2015:
 
 Richard Eisenber, 26 July 2015:
 
->
-> Simon has come to the same conclusions I have while pondering this all: we differ from FDs in that we cleverly use the same pairwise check between two different equations as we do when comparing an equation against itself. But this is perhaps too clever, and perhaps explains why the proof has foundered around this very issue (that is, equation 7).
 
 >
+>
+> Simon has come to the same conclusions I have while pondering this all: we differ from FDs in that we cleverly use the same pairwise check between two different equations as we do when comparing an equation against itself. But this is perhaps too clever, and perhaps explains why the proof has foundered around this very issue (that is, equation 7).
+>
+>
+
+
+  
+
+
+>
+>
 > So, I agree with Simon's proposal: explain all of this in terms of two separate checks. One check does a coverage check (very like the FD coverage check) for each equation, and another pairwise check is used only when i /= j. The Algorithm U stuff stays, but \*without equation 7\*. The proof would have to be tweaked, but I think this will give us a full proof of soundness. (Yay!) And it will all be easier to extend to generalized injectivity annotations.
+>
+>
 
 ### Inferring injectivity
 
@@ -641,8 +967,9 @@ exponential in the numer of arguments to a type family. I take back that claim
 as I now believe the algorithm can be made linear in the number of
 arguments. Say we have a closed type family:
 
+
 ```
-typefamilyF a b c ... n = r where
+type family F a b c ... n = r where
 ```
 
 

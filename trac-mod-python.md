@@ -4,7 +4,116 @@
 Mod_python is an [ Apache](https://httpd.apache.org/) module that embeds the Python interpreter within the server, so that web-based applications in Python will run many times faster than traditional CGI and will have the ability to retain database connections.
 Trac supports [ mod_python](http://www.modpython.org/), which speeds up Trac's response times considerably, especially compared to [CGI](trac-cgi), and permits use of many Apache features not possible with [tracd](trac-standalone)/mod_proxy.
 
-Overview[Simple configuration: single project](#Simpleconfiguration)[Python Egg Cache](#PythonEggCache)[Configuring Authentication](#ConfiguringAuthentication)[Advanced Configuration](#AdvancedConfiguration)[Setting the Python Egg Cache](#SettingthePythonEggCache)[Setting the PythonPath](#SettingthePythonPath)[Setting up multiple projects](#Settingupmultipleprojects)[Virtual Host Configuration](#VirtualHostConfiguration)[Troubleshooting](#Troubleshooting)[Login Not Working](#LoginNotWorking)[Expat-related segmentation faults](#expat)[Form submission problems](#Formsubmissionproblems)[Problem with virtual host configuration](#Problemwithvirtualhostconfiguration)[Problem with zipped egg](#Problemwithzippedegg)[Using .htaccess](#Using.htaccess)[Additional .htaccess help](#Additional.htaccesshelp)[Platform specific issues](#Platformspecificissues)[Subversion issues](#Subversionissues)[Page layout issues](#Pagelayoutissues)[HTTPS issues](#HTTPSissues)[Segmentation fault with php5-mhash or other php5 modules](#Segmentationfaultwithphp5-mhashorotherphp5modules)
+
+
+#### Overview
+
+
+    
+
+1. 
+1. 
+          [Simple configuration: single project](#Simpleconfiguration)
+          
+
+  1. 
+  1. 
+                [Python Egg Cache](#PythonEggCache)
+              
+  1. 
+  1. 
+                [Configuring Authentication](#ConfiguringAuthentication)
+              
+  1. 
+
+
+        
+1. 
+1. 
+          [Advanced Configuration](#AdvancedConfiguration)
+          
+
+  1. 
+  1. 
+                [Setting the Python Egg Cache](#SettingthePythonEggCache)
+              
+  1. 
+  1. 
+                [Setting the PythonPath](#SettingthePythonPath)
+              
+  1. 
+  1. 
+                [Setting up multiple projects](#Settingupmultipleprojects)
+              
+  1. 
+  1. 
+                [Virtual Host Configuration](#VirtualHostConfiguration)
+              
+  1. 
+
+
+        
+1. 
+1. 
+          [Troubleshooting](#Troubleshooting)
+          
+
+  1. 
+  1. 
+                [Login Not Working](#LoginNotWorking)
+              
+  1. 
+  1. 
+                [Expat-related segmentation faults](#expat)
+              
+  1. 
+  1. 
+                [Form submission problems](#Formsubmissionproblems)
+              
+  1. 
+  1. 
+                [Problem with virtual host configuration](#Problemwithvirtualhostconfiguration)
+              
+  1. 
+  1. 
+                [Problem with zipped egg](#Problemwithzippedegg)
+              
+  1. 
+  1. 
+                [Using .htaccess](#Using.htaccess)
+              
+  1. 
+  1. 
+                [Additional .htaccess help](#Additional.htaccesshelp)
+              
+  1. 
+  1. 
+                [Platform specific issues](#Platformspecificissues)
+              
+  1. 
+  1. 
+                [Subversion issues](#Subversionissues)
+              
+  1. 
+  1. 
+                [Page layout issues](#Pagelayoutissues)
+              
+  1. 
+  1. 
+                [HTTPS issues](#HTTPSissues)
+              
+  1. 
+  1. 
+                [Segmentation fault with php5-mhash or other php5 modules](#Segmentationfaultwithphp5-mhashorotherphp5modules)
+              
+  1. 
+
+
+        
+1. 
+
+
+
 
 ## Simple configuration: single project
 
@@ -41,39 +150,73 @@ yum install mod_python
 
 You can test your mod_python installation by adding the following to your httpd.conf. You should remove this when you are done testing for security reasons. Note: mod_python.testhandler is only available in mod_python 3.2+.
 
+
 ```
-<Location/mpinfo>SetHandler mod_python
+<Location /mpinfo>
+  SetHandler mod_python
   PythonInterpreter main_interpreter
   PythonHandler mod_python.testhandler
-  # For Apache 2.2<IfModule!mod_authz_core.c>Order allow,deny
-    Allow from all</IfModule># For Apache 2.4<IfModulemod_authz_core.c>Requireall granted
-  </IfModule></Location>
+  # For Apache 2.2
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Allow from all
+  </IfModule>
+  # For Apache 2.4
+  <IfModule mod_authz_core.c>
+    Require all granted
+  </IfModule>
+</Location>
 ```
 
 
 A simple setup of Trac on mod_python looks like this:
 
+
 ```
-<Location/projects/myproject>SetHandler mod_python
+<Location /projects/myproject>
+  SetHandler mod_python
   PythonInterpreter main_interpreter
   PythonHandler trac.web.modpython_frontend 
-  PythonOption TracEnv /var/trac/myprojectPythonOption TracUriRoot /projects/myproject# For Apache 2.2<IfModule!mod_authz_core.c>Order allow,deny
-    Allow from all</IfModule># For Apache 2.4<IfModulemod_authz_core.c>Requireall granted
-  </IfModule></Location>
+  PythonOption TracEnv /var/trac/myproject
+  PythonOption TracUriRoot /projects/myproject
+  # For Apache 2.2
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Allow from all
+  </IfModule>
+  # For Apache 2.4
+  <IfModule mod_authz_core.c>
+    Require all granted
+  </IfModule>
+</Location>
 ```
 
 
 The option **`TracUriRoot`** may or may not be necessary in your setup. Try your configuration without it; if the URLs produced by Trac look wrong, if Trac does not seem to recognize URLs correctly, or you get an odd "No handler matched request to..." error, add the **`TracUriRoot`** option. You will notice that the `Location` and **`TracUriRoot`** have the same path.
 
 
+
 The options available are:
 
+
 ```
-# For a single projectPythonOption TracEnv /var/trac/myproject# For multiple projectsPythonOption TracEnvParentDir /var/trac/myprojects# For the index of multiple projectsPythonOption TracEnvIndexTemplate /srv/www/htdocs/trac/project_list_template.html# A space delimitted list, with a "," between key and value pairs.PythonOption TracTemplateVars key1,val1 key2,val2
+# For a single project
+PythonOption TracEnv /var/trac/myproject
 
-# Useful to get the date in the wanted orderPythonOption TracLocale en_GB.UTF8
+# For multiple projects
+PythonOption TracEnvParentDir /var/trac/myprojects
 
-# See description above        PythonOption TracUriRoot /projects/myproject
+# For the index of multiple projects
+PythonOption TracEnvIndexTemplate /srv/www/htdocs/trac/project_list_template.html
+
+# A space delimitted list, with a "," between key and value pairs.
+PythonOption TracTemplateVars key1,val1 key2,val2
+
+# Useful to get the date in the wanted order
+PythonOption TracLocale en_GB.UTF8
+
+# See description above        
+PythonOption TracUriRoot /projects/myproject
 ```
 
 ### Python Egg Cache
@@ -98,10 +241,12 @@ See corresponding section in the [TracModWSGI](trac-mod-wsgi#configuring-authent
 ### Setting the Python Egg Cache
 
 
+
 If the Egg Cache isn't writeable by your Web server, you'll either have to change the permissions, or point Python to a location where Apache can write. This can manifest itself as a `500 internal server error` and/or a complaint in the syslog. 
 
+
 ```
-<Location/projects/myproject>
+<Location /projects/myproject>
   ...
   PythonOption PYTHON_EGG_CACHE /tmp 
   ...
@@ -111,50 +256,65 @@ If the Egg Cache isn't writeable by your Web server, you'll either have to chang
 ### Setting the PythonPath
 
 
+
 If the Trac installation isn't installed in your Python path, you will have to tell Apache where to find the Trac mod_python handler  using the `PythonPath` directive:
 
+
 ```
-<Location/projects/myproject>
+<Location /projects/myproject>
   ...
-  PythonPath"sys.path + ['/path/to/trac']"
+  PythonPath "sys.path + ['/path/to/trac']"
   ...
 </Location>
 ```
 
 
-Be careful about using the PythonPath directive, and *not*`SetEnv PYTHONPATH`, as the latter won't work.
+Be careful about using the PythonPath directive, and *not* `SetEnv PYTHONPATH`, as the latter won't work.
+
 
 ### Setting up multiple projects
 
 
+
 The Trac mod_python handler supports a configuration option similar to Subversion's `SvnParentPath`, called `TracEnvParentDir`:
 
+
 ```
-<Location/projects>SetHandler mod_python
+<Location /projects>
+  SetHandler mod_python
   PythonInterpreter main_interpreter
   PythonHandler trac.web.modpython_frontend 
-  PythonOption TracEnvParentDir /var/tracPythonOption TracUriRoot /projects</Location>
+  PythonOption TracEnvParentDir /var/trac
+  PythonOption TracUriRoot /projects
+</Location>
 ```
 
 
 When you request the `/projects` URL, you will get a listing of all subdirectories of the directory you set as `TracEnvParentDir` that look like Trac environment directories. Selecting any project in the list will bring you to the corresponding Trac environment.
 
 
+
 If you don't want to have the subdirectory listing as your projects home page you can use a
 
+
 ```
-<LocationMatch"/.+/">
+<LocationMatch "/.+/">
 ```
 
 
 This will instruct Apache to use mod_python for all locations different from root while having the possibility of placing a custom home page for root in your DocumentRoot folder.
 
 
+
 You can also use the same authentication realm for all of the projects using a `<LocationMatch>` directive:
 
+
 ```
-<LocationMatch"/projects/[^/]+/login">AuthType Basic
-  AuthName"Trac"AuthUserFile/var/trac/.htpasswdRequire valid-user
+<LocationMatch "/projects/[^/]+/login">
+  AuthType Basic
+  AuthName "Trac"
+  AuthUserFile /var/trac/.htpasswd
+  Require valid-user
 </LocationMatch>
 ```
 
@@ -164,15 +324,25 @@ You can also use the same authentication realm for all of the projects using a `
 Below is the sample configuration required to set up your Trac as a virtual server, ie when you access it at the URLs like
 `http://trac.mycompany.com`:
 
+
 ```
-<VirtualHost*>DocumentRoot/var/www/myprojectServerName trac.mycompany.com
-    <Location/>SetHandler mod_python
+<VirtualHost *>
+    DocumentRoot /var/www/myproject
+    ServerName trac.mycompany.com
+    <Location />
+        SetHandler mod_python
         PythonInterpreter main_interpreter
         PythonHandler trac.web.modpython_frontend
-        PythonOption TracEnv /var/trac/myprojectPythonOption TracUriRoot /
-    </Location><Location/login>AuthType Basic
-        AuthName"MyCompany Trac Server"AuthUserFile/var/trac/myproject/.htpasswdRequire valid-user
-    </Location></VirtualHost>
+        PythonOption TracEnv /var/trac/myproject
+        PythonOption TracUriRoot /
+    </Location>
+    <Location /login>
+        AuthType Basic
+        AuthName "MyCompany Trac Server"
+        AuthUserFile /var/trac/myproject/.htpasswd
+        Require valid-user
+    </Location>
+</VirtualHost>
 ```
 
 
@@ -190,12 +360,15 @@ For a virtual host that supports multiple projects replace `TracEnv /var/trac/my
 ## Troubleshooting
 
 
+
 If you get server error pages, you can either check the Apache error log, or enable the `PythonDebug` option:
 
+
 ```
-<Location/projects/myproject>
+<Location /projects/myproject>
   ...
-  PythonDebugon</Location>
+  PythonDebug on
+</Location>
 ```
 
 
@@ -207,18 +380,32 @@ For multiple projects, try restarting the server as well.
 If you've used `<Location />` directive, it will override any other directives, as well as `<Location /login>`.
 The workaround is to use negation expression as follows (for multi project setups):
 
-```
-#this one for other pages<Location~ "/*(?!login)">SetHandler mod_python
-   PythonHandler trac.web.modpython_frontend
-   PythonOption TracEnvParentDir /projectsPythonOption TracUriRoot /
-</Location>#this one for login page<Location~ "/[^/]+/login">SetHandler mod_python
-   PythonHandler trac.web.modpython_frontend
-   PythonOption TracEnvParentDir /projectsPythonOption TracUriRoot /
 
-   #remove these if you don't want to force SSLRewriteEngineOnRewriteCond %{HTTPS} offRewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+```
+#this one for other pages
+<Location ~ "/*(?!login)">
+   SetHandler mod_python
+   PythonHandler trac.web.modpython_frontend
+   PythonOption TracEnvParentDir /projects
+   PythonOption TracUriRoot /
+</Location>
+
+#this one for login page
+<Location ~ "/[^/]+/login">
+   SetHandler mod_python
+   PythonHandler trac.web.modpython_frontend
+   PythonOption TracEnvParentDir /projects
+   PythonOption TracUriRoot /
+
+   #remove these if you don't want to force SSL
+   RewriteEngine On 
+   RewriteCond %{HTTPS} off
+   RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
 
    AuthType Basic
-   AuthName"Trac"AuthUserFile/projects/.htpasswdRequire valid-user
+   AuthName "Trac"
+   AuthUserFile /projects/.htpasswd
+   Require valid-user
 </Location>
 ```
 
@@ -266,8 +453,13 @@ This also works out-of-box, with following trivial config:
 SetHandler mod_python
 PythonInterpreter main_interpreter
 PythonHandler trac.web.modpython_frontend 
-PythonOption TracEnv /system/path/to/this/directoryPythonOption TracUriRoot /path/on/apacheAuthType Basic
-AuthName"ProjectName"AuthUserFile/path/to/.htpasswdRequire valid-user
+PythonOption TracEnv /system/path/to/this/directory
+PythonOption TracUriRoot /path/on/apache
+
+AuthType Basic
+AuthName "ProjectName"
+AuthUserFile /path/to/.htpasswd
+Require valid-user
 ```
 
 
@@ -276,10 +468,14 @@ The `TracUriRoot` is obviously the path you need to enter to the browser to get 
 ### Additional .htaccess help
 
 
+
 If you are using the .htaccess method you may have additional problems if your Trac directory is inheriting .htaccess directives from another. This may also help to add to your .htaccess file:
 
+
 ```
-<IfModulemod_rewrite.c>RewriteEngineOff</IfModule>
+<IfModule mod_rewrite.c>
+  RewriteEngine Off
+</IfModule>
 ```
 
 ### Platform specific issues
@@ -318,8 +514,9 @@ The FreeBSD ports have both the new and old versions of mod_python and SQLite, b
 Apache2 does not automatically support threads on FreeBSD. You could force thread support when running `./configure` for Apache, using `--enable-threads`, but this isn´t recommended.
 The best option [ seems to be](http://modpython.org/pipermail/mod_python/2006-September/021983.html) adding to /usr/local/apache2/bin/ennvars the line:
 
+
 ```
-exportLD_PRELOAD=/usr/lib/libc_r.so
+export LD_PRELOAD=/usr/lib/libc_r.so
 ```
 
 #### Fedora 7 Issues
@@ -348,23 +545,36 @@ This is also the recommended workaround for other issues seen when using the Pyt
 ### Page layout issues
 
 
+
 If the formatting of the Trac pages look weird, chances are that the style sheets governing the page layout are not handled properly by the web server. Try adding the following lines to your Apache configuration:
 
+
 ```
-Alias/myproject/css"/usr/share/trac/htdocs/css"<Location/myproject/css>SetHandlerNone</Location>
+Alias /myproject/css "/usr/share/trac/htdocs/css"
+<Location /myproject/css>
+    SetHandler None
+</Location>
 ```
+
 
 **Note**: For the above configuration to have any effect it must be put after the configuration of your project root location, ie `<Location /myproject />`.
 
+
+
 **Note:** Do not enable python optimizations using the directive `PythonOptimize On`. When optimizations are enabled the page header/footer and documentation for macros and plugins will be hidden. An error will be raised in Trac 1.0.11 and later when optimizations are enabled.
+
 
 ### HTTPS issues
 
 
+
 If you want to run Trac fully under https you might find that it tries to redirect to plain http. In this case just add the following line to your Apache configuration:
 
+
 ```
-<VirtualHost*>DocumentRoot/var/www/myprojectServerName trac.mycompany.com
+<VirtualHost *>
+    DocumentRoot /var/www/myproject
+    ServerName trac.mycompany.com
     SetEnv HTTPS 1
     ....
 </VirtualHost>
@@ -381,4 +591,7 @@ Some people also have troubles when using PHP5 compiled with its own third party
 ---
 
 
+
 See also: [TracGuide](trac-guide), [TracInstall](trac-install), [ModWSGI](trac-mod-wsgi), [FastCGI](trac-fast-cgi), [ TracNginxRecipe](http://trac.edgewall.org/intertrac/TracNginxRecipe)
+
+

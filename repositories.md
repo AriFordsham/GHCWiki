@@ -19,7 +19,8 @@ The SSH host keys of `git.haskell.org` are,
 - `rsa`: `08:63:b5:86:3e:ae:e2:3c:b1:ea:c6:05:2d:71:db:5a`
 
 
-These are also mirrored to GitHub under the `ghc`[ organization](https://github.com/ghc). Note that we do not use GitHub as the primary upstream since GitHub does not allow us to use Git hooks. These hooks are invaluable for verifying consistency between submodules (e.g. that the `ghc` repository refers only to submodule commits which are available upstream, see [\#8251](https://gitlab.haskell.org//ghc/ghc/issues/8251)).
+These are also mirrored to GitHub under the `ghc` [ organization](https://github.com/ghc). Note that we do not use GitHub as the primary upstream since GitHub does not allow us to use Git hooks. These hooks are invaluable for verifying consistency between submodules (e.g. that the `ghc` repository refers only to submodule commits which are available upstream, see [\#8251](https://gitlab.haskell.org//ghc/ghc/issues/8251)).
+
 
 ## Repository listing
 
@@ -62,171 +63,304 @@ Here is the setup in more detail:
   - `git push`, with a commit message mentioning the word "submodule"
 
 >
+>
 > More details in [the Submodules page](working-conventions/git/submodules)
+>
+>
 
 
 Here are the submodules we use, and where their upstreams point:
 
-<table><tr><th>**Location in tree**</th>
-<th>**Upstream repo**</th>
-<th>**Upstream GHC branch**</th>
-<th>**Installed\[1\]**</th>
-<th>**Req'd to build\[2\]**</th></tr>
+
+<table><tr><th><b>Location in tree</b></th>
+<td> </td>
+<th><b>Upstream repo</b></th>
+<td> </td>
+<th><b>Upstream GHC branch</b></th>
+<td> </td>
+<th><b>Installed[1]</b></th>
+<td> </td>
+<th><b>Req&apos;d to build[2]</b></th></tr>
 <tr><th>utils/hsc2hs</th>
+<td>           </td>
 <th>https://git.haskell.org/hsc2hs.git</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>utils/haddock</th>
+<td>          </td>
 <th>https://github.com/haskell/haddock</th>
+<td> </td>
 <th>ghc-head</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>No</th></tr>
 <tr><th>nofib</th>
+<td>                  </td>
 <th>https://git.haskell.org/nofib.git</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>N/A</th>
+<td> </td>
 <th>N/A</th></tr>
 <tr><th>libraries/array</th>
+<td>        </td>
 <th>https://git.haskell.org/packages/array.git</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/binary</th>
+<td>       </td>
 <th>https://github.com/kolmodin/binary</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/bytestring</th>
+<td>   </td>
 <th>https://github.com/haskell/bytestring</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/Cabal</th>
+<td>        </td>
 <th>https://github.com/haskell/Cabal</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/containers</th>
+<td>   </td>
 <th>https://github.com/haskell/containers</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/deepseq</th>
+<td>      </td>
 <th>https://github.com/haskell/deepseq</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>No</th>
+<td> </td>
 <th>No</th></tr>
 <tr><th>libraries/directory</th>
+<td>    </td>
 <th>https://github.com/haskell/directory</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/filepath</th>
+<td>     </td>
 <th>https://github.com/haskell/filepath</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/haskeline</th>
+<td>    </td>
 <th>https://github.com/judah/haskeline</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/haskell98</th>
+<td>    </td>
 <th>https://git.haskell.org/packages/haskell98.git</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/haskell2010</th>
+<td>  </td>
 <th>https://git.haskell.org/packages/haskell2010.git</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/hoopl</th>
+<td>        </td>
 <th>https://git.haskell.org/packages/hoopl.git</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/hpc</th>
+<td>          </td>
 <th>https://git.haskell.org/packages/hpc.git</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/old-locale</th>
+<td>   </td>
 <th>https://git.haskell.org/packages/old-locale.git</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/old-time</th>
+<td>     </td>
 <th>https://git.haskell.org/packages/old-time.git</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/process</th>
+<td>      </td>
 <th>https://github.com/haskell/process</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/terminfo</th>
+<td>     </td>
 <th>https://github.com/judah/terminfo</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/time</th>
+<td>         </td>
 <th>https://github.com/haskell/time</th>
+<td> </td>
 <th>ghc</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/transformers</th>
+<td> </td>
 <th>See below</th>
+<td> </td>
 <th></th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/unix</th>
+<td>         </td>
 <th>https://github.com/haskell/unix</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/Win32</th>
+<td>        </td>
 <th>https://github.com/haskell/win32</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/xhtml</th>
+<td>        </td>
 <th>https://github.com/haskell/xhtml</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>Yes</th>
+<td> </td>
 <th>Yes</th></tr>
 <tr><th>libraries/random</th>
+<td>       </td>
 <th>https://github.com/haskell/random</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>No</th>
+<td> </td>
 <th>No</th></tr>
 <tr><th>libraries/primitive</th>
+<td>    </td>
 <th>https://github.com/haskell/primitive</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>No</th>
+<td> </td>
 <th>No</th></tr>
 <tr><th>libraries/vector</th>
+<td>       </td>
 <th>https://github.com/haskell/vector</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>No</th>
+<td> </td>
 <th>No</th></tr>
 <tr><th>libraries/dph</th>
+<td>          </td>
 <th>https://git.haskell.org/packages/dph.git</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>No</th>
+<td> </td>
 <th>No</th></tr>
 <tr><th>libraries/parallel</th>
+<td>     </td>
 <th>https://github.com/haskell/parallel</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>No</th>
+<td> </td>
 <th>No</th></tr>
 <tr><th>libraries/stm</th>
+<td>          </td>
 <th>https://git.haskell.org/packages/stm.git</th>
+<td> </td>
 <th>master</th>
+<td> </td>
 <th>No</th>
+<td> </td>
 <th>No</th></tr></table>
+
 
 - \[1\] These libraries are not installed in the resulting compiler when you do `make install`
 

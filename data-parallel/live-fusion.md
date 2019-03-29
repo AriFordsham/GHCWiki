@@ -382,12 +382,21 @@ loop mf z arr = runST ..
 In the definition of `fold` we only take the second component of the result - the actual fold value. It is the accumulator value returned in the final iteration. We disregard the resulting array though as it is simply an array of units. An empty one, in fact, since the mutator function for a `fold` never produces an array element.
 
 
+
 While the implementation of `eval` presented above has been oversimplified, it carries another very important responsibility. It is the `eval` function that drops the accumulator nesting in favour of a single accumulator mentioned in the type signature of the outermost `LoopH`. The implementation is a little crude at the moment since the flattened tree reuses the same GADT as the unflattened tree accumulated at runtime. Indeed, semantically the flattened tree uses the very same `LoopH`, `ReplicateH` and `VectorH` handles but since these can be mixed in several flavours, it makes the pattern matching excessive and error-prone. When this is fixed, explaining the dropping of the accumulator nesting would be straight forward.
+
 
 ### Performance
 
+
+
 TODO
+
 
 ### Discussion
 
+
+
 TODO
+
+

@@ -18,7 +18,10 @@ Right now, there are several "base" kinds:
   - In Core, it is important to treat `Constraint` and `*` as indistinguishable.   **SLPJ** why?  It used to be the case because GND cast dictionaries, but we don't do that any more. **RAE** We still use this trick when converting a 1-member class into just a coercion, right? And, if `*` and `Constraint` were different, we would need multiple different arrows. In any case, this issue is completely orthogonal to this proposal.
 
 >
+>
 > So, `tcEqType` considers `Constraint` and `*` distinct (as they are distinct in Haskell) but `eqType` considers them to be equal.
+>
+>
 
 - `OpenKind`: The superkind of `*` and `#`. The existence of `OpenKind` is necessary for several reasons
 

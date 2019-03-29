@@ -22,43 +22,75 @@ All `ghc-pkg`-exposed packages must match their officially released Hackage rele
 ## 3rd Party Packages needing a release (candidate)
 
 
+
 GHC HQ controlled `base`/`array`/`integer-gmp`/`template-haskell`/etc. are not listed here
+
 
 ### `Cabal`
 
+
+
 [](http://hackage.haskell.org/package/Cabal)
+
+
 
 TODO The `1.24` branch has been created, please use it for GHC 8 RC3. Cabal `1.24.0.0` final will be released at some point between GHC 8 RC3 and GHC 8 final.
 
+
 ### `binary`
+
+
 
 [](http://hackage.haskell.org/package/binary)
 
-TODO`0.8.2.1` has just been released, please use that for RC3. GHC 8.0.1 final should ship the `0.8.2.2` release. Biggest change is that includes a Binary instance for `ShortByteString`.
+
+
+TODO `0.8.2.1` has just been released, please use that for RC3. GHC 8.0.1 final should ship the `0.8.2.2` release. Biggest change is that includes a Binary instance for `ShortByteString`.
+
 
 ### `bytestring`
 
+
+
 [](http://hackage.haskell.org/package/bytestring)
+
+
 
 TODO most likely: RC1 will ship with the odd (unreleased) version `0.10.7.0`, whereas GHC 8 final will ship with the upcoming `0.10.8.0` release
 
+
 ### `containers`
+
+
 
 [](http://hackage.haskell.org/package/containers)
 
+
+
 DONE Freshly released `0.5.7.1` should be used for GHC 8 (instead of previously announced `0.5.7.0`).
+
 
 ### `deepseq`
 
+
+
 [](http://hackage.haskell.org/package/deepseq)
+
+
 
 TODO the upcoming `deepseq-1.4.2.0` release will be used for GHC 8
 
+
 ### `directory`
+
+
 
 [](http://hackage.haskell.org/package/directory)
 
-DONE`directory-1.2.6.2` should be used.
+
+
+DONE `directory-1.2.6.2` should be used.
+
 
 ### `filepath`
 

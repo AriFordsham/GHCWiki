@@ -27,70 +27,76 @@ Content previously on this page has been moved to the [SORF](records/overloaded-
 Add **ORF** to the ticket's keywords to include it in these lists.
 
 
+
 Open Tickets:
 
-<table><tr><th>[\#4479](https://gitlab.haskell.org//ghc/ghc/issues/4479)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4479">#4479</a></th>
 <td>Implement TDNR</td></tr>
-<tr><th>[\#11228](https://gitlab.haskell.org//ghc/ghc/issues/11228)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11228">#11228</a></th>
 <td>Interaction between ORF and record pattern synonyms needs to be resolved.</td></tr>
-<tr><th>[\#11343](https://gitlab.haskell.org//ghc/ghc/issues/11343)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11343">#11343</a></th>
 <td>Unable to infer type when using DuplicateRecordFields</td></tr>
-<tr><th>[\#11352](https://gitlab.haskell.org//ghc/ghc/issues/11352)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11352">#11352</a></th>
 <td>Allow applying type to label</td></tr>
-<tr><th>[\#11671](https://gitlab.haskell.org//ghc/ghc/issues/11671)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11671">#11671</a></th>
 <td>Allow labels starting with uppercase with OverloadedLabels</td></tr>
-<tr><th>[\#13352](https://gitlab.haskell.org//ghc/ghc/issues/13352)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13352">#13352</a></th>
 <td>Strange requirement for re-exported duplicate record fields</td></tr>
-<tr><th>[\#13438](https://gitlab.haskell.org//ghc/ghc/issues/13438)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13438">#13438</a></th>
 <td>ghci :browse does not work with DuplicateRecordFields</td></tr>
-<tr><th>[\#14848](https://gitlab.haskell.org//ghc/ghc/issues/14848)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14848">#14848</a></th>
 <td>-XDuplicateRecordFields breaks record expression splices</td></tr>
-<tr><th>[\#14892](https://gitlab.haskell.org//ghc/ghc/issues/14892)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14892">#14892</a></th>
 <td>Field imposters with DuplicateRecordFields and NamedFieldPuns.</td></tr>
-<tr><th>[\#15277](https://gitlab.haskell.org//ghc/ghc/issues/15277)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15277">#15277</a></th>
 <td>Move field name resolution to the type-checker</td></tr>
-<tr><th>[\#16232](https://gitlab.haskell.org//ghc/ghc/issues/16232)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16232">#16232</a></th>
 <td>Add setField to HasField</td></tr></table>
+
+
 
 
 Closed Tickets:
 
-<table><tr><th>[\#11103](https://gitlab.haskell.org//ghc/ghc/issues/11103)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11103">#11103</a></th>
 <td>DuplicateRecordFields + TemplateHaskell</td></tr>
-<tr><th>[\#11167](https://gitlab.haskell.org//ghc/ghc/issues/11167)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11167">#11167</a></th>
 <td>Fixity of field-deconstructors incorrect</td></tr>
-<tr><th>[\#11173](https://gitlab.haskell.org//ghc/ghc/issues/11173)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11173">#11173</a></th>
 <td>Infix declarations for record fields with DuplicateRecordFields are broken</td></tr>
-<tr><th>[\#11227](https://gitlab.haskell.org//ghc/ghc/issues/11227)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11227">#11227</a></th>
 <td>Interaction between ORF and record pattern synonyms needs to be resolved.</td></tr>
-<tr><th>[\#11328](https://gitlab.haskell.org//ghc/ghc/issues/11328)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11328">#11328</a></th>
 <td>Auto complete in ghci shows $sel:function:Type for DuplicateRecordFields fields</td></tr>
-<tr><th>[\#11662](https://gitlab.haskell.org//ghc/ghc/issues/11662)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11662">#11662</a></th>
 <td>Regression using NamedFieldPuns with qualified field names</td></tr>
-<tr><th>[\#12097](https://gitlab.haskell.org//ghc/ghc/issues/12097)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12097">#12097</a></th>
 <td>DuplicateRecordFields appears not to work in GHCi</td></tr>
-<tr><th>[\#12243](https://gitlab.haskell.org//ghc/ghc/issues/12243)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12243">#12243</a></th>
 <td>RebindableSyntax and OverloadedLabels</td></tr>
-<tr><th>[\#12459](https://gitlab.haskell.org//ghc/ghc/issues/12459)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12459">#12459</a></th>
 <td>UnboxedTuple makes overloaded labels fail to parse</td></tr>
-<tr><th>[\#12609](https://gitlab.haskell.org//ghc/ghc/issues/12609)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12609">#12609</a></th>
 <td>unused-top-binds wrongly warns about underscore-prefixed field names when DuplicateRecordFields enabled</td></tr>
-<tr><th>[\#13132](https://gitlab.haskell.org//ghc/ghc/issues/13132)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13132">#13132</a></th>
 <td>Compilation fails with a panic: get_op runContT</td></tr>
-<tr><th>[\#13847](https://gitlab.haskell.org//ghc/ghc/issues/13847)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13847">#13847</a></th>
 <td>record construction accepts local unqualified name instead of qualified imported name</td></tr>
-<tr><th>[\#13947](https://gitlab.haskell.org//ghc/ghc/issues/13947)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13947">#13947</a></th>
 <td>GHC 8.2 gives misleading error message for out-of-scope infix type constructor</td></tr>
-<tr><th>[\#14487](https://gitlab.haskell.org//ghc/ghc/issues/14487)</th>
-<td>Can't Hide Field When DuplicateRecordFields Is Enabled</td></tr>
-<tr><th>[\#14783](https://gitlab.haskell.org//ghc/ghc/issues/14783)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14487">#14487</a></th>
+<td>Can&apos;t Hide Field When DuplicateRecordFields Is Enabled</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14783">#14783</a></th>
 <td>Initializing record with similarly named field from a different record results in warning rather than error</td></tr>
-<tr><th>[\#14953](https://gitlab.haskell.org//ghc/ghc/issues/14953)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14953">#14953</a></th>
 <td>Panic when exporting duplicate record fields from separate modules</td></tr>
-<tr><th>[\#15149](https://gitlab.haskell.org//ghc/ghc/issues/15149)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15149">#15149</a></th>
 <td>Identical distinct type family fields miscompiled</td></tr></table>
 
+
+
 ## Code
+
 
 - [ Phab:D761](https://phabricator.haskell.org/D761), [ Phab:D1391](https://phabricator.haskell.org/D1391), [ Phab:D1486](https://phabricator.haskell.org/D1486), [ Phab:D1586](https://phabricator.haskell.org/D1586), [ Phab:D1600](https://phabricator.haskell.org/D1600): `DuplicateRecordFields` extension
 - [ Phab:D1331](https://phabricator.haskell.org/D1331), [ Phab:D1623](https://phabricator.haskell.org/D1623): `OverloadedLabels` extension

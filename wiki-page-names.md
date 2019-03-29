@@ -27,9 +27,10 @@ If you want to create a wiki page that does not follow [CamelCase](camel-case) r
 
 This will be rendered as:
 
+
 - Wiki_page?, ISO9000?,
   and with a label: ISO 9000 standard?
-- Space Matters?*(that page name embeds space characters)*
+- Space Matters? *(that page name embeds space characters)*
   and with a label: all about white space?
 - or simply: WikiPageName?s
 - even better, the WikiCreole link style?
@@ -45,12 +46,17 @@ You can prevent a CamelCase name from being interpreted as a [link](trac-links) 
 As in the example above, you can append an anchor to a Wiki page name to link to a specific section within that page. The anchor can be seen by hovering the mouse over a section heading, then clicking on the ¶ sign that appears at its end. The anchor is usually generated automatically, but it is also possible to specify it explicitly: see [WikiFormatting\#using-explicit-id-in-heading](wiki-formatting#).
 
 
+
 There are a few options that govern the rendering of [WikiPageNames](wiki-page-names):
 
-- [CamelCase](camel-case) linking to missing pages can be disabled with the `ignore_missing_pages`[ option](https://trac.edgewall.org/wiki/TracIni#wiki-section). Linking to missing pages is enabled by default.
+
+- [CamelCase](camel-case) linking to missing pages can be disabled with the `ignore_missing_pages` [ option](https://trac.edgewall.org/wiki/TracIni#wiki-section). Linking to missing pages is enabled by default.
 - The `split_page_names` option, when enabled, will split [CamelCase](camel-case) words when rendering a link. For example, [WikiStart](wiki-start) will be rendered as [Wiki Start](wiki-start).
 
 ---
 
 
+
 See also: [WikiNewPage](wiki-new-page), [WikiFormatting](wiki-formatting), [TracWiki](trac-wiki), [TracLinks](trac-links)
+
+

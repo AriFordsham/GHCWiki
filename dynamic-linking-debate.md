@@ -81,102 +81,106 @@ Copied from [DynamicGhcPrograms](dynamic-ghc-programs):
 <th>Affects Windows x86?</th>
 <th>Affects other platforms?
 </th></tr>
-<tr><th>[\#781 GHCi on x86_64, cannot link to static data in shared libs](https://gitlab.haskell.org//ghc/ghc/issues/781)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/781">#781 GHCi on x86_64, cannot link to static data in shared libs</a></th>
 <th>no</th>
 <th>no</th>
-<th>**YES**</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no
-</th></tr>
-<tr><th>[\#1883 GHC can't find library using "short" name](https://gitlab.haskell.org//ghc/ghc/issues/1883)</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**probably**</th>
-<th>**YES**</th>
-<th>no
-</th></tr>
-<tr><th>[\#3242 ghci: can't load .so/.DLL for: m (addDLL: could not load DLL)](https://gitlab.haskell.org//ghc/ghc/issues/3242)</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**probably**</th>
-<th>**YES**</th>
-<th>no
-</th></tr>
-<tr><th>[\#3654 Mach-O GHCi linker lacks support for a range of relocation entries](https://gitlab.haskell.org//ghc/ghc/issues/3654)</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>no</th>
+<th><b>YES</b></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th>[\#5062 Patch: Debug output for OS X linker and coding standard upgrades](https://gitlab.haskell.org//ghc/ghc/issues/5062)</th>
-<th>**YES**</th>
-<th>**YES**</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1883">#1883 GHC can&apos;t find library using &quot;short&quot; name</a></th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th><b>probably</b></th>
+<th><b>YES</b></th>
+<th>no
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3242">#3242 ghci: can&apos;t load .so/.DLL for: m (addDLL: could not load DLL)</a></th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th><b>probably</b></th>
+<th><b>YES</b></th>
+<th>no
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3654">#3654 Mach-O GHCi linker lacks support for a range of relocation entries</a></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th>[\#5197 Support static linker semantics for archives and weak symbols](https://gitlab.haskell.org//ghc/ghc/issues/5197)</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th></tr>
-<tr><th>[\#6107 GHCi runtime linker cannot link with duplicate common symbols](https://gitlab.haskell.org//ghc/ghc/issues/6107)</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th></tr>
-<tr><th>[\#7056 GHCi loadArchive "libiconv.a":failed Unknown PEi386 section name \`.drectve'](https://gitlab.haskell.org//ghc/ghc/issues/7056)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5062">#5062 Patch: Debug output for OS X linker and coding standard upgrades</a></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
 <th>no</th>
-<th>no</th>
-<th>no</th>
-<th>no</th>
-<th>**probably**</th>
-<th>**YES**</th>
-<th>no
-</th></tr>
-<tr><th>[\#7072 GHC interpreter does not find stat64 symbol on Linux](https://gitlab.haskell.org//ghc/ghc/issues/7072)</th>
-<th>no</th>
-<th>no</th>
-<th>**YES**</th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
 <th>no
 </th></tr>
-<tr><th>[\#7103 Compiler panic, when loading wxc in GHCi](https://gitlab.haskell.org//ghc/ghc/issues/7103)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5197">#5197 Support static linker semantics for archives and weak symbols</a></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b>
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/6107">#6107 GHCi runtime linker cannot link with duplicate common symbols</a></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b>
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7056">#7056 GHCi loadArchive &quot;libiconv.a&quot;:failed Unknown PEi386 section name `.drectve&apos;</a></th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
 <th>no</th>
-<th>**probably**</th>
-<th>**YES**</th>
+<th><b>probably</b></th>
+<th><b>YES</b></th>
 <th>no
 </th></tr>
-<tr><th>[\#8935 Obscure linker bug leads to crash in GHCi](https://gitlab.haskell.org//ghc/ghc/issues/8935)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7072">#7072 GHC interpreter does not find stat64 symbol on Linux</a></th>
 <th>no</th>
 <th>no</th>
-<th>**YES**</th>
-<th>**YES**</th>
+<th><b>YES</b></th>
 <th>no</th>
 <th>no</th>
-<th>**YES**</th></tr></table>
+<th>no</th>
+<th>no
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7103">#7103 Compiler panic, when loading wxc in GHCi</a></th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th>no</th>
+<th><b>probably</b></th>
+<th><b>YES</b></th>
+<th>no
+</th></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8935">#8935 Obscure linker bug leads to crash in GHCi</a></th>
+<th>no</th>
+<th>no</th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th>no</th>
+<th>no</th>
+<th><b>YES</b>
+</th></tr></table>
+
 
 ## Bugs in dynamic linking
 
@@ -192,7 +196,8 @@ Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplic
 <th>Affects Windows x86?</th>
 <th>Affects other platforms?
 </th></tr>
-<tr><th>[\#4824 Windows: Dynamic linking doesn't work out-of-the-box](https://gitlab.haskell.org//ghc/ghc/issues/4824)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4824">#4824 Windows: Dynamic linking doesn&apos;t work out-of-the-box</a>
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -200,7 +205,8 @@ Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplic
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>[\#5620 Dynamic linking and threading does not work on Windows](https://gitlab.haskell.org//ghc/ghc/issues/5620)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5620">#5620 Dynamic linking and threading does not work on Windows</a>
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -208,7 +214,8 @@ Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplic
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>[\#5786 Dynanmic way fails when GHC built with LLVM backend](https://gitlab.haskell.org//ghc/ghc/issues/5786)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5786">#5786 Dynanmic way fails when GHC built with LLVM backend</a>
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -216,7 +223,8 @@ Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplic
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>[\#5982 Incorrect dynamic library name in OSX](https://gitlab.haskell.org//ghc/ghc/issues/5982)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5982">#5982 Incorrect dynamic library name in OSX</a>
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -224,7 +232,8 @@ Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplic
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>[\#8228 GHC built under Windows does not generate dyn_hi files](https://gitlab.haskell.org//ghc/ghc/issues/8228)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8228">#8228 GHC built under Windows does not generate dyn_hi files</a>
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -232,7 +241,8 @@ Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplic
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>[\#7298 Test 2228 fails with dynamic-by-default](https://gitlab.haskell.org//ghc/ghc/issues/7298)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7298">#7298 Test 2228 fails with dynamic-by-default</a>
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -240,7 +250,8 @@ Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplic
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>[\#7478 setSessionDynFlags does not always work](https://gitlab.haskell.org//ghc/ghc/issues/7478)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7478">#7478 setSessionDynFlags does not always work</a>
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -248,7 +259,8 @@ Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplic
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>[dynamicToo001 fails on Windows](https://gitlab.haskell.org//ghc/ghc/issues/7665)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7665">dynamicToo001 fails on Windows</a>
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -256,7 +268,8 @@ Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplic
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>[\#8024 Dynamic linking not working on PowerPC Linux.](https://gitlab.haskell.org//ghc/ghc/issues/8024)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8024">#8024 Dynamic linking not working on PowerPC Linux.</a>
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -264,7 +277,8 @@ Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplic
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>[\#8420 Spurious dynamic library dependencies](https://gitlab.haskell.org//ghc/ghc/issues/8420)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8420">#8420 Spurious dynamic library dependencies</a>
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -272,7 +286,8 @@ Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplic
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>[\#8721 Testsuite not reporting errors for DYN way on OS X](https://gitlab.haskell.org//ghc/ghc/issues/8721)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8721">#8721 Testsuite not reporting errors for DYN way on OS X</a>
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -280,7 +295,8 @@ Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplic
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>[\#8736 GHCi doesn't load .dyn_o files appropriately](https://gitlab.haskell.org//ghc/ghc/issues/8736)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8736">#8736 GHCi doesn&apos;t load .dyn_o files appropriately</a>
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -288,7 +304,8 @@ Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplic
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>[\#8909 ppc dyn executable compiled with ghc-7.8.1 RC2 segfaults](https://gitlab.haskell.org//ghc/ghc/issues/8909)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8909">#8909 ppc dyn executable compiled with ghc-7.8.1 RC2 segfaults</a>
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -296,7 +313,8 @@ Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplic
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>[\#9121 Presence of dyn_o files not checked upon recompilation](https://gitlab.haskell.org//ghc/ghc/issues/9121)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9121">#9121 Presence of dyn_o files not checked upon recompilation</a>
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -304,7 +322,8 @@ Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplic
 <th></th>
 <th></th>
 <th></th></tr>
-<tr><th>[\#9176 GHC not generating dyn_hi files](https://gitlab.haskell.org//ghc/ghc/issues/9176)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9176">#9176 GHC not generating dyn_hi files</a>
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -312,3 +331,5 @@ Disclaimer: I just searched for bugs mentioning "dyn", there are probably duplic
 <th></th>
 <th></th>
 <th></th></tr></table>
+
+

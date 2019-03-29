@@ -13,10 +13,27 @@ This page is to track the discussions on
 The essential problem is that type-checking declarations can depend on `type instance`s so we must be careful to process `type instance`s in the correct order. When necessary interleaving the instances with other declarations.
 
 
+
 The motivating example is
 
+
 ```
-{-# LANGUAGE PolyKinds #-}{-# LANGUAGE TypeFamilies #-}{-# LANGUAGE GADTs #-}{-# LANGUAGE DataKinds #-}{-# LANGUAGE TypeInType #-}importData.KindimportData.ProxytypefamilyTrivialFamily t ::TypetypeinstanceTrivialFamily(t ::Type)=BooldataRwhereR::ProxyBool->RtypeProblemType t ='R('Proxy::Proxy(TrivialFamily t))
+{-# LANGUAGE PolyKinds #-}
+{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE GADTs #-}
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE TypeInType #-}
+
+import Data.Kind
+import Data.Proxy
+
+type family TrivialFamily t :: Type
+type instance TrivialFamily (t :: Type) = Bool
+
+data R where
+    R :: Proxy Bool -> R
+
+type ProblemType t = 'R ('Proxy :: Proxy (TrivialFamily t))
 ```
 
 
@@ -63,19 +80,36 @@ For a `type instance` declaration for a type family `T`, the free variables of t
 
 For example, considering
 
+
 ```
-dataFin::N->TypewhereFZ::Fin(S n)FS::Fin n ->Fin(S n)dataTtypeinstanceFTFZ=Int
+data Fin :: N -> Type where                                                     
+   FZ :: Fin (S n)                                                               
+   FS :: Fin n -> Fin (S n)  
+
+data T
+
+type instance F T FZ = Int
 ```
 
 
-We compute the free variables to be `{ F, T, Fin }`. Then, Alex's algorithm ensures that as soon as `F``T` and `Fin` are declared, the instance declaration is added to environment. This ensures that if later declarations depend on `F`, they can make use of this instance.
+We compute the free variables to be `{ F, T, Fin }`. Then, Alex's algorithm ensures that as soon as `F` `T` and `Fin` are declared, the instance declaration is added to environment. This ensures that if later declarations depend on `F`, they can make use of this instance.
+
 
 
 Here is one example which this algorithm fixes.
 
+
 ```
-{-# LANGUAGE TypeInType, TypeFamilies #-}moduleKindswhereimportGHC.TypestypefamilyG(a ::Type)::TypetypeinstanceGInt=BooltypefamilyF(a ::Type)::G a
-typeinstanceFInt=True
+{-# LANGUAGE TypeInType, TypeFamilies #-}
+module Kinds where
+
+import GHC.Types
+
+type family G (a :: Type) :: Type
+type instance G Int = Bool
+
+type family F (a :: Type) :: G a
+type instance F Int = True
 ```
 
 
@@ -88,10 +122,30 @@ However, this is insufficient as there are other (hidden) dependencies for type 
 each argument to the instance declaration, as a result, we should also declare these dependencies to ensure that all instances which could affect this kind checking are processed first.
 
 
+
 Here is a simple example to demonstrate the problem:
 
+
 ```
-{-# LANGUAGE TypeInType, GADTs, TypeFamilies #-}importData.Kind(Type)dataN=Z|SNdataFin::N->TypewhereFZ::Fin(S n)FS::Fin n ->Fin(S n)typefamilyFieldCount(t ::Type)::NtypefamilyFieldType(t ::Type)(i ::Fin(FieldCount t))::TypedataTtypeinstanceFieldCountT=S(S(SZ))typeinstanceFieldTypeTFZ=Int
+{-# LANGUAGE TypeInType, GADTs, TypeFamilies #-}
+
+import Data.Kind (Type)
+
+data N = Z | S N
+
+data Fin :: N -> Type where
+  FZ :: Fin (S n)
+  FS :: Fin n -> Fin (S n)
+
+type family FieldCount (t :: Type) :: N
+
+type family FieldType (t :: Type) (i :: Fin (FieldCount t)) :: Type
+
+data T
+
+type instance FieldCount T = S (S (S Z))
+
+type instance FieldType T FZ = Int
 ```
 
 
@@ -110,8 +164,14 @@ This is incomplete and I don't understand. Please help me fill in the details..!
 The original problem was elucidated by Alex's attempt to allow the promotion of `data instances`. However, data instances are mostly a red herring as Simon points out, `type instances` are what give rise to nominal equalties. It
 is just that `data instance`s are one place where we can use the extra nominal equalities. They can also be used in other `type instance`s, `type` declarations etc. 
 
+
+>
 >
 > The only instances we must have in hand to do kind-checking are type instances, because they give rise to implicit nominal type/kind equalities (e.g. F Int \~ Bool) that the kind checker must solve.
 >
 >
+>
 > But data instances are different: they do not give rise to implicit nominal type/kind equalities. So in that way they behave more like data type declarations. Indeed, I think that the only way that type/class declaration T can depend on a data instance declaration D is if T mentions one of D's promoted data constructors. This will be sorted out by the ordinary SCC analysis.
+>
+>
+

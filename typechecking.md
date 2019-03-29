@@ -12,10 +12,12 @@ Much of this proposal (without `ExpFun`) is now in HEAD and 8.0.
 GHC claims to do bidirectional type-checking, but it doesn't quite do this. In a proper bidirectional type-checking algorithm (as in [ the "Practical Type Inference" paper](http://repository.upenn.edu/cis_papers/315/)), the algorithm is either in "infer" mode or "checking" mode, never both. But GHC uses more of a mixed economy.
 
 
+
 The relevant function is
 
+
 ```
-tcExpr::HsExprName->TcRhoType->TcM(HsExprTcId)
+tcExpr :: HsExpr Name -> TcRhoType -> TcM (HsExpr TcId)
 ```
 
 
@@ -30,17 +32,22 @@ Because of the lack of clarity around these issues, GHC has some strange behavio
 For the most part (see below for exceptions), it seems nothing really is gained by the mixed economy -- that is, allowing holes within other types. This design makes the code a little simpler, but we're not taking advantage of type-checking against, say, `(T, <<hole>>)`. So perhaps we can do better.
 
 
+
 Concretely, we can change `tcExpr` to look like this:
 
+
 ```
-tcExpr::HsExprName->ExpType->TcM(HsExprTcId)
+tcExpr :: HsExpr Name -> ExpType -> TcM (HsExpr TcId)
 ```
 
 
 where
 
+
 ```
-dataExpType=CheckTcRhoType-- checking|Infer(TcRef(MaybeTcType))-- inferring|ExpFunExpTypeExpType-- mixed (but only for arrows)
+data ExpType = Check TcRhoType                -- checking
+             | Infer (TcRef (Maybe TcType))   -- inferring
+             | ExpFun ExpType ExpType         -- mixed (but only for arrows)
 ```
 
 

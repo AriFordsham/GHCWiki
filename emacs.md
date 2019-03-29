@@ -7,101 +7,156 @@ Most of us use Emacs for GHC development. This page lists various Emacs configur
 Each entry includes a short description and instruction how to enable given setting (if it contains only a block of lisp code it means you need to add it to your `.emacs` configuration file). All configuration is given for Emacs 24, unless otherwise noted. 
 
 
+
 Most of the packages used below are bundled with Emacs. If a package is not part of your Emacs installation you need to install it by yourself. You can do it manually by downloading relevant `*.el` file and putting it in your configuration directory or you can use ELPA -  Emacs package management system. A five minute introduction to ELPA can be found [ here](http://ergoemacs.org/emacs/emacs_package_system.html).
+
 
 # General
 
+
 ## IDO mode
+
+
 
 **Description**: IDO stands for Interactively Do Things and it greatly improves file opening and switching between buffers. When opening a file it shows list of files and directories in current directory, allows to navigate the directory tree in an easy manner, provides intuitive filtering capabilities and allows to select a file by selecting its name using arrow keys. Similar behaviour is provided when switching between opened buffers. A nice introductory tutorial to IDO can be found [ here](http://www.masteringemacs.org/articles/2010/10/10/introduction-to-ido-mode/).
 
+
+
 **How to enable**:
 
+
 ```
-(setqido-enable-flex-matchingt)(setqido-everywheret)(ido-mode1)
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
 ```
 
 ## Disable tabs for indentation
 
+
+
 **Description**: We used to use tabs for indentation, but now we aim to have no tabs in the source code. There is a hook that will prevent you from pushing tabs into repository (unless file already contained tabs). This setting will prevent you from introducing tabs in the source code.
+
+
 
 **How to enable**:
 
+
 ```
-(setq-defaultindent-tabs-modenil)
+(setq-default indent-tabs-mode nil)
 ```
 
 ## Highlight text beyond 80th column
 
+
+
 **Description**: If you have a tendency to write too long lines of code this will help you by highlighting text beyond 80th column.
+
+
 
 **How to enable**:
 
+
 ```
-(require'whitespace)(setqwhitespace-style'(facelines-tail))(setqwhitespace-line-column80)(global-whitespace-modet)
+(require 'whitespace)
+(setq whitespace-style '(face lines-tail))
+(setq whitespace-line-column 80)
+(global-whitespace-mode t)
 ```
 
 ## Automatically removes trailing whitespaces when file is saved
 
+
+
 **Description**: Currently source code of GHC contains lots of trailing whitespaces, which means that **this setting is dangerous**. It will remove ALL trailing whitespaces in every file that you edit, so you might have one or two lines changed by you and a hundred lines automatically changed by removing trailing whitespaces. This will require you to separate whitespaces into a separate commit by using `git add -i`. This is tedious, so be warned.
+
+
 
 **How to enable**:
 
+
 ```
-(add-hook'before-save-hook'delete-trailing-whitespace)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 ```
 
 ## Highlight trailing whitespaces
 
+
+
 **Description**: Automatic removal of trailing whitespaces described above can be a bit inconvenient to use. One of the alternative approaches to problem of trailing whitespaces is making them visible, so that you notice when you accidentally introduce them into a file. You will also see already existing trailing whitespaces. For more details see [ Useless Whitespace](http://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html) section of Emacs documentation.
+
+
 
 **How to enable**:
 
+
 ```
-(setq-defaultshow-trailing-whitespacet)(setq-defaultindicate-empty-linest)
+(setq-default show-trailing-whitespace t)
+(setq-default indicate-empty-lines t)
 ```
 
 ## Kill whole line and newline with C-k if at beginning of line
 
+
+
 **Description**: IF you place cursor at the beginning of line, the default behaviour of C-k is to kill all text until newline, but not the newline itself. You need to type C-k again to remove that newline. This setting allows to avoid typing `C-k` twice by killing all text until the newline and newline itself (but only when cursor is placed at the beginning of a line).
+
+
 
 **How to enable**:
 
+
 ```
-(setqkill-whole-linet)
+(setq kill-whole-line t)
 ```
 
 ## Toggle line number display
 
+
+
 **Description**: Allows you to toggle line number display with F11. For those who like to see line numbers at the beginning of each line.
+
+
 
 **How to enable**:
 
+
 ```
-(global-set-key(kbd"<f11>")'global-linum-mode)
+(global-set-key (kbd "<f11>") 'global-linum-mode)
 ```
 
 ## Jump to first error
 
+
+
 **Description**: Allows you to jump to the first error in compiled or interpreted code.
+
+
 
 **How to enable**:
 
+
 ```
-(global-set-key(kbd"M-g M-f")'first-error)
+(global-set-key (kbd "M-g M-f") 'first-error)
 ```
 
 
 On my setup, this won't work the first time a file is loaded into GHCi. I just try to load the file a second time, and then I'm set for the rest of the session.
 
+
 ## Always display column number in mode line
+
+
 
 **Description**: By default Emacs only displays line number in the mode line. This setting adds column number.
 
+
+
 **How to enable**:
 
+
 ```
-(column-number-mode1)
+(column-number-mode 1)
 ```
 
 ## Switch between windows with Alt-\<window number\>
@@ -111,8 +166,11 @@ On my setup, this won't work the first time a file is loaded into GHCi. I just t
 **How to enable**:
 You need to install [ window-number](http://www.emacswiki.org/emacs/window-number.el) extension and add this to your configuration:
 
+
 ```
-(require'window-number)(window-number-mode)(window-number-meta-mode)
+(require 'window-number)
+(window-number-mode)
+(window-number-meta-mode)
 ```
 
 ## Switch to next/previous buffer with a single key
@@ -122,8 +180,22 @@ You need to install [ window-number](http://www.emacswiki.org/emacs/window-numbe
 **How to enable**:
 You need to install [ cycle-buffer](http://www.emacswiki.org/emacs/cycle-buffer.el) extension and add this to your configuration:
 
+
 ```
-(autoload'cycle-buffer"cycle-buffer""Cycle forward."t)(autoload'cycle-buffer-backward"cycle-buffer""Cycle backward."t)(autoload'cycle-buffer-permissive"cycle-buffer""Cycle forward allowing *buffers*."t)(autoload'cycle-buffer-backward-permissive"cycle-buffer""Cycle backward allowing *buffers*."t)(autoload'cycle-buffer-toggle-interesting"cycle-buffer""Toggle if this buffer will be considered."t)(global-set-key[(f9)]'cycle-buffer-backward)(global-set-key[(f10)]'cycle-buffer)(global-set-key[(shiftf9)]'cycle-buffer-backward-permissive)(global-set-key[(shiftf10)]'cycle-buffer-permissive)
+(autoload 'cycle-buffer                     "cycle-buffer"
+  "Cycle forward." t)
+(autoload 'cycle-buffer-backward            "cycle-buffer"
+  "Cycle backward." t)
+(autoload 'cycle-buffer-permissive          "cycle-buffer"
+  "Cycle forward allowing *buffers*." t)
+(autoload 'cycle-buffer-backward-permissive "cycle-buffer"
+  "Cycle backward allowing *buffers*." t)
+(autoload 'cycle-buffer-toggle-interesting  "cycle-buffer"
+  "Toggle if this buffer will be considered." t)
+(global-set-key [(f9)]        'cycle-buffer-backward)
+(global-set-key [(f10)]       'cycle-buffer)
+(global-set-key [(shift f9)]  'cycle-buffer-backward-permissive)
+(global-set-key [(shift f10)] 'cycle-buffer-permissive)
 ```
 
 ## Untabifying a buffer
@@ -136,10 +208,15 @@ You need to install [ cycle-buffer](http://www.emacswiki.org/emacs/cycle-buffer.
 This is equivalent to `mark-whole-buffer` which is bound to `C-x h` by default, followed by `M-x untabify` which operates in the current region.
 
 
+
 Add this to your configuration, and afterwords you can run `M-x untabify-buffer` to nuke all the tabs:
 
+
 ```
-(defununtabify-buffer()"Untabify current buffer."(interactive)(save-excursion(untabify(point-min)(point-max))))
+(defun untabify-buffer ()
+  "Untabify current buffer."
+  (interactive)
+  (save-excursion (untabify (point-min) (point-max))))
 ```
 
 ## Re-format a comment
@@ -196,33 +273,62 @@ In Emacs type `M-x visit-tags-table` and point to the generated `TAGS`.
 # GHC-specific
 
 
+
 It can be helpful to have a few commands specific to working on GHC. For these to work, Emacs must know where your local GHC tree is.
 
+
 ```
-(setqghc-location"~/ghc");; change as necessary
+(setq ghc-location "~/ghc") ;; change as necessary
 ```
 
 
 If you switch between active trees, you must use a `setq` to change this variable, with, say, M-: `(setq ghc-location "~/other-ghc")` \<Enter\>.
 
+
 ## Searching the GHC source tree with a hotkey
+
+
 
 **Description**: Even with hasktags, sometimes you need to search within the source tree. `rgrep` does this job well, but it asks too many redundant questions. So, the following code optimizes for a search just within the `compiler` directory:
 
+
+
 **How to enable**: The following code binds this search to M-c, but you may want your own key combination. Note that it uses `ghc-location`, set above.
 
+
 ```
-;; search withing GHC compiler code(defunrgrep-ghc(regexp)(interactive(list(progn(grep-compute-defaults)(grep-read-regexp))))(rgrepregexp"*hs"(concatghc-location"/compiler/")))(global-set-key(kbd"M-c")'rgrep-ghc)
+  ;; search withing GHC compiler code
+(defun rgrep-ghc (regexp)
+  (interactive (list (progn (grep-compute-defaults) (grep-read-regexp))))
+  (rgrep regexp "*hs" (concat ghc-location "/compiler/")))
+(global-set-key (kbd "M-c") 'rgrep-ghc)
 ```
 
 ## Building GHC with a hotkey
 
+
+
 **Description**: By having GHC be built with a hotkey, working on GHC becomes much more interactive. In a typical session, though, I have to change the actual compilation command based on my needs. So, by default, "compiling GHC" means fast-building the stage-2 compiler, but I do frequently change `ghc-compile`.
+
+
 
 **How to enable**:
 
+
 ```
-(defuncompile-ghc()(interactive)(let((compile-command(if(boundp'ghc-compile)(concat"cd "ghc-location"; "ghc-compile)(concat"cd "ghc-location"/ghc; make 2"))))(compilecompile-command))(set-buffer"*compilation*")(setqdefault-directoryghc-location))(defunset-compile-ghc()(local-set-key(kbd"C-q")'compile-ghc))(add-hook'haskell-mode-hook'set-compile-ghc)
+(defun compile-ghc ()
+  (interactive)
+  (let ((compile-command (if (boundp 'ghc-compile)
+                             (concat "cd " ghc-location "; " ghc-compile)
+                             (concat "cd " ghc-location "/ghc; make 2"))))
+    (compile compile-command))
+  (set-buffer "*compilation*")
+  (setq default-directory ghc-location))
+
+(defun set-compile-ghc ()
+  (local-set-key (kbd "C-q") 'compile-ghc))
+
+(add-hook 'haskell-mode-hook 'set-compile-ghc)
 ```
 
 
@@ -233,21 +339,46 @@ A few things to note here:
 
 ### Alternative compile command with `-ferror-spans`
 
+
 ```
-(defuncompile-ghc()(interactive)(save-some-buffers(notcompilation-ask-about-save)(if(boundp'compilation-save-buffers-predicate);; since Emacs 24.1(?)compilation-save-buffers-predicate))(let((compile-command(concat"EXTRA_HC_OPTS=-ferror-spans "(if(boundp'ghc-compile)(concat"cd "ghc-location"; "ghc-compile)(concat"cd "ghc-location"/ghc; make 2")))))(compilation-startcompile-command'haskell-compilation-mode))(set-buffer"*haskell-compilation*")(setqdefault-directoryghc-location))
+(defun compile-ghc ()
+  (interactive)
+  (save-some-buffers (not compilation-ask-about-save)
+                     (if (boundp 'compilation-save-buffers-predicate) ;; since Emacs 24.1(?)
+                         compilation-save-buffers-predicate))
+  (let ((compile-command
+         (concat "EXTRA_HC_OPTS=-ferror-spans "
+                 (if (boundp 'ghc-compile)
+                     (concat "cd " ghc-location "; " ghc-compile)
+                   (concat "cd " ghc-location "/ghc; make 2")))))
+    (compilation-start compile-command 'haskell-compilation-mode))
+  (set-buffer "*haskell-compilation*")
+  (setq default-directory ghc-location))
 ```
 
 ## Lint GHC
 
 
+
 Runs `arc lint` and in the GHC source dir and outputs it in a navigatable buffer similar to above compilation.
 
+
 ```
-(defunlint-ghc()(interactive)(let((revision(if(boundp'ghc-revision)(ghc-revision)"master")))(compile(concat"cd "ghc-location"; arc lint --output compiler --rev "revision)))(set-buffer"*compilation*")(setqdefault-directoryghc-location))
+(defun lint-ghc ()
+  (interactive)
+  (let ((revision (if (boundp 'ghc-revision)
+                      (ghc-revision)
+                    "master")))
+    (compile (concat "cd " ghc-location "; arc lint --output compiler --rev " revision)))
+  (set-buffer "*compilation*")
+  (setq default-directory ghc-location))
+
+
 ```
 
 
-If you are not working of off `master` you can `setq``ghc-revision` to lint against your choosen commit.
+If you are not working of off `master` you can `setq` `ghc-revision` to lint against your choosen commit.
+
 
 ## Make the quotes in GHC error messages display nicely
 

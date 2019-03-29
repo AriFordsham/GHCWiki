@@ -35,7 +35,9 @@ A ticket contains the following information:
 - **Summary** — A description summarizing the issue. Simple text without [WikiFormatting](wiki-formatting).
 - **Description** — The body of the ticket. A good description should be specific, descriptive and to the point. Accepts [WikiFormatting](wiki-formatting).
 
-**Notes:**
+
+**Notes:** 
+
 
 - Versions of Trac prior to 0.9 did not have the *type* field, but instead provided a *severity* field and different default values for the *priority* field. This change was done to simplify the ticket model by removing the somewhat blurry distinction between *priority* and *severity*. However, the old model is still available if you prefer it: just add/modify the default values of the *priority* and *severity*, and optionally hide the *type* field by removing all the possible values through [trac-admin](trac-admin).
 
@@ -55,9 +57,13 @@ Then, annotations like changes and comments to the ticket are logged as a part o
 Comment editing (available since 0.12) is meant to be used to make small corrections to comments, like fixing formatting, forgotten [WikiFormatting](wiki-formatting) or spelling errors, not major edits. For longer edits, you should be adding a new comment instead. Editing a comment will not produce a new entry on [timeline](/trac/ghc/timeline), while entering a new comment or other changes will do.
 
 
+
 All edits (field changes, new comments, comment edits) update the "last changed" time of the ticket.
 
-**Notes:**
+
+
+**Notes:** 
+
 
 - An important feature is being able to use [TracLinks](trac-links) and [WikiFormatting](wiki-formatting) in ticket descriptions and comments. Use [TracLinks](trac-links) to refer to other issues, changesets or files to make your ticket more specific and easier to understand.
 
@@ -92,13 +98,16 @@ Trac also lets you add your own custom ticket fields. See [TracTicketsCustomFiel
 ## Assign-to as Drop-Down List
 
 
-If the list of possible ticket owners is finite, you can change the *assign-to* ticket field from a text input to a drop-down list. This is done by setting the `restrict_owner` option of the `[ticket]` section in [trac.ini](trac-ini) to `true`. In that case, Trac will populate the list with all users who **have an authenticated session** and possess the `TICKET_MODIFY`[permissions](trac-permissions).
+
+If the list of possible ticket owners is finite, you can change the *assign-to* ticket field from a text input to a drop-down list. This is done by setting the `restrict_owner` option of the `[ticket]` section in [trac.ini](trac-ini) to `true`. In that case, Trac will populate the list with all users who **have an authenticated session** and possess the `TICKET_MODIFY` [permissions](trac-permissions).
 
 
-An authenticated session will be created the first time a user authenticates with the project. You can manually add an authenticated session using the [trac-admin](trac-admin#)`session add` command. The `:1` suffix on the session id (i.e. username) is the key to creating an authenticated session:
+
+An authenticated session will be created the first time a user authenticates with the project. You can manually add an authenticated session using the [trac-admin](trac-admin#) `session add` command. The `:1` suffix on the session id (i.e. username) is the key to creating an authenticated session:
+
 
 ```
-trac-admin /path/to/projenv session add <sid>:1 [name][email]
+trac-admin /path/to/projenv session add <sid>:1 [name] [email]
 ```
 
 
@@ -118,9 +127,16 @@ You may find the dropdown list is *overpopulated* with users that are no longer 
 
 Alternatively, you can just revoke `TICKET_MODIFY` from users that you don't want to be included in the list. However, that will not be possible if you've granted `TICKET_MODIFY` to all *anonymous* or *authenticated* users.
 
+
+
 **Notes:**
 
+
 - If you need more flexibility and aren't afraid of a little plugin coding of your own, see the [ FlexibleAssignTo plugin](https://trac-hacks.org/wiki/FlexibleAssignToPlugin).
+
+
+ 
+
 
 - Activating this option may cause some performance degradation. Read more about this in the [ Trac performance](http://trac.edgewall.org/intertrac/TracPerformance%23Configuration) page.
 
@@ -148,4 +164,7 @@ Example: `[/newticket?summary=Compile%20Error&version=1.0&component=gui]`
 ---
 
 
+
 See also: [TracGuide](trac-guide), [TracWiki](trac-wiki), [TracTicketsCustomFields](trac-tickets-custom-fields), [TracNotification](trac-notification), [TracReports](trac-reports), [TracQuery](trac-query)
+
+

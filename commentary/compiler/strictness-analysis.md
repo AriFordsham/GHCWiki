@@ -137,6 +137,12 @@ There are a couple of tricky things about the list of arg-demands:
 
 (ToDo: explain the other cases of `dmdTransform`)
 
+
+
 [even more sketchy notes](commentary/compiler/strictness-analysis/kirsten-notes)
 
+
+
 [Commentary/Compiler/StrictnessAnalysis/Examples](commentary/compiler/strictness-analysis/examples)
+
+

@@ -17,4 +17,8 @@ There are several people now interested in working on turning GHC into a Real Cr
 
 # Design notes
 
-TODOFIXME
+
+
+TODO FIXME
+
+

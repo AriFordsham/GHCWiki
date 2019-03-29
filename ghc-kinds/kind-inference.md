@@ -33,20 +33,24 @@ we do in the non-CUSK case. Currently, non-CUSKs get an "initial kind",
 formed from whatever we can divine from the type head. (For example, `data T a` gets `kappa -> Type`, using `T`'s arity and the fact that it's a `data` type.) Then we do constraint solving. Simon wonders if we can simplify by just guessing `kappa`.
 
 
+
 The problem is that we will lose some currently-accepted definitions. For example, consider
 
+
 ```
-dataProx k (a :: k)
+data Prox k (a :: k)
 ```
 
 
 The kind of `Prox` is `forall k -> k -> Type`. Note that this type contains `forall k ->`, not `forall k .`. If we had assigned `Prox :: kappa`, we would be unable to infer the correct kind for `Prox`. This kind is currently produced right in `getInitialKind`, with no extra quantification necessary. The `k` is lexically dependent, and so GHC uses `forall k ->` for it.
 
 
+
 Another interesting case is
 
+
 ```
-dataProx2 k a =MkP2(Prox k a)
+data Prox2 k a = MkP2 (Prox k a)
 ```
 
 
@@ -61,10 +65,12 @@ Note that we want to have a good understanding of what will be accepted and what
 ### Simon's suggestion
 
 
+
 Here was one idea: assign every tyvar in the LHS a fresh kind variable `kappa_n`. Then use those to check any kind signatures on the LHS and the definition on the RHS. So, given
 
+
 ```
-dataS2 k (a :: k) b =MkS(S2 k b a)
+data S2 k (a :: k) b = MkS (S2 k b a)
 ```
 
 
@@ -80,10 +86,12 @@ kappa3 ~ kappa2  -- because b is used as the second arg to S2 in the RHS
 and all will work out.
 
 
+
 The problem with this approach is that it *also* accepts the polymorphic recursive `S3`:
 
+
 ```
-dataS3 k (a :: k) b =MkS(S3Type b a)
+data S3 k (a :: k) b = MkS (S3 Type b a)
 ```
 
 
@@ -100,16 +108,24 @@ One big drawback of Adam's idea is that it is very different from what happens i
 ### Comparison to Agda
 
 
+
 Incredibly, all the following are accepted in Agda:
 
+
 ```
-dataQ(k :Set)(a : k):Set1wheredataQ2 k a :Set1whereMkQ2:Q k a ->Q2 k a
+data Q (k : Set) (a : k) : Set1 where
 
-dataQ3 k a :Set1whereMkQ3:Q3 k a ->Q k a ->Q3 k a
+data Q2 k a : Set1 where
+  MkQ2 : Q k a -> Q2 k a
 
-dataQ4 k a :Set1whereMkQ4:Q4ℕ5->Q k a ->Q4 k a
+data Q3 k a : Set1 where
+  MkQ3 : Q3 k a -> Q k a -> Q3 k a
 
-dataQ5 k a :Set1whereMkQ5:Q5ℕ3->Q5Bool true ->Q k a ->Q5 k a
+data Q4 k a : Set1 where
+  MkQ4 : Q4 ℕ 5 -> Q k a -> Q4 k a
+
+data Q5 k a : Set1 where
+  MkQ5 : Q5 ℕ 3 -> Q5 Bool true -> Q k a -> Q5 k a
 ```
 
 
@@ -126,20 +142,27 @@ drawn up around it:
 ### Introduction
 
 
+
 The central challenge is this:
 
+
 ```
-dataProxy1 a whereMk::Proxy1(a :: k)
+data Proxy1 a where
+  Mk :: Proxy1 (a :: k)
 ```
 
 
 To infer the right kind for `Proxy1`, GHC has to guess a kind for `a` -- call it kappa -- and then process the type of `Mk`. What's very bizarre is that the occurrence of `Proxy1` in the type of `Mk` leads GHC to unify kappa with `k`, even though `k` has a local scope. In other words, kappa unifies with an out-of-scope skolem. GHC's current (8.4) kind-generalization process ends up quantifying over the `k` in the kind of `Proxy1`, and so disaster is averted. But it really works only by accident.
 
 
+
 And it doesn't always work.
 
+
 ```
-dataProxy2 a whereMk1::Proxy2(a :: k)Mk2::Proxy2(b :: j)
+data Proxy2 a where
+  Mk1 :: Proxy2 (a :: k)
+  Mk2 :: Proxy2 (b :: j)
 ```
 
 
@@ -148,10 +171,12 @@ GHC does the same thing here, but it rejects the definition because `k` doesn't 
 ### Simon's Proposed Solution
 
 
+
 Datatype declarations are kind-checked in two passes. The first pass looks through all the constructors, accumulating constraints on the type's kind. Then, once the kind is known, all the constructors are checked *again* with respect to the known kind. Note that we need to look at constructors to determine the kind of the datatype; otherwise, GHC would choke on declarations like
 
+
 ```
-dataApp a b =MkApp(a b)
+data App a b = MkApp (a b)
 ```
 
 
@@ -178,20 +203,26 @@ What has happened to GHC's claim of inferring most general types? It is true, bu
 ### Simon's Algorithm Breaks Principal Types
 
 
+
 Under Simon's algorithms, some forms of polymorphic recursion are indeed accepted. For example:
 
+
 ```
-dataT a whereMk:: forall k1 k2 (a :: k1)(b :: k2).T b ->T a
+data T a where
+  Mk :: forall k1 k2 (a :: k1) (b :: k2). T b -> T a
 ```
 
 
 Simon's algorithm instantiates `k1`, `k2`, `a`, and `b` with fresh unification variables. Suppose `T` is guessed to have kind `kappa -> Type`. Then, `kappa`, `k1`, and `k2` all get unified together, with no constraints. GHC will quantify, giving `T` the kind `forall k. k -> Type`. During the second pass, this kind works fine, instantiated to `k1` and `k2`. Thus, GHC accept the polymorphic-recursive `T`.
 
 
+
 So: what forms of polymorphic recursion are accepted? Not all of them. Take this example:
 
+
 ```
-dataT2 a whereMk:: forall (a :: k).T2Maybe->T2 a
+data T2 a where
+  Mk :: forall (a :: k). T2 Maybe -> T2 a
 ```
 
 
@@ -201,10 +232,13 @@ Under Simon's algorithm, the `T2` is guessed to have kind `kappa -> Type`, and t
 After some thinking, Adam, Csongor and I came up with this rule: Simon's algorithm accepts polymorphic recursive definitions when the recursive occurrences are at types that instantiate kind variables with kind variables, but never concrete kinds. Note that in `T`, the recursive occurrence replaces `k1` with `k2`, but `T2` replaces `k` with `Type -> Type`. Let's call a polymorphic recursive definition where recursive occurrences replace variables with variables "pseudopolymorphic recursive".
 
 
+
 However, Simon's algorithm does not always infer the most general type with respect to the fragment of the language containing pseudopolymorphic recursion (but not general polymorphic recursion). For example:
 
+
 ```
-dataT3 a b whereMk::T3 b a ->T3 a b
+data T3 a b where
+  Mk :: T3 b a -> T3 a b
 ```
 
 
@@ -216,11 +250,15 @@ Simon's algorithm infers the kind `forall k. k -> k -> Type` for `T3`, even thou
 A related problem to the above is inferring dependency between binders, some notes follow.
 
 
+
 In GHC 8.4, the following declaration for `Proxy2` is rejected:
 
+
 ```
-dataProxy k (a :: k)dataProxy2 k a =MkP(Proxy k a)
+data Proxy k (a :: k)
+data Proxy2 k a = MkP (Proxy k a)
 ```
+
 
 `Proxy`'s kind is `forall k -> k -> Type`. According to the rule that dependent variables must be manifestly so (implemented by `getInitialKind`), the declaration for `Proxy2` is rejected, because only after checking the RHS do we find out about the dependency. (This rule is documented in [ Section 10.11.13](https://downloads.haskell.org/~ghc/8.2.2/docs/html/users_guide/glasgow_exts.html#inferring-dependency-in-datatype-declarations) of the user manual).
 
@@ -230,20 +268,26 @@ However, arguably inference should be able to determine that `Proxy2 :: forall k
 ### GADTs
 
 
+
 Consider the following, GADT-style definition of `Proxy2`:
 
+
 ```
-dataProxy2 k a whereMkP::Proxy k a ->Proxy2 k a
+data Proxy2 k a where
+  MkP :: Proxy k a -> Proxy2 k a
 ```
 
 
 This definition is accepted today (GHC 8.4), but why?
 
 
+
 With `-fprint-explicit-foralls`, `Proxy2`'s signature is actually the following:
 
+
 ```
-dataProxy2 k k1 (a :: k)whereMkP:: forall k (a :: k).(Proxy k a)->Proxy2 k k a
+data Proxy2 k k1 (a :: k) where
+  MkP :: forall k (a :: k). (Proxy k a) -> Proxy2 k k a
 ```
 
 
@@ -251,20 +295,27 @@ It is a kind-indexed GADT, with the `MkP` constructor holding `k ~ k1`, and its 
 `forall {k}. Type -> k -> Type` is not manifestly dependent. This is not *wrong*, but there are certainly cases where (short of having a CUSK) it is desired that the inferred signature of a GADT is not kind-indexed.
 
 
+
 Consider the singleton type for `Bool`:
 
+
 ```
-dataSingBool b whereSingTrue::SingBool'TrueSingFalse::SingBool'False
+data SingBool b where
+  SingTrue :: SingBool 'True
+  SingFalse :: SingBool 'False
 ```
 
 
 The inferred kind is `Bool -> Type`, but `forall {k}. k -> Type` would not be invalid either.
 
 
+
 A related problem, where it's much more apparent that the more specialised kind is better is type families:
 
+
 ```
-typefamilyF a whereFInt=Bool
+type family F a where
+  F Int = Bool
 ```
 
 
@@ -287,31 +338,47 @@ Translation from GADT syntax to H98 syntax has several advantages:
 
 Example:
 
+
 ```
-dataProxy2 a whereMk1::Proxy2(a :: k)Mk2::Proxy2(b :: j)-- is translated todataProxy2 c
-  = forall k a.((a :: k)~ c)=>Mk1| forall j b.((b :: j)~ c)=>Mk2
+data Proxy2 a where
+  Mk1 :: Proxy2 (a :: k)
+  Mk2 :: Proxy2 (b :: j)
+
+-- is translated to
+
+data Proxy2 c
+  = forall k a. ((a :: k) ~ c) => Mk1
+  | forall j b. ((b :: j) ~ c) => Mk2
 ```
 
 
 After the translation step, we can focus on the kind inference algorithm for only H98 syntax.
 
+
 ### Kind Inference Strategy for H98 syntax
+
+
 
 **CUSK**. If the data type has CUSK, we use the provided kind to do type-checking.
 
+
+
 **Non-CUSK**. If there is no CUSK:
+
 
 1. Depending on whether the datatype is defined recursively, we use different strategies.
 
-  1. If the definition is recursive, we guess a **monokind**`kappa` as the initial kind of the data type. Reject any dependency. E.g.
+  1. If the definition is recursive, we guess a **monokind** `kappa` as the initial kind of the data type. Reject any dependency. E.g.
 
     ```
-    -- P :: kappadataP a b =...
+     -- P :: kappa
+     data P a b = ...
     ```
   1. If the definition is non-recursive, for all variables, we guess `kappa` kind for them. Allow dependency. There is no need to get an initial kind, as the data type is not used in RHS. E.g.
 
     ```
-    --  a::kappa1, b::kappa2, and kappa2 might be unified with adataP a b =...
+     --  a::kappa1, b::kappa2, and kappa2 might be unified with a
+      data P a b = ...
     ```
 1. Collect constraints on `kappa` from LHS and RHS
 1. Solve constraints
@@ -319,8 +386,20 @@ After the translation step, we can focus on the kind inference algorithm for onl
 
 ### Examples of non-CUSKs under the new strategy
 
+
 ```
--- Accept. Proxy :: forall k -> k -> TypedataProxy k (a::k)-- Reject. As it is recursive, it cannot have dependencydataT1 k (a::k)=MkT1(T1 k a)-- Accept. Proxy2 :: forall k -> k -> TypedataProxy2 k a =MkP2(Proxy k a)-- Reject. As it is recursive, it cannot have dependencydataT2 k a =MkT2(Proxy k a)|MkT2'(T2*Int)
+
+-- Accept. Proxy :: forall k -> k -> Type
+data Proxy k (a::k)
+
+-- Reject. As it is recursive, it cannot have dependency
+data T1 k (a::k) = MkT1 (T1 k a)
+
+-- Accept. Proxy2 :: forall k -> k -> Type
+data Proxy2 k a = MkP2 (Proxy k a)
+
+-- Reject. As it is recursive, it cannot have dependency
+data T2 k a = MkT2 (Proxy k a) | MkT2' (T2 * Int)
 ```
 
 ## Current strategy (GHC 7.8)
@@ -337,7 +416,12 @@ Running example:
 
 Here is GHC 7.8's strategy:
 
+
 1. Sort data/type/class declarations into strongly connected components.  In our example, there are two recursive SCCs, one for `T` and one for `S`.
+
+
+  
+
 
 1. Then, for each SCC in turn:
 
@@ -479,7 +563,8 @@ However, we can *also* solve it using a plan due to Mark Jones, and one that GHC
 - Extend the environment with these generalised kind bindings, and kind-check the CUSK declarations.
 
 
-The Key Point is that we can kind-check `SS`*without looking at `TT`'s definition at all*, because we completely know `TT`'s kind.  That in turn means that we can exploit *inferred* polymorphism for `SS` when kind-checking `TT`.  As we do here: `TT` uses `SS` in two different ways `(SS f a Maybe)` and `(SS f a Int)`.
+The Key Point is that we can kind-check `SS` *without looking at `TT`'s definition at all*, because we completely know `TT`'s kind.  That in turn means that we can exploit *inferred* polymorphism for `SS` when kind-checking `TT`.  As we do here: `TT` uses `SS` in two different ways `(SS f a Maybe)` and `(SS f a Int)`.
+
 
 
 This strategy is more complicated than the initial proposal, but allows fewer annotations.  It's not clear whether it is wroth the bother.
@@ -945,4 +1030,7 @@ I can't figure out a way that (BASELINE) and (PARGEN) are different in type sign
 (Because open type families do not have a body, they *would* still be considered to have a CUSK, where un-annotated type variables default to have kind `*`.)
 
 
+
 In [comment:5:ticket:9200](https://gitlab.haskell.org//ghc/ghc/issues/9200), I discuss "good" polymorphism and "bad" polymorphism. This discussion, in retrospect, seems tangential at this point. It really only makes sense when discussing closed type families, which aren't at the heart of the problems here. **End Richard**
+
+

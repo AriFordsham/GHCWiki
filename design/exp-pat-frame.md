@@ -11,28 +11,29 @@ There are places in the grammar where we do not know whether we are parsing an e
 1. View patterns:
 
   ```
-       f (Con a b     )=...-- 'Con a b' is a pattern
-       f (Con a b -> x)=...-- 'Con a b' is an expression
+       f (Con a b     ) = ...  -- 'Con a b' is a pattern
+       f (Con a b -> x) = ...  -- 'Con a b' is an expression
   ```
 
 1. do-notation:
 
   ```
-  do{Con a b <- x }-- 'Con a b' is a patterndo{Con a b }-- 'Con a b' is an expression
+       do { Con a b <- x } -- 'Con a b' is a pattern
+       do { Con a b }      -- 'Con a b' is an expression
   ```
 
 1. Guards:
 
   ```
-       x |True<- p && q =...-- 'True' is a pattern
-       x |True=...-- 'True' is an expression
+       x | True <- p && q = ...  -- 'True' is a pattern
+       x | True           = ...  -- 'True' is an expression
   ```
 
 1. Top-level value/function declarations (FunBind/PatBind):
 
   ```
        f !a         -- TH splice
-       f !a =...-- function declaration
+       f !a = ...   -- function declaration
   ```
 
   Until we encounter the `=` sign, we don't know if it's a top-level [TemplateHaskell](template-haskell) splice where `!` is an infix operator, or if it's a function declaration where `!` is a strictness annotation.
@@ -43,19 +44,19 @@ The approach GHC uses is to parse patterns as expressions and rejig later. This 
 - We can't handle corner cases. For instance, the following function declaration LHS is not a valid expression (see [\#1087](https://gitlab.haskell.org//ghc/ghc/issues/1087)):
 
   ```
-  !a +!b =...
+        !a + !b = ...
   ```
 
 - There are points in the pipeline where the representation is awfully incorrect. For instance,
 
   ```
-        f !a b !c =...
+        f !a b !c = ...
   ```
 
   is first parsed as
 
   ```
-  (f ! a b)! c =...
+        (f ! a b) ! c = ...
   ```
 
 - We have to extend HsExpr with pattern-specific constructs: `EAsPat`, `EViewPat`, `ELazyPat`, etc. It isn't particularly elegant and we don't want such constructors to show up in GHC API.
@@ -68,11 +69,29 @@ One might think we could avoid this issue by using a backtracking parser and doi
 ## Common Structure
 
 
+
 There are common syntactic elements of expressions and patterns (e.g. both of them must have balanced parentheses), and we can capture this common structure in an intermediate data type, `ExpPatFrame`:
 
+
 ```
-dataExpPatFrame=FrameVarRdrName-- ^ Identifier: Just, map, BS.length|FrameIPVarHsIPName-- ^ Implicit parameter: ?x|FrameOverLabelFastString-- ^ Overloaded label: #label|FrameTuple[LTupArgFrame]Boxity-- ^ Tuple (section): (a,b) (a,b,c) (a,,) (,a,)|FrameViewPatLExpPatFrameLExpPatFrame-- ^ View pattern: e -> p|FrameTySigLExpPatFrame(LHsSigWcTypeGhcPs)-- ^ Type signature: x :: ty|FrameAsPatLExpPatFrameLExpPatFrame-- ^ As-pattern: x@(D a b)...
+data ExpPatFrame
+  = FrameVar RdrName
+    -- ^ Identifier: Just, map, BS.length
+  | FrameIPVar HsIPName
+    -- ^ Implicit parameter: ?x
+  | FrameOverLabel FastString
+    -- ^ Overloaded label: #label
+  | FrameTuple [LTupArgFrame] Boxity
+    -- ^ Tuple (section): (a,b) (a,b,c) (a,,) (,a,)
+  | FrameViewPat LExpPatFrame LExpPatFrame
+    -- ^ View pattern: e -> p
+  | FrameTySig LExpPatFrame (LHsSigWcType GhcPs)
+    -- ^ Type signature: x :: ty
+  | FrameAsPat LExpPatFrame LExpPatFrame
+    -- ^ As-pattern: x@(D a b)
+  ...
 ```
+
 
 `ExpPatFrame` is a union of all syntactic elements between expressions and patterns, so it includes both expression-specific constructs (e.g. overloaded labels) and pattern-specific constructs (e.g. view/as patterns).
 
@@ -129,54 +148,106 @@ We (simonpj, int-index, goldfire, and I (Shayan)) had an email discussion to ove
 0) The process of parsing includes two subprocesses of parsing ambiguous bits into small in-between datatypes (in linear time), and then resolving ambiguities and converting (in linear time) from the in-between datatypes to the relevant `HsSyn` types of `GhsPs` pass. 
 
 
+
 1) Q) What are the other, besides the ones involved D5408, noticeable ambiguities that could benefit from an in-between datatype?
 
+
+>
 >
 > A)There are \[other\] ambiguities when parsing data declarations, resolved them with an intermediate data type, too, in `D5180`. 
+>
+>
+
+
+  
+
 
 >
+>
 > For example the following definition of `TyEl`:
+>
+>
 
 ```
-dataTyEl=TyElOprRdrName|TyElOpd(HsTypeGhcPs)|TyElTilde|TyElBang|TyElUnpackedness([AddAnn],SourceText,SrcUnpackedness)|TyElDocPrevHsDocString
+data TyEl = TyElOpr RdrName | TyElOpd (HsType GhcPs)
+          | TyElTilde | TyElBang
+          | TyElUnpackedness ([AddAnn], SourceText, SrcUnpackedness)
+          | TyElDocPrev HsDocString
 ```
 
 
 2) I proposed to consider the possibility of defining a common core "pre-expression" where expressions, patterns and commands are made of.
 
+
+>
 >
 > It would possibly help to define the three as a composition of the common core and the bits specific them.
 > Then we can have declarations similar to
+>
+>
 
 ```
-dataHsTerm trm
-   =...-- the common term constructs as in your `ExpPatFrame`dataHsExpr x
-  =TermE(HsTerm(HsExpr x))|...-- the other constructors specific  to expressionsdataPat x
-  =TermP(HsTerm(Pat x))|......-- same for commands
+data HsTerm trm
+   = ... -- the common term constructs as in your `ExpPatFrame`
+
+data HsExpr x
+  = TermE (HsTerm  (HsExpr x))
+  | ... -- the other constructors specific  to expressions
+
+data Pat x
+  = TermP (HsTerm (Pat x))
+  | ...
+
+... -- same for commands
 ```
 
+>
 >
 > There are different possible variations to above, but this is essentially to say
+>
+>
 
+>
 >
 > HsExpr = Common Core + Other expression-specific constructs
+>
+>
 
 >
+>
 > Pat = Common Core + Other pattern-specific constructs
+>
+>
 
+>
 >
 > (Notice one can split things up all the way to achieve one
 > datatype-per-constructor, but a couple of years ago we've found it
 > overkilling)
+>
+>
 
+>
 >
 > We identified the following pros and cons.
+>
+>
 
+>
 >
 > Pros are that there will be fewer constructors, and more importantly, parts that look the same may be pretty-printed (or possibly renamed, desugared, ...) the same.
+>
+>
 
 >
+>
 > Cons are that there will be one more matching to go under `TermX` constructor and such nesting has a (possibly negligible) performance impact.
+>
+>
+
+
+  
+
 
 ## Minimizing `ExpPatFrame`
 

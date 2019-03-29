@@ -129,18 +129,29 @@ type of x.
 
 Notice that
 
+
+>
 >
 > a) Neither left to right nor right to left would suffice
 > b) There is significant interaction with type/data families
 >
+>
+> >
 > >
 > > (and I can give you more examples with classes and GADTs)
+> >
+> >
 >
 >
 > c) In passing we note that it is totally unclear how (Plan A)
 >
+>
+> >
 > >
 > > would deal with data families
+> >
+> >
+>
 
 
 This looks like a swamp.  In a simple Hindley-Milner typed language
@@ -268,8 +279,12 @@ Does Frege have record fields with higher-ranked types? (As are needed to simula
 
 The function update syntax is a new addition to Haskell that we do not need to immediately implement.
 
+
+>
 >
 > Does this cope with the tricky cases discussed in the SORF proposal? -- AntC
+>
+>
 
 - An update to an existing record that changes the type of a field.
 - An update to an existing record that changes the type of the record.
@@ -361,6 +376,10 @@ import OldModule ( Prefix(..) strip prefix )
 
 aFunc = let r = Prefix "A" in r.a
 ```
+
+
+                                                                                
+
 
 ## Extending data name-spacing
 

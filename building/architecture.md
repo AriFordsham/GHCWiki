@@ -30,47 +30,54 @@ currently being attempted; see [Building/Shake](building/shake) for more details
 ## Overall structure and important files
 
 
+
 The following are a few of the most important files in the build system.  For a more complete overview of the source-tree layout, see [Commentary/SourceTree](commentary/source-tree).
 
-<table><tr><th>[ghc.mk](/trac/ghc/browser/ghc/ghc.mk)[](/trac/ghc/export/HEAD/ghc/ghc.mk)</th>
+
+<table><tr><th><a href="/trac/ghc/browser/ghc/ghc.mk">ghc.mk</a><a href="/trac/ghc/export/HEAD/ghc/ghc.mk"></a></th>
 <td>
-This is where you should start reading: `ghc.mk` is the main file in
+This is where you should start reading: <tt>ghc.mk</tt> is the main file in
 the build system which ties together all the other build-system
-files.  It uses **make**'s `include` directive to include all the
-files in `mk/*.mk`, `rules/*.mk`, and all the other `ghc.mk` files
+files.  It uses <b>make</b>&apos;s <tt>include</tt> directive to include all the
+files in <tt>mk/*.mk</tt>, <tt>rules/*.mk</tt>, and all the other <tt>ghc.mk</tt> files
 elsewhere in the tree.
 </td></tr></table>
 
-<table><tr><th>[Makefile](/trac/ghc/browser/ghc/Makefile)[](/trac/ghc/export/HEAD/ghc/Makefile)</th>
+
+<table><tr><th><a href="/trac/ghc/browser/ghc/Makefile">Makefile</a><a href="/trac/ghc/export/HEAD/ghc/Makefile"></a></th>
 <td>
-The top-level `Makefile`, recursively invokes `make` on `ghc.mk`
-according to the [phase ordering idiom](building/architecture/idiom/phase-ordering).
+The top-level <tt>Makefile</tt>, recursively invokes <tt>make</tt> on <tt>ghc.mk</tt>
+according to the <a href="building/architecture/idiom/phase-ordering">phase ordering idiom</a>.
 </td></tr></table>
 
-<table><tr><th>`rules/*.mk`</th>
+
+<table><tr><th><tt>rules/*.mk</tt></th>
 <td>
-Each `.mk` file in the `rules` directory corresponds to a single
-macro that can be called using **make**'s `$(call ...)`
-expression.  For example, the `build-package` macro is in
-`rules/build-package.mk`.
+Each <tt>.mk</tt> file in the <tt>rules</tt> directory corresponds to a single
+macro that can be called using <b>make</b>&apos;s <tt>$(call ...)</tt>
+expression.  For example, the <tt>build-package</tt> macro is in
+<tt>rules/build-package.mk</tt>.
 </td></tr></table>
 
-<table><tr><th>[mk/config.mk.in](/trac/ghc/browser/mk/config.mk.in)[](/trac/ghc/export/HEAD/ghc/mk/config.mk.in)</th>
+
+<table><tr><th><a href="/trac/ghc/browser/mk/config.mk.in">mk/config.mk.in</a><a href="/trac/ghc/export/HEAD/ghc/mk/config.mk.in"></a></th>
 <td>
 The configuration information for the build system, processed by
-`configure` to produce `mk/config.mk`.  Settings can be overriden by
-creating a local file `mk/build.mk` (see
-[Build configuration](building/using#build-configuration)).
+<tt>configure</tt> to produce <tt>mk/config.mk</tt>.  Settings can be overriden by
+creating a local file <tt>mk/build.mk</tt> (see
+<a href="building/using#build-configuration">Build configuration</a>).
 </td></tr></table>
 
-<table><tr><th>[compiler/ghc.mk](/trac/ghc/browser/compiler/ghc.mk)[](/trac/ghc/export/HEAD/ghc/compiler/ghc.mk), [rts/ghc.mk](/trac/ghc/browser/rts/ghc.mk)[](/trac/ghc/export/HEAD/ghc/rts/ghc.mk), etc.</th>
+
+<table><tr><th><a href="/trac/ghc/browser/compiler/ghc.mk">compiler/ghc.mk</a><a href="/trac/ghc/export/HEAD/ghc/compiler/ghc.mk"></a>, <a href="/trac/ghc/browser/rts/ghc.mk">rts/ghc.mk</a><a href="/trac/ghc/export/HEAD/ghc/rts/ghc.mk"></a>, etc.</th>
 <td>
-Most subdirectories of the source tree have a `ghc.mk` file which
+Most subdirectories of the source tree have a <tt>ghc.mk</tt> file which
 contains the instructions for building the components in that
-directory.  Note: these `ghc.mk` files cannot be invoked
+directory.  Note: these <tt>ghc.mk</tt> files cannot be invoked
 individually, they should only be included by the top-level
-`ghc.mk`.
+<tt>ghc.mk</tt>.
 </td></tr></table>
+
 
 ## Idioms
 

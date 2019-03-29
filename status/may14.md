@@ -111,10 +111,16 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 - **Repo reorganization** One big thing that Herbert Valerio Riedel has been tackling has been the problematic situation with GHC's current usage of git submodules and `./sync-all`. This is one of our most common complaints from newcomers and people attempting to help with development (with good reason), and we're hoping within the 7.10 timeframe, GHC will be far easier to clone and work on.
 
 >
+>
 > To this end, we've already done some massive simplification - in HEAD, the repositories for `base`, `testsuite`, `template-haskell`, `ghc-prim`, `integer-gmp` and `integer-simple` are now part of GHC's repository itself. These repositories are commonly developed in lockstep with GHC, and it greatly helps in many workflows, including bisection of bugs.
+>
+>
 
 >
+>
 > Moreover, the remaining packages officially maintained by the core library committee that are currently managed via GHC's Trac will be relocated to the Haskell GitHub organization in order to have GHC Trac focus on developing GHC proper as well as reduce the overhead for casual contributors to file issues and submit simple fixes for those packages.
+>
+>
 
 - **Continuous integration improvements** - Work on new CI systems for GHC has been slow, but thanks to the work of **Joachim Breitner** and **Gábor Páli**, GHC is now built on [ http://travis-ci.org](http://travis-ci.org) \[TravisCI\] as well as nightly builders of a variety of flavors and machines \[Builders\]. We're also hoping to investigate using a Continuous Integration system to help build against a stable set of selected Hackage packages, to help find issues with the releases more easily.
 
@@ -123,46 +129,49 @@ There's still a lot planned for GHC 7.10, however. While we haven't quite decide
 # References
 
 
-\[GHC78FAQ\] [ https://ghc.haskell.org/trac/ghc/wiki/GHC-7.8-FAQ](https://ghc.haskell.org/trac/ghc/wiki/GHC-7.8-FAQ)
 
-\[ClosedFam\] Closed type families with overlapping equations, POPL 2014 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
+\[GHC78FAQ\] [ https://ghc.haskell.org/trac/ghc/wiki/GHC-7.8-FAQ](https://ghc.haskell.org/trac/ghc/wiki/GHC-7.8-FAQ) 
 
-\[Minimal\] MINIMAL pragma [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html\#minimal-pragma](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html#minimal-pragma)
+\[ClosedFam\] Closed type families with overlapping equations, POPL 2014 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/) 
 
-\[PatSyn\] Pattern synonyms [ http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms](http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms)
+\[Minimal\] MINIMAL pragma [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html\#minimal-pragma](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/pragmas.html#minimal-pragma) 
 
-\[ReleaseNotes\] GHC 7.8.1 release notes [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html)
+\[PatSyn\] Pattern synonyms [ http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms](http://ghc.haskell.org/trac/ghc/wiki/PatternSynonyms) 
 
-\[SafeCo\] Safe Coercions, submitted to ICFP 2014 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)
+\[ReleaseNotes\] GHC 7.8.1 release notes [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html) 
 
-\[THBlog\] Major revision of Template Haskell [ https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges)
+\[SafeCo\] Safe Coercions, submitted to ICFP 2014 [ http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/) 
 
-\[AMP\] [ https://github.com/quchen/articles/blob/master/applicative_monad.md](https://github.com/quchen/articles/blob/master/applicative_monad.md)
+\[THBlog\] Major revision of Template Haskell [ https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges](https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/BlogPostChanges) 
+
+\[AMP\] [ https://github.com/quchen/articles/blob/master/applicative_monad.md](https://github.com/quchen/articles/blob/master/applicative_monad.md) 
  
-\[KD\] Kinds without Data - [ http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)
+\[KD\] Kinds without Data - [ http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData](http://ghc.haskell.org/trac/ghc/wiki/GhcKinds/KindsWithoutData)  
  
-\[ORF\] [ https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields](https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields)
+\[ORF\] [ https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields](https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields) 
 
-\[TA\] Explicit type application - [ http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication](http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication)
+\[TA\] Explicit type application - [ http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication](http://ghc.haskell.org/trac/ghc/wiki/ExplicitTypeApplication) 
 
-\[FC\] System FC with Explicit Kind Equality - [ http://www.seas.upenn.edu/\~eir/papers/2013/fckinds/fckinds-extended.pdf](http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf)
+\[FC\] System FC with Explicit Kind Equality - [ http://www.seas.upenn.edu/\~eir/papers/2013/fckinds/fckinds-extended.pdf](http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf) 
 
-\[PTS\] [ https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
+\[PTS\] [ https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures) 
 
-\[Coverity\] [ https://scan.coverity.com](https://scan.coverity.com)
+\[Coverity\] [ https://scan.coverity.com](https://scan.coverity.com) 
  
-\[McNettle\] [ http://haskell.cs.yale.edu/?post_type=publication&p=821](http://haskell.cs.yale.edu/?post_type=publication&p=821)
+\[McNettle\] [ http://haskell.cs.yale.edu/?post_type=publication&p=821](http://haskell.cs.yale.edu/?post_type=publication&p=821) 
  
-\[PPA\] [ https://launchpad.net/\~hvr/+archive/ghc/](https://launchpad.net/~hvr/+archive/ghc/)
+\[PPA\] [ https://launchpad.net/\~hvr/+archive/ghc/](https://launchpad.net/~hvr/+archive/ghc/) 
  
-\[DEB\] [ http://deb.haskell.org](http://deb.haskell.org)
+\[DEB\] [ http://deb.haskell.org](http://deb.haskell.org) 
  
-\[TravisCI\] [ https://github.com/nomeata/ghc-complete](https://github.com/nomeata/ghc-complete)
+\[TravisCI\] [ https://github.com/nomeata/ghc-complete](https://github.com/nomeata/ghc-complete) 
  
-\[Builders\] [ https://ghc.haskell.org/trac/ghc/wiki/Builder](https://ghc.haskell.org/trac/ghc/wiki/Builder)
+\[Builders\] [ https://ghc.haskell.org/trac/ghc/wiki/Builder](https://ghc.haskell.org/trac/ghc/wiki/Builder) 
 
-\[HEAPALLOCED\] [ https://ghc.haskell.org/trac/ghc/ticket/8199](https://ghc.haskell.org/trac/ghc/ticket/8199)
+\[HEAPALLOCED\] [ https://ghc.haskell.org/trac/ghc/ticket/8199](https://ghc.haskell.org/trac/ghc/ticket/8199) 
  
-\[RLIMITS\] [ http://ezyang.com/rlimits.html](http://ezyang.com/rlimits.html)
+\[RLIMITS\] [ http://ezyang.com/rlimits.html](http://ezyang.com/rlimits.html) 
 
-\[ReleaseNotes\] [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html)
+\[ReleaseNotes\] [http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html](http://www.haskell.org/ghc/docs/7.8.1/html/users_guide/release-7-8-1.html) 
+
+

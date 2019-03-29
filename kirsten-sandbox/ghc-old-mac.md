@@ -86,7 +86,9 @@
   configure: error: C compiler cannot create executables
   ```
 1.  Start downloading tarball for newer gcc from: [ http://www.opensource.apple.com/darwinsource/August2003GCCUpdate/](http://www.opensource.apple.com/darwinsource/August2003GCCUpdate/). Also consider becoming religious so I can pray for it to be actually useful.
-1. ```wiki
+1.  
+
+  ```wiki
   Length: 31,674,171 [application/x-tar]
 
    2% [>                                    ] 895,686       14.36K/s    ETA 34:52
@@ -100,7 +102,7 @@
 1.  No, actually it thinks I want to build a cross-compiler. Why would I want that?
 1.  Apparently the hosts to build for are controlled by the `HOSTS` environment variable, or maybe it's set somewhere in one of the config files. I'm not sure. Nor am I sure why I have the attention span to grovel through the sources but not to read the documentation.
 1.  Try `setenv HOSTS ppc`
-1. `make`
+1.  `make`
 1.  Still complains with the same message:
 
   ```wiki
@@ -138,11 +140,13 @@
   make: *** [build] Error 1
   ```
 1.  Try `export HOSTS`
-1. `make`
+1.  `make`
 1.  Still complains.
 1.  For the 65536th time in my life, consider destroying everything Turing-complete and then going out to enjoy the big room with the blue ceilings.
 1.  Apparently you can also set the `TARGETS` environment variable. Try setting it to `ppc` also.
-1. ```wiki
+1. 
+
+  ```wiki
   ??????????????????????????????????????????
   ? Host type i386 should also be a target ?
   ??????????????????????????????????????????
@@ -227,7 +231,9 @@
 1. Figure this is probably because I don't have bison and yacc installed. Consider the comical aptness of the term "yak-shaving" here.
 1. Wait a sec, I do have bison and yacc! They're under `/usr`! Why the hell are they under `/usr`, anyway, and why isn't `/usr` in my `PATH`? Actually, that was probably just because I unzipped a tarball in the wrong place at some point. I guess I'll just put them all in `/usr/bin`.
 1. `make clean` so configure can notice that bison and yacc and flex are there now. `make`
-1. ```wiki
+1. 
+
+  ```wiki
   (cd . && \
    bison  -d -o gengtype-yacc.c /tmp/gcc3/gcc-1495/gcc/gengtype-yacc.y || \
    ( rm -f gengtype-yacc.c && false ) )

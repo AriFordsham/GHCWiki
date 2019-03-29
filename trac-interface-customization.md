@@ -19,19 +19,28 @@ Now configure the appropriate section of your [trac.ini](trac-ini):
 ### Logo
 
 
+
 Change the `src` setting to `site/` followed by the name of your image file. The `width` and `height` settings should be modified to match your image's dimensions. The Trac chrome handler uses `site/` for files within the project directory `htdocs`, and `common/` for the common `htdocs` directory belonging to a Trac installation. Note that 'site/' is not a placeholder for your project name, it is the literal prefix that should be used. For example, if your project is named 'sandbox', and the image file is 'red_logo.gif' then the 'src' setting would be 'site/red_logo.gif', not 'sandbox/red_logo.gif'.
 
+
 ```
-[header_logo]src=site/my_logo.gifalt=My Projectwidth=300height=100
+[header_logo]
+src = site/my_logo.gif
+alt = My Project
+width = 300
+height = 100
 ```
 
 ### Icon
 
 
+
 Icons are small images displayed by your web browser next to the site's URL and in the `Bookmarks` menu. Icons should be a 32x32 image in `.gif` or `.ico` format. Change the `icon` setting to `site/` followed by the name of your icon file:
 
+
 ```
-[project]icon=site/my_icon.ico
+[project]
+icon = site/my_icon.ico
 ```
 
 ## Custom Navigation Entries
@@ -40,10 +49,17 @@ Icons are small images displayed by your web browser next to the site's URL and 
 The new \[mainnav\] and \[metanav\] can now be used to customize the text and link used for the navigation items, or even to disable them, but not for adding new ones.
 
 
+
 In the following example, we rename the link to the Wiki start "Home", and hide the "Help/Guide". We also make the "View Tickets" entry link to a specific report:
 
+
 ```
-[mainnav]wiki.label=Hometickets.href=/report/24[metanav]help=disabled
+[mainnav]
+wiki.label = Home
+tickets.href = /report/24
+
+[metanav]
+help = disabled
 ```
 
 
@@ -52,16 +68,35 @@ See also [TracNavigation](trac-navigation) for a more detailed explanation of th
 ## Site Appearance
 
 
+
 Trac is using [ Genshi](http://genshi.edgewall.org) as the templating engine. Say you want to add a link to a custom stylesheet, and then your own header and footer. Save the following content as `site.html` inside your projects `templates/` directory (each Trac project can have their own `site.html`), eg `/path/to/env/templates/site.html`:
 
+
 ```
-<htmlxmlns="http://www.w3.org/1999/xhtml"xmlns:py="http://genshi.edgewall.org/"py:strip=""><!--! Add site-specific style sheet --><headpy:match="head"py:attrs="select('@*')">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      py:strip="">
+
+  <!--! Add site-specific style sheet -->
+  <head py:match="head" py:attrs="select('@*')">
     ${select('*|comment()|text()')}
-    <linkrel="stylesheet"href="${href.chrome('site/style.css')}"/></head><bodypy:match="body"py:attrs="select('@*')"><!--! Add site-specific header --><divid="siteheader"><!--! Place your header content here... --></div>
+    <link rel="stylesheet" href="${href.chrome('site/style.css')}" />
+  </head>
+
+  <body py:match="body" py:attrs="select('@*')">
+    <!--! Add site-specific header -->
+    <div id="siteheader">
+      <!--! Place your header content here... -->
+    </div>
 
     ${select('*|text()')}
 
-    <!--! Add site-specific footer --><divid="sitefooter"><!--! Place your footer content here... --></div></body></html>
+    <!--! Add site-specific footer -->
+    <div id="sitefooter">
+      <!--! Place your footer content here... -->
+    </div>
+  </body>
+</html>
 ```
 
 
@@ -72,10 +107,15 @@ See [ this thread](http://groups.google.com/group/trac-users/browse_thread/threa
 A `site.html` can contain any number of such `py:match` sections for whatever you need to modify. This is all Genshi, so the [ docs on the exact syntax](http://genshi.edgewall.org/wiki/Documentation/xml-templates.html) can be found there.
 
 
+
 Example snippet of adding introduction text to the new ticket form (but not shown during preview):
 
+
 ```
-<formpy:match="div[@id='content' and @class='ticket']/form"py:attrs="select('@*')"><py:iftest="req.path_info == '/newticket' and (not 'preview' in req.args)"><p>Please make sure to search for existing tickets before reporting a new one!</p></py:if>
+<form py:match="div[@id='content' and @class='ticket']/form" py:attrs="select('@*')">
+  <py:if test="req.path_info == '/newticket' and (not 'preview' in req.args)">
+    <p>Please make sure to search for existing tickets before reporting a new one!</p>
+  </py:if>
   ${select('*')} 
 </form>
 ```
@@ -103,17 +143,38 @@ The following is the basic template used by Trac to display a list of links to t
 ```
 <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><htmlxmlns="http://www.w3.org/1999/xhtml"xmlns:py="http://genshi.edgewall.org/"xmlns:xi="http://www.w3.org/2001/XInclude"><head><title>Available Projects</title></head><body><h1>Available Projects</h1><ul><lipy:for="project in projects"py:choose=""><apy:when="project.href"href="$project.href"title="$project.description">$project.name</a><py:otherwise><small>$project.name: <em>Error</em><br/> ($project.description)</small></py:otherwise></li></ul></body></html>
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+  <head>
+    <title>Available Projects</title>
+  </head>
+  <body>
+    <h1>Available Projects</h1>
+    <ul>
+      <li py:for="project in projects" py:choose="">
+        <a py:when="project.href" href="$project.href"
+           title="$project.description">$project.name</a>
+        <py:otherwise>
+          <small>$project.name: <em>Error</em> <br /> ($project.description)</small>
+        </py:otherwise>
+      </li>
+    </ul>
+  </body>
+</html>
 ```
 
 
 Once you've created your custom template you will need to configure the webserver to tell Trac where the template is located:
 
 
+
 For [mod_wsgi](trac-mod-wsgi):
 
+
 ```
-os.environ['TRAC_ENV_INDEX_TEMPLATE']='/path/to/template.html'
+os.environ['TRAC_ENV_INDEX_TEMPLATE'] = '/path/to/template.html'
 ```
 
 
@@ -127,8 +188,10 @@ FastCgiConfig -initial-env TRAC_ENV_PARENT_DIR=/parent/dir/of/projects \
 
 For [mod_python](trac-mod-python):
 
+
 ```
-PythonOption TracEnvParentDir /parent/dir/of/projectsPythonOption TracEnvIndexTemplate /path/to/template
+PythonOption TracEnvParentDir /parent/dir/of/projects
+PythonOption TracEnvIndexTemplate /path/to/template
 ```
 
 
@@ -144,12 +207,12 @@ For [TracStandalone](trac-standalone), you'll need to set up the `TRAC_ENV_INDEX
 - Unix:
 
   ```
-  $ exportTRAC_ENV_INDEX_TEMPLATE=/path/to/template
+  $ export TRAC_ENV_INDEX_TEMPLATE=/path/to/template
   ```
 - Windows:
 
   ```
-  $ setTRAC_ENV_INDEX_TEMPLATE=/path/to/template
+  $ set TRAC_ENV_INDEX_TEMPLATE=/path/to/template
   ```
 
 ## Project Templates
@@ -175,4 +238,7 @@ Trac caches templates in memory by default to improve performance. To apply a te
 ---
 
 
+
 See also [TracGuide](trac-guide), [TracIni](trac-ini)
+
+

@@ -54,6 +54,10 @@ For each revision log entry, the following columns are displayed:
   log message, depending on the value of the *Show full log messages* 
   checkbox in the form above.
 
+
+    
+
+
 ## Inspecting Changes Between Revisions
 
 
@@ -85,4 +89,7 @@ revision log in the browser and click the orange 'XML' icon at the bottom of the
 ---
 
 
+
 See also: [TracBrowser](trac-browser), [TracChangeset](trac-changeset), [TracGuide](trac-guide)
+
+

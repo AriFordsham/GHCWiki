@@ -54,6 +54,10 @@ The critical parts dealing with types are in the 'types' and 'typecheck' directo
   - -dppr-debug : makes the debugging dumps more noisy (and useful); among other things, shows kinds for type variables
 1. such debugging options can be added to `make` by passing the argument `EXTRA_HC_OPTS='flags'`
 
+
+ 
+
+
 ## Running the testsuite
 
 

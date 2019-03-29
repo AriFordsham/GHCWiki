@@ -61,13 +61,16 @@ You might think that a single constructor GADT is probably not much use, but see
 ### Superclasses
 
 
+
 David F: I believe condition 2 can be relaxed very slightly, to allow constraints known to be zero-width. For example, equality constraints should be fine. So should classes that have no methods and no superclasses with methods.  For example, given
 
+
 ```
-classThis a ~Int=>Foo a
-classFoo a =>Bar a wheredataBarType a
-classBar a =>Baz a where
-  prox ::Proxy# a
+class This a ~ Int => Foo a
+class Foo a => Bar a where
+  data BarType a
+class Bar a => Baz a where
+  prox :: Proxy# a
 ```
 
 
@@ -77,17 +80,22 @@ David F: I *imagine* that `Foo a`, `Bar a`, and `Baz a` contexts are zero-width.
 SLPJ: no, class constraints are always boxed because they can be bottom (with recursive classes).  I don't know how to avoid this.
 
 
+
 David F: Does this mean even `~` constraints are boxed? If so, that monkeys with GADT constructors that have equality constraints involving type families.
 
+
 ```
-dataFoo a b whereFoo::TF1 a ~TF2 b =>Foo a b
+data Foo a b where
+  Foo :: TF1 a ~ TF2 b => Foo a b
 ```
 
 
 seems rather nicer than the alternative
 
+
 ```
-dataFoo a b whereFoo::!(TF1 a :~:TF2 b)->Foo a b
+data Foo a b where
+  Foo :: !(TF1 a :~: TF2 b) -> Foo a b
 ```
 
 
@@ -108,12 +116,19 @@ David F: I was simply clarifying that while this is the "newtype optimization", 
 ### Example 1
 
 
+
 You might think that an existential data type with only one field is a bit unusual.  Here is a example:
 
+
 ```
-dataShape=Empty|NonEmptydataIntMap a = forall (e ::Shape).IntMap!(IMGadt e a)dataIMGadt(e ::Shape) a whereBin::Prefix->Mask->IMGadtNonEmpty a ->IMGadtNonEmpty a ->IMGadtNonEmpty a
-  Tip::Key-> a ->IMGadtNonEmpty a
-  Nil::IMGadtEmpty a
+data Shape = Empty | NonEmpty
+
+data IntMap a = forall (e :: Shape) . IntMap !(IMGadt e a)
+
+data IMGadt (e :: Shape) a where
+  Bin :: Prefix -> Mask -> IMGadt NonEmpty a -> IMGadt NonEmpty a -> IMGadt NonEmpty a
+  Tip :: Key -> a -> IMGadt NonEmpty a
+  Nil :: IMGadt Empty a
 ```
 
 
@@ -131,28 +146,43 @@ data NE a = Bin Prefix Mask (NE a) (NE a)
 
 No GADTs, no existentials.  But we get an indirection at the root of every non-empty `IntMap`.
 
+
 ### Example 2
 
+
+>
 >
 > David Feuer: A single-constructor GADT can add a payload to something like `Refl`; it could also be used with a strict type-aligned sequence to "count", layering on length indexing. Admittedly not earth-shattering, but not totally useless. *SLPJ: I still don't get it.  Could you give an example?*
+>
+>
 
 
 For instance,
 
-```
-dataTList c x y whereNil::TList c x x
-  Cons::!(c x y)->TList c y z ->TList c x z
 
-dataNat=Z|SNatdataLengthIncrement c p q whereInc::!(c x y)->LengthIncrement c '(S n, x)'(n, y)
+```
+data TList c x y where
+  Nil :: TList c x x
+  Cons :: !(c x y) -> TList c y z -> TList c x z
+
+data Nat = Z | S Nat
+
+data LengthIncrement c p q where
+  Inc :: !(c x y) -> LengthIncrement c '(S n, x) '(n, y)
 ```
 
 
 Now `TList (LengthIncrement c) '(m, x) '(n, y)` represents a type-aligned list taking a path from `x` to `y`, and having a length of `m - n`. So while a single-constructor GADT may not be much use *on its own*, it can do something interesting when combined with another, multi-constructor GADT!
 
+
 ### Example 3
 
+
+>
 >
 > AntC: For anonymous records, you can wrap a payload in a newtype to label it within the record. But if you want to restrict (say) PersonId to being an Int, and yet have it look polymorphic, you have to make that a GADT. So now you're paying for the box.
+>
+>
 
 
 For instance,
@@ -178,8 +208,12 @@ instance (a ~ a', GetLabel (l a) a') => HasField l (l a, lb, lc) a' where
 
 Of course there are many design choices for anon records and how to label their fields. (I'm trying not to pre-judge that.) But they'll all need that sort of type-indexed lookup -- including I think if the label is a type-level string.
 
+
+>
 >
 > Those GetLabel instances are tedious. When we have full-bore ORF, we can declare every data type using record syntax, all with field name unLabel.
+>
+>
 
 ```wiki
 data PersonId a where
@@ -190,11 +224,14 @@ data PersonId a where
 
 ### Layering evidence
 
+
 ```
-dataFoo a b c =Foo1 a b |Foo2 a b
-dataBar f a b c whereBar::Family1 a b ~True=>!(f a b c)->Bar a b c
-dataBaz f a b c whereBaz::Family2 b c ~True=>!(f a b c)->Baz a b c
-newtypeQuux f a b c =Quux(Baz(BarFoo) a b c)
+data Foo a b c = Foo1 a b | Foo2 a b
+data Bar f a b c where
+  Bar :: Family1 a b ~ True => !(f a b c) -> Bar a b c
+data Baz f a b c where
+  Baz :: Family2 b c ~ True => !(f a b c) -> Baz a b c
+newtype Quux f a b c = Quux (Baz (Bar Foo) a b c)
 ```
 
 

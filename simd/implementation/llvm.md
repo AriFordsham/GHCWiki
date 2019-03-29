@@ -11,24 +11,27 @@ The SIMD vector extension to GHC proposed here maps to LLVM's vector type in a s
 ## Variations in the most widely used SIMD extensions
 
 
+
 Intel and AMD CPUs use the [ SSE family](http://en.wikipedia.org/wiki/Streaming_SIMD_Extensions) of extensions and, more recently (since Q1 2011), the [ AVX](http://en.wikipedia.org/wiki/Advanced_Vector_Extensions) extensions.  ARM CPUs (Cortex A series) use the [ NEON](http://www.arm.com/products/processors/technologies/neon.php) extensions. Variations between different families of SIMD extensions and between different family members in one family of extensions include the following:
 
-<table><tr><th>**Register width**</th>
+
+<table><tr><th><b>Register width</b></th>
 <td>
 SSE registers are 128 bits, whereas AVX registers are 256 bits, but they can also still be used as 128 bit registers with old SSE instructions. NEON registers can be used as 64-bit or 128-bit register.
 </td></tr>
-<tr><th>**Register number**</th>
+<tr><th><b>Register number</b></th>
 <td>
-SSE sports 8 SIMD registers in the 32-bit i386 instruction set and 16 SIMD registers in the 64-bit x84_64 instruction set. (AVX still has 16 SIMD registers.) NEON's SIMD registers can be used as 32 64-bit registers or 16 128-bit registers.
+SSE sports 8 SIMD registers in the 32-bit i386 instruction set and 16 SIMD registers in the 64-bit x84_64 instruction set. (AVX still has 16 SIMD registers.) NEON&apos;s SIMD registers can be used as 32 64-bit registers or 16 128-bit registers.
 </td></tr>
-<tr><th>**Register types**</th>
+<tr><th><b>Register types</b></th>
 <td>
 In the original SSE extension, SIMD registers could only hold 32-bit single-precision floats, whereas SSE2 extend that to include 64-bit double precision floats as well as 8 to 64 bit integral types. The extension from 128 bits to 256 bits in register size only applies to floating-point types in AVX. This is expected to be extended to integer types in AVX2, but in AVX, SIMD operations on integral types can only use the lower 128 bits of the SIMD registers. NEON registers can hold 8 to 64 bit integral types and 32-bit single-precision floats.
 </td></tr>
-<tr><th>**Alignment requirements**</th>
+<tr><th><b>Alignment requirements</b></th>
 <td>
-SSE requires alignment on 16 byte boundaries. With AVX, it seems that operations on 128 bit SIMD vectors may be unaligned, but operations on 256 bit SIMD vectors needs to be aligned to 32 byte boundaries. NEON suggests to align SIMD vectors with *n*-bit elements to *n*-bit boundaries.
+SSE requires alignment on 16 byte boundaries. With AVX, it seems that operations on 128 bit SIMD vectors may be unaligned, but operations on 256 bit SIMD vectors needs to be aligned to 32 byte boundaries. NEON suggests to align SIMD vectors with <i>n</i>-bit elements to <i>n</i>-bit boundaries.
 </td></tr></table>
+
 
 ### Consequences
 

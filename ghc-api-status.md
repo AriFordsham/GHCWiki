@@ -189,7 +189,12 @@ There are also a few non-functional requirements:
   - If several phases use the same AST, the AST will contain a type parameter which corresponds to the phases that have been performed with it.  Hence, if a function requires input of type `AST Phase3` then it is clear that the phases with types `AST Phase2 -> AST Phase3` and `AST Phase1 -> AST Phase2`  must be performed first.
   - GHC uses some evil hacks to simulate global variables but has some implicit assumptions when those are actually accessible.  If you call a function too early, ie., before a certain variable is initialised, GHC will die with a very unhelpful error message.  I hope to make as many of those dependencies explicit and encode those dependencies via the API (mostly via types).
 
+
+   
+
+
 ## Trac Tickets Related to the GHC API
+
 
 - [\#1467](https://gitlab.haskell.org//ghc/ghc/issues/1467) - GHC API: expose separate compilation stages
 - [\#1886](https://gitlab.haskell.org//ghc/ghc/issues/1886) - GHC API should preserve and provide access to comments
@@ -212,7 +217,8 @@ There are also a few non-functional requirements:
 
 ## Various Ideas, Comments, Questions
 
-- **Interface Stability**
+
+- **Interface Stability** 
 
   - Is there a way to reduce version-skew for clients of the GHC API (currently, there is no stability guaranteed at all, so if you don't want to live with lots of \#ifdefs and breakage, you keep delaying your fantastic GHC API-base projects "until the dust settles") (Claus Reinke)
   - Would it be possible to separate the monolithic GHC API into two parts, one providing a simplified and stable subset/wrapper of commonly used functionality (as in Hint, hs-plugins, GHCi), the other providing all the rest, with no stability guarantees? (Claus Reinke)
@@ -251,6 +257,10 @@ There are also a few non-functional requirements:
 - since the refactoring ideas below mention error handling: it appears that some GHC Api functions output error messages directly, without providing a means to handle/capture them in callers. I ran into one such instance a while ago ([\#1463](https://gitlab.haskell.org//ghc/ghc/issues/1463), comments 8, 10, 11)
 - ... more comments here ...
 
+
+ 
+
+
 ## Refactoring Ideas
 
 
@@ -276,7 +286,12 @@ There follow some notes about desirable refactorings, mainly around [compiler/ma
   we need to keep it when a module is considered for compilation but not recompiled; when we generate the
   `ModDetails` from the `ModIface`.  ToDo: find a better place to put it.
 
+
+ 
+
+
 ## Open Issues
+
 
 - Which operations should automatically call `clearWarnings`?
 - Remove `compileToCore` (it says it's there for backwards compatibility only)

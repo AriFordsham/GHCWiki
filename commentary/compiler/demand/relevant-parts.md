@@ -6,7 +6,7 @@
 
 - `compiler/stranal/WorkWrap.lhs` -- a worker-wrapper transform, main client of the demand analysis. The function split is performed in `worthSplittingFun` basing on demand annotations of a function's parameters. 
 
-- `compiler/stranal/WwLib.lhs` -- a helper module for the worker-wrapper machinery. The "deep" splitting of a product type argument makes use of the strictness info and is implemented by the function `mkWWstr_one`. The function `mkWWcpr` makes use of the CPR info.
+-  `compiler/stranal/WwLib.lhs` -- a helper module for the worker-wrapper machinery. The "deep" splitting of a product type argument makes use of the strictness info and is implemented by the function `mkWWstr_one`. The function `mkWWcpr` makes use of the CPR info.
 
 - `compiler/basicTypes/Id.lhs` -- implementation of identifiers contains a number of utility functions to check/set demand annotations of binders. All of them are just delegating to appropriate functions/fields of the `IdInfo` record;
 
@@ -19,7 +19,10 @@
 ```
 
 >
+>
 > In words, a non-bottoming demand type with `N` lazy/used arguments (`top`) is created for a worker, where `N` is just a worker's pre-computed arity. Also, particular demands are used when creating signatures for dictionary selectors (see `mkDictSelId`). 
+>
+>
 
 - `compiler/prelude/primops.txt.pp` -- this file defines demand signatures for primitive operations, which are inserted by `cpp` pass on the module `compiler/basicTypes/MkId.lhs`;
 

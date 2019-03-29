@@ -27,11 +27,20 @@ to create them. See [Phabricator](phabricator) for more information.
   - "Do you want to amend this change to the current commit? \[y/N\]"
   - "You have not specified any reviewers. Continue anyway? \[y/N\]"
 
+
+ 
+
+
 - You have to edit revision summaries manually on [ https://phabricator.haskell.org/D1234](https://phabricator.haskell.org/D1234). Updating the commit message and running `arc diff --update D1234 HEAD^` doesn't work.
 
 - Creating a revision in the browser doesn't trigger the continuous integration system.
 
+
+  
+
+
 ### Contributing multiple commits
+
 
 - You have to say `Depends on <revision_id>` in the commit message, to make a revision depend on another revision, or `arc patch` doesn't work on it. `arc diff` can't infer this from git history. (Todo: this isn't mentioned on the wiki yet).
 
@@ -49,12 +58,18 @@ Compare this to a Github workflow, where you just push your updated branch (with
 - Revisions are more expensive to create than commits (see above). As a result, contributors tend to include style changes and other refactorings in the same revision as the "real" changes. This makes it more difficult to do code review.
 
 >
+>
 > Here is an example: [ https://phabricator.haskell.org/D1081\#inline-8264](https://phabricator.haskell.org/D1081#inline-8264).
+>
+>
 
 - All commits in a revision get squashed upon landing. This makes it more difficult to use tools such as `git blame`. The `history.immutable` setting might be a solution here.
 
 >
+>
 > Todo: try to quantify this, perhaps by comparing the number of consecutive commits by the same author (Phabricator will have less such commits, since they're all squashed together, and contributors don't bother with creating multiple revisions using `Depends on`), or by looking at the number of lines changed for each commit (Phabricator commits change more lines).
+>
+>
 
 - Commit messages contain useless entries by default:
 
@@ -67,7 +82,11 @@ Compare this to a Github workflow, where you just push your updated branch (with
 - Trying to let Harbormaster validate a revision that depends on another
   revision [ results in](https://phabricator.haskell.org/D1188):
 
+>
+>
 > `"ERR-CONDUIT-CALL: API Method "differential.query" does not define these parameters: 'arcanistProjects'.".`
+>
+>
 
 - Harbormaster is unreliable. Upgrades cause all validates to fail every now and then.
 

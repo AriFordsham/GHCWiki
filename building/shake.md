@@ -65,56 +65,74 @@ The table below explains where most build variables are defined (this is taken f
 
 <table><tr><th>  Variable </th>
 <th> Purpose </th>
-<th> Defined by<sup>\*</sup></th></tr>
-<tr><th>`$1_PACKAGE`</th>
+<th> Defined by<sup>*</sup> 
+</th></tr>
+<tr><th><tt>$1_PACKAGE</tt>           </th>
 <th> Package name for this dir, if it is a package </th>
-<th>`$1/$2/ghc.mk`</th></tr>
-<tr><th>`CONF_HC_OPTS`</th>
-<th> GHC options from `./configure`</th>
-<th>`mk/config.mk.in`</th></tr>
-<tr><th>`CONF_HC_OPTS_STAGE$4`</th>
-<th> GHC options from `./configure` specific to stage `$4`</th>
-<th>`mk/config.mk.in`</th></tr>
-<tr><th>`WAY_$3_HC_OPTS`</th>
-<th> GHC options specific to way `$3`</th>
-<th>`mk/ways.mk`</th></tr>
-<tr><th>`SRC_HC_OPTS`</th>
+<th> <tt>$1/$2/ghc.mk</tt> 
+</th></tr>
+<tr><th><tt>CONF_HC_OPTS</tt>           </th>
+<th> GHC options from <tt>./configure</tt> </th>
+<th> <tt>mk/config.mk.in</tt> 
+</th></tr>
+<tr><th><tt>CONF_HC_OPTS_STAGE$4</tt>   </th>
+<th> GHC options from <tt>./configure</tt> specific to stage <tt>$4</tt> </th>
+<th> <tt>mk/config.mk.in</tt> 
+</th></tr>
+<tr><th><tt>WAY_$3_HC_OPTS</tt>         </th>
+<th> GHC options specific to way <tt>$3</tt> </th>
+<th> <tt>mk/ways.mk</tt> 
+</th></tr>
+<tr><th><tt>SRC_HC_OPTS</tt>            </th>
 <th> source-tree-wide GHC options </th>
-<th>`mk/config.mk.in`, `mk/build.mk`, `mk/validate.mk`</th></tr>
-<tr><th>`SRC_HC_WARNING_OPTS`</th>
+<th> <tt>mk/config.mk.in</tt>, <tt>mk/build.mk</tt>, <tt>mk/validate.mk</tt> 
+</th></tr>
+<tr><th><tt>SRC_HC_WARNING_OPTS</tt>    </th>
 <th> source-tree-wide GHC warning options </th>
-<th>`mk/config.mk.in`, `mk/build.mk`, `mk/validate.mk`</th></tr>
-<tr><th>`EXTRA_HC_OPTS`</th>
+<th> <tt>mk/config.mk.in</tt>, <tt>mk/build.mk</tt>, <tt>mk/validate.mk</tt> 
+</th></tr>
+<tr><th><tt>EXTRA_HC_OPTS</tt>          </th>
 <th> for supplying extra options on the command line </th>
-<th>`make EXTRA_HC_OPTS=...`</th></tr>
-<tr><th>`$1_HC_OPTS`</th>
-<th> GHC options specific to dir `$1`</th>
-<th>`$1/$2/package-data.mk`</th></tr>
-<tr><th>`$1_$2_HC_OPTS`</th>
-<th> GHC options specific to dir `$1` and distdir `$2`</th>
-<th>`$1/$2/package-data.mk`</th></tr>
-<tr><th>`$1_$2_$3_HC_OPTS`</th>
-<th> GHC options specific to dir `$1`, distdir `$2` and way `$3`</th>
-<th>`$1/$2/package-data.mk`</th></tr>
-<tr><th>`$1_$2_MORE_HC_OPTS`</th>
-<th> GHC options specific to dir `$1` and distdir `$2`</th>
+<th> <tt>make EXTRA_HC_OPTS=...</tt> 
+</th></tr>
+<tr><th><tt>$1_HC_OPTS</tt>             </th>
+<th> GHC options specific to dir <tt>$1</tt> </th>
+<th> <tt>$1/$2/package-data.mk</tt> 
+</th></tr>
+<tr><th><tt>$1_$2_HC_OPTS</tt>          </th>
+<th> GHC options specific to dir <tt>$1</tt> and distdir <tt>$2</tt> </th>
+<th> <tt>$1/$2/package-data.mk</tt> 
+</th></tr>
+<tr><th><tt>$1_$2_$3_HC_OPTS</tt>       </th>
+<th> GHC options specific to dir <tt>$1</tt>, distdir <tt>$2</tt> and way <tt>$3</tt> </th>
+<th> <tt>$1/$2/package-data.mk</tt> 
+</th></tr>
+<tr><th><tt>$1_$2_MORE_HC_OPTS</tt>     </th>
+<th> GHC options specific to dir <tt>$1</tt> and distdir <tt>$2</tt> </th>
 <th> ?? 
 </th></tr>
-<tr><th>`$1_$2_EXTRA_HC_OPTS`</th>
-<th> GHC options specific to dir `$1` and distdir `$2`</th>
-<th>`mk/build.mk`</th></tr>
-<tr><th>`$1_$2_HC_PKGCONF`</th>
-<th>`-package-db` flag if necessary </th>
-<th>`rules/package-config.mk`</th></tr>
-<tr><th>`$1_$2_HS_SRC_DIRS`</th>
-<th> dirs relative to `$1` containing source files </th>
-<th>`$1/$2/package-data.mk`</th></tr>
-<tr><th>`$1_$2_CPP_OPTS`</th>
+<tr><th><tt>$1_$2_EXTRA_HC_OPTS</tt>    </th>
+<th> GHC options specific to dir <tt>$1</tt> and distdir <tt>$2</tt> </th>
+<th> <tt>mk/build.mk</tt> 
+</th></tr>
+<tr><th><tt>$1_$2_HC_PKGCONF</tt>       </th>
+<th> <tt>-package-db</tt> flag if necessary </th>
+<th> <tt>rules/package-config.mk</tt> 
+</th></tr>
+<tr><th><tt>$1_$2_HS_SRC_DIRS</tt>      </th>
+<th> dirs relative to <tt>$1</tt> containing source files </th>
+<th> <tt>$1/$2/package-data.mk</tt> 
+</th></tr>
+<tr><th><tt>$1_$2_CPP_OPTS</tt>         </th>
 <th> CPP options </th>
-<th>`$1/$2/package-data.mk`</th></tr>
-<tr><th>`<file>_HC_OPTS`</th>
+<th> <tt>$1/$2/package-data.mk</tt> 
+</th></tr>
+<tr><th><tt><file>_HC_OPTS</tt>         </th>
 <th> GHC options for this source file (without the extension) </th>
-<th>`$1/$2/ghc.mk`</th></tr></table>
+<th> <tt>$1/$2/ghc.mk</tt> 
+</th></tr></table>
+
+
 
 <sup>\*</sup> Note: this now appears to be outdated -- some variable definitions have been moved to other files.
                           

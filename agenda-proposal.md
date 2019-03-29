@@ -13,21 +13,26 @@ JB: I suggest the following formats
 - Pair Programming: groups of 2 read and write code, focus on one particular aspect
 - Snapshot: \<5 minute for reporting results of hacking sessions to the group
 
-<table><tr><th>**Time**</th>
-<th>**Topic**</th>
-<th>**Chair/Presenter**</th></tr>
-<tr><th></th>
-<th></th>
-<th></th></tr>
-<tr><th></th>
-<th></th>
-<th></th></tr>
+<table><tr><th> <b>Time</b> </th>
+<th> <b>Topic</b> </th>
+<th> <b>Chair/Presenter</b> 
+</th></tr>
+<tr><th> </th>
+<th> </th>
+<th> 
+</th></tr>
+<tr><th> </th>
+<th> </th>
+<th> 
+</th></tr>
 <tr><th> Thu, early</th>
 <th> Individual setup on arrival </th>
-<th></th></tr>
+<th>  
+</th></tr>
 <tr><th> Thu, noon </th>
 <th> Lunch </th>
-<th></th></tr>
+<th> 
+</th></tr>
 <tr><th> Thu, 1:30 </th>
 <th> T:Jumpstart session: repository and build setup, Debugging </th>
 <th> ?Vladimir? / Jost 
@@ -54,17 +59,20 @@ JB: I suggest the following formats
 </th></tr>
 <tr><th> Thu, dinner </th>
 <th> Pizza </th>
-<th></th></tr>
+<th> 
+</th></tr>
 <tr><th> Thu, late </th>
 <th> Pair programming II ? </th>
 <th> - 
 </th></tr>
-<tr><th></th>
-<th></th>
-<th></th></tr>
+<tr><th> </th>
+<th> </th>
+<th> 
+</th></tr>
 <tr><th> Fri, 9am   </th>
 <th> Breakfast? </th>
-<th></th></tr>
+<th> 
+</th></tr>
 <tr><th> Fri, 9:30  </th>
 <th> ?T:GUM implementation </th>
 <th> Mustafa 
@@ -75,10 +83,12 @@ JB: I suggest the following formats
 </th></tr>
 <tr><th> Fri, 10:30 </th>
 <th> Pair Programming: Tracing, Packing, configure/packaging </th>
-<th></th></tr>
+<th> 
+</th></tr>
 <tr><th> Fri, 1pm  </th>
 <th> Lunch break </th>
-<th></th></tr>
+<th> 
+</th></tr>
 <tr><th> Fri, 2pm  </th>
 <th> Organising the development, group positioning </th>
 <th> HWL  
@@ -101,50 +111,63 @@ JB: I suggest the following formats
 </th></tr>
 <tr><th> Fri, 5:30 </th>
 <th> Summary snapshots, check-in </th>
-<th></th></tr>
+<th> 
+</th></tr>
 <tr><th> Fri, 6pm  </th>
-<th> Brainstorm (with scotch & malt?) </th>
+<th> Brainstorm (with scotch &amp; malt?) </th>
 <th> bar tender 
 </th></tr>
 <tr><th> Fri, late </th>
 <th> Curry and games evening  </th>
 <th> - 
 </th></tr>
-<tr><th></th>
-<th></th>
-<th></th></tr>
+<tr><th> </th>
+<th> </th>
+<th> 
+</th></tr>
 <tr><th> Sat, 9:30 </th>
 <th> Extensions and Future directions </th>
 <th> Chair: 
 </th></tr>
-<tr><th></th>
+<tr><th> </th>
 <th> Globus, GHC-GAP, GHC-SMP, Microkernel, Packing as-a-library </th>
 <th> tba 
 </th></tr>
 <tr><th> Sat, 10:30 </th>
 <th> Pair programming: various projects (analysis) </th>
-<th></th></tr>
+<th> 
+</th></tr>
 <tr><th> Sat, 12:30 </th>
 <th> Summary snapshots </th>
-<th></th></tr>
-<tr><th></th>
-<th></th>
-<th></th></tr>
+<th> 
+</th></tr>
+<tr><th> </th>
+<th> </th>
+<th> 
+</th></tr>
 <tr><th> Sat, 1pm  </th>
 <th> Lunch break </th>
-<th></th></tr>
+<th> 
+</th></tr>
 <tr><th> Sat, 3pm </th>
 <th> Pair programming: Tracing, Packing code, various projects </th>
-<th></th></tr>
+<th> 
+</th></tr>
 <tr><th> Sat, 5pm  </th>
 <th> Summary snapshots </th>
-<th></th></tr>
+<th> 
+</th></tr>
 <tr><th> Sat, 5:30 </th>
 <th> Result check-in (repository) and wrap-up </th>
-<th></th></tr>
+<th> 
+</th></tr>
 <tr><th> Sat, late </th>
 <th> Pub and winding-down </th>
-<th></th></tr>
-<tr><th></th>
-<th></th>
-<th></th></tr></table>
+<th> 
+</th></tr>
+<tr><th> </th>
+<th> </th>
+<th> 
+</th></tr></table>
+
+

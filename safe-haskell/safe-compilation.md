@@ -25,10 +25,14 @@ GHC flags currently come from three sources:
 
 For the implementation of **--safe-compile** it must be decided how to filter each of these three sources. (Note that in the third case, a build tool, the flags come from two sources, those set statically in the .cabal or make file and those set by the user invoking cabal or make on the command line. However GHC can't differentiate between them so we treat them the same). The first two cases are easy, default flags will need to be checked and changed accordingly. Currently we believe the defaults are safe though. PRAGMA flags should be filtered and unsafe flags disallowed. The third case has two possibilities though:
 
+
+>
 >
 > 1) We treat arguments to GHC the same as PRAGMA flags and simply disallow unsafe flags. 
 >
 > 2) We allow all flags still as arguments to GHC.
+>
+>
 
 
 The first case is simpler, both in implementation and user interface. Its also the safest. It is fairly inflexible though and would mean there would be no way to allow CPP in combination with **--safe-compile**. The second case is more complex to implement and in user interface. While we trust the user invoking GHC, that user may not trust the .cabal file which in this option would be trusted by GHC. The burden of checking the .cabal file would then fall to the user. How much of a problem this is, is debatable. While it weakens the safety a .cabal file is at least a single central file that can be audited with relative ease. (NOte this may not be so true in the future if cabal allows multiple .cabal files... ect, its also not true for make which can be very complex). The advantage of the second approach is the flexability it gives a user in selectively enabling unsafe flags in '--safe-compile' mode. This flexibility is fairly important, take platforms like SunOS or FreeBSD. It is very common for users of GHC on these platforms to have to manually specify the location of certain tools and libraries given the non-GNU defaults.

@@ -1,16 +1,22 @@
 # [InterTrac](inter-trac) Links
 
 
+
 Trac supports a convenient way to refer to resources of other Trac servers, from within the Wiki markup. An InterTrac link can be seen as a scoped [TracLinks](trac-links). It is used for referring to a Trac resource located in another Trac environment. A resource can be a wiki page, changeset, ticket or milestone. 
+
 
 ## List of Active [InterTrac](inter-trac) Prefixes
 
-<table><tr><th>*Prefix*</th>
-<th>*Trac Site*</th></tr>
-<tr><th>[prime](https://prime.haskell.org/timeline)</th>
-<th>[Haskell Prime Trac](https://prime.haskell.org)</th></tr>
-<tr><th>[trac](http://trac.edgewall.org/timeline)</th>
-<th>[The Trac Project](http://trac.edgewall.org)</th></tr></table>
+
+
+<table><tr><th><i>Prefix</i></th>
+<th><i>Trac Site</i></th></tr>
+<tr><th><a href="https://prime.haskell.org/timeline">prime</a></th>
+<th><a href="https://prime.haskell.org">Haskell Prime Trac</a></th></tr>
+<tr><th><a href="http://trac.edgewall.org/timeline">trac</a></th>
+<th><a href="http://trac.edgewall.org">The Trac Project</a></th></tr></table>
+
+
 
 ## Link Syntax
 
@@ -41,8 +47,15 @@ For convenience, there is also an alternative short-hand form, where an alias ca
 It is necessary to set up a configuration for the [InterTrac](inter-trac) facility.
 This configuration has to be done in the [TracIni](trac-ini) file, `[intertrac]` section, for example:
 
+
 ```
-[intertrac]# -- Example of setting up an alias:t=trac# -- Link to an external Trac:trac.title=Edgewall's Trac for Tractrac.url=http://trac.edgewall.org
+[intertrac]
+# -- Example of setting up an alias:
+t = trac
+
+# -- Link to an external Trac:
+trac.title = Edgewall's Trac for Trac
+trac.url = http://trac.edgewall.org
 ```
 
 
@@ -53,26 +66,28 @@ This can be a relative URL in case that Trac environment is located on the same 
 The `.title` information is used in a tooltip, ie when hovering the cursor over an [InterTrac](inter-trac) link.
 
 
+
 Now, given the above configuration, one could create the following links:
+
 
 - to this [InterTrac](inter-trac) page:
 
-  - `trac:wiki:InterTrac`[ trac:wiki:InterTrac](http://trac.edgewall.org/intertrac/wiki%3AInterTrac)
+  - `trac:wiki:InterTrac` [ trac:wiki:InterTrac](http://trac.edgewall.org/intertrac/wiki%3AInterTrac)
   - `t:wiki:InterTrac` t:wiki:InterTrac
   - Keys are case insensitive: `T:wiki:InterTrac` T:wiki:InterTrac
 - to the ticket [\#234](https://gitlab.haskell.org//ghc/ghc/issues/234):
 
-  - `trac:ticket:234`[ trac:ticket:234](http://trac.edgewall.org/intertrac/ticket%3A234)
-  - `trac:#234`[ trac:\#234](http://trac.edgewall.org/intertrac/%23234)
+  - `trac:ticket:234` [ trac:ticket:234](http://trac.edgewall.org/intertrac/ticket%3A234)
+  - `trac:#234` [ trac:\#234](http://trac.edgewall.org/intertrac/%23234) 
   - `#T234` \#T234
 - to the changeset \[1912\]:
 
-  - `trac:changeset:1912`[ trac:changeset:1912](http://trac.edgewall.org/intertrac/changeset%3A1912)
+  - `trac:changeset:1912` [ trac:changeset:1912](http://trac.edgewall.org/intertrac/changeset%3A1912)
   - `[T1912]` \[T1912\]
 - to the log range [\[3300:3330\]](/trac/ghc/log/ghc/?revs=3300%3A3330):
 
-  - `trac:log:@3300:3330`[ trac:log:\@3300:3330](http://trac.edgewall.org/intertrac/log%3A%403300%3A3330)
-  - `[trac 3300:3330]`[ \[trac 3300:3330\]](http://trac.edgewall.org/intertrac/log%3A/%403300%3A3330)
+  - `trac:log:@3300:3330` [ trac:log:\@3300:3330](http://trac.edgewall.org/intertrac/log%3A%403300%3A3330)  
+  - `[trac 3300:3330]` [ \[trac 3300:3330\]](http://trac.edgewall.org/intertrac/log%3A/%403300%3A3330)
   - finally, to link to the start page of a remote trac, simply use its prefix followed by ':', inside an explicit link. Example: `[th: Trac Hacks]` (note that the *remote* Trac has to run Trac \>= 0.11 for this to work*)
     *
 
@@ -82,4 +97,7 @@ The generic form `intertrac_prefix:module:id` is translated to the corresponding
 ---
 
 
+
 See also: [TracLinks](trac-links), [InterWiki](inter-wiki)
+
+

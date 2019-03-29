@@ -100,10 +100,18 @@ The linker script issue could be solved in two ways:
 
 The latter could also solve the development files issue if we applied it to dynamic libraries in general.
 
+
 ### Discussion
 
+
+
 TODO
+
 
 ## Cabal support?
 
+
+
 TODO
+
+

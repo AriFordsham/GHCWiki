@@ -129,27 +129,40 @@ test_nine.value = in 2 hours
 ### Reports Involving Custom Fields
 
 
+
 Custom ticket fields are stored in the `ticket_custom` table, not in the `ticket` table. So to display the values from custom fields in a report, you will need a join on the 2 tables. Let's use an example with a custom ticket field called `progress`.
+
 
 ```
 SELECT p.value AS __color__,
-   id AS ticket, summary,owner,c.value AS progress
-  FROM ticket t, enum p, ticket_custom cWHERE status IN('assigned')AND t.id =c.ticket ANDc.name ='progress'AND p.name = t.priority AND p.type='priority'ORDERBY p.value
+   id AS ticket, summary, owner, c.value AS progress
+  FROM ticket t, enum p, ticket_custom c
+  WHERE status IN ('assigned') AND t.id = c.ticket AND c.name = 'progress'
+AND p.name = t.priority AND p.type = 'priority'
+  ORDER BY p.value
 ```
+
 
 **Note**: This will only show tickets that have progress set in them. This is **not the same as showing all tickets**. If you created this custom ticket field *after* you have already created some tickets, they will not have that field defined, and thus they will never show up on this ticket query. If you go back and modify those tickets, the field will be defined, and they will appear in the query.
 
 
+
 However, if you want to show all ticket entries (with progress defined and without), you need to use a `JOIN` for every custom field that is in the query:
+
 
 ```
 SELECT p.value AS __color__,
-   id AS ticket, summary, component,version, milestone, severity,(CASE status WHEN'assigned'THENowner||' *'ELSEownerEND)ASowner,
+   id AS ticket, summary, component, version, milestone, severity,
+   (CASE status WHEN 'assigned' THEN owner||' *' ELSE owner END) AS owner,
    time AS created,
    changetime AS _changetime, description AS _description,
-   reporter AS _reporter,(CASEWHENc.value ='0'THEN'None'ELSEc.value END)AS progress
+   reporter AS _reporter,
+  (CASE WHEN c.value = '0' THEN 'None' ELSE c.value END) AS progress
   FROM ticket t
-     LEFTOUTERJOIN ticket_custom cON(t.id =c.ticket ANDc.name ='progress')JOIN enum p ON p.name = t.priority AND p.type='priority'WHERE status IN('new','assigned','reopened')ORDERBY p.value, milestone, severity, time
+     LEFT OUTER JOIN ticket_custom c ON (t.id = c.ticket AND c.name = 'progress')
+     JOIN enum p ON p.name = t.priority AND p.type='priority'
+  WHERE status IN ('new', 'assigned', 'reopened')
+  ORDER BY p.value, milestone, severity, time
 ```
 
 
@@ -170,29 +183,44 @@ you would use lowercase in the SQL: `AND c.name = 'progress_type'`
 ### Updating the database
 
 
+
 As noted above, any tickets created before a custom field has been defined will not have a value for that field. Here's a bit of SQL (tested with SQLite) that you can run directly on the Trac database to set an initial value for custom ticket fields. Inserts the default value of 'None' into a custom field called 'request_source' for all tickets that have no existing value:
 
+
 ```
-INSERTINTO ticket_custom
-   (ticket, name, value)SELECT 
-      id AS ticket,'request_source'AS name,'None'AS value
+INSERT INTO ticket_custom
+   (ticket, name, value)
+   SELECT 
+      id AS ticket,
+      'request_source' AS name,
+      'None' AS value
    FROM ticket 
-   WHERE id NOTIN(SELECT ticket FROM ticket_custom
+   WHERE id NOT IN (
+      SELECT ticket FROM ticket_custom
    );
 ```
 
 
 If you added multiple custom fields at different points in time, you should be more specific in the subquery on table `ticket` by adding the exact custom field name to the query:
 
+
 ```
-INSERTINTO ticket_custom
-   (ticket, name, value)SELECT 
-      id AS ticket,'request_source'AS name,'None'AS value
+INSERT INTO ticket_custom
+   (ticket, name, value)
+   SELECT 
+      id AS ticket,
+      'request_source' AS name,
+      'None' AS value
    FROM ticket 
-   WHERE id NOTIN(SELECT ticket FROM ticket_custom WHERE name ='request_source');
+   WHERE id NOT IN (
+      SELECT ticket FROM ticket_custom WHERE name = 'request_source'
+   );
 ```
 
 ---
 
 
+
 See also: [TracTickets](trac-tickets), [TracIni](trac-ini)
+
+

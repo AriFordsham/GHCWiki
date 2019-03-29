@@ -13,10 +13,16 @@ This page documents the instructions for setting up a Windows build using [ MSYS
 Download and run the latest MSYS2 installer: either [ 64-bit (x86-64)](http://repo.msys2.org/distrib/x86_64/) or [ 32-bit (i686)](http://repo.msys2.org/distrib/i686/).
 
 
+
 From the [ MSYS2 installation instructions](https://github.com/msys2/msys2/wiki/MSYS2-installation):
 
+
+>
 >
 > After installing or extracting MSYS2 you should start MSYS2 by executing **msys2_shell.cmd**. (if you did not use an installer and this is first time running of MSYS2 after unpacking, then at this point it will create the files and settings necessary for it to function properly. After this initial run you **MUST** restart MSYS2 so that the settings are correct)
+>
+>
+
 
 <sub>The result of attempting to create a 32-bit build of GHC on a 64-bit machine has not been documented yet. Building 32-bit GHC on a 32-bit version of Windows works, of course.</sub>
 
@@ -86,11 +92,13 @@ pacman -S --needed git tar bsdtar binutils autoconf make xz \
 A host GHC binary is required for bootstrapping. In order to keep different architectures separate, download and install a prebuilt GHC into `/mingw64` or `/mingw32`:
 
 
+
 Run
+
 
 ```
 arch=x86_64 # or i386
-bitness=64# or 32
+bitness=64 # or 32
 curl -L https://downloads.haskell.org/~ghc/8.4.3/ghc-8.4.3-${arch}-unknown-mingw32.tar.xz | tar -xJ -C /mingw${bitness} --strip-components=1
 ```
 

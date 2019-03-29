@@ -1,8 +1,9 @@
 # Quick setup for GHC 7.11 and later
 
+
 1. Install Apple's command line tools
 
-  - Install the latest command line tools from [ http://developer.apple.com/downloads](http://developer.apple.com/downloads)**or**
+  - Install the latest command line tools from [ http://developer.apple.com/downloads](http://developer.apple.com/downloads) **or**
   - install XCode, launch XCode, open Preferences, select "Downloads" and install the command line tools
 1. Install Homebrew [ http://brew.sh](http://brew.sh) (or Macports [ https://www.macports.org](https://www.macports.org) - in which case the necessary utilities would be installed via `sudo port install automake autoconf python3`, etc.)
 1. `brew install autoconf automake python3`
@@ -15,7 +16,7 @@
   - `sudo easy_install pip`
   - `sudo pip install sphinx`
   - Make sure `xelatex` is on your PATH, and works (if you installed MacTeX from [ https://www.tug.org/mactex/downloading.html](https://www.tug.org/mactex/downloading.html), it includes `xelatex`)
-  - Download and install (e.g., via `Font Book.app`) DEJAVU fonts Sans, Sans Mono, and Serif from, e.g., [ https://www.fontsquirrel.com/fonts/list/foundry/dejavu-fonts](https://www.fontsquirrel.com/fonts/list/foundry/dejavu-fonts)
+  - Download and install (e.g., via `Font Book.app`) DEJAVU fonts Sans, Sans Mono, and Serif from, e.g., [ https://www.fontsquirrel.com/fonts/list/foundry/dejavu-fonts](https://www.fontsquirrel.com/fonts/list/foundry/dejavu-fonts) 
 1. Done!
 
 

@@ -81,7 +81,10 @@ It's not absolutely necessary to use `#x` for a field.  Here are some alternativ
   then all occurrences of `p`, `q`, `area` will be treated as implicit values (written `#p`, `#q`, `#area` above).  That has the merit that it works fine for virtual fields like `area`, and it removes the `#p` syntactic clutter.
 
 >
+>
 > It leaves open questions.  If you declare a H98 record with fields `p`, etc, do you have to import `p` from `GHC.ImplicitValues` as well?  Presumably not?  What if you *import* such a record?
+>
+>
 
 
 But *neither of these exploit the similarity to implicit parameters*.

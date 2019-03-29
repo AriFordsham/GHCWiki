@@ -39,37 +39,37 @@ Here  is a table of available ways in a standard GHC, as of May 2015.
 </th></tr>
 <tr><th> -         </th>
 <th> -         </th>
-<th>`v`</th>
+<th> <tt>v</tt>   </th>
 <th> Full </th>
 <th> (vanilla way) default 
 </th></tr>
-<tr><th>`-threaded`</th>
+<tr><th><tt>-threaded</tt> </th>
 <th> WayThreaded </th>
-<th>`thr`</th>
+<th> <tt>thr</tt> </th>
 <th> RTS  </th>
 <th> multithreaded runtime system 
 </th></tr>
-<tr><th>`-debug`</th>
+<tr><th><tt>-debug</tt>    </th>
 <th> WayDebug    </th>
-<th>`debug`</th>
+<th> <tt>debug</tt> </th>
 <th> RTS  </th>
 <th> debugging, enables trace messages and extra checks 
 </th></tr>
-<tr><th>`-prof`</th>
+<tr><th><tt>-prof</tt>     </th>
 <th> WayProf     </th>
-<th>`p`</th>
+<th> <tt>p</tt>    </th>
 <th> Full </th>
 <th> profiling, enables cost centre stacks and profiling reports 
 </th></tr>
-<tr><th>`-eventlog`</th>
+<tr><th><tt>-eventlog</tt> </th>
 <th> WayEventLog </th>
-<th>`l`</th>
+<th> <tt>l</tt>    </th>
 <th> RTS  </th>
 <th> Event logging (for ghc-events, threadscope, and EdenTV) 
 </th></tr>
-<tr><th>`-dyn`</th>
+<tr><th><tt>-dyn</tt>      </th>
 <th> WayDyn      </th>
-<th>`dyn`</th>
+<th> <tt>dyn</tt>  </th>
 <th> Full </th>
 <th> Dynamic linking 
 </th></tr></table>
@@ -94,27 +94,27 @@ All these ways execute the RTS in multiple instances with distributed heaps, the
 <th> Type </th>
 <th> communication (OS) 
 </th></tr>
-<tr><th>`-parpvm`</th>
+<tr><th><tt>-parpvm</tt> </th>
 <th> WayParPvm   </th>
-<th>`pp`</th>
+<th><tt>pp</tt></th>
 <th> RTS </th>
 <th> PVM (Linux) 
 </th></tr>
-<tr><th>`-parmpi`</th>
+<tr><th><tt>-parmpi</tt> </th>
 <th> WayParMPI   </th>
-<th>`pm`</th>
+<th><tt>pm</tt></th>
 <th> RTS </th>
 <th> MPI (Linux) 
 </th></tr>
-<tr><th>`-parcp`</th>
+<tr><th><tt>-parcp</tt>  </th>
 <th> WayParCp    </th>
-<th>`pc`</th>
+<th><tt>pc</tt></th>
 <th> RTS </th>
 <th> OS-native shared memory (Windows/Linux) 
 </th></tr>
-<tr><th>`-parms`</th>
+<tr><th><tt>-parms</tt>  </th>
 <th> WayParMSlot </th>
-<th>`ms`</th>
+<th><tt>ms</tt></th>
 <th> RTS </th>
 <th> Windows mail slots (Windows) 
 </th></tr></table>

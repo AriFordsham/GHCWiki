@@ -48,4 +48,8 @@ The module can be tested by a primitive `duplicate#:: a -> IO a`, which  packs a
 Interesting question is: should the routine be able to pack/unpack _every_ heap object? 
 (up to now unable to pack: MVars,  TSOs, all kinds of Stack elements, all STM-related closures)
 
+
+
 [--\> back to GpHEden](gp-h-eden)
+
+

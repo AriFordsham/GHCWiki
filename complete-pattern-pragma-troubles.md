@@ -6,18 +6,23 @@ A couple issues have arisen with `COMPLETE` pragmas for patterns.
 [\#14135](https://gitlab.haskell.org//ghc/ghc/issues/14135) involves a panic when types don't match up correctly. Simon's suggestion in
 [ticket:14135\#comment:8](https://gitlab.haskell.org//ghc/ghc/issues/14135) seems to make a lot of sense:
 
+
+>
 >
 > filter the candidate COMPLETE sets, to choose only those all of whose
 > constructors match the type of the scrutinee.
+>
+>
 
 
 Why does that make sense, and not just ignoring patterns that don't match? Because
 what remains is likely not complete! Imagine
 
+
 ```
-LZ::(Ord a,Num a)=>()=> a -> a
-Z::(Eq a,Num a)=>()=> a -> a
-GZ::(Ord a,Num a)=>()=> a -> a
+LZ :: (Ord a, Num a) => () => a -> a
+Z :: (Eq a, Num a) => () => a -> a
+GZ :: (Ord a, Num a) => () => a -> a
 {-# COMPLETE LZ, Z, GZ #-}
 ```
 
@@ -38,24 +43,35 @@ is this: only consider patterns redundant as a result of a `COMPLETE` pragma if 
 come after *all* the patterns listed in that pragma.
 
 
+
 If I have
 
+
 ```
-dataFoo=Bar|BazpatternQuux::FoopatternQuuux::Foo{-# COMPLETE Quux, Quuux #-}
+data Foo = Bar | Baz
+pattern Quux :: Foo
+pattern Quuux :: Foo
+{-# COMPLETE Quux, Quuux #-}
 ```
 
 
 Then
 
+
 ```
-fQuux=...fQuuux=...fBar=...
+f Quux = ...
+f Quuux = ...
+f Bar = ...
 ```
 
 
 should complain that `Bar` is redundant, but
 
+
 ```
-fQuux=...fBar=...fQuuux=...
+f Quux = ...
+f Bar = ...
+f Quuux = ...
 ```
 
 

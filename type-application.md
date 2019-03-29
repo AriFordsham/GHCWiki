@@ -9,155 +9,163 @@ This the feature page that summarises status, open issues, etc.
 ## Status
 
 
+
 Use Keyword = `TypeApplications` to ensure that a ticket ends up on these lists.
+
+
 
 **Open Tickets:**
 
-<table><tr><th>[\#11349](https://gitlab.haskell.org//ghc/ghc/issues/11349)</th>
-<td>\[TypeApplications\] Create Proxy-free alternatives of functions in base</td></tr>
-<tr><th>[\#11350](https://gitlab.haskell.org//ghc/ghc/issues/11350)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11349">#11349</a></th>
+<td>[TypeApplications] Create Proxy-free alternatives of functions in base</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11350">#11350</a></th>
 <td>Allow visible type application in patterns</td></tr>
-<tr><th>[\#11352](https://gitlab.haskell.org//ghc/ghc/issues/11352)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11352">#11352</a></th>
 <td>Allow applying type to label</td></tr>
-<tr><th>[\#11387](https://gitlab.haskell.org//ghc/ghc/issues/11387)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11387">#11387</a></th>
 <td>Typecasting using type application syntax</td></tr>
-<tr><th>[\#11398](https://gitlab.haskell.org//ghc/ghc/issues/11398)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11398">#11398</a></th>
 <td>Type application for operator sections</td></tr>
-<tr><th>[\#11409](https://gitlab.haskell.org//ghc/ghc/issues/11409)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11409">#11409</a></th>
 <td>Cannot instantiate literals using TypeApplications</td></tr>
-<tr><th>[\#12085](https://gitlab.haskell.org//ghc/ghc/issues/12085)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12085">#12085</a></th>
 <td>Premature defaulting and variable not in scope</td></tr>
-<tr><th>[\#12363](https://gitlab.haskell.org//ghc/ghc/issues/12363)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12363">#12363</a></th>
 <td>Type application for infix</td></tr>
-<tr><th>[\#12446](https://gitlab.haskell.org//ghc/ghc/issues/12446)</th>
-<td>Doesn't suggest TypeApplications when \`\~\` used prefix</td></tr>
-<tr><th>[\#12569](https://gitlab.haskell.org//ghc/ghc/issues/12569)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12446">#12446</a></th>
+<td>Doesn&apos;t suggest TypeApplications when `~` used prefix</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12569">#12569</a></th>
 <td>TypeApplications allows instantiation of implicitly-quantified kind variables</td></tr>
-<tr><th>[\#12794](https://gitlab.haskell.org//ghc/ghc/issues/12794)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12794">#12794</a></th>
 <td>Out of scope error not reported</td></tr>
-<tr><th>[\#13042](https://gitlab.haskell.org//ghc/ghc/issues/13042)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13042">#13042</a></th>
 <td>Allow type annotations / visible type application in pattern synonyms</td></tr>
-<tr><th>[\#13512](https://gitlab.haskell.org//ghc/ghc/issues/13512)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13512">#13512</a></th>
 <td>GHC incorrectly warns that a variable used in a type application is unused</td></tr>
-<tr><th>[\#13834](https://gitlab.haskell.org//ghc/ghc/issues/13834)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13834">#13834</a></th>
 <td>Error cascade with type applications</td></tr>
-<tr><th>[\#14722](https://gitlab.haskell.org//ghc/ghc/issues/14722)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14722">#14722</a></th>
 <td>Error message points to wrong location</td></tr>
-<tr><th>[\#15577](https://gitlab.haskell.org//ghc/ghc/issues/15577)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15577">#15577</a></th>
 <td>TypeApplications-related infinite loop (GHC 8.6+ only)</td></tr>
-<tr><th>[\#15596](https://gitlab.haskell.org//ghc/ghc/issues/15596)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15596">#15596</a></th>
 <td>When a type application cannot be applied to an identifier due to the absence of an explicit type signature, let the error just say so!</td></tr>
-<tr><th>[\#15782](https://gitlab.haskell.org//ghc/ghc/issues/15782)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15782">#15782</a></th>
 <td>Visible type/kind applications in declaration of data/type constructors</td></tr>
-<tr><th>[\#15942](https://gitlab.haskell.org//ghc/ghc/issues/15942)</th>
-<td>Associated type family can't be used at the kind level within other parts of parent class</td></tr></table>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15942">#15942</a></th>
+<td>Associated type family can&apos;t be used at the kind level within other parts of parent class</td></tr></table>
+
+
+
 
 **Closed Tickets:**
 
-<table><tr><th>[\#11329](https://gitlab.haskell.org//ghc/ghc/issues/11329)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11329">#11329</a></th>
 <td>Visible type applications: failing tests with WAY=hpc</td></tr>
-<tr><th>[\#11333](https://gitlab.haskell.org//ghc/ghc/issues/11333)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11333">#11333</a></th>
 <td>GHCi does not discharge satisfied constraints</td></tr>
-<tr><th>[\#11355](https://gitlab.haskell.org//ghc/ghc/issues/11355)</th>
-<td>TypeApplications + RankNTypes permits "impredicativity"</td></tr>
-<tr><th>[\#11376](https://gitlab.haskell.org//ghc/ghc/issues/11376)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11355">#11355</a></th>
+<td>TypeApplications + RankNTypes permits &quot;impredicativity&quot;</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11376">#11376</a></th>
 <td>Inconsistent specified type variables among functions and datatypes/classes when using -XTypeApplications</td></tr>
-<tr><th>[\#11385](https://gitlab.haskell.org//ghc/ghc/issues/11385)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11385">#11385</a></th>
 <td>Unify named wildcards in different type applications</td></tr>
-<tr><th>[\#11397](https://gitlab.haskell.org//ghc/ghc/issues/11397)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11397">#11397</a></th>
 <td>Type mismatch in local definitions in Haskell 98 code</td></tr>
-<tr><th>[\#11428](https://gitlab.haskell.org//ghc/ghc/issues/11428)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11428">#11428</a></th>
 <td>ImpredicativeTypes causes GHC panic with 8.0.1-rc1</td></tr>
-<tr><th>[\#11431](https://gitlab.haskell.org//ghc/ghc/issues/11431)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11431">#11431</a></th>
 <td>GHC instantiates levity-polymorphic type variables with foralls</td></tr>
-<tr><th>[\#11456](https://gitlab.haskell.org//ghc/ghc/issues/11456)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11456">#11456</a></th>
 <td>Type application and :set +c command cause panic</td></tr>
-<tr><th>[\#11458](https://gitlab.haskell.org//ghc/ghc/issues/11458)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11458">#11458</a></th>
 <td>Terrible failure of type inference in visible type application</td></tr>
-<tr><th>[\#11512](https://gitlab.haskell.org//ghc/ghc/issues/11512)</th>
-<td>An unwritten kind variable is "specified", when it shouldn't be.</td></tr>
-<tr><th>[\#11513](https://gitlab.haskell.org//ghc/ghc/issues/11513)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11512">#11512</a></th>
+<td>An unwritten kind variable is &quot;specified&quot;, when it shouldn&apos;t be.</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11513">#11513</a></th>
 <td>Work out when GADT parameters should be specified</td></tr>
-<tr><th>[\#11616](https://gitlab.haskell.org//ghc/ghc/issues/11616)</th>
-<td>Kinds aren't instantiated</td></tr>
-<tr><th>[\#11638](https://gitlab.haskell.org//ghc/ghc/issues/11638)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11616">#11616</a></th>
+<td>Kinds aren&apos;t instantiated</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11638">#11638</a></th>
 <td>referring to the existential type from a GADT pattern match with a type application</td></tr>
-<tr><th>[\#11721](https://gitlab.haskell.org//ghc/ghc/issues/11721)</th>
-<td>GADT-syntax data constructors don't work well with TypeApplications</td></tr>
-<tr><th>[\#11947](https://gitlab.haskell.org//ghc/ghc/issues/11947)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11721">#11721</a></th>
+<td>GADT-syntax data constructors don&apos;t work well with TypeApplications</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11947">#11947</a></th>
 <td>GHC mistakenly warns about type defaulting in the presence of -XTypeApplications</td></tr>
-<tr><th>[\#12025](https://gitlab.haskell.org//ghc/ghc/issues/12025)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12025">#12025</a></th>
 <td>Order of constraints forced (in pattern synonyms, type classes in comments)</td></tr>
-<tr><th>[\#12033](https://gitlab.haskell.org//ghc/ghc/issues/12033)</th>
-<td>\[TypeApplications\] GHC internal error</td></tr>
-<tr><th>[\#12045](https://gitlab.haskell.org//ghc/ghc/issues/12045)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12033">#12033</a></th>
+<td>[TypeApplications] GHC internal error</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12045">#12045</a></th>
 <td>Visible kind application</td></tr>
-<tr><th>[\#12092](https://gitlab.haskell.org//ghc/ghc/issues/12092)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12092">#12092</a></th>
 <td>Out-of-scope variable leads to type error, not scope error</td></tr>
-<tr><th>[\#12093](https://gitlab.haskell.org//ghc/ghc/issues/12093)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12093">#12093</a></th>
 <td>Wrong argument count in error message with TypeApplications</td></tr>
-<tr><th>[\#12220](https://gitlab.haskell.org//ghc/ghc/issues/12220)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12220">#12220</a></th>
 <td>TypeApplications and DefaultSignatures - problems deducing type variables.</td></tr>
-<tr><th>[\#12371](https://gitlab.haskell.org//ghc/ghc/issues/12371)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12371">#12371</a></th>
 <td>Error message, room for improvement</td></tr>
-<tr><th>[\#12411](https://gitlab.haskell.org//ghc/ghc/issues/12411)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12411">#12411</a></th>
 <td>GHC panic on TypeApplications + TemplateHaskell</td></tr>
-<tr><th>[\#12529](https://gitlab.haskell.org//ghc/ghc/issues/12529)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12529">#12529</a></th>
 <td>Error message: visible type application of constructor/variable that is not in scope</td></tr>
-<tr><th>[\#12565](https://gitlab.haskell.org//ghc/ghc/issues/12565)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12565">#12565</a></th>
 <td>unhelpful error message about enabling TypeApplications</td></tr>
-<tr><th>[\#12601](https://gitlab.haskell.org//ghc/ghc/issues/12601)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12601">#12601</a></th>
 <td>explicit foralls do not distinguish applicable types</td></tr>
-<tr><th>[\#13401](https://gitlab.haskell.org//ghc/ghc/issues/13401)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13401">#13401</a></th>
 <td>GHCi gives conflicting information about visible type application</td></tr>
-<tr><th>[\#13466](https://gitlab.haskell.org//ghc/ghc/issues/13466)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13466">#13466</a></th>
 <td>Ghci panics with type applications to unknown functions</td></tr>
-<tr><th>[\#13524](https://gitlab.haskell.org//ghc/ghc/issues/13524)</th>
-<td>GHC does not preserve order of forall'd vars with TypeApplications</td></tr>
-<tr><th>[\#13680](https://gitlab.haskell.org//ghc/ghc/issues/13680)</th>
-<td>Can't use TypeApplications with \[\] data constructor</td></tr>
-<tr><th>[\#13738](https://gitlab.haskell.org//ghc/ghc/issues/13738)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13524">#13524</a></th>
+<td>GHC does not preserve order of forall&apos;d vars with TypeApplications</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13680">#13680</a></th>
+<td>Can&apos;t use TypeApplications with [] data constructor</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13738">#13738</a></th>
 <td>TypeApplications-related GHC internal error</td></tr>
-<tr><th>[\#13819](https://gitlab.haskell.org//ghc/ghc/issues/13819)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13819">#13819</a></th>
 <td>TypeApplications-related GHC panic</td></tr>
-<tr><th>[\#13846](https://gitlab.haskell.org//ghc/ghc/issues/13846)</th>
-<td>GHC Panic: Visible type application + function type @(_ -\> _)</td></tr>
-<tr><th>[\#13848](https://gitlab.haskell.org//ghc/ghc/issues/13848)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13846">#13846</a></th>
+<td>GHC Panic: Visible type application + function type @(_ -&gt; _)</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13848">#13848</a></th>
 <td>Unexpected order of variable quantification with GADT constructor</td></tr>
-<tr><th>[\#13853](https://gitlab.haskell.org//ghc/ghc/issues/13853)</th>
-<td>TypeApplications and record syntax don't mix</td></tr>
-<tr><th>[\#13877](https://gitlab.haskell.org//ghc/ghc/issues/13877)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13853">#13853</a></th>
+<td>TypeApplications and record syntax don&apos;t mix</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13877">#13877</a></th>
 <td>GHC panic: No skolem info: k2</td></tr>
-<tr><th>[\#13902](https://gitlab.haskell.org//ghc/ghc/issues/13902)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13902">#13902</a></th>
 <td>Misleading function arity mismatch error with TypeApplications</td></tr>
-<tr><th>[\#13938](https://gitlab.haskell.org//ghc/ghc/issues/13938)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13938">#13938</a></th>
 <td>Iface type variable out of scope:  k1</td></tr>
-<tr><th>[\#13986](https://gitlab.haskell.org//ghc/ghc/issues/13986)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13986">#13986</a></th>
 <td>TypeApplications causes parse errors in @-patterns with certain Unicode characters</td></tr>
-<tr><th>[\#14038](https://gitlab.haskell.org//ghc/ghc/issues/14038)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14038">#14038</a></th>
 <td>TypeApplications regression in GHC HEAD: ‘p0’ is untouchable inside the constraints: ()</td></tr>
-<tr><th>[\#14348](https://gitlab.haskell.org//ghc/ghc/issues/14348)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14348">#14348</a></th>
 <td>Poly-kinded definitions silently introduce extra type arguments captured by TypeApplications</td></tr>
-<tr><th>[\#14796](https://gitlab.haskell.org//ghc/ghc/issues/14796)</th>
-<td>Pretty Printing: GHC doesn't parenthesise (() :: Constraint)</td></tr>
-<tr><th>[\#15527](https://gitlab.haskell.org//ghc/ghc/issues/15527)</th>
-<td>TypeApplications error message doesn't parenthesize infix name</td></tr>
-<tr><th>[\#15568](https://gitlab.haskell.org//ghc/ghc/issues/15568)</th>
-<td>Kind variables in type family aren't quantified in toposorted order</td></tr>
-<tr><th>[\#15591](https://gitlab.haskell.org//ghc/ghc/issues/15591)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14796">#14796</a></th>
+<td>Pretty Printing: GHC doesn&apos;t parenthesise (() :: Constraint)</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15527">#15527</a></th>
+<td>TypeApplications error message doesn&apos;t parenthesize infix name</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15568">#15568</a></th>
+<td>Kind variables in type family aren&apos;t quantified in toposorted order</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15591">#15591</a></th>
 <td>Inconsistent kind variable binder visibility between associated and non-associated type families</td></tr>
-<tr><th>[\#15592](https://gitlab.haskell.org//ghc/ghc/issues/15592)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15592">#15592</a></th>
 <td>Type families without CUSKs cannot be given visible kind variable binders</td></tr>
-<tr><th>[\#15793](https://gitlab.haskell.org//ghc/ghc/issues/15793)</th>
-<td>Type family doesn't reduce with visible kind application</td></tr>
-<tr><th>[\#15797](https://gitlab.haskell.org//ghc/ghc/issues/15797)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15793">#15793</a></th>
+<td>Type family doesn&apos;t reduce with visible kind application</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15797">#15797</a></th>
 <td>GHC panic using visible kind application</td></tr>
-<tr><th>[\#15801](https://gitlab.haskell.org//ghc/ghc/issues/15801)</th>
-<td>"ASSERT failed!" with visible kind applications</td></tr>
-<tr><th>[\#15807](https://gitlab.haskell.org//ghc/ghc/issues/15807)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15801">#15801</a></th>
+<td>&quot;ASSERT failed!&quot; with visible kind applications</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15807">#15807</a></th>
 <td>GHC panic with visible kind applications</td></tr>
-<tr><th>[\#15816](https://gitlab.haskell.org//ghc/ghc/issues/15816)</th>
-<td>Visible kind applications + data family: \`U :: Type' said to be of kind \`k0 -\> k1\` in error message</td></tr></table>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15816">#15816</a></th>
+<td>Visible kind applications + data family: `U :: Type&apos; said to be of kind `k0 -&gt; k1` in error message</td></tr></table>
+
+
 
 ---
 
@@ -181,6 +189,11 @@ See directly below for usage examples. More detailed design decisions follow the
 ---
 
 ## **Usage:**
+
+
+
+ 
+
 
 
 This extension can be enabled with “TypeApplications” within the LANGUAGE pragma, or use the flag “-XTypeApplications”. The usage of this flag does not turn on any other flag implicitly. Using this flag will make a whitespace-sensitive distinction preceding each ‘@’ character: No whitespace before ‘@’ will result in an as-pattern, while having whitespace before the ‘@’ will parse as a type-application. (When this flag is turned off, the behavior is the same as it is now - no whitespace sensitivity). See **Design** with more information on the syntax.
@@ -255,22 +268,34 @@ There are several small design questions that can be asked of Explicit Type Appl
 - *Is a type annotation and/or signature required for a function in order to use type applications when applying it?*
 
 >
+>
 > No. Haskell generalizes certain functions, with a simple, straightforward signature; all the type variables are at the top, and it is a fairly simple signature to instantiate and work with. 
+>
+>
 
-- *Should we require a forall in the signature?*
+- *Should we require a forall in the signature?* 
 
+>
 >
 > No, for similar reasons as above. Additionally, we did not want to create a dependency on the "ExplicitForAll" flag, and wanted type applications to be a small, surgical feature that has as few side effects as possible.
+>
+>
 
-- *What order is used to instantiate the type variables?*
+- *What order is used to instantiate the type variables?* 
 
 >
+>
 > Left-to-right order of the type variables appearing in the foralls. This is the most logical order that occurs when the instantiation is done at the type-variable level. Nested foralls work slightly differently, but at a single forall location with multiple variables, left-to-right order takes place. (See below for nested foralls).
+>
+>
 
 - *How will it work with partial function application? Will we allow: leaving out arguments in function application, but allow type application to de-generalize the expression?*
 
 >
+>
 > Yes. This will allow the programmer to use the partially applied the function later, but only to arguments with specific types. This could be useful for a library designer, to use a generalized function internally, and only expose a specialized version of that function in the interface.  
+>
+>
 
 - * Wildcard Application*
   Allows the programmer to not instantiate every type variable if they do not want to. Example
@@ -294,7 +319,9 @@ There are several small design questions that can be asked of Explicit Type Appl
 - *Should non-prenex-form functions be allowed to use type applications? If so, how should we allow it? *
 
 >
+>
 > Yes. We allow this by requiring that type application appear where the forall is located in the type. See the following example:
+>
 >
 > ```wiki
 > many :: forall a b. a -> b -> forall c. [c] -> forall d . Num d => d -> (a, b, [c], d)

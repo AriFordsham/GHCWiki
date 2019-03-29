@@ -12,11 +12,17 @@ Ticket: [\#11081](https://gitlab.haskell.org//ghc/ghc/issues/11081)
 (This is a *pre*-proposal because not all the details are worked out.)
 
 
+
 Eliminate Template Haskell and provide direct access to GHC's internal structures (AST). The idea (still very sketchy; hence pre-proposal) is like this (numbered for easy reference, but no order is implied):
+
 
 1. TH quotes would remain. DsMeta would desugar quotes into Core code that produces `HsExpr`s. For example, `[| 1 |]` would have type `Q (LHsExpr Name)`. (Or perhaps `Q (LHsExpr RdrName)` if that works out better for clients.)
 
+>
+>
 > **Optional extension:** The type of the desugared code could be overloaded and controlled by a class, say `QuoteExpr`. This would allow quoting typechecked or Core code.
+>
+>
 
 1. TH splices would remain, working much as they do now. The expression inside, say, an expression splice would have type `Q exp` where we can satisfy the constraint `SpliceExpr exp`. There would be instances for `SpliceExpr (LHsExpr Name)` and `SpliceExpr (LHsExpr RdrName)` as well as the non-located variants. Generalizing the type of expressions here allows users not to worry about un-renaming when roundtripping between quotes and splices.
 

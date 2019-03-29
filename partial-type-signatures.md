@@ -43,47 +43,57 @@ community.
 ## Tickets
 
 
+
 Use Keyword = `PartialTypeSignatures` to ensure that a ticket ends up on these lists.
+
+
 
 **Open Tickets:**
 
-<table><tr><th>[\#10875](https://gitlab.haskell.org//ghc/ghc/issues/10875)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10875">#10875</a></th>
 <td>Unexpected defaulting of partial type signatures and inconsistent behaviour when -fdefer-typed-holes is set.</td></tr>
-<tr><th>[\#11641](https://gitlab.haskell.org//ghc/ghc/issues/11641)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11641">#11641</a></th>
 <td>Allow wildcards for parameters functionally determined (also type synonyms)</td></tr>
-<tr><th>[\#14040](https://gitlab.haskell.org//ghc/ghc/issues/14040)</th>
-<td>Typed holes regression in GHC 8.0.2: No skolem info: z_a1sY\[sk:2\]</td></tr>
-<tr><th>[\#14662](https://gitlab.haskell.org//ghc/ghc/issues/14662)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14040">#14040</a></th>
+<td>Typed holes regression in GHC 8.0.2: No skolem info: z_a1sY[sk:2]</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14662">#14662</a></th>
 <td>Partial type signatures + mutual recursion = confusion</td></tr>
-<tr><th>[\#14766](https://gitlab.haskell.org//ghc/ghc/issues/14766)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14766">#14766</a></th>
 <td>Hole-y partial type signatures greatly slow down compile times</td></tr>
-<tr><th>[\#15433](https://gitlab.haskell.org//ghc/ghc/issues/15433)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15433">#15433</a></th>
 <td>Internal error with PartialTypeSignatures and TH</td></tr>
-<tr><th>[\#16152](https://gitlab.haskell.org//ghc/ghc/issues/16152)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16152">#16152</a></th>
 <td>Core lint error from PartialTypeSignatures</td></tr>
-<tr><th>[\#16203](https://gitlab.haskell.org//ghc/ghc/issues/16203)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16203">#16203</a></th>
 <td>Unhelpful names for wildcard type variables</td></tr></table>
+
+
+
 
 **Closed Tickets:**
 
-<table><tr><th>[\#10242](https://gitlab.haskell.org//ghc/ghc/issues/10242)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10242">#10242</a></th>
 <td>Multiple constraint wildcards allowed with PartialTypeSignatures</td></tr>
-<tr><th>[\#14265](https://gitlab.haskell.org//ghc/ghc/issues/14265)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14265">#14265</a></th>
 <td>kinded holes</td></tr>
-<tr><th>[\#14643](https://gitlab.haskell.org//ghc/ghc/issues/14643)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14643">#14643</a></th>
 <td>Partial type signatures in class constraints behave unexpectedly</td></tr>
-<tr><th>[\#14658](https://gitlab.haskell.org//ghc/ghc/issues/14658)</th>
-<td>'Fix two more bugs in partial signatures' broke T10846</td></tr>
-<tr><th>[\#14715](https://gitlab.haskell.org//ghc/ghc/issues/14715)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14658">#14658</a></th>
+<td>&apos;Fix two more bugs in partial signatures&apos; broke T10846</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14715">#14715</a></th>
 <td>GHC 8.4.1-alpha regression with PartialTypeSignatures</td></tr>
-<tr><th>[\#15039](https://gitlab.haskell.org//ghc/ghc/issues/15039)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15039">#15039</a></th>
 <td>Bizarre pretty-printing of inferred Coercible constraint in partial type signature</td></tr>
-<tr><th>[\#16334](https://gitlab.haskell.org//ghc/ghc/issues/16334)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16334">#16334</a></th>
 <td>Named wildcards in kinds</td></tr></table>
+
+
 
 ---
 
+
 ## Background and motivation
+
 
 ### Pragmatics
 
@@ -178,7 +188,7 @@ normal type signature?
   ```
 
   The argument of `foo`, `x`, is a polymorphic function, making the
-  type of `foo``(forall a. [a] -> [a]) -> ([Bool], [Char])`, which is
+  type of `foo` `(forall a. [a] -> [a]) -> ([Bool], [Char])`, which is
   a higher-rank type. Inferring higher-rank types is isomorphic to
   higher-order unification, which is known to be undecidable. So
   generally, higher-rank types cannot be inferred. Therefore, the
@@ -515,15 +525,16 @@ parsed as a named wildcard.
 To summarise, the four different cases, depending on the enabled
 extensions:
 
-<table><tr><th></th>
-<th>PartialTypeSignatures OFF </th>
-<th>PartialTypeSignatures ON 
+
+<table><tr><th>                                                                 </th>
+<th> PartialTypeSignatures OFF </th>
+<th> PartialTypeSignatures ON 
 </th></tr>
-<tr><th>NamedWildcards OFF </th>
+<tr><th> NamedWildcards OFF </th>
 <th> Informative errors are reported for hole instantiations, but only for unnamed wildcards. Named wildcards are still parsed as type variables, as before. </th>
 <th> The types of unnamed wildcards are inferred and used. Named wildcards are still parsed as type variables. 
 </th></tr>
-<tr><th>NamedWildcards ON  </th>
+<tr><th> NamedWildcards ON  </th>
 <th> Informative errors are reported for hole instantiations, both for unnamed and named wildcards. </th>
 <th> The types of both unnamed and named wildcards are inferred and used. 
 </th></tr></table>
@@ -850,9 +861,13 @@ some things that may be non-obvious.
 
 ### TODOs
 
+
+>
 >
 > The TODOs are sorted by severity, i.e. the first TODO is the most
 > important one, the last one is only of minor importance.
+>
+>
 
 1. TODO A partial type signature for a local definition is not generalised
   when the MonoLocalBinds
@@ -881,6 +896,10 @@ some things that may be non-obvious.
     because type variable ‘a’ would escape its scope
   ```
 
+
+   
+
+
 1. TODO There is a bug in the handling of pattern bindings with partial type
   signatures, i.e. the partial type signatures are ignored, e.g.
 
@@ -894,7 +913,10 @@ some things that may be non-obvious.
   See test case `PatBind2`.
 
 >
+>
 > There is a TODO for this in the code.
+>
+>
 
 1. TODO One of the examples described in the [section](partial-type-signatures#) about the monomorphism
   restriction doesn't work:
@@ -951,7 +973,10 @@ some things that may be non-obvious.
   error.
 
 >
+>
 > Related feature request for TypedHoles: [\#9091](https://gitlab.haskell.org//ghc/ghc/issues/9091).
+>
+>
 
 1. TODO The order in which type variables are tidied for printing is incorrect.
   Wildcards which are generalised over become type variables with names
@@ -1019,9 +1044,11 @@ might be surprising. As `a` is a generalised type variable that is
 already annotated, we don't have to generalise over it anymore. The
 monomorphism restriction simply doesn't apply.
 
+
 ## Questions and issues
 
-- **Constraint wildcards**:
+
+-  **Constraint wildcards**:
   **NOTE**: we no longer intend to support constraint wildcards.
   Only [named wildcards](partial-type-signatures#) also occurring in monotype
   and an [extra-constraints wildcard](partial-type-signatures#)
@@ -1133,7 +1160,7 @@ monomorphism restriction simply doesn't apply.
   InstanceSigs (not yet
   implemented).
 
-- **Extra-constraints wildcard position**: We only allow one
+-  **Extra-constraints wildcard position**: We only allow one
   extra-constraints wildcard in a signature: at the outer
   quantification of the signature. Consider for example the function
   `multiCs`:
@@ -1159,7 +1186,7 @@ monomorphism restriction simply doesn't apply.
   multiCs :: (Show a, _) => a -> (Enum a, _) => String
   ```
 
-- **Higher-rank types**: Consider the
+-  **Higher-rank types**: Consider the
   following partial type signature:
 
   ```wiki

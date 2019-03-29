@@ -155,6 +155,10 @@ This is a list of interdependencies between seemingly unrelated parts that need 
   - The `Monad` constraint on do-notation expects the definition to live in base. `RebindableSyntax` helps, but requires to define a local `ifThenElse` function.
 - The ST Monad can (and should) be provided independently of IO, but currently functions like `unsafeIOToST` are provided in the `Control.Monad.ST` namespace.
 
+
+  
+
+
 ### First attempt
 
 

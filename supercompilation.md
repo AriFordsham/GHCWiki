@@ -209,16 +209,27 @@ An attempted list at differences between [ Supero](http://community.haskell.org/
 1) Call-by-value vs Call-by-n{ame,eed}. I am not completely clear on whether Supero preserves sharing. (Pscp does, otherwise the improvement theory is not usable and the proof doesn't go through. Previous discussions between Neil and Peter concluded that this is not sufficient - more expressions need to be inlined so we do not want to preserve all the sharing for performance reasons; Simon later pointed out that we must preserve sharing).
 
 
+
 2) Termination criterion. Both use the homeomorphic embedding, but there are some small differences.
 
+
+>
 >
 > a) Pscp checks against fewer previous expressions compared to Supero. (Pscp only looks at expressions on the form R\<g es\>, where R are evaluation contexts for call-by-name, and g are top/local level definitions. Let-statements, for example, are not bound in our contexts). This could be beneficial for compilation speed, but I don't have any concrete numbers right now. The drawback is that our approach can not perform Distillation; a more powerful transformation that makes the checks even more expensive. This should not be hard to change in an actual implementation though.
+>
+>
 
+>
 >
 > b) Generalisation. Pscp currently uses the msg, and Neil has deducted a better way to split expressions. Switching between them should be a matter of changing a couple of lines of code in an actual implementation.
+>
+>
 
 >
+>
 > c) simpleTerminate. This roughly corresponds to a mixture between values and what pscp have labeled as "annoying expressions". Neil was spot on in earlier discussions on what annoying expressions are: something where evaluation is stuck (normally because of a free variable in the next position, for example the application "x es"). Simon has an interesting algorithm formulation that avoids annoying expressions altogether and is probably simpler to implement.
+>
+>
 
 
 3) Inlining decisions. Neil has a more advanced way of determining when things should be inlined or not. I believe that the solution is some kind of union between the inliner paper, Neil's work and possibly some kind of cost calculus for inlining.

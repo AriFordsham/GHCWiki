@@ -6,9 +6,13 @@ The content on this page is still work in progress
 ## Current state
 
 
+
 As of [db19c665ec5055c2193b2174519866045aeff09a](/trac/ghc/changeset/db19c665ec5055c2193b2174519866045aeff09a/ghc) all repos except for `ghc-tarballs` have been turned into proper submodules in in the `master` branch. GHC 7.10 will be the first release having proper submodules in place.
 
-~~The following repositories are currently submodules: `binary.git``bytestring.git``Cabal.git``containers.git``haskeline.git``pretty.git``primitive.git``random.git``terminfo.git``time.git``transformers.git``vector.git``Win32.git``xhtml.git`~~
+
+
+~~The following repositories are currently submodules: `binary.git` `bytestring.git` `Cabal.git` `containers.git` `haskeline.git` `pretty.git` `primitive.git` `random.git` `terminfo.git` `time.git` `transformers.git` `vector.git` `Win32.git` `xhtml.git`~~
+
 
 
 As a crude statistics, the number of `git push` operations performed to the master branches of non-git-submodules between 2013-08-10 and 2013-11-23:
@@ -82,9 +86,15 @@ Reasons against folding all repos into `ghc.git`:
 - sparse/partial checkouts (e.g. via `cabal get -s`) require to fetch all of `ghc.git`'s history
 
 
+ 
+
+
+
 The remaining add-on repositories shall be converted into Git submodules.
 
+
 #### The consequences
+
 
 - `ghc.git`'s commit id by itself effectively provides a sufficient source-tree fingerprint; therefore, this renders the `fingerprint.py` superfluous
 

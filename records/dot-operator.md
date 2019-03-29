@@ -158,4 +158,7 @@ Or would this syntax alway need to be applied?
 echo . delta $ charlie@beta@alpha@r
 ```
 
-**See also:**[Dot as Postfix Function Apply](records/declared-overloaded-record-fields/dot-postfix), part of the Declared Overloaded Record Fields proposal, where a record selector is just a function (overloaded). So dot notation is just postfix (reverse) function application (tight-binding), and can be used for any function. -- AntC 22-Feb-2012
+
+**See also:** [Dot as Postfix Function Apply](records/declared-overloaded-record-fields/dot-postfix), part of the Declared Overloaded Record Fields proposal, where a record selector is just a function (overloaded). So dot notation is just postfix (reverse) function application (tight-binding), and can be used for any function. -- AntC 22-Feb-2012
+
+

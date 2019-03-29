@@ -16,15 +16,23 @@ kind.  However, sometimes we are not interested in the datatype at all, only on
 the kind.  Consider the following data kind that defines a small universe for
 generic programming:
 
+
 ```
-dataUniverse star =Sum(Universe star)(Universe star)|Prod(Universe star)(Universe star)|K star
+data Universe star = Sum  (Universe star) (Universe star)
+                   | Prod (Universe star) (Universe star)
+                   | K star
 ```
 
 
 This universe comes with an associated interpretation:
 
+
 ```
-dataInterpretation::Universe*->*whereL::Interpretation a ->Interpretation(Sum a b)R::Interpretation b ->Interpretation(Sum a b)Prod::Interpretation a ->Interpretation b ->Interpretation(Prod a b)K:: a ->Interpretation(K a)
+data Interpretation :: Universe * -> * where
+  L    :: Interpretation a -> Interpretation (Sum a b)
+  R    :: Interpretation b -> Interpretation (Sum a b)
+  Prod :: Interpretation a -> Interpretation b -> Interpretation (Prod a b)
+  K    :: a -> Interpretation (K a)
 ```
 
 
@@ -62,18 +70,32 @@ becomes part of `-XDataKinds`.  The proposal is backwards compatible.
 ## Closed kinds
 
 
+
 Starting with GHC 8.0 users can use `-XTypeInType` extension to write:
 
+
 ```
-dataUniverse=SumUniverseUniverse|ProdUniverseUniverse|K(*)
+data Universe = Sum  Universe Universe
+              | Prod Universe Universe
+              | K (*)
 ```
 
 
 This addresses disadvantage (1) but still leaves us with disadvantage (2).  So
 the idea behind [\#6024](https://gitlab.haskell.org//ghc/ghc/issues/6024) is to let users define things like:
 
+
 ```
--- closed kind using H98 syntaxdata kind Universe=SumUniverseUniverse|ProdUniverseUniverse|K(*)-- closed kind using GADTs syntaxdata kind UniversewhereSum::Universe->Universe->UniverseProd::Universe->Universe->UniverseK::*->Universe
+-- closed kind using H98 syntax
+data kind Universe = Sum  Universe Universe
+                   | Prod Universe Universe
+                   | K (*)
+
+-- closed kind using GADTs syntax
+data kind Universe where
+  Sum  :: Universe -> Universe -> Universe
+  Prod :: Universe -> Universe -> Universe
+  K    :: *                    -> Universe
 ```
 
 
@@ -84,17 +106,29 @@ only in types only, and not in terms.
 ## Open kinds
 
 
+
 Open data kinds would be declared using following syntax:
 
+
 ```
--- open kinddata kind open Universedata kind member Sum::Universe->Universe->Universedata kind member Prod::Universe->Universe->Universedata kind member K::*->Universe
+-- open kind
+data kind open Universe
+data kind member Sum  :: Universe -> Universe -> Universe
+data kind member Prod :: Universe -> Universe -> Universe
+data kind member K    :: *                    -> Universe
 ```
 
 
 Note that open kinds can be parametrized just like closed kinds:
 
+
 ```
-data kind open Dimension::*data kind member Length::Dimensiondata kind open Unit::Dimension->*data kind member Meter::Unit'Lengthdata kind member Foot::Unit'Length
+data kind open Dimension :: *
+data kind member Length :: Dimension
+
+data kind open Unit :: Dimension -> *
+data kind member Meter :: Unit 'Length
+data kind member Foot  :: Unit 'Length
 ```
 
 # Caveats
@@ -110,10 +144,12 @@ namespace and if that fails then it searches for the symbol in the data
 namespace.
 
 
+
 Assume we have:
 
+
 ```
-data kind Foo=MkFoo
+data kind Foo = MkFoo
 ```
 
 
@@ -149,17 +185,22 @@ type unpromotable.  But detecting that seems Real Hard.
 ## Recursive Groups
 
 
+
 We need to be careful about recursive groups.  For example, this is valid:
 
+
 ```
-dataS=STdataT=TS
+data S = S T
+data T = T S
 ```
 
 
 but this is not:
 
+
 ```
-data kind S=STdataT=TS
+data kind S = S T
+data T = T S
 ```
 
 ## Future-proofing the design

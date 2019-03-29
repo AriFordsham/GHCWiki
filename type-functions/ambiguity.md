@@ -27,7 +27,10 @@ A type system is usually specified by
   `theta(C)` must be *satisfiable* (using `|=`) from the ambient constraints Q.
 
 >
+>
 > The point is that we "guess" the ai.
+>
+>
 
 - An **inference algorithm**, often also presented using similar-looking rules, but in a form that can be read as an algorithm with no "guessing".  Typically 
 

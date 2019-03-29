@@ -27,8 +27,11 @@ Create a `[ticket-workflow]` section in `trac.ini`.
 Within this section, each entry is an action that may be taken on a ticket. 
 For example, consider the `accept` action from `simple-workflow.ini`:
 
+
 ```
-accept=new,accepted -> acceptedaccept.permissions=TICKET_MODIFYaccept.operations=set_owner_to_self
+accept = new,accepted -> accepted
+accept.permissions = TICKET_MODIFY
+accept.operations = set_owner_to_self
 ```
 
 
@@ -51,7 +54,11 @@ The available operations are:
   - *actionname*`.set_resolution` may optionally be set to a comma delimited list or a single value. Example:
 
     ```
-    resolve_new=new -> closedresolve_new.label=resolveresolve_new.operations=set_resolutionresolve_new.permissions=TICKET_MODIFYresolve_new.set_resolution=invalid,wontfix
+    resolve_new = new -> closed
+    resolve_new.label = resolve
+    resolve_new.operations = set_resolution
+    resolve_new.permissions = TICKET_MODIFY
+    resolve_new.set_resolution = invalid,wontfix
     ```
 - **leave_status** -- Displays "leave as \<current status\>" and makes no change to the ticket.
 - **reset_workflow** -- Resets the status of tickets that are in states no longer defined.
@@ -59,20 +66,29 @@ The available operations are:
 **Note:** Specifying conflicting operations, such as `set_owner` and `del_owner`, has unspecified results.
 
 
+
 In this example, we see the `.label` attribute used. The action here is `resolve_accepted`, but it will be presented to the user as `resolve`:
 
+
 ```
-resolve_accepted=accepted -> closedresolve_accepted.label=resolveresolve_accepted.permissions=TICKET_MODIFYresolve_accepted.operations=set_resolution
+resolve_accepted = accepted -> closed
+resolve_accepted.label = resolve
+resolve_accepted.permissions = TICKET_MODIFY
+resolve_accepted.operations = set_resolution
 ```
 
 
 In this example, we see the `.label` attribute used.  The action here is `resolve_accepted`, but it will be presented to the user as `resolve`. The `.label` attribute is new in Trac 1.1.3 and is functionally the same as the `.name` attribute, which is now deprecated. If neither `.label` or `.name` is specified, the action will be presented to the user as *resolve accepted*, the underscores having been replaced by whitespace (*Since 1.1.3*).
 
 
+
 For actions that should be available in all states, `*` may be used in place of the state. The obvious example is the `leave` action:
 
+
 ```
-leave=* -> *leave.operations=leave_statusleave.default=1
+leave = * -> *
+leave.operations = leave_status
+leave.default = 1
 ```
 
 
@@ -80,27 +96,46 @@ This also shows the use of the `.default` attribute. This value is expected to b
 If not specified for an action, `.default` is 0. The value may be negative.
 
 
+
 The ticket create actions are specified by a transition from the special `<none>` state. At least one create action must be available to the user in order for tickets to be created. The create actions defined in the default workflow are:
 
+
 ```
-create=<none> -> newcreate.default=1create_and_assign=<none> -> assignedcreate_and_assign.label=assigncreate_and_assign.permissions=TICKET_MODIFYcreate_and_assign.operations=may_set_owner
+create = <none> -> new
+create.default = 1
+
+create_and_assign = <none> -> assigned
+create_and_assign.label = assign
+create_and_assign.permissions = TICKET_MODIFY
+create_and_assign.operations = may_set_owner
 ```
 
 
 There is one hard-coded constraints to the workflow: tickets are expected to have a `closed` state. The default reports/queries treat any state other than `closed` as an open state.
 
 
+
 The special `_reset` action is added by default for tickets that are in states that are no longer defined. This allows tickets to be individually "repaired" after the workflow is changed, although it's recommended that the administrator perform the action by batch modifying the affected tickets. By default the `_reset` action is available to users with the `TICKET_ADMIN` permission and reset tickets are put in the *new* state. The default `_reset` action is equivalent to the following `[ticket-workflow]` action definition:
 
+
 ```
-_reset=-> new_reset.label=reset_reset.operations=reset_workflow_reset.permissions=TICKET_ADMIN_reset.default=0
+_reset = -> new
+_reset.label = reset
+_reset.operations = reset_workflow
+_reset.permissions = TICKET_ADMIN
+_reset.default = 0
 ```
 
 
 Since [ milestone:1.0.3](http://trac.edgewall.org/intertrac/milestone%3A1.0.3) the `_reset` action can be customized by redefining the implicit action. For example, to allow anyone with `TICKET_MODIFY` to perform the `_reset` action, the workflow action would need to be defined:
 
+
 ```
-_reset=-> new_reset.label=reset_reset.operations=reset_workflow_reset.permissions=TICKET_MODIFY_reset.default=0
+_reset = -> new
+_reset.label = reset
+_reset.operations = reset_workflow
+_reset.permissions = TICKET_MODIFY
+_reset.default = 0
 ```
 
 ## Workflow Visualization
@@ -125,10 +160,22 @@ After you have changed a workflow, you need to restart your webserver for the ch
 ## Example: Adding optional Testing with Workflow
 
 
+
 By adding the following to your \[ticket-workflow\] section of trac.ini you get optional testing. When the ticket has status `new`, `accepted` or `needs_work`, you can choose to submit it for testing.  When it's in the testing status the user gets the option to reject it and send it back to `needs_work`, or pass the testing and send it along to `closed`. If they accept it, then it is automatically marked as `closed` and the resolution is set to `fixed`. Since all the old work flow remains, a ticket can skip this entire section.
 
+
 ```
-testing=new,accepted,needs_work,assigned,reopened -> testingtesting.label=Submit to reporter for testingtesting.permissions=TICKET_MODIFYreject=testing -> needs_workreject.label=Failed testing, return to developerpass=testing -> closedpass.label=Passes Testingpass.operations=set_resolutionpass.set_resolution=fixed
+testing = new,accepted,needs_work,assigned,reopened -> testing
+testing.label = Submit to reporter for testing
+testing.permissions = TICKET_MODIFY
+
+reject = testing -> needs_work
+reject.label = Failed testing, return to developer
+
+pass = testing -> closed
+pass.label = Passes Testing
+pass.operations = set_resolution
+pass.set_resolution = fixed
 ```
 
 ### How to combine the `tracopt.ticket.commit_updater` with the testing workflow
@@ -151,40 +198,90 @@ Have a look at the [ Trac 0.11 recipe](http://trac.edgewall.org/intertrac/wiki%3
 Sometimes Trac is used in situations where "testing" can mean different things to different people so you may want to create an optional workflow state that is between the default workflow's `assigned` and `closed` states, but does not impose implementation-specific details. The only new state you need to add for this is a `reviewing` state. A ticket may then be "submitted for review" from any state that it can be reassigned. If a review passes, you can re-use the `resolve` action to close the ticket, and if it fails you can re-use the `reassign` action to push it back into the normal workflow.
 
 
+
 The new `reviewing` state along with its associated `review` action looks like this:
 
+
 ```
-review=new,assigned,reopened -> reviewingreview.operations=set_ownerreview.permissions=TICKET_MODIFY
+review = new,assigned,reopened -> reviewing
+review.operations = set_owner
+review.permissions = TICKET_MODIFY
 ```
 
 
 Then, to integrate this with the default Trac 0.11 workflow, you also need to add the `reviewing` state to the `accept` and `resolve` actions:
 
+
 ```
-accept=new,reviewing -> assigned[…]resolve=new,assigned,reopened,reviewing -> closed
+accept = new,reviewing -> assigned
+[…]
+resolve = new,assigned,reopened,reviewing -> closed
 ```
 
 
 Optionally, you can also add a new action that allows you to change the ticket's owner without moving the ticket out of the `reviewing` state. This enables you to reassign review work without pushing the ticket back to the `new` status:
 
+
 ```
-reassign_reviewing=reviewing -> *reassign_reviewing.label=reassign reviewreassign_reviewing.operations=set_ownerreassign_reviewing.permissions=TICKET_MODIFY
+reassign_reviewing = reviewing -> *
+reassign_reviewing.label = reassign review
+reassign_reviewing.operations = set_owner
+reassign_reviewing.permissions = TICKET_MODIFY
 ```
 
 
 The full `[ticket-workflow]` configuration will thus look like this:
 
+
 ```
-[ticket-workflow]create=<none> -> newcreate.default=1create_and_assign=<none> -> assignedcreate_and_assign.label=assigncreate_and_assign.permissions=TICKET_MODIFYcreate_and_assign.operations=may_set_owneraccept=new,reviewing -> assignedaccept.operations=set_owner_to_selfaccept.permissions=TICKET_MODIFYleave=* -> *leave.default=1leave.operations=leave_statusreassign=new,assigned,accepted,reopened -> assignedreassign.operations=set_ownerreassign.permissions=TICKET_MODIFYreopen=closed -> reopenedreopen.operations=del_resolutionreopen.permissions=TICKET_CREATEresolve=new,assigned,reopened,reviewing -> closedresolve.operations=set_resolutionresolve.permissions=TICKET_MODIFYreview=new,assigned,reopened -> reviewingreview.operations=set_ownerreview.permissions=TICKET_MODIFYreassign_reviewing=reviewing -> *reassign_reviewing.operations=set_ownerreassign_reviewing.label=reassign reviewreassign_reviewing.permissions=TICKET_MODIFY
+[ticket-workflow]
+create = <none> -> new
+create.default = 1
+create_and_assign = <none> -> assigned
+create_and_assign.label = assign
+create_and_assign.permissions = TICKET_MODIFY
+create_and_assign.operations = may_set_owner
+accept = new,reviewing -> assigned
+accept.operations = set_owner_to_self
+accept.permissions = TICKET_MODIFY
+leave = * -> *
+leave.default = 1
+leave.operations = leave_status
+reassign = new,assigned,accepted,reopened -> assigned
+reassign.operations = set_owner
+reassign.permissions = TICKET_MODIFY
+reopen = closed -> reopened
+reopen.operations = del_resolution
+reopen.permissions = TICKET_CREATE
+resolve = new,assigned,reopened,reviewing -> closed
+resolve.operations = set_resolution
+resolve.permissions = TICKET_MODIFY
+review = new,assigned,reopened -> reviewing
+review.operations = set_owner
+review.permissions = TICKET_MODIFY
+reassign_reviewing = reviewing -> *
+reassign_reviewing.operations = set_owner
+reassign_reviewing.label = reassign review
+reassign_reviewing.permissions = TICKET_MODIFY
 ```
 
 ## Example: Limit the resolution options for a new ticket
 
 
+
 The above `resolve_new` operation allows you to set the possible resolutions for a new ticket. By modifying the existing resolve action and removing the new status from before the `->` we then get two resolve actions. One with limited resolutions for new tickets, and then the regular one once a ticket is accepted.
 
+
 ```
-resolve_new=new -> closedresolve_new.label=resolveresolve_new.operations=set_resolutionresolve_new.permissions=TICKET_MODIFYresolve_new.set_resolution=invalid,wontfix,duplicateresolve=assigned,accepted,reopened -> closedresolve.operations=set_resolutionresolve.permissions=TICKET_MODIFY
+resolve_new = new -> closed
+resolve_new.label = resolve
+resolve_new.operations = set_resolution
+resolve_new.permissions = TICKET_MODIFY
+resolve_new.set_resolution = invalid,wontfix,duplicate
+
+resolve = assigned,accepted,reopened -> closed
+resolve.operations = set_resolution
+resolve.permissions = TICKET_MODIFY
 ```
 
 ## Advanced Ticket Workflow Customization

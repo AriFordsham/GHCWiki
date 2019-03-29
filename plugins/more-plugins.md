@@ -18,8 +18,14 @@ The plan is to extend Plugin type to become a sum type, and allow to extend the 
 
 I would start by replacing {{plugin :: Plugin}} interface by the new {{Plugins}} type that is a sum type:
 
+
 ```
-dataPluginDecl=CoreSynPlugin{ coreSynProcess ::CoreSyn->CoreSyn}|STGPlugin{ stgProcess ::STGMach->STGMach}|SourcePlugin{ preprocess ::HsSource->IOHsSource}|ClassDefaultingPlugin{ tryDefault ::WantedConstraints->TcSWantedConstraints}typePlugins=[PluginDecl]
+data PluginDecl = CoreSynPlugin         { coreSynProcess :: CoreSyn -> CoreSyn }
+                | STGPlugin             { stgProcess :: STGMach     -> STGMach }
+                | SourcePlugin          { preprocess :: HsSource    -> IO HsSource }
+                | ClassDefaultingPlugin { tryDefault :: WantedConstraints -> TcS WantedConstraints }
+
+type Plugins = [PluginDecl]
 ```
 
 

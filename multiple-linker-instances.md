@@ -189,7 +189,10 @@ and add to `PersistentLinkerState` a `ForeignPtr` to a malloc'd `ObjLinkerState`
   ```
 
 >
+>
 > I guess it can continue being a global variable.
+>
+>
 
 - No idea about these ones:
 

@@ -294,16 +294,30 @@ The installed package id could be useful to locate the symbol if the dynamic dep
 ### In GHCi
 
 
+
 The `static` forms can be created in GHCi, but floating of expressions is not implemented there. This means that `deRef` has a chance to work in GHCi only when the body of the `static` form is a single identifier which does not depend on using any type class dictionaries. Any other kind of expression will require producing a new top-level binding and this is not done yet.
+
 
 ## References
 
+
+
 \[1\] Jeff Epstein, Andrew P. Black, and Simon Peyton-Jones. Towards Haskell in the cloud. SIGPLAN Not., 46(12):118–129, September 2011. ISSN 0362-1340. [ pdf](http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/remote.pdf)
+
+
 
 \[2\] [ https://hackage.haskell.org/package/distributed-process](https://hackage.haskell.org/package/distributed-process)
 
+
+
 \[3\] [ https://hackage.haskell.org/package/distributed-static](https://hackage.haskell.org/package/distributed-static)
+
+
 
 \[4\] [ https://github.com/tweag/distributed-static/commits/globalnames](https://github.com/tweag/distributed-static/commits/globalnames)
 
+
+
 \[5\] [ https://github.com/tweag/distributed-process/commits/generic-static4](https://github.com/tweag/distributed-process/commits/generic-static4)
+
+

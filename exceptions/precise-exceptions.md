@@ -17,15 +17,24 @@ David helpfully divides exceptions into
 - **Imprecise**: just as described by [ A Semantics for Imprecise Exceptions](https://www.microsoft.com/en-us/research/publication/a-semantics-for-imprecise-exceptions/).  An imprecise exception can be raised anywhere, by `raise# :: Exception -> a`, or by failures like divide-by-zero.  (I'm going to ignore the structure of exception values, call them all `Exception`.)
 
 >
+>
 > As discussed in the paper, an imprecise exception is a disaster scenario, not an alternative return.  We can catch them (in the IO monad) and try some alternative action.
+>
+>
 
 >
+>
 > Imprecise exceptions should be considered to be a bug in the program.  They should not be used for control flow or for conditions that happen when things are working correctly.  Still, we might want to recover from an imprecise exception.
+>
+>
 
 - **Precise**:  raised in the IO monad, by `throwIO :: Exception -> IO a`, or perhaps by an exception thrown by a foreign function call.
 
 >
+>
 > Precise exceptions are a bit less of a disaster; e.g. they are used to report "file does not exist" on file-open.  (Is this a good thing? SimonM: one can debate whether I/O errors should be represented as explicit values, e.g. `Either DoesNotExist FileContents`, but in practice there are many different error conditions that can occur when doing I/O, many of which are rare, so it's convenient to not have to deal with them explicitly.)
+>
+>
 
 
 Asynchronous exceptions are an orthogonal concept: the notion of precision doesn't apply to asynchronous exceptions which may occur at any time regardless of the expression being evaluated.
@@ -92,7 +101,8 @@ f2 x = case raise# exn of
 ```
 
 
-and that *is* strict in `x` because `raise#`*does* return bottom, just as described in the imprecise-exceptions paper.
+and that *is* strict in `x` because `raise#` *does* return bottom, just as described in the imprecise-exceptions paper.
+
 
 ### Catching exceptions
 
@@ -177,11 +187,13 @@ Simon PJ strongly prefers the former, but it's a free choice.
 ### `evaluate`
 
 
+
 How do we want to deal with `evaluate`? I (David) believe that `evaluate` should convert imprecise exceptions into precise ones. That is, we should have something like
 
+
 ```
-evaluate v =IO$\s ->
-  catch#(seq# v)(\e -> s' -> raiseIO# e s') s
+evaluate v = IO $ \s ->
+  catch# (seq# v) (\e -> s' -> raiseIO# e s') s
 ```
 
 
@@ -260,7 +272,9 @@ So I propose that we deal with this duplication issue by think about free state 
 ## Pinning down `IO` demand more precisely
 
 
-The `IO` hack in the demand analyzer only applies to *non-primitive*`IO` actions. This seems quite unfortunate. Small actions are likely
+
+The `IO` hack in the demand analyzer only applies to *non-primitive*
+`IO` actions. This seems quite unfortunate. Small actions are likely
 to inline and such, escaping the `IO` hack. I think we probably want to
 restore the original meaning of `has_side_effects`, and make sure to apply
 the hack to any primop that has (observable) side effects but not to others.
@@ -274,25 +288,31 @@ case writeMutVar# r v s of
 
 then I think we want to consider this lazy in `e s'`. But if we have
 
+
 ```
-case readMutVar# r s of(# s', v #)-> e s'
+case readMutVar# r s of
+  (# s', v #) -> e s'
 ```
 
 
 then we want to consider this strict in `e s'`.
 
 
+
 I'm not sure how useful this is, but we can also safely discard non-side-effecting primops. If we have
 
+
 ```
-case readMutVar# v s of(# s', x #)-> e -- where x is unused in e
+case readMutVar# v s of
+  (# s', x #) -> e -- where x is unused in e
 ```
 
 
 then we can simplify this to
 
+
 ```
-e[s' -> s][x ->error"absent"]
+e [s' -> s] [x -> error "absent"]
 ```
 
 

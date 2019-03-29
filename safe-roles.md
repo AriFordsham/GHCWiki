@@ -120,11 +120,16 @@ Despite my earlier comments, there is some annoying engineering here. For good r
 #### Recursive Checking Required
 
 
+
 Consider
 
+
+>
 >
 > data A a = MkA a    -- inferred to have an R role
 > data B b = MkB (A b)   -- inferred to have an R role
+>
+>
 
 
 Suppose MkA is not in scope, but MkB is. Now, suppose we want to coerce (B Age)
@@ -159,25 +164,39 @@ A \<- B \<- C
 Now, we have the following situations:
 
 
+
 A) B is Safe -- then A should inherit PA(C) since if B is safe, then C must be
 
+
+>
 >
 > Safe or Trustworthy, so A can defiantly import C.
+>
+>
 
 
 B) B is Unsafe -- then A should inherit PA(C). Since if A can successfully
 
+
+>
 >
 > import B, A is Unsafe, so it's regular Haskell behavior.
+>
+>
 
 
 C) B is Trustworthy, C is Safe / Trustworthy  -- A should inherit PA(C).
 
 
+
 D) B is Trustworthy, C is Unsafe -- A \*shouldn't\* inherit PA(C). Since A may
 
+
+>
 >
 > not be able to import C itself.
+>
+>
 
 
 For the non-[SafeHaskell](safe-haskell) situation, rather than do all this tracking stuff, it
@@ -618,6 +637,11 @@ I get the same behaviour as the original code. Note: no `coerce`! **End RAE**
 Use roles is a global property of the type. So while it may be reasonable as a library writer of an ADT, `Set`, to want to use the `coerce` function internally, but disallow it externally, you currently can't do this.
 
 
+
 Newtype's provide this property somewhat, but as pointed out, only for their **unwrapping instances**, the **lifting instances** are only controllable through roles.
 
+
+
 **RAE** Yes, but you can have a `SetInternal` datatype with whatever roles you please, use that throughout your library, and then have `newtype Set x y z = MkSet (SetInternal x y z)` with more restrictive roles and without an exported constructor. This is perhaps less than ideal, but not so painful that we need to worry about inventing something better. **End RAE**
+
+

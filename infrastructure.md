@@ -17,7 +17,9 @@ There are a number of services and tools that GHC developers should be aware of.
 ## External tools
 
 
+
 There are a bunch of external services that might be of interest to GHC developers:
+
 
 - Source code statistics on Ohloh: [ https://www.ohloh.net/p/ghc](https://www.ohloh.net/p/ghc)
 - Similar statistics, on GitHub: [ https://github.com/ghc/ghc/graphs](https://github.com/ghc/ghc/graphs)

@@ -122,6 +122,10 @@ Where the 4th and 5th arguments given to `T1` are the reflexive coercions
 (a,b) :: (a,b) :=: (a,b)
 ```
 
+
+ 
+
+
 ## Representation of coercion assumptions
 
 

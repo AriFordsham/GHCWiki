@@ -68,9 +68,19 @@ See the [CollectionClassFramework](collection-class-framework) for details.
 
 ## Short terms plans
 
+
 - Have a consistent performance checker. [\#676](https://gitlab.haskell.org//ghc/ghc/issues/676)
 
+
+ 
+
+
 ## Long term plans & ideas
+
+
+
+ 
+
 
 - Gather alternative collection implementations. Those must pass the regression tests. Note that this implies that they conform to the naming conventions already in place, or that compatibility layers are added.
   Candidates for inclusion:

@@ -1,6 +1,11 @@
 # DArrays - Haskell Support for Array Computations \[OUT OF DATE\]
 
+
+>
+>
 > **This page has been superseded by the Repa paper in ICFP'10: [ http://www.cse.unsw.edu.au/\~chak/papers/KCLPL10.html](http://www.cse.unsw.edu.au/~chak/papers/KCLPL10.html)**
+>
+>
 
 
 The library provides a layer on top of DPH unlifted arrays to support multi-dimensional arrays, and shape polymorphic 

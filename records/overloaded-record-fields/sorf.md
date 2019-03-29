@@ -205,7 +205,8 @@ because we are not allowed to have a type instance whose RHS is a polytype, beca
 we don't konw when to instantiate it.  This restriction is **not** easy to lift.
 
 
-The base design instead gives `Has`*three* parameters, and uses 
+
+The base design instead gives `Has` *three* parameters, and uses 
 a functional-dependency-like mechanism (but using equalities) for the result type.
 Using this we can deal with `HR`:
 
@@ -474,7 +475,9 @@ There are three problems:
   will be rejected because `rv` is not polymorphic.  Again, this is **not** easy to fix.   
 
 >
+>
 > This problem seems to be a killer: if record-update syntax is interpreted as a call to `set`, we cannot, ever, use record-update syntax to update a record with a polymorphic field. (We could use alternative notation; instead of `r { rev = reverse }` we could say
+>
 >
 > ```wiki
 >   case r of { HR { .. } -> HR { rev = reverse, .. } }
@@ -482,6 +485,8 @@ There are three problems:
 >
 >
 > where I'm using GHC's dot-dot notation to fill in the missing fields.  But it's clumsy and would get worse if the data type had several constructors.)  And even if we were willing to give up on record-update syntax for polymorphic fields, we'd need a rule to say which fields are or are not made an instance of `Has` and `Upd`.
+>
+>
 
 
 I'm not very happy with any of this.  Faced with these difficulties,

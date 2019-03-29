@@ -52,7 +52,7 @@ The first two steps are described in more detail here:
   - The analysis produces a set of `BlockId` that should become proc-points
   - The transformation inserts a function prologue at the start of each proc-point, and a function epilogue just before each branch to a proc-point.
 
-- **(OUTDATED - CmmSpillReload does not exist any more)****Add spill/reload**, implemented in `CmmSpillReload`, to spill live C-- variables before a call and reload them afterwards.  The spill and reload instructions are simply memory stores and loads respectively, using symbolic stack offsets (see [stack layout](commentary/compiler/stack-areas#laying-out-the-stack)).  For example, a spill of variable 'x' would look like `Ptr32[SS(x)] = x`.
+- **(OUTDATED - CmmSpillReload does not exist any more)** **Add spill/reload**, implemented in `CmmSpillReload`, to spill live C-- variables before a call and reload them afterwards.  The spill and reload instructions are simply memory stores and loads respectively, using symbolic stack offsets (see [stack layout](commentary/compiler/stack-areas#laying-out-the-stack)).  For example, a spill of variable 'x' would look like `Ptr32[SS(x)] = x`.
 
   - `dualLivenessWithInsertion` does two things:
 
@@ -62,7 +62,7 @@ The first two steps are described in more detail here:
     At this point, no (`LocalReg`) variables are live across a call.
   - TODO avoid  `f();g()` turning into `spill x; f(); reload x; spill x; g(); reload x`.
 
-- **(OUTDATED - CmmRewriteAssignments is not used any more)****Rewrite assignments** (assignments to local regs, that is, not stores). 
+- **(OUTDATED - CmmRewriteAssignments is not used any more)** **Rewrite assignments** (assignments to local regs, that is, not stores). 
 
   - Convert graph to annotated graph whose nodes are `CmmRewriteAssignments.WithRegUsage`.  Specifically, `CmmAssign` is decorated with a flag `RegUsage` saying whether it is used once or many times.
   - Sink or inline assignments nearer their use points
@@ -80,6 +80,10 @@ The first two steps are described in more detail here:
 
   - replacing references to `Areas` with offsets from `Sp`.
   - adding adjustments to `Sp`.
+
+
+ 
+
 
 - **Split into multiple CmmProcs**, implemented in `CmmProcPointZ`.  At this point we build an info-table for each of the CmmProcs, including SRTs.  Done on the basis of the live local variables (by now mapped to stack slots) and live CAF statics.
 
@@ -161,6 +165,10 @@ Now things are good.  Simple common block elimination (CBE) will common up K and
 - **Garbage collector entry points**: see `Note [Heap checks]` in `StgCmmHeapery`.
 
 - **PAPs**
+
+
+ 
+
 
 - **Update frames** and **exception handling**.  Also STM frames.
 

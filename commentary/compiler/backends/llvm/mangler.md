@@ -16,6 +16,10 @@ TODO
 ## Stack Alignment
 
 
+
 LLVM requires that the C stack be properly aligned for spills. One Win32 the stack is 4-byte aligned, which is not enough for SSE spills, and even on x64 platforms the stack is only 16-byte aligned, which is not enough for AVX spills. When the stack is not properly aligned for spills, LLVM generates prologue/epilogue code that fiddles with the base pointer, which GHC uses as its stack pointer, and disables tail call optimization. Both are very bad. Therefore we currently tell LLVM to always assume the stack is properly aligned and then rewrite all aligned SSE/AVX move instructions to their unaligned counterparts inside the mangler.
 
+
 ## SIMD / AVX
+
+

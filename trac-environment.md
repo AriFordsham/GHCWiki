@@ -24,6 +24,10 @@ $ trac-admin /path/to/myproject initenv
 
 - The user under which the web server runs will require file system write permission to the environment directory and all the files inside. Please remember to set the appropriate permissions. The same applies to the source code repository, although the user under which Trac runs will only require write access to a Subversion repository created with the BDB file system; for other repository types, check the corresponding plugin's documentation. 
 
+
+ 
+
+
 - `initenv` does not create a version control repository for the specified path. If you wish to specify a default repository using optional the arguments to `initenv` you must create the repository first, otherwise you will see a message when initializing the environment: *Warning: couldn't index the default repository*.
 
 - Non-ascii environment paths are not supported.
@@ -156,4 +160,7 @@ An environment consists of the following files and directories:
 ---
 
 
+
 See also: [TracAdmin](trac-admin), [TracBackup](trac-backup), [TracIni](trac-ini), [TracGuide](trac-guide)
+
+

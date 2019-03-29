@@ -22,12 +22,27 @@ Example:
 - `A.hs`:
 
   ```
-  {-# LANGUAGE TemplateHaskell #-}moduleA(verbose)whereimportHFlagsdefineFlag"verbose"True"Whether debug output should be printed."verbose::Boolverbose= flags_verbose
+  {-# LANGUAGE TemplateHaskell #-}
+
+  module A (verbose) where
+
+  import HFlags
+
+  defineFlag "verbose" True "Whether debug output should be printed."
+
+  verbose :: Bool
+  verbose = flags_verbose
   ```
 - `ImportExample.hs`
 
   ```
-  {-# LANGUAGE TemplateHaskell #-}importHFlagsimportControl.Monad(when)importqualifiedAmain=do_<-$initHFlags "Importing example v0.1"
+  {-# LANGUAGE TemplateHaskell #-}
+
+  import HFlags
+  import Control.Monad (when)
+  import qualified A
+
+  main = do _ <- $initHFlags "Importing example v0.1"
             when A.verbose $ putStrLn "foobar"
   ```
 
@@ -96,19 +111,43 @@ An easier way is to implement [\#1480](https://gitlab.haskell.org//ghc/ghc/issue
 The proposal is to make it possible to generate annotations from template haskell (when defining a flag) and read them all back via template haskell (in `$initHFlags`).  These module level annotations (in HFlags case) will then contain the info that is needed for flag parsing and `--help` generation.
 
 
+
 Specifically, we propose to add the following new function to the `Quasi` class:
 
+
 ```
-classQuasiwhere 
-  qReifyAnnotations ::Data a =>AnnLookup-> m [a]
-  qReifyModule      ::Module-> m ModuleInfodataAnnLookup=AnnLookupModuleModule|AnnLookupNameNamederiving(Show,Eq,Data,Typeable)dataModuleInfo=-- | Contains the import list of the module.ModuleInfo[Module]deriving(Show,Data,Typeable)dataModule=ModulePkgNameModName-- package qualified module namederiving(Show,Eq,Ord,Typeable,Data)
+class Quasi where 
+  qReifyAnnotations :: Data a => AnnLookup -> m [a]
+  qReifyModule      :: Module -> m ModuleInfo
+
+data AnnLookup = AnnLookupModule Module
+               | AnnLookupName Name
+               deriving( Show, Eq, Data, Typeable )
+
+data ModuleInfo =
+  -- | Contains the import list of the module.
+  ModuleInfo [Module]
+  deriving( Show, Data, Typeable )
+
+data Module = Module PkgName ModName -- package qualified module name
+ deriving (Show,Eq,Ord,Typeable,Data)
 ```
 
 
 We also propose to add the new `AnnP` data constructor to `data Pragma`:
 
+
 ```
-dataPragma=InlinePNameInlineRuleMatchPhases|SpecialisePNameType(MaybeInline)Phases|SpecialiseInstPType|RulePString[RuleBndr]ExpExpPhases|AnnPAnnTargetExpdataAnnTarget=ModuleAnnotation|TypeAnnotationName|ValueAnnotationNamederiving(Show,Eq,Data,Typeable)
+data Pragma = InlineP         Name Inline RuleMatch Phases
+            | SpecialiseP     Name Type (Maybe Inline) Phases
+            | SpecialiseInstP Type
+            | RuleP           String [RuleBndr] Exp Exp Phases
+            | AnnP            AnnTarget Exp
+
+data AnnTarget = ModuleAnnotation
+               | TypeAnnotation Name
+               | ValueAnnotation Name
+              deriving (Show, Eq, Data, Typeable)
 ```
 
 
@@ -126,32 +165,76 @@ Here is a minimalistic implementation showing how we can use these new facilitie
 - `HFlags.hs`:
 
   ```
-  {-# LANGUAGE TemplateHaskell #-}{-# LANGUAGE DeriveDataTypeable #-}moduleHFlagswhereimportControl.ApplicativeimportData.DataimportqualifiedData.Setas Set
-  importLanguage.Haskell.THimportLanguage.Haskell.TH.Syntax-- in the real world, this is more complex, of coursedataFlagData=FlagDataStringderiving(Show,Data,Typeable)instanceLiftFlagDatawhere
-    lift (FlagData s)=[|FlagData s |]defineFlag::FlagData->DecsQdefineFlag str =do(:[])<$> pragAnnD ModuleAnnotation(lift str)traverseAnnotations::Q[FlagData]traverseAnnotations=doModuleInfo children <- reifyModule =<< thisModule
-    go children Set.empty []where
+  {-# LANGUAGE TemplateHaskell #-}
+  {-# LANGUAGE DeriveDataTypeable #-}
+
+  module HFlags where
+
+  import Control.Applicative
+  import Data.Data
+  import qualified Data.Set as Set
+  import Language.Haskell.TH
+  import Language.Haskell.TH.Syntax
+
+  -- in the real world, this is more complex, of course
+  data FlagData = FlagData String deriving (Show, Data, Typeable)
+  instance Lift FlagData where
+    lift (FlagData s) = [| FlagData s |]
+
+  defineFlag :: FlagData -> DecsQ
+  defineFlag str = do
+    (:[]) <$> pragAnnD ModuleAnnotation (lift str)
+
+  traverseAnnotations :: Q [FlagData]
+  traverseAnnotations = do
+    ModuleInfo children <- reifyModule =<< thisModule
+    go children Set.empty []
+    where
       go []     _visited acc = return acc
       go (x:xs) visited  acc | x `Set.member` visited = go xs visited acc
-                             | otherwise =doModuleInfo newMods <- reifyModule x
-                               newAnns <- reifyAnnotations $AnnLookupModule x
-                               go (newMods ++ xs)(x `Set.insert` visited)(newAnns ++ acc)initHFlags::ExpQinitHFlags=do
+                             | otherwise = do
+                               ModuleInfo newMods <- reifyModule x
+                               newAnns <- reifyAnnotations $ AnnLookupModule x
+                               go (newMods ++ xs) (x `Set.insert` visited) (newAnns ++ acc)
+
+  initHFlags :: ExpQ
+  initHFlags = do
     anns <- traverseAnnotations
-    [| print anns |]-- in the real world do something here, like generating --help
+    [| print anns |] -- in the real world do something here, like generating --help
   ```
 - `A.hs`:
 
   ```
-  {-# LANGUAGE TemplateHaskell #-}moduleAwhereimportHFlagsdefineFlag(FlagData"A module is here!")
+  {-# LANGUAGE TemplateHaskell #-}
+
+  module A where
+
+  import HFlags
+
+  defineFlag (FlagData "A module is here!")
   ```
 - `B.hs`:
 
   ```
-  {-# LANGUAGE TemplateHaskell #-}moduleBwhereimportAimportHFlagsdefineFlag(FlagData"B module is here!")
+  {-# LANGUAGE TemplateHaskell #-}
+
+  module B where
+
+  import A
+  import HFlags
+
+  defineFlag (FlagData "B module is here!")
   ```
 - `Main.hs`:
 
   ```
-  {-# LANGUAGE TemplateHaskell #-}importBimportHFlagsmain=do$initHFlags
+  {-# LANGUAGE TemplateHaskell #-}
+
+  import B
+  import HFlags
+
+  main = do
+    $initHFlags
   ```
 - `build.sh`:
 

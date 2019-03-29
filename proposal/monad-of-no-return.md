@@ -18,26 +18,32 @@ With the implementation of Functor-Applicative-Monad Proposal (AMP)\[1\] and
 (at some point) the MonadFail proposal (MFP)\[2\] the AMP class hierarchy
 becomes
 
-```
-classFunctor f  where
-    fmap    ::(a -> b)-> f a -> f b
 
-classFunctor f =>Applicative f  where
+```
+class  Functor f  where
+    fmap    :: (a -> b) -> f a -> f b
+
+class  Functor f => Applicative f  where
     pure    :: a -> f a
-    (<*>):: f (a -> b)-> f a -> f b
+    (<*>)   :: f (a -> b) -> f a -> f b
  
-    (*>):: f a -> f b -> f b
-    u *> v  =…(<*):: f a -> f b -> f a
-    u <* v  =…classApplicative m =>Monad m  where(>>=):: m a ->(a -> m b)-> m b
+    (*>)    :: f a -> f b -> f b
+    u *> v  = …
+ 
+    (<*)    :: f a -> f b -> f a
+    u <* v  = …
+
+class  Applicative m => Monad m  where
+    (>>=)   :: m a -> (a -> m b) -> m b
 
     return  :: a -> m a
     return  =  pure
 
-    (>>):: m a -> m b -> m b
-    m >> k  =  m >>=\_-> k
+    (>>)    :: m a -> m b -> m b
+    m >> k  =  m >>= \_ -> k
 
-classMonad m =>MonadFail m  where
-    fail    ::String-> m a
+class  Monad m => MonadFail m  where
+    fail    :: String -> m a
 ```
 
 
@@ -46,9 +52,10 @@ method as a historic artifact, as there's no compelling reason to
 have `pure` and `return` implemented differently. 
 
 
+
 More to the point, this redundancy violates the
 "**making illegal states unrepresentable**" idiom: Due to the default 
-implementation of `return`**this redundancy leads to
+implementation of `return` **this redundancy leads to
 error-prone situations** which aren't caught by the compiler; for instance, when
 `return` is removed while the `Applicative` instance is left with a
 `pure = return` definition, this leads to a cyclic definition which
@@ -112,12 +119,15 @@ Remove `return` and `(>>)` as methods from the `Monad` class and in its place
 define top-level bindings with the weaker `Applicative` typeclass
 constraint:
 
-```
--- | Alias for 'pure' return::Applicative f => a -> f a
-return= pure
 
--- | Alias for `(*>)`(>>)::Applicative f => f a -> f b -> f b
-(>>)=(*>)
+```
+-- | Alias for 'pure' 
+return :: Applicative f => a -> f a
+return = pure
+
+-- | Alias for `(*>)`
+(>>) :: Applicative f => f a -> f b -> f b
+(>>) = (*>)
 ```
 
 
@@ -148,12 +158,19 @@ breaks. However, `(>>)` has a default implementation in Haskell 98/2010 in terms
 we had the foresight to provide a default implementation in `base-4.8` for `return` so that the following
 represents a proper minimal instance definition post-AMP:
 
+
 ```
-instanceFunctorFoowhere
-    fmap g foo  =…instanceApplicativeFoowhere
-    pure x      =…
-    a1 <*> a2   =…instanceMonadFoowhere
-    m >>= f     =…-- NB: No mention of `return` nor `(>>)`
+instance Functor Foo where
+    fmap g foo  = …
+
+instance Applicative Foo where
+    pure x      = …
+    a1 <*> a2   = …
+
+instance Monad Foo where
+    m >>= f     = …
+
+    -- NB: No mention of `return` nor `(>>)`
 ```
 
 
@@ -177,15 +194,20 @@ A second source of incompatibility may be due to
 `import`s. Specifically module import that assert `return` to be a
 method of `Monad`, e.g.:
 
+
 ```
-importControl.Monad(Monad((>>=),return))
+import Control.Monad  (Monad ((>>=), return))
 ```
 
 
 or
 
+
 ```
-importPreludehiding(Monad(..))importControl.Monad(Monad(..)) as Monadf=Monad.return ()
+import Prelude hiding (Monad(..))
+import Control.Monad  (Monad(..)) as Monad
+
+f = Monad.return ()
 ```
 
 
@@ -216,16 +238,28 @@ restructuring changes.
 When `(>>)` and `return` are moved out of the `Monad` class, GHC would still tolerate (as a NO-OP) the lawful definitions for `(>>)` and `return` as used in the example above (and otherwise emit an error).
 
 
+
 This way, code can be made forward compatible the desired semantics *without* the use of `-XCPP`.
 
+
 ```
-instanceFunctorFoowhere
-    fmap f x    =…instanceApplicativeFoowhere
-    pure x      =…
-    a1 <*> a2   =…
-    a1 *>  a2   =…-- only needed when-- optimised version possibleinstanceMonadFoowhere
-    m >>= f     =…-- see note for GHC extension ignoring the two -- lawful definitions:(>>)=(*>)
-    return = pure  -- only needed for compatibility-- with base < 4.8
+instance Functor Foo where
+    fmap f x    = …
+
+instance Applicative Foo where
+    pure x      = …
+    a1 <*> a2   = …
+    a1 *>  a2   = …  -- only needed when
+                     -- optimised version possible
+
+instance Monad Foo where
+    m >>= f     = …
+
+    -- see note for GHC extension ignoring the two 
+    -- lawful definitions:
+    (>>)   = (*>)
+    return = pure  -- only needed for compatibility
+                   -- with base < 4.8
 ```
 
 ## Migration Strategy
@@ -239,60 +273,83 @@ This transition scheme is **not** proposed anymore; see [new strategy below](pro
 In this transition scheme, the time when **Phase 2** starts is determined by the amount of packages already converted at that time. "GHC 8.2" is only the earliest *theoretical* time to begin **Phase 2**, but a more realistic time would be "GHC 8.6" or even later.
 
 
+
 The migration strategy is straightforward:
 
-<table><tr><th>Phase 1 *(GHC 8.0)*</th>
+
+<table><tr><th>Phase 1 <i>(GHC 8.0)</i></th>
 <td>Implement new warning in GHC which gets
-triggered when `Monad` instances explicitly override the
-default `return`/`(>>)` methods implementation.
+triggered when <tt>Monad</tt> instances explicitly override the
+default <tt>return</tt>/<tt>(>>)</tt> methods implementation.
 </td></tr></table>
 
-<table><tr><th>Phase 2 *(GHC 8.2 OR LATER)*</th>
-<td>When we're confident that the
+
+<table><tr><th>Phase 2 <i>(GHC 8.2 OR LATER)</i></th>
+<td>When we&apos;re confident that the
 majority of Hackage has reacted to the warning (with the help of
 Stackage actively pursuing maintainers to update their packages) we
-turn the `return` and `(>>)` methods into a top-level binding and remove the
-warning implemented in **Phase 1** from GHC again.
+turn the <tt>return</tt> and <tt>(>>)</tt> methods into a top-level binding and remove the
+warning implemented in <b>Phase 1</b> from GHC again.
 </td></tr></table>
+
 
 ### Reduced Breakage Variant
 
+
+
 **Based on the feedback from the proposal discussion this revised transition scheme is expected to address all concerns raised**: This scheme aims to avoid breakage while allowing code to be written in a way working across a large range of GHC versions with the same semantics. Specifically, this allows a 3-year-compatibility window, avoidance of `-XCPP`, as well as the ability to write code in such a way to avoid any warnings.
 
-<table><tr><th>Phase 1 *(starting with GHC 8.0)*</th>
+
+<table><tr><th>Phase 1 <i>(starting with GHC 8.0)</i></th>
 <td>Implement new warning in GHC which gets
-triggered when `Monad` instances explicitly override the
-default `return` and `(>>)` method implementations with non-lawful 
+triggered when <tt>Monad</tt> instances explicitly override the
+default <tt>return</tt> and <tt>(>>)</tt> method implementations with non-lawful 
 definitions (see compatible instance definition example in previous section).
 
 
-The warning was implemented in GHC 8.0 and is called **`-Wnoncanonical-monad-instances`** (there are variants of this warning flag for `Monoid` and `Fail`) but it is *not* included in either `-Wall` or `-Wcompat`.
+The warning was implemented in GHC 8.0 and is called <b><tt>-Wnoncanonical-monad-instances</tt></b> (there are variants of this warning flag for <tt>Monoid</tt> and <tt>Fail</tt>) but it is <i>not</i> included in either <tt>-Wall</tt> or <tt>-Wcompat</tt>.
+
 
 </td></tr></table>
+
 
 >
-> This warning can be controlled via the new flag ~~`-fwarn-mrp-compat`~~`-Wnoncanonical-monad-instances`, and becomes part of the `-Wall` and `-Wcompat` ([\#11000](https://gitlab.haskell.org//ghc/ghc/issues/11000)) warning-sets, but *not* part of the default warning-set. 
+>
+> This warning can be controlled via the new flag ~~`-fwarn-mrp-compat`~~ `-Wnoncanonical-monad-instances`, and becomes part of the `-Wall` and `-Wcompat` ([\#11000](https://gitlab.haskell.org//ghc/ghc/issues/11000)) warning-sets, but *not* part of the default warning-set. 
+>
+>
 
-<table><tr><th>Phase 2 *(GHC 8.4 or even later)*</th>
-<td>When we're confident that the
+<table><tr><th>Phase 2 <i>(GHC 8.4 or even later)</i></th>
+<td>When we&apos;re confident that the
 majority of Hackage has reacted to the warning (with the help of
 Stackage actively pursuing maintainers to update their packages) we
-turn the `return` and `(>>)` methods into a top-level binding and let GHC ignore lawful method definitions of `return` and `(>>)`. 
+turn the <tt>return</tt> and <tt>(>>)</tt> methods into a top-level binding and let GHC ignore lawful method definitions of <tt>return</tt> and <tt>(>>)</tt>. 
 </td></tr></table>
 
+
+>
 >
 > Non-lawful definitions (which were warned about in **Phase 1**) will now result in a compile error, while
 > lawful definitions will be ignored and not be warned about (not even with `-Wall`).
+>
+>
 
-<table><tr><th>Phase 3 *(very distant future)*</th>
-<td>Start warning about lawful `return`/`>>` method overrides (in order to prepare for **Phase 4**)
+
+   
+
+
+<table><tr><th>Phase 3 <i>(very distant future)</i></th>
+<td>Start warning about lawful <tt>return</tt>/<tt>>></tt> method overrides (in order to prepare for <b>Phase 4</b>)
 </td></tr></table>
 
-<table><tr><th>Phase 4 *(even more distant future)*</th>
-<td>Remove support in GHC for ignoring lawful `return`/`>>` overrides, turning any method override of `return` and `(>>)` into a compile error.
+
+<table><tr><th>Phase 4 <i>(even more distant future)</i></th>
+<td>Remove support in GHC for ignoring lawful <tt>return</tt>/<tt>>></tt> overrides, turning any method override of <tt>return</tt> and <tt>(>>)</tt> into a compile error.
 </td></tr></table>
+
 
 ## Discussion
+
 
 ### Discussion Period
 

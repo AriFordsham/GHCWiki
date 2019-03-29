@@ -161,18 +161,22 @@ The comparison in this section page uses [ef017944600cf4e153aad686a6a78bfb48dea6
 The second demand analysis generates more worker/wrapper splits, so it also generates larger .hi files and larger .o files. The numbers in this section measure the difference between `-O2 -flate-dmd-anal` and `-O2 -fno-late-dmd-anal`. This is on my 64 bit Mac OS X.
 
 
+
 It's based on the size of the .hi and .a files in $TOPDIR/libraries.
 
-<table><tr><th></th>
+
+<table><tr><th>                   </th>
 <th>.hi bytes</th>
 <th>.a bytes
 </th></tr>
 <tr><th>no late-dmd</th>
-<th></th>
-<th></th></tr>
+<th>                  </th>
+<th>                  
+</th></tr>
 <tr><th>     late-dmd</th>
-<th></th>
-<th></th></tr>
+<th>                  </th>
+<th>                  
+</th></tr>
 <tr><th>  difference  </th>
 <th> +552,057   </th>
 <th> +684,696 

@@ -15,69 +15,77 @@ See also [RecursiveDo](recursive-do)
 ## Tickets
 
 
+
 Use Keyword = `ApplicativeDo` to ensure that a ticket ends up on these lists.
+
+
 
 **Open Tickets:**
 
-<table><tr><th>[\#10892](https://gitlab.haskell.org//ghc/ghc/issues/10892)</th>
-<td>ApplicativeDo should use \*\> and \<\*</td></tr>
-<tr><th>[\#10976](https://gitlab.haskell.org//ghc/ghc/issues/10976)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10892">#10892</a></th>
+<td>ApplicativeDo should use *&gt; and &lt;*</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10976">#10976</a></th>
 <td>Applicative Comprehensions</td></tr>
-<tr><th>[\#11982](https://gitlab.haskell.org//ghc/ghc/issues/11982)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11982">#11982</a></th>
 <td>Typechecking fails for parallel monad comprehensions with polymorphic let (GHC 7.10.3 through 8.6.3)</td></tr>
-<tr><th>[\#13309](https://gitlab.haskell.org//ghc/ghc/issues/13309)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13309">#13309</a></th>
 <td>Use liftA2 in ApplicativeDo</td></tr>
-<tr><th>[\#13511](https://gitlab.haskell.org//ghc/ghc/issues/13511)</th>
-<td>ApplicativeDo return case doesn't handle lets</td></tr>
-<tr><th>[\#13905](https://gitlab.haskell.org//ghc/ghc/issues/13905)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13511">#13511</a></th>
+<td>ApplicativeDo return case doesn&apos;t handle lets</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13905">#13905</a></th>
 <td>ApplicativeDo is too strict with newtype patterns</td></tr>
-<tr><th>[\#13906](https://gitlab.haskell.org//ghc/ghc/issues/13906)</th>
-<td>ApplicativeDo doesn't handle existentials as well as it could</td></tr>
-<tr><th>[\#14252](https://gitlab.haskell.org//ghc/ghc/issues/14252)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13906">#13906</a></th>
+<td>ApplicativeDo doesn&apos;t handle existentials as well as it could</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14252">#14252</a></th>
 <td>ApplicativeDo: Add compiler message about irrefutable pattern matches and Monad constraints</td></tr>
-<tr><th>[\#14700](https://gitlab.haskell.org//ghc/ghc/issues/14700)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14700">#14700</a></th>
 <td>ApplicativeDo in MonadComprehensions</td></tr>
-<tr><th>[\#15016](https://gitlab.haskell.org//ghc/ghc/issues/15016)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15016">#15016</a></th>
 <td>Referencing a do-bound variable in a rec block with ApplicativeDo results in variable not in scope during type checking</td></tr>
-<tr><th>[\#15100](https://gitlab.haskell.org//ghc/ghc/issues/15100)</th>
-<td>\`ApplicativeDo\` needlessly uses \`join\` too much</td></tr>
-<tr><th>[\#15344](https://gitlab.haskell.org//ghc/ghc/issues/15344)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15100">#15100</a></th>
+<td>`ApplicativeDo` needlessly uses `join` too much</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15344">#15344</a></th>
 <td>ApplicativeDo seems to prevent the fail method from being used</td></tr>
-<tr><th>[\#16135](https://gitlab.haskell.org//ghc/ghc/issues/16135)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16135">#16135</a></th>
 <td>Panic with ExistentialQuantification and ApplicativeDo</td></tr>
-<tr><th>[\#16171](https://gitlab.haskell.org//ghc/ghc/issues/16171)</th>
-<td>"ApplicativeDo" disables -Wunused-do-binds?</td></tr></table>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16171">#16171</a></th>
+<td>&quot;ApplicativeDo&quot; disables -Wunused-do-binds?</td></tr></table>
+
+
+
 
 **Closed Tickets:**
 
-<table><tr><th>[\#11607](https://gitlab.haskell.org//ghc/ghc/issues/11607)</th>
-<td>ApplicativeDo easily foiled with \`pure\`</td></tr>
-<tr><th>[\#11612](https://gitlab.haskell.org//ghc/ghc/issues/11612)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11607">#11607</a></th>
+<td>ApplicativeDo easily foiled with `pure`</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11612">#11612</a></th>
 <td>Bug in ApplicativeDo</td></tr>
-<tr><th>[\#11835](https://gitlab.haskell.org//ghc/ghc/issues/11835)</th>
-<td>ApplicativeDo failed to desugar last line with pure $ \<expr\></td></tr>
-<tr><th>[\#12143](https://gitlab.haskell.org//ghc/ghc/issues/12143)</th>
-<td>ApplicativeDo Fails to Desugar 'return True'</td></tr>
-<tr><th>[\#12490](https://gitlab.haskell.org//ghc/ghc/issues/12490)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11835">#11835</a></th>
+<td>ApplicativeDo failed to desugar last line with pure $ &lt;expr&gt;</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12143">#12143</a></th>
+<td>ApplicativeDo Fails to Desugar &apos;return True&apos;</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12490">#12490</a></th>
 <td>With RebindableSyntax, ApplicativeDo should eliminate return/pure</td></tr>
-<tr><th>[\#13242](https://gitlab.haskell.org//ghc/ghc/issues/13242)</th>
-<td>Panic "StgCmmEnv: variable not found" with ApplicativeDo and ExistentialQuantification</td></tr>
-<tr><th>[\#13648](https://gitlab.haskell.org//ghc/ghc/issues/13648)</th>
-<td>ApplicativeDo selects "GHC.Base.Monad.return" when actions are used without patterns.</td></tr>
-<tr><th>[\#13875](https://gitlab.haskell.org//ghc/ghc/issues/13875)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13242">#13242</a></th>
+<td>Panic &quot;StgCmmEnv: variable not found&quot; with ApplicativeDo and ExistentialQuantification</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13648">#13648</a></th>
+<td>ApplicativeDo selects &quot;GHC.Base.Monad.return&quot; when actions are used without patterns.</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13875">#13875</a></th>
 <td>ApplicativeDo desugaring is lazier than standard desugaring</td></tr>
-<tr><th>[\#14105](https://gitlab.haskell.org//ghc/ghc/issues/14105)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14105">#14105</a></th>
 <td>ApplicativeDo causes GHC panic on irrefutable list pattern match</td></tr>
-<tr><th>[\#14163](https://gitlab.haskell.org//ghc/ghc/issues/14163)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14163">#14163</a></th>
 <td>Stack Overflow with ApplicativeDo</td></tr>
-<tr><th>[\#14249](https://gitlab.haskell.org//ghc/ghc/issues/14249)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14249">#14249</a></th>
 <td>ApplicativeDo: Pattern matching on a bind forces a Monad constraint</td></tr>
-<tr><th>[\#14471](https://gitlab.haskell.org//ghc/ghc/issues/14471)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14471">#14471</a></th>
 <td>Certain do blocks cause TH to barf when ApplicativeDo is enabled</td></tr>
-<tr><th>[\#14670](https://gitlab.haskell.org//ghc/ghc/issues/14670)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14670">#14670</a></th>
 <td>-XRebindableSyntax needs return?</td></tr>
-<tr><th>[\#15422](https://gitlab.haskell.org//ghc/ghc/issues/15422)</th>
-<td>GHCi debugger doesn't see free variables when using ApplicativeDo</td></tr></table>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15422">#15422</a></th>
+<td>GHCi debugger doesn&apos;t see free variables when using ApplicativeDo</td></tr></table>
+
+
 
 ## Summary
 

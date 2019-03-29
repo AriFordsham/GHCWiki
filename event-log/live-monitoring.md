@@ -181,11 +181,16 @@ data CapEvent
 ## Proposed RTS event logging API
 
 
+
 C side:
 
+
 ```
+
 ///////////
-/* USAGE *////////////
+/* USAGE */
+///////////
+
 /*
 Functions in the API expect to be called in a certain sequence:
 1. initEventLogging(); - initialises the system using the default values for all settings
@@ -198,23 +203,41 @@ Functions in the API expect to be called in a certain sequence:
    called when event logging is active
 5. stopEventLogging(); - stops sending the events to the fd. This closes all tags,
    making the log "complete". May not be a good idea to restart streaming to the same fd
-*///////////////
-/* RUNNING *///////////////
+*/
+
+//////////////
+/* RUNNING */
+//////////////
+
 // Initialise the event logging system with the default values
 // The API uses state to control the default values. More information
 // is available in the SETTINGS section.
-initEventLogging();// Sends the header file of the eventlog via the fd
-sendHeader();//Starts sending the events to the fd
-startEventLogging();// Stops sending the events to the fd
-stopEventLogging();//////////////
-/* SETTINGS *///////////////
+initEventLogging();
+
+// Sends the header file of the eventlog via the fd
+sendHeader();
+
+//Starts sending the events to the fd
+startEventLogging();
+
+// Stops sending the events to the fd
+stopEventLogging();
+
+//////////////
+/* SETTINGS */
+//////////////
+
 // Sets the destination file descriptor that the eventlog will be written to.
 // Should only be called when logging is not active.
 // Default: a file called <progname>.eventlog
-setDestination(fd);// Sets the size of the per-capability eventlog buffers to sz words.
+setDestination(fd);
+
+// Sets the size of the per-capability eventlog buffers to sz words.
 // Should only be called when logging is not active.
 // Default: 2,097,152 (2MB)
-setBufferSize(int sz);// Enable or disable particular classes of events. Argument is a bit array
+setBufferSize(int sz);
+
+// Enable or disable particular classes of events. Argument is a bit array
 // Should only be called when logging is not active
 // More info on the classes: 
 // http://www.haskell.org/ghc/docs/latest/html/users_guide/runtime-control.html
@@ -223,7 +246,9 @@ setBufferSize(int sz);// Enable or disable particular classes of events. Argumen
 // currently available event classes
 // TODO: NB: enableEvents needs room for arguments as well as "flags". 
 enableEvents(long EventClasses);
-disableEvents(long EventClasses);// Set the flush timer for a Capability's buffer. I.e. the buffer will get 
+disableEvents(long EventClasses);
+
+// Set the flush timer for a Capability's buffer. I.e. the buffer will get 
 // flushed after ms milliseconds of inactivity
 // Should only be called when logging is not active.
 // Default: 0, i.e. do not flush buffers automatically

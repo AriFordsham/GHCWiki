@@ -15,31 +15,39 @@ In comment:10 of [\#5059](https://gitlab.haskell.org//ghc/ghc/issues/5059), Max 
 ## Tickets
 
 
+
 Use Keyword = `StaticArgumentTransformation` to ensure that a ticket ends up on these lists.
+
+
 
 **Open Tickets:**
 
-<table><tr><th>[\#888](https://gitlab.haskell.org//ghc/ghc/issues/888)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/888">#888</a></th>
 <td>Implement the static argument transformation</td></tr>
-<tr><th>[\#5059](https://gitlab.haskell.org//ghc/ghc/issues/5059)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5059">#5059</a></th>
 <td>Pragma to SPECIALISE on value arguments</td></tr>
-<tr><th>[\#9374](https://gitlab.haskell.org//ghc/ghc/issues/9374)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9374">#9374</a></th>
 <td>Investigate Static Argument Transformation</td></tr>
-<tr><th>[\#13502](https://gitlab.haskell.org//ghc/ghc/issues/13502)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13502">#13502</a></th>
 <td>Static argument transformation should also run after specialisation</td></tr>
-<tr><th>[\#13966](https://gitlab.haskell.org//ghc/ghc/issues/13966)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13966">#13966</a></th>
 <td>Skip-less stream fusion: a missed opportunity</td></tr>
-<tr><th>[\#14211](https://gitlab.haskell.org//ghc/ghc/issues/14211)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14211">#14211</a></th>
 <td>Compiler is unable to INLINE as well as the programmer can manually</td></tr>
-<tr><th>[\#14231](https://gitlab.haskell.org//ghc/ghc/issues/14231)</th>
-<td>Core lint error "in result of Static argument"</td></tr>
-<tr><th>[\#14649](https://gitlab.haskell.org//ghc/ghc/issues/14649)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14231">#14231</a></th>
+<td>Core lint error &quot;in result of Static argument&quot;</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14649">#14649</a></th>
 <td>ghc panic: mergeSATInfo</td></tr></table>
+
+
+
 
 **Closed Tickets:**
 
-<table><tr><th>[\#9545](https://gitlab.haskell.org//ghc/ghc/issues/9545)</th>
-<td>Evaluate Takano Akio's foldrW/buildW fusion framework as a possible replacement for foldr/build</td></tr></table>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9545">#9545</a></th>
+<td>Evaluate Takano Akio&apos;s foldrW/buildW fusion framework as a possible replacement for foldr/build</td></tr></table>
+
+
 
 # Matt's Notes
 
@@ -190,7 +198,7 @@ This particular style is exactly the kind of code which the static argument tran
 - event - `f_foldr` is unproductively satted, a static value which is not applied or consumed by a static argument.
 - fibheaps - `ins` is satted because `a` and `Ord a` are static arguments. It is plausible that this could be a big win \*if\* when `ins` is applied to a specific `a` then `readArray` and `writeArray` could be simplified further. It turns out this  never happens so `ins` just ends up allocating more. I don't know how to avoid this. 
 - genftt - `f_foldr` is satted but this time allocations go down..? In f_rvar and other functions which call `f_foldr` the arguments are nicely specialised away. If SAT is not run then f_foldr gets sced.
-- gg - `group`, `insert``replace`, `remove` and `collect` are satted. Main effect is from `insert` which inserts an ordered value into a list and allows specialisation to an ord dictionary. I wonder whether the same would be achieved by -fspecialise-aggressively without also having to SAT the pointless value. Well no, as it is self-recursive but an `INLINABLE` pragma does the trick.
+- gg - `group`, `insert` `replace`, `remove` and `collect` are satted. Main effect is from `insert` which inserts an ordered value into a list and allows specialisation to an ord dictionary. I wonder whether the same would be achieved by -fspecialise-aggressively without also having to SAT the pointless value. Well no, as it is self-recursive but an `INLINABLE` pragma does the trick.
 - last-piece - `fit` is satted and then allocates more. If it is not satted then it is spec-constred (which then fire 17 times). OTOH, fit is never even inlined as it is too big.
 - mate - `pieceAtWith` increases allocations as no additional specialisation can occur but `sift` being inlined means `moveDetailsFor` becomes a very big function as alot is inlined.
 - parstof - Hard to here here as the code is so strange but 4 plausible functions get satted.
@@ -199,8 +207,12 @@ This particular style is exactly the kind of code which the static argument tran
 
 # David's Comments
 
+
+>
 >
 > I think we really want to be able to perform value specialization of recursive functions without SAT. The performance trade-off of SAT when it comes to code generation doesn't look so hot in many cases. BTW, I noticed that the lack of SAT or argument specialization can prevent good optimization of derived code. For example, `data Tree a = Branch (Tree a) (Tree a) | Leaf a deriving Foldable` yields a very mediocre-looking `foldl'` that would be fixed by a `foldr` that could inline. It also produces a very boxing `length`, but that smells like a trickier higher-order demand issue. --dfeuer
+>
+>
 
 
 Indeed, more inlining does happen if you turn on `-fstatic-argument-transformation` when deriving Foldable as it will allow the `foldMap` to be inlined and `f` to be specialised.

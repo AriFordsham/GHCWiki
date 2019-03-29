@@ -29,14 +29,16 @@ It is not very easy to form a good use case for this but nevertheless.
 
 
 Many instances, e.g. `MonadTrans` have `Error e` constraint, which is deprecated in the newer `transformers`.
-In `monadcryptorandom-0.7.0``CRandT` is implemented using `ExceptT` so constraint is gone.
+In `monadcryptorandom-0.7.0` `CRandT` is implemented using `ExceptT` so constraint is gone.
+
 
 
 To be more precise, here is the code example
 
+
 ```
-instanceMonoidDivByErrorwhere
-  mempty =Other"guard error"
+instance Monoid DivByError where
+  mempty = Other "guard error"
 ```
 
 ```
@@ -44,7 +46,8 @@ Prelude> :r
 [1 of 1] Compiling Fp11WithExcept   ( fp11WithExcept.hs, interpreted )
 
 fp11WithExcept.hs:123:10: Warning:
-    No explicit implementation for`mappend'
+    No explicit implementation for
+      `mappend'
     In the instance declaration for `Monoid DivByError'
 Ok, modules loaded: Fp11WithExcept.
 ```
@@ -58,23 +61,42 @@ So here we are getting a warning that we want so suppress. This example is given
 ## Exempli gratia
 
 
+
 I don't know conventions about naming pragmas, so let it be something like this.
 
+
 ```
-moduleTestwhereimportold_lib(foo)...bar:: a -> b -> c 
-{-# SUPPRESS bar #-}bar x y = foo y $ x
+module Test where
+
+import old_lib (foo) 
+
+...
+
+bar :: a -> b -> c 
+{-# SUPPRESS bar #-}
+bar x y = foo y $ x
 ```
 
 
 We are suppressing warnings for one particular function. By writing `{-# SUPPRESS bar #-}` i mean that all warnings that function `bar` throws will be suppressed. 
 
 
+
 Another example:
 
+
 ```
-moduleTestwhere{-# SUPPRESS foo #-}foo::Integer->Integerfoo n | n >=0= fac n
-      | n <0= n +1where
-            fac x | x ==0=1| x /=0= x * fac (x -1)foo_= undefined
+
+module Test where
+
+{-# SUPPRESS foo #-}
+foo :: Integer -> Integer
+foo n | n >= 0 = fac n
+      | n < 0 = n + 1
+        where
+            fac x | x == 0 = 1
+                  | x /= 0 = x * fac (x - 1)
+foo _ = undefined
 
 ```
 

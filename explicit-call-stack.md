@@ -17,21 +17,36 @@ Here are the approaches we have under consideration
   - Run with `+RTS -xc`
 
 >
+>
 > then any crash (call to `error`) will yield an informative backtrace.  The backtrace gives you a stack of calls that looks very like what you'd get in a call-by-value language.  (Lots of papers about profiling in a lazy language, dating right back to [ Formally based profiling for higher order functional languages](http://research.microsoft.com/~simonpj/papers/1997_profiling_TOPLAS.ps.gz) give the background.)
+>
+>
 
+>
 >
 > You need to compile your whole program with profiling, and you need a profiled version of the packages you install. You can do the latter by adding `--enable-profiling` to Cabal, and you can put that in your `~/.cabal` file.
+>
+>
 
 >
+>
 > Programs run slower, of course, but that may not matter when debugging.  But a crash in a production system will generate no useful information.
+>
+>
 
 - **(DYN) Walk the call stack, generating a dynamic backtrace.**  This is what every other language does; it works in a production system (i.e. all debug flags off); and it carries zero runtime overhead unless a crash actually happens.
 
 >
+>
 > One difficulty is that the backtrace is unintuitive, because of lazy evaluation, but it is still massively better than nothing.  Another difficulty is that GHC shakes the program around during optimisation, so it is hard to say what code comes from where.
+>
+>
 
 >
+>
 > Addressing these challenges is the subject of Peter Wortman's PhD.  He has a paper [ Causality of Optimized Haskell: What is burning our cycles?](http://eprints.whiterose.ac.uk/77401/), and an implementation is well advanced (in GHC 7.10).
+>
+>
 
 - **(IMPLICIT)** Implicit locations.  An extremely simple idea is to use implicit parameters to pass location information: [ExplicitCallStack/ImplicitLocations](explicit-call-stack/implicit-locations).  This capability is available already in GHC using `CallStack` from `GHC.Stack` see [ http://hackage.haskell.org/package/base/docs/GHC-Stack.html](http://hackage.haskell.org/package/base/docs/GHC-Stack.html)
 

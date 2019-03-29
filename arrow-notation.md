@@ -17,43 +17,51 @@ Apart from the tickets below, there are a number of things that need doing
 ## Tickets
 
 
+
 Use Keyword = `Arrows` to ensure that a ticket ends up on these lists.
+
+
 
 **Open Tickets:**
 
-<table><tr><th>[\#344](https://gitlab.haskell.org//ghc/ghc/issues/344)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/344">#344</a></th>
 <td>arrow notation: incorrect scope of existential dictionaries</td></tr>
-<tr><th>[\#5267](https://gitlab.haskell.org//ghc/ghc/issues/5267)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5267">#5267</a></th>
 <td>Missing type checks for arrow command combinators</td></tr>
-<tr><th>[\#5777](https://gitlab.haskell.org//ghc/ghc/issues/5777)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5777">#5777</a></th>
 <td>core lint error with arrow notation and GADTs</td></tr>
-<tr><th>[\#7828](https://gitlab.haskell.org//ghc/ghc/issues/7828)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7828">#7828</a></th>
 <td>RebindableSyntax and Arrow</td></tr>
-<tr><th>[\#9985](https://gitlab.haskell.org//ghc/ghc/issues/9985)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9985">#9985</a></th>
 <td>GHC panic with ViewPatterns and GADTs in a proc pattern</td></tr>
-<tr><th>[\#10582](https://gitlab.haskell.org//ghc/ghc/issues/10582)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10582">#10582</a></th>
 <td>Tiny bug in lexer around lexing banana brackets</td></tr>
-<tr><th>[\#13547](https://gitlab.haskell.org//ghc/ghc/issues/13547)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13547">#13547</a></th>
 <td>Lint error in arrows program</td></tr>
-<tr><th>[\#15175](https://gitlab.haskell.org//ghc/ghc/issues/15175)</th>
-<td>ghc: panic! (the 'impossible' happened)</td></tr></table>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15175">#15175</a></th>
+<td>ghc: panic! (the &apos;impossible&apos; happened)</td></tr></table>
+
+
+
 
 **Closed Tickets:**
 
-<table><tr><th>[\#2722](https://gitlab.haskell.org//ghc/ghc/issues/2722)</th>
-<td>\<\<loop\> when compiling with -O option with ghc-6.10.0.20081019</td></tr>
-<tr><th>[\#3822](https://gitlab.haskell.org//ghc/ghc/issues/3822)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2722">#2722</a></th>
+<td>&lt;&lt;loop&gt; when compiling with -O option with ghc-6.10.0.20081019</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3822">#3822</a></th>
 <td>guards in arrow notation (Arrows extension) case statement cause compiler panic</td></tr>
-<tr><th>[\#5022](https://gitlab.haskell.org//ghc/ghc/issues/5022)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5022">#5022</a></th>
 <td>Core Lint error from polymorphic definitions inside arrow rec</td></tr>
-<tr><th>[\#5333](https://gitlab.haskell.org//ghc/ghc/issues/5333)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5333">#5333</a></th>
 <td>Arrow command combinators and infixr cause the desugarer to fail</td></tr>
-<tr><th>[\#5609](https://gitlab.haskell.org//ghc/ghc/issues/5609)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5609">#5609</a></th>
 <td>Type checking arrow notation in the presence of deferred constraints</td></tr>
-<tr><th>[\#7071](https://gitlab.haskell.org//ghc/ghc/issues/7071)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7071">#7071</a></th>
 <td>Refactoring arrows</td></tr>
-<tr><th>[\#8505](https://gitlab.haskell.org//ghc/ghc/issues/8505)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8505">#8505</a></th>
 <td>Arrows example error</td></tr></table>
+
+
 
 ## Changing the types of arrow operators (implemented in March 2013, for GHC 7.8)
 

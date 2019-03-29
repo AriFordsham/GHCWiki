@@ -4,8 +4,9 @@ But what does it mean at all to have a redundant constraint?
 If you can remove a constraint and the function is still type-correct then you might call the constraint redundant.
 E.g. in
 
+
 ```
-singleton::(Ord a)=> a ->Set a
+singleton :: (Ord a) => a -> Set a
 ```
 
 
@@ -13,22 +14,26 @@ the compiler should warn about the redundant `Ord a`.
 The programmer still might want that constraint in order to be more flexible at later internal refactorings.
 
 
+
 But what about this:
 
+
 ```
-asTypeOf1::(a ~ b)=> a -> b -> a
-asTypeOf1 x _= x
+asTypeOf1 :: (a ~ b) => a -> b -> a
+asTypeOf1 x _ = x
 ```
 
 
 ? `ghci-8.0.0.20160214 -fwarn-redundant-constraints` warns about the equality constraint.
 
 
+
 However, you might write it the Haskell 98 way:
 
+
 ```
-asTypeOf:: a -> a -> a
-asTypeOf x _= x
+asTypeOf :: a -> a -> a
+asTypeOf x _ = x
 ```
 
 

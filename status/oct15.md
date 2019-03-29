@@ -82,15 +82,15 @@ Lorem ipsum...
 
 - \[[ApiAnnotations](api-annotations)\] [ https://ghc.haskell.org/trac/ghc/wiki/ApiAnnotations](https://ghc.haskell.org/trac/ghc/wiki/ApiAnnotations)
 - \[[ApplicativeDo](applicative-do)\] [ https://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo](https://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo)
-- \[Backpack\] TODOFIXME
+- \[Backpack\] TODO FIXME
 - \[[DistributedHaskell](distributed-haskell)\] [ https://ghc.haskell.org/trac/ghc/wiki/DistributedHaskell](https://ghc.haskell.org/trac/ghc/wiki/DistributedHaskell)
 - \[DWARF\] [ https://ghc.haskell.org/trac/ghc/wiki/DWARF](https://ghc.haskell.org/trac/ghc/wiki/DWARF)
 - [ FCkinds](http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf) System FC with explicit kind equality, Weirich, Hsu, and Eisenberg, ICFP 13. [ http://www.seas.upenn.edu/\~eir/papers/2013/fckinds/fckinds-extended.pdf](http://www.seas.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf)
 - \[[GhcApi](ghc-api)\] [ https://ghc.haskell.org/trac/ghc/wiki/GhcApi](https://ghc.haskell.org/trac/ghc/wiki/GhcApi)
 - [\[ImprovedLLVMBackend](improved-llvm-backend)\] [ https://ghc.haskell.org/trac/ghc/wiki/ImprovedLLVMBackend](https://ghc.haskell.org/trac/ghc/wiki/ImprovedLLVMBackend)
 - \[[InjectiveTypeFamilies](injective-type-families)\] [ https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies](https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies)
-- \[KindEqualities\] TODOFIXME
-- [Records/OverloadedRecordFields](records/overloaded-record-fields)[ https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields](https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields)
+- \[KindEqualities\] TODO FIXME
+- [Records/OverloadedRecordFields](records/overloaded-record-fields) [ https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields](https://ghc.haskell.org/trac/ghc/wiki/Records/OverloadedRecordFields)
 - \[[PartialTypeSignatures](partial-type-signatures)\] [ https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures](https://ghc.haskell.org/trac/ghc/wiki/PartialTypeSignatures)
 - [ \[PPC64-NCG](https://phabricator.haskell.org/D629)\] [ https://phabricator.haskell.org/D629](https://phabricator.haskell.org/D629)
 - [\[Prelude710](prelude710)\] [ https://ghc.haskell.org/trac/ghc/wiki/prelude710](https://ghc.haskell.org/trac/ghc/wiki/prelude710)
@@ -99,4 +99,4 @@ Lorem ipsum...
 - [\[TCPlugins](plugins/type-checker)\] [ https://ghc.haskell.org/trac/ghc/wiki/Plugins/TypeChecker](https://ghc.haskell.org/trac/ghc/wiki/Plugins/TypeChecker)
 - [ \[TCSMT](https://github.com/yav/type-nat-solver)\] [ https://github.com/yav/type-nat-solver](https://github.com/yav/type-nat-solver)
 - [ \[TCSMT_paper](https://github.com/yav/type-nat-solver/raw/master/docs/paper.pdf)\] [ https://github.com/yav/type-nat-solver/raw/master/docs/paper.pdf](https://github.com/yav/type-nat-solver/raw/master/docs/paper.pdf)
-- [Typeable](typeable)[ https://ghc.haskell.org/trac/ghc/wiki/Typeable](https://ghc.haskell.org/trac/ghc/wiki/Typeable)
+- [Typeable](typeable) [ https://ghc.haskell.org/trac/ghc/wiki/Typeable](https://ghc.haskell.org/trac/ghc/wiki/Typeable)

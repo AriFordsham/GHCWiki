@@ -47,6 +47,11 @@ For any build, you can view the build logs. To do that, go to the harbormaster b
 [](https://i.imgur.com/UdRGunV.png)
 
 
+
 Click on *Build 610* to get the logs for that build:
 
+
+
 [](https://i.imgur.com/Pnr7cyz.png)
+
+

@@ -86,15 +86,16 @@ Performance goals:
 
 Legend
 
-<table><tr><th>\[FINE\]</th>
+
+<table><tr><th>[FINE]</th>
 <td>
 Works well
 </td></tr>
-<tr><th>\[OK\]</th>
+<tr><th>[OK]</th>
 <td>
 Fine for the release, but could be better
 </td></tr>
-<tr><th>\[SLOW\]</th>
+<tr><th>[SLOW]</th>
 <td>
 Not usable
 </td></tr></table>
@@ -103,4 +104,7 @@ Not usable
 Tags in **bold** require attention before the release.
 
 
+
 More benchmarks details at [DataParallel/BenchmarkStatus](data-parallel/benchmark-status)
+
+

@@ -12,10 +12,13 @@ That mechanism is `authz_policy`, which is an optional module in `tracopt.perm.a
 A great diversity of permission policies can be implemented and Trac comes with a few examples. 
 
 
+
 Which policies are currently active is determined by a configuration setting in [TracIni](trac-ini):
 
+
 ```
-[trac]permission_policies=ReadonlyWikiPolicy, DefaultPermissionPolicy, LegacyAttachmentPolicy
+[trac]
+permission_policies = ReadonlyWikiPolicy, DefaultPermissionPolicy, LegacyAttachmentPolicy
 ```
 
 
@@ -41,17 +44,21 @@ See also [ sample-plugins/permissions](http://trac.edgewall.org/intertrac/source
   1. modify the [permission_policies](trac-ini#) entry in the `[trac]` section:
 
     ```
-    [trac]...permission_policies=AuthzPolicy, ReadonlyWikiPolicy, DefaultPermissionPolicy, LegacyAttachmentPolicy
+    [trac]
+    ...
+    permission_policies = AuthzPolicy, ReadonlyWikiPolicy, DefaultPermissionPolicy, LegacyAttachmentPolicy
     ```
   1. add a new `[authz_policy]` section:
 
     ```
-    [authz_policy]authz_file=/some/trac/env/conf/authzpolicy.conf
+    [authz_policy]
+    authz_file = /some/trac/env/conf/authzpolicy.conf
     ```
   1. enable the plugin through [WebAdmin](/trac/ghc/admin/general/plugin) or by editing the `[components]` section:
 
     ```
-    [components]tracopt.perm.authz_policy.*=enabled
+    [components]
+    tracopt.perm.authz_policy.* = enabled
     ```
 
 #### Usage Notes
@@ -66,10 +73,15 @@ A policy will return either `True`, `False` or `None` for a given permission che
 NOTE: Only if the return value is `None` will the *next* permission policy be consulted. If none of the policies explicitly grants the permission, the final result will be `False`, i.e. permission denied.
 
 
+
 The `authzpolicy.conf` file is a `.ini` style configuration file:
 
+
 ```
-[wiki:PrivatePage@*]john=WIKI_VIEW, !WIKI_MODIFYjack=WIKI_VIEW*=
+[wiki:PrivatePage@*]
+john = WIKI_VIEW, !WIKI_MODIFY
+jack = WIKI_VIEW
+* =
 ```
 
 - Each section of the config is a glob pattern used to match against a Trac resource descriptor. These descriptors are in the form:
@@ -81,15 +93,24 @@ The `authzpolicy.conf` file is a `.ini` style configuration file:
 
 Resources are ordered left to right, from parent to child. If any component is inapplicable, `*` is substituted. If the version pattern is not specified explicitly, all versions (`@*`) is added implicitly. Example: Match the [WikiStart](wiki-start) page:
 
+
 ```
-[wiki:*][wiki:WikiStart*][wiki:WikiStart@*][wiki:WikiStart]
+[wiki:*]
+[wiki:WikiStart*]
+[wiki:WikiStart@*]
+[wiki:WikiStart]
 ```
 
 
 Example: Match the attachment `wiki:WikiStart@117/attachment:FOO.JPG@*` on [WikiStart](wiki-start):
 
+
 ```
-[wiki:*][wiki:WikiStart*][wiki:WikiStart@*][wiki:WikiStart@*/attachment:*][wiki:WikiStart@117/attachment:FOO.JPG]
+[wiki:*]
+[wiki:WikiStart*]
+[wiki:WikiStart@*]
+[wiki:WikiStart@*/attachment:*]
+[wiki:WikiStart@117/attachment:FOO.JPG]
 ```
 
 - Sections are checked against the current Trac resource descriptor **IN ORDER** of appearance in the configuration file. **ORDER IS CRITICAL**.
@@ -99,15 +120,22 @@ Example: Match the attachment `wiki:WikiStart@117/attachment:FOO.JPG@*` on [Wiki
   - If a key (username) is prefixed with a `@`, it is treated as a group. 
   - If a value (permission) is prefixed with a `!`, the permission is denied rather than granted.
 
-<table><tr><td>The username will match any of 'anonymous', 'authenticated', \<username\> or '\*', using normal Trac permission rules. </td>
-<th>**Note:** Other groups which are created by user (e.g. by 'adding subjects to groups' on web interface page *Admin / Permissions*) cannot be used. See [ \#5648](http://trac.edgewall.org/intertrac/ticket%3A5648) for details about this missing feature. 
+<table><tr><td>The username will match any of &apos;anonymous&apos;, &apos;authenticated&apos;, &lt;username&gt; or &apos;*&apos;, using normal Trac permission rules. </td>
+<th> <b>Note:</b> Other groups which are created by user (e.g. by &apos;adding subjects to groups&apos; on web interface page <i>Admin / Permissions</i>) cannot be used. See <a href="http://trac.edgewall.org/intertrac/ticket%3A5648"> #5648</a> for details about this missing feature. 
 </th></tr></table>
+
 
 
 For example, if the `authz_file` contains:
 
+
 ```
-[wiki:WikiStart@*]*=WIKI_VIEW[wiki:PrivatePage@*]john=WIKI_VIEW*=!WIKI_VIEW
+[wiki:WikiStart@*]
+* = WIKI_VIEW
+
+[wiki:PrivatePage@*]
+john = WIKI_VIEW
+* = !WIKI_VIEW
 ```
 
 
@@ -129,8 +157,20 @@ Then:
 
 Groups:
 
+
 ```
-[groups]admins=john, jackdevs=alice, bob[wiki:Dev@*]@admins=TRAC_ADMIN@devs=WIKI_VIEW*=[*]@admins=TRAC_ADMIN*=
+[groups]
+admins = john, jack
+devs = alice, bob
+
+[wiki:Dev@*]
+@admins = TRAC_ADMIN
+@devs = WIKI_VIEW
+* =
+
+[*]
+@admins = TRAC_ADMIN
+* =
 ```
 
 
@@ -143,15 +183,44 @@ Then:
 
 Some repository examples (Browse Source specific):
 
+
 ```
-# A single repository:[repository:test_repo@*]john=BROWSER_VIEW, FILE_VIEW# John has BROWSER_VIEW and FILE_VIEW for the entire test_repo# The default repository (requires Trac 1.0.2 or later):[repository:@*]john=BROWSER_VIEW, FILE_VIEW# John has BROWSER_VIEW and FILE_VIEW for the entire default repository# All repositories:[repository:*@*]jack=BROWSER_VIEW, FILE_VIEW# Jack has BROWSER_VIEW and FILE_VIEW for all repositories
+# A single repository:
+[repository:test_repo@*]
+john = BROWSER_VIEW, FILE_VIEW
+# John has BROWSER_VIEW and FILE_VIEW for the entire test_repo
+
+# The default repository (requires Trac 1.0.2 or later):
+[repository:@*]
+john = BROWSER_VIEW, FILE_VIEW
+# John has BROWSER_VIEW and FILE_VIEW for the entire default repository
+
+# All repositories:
+[repository:*@*]
+jack = BROWSER_VIEW, FILE_VIEW
+# Jack has BROWSER_VIEW and FILE_VIEW for all repositories
 ```
 
 
 Very granular repository access:
 
+
 ```
-# John has BROWSER_VIEW and FILE_VIEW access to trunk/src/some/location/ only[repository:test_repo@*/source:trunk/src/some/location/*@*]john=BROWSER_VIEW, FILE_VIEW# John has BROWSER_VIEW and FILE_VIEW access to only revision 1 of all files at trunk/src/some/location only[repository:test_repo@*/source:trunk/src/some/location/*@1]john=BROWSER_VIEW, FILE_VIEW# John has BROWSER_VIEW and FILE_VIEW access to all revisions of 'somefile' at trunk/src/some/location only [repository:test_repo@*/source:trunk/src/some/location/somefile@*]john=BROWSER_VIEW, FILE_VIEW# John has BROWSER_VIEW and FILE_VIEW access to only revision 1 of 'somefile' at trunk/src/some/location only[repository:test_repo@*/source:trunk/src/some/location/somefile@1]john=BROWSER_VIEW, FILE_VIEW
+# John has BROWSER_VIEW and FILE_VIEW access to trunk/src/some/location/ only
+[repository:test_repo@*/source:trunk/src/some/location/*@*]
+john = BROWSER_VIEW, FILE_VIEW
+
+# John has BROWSER_VIEW and FILE_VIEW access to only revision 1 of all files at trunk/src/some/location only
+[repository:test_repo@*/source:trunk/src/some/location/*@1]
+john = BROWSER_VIEW, FILE_VIEW
+
+# John has BROWSER_VIEW and FILE_VIEW access to all revisions of 'somefile' at trunk/src/some/location only 
+[repository:test_repo@*/source:trunk/src/some/location/somefile@*]
+john = BROWSER_VIEW, FILE_VIEW
+
+# John has BROWSER_VIEW and FILE_VIEW access to only revision 1 of 'somefile' at trunk/src/some/location only
+[repository:test_repo@*/source:trunk/src/some/location/somefile@1]
+john = BROWSER_VIEW, FILE_VIEW
 ```
 
 
@@ -163,17 +232,30 @@ Note: In order for Timeline to work/visible for John, we must add CHANGESET_VIEW
 Although possible with the DefaultPermissionPolicy handling (see Admin panel), fine-grained permissions still miss those grouping features (see [ \#9573](http://trac.edgewall.org/intertrac/ticket%3A9573), [ \#5648](http://trac.edgewall.org/intertrac/ticket%3A5648)). Patches are partially available, see authz_policy.2.patch, part of [ \#6680](http://trac.edgewall.org/intertrac/ticket%3A6680).
 
 
+
 You cannot do the following:
 
+
 ```
-[groups]team1=a, b, cteam2=d, e, fteam3=g, h, idepartmentA=team1, team2
+[groups]
+team1 = a, b, c
+team2 = d, e, f
+team3 = g, h, i
+departmentA = team1, team2
 ```
 
 
 Permission groups are not supported either, so you cannot do the following:
 
+
 ```
-[groups]permission_level_1=WIKI_VIEW, TICKET_VIEWpermission_level_2=permission_level_1, WIKI_MODIFY, TICKET_MODIFY[*]@team1=permission_level_1@team2=permission_level_2@team3=permission_level_2, TICKET_CREATE
+[groups]
+permission_level_1 = WIKI_VIEW, TICKET_VIEW
+permission_level_2  = permission_level_1, WIKI_MODIFY, TICKET_MODIFY
+[*]
+@team1 = permission_level_1
+@team2 = permission_level_2
+@team3 = permission_level_2, TICKET_CREATE
 ```
 
 ### AuthzSourcePolicy  (mod_authz_svn-like permission policy)
@@ -186,10 +268,20 @@ That kind of granular permission control needs a definition file, which is the o
 More information about this file format and about its usage in Subversion is available in the [ Path-Based Authorization](http://svnbook.red-bean.com/en/1.5/svn.serverconfig.pathbasedauthz.html) section in the Server Configuration chapter of the svn book.
 
 
+
 Example:
 
+
 ```
-[/]*=r[/branches/calc/bug-142]harry=rwsally=r[/branches/calc/bug-142/secret]harry=
+[/]
+* = r
+
+[/branches/calc/bug-142]
+harry = rw
+sally = r
+
+[/branches/calc/bug-142/secret]
+harry =
 ```
 
 - **/** = *Everyone has read access by default*
@@ -199,24 +291,34 @@ Example:
 #### Trac Configuration
 
 
+
 To activate granular permissions you must specify the `authz_file` option in the `[svn]` section of trac.ini. If this option is set to null or not specified, the permissions will not be used.
 
+
 ```
-[svn]authz_file=/path/to/svnaccessfile
+[svn]
+authz_file = /path/to/svnaccessfile
 ```
 
 
 If you want to support the use of the `[`*modulename*`:/`*some*`/`*path*`]` syntax within the `authz_file`, add:
 
+
 ```
-authz_module_name=modulename
+authz_module_name = modulename
 ```
 
 
 where *modulename* refers to the same repository indicated by the `<name>.dir` entry in the `[repositories]` section. As an example, if the `somemodule.dir` entry in the `[repositories]` section is `/srv/active/svn/somemodule`, that would yield the following:
 
+
 ```
-[svn]authz_file=/path/to/svnaccessfileauthz_module_name=somemodule...[repositories]somemodule.dir=/srv/active/svn/somemodule 
+[svn]
+authz_file = /path/to/svnaccessfile
+authz_module_name = somemodule
+...
+[repositories]
+somemodule.dir = /srv/active/svn/somemodule 
 ```
 
 
@@ -225,20 +327,30 @@ where the svn access file, `/path/to/svnaccessfile`, contains entries such as `[
 **Note:** Usernames inside the Authz file must be the same as those used inside trac. 
 
 
+
 As of version 0.12, make sure you have *AuthzSourcePolicy* included in the permission_policies list in trac.ini, otherwise the authz permissions file will be ignored.
 
+
 ```
-[trac]permission_policies=AuthzSourcePolicy, ReadonlyWikiPolicy, DefaultPermissionPolicy, LegacyAttachmentPolicy
+[trac]
+permission_policies = AuthzSourcePolicy, ReadonlyWikiPolicy, DefaultPermissionPolicy, LegacyAttachmentPolicy
 ```
 
 #### Subversion Configuration
 
 
+
 The same access file is typically applied to the corresponding Subversion repository using an Apache directive like this:
 
+
 ```
-<Location/repos>DAV svn
-  SVNParentPath/usr/local/svn# our access control policyAuthzSVNAccessFile/path/to/svnaccessfile</Location>
+<Location /repos>
+  DAV svn
+  SVNParentPath /usr/local/svn
+
+  # our access control policy
+  AuthzSVNAccessFile /path/to/svnaccessfile
+</Location>
 ```
 
 
@@ -257,7 +369,9 @@ permission_policies = ReadonlyWikiPolicy,
 ```
 
 
-When upgrading from earlier versions of Trac, `ReadonlyWikiPolicy` will be appended to the list of `permission_policies` when upgrading the environment, provided that `permission_policies` has the default value. If any non-default `permission_polices` are active, `ReadonlyWikiPolicy`**will need to be manually added** to the list. A message will be echoed to the console when upgrading the environment, indicating if any action needs to be taken.
+When upgrading from earlier versions of Trac, `ReadonlyWikiPolicy` will be appended to the list of `permission_policies` when upgrading the environment, provided that `permission_policies` has the default value. If any non-default `permission_polices` are active, `ReadonlyWikiPolicy` **will need to be manually added** to the list. A message will be echoed to the console when upgrading the environment, indicating if any action needs to be taken.
+
+
 
 **ReadonlyWikiPolicy must be listed *before* DefaultPermissionPolicy**. The latter returns `True` to allow modify, delete or rename actions when the user has the respective `WIKI_*` permission, without consideration for the read-only attribute.
 
@@ -284,10 +398,15 @@ For all other permission policies, the user will need to decide the proper order
 ## Debugging permissions
 
 
+
 In trac.ini set:
 
+
 ```
-[logging]log_file=trac.loglog_level=DEBUGlog_type=file
+[logging]
+log_file = trac.log
+log_level = DEBUG
+log_type = file
 ```
 
 

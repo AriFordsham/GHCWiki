@@ -40,6 +40,10 @@ A couple of people have asked about this
 - [ http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/GenericDeriving\#Digression](http://hackage.haskell.org/trac/ghc/wiki/Commentary/Compiler/GenericDeriving#Digression)
 - [ http://www.reddit.com/r/haskell/comments/u7oxb/is_it_possible_to_datakindlift_a_data_family/](http://www.reddit.com/r/haskell/comments/u7oxb/is_it_possible_to_datakindlift_a_data_family/)
 
+
+ 
+
+
 ## [ \#5682](http://hackage.haskell.org/trac/ghc/ticket/5682) (proper handling of infix promoted constructors)
 
 

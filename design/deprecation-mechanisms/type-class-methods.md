@@ -20,21 +20,28 @@ Or put differently, the warning shall forecast the compile errors that would occ
 ## Syntax
 
 
+
 It's already possible to attach (deprecation) warnings to class methods. However, we need a different syntax for this new variant of warnings attached to methods:
 
+
 ```
-moduleM1whereclassC a where
+module M1 where
+
+class C a where
   foo :: a
 
   bar :: a -> a
   bar x = x
  
-  -- New class-method deprecation annotation-- NB: the pragma is indented at the class body level!{-# DEPRECATED bar "'bar' will cease to be a method of C, please avoid referring to it as a method of C!" #-}
+  -- New class-method deprecation annotation
+  -- NB: the pragma is indented at the class body level!
+  {-# DEPRECATED bar "'bar' will cease to be a method of C, please avoid referring to it as a method of C!" #-}
 
   doo :: a
   doo x = x
 
--- This is an ordinary (old-style) top-level indented deprecation{-# DEPRECATED foo "'foo' is obsolete and going away soon, please use 'doo' instead" #-}
+-- This is an ordinary (old-style) top-level indented deprecation
+{-# DEPRECATED foo "'foo' is obsolete and going away soon, please use 'doo' instead" #-}
 ```
 
 ## Review of DEPRECATED
@@ -81,29 +88,45 @@ Here `bar` is in scope in two ways.  Does this cause a complaint?
 ## Examples
 
 
+
 For the example of class `C` from the previous section, the following code fragments exemplify the expected warnings
 
+
 ```
-importM1x= bar ()-- no warning, because the import doesn't limit `bar` to be a method of `C`instanceC()where
-  foo =()-- no warninginstanceCBoolwhere
-  foo =True
+import M1
+
+x = bar () -- no warning, because the import doesn't limit `bar` to be a method of `C`
+
+instance C () where
+  foo = () -- no warning
+
+instance C Bool where
+  foo = True
   bar = not -- triggers warning, because this requires `bar` to be a method of C
 ```
 
 ```
-importM1(C,bar)x= bar ()-- no warning, because the import doesn't limit `bar` to be a method of `C`
+import M1 (C, bar)
+
+x = bar () -- no warning, because the import doesn't limit `bar` to be a method of `C`
 ```
 
 ```
-importM1(C(foo,bar))x= bar ()-- triggers warning, because `bar` is imported via `C(foo,bar)` syntax
+import M1 (C(foo,bar))
+
+x = bar () -- triggers warning, because `bar` is imported via `C(foo,bar)` syntax
 ```
 
 ```
-importM1(C(..))x= bar ()-- triggers warning, because `bar` is imported via `C(..)` syntax
+import M1 (C(..))
+
+x = bar () -- triggers warning, because `bar` is imported via `C(..)` syntax
 ```
 
 ```
-importM1(C(..),bar)x= bar ()-- no warning, because the import doesn't limit `bar` to be a method of `C`
+import M1 (C(..), bar)
+
+x = bar () -- no warning, because the import doesn't limit `bar` to be a method of `C`
 ```
 
 ## Practical Use Case
@@ -112,36 +135,48 @@ importM1(C(..),bar)x= bar ()-- no warning, because the import doesn't limit `bar
 This would aid long-term transitions like phasing out class-methods, such as e.g. `Monad(return)` in the spirit of [\#4834](https://gitlab.haskell.org//ghc/ghc/issues/4834):
 
 
+
 With the AMP, `Monad(return)` and `Monad((>>))` being a class method becomes an historic artifact. The ideal long-term situation would rather be to have `return` become a top-level definition (i.e. outside the `Monad`-class), generalised to `Applicative` just aliasing `Applicative(pure)`. Moreover, the [MonadFail](design/monad-fail) proposal would have the `fail` method move to a new `MonadFail` class. I.e.
 
+
 ```
--- Haskell 2010 ReportclassMonad m where(>>=):: m a ->(a -> m b)-> m b
-  (>>):: m a -> m b -> m b
+-- Haskell 2010 Report
+
+class Monad m where
+  (>>=)  :: m a -> (a -> m b) -> m b
+  (>>)   :: m a -> m b -> m b
   return :: a -> m a
-  fail   ::String-> m a
+  fail   :: String -> m a
 ```
 
 
 is to become
 
+
 ```
--- Hypothetical Haskell 201x ReportclassApplicative m =>Monad m where(>>=):: m a ->(a -> m b)-> m b
+-- Hypothetical Haskell 201x Report
 
-classMonad m =>MonadFailwhere
-  fail   ::String-> m a
+class Applicative m => Monad m where
+  (>>=)  :: m a -> (a -> m b) -> m b
 
--- legacy synonym generalised to Applicativereturn::Applicative f => a -> f a
-return= pure
+class Monad m => MonadFail where
+  fail   :: String -> m a
 
--- legacy synonym generalised to Applicative(>>)::Applicative f => f a -> f b -> f b
-(>>)=(*>)
+-- legacy synonym generalised to Applicative
+return :: Applicative f => a -> f a
+return = pure
+
+-- legacy synonym generalised to Applicative
+(>>) :: Applicative f => f a -> f b -> f b
+(>>) = (*>)
 ```
 
 
 The generalised `return` alias may be beneficial for things like `ApplicativeDo` which otherwise would require a `return` to be handled is if it was `pure` in order to weaken the type-constraint in an `do`-expression like e.g.
 
+
 ```
-do{ x <- f; return (fst x)}
+do { x <- f; return (fst x) }
 ```
 
 

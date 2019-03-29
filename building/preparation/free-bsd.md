@@ -1,9 +1,13 @@
 # Setting Up a FreeBSD System for Building GHC
 
 
+
 Building GHC on FreeBSD is currently supported on `8.4-RELEASE` or later, on `i386` (x86) and `amd64` (x86_64) architectures.  One might be able to build GHC on different architectures and earlier versions but they are not maintained actively.  Note that `8.4-RELEASE` is used for the FreeBSD nightly builds ([ amd64 head](http://haskell.inf.elte.hu/builders/freebsd-amd64-head/), [ i386 head](http://haskell.inf.elte.hu/builders/freebsd-i386-head/)).
 
-**Note that this section is primarily intended for developers and early adopters.***If you are just want to install GHC on your system, simply use the [ devel/hs-haskell-platform](http://www.freshports.org/devel/hs-haskell-platform) port instead.  This port does all the things described below for you.  It is usually kept updated to match the latest Haskell Platform specifications.*
+
+
+**Note that this section is primarily intended for developers and early adopters.**  *If you are just want to install GHC on your system, simply use the [ devel/hs-haskell-platform](http://www.freshports.org/devel/hs-haskell-platform) port instead.  This port does all the things described below for you.  It is usually kept updated to match the latest Haskell Platform specifications.*
+
 
 ## Required Ports
 
@@ -110,7 +114,10 @@ libraries/terminfo_CONFIGURE_OPTS += --configure-option=--with-curses-includes=$
 ```
 
 >
+>
 > See [\#7472](https://gitlab.haskell.org//ghc/ghc/issues/7472) for possible symptoms.
+>
+>
 
 - The GHC source code have an in-tree version of `libffi` and `gmp` which may work by accident -- especially if the version of `libgmp.so` and `libffi.so` matches the version installed by the ports.  But using them is not recommended as they could result in various strange build and run-time errors.  See the `configure` options to work around them.
 
@@ -123,7 +130,10 @@ tmpfs /tmp tmpfs rw,mode=777 0 0
 ```
 
 >
+>
 > and use your original `/tmp` partition as a swap device (substitute `ada0s1` with your device):
+>
+>
 
 ```wiki
 /dev/ada0s1d none swap sw 0 0

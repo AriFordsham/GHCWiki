@@ -129,9 +129,9 @@ import Data.Map hiding (null) as M
 
 - The first brings into scope everything exported by `Data.Map`.
 - The second brings into scope the identifier `Map`. Everything else exported by `Data.Map` may be referenced by writing its full name (e.g. `Data.Map.null`).
-- The third brings into scope everything exported by `Data.Map`*except* the `null` identifier. Thus, `Map` is in scope, but `Data.Map.null` must be written out in its entirety.
+- The third brings into scope everything exported by `Data.Map` *except* the `null` identifier. Thus, `Map` is in scope, but `Data.Map.null` must be written out in its entirety.
 - The fourth is new syntax. It brings into scope `Map`. Everything else exported by `Data.Map` may be referenced by writing its full name, or with the alias `M` replacing the `Data.Map` portion of its full name (e.g. `M.null`).
-- The fifth is also new syntax. It brings into scope everything exported by `Data.Map`*except* the `null` identifier. Thus, `Map` is in scope, but `null` does not refer to `Data.Map.null`. However, the programmer may write `M.null` to refer to `Data.Map.null`.
+- The fifth is also new syntax. It brings into scope everything exported by `Data.Map` *except* the `null` identifier. Thus, `Map` is in scope, but `null` does not refer to `Data.Map.null`. However, the programmer may write `M.null` to refer to `Data.Map.null`.
 
 ## For Students of Haskell
 

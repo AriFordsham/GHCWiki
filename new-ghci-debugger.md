@@ -27,4 +27,7 @@ Typically when we reach a breakpoint we want to inspect the values of local vari
 How does the debugger work?
 
 
+
 This has been moved to [Commentary/GHCi](commentary/gh-ci)
+
+

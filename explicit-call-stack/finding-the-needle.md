@@ -58,7 +58,9 @@ The basic idea is described below, but these links are actually more up to date:
 1.  In fact, it's very similar to the "cost-centre stack" that GHC builds for profiling, except that it's explicit rather than implicit.  (Which is good.   Of course the stack should be a proper data type, not a String.)
 
 >
+>
 > However, unlike GHC's profiling stuff, it is *selective*.  You can choose to annotate just one function, or 10, or all.  If call an annotated function from an unannotated one, you get only the information that it was called from the unannotated one:
+>
 >
 > ```wiki
 > 	foo :: [Int] -> Int   -- No SRCLOC_ANNOTATE
@@ -70,6 +72,8 @@ The basic idea is described below, but these links are actually more up to date:
 >
 >
 > This selectiveness makes it much less heavyweight than GHC's currrent "recompile everything" story.
+>
+>
 
 1. The dynamic hpc tracer will allow reverse time-travel, from an exception to the call site, by keeping a small queue of recently ticked locations. This will make it easier to find out what called the error calling function (head, !, !!, etc.), but will require a hpc-trace compiled prelude if we want to find places in the prelude that called the error. (A standard prelude would find the prelude function that was called that called the error inducing function).
 
@@ -147,9 +151,15 @@ The basic idea is described below, but these links are actually more up to date:
 ## Open questions
 
 
+
 Lots of open questions
 
+
 - It would be great to use the exact same stack value for profiling.  Not so easy...for example, time profiling uses sampling based on timer interrupts that expect to find the current cost centre stack in a particular register.  But a big pay-off; instead of having magic rules in GHC to handle SCC annotations, we could throw the full might of the Simplifier at it.
+
+
+  
+
 
 - CAFs are a nightmare.  Here's a nasty case:
 
@@ -232,7 +242,8 @@ Another option is this:
 ```
 
 
-The difference between these two stacks is how we determine *when*`hd` is called. Is it in the context where `hd` is first mentioned by name (in the body of `f`), or is it when `hd` becomes fully saturated (in the body of `d`)? Both contexts seem reasonable. Does it really matter which one is chosen? At the moment I can't say for sure.
+The difference between these two stacks is how we determine *when* `hd` is called. Is it in the context where `hd` is first mentioned by name (in the body of `f`), or is it when `hd` becomes fully saturated (in the body of `d`)? Both contexts seem reasonable. Does it really matter which one is chosen? At the moment I can't say for sure.
+
 
 
 There are more possibilities, for instance, we could treat CAFs as roots of the stack, thus dropping `main` and `d` from the first of the options above:

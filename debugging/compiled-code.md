@@ -26,6 +26,10 @@ Usually you want to do something along these lines:
   version of the runtime, that includes extra assertions, debugging
   code, and debugging info for gdb (if you compile using cabal, use the unstripped binary from dist/build/).
 
+
+ 
+
+
 - Don't compile with `-threaded` (assuming the bug still happens
   with the non-threaded runtime).
 
@@ -93,33 +97,75 @@ There's a great tool called `rr` for reverse debugging. Try it out - if you're l
   1-tagged object, eg. a cons cell), `stg_ap_p_info` (the apply
   code for a single pointer argument).
 
+>
+> >
+> >
 > > `break stg_upd_frame_info`
+> >
+> >
+>
 
 - Ignore that breakpoint for ever
 
+>
+> >
+> >
 > > `ignore 1 9999999`
+> >
+> >
+>
 
 - Run the program
 
+>
+> >
+> >
 > > `run`
+> >
+> >
+>
 
 - Find out how many times the breakpoint was hit
 
+>
+> >
+> >
 > > `info break`
+> >
+> >
+>
 
 - Suppose it was hit 4325 times, then next time we'll ignore it
   for 4324 times (i.e. subtract one), which will stop on the 4325th
   time, just before the crash.
 
+>
+> >
+> >
 > > `ignore 1 4324`
+> >
+> >
+>
 
 - Run the program
 
+>
+> >
+> >
 > > `run`
+> >
+> >
+>
 
 - Single step until the crash happens
 
+>
+> >
+> >
 > > `si`...
+> >
+> >
+>
 
 - If the crash doesn't happen for a long time, try picking another
   break point (e.g. something you stepped through this time). You
@@ -181,16 +227,17 @@ External symbols follow the pattern
 name, *identifier* is the identifier in the STG code that this
 symbol relates to, and *kind* is the kind of symbol:
 
-<table><tr><th>`closure`</th>
+
+<table><tr><th><tt>closure</tt></th>
 <th>a static closure
 </th></tr>
-<tr><th>`info`</th>
+<tr><th><tt>info</tt></th>
 <th>an info table, also entry code or return address
 </th></tr>
-<tr><th>`con_info`</th>
+<tr><th><tt>con_info</tt></th>
 <th>an info table for a constructor
 </th></tr>
-<tr><th>`fast`</th>
+<tr><th><tt>fast</tt></th>
 <th>a primitive
 </th></tr></table>
 
@@ -202,14 +249,25 @@ then code that is named `entry` is equivalent to `info` symbols
 in the final binary.
 
 
+
 For example:
 
+
+>
+>
 > `GHCziBase_ZMZN_closure`
+>
+>
 
 
 Means the static closure for `[]` in module `GHC.Base`.
 
+
+>
+>
 > `DataziList_foldlzq_info`
+>
+>
 
 
 Means the entry code (or info table) for `Data.List.foldl'`.
@@ -403,5 +461,9 @@ x84-64, `BaseReg` is in `r13` and `Sp` is in `rbp`.
   helped you find the bug quicker, and if so, add one.  Test it.  Add
   some commentary next to the assertion to help someone else
   understand the problem later.
+
+
+  
+
 
 - Add a test to the testsuite for your bug.

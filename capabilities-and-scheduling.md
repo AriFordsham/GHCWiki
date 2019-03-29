@@ -13,42 +13,89 @@ static Capability * schedule (Capability *initialCapability, Task *task)
 
 In schedule() is a pretty classical scheduler loop. I have stripped away several parts of the code here to get down to the essentials.
 
+
 ```
     t = popRunQueue(cap);
-    prev_what_next = t->what_next;switch(prev_what_next){caseThreadKilled:caseThreadComplete:/* Thread already finished, return to scheduler. */
-        ret = ThreadFinished;break;caseThreadRunGHC:{
+    prev_what_next = t->what_next;
+
+    switch (prev_what_next) {
+        
+    case ThreadKilled:
+    case ThreadComplete:
+        /* Thread already finished, return to scheduler. */
+        ret = ThreadFinished;
+        break;
+        
+    case ThreadRunGHC:
+    {
         StgRegTable *r;
-        r = StgRun((StgFunPtr) stg_returnToStackTop,&cap->r);
+        r = StgRun((StgFunPtr) stg_returnToStackTop, &cap->r);
         cap = regTableToCapability(r);
-        ret = r->rRet;break;}caseThreadInterpret:
+        ret = r->rRet;
+        break;
+    }
+    
+    case ThreadInterpret:
         cap = interpretBCO(cap);
-        ret = cap->r.rRet;break;default:
-        barf("schedule: invalid what_next field");}
+        ret = cap->r.rRet;
+        break;
+        
+    default:
+        barf("schedule: invalid what_next field");
+    }
 ```
 
 
 The scheduler picks up a thread off the run queue and decides what to do with it. If it is runnable, then it calles the function StgRun() to run it. At the end of the code block, the variable “ret” is set to indicate why the the thread stopped. 
 
 
+
 Haskell threads are not time-sliced via a timer (potentially a timer interrupt) the way OS threads are \[cross check if there is some time sliced mechanism\]. Instead they are interrupted by certain commonly occuring events. Due to the lazy nature of Haskell, thunks need to be created and values need to be computed very often. Hence the execution of a thread entails lots of of memory allocation. One of the ways the execution of a thread is interrupted is when a thread has run out of space in its current block - it then returns control back to the scheduler. 
 
+
+>
 >
 > I stand corrected about the above - *We do have a time-slice mechanism: the timer interrupt (see Timer.c) sets the context_switch flag, which causes the running thread to return to the scheduler the next time a heap check fails (at the end of the current nursery block). When a heap check fails, the thread doesn't necessarily always return to the scheduler: as long as the context_switch flag isn't set, and there is another block in the nursery, it resets Hp and HpLim to point to the new block, and continues.*
+>
+>
 
 
 A GHC block is a 4k page that is page aligned for the OS VM system.  
 
 
+
 Here is what the scheduler does with the "ret" - 
 
+
 ```
-switch(ret){caseHeapOverflow:
-        ready_to_gc = scheduleHandleHeapOverflow(cap,t);break;caseStackOverflow:
-        scheduleHandleStackOverflow(cap,task,t);break;caseThreadYielding:if(scheduleHandleYield(cap, t, prev_what_next)){// shortcut for switching between compiler/interpreter:
-goto run_thread;}break;caseThreadBlocked:
-        scheduleHandleThreadBlocked(t);break;caseThreadFinished:if(scheduleHandleThreadFinished(cap, task, t))return cap;
-        ASSERT_FULL_CAPABILITY_INVARIANTS(cap,task);break;default:
-      barf("schedule: invalid thread return code %d",(int)ret);}
+    switch (ret) {
+    case HeapOverflow:
+        ready_to_gc = scheduleHandleHeapOverflow(cap,t);
+        break;
+
+    case StackOverflow:
+        scheduleHandleStackOverflow(cap,task,t);
+        break;
+
+    case ThreadYielding:
+        if (scheduleHandleYield(cap, t, prev_what_next)) {
+            // shortcut for switching between compiler/interpreter:
+            goto run_thread; 
+        }
+        break;
+
+    case ThreadBlocked:
+        scheduleHandleThreadBlocked(t);
+        break;
+
+    case ThreadFinished:
+        if (scheduleHandleThreadFinished(cap, task, t)) return cap;
+        ASSERT_FULL_CAPABILITY_INVARIANTS(cap,task);
+        break;
+
+    default:
+      barf("schedule: invalid thread return code %d", (int)ret);
+    }
 ```
 
 
@@ -134,7 +181,10 @@ struct Capability_ {
 ```
 
 >
+>
 > Question - if a capability can consist of multiple OS threads then in THREADED_RTS, where is the list of current threads in execution? 
+>
+>
 
 
 Here are some important observations about a capability: it consists of essentially a collection of OS threads, a register set and a set of TSOs. The register set is the member of type 'r'. Real hardware may or may not provide mappings of these to actual registers. \[Anything else to add here?\].
@@ -196,7 +246,9 @@ A TSO is treated like any other object by the GC and it resides in the program h
 ## Terminology
 
 
+
 This is a good point to introduce some terminology related to the above - 
+
 
 - task - is essentially an OS thread executing a forgein function call. The haskell thread that needed to execute the FFI call is attached to this thread for the entire duration of the forgein call. \[is there something more that I can say here?\]
 

@@ -12,162 +12,168 @@ This mechanism replaces the [previous generic classes implementation](http://www
 Use **Keyword** = `Generics` to ensure that a ticket ends up on this auto-generated list
 
 
+
 Open Tickets:
 
-<table><tr><th>[\#5642](https://gitlab.haskell.org//ghc/ghc/issues/5642)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5642">#5642</a></th>
 <td>Deriving Generic of a big type takes a long time and lots of space</td></tr>
-<tr><th>[\#7492](https://gitlab.haskell.org//ghc/ghc/issues/7492)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7492">#7492</a></th>
 <td>Generic1 deriving: Can we replace Rec1 f with f :.: Par1?</td></tr>
-<tr><th>[\#8516](https://gitlab.haskell.org//ghc/ghc/issues/8516)</th>
-<td>Add (-\>) representation and the Invariant class to GHC.Generics</td></tr>
-<tr><th>[\#8560](https://gitlab.haskell.org//ghc/ghc/issues/8560)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8516">#8516</a></th>
+<td>Add (-&gt;) representation and the Invariant class to GHC.Generics</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8560">#8560</a></th>
 <td>Derive some generic representation for GADTs</td></tr>
-<tr><th>[\#10068](https://gitlab.haskell.org//ghc/ghc/issues/10068)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10068">#10068</a></th>
 <td>Make the runtime reflection API for names, modules, locations more systematic</td></tr>
-<tr><th>[\#10087](https://gitlab.haskell.org//ghc/ghc/issues/10087)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10087">#10087</a></th>
 <td>DefaultSignatures: error message mentions internal name</td></tr>
-<tr><th>[\#10514](https://gitlab.haskell.org//ghc/ghc/issues/10514)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10514">#10514</a></th>
 <td>Generic for existential types</td></tr>
-<tr><th>[\#11068](https://gitlab.haskell.org//ghc/ghc/issues/11068)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11068">#11068</a></th>
 <td>Make Generic/Generic1 methods inlinable</td></tr>
-<tr><th>[\#12731](https://gitlab.haskell.org//ghc/ghc/issues/12731)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12731">#12731</a></th>
 <td>Generic type class has type family; leads to big dep_finsts</td></tr>
-<tr><th>[\#13065](https://gitlab.haskell.org//ghc/ghc/issues/13065)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13065">#13065</a></th>
 <td>Prohibit user-defined Generic and Generic1 instances</td></tr>
-<tr><th>[\#15969](https://gitlab.haskell.org//ghc/ghc/issues/15969)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15969">#15969</a></th>
 <td>Generic1 deriving should use more coercions</td></tr></table>
+
+
 
 
 Closed Tickets:
 
-<table><tr><th>[\#2824](https://gitlab.haskell.org//ghc/ghc/issues/2824)</th>
-<td>Duplicate symbols generated when Generics flag and syb-with-class "derive" used simultaneously</td></tr>
-<tr><th>[\#3391](https://gitlab.haskell.org//ghc/ghc/issues/3391)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2824">#2824</a></th>
+<td>Duplicate symbols generated when Generics flag and syb-with-class &quot;derive&quot; used simultaneously</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3391">#3391</a></th>
 <td>Generics compilation failure in combination with Data.Accessor deriving</td></tr>
-<tr><th>[\#5220](https://gitlab.haskell.org//ghc/ghc/issues/5220)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5220">#5220</a></th>
 <td>GHC internal error when missing -XFlexibleContexts with generics</td></tr>
-<tr><th>[\#5227](https://gitlab.haskell.org//ghc/ghc/issues/5227)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5227">#5227</a></th>
 <td>Large space usage when deriving Generic</td></tr>
-<tr><th>[\#5462](https://gitlab.haskell.org//ghc/ghc/issues/5462)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5462">#5462</a></th>
 <td>Deriving clause for arbitrary classes</td></tr>
-<tr><th>[\#5464](https://gitlab.haskell.org//ghc/ghc/issues/5464)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5464">#5464</a></th>
 <td>Change the way the extra bindings for the generic representation are generated</td></tr>
-<tr><th>[\#5884](https://gitlab.haskell.org//ghc/ghc/issues/5884)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5884">#5884</a></th>
 <td>GHC panics while trying to derive a Generic instance for Complex a</td></tr>
-<tr><th>[\#5936](https://gitlab.haskell.org//ghc/ghc/issues/5936)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5936">#5936</a></th>
 <td>Support for data families in generics</td></tr>
-<tr><th>[\#5939](https://gitlab.haskell.org//ghc/ghc/issues/5939)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5939">#5939</a></th>
 <td>Standalone deriving Generic on type with instantiated arguments</td></tr>
-<tr><th>[\#7035](https://gitlab.haskell.org//ghc/ghc/issues/7035)</th>
-<td>\`deriving instance Generic (HsExpr Id)\` raises panic</td></tr>
-<tr><th>[\#7255](https://gitlab.haskell.org//ghc/ghc/issues/7255)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7035">#7035</a></th>
+<td>`deriving instance Generic (HsExpr Id)` raises panic</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7255">#7255</a></th>
 <td>Wrong suggestion when deriving Generic on an instantiated type</td></tr>
-<tr><th>[\#7263](https://gitlab.haskell.org//ghc/ghc/issues/7263)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7263">#7263</a></th>
 <td>Add derived Show instances to GHC.Generics</td></tr>
-<tr><th>[\#7346](https://gitlab.haskell.org//ghc/ghc/issues/7346)</th>
-<td>Allow the use of \`deriving\` for GHC generics</td></tr>
-<tr><th>[\#7422](https://gitlab.haskell.org//ghc/ghc/issues/7422)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7346">#7346</a></th>
+<td>Allow the use of `deriving` for GHC generics</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7422">#7422</a></th>
 <td>GHC panics while trying to derive Generic for GADT with kind-lifted phantom parameter</td></tr>
-<tr><th>[\#7444](https://gitlab.haskell.org//ghc/ghc/issues/7444)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7444">#7444</a></th>
 <td>Update documentation regarding derivability of Generic1</td></tr>
-<tr><th>[\#7459](https://gitlab.haskell.org//ghc/ghc/issues/7459)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7459">#7459</a></th>
 <td>deriving Generic does not work with TypeLits</td></tr>
-<tr><th>[\#7487](https://gitlab.haskell.org//ghc/ghc/issues/7487)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7487">#7487</a></th>
 <td>Deriving Generic1 for a type containing Either</td></tr>
-<tr><th>[\#7631](https://gitlab.haskell.org//ghc/ghc/issues/7631)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7631">#7631</a></th>
 <td>Allow to differentiate between newtypes and datatypes when using Generics</td></tr>
-<tr><th>[\#7878](https://gitlab.haskell.org//ghc/ghc/issues/7878)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7878">#7878</a></th>
 <td>Panic when using DerivingGeneric with hs-boot</td></tr>
-<tr><th>[\#8416](https://gitlab.haskell.org//ghc/ghc/issues/8416)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8416">#8416</a></th>
 <td>GHC.Generics needs more documentation</td></tr>
-<tr><th>[\#8468](https://gitlab.haskell.org//ghc/ghc/issues/8468)</th>
-<td>ghc panic in deriving Generic1 on Array\#</td></tr>
-<tr><th>[\#8479](https://gitlab.haskell.org//ghc/ghc/issues/8479)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8468">#8468</a></th>
+<td>ghc panic in deriving Generic1 on Array#</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8479">#8479</a></th>
 <td>Generic1 crashes with tyConStupidTheta when using associated type families</td></tr>
-<tr><th>[\#8797](https://gitlab.haskell.org//ghc/ghc/issues/8797)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8797">#8797</a></th>
 <td>Generics instances for monoid and applicative newtypes</td></tr>
-<tr><th>[\#8929](https://gitlab.haskell.org//ghc/ghc/issues/8929)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8929">#8929</a></th>
 <td>Deriving Generics broken</td></tr>
-<tr><th>[\#9043](https://gitlab.haskell.org//ghc/ghc/issues/9043)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9043">#9043</a></th>
 <td>Add missing type class instances for data types in GHC.Generics</td></tr>
-<tr><th>[\#9453](https://gitlab.haskell.org//ghc/ghc/issues/9453)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9453">#9453</a></th>
 <td>The example for GHC Generics is kinda broken</td></tr>
-<tr><th>[\#9523](https://gitlab.haskell.org//ghc/ghc/issues/9523)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9523">#9523</a></th>
 <td>Typo in GHC Generics documentation</td></tr>
-<tr><th>[\#9526](https://gitlab.haskell.org//ghc/ghc/issues/9526)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9526">#9526</a></th>
 <td>Add missing Generic instances in base</td></tr>
-<tr><th>[\#9527](https://gitlab.haskell.org//ghc/ghc/issues/9527)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9527">#9527</a></th>
 <td>Add Generic instances for Language.Haskell.TH</td></tr>
-<tr><th>[\#9563](https://gitlab.haskell.org//ghc/ghc/issues/9563)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9563">#9563</a></th>
 <td>Support for deriving Generic1 for data families</td></tr>
-<tr><th>[\#9630](https://gitlab.haskell.org//ghc/ghc/issues/9630)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9630">#9630</a></th>
 <td>compile-time performance regression (probably due to Generics)</td></tr>
-<tr><th>[\#9766](https://gitlab.haskell.org//ghc/ghc/issues/9766)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9766">#9766</a></th>
 <td>Use TypeLits in the meta-data encoding of GHC.Generics</td></tr>
-<tr><th>[\#9821](https://gitlab.haskell.org//ghc/ghc/issues/9821)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9821">#9821</a></th>
 <td>DeriveAnyClass support for higher-kinded classes + some more comments</td></tr>
-<tr><th>[\#9968](https://gitlab.haskell.org//ghc/ghc/issues/9968)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9968">#9968</a></th>
 <td>DeriveAnyClass fails on multi-parameter type classes</td></tr>
-<tr><th>[\#10030](https://gitlab.haskell.org//ghc/ghc/issues/10030)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10030">#10030</a></th>
 <td>packageName for GHC.Generics.Datatype</td></tr>
-<tr><th>[\#10361](https://gitlab.haskell.org//ghc/ghc/issues/10361)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10361">#10361</a></th>
 <td>DeriveAnyClass does not fill in associated type defaults</td></tr>
-<tr><th>[\#10487](https://gitlab.haskell.org//ghc/ghc/issues/10487)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10487">#10487</a></th>
 <td>DeriveGeneric breaks when the same data name is used in different modules</td></tr>
-<tr><th>[\#10512](https://gitlab.haskell.org//ghc/ghc/issues/10512)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10512">#10512</a></th>
 <td>Generic instances missing for Int32, Word64 etc.</td></tr>
-<tr><th>[\#10513](https://gitlab.haskell.org//ghc/ghc/issues/10513)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10513">#10513</a></th>
 <td>ghc 7.6.3 Compiler panic with Generics</td></tr>
-<tr><th>[\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598)</th>
-<td>DeriveAnyClass and GND don't work well together</td></tr>
-<tr><th>[\#10604](https://gitlab.haskell.org//ghc/ghc/issues/10604)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10598">#10598</a></th>
+<td>DeriveAnyClass and GND don&apos;t work well together</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10604">#10604</a></th>
 <td>Make Generic1 kind polymorphic</td></tr>
-<tr><th>[\#10669](https://gitlab.haskell.org//ghc/ghc/issues/10669)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10669">#10669</a></th>
 <td>Missing Generic instances for base types.</td></tr>
-<tr><th>[\#10716](https://gitlab.haskell.org//ghc/ghc/issues/10716)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10716">#10716</a></th>
 <td>Metadata in GHC.Generic should give access to strictness annotation</td></tr>
-<tr><th>[\#10775](https://gitlab.haskell.org//ghc/ghc/issues/10775)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10775">#10775</a></th>
 <td>Enable PolyKinds in GHC.Generics</td></tr>
-<tr><th>[\#10852](https://gitlab.haskell.org//ghc/ghc/issues/10852)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10852">#10852</a></th>
 <td>ghc 7.8.4 on arm - panic: Simplifier ticks exhausted</td></tr>
-<tr><th>[\#10868](https://gitlab.haskell.org//ghc/ghc/issues/10868)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10868">#10868</a></th>
 <td>Make GHC generics capable of handling unboxed types</td></tr>
-<tr><th>[\#11292](https://gitlab.haskell.org//ghc/ghc/issues/11292)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11292">#11292</a></th>
 <td>Generics unboxed types: TEST=GEq1 WAY=optasm is failing</td></tr>
-<tr><th>[\#11357](https://gitlab.haskell.org//ghc/ghc/issues/11357)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11357">#11357</a></th>
 <td>Regression when deriving Generic1 on poly-kinded data family</td></tr>
-<tr><th>[\#11358](https://gitlab.haskell.org//ghc/ghc/issues/11358)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11358">#11358</a></th>
 <td>GHC generics has differing conFixity behavior between 7.10.3 and 8.1</td></tr>
-<tr><th>[\#11415](https://gitlab.haskell.org//ghc/ghc/issues/11415)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11415">#11415</a></th>
 <td>pandoc-types fails to build on 4 GB machine</td></tr>
-<tr><th>[\#11703](https://gitlab.haskell.org//ghc/ghc/issues/11703)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11703">#11703</a></th>
 <td>Segmentation fault/internal error: evacuate: strange closure type 15 with GHC.Generics</td></tr>
-<tr><th>[\#11732](https://gitlab.haskell.org//ghc/ghc/issues/11732)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11732">#11732</a></th>
 <td>Deriving Generic1 interacts poorly with TypeInType</td></tr>
-<tr><th>[\#11775](https://gitlab.haskell.org//ghc/ghc/issues/11775)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11775">#11775</a></th>
 <td>singleton classes in ghc.generics are defined but not exported</td></tr>
-<tr><th>[\#11991](https://gitlab.haskell.org//ghc/ghc/issues/11991)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11991">#11991</a></th>
 <td>Generics deriving is quadratic</td></tr>
-<tr><th>[\#12144](https://gitlab.haskell.org//ghc/ghc/issues/12144)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12144">#12144</a></th>
 <td>GHC panic when using DeriveAnyClass with functor-like class and datatype with a type variable in a contravariant position</td></tr>
-<tr><th>[\#12367](https://gitlab.haskell.org//ghc/ghc/issues/12367)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12367">#12367</a></th>
 <td>Commit adding instances to GHC.Generics regression compiler performance</td></tr>
-<tr><th>[\#12423](https://gitlab.haskell.org//ghc/ghc/issues/12423)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12423">#12423</a></th>
 <td>Panic with DeriveAnyClass</td></tr>
-<tr><th>[\#12594](https://gitlab.haskell.org//ghc/ghc/issues/12594)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12594">#12594</a></th>
 <td>DeriveAnyClass fails to derive some classes</td></tr>
-<tr><th>[\#13059](https://gitlab.haskell.org//ghc/ghc/issues/13059)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13059">#13059</a></th>
 <td>High memory usage during compilation</td></tr>
-<tr><th>[\#13206](https://gitlab.haskell.org//ghc/ghc/issues/13206)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13206">#13206</a></th>
 <td>Error in GHC.Generics documentation</td></tr>
-<tr><th>[\#13272](https://gitlab.haskell.org//ghc/ghc/issues/13272)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13272">#13272</a></th>
 <td>DeriveAnyClass regression involving a rigid type variable</td></tr>
-<tr><th>[\#13314](https://gitlab.haskell.org//ghc/ghc/issues/13314)</th>
-<td>StandaloneDeriving and DeriveAnyClass don't work together</td></tr>
-<tr><th>[\#13919](https://gitlab.haskell.org//ghc/ghc/issues/13919)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13314">#13314</a></th>
+<td>StandaloneDeriving and DeriveAnyClass don&apos;t work together</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13919">#13919</a></th>
 <td>Incorrect unused top binding warning when interacting with GHC.Generics</td></tr></table>
 
+
+
 ## Main components
+
 
 - `TcDeriv.tcDeriving` now allows deriving `Generic` instances.
 
@@ -361,6 +367,10 @@ class Generic1 (f :: * -> *) where
   to1    :: Interprt (Rep1 f) a -> f a
 ```
 
+
+  
+
+
 ## Example generic function: `fmap` (kind `* -> *`)
 
 
@@ -475,6 +485,10 @@ split the `MM` case.
 ```wiki
 instance Datatype DList where datatypeName _ = "[]"
 ```
+
+
+  
+
 
 ### Digression
 
@@ -592,30 +606,49 @@ I say "almost fully backwards-compatible" because handwritten `Generic` instance
 #### Example
 
 
+
 Before GHC 8.0, the following declaration:
 
+
 ```
-dataExample=ExamplederivingGeneric1
+data Example = Example deriving Generic1
 ```
 
 
 Would have generated all of this:
 
+
 ```
-instanceGenericExamplewheretypeRepExample=D1D1Example(C1C1_0Example(S1NoSelectorU1))...dataD1ExampledataC1_0ExampleinstanceDatatypeD1Examplewhere
-  datatypeName _="Example"
-  moduleName   _="Module"
-  isNewtype    _=FalseinstanceConstructorC1_0Examplewhere
-  conName     _="Example"
-  conFixity   _=Prefix
-  conIsRecord _=False
+instance Generic Example where
+  type Rep Example = D1 D1Example (C1 C1_0Example (S1 NoSelector U1))
+  ...
+
+data D1Example
+data C1_0Example
+
+instance Datatype D1Example where
+  datatypeName _ = "Example"
+  moduleName   _ = "Module"
+  isNewtype    _ = False
+
+instance Constructor C1_0Example where
+  conName     _ = "Example"
+  conFixity   _ = Prefix
+  conIsRecord _ = False
 ```
 
 
 But on GHC 8.0 and later, this is all that is generated (assuming it was compiled with no strictness optimizations):
 
+
 ```
-instanceGenericExamplewheretypeRepExample=D1('MetaData"Example""Module""package"'False)(C1('MetaCons"Example"'PrefixI'False)(S1('MetaSel'Nothing'NoSourceUnpackedness'NoSourceStrictness'DecidedLazy)U1))...
+instance Generic Example where
+  type Rep Example =
+    D1 ('MetaData "Example" "Module" "package" 'False)
+      (C1 ('MetaCons "Example" 'PrefixI 'False)
+        (S1 ('MetaSel 'Nothing 'NoSourceUnpackedness 'NoSourceStrictness 'DecidedLazy)
+          U1))
+  ...
 ```
 
 
@@ -624,21 +657,39 @@ Not bad!
 ### Strictness
 
 
+
 The `Selector` class now looks like this:
 
+
 ```
-classSelector s where
-  selName               :: t s (f ::*->*) a ->[Char]
-  selSourceUnpackedness :: t s (f ::*->*) a ->SourceUnpackedness
-  selSourceStrictness   :: t s (f ::*->*) a ->SourceStrictness
-  selDecidedStrictness  :: t s (f ::*->*) a ->DecidedStrictnessdataSourceUnpackedness=NoSourceUnpackedness|SourceNoUnpack|SourceUnpackdataSourceStrictness=NoSourceStrictness|SourceLazy|SourceStrictdataDecidedStrictness=DecidedLazy|DecidedStrict|DecidedUnpack
+class Selector s where
+  selName               :: t s (f :: * -> *) a -> [Char]
+  selSourceUnpackedness :: t s (f :: * -> *) a -> SourceUnpackedness
+  selSourceStrictness   :: t s (f :: * -> *) a -> SourceStrictness
+  selDecidedStrictness  :: t s (f :: * -> *) a -> DecidedStrictness
+
+data SourceUnpackedness = NoSourceUnpackedness
+                        | SourceNoUnpack
+                        | SourceUnpack
+
+data SourceStrictness = NoSourceStrictness
+                      | SourceLazy
+                      | SourceStrict
+
+data DecidedStrictness = DecidedLazy
+                       | DecidedStrict
+                       | DecidedUnpack
 ```
 
 
 This design draws much inspiration from the way Template Haskell handles strictness as of GHC 8.0 (see [ here](https://ghc.haskell.org/trac/ghc/ticket/10697) for what motivated the change). We make a distinction between the *source* strictness annotations and the strictness GHC actually *decides* during compilation. To illustrate the difference, consider the following data type:
 
+
 ```
-dataT=T{-# UNPACK #-}!Int!IntIntderivingGeneric
+data T = T {-# UNPACK #-} !Int
+                          !Int
+                           Int
+  deriving Generic
 ```
 
 
@@ -648,16 +699,20 @@ If we were to encode the source unpackedness and strictness of each of `T`'s fie
 The strictness that the user writes, however, may be different from the strictness that GHC decides during compilation. For instance, if we were to compile `T` with no optimizations, the decided strictness of each field would be `DecidedStrict`, `DecidedStrict`, and `DecidedLazy`. If we enabled `-O2`, however, they would be `DecidedUnpack`, `DecidedStrict`, and `DecidedLazy`.
 
 
-Things become even more interesting when `-XStrict` and `-O2` are enabled. Then the strictness that GHC would decided is `DecidedUnpack`, `DecidedStrict`, and `DecidedStrict`. And if you enable `-XStrict`, `-O2`, *and*`-funbox-strict-fields`, then the decided strictness is `DecidedUnpack`, `DecidedUnpack`, and `DecidedUnpack`.
+
+Things become even more interesting when `-XStrict` and `-O2` are enabled. Then the strictness that GHC would decided is `DecidedUnpack`, `DecidedStrict`, and `DecidedStrict`. And if you enable `-XStrict`, `-O2`, *and* `-funbox-strict-fields`, then the decided strictness is `DecidedUnpack`, `DecidedUnpack`, and `DecidedUnpack`.
+
 
 
 The variety of possible `DecidedStrictness` combinations demonstrates that strictness is more just annotation—it's also a dynamic property of the compiled code. Both facets of strictness can be useful to a generic programmer, so we include both in the above design. That way, you get more bang for your buck.
 
 
+
 One key difference between the way Template Haskell handles strictness and the way GHC generics would handle strictness is that in the former, source and decided strictness are decoupled, whereas the latter lumps them all into `MetaSel`. This is a result of Template Haskell allowing programmers to splice in TH ASTs directly into Haskell source code. Imagine if you wanted to splice in a datatype that had not been declared yet (i.e., one GHC had not compiled). You'd probably write something like this
 
+
 ```
-$([d|...BangNoSourceUnpackednessNoSourceStrictness???...|])
+$([d| ... Bang NoSourceUnpackedness NoSourceStrictness ??? ... |])
 ```
 
 
@@ -745,10 +800,14 @@ Maybe we don't even need to make this user-controllable; a handful of built-in c
 #### 4. Let users annotate their deriving clauses
 
 
+
 We could even let users specify which of the two types of deriving they want:
 
+
 ```
-newtypeMyInt=MyIntIntderivingnewtypeGBinaryderiving anyclass GShow
+newtype MyInt = MyInt Int
+  deriving newtype  GBinary
+  deriving anyclass GShow
 ```
 
 
@@ -812,10 +871,15 @@ The context might end up not being exactly what the user intended. For example, 
 A weakness of generics (prior to GHC 8.0) was that it wasn't expressive enough to represent types of kind `#`. Part of the reason was due to `Rec0` expecting a type of kind `*`, not kind `#`.
 
 
+
 Having a generic `#` representation would be desirable to mimic GHC's built-in support for certain unlifted types when deriving `Eq`, `Ord`, and `Show`:
 
+
 ```
-dataIntHash=IntHashInt#deriving(Eq,Ord,Show)-- Wouldn't have been allowed!derivinginstanceGenericIntHash
+data IntHash = IntHash Int# deriving (Eq, Ord, Show)
+
+-- Wouldn't have been allowed!
+deriving instance Generic IntHash
 ```
 
 ## Attempt 1: re-use `Rec0`
@@ -835,14 +899,22 @@ This approach suffers from a number of issues:
 To avoid reusing `Int`, `Char`, etc., we could introduce new data types such as `data UInt = UInt Int#`, `data UChar = UChar Char#`, etc. to represent occurrences of `Int#`, `Char#`, etc. in generic code. This would avoid any ambiguity issues, because we now have datatypes with the sole purpose of boxing unlifted types *in generic code*.
 
 
+
 This approach is still lacking, however, because `UInt`, `UChar`, etc. aren't really representation types. To illustrate what that means, consider a simple generic program:
 
-```
-classGShow f where
-    gshow :: f a ->String...instanceShow c =>GShow(K1 c)where
-    gshow (K1 x)= gshow x
 
-...dataExample=ExampleInt#derivingGenericinstanceShowExamplewhere show = gshow . from
+```
+class GShow f where
+    gshow :: f a -> String
+
+...
+
+instance Show c => GShow (K1 c) where
+    gshow (K1 x) = gshow x
+
+...
+data Example = Example Int# deriving Generic
+instance Show Example where show = gshow . from
 ```
 
 
@@ -851,26 +923,35 @@ When GHC creates the `Generic Example` instance, `UInt` appears as a type parame
 ## Attempt 3: separate unlifted representation types
 
 
+
 Instead of using `Rec0` at all, let's create standalone representation types to mark occurrences of unlifted types:
 
+
 ```
-dataUInt(p ::*)=UIntInt#dataUChar(p ::*)=UCharChar#...
+data UInt  (p :: *) = UInt  Int#
+data UChar (p :: *) = UChar Char#
+...
 ```
 
 
 This solves the problems with the previous two approaches, since (1) unlifted types are now completely separate cases from `Rec0`, and (2) we can properly use a `GShow UInt` instance (as an example).
 
 
+
 There's a thorny issue that arises with this method: how can we define generic code that behaves the same on *every* unlifted data type? For example, what if a programmer wanted the string `"<unlifted>"` to show whenever any unlifted data type is encountered? She could write this:
 
+
 ```
-instanceGShowUIntwhere
-    gshow _= gshowUnlifted
+instance GShow UInt where
+    gshow _ = gshowUnlifted
 
-instanceGShowUCharwhere
-    gshow _= gshowUnlifted
+instance GShow UChar where
+    gshow _ = gshowUnlifted
 
-...gshowUnlifted::StringgshowUnlifted="<unlifted>"
+...
+
+gshowUnlifted :: String
+gshowUnlifted = "<unlifted>"
 ```
 
 
@@ -879,20 +960,24 @@ But then she'd be writing `gshow _ = gshowUnlifted` for every single unlifted da
 ## Attempt 4: use a GADT
 
 
+
 We could reformulate `UInt`, `UAddr`, etc. into a single GADT:
 
+
 ```
-dataURec::*->*->*whereUInt::Int#->URecInt  p
-    UChar::Char#->URecChar p
+data URec :: * -> * -> * where
+    UInt  :: Int#  -> URec Int  p
+    UChar :: Char# -> URec Char p
     ...
 ```
 
 
 Now the `GShow` example above can be dramatically simplified:
 
+
 ```
-instanceGShow(URec a)where
-    gshow _="<unlifted>"
+instance GShow (URec a) where
+    gshow _ = "<unlifted>"
 ```
 
 
@@ -901,28 +986,48 @@ From a conceptual standpoint, however, a GADT doesn't quite capture the notion o
 ## Current design: data family instances
 
 
+
 To convey the property that `URec` is "open", we use a data family:
 
+
 ```
-datafamilyURec a p
-datainstanceURec(Ptr()) p =UAddr{ uAddr#::Addr#}datainstanceURecChar     p =UChar{ uChar#::Char#}datainstanceURecDouble   p =UDouble{ uDouble#::Double#}datainstanceURecInt      p =UInt{ uInt#::Int#}datainstanceURecFloat    p =UFloat{ uFloat#::Float#}datainstanceURecWord     p =UWord{ uWord#::Word#}typeUAddr=URec(Ptr())typeUChar=URecChartypeUDouble=URecDoubletypeUFloat=URecFloattypeUInt=URecInttypeUWord=URecWord
+data family URec a p
+data instance URec (Ptr ()) p = UAddr   { uAddr#   :: Addr#   }
+data instance URec Char     p = UChar   { uChar#   :: Char#   }
+data instance URec Double   p = UDouble { uDouble# :: Double# }
+data instance URec Int      p = UInt    { uInt#    :: Int#    }
+data instance URec Float    p = UFloat  { uFloat#  :: Float#  }
+data instance URec Word     p = UWord   { uWord#   :: Word#   }
+
+type UAddr   = URec (Ptr ())
+type UChar   = URec Char
+type UDouble = URec Double
+type UFloat  = URec Float
+type UInt    = URec Int
+type UWord   = URec Word
 ```
 
 
 With this approach, it is still possible to write an all-encompassing unlifted type case:
 
+
 ```
-instanceGShow(URec a)where
-    gshow _="<unlifted>"
+instance GShow (URec a) where
+    gshow _ = "<unlifted>"
 ```
 
 
 Or, if a programmer desires, she can write type-specific cases:
 
+
 ```
-instanceGShowUIntwhere
-    gshow (UInt i)= show (I# i)instanceGShowUCharwhere
-    gshow (UChar c)= show (C# c)...
+instance GShow UInt where
+    gshow (UInt i) = show (I# i)
+
+instance GShow UChar where
+    gshow (UChar c) = show (C# c)
+
+...
 ```
 
 
@@ -931,17 +1036,24 @@ One downside is that data families are conceptually more complicated than any of
 ## Example
 
 
+
 The following declaration:
 
+
 ```
-dataIntHash=IntHashInt#derivingGeneric
+data IntHash = IntHash Int# deriving Generic
 ```
 
 
 yields:
 
+
 ```
-instanceGenericIntHashwheretypeRepIntHash=D1('MetaData"IntHash""Module""package"'False)(C1('MetaCons"IntHash"'Prefix'False)(S1'MetaNoSelUInt))
+instance Generic IntHash where
+  type Rep IntHash =
+    D1 ('MetaData "IntHash" "Module" "package" 'False)
+      (C1 ('MetaCons "IntHash" 'Prefix 'False)
+        (S1 'MetaNoSel UInt))
 ```
 
 # Compilation performance tricks
@@ -952,41 +1064,56 @@ Unfortunately, deriving `Generic` has been known to incur large compilation time
 ## Factoring out `M1`
 
 
+
 If you have a datatype like:
 
+
 ```
-dataLetter=A|B|C|D
+data Letter = A | B | C | D
 ```
 
 
 then a naïve `Generic` instance for `Letter` would be:
 
+
 ```
-instanceGenericLetterwheretypeRepLetter=D1(MetaData...)...
+instance Generic Letter where
+  type Rep Letter = D1 (MetaData ...) ...
 
-  to (M1(L1(L1(M1U1))))=A
-  to (M1(L1(R1(M1U1))))=B
-  to (M1(R1(L1(M1U1))))=C
-  to (M1(R1(R1(M1U1))))=D
+  to (M1 (L1 (L1 (M1 U1)))) = A
+  to (M1 (L1 (R1 (M1 U1)))) = B
+  to (M1 (R1 (L1 (M1 U1)))) = C
+  to (M1 (R1 (R1 (M1 U1)))) = D
 
-  from A=M1(L1(L1(M1U1)))
-  from B=M1(L1(R1(M1U1)))
-  from C=M1(R1(L1(M1U1)))
-  from D=M1(R1(R1(M1U1)))
+  from A = M1 (L1 (L1 (M1 U1)))
+  from B = M1 (L1 (R1 (M1 U1)))
+  from C = M1 (R1 (L1 (M1 U1)))
+  from D = M1 (R1 (R1 (M1 U1)))
 ```
 
 
 Notice that in every LHS pattern-match of the `to` definition, and in every RHS expression in the `from` definition, the topmost constructor is `M1`. This corresponds to the datatype-specific metadata (the `D1` in the `Rep Letter` instance). But this is wasteful from a typechecking perspective, since this definition requires GHC to typecheck an application of `M1` in every single case, leading to an O(n) increase in the number of coercions the typechecker has to solve, which in turn increases allocations and degrades compilation speed.
 
 
+
 Luckily, since the topmost `M1` has the exact same type across every case, we can factor it out reduce the typechecker's burden:
 
+
 ```
-instanceGenericLetterwheretypeRepLetter=D1(MetaData...)...
+instance Generic Letter where
+  type Rep Letter = D1 (MetaData ...) ...
 
-  to (M1 x)=case x ofL1(L1(M1U1))->AL1(R1(M1U1))->BR1(L1(M1U1))->CR1(R1(M1U1))->D
+  to (M1 x) = case x of
+    L1 (L1 (M1 U1)) -> A
+    L1 (R1 (M1 U1)) -> B
+    R1 (L1 (M1 U1)) -> C
+    R1 (R1 (M1 U1)) -> D
 
-  from x =M1(case x ofA->L1(L1(M1U1))B->L1(R1(M1U1))C->R1(L1(M1U1))D->R1(R1(M1U1)))
+  from x = M1 (case x of
+    A -> L1 (L1 (M1 U1))
+    B -> L1 (R1 (M1 U1))
+    C -> R1 (L1 (M1 U1))
+    D -> R1 (R1 (M1 U1)))
 ```
 
 

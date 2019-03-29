@@ -183,8 +183,11 @@ I took it up to n=4 to illustrate.  Notice that
   Here `g` shares all of `f`'s free variables except `i1`.  Making `g`'s closure point to `f`'s would be sound, but would risk a space leak by keeping `i1` alive for too long.
 
 >
+>
 > This would be fixable, by keeping a liveness bit-map in `g`'s info-table, and using it when scavenging `g`'s closure.
 > But that would be new work.
+>
+>
 
 - There may be many candidate parents of `q`, but there is always a "best" one (i.e. with the maximum number of free vars).
 
@@ -199,6 +202,10 @@ I took it up to n=4 to illustrate.  Notice that
   ```
 
   Here perhaps `h` could point to `g`.  Or maybe they can both point to a shared record.  There is *plenty* of material in the literature describing schemes like this, dating back at least thirty years.   But our goal for now is simply to gather the low-hanging fruit; hence the "parent" idea.
+
+
+  
+
 
 - All this affects what free variables to save across a case. For example
 

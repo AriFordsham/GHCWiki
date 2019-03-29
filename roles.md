@@ -21,59 +21,67 @@ See also
 ## Tickets
 
 
+
 Use Keyword = `Roles` to ensure that a ticket ends up on these lists.
+
+
 
 **Open Tickets:**
 
-<table><tr><th>[\#9112](https://gitlab.haskell.org//ghc/ghc/issues/9112)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9112">#9112</a></th>
 <td>support for deriving Vector/MVector instances</td></tr>
-<tr><th>[\#9118](https://gitlab.haskell.org//ghc/ghc/issues/9118)</th>
-<td>Can't eta-reduce representational coercions</td></tr>
-<tr><th>[\#11715](https://gitlab.haskell.org//ghc/ghc/issues/11715)</th>
-<td>Constraint vs \*</td></tr>
-<tr><th>[\#13358](https://gitlab.haskell.org//ghc/ghc/issues/13358)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9118">#9118</a></th>
+<td>Can&apos;t eta-reduce representational coercions</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11715">#11715</a></th>
+<td>Constraint vs *</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13358">#13358</a></th>
 <td>Role ranges (allow decomposition on newtypes)</td></tr>
-<tr><th>[\#14292](https://gitlab.haskell.org//ghc/ghc/issues/14292)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14292">#14292</a></th>
 <td>Coercing between constraints of newtypes</td></tr>
-<tr><th>[\#14317](https://gitlab.haskell.org//ghc/ghc/issues/14317)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14317">#14317</a></th>
 <td>Solve Coercible constraints over type constructors</td></tr>
-<tr><th>[\#14362](https://gitlab.haskell.org//ghc/ghc/issues/14362)</th>
-<td>Allow: Coercing (a:\~:b) to (b:\~:a)</td></tr>
-<tr><th>[\#14386](https://gitlab.haskell.org//ghc/ghc/issues/14386)</th>
-<td>GHC doesn't allow Coercion between partly-saturated type constructors</td></tr>
-<tr><th>[\#14694](https://gitlab.haskell.org//ghc/ghc/issues/14694)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14362">#14362</a></th>
+<td>Allow: Coercing (a:~:b) to (b:~:a)</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14386">#14386</a></th>
+<td>GHC doesn&apos;t allow Coercion between partly-saturated type constructors</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14694">#14694</a></th>
 <td>Incompleteness in the Coercible constraint solver</td></tr>
-<tr><th>[\#15441](https://gitlab.haskell.org//ghc/ghc/issues/15441)</th>
-<td>Data type with phantoms using TypeInType isn't coercible</td></tr>
-<tr><th>[\#15707](https://gitlab.haskell.org//ghc/ghc/issues/15707)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15441">#15441</a></th>
+<td>Data type with phantoms using TypeInType isn&apos;t coercible</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15707">#15707</a></th>
 <td>More liberally kinded coercions for newtypes</td></tr></table>
+
+
+
 
 **Closed Tickets:**
 
-<table><tr><th>[\#8246](https://gitlab.haskell.org//ghc/ghc/issues/8246)</th>
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8246">#8246</a></th>
 <td>Role annotations does not allow the use of parenthesis</td></tr>
-<tr><th>[\#9117](https://gitlab.haskell.org//ghc/ghc/issues/9117)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9117">#9117</a></th>
 <td>Coercible constraint solver misses one</td></tr>
-<tr><th>[\#9123](https://gitlab.haskell.org//ghc/ghc/issues/9123)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9123">#9123</a></th>
 <td>Emit quantified Coercible constraints in GeneralizedNewtypeDeriving</td></tr>
-<tr><th>[\#9131](https://gitlab.haskell.org//ghc/ghc/issues/9131)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9131">#9131</a></th>
 <td>Experiment with a dedicated solver for Coercible</td></tr>
-<tr><th>[\#10905](https://gitlab.haskell.org//ghc/ghc/issues/10905)</th>
-<td>Incorrect number of parameters in "role" errors</td></tr>
-<tr><th>[\#11230](https://gitlab.haskell.org//ghc/ghc/issues/11230)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10905">#10905</a></th>
+<td>Incorrect number of parameters in &quot;role&quot; errors</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11230">#11230</a></th>
 <td>No run-time exception for deferred type errors when error is in a phantom role position</td></tr>
-<tr><th>[\#12616](https://gitlab.haskell.org//ghc/ghc/issues/12616)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12616">#12616</a></th>
 <td>type synonyms confuse generalized newtype deriving role checking</td></tr>
-<tr><th>[\#14101](https://gitlab.haskell.org//ghc/ghc/issues/14101)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14101">#14101</a></th>
 <td>Type synonyms can make roles too conservative</td></tr>
-<tr><th>[\#14333](https://gitlab.haskell.org//ghc/ghc/issues/14333)</th>
-<td>GHC doesn't use the fact that Coercible is symmetric</td></tr>
-<tr><th>[\#14363](https://gitlab.haskell.org//ghc/ghc/issues/14363)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14333">#14333</a></th>
+<td>GHC doesn&apos;t use the fact that Coercible is symmetric</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14363">#14363</a></th>
 <td>:type hangs on coerce</td></tr>
-<tr><th>[\#15294](https://gitlab.haskell.org//ghc/ghc/issues/15294)</th>
-<td>Unused "foralls" prevent types from being Coercible</td></tr>
-<tr><th>[\#15431](https://gitlab.haskell.org//ghc/ghc/issues/15431)</th>
-<td>Coercible and Existential types don't play nicely</td></tr></table>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15294">#15294</a></th>
+<td>Unused &quot;foralls&quot; prevent types from being Coercible</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15431">#15431</a></th>
+<td>Coercible and Existential types don&apos;t play nicely</td></tr></table>
+
+
 
 ## The problem we wish to solve
 
@@ -103,7 +111,9 @@ This code is accepted by GHC 7.6.3. Yet, it goes wrong when you say `bad (MkAge 
 A newtype is a new algebraic datatype that wraps up exactly one field (in our example, of type `Int`). Yet, the semantics of Haskell makes a guarantee that wrapping and unwrapping a value (with `MkAge` or `unAge`) has no runtime cost. Thus, internally, we must consider `Age` to be wholly equivalent to `Int`.
 
 
-The problem with this idea comes with type families. (There are other ways to tickle the bug, but one example is enough here.) A type family can branch on *Haskell* type, and of course, in Haskell (unlike in the internals of a compiler), `Age` is most certainly *not*`Int`. (If it were, newtypes would be useless for controlling instance selection, a very popular use case.) So, in our example, we see that `Inspect Age` is `Int`, but `Inspect Int` is `Bool`. Now, note the type of `bad`, the method in class `BadIdea`. When passed an `Int`, `bad` will return a `Bool`. When passed an `Age`, `bad` will return an `Int`. What happens on the last line above, when we use GND? Internally, we take the existing instance for `Int` and just transform it into an instance for `Age`. But, this transformation is very dumb -- because `Age` and `Int` are the same, internally, the code for the `Age` instance and the code for the `Int` instance are the same. This means that when we call `bad (MkAge 5)`, we run `5` through the existing implementation for `bad`, which produces a `Bool`. But, of course, the type of `bad (MkAge 5)` is `Int`, and so we have effectively converted a `Bool` to an `Int`. Yuck.
+
+The problem with this idea comes with type families. (There are other ways to tickle the bug, but one example is enough here.) A type family can branch on *Haskell* type, and of course, in Haskell (unlike in the internals of a compiler), `Age` is most certainly *not* `Int`. (If it were, newtypes would be useless for controlling instance selection, a very popular use case.) So, in our example, we see that `Inspect Age` is `Int`, but `Inspect Int` is `Bool`. Now, note the type of `bad`, the method in class `BadIdea`. When passed an `Int`, `bad` will return a `Bool`. When passed an `Age`, `bad` will return an `Int`. What happens on the last line above, when we use GND? Internally, we take the existing instance for `Int` and just transform it into an instance for `Age`. But, this transformation is very dumb -- because `Age` and `Int` are the same, internally, the code for the `Age` instance and the code for the `Int` instance are the same. This means that when we call `bad (MkAge 5)`, we run `5` through the existing implementation for `bad`, which produces a `Bool`. But, of course, the type of `bad (MkAge 5)` is `Int`, and so we have effectively converted a `Bool` to an `Int`. Yuck.
+
 
 ## The solution
 
@@ -297,42 +307,71 @@ Currently, the type constructors for all type families and data families all con
 ## Examples we cannot write today
 
 
+
 This example ([ courtesy of glguy](https://ghc.haskell.org/trac/ghc/ticket/8177#comment:32)) will not typecheck:
 
-```
--- | Family of N-ary operator types.typefamilyOp n a b whereOp'Z     a b = b
-  Op('S n) a b = a ->Op n a b
 
-coerceOp::Coercible a b =>Op n a c ->Op n b c
-coerceOp= coerce
+```
+-- | Family of N-ary operator types.
+type family Op n a b where
+  Op 'Z     a b = b
+  Op ('S n) a b = a -> Op n a b
+
+coerceOp :: Coercible a b => Op n a c -> Op n b c
+coerceOp = coerce
 ```
 
 
 Since the role signature for `Op` is `type role Op nominal nominal nominal`. But in an ideal world, the role signature for `Op` would be inferred as `type role Op nominal representational representational`. After all, neither `a` nor `b` is "scrutinized" in any sense, so it feels perfectly safe to coerce them freely. **RAE:** "feels"? Let's prove it! **End RAE**
 
 
+
 Another example ([ courtesy of int-index](https://ghc.haskell.org/trac/ghc/ticket/8177#comment:33)) is:
 
+
 ```
--- represents effect methods for some monad `m`datafamilyEffDict(eff :: k)(m ::Type->Type)-- Note this matches on `eff`, not `m`dataStateEff s
-datainstanceEffDict(StateEff s) m =StateDict{ _state :: forall a .(s ->(a,s))-> m a,
+-- represents effect methods for some monad `m`
+data family EffDict (eff :: k) (m :: Type -> Type)
+
+-- Note this matches on `eff`, not `m`
+data StateEff s
+data instance EffDict (StateEff s) m =
+  StateDict
+    { _state :: forall a . (s -> (a,s)) -> m a,
       _get :: m s,
-      _put :: s -> m ()}-- composition of monad transformersnewtypeTComp t1 t2 m a =TComp(t1 (t2 m) a)coerceDict::EffDict eff (t1 (t2 m))->EffDict eff (TComp t1 t2 m)coerceDict= coerce
+      _put :: s -> m () }
+
+-- composition of monad transformers
+newtype TComp t1 t2 m a = TComp (t1 (t2 m) a)
+
+coerceDict :: EffDict eff (t1 (t2 m)) -> EffDict eff (TComp t1 t2 m)
+coerceDict = coerce
 ```
 
 
 Again, `coerceDict` will not typecheck due to the role of `m` in `EffDict` being `nominal`. But there's no good reason why this *must* be the case—we ought to be able to tell GHC to allow `m` to have `representational role`. (Of course, this would prevent any `EffDict` instance from using `m` at a `nominal` role, but them's the breaks.)
 
 
+
 Additionally, we might like to have roles for *associated* type families. For instance, consider this example ([ courtesy of dmcclean](https://ghc.haskell.org/trac/ghc/ticket/8177#comment:20)):
 
+
 ```
-dataVariant=DQuantity|DUnitPrefixabilitydataDimensionclassKnownVariant(var ::Variant)wheredataDimensional var ::Dimension->*->*instanceKnownVariantDQuantitywherenewtypeDimensionalDQuantity d v =Quantity' v
+data Variant = DQuantity | DUnit Prefixability
+data Dimension
 
-instanceKnownVariant(DUnit p)wheredataDimensional(DUnit p) d v =Unit'UnitName v
+class KnownVariant (var :: Variant) where
+  data Dimensional var :: Dimension -> * -> *
 
-typeQuantity=DimensionalDQuantitycoerceQuantity::Coercible v w =>Quantity d v ->Quantity d w
-coerceQuantity= coerce
+instance KnownVariant DQuantity where
+  newtype Dimensional DQuantity d v = Quantity' v
+
+instance KnownVariant (DUnit p) where
+  data Dimensional (DUnit p) d v = Unit' UnitName v
+
+type Quantity = Dimensional DQuantity
+coerceQuantity :: Coercible v w => Quantity d v -> Quantity d w
+coerceQuantity = coerce
 ```
 
 
@@ -341,19 +380,23 @@ Once again, `coerceQuantity` is ill typed, simply because of the conservative `n
 ## Syntax
 
 
+
 Implementing roles for type families would not require too many changes to the syntax of the language, as most of the required pieces are already there. The biggest current restriction is the fact that one cannot declare role annotations for type families, e.g.,
+
 
 ```
 type role F nominal
-typefamilyF a
+type family F a
 ```
 
 
 But this is a restriction that is easily overcome. In addition, the parser does not currently recognize role annotations for associated type families:
 
+
 ```
-classC a wheretype role Assoc nominal nominal
-  typeAssoc a b
+class C a where
+  type role Assoc nominal nominal
+  type Assoc a b
 ```
 
 
@@ -363,16 +406,21 @@ But this could be added without much difficulty.
 data families and data instances. And both might usefully
 have role annotations. For example:
 
+
 ```
-datafamilyDF a b
+
+data family DF a b
 type role DF nominal representational
 
-datainstanceDFInt b =MkDFInt b
- -- NB: No scrutinizing the second parameter.-- Also, b is not used in a nominal contextdatainstanceDF[c] b =MkDFList c b
-type role DF[nominal] representational
+data instance DF Int b = MkDFInt b
+ -- NB: No scrutinizing the second parameter.
+ -- Also, b is not used in a nominal context
 
-datainstanceDF(Maybe d) b =MkDFMaybe d b
-type role DF(Maybe representational) representational
+data instance DF [c] b = MkDFList c b
+type role DF [nominal] representational
+
+data instance DF (Maybe d) b = MkDFMaybe d b
+type role DF (Maybe representational) representational
 ```
 
 
@@ -400,11 +448,14 @@ Regardless of whether we're dealing with a closed, open, or associated type fami
 ### Example
 
 
+
 Consider this type family:
 
+
 ```
-typefamilyF(e ::*)(f ::*)(g ::*)(h ::*):: k whereFInt       b c d = c
-  F(Maybe a) b a d =Maybe b
+type family F (e :: *) (f :: *) (g :: *) (h :: *) :: k where
+  F Int       b c d = c
+  F (Maybe a) b a d = Maybe b
   F a         b c d = a
 ```
 
@@ -422,13 +473,20 @@ First, we gather all of the free variables in the type family's kind and mark ea
 Next, we descend into each defining equation of the type family and inspect the left-hand and right-hand sides. The right-hand sides are analyzed just like the fields of a data constructor; see the [ Role inference](https://ghc.haskell.org/trac/ghc/wiki/Roles#Roleinference) section above for more details. From the right-hand sides, we learn that the roles of `e`, `f`, and `g` should be (at least) `representational`.
 
 
+
 The more interesting analysis comes when inspecting the left-hand sides. We want to mark any type variable that is *scrutinized* as `nominal`. By "scrutinized", we mean a variable that is being used in a non-parametric fashion. For instance, we want to rule out scenarios like this one:
 
-```
-typefamilyInspect x whereInspectBool=IntInspectInt=BoolcoerceInspect::Coercible a b =>Inspect a ->Inspect b
-coerceInspect= coerce
 
-unsafeBoolToInt::Bool->IntunsafeBoolToInt=(coerceInspect ::InspectInt->InspectAge)
+```
+type family Inspect x where
+  Inspect Bool = Int
+  Inspect Int  = Bool
+
+coerceInspect :: Coercible a b => Inspect a -> Inspect b
+coerceInspect = coerce
+
+unsafeBoolToInt :: Bool -> Int
+unsafeBoolToInt = (coerceInspect :: Inspect Int -> Inspect Age)
 ```
 
 
@@ -437,21 +495,30 @@ To accomplish this, we check for any occurences of the either of the following s
 1. A type pattern that is not a single type variable. For instance, all of these equations provde examples of type patterns which do scrutinize a particular type variable:
 
 ```
-typefamilyInspect x whereInspectInt=BoolInspect(Either a b)= a
-  Inspect(f a)= a
+type family Inspect x where
+  Inspect Int          = Bool
+  Inspect (Either a b) = a
+  Inspect (f a)        = a
 ```
 
 >
+>
 > Any type variable that is scrutinized in this fashion (`x` in the above example) is marked as `nominal`.
+>
+>
 
 1. Type patterns that are syntactically equal are all marked as nominal. For instance:
 
 ```
-typefamilyEq w x y z whereEq a b (Either b a) c = a
+type family Eq w x y z where
+  Eq a b (Either b a) c = a
 ```
 
 >
+>
 > Here, we have two variable names that are used in multiple places: `a` and `b`. As a result, the type variables which they inhabit (`w`, `x`, and `y`) are all marked as `nominal`.
+>
+>
 
 
 Returning to the earlier `F` example, we would learn that `e` and `g` should be marked nominal, as they are both scrutinized. Therefore, the final inferred roles for `k`, `e`, `f`, `g`, and `h` are `nominal`, `nominal`, `representational`, `nominal`, and `phantom`.
@@ -461,32 +528,39 @@ Returning to the earlier `F` example, we would learn that `e` and `g` should be 
 ## Role checking for type families
 
 
+
 Users can also specify role annotations for type families that should be checked against the inferred roles. For instance:
+
 
 ```
 type role G nominal nominal
-typefamilyG a b whereG a b =Either a b
+type family G a b where
+  G a b = Either a b
 ```
 
 
 If the user hadn't written the role annotation for `G`, its role signature would have been inferred to be `type role G representational representational`. However, role checking overrides the inferred roles and assigns the more conservative roles of `type role G nominal nominal`.
 
 
+
 Note that while writing role annotations for *closed* type families is purely optional, it is somewhat more important for open type families. For instance, what should be the roles for this type family?
 
+
 ```
-typefamilyOpen a b
+type family Open a b
 ```
 
 
 Here, we have a choice to make. We could decide to make the roles for open type families default to, say, `representational`. While this would give us the freedom to `coerce` values of type `Open a b` more freely, it simultaneously restricts the instances we can give for `Open`, since every type instance must be checked to ensure that neither `a` nor `b` is used at a `nominal` role.
 
 
+
 For the sake of backwards compatibility and the principle of least surprise, roles for open type families default to `nominal`. This allows more instances to be written, but makes it harder to `coerce` them. If a user wishes to `coerce` open type families, the onus is on her to write a role annotation, e.g.,
+
 
 ```
 type role Open representational representational
-typefamilyOpen a b
+type family Open a b
 ```
 
 ## Type family roles and hs-boot files

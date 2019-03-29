@@ -140,7 +140,7 @@ class (instance Applicative m) => Monad m where
 ```
 
 
-So now where is a default defintion for `fmap`*both* in `Monad`*and* in its superclass `Applicative`.
+So now where is a default defintion for `fmap` *both* in `Monad` *and* in its superclass `Applicative`.
 We need to choose between these candidate definitions, and the obvious way to do so is to apply the existing principle that the more local overrides the more generic.
 
 
@@ -331,7 +331,10 @@ class (instance Functor f) => Applicative f where
 
 we make `fmap` a member of `Applicative` by virtue of `fmap` being an *immediate* member of the *intrinsic* superclass `Functor`. However, `fmap` is not an *immediate* member of `Applicative`: the immediate members of `Applicative` are `return` and `(<*>)`.
 
-**Fact***The name of a class member uniquely determines the class of which it is an immediate member and thus the internal instances in which its definitions belong.*
+
+
+**Fact** *The name of a class member uniquely determines the class of which it is an immediate member and thus the internal instances in which its definitions belong.*
+
 
 - An **immediately defaulted member** of a class C is a member of class C which is given a default definition in the declaration of C.
 
@@ -372,9 +375,14 @@ In the heads of class declarations, we shall need to say which superclasses are 
 
 The proposed syntax for an intrinsic superclass root is just
 
-*root* ::= *atom* (`-`*Name*+)?
 
-*atom* ::= *Name**type*+
+
+*root* ::= *atom* (`-` *Name*+)?
+
+
+
+*atom* ::= *Name* *type*+
+
 
 
 (Grammar grammar: postfix ? for 0 or 1, postfix + for 1 or more, postfix ,\* for 0 or more comma-separated)
@@ -410,19 +418,34 @@ The following proposal satisfies Requirements 1,2,3 and 5, and Desirable 6. We s
 ### New Syntax
 
 
-We propose to change only the syntax of class and instance heads, allowing intrinsic superclasses declarations, `instance`*root*, in classes, and `instance` ... *root*`where` definitions.
+
+We propose to change only the syntax of class and instance heads, allowing intrinsic superclasses declarations, `instance` *root*, in classes, and `instance` ... *root* `where` definitions.
+
+
 
 *toplevel* ::= ...
 
->
-> \| `class` (*sups*`=>`)? *Name**name*+ `where`*declarations*
 
 >
-> \| `instance` (*constrs*`=>`)? *root*`where`*definitions*
+>
+> \| `class` (*sups* `=>`)? *Name* *name*+ `where` *declarations*
+>
+>
+
+>
+>
+> \| `instance` (*constrs* `=>`)? *root* `where` *definitions*
+>
+>
+
 
 *sups* ::= *sup* \| `(`*sup*,\*`)`
 
-*sup* ::= *atom* \| `instance`*root*
+
+
+*sup* ::= *atom* \| `instance` *root*
+
+
 
 *constrs* ::= *atom* \| `(`*atom*,\*`)`
 
@@ -432,18 +455,33 @@ We propose to change only the syntax of class and instance heads, allowing intri
 An intrinsic superclass root, `instance` S ss - Xs `=>` C xs in a class declaration, makes S ss a superclass constraint of C xs, with at least the same static checks (e.g. cycle avoidance) which are currently enforced.
 
 
+
 The heads of class declarations determine the intrinsic superclass closure ISC(R) of a given *root* R, as follows.
 
+
+>
 >
 > ISC(R) = ISC'(R, {})
+>
+>
 
 >
+>
 > ISC'(C ts - Ys, Xs) = {} if C in X; otherwise
+>
+>
 
+>
 >
 > ISC'(C ts - Ys, Xs) = {C ts} + ISC'(R1\[ts/xs\], Ys union Xs) +..+ ISC'(Rn\[ts/xs\], Ys union Xs) where
 >
+>
+> >
+> >
 > > `class` (`instance` R1,..,`instance` Rn,A1,..,Am) `=>` C xs
+> >
+> >
+>
 
 
 As + Bs is undefined if for some C, C ts in A and C ts' in B; otherwise, As + Bs = As union Bs
@@ -595,7 +633,10 @@ class ({-# PRE-EMPT #-}instance Functor f) => Applicative f where
 
 to signal that an intrinsic closure computation can be cut short at that point by an explicit instance.
 
-**Proposal***An immediate intrinsic superclass marked `{-# PRE-EMPT #-}` will not contribute to an intrinsic superclass closure if the corresponding instance is explicitly in scope. A warning will be issued when this pre-emption happens.*
+
+
+**Proposal** *An immediate intrinsic superclass marked `{-# PRE-EMPT #-}` will not contribute to an intrinsic superclass closure if the corresponding instance is explicitly in scope. A warning will be issued when this pre-emption happens.*
+
 
 
 This proposal requires no more checking than is already required to rule out duplicate instances: it just prioritizes the explicit instance over its implicitly generated counterpart instead of complaining.

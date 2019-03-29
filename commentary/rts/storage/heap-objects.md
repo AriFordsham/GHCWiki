@@ -482,22 +482,26 @@ When eager blackholing is enabled, the black hole that is written is not a true 
 `MUT_ARR_PTRS_FROZEN_CLEAN`
 
 
+
 Non-pointer arrays are straightforward:
 
-<table><tr><th>\| Header </th>
-<th>\| Bytes </th>
-<th>\| Array payload </th>
-<th>\|
+
+<table><tr><th>| Header </th>
+<th>| Bytes </th>
+<th>| Array payload </th>
+<th>|
 </th></tr></table>
+
 
 
 Arrays with pointers are a little more complicated, they include a card table, which is used by the GC to know what segments of the array to traverse as roots (the card table is modified by the GC write barrier):
 
-<table><tr><th>\| Header </th>
-<th>\| Ptrs </th>
-<th>\| Size </th>
-<th>\| Array payload + card table </th>
-<th>\|
+
+<table><tr><th>| Header </th>
+<th>| Ptrs </th>
+<th>| Size </th>
+<th>| Array payload + card table </th>
+<th>|
 </th></tr></table>
 
 
@@ -556,8 +560,15 @@ The TSO structure contains several fields.  For full details see [includes/rts/s
   the list of possible values.
 - *block_info*: for a blocked thread, gives more information about the reason for blockage, eg. when blocked on an
 
+>
+> >
+> > >
 > > >
 > > > MVar, block_info will point to the MVar.
+> > >
+> > >
+> >
+>
 
 - *bound*: pointer to a [Task](commentary/rts/scheduler#) if this thread is bound
 - *cap*: the [Capability](commentary/rts/scheduler#capabilities) on which this thread resides.

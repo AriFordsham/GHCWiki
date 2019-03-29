@@ -34,8 +34,9 @@ What *can* change, and still get identical output?  (A non-exhaustive list.)
 
 For example: 
 
+
 - compile the package 
-- change `Foo.hs`
+- change `Foo.hs` 
 - recompile
 - undo the change
 - recompile

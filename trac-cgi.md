@@ -1,6 +1,15 @@
 # Installing Trac as CGI
 
+
+
+
+
+
+>
+>
 > *Please note that using Trac via CGI is the slowest deployment method available. It is slower than [mod_python](trac-mod-python), [FastCGI](trac-fast-cgi) and even [ IIS/AJP](http://trac.edgewall.org/intertrac/TracOnWindowsIisAjp) on Windows.*
+>
+>
 
 
 CGI script is the entrypoint that web-server calls when a web-request to an application is made. The `trac.cgi` script can be created using the `trac-admin <env> deploy <dir>` command which automatically substitutes the required paths, see [TracInstall\#cgi-bin](trac-install#). Make sure the script is executable by your web server.
@@ -16,38 +25,57 @@ In [ Apache](http://httpd.apache.org/) there are two ways to run Trac as CGI:
 
 To make Trac available at `http://yourhost.example.org/trac` add `ScriptAlias` directive to Apache configuration file, changing `trac.cgi` path to match your installation:
 
+
 ```
-ScriptAlias/trac/path/to/www/trac/cgi-bin/trac.cgi
+ScriptAlias /trac /path/to/www/trac/cgi-bin/trac.cgi
 ```
 
+>
+>
 > *Note that this directive requires enabled `mod_alias` module.*
+>
+>
 
 
 If you're using Trac with a single project you need to set its location using the `TRAC_ENV` environment variable:
 
+
 ```
-<Location"/trac">SetEnv TRAC_ENV "/path/to/projectenv"</Location>
+<Location "/trac">
+  SetEnv TRAC_ENV "/path/to/projectenv"
+</Location>
 ```
 
 
 Or to use multiple projects you can specify their common parent directory using the `TRAC_ENV_PARENT_DIR` variable:
 
+
 ```
-<Location"/trac">SetEnv TRAC_ENV_PARENT_DIR "/path/to/project/parent/dir"</Location>
+<Location "/trac">
+  SetEnv TRAC_ENV_PARENT_DIR "/path/to/project/parent/dir"
+</Location>
 ```
 
+>
+>
 > *Note that the `SetEnv` directive requires enabled `mod_env` module. It is also possible to set TRAC_ENV in trac.cgi. Just add the following code between "try:" and "from trac.web ...":*
+>
+>
 
 ```
-importos
-    os.environ['TRAC_ENV']="/path/to/projectenv"
+    import os
+    os.environ['TRAC_ENV'] = "/path/to/projectenv"
 ```
 
+>
+>
 > * Or for TRAC_ENV_PARENT_DIR: *
+>
+>
 
 ```
-importos
-    os.environ['TRAC_ENV_PARENT_DIR']="/path/to/project/parent/dir"
+    import os
+    os.environ['TRAC_ENV_PARENT_DIR'] = "/path/to/project/parent/dir"
 ```
 
 
@@ -59,7 +87,9 @@ On some systems, you *may* need to edit the shebang line in the `trac.cgi` file 
 ### Using WSGI
 
 
-You can run a [ WSGI handler](http://henry.precheur.org/python/how_to_serve_cgi)[ under CGI](http://pythonweb.org/projects/webmodules/doc/0.5.3/html_multipage/lib/example-webserver-web-wsgi-simple-cgi.html).  You can [write your own application function](trac-mod-wsgi#), or use the deployed trac.wsgi's application.
+
+You can run a [ WSGI handler](http://henry.precheur.org/python/how_to_serve_cgi) [ under CGI](http://pythonweb.org/projects/webmodules/doc/0.5.3/html_multipage/lib/example-webserver-web-wsgi-simple-cgi.html).  You can [write your own application function](trac-mod-wsgi#), or use the deployed trac.wsgi's application.
+
 
 ## Mapping Static Resources
 
@@ -74,4 +104,7 @@ See [TracInstall\#ConfiguringAuthentication](trac-install#configuring-authentica
 ---
 
 
+
 See also:  [TracGuide](trac-guide), [TracInstall](trac-install), [TracModWSGI](trac-mod-wsgi), [TracFastCgi](trac-fast-cgi), [TracModPython](trac-mod-python)
+
+

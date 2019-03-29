@@ -62,7 +62,13 @@ If we feel forcing people to change `Data.List` imports is too onerous, I sugges
 
 And the `Foldable` version of `foldr` would be normal.  The compiler would then pick the `Foldable` symbol and issue a warning.  I view this extension purely as a device to be used to make these kinds of transitions smooth.
 
+
 ## Proposal 1:
+
+
+
+ 
+
 
 - Add a new pragma `{-# LANGUAGE Prelude=AlternativePrelude #-}`
 
@@ -152,7 +158,9 @@ Which also has `toList`, `fromList`, and does work with `ByteString`.
 -  For example, could we use `IsList` instead of `Foldable`?
 
 >
+>
 > Specifically, `Foldable` does not use its potential power to apply the type constructor `t` to different arguments.  (Unlike `Traversable` which does.)
+>
 >
 > ```wiki
 >   foldr :: IsList l => (Item l->b->b) -> b -> l -> b

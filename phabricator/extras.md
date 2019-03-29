@@ -162,7 +162,10 @@ Next, you have to select the type of rule. You will always want the type to be *
 Finally, you have the rules screen. It should be mostly self explanatory: set combinations of conditions, and sets of actions to take when the conditions are satisfied.
 
 
-For example, Austin has a **Personal Rule** for **Differential Revisions**. The rule is only triggered when the repository **is any of**`rGHC` (**NB**: the `r` is important!), and **Every time** it **Adds me as a blocking reviewer**.
+
+For example, Austin has a **Personal Rule** for **Differential Revisions**. The rule is only triggered when the repository **is any of** `rGHC` (**NB**: the `r` is important!), and **Every time** it **Adds me as a blocking reviewer**.
+
+
 
 [](https://i.imgur.com/lUPSMmZ.png)
 

@@ -70,17 +70,55 @@ There is [\#11011](https://gitlab.haskell.org//ghc/ghc/issues/11011) for discuss
 For `Data.Typeable` we ultimately need Richard Eisenberg's kind equalities.
 But until GHC gets kind equalities we offer a variant ("homogeneous case") that doesn't need them, but has an extra `unsafeCoerce` or two, and returns `Bool` rather than a type equality on kind-heterogeneous comparisons.
 
+
 ### Without kind equalities
 
-```
-dataTypeRep(a :: k)-- abstracttypeRepFingerprint::TypeRep a ->FingerprintappR::TypeRep(a :: k -> k')->TypeRep(b :: k)->TypeRep(a b)classTypeable(a :: k)where
-  typeRep ::TypeRep a
 
--- GHC has magic built-in support for Typeable instances-- but the effect is similar to declarations like these:instance(Typeable c,Typeable a)=>Typeable(c a)instanceTypeableBoolinstanceTypeable(->)withTypeRep::TypeRep a ->(Typeable a => b)-> b
--- c.f. Trac #2439eqRR::TypeRep(a :: k1)->TypeRep(b :: k2)->BooleqRRHom::TypeRep(a :: k)->TypeRep(b :: k)->Maybe(a :~: b)dataGetApp(a :: k)whereGA::TypeRep(a :: k1 -> k2)->TypeRep(b :: k1)->GetApp(a b)getAppR::TypeRep(a :: k)->Maybe(GetApp a)dataG1 c a whereG1::TypeRep(a :: k)->G1(c :: k -> k')(c a)getR1::TypeRep(ct :: k1 -> k)->TypeRep(c'at :: k)->Maybe(G1 ct c'at)-- Implementation uses an unsafeCoercedataG2 c a whereG2::TypeRep(a :: k1)->TypeRep(b :: k2)->G2(c :: k1 -> k2 -> k3)(c a b)getR2::TypeRep(c :: k2 -> k1 -> k)->TypeRep(a :: k)->Maybe(G2 c a)-- Implementation uses an unsafeCoerce-- rest are for conveniencetypeOf::Typeable a =>(a ::*)->TypeRep a
-getFnR::TypeRep(a ::*)->Maybe(G2(->) a)castR::TypeRep(a ::*)->TypeRep(b ::*)-> a ->Maybe b
-cast::(Typeable(a ::*),Typeable(b ::*))=> a ->Maybe b
-gcastR::TypeRep(a :: k)->TypeRep(b :: k)-> c a ->Maybe(c b)gcast::(Typeable(a :: k),Typeable(b :: k))=> c a ->Maybe(c b)gcastR1::TypeRep(t :: k1 -> k2)->TypeRep(t' :: k1 -> k2)-> c (t a)->Maybe(c (t' a))gcast1::(Typeable(t :: k1 -> k2),Typeable(t' :: k1 -> k2))=> c (t a)->Maybe(c (t' a))gcastR2::TypeRep(t :: k1 -> k2 -> k3)->TypeRep(t' :: k1 -> k2 -> k3)-> c (t a b)->Maybe(c (t' a b))gcast2::(Typeable(t :: k1 -> k2 -> k3),Typeable(t' :: k1 -> k2 -> k3))=> c (t a b)->Maybe(c (t' a b))
+```
+data TypeRep (a :: k) -- abstract
+typeRepFingerprint :: TypeRep a -> Fingerprint
+appR :: TypeRep (a :: k -> k') -> TypeRep (b :: k) -> TypeRep (a b)
+
+class Typeable (a :: k) where
+  typeRep :: TypeRep a
+
+-- GHC has magic built-in support for Typeable instances
+-- but the effect is similar to declarations like these:
+instance (Typeable c, Typeable a) => Typeable (c a)
+instance Typeable Bool
+instance Typeable (->)
+
+withTypeRep :: TypeRep a -> (Typeable a => b) -> b
+-- c.f. Trac #2439
+
+eqRR :: TypeRep (a :: k1) -> TypeRep (b :: k2) -> Bool
+eqRRHom :: TypeRep (a :: k) -> TypeRep (b :: k) -> Maybe (a :~: b)
+
+data GetApp (a :: k) where
+  GA :: TypeRep (a :: k1 -> k2) -> TypeRep (b :: k1) -> GetApp (a b)
+getAppR :: TypeRep (a :: k) -> Maybe (GetApp a)
+
+data G1 c a where
+  G1 :: TypeRep (a :: k) -> G1 (c :: k -> k') (c a)
+getR1 :: TypeRep (ct :: k1 -> k) -> TypeRep (c'at :: k) -> Maybe (G1 ct c'at)
+-- Implementation uses an unsafeCoerce
+
+data G2 c a where
+  G2 :: TypeRep (a :: k1) -> TypeRep (b :: k2) -> G2 (c :: k1 -> k2 -> k3) (c a b)
+getR2 :: TypeRep (c :: k2 -> k1 -> k) -> TypeRep (a :: k) -> Maybe (G2 c a)
+-- Implementation uses an unsafeCoerce
+
+-- rest are for convenience
+typeOf  :: Typeable a => (a :: *) -> TypeRep a
+getFnR  :: TypeRep (a :: *) -> Maybe (G2 (->) a)
+castR   :: TypeRep (a :: *) -> TypeRep (b :: *) -> a -> Maybe b
+cast    :: (Typeable (a :: *), Typeable (b :: *)) => a -> Maybe b
+gcastR  :: TypeRep (a :: k) -> TypeRep (b :: k) -> c a -> Maybe (c b)
+gcast   :: (Typeable (a :: k), Typeable (b :: k)) => c a -> Maybe (c b)
+gcastR1 :: TypeRep (t :: k1 -> k2) -> TypeRep (t' :: k1 -> k2) -> c (t a) -> Maybe (c (t' a))
+gcast1  :: (Typeable (t :: k1 -> k2), Typeable (t' :: k1 -> k2)) => c (t a) -> Maybe (c (t' a))
+gcastR2 :: TypeRep (t :: k1 -> k2 -> k3) -> TypeRep (t' :: k1 -> k2 -> k3) -> c (t a b) -> Maybe (c (t' a b))
+gcast2 :: (Typeable (t :: k1 -> k2 -> k3), Typeable (t' :: k1 -> k2 -> k3)) => c (t a b) -> Maybe (c (t' a b))
 ```
 
 
@@ -92,7 +130,10 @@ Notes:
   - one that take an implicit `TypeRep` argument via a `Typeable a` constraint.
 
 >
+>
 > We use a consistent naming scheme: put an `R` suffix on variants that take an explicit `TypeRep` parameter, no suffix for `Typeable` constraint versions.
+>
+>
 
 - Note that the type `(:~:)` comes from `Data.Type.Equality`.
   And `Fingerprint` is from `GHC.Fingerprint`.
@@ -198,19 +239,31 @@ This should be a fairly seamless changeover, since `Dynamic` is abstract current
 The API follows the current API, except missing `dynTypeRep`, as detailed above.
 We provide variants of functions that take explicit `TypeRep` arguments.
 
+
 ```
-dataDynamicwhereDynamic::TypeRep a -> a ->DynamictoDynR::TypeRep a -> a ->DynamictoDyn::Typeable a => a ->DynamicfromDynamicR::TypeRep a ->Dynamic->Maybe a
-fromDynamic::Typeable a =>Dynamic->Maybe a
+data Dynamic where
+  Dynamic :: TypeRep a -> a -> Dynamic
 
-fromDynR::TypeRep a ->Dynamic-> a -> a
-fromDyn::Typeable a =>Dynamic-> a -> a
+toDynR :: TypeRep a -> a -> Dynamic
+toDyn  :: Typeable a => a -> Dynamic
+fromDynamicR :: TypeRep a -> Dynamic -> Maybe a
+fromDynamic  :: Typeable a => Dynamic -> Maybe a
 
-dynApp::Dynamic->Dynamic->Dynamic-- Existing function; calls error on failuredynApply::Dynamic->Dynamic->MaybeDynamicdataSDynamic s whereSDynamic::TypeRep a -> s a ->SDynamic s
+fromDynR :: TypeRep a -> Dynamic -> a -> a
+fromDyn  :: Typeable a => Dynamic -> a -> a
 
-toSDynR::TypeRep a -> s a ->SDynamic s
-toSDyn::Typeable a => s a ->SDynamic s
-fromSDynamicR::TypeRep a ->SDynamic s ->Maybe(s a)fromSDynamic::Typeable a =>SDynamic s ->Maybe(s a)fromSDynR::TypeRep a ->SDynamic s -> s a -> s a
-fromSDyn::Typeable a =>SDynamic s -> s a -> s a
+dynApp   :: Dynamic -> Dynamic -> Dynamic  -- Existing function; calls error on failure
+dynApply :: Dynamic -> Dynamic -> Maybe Dynamic
+
+data SDynamic s where
+  SDynamic :: TypeRep a -> s a -> SDynamic s
+
+toSDynR :: TypeRep a -> s a -> SDynamic s
+toSDyn :: Typeable a => s a -> SDynamic s
+fromSDynamicR :: TypeRep a -> SDynamic s -> Maybe (s a)
+fromSDynamic :: Typeable a => SDynamic s -> Maybe (s a)
+fromSDynR :: TypeRep a -> SDynamic s -> s a -> s a
+fromSDyn :: Typeable a => SDynamic s -> s a -> s a
 ```
 
 
@@ -229,7 +282,10 @@ Notes
   e.g., `SDynamic Maybe` contains a value that is definitely a `Maybe ty` for some type `ty`, but the type `ty` can vary between values of type `SDynamic Maybe`.
 
 >
+>
 > One use-case is in the implementation of `StaticPtr`.
+>
+>
 
 ### Questions
 
@@ -262,19 +318,42 @@ Recall:
 See below for a description of `polystatic`.
 
 
+
 The API:
 
+
 ```
-dataDict c whereDict:: forall c . c =>Dict c
+data Dict c where
+  Dict :: forall c . c => Dict c
 
--- A StaticPtr is just a /code/ pointer to a monomorphic valuedataStaticPtr(a ::*)-- abstractdeRefStaticPtr::StaticPtr a -> a
+-- A StaticPtr is just a /code/ pointer to a monomorphic value
+data StaticPtr (a :: *) -- abstract
 
-putSDynStaticPtr::SDynamicStaticPtr->PutgetSDynStaticPtr::Get(SDynamicStaticPtr)instanceBinary(SDynamicStaticPtr)putStaticPtr::StaticPtr a ->PutgetStaticPtr::TypeRep a ->Get(StaticPtr a)instanceTypeable a =>Binary(StaticPtr a)-- A Static is either a StaticPtr, a "polymorphic code pointer", or a syntax tree of applications of such.dataStatic(a ::*)-- abstractdeRefStatic::Static a -> a
+deRefStaticPtr :: StaticPtr a -> a
 
-staticMono::StaticPtr a ->Static a
-staticApp::Static(a -> b)->Static a ->Static b
+putSDynStaticPtr :: SDynamic StaticPtr -> Put
+getSDynStaticPtr :: Get (SDynamic StaticPtr)
+instance Binary (SDynamic StaticPtr)
 
-putSDynStatic::SDynamicStatic->PutgetSDynStatic::Get(SDynamicStatic)instanceBinary(SDynamicStatic)putStatic::Static a ->PutgetStatic::TypeRep a ->Get(Static a)instanceTypeable a =>Binary(Static a)
+putStaticPtr :: StaticPtr a -> Put
+getStaticPtr :: TypeRep a -> Get (StaticPtr a)
+instance Typeable a => Binary (StaticPtr a)
+
+-- A Static is either a StaticPtr, a "polymorphic code pointer", or a syntax tree of applications of such.
+data Static (a :: *) -- abstract
+
+deRefStatic :: Static a -> a
+
+staticMono :: StaticPtr a -> Static a
+staticApp :: Static (a -> b) -> Static a -> Static b
+
+putSDynStatic :: SDynamic Static -> Put
+getSDynStatic :: Get (SDynamic Static)
+instance Binary (SDynamic Static)
+
+putStatic :: Static a -> Put
+getStatic :: TypeRep a -> Get (Static a)
+instance Typeable a => Binary (Static a)
 ```
 
 
@@ -308,8 +387,9 @@ Our approach is that, roughly `Serializable` has a method `binDict :: Static (Di
 To write `instance Serializable a => Serializable (Maybe a)` we need a static function `sMaybeDB :: Static (Dict (Binary a) -> Dict (Binary (Maybe a)))`, which is polymorphic.
 Then the instance can be written:
 
+
 ```
-instanceSerializable b =>Serializable(Maybe b)where
+instance Serializable b => Serializable (Maybe b) where
   binDict = sMaybeDB `staticApp` binDict
 ```
 
@@ -317,7 +397,8 @@ instanceSerializable b =>Serializable(Maybe b)where
 The problem now is that we don't know how to put `sMaybeDB` into the SPT, as it has a polymorphic type.
 
 
-Thankfully, we actually turn out to need just "the polymorphic function `f` with its one free type variable instantiated at `a`", where `a` is given by a *static*`Typeable` dictionary, and we need this instantiated "`f @ a`" to be serialisable.
+
+Thankfully, we actually turn out to need just "the polymorphic function `f` with its one free type variable instantiated at `a`", where `a` is given by a *static* `Typeable` dictionary, and we need this instantiated "`f @ a`" to be serialisable.
 (Note that we may use multiple types `a` at different places, or polymorphism wouldn't be necessary!)
 As on [StaticPointers](static-pointers), we propose to only deal with parametric polymorphism, and not type-class polymorphism, which users can reduce to the former using the Dict Trick (see \[[DistributedHaskell](distributed-haskell)\].
 We limit ourselves to one free type variable of kind `*` and rank 1 polymorphism.
@@ -351,10 +432,21 @@ So we want:
 Then our instance can be nicely written:
 (note that we also need a `Static (Dict (Typeable a))` in `Serializable a`, as we need to pass that to `sMaybeDB`, so we have to add a bit more code to build a `Static (Dict (Typeable (Maybe a)))` also.
 
+
 ```
---Our polymorphic "wrap a `Maybe` around this Typeable/Binary dictionary" functions:-- these just point to enteries in the Polymorphic Pointer TablesMaybeDB::Static(Dict(Typeable(a ::*)))->Static(Dict(Binary a)->Dict(Binary(Maybe a)))sMaybeDB= polystatic (\(Dict::Dict(Binary a))->Dict::Dict(Binary(Maybe a)))sMaybeDT::Static(Dict(Typeable(a ::*)))->Static(Dict(Typeable(Maybe a)))sMaybeDT= polystatic (Dict::Dict(Typeable(Maybe a)))class(Binary a,Typeable a)=>Serializable a where
-  binDict ::Static(Dict(Binary a))
-  typDict ::Static(Dict(Typeable a))instanceSerializable b =>Serializable(Maybe b)where
+--Our polymorphic "wrap a `Maybe` around this Typeable/Binary dictionary" functions:
+-- these just point to enteries in the Polymorphic Pointer Table
+sMaybeDB :: Static (Dict (Typeable (a :: *))) -> Static (Dict (Binary a) -> Dict (Binary (Maybe a)))
+sMaybeDB = polystatic (\(Dict :: Dict (Binary a)) -> Dict :: Dict (Binary (Maybe a)))
+
+sMaybeDT :: Static (Dict (Typeable (a :: *))) -> Static (Dict (Typeable (Maybe a)))
+sMaybeDT = polystatic (Dict :: Dict (Typeable (Maybe a)))
+
+class (Binary a, Typeable a) => Serializable a where
+  binDict :: Static (Dict (Binary a))
+  typDict :: Static (Dict (Typeable a))
+
+instance Serializable b => Serializable (Maybe b) where
   binDict = sMaybeDB typDict `staticApp` binDict
   typDict = sMaybeDT typDict
 ```
@@ -386,9 +478,10 @@ We don't support any polymorphism or any `instance Serializable b => Serializabl
 This forces the user to write `Serializable` instances for each type they are interested in, not just each type former.
 One benefit though, is the instances will be trivial, as there is no polymorphism going on, and the `typDict` member can be removed.
 
+
 ```
-instanceSerializable(Maybe[Bool])where
-  binDict = static (Dict::Dict(Binary(Maybe[Bool])))
+instance Serializable (Maybe [Bool]) where
+  binDict = static (Dict :: Dict (Binary (Maybe [Bool])))
 ```
 
 
@@ -403,28 +496,40 @@ Again we add a row in the SPT for each dictionary at each type we are interested
 We slightly generalise our goal, from `Binary` to arbitrary classes.
 
 
+
 We define a new class (note `SC :: Constraint -> Constraint`), where `SC` stands for "Static Constraint"
 
+
 ```
-class c =>SC c where
-  dict ::Static(Dict s)
+class c => SC c where
+  dict :: Static (Dict s)
 ```
 
 
 These act as normal, except when GHC comes to solve one where `c` has no free type variables, it solves `c`, and takes a dictionary `d :: Dict c` of that and essentially splices in `static d`.
 Thus the effect is to generate, on the fly,
 
+
 ```
-instanceSC(Binary(Maybe[Bool]))where
-  dict = static (Dict::Dict(Binary(Maybe[Bool])))
+instance SC (Binary (Maybe [Bool])) where
+  dict = static (Dict :: Dict (Binary (Maybe [Bool])))
 ```
 
 
 Thus we can write
 
+
 ```
-dataClosure a where...ClosurePure::SC(Binary a)=> a ->Closure a
-  ...f::Serializable[a]=> a ->Closure[a]f x = closurePure [x,x]g::Serializable[Maybe b]=>Closure[Maybe b]g y = f $Just y
+data Closure a where
+  ...
+  ClosurePure :: SC (Binary a) => a -> Closure a
+  ...
+
+f :: Serializable [a] => a -> Closure [a]
+f x = closurePure [x,x]
+
+g :: Serializable [Maybe b] => Closure [Maybe b]
+g y = f $ Just y
 ```
 
 
@@ -455,11 +560,15 @@ If the set of interesting `a`s is finite, (just `Int` and `Integer`) in the exam
 However, if we want all combinations of, say, `Int`, `Bool`, `[]` and `Maybe`, then we cannot do it under the non-polymorphic approaches, but we can under our proposal.
 
 
+
 We must write something akin to
 
+
 ```
-purify::SDynamicClosure->SDynamicClosurepurify(SDynamic(tr ::TypeRep a)(cval ::Closure a))=let val :: a = unclosure cval
-    inSDynamic tr (closurePure val)-- NOTE: this fails to typecheck, as we need `Serializable a`
+purify :: SDynamic Closure -> SDynamic Closure
+purify (SDynamic (tr :: TypeRep a) (cval :: Closure a))
+  = let val :: a = unclosure cval
+    in SDynamic tr (closurePure val)  -- NOTE: this fails to typecheck, as we need `Serializable a`
 ```
 
 
@@ -507,18 +616,31 @@ The `Serialisable` class and `closurePure` use this by noting that if we have a 
 Note however, that we require a fully-fledged 'static' `Typeable` and `Binary` dictionary, this enables us to be able to write instances like `instance Serializable b => Serializable (Maybe b)`.
 These instances are where we require our polymorphism support in `Data.StaticPtr`
 
+
 ```
-dataClosure(a ::*)-- abstractunclosure::Closure a -> a
+data Closure (a :: *) -- abstract
+unclosure :: Closure a -> a
 
-closureSP::StaticPtr a ->Closure a
-closureS::Static a ->Closure a
-closureEnc::ByteString->ClosureByteStringclosureApp::Closure(a -> b)->Closure a ->Closure b
+closureSP :: StaticPtr a -> Closure a
+closureS :: Static a -> Closure a
+closureEnc :: ByteString -> Closure ByteString
+closureApp :: Closure (a -> b) -> Closure a -> Closure b
 
--- | A class for those types for which we have /static/ evidence of their 'Binary' and 'Typeable'-- nature, and so can serialise them (via 'closurePure')class(Binary a,Typeable a)=>Serializable a where
-  binDict ::Static(Dict(Binary a))
-  typDict ::Static(Dict(Typeable a))closurePure::Serializable a => a ->Closure a
+-- | A class for those types for which we have /static/ evidence of their 'Binary' and 'Typeable'
+-- nature, and so can serialise them (via 'closurePure')
+class (Binary a, Typeable a) => Serializable a where
+  binDict :: Static (Dict (Binary a))
+  typDict :: Static (Dict (Typeable a))
 
-putSDynClosure::SDynamicClosure->PutgetSDynClosure::Get(SDynamicClosure)instanceBinary(SDynamicClosure)whereputClosure::Closure a ->PutgetClosure::TypeRep a ->Get(Closure a)instanceTypeable a =>Binary(Closure a)where
+closurePure :: Serializable a => a -> Closure a
+
+putSDynClosure :: SDynamic Closure -> Put
+getSDynClosure :: Get (SDynamic Closure)
+instance Binary (SDynamic Closure) where
+
+putClosure :: Closure a -> Put
+getClosure :: TypeRep a -> Get (Closure a)
+instance Typeable a => Binary (Closure a) where
 ```
 
 ### Notes

@@ -177,14 +177,20 @@ newtype ReaderT r m a = ReaderT (r -> m a)
 ```
 
 >
+>
 > the instance
+>
+>
 
 ```wiki
 instance Rep m => Rep (ReaderT r m)
 ```
 
 >
+>
 > can be written. Should this be inferred? I (Richard) can imagine a beefed up role inference algorithm which could figure this out. But, perhaps there exist harder cases that would not be inferrable.
+>
+>
 
 1. Should users be able to write instances for `Rep` by hand? They cannot do so for `Coercible`.
 
@@ -213,7 +219,10 @@ type role MyMaybe nominal
 ```
 
 >
+>
 > Here, we have `Rep Maybe` and `Coercible Maybe MyMaybe` but not `Rep MyMaybe`. This is all very strange. Of course, we *could* define an instance `Rep MyMaybe`, despite the role annotation, by using the newtype-unwrapping instance. But, what does this mean if the author wants to export `MyMaybe` abstractly?
+>
+>
 
 1. Consider the `StateT` newtype:
 
@@ -222,7 +231,10 @@ newtype StateT s m a = StateT (s -> m (a, s))
 ```
 
 >
-> Its roles are `nominal representational nominal`. But, if we have `Rep m`, then the roles could all be representational. For the `a` parameter, this is just like `ReaderT`. But, we are stuck with the `s` parameter, simply because the `s` parameter comes *before*`m` in the parameter list. There's no way to assert something about `m` when describing a property of `s`.
+>
+> Its roles are `nominal representational nominal`. But, if we have `Rep m`, then the roles could all be representational. For the `a` parameter, this is just like `ReaderT`. But, we are stuck with the `s` parameter, simply because the `s` parameter comes *before* `m` in the parameter list. There's no way to assert something about `m` when describing a property of `s`.
+>
+>
 
 ## Other possible designs
 
@@ -233,10 +245,20 @@ newtype StateT s m a = StateT (s -> m (a, s))
 1. (This is just Richard thinking out loud. It may be gibberish.) What if we generalize roles to be parameterized? To make the definitions well-formed, roles would be attached directly to type constructors (not the parameters), but be a mapping from 1-indexed natural numbers to roles. As an example, `ReaderT`'s role would be `[1 |-> R, 2 |-> R, 3 |-> ((2.1 ~ R) => R; N)]`. The first two entries just say that parameters `r` and `m` have representational roles. The last entry (`3 |-> ((2.1 ~ R) => R; N)`) says that, if `m`'s first parameter (that is, parameter `2.1`, where the `.` is some sort of indexing operator -- not a decimal point!) is representational, then so is `a`; otherwise, `a` is nominal. This defaulting behavior does *not* cause coherence problems, as long as the roles are listed in order from phantom to nominal -- if GHC can't prove a more permissive role, a more restrictive one is assumed.
 
 >
+>
 > Under this scenario, `StateT`'s role would be `[1 |-> (2.1 ~ R => R; N), 2 |-> R, 3 |-> (2.1 ~ R => R; N)]`.
+>
+>
 
+>
 >
 > To implement this, we would probably need role *evidence* sloshing around, not unlike coercions. This evidence would be consumed by appropriately beefed up coercion forms (particularly, the TyConAppCo case). It would be produced by role *axioms* at every data- and newtype definition.
+>
+>
 
 >
+>
 > This design seems something like a middle road between the flexibility and modularity (that is, roles and kinds are distinct) that we have now and the completeness offered by the POPL'11 solution.
+>
+>
+

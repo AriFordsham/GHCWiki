@@ -35,31 +35,53 @@ TODO
 [](http://hackage.haskell.org/package/binary)
 
 
+
 Should bundle version 0.9.0.0.
+
 
 ### `bytestring`
 
+
+
 [](http://hackage.haskell.org/package/bytestring)
 
+
+
 TODO
+
 
 ### `containers`
 
+
+
 [](http://hackage.haskell.org/package/containers)
 
+
+
 TODO
+
 
 ### `deepseq`
 
+
+
 [](http://hackage.haskell.org/package/deepseq)
+
+
 
 TODO
 
+
 ### `directory`
+
+
 
 [](http://hackage.haskell.org/package/directory)
 
-DONE`directory-1.3.0.0` should be used.
+
+
+DONE `directory-1.3.0.0` should be used.
+
 
 ### `filepath`
 

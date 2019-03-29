@@ -28,3 +28,5 @@ This page is a stub.
 - Another important thing to keep in mind is that some of the existing passes used by GHC may be implemented inefficiently (of no fault of Hoopl itself.) For example, the rewrite assignments pass takes around 15% of the entire compilation time; we believe this is because it has to rewrite the entire graph into a new representation before doing any transformations, and then rewrite it back to the original. Optimizations here (for example, storing the information in an external map as opposed to the AST itself) would probably would help a lot.
 
 ## Record of performance improvements made to the Hoopl library starting January 2012
+
+

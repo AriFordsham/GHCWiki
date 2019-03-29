@@ -1,1 +1,1 @@
-redirect(wiki:Debugging/LowLevelProfiling/PAPI)?
+Page moved to [Debugging/LowLevelProfiling/PAPI](debugging/low-level-profiling/papi)

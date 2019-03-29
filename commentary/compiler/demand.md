@@ -42,9 +42,15 @@ indicates that the function has one parameter, which is used lazily (hence `<L,U
 ### Demand descriptions
 
 
+
 Strictness demands
 
+
 - `B` -- a *hyperstrict* demand. The expression `e` puts this demand on its argument `x` if every evaluation of `e` is guaranteed to diverge, regardless of the value of the argument. We call this demand *hyperstrict* because it is safe to evaluate `x` to arbitrary depth before evaluating `e`. This demand is polymorphic with respect to function calls and can be seen as `B = C(B) = C(C(B)) = ...` for an arbitrary depth.
+
+
+  
+
 
 - `L`  -- a *lazy* demand. If an expression `e` places demand `L` on a variable  `x`, we can deduce nothing about how `e` uses `x`. `L` is the completely uninformative demand, the top element of the lattice.
 

@@ -239,25 +239,32 @@ pvars = vpartition vars
 
 At the GHCi prompt, those definitions result in the following.
 
+
 ```
 *Main> vars
-[<z True>,<x 7>,<y 'h'>,<z False>,<y 'i'>,<x 3>]*Main> pvars
-{(x=[7,3])(y="hi")(z=[True,False])}
+[<z True>,<x 7>,<y 'h'>,<z False>,<y 'i'>,<x 3>]
+*Main> pvars
+{(x=[7,3]) (y="hi") (z=[True,False])}
 ```
 
 
 The `vpartition` function is not a primitive! The following is its definition inside `sculls`.
 
+
 ```
--- | Partition a list of variants into in list-shaped record of the-- same row.vpartition:: forall (p ::Row kl *) f.(Foldable f,Short(NumCols p),Short(NumCols p -1))=> f (VI p)->R(F[]) p
-vpartition= foldr cons (rpure (F[]))where
+
+-- | Partition a list of variants into in list-shaped record of the
+-- same row.
+vpartition :: forall (p :: Row kl *) f. (Foldable f,Short (NumCols p),Short (NumCols p - 1)) => f (V I p) -> R (F []) p
+vpartition = foldr cons (rpure (F []))
+  where
   cons v !acc = velim (f /$\ rhas) v
     where
-    f :: forall (l :: kl) t.(HasCol p :->:I:->:C(R(F[]) p)) l t
-    f =A$\HasCol->A$\x ->C$ runIdentity $ rlens (Identity. g x) acc
+    f :: forall (l :: kl) t. (HasCol p :->: I :->: C (R (F []) p)) l t
+    f = A $ \HasCol -> A $ \x -> C $ runIdentity $ rlens (Identity . g x) acc
 
-  g :: forall (l :: kl) t.I l t ->F[] l t ->F[] l t
-  g (I x)(F xs)=F(x:xs)
+  g :: forall (l :: kl) t. I l t -> F [] l t -> F [] l t
+  g (I x) (F xs) = F (x:xs)
 ```
 
 
@@ -269,10 +276,28 @@ Unpacking that definition is a helpful overview of the internals of the `sculls`
 (I've since generalized `Row` to be polykinded in the column type as well as the column name. But I haven't yet updated this section.)
 
 
+
 We'll start with the core row type declarations from the `coxswain` library.
 
+
 ```
--- | Column kind.dataCol(k ::Type)infix3.=-- | Column constructor.typefamily(l :: k).=(t ::Type)=(col ::Col k)| col -> l t where-- | Row kind.dataRow(k ::Type)-- | The empty row.typefamilyRow0::Row k whereinfixl2.&-- | Row extension.typefamily(p ::Row k).&(col ::Col k)=(q ::Row k)where
+
+-- | Column kind.
+data Col (k :: Type)
+
+infix 3 .=
+-- | Column constructor.
+type family (l :: k) .= (t :: Type) = (col :: Col k) | col -> l t where
+
+-- | Row kind.
+data Row (k :: Type)
+
+-- | The empty row.
+type family Row0 :: Row k where
+
+infixl 2 .&
+-- | Row extension.
+type family (p :: Row k) .& (col :: Col k) = (q :: Row k) where
 ```
 
 
@@ -282,22 +307,46 @@ Those declarations are closed empty type families; the type checker plugin is wh
 The whole point of rows is that column order doesn't matter. So `Row0 .& "a" .= Int .& "b" .= Bool` should be equal (really actually equal, as in `~`) to `Row0 .& "b" .= Bool .& "a" .= Int`. That's what the type checker plugin achieves, by implementing a well-established approach called *row unification*, which is pretty simple. The engineering effort was to realize it as a plugin to GHC's OutsideIn formalism.
 
 
-Row unification determines what is in a row, but we usually also need to know what is **not** in the row. This is the role of the `Lacks` constraint. `Lacks p l` means that `l` is not the name of a column in `p`. The cleverest bit about `Lacks` constraints is how to evidence them: it's the position in the **sorted** columns of the concrete row at which `l`*would be* inserted to preserve the sorting. So, presuming intuitive order, `Lacks (Row0 .& "b" .= Int) "a"` would be 0, since `a` would be inserted at the front. And `Lacks (Row0 .& "a" .= Int) "b"` would be 1, since `b` would be the second column.
+
+Row unification determines what is in a row, but we usually also need to know what is **not** in the row. This is the role of the `Lacks` constraint. `Lacks p l` means that `l` is not the name of a column in `p`. The cleverest bit about `Lacks` constraints is how to evidence them: it's the position in the **sorted** columns of the concrete row at which `l` *would be* inserted to preserve the sorting. So, presuming intuitive order, `Lacks (Row0 .& "b" .= Int) "a"` would be 0, since `a` would be inserted at the front. And `Lacks (Row0 .& "a" .= Int) "b"` would be 1, since `b` would be the second column.
+
 
 ```
--- | Evidence of a 'Lacks' constraint.newtypeRowInsertionOffset(p ::Row k)(l :: k)=MkRowInsertionOffsetWord16-- | The lacks predicate.classLacks(p ::Row k)(l :: k)where rowInsertionOffset_ ::RowInsertionOffset p l
+-- | Evidence of a 'Lacks' constraint.
+newtype RowInsertionOffset (p :: Row k) (l :: k) = MkRowInsertionOffset Word16
 
--- | Returns the index in the normal form of @p@ at which @l@ would be inserted.rowInsertionOffset:: forall p (l :: k).Lacks p l =>Proxy# p ->Proxy# l ->Word16
+-- | The lacks predicate.
+class Lacks (p :: Row k) (l :: k) where rowInsertionOffset_ :: RowInsertionOffset p l
+
+-- | Returns the index in the normal form of @p@ at which @l@ would be inserted.
+rowInsertionOffset :: forall p (l :: k). Lacks p l => Proxy# p -> Proxy# l -> Word16
 ```
 
 
 There's an inductive specification: `Lacks Row0 l` is 0, `Lacks (p .& l1 .= t) l2` is `Lacks p l2` if `l2 < l1` and it's `Lacks p l2` plus one if `l1 > l2` -- it's a contradiction if `l1 ~ l2`. This is the logic the plugin implements.
 
 
+
 That's all of what's covered in most presentations of row types and row unification. But we need more in order to be a full participant in Haskell! For example, you can't use the row types syntax in type class instances, since they're type families! Row types are structural, not nominal, and type families and type classes can only scrutinize nominal types. My solution to that is to have the plugin provide a couple useful interpretations of a row type.
 
+
 ```
-infixl2`NExt`-- | A normalized row.---- The following invariant is intended, and it is ensure by the 'Normalize' type family.---- INVARIANT: The columns are sorted ascending with respect to an arbitrary total order on the column names.dataNRow k =NRow0-- ^ The empty row.|NExt(NRow k) k Type-- ^ A row extension.-- | Normalize a row.typefamilyNormalize(p ::Row k)=(q ::NRow k)| q -> p where-- | The number of columns in a row.typefamilyNumCols(p ::Row k)::Natwhere
+infixl 2 `NExt`
+-- | A normalized row.
+--
+-- The following invariant is intended, and it is ensure by the 'Normalize' type family.
+--
+-- INVARIANT: The columns are sorted ascending with respect to an arbitrary total order on the column names.
+data NRow k =
+    NRow0  -- ^ The empty row.
+  |
+    NExt (NRow k) k Type   -- ^ A row extension.
+
+-- | Normalize a row.
+type family Normalize (p :: Row k) = (q :: NRow k) | q -> p where
+
+-- | The number of columns in a row.
+type family NumCols (p :: Row k) :: Nat where
 ```
 
 
@@ -307,13 +356,20 @@ The plugin makes `Normalize` and `NumCols` do what you'd expect. The key is that
 There's one last piece to mention. In Haskell, we're unaccustomed to "negative information" like the `Lacks` constraint. What we typically see is positive information, like a "Has" constraint. With this classic approach, positive information is equality information, which row unification lets us use without concern for ordering. (If order does matter, then we don't need rows, we can just use type-level lists of columns (like `NRow`) and GHC's normal unification will suffice. This would be like Python's "named tuples".)
 
 
+
 Clearly our rows do *have* columns, so we should be able to write "Has" constraints, right? Yes, and there are two definitions of "Has" in terms of `Lacks` and `~` (at kind `Row`).
 
-```
--- | @HasRestriction p q l t@ evidences that @p@ is @q@ extended with @l '.=' t@.dataHasRestriction::Row k ->Row k -> k ->*->*whereHasRestriction::Lacks q l =>HasRestriction(q .& l .= t) q l t
 
--- | @HasCol p l t@ evidences that there exists a @q@ such that @p@ is @q@ extended with @l '.=' t@.dataHasCol::Row k -> k ->*->*whereHasCol::Lacks q l =>HasCol(q .& l .= t) l t
 ```
+-- | @HasRestriction p q l t@ evidences that @p@ is @q@ extended with @l '.=' t@.
+data HasRestriction :: Row k -> Row k -> k -> * -> * where
+  HasRestriction :: Lacks q l => HasRestriction (q .& l .= t) q l t
+
+-- | @HasCol p l t@ evidences that there exists a @q@ such that @p@ is @q@ extended with @l '.=' t@.
+data HasCol :: Row k -> k -> * -> * where
+  HasCol :: Lacks q l => HasCol (q .& l .= t) l t
+```
+
 
 `HasRestriction` could be defined as a type class alias: `(Lacks q l,p ~ q .& l .= t) => HasRestriction p q l t`, but `HasCol` cannot, because it would require an existential for `q` on the equality constraint, which GHC currently does not support.
 
@@ -323,10 +379,14 @@ That's everything in the current `coxswain` package! Those are the exposed decla
 ## The Record and Variant Basics
 
 
+
 The `sculls` package defines types for records and variants. They both have two indices: the row type and the structure of each field.
 
+
 ```
-newtypeR(f :: k ->*->*)(p ::Row k)=MkR...-- The omission is essentially a named tuple determined by Normalized p, with each component structured by f. (Notably, that's what most existing Haskell record libraries use as records, full stop.)dataV(f :: k ->*->*)(p ::Row k)=MkV!Any!Word16-- Yes, I use unsafeCoerce here. Sorry.
+newtype R (f :: k -> * -> *) (p :: Row k) = MkR ...   -- The omission is essentially a named tuple determined by Normalized p, with each component structured by f. (Notably, that's what most existing Haskell record libraries use as records, full stop.)
+
+data V (f :: k -> * -> *) (p :: Row k) = MkV !Any !Word16   -- Yes, I use unsafeCoerce here. Sorry.
 ```
 
 
@@ -347,18 +407,24 @@ In fact, `HasCol p` has that kind, and we'll see below that it can be very usefu
 ## Back to `vpartition`
 
 
+
 Now let's revisit `vpartition` to see those pieces in action with some primitive functions on records and variants.
 
+
 ```
--- | Partition a list of variants into in list-shaped record of the-- same row.vpartition:: forall (p ::Row kl *) f.(Foldable f,Short(NumCols p),Short(NumCols p -1))=> f (VI p)->R(F[]) p
-vpartition= foldr cons (rpure (F[]))where
+
+-- | Partition a list of variants into in list-shaped record of the
+-- same row.
+vpartition :: forall (p :: Row kl *) f. (Foldable f,Short (NumCols p),Short (NumCols p - 1)) => f (V I p) -> R (F []) p
+vpartition = foldr cons (rpure (F []))
+  where
   cons v !acc = velim (f /$\ rhas) v
     where
-    f :: forall (l :: kl) t.(HasCol p :->:I:->:C(R(F[]) p)) l t
-    f =A$\HasCol->A$\x ->C$ runIdentity $ rlens (Identity. g x) acc
+    f :: forall (l :: kl) t. (HasCol p :->: I :->: C (R (F []) p)) l t
+    f = A $ \HasCol -> A $ \x -> C $ runIdentity $ rlens (Identity . g x) acc
 
-  g :: forall (l :: kl) t.I l t ->F[] l t ->F[] l t
-  g (I x)(F xs)=F(x:xs)
+  g :: forall (l :: kl) t. I l t -> F [] l t -> F [] l t
+  g (I x) (F xs) = F (x:xs)
 ```
 
 - The `Short (NumCols p)` constraint is an implementation detail of my current choice for the internal representation of the `R` type. Feel free to think of it as `KnownNat (NumCols p)`.
@@ -371,7 +437,7 @@ vpartition= foldr cons (rpure (F[]))where
 - `rmap` applies a record of functions to a record of arguments. The record of functions must be built with the `:->:` field type; like `I` and `F`, `f :->: g` is a newtype around `f l t -> g l t.`
 - `rHasCol` builds a record where each field is evidence of its own existence! Here the field structure (like `I` and `F`) is `HasCol p l t`, which is a GADT evidencing that the row `p` has a column `l .= t`.
 - The `C` field structure just holds a constant, irrespective of the column label and type.
-- `rlens` is a lens into a field of a record; the expression above with the `Identity``Applicative` achieves `over` from the `lens` library.
+- `rlens` is a lens into a field of a record; the expression above with the `Identity` `Applicative` achieves `over` from the `lens` library.
 
 ## Performance?
 
@@ -382,35 +448,69 @@ vpartition= foldr cons (rpure (F[]))where
 As usual, the objective is for the library to have minimal run-time overhead. With hundreds of `Lacks` constraints floating around, that means -- again, as usual -- that inlining and specialization are key. Things look promising at this stage.
 
 
+
 For example, the `vpartition` example from above (repeating here)
 
+
 ```
-vars::[VI(Row0.&"x".=Int.&"y".=Char.&"z".=Bool)]vars=[inj #z True,inj #x 7,inj #y 'h',inj #z False,inj #y 'i',inj #x 3]pvars::R(F[])(Row0.&"x".=Int.&"y".=Char.&"z".=Bool)pvars= vpartition vars
+
+vars :: [V I (Row0 .& "x" .= Int .& "y" .= Char .& "z" .= Bool)]
+vars = [inj #z True,inj #x 7,inj #y 'h',inj #z False,inj #y 'i',inj #x 3]
+
+pvars :: R (F []) (Row0 .& "x" .= Int .& "y" .= Char .& "z" .= Bool)
+pvars = vpartition vars
 ```
 
 
 -- **at a concrete row type** -- essentially compiles down to the following Core at `-O1`, which is pretty good.
 
+
 ```
-Rec{-- RHS size: {terms: 48, types: 197, coercions: 7,299, joins: 0/0}main_gomain_go=\ ds_a9PI eta_B1 ->case ds_a9PI of{[]-> eta_B1;: y_a9PN ys_a9PO ->case y_a9PN of{MkV flt_a9Lz dt3_a9LA ->case dt3_a9LA of{
-            __DEFAULT ->case eta_B1 `cast`<Co:797>of{V3 a0_a9N8 a1_a9N9 a2_a9Na ->
+
+Rec {
+-- RHS size: {terms: 48, types: 197, coercions: 7,299, joins: 0/0}
+main_go
+main_go
+  = \ ds_a9PI eta_B1 ->
+      case ds_a9PI of {
+        [] -> eta_B1;
+        : y_a9PN ys_a9PO ->
+          case y_a9PN of { MkV flt_a9Lz dt3_a9LA ->
+          case dt3_a9LA of {
+            __DEFAULT ->
+              case eta_B1 `cast` <Co:797> of { V3 a0_a9N8 a1_a9N9 a2_a9Na ->
               main_go
                 ys_a9PO
                 ((V3
                     a0_a9N8
                     a1_a9N9
-                    ((: flt_a9Lz (a2_a9Na `cast`<Co:65>))`cast`<Co:59>))`cast`<Co:1512>)};0##->case eta_B1 `cast`<Co:797>of{V3 a0_a9N8 a1_a9N9 a2_a9Na ->
+                    ((: flt_a9Lz (a2_a9Na `cast` <Co:65>)) `cast` <Co:59>))
+                 `cast` <Co:1512>)
+              };
+            0## ->
+              case eta_B1 `cast` <Co:797> of { V3 a0_a9N8 a1_a9N9 a2_a9Na ->
               main_go
                 ys_a9PO
-                ((V3((: flt_a9Lz (a0_a9N8 `cast`<Co:65>))`cast`<Co:59>)
+                ((V3
+                    ((: flt_a9Lz (a0_a9N8 `cast` <Co:65>)) `cast` <Co:59>)
                     a1_a9N9
-                    a2_a9Na)`cast`<Co:1512>)};1##->case eta_B1 `cast`<Co:797>of{V3 a0_a9N8 a1_a9N9 a2_a9Na ->
+                    a2_a9Na)
+                 `cast` <Co:1512>)
+              };
+            1## ->
+              case eta_B1 `cast` <Co:797> of { V3 a0_a9N8 a1_a9N9 a2_a9Na ->
               main_go
                 ys_a9PO
                 ((V3
                     a0_a9N8
-                    ((: flt_a9Lz (a1_a9N9 `cast`<Co:65>))`cast`<Co:59>)
-                    a2_a9Na)`cast`<Co:1512>)}}}}endRec}
+                    ((: flt_a9Lz (a1_a9N9 `cast` <Co:65>)) `cast` <Co:59>)
+                    a2_a9Na)
+                 `cast` <Co:1512>)
+              }
+          }
+          }
+      }
+end Rec }
 ```
 
 
@@ -419,23 +519,35 @@ The `V3` constructor is part of something I haven't talked about on this page ye
 ## And steak knives!
 
 
+
 There are several more primitives. Most notably, records have both `Applicative`-like and `Traversable`-like properties, since they're products.
 
-```
--- | Record analog of 'pure'.rpure::Short(NumCols p)=>(forall (l :: k) t. f l t)->R f p
--- | Record analog of 'fmap'.rmap::Short(NumCols p)=>(forall (l :: k) t.(a :->: b) l t)->R a p ->R b p
--- | Record analog of '<*>'.rsplat::Short(NumCols p)=>R(a :->: b) p ->R a p ->R b p
 
--- | Combine all the fields' values. Beware that the fields are combined in an arbitrary order!rfold::(Short(NumCols p),Monoid m)=>R(C m) p -> m
--- | Traverse all the fields. Beware that the fields are visited in an arbitrary order!rtraverse::(Applicative g,Short(NumCols p))=>(forall (l :: k) t.(f :->:F g :.: h) l t)->R f p -> g (R h p)
+```
+
+-- | Record analog of 'pure'.
+rpure :: Short (NumCols p) => (forall (l :: k) t. f l t) -> R f p
+-- | Record analog of 'fmap'.
+rmap :: Short (NumCols p) => (forall (l :: k) t. (a :->: b) l t) -> R a p -> R b p
+-- | Record analog of '<*>'.
+rsplat :: Short (NumCols p) => R (a :->: b) p -> R a p -> R b p
+
+-- | Combine all the fields' values. Beware that the fields are combined in an arbitrary order!
+rfold :: (Short (NumCols p),Monoid m) => R (C m) p -> m
+-- | Traverse all the fields. Beware that the fields are visited in an arbitrary order!
+rtraverse :: (Applicative g,Short (NumCols p)) => (forall (l :: k) t. (f :->: F g :.: h) l t) -> R f p -> g (R h p)
 ```
 
 
 Also, rows are finite, so we can require that a constraint holds for each column.
 
+
 ```
--- | Record of evidence that each column exists in the record's row.rHasCol::Short(NumCols p)=>R(HasCol p) p
--- | A record of dictionaries for the binary predicate @c@ on column name and column type.rdictCol::RAll c p =>Proxy#(c :: k ->*->Constraint)->R(D c) p
+
+-- | Record of evidence that each column exists in the record's row.
+rHasCol :: Short (NumCols p) => R (HasCol p) p
+-- | A record of dictionaries for the binary predicate @c@ on column name and column type.
+rdictCol :: RAll c p => Proxy# (c :: k -> * -> Constraint) -> R (D c) p
 ```
 
 
@@ -445,32 +557,53 @@ And records are `Show`able, `Monoid`s, `Generic`, etc, etc.
 Variants exhibit the dual properties, for the most part.
 
 
+
 Together, records and variants have a few useful interactions.
 
+
 ```
--- | Eliminate a variant with a functional record. (Gaster and Jones 1996)velim::Short(NumCols p)=>R(f :->:C a) p ->V f p -> a
 
--- | Eliminate a record with a functional variant. (Gaster and Jones 1996)relimr::Short(NumCols p)=>V(f :->:C a) p ->R f p -> a
+-- | Eliminate a variant with a functional record. (Gaster and Jones 1996)
+velim :: Short (NumCols p) => R (f :->: C a) p -> V f p -> a
 
--- | Convert each field to a variant of the same row.rvariants::Short(NumCols p)=>R f p ->R(C(V f p)) p
+-- | Eliminate a record with a functional variant. (Gaster and Jones 1996)
+relimr :: Short (NumCols p) => V (f :->: C a) p -> R f p -> a
 
--- | Partition a list of variants into in list-shaped record of the same row.vpartition::Short(NumCols p)=>[VI p]->R(F[]) p
+-- | Convert each field to a variant of the same row.
+rvariants :: Short (NumCols p) => R f p -> R (C (V f p)) p
+
+-- | Partition a list of variants into in list-shaped record of the same row.
+vpartition :: Short (NumCols p) => [V I p] -> R (F []) p
 ```
 
 ## Some Light Core Snorkeling
 
 
+
 Simon Peyton Jones gave the following snippet and asks "What does Core look like?  I think your answer is “No change to Core, but there are lots of unsafe coerces littered around”.  But even then I’m not sure.  Somehow in the ??? \[below\] I have to update field n of a tuple x.  How do I do that?".
 
+
 ```
-f::Lacks r "f"=>V(Row(r .&("f".=Int)))->V(Row(r .&("f".=Int)))f n x =???
+
+f :: Lacks r "f" => V (Row (r .& ("f" .= Int))) -> V (Row (r .& ("f" .= Int)))
+f n x = ???
 ```
 
 
 If I understand the question correctly, the source would look be as follows.
 
+
 ```
-upd::I"f"Int->I"f"Intupd(I x)=I(x +1)f::(Lacks r "f",Short(NumCols r))=>RI(r .&"f".=Int)->RI(r .&"f".=Int)f= over rlens upd
+
+upd :: I "f" Int -> I "f" Int
+upd (I x) = I (x + 1)
+
+f ::
+    ( Lacks r "f"
+    , Short (NumCols r) )
+  => R I (r .& "f" .= Int)
+  -> R I (r .& "f" .= Int)
+f = over rlens upd
 
 -- Or (f r = r ./ #f .* #f .= (1 + r `dot` #f)), but that Core is worse.
 ```
@@ -478,44 +611,135 @@ upd::I"f"Int->I"f"Intupd(I x)=I(x +1)f::(Lacks r "f",Short(NumCols r))=>RI(r .&"
 
 I suspect the `Short` constraint is what Simon was smelling. This class was mentioned a bit in the previous section about performance. Here is what the `Short` class looks like, to offer some more insights:
 
+
 ```
--- | A short, homogenous, and strict tuple.datafamilySV(n ::Nat)::*->*typeFin(n ::Nat)=Word16-- | Predicate for supported record sizes.class(Applicative(SV n),Traversable(SV n))=>Short(n ::Nat)where
-  select ::SV(n +1) a ->Fin(n +1)-> a
-  lensSV ::Functor f =>(a -> f a)->SV(n +1) a ->Fin(n +1)-> f (SV(n +1) a)
-  extend ::SV n a -> a ->Fin(n +1)->SV(n +1) a
-  restrict ::SV(n +1) a ->Fin(n +1)->(a,SV n a)
-  indices ::SV n (Fin n)
+
+-- | A short, homogenous, and strict tuple.
+data family SV (n :: Nat) :: * -> *
+
+type Fin (n :: Nat) = Word16
+
+-- | Predicate for supported record sizes.
+class (Applicative (SV n),Traversable (SV n)) => Short (n :: Nat) where
+  select :: SV (n + 1) a -> Fin (n + 1) -> a
+  lensSV :: Functor f => (a -> f a) -> SV (n + 1) a -> Fin (n + 1) -> f (SV (n + 1) a)
+  extend :: SV n a -> a -> Fin (n + 1) -> SV (n + 1) a
+  restrict :: SV (n + 1) a -> Fin (n + 1) -> (a,SV n a)
+  indices :: SV n (Fin n)
 ```
 
 
 The `SV` data family provides the tuples of `Any` that I currently use to represent records. For example, the `rlens` record primitive is defined by simply coercing the `lensSV` method. I generate `SV` and `Short` instances via Template Haskell. The `SV` instance for `2` and its `lensSV` method definition are as follows.
 
+
 ```
-datainstanceSV3 a =V3!a !a !a
-  deriving(Foldable,Functor,Show,Traversable)instanceShort2where...{-# INLINE lensSV #-}
-  lensSV f (V3 a b c)=\case0->(\x ->V3 x b c)<$> f a
-    1->(\x ->V3 a x c)<$> f b
-    _->(\x ->V3 a b x)<$> f c
+
+data instance SV 3 a = V3 !a !a !a
+  deriving (Foldable,Functor,Show,Traversable)
+
+instance Short 2 where
+  ...
+  {-# INLINE lensSV #-}
+  lensSV f (V3 a b c) = \case
+    0 -> (\x -> V3 x b c) <$> f a
+    1 -> (\x -> V3 a x c) <$> f b
+    _ -> (\x -> V3 a b x) <$> f c
 ```
 
 
 Thus, the `-O1 -dsuppress-all` core for `f` is as follows.
 
+
 ```
--- RHS size: {terms: 8, types: 6, coercions: 4, joins: 0/0}f2f2=\ x_a5UG ->case x_a5UG `cast`<Co:4>of{I# x1_a6ax ->I#(+# x1_a6ax 1#)}-- RHS size: {terms: 10, types: 53, coercions: 175, joins: 0/0}f1f1=\@ r_a5QC $dLacks_a5QE $dShort_a5QF eta_B1 ->
+
+-- RHS size: {terms: 8, types: 6, coercions: 4, joins: 0/0}
+f2
+f2
+  = \ x_a5UG ->
+      case x_a5UG `cast` <Co:4> of { I# x1_a6ax -> I# (+# x1_a6ax 1#) }
+
+-- RHS size: {terms: 10, types: 53, coercions: 175, joins: 0/0}
+f1
+f1
+  = \ @ r_a5QC $dLacks_a5QE $dShort_a5QF eta_B1 ->
       lensSV
-        ($dShort_a5QF `cast`<Co:25>)$fFunctorIdentity
-        (f2 `cast`<Co:41>)(eta_B1 `cast`<Co:96>)($dLacks_a5QE `cast`<Co:13>)-- RHS size: {terms: 1, types: 0, coercions: 115, joins: 0/0}ff= f1 `cast`<Co:115>
+        ($dShort_a5QF `cast` <Co:25>)
+        $fFunctorIdentity
+        (f2 `cast` <Co:41>)
+        (eta_B1 `cast` <Co:96>)
+        ($dLacks_a5QE `cast` <Co:13>)
+
+-- RHS size: {terms: 1, types: 0, coercions: 115, joins: 0/0}
+f
+f = f1 `cast` <Co:115>
 ```
 
 
 That reveals the necessary dictionary passing for row polymorphic functions. If we specialize the row variable `r`, we get something much closer to the ideal Core.
 
-```
-fmono::RI(Row0.&"a".= a .&"b".= b .&"c".= c .&"f".=Int)->RI(Row0.&"a".= a .&"b".= b .&"c".= c .&"f".=Int)fmono= f
 
---- That optimizes to:-- RHS size: {terms: 13, types: 9, coercions: 98, joins: 0/0}fmono2fmono2=\@ c_a5Rb @ b_a5Ra @ a_a5R9 ->case(\@ kt_X6bA ->W16#0##)`cast`<Co:98>of{W16# x#_a6b2 ->W16#(narrow16Word#(plusWord# x#_a6b2 3##))}-- RHS size: {terms: 60, types: 89, coercions: 1,925, joins: 0/0}fmono1fmono1=\@ c_a5Rb @ b_a5Ra @ a_a5R9 eta_B1 ->case eta_B1 `cast`<Co:405>of{V4 a0_a6ch a1_a6ci a2_a6cj a3_a6ck ->case a3_a6ck `cast`<Co:45>of wild1_s6fH {I# x_s6fI ->case a2_a6cj `cast`<Co:45>of wild2_s6fK {I# x1_s6fL ->case a1_a6ci `cast`<Co:45>of wild3_s6fN {I# x2_s6fO ->case a0_a6ch `cast`<Co:45>of wild4_s6fQ {I# x3_s6fR ->case fmono2 of{W16# x4_a6cK ->case x4_a6cK of{
-        __DEFAULT ->(V4(wild4_s6fQ `cast`<Co:48>)(wild3_s6fN `cast`<Co:48>)(wild2_s6fK `cast`<Co:48>)((I#(+# x_s6fI 1#))`cast`<Co:46>))`cast`<Co:145>;0##->(V4((I#(+# x3_s6fR 1#))`cast`<Co:46>)(wild3_s6fN `cast`<Co:48>)(wild2_s6fK `cast`<Co:48>)(wild1_s6fH `cast`<Co:48>))`cast`<Co:145>;1##->(V4(wild4_s6fQ `cast`<Co:48>)((I#(+# x2_s6fO 1#))`cast`<Co:46>)(wild2_s6fK `cast`<Co:48>)(wild1_s6fH `cast`<Co:48>))`cast`<Co:145>;2##->(V4(wild4_s6fQ `cast`<Co:48>)(wild3_s6fN `cast`<Co:48>)((I#(+# x1_s6fL 1#))`cast`<Co:46>)(wild1_s6fH `cast`<Co:48>))`cast`<Co:145>}}}}}}}-- RHS size: {terms: 4, types: 9, coercions: 268, joins: 0/0}fmonofmono=(\@ a_a5R9 @ b_a5Ra @ c_a5Rb -> fmono1)`cast`<Co:268>
+```
+
+fmono ::
+     R I (Row0 .& "a" .= a .& "b" .= b .& "c" .= c .& "f" .= Int)
+  -> R I (Row0 .& "a" .= a .& "b" .= b .& "c" .= c .& "f" .= Int)
+fmono = f
+
+--- That optimizes to:
+
+-- RHS size: {terms: 13, types: 9, coercions: 98, joins: 0/0}
+fmono2
+fmono2
+  = \ @ c_a5Rb @ b_a5Ra @ a_a5R9 ->
+      case (\ @ kt_X6bA -> W16# 0##) `cast` <Co:98> of { W16# x#_a6b2 ->
+      W16# (narrow16Word# (plusWord# x#_a6b2 3##))
+      }
+
+-- RHS size: {terms: 60, types: 89, coercions: 1,925, joins: 0/0}
+fmono1
+fmono1
+  = \ @ c_a5Rb @ b_a5Ra @ a_a5R9 eta_B1 ->
+      case eta_B1 `cast` <Co:405> of
+      { V4 a0_a6ch a1_a6ci a2_a6cj a3_a6ck ->
+      case a3_a6ck `cast` <Co:45> of wild1_s6fH { I# x_s6fI ->
+      case a2_a6cj `cast` <Co:45> of wild2_s6fK { I# x1_s6fL ->
+      case a1_a6ci `cast` <Co:45> of wild3_s6fN { I# x2_s6fO ->
+      case a0_a6ch `cast` <Co:45> of wild4_s6fQ { I# x3_s6fR ->
+      case fmono2 of { W16# x4_a6cK ->
+      case x4_a6cK of {
+        __DEFAULT ->
+          (V4
+             (wild4_s6fQ `cast` <Co:48>)
+             (wild3_s6fN `cast` <Co:48>)
+             (wild2_s6fK `cast` <Co:48>)
+             ((I# (+# x_s6fI 1#)) `cast` <Co:46>))
+          `cast` <Co:145>;
+        0## ->
+          (V4
+             ((I# (+# x3_s6fR 1#)) `cast` <Co:46>)
+             (wild3_s6fN `cast` <Co:48>)
+             (wild2_s6fK `cast` <Co:48>)
+             (wild1_s6fH `cast` <Co:48>))
+          `cast` <Co:145>;
+        1## ->
+          (V4
+             (wild4_s6fQ `cast` <Co:48>)
+             ((I# (+# x2_s6fO 1#)) `cast` <Co:46>)
+             (wild2_s6fK `cast` <Co:48>)
+             (wild1_s6fH `cast` <Co:48>))
+          `cast` <Co:145>;
+        2## ->
+          (V4
+             (wild4_s6fQ `cast` <Co:48>)
+             (wild3_s6fN `cast` <Co:48>)
+             ((I# (+# x1_s6fL 1#)) `cast` <Co:46>)
+             (wild1_s6fH `cast` <Co:48>))
+          `cast` <Co:145>
+      }}}}}}}
+
+-- RHS size: {terms: 4, types: 9, coercions: 268, joins: 0/0}
+fmono
+fmono = (\ @ a_a5R9 @ b_a5Ra @ c_a5Rb -> fmono1) `cast` <Co:268>
 ```
 
 
@@ -599,17 +823,49 @@ identify each of the arguments at a call site (especially a few months
 later!). `f x y z` would become `f (mkR .* #foo .= x .* #bar .= y .* #baz .= z)`.
 
 
+
 For example, from O'Sullivan's `math-functions` package, the [ \`newtonRaphson\` function](http://hackage.haskell.org/package/math-functions-0.2.1.0/docs/Numeric-RootFinding.html#v:newtonRaphson) has the following signature.
 
+
 ```
--- | Solve equation using Newton-Raphson iterations.---- This method require both initial guess and bounds for root. If-- Newton step takes us out of bounds on root function reverts to-- bisection.newtonRaphson::Double-- ^ Required precision->(Double,Double,Double)-- ^ (lower bound, initial guess, upper bound). Iterations will no-- go outside of the interval->(Double->(Double,Double))-- ^ Function to finds roots. It returns pair of function value and-- its derivative->RootDouble
+
+-- | Solve equation using Newton-Raphson iterations.
+--
+-- This method require both initial guess and bounds for root. If
+-- Newton step takes us out of bounds on root function reverts to
+-- bisection.
+newtonRaphson
+  :: Double
+     -- ^ Required precision
+  -> (Double,Double,Double)
+  -- ^ (lower bound, initial guess, upper bound). Iterations will no
+  -- go outside of the interval
+  -> (Double -> (Double,Double))
+  -- ^ Function to finds roots. It returns pair of function value and
+  -- its derivative
+  -> Root Double
+
 ```
 
 
 Using a record for the parameters might result in the following signature.
 
+
 ```
-newtonRaphson::RI(Row0.&"precision".=Double.&"lowerbound".=Double.&"guess0".=Double.&"upperbound".=Double)-- ^ Required precision. Iterations will no go outside of the interval.->(Double->(Double,Double))-- ^ Function to finds roots. It returns pair of function value and-- its derivative->RootDouble
+
+newtonRaphson ::
+     R I (Row0
+     .& "precision" .= Double
+     .& "lowerbound" .= Double
+     .& "guess0" .= Double
+     .& "upperbound" .= Double
+     )
+     -- ^ Required precision. Iterations will no go outside of the interval.
+  -> (Double -> (Double,Double))
+  -- ^ Function to finds roots. It returns pair of function value and
+  -- its derivative
+  -> Root Double
+
 ```
 
 
@@ -787,10 +1043,16 @@ plugins.
 ### "Backwards" Invocations during Inference
 
 
+
 For example, with GHC 8.2.1, the following module
 
+
 ```
-{-# OPTIONS_GHC -fplugin=Dumper #-}moduleTest(f)wheref x =[x]==[x]&& null (show x)
+{-# OPTIONS_GHC -fplugin=Dumper #-}
+
+module Test (f) where
+
+f x = [x] == [x] && null (show x)
 ```
 
 
@@ -801,8 +1063,26 @@ the "Givens" are just the unsolved Wanteds! This is somewhat backwards
 compared to what we usually consider: here we're simplifying "Givens"
 *after* solving Wanteds.
 
+
 ```
-==========0==========givenderivedwanted[WD]$dEq_a2nz {1}::Eq a0_a2nr[tau:2](CDictCan)[WD]$dShow_a2ns {0}::Show a0_a2nr[tau:2](CDictCan)==========1==========given[G]$dShow_a2DE {0}::Show a_a2DD[sk:2](CDictCan)[G]$dEq_a2DF {0}::Eq a_a2DD[sk:2](CDictCan)derivedwanted==========2==========given[G]$dShow_a2Dx {0}::Show a_a2nr[sk:2](CDictCan)[G]$dEq_a2Dy {0}::Eq a_a2nr[sk:2](CDictCan)derivedwanted
+========== 0 ==========
+given
+derived
+wanted
+  [WD] $dEq_a2nz {1}:: Eq a0_a2nr[tau:2] (CDictCan)
+  [WD] $dShow_a2ns {0}:: Show a0_a2nr[tau:2] (CDictCan)
+========== 1 ==========
+given
+  [G] $dShow_a2DE {0}:: Show a_a2DD[sk:2] (CDictCan)
+  [G] $dEq_a2DF {0}:: Eq a_a2DD[sk:2] (CDictCan)
+derived
+wanted
+========== 2 ==========
+given
+  [G] $dShow_a2Dx {0}:: Show a_a2nr[sk:2] (CDictCan)
+  [G] $dEq_a2Dy {0}:: Eq a_a2nr[sk:2] (CDictCan)
+derived
+wanted
 ```
 
 
@@ -815,11 +1095,66 @@ recompile, then we only see the two Givens simplification invocations.
 ### Nested Declarations
 
 
+
 For the following, we see lots of invocations.
 
+
 ```
-f x = bar ()where
-  bar ()=[x]==[x]&& null (show x)----- Dumps:==========0==========givenderivedwanted[WD]$dEq_a2nL {1}::Eq(p1_a1Tm[tau:2]|>(TYPE{a2n3})_N)(CDictCan)[WD]$dShow_a2q3 {0}::Show(p1_a1Tm[tau:2]|>(TYPE{a2n3})_N)(CDictCan)[WD] hole{a2n3}{0}::(p0_a1Tl[tau:2]::RuntimeRep)~#('LiftedRep::RuntimeRep)(CNonCanonical)==========1==========givenderivedwanted[WD]$dEq_a2DQ {1}::Eq(p1_a1Tm[tau:2]|>(TYPE{a2n3})_N)(CDictCan(psc))[WD]$dShow_a2DU {0}::Show(p1_a1Tm[tau:2]|>(TYPE{a2n3})_N)(CDictCan(psc))[WD] hole{a2n3}{0}::(p0_a1Tl[tau:2]::RuntimeRep)~#('LiftedRep::RuntimeRep)(CNonCanonical)==========2==========givenderivedwanted[WD]$dEq_a2DV {1}::Eq(p1_a1Tm[tau:2]|>(TYPE{a2n3})_N)(CDictCan)[WD]$dShow_a2DW {0}::Show(p1_a1Tm[tau:2]|>(TYPE{a2n3})_N)(CDictCan)[WD] hole{a2n3}{0}::(p0_a1Tl[tau:2]::RuntimeRep)~#('LiftedRep::RuntimeRep)(CNonCanonical)==========3==========givenderivedwanted[WD]$dEq_a2DX {1}::Eq p0_a1Tm[tau:2](CDictCan(psc))[WD]$dShow_a2DY {0}::Show p0_a1Tm[tau:2](CDictCan(psc))==========4==========givenderivedwanted[WD]$dEq_a2DX {1}::Eq p0_a1Tm[tau:2](CDictCan)[WD]$dShow_a2DY {0}::Show p0_a1Tm[tau:2](CDictCan)==========5==========given[G]$dShow_a2E3 {0}::Show p_a2E2[sk:2](CDictCan)[G]$dEq_a2E4 {0}::Eq p_a2E2[sk:2](CDictCan)[G]$dShow_a2E3 {0}::Show p_a2E2[sk:2](CDictCan)[G]$dEq_a2E4 {0}::Eq p_a2E2[sk:2](CDictCan)derivedwanted==========6==========given[G]$dShow_a2DZ {0}::Show p_a1Tm[sk:2](CDictCan)[G]$dEq_a2E0 {0}::Eq p_a1Tm[sk:2](CDictCan)[G]$dShow_a2DZ {0}::Show p_a1Tm[sk:2](CDictCan)[G]$dEq_a2E0 {0}::Eq p_a1Tm[sk:2](CDictCan)derivedwanted
+
+f x = bar () where
+  bar () = [x] == [x] && null (show x)
+
+----- Dumps:
+
+========== 0 ==========
+given
+derived
+wanted
+  [WD] $dEq_a2nL {1}:: Eq (p1_a1Tm[tau:2] |> (TYPE {a2n3})_N) (CDictCan)
+  [WD] $dShow_a2q3 {0}:: Show (p1_a1Tm[tau:2] |> (TYPE {a2n3})_N) (CDictCan)
+  [WD] hole{a2n3} {0}:: (p0_a1Tl[tau:2] :: RuntimeRep) ~# ('LiftedRep :: RuntimeRep) (CNonCanonical)
+========== 1 ==========
+given
+derived
+wanted
+  [WD] $dEq_a2DQ {1}:: Eq (p1_a1Tm[tau:2] |> (TYPE {a2n3})_N) (CDictCan(psc))
+  [WD] $dShow_a2DU {0}:: Show (p1_a1Tm[tau:2] |> (TYPE {a2n3})_N) (CDictCan(psc))
+  [WD] hole{a2n3} {0}:: (p0_a1Tl[tau:2] :: RuntimeRep) ~# ('LiftedRep :: RuntimeRep) (CNonCanonical)
+========== 2 ==========
+given
+derived
+wanted
+  [WD] $dEq_a2DV {1}:: Eq (p1_a1Tm[tau:2] |> (TYPE {a2n3})_N) (CDictCan)
+  [WD] $dShow_a2DW {0}:: Show (p1_a1Tm[tau:2] |> (TYPE {a2n3})_N) (CDictCan)
+  [WD] hole{a2n3} {0}:: (p0_a1Tl[tau:2] :: RuntimeRep) ~# ('LiftedRep :: RuntimeRep) (CNonCanonical)
+========== 3 ==========
+given
+derived
+wanted
+  [WD] $dEq_a2DX {1}:: Eq p0_a1Tm[tau:2] (CDictCan(psc))
+  [WD] $dShow_a2DY {0}:: Show p0_a1Tm[tau:2] (CDictCan(psc))
+========== 4 ==========
+given
+derived
+wanted
+  [WD] $dEq_a2DX {1}:: Eq p0_a1Tm[tau:2] (CDictCan)
+  [WD] $dShow_a2DY {0}:: Show p0_a1Tm[tau:2] (CDictCan)
+========== 5 ==========
+given
+  [G] $dShow_a2E3 {0}:: Show p_a2E2[sk:2] (CDictCan)
+  [G] $dEq_a2E4 {0}:: Eq p_a2E2[sk:2] (CDictCan)
+  [G] $dShow_a2E3 {0}:: Show p_a2E2[sk:2] (CDictCan)
+  [G] $dEq_a2E4 {0}:: Eq p_a2E2[sk:2] (CDictCan)
+derived
+wanted
+========== 6 ==========
+given
+  [G] $dShow_a2DZ {0}:: Show p_a1Tm[sk:2] (CDictCan)
+  [G] $dEq_a2E0 {0}:: Eq p_a1Tm[sk:2] (CDictCan)
+  [G] $dShow_a2DZ {0}:: Show p_a1Tm[sk:2] (CDictCan)
+  [G] $dEq_a2E0 {0}:: Eq p_a1Tm[sk:2] (CDictCan)
+derived
+wanted
 ```
 
 
@@ -831,21 +1166,77 @@ why 5 has different variable uniques. (I'm assuming they're the
 "backwards inference" invocations.)
 
 
+
 Adding a signature here makes a huge difference.
 
+
 ```
-f::(Eq a,Show a,Enum a)=> a ->Boolf x = bar ()where
-  bar ()=[x]==[x]&& null (show x)----- Dumps:==========0==========given[G]$dEq_a2Ml {0}::Eq a_a2Mk[sk:2](CDictCan)[G]$dShow_a2Mm {0}::Show a_a2Mk[sk:2](CDictCan)[G]$dEnum_a2Mn {0}::Enum a_a2Mk[sk:2](CDictCan)derivedwanted==========1==========givenderivedwanted[WD]$dEq_a2Nd {1}::Eq a_a2Mv[sk:2](CDictCan)[WD]$dShow_a2N7 {0}::Show a_a2Mv[sk:2](CDictCan)==========2==========given[G]$dEq_a2Mx {0}::Eq a_a2Mv[sk:2](CDictCan)[G]$dShow_a2My {0}::Show a_a2Mv[sk:2](CDictCan)[G]$dEnum_a2Mz {0}::Enum a_a2Mv[sk:2](CDictCan)derivedwanted
+
+f :: (Eq a,Show a,Enum a) => a -> Bool
+f x = bar () where
+  bar () = [x] == [x] && null (show x)
+
+----- Dumps:
+
+========== 0 ==========
+given
+  [G] $dEq_a2Ml {0}:: Eq a_a2Mk[sk:2] (CDictCan)
+  [G] $dShow_a2Mm {0}:: Show a_a2Mk[sk:2] (CDictCan)
+  [G] $dEnum_a2Mn {0}:: Enum a_a2Mk[sk:2] (CDictCan)
+derived
+wanted
+========== 1 ==========
+given
+derived
+wanted
+  [WD] $dEq_a2Nd {1}:: Eq a_a2Mv[sk:2] (CDictCan)
+  [WD] $dShow_a2N7 {0}:: Show a_a2Mv[sk:2] (CDictCan)
+========== 2 ==========
+given
+  [G] $dEq_a2Mx {0}:: Eq a_a2Mv[sk:2] (CDictCan)
+  [G] $dShow_a2My {0}:: Show a_a2Mv[sk:2] (CDictCan)
+  [G] $dEnum_a2Mz {0}:: Enum a_a2Mv[sk:2] (CDictCan)
+derived
+wanted
 ```
 
 
 We see that only invocation 1 solves Wanteds. What if we split up the
 method invocations?
 
+
 ```
-f::(Eq a,Show a,Enum a)=> a ->Boolf x = bar ()&& baz ()where
-  bar ()=[x]==[x]
-  baz ()= null (show x)----- Dumps:==========0==========given[G]$dEq_a2Mm {0}::Eq a_a2Ml[sk:2](CDictCan)[G]$dShow_a2Mn {0}::Show a_a2Ml[sk:2](CDictCan)[G]$dEnum_a2Mo {0}::Enum a_a2Ml[sk:2](CDictCan)derivedwanted==========1==========givenderivedwanted[WD]$dShow_a2N5 {0}::Show a_a2Mw[sk:2](CDictCan)==========2==========givenderivedwanted[WD]$dEq_a2Np {1}::Eq a_a2Mw[sk:2](CDictCan)==========3==========given[G]$dEq_a2My {0}::Eq a_a2Mw[sk:2](CDictCan)[G]$dShow_a2Mz {0}::Show a_a2Mw[sk:2](CDictCan)[G]$dEnum_a2MA {0}::Enum a_a2Mw[sk:2](CDictCan)derivedwanted
+f :: (Eq a,Show a,Enum a) => a -> Bool
+f x = bar () && baz () where
+  bar () = [x] == [x]
+  baz () = null (show x)
+
+----- Dumps:
+
+========== 0 ==========
+given
+  [G] $dEq_a2Mm {0}:: Eq a_a2Ml[sk:2] (CDictCan)
+  [G] $dShow_a2Mn {0}:: Show a_a2Ml[sk:2] (CDictCan)
+  [G] $dEnum_a2Mo {0}:: Enum a_a2Ml[sk:2] (CDictCan)
+derived
+wanted
+========== 1 ==========
+given
+derived
+wanted
+  [WD] $dShow_a2N5 {0}:: Show a_a2Mw[sk:2] (CDictCan)
+========== 2 ==========
+given
+derived
+wanted
+  [WD] $dEq_a2Np {1}:: Eq a_a2Mw[sk:2] (CDictCan)
+========== 3 ==========
+given
+  [G] $dEq_a2My {0}:: Eq a_a2Mw[sk:2] (CDictCan)
+  [G] $dShow_a2Mz {0}:: Show a_a2Mw[sk:2] (CDictCan)
+  [G] $dEnum_a2MA {0}:: Enum a_a2Mw[sk:2] (CDictCan)
+derived
+wanted
 ```
 
 
@@ -872,15 +1263,44 @@ arguments to type families.
 I'm struggling to come up with a good example here, so this one is
 indeed ambiguous.
 
-```
-typefamilyF a
 
-f::Eq(F a)=>F a ->Boolf x =[x]==[x]--- Dumps:==========0==========given[G]$dEq_a1Ui {0}::Eq fsk0_a1Uo[fsk](CDictCan)[G] cobox_a1Up {0}::(F a_a1Uh[sk:2]::*)~#(fsk0_a1Uo[fsk]::*)(CFunEqCan)zonk given
-  [G]$dEq_a1Ui {0}::Eq(F a_a1Uh[sk:2])(CDictCan)derivedwanted==========1==========given[G]$dEq_a1Ui {0}::Eq fsk0_a1Uo[fsk](CDictCan)[G] cobox_a1Up {0}::(F a_a1Uh[sk:2]::*)~#(fsk0_a1Uo[fsk]::*)(CFunEqCan)derivedwanted[W]$dEq_a1Uu {0}::Eq(F a0_a1Uj[tau:2])(CDictCan)[WD] hole{a1Ut}{2}::(F a0_a1Uj[tau:2]::*)~#(F a_a1Uh[sk:2]::*)(CNonCanonical)Test.hs:10:6:error:*Couldn't match type`F a0' with `F a'
-      Expectedtype:F a ->BoolActualtype:F a0 ->BoolNB:`F' is a type function, and may not be injective
-      Thetype variable `a0' is ambiguous
-    *In the ambiguity check for `f'
-      To defer the ambiguity check to use sites, enable AllowAmbiguousTypesIn the type signature: f ::Eq(F a)=>F a ->Bool|10| f ::Eq(F a)=>F a ->Bool|^^^^^^^^^^^^^^^^^^^^^^^
+```
+type family F a
+
+f :: Eq (F a) => F a -> Bool
+f x = [x] == [x]
+
+--- Dumps:
+
+========== 0 ==========
+given
+  [G] $dEq_a1Ui {0}:: Eq fsk0_a1Uo[fsk] (CDictCan)
+  [G] cobox_a1Up {0}:: (F a_a1Uh[sk:2] :: *) ~# (fsk0_a1Uo[fsk] :: *) (CFunEqCan)
+zonk given
+  [G] $dEq_a1Ui {0}:: Eq (F a_a1Uh[sk:2]) (CDictCan)
+derived
+wanted
+========== 1 ==========
+given
+  [G] $dEq_a1Ui {0}:: Eq fsk0_a1Uo[fsk] (CDictCan)
+  [G] cobox_a1Up {0}:: (F a_a1Uh[sk:2] :: *) ~# (fsk0_a1Uo[fsk] :: *) (CFunEqCan)
+derived
+wanted
+  [W] $dEq_a1Uu {0}:: Eq (F a0_a1Uj[tau:2]) (CDictCan)
+  [WD] hole{a1Ut} {2}:: (F a0_a1Uj[tau:2] :: *) ~# (F a_a1Uh[sk:2] :: *) (CNonCanonical)
+
+Test.hs:10:6: error:
+    * Couldn't match type `F a0' with `F a'
+      Expected type: F a -> Bool
+        Actual type: F a0 -> Bool
+      NB: `F' is a type function, and may not be injective
+      The type variable `a0' is ambiguous
+    * In the ambiguity check for `f'
+      To defer the ambiguity check to use sites, enable AllowAmbiguousTypes
+      In the type signature: f :: Eq (F a) => F a -> Bool
+   |
+10 | f :: Eq (F a) => F a -> Bool
+   |      ^^^^^^^^^^^^^^^^^^^^^^^
 ```
 
 

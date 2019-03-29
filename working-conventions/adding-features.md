@@ -1,16 +1,24 @@
 # How to contribute a new feature to GHC
 
 
+
 We welcome your involvement in making GHC able to do more. Here's how to do it. Note that proposals for a change to the libraries (including base) should be send to the [ libraries mailinglist](http://haskell.org/haskellwiki/Library_submissions).
 
-1. Open a [ feature request](https://ghc.haskell.org/trac/ghc/newticket?type=feature+request)**ticket** on Trac.
+
+1. Open a [ feature request](https://ghc.haskell.org/trac/ghc/newticket?type=feature+request) **ticket** on Trac.
 
   - *Alternatively*: Create a Pull Request on [ GitHub (ghc-proposals)](https://github.com/ghc-proposals/ghc-proposals/). 
+
 1. Write down the **specification** of the feature and create a Wiki [page](proposal) for it. Specifying before implementing is obviously a good idea; and it makes it possible for others to comment on your design before you invest heavily in building the feature.
+
 1. Get **feedback** by emailing a suitable list (`ghc-devs` for nitty-gritty GHC internals, `glasgow-haskell-users` for user-visible features). Often you'll get useful ideas. Update the wiki page as needed. 
+
 1. Put a link and a **summary** to the discussion in the Trac ticket.
+
 1. For language extensions, **wait for approval** by GHC HQ.
+
 1. Follow the instructions for **[contributing a patch](working-conventions/fixing-bugs)**.
+
 1. Include updates to the **user manual** that documents your feature. For features that introduce a new flag, at least two sections need to be updated:
 
   - The [ flag reference](https://downloads.haskell.org/~ghc/master/users-guide/flags.html) section generated from the modules in `utils/mkUserGuidePart/Options/`.
@@ -37,6 +45,10 @@ While we love new features, we think twice before incorporating them into GHC's 
 
   - **Localised**: only a handful of places in the code are changed.
   - **Orthogonal**: no new invariants or constraints are added that subsequent changes must bear in mind. This is really important; any change that imposes costs on later, apparently unrelated, changes is much more costly. 
+
+
+ 
+
 
 - New features should work in a way that is consistent, as far as possible, with the way that other
   existing GHC features work.  Adopting a variety of different styles leads to a

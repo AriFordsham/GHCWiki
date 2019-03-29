@@ -83,16 +83,18 @@ Once the service is installed, it might be simpler to run the Registry Editor ra
 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\tracd\Parameters`
 
 
+
 Three (string) parameters are provided:
 
+
 <table><tr><th>AppDirectory </th>
-<th>C:\\Python26\\ 
+<th>C:\Python26\ 
 </th></tr>
 <tr><th>Application </th>
 <th>python.exe 
 </th></tr>
 <tr><th>AppParameters </th>
-<th>scripts\\tracd-script.py -p 8080 ... 
+<th>scripts\tracd-script.py -p 8080 ... 
 </th></tr></table>
 
 
@@ -148,7 +150,10 @@ where:
   - when serving only a single project (`-s`): the name of the project directory
 
 >
+>
 > Don't use an absolute path here as this won't work. *Note:* This parameter is case-sensitive even for environments on Windows.
+>
+>
 
 - **password_file_path**: path to the password file
 - **realm**: the realm name (can be anything)
@@ -159,39 +164,47 @@ where:
 
 Examples:
 
+
 ```
- $ tracd -p 8080\
+ $ tracd -p 8080 \
    --auth="project1,/path/to/passwordfile,mycompany.com" /path/to/project1
 ```
 
 
 Of course, the password file can be be shared so that it is used for more than one project:
 
+
 ```
- $ tracd -p 8080\
-   --auth="project1,/path/to/passwordfile,mycompany.com"\
-   --auth="project2,/path/to/passwordfile,mycompany.com"\
+ $ tracd -p 8080 \
+   --auth="project1,/path/to/passwordfile,mycompany.com" \
+   --auth="project2,/path/to/passwordfile,mycompany.com" \
    /path/to/project1 /path/to/project2
 ```
 
 
 Another way to share the password file is to specify "\*" for the project name:
 
+
 ```
- $ tracd -p 8080\
-   --auth="*,/path/to/users.htdigest,mycompany.com"\
+ $ tracd -p 8080 \
+   --auth="*,/path/to/users.htdigest,mycompany.com" \
    /path/to/project1 /path/to/project2
 ```
 
 ### Basic Authorization: Using a htpasswd password file
 
 
+
 This section describes how to use `tracd` with Apache .htpasswd files.
 
+
+>
 >
 > Note: On Windows It is necessary to install the [ passlib](https://pypi.python.org/pypi/passlib)
 > package in order to decode some htpasswd formats. Only `SHA-1` passwords (since Trac 1.0)
 > work without this module.
+>
+>
 
 
 To create a .htpasswd file use Apache's `htpasswd` command (see [below](trac-standalone#generating-passwords-without-apache) for a method to create these files without using Apache):
@@ -252,10 +265,16 @@ $ ./contrib/htdigest.py -b htdigest trac user2 user2
 #### Using `md5sum`
 
 
+
 It is possible to use `md5sum` utility to generate digest-password file:
 
+
 ```
-user=realm=password=path_to_file=echo${user}:${realm}:$(printf"${user}:${realm}:${password}"| md5sum - | sed -e 's/\s\+-//') > ${path_to_file}
+user=
+realm=
+password=
+path_to_file=
+echo ${user}:${realm}:$(printf "${user}:${realm}:${password}" | md5sum - | sed -e 's/\s\+-//') > ${path_to_file}
 ```
 
 ## Reference
@@ -338,36 +357,53 @@ It is convenient to provide central external authentication to your tracd instan
 Below is example configuration based on Apache 2.2, mod_proxy, mod_authnz_ldap.
 
 
+
 First we bring tracd into Apache's location namespace.
 
+
 ```
-<Location/project/proxified>Require ldap-group cn=somegroup, ou=Groups,dc=domain.com
+<Location /project/proxified>
+        Require ldap-group cn=somegroup, ou=Groups,dc=domain.com
         Require ldap-user somespecificusertoo
         ProxyPass http://localhost:8101/project/proxified/
-        # Turns out we don't really need complicated RewriteRules here at allRequestHeader set REMOTE_USER %{REMOTE_USER}s
+        # Turns out we don't really need complicated RewriteRules here at all
+        RequestHeader set REMOTE_USER %{REMOTE_USER}s
 </Location>
 ```
 
 
 Then we need a single file plugin to recognize HTTP_REMOTE_USER header as valid authentication source. HTTP headers like **HTTP_FOO_BAR** will get converted to **Foo-Bar** during processing. Name it something like **remote-user-auth.py** and drop it into **proxified/plugins** directory:
 
-```
-fromtrac.coreimport*fromtrac.configimport BoolOption
-fromtrac.web.apiimport IAuthenticator
 
-classMyRemoteUserAuthenticator(Component):
+```
+from trac.core import *
+from trac.config import BoolOption
+from trac.web.api import IAuthenticator
+
+class MyRemoteUserAuthenticator(Component):
 
     implements(IAuthenticator)
 
-    obey_remote_user_header = BoolOption('trac','obey_remote_user_header','false',"""Whether the 'Remote-User:' HTTP header is to be trusted for user logins 
-                (''since ??.??').""")defauthenticate(self, req):ifself.obey_remote_user_header and req.get_header('Remote-User'):return req.get_header('Remote-User')returnNone
+    obey_remote_user_header = BoolOption('trac', 'obey_remote_user_header', 'false', 
+               """Whether the 'Remote-User:' HTTP header is to be trusted for user logins 
+                (''since ??.??').""") 
+
+    def authenticate(self, req):
+        if self.obey_remote_user_header and req.get_header('Remote-User'): 
+            return req.get_header('Remote-User') 
+        return None
+
 ```
 
 
 Add this new parameter to your [TracIni](trac-ini):
 
+
 ```
-[trac]...obey_remote_user_header=true...
+[trac]
+...
+obey_remote_user_header = true
+...
 ```
 
 
@@ -381,17 +417,26 @@ tracd -p 8101 -s proxified --base-path=/project/proxified
 Note that if you want to install this plugin for all projects, you have to put it in your [global plugins_dir](trac-plugins#plugin-discovery) and enable it in your global trac.ini.
 
 
+
 Global config (e.g. `/srv/trac/conf/trac.ini`):
 
+
 ```
-[components]remote-user-auth.*=enabled[inherit]plugins_dir=/srv/trac/plugins[trac]obey_remote_user_header=true
+[components]
+remote-user-auth.* = enabled
+[inherit]
+plugins_dir = /srv/trac/plugins
+[trac]
+obey_remote_user_header = true
 ```
 
 
 Environment config (e.g. `/srv/trac/envs/myenv`):
 
+
 ```
-[inherit]file=/srv/trac/conf/trac.ini
+[inherit]
+file = /srv/trac/conf/trac.ini
 ```
 
 ### Serving a different base path than /
@@ -406,4 +451,7 @@ Tracd supports serving projects with different base urls than /\<project\>. The 
 ---
 
 
+
 See also: [TracInstall](trac-install), [TracCgi](trac-cgi), [TracModPython](trac-mod-python), [TracGuide](trac-guide), [ Running tracd.exe as a Windows service](http://trac.edgewall.org/intertrac/TracOnWindowsStandalone%23RunningTracdasservice)
+
+

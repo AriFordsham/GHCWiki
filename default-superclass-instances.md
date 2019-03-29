@@ -510,10 +510,15 @@ Is this only a legacy issue? This proposal makes ought-to-be-a-superclass relati
 *If you want superclass instances, add yourself below with a quick sketch of what your application is*
 
 
+
 For years, I have been pretending that Monads are not Functors. When applicative functors showed up, I could accept them as functors, but my internal contradictions prevented me to accept them as monads. This is a cry for help! 
 
+
+>
 >
 > -- Haskell 98
+>
+>
 
 
 SHE currently provides [ these default superclass instances](https://personal.cis.strath.ac.uk/conor.mcbride/pub/she/src/ShesHers.lhs). To save you a click, that's this little lot:

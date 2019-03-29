@@ -28,27 +28,32 @@ There are several flags which are useful when working with the inliner.
 <table><tr><th> Flag </th>
 <th> Usage 
 </th></tr>
-<tr><th>[ \`--show-iface\`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/using.html?highlight=show-iface#ghc-flag---show-iface)</th>
+<tr><th> <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/using.html?highlight=show-iface#ghc-flag---show-iface"> `--show-iface`</a> </th>
 <th> Shows the contents of an interface file. Can be useful to check which unfoldings are being included. 
 </th></tr>
-<tr><th>[ \`-dshow-passes\`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/debugging.html?highlight=show-passes#ghc-flag--dshow-passes)</th>
+<tr><th> <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/debugging.html?highlight=show-passes#ghc-flag--dshow-passes"> `-dshow-passes`</a> </th>
 <th> Shows the size of the program after each optimisation pass. 
 </th></tr>
-<tr><th>[ \`-ddump-inlinings\`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/debugging.html?highlight=show-passes#ghc-flag--ddump-inlinings)</th>
+<tr><th> <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/debugging.html?highlight=show-passes#ghc-flag--ddump-inlinings"> `-ddump-inlinings`</a> </th>
 <th> Shows inlinings which take place 
 </th></tr>
-<tr><th>[ \`-ddump-simpl\`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/debugging.html?highlight=show-passes#ghc-flag--ddump-simpl)</th>
+<tr><th> <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/debugging.html?highlight=show-passes#ghc-flag--ddump-simpl"> `-ddump-simpl`</a> </th>
 <th> Dump the (core) output of the simplifer 
 </th></tr></table>
 
+
 ## Newcomer Tickets
 
-<table><tr><th>[\#4960](https://gitlab.haskell.org//ghc/ghc/issues/4960)</th>
+
+
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4960">#4960</a></th>
 <td>Better inlining test in CoreUnfold</td></tr>
-<tr><th>[\#9370](https://gitlab.haskell.org//ghc/ghc/issues/9370)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9370">#9370</a></th>
 <td>unfolding info as seen when building a module depends on flags in a previously-compiled module</td></tr>
-<tr><th>[\#11068](https://gitlab.haskell.org//ghc/ghc/issues/11068)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11068">#11068</a></th>
 <td>Make Generic/Generic1 methods inlinable</td></tr></table>
+
+
 
 ## Relevant Tickets
 
@@ -56,86 +61,92 @@ There are several flags which are useful when working with the inliner.
 There are lots of old relevant tickets related to inlining. Perfect for a keen newcomer!
 
 
+
 Use `Keyword` = `Inlining` to ensure that a ticket ends up on these lists.
 
-<table><tr><th>[\#3073](https://gitlab.haskell.org//ghc/ghc/issues/3073)</th>
+
+
+<table><tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3073">#3073</a></th>
 <td>Avoid reconstructing dictionaries in recursive instance methods</td></tr>
-<tr><th>[\#3755](https://gitlab.haskell.org//ghc/ghc/issues/3755)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3755">#3755</a></th>
 <td>Improve join point inlining</td></tr>
-<tr><th>[\#3781](https://gitlab.haskell.org//ghc/ghc/issues/3781)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3781">#3781</a></th>
 <td>Improve inlining for local functions</td></tr>
-<tr><th>[\#4960](https://gitlab.haskell.org//ghc/ghc/issues/4960)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4960">#4960</a></th>
 <td>Better inlining test in CoreUnfold</td></tr>
-<tr><th>[\#5834](https://gitlab.haskell.org//ghc/ghc/issues/5834)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5834">#5834</a></th>
 <td>Allow both INLINE and INLINABLE for the same function</td></tr>
-<tr><th>[\#5928](https://gitlab.haskell.org//ghc/ghc/issues/5928)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5928">#5928</a></th>
 <td>INLINABLE fails to specialize in presence of simple wrapper</td></tr>
-<tr><th>[\#7109](https://gitlab.haskell.org//ghc/ghc/issues/7109)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7109">#7109</a></th>
 <td>Inlining depends on datatype size, even with INLINE pragmas</td></tr>
-<tr><th>[\#7114](https://gitlab.haskell.org//ghc/ghc/issues/7114)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7114">#7114</a></th>
 <td>Cannot recover (good) inlining behaviour from 7.0.2 in 7.4.1</td></tr>
-<tr><th>[\#7283](https://gitlab.haskell.org//ghc/ghc/issues/7283)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7283">#7283</a></th>
 <td>Specialise INLINE functions</td></tr>
-<tr><th>[\#7511](https://gitlab.haskell.org//ghc/ghc/issues/7511)</th>
-<td>Room for GHC runtime improvement \>\~5%, inlining related</td></tr>
-<tr><th>[\#7803](https://gitlab.haskell.org//ghc/ghc/issues/7803)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7511">#7511</a></th>
+<td>Room for GHC runtime improvement &gt;~5%, inlining related</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7803">#7803</a></th>
 <td>Superclass methods are left unspecialized</td></tr>
-<tr><th>[\#7829](https://gitlab.haskell.org//ghc/ghc/issues/7829)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7829">#7829</a></th>
 <td>make better/more robust loopbreaker choices</td></tr>
-<tr><th>[\#8099](https://gitlab.haskell.org//ghc/ghc/issues/8099)</th>
-<td>Alternate syntax for indicating when a function is "fully applied" for purposes of inlining</td></tr>
-<tr><th>[\#8589](https://gitlab.haskell.org//ghc/ghc/issues/8589)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8099">#8099</a></th>
+<td>Alternate syntax for indicating when a function is &quot;fully applied&quot; for purposes of inlining</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8589">#8589</a></th>
 <td>Bad choice of loop breaker with INLINABLE/INLINE</td></tr>
-<tr><th>[\#8662](https://gitlab.haskell.org//ghc/ghc/issues/8662)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8662">#8662</a></th>
 <td>GHC does not inline cheap inner loop when used in two places</td></tr>
-<tr><th>[\#8668](https://gitlab.haskell.org//ghc/ghc/issues/8668)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8668">#8668</a></th>
 <td>SPECIALIZE silently fails to apply</td></tr>
-<tr><th>[\#8774](https://gitlab.haskell.org//ghc/ghc/issues/8774)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8774">#8774</a></th>
 <td>Transitivity of Auto-Specialization</td></tr>
-<tr><th>[\#8814](https://gitlab.haskell.org//ghc/ghc/issues/8814)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8814">#8814</a></th>
 <td>7.8 optimizes attoparsec improperly</td></tr>
-<tr><th>[\#9020](https://gitlab.haskell.org//ghc/ghc/issues/9020)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9020">#9020</a></th>
 <td>Massive blowup of code size on trivial program</td></tr>
-<tr><th>[\#9320](https://gitlab.haskell.org//ghc/ghc/issues/9320)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9320">#9320</a></th>
 <td>Inlining regression/strangeness in 7.8</td></tr>
-<tr><th>[\#9370](https://gitlab.haskell.org//ghc/ghc/issues/9370)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9370">#9370</a></th>
 <td>unfolding info as seen when building a module depends on flags in a previously-compiled module</td></tr>
-<tr><th>[\#9418](https://gitlab.haskell.org//ghc/ghc/issues/9418)</th>
-<td>Warnings about "INLINE binder is (non-rule) loop breaker"</td></tr>
-<tr><th>[\#9701](https://gitlab.haskell.org//ghc/ghc/issues/9701)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9418">#9418</a></th>
+<td>Warnings about &quot;INLINE binder is (non-rule) loop breaker&quot;</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9701">#9701</a></th>
 <td>GADTs not specialized properly</td></tr>
-<tr><th>[\#9798](https://gitlab.haskell.org//ghc/ghc/issues/9798)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9798">#9798</a></th>
 <td>Frustrating behaviour of the INLINE pragma</td></tr>
-<tr><th>[\#10371](https://gitlab.haskell.org//ghc/ghc/issues/10371)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10371">#10371</a></th>
 <td>GHC fails to inline and specialize a function</td></tr>
-<tr><th>[\#10421](https://gitlab.haskell.org//ghc/ghc/issues/10421)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10421">#10421</a></th>
 <td>exponential blowup in inlining (without INLINE pragmas)</td></tr>
-<tr><th>[\#10710](https://gitlab.haskell.org//ghc/ghc/issues/10710)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10710">#10710</a></th>
 <td>More self-explanatory pragmas for inlining phase control</td></tr>
-<tr><th>[\#10766](https://gitlab.haskell.org//ghc/ghc/issues/10766)</th>
-<td>user manual: INLINE's interaction with optimization levels is not clear</td></tr>
-<tr><th>[\#11068](https://gitlab.haskell.org//ghc/ghc/issues/11068)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10766">#10766</a></th>
+<td>user manual: INLINE&apos;s interaction with optimization levels is not clear</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11068">#11068</a></th>
 <td>Make Generic/Generic1 methods inlinable</td></tr>
-<tr><th>[\#11263](https://gitlab.haskell.org//ghc/ghc/issues/11263)</th>
-<td>"Simplifier ticks exhausted" that resolves with fsimpl-tick-factor=200</td></tr>
-<tr><th>[\#12274](https://gitlab.haskell.org//ghc/ghc/issues/12274)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11263">#11263</a></th>
+<td>&quot;Simplifier ticks exhausted&quot; that resolves with fsimpl-tick-factor=200</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12274">#12274</a></th>
 <td>GHC panic: simplifier ticks exhausted</td></tr>
-<tr><th>[\#12454](https://gitlab.haskell.org//ghc/ghc/issues/12454)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12454">#12454</a></th>
 <td>Cross-module specialisation of recursive functions</td></tr>
-<tr><th>[\#12463](https://gitlab.haskell.org//ghc/ghc/issues/12463)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12463">#12463</a></th>
 <td>SPECIALIZABLE pragma?</td></tr>
-<tr><th>[\#12747](https://gitlab.haskell.org//ghc/ghc/issues/12747)</th>
-<td>INLINE vs NOINLINE vs \<nothing\> give three different results; two would be better</td></tr>
-<tr><th>[\#13016](https://gitlab.haskell.org//ghc/ghc/issues/13016)</th>
-<td>SPECIALIZE INLINE doesn't necessarily inline specializations of a recursive function</td></tr>
-<tr><th>[\#13851](https://gitlab.haskell.org//ghc/ghc/issues/13851)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12747">#12747</a></th>
+<td>INLINE vs NOINLINE vs &lt;nothing&gt; give three different results; two would be better</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13016">#13016</a></th>
+<td>SPECIALIZE INLINE doesn&apos;t necessarily inline specializations of a recursive function</td></tr>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13851">#13851</a></th>
 <td>Change in specialisation(?) behaviour since 8.0.2 causes 6x slowdown</td></tr>
-<tr><th>[\#14211](https://gitlab.haskell.org//ghc/ghc/issues/14211)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14211">#14211</a></th>
 <td>Compiler is unable to INLINE as well as the programmer can manually</td></tr>
-<tr><th>[\#14275](https://gitlab.haskell.org//ghc/ghc/issues/14275)</th>
+<tr><th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14275">#14275</a></th>
 <td>Large Haskell value unexpectedly gets an unfolding</td></tr></table>
+
+
 
 ## Relevant Wiki Pages
 
+
 - [Commentary/Compiler/DesugaringInstances](commentary/compiler/desugaring-instances) -- About how default methods can lead to poor inliner performance due to recursion
-- [Proposal/SelfExplinatoryInlinePragmas](proposal/self-explinatory-inline-pragmas)
+- [Proposal/SelfExplinatoryInlinePragmas](proposal/self-explinatory-inline-pragmas) 

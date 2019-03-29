@@ -1,8 +1,10 @@
 # Idiom: macros
 
 
-The build system makes extensive use of Gnu **make****macros**.  A macro is defined in
+
+The build system makes extensive use of Gnu **make** **macros**.  A macro is defined in
 GNU **make** using `define`, e.g.
+
 
 ```wiki
 define build-package

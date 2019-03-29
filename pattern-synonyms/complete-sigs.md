@@ -2,8 +2,15 @@
 The exhaustiveness checker currently chokes on pattern synonyms. 
 They are marked as always fallible patterns which means that we must also always include a catch-all case in order to avoid a warning.
 
+
 ```
-dataA=Apattern::ApatternP=Afoo::A->AfooP=A
+data A = A
+
+pattern :: A
+pattern P = A
+
+foo :: A -> A
+foo P = A
 ```
 
 
@@ -73,12 +80,19 @@ Different `COMPLETE` pragmas can mention overlapping sets of conlikes. If there 
 as described in the "Error Reporting" section.
 
 
+
 There are no checks to ensure that the set of patterns is actually complete or covering in any way. It is up to the user to get it right.
+
+
 
 `COMPLETE` pragmas are a new source of orphan modules. For example,
 
+
 ```
-moduleMwhereimportN( pattern P, pattern Q){-# COMPLETE P, Q #-}
+module M where
+
+import N( pattern P, pattern Q )
+{-# COMPLETE P, Q #-}
 ```
 
 
@@ -117,73 +131,124 @@ The type constructor for the whole set of patterns is the type constructor as sp
 This design is a consequence of the design of the pattern match checker. Complete sets of patterns must be identified relative to a type. 
 This is a sanity check as users would never be able to match on all constructors if the set of patterns is inconsistent in this manner.
 
+
 ### Examples of Typing
 
+
 ```
-patternP::()patternP=(){-# COMPLETE P #-}
+pattern P :: ()
+pattern P = ()
+
+{-# COMPLETE P #-}
 ```
 
 
 Accepted, the type of the match is `()` as the rtc of `P` is `()`.
 
+
 ```
-patternP::()patternP=(){-# COMPLETE P :: () #-}
+pattern P :: ()
+pattern P = ()
+
+{-# COMPLETE P :: () #-}
 ```
 
 
 Accepted, the type of the match is `()` as the rtc of `P` is `()` and this is the same as the user specified type which is `()`.
 
+
 ```
-patternP::()patternP=(){-# COMPLETE P :: Int #-}
+pattern P :: ()
+pattern P = ()
+
+{-# COMPLETE P :: Int #-}
 ```
 
 
 Rejected as the user specified type signature is not the same as the rtc of `P`. (`Int /= ()`)
 
+
 ```
-patternP::()patternP=()patternQ::Maybe a
-patternQ=Nothing{-# COMPLETE P, Q #-}
+pattern P :: ()
+pattern P = ()
+
+pattern Q :: Maybe a
+pattern Q = Nothing
+
+{-# COMPLETE P, Q #-}
 ```
 
 
 Rejected: the rtc of `P` and `Q` is different.
 
+
 ```
-patternP::()patternP=()patternQ::()patternQ=(){-# COMPLETE P, Q #-}
+pattern P :: ()
+pattern P = ()
+
+pattern Q :: ()
+pattern Q = ()
+
+{-# COMPLETE P, Q #-}
 ```
 
 
 Accepted, the type of the whole set is `()` as this is the rtc of both `P` and `Q`.
 
+
 ```
-classC f where
-    match :: f a ->()patternP::C f => f a
-patternP<-(match ->()){-# COMPLETE P #-}
+class C f where
+    match :: f a -> ()
+
+pattern P :: C f => f a
+pattern P <- (match -> ())
+
+{-# COMPLETE P #-}
 ```
 
 
 Rejected. All the conlikes are polymorphic but no type signature is provided
 
+
 ```
-classC f where
-    match :: f a ->()patternP::C f => f a
-patternP<-(match ->()){-# COMPLETE P :: () #-}
+class C f where
+    match :: f a -> ()
+
+pattern P :: C f => f a
+pattern P <- (match -> ())
+
+{-# COMPLETE P :: () #-}
 ```
 
 
 Accepted. All the conlikes are polymorphic but a type signature is provided.
 
+
 ```
-classC f where
-    match :: f a ->()patternP::C f => f a
-patternP<-(match ->())patternQ::()patternQ=(){-# COMPLETE P, Q #-}
+class C f where
+    match :: f a -> ()
+
+pattern P :: C f => f a
+pattern P <- (match -> ())
+
+pattern Q :: ()
+pattern Q = ()
+
+{-# COMPLETE P, Q #-}
 ```
 
 
 Accepted. There is one polymorphic conlike `P` but there is also a monomorphic conlike `Q` which fixes the type of the whole set. Therefore the type of the whole match is `()`. 
 
+
 ```
-patternP::[Int]patternP=[5]patternQ::[Char]patternQ=['a']{-# COMPLETE P, Q #-}
+pattern P :: [Int] 
+pattern P = [5]
+
+pattern Q :: [Char]
+pattern Q = ['a']
+
+{-# COMPLETE P, Q #-}
 ```
 
 
@@ -192,15 +257,31 @@ Accepted. The rtc of `P` and `Q` is `[]`. This is despite the fact that `P` and 
 # Examples
 
 
+
 The following examples should emit no warnings.
 
+
 ```
-patternP::ApatternP=A{-# COMPLETE P #-}foo::A->AfooP=A
+pattern P :: A
+pattern P = A
+
+{-# COMPLETE P #-}
+
+foo :: A -> A
+foo P = A
 ```
 
 ```
-patternN::Maybe a
-patternN=Nothing{-# COMPLETE N, Just #-}qux::Maybe a ->BoolquxN=Falsequx(Just x)=True
+
+pattern N :: Maybe a
+pattern N = Nothing
+
+{-# COMPLETE N, Just #-}
+
+qux :: Maybe a -> Bool
+qux N = False
+qux (Just x) = True
+
 ```
 
 ## Error Messages

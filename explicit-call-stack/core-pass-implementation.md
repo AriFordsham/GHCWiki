@@ -12,6 +12,10 @@ addressing.
 - [ Darcs repository with paper sources and patches](http://code.haskell.org/explicitCallStackPaper/)
 - [ Paper describing the work submitted to Haskell Symposium 2009](http://pubs.doc.ic.ac.uk/finding-the-needle/)
 
+
+ 
+
+
 ## Examples
 
 
@@ -195,6 +199,10 @@ scheme.
   stack pass.  The annotation is associated with the original function, and the
   `fromDebugged` field is given the template-haskell `Name` of the version
   of the function that accepts and threads through the call stack.
+
+
+  
+
 
 ### Source locations
 

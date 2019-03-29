@@ -37,13 +37,20 @@ It is also noteworthy, that the representations of types changes during type che
   - `TcErrors`: generates good error messages from the residual, unsolved constraints.
 
 >
+>
 > The best place reading for the constraint solver is the paper [ Modular type inference with local assumptions](http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn)
+>
+>
 
 - Underlying infrastructure:
 
   - `TcRnTypes`: a big collection of the types used during type checking
   - [TcRnMonad](commentary/compiler/tc-rn-monad): the main typechecker monad
   - `TcType`: pure functions over types, used by the type checker
+
+
+   
+
 
 ### Entry Points Into the Type Checker
 

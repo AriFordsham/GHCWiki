@@ -83,11 +83,14 @@ We don't need any special dynamic linking support here, either, so all that need
 # Platform-Specific NOTES
 
 
+
 The following tables show which combinations of the `-dynamic` and `-fPIC` flags work in which situations on which platforms. The row indicates how a Haskell module is built, and the column indicates what it is being used for. A YES means it should work, a NO means it will fail to link or even crash.
+
 
 ## Darwin
 
-<table><tr><th></th>
+
+<table><tr><th>              </th>
 <th>dynamic libraries</th>
 <th>static code</th>
 <th>dynamically linked executables</th>
@@ -123,9 +126,11 @@ The following tables show which combinations of the `-dynamic` and `-fPIC` flags
 <th>YES
 </th></tr></table>
 
+
 ## PowerPC 32-Bit and x86 Linux
 
-<table><tr><th></th>
+
+<table><tr><th>              </th>
 <th>dynamic libraries</th>
 <th>static code</th>
 <th>dynamically linked executables</th>
@@ -136,14 +141,14 @@ The following tables show which combinations of the `-dynamic` and `-fPIC` flags
 <th>NO               </th>
 <th>YES        </th>
 <th>NO                            </th>
-<th>YES`**`</th>
+<th>YES<tt>**</tt>   </th>
 <th>NO
 </th></tr>
 <tr><th>-dynamic      </th>
 <th>NO               </th>
 <th>YES        </th>
-<th>YES\*                          </th>
-<th>YES`**`</th>
+<th>YES*                          </th>
+<th>YES<tt>**</tt>   </th>
 <th>NO
 </th></tr>
 <tr><th>-fPIC         </th>
@@ -168,11 +173,14 @@ The following tables show which combinations of the `-dynamic` and `-fPIC` flags
 (`**`) Position-dependent code theoretically leads to increased load times and prevents sharing between multiple instances of the code.
 
 
+
 Via-C compilation with `-fPIC` or `-dynamic` currently doesn't work (not implemented on x86, buggy on PPC).
+
 
 ## PowerPC 64-Bit Linux
 
-<table><tr><th></th>
+
+<table><tr><th>              </th>
 <th>dynamic libraries</th>
 <th>static code</th>
 <th>dynamically linked executables</th>
@@ -214,9 +222,11 @@ Now that's a boring table... `-fPIC` is ignored, and `-dynamic` doesn't affect c
 # x86 Windows
 
 
+
 Windows support isn't there yet. In theory, though, this is how it will look like:
 
-<table><tr><th></th>
+
+<table><tr><th>              </th>
 <th>dynamic libraries</th>
 <th>static code</th>
 <th>dynamically linked executables</th>

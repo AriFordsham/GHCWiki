@@ -11,31 +11,43 @@
 1. Get Quickhull to run fast.
 1. The system should be usable for small applications for the GHC 6.12 release.
 
+
+ 
+
+
 ### Task assignments
 
-<table><tr><th>*Roman*</th>
-<td>**Code blow up**, **Generate boilerplate with TH**, **Explicit shape information** & **Recycling for joinD**
+
+<table><tr><th><i>Roman</i></th>
+<td>
+<b>Code blow up</b>, <b>Generate boilerplate with TH</b>, <b>Explicit shape information</b> &amp; <b>Recycling for joinD</b>
 – status: partly implemented, but still needs serious work
 
 - All segmented operations have been removed from the backend library.
 - Roman currently adapts the vectoriser to make use of the separation of data and shape in the library.  This turned out to be more work than expected, but it should also simplify the vectoriser.
-- We still don't have the code blow up under control.
+- We still don&apos;t have the code blow up under control.
 - Before any further major changes to the library, Roman needs to first re-arrange things such that the library boilerplate is generated, instead of being hardcode; otherwise, changes require a lot of tiresome code editing.  This is partially done.
 
 </td></tr></table>
 
-<table><tr><th>*Simon*</th>
-<td>**New dictionary representation and optimisation**
-– status: prototype shipped to Roman, seems to work.   I am doing detailed perf comparisons before committing to HEAD.  **NB:** We won't be able to make progress with benchmarks, before we can use the new inliner (currently we have no version that applies to the HEAD).
+
+<table><tr><th><i>Simon</i></th>
+<td>
+<b>New dictionary representation and optimisation</b>
+– status: prototype shipped to Roman, seems to work.   I am doing detailed perf comparisons before committing to HEAD.  <b>NB:</b> We won&apos;t be able to make progress with benchmarks, before we can use the new inliner (currently we have no version that applies to the HEAD).
 </td></tr></table>
 
-<table><tr><th>*Gabi*</th>
-<td>**Regular multi-dimensional arrays (language design and implementation)** & **Hierarchical matrix representation**
+
+<table><tr><th><i>Gabi</i></th>
+<td>
+<b>Regular multi-dimensional arrays (language design and implementation)</b> &amp; <b>Hierarchical matrix representation</b>
 – status: partially implemented benchmark; regular multi-dimensional arrays are in an experimental state
 </td></tr></table>
 
-<table><tr><th>*Manuel*</th>
-<td>**Desugaring comprehensions** & **Benchmark status**
+
+<table><tr><th><i>Manuel</i></th>
+<td>
+<b>Desugaring comprehensions</b> &amp; <b>Benchmark status</b>
 – status: not started on comprehensions and waiting for code blow up to be improved before continuing with benchmarks
 </td></tr></table>
 

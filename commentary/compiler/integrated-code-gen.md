@@ -37,9 +37,11 @@ our design are as follows:
 ## Design philosophy
 
 
+
 State-of-the art dataflow optimization and register allocation both
 require complex implementations.  We live with this complexity because
-**creating new clients is easy.**
+**creating new clients is easy.**  
+
 
 - **Dataflow optimization:** We can define a new
   optimization simply by defining a lattice of dataflow facts (akin
@@ -67,7 +69,12 @@ require complex implementations.  We live with this complexity because
   define common functions such as identifying the registers read and
   written by each instruction.
 
+
+     
+
+
 ## Proposed compilation pipeline
+
 
 1. Convert from `STG` to an control flow graph `CmmGraph`:
 1. Instruction selection:
@@ -95,7 +102,9 @@ In practice, we first generate an "abstract control flow graph", `CmmAGraph`, wh
 ### Instruction selection
 
 
-Instruction selection: each `Cmm``Middle` and `Last` node in the control-flow graph is replaced with a new graph in which the nodes are machine instructions.
+
+Instruction selection: each `Cmm` `Middle` and `Last` node in the control-flow graph is replaced with a new graph in which the nodes are machine instructions.
+
 
 ```wiki
 CmmGraph Cmm.Middle Cmm.Last -> CmmGraph I386.Middle I386.Last
@@ -212,9 +221,11 @@ Stack Layout: `LGraph Instrs` (with stack slots, and compile-time constants) `->
 
 No more stack-slot references.
 
+
 ### Tidy up
 
-1. Proc-point splitting: `LGraph Instrs -> [LGraph Instrs]`
+
+1. Proc-point splitting: `LGraph Instrs -> [LGraph Instrs]` 
 
   - Each proc point gets its own procedure.
 1. Code layout: `LGraph Instrs -> [String]`

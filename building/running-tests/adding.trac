@@ -269,7 +269,7 @@ There are a number of predefined lists of the ways meeting various criteria:
 
 In some cases you may want to re-use the same stdout file for multiple tests. You can accomplish this using the `use_specs` function.
 
- * '''use_specs'''             allows one to override files based on suffixes. e.g. `'stdout'`, `'stderr'`, `'asm'`, `'prof.sample'`, etc.  Example `use_specs({'stdout' : 'prof002.stdout'})` to make the test re-use `prof002.stdout`.
+ * '''use_specs'''             allows one to override files based on suffixes. e.g. `'stdout'`, `'stderr'`, `'asm'`, `'prof.sample'`, etc. You must also include this file as `extra_files`.  Example `use_specs({'stdout' : 'prof002.stdout'})` to make the test re-use `prof002.stdout`.
 
 To use more than one modifier on a test, just put them in a list.
 For example, to expect an exit code of 3 and omit way 'opt', we could use
@@ -324,8 +324,6 @@ In summary:
  * Tests which measure the performance of the compiler should be used with '''compile''' or '''compile_fail''' tests. These tests will be skipped if `-DDEBUG` is one (i.e. '''complier_debugged()''' is true), as the numbers are worthless then.
 
  * Tests which measure the performance of the ''program'', not the compiler, should be used in conjunction with a '''compile_and_run''' test.
-
-See [wiki:Building/RunningTests/PerformanceTests Running Performance Tests] on how to run these tests.
 
 === The <test-fn> field ===
 

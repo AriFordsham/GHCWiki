@@ -1,6 +1,60 @@
 # View patterns: lightweight views for Haskell
 
-[Basic view patterns](#Basicviewpatterns)[Semantics](#Semantics)[Examples](#Examples)[Further Syntactic Extensions](#FurtherSyntacticExtensions)[Implicit Maybe](#ImplicitMaybe)[Implicit View Functions](#ImplicitViewFunctions)[Compilation](#Compilation)[Features views can have](#Featuresviewscanhave)[Related work](#Relatedwork)
+
+
+
+    
+
+1. 
+1. 
+          [Basic view patterns](#Basicviewpatterns)
+          
+
+  1. 
+  1. 
+                [Semantics](#Semantics)
+              
+  1. 
+  1. 
+                [Examples](#Examples)
+              
+  1. 
+
+
+        
+1. 
+1. 
+          [Further Syntactic Extensions](#FurtherSyntacticExtensions)
+          
+
+  1. 
+  1. 
+                [Implicit Maybe](#ImplicitMaybe)
+              
+  1. 
+  1. 
+                [Implicit View Functions](#ImplicitViewFunctions)
+              
+  1. 
+
+
+        
+1. 
+1. 
+          [Compilation](#Compilation)
+        
+1. 
+1. 
+          [Features views can have](#Featuresviewscanhave)
+        
+1. 
+1. 
+          [Related work](#Relatedwork)
+        
+1. 
+
+
+
 
 
 View patterns were introduced in GHC 6.10.  This page has been revised to reflect what we've implemented.  
@@ -74,9 +128,13 @@ The key feature of this proposal is its modesty, rather than its ambition:
 It is essentially some simple syntactic sugar for patterns.
 However, sometimes modest syntactic sugar can have profound consequences. In this case, it's possible that people would start routinely hiding the data representation and exporting view functions instead, which would be an excellent thing.
 
+
 ### Semantics
 
-**Scoping** for *expr `->`*pat:
+
+
+**Scoping** for *expr `->` *pat:
+
 
 - The variables bound by the view pattern are the variables bound by *pat*.
 - Any variables in *expr* are bound occurrences.  Variables bound by patterns to the left of a view pattern expression are in scope.  For example:
@@ -94,11 +152,15 @@ However, sometimes modest syntactic sugar can have profound consequences. In thi
        example ((f,_), f -> 4) = True
     ```
 
+
 **Typing**
-If *expr* has type *t1*`->`*t2* and  *pat* matches a *t2*,  then the whole view pattern has type *t1*.
+If *expr* has type *t1* `->` *t2* and  *pat* matches a *t2*,  then the whole view pattern has type *t1*.
+
+
 
 **Evaluation**
-To match a value *v* against a pattern (*expr*`->`*pat*), evaluate *(expr v)* and match the result against *pat*.  
+To match a value *v* against a pattern (*expr* `->` *pat*), evaluate *(expr v)* and match the result against *pat*.  
+
 
 ### Examples
 
@@ -342,7 +404,8 @@ which were used as follows:
 ```
 
 
-We may implement a special syntax that makes the `Just` implicit, using *expr*`=>`*pat* for *expr*`-> Just`*pat*.  An example use: 
+We may implement a special syntax that makes the `Just` implicit, using *expr* `=>` *pat* for *expr* `-> Just` *pat*.  An example use: 
+
 
 ```wiki
    fib (np 2 => n) = fib (n + 1) + fib n
@@ -379,7 +442,8 @@ The idea is that we distinguish a particular type class as a hook into the patte
 ```
 
 
-Then, you can leave off the expresion in a view pattern, writing (`->`*pat*), to mean `view -> `*pat*.  For example:
+Then, you can leave off the expresion in a view pattern, writing (`->` *pat*), to mean `view -> ` *pat*.  For example:
+
 
 ```wiki
    size (-> Unit) = 1
@@ -483,14 +547,18 @@ Our proposal has the *value input* feature: the view function can be passed para
 #### Implicit `Maybe` feature
 
 
-Our proposal has the *implicit `Maybe`* feature: the syntax *expr*`=>`*pat* permits the programmer to elide the `Just`, for example when using partial views.  
+
+Our proposal has the *implicit `Maybe`* feature: the syntax *expr* `=>` *pat* permits the programmer to elide the `Just`, for example when using partial views.  
+
 
 #### Transparent ordinary Patterns
 
 
+
 Our proposal does not have the *transparent ordinary patterns* feature: view patterns are written differently than ordinary patterns.
 There are pros and cons both ways:
-The advantage of having transparent ordinary patterns is that you can replace a concrete datatype with an abstract type and a view without changing client code.  A disadvantage is that view patterns can do arbitrary computation, perhaps expensive, so it's good to have a syntactic marker that some computation beyond ordinary pattern matching may be going on.  Another disadvantage is that transparent ordinary patterns require a larger language extension than just a new form of pattern, so that certain names may be declared to be view constructors for a type.  We consider our proposal's implicit-view-function syntax `(->`*pat*`)` to be a nice compromise between the two alternatives.  
+The advantage of having transparent ordinary patterns is that you can replace a concrete datatype with an abstract type and a view without changing client code.  A disadvantage is that view patterns can do arbitrary computation, perhaps expensive, so it's good to have a syntactic marker that some computation beyond ordinary pattern matching may be going on.  Another disadvantage is that transparent ordinary patterns require a larger language extension than just a new form of pattern, so that certain names may be declared to be view constructors for a type.  We consider our proposal's implicit-view-function syntax `(->` *pat*`)` to be a nice compromise between the two alternatives.  
+
 
 #### Nesting
 
@@ -612,7 +680,8 @@ example, suppose we had
 ```
 
 
-Here `(Head x)@(Tail ys)` is a pattern that matches *both*`(Head x)` and `(Tail ys)` against the argument, binding `x` and `ys` respectively.  We can model that with view patterns:
+Here `(Head x)@(Tail ys)` is a pattern that matches *both* `(Head x)` and `(Tail ys)` against the argument, binding `x` and `ys` respectively.  We can model that with view patterns:
+
 
 ```wiki
   headV (x:xs) = Just x
@@ -793,10 +862,11 @@ The singleton example above would like this:
 #### First class abstractions
 
 
+
 Several proposals suggest first class *abstractions* rather that first-class *patterns*.  By a "first class abstraction" I mean a value of type
-(*something*`->`*something*)
+(*something* `->` *something*)
 with a syntax something like
-(`\`*pattern*`->`*result*).
+(`\` *pattern* `->` *result*).
 The abstraction includes both the pattern and the result.  In contrast, view patterns tackle only the syntax of patterns; the pattern of a first-class abstraction.  
 
 

@@ -47,7 +47,8 @@ data Module = Module {
 ```
 
 
-You'll notice that a `Qual``RdrName` contains a `ModuleName`; which module is referred to depends on the import declarations in that module.  In contrast, a `Orig``RdrName` refers to a unique `Module`.
+You'll notice that a `Qual` `RdrName` contains a `ModuleName`; which module is referred to depends on the import declarations in that module.  In contrast, a `Orig` `RdrName` refers to a unique `Module`.
+
 
 ## The `OccName` type
 

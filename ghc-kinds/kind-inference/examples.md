@@ -4,58 +4,74 @@
 This page is intended to collect examples of tricky cases for kind inference. Any proposed algorithm should be applied to each of these cases to see how it would behave.
 
 
+
 More discussion is at [GhcKinds/KindInference](ghc-kinds/kind-inference).
+
 
 ## Associated types
 
+
 ```
-classC1(a :: k)wheretypeF a
+class C1 (a :: k) where
+  type F a
 ```
 
 
 Question: What should the visibilities on `F` be?
 
 
+
 Ryan and Richard think `F :: forall k. k -> Type`. That is, `k` is Specified, because we can always order implicit kind variables using the same ordering that appears in the class header (after kind inference).
 
+
 ```
-classC2(a :: k)(b :: k2)wheretypeT a
+class C2 (a :: k) (b :: k2) where
+  type T a
 ```
 
 
 Proposed: `T :: forall k. k -> Type`, with no mention of `b` or `k2`.
 
+
 ```
-classC3(a :: k)(b :: k2) hwere
-  typeT(z :: k3) a
+class C3 (a :: k) (b :: k2) hwere
+  type T (z :: k3) a
 ```
 
 
-Proposed: `T :: forall k k3. k3 -> k -> Type`. This puts `k`*before*`k3`, because class variables come before other ones (unless the user explicitly puts them later, as has been done with `a`). This rule always works because class variables cannot depend on local ones.
+Proposed: `T :: forall k k3. k3 -> k -> Type`. This puts `k` *before* `k3`, because class variables come before other ones (unless the user explicitly puts them later, as has been done with `a`). This rule always works because class variables cannot depend on local ones.
+
 
 ```
-classC4 a (b :: a)wheretypeT b a
+class C4 a (b :: a) where
+  type T b a
 ```
 
 
 This must be rejected, as `b` depends on `a`.
 
+
 ```
-classC5(a :: k)wheretypeT(a :: k2)
+class C5 (a :: k) where
+  type T (a :: k2)
 ```
 
 
 Reject: `k` and `k2` are distinct skolems.
 
+
 ```
-classC6 a (b :: a)(c ::Proxy b)wheretypeT(x ::Proxy'(a, c))
+class C6 a (b :: a) (c :: Proxy b) where
+  type T (x :: Proxy '(a, c))
 ```
 
 
 Proposed: `T :: forall (a :: Type) (b :: a) (c :: Proxy b). Proxy '(a, c) -> Type`. Note that `b` is included here as a Specified variable. It could also be an Inferred, if we prefer.
 
+
 ```
-classC7 a (b :: a)(c ::Proxy b)wheretypeT a c
+class C7 a (b :: a) (c :: Proxy b) where
+  type T a c
 ```
 
 
@@ -64,76 +80,95 @@ Proposed: `T :: forall (a :: Type) -> forall (b :: a). Proxy b -> Type`. We've i
 ## Datatypes, dependency, and polymorphic recursion
 
 
+
 Assume
 
+
 ```
-dataProx k (a :: k)
+data Prox k (a :: k)
 ```
 
 ```
-dataProx2 k a =MkP2(Prox k a)
+data Prox2 k a = MkP2 (Prox k a)
 ```
 
 
 Question: Do we allow `k` to be dependently quantified, even if this is not lexically apparent from the declaration? This is rejected today.
 
+
 ```
-dataS2 k (a :: k) b =MkS(S2 k b a)
+data S2 k (a :: k) b = MkS (S2 k b a)
 ```
 
 
 Proposed: `S2 :: forall k -> k -> k -> Type`. Note that `a` and `b` are inferred to have the same kind, as that avoid polymorphic recursion.
 
+
 ```
-dataS3 k (a :: k) b =MkS(S3Type b a)
+data S3 k (a :: k) b = MkS (S3 Type b a)
 ```
 
 
 Proposed: reject as polymorphically recursive. Yet the idea in [GhcKinds/KindInference\#Simonssuggestion](ghc-kinds/kind-inference#simon's-suggestion) accepts this.
 
+
 ```
-dataQ2 k a whereMkQ2::Prox k a ->Q2 k a
+data Q2 k a where
+  MkQ2 :: Prox k a -> Q2 k a
 
-dataQ3 k a whereMkQ3::Q3 k a ->Prox k a ->Q3 k a
+data Q3 k a where
+  MkQ3 :: Q3 k a -> Prox k a -> Q3 k a
 
-dataQ4 k a whereMkQ4::Q4BoolFalse->Prox k a ->Q4 k a
+data Q4 k a where
+  MkQ4 :: Q4 Bool False -> Prox k a -> Q4 k a
 
-dataQ5 k a whereMkQ5::Q5BoolFalse->Q5Nat3->Prox k a ->Q5 k a
+data Q5 k a where
+  MkQ5 :: Q5 Bool False -> Q5 Nat 3 -> Prox k a -> Q5 k a
 ```
 
 
 Agda accepts all of the above. It puts us to shame!
 
+
 ```
-dataProxy2 a whereMk1::Proxy2(a :: k)Mk2::Proxy2(b :: j)
+data Proxy2 a where
+  Mk1 :: Proxy2 (a :: k)
+  Mk2 :: Proxy2 (b :: j)
 ```
 
 
 This should really be accepted. But it's challenging to arrange this, because `a`, `k`, `b`, and `j` all scope locally within their constructors. How can the kind of `Proxy2` unify with any of them?
 
+
 ```
-dataT a whereMk:: forall k1 k2 (a :: k1)(b :: k2).T b ->T a
+data T a where
+  Mk :: forall k1 k2 (a :: k1) (b :: k2). T b -> T a
 ```
 
 
 This is polymorphically recursive. Yet hGhcKinds/KindInference\#SimonsProposedSolution accepts it. (That's what's implemented in GHC 8.6.) Richard thinks we should reject.
 
+
 ```
-dataT2 a whereMk:: forall (a :: k).T2Maybe->T2 a
+data T2 a where
+  Mk :: forall (a :: k). T2 Maybe -> T2 a
 ```
 
 
 This one is rejected, as it should be. So we don't accept *all* polymorphic recursion (how could we?). But we don't have a good specification for what we do accept and what we don't.
 
+
 ```
-dataT3 a b whereMk::T3 b a ->T3 a b
+data T3 a b where
+  Mk :: T3 b a -> T3 a b
 ```
 
 
 This should be accepted with `T3 :: forall k. k -> k -> Type`; it's not polymorphically recursive. Yet, it would seem any specification which accepted `T` would also give `T3` the polymorphically recursive kind `forall k1 k2. k1 -> k2 -> Type`.
 
+
 ```
-dataT4 k (a :: k) b =MkT4(T4 k b a)
+data T4 k (a :: k) b = MkT4 (T4 k b a)
 ```
 
 
@@ -142,18 +177,22 @@ Here, we have a dependent kind for `T4`. Richard thinks this should be accepted.
 ## Generalization
 
 
+
 Contrast
 
+
 ```
-classC8 a where
-  meth ::Proxy(a :: k)
+class C8 a where
+  meth :: Proxy (a :: k)
 ```
 
 
 with
 
+
 ```
-dataV1 a whereMkV1::Proxy(a :: k)->V1 a
+data V1 a where
+  MkV1 :: Proxy (a :: k) -> V1 a
 ```
 
 
@@ -162,10 +201,12 @@ Currently (GHC 8.6) we reject `C8` while accepting `V1`. This may be just a bug,
 ## Dependency ordering
 
 
+
 What if we do something simple? Like just use lexical ordering.
 
+
 ```
-dataProxy(a :: k)
+data Proxy (a :: k)
 ```
 
 
@@ -175,20 +216,24 @@ Then this example fails, with `k` after `a`.
 Refinement: consider the RHS of `::` before the LHS.
 
 
+
 Then this one fails:
 
+
 ```
-dataT4 a (b :: k)(x ::SameKind a b)
+data T4 a (b :: k) (x :: SameKind a b)
 ```
 
 
 The `k` would end up between the `a` and the `b`, even though `a` depends on `k`.
 
 
+
 Also, consider
 
+
 ```
-dataT5 a (c ::Proxy b)(d ::Proxy a)(x ::SameKind b d)
+data T5 a (c :: Proxy b) (d :: Proxy a) (x :: SameKind b d)
 ```
 
 
@@ -205,20 +250,24 @@ There are many more examples in the testsuite, of course. In particular, see the
 Idris accepts `T4` and `T5`, so we think Idris use some kind of ScopedSort.
 
 
+
 However, Idris also accepts
 
+
 ```
-dataT6:(a:k)->(k:Type)->Type
+data T6 :  (a:k) -> (k:Type) -> Type
 ```
 
 
 with type `{k : Type} -> (a : k) -> (k2 : Type) -> Type`. We think both this acceptance and the inferred type are odd, as we would expect these two `k`s to be the same `k`. Then `T6` should be rejected because `a` cannot refer to a variable `k` that appears after.
 
 
+
 Idris would reject
 
+
 ```
-dataT7:(a : k)->(k:Type)->(b : k)->SameKind a b ->Type
+data T7 : (a : k) -> (k:Type) -> (b : k) -> SameKind a b -> Type
 ```
 
 

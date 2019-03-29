@@ -21,6 +21,10 @@ The notes on the rest of this page are the GHC team's observations and/or clarif
 - Don't duplicate information. Don't link everything from everywhere.
 - If for example a page accessible from the left side bar (i.e. [Building Guide](building)) already has all the links for a certain topic (i.e. Testing), then other pages (i.e. [Contributing](contributing) and [Debugging](debugging)) shouldn't duplicate all those links.
 
+
+ 
+
+
 ## Pointing to source files
 
 
@@ -41,8 +45,11 @@ In [changeset:"970816ac0028f2f42ac4140d29e2f0dfe0e9af3e/ghc"]:
 
 Result:
 
+
+>
 >
 > In [970816ac0028f2f42ac4140d29e2f0dfe0e9af3e/ghc](/trac/ghc/changeset/970816ac0028f2f42ac4140d29e2f0dfe0e9af3e/ghc):
+>
 >
 > ```message
 > Use let !y = x in .. x .. instead of seq in $! and evaluate (#2273)
@@ -158,6 +165,11 @@ and add the anchor to a wiki link right after a hash:
 
 ---
 
+
+
 [standard targets](building/using#standard-targets)
 
+
 ---
+
+

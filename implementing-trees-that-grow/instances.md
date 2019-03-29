@@ -7,11 +7,23 @@ This page is part of [ImplementingTreesThatGrow](implementing-trees-that-grow).
 ## Example
 
 
+
 Here's our example:
 
+
 ```
-typefamilyXOverLit p
-  dataHsOverLit p =OverLit(XOverLit p)(HsExpr p)dataGhcPass(c ::Pass)derivinginstanceTypeable c =>Data(GhcPass c)dataPass=Parsed|Renamed|TypecheckedtypeinstanceXOverLit(GhcPass'Parsed)=PlaceHoldertypeinstanceXOverLit(GhcPass'Renamed)=NametypeinstanceXOverLit(GhcPass'Typechecked)=Type
+  type family XOverLit p
+  data HsOverLit p = OverLit (XOverLit p) (HsExpr p)
+
+  data GhcPass (c :: Pass)
+  deriving instance Typeable c => Data (GhcPass c)
+
+  data Pass = Parsed | Renamed | Typechecked
+
+  type instance XOverLit (GhcPass 'Parsed     ) = PlaceHolder
+  type instance XOverLit (GhcPass 'Renamed    ) = Name
+  type instance XOverLit (GhcPass 'Typechecked) = Type
+
 ```
 
 
@@ -20,10 +32,14 @@ We want a `Data` instance for this type.
 ### PLAN A
 
 
+
 I propose
 
+
 ```
-derivinginstance(Typeable p,Data(XOverLit(GhcPass p)))=>Data(HsOverLit(GhcPass p))
+ deriving instance (Typeable p, Data (XOverLit (GhcPass p))) =>
+    Data (HsOverLit (GhcPass p))
+
 ```
 
 
@@ -36,10 +52,12 @@ This is what is currently implemented in GHC master. It works, but every time th
 ### PLAN B
 
 
+
 Alan would like to see
 
+
 ```
-derivinginstanceData(HsOverLit(GhcPass p))
+deriving instance Data (HsOverLit (GhcPass p))
 ```
 
 
@@ -49,11 +67,16 @@ which should have all the information available to the derivation process, since
 This "does not compile".
 
 
+
 Alan has discovered that the three instances:
 
+
 ```
-derivinginstanceData(HsOverLit(GhcPass'Parsed))derivinginstanceData(HsOverLit(GhcPass'Renamed))derivinginstanceData(HsOverLit(GhcPass'Typechecked))
+  deriving instance Data (HsOverLit (GhcPass 'Parsed ))
+  deriving instance Data (HsOverLit (GhcPass 'Renamed))
+  deriving instance Data (HsOverLit (GhcPass 'Typechecked))
 ```
+
 
 **will** compile, but only with GHC 8.2.1, not with 8.0.2, due to a flaw in the standalone deriving process.
 
@@ -184,44 +207,69 @@ I have no idea how this would affect `Data`.
 ### Plan H
 
 
+
 The performance issue of Plan A presumably comes from the fact that we have instance search running every time we are typechecking an instance with a large constraint set. That is:
 
+
 ```
-typeLargeConstraintSet p =(Outputable(XIPBinds    p),Outputable(XViaStrategy p),...,...,...,...-- and so on, for each extension field)instanceLargeConstraintSet p =>Outputable(HsExpr p)instanceLargeConstraintSet p =>Outputable(HsPat p)instanceLargeConstraintSet p =>Outputable(HsType p)instanceLargeConstraintSet p =>Outputable(HsBinds p)instance(LargeConstraintSet idL,LargeConstraintSet idR,Outputable body)=>Outputable(StmtLR idL idR body)...
+type LargeConstraintSet p =
+  ( Outputable (XIPBinds    p)
+  , Outputable (XViaStrategy p)
+  , ...
+  , ...
+  , ...
+  , ... -- and so on, for each extension field
+  )
+
+instance LargeConstraintSet p => Outputable (HsExpr p)
+instance LargeConstraintSet p => Outputable (HsPat p)
+instance LargeConstraintSet p => Outputable (HsType p)
+instance LargeConstraintSet p => Outputable (HsBinds p)
+instance (LargeConstraintSet idL, LargeConstraintSet idR, Outputable body) => Outputable (StmtLR idL idR body)
+...
 ```
 
 
 Every time we add something to the `LargeConstraintSet`, typechecking each of these instances slows down. 
 
 
+
 Instead, we could create a single constraint, `OutputableX`, and hide the large constraint set inside it:
 
+
 ```
-classOutputableX p where
-  withOutputableX ::(LargeConstraintSet p => r)-> r
+class OutputableX p where
+  withOutputableX :: (LargeConstraintSet p => r) -> r
 ```
 
 
 and then
 
+
 ```
-instanceOutputableX p =>Outputable(HsExpr p)instanceOutputableX p =>Outputable(HsPat p)instanceOutputableX p =>Outputable(HsType p)instanceOutputableX p =>Outputable(HsBinds p)instance(OutputableX idL,OutputableX idR,Outputable body)=>Outputable(StmtLR idL idR body)
+instance OutputableX p => Outputable (HsExpr p)
+instance OutputableX p => Outputable (HsPat p)
+instance OutputableX p => Outputable (HsType p)
+instance OutputableX p => Outputable (HsBinds p)
+instance (OutputableX idL, OutputableX idR, Outputable body) => Outputable (StmtLR idL idR body)
 ```
 
 
 becomes fast, as it only has one constraint: `OutputableX`. Operationally, we have `LargeConstraintSet p` stored inside `OutputableX`, but for the typechecker, this is hidden information.
 
 
+
 We will have only three instances of `OutputableX`, defined as follows:
 
+
 ```
-instanceOutputableX(GhcPass'Parsed)where
+instance OutputableX (GhcPass 'Parsed) where
   withOutputableX r = r
 
-instanceOutputableX(GhcPass'Renamed)where
+instance OutputableX (GhcPass 'Renamed) where
   withOutputableX r = r
 
-instanceOutputableX(GhcPass'Typechecked)where
+instance OutputableX (GhcPass 'Typechecked) where
   withOutputableX r = r
 ```
 
@@ -243,13 +291,17 @@ Inside `withOutputableX @p`, we have `LargeConstraintSet p` in context.
 ### Plan H\*
 
 
+
 Plan H relies on the assumption that calls to `withOutputableX` will not lead to the same kind of performance degradation. This is an untested, but hopefully true assumption. In case it proves to be wrong, we can augment this plan by having separate methods for each constraint:
 
+
 ```
-classOutputableX p where
-  withOutputableXIPBinds ::(Outputable(XIPBinds p)=> r)-> r
-  withOutputableXViaStrategy ::(Outputable(XViaStrategy p)=> r)-> r
-  .........-- and so on, for each extension field
+class OutputableX p where
+  withOutputableXIPBinds :: (Outputable (XIPBinds p) => r) -> r
+  withOutputableXViaStrategy :: (Outputable (XViaStrategy p) => r) -> r
+  ...
+  ...
+  ... -- and so on, for each extension field
 ```
 
 
@@ -272,16 +324,19 @@ This means that we're not dealing with `LargeConstraintSet` at all, we're workin
 It is still painful generating three virtually identical chunks of traversal code.
 So suppose we went back to
 
+
 ```
-derivinginstance(...)=>Data(OverLit(GhcPass p))where…
+  deriving instance (...)
+                 => Data (OverLit (GhcPass p)) where…
 ```
 
 
 We'd get unresolved constraints like `Data (XOverLit (GhcPass p))`.  Perhaps we
 could resolve them like this
 
+
 ```
-instanceData(XOverLIt(GhcPass p))where
+  instance Data (XOverLIt (GhcPass p)) where
      gmapM f x = x
      ...etc...
 ```
@@ -296,23 +351,32 @@ That might not be so bad, for now!
 If there were cases when we really did want to look at those extension fields,
 we still could, by doing a runtime test, like this:
 
+
 ```
-instanceIsGhcPass p =>Data(XOverLIt(GhcPass p))where
-     gmapM =case ghcPass @p ofIsParsed-> gmapM
-                IsRenamed-> gmapM
-                IsTypechecked-> gmapM
+  instance IsGhcPass p => Data (XOverLIt (GhcPass p)) where
+     gmapM = case ghcPass @p of
+                IsParsed -> gmapM
+                IsRenamed -> gmapM
+                IsTypechecked -> gmapM
      ...etc...
 ```
 
 
 Here I'm positing a new class and GADT:
 
-```
-classIsGhcPass p where
-  ghcPass ::IsGhcPassT p
 
-dataIsGhcPassT p whereIsParsed::IsGhcPassParsedIsRenamed::IsGhcPassRenamedIsTypechecked::IsGhcPassTypecheckedinstanceIsGhcPassParsedwhere
-  ghcPass =IsParsed...etc...
+```
+class IsGhcPass p where
+  ghcPass :: IsGhcPassT p
+
+data IsGhcPassT p where
+  IsParsed      :: IsGhcPass Parsed
+  IsRenamed     :: IsGhcPass Renamed
+  IsTypechecked :: IsGhcPass Typechecked
+
+instance IsGhcPass Parsed where
+  ghcPass = IsParsed
+...etc...
 ```
 
 

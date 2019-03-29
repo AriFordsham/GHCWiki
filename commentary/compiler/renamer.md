@@ -25,9 +25,10 @@ M.f = (M.f, M.f, K.f, \f_22 -> f_22)
 
 where all these names are now `Name`s.
 
-- The top-level unqualifed `RdrName` "`f`" has become the `External``Name``M.f`.  
+
+- The top-level unqualifed `RdrName` "`f`" has become the `External` `Name` `M.f`.  
 - The occurrences "`f`" and "`M.f`" are both bound to this `Name`.  
-- The qualified `RdrName` "`Q.f`" becomes the `Name``K.f`, because the function is defined in module K.  
+- The qualified `RdrName` "`Q.f`" becomes the `Name` `K.f`, because the function is defined in module K.  
 - The lambda-bound "`f`" becomes an `Internal` name, here written `f_22`.  (All the `External` names have uniques too, but we often do not print them.)
 
 
@@ -80,7 +81,9 @@ Here is how to understand these types:
   - An `ImpItemSpec` that describes the import item that brought the entity into scope.
 
 >
+>
 > For example, given
+>
 >
 > ```wiki
 > import qualified M( x, T(g) ) as Q
@@ -88,6 +91,8 @@ Here is how to understand these types:
 >
 >
 > the `ImpDeclSpec` would describe the `qualified` and `as` part, while the `ImpItemSpec` describes the `T(g)` part.  You can look in `RdrName.hs` to see what an `ImportDeclSpec` and `ImpItemSpec` are like!
+>
+>
 
 - The `Parent` of an entity is the `Name` under which it is grouped when the forms `T(..)` or `T(C,D)` are used in an export or import list.  In the `T(..)` form, all the things whose `Parent` is `T` are chosen.  In the `T(C,D)` form, it is required that `C` and `D` have `T` as parents.  
   For example, 

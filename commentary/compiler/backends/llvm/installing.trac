@@ -51,15 +51,3 @@ A quick summary of the results are that for the 'nofib' benchmark suite, the LLV
 ||LLVM || 1.14||
 
 A nice demonstration of the improvements the LLVM back-end can bring to some code though can be see at http://donsbot.wordpress.com/2010/02/21/smoking-fast-haskell-code-using-ghcs-new-llvm-codegen/
-
-=== Nofib Performance, Jan 2019  ===
-
-These were run on a Sandy Bridge Xeon using LLVM 6.0 and GHC HEAD
-
-|| Backend || Runtime || Compile Time
-||NCG || Baseline || Baseline
-||LLVM || -4.9% || +22%
-
-Worth mentioning though that a few programs got a LOT faster using LLVM (Improvements of 10-20% and more).
-
-

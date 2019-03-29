@@ -73,15 +73,20 @@ The only special stuff is in the pattern.
 The sole change is this: add a single new sort of pattern, of the 
 form
 
+
 >
-> (*expr*`->`*pat*)
+>
+> (*expr* `->` *pat*)
+>
+>
 
 
 where *expr* is an arbitrary Haskell expression.   I'll call a pattern
 of this form a **view pattern**. 
 
 
-From a **scoping** point of view, the variables bound by the pattern (*expr*`->`*pat*)
+
+From a **scoping** point of view, the variables bound by the pattern (*expr* `->` *pat*)
 are simply the variables bound by ``pat``.
 Any variables in ``expr`` are bound occurrences.
 
@@ -97,7 +102,8 @@ To match a value *v* against a pattern *(expr -\> p)*,
 The **typing rule** is similarly simple.  
 The expression *expr* must have type
 *t1 `-> Maybe` t2*. Then the pattern *pat* must have type *t2*, and the
-whole pattern (*expr*`->`*pat*) has type *t1*.
+whole pattern (*expr* `->` *pat*) has type *t1*.
+
 
 ### Features
 
@@ -334,7 +340,8 @@ Of course, the real power unfolds when the extra parameter can be given at runti
 ```
 
 
-In the proposed view pattern (*expr*`->`*pat*), *expr* is an arbitrary Haskell expression. Thus, the lightweight proposal has the **value input feature**. For another example, suppose you wrote a regular expression matching function:
+In the proposed view pattern (*expr* `->` *pat*), *expr* is an arbitrary Haskell expression. Thus, the lightweight proposal has the **value input feature**. For another example, suppose you wrote a regular expression matching function:
+
 
 ```wiki
   regexp :: String -> String -> Maybe (String, String)
@@ -808,7 +815,7 @@ example, suppose we had
 ```
 
 
-Here `(Head x)@(Tail ys)` is a pattern that matches *both*`(Head x)` and `(Tail ys)`
+Here `(Head x)@(Tail ys)` is a pattern that matches *both* `(Head x)` and `(Tail ys)`
 against the argument, binding `x` and `ys` respectively.  We can model that with view patterns,
 only a bit more clumsily:
 
@@ -992,10 +999,11 @@ The examples at the top of this page would look like this with first class patte
 ### First class abstractions
 
 
+
 Several proposals suggest first class *abstractions* rather that first-class *patterns*.  By a "first class abstraction" I mean a value of type
-(*something*`->`*something*)
+(*something* `->` *something*)
 with a syntax something like
-(`\`*pattern*`->`*result*).
+(`\` *pattern* `->` *result*).
 The abstraction includes both the pattern and the result.  In contrast, view patterns tackle only the syntax of patterns; the pattern of a first-class abstraction.  
 
 

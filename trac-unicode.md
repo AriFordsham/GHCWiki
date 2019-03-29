@@ -4,10 +4,12 @@
 Trac encodes all text using [ UTF-8](http://en.wikipedia.org/wiki/UTF-8), including text in tickets and wiki pages. Internal processing of text uses true [ Unicode](http://en.wikipedia.org/wiki/Unicode) representations. As such, it supports most commonly used character encodings.
 
 
+
 If the default encoding in your source code repository is not UTF-8, you can specify it in your [trac.ini](trac-ini#) file:
 
+
 ```
-default_charset=gbk
+default_charset = gbk
 ```
 
 

@@ -28,8 +28,11 @@ of user-facing changes.
 -   A new build system based on the `shake` library. This is the culmination
 
 >
+>
 > of nearly two years of effort, replacing GHC's old Make-based build system
 > (Andrey Mokhov and Zhen Zhang)
+>
+>
 
 -   Improved leverage of join-points: By floating out the “exit path” as a join point of a recursive function, we expose more opportunities for inlining to the simplifier. In the case of nested loops, this can make inner loops allocation-free! (see [\#14152](https://gitlab.haskell.org//ghc/ghc/issues/14152), Joachim Brietner)
 
@@ -38,10 +41,13 @@ of user-facing changes.
 -   Improved SIMD support. While previous GHC versions supported a variety
 
 >
+>
 > of SIMD primitives, they did not use native SIMD registers for passing
 > arguments across function calls. This severely limited the usefulness of the
 > primitives. Starting with 8.4, GHC will use native registers for passing
 > vector arguments by default.
+>
+>
 
 -   Support for the BMI and BMI2 instruction set extensions (John Ky)
 
@@ -177,14 +183,24 @@ between, please come speak to us either on IRC (`#ghc` on
 -   GHC website:
 
 >
+>
 > \<[ https://haskell.org/ghc/](https://haskell.org/ghc/)\>
+>
+>
 
 -   GHC users guide:
 
 >
+>
 > \<[ https://downloads.haskell.org/\~ghc/master/users-guide/](https://downloads.haskell.org/~ghc/master/users-guide/)\>
+>
+>
 
-- `ghc-devs` mailing list:
+-   `ghc-devs` mailing list:
 
 >
+>
 > \<[ https://mail.haskell.org/mailman/listinfo/ghc-devs](https://mail.haskell.org/mailman/listinfo/ghc-devs)\>
+>
+>
+

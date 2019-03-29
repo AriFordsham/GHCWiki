@@ -260,7 +260,10 @@ let x :: C a = ... z ...
 ```
 
 >
+>
 > becomes
+>
+>
 
 ```wiki
 let x :: C a = let z :: t ~# s = unbox y in ... z ...
@@ -268,7 +271,10 @@ let x :: C a = let z :: t ~# s = unbox y in ... z ...
 ```
 
 >
+>
 > Simon has spotted a tricky bit here, but I can't recall it. Simon?
+>
+>
 
 1. Another small annoyance with unlifted equality is deferred type errors. This can likely be mitigated by floating in the (now-strict) calls to `error`.
 
@@ -280,7 +286,10 @@ data Dict c where
 ```
 
 >
+>
 > it would be disastrous if `c` could become `a ~# b`. So, users still need to work in terms of lifted equality.
+>
+>
 
 1. I proposed a plan of redefining lifted equality thusly:
 
@@ -290,7 +299,10 @@ instance a ~# b => a ~ b
 ```
 
 >
+>
 > Let's call this redefined lifted equality `~2`. Although the internal representation of `~2` is the same as that of `~`, the treatment in the solver would differ significantly. When the solver sees `~2`, it would just access the superclass (in the case of a given) or the one instance (in the case of a wanted), and then the real equality solving would happen over `~#`. This has the advantage of simplifying the desugarer, but still requiring the let-pushing in point 5, above. But, this is a big win for me because I need the solver to work over unlifted equality for kind casts, so using `~2` instead of `~` would mean that the solver works over only 1 equality type. There were no objections to this plan, as of Nov. 8, 2014.
+>
+>
 
 
 The point articulated directly above seems to be a nice resting place for this discussion, and it is my plan of record going forward. However, because my current hybrid solver (that works over both `~` and `~#`) is chugging along, doing this redesign is not a high priority. Furthermore, this plan does **not** fix [my original problem](dependent-haskell/internal#), of needing unlifted equality in types.
@@ -349,15 +361,24 @@ type family Cast (k1 :: *) (k2 :: *) (a :: k1) (g :: k1 ~ k2) :: k2 where
 ```
 
 >
+>
 > This type family does the unboxing and then casts. If the supplied lifted equality evidence is not `Eq#`, then the type family application is stuck, as it should be.
+>
+>
 
 >
+>
 > This doesn't work because it's not compositional. If we have an equality for `Maybe a ~ Maybe b`, we can't case from `a` to `b`. This is because we can't use the coercion formers anywhere. A solution here is to just write type families that lift each coercion former into lifted equality. This works in every case but the `forall` coercion former, which can't be written as a type family because it binds a variable locally. If we had type-level lambdas, this approach could work.
+>
+>
 
 1. Have `~` always mean unlifted equality.
 
 >
+>
 > This doesn't work because we then can't abstract over equality predicates.
+>
+>
 
 1. Write a type family `Unbox`:
 
@@ -367,12 +388,18 @@ type family Unbox (k1 :: *) (k2 :: *) (g :: k1 ~ k2) :: k1 ~# k2 where
 ```
 
 >
+>
 > The problem here is that we certainly can't call a type family from within the coercion grammar. There's no way of using `Unbox`! Even if we made space somehow for just this one type family, when would it get "evaluated"? Never, so the system is broken.
+>
+>
 
 1. Introduce `case` into types.
 
 >
+>
 > This actually works (I think) and shouldn't cause any undue wrinkles. The `case` would simplify through iota-reduction axioms that get applied (still no computation within types), but I think this could work. But, it's decidedly **not** simple.
+>
+>
 
 ## Open questions
 
@@ -399,12 +426,19 @@ comments toward end of TcUnify), also to no ill effect.
 **SPJ:**
 Well my original invariant was supposed to be:
 
+
+>
 >
 > the typechecker sees only TcTyVars (except perhaps as the 
 > quantifier of a forall)
+>
+>
 
 >
+>
 > the rest of the compiler never sees a TcTyVar
+>
+>
 
 
 The SkolemTv False thing was just to ensure this. You'll see lots of ASSERTs for isTcTyVar which would fail if we used a TyVar. But I think nothing would actually go wrong if we allowed TyVars.  And as you observe, the invariant is not rigorously observed.

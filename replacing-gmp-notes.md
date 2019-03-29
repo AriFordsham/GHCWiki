@@ -61,7 +61,8 @@ If you want to help with replacing GMP or do it yourself, you will have to work 
 - makefiles and configuration scripts.
 
 
-A guide to GHC primitives is available (in an unformatted version) in [/compiler/prelude/primops.txt.pp](/trac/ghc/browser/ghc//compiler/prelude/primops.txt.pp); there is a formatted version (from the latest build) at [http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html).  (See [The (new) GHC Commentary](commentary)[PrimOps](commentary/prim-ops) page for an excellent description of how primitive operations are implemented.  A highly recommended introduction directly related to GMP is [AddingNewPrimitiveOperations](adding-new-primitive-operations).) In primops.txt.pp--better yet, [GHC.Prim](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html)--you might want to search for the text `"section "The word size story.""`, and especially the text `"section "Integer#""` or just go to [The word size story](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html#1) and [Integer](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html#8).   The Haskell definition of the Integer data type is in [ /packages/base/GHC/Num.lhs](http://darcs.haskell.org/packages/base/GHC/Num.lhs).
+A guide to GHC primitives is available (in an unformatted version) in [/compiler/prelude/primops.txt.pp](/trac/ghc/browser/ghc//compiler/prelude/primops.txt.pp); there is a formatted version (from the latest build) at [http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html).  (See [The (new) GHC Commentary](commentary) [PrimOps](commentary/prim-ops) page for an excellent description of how primitive operations are implemented.  A highly recommended introduction directly related to GMP is [AddingNewPrimitiveOperations](adding-new-primitive-operations).) In primops.txt.pp--better yet, [GHC.Prim](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html)--you might want to search for the text `"section "The word size story.""`, and especially the text `"section "Integer#""` or just go to [The word size story](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html#1) and [Integer](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html#8).   The Haskell definition of the Integer data type is in [ /packages/base/GHC/Num.lhs](http://darcs.haskell.org/packages/base/GHC/Num.lhs).
+
 
 
 Other basic recommended reading is:
@@ -71,8 +72,12 @@ Other basic recommended reading is:
 
 #### *Caveat*
 
+
+>
 >
 > Beware!  The main interest here is replacing GMP--GHC is still belongs to the University of Glasgow and those in charge still retain the purview to accept or reject a proposed solution.
+>
+>
 
 ### Reasons for Replacing GMP as the Bignum library
 
@@ -82,38 +87,70 @@ There are several problems with the current GMP implementation:
 1. Licensing
 
 >
+>
 > GMP is licensed under the [ GNU Lesser General Public License](http://www.gnu.org/copyleft/lesser.html) (LGPL), a kind of "copyleft" license.  According to the terms of the LGPL, paragraph 5, you may distribute a program that is designed to be compiled and dynamically linked with the library under the terms of your choice (i.e., commercially) but if your program incorporates portions of the library, if it is linked statically, then your program is a "derivative"--a "work based on the library"--and according to paragraph 2, section c, you "must cause the whole of the work to be licensed" *under the terms of the LGPL* (including for free).  
+>
+>
 
 >
+>
 > The LGPL licensing for GMP is a problem for the overall licensing of binary programs compiled with GHC because most distributions (and builds) of GHC use static libraries.  (Dynamic libraries are currently distributed only for OS X.)  The LGPL licensing situation may be worse: even though [ The Glasgow Haskell Compiler License](http://cvs.haskell.org/cgi-bin/cvsweb.cgi/fptools/ghc/LICENSE?rev=1.1.26.1;content-type=text%2Fplain) is essentially a "free software" license (BSD3), according to paragraph 2 of the LGPL, GHC must be distributed under the terms of the LGPL!
+>
+>
 
 1. Memory Structure; Simultaneous Access to GMP by Foreign (C) code in the Same Binary
 
 >
+>
 > In the current GMP implementation, GMP is configured to use GHC's GC memory and GMP can only have one allocator for memory.  Since any single binary containing Haskell code compiled with GHC contains the RTS and GMP, C code--including foreign calls to GMP from Haskell code (say you need a GMP function that is not a primitive)--in the same binary cannot use GMP.  This problem was noted in [ bug Ticket \#311](http://hackage.haskell.org/trac/ghc/ticket/311).  The Simon Peyton-Jones suggested that a simple renaming of GHC-GMP functions would solve this problem and Bulat Ziganshin suggested simply using an automated tool to do this.  See [ Replacement for GMP](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010679.html).  Different function names would make GMP into a separate, custom GHC library leaving the C part of the program free to use GMP.
+>
+>
 
 >
+>
 > GHC does not have a custom-modified version of GMP (in fact, GHC uses the system build of GMP if that is available).  The memory configuration of GMP uses GMP's [ Custom Allocation](http://swox.com/gmp/manual/Custom-Allocation.html#Custom-Allocation) routines.  Alternative libraries may not have this facility built in.
+>
+>
 
 1. Other Improvements to Integer
 
 >
+>
 > Most of the suggestions in this section come from discussions in the glasgow-haskell-users list thread [ returning to Cost of Integer](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010654.html).  In particular, [ John Meacham's suggestion](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-July/010660.html) to use a ForeignPtr to data held by the normal GMP system library and store the value in an unboxed Int if the number of significant digits in Integer could fit into the size of an Int.
+>
+>
 
+>
 >
 > The current GMP implementation of Integer, defined in [libraries/base/GHC/Num.lhs](/trac/ghc/browser/ghc/libraries/base/GHC/Num.lhs), is:
 >
+>
 > ```
-> dataInteger=S#Int#-- small integers#ifndef ILX|J#Int#ByteArray#-- large integers#else|J#Void BigInteger-- .NET big ints
+> data Integer
+>    = S# Int#              -- small integers
+> #ifndef ILX
+>    | J# Int# ByteArray#   -- large integers
+> #else
+>    | J# Void BigInteger   -- .NET big ints
 > ```
+>
 >
 >
 > where the Int\# counts the number of [ limbs](http://swox.com/gmp/manual/Nomenclature-and-Types.html#Nomenclature-and-Types) (a GMP term referring to parts of a multi-precision number that fit into a 32 or 64 bit word, depending on the machine) and the ByteArr\# is the actual array in RTS-GC memory holding the limbs.  The sign of the Int\# is used to indicate the sign of the number represented by the ByteArr\#.  
+>
+>
 
 >
+>
 > This current implementation of Integer means that there are two separate constructors for small and large Integers (S\# Int\# and J\# Int\# ByteArr\#).  The suggestion discussed by [ John Meacham](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010670.html), [ Lennart Augustsson](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010664.html), [ Simon Marlow](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010677.html) and [ Bulat Ziganshin](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010687.html) was to change the representation of Integer so the Int\# does the work of S\# and J\#: the Int\# could be either a pointer to the Bignum library array of limbs or, if the number of significant digits could fit into say, 31 bits, to use the extra bit as an indicator of that fact and hold the entire value in the Int\#, thereby saving the memory from S\# and J\#.  
+>
+>
 
+>
+>
 > [ Bulat Ziganshin and John Meacham](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010688.html) noted a few problems with a 30bit Int: 
+>
+>
 
 - interoperability between Haskell and other languages, especially C, would be more difficult so you would have to define a new primitive, say \#Int30 for the representation; and,
 - representing a Haskell constructor (the Int\#) inside a pointer--a bit-size constructor--would limit the number of constructors you would be able to have (depending on the size of a pointer object, say the C99 uintptr_t, on a particular machine).
@@ -224,20 +261,30 @@ name                                                                    \
 
 results from initialising each struct (`mp_tmp2`, etc.) on each call, in order to convert the data from the `J# Int# ByteArray#` in the RTS to the GMP structure before passing it to GMP.  There are at least two possible alternatives to this:
 
->
-> (a) wrap the replacement MP-library array/structure for arbitrary precision integers in a closure so you do not have to rebuild the struct from on each MP-library call; or
 
 >
+>
+> (a) wrap the replacement MP-library array/structure for arbitrary precision integers in a closure so you do not have to rebuild the struct from on each MP-library call; or
+>
+>
+
+>
+>
 > (b) use ForeignPtr (in Cmm, Weak Pointers--difficult to implement) to foreign threads holding the the struct/array
+>
+>
 
 
 (2) Primitive Operations in [compiler/codeGen/CgPrimOp.hs](/trac/ghc/browser/ghc/compiler/codeGen/CgPrimOp.hs)
 
 
+
 Related to replacing GMP, some operations in CgPrimOP.hs such as IntAddCOp may benefit from operations defined in a replacement MP library (or, more generally, simple optimisation).  For example:
 
+
 ```
-emitPrimOp[res_r,res_c]IntAddCOp[aa,bb]live{-                                                                              
+emitPrimOp [res_r,res_c] IntAddCOp [aa,bb] live
+{-                                                                              
    With some bit-twiddling, we can define int{Add,Sub}Czh portably in           
    C, and without needing any comparisons.  This may not be the                 
    fastest way to do it - if you have better code, please send it! --SDM        
@@ -256,7 +303,18 @@ emitPrimOp[res_r,res_c]IntAddCOp[aa,bb]live{-
    Wading through the mass of bracketry, it seems to reduce to:                 
    c = ( (~(a^b)) & (a^r) ) >>unsigned (BITS_IN(I_)-1)                          
                                                                                 
--}=stmtsC[CmmAssignres_r(CmmMachOpmo_wordAdd[aa,bb]),CmmAssignres_c$CmmMachOpmo_wordUShr[CmmMachOpmo_wordAnd[CmmMachOpmo_wordNot[CmmMachOpmo_wordXor[aa,bb]],CmmMachOpmo_wordXor[aa,CmmRegres_r]],CmmLit(mkIntCLit(wORD_SIZE_IN_BITS-1))]]
+-}
+   = stmtsC [
+        CmmAssign res_r (CmmMachOp mo_wordAdd [aa,bb]),
+        CmmAssign res_c $
+          CmmMachOp mo_wordUShr [
+                        CmmMachOp mo_wordAnd [
+                          CmmMachOp mo_wordNot [CmmMachOp mo_wordXor [aa,bb]],
+                          CmmMachOp mo_wordXor [aa, CmmReg res_r]
+                                             ], 
+                        CmmLit (mkIntCLit (wORD_SIZE_IN_BITS - 1))
+                                ]
+           ]
 ```
 
 
@@ -271,4 +329,7 @@ One approach which would only address the license issue would be to develop doin
 Test suites can be developed and perhaps even borrowed from the gmp development team since we should be binary compatable...
 
 
+
 This approach has been started already here: [ http://hackage.haskell.org/trac/ghc/attachment/ticket/601/jmp.c](http://hackage.haskell.org/trac/ghc/attachment/ticket/601/jmp.c)
+
+

@@ -65,7 +65,7 @@ An [Agenda Proposal](agenda-proposal) is now on a separate page.
   - parallel nofib suite
   - Eden/GUM code maintenance
   - testing framework
-- Prize for the most awkward bug fixed in the Hackaton. <sub>~~Jost: I am non-competitive in this contest, since my task is to introduce them ;)~~</sub><sub>~~HWL: Clearly you are at an disadvantage: you first have to introduce the bug; we don't have that problem;-)~~</sub>
+- Prize for the most awkward bug fixed in the Hackaton. <sub>~~Jost: I am non-competitive in this contest, since my task is to introduce them ;)~~</sub> <sub>~~HWL: Clearly you are at an disadvantage: you first have to introduce the bug; we don't have that problem;-)~~</sub>
 
 ## Expected Outcomes
 
@@ -245,8 +245,14 @@ Ticketing: use GHC TRAC - HWL to organise
 Communication: skype (share account names), mailing list (common for parallel haskell - Patrick to organise)
 
 
+
 KH: I have created a new twitter account - [ parallelhaskell](http://twitter.com/parallelhaskell)
+
 
 ### What we did and what is still to do
 
+
+
 [--\> back to GpHEden](gp-h-eden)
+
+

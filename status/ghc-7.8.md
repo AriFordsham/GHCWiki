@@ -9,9 +9,11 @@
 ## The Dynamic Story
 
 
+
 The dynamic story is complex. Here's the breakdown:
 
-<table><tr><th></th>
+
+<table><tr><th>              </th>
 <th>Linux (i386)</th>
 <th>Linux (x86_64)</th>
 <th>FreeBSD</th>
@@ -22,32 +24,36 @@ The dynamic story is complex. Here's the breakdown:
 <th>Windows x86_64
 </th></tr>
 <tr><th>Dynamic GHCi  </th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**NO**</th>
-<th>**NO**</th></tr>
-<tr><th>`-dynamic-too`</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**NO**</th>
-<th>**NO**</th></tr>
-<tr><th>`-dynamic`</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**YES**</th>
-<th>**NO**</th>
-<th>**NO**</th></tr></table>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>NO</b></th>
+<th><b>NO</b>
+</th></tr>
+<tr><th><tt>-dynamic-too</tt></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>NO</b></th>
+<th><b>NO</b>
+</th></tr>
+<tr><th><tt>-dynamic</tt>    </th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>YES</b></th>
+<th><b>NO</b></th>
+<th><b>NO</b>
+</th></tr></table>
+
 
 - **Dynamic GHCi**: 
 

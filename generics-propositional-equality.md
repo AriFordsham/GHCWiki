@@ -76,12 +76,15 @@ There is a small problem, though: We get *orphan instance* warnings because `Dat
 ## An Aside: why `Datatype`?
 
 
+
 Consider this current constraint on data types:
 
+
 ```
-classDatatype d where
-  datatypeName :: t d f a ->[Char]
-  moduleName :: t d f a ->[Char]...
+class Datatype d where
+  datatypeName :: t d f a -> [Char]
+  moduleName :: t d f a -> [Char]
+  ...
 ```
 
 
@@ -90,10 +93,15 @@ Given the fact that for `d = (Dat "GHC.Generics" "Bool")` both pieces of informa
 # The Conservative Approach
 
 
+
 After observing that `Datatype` is essentially just `KnownSymbol × KnownSymbol` we can ask the question:
 
+
+>
 >
 > Can we distill a type-level equality witness from `Datatype` constraints?
+>
+>
 
 
 Unsurprisingly the answer is "yes". `GHC.Generics` could provide a function
@@ -113,10 +121,16 @@ The only con that I see with this approach is that `module GHC.Generics` gets ad
 dependencies on `import Data.Proxy`, `import Unsafe.Coerce` and `import Data.Type.Equality`.
 
 
+
 For `Constructor` and `Selector` we would need to add further base class constraints:
 
+
 ```
-classDatatype c =>Constructor c where...classConstructor s =>Selector s where...
+class Datatype c => Constructor c where
+  ...
+
+class Constructor s => Selector s where
+  ...
 ```
 
 

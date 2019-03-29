@@ -72,8 +72,8 @@ internal names. `<type>` is one of the following:
 <tr><th>vtbl</th>
 <td>Vector table
 </td></tr>
-<tr><th>*n*_alt</th>
-<td>Case alternative (tag *n*)
+<tr><th><i>n</i>_alt</th>
+<td>Case alternative (tag <i>n</i>)
 </td></tr>
 <tr><th>dflt</th>
 <td>Default case alternative
@@ -197,34 +197,42 @@ to other functions to handle each specific constructor in `StgExpr`.
 Here are the core functions that each constructor is disptached to
 (though some may have little helper functions called in addition to the core function):
 
-<table><tr><th>`StgApp`</th>
-<td>Calls to `cgTailCall` in `CgTailCall`</td></tr>
-<tr><th>`StgConApp`</th>
-<td>Calls to `cgReturnDataCon` in `CgCon`</td></tr>
-<tr><th>`StgLit`</th>
+
+<table><tr><th><tt>StgApp</tt></th>
+<td>Calls to <tt>cgTailCall</tt> in <tt>CgTailCall</tt>
+</td></tr>
+<tr><th><tt>StgConApp</tt></th>
+<td>Calls to <tt>cgReturnDataCon</tt> in <tt>CgCon</tt>
+</td></tr>
+<tr><th><tt>StgLit</tt></th>
 <td>
-Calls to `cgLit` in `CgUtil`
-and `performPrimReturn` in `CgTailCall`</td></tr>
-<tr><th>`StgOpApp`</th>
+Calls to <tt>cgLit</tt> in <tt>CgUtil</tt>
+and <tt>performPrimReturn</tt> in <tt>CgTailCall</tt>
+</td></tr>
+<tr><th><tt>StgOpApp</tt></th>
 <td>
 Is a bit more complicated see below.
 </td></tr>
-<tr><th>`StgCase`</th>
-<td>Calls to `cgCase` in `CgCase`</td></tr>
-<tr><th>`StgLet`</th>
-<td>Calls to `cgRhs` in `CgExpr`</td></tr>
-<tr><th>`StgLetNoEscape`</th>
-<td>
-Calls to `cgLetNoEscapeBindings` in `CgExpr`, but with a little bit of wrapping
-by `nukeDeadBindings` and `saveVolatileVarsAndRegs`.
+<tr><th><tt>StgCase</tt></th>
+<td>Calls to <tt>cgCase</tt> in <tt>CgCase</tt>
 </td></tr>
-<tr><th>`StgSCC`</th>
-<td>Calls to  `emitSetCCC` in `CgProf`</td></tr>
-<tr><th>`StgTick`</th>
-<td>Calls to `cgTickBox` in `CgHpc`</td></tr>
-<tr><th>`StgLam`</th>
+<tr><th><tt>StgLet</tt></th>
+<td>Calls to <tt>cgRhs</tt> in <tt>CgExpr</tt>
+</td></tr>
+<tr><th><tt>StgLetNoEscape</tt></th>
 <td>
-Does not have a case because it is only for `CoreToStg`'s work.
+Calls to <tt>cgLetNoEscapeBindings</tt> in <tt>CgExpr</tt>, but with a little bit of wrapping
+by <tt>nukeDeadBindings</tt> and <tt>saveVolatileVarsAndRegs</tt>.
+</td></tr>
+<tr><th><tt>StgSCC</tt></th>
+<td>Calls to  <tt>emitSetCCC</tt> in <tt>CgProf</tt>
+</td></tr>
+<tr><th><tt>StgTick</tt></th>
+<td>Calls to <tt>cgTickBox</tt> in <tt>CgHpc</tt>
+</td></tr>
+<tr><th><tt>StgLam</tt></th>
+<td>
+Does not have a case because it is only for <tt>CoreToStg</tt>&apos;s work.
 </td></tr></table>
 
 
@@ -232,20 +240,26 @@ Some of these cases call to functions defined in `cgExpr`.
 This is because they need a little bit of wrapping and processing
 before calling out to their main worker function.
 
-<table><tr><th>`cgRhs`</th>
-<td>- For `StgRhsCon` calls out to `buildDynCon` in `CgCon`.
-- For `StgRhsClosure` calls out to `mkRhsClosure`.
-  In turn, `mkRhsClosure` calls out to `cgStdRhsClosure` for selectors and thunks,
-  and calls out to `cgRhsClosure` in the default case.
-  Both these are defined in `CgClosure`.
+
+<table><tr><th><tt>cgRhs</tt></th>
+<td>
+
+- For <tt>StgRhsCon</tt> calls out to <tt>buildDynCon</tt> in <tt>CgCon</tt>.
+- For <tt>StgRhsClosure</tt> calls out to <tt>mkRhsClosure</tt>.
+  In turn, <tt>mkRhsClosure</tt> calls out to <tt>cgStdRhsClosure</tt> for selectors and thunks,
+  and calls out to <tt>cgRhsClosure</tt> in the default case.
+  Both these are defined in <tt>CgClosure</tt>.
 
 </td></tr></table>
 
-<table><tr><th>`cgLetNoEscapeBindings`</th>
-<td>- Wraps a call to `cgLetNoEscapeRhs` with `addBindsC`
+
+<table><tr><th><tt>cgLetNoEscapeBindings</tt></th>
+<td>
+
+- Wraps a call to <tt>cgLetNoEscapeRhs</tt> with <tt>addBindsC</tt>
   depending on whether it is called on a recursive or a non-recursive binding.
-  In turn `cgLetNoEscapeRhs` wraps `cgLetNoEscapeClosure`
-  defined in `CgLetNoEscapeClosure`.
+  In turn <tt>cgLetNoEscapeRhs</tt> wraps <tt>cgLetNoEscapeClosure</tt>
+  defined in <tt>CgLetNoEscapeClosure</tt>.
 
 </td></tr></table>
 
@@ -272,48 +286,75 @@ Each of these cases centers around one of these three core calls:
 
 There is also a little bit of argument and return marshelling with the following functions
 
+
 <table><tr><th>Argument marshelling</th>
-<td>`shimForeignCallArg`, `getArgAmods`</td></tr>
+<td>
+<tt>shimForeignCallArg</tt>, <tt>getArgAmods</tt>
+</td></tr>
 <tr><th>Return marshelling</th>
-<td>`dataReturnConvPrim`, `primRepToCgRep`, `newUnboxedTupleRegs`</td></tr>
+<td>
+<tt>dataReturnConvPrim</tt>, <tt>primRepToCgRep</tt>, <tt>newUnboxedTupleRegs</tt>
+</td></tr>
 <tr><th>Performing the return</th>
-<td>`emitReturnInstr`, `performReturn`,
-`returnUnboxedTuple`, `ccallReturnUnboxedTuple`</td></tr></table>
+<td>
+<tt>emitReturnInstr</tt>, <tt>performReturn</tt>,
+<tt>returnUnboxedTuple</tt>, <tt>ccallReturnUnboxedTuple</tt>
+</td></tr></table>
+
 
 
 In summary the modules that get called in order to handle a specific expression case are:
 
+
 #### Also called for top level bindings by `CodeGen`
 
-<table><tr><th>`CgCon`</th>
-<td>for `StgConApp` and the `StgRhsCon` part of `StgLet`</td></tr>
-<tr><th>`CgClosure`</th>
-<td>for the `StgRhsClosure` part of `StgLet`</td></tr></table>
+
+<table><tr><th><tt>CgCon</tt></th>
+<td>for <tt>StgConApp</tt> and the <tt>StgRhsCon</tt> part of <tt>StgLet</tt>
+</td></tr>
+<tr><th><tt>CgClosure</tt></th>
+<td>for the <tt>StgRhsClosure</tt> part of <tt>StgLet</tt>
+</td></tr></table>
+
 
 #### Core code generation
 
-<table><tr><th>`CgTailCall`</th>
-<td>for `StgApp`, `StgLit`, and `StgOpApp`</td></tr>
-<tr><th>`CgPrimOp`</th>
-<td>for `StgOpApp`</td></tr>
-<tr><th>`CgLetNoEscapeClosure`</th>
-<td>for `StgLetNoEscape`</td></tr>
-<tr><th>`CgCase`</th>
-<td>for `StgCase`</td></tr></table>
+
+<table><tr><th><tt>CgTailCall</tt></th>
+<td>for <tt>StgApp</tt>, <tt>StgLit</tt>, and <tt>StgOpApp</tt>
+</td></tr>
+<tr><th><tt>CgPrimOp</tt></th>
+<td>for <tt>StgOpApp</tt>
+</td></tr>
+<tr><th><tt>CgLetNoEscapeClosure</tt></th>
+<td>for <tt>StgLetNoEscape</tt>
+</td></tr>
+<tr><th><tt>CgCase</tt></th>
+<td>for <tt>StgCase</tt>
+</td></tr></table>
+
 
 #### Profiling and Code coverage related
 
-<table><tr><th>`CgProf`</th>
-<td>for `StgSCC`</td></tr>
-<tr><th>`CgHpc`</th>
-<td>for `StgTick`</td></tr></table>
+
+<table><tr><th><tt>CgProf</tt></th>
+<td>for <tt>StgSCC</tt>
+</td></tr>
+<tr><th><tt>CgHpc</tt></th>
+<td>for <tt>StgTick</tt>
+</td></tr></table>
+
 
 #### Utility modules that happen to have the functions for code generation
 
-<table><tr><th>`CgForeignCall`</th>
-<td>for `StgOpApp`</td></tr>
-<tr><th>`CgUtil`</th>
-<td>for `cgLit`</td></tr></table>
+
+<table><tr><th><tt>CgForeignCall</tt></th>
+<td>for <tt>StgOpApp</tt>
+</td></tr>
+<tr><th><tt>CgUtil</tt></th>
+<td>for <tt>cgLit</tt>
+</td></tr></table>
+
 
 
 Note that the first two are
@@ -322,80 +363,95 @@ and the last two are really utility modules,
 but they happen to have the functions
 needed for those code generation cases.
 
+
 ### Memory and Register Management
 
-<table><tr><th>`CgBindery`</th>
+
+<table><tr><th><tt>CgBindery</tt></th>
 <td>
-Module for `CgBindings` which maps variable names
+Module for <tt>CgBindings</tt> which maps variable names
 to all the volitile or stable locations where they are stored
 (e.g. register, stack slot, computed from other expressions, etc.)
-Provides the `addBindC`, `modifyBindC` and `getCgIdInfo` functions
+Provides the <tt>addBindC</tt>, <tt>modifyBindC</tt> and <tt>getCgIdInfo</tt> functions
 for adding, modifying and looking up bindings.
 </td></tr></table>
 
-<table><tr><th>`CgStackery`</th>
+
+<table><tr><th><tt>CgStackery</tt></th>
 <td>
 Mostly utility functions for allocating and freeing stack slots.
 But also has things on setting up update frames.
 </td></tr></table>
 
-<table><tr><th>`CgHeapery`</th>
+
+<table><tr><th><tt>CgHeapery</tt></th>
 <td>
 Functions for allocating objects that appear on the heap such as closures and constructors.
-Also includes code for stack and heap checks and `emitSetDynHdr`.
+Also includes code for stack and heap checks and <tt>emitSetDynHdr</tt>.
 </td></tr></table>
+
 
 ### Function Calls and Parameter Passing
 
 
+
 (Note: these will largely go away once CPS conversion is fully implemented.)
 
-<table><tr><th>`CgPrimOp`, `CgTailCall`, `CgForeignCall`</th>
+
+<table><tr><th><tt>CgPrimOp</tt>, <tt>CgTailCall</tt>, <tt>CgForeignCall</tt></th>
 <td>
 Handle different types of calls.
 </td></tr>
-<tr><th>`CgCallConv`</th>
+<tr><th><tt>CgCallConv</tt></th>
 <td>
 Use by the others in this category to determine liveness and
 to select in what registers and stack locations arguments and return
 values get stored.
 </td></tr></table>
 
+
 ### Misc utilities
 
-<table><tr><th>`Bitmap`</th>
+
+<table><tr><th><tt>Bitmap</tt></th>
 <td>
-Utility functions for making bitmaps (e.g. `mkBitmap` with type `[Bool] -> Bitmap`)
+Utility functions for making bitmaps (e.g. <tt>mkBitmap</tt> with type <tt>[Bool] -> Bitmap</tt>)
 </td></tr>
-<tr><th>`ClosureInfo`</th>
+<tr><th><tt>ClosureInfo</tt></th>
 <td>
 Stores info about closures and bindings.
-Includes information about memory layout, how to call a binding (`LambdaFormInfo`)
-and information used to build the info table (`ClosureInfo`).
+Includes information about memory layout, how to call a binding (<tt>LambdaFormInfo</tt>)
+and information used to build the info table (<tt>ClosureInfo</tt>).
 </td></tr>
-<tr><th>`SMRep`</th>
+<tr><th><tt>SMRep</tt></th>
 <td>
 Storage manager representation of closures.
-Part of ClosureInfo but kept separate to "keep nhc happy."
+Part of ClosureInfo but kept separate to &quot;keep nhc happy.&quot;
 </td></tr>
-<tr><th>`CgUtils`</th>
-<td>TODO</td></tr>
-<tr><th>`CgInfoTbls`</th>
-<td>TODO</td></tr></table>
+<tr><th><tt>CgUtils</tt></th>
+<td>TODO
+</td></tr>
+<tr><th><tt>CgInfoTbls</tt></th>
+<td>TODO
+</td></tr></table>
+
 
 ### Special runtime support
 
-<table><tr><th>`CgTicky`</th>
+
+<table><tr><th><tt>CgTicky</tt></th>
 <td>Ticky-ticky profiling
 </td></tr>
-<tr><th>`CgProf`</th>
+<tr><th><tt>CgProf</tt></th>
 <td>Cost-centre profiling
 </td></tr>
-<tr><th>`CgHpc`</th>
+<tr><th><tt>CgHpc</tt></th>
 <td>Support for the Haskell Program Coverage (hpc) toolkit, inside GHC.
 </td></tr>
-<tr><th>`CgParallel`</th>
+<tr><th><tt>CgParallel</tt></th>
 <td>
 Code generation for GranSim (GRAN) and parallel (PAR).
-All the functions are dead stubs except `granYield` and `granFetchAndReschedule`.
+All the functions are dead stubs except <tt>granYield</tt> and <tt>granFetchAndReschedule</tt>.
 </td></tr></table>
+
+

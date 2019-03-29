@@ -21,7 +21,10 @@ G |- forall a:g1.g2 : (forall a:t1.t2) ~ (forall b:t3.t4[b |> sym g1/a])
 ```
 
 >
+>
 > Though it's asymmetrical, it's far simpler than the rule in the ICFP'13 paper. This is the rule implemented in GHC 8.x.
+>
+>
 
 1. The ICFP'13 paper allows the binding of coercion variables in types. That is, we can have `forall c:phi.t` as a type. However, the need for this in practice was slight, and so it was removed from the implementation.
 
@@ -45,10 +48,12 @@ More practically, congruence is what allows `liftCoSubst` to function. The detai
 ### What would homogeneous equality look like in GHC?
 
 
+
 How should this homogeneous equality take form? It's simple: make `~#`, the type of primitive equality, homogeneous. That is, we want
 
+
 ```
-(~#):: forall k. k -> k ->TYPE(TupleRep'[])
+(~#) :: forall k. k -> k -> TYPE (TupleRep '[])
 ```
 
 
@@ -63,19 +68,28 @@ Some things follow from this:
 - Instead we have only
 
   ```
-  coercionKind::Coercion->PairType-- the two types might have different kinds
+  coercionKind :: Coercion -> Pair Type   -- the two types might have different kinds
   ```
 
 >
+>
 > which explicitly returns two types separately.   We may informally write `co :: t1 = t2` to say that `co` witnesses the equality between `t1` and `t2`, so that `coercionKind co = Pair t1 t2`.
+>
+>
 
 - From a coercion `co :: (t1::k2) = (t2::k2)` we can get a coercion `kco :: k1 = k2`:
 
   ```
-  -- if Pair t1 t2 = coercionKind co, k1 = typeKind t1, and k2 = typeKind t2, then-- Pair k1 k2 = corcionKind (promoteCoercion co)promoteCoercion::Coercion->Coercion
+  -- if Pair t1 t2 = coercionKind co, k1 = typeKind t1, and k2 = typeKind t2, then
+  -- Pair k1 k2 = corcionKind (promoteCoercion co)
+  promoteCoercion :: Coercion -> Coercion 
   ```
 
+>
+>
 > `promoteCoercion` is a function that transforms one coercion (tree) into another; it is no longer a coercion constructor (i.e. the existing `KindCo` vanishes).
+>
+>
 
 
 Summarising (details in  [ A specification of dependent types for Haskell](https://cs.brynmawr.edu/~rae/papers/2017/dep-haskell-spec/dep-haskell-spec.pdf)):
@@ -86,28 +100,40 @@ Summarising (details in  [ A specification of dependent types for Haskell](https
 ### A small wrinkle: we need coercion quantification back
 
 
+
 If `~#` is homogeneous in Core, then how do we support heterogeneous equality in Haskell? Heterogeneous equality is important in Haskell to support, for example, the new `TypeRep` (see [ the paper](https://repository.brynmawr.edu/cgi/viewcontent.cgi?article=1002&context=compsci_pubs)).   Easy: just use an equality between the kinds and then one between the types. But it's not so easy in practice. Examine the definition of `:~~:`:
 
+
 ```
--- this version is wrong!data(:~~:):: forall k1 k2. k1 -> k2 ->TypewhereMkHEq:: forall k1 k2 (a :: k1)(b :: k2).(k1 ~# k2)->(a ~# b)-> a :~~: b
+-- this version is wrong!
+data (:~~:) :: forall k1 k2. k1 -> k2 -> Type where
+  MkHEq :: forall k1 k2 (a :: k1) (b :: k2). 
+           (k1 ~# k2) -> (a ~# b) -> a :~~: b
 ```
 
 
 Sadly, this is ill-kinded: we're using `a ~# b` even though `a` and `b` have different kinds. Of course, we know that `k1` and `k2` are the same, but that doesn't quite help us here. Instead, we need to *name* the coercion between `k1` and `k2`, thus:
 
+
 ```
-data(:~~:):: forall k1 k2. k1 -> k2 ->TypewhereMkHEq:: forall k1 k2 (a :: k1)(b :: k2). 
-           forall (co :: k1 ~# k2)->((a |> co)~# b)-> a :~~: b
+data (:~~:) :: forall k1 k2. k1 -> k2 -> Type where
+  MkHEq :: forall k1 k2 (a :: k1) (b :: k2). 
+           forall (co :: k1 ~# k2) -> 
+           ((a |> co) ~# b) -> a :~~: b
 ```
 
 
 This version names the kind coercion `co` so it can be used in the type proposition. All is well again. Sadly, the implementation does not support coercion quantification in types like this. 
 
 
+
 Note that, while heterogeneous equality `(:~~:)` is, in a sense, the canonical motivation for coercion quantification (in that, if we can implement `(:~~:)`, we can implement anything else), it's not the only place coercion quantification would appear. *Any* kind-indexed GADT will need it. For example:
 
+
 ```
-dataRep:: forall k. k ->TypewhereRepBool::RepBoolRepMaybe::RepMaybe
+data Rep :: forall k. k -> Type where
+  RepBool :: Rep Bool
+  RepMaybe :: Rep Maybe
 ```
 
 
@@ -143,8 +169,11 @@ Term variables are relevantly quantified (with `FunTy`), while type variables ar
 Coercion variables today are relevant but not dependent.  (Even though they have 0 bits, a coercion variable is treated very much like a normal term-level variable.)
 Now, though, need to be both dependent *and* relevant.  We thus have a problem:
 
+
 ```
-typeKind(\(x ::Nat)....)=FunTyNat...typeKind(\(a ::Type)....)=ForAllTy(a::Type)...typeKind(\(c :: a ~# b)....)=????????
+typeKind (\ (x :: Nat). ...) = FunTy Nat ...
+typeKind (\ (a :: Type). ...) = ForAllTy (a::Type) ...
+typeKind (\ (c :: a ~# b). ...) = ????????
 ```
 
 
@@ -166,38 +195,46 @@ We believe that, in the future, `FunTy` and `ForAllTy` may merge into `PiTy`. Th
 ### Problem of defining heterogeneous equality based on homogeneous equality
 
 
+
 Previously morally we have
 
+
 ```
-class(a ~# b)=> a ~~ b
+class (a ~# b) => a ~~ b
 ```
 
 
 Under the new definition with coercion quantification, it becomes something like
 
+
 ```
-class(co :: k1 ~# k2,(a |> co)~# b)=> a ~~ b
+class (co :: k1 ~# k2, (a |> co) ~# b) => a ~~ b
 ```
 
 
 where the superclass `(a |> co) ~# b` refers to `co`, so we add `co :: k1 ~# k2` into the superclass, otherwise we get `co` out of scope.
 
 
+
 This definition is, however, wrong, as we cannot have existential variables in superclass.
+
+
 
 **Problem with existential variables in superclass.** Let's consider the example
 
+
 ```
-class(C a,D a b)=>E a where 
-  mkE =...
+class (C a, D a b) => E a where 
+  mkE = ...
 ```
 
 
 For every instance of any class, we should be able to extract the instance of its superclass from it. Thus we define
 
+
 ```
-selD::E a ->D a b
-selD(mkE x y)= y
+selD :: E a -> D a b
+selD (mkE x y) = y
 ```
 
 
@@ -207,10 +244,23 @@ Once we use `mkE`, the type variable `b` is instantiated to some type (e.g. `Int
 The above discussion rests on the idea that we treat `(~~)` uniformly with other classes. But perhaps (at least in the short term), we don't have to. Specifically, when we access the superclasses of a class constraint in the solver, we can treat `(~~)` specially.
 
 
+
 If we have a Given `(~~)`, we can unpack both a kind equality and a type equality from it. Because doing so requires a case-match instead of a `let`, we need a new form of `EvBind`:
 
+
 ```
-dataEvBind-- this first one is old=EvBind{ eb_lhs      ::EvVar, eb_rhs      ::EvTerm, eb_is_given ::Bool-- True <=> given}-- this one is new (always given)|HeteroEqEvBind{ eb_kind_eq ::EvVar, eb_type_eq ::EvVar, eb_rhs     ::EvTerm-- scrutinee of the case}
+data EvBind
+     -- this first one is old
+  = EvBind { eb_lhs      :: EvVar
+           , eb_rhs      :: EvTerm
+           , eb_is_given :: Bool  -- True <=> given
+    }
+
+     -- this one is new (always given)
+  | HeteroEqEvBind { eb_kind_eq :: EvVar
+                   , eb_type_eq :: EvVar
+                   , eb_rhs     :: EvTerm  -- scrutinee of the case
+                   }
 ```
 
 
@@ -237,58 +287,79 @@ The problem with this approach is that it fails in `dsAbsBinds`, which includes 
 The solution is actually to ignore the problem. I conjecture that this invariant will hold: In an `AbsBinds`, if the `abs_tvs` and the `abs_ev_vars` are both empty, then there will be no `HeteroEqEvBind`s in the `abs_ev_binds`. Why? Because `HeteroEqEvBind` happens only for *givens*, never wanteds. And, with `abs_ev_vars` empty, there are no givens. This invariant should be checked and documented, but it smells right to me.
 
 
+
 On a practical level, this means that `dsEvBinds` will have to, say, return both a `CoreExpr -> CoreExpr` for the common case and also a `[CoreBind]` for this special case in `dsAbsBinds`. The `[CoreBind]` would be bogus if there is a `HeteroEqEvBind`, but that won't happen in the `dsAbsBinds` special case because of the invariant. Perhaps a better design is available to avoid these strange return type; I'll leave it to Ningning to see if there is.
+
+
 
 **Alternative approaches, now abandoned.** Adam suggests
 
+
 ```
-class(a :: k1 ~~ b :: k2)whereMkHEq:: forall (c :: k1 ~# k2). a |> c ~# b => a ~~ b
+class (a :: k1 ~~ b :: k2) where 
+  MkHEq :: forall (c :: k1 ~# k2) . a |> c ~# b => a ~~ b
 ```
 
 
 However we have no way to extract `(k1 ~#k2)` from this definition.
 
 
+
 Stephanie suggests a CPS-style definition
 
+
 ```
-class(a :: k1 ~~ b :: k2)whereMkHEq::(forall (c :: k1 ~# k2)(a |> c ~# b)=> d)-> d
+class (a :: k1 ~~ b :: k2) where 
+  MkHEq :: (forall (c :: k1 ~# k2) (a |> c ~# b) => d) -> d
 ```
 
 
 This will change how `~~` behaves.
 
 
+
 Another suggestion from Stephanie:
 
+
 ```
-class(a :: k1 ~~ b :: k2)where  
-  kind ::(k1 ~~ k2) 
-  theProof :: forall (c :: k1 ~~ k2). a |> c ~# b => a ~~ b
+class (a :: k1 ~~ b :: k2) where  
+  kind :: (k1 ~~ k2) 
+  theProof :: forall (c :: k1 ~~ k2) . a |> c ~# b => a ~~ b
 ```
 
 
 with inlining. However, this means constraints need to be strict so we know the definition terminates, which is important for the consistency of the coercion language. In other words, we need to change the representation of constraint. Right now, we have`Constraint` be like `TYPE LiftedRep` (i.e. `Type`). This suggestion would make it be like `TYPE UnliftedRep`. However, strict constraints clash with deferred type errors, as deferred type errors make use of the laziness. Richard argues that deferred type errors are already in conflict with `TypeInType`. See [ this ticket](https://ghc.haskell.org/trac/ghc/ticket/11197/).
 
 
+
 Another option is to drop heterogeneous equality. It turns out we can still define hetero-datatype. In source, we write
 
+
 ```
-dataRep a whereRepBool::RepBool-- ordataRep:: forall k.(a :: k)->TypewhereRepBool:: forall k a.(k ~Type)(a ~Bool)=>Rep k a
+data Rep a where
+    RepBool :: Rep Bool
+
+-- or
+data Rep :: forall k. (a :: k) -> Type where
+    RepBool :: forall k a.  (k ~ Type) (a ~ Bool) => Rep k a
 ```
 
 
 If the compiler is smart enough, with coercion quantification it can translate the definition to
 
+
 ```
-dataRep:: forall k.(a :: k)->TypewhereRepBool:: forall k a.(c :: k ~Type)(a |> c ~Bool)=>Rep k a
+data Rep :: forall k. (a :: k) -> Type where
+    RepBool :: forall k a.  (c :: k ~ Type) (a |> c ~ Bool) => Rep k a
 ```
 
 
 However it raises a problem about telescope. For example, if we swap two constrains, will it still work?
 
+
 ```
-dataRep:: forall k.(a :: k)->TypewhereRepBool:: forall k a.(a ~Bool)(k ~Type)=>Rep k a 
+data Rep :: forall k. (a :: k) -> Type where
+    RepBool :: forall k a.  (a ~ Bool) (k ~ Type) => Rep k a 
                    -- two constrains are swapped!
 ```
 
@@ -301,10 +372,18 @@ As the constraint solver solves constraints, it generates *evidence*. For class 
 These holes appear in coercions during type inference. When we're done type checking, coercion holes are zonked to be replaced by the coercion in the hole. All holes will be filled by the end -- otherwise, the program has a type error that we will have reported to the user. (There is special allowance for deferred type errors, which I won't describe here.)
 
 
+
 None of the above changes. However, currently, coercion holes are implemented with this definition, in TyCoRep:
 
+
 ```
-dataCoercion=...|CoHoleCoercionHoledataCoercionHole=CoercionHole{ ch_co_var ::CoVar, ch_ref    ::IORef(MaybeCoercion)}
+data Coercion = ...
+              | CoHole CoercionHole
+
+data CoercionHole
+  = CoercionHole { ch_co_var :: CoVar
+                 , ch_ref    :: IORef (Maybe Coercion)
+                 }
 ```
 
 
@@ -318,8 +397,14 @@ By pairing the mutable cell with a `CoVar`, we get several benefits:
 
 In our new world with homogeneous equality, we have a problem, though: a `CoVar` must be homogeneous. Yet, the solver will sometimes have to work with heterogeneous equality (more on that later). We thus have to remove the `CoVar`. Thus, `CoercionHole` becomes
 
+
 ```
-dataCoercionHole=CoercionHole{ ch_types ::PairType, ch_role  ::Role, ch_name  ::Name-- for debugging only, ch_ref   ::IORef(MaybeCoercion)}
+data CoercionHole
+  = CoercionHole { ch_types :: Pair Type
+                 , ch_role  :: Role
+                 , ch_name  :: Name      -- for debugging only
+                 , ch_ref   :: IORef (Maybe Coercion)
+                 }
 ```
 
 
@@ -387,8 +472,24 @@ f = /\a \(d :: C a b). \(x::b).
 
 So at least some bindings for Given equalities must generate a real binding; we cannot use coercion holes for them. We thus need a dual of `TcEvDest`:
 
+
 ```
-dataCtEvidence=CtGiven-- Truly given, not depending on subgoals{ ctev_pred ::TcPredType, ctev_evar ::TcEvSource<------NEW!WasEvVar!, ctev_loc  ::CtLoc}|CtWanted-- Wanted goal{ ctev_pred ::TcPredType, ctev_dest ::TcEvDest, ctev_nosh ::ShadowInfo, ctev_loc  ::CtLoc}dataTcEvSource=EvVarSourceEvVar|CoercionSourceCoercion
+data CtEvidence
+  = CtGiven    -- Truly given, not depending on subgoals
+      { ctev_pred :: TcPredType
+      , ctev_evar :: TcEvSource   <------ NEW!  Was EvVar!
+      , ctev_loc  :: CtLoc }
+
+
+  | CtWanted   -- Wanted goal
+      { ctev_pred :: TcPredType
+      , ctev_dest :: TcEvDest
+      , ctev_nosh :: ShadowInfo
+      , ctev_loc  :: CtLoc }
+
+data TcEvSource
+  = EvVarSource EvVar
+  | CoercionSource Coercion
 ```
 
 
@@ -425,7 +526,7 @@ The following is taken from an email from Richard to Ningning about a path towar
 - `eqPrimTyCon` defines `~#`. That's what has to change.
 - `eqReprPrimTyCon` and `eqPhantPrimTyCon` should change, too, as it's best to keep these all in sync. These two tycons are equality tycons at different roles. The "Safe Zero-Cost Coercions" paper (JFP '16) documents roles carefully.
 - `coercionKind` will continue to return a `Pair Type`. It doesn't have to change.
-- `coercionType` currently returns the `(t1 ~# t2)``TyConApp`. If the coercion is heterogeneous, it will have trouble in the new version. But I think it should just panic if the coercion is heterogeneous. It's not used much.
+- `coercionType` currently returns the `(t1 ~# t2)` `TyConApp`. If the coercion is heterogeneous, it will have trouble in the new version. But I think it should just panic if the coercion is heterogeneous. It's not used much.
 
   - `eqCoercion` and `eqCoercionX` use `coercionType`. These might encounter hetero coercions. But just use `coercionKind` and compare types respectively instead of using `coercionType` here. I think that might be more efficient, anyway.
   - Any coercion stored in a `CoercionTy` is homogeneous. This is because `CoercionTy`s are arguments to promoted GADT constructors. Therefore, these coercions are used to instantiate a coercion variable. Once those are homo, then `CoercionTy`s will be, too.
@@ -444,10 +545,15 @@ The following is taken from an email from Richard to Ningning about a path towar
 ### Old conversation about using levels in the solver
 
 
+
 This is kept here only for posterity. Don't take anything you see here as established fact.
 
+
+>
 >
 > By tracking levels. The type checker manages a `TcLevel`, a natural number that starts at 0 and is incremented as the type checker enters scopes. Essentially, the `TcLevel` is the count of how many local scopes the type checker has entered. All type variables are assigned a `TcLevel` saying what scope they belong to. Note that there are no global type variables, so these levels start at 1. To prevent floating, all we have to do is to make sure that the maximum level of any variable in a type is not equal to (or greater than) the level of the implication. (All implications have levels, too, because implication constraints correspond to local scopes. The level in the implication is the level of the variables in the implication.) If the maximum level of any variable in a type is less than the level of the implication, floating is fine.
+>
+>
 
 
 We already have the maximum-level checker: `TcType.tcTypeLevel`. All we need to do is add levels to coercion holes (we can use the level from `getTcLevel :: TcM TcLevel`) in the `ch_level` field and then incorporate that into `tcTypeLevel`. Then, we modify the floating-out mechanism to do a level-check instead of a free-variable check. This is done in `TcSimplify.floatEqualities`.
@@ -533,6 +639,12 @@ Incidentally, this level-number business would dramatically simplify this code i
 
 Gah!  Looking at the bindings, transitive closure... horrible.  If every coercion variable had a level number indicating which level it is bound at, we could throw all this away.
 
+
+
 **End of answer from Simon**
 
+
+
 **RAE:** To summarize, you propose to ignore unification variables when doing the floating-out level-check. (Presumably, we won't ignore unification variables' kinds. **SLPJ: good point; I have edited**) I'm still bothered though: we're worried about having coercion holes prevent floating. Coercion holes are very much like unification variables. If we ignore unification variables (and, by consequence, coercion holes), then do we have [\#14584](https://gitlab.haskell.org//ghc/ghc/issues/14584) again? If we don't ignore coercion holes, then when will coercion holes ever get floated? I'm still very unconvinced here. **End RAE**
+
+

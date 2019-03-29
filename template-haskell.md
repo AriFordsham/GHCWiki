@@ -17,16 +17,95 @@ Stuff about Template Haskell
 Use Component = `Template Haskell` to ensure that a ticket ends up on these lists.  
 
 
+
 (Sadly this is different to other groupings for which we use the Keywords field.  We could switch to Keyword if we went back and added `TemplateHaskell` as a keyword to all the existing tickets.)
 
-<table><tr><th>Ticket (Ticket query: status: new, status: patch, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, order: id)</th>
-<th>Milestone (Ticket query: status: new, status: patch, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, order: milestone)</th>
-<th>Summary (Ticket query: status: new, status: patch, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, order: summary)</th>
-<th>Priority (Ticket query: status: new, status: patch, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, desc: 1, order: priority)</th>
-<th>Owner (Ticket query: status: new, status: patch, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, order: owner)</th></tr>
-<tr><th>[\#10946](https://gitlab.haskell.org//ghc/ghc/issues/10946)</th>
-<th>[8.10.1](/trac/ghc/milestone/8.10.1)</th>
-<th>[Typed hole inside typed Template Haskell bracket causes panic](https://gitlab.haskell.org//ghc/ghc/issues/10946)</th>
+
+
+
+  
+  
+  
+  
+  
+    
+  
+  
+
+<table><tr><td>
+      </td>
+<th>
+        
+        Ticket (Ticket query: status: new, status: patch, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, order: id)
+      </th>
+<th>
+        
+        Milestone (Ticket query: status: new, status: patch, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, order: milestone)
+      </th>
+<th>
+        
+        Summary (Ticket query: status: new, status: patch, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, order: summary)
+      </th>
+<th>
+        
+        Priority (Ticket query: status: new, status: patch, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, desc: 1, order: priority)
+      </th>
+<th>
+        
+        Owner (Ticket query: status: new, status: patch, component: Template+Haskell, max: 0, col: id, col: milestone, col: summary, col: priority, col: owner, order: owner)
+      </th>
+<td>
+    </td>
+<td></td>
+<td></td>
+<td></td>
+<td></td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10946">#10946</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      <a href="/trac/ghc/milestone/8.10.1">8.10.1</a>
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10946">Typed hole inside typed Template Haskell bracket causes panic</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -38,10 +117,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       high
                     </th>
-<th></th></tr>
-<tr><th>[\#1444](https://gitlab.haskell.org//ghc/ghc/issues/1444)</th>
-<th>[⊥](/trac/ghc/milestone/%E2%8A%A5)</th>
-<th>[Template Haskell: add proper support for qualified names in non-splicing applications](https://gitlab.haskell.org//ghc/ghc/issues/1444)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -51,13 +132,4099 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1444">#1444</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      <a href="/trac/ghc/milestone/%E2%8A%A5">⊥</a>
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/1444">Template Haskell: add proper support for qualified names in non-splicing applications</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1475">#1475</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      <a href="/trac/ghc/milestone/%E2%8A%A5">⊥</a>
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/1475">Adding imports and exports with Template Haskell</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1800">#1800</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      <a href="/trac/ghc/milestone/%E2%8A%A5">⊥</a>
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/1800">Template Haskell support for running functions defined in the same  module</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1831">#1831</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      <a href="/trac/ghc/milestone/%E2%8A%A5">⊥</a>
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/1831">reify never provides the declaration of variables</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2041">#2041</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      <a href="/trac/ghc/milestone/%E2%8A%A5">⊥</a>
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/2041">Allow splicing in concrete syntax</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4372">#4372</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/4372">Accept expressions in left-hand side of quasiquotations</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5416">#5416</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      <a href="/trac/ghc/milestone/%E2%8A%A5">⊥</a>
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/5416">Local modules and Template Haskell declaration splices</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5463">#5463</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/5463">SPECIALISE pragmas generated from Template Haskell are ignored</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5467">#5467</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/5467">Template Haskell: support for Haddock comments</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/6089">#6089</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/6089">Allow declaration splices inside declaration brackets</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      simonpj
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7066">#7066</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/7066">isInstance does not work for compound types</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      simonpj
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7141">#7141</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/7141">Inlining the single method of a class can shadow rules</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      simonpj
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7277">#7277</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/7277">Recompilation check fails for TH unless functions are inlined</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/7808">#7808</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/7808">data families and TH names do not mix well (e.g. cannot use TH deriving)</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8398">#8398</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8398">reify module list in TH</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8426">#8426</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8426">one-shot compilation + TH doesn&apos;t see instances that is seen in batch mode</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8489">#8489</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8489">clean up dependency and usages handling in interface files</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      mgsloan
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8510">#8510</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8510">Clear up what extensions are needed at a Template Haskell splice site</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/8679">#8679</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/8679">Extend FunD data constructor with information about type signature</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9693">#9693</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9693">Reloading GHCi with Template Haskell names can panic GHC</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/9699">#9699</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/9699">TH function to list names in scope</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10271">#10271</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10271">Typed Template Haskell splice difficulty when resolving overloading</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10330">#10330</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10330">Better Template Haskell error message locations</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10385">#10385</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10385">Annotation restriction is not respected while generating Annotation via TH</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      alanz
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10572">#10572</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10572">Type signatures are not implicitly quantified over TH type variables</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10599">#10599</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      <a href="/trac/ghc/milestone/8.10.1">8.10.1</a>
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10599">Template Haskell doesn&apos;t allow `newName &quot;type&quot;`</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      goldfire
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10701">#10701</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10701">-fth-dec-file uses qualified names from hidden modules</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10702">#10702</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10702">-fth-dec-file uses qualified names in binding positions</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10707">#10707</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10707">-fth-dec-file outputs invalid case clauses</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bollmann
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10842">#10842</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10842">&quot;Reactive&quot; Template Haskell</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10853">#10853</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      <a href="/trac/ghc/milestone/8.10.1">8.10.1</a>
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10853">Refine addTopDecls</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11078">#11078</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11078">Access to module renaming with reifyModule, in TemplateHaskell</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11081">#11081</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      <a href="/trac/ghc/milestone/%E2%8A%A5">⊥</a>
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11081">Implement Introspective Template Haskell</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11251">#11251</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11251">isInstance does not work on Typeable with base-4.8 anymore</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      goldfire
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11584">#11584</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11584">[Template Haskell] Language.Haskell.TH.Syntax.hs contains misleading comment</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      bollmann
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11593">#11593</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11593">Template Haskell: Add a way to get names that are neither capturable nor capturing.</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11812">#11812</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11812">Template Haskell can induce non-unique Uniques</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12073">#12073</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12073">Missing instance of MonadFix for Q</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12249">#12249</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12249">Template Haskell top level scoping error</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12410">#12410</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12410">Somehow detect splicing in ghci</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12451">#12451</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12451">TemplateHaskell and Data.Typeable - tcIfaceGlobal (local): not found</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12452">#12452</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12452">TemplateHaskell - variables in top level splices and loading modules.</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12561">#12561</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12561">Scope extrusion in Template Haskell</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12778">#12778</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12778">Expose variables bound in quotations to reify</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12818">#12818</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12818">Allow reify to find top-level bindings in later declaration groups</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13054">#13054</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13054">Generating unique names with template haskell</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13269">#13269</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13269">Changes in foreign code used in TH do not trigger recompilation</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13587">#13587</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13587">addTopDecls fails with typed Template Haskell</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13728">#13728</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13728">Clarify the difference between NameL and NameU in Template Haskell</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14030">#14030</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      <a href="/trac/ghc/milestone/8.10.1">8.10.1</a>
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14030">Implement the &quot;Derive Lift instances for data types in template-haskell&quot; proposal</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      RyanGlScott
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14032">#14032</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14032">Can&apos;t splice TH quote with infix declaration for name in two different namespaces</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      RyanGlScott
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14212">#14212</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14212">Give better error message with non-supported Backpack/TH use</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
                       normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14318">#14318</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#1475](https://gitlab.haskell.org//ghc/ghc/issues/1475)</th>
-<th>[⊥](/trac/ghc/milestone/%E2%8A%A5)</th>
-<th>[Adding imports and exports with Template Haskell](https://gitlab.haskell.org//ghc/ghc/issues/1475)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14318">TH shadowing bind statement triggers -Wunused-matches</a>
                       
                       
                       
@@ -66,12 +4233,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#1800](https://gitlab.haskell.org//ghc/ghc/issues/1800)</th>
-<th>[⊥](/trac/ghc/milestone/%E2%8A%A5)</th>
-<th>[Template Haskell support for running functions defined in the same  module](https://gitlab.haskell.org//ghc/ghc/issues/1800)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -83,10 +4251,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#1831](https://gitlab.haskell.org//ghc/ghc/issues/1831)</th>
-<th>[⊥](/trac/ghc/milestone/%E2%8A%A5)</th>
-<th>[reify never provides the declaration of variables](https://gitlab.haskell.org//ghc/ghc/issues/1831)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -96,12 +4266,24 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#2041](https://gitlab.haskell.org//ghc/ghc/issues/2041)</th>
-<th>[⊥](/trac/ghc/milestone/%E2%8A%A5)</th>
-<th>[Allow splicing in concrete syntax](https://gitlab.haskell.org//ghc/ghc/issues/2041)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14474">#14474</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -111,13 +4293,16 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#4372](https://gitlab.haskell.org//ghc/ghc/issues/4372)</th>
-<th></th>
-<th>[Accept expressions in left-hand side of quasiquotations](https://gitlab.haskell.org//ghc/ghc/issues/4372)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14474">reify RHS of &quot;value&quot; variable</a>
                       
                       
                       
@@ -126,12 +4311,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#5416](https://gitlab.haskell.org//ghc/ghc/issues/5416)</th>
-<th>[⊥](/trac/ghc/milestone/%E2%8A%A5)</th>
-<th>[Local modules and Template Haskell declaration splices](https://gitlab.haskell.org//ghc/ghc/issues/5416)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -143,10 +4329,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#5463](https://gitlab.haskell.org//ghc/ghc/issues/5463)</th>
-<th></th>
-<th>[SPECIALISE pragmas generated from Template Haskell are ignored](https://gitlab.haskell.org//ghc/ghc/issues/5463)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -156,12 +4344,24 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#5467](https://gitlab.haskell.org//ghc/ghc/issues/5467)</th>
-<th></th>
-<th>[Template Haskell: support for Haddock comments](https://gitlab.haskell.org//ghc/ghc/issues/5467)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14571">#14571</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -171,13 +4371,16 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#6089](https://gitlab.haskell.org//ghc/ghc/issues/6089)</th>
-<th></th>
-<th>[Allow declaration splices inside declaration brackets](https://gitlab.haskell.org//ghc/ghc/issues/6089)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14571">RFE: Make template-haskell cabal package require a specific version of GHC</a>
                       
                       
                       
@@ -186,12 +4389,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th>simonpj</th></tr>
-<tr><th>[\#7066](https://gitlab.haskell.org//ghc/ghc/issues/7066)</th>
-<th></th>
-<th>[isInstance does not work for compound types](https://gitlab.haskell.org//ghc/ghc/issues/7066)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -203,10 +4407,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th>simonpj</th></tr>
-<tr><th>[\#7141](https://gitlab.haskell.org//ghc/ghc/issues/7141)</th>
-<th></th>
-<th>[Inlining the single method of a class can shadow rules](https://gitlab.haskell.org//ghc/ghc/issues/7141)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -216,12 +4422,24 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th>simonpj</th></tr>
-<tr><th>[\#7277](https://gitlab.haskell.org//ghc/ghc/issues/7277)</th>
-<th></th>
-<th>[Recompilation check fails for TH unless functions are inlined](https://gitlab.haskell.org//ghc/ghc/issues/7277)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14623">#14623</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -231,13 +4449,16 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#7808](https://gitlab.haskell.org//ghc/ghc/issues/7808)</th>
-<th></th>
-<th>[data families and TH names do not mix well (e.g. cannot use TH deriving)](https://gitlab.haskell.org//ghc/ghc/issues/7808)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14623">Allow qAddDependentFile on directories</a>
                       
                       
                       
@@ -246,12 +4467,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#8398](https://gitlab.haskell.org//ghc/ghc/issues/8398)</th>
-<th></th>
-<th>[reify module list in TH](https://gitlab.haskell.org//ghc/ghc/issues/8398)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -263,10 +4485,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#8426](https://gitlab.haskell.org//ghc/ghc/issues/8426)</th>
-<th></th>
-<th>[one-shot compilation + TH doesn't see instances that is seen in batch mode](https://gitlab.haskell.org//ghc/ghc/issues/8426)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -276,28 +4500,43 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#8489](https://gitlab.haskell.org//ghc/ghc/issues/8489)</th>
-<th></th>
-<th>[clean up dependency and usages handling in interface files](https://gitlab.haskell.org//ghc/ghc/issues/8489)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/14838">#14838</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
                       
                       
                       
+                      <a href="/trac/ghc/milestone/8.10.1">8.10.1</a>
                       
                       
                       
-                      normal
                     </th>
-<th>mgsloan</th></tr>
-<tr><th>[\#8510](https://gitlab.haskell.org//ghc/ghc/issues/8510)</th>
-<th></th>
-<th>[Clear up what extensions are needed at a Template Haskell splice site](https://gitlab.haskell.org//ghc/ghc/issues/8510)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/14838">missing &quot;incomplete-patterns&quot; warning for TH-generated functions</a>
                       
                       
                       
@@ -306,12 +4545,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#8679](https://gitlab.haskell.org//ghc/ghc/issues/8679)</th>
-<th></th>
-<th>[Extend FunD data constructor with information about type signature](https://gitlab.haskell.org//ghc/ghc/issues/8679)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -323,10 +4563,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#9693](https://gitlab.haskell.org//ghc/ghc/issues/9693)</th>
-<th></th>
-<th>[Reloading GHCi with Template Haskell names can panic GHC](https://gitlab.haskell.org//ghc/ghc/issues/9693)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -336,28 +4578,43 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#9699](https://gitlab.haskell.org//ghc/ghc/issues/9699)</th>
-<th></th>
-<th>[TH function to list names in scope](https://gitlab.haskell.org//ghc/ghc/issues/9699)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15167">#15167</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
                       
                       
                       
+                      <a href="/trac/ghc/milestone/8.10.1">8.10.1</a>
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#10271](https://gitlab.haskell.org//ghc/ghc/issues/10271)</th>
-<th></th>
-<th>[Typed Template Haskell splice difficulty when resolving overloading](https://gitlab.haskell.org//ghc/ghc/issues/10271)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15167">DerivClause list is not populated for (TyConI (DataD ...))</a>
                       
                       
                       
@@ -366,12 +4623,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#10330](https://gitlab.haskell.org//ghc/ghc/issues/10330)</th>
-<th></th>
-<th>[Better Template Haskell error message locations](https://gitlab.haskell.org//ghc/ghc/issues/10330)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -383,10 +4641,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#10385](https://gitlab.haskell.org//ghc/ghc/issues/10385)</th>
-<th></th>
-<th>[Annotation restriction is not respected while generating Annotation via TH](https://gitlab.haskell.org//ghc/ghc/issues/10385)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -396,28 +4656,43 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th>alanz</th></tr>
-<tr><th>[\#10572](https://gitlab.haskell.org//ghc/ghc/issues/10572)</th>
-<th></th>
-<th>[Type signatures are not implicitly quantified over TH type variables](https://gitlab.haskell.org//ghc/ghc/issues/10572)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15270">#15270</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
                       
                       
                       
+                      <a href="/trac/ghc/milestone/8.10.1">8.10.1</a>
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#10599](https://gitlab.haskell.org//ghc/ghc/issues/10599)</th>
-<th>[8.10.1](/trac/ghc/milestone/8.10.1)</th>
-<th>[Template Haskell doesn't allow \`newName "type"\`](https://gitlab.haskell.org//ghc/ghc/issues/10599)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15270">TH doesn&apos;t verify name types during conversion</a>
                       
                       
                       
@@ -426,12 +4701,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th>goldfire</th></tr>
-<tr><th>[\#10701](https://gitlab.haskell.org//ghc/ghc/issues/10701)</th>
-<th></th>
-<th>[-fth-dec-file uses qualified names from hidden modules](https://gitlab.haskell.org//ghc/ghc/issues/10701)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -443,10 +4719,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#10702](https://gitlab.haskell.org//ghc/ghc/issues/10702)</th>
-<th></th>
-<th>[-fth-dec-file uses qualified names in binding positions](https://gitlab.haskell.org//ghc/ghc/issues/10702)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -456,28 +4734,43 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#10707](https://gitlab.haskell.org//ghc/ghc/issues/10707)</th>
-<th></th>
-<th>[-fth-dec-file outputs invalid case clauses](https://gitlab.haskell.org//ghc/ghc/issues/10707)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15356">#15356</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
                       
                       
                       
+                      <a href="/trac/ghc/milestone/8.10.1">8.10.1</a>
                       
                       
                       
-                      normal
                     </th>
-<th>bollmann</th></tr>
-<tr><th>[\#10842](https://gitlab.haskell.org//ghc/ghc/issues/10842)</th>
-<th></th>
-<th>["Reactive" Template Haskell](https://gitlab.haskell.org//ghc/ghc/issues/10842)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15356">Template Haskell should turn off RebindableSyntax in quotes</a>
                       
                       
                       
@@ -486,12 +4779,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#10853](https://gitlab.haskell.org//ghc/ghc/issues/10853)</th>
-<th>[8.10.1](/trac/ghc/milestone/8.10.1)</th>
-<th>[Refine addTopDecls](https://gitlab.haskell.org//ghc/ghc/issues/10853)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -503,10 +4797,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#11078](https://gitlab.haskell.org//ghc/ghc/issues/11078)</th>
-<th></th>
-<th>[Access to module renaming with reifyModule, in TemplateHaskell](https://gitlab.haskell.org//ghc/ghc/issues/11078)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -516,28 +4812,43 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#11081](https://gitlab.haskell.org//ghc/ghc/issues/11081)</th>
-<th>[⊥](/trac/ghc/milestone/%E2%8A%A5)</th>
-<th>[Implement Introspective Template Haskell](https://gitlab.haskell.org//ghc/ghc/issues/11081)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15433">#15433</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
                       
                       
                       
+                      <a href="/trac/ghc/milestone/8.10.1">8.10.1</a>
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#11251](https://gitlab.haskell.org//ghc/ghc/issues/11251)</th>
-<th></th>
-<th>[isInstance does not work on Typeable with base-4.8 anymore](https://gitlab.haskell.org//ghc/ghc/issues/11251)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15433">Internal error with PartialTypeSignatures and TH</a>
                       
                       
                       
@@ -546,12 +4857,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th>goldfire</th></tr>
-<tr><th>[\#11584](https://gitlab.haskell.org//ghc/ghc/issues/11584)</th>
-<th></th>
-<th>[\[Template Haskell\] Language.Haskell.TH.Syntax.hs contains misleading comment](https://gitlab.haskell.org//ghc/ghc/issues/11584)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -563,10 +4875,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th>bollmann</th></tr>
-<tr><th>[\#11593](https://gitlab.haskell.org//ghc/ghc/issues/11593)</th>
-<th></th>
-<th>[Template Haskell: Add a way to get names that are neither capturable nor capturing.](https://gitlab.haskell.org//ghc/ghc/issues/11593)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -576,28 +4890,43 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#11812](https://gitlab.haskell.org//ghc/ghc/issues/11812)</th>
-<th></th>
-<th>[Template Haskell can induce non-unique Uniques](https://gitlab.haskell.org//ghc/ghc/issues/11812)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15437">#15437</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
                       
                       
                       
+                      <a href="/trac/ghc/milestone/8.10.1">8.10.1</a>
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#12073](https://gitlab.haskell.org//ghc/ghc/issues/12073)</th>
-<th></th>
-<th>[Missing instance of MonadFix for Q](https://gitlab.haskell.org//ghc/ghc/issues/12073)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15437">Internal error when applying a scoped type variable inside a typed expression quotation</a>
                       
                       
                       
@@ -606,12 +4935,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#12249](https://gitlab.haskell.org//ghc/ghc/issues/12249)</th>
-<th></th>
-<th>[Template Haskell top level scoping error](https://gitlab.haskell.org//ghc/ghc/issues/12249)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -623,10 +4953,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#12410](https://gitlab.haskell.org//ghc/ghc/issues/12410)</th>
-<th></th>
-<th>[Somehow detect splicing in ghci](https://gitlab.haskell.org//ghc/ghc/issues/12410)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -636,28 +4968,43 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#12451](https://gitlab.haskell.org//ghc/ghc/issues/12451)</th>
-<th></th>
-<th>[TemplateHaskell and Data.Typeable - tcIfaceGlobal (local): not found](https://gitlab.haskell.org//ghc/ghc/issues/12451)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15464">#15464</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
                       
                       
                       
+                      <a href="/trac/ghc/milestone/8.10.1">8.10.1</a>
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#12452](https://gitlab.haskell.org//ghc/ghc/issues/12452)</th>
-<th></th>
-<th>[TemplateHaskell - variables in top level splices and loading modules.](https://gitlab.haskell.org//ghc/ghc/issues/12452)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15464">Template Haskell creates System names when it shouldn&apos;t</a>
                       
                       
                       
@@ -666,12 +5013,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#12561](https://gitlab.haskell.org//ghc/ghc/issues/12561)</th>
-<th></th>
-<th>[Scope extrusion in Template Haskell](https://gitlab.haskell.org//ghc/ghc/issues/12561)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -683,10 +5031,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#12778](https://gitlab.haskell.org//ghc/ghc/issues/12778)</th>
-<th></th>
-<th>[Expose variables bound in quotations to reify](https://gitlab.haskell.org//ghc/ghc/issues/12778)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -696,28 +5046,43 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#12818](https://gitlab.haskell.org//ghc/ghc/issues/12818)</th>
-<th></th>
-<th>[Allow reify to find top-level bindings in later declaration groups](https://gitlab.haskell.org//ghc/ghc/issues/12818)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15533">#15533</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
                       
                       
                       
+                      <a href="/trac/ghc/milestone/8.6.1">8.6.1</a>
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#13054](https://gitlab.haskell.org//ghc/ghc/issues/13054)</th>
-<th></th>
-<th>[Generating unique names with template haskell](https://gitlab.haskell.org//ghc/ghc/issues/13054)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15533">Access the number of bits in the target machine&apos;s Int type at compile time</a>
                       
                       
                       
@@ -726,12 +5091,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#13269](https://gitlab.haskell.org//ghc/ghc/issues/13269)</th>
-<th></th>
-<th>[Changes in foreign code used in TH do not trigger recompilation](https://gitlab.haskell.org//ghc/ghc/issues/13269)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -743,10 +5109,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#13587](https://gitlab.haskell.org//ghc/ghc/issues/13587)</th>
-<th></th>
-<th>[addTopDecls fails with typed Template Haskell](https://gitlab.haskell.org//ghc/ghc/issues/13587)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -756,12 +5124,24 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#13728](https://gitlab.haskell.org//ghc/ghc/issues/13728)</th>
-<th></th>
-<th>[Clarify the difference between NameL and NameU in Template Haskell](https://gitlab.haskell.org//ghc/ghc/issues/13728)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15760">#15760</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -771,13 +5151,16 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#14030](https://gitlab.haskell.org//ghc/ghc/issues/14030)</th>
-<th>[8.10.1](/trac/ghc/milestone/8.10.1)</th>
-<th>[Implement the "Derive Lift instances for data types in template-haskell" proposal](https://gitlab.haskell.org//ghc/ghc/issues/14030)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15760">Preserve parens in TH</a>
                       
                       
                       
@@ -786,12 +5169,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th>RyanGlScott</th></tr>
-<tr><th>[\#14032](https://gitlab.haskell.org//ghc/ghc/issues/14032)</th>
-<th></th>
-<th>[Can't splice TH quote with infix declaration for name in two different namespaces](https://gitlab.haskell.org//ghc/ghc/issues/14032)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -803,10 +5187,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th>RyanGlScott</th></tr>
-<tr><th>[\#14212](https://gitlab.haskell.org//ghc/ghc/issues/14212)</th>
-<th></th>
-<th>[Give better error message with non-supported Backpack/TH use](https://gitlab.haskell.org//ghc/ghc/issues/14212)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -816,12 +5202,24 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#14318](https://gitlab.haskell.org//ghc/ghc/issues/14318)</th>
-<th></th>
-<th>[TH shadowing bind statement triggers -Wunused-matches](https://gitlab.haskell.org//ghc/ghc/issues/14318)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15824">#15824</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -831,13 +5229,16 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#14474](https://gitlab.haskell.org//ghc/ghc/issues/14474)</th>
-<th></th>
-<th>[reify RHS of "value" variable](https://gitlab.haskell.org//ghc/ghc/issues/14474)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15824">Prefix/infix distinction in TemplateHaskell types is lost</a>
                       
                       
                       
@@ -846,12 +5247,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#14571](https://gitlab.haskell.org//ghc/ghc/issues/14571)</th>
-<th></th>
-<th>[RFE: Make template-haskell cabal package require a specific version of GHC](https://gitlab.haskell.org//ghc/ghc/issues/14571)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -863,10 +5265,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#14623](https://gitlab.haskell.org//ghc/ghc/issues/14623)</th>
-<th></th>
-<th>[Allow qAddDependentFile on directories](https://gitlab.haskell.org//ghc/ghc/issues/14623)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -876,12 +5280,24 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#14838](https://gitlab.haskell.org//ghc/ghc/issues/14838)</th>
-<th>[8.10.1](/trac/ghc/milestone/8.10.1)</th>
-<th>[missing "incomplete-patterns" warning for TH-generated functions](https://gitlab.haskell.org//ghc/ghc/issues/14838)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15833">#15833</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -891,13 +5307,16 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#15167](https://gitlab.haskell.org//ghc/ghc/issues/15167)</th>
-<th>[8.10.1](/trac/ghc/milestone/8.10.1)</th>
-<th>[DerivClause list is not populated for (TyConI (DataD ...))](https://gitlab.haskell.org//ghc/ghc/issues/15167)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15833">Typed template haskell quote fails to typecheck when spliced due to an ambiguous type variable</a>
                       
                       
                       
@@ -906,12 +5325,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#15270](https://gitlab.haskell.org//ghc/ghc/issues/15270)</th>
-<th>[8.10.1](/trac/ghc/milestone/8.10.1)</th>
-<th>[TH doesn't verify name types during conversion](https://gitlab.haskell.org//ghc/ghc/issues/15270)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -923,10 +5343,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#15356](https://gitlab.haskell.org//ghc/ghc/issues/15356)</th>
-<th>[8.10.1](/trac/ghc/milestone/8.10.1)</th>
-<th>[Template Haskell should turn off RebindableSyntax in quotes](https://gitlab.haskell.org//ghc/ghc/issues/15356)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -936,12 +5358,24 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#15433](https://gitlab.haskell.org//ghc/ghc/issues/15433)</th>
-<th>[8.10.1](/trac/ghc/milestone/8.10.1)</th>
-<th>[Internal error with PartialTypeSignatures and TH](https://gitlab.haskell.org//ghc/ghc/issues/15433)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15863">#15863</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -951,13 +5385,16 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#15437](https://gitlab.haskell.org//ghc/ghc/issues/15437)</th>
-<th>[8.10.1](/trac/ghc/milestone/8.10.1)</th>
-<th>[Internal error when applying a scoped type variable inside a typed expression quotation](https://gitlab.haskell.org//ghc/ghc/issues/15437)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15863">Splcing a type class method selects the wrong instance</a>
                       
                       
                       
@@ -966,12 +5403,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#15464](https://gitlab.haskell.org//ghc/ghc/issues/15464)</th>
-<th>[8.10.1](/trac/ghc/milestone/8.10.1)</th>
-<th>[Template Haskell creates System names when it shouldn't](https://gitlab.haskell.org//ghc/ghc/issues/15464)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -983,10 +5421,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#15533](https://gitlab.haskell.org//ghc/ghc/issues/15533)</th>
-<th>[8.6.1](/trac/ghc/milestone/8.6.1)</th>
-<th>[Access the number of bits in the target machine's Int type at compile time](https://gitlab.haskell.org//ghc/ghc/issues/15533)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -996,12 +5436,24 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#15760](https://gitlab.haskell.org//ghc/ghc/issues/15760)</th>
-<th></th>
-<th>[Preserve parens in TH](https://gitlab.haskell.org//ghc/ghc/issues/15760)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/15865">#15865</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1011,13 +5463,16 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#15824](https://gitlab.haskell.org//ghc/ghc/issues/15824)</th>
-<th></th>
-<th>[Prefix/infix distinction in TemplateHaskell types is lost](https://gitlab.haskell.org//ghc/ghc/issues/15824)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/15865">Typed template haskell and implicit parameters lead to incorrect results</a>
                       
                       
                       
@@ -1026,12 +5481,13 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
                     </th>
-<th></th></tr>
-<tr><th>[\#15833](https://gitlab.haskell.org//ghc/ghc/issues/15833)</th>
-<th></th>
-<th>[Typed template haskell quote fails to typecheck when spliced due to an ambiguous type variable](https://gitlab.haskell.org//ghc/ghc/issues/15833)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1043,10 +5499,12 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       normal
                     </th>
-<th></th></tr>
-<tr><th>[\#15863](https://gitlab.haskell.org//ghc/ghc/issues/15863)</th>
-<th></th>
-<th>[Splcing a type class method selects the wrong instance](https://gitlab.haskell.org//ghc/ghc/issues/15863)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1056,12 +5514,24 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#15865](https://gitlab.haskell.org//ghc/ghc/issues/15865)</th>
-<th></th>
-<th>[Typed template haskell and implicit parameters lead to incorrect results](https://gitlab.haskell.org//ghc/ghc/issues/15865)</th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16176">#16176</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1071,12 +5541,31 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       
-                      normal
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16176">Let-insertion for template haskell</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#16176](https://gitlab.haskell.org//ghc/ghc/issues/16176)</th>
-<th></th>
-<th>[Let-insertion for template haskell](https://gitlab.haskell.org//ghc/ghc/issues/16176)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1087,11 +5576,74 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16177">#16177</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16177">Rename Q (TExp a) to Code a</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#16177](https://gitlab.haskell.org//ghc/ghc/issues/16177)</th>
-<th></th>
-<th>[Rename Q (TExp a) to Code a](https://gitlab.haskell.org//ghc/ghc/issues/16177)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1102,11 +5654,74 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16178">#16178</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16178">Brackets and splices should be overloaded like the static keyword</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#16178](https://gitlab.haskell.org//ghc/ghc/issues/16178)</th>
-<th></th>
-<th>[Brackets and splices should be overloaded like the static keyword](https://gitlab.haskell.org//ghc/ghc/issues/16178)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1117,11 +5732,74 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16300">#16300</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16300">Make TH always reify data types with explicit return kinds</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#16300](https://gitlab.haskell.org//ghc/ghc/issues/16300)</th>
-<th></th>
-<th>[Make TH always reify data types with explicit return kinds](https://gitlab.haskell.org//ghc/ghc/issues/16300)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1132,11 +5810,74 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/16396">#16396</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/16396">TH doesn&apos;t preserve `forall`</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#16396](https://gitlab.haskell.org//ghc/ghc/issues/16396)</th>
-<th></th>
-<th>[TH doesn't preserve \`forall\`](https://gitlab.haskell.org//ghc/ghc/issues/16396)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1147,11 +5888,74 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       
                       normal
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/4222">#4222</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/4222">Template Haskell lets you reify supposedly-abstract data types</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
                     </th>
-<th></th></tr>
-<tr><th>[\#4222](https://gitlab.haskell.org//ghc/ghc/issues/4222)</th>
-<th></th>
-<th>[Template Haskell lets you reify supposedly-abstract data types](https://gitlab.haskell.org//ghc/ghc/issues/4222)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1163,10 +5967,73 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       low
                     </th>
-<th></th></tr>
-<tr><th>[\#5016](https://gitlab.haskell.org//ghc/ghc/issues/5016)</th>
-<th></th>
-<th>[Make Template Haskell: -ddump-splices generate executable code](https://gitlab.haskell.org//ghc/ghc/issues/5016)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5016">#5016</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/5016">Make Template Haskell: -ddump-splices generate executable code</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1178,10 +6045,73 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       low
                     </th>
-<th></th></tr>
-<tr><th>[\#5959](https://gitlab.haskell.org//ghc/ghc/issues/5959)</th>
-<th></th>
-<th>[Top level splice in Template Haskell has over-ambitious lexical scope?](https://gitlab.haskell.org//ghc/ghc/issues/5959)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/5959">#5959</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/5959">Top level splice in Template Haskell has over-ambitious lexical scope?</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1193,10 +6123,73 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       low
                     </th>
-<th></th></tr>
-<tr><th>[\#10331](https://gitlab.haskell.org//ghc/ghc/issues/10331)</th>
-<th></th>
-<th>[Accept HsSyn in splices and generate it in quotes (ghc-api)](https://gitlab.haskell.org//ghc/ghc/issues/10331)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10331">#10331</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10331">Accept HsSyn in splices and generate it in quotes (ghc-api)</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1208,10 +6201,73 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       low
                     </th>
-<th></th></tr>
-<tr><th>[\#10391](https://gitlab.haskell.org//ghc/ghc/issues/10391)</th>
-<th></th>
-<th>[Ability to get export list of TH reified module](https://gitlab.haskell.org//ghc/ghc/issues/10391)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/10391">#10391</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/10391">Ability to get export list of TH reified module</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1223,10 +6279,73 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       low
                     </th>
-<th>mgsloan</th></tr>
-<tr><th>[\#11377](https://gitlab.haskell.org//ghc/ghc/issues/11377)</th>
-<th></th>
-<th>[Template Haskell only imports](https://gitlab.haskell.org//ghc/ghc/issues/11377)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      mgsloan
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11377">#11377</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11377">Template Haskell only imports</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1238,10 +6357,73 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       low
                     </th>
-<th></th></tr>
-<tr><th>[\#12034](https://gitlab.haskell.org//ghc/ghc/issues/12034)</th>
-<th></th>
-<th>[Template Haskell + hs-boot = Not in scope during type checking, but it passed the renamer](https://gitlab.haskell.org//ghc/ghc/issues/12034)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/12034">#12034</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/12034">Template Haskell + hs-boot = Not in scope during type checking, but it passed the renamer</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1253,10 +6435,73 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       low
                     </th>
-<th></th></tr>
-<tr><th>[\#13551](https://gitlab.haskell.org//ghc/ghc/issues/13551)</th>
-<th></th>
-<th>[Support DEPRECATED and WARNING pragmas on Template Haskell](https://gitlab.haskell.org//ghc/ghc/issues/13551)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/13551">#13551</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/13551">Support DEPRECATED and WARNING pragmas on Template Haskell</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1268,10 +6513,73 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       low
                     </th>
-<th></th></tr>
-<tr><th>[\#1012](https://gitlab.haskell.org//ghc/ghc/issues/1012)</th>
-<th></th>
-<th>[ghc panic with mutually recursive modules and template haskell](https://gitlab.haskell.org//ghc/ghc/issues/1012)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/1012">#1012</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/1012">ghc panic with mutually recursive modules and template haskell</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1283,10 +6591,73 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       lowest
                     </th>
-<th></th></tr>
-<tr><th>[\#2340](https://gitlab.haskell.org//ghc/ghc/issues/2340)</th>
-<th></th>
-<th>[Improve Template Haskell error recovery](https://gitlab.haskell.org//ghc/ghc/issues/2340)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/2340">#2340</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/2340">Improve Template Haskell error recovery</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1298,10 +6669,73 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       lowest
                     </th>
-<th></th></tr>
-<tr><th>[\#3355](https://gitlab.haskell.org//ghc/ghc/issues/3355)</th>
-<th></th>
-<th>[Refactor Template Haskell syntax conversions](https://gitlab.haskell.org//ghc/ghc/issues/3355)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/3355">#3355</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/3355">Refactor Template Haskell syntax conversions</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1313,10 +6747,73 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       lowest
                     </th>
-<th></th></tr>
-<tr><th>[\#11378](https://gitlab.haskell.org//ghc/ghc/issues/11378)</th>
-<th>[⊥](/trac/ghc/milestone/%E2%8A%A5)</th>
-<th>[Use the compiler that built ghc for dynamic code loading, for cross-compiling](https://gitlab.haskell.org//ghc/ghc/issues/11378)</th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr>
+<tr><td>
+                
+                  
+                    </td>
+<th><a href="https://gitlab.haskell.org//ghc/ghc/issues/11378">#11378</a></th>
+<td>
+                    
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      <a href="/trac/ghc/milestone/%E2%8A%A5">⊥</a>
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      <a href="https://gitlab.haskell.org//ghc/ghc/issues/11378">Use the compiler that built ghc for dynamic code loading, for cross-compiling</a>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+                  
+                    
+                    </td>
 <th>
                       
                       
@@ -1328,4 +6825,30 @@ Use Component = `Template Haskell` to ensure that a ticket ends up on these list
                       
                       lowest
                     </th>
-<th></th></tr></table>
+<td>
+                  
+                
+                  
+                    
+                    </td>
+<th>
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                      
+                    </th>
+<td>
+                  
+                
+              </td></tr></table>
+
+
+  
+
+
+

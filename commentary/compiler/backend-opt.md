@@ -277,7 +277,9 @@ rightSide:
 
 ---
 
+
 ### Other Performance Bugs To Consider
+
 
 - [\#12798](https://gitlab.haskell.org//ghc/ghc/issues/12798)
 - [\#12808](https://gitlab.haskell.org//ghc/ghc/issues/12808)

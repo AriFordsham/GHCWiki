@@ -16,15 +16,26 @@ There are two FastCGI modules commonly available for Apache: `mod_fastcgi` and `
 The following sections focus on the FCGI specific setup, see also [TracModWSGI](trac-mod-wsgi#configuring-authentication) for configuring the authentication in Apache.
 
 
+
 Regardless of which cgi module is used, be sure the web server has executable permissions on the cgi-bin folder. While FastCGI will throw specific permissions errors, mod_fcgid will throw an ambiguous error if this has not been done: `Connection reset by peer: mod_fcgid: error reading data from FastCGI server`.
+
 
 ### Set up with `mod_fastcgi`
 
+
+
 `mod_fastcgi` uses `FastCgiIpcDir` and `FastCgiConfig` directives that should be added to an appropriate Apache configuration file:
 
+
 ```
-# Enable fastcgi for .fcgi files# (If you're using a distro package for mod_fcgi, something like# this is probably already present)<IfModulemod_fastcgi.c>AddHandler fastcgi-script .fcgi
-   FastCgiIpcDir/var/lib/apache2/fastcgi</IfModule>LoadModule fastcgi_module /usr/lib/apache2/modules/mod_fastcgi.so
+# Enable fastcgi for .fcgi files
+# (If you're using a distro package for mod_fcgi, something like
+# this is probably already present)
+<IfModule mod_fastcgi.c>
+   AddHandler fastcgi-script .fcgi
+   FastCgiIpcDir /var/lib/apache2/fastcgi 
+</IfModule>
+LoadModule fastcgi_module /usr/lib/apache2/modules/mod_fastcgi.so
 ```
 
 
@@ -50,10 +61,12 @@ FastCgiConfig -initial-env TRAC_ENV_PARENT_DIR=/parent/dir/of/projects
 ### Set up with `mod_fcgid`
 
 
+
 Configure `ScriptAlias` (see [TracCgi](trac-cgi) for details), but call `trac.fcgi` instead of `trac.cgi`:
 
+
 ```
-ScriptAlias/trac/path/to/www/trac/cgi-bin/trac.fcgi/
+ScriptAlias /trac /path/to/www/trac/cgi-bin/trac.fcgi/
 ```
 
 
@@ -69,19 +82,22 @@ DefaultInitEnv TRAC_ENV /path/to/env/trac/
 ### Alternative environment setup
 
 
+
 A better method to specify the path to the Trac environment is to embed the path into `trac.fcgi` script itself. That doesn't require configuration of the server environment variables, works for both [ FastCgi](http://trac.edgewall.org/intertrac/FastCgi) modules as well as for [ lighttpd](http://www.lighttpd.net/) and CGI:
 
+
 ```
-importos
-os.environ['TRAC_ENV']="/path/to/projectenv"
+import os
+os.environ['TRAC_ENV'] = "/path/to/projectenv"
 ```
 
 
 or:
 
+
 ```
-importos
-os.environ['TRAC_ENV_PARENT_DIR']="/path/to/project/parent/dir"
+import os
+os.environ['TRAC_ENV_PARENT_DIR'] = "/path/to/project/parent/dir"
 ```
 
 
@@ -388,38 +404,99 @@ LiteSpeed web server is an event-driven asynchronous Apache replacement designed
 1. Nginx configuration with basic authentication handled by Nginx - confirmed to work on 0.6.32
 
   ```
-  server{listen       10.9.8.7:443;server_nametrac.example;sslon;ssl_certificate/etc/ssl/trac.example.crt;ssl_certificate_key/etc/ssl/trac.example.key;ssl_session_timeout5m;ssl_protocolsSSLv2SSLv3TLSv1;ssl_ciphersALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;ssl_prefer_server_cipherson;# it makes sense to serve static resources through Nginx (or ``~ [/some/prefix]/chrome/(.*)``)
-  location~/chrome/(.*){alias/home/trac/instance/static/htdocs/$1;}# You can copy this whole location to ``location [/some/prefix](/login)``
-  # and remove the auth entries below if you want Trac to enforce
-  # authorization where appropriate instead of needing to authenticate
-  # for accessing the whole site.
-  # (Or ``~ location /some/prefix(/.*)``.)
-  location~(/.*){auth_basic"tracrealm";auth_basic_user_file/home/trac/htpasswd;# socket address
-  fastcgi_passunix:/home/trac/run/instance.sock;# python - wsgi specific
-  fastcgi_paramHTTPSon;## WSGI REQUIRED VARIABLES
-  # WSGI application name - trac instance prefix.
-  # (Or ``fastcgi_param  SCRIPT_NAME  /some/prefix``.)
-  fastcgi_paramSCRIPT_NAME"";fastcgi_paramPATH_INFO$1;## WSGI NEEDED VARIABLES - trac warns about them
-  fastcgi_paramREQUEST_METHOD$request_method;fastcgi_paramSERVER_NAME$server_name;fastcgi_paramSERVER_PORT$server_port;fastcgi_paramSERVER_PROTOCOL$server_protocol;fastcgi_paramQUERY_STRING$query_string;# For Nginx authentication to work - do not forget to comment these
-  # lines if not using Nginx for authentication
-  fastcgi_paramAUTH_USER$remote_user;fastcgi_paramREMOTE_USER$remote_user;# for ip to work
-  fastcgi_paramREMOTE_ADDR$remote_addr;# For attchments to work
-  fastcgi_paramCONTENT_TYPE$content_type;fastcgi_paramCONTENT_LENGTH$content_length;}}
+      server {
+          listen       10.9.8.7:443;
+          server_name  trac.example;
+
+          ssl                  on;
+          ssl_certificate      /etc/ssl/trac.example.crt;
+          ssl_certificate_key  /etc/ssl/trac.example.key;
+
+          ssl_session_timeout  5m;
+
+          ssl_protocols  SSLv2 SSLv3 TLSv1;
+          ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
+          ssl_prefer_server_ciphers   on;
+
+          # it makes sense to serve static resources through Nginx (or ``~ [/some/prefix]/chrome/(.*)``)
+          location ~ /chrome/(.*) {
+               alias /home/trac/instance/static/htdocs/$1;
+          }
+
+          # You can copy this whole location to ``location [/some/prefix](/login)``
+          # and remove the auth entries below if you want Trac to enforce
+          # authorization where appropriate instead of needing to authenticate
+          # for accessing the whole site.
+          # (Or ``~ location /some/prefix(/.*)``.)
+          location ~ (/.*) {
+              auth_basic            "trac realm";
+              auth_basic_user_file /home/trac/htpasswd;
+
+              # socket address
+              fastcgi_pass   unix:/home/trac/run/instance.sock;
+
+              # python - wsgi specific
+              fastcgi_param HTTPS on;
+
+              ## WSGI REQUIRED VARIABLES
+              # WSGI application name - trac instance prefix.
+              # (Or ``fastcgi_param  SCRIPT_NAME  /some/prefix``.)
+              fastcgi_param  SCRIPT_NAME        "";
+              fastcgi_param  PATH_INFO          $1;
+
+              ## WSGI NEEDED VARIABLES - trac warns about them
+              fastcgi_param  REQUEST_METHOD     $request_method;
+              fastcgi_param  SERVER_NAME        $server_name;
+              fastcgi_param  SERVER_PORT        $server_port;
+              fastcgi_param  SERVER_PROTOCOL    $server_protocol;
+              fastcgi_param  QUERY_STRING       $query_string;
+
+              # For Nginx authentication to work - do not forget to comment these
+              # lines if not using Nginx for authentication
+              fastcgi_param  AUTH_USER          $remote_user;
+              fastcgi_param  REMOTE_USER        $remote_user;
+
+              # for ip to work
+              fastcgi_param REMOTE_ADDR         $remote_addr;
+
+              # For attchments to work
+              fastcgi_param    CONTENT_TYPE     $content_type;
+              fastcgi_param    CONTENT_LENGTH   $content_length;
+          }
+      }
   ```
 1. Modified trac.fcgi:
 
   ```
-  #!/usr/bin/env pythonimportos
-  sockaddr ='/home/trac/run/instance.sock'
-  os.environ['TRAC_ENV']='/home/trac/instance'try:fromtrac.web.mainimport dispatch_request
-       importtrac.web._fcgi
+  #!/usr/bin/env python
+  import os
+  sockaddr = '/home/trac/run/instance.sock'
+  os.environ['TRAC_ENV'] = '/home/trac/instance'
+
+  try:
+       from trac.web.main import dispatch_request
+       import trac.web._fcgi
 
        fcgiserv = trac.web._fcgi.WSGIServer(dispatch_request, 
-            bindAddress = sockaddr, umask =7)
-       fcgiserv.run()exceptSystemExit:raiseexceptException, e:print'Content-Type: text/plain\r\n\r\n',print'Oops...'printprint'Trac detected an internal error:'printprint e
-      printimporttracebackimportStringIO
+            bindAddress = sockaddr, umask = 7)
+       fcgiserv.run()
+
+  except SystemExit:
+      raise
+  except Exception, e:
+      print 'Content-Type: text/plain\r\n\r\n',
+      print 'Oops...'
+      print
+      print 'Trac detected an internal error:'
+      print
+      print e
+      print
+      import traceback
+      import StringIO
       tb = StringIO.StringIO()
-      traceback.print_exc(file=tb)print tb.getvalue()
+      traceback.print_exc(file=tb)
+      print tb.getvalue()
+
   ```
 1. Reload nginx and launch trac.fcgi: 
 
@@ -451,4 +528,7 @@ Another way to run Trac as a FCGI external application is offered in [ \#6224](h
 ---
 
 
+
 See also: [TracGuide](trac-guide), [TracInstall](trac-install), [ModWSGI](trac-mod-wsgi), [CGI](trac-cgi), [ModPython](trac-mod-python), [ TracNginxRecipe](http://trac.edgewall.org/intertrac/TracNginxRecipe)
+
+

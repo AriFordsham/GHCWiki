@@ -72,7 +72,9 @@ We say that "a pattern synonym `P` is associated with a type `T` relative to mod
 #### Exports
 
 
-For any modules `M``N`, we say that "`M` exports `T` whilst associating `P`" just when
+
+For any modules `M` `N`, we say that "`M` exports `T` whilst associating `P`" just when
+
 
 - The export has the form `T(c1, ..., cn, P)` where c1 to cn (n \>= 0) are a mixture of other field names, constructors, pattern synonyms and the special token `..`. The special token `..`, which indicates either 
 
@@ -85,7 +87,9 @@ In case (2), `..` might in fact be a union of sets if `T` is imported from multi
 #### Imports
 
 
-For any modules `M``N`, if we import `N` from `M`,
+
+For any modules `M` `N`, if we import `N` from `M`,
+
 
 - The abbreviated form `T(..)` brings into scope all the constructors, methods or field names exported by `N` as well any patterns bundled with `T` relative to `N`. 
 - The explicit form `T(c1,...,cn)` can name any constructors, methods or field names exported by `N` as well as any patterns bundled with `T` relative to `N`. 
@@ -98,6 +102,8 @@ should be allowed to be bundled with which type constructors.
 In the end it was decided to be quite liberal in what we allow. Below is
 how Simon described the implementation.
 
+
+>
 >
 > Personally I think we should Keep It Simple.  All this talk of
 > satisfiability makes me shiver.  I suggest this: allow T( P ) in all
@@ -105,8 +111,10 @@ how Simon described the implementation.
 > `T`.
 >
 >
+>
 > What does "visibly incompatible" mean?  `P` is visibly incompatible
 > with `T` if
+>
 >
 > - `P`'s type is of form `... -> S t1 t2`
 > - `S` is a data/newtype constructor distinct from `T`
@@ -115,6 +123,8 @@ how Simon described the implementation.
 > Nothing harmful happens if we allow `P` to be exported with
 > a type it can't possibly be useful for, but specifying a tighter
 > relationship is very awkward as you have discovered.
+>
+>
 
 
 Note that this allows \*any\* pattern synonym to be bundled with any
@@ -142,27 +152,76 @@ A few examples are included for clarification in the final section.
 
 #### Examples
 
+
 ```
-moduleN(T(..,P))wheredataT=MkTIntpatternP=MkT5-- M.hsmoduleMwhereimportN(T(..))
+module N(T(.., P)) where
+
+data T = MkT Int
+
+pattern P = MkT 5
+
+-- M.hs
+module M where
+
+import N (T(..))
 ```
+
 
 `P` is associated with `T` relative to `N`. M imports `T`, `MkT` and `P`.
 
+
 ```
-moduleN(T(..))wheredataT=MkTIntpatternP=MkT5-- M.hsmoduleMwhereimportN(T(..))
+module N(T(..)) where
+
+data T = MkT Int
+
+pattern P = MkT 5
+
+-- M.hs
+module M where
+
+import N (T(..))
 ```
+
 
 `P` is unassociated. `M` imports `T` and `MkT`. 
 
+
 ```
-moduleN(T(P))wheredataT=MkTIntpatternP=MkT5-- M.hsmoduleMwhereimportN(T(..))
+module N(T(P)) where
+
+data T = MkT Int
+
+pattern P = MkT 5
+
+-- M.hs
+module M where
+
+import N (T(..))
 ```
+
 
 `P` is associated with `T` relative to `N`. M imports `T`, and `P`.
 
+
 ```
-moduleN(T(P))wheredataT=MkTIntpatternP=MkT5-- M.hsmoduleM(T(..))whereimportN(T(..))-- O.hsmoduleOwhereimportM(T(..))
+module N(T(P)) where
+
+data T = MkT Int
+
+pattern P = MkT 5
+
+-- M.hs
+module M (T(..)) where
+
+import N (T(..))
+
+-- O.hs
+module O where
+
+import M (T(..))
 ```
+
 
 `P` is associated with `T` relative to `N`.
 
@@ -170,95 +229,169 @@ moduleN(T(P))wheredataT=MkTIntpatternP=MkT5-- M.hsmoduleM(T(..))whereimportN(T(.
 As `M` imports `N` and imports `T`, `P` is associated with `T` relative to `M`. Thus `M` exports `T` and `P`.
 
 
+
 Therefore when `O` imports `T(..)` from `M`, it imports `T` and `P`. 
 
+
 ```
-moduleN(T(..))wheredataT=MkTInt-- M.hsmoduleM(T(P))whereimportN(T(..))patternP=MkT5-- O.hsmoduleOwhereimportM(T(..))
+module N(T(..)) where
+
+data T = MkT Int
+
+-- M.hs
+module M(T(P)) where
+
+import N (T(..))
+
+pattern P = MkT 5
+
+-- O.hs
+module O where
+
+import M (T(..))
 ```
 
 
 This example highlights being able to freely reassociate synonyms. 
 
+
+
 `M` imports `T` and `MkT` from `N` but then as `M` associates `P` with `T`, when `O` imports `M`, `T` and `P` are brought into scope. 
+
 
 #### Typing Examples
 
+
 ```
-{-# LANGUAGE PatternSynonyms #-}moduleFoo(A(P))wheredataA=ApatternP::ApatternP=A
+{-# LANGUAGE PatternSynonyms #-}
+module Foo (A(P)) where
+
+data A = A
+
+pattern P :: A
+pattern P = A
 ```
 
 
 Pattern `P` has type `A` therefore we allow this export.
 
+
 ```
-{-# LANGUAGE PatternSynonyms #-}moduleFoo(A(P))wheredataA=AdataB=BpatternP::BpatternP=B
+{-# LANGUAGE PatternSynonyms #-}
+module Foo (A(P)) where
+
+data A = A
+
+data B = B
+
+pattern P :: B
+pattern P = B
 ```
 
 
 Pattern `P` has type `B` therefore we do not allow this export.
 
+
 ```
-{-# LANGUAGE PatternSynonyms #-}moduleFoo(A(P))wheredataA a =ApatternP::AIntpatternP=A
+{-# LANGUAGE PatternSynonyms #-}
+module Foo (A(P)) where
+
+data A a = A
+
+pattern P :: A Int
+pattern P = A
 ```
 
 
 Pattern `P` has type `A Int` which is an instance of `A a` therefore we allow
 this export
 
+
 ##### Constraints
 
+
 ```
-{-# LANGUAGE PatternSynonyms #-}moduleFoo(A(P))wheredataA=ApatternP::()=>(A~ f)=> f
-patternP=A
+{-# LANGUAGE PatternSynonyms #-}
+module Foo (A(P)) where
+
+data A = A
+
+pattern P :: () => (A ~ f) => f
+pattern P = A
 ```
 
 
 Pattern `P` has no visibly obvious type so we allow it to be bundled with any type constructor.
 
+
 ```
-{-# LANGUAGE PatternSynonyms, ViewPatterns #-}moduleFoo(Identity(P))wheredataIdentity a =Identity a
+{-# LANGUAGE PatternSynonyms, ViewPatterns #-}
+module Foo (Identity(P)) where
 
-instanceCIdentitywhere
-  build a =Identity a
-  destruct (Identity a)= a
+data Identity a = Identity a
 
-classC f where
+instance C Identity where
+  build a = Identity a
+  destruct (Identity a) = a
+
+class C f where
   build :: a -> f a
   destruct :: f a -> a
 
-patternP::()=>C f => a -> f a
-patternP x <-(destruct -> x)whereP x = build x
+pattern P :: () => C f => a -> f a
+pattern P x <- (destruct -> x)
+  where
+        P x = build x
 ```
 
 
 In this example, `P` is once again polymorphic in the constructor `f` so it can be bundled with any type constructor.
 
 
+
 We certainly do not want to allow the following association but we do anyway as the type is not visibly different.
 
+
 ```
-{-# LANGUAGE PatternSynonyms #-}moduleFoo(A(P))wheredataA=AdataB=BpatternP::()=>(B~ f)=> f
-patternP=B
+{-# LANGUAGE PatternSynonyms #-}
+module Foo (A(P)) where
+
+data A = A
+
+data B = B
+
+pattern P :: () => (B ~ f) => f
+pattern P = B
 ```
 
 
 Things get even more hairy when we remember that classes can have equality constraints.
 Consider this quite weird example.
 
+
 ```
-{-# LANGUAGE PatternSynonyms #-}{-# LANGUAGE MultiParamTypeClasses #-}{-# LANGUAGE GADTs #-}{-# LANGUAGE ViewPatterns #-}moduleFoo(A(P))whereclass(f ~A)=>C f a where
+{-# LANGUAGE PatternSynonyms #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE GADTs #-}
+{-# LANGUAGE ViewPatterns #-}
+
+module Foo ( A(P) ) where
+
+class (f ~ A) => C f a where
   build :: a -> f a
   destruct :: f a -> a
 
-dataA a =A a
+data A a = A a
 
-instanceCAIntwhere
-  build n =A n
-  destruct (A n)= n
+instance C A Int where
+  build n = A n
+  destruct (A n) = n
 
 
-patternP::()=>C f a => a -> f a
-patternP x <-(destruct -> x)whereP x = build x
+pattern P :: () => C f a => a -> f a
+pattern P x <- (destruct -> x)
+  where
+        P x = build x
 ```
 
 
@@ -268,12 +401,21 @@ We should only allow `P` to be associated with `A` due to the superclass constra
 ##### Type Families
 
 
+
 The final example is when the result type is given by a type family.
 
-```
-{-# LANGUAGE PatternSynonyms #-}moduleFoo(A(P))wheredataA=AtypefamilyF a
 
-patternP::FBoolpatternP=A
+```
+{-# LANGUAGE PatternSynonyms #-}
+
+module Foo ( A(P) ) where
+
+data A = A
+
+type family F a
+
+pattern P :: F Bool
+pattern P = A
 ```
 
 

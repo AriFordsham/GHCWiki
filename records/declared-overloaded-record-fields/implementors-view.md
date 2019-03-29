@@ -50,13 +50,20 @@ There is to be a new declaration type, examples:
 
 That is: the `r{ ... }` constraint is added by the desugarer (and will be further desugarred to a `Has` constraint).
 
+
 ### Option Two: explicit record constraint
 
->
-> \[Or perhaps the new `fieldLabel` declaration isn't needed. See a *very speculative* discussion at [Wilder aftererthought](records/declared-overloaded-record-fields/c-ompare-sorf#the-string-type-parameter-to-has-,-and-scope-control) \]
 
 >
+>
+> \[Or perhaps the new `fieldLabel` declaration isn't needed. See a *very speculative* discussion at [Wilder aftererthought](records/declared-overloaded-record-fields/c-ompare-sorf#the-string-type-parameter-to-has-,-and-scope-control) \]
+>
+>
+
+>
+>
 > Declaring:
+>
 >
 > ```wiki
 >         customer_id :: r{ customer_id :: Int } => r -> Int     -- explicit record constraint
@@ -66,17 +73,25 @@ That is: the `r{ ... }` constraint is added by the desugarer (and will be furthe
 >
 > Desugars to the same as for `fieldLabel`. That is the proxy type and the binding:
 >
+>
 > ```wiki
 >         data Proxy_customer_id
 >         customer_id r = get r (undefined :: Proxy_customer_id)
 > ```
 >
+>
 > **Note:** the desugarring only applies where the field and function are the same name (and record type argument and result type). Otherwise this syntax is declaring a regular function with a record constraint (could be a 'virtual' field).
+>
+>
 
 ### Option Three: Mixed In-situ and Declared ORF
 
+
+>
 >
 > (See discussion at [ http://www.haskell.org/pipermail/glasgow-haskell-users/2012-March/022061.html](http://www.haskell.org/pipermail/glasgow-haskell-users/2012-March/022061.html) "My main complaint against DORF is that having to write fieldLabel declarations for every field you want to use is onerous.")
+>
+>
 
 
 There may be some (perhaps most) of the field names in a record type that appear only in that record type. Then this:
@@ -86,7 +101,8 @@ data Cust_AdHoc = CustAH{ customer_id :: Int, x, y :: String } sharing (customer
 ```
 
 
-For the non-`shareing``x` and `y`, saves the burden of a `fieldLabel`, by declaring it for you:
+For the non-`shareing` `x` and `y`, saves the burden of a `fieldLabel`, by declaring it for you:
+
 
 ```wiki
         data Proxy_x
@@ -182,8 +198,11 @@ Does not create a field selector function `customer_id`. Instead it creates a `H
 Note the bare `t` with type equality constraint. This is unashamedly stolen from SORF's "functional-dependency-like mechanism (but using equalities) for the result type". So type inference binds to this instance based only on the record type and field (type 'peg'), then 'improves' the type of the result.
 The definition of `get` uses ‑XDisambiguateRecordFields style (with ‑XNamedFieldPuns).
 
+
+>
 >
 > \[It's a wart that in the record declaration, we've had to repeat the type of `customer_id` when the `fieldLabel` decl has already stipulated `Int`. It is legal syntax to omit the type in the record decl, but that currently has a different effect:
+>
 >
 > ```wiki
 >         data ... = Cust_NA { customer_id, custName :: String, ... }
@@ -191,12 +210,20 @@ The definition of `get` uses ‑XDisambiguateRecordFields style (with ‑XNamedF
 >
 >
 > currently means `customer_id` is to be same type as `custName`.
+>
+>
 
+>
 >
 > On the other hand, the advantage of repeating the type (from an implementation point of view) is that the desugarrer doesn't have to look for the `fieldLabel` to generate the `Has` instance.
+>
+>
 
 >
+>
 > Opportunity for improvement! \]
+>
+>
 
 ### Record/field update
 
@@ -381,12 +408,17 @@ To support higher-ranked fields, this proposal follows SORF's approach (with thr
 ### Updating polymorphic/higher-ranked fields
 
 
+
 The prototype for this proposal does include a method of updating Higher-ranked fields. SPJ has quickly reviewed the prototype:
 
+
+>
 >
 > "Your trick with `SetTy` to support update of polymorphic fields is, I belive, an (ingenious) hack that does not scale. I think it works only for fields that are quantified over one type variable with no constraints.
 >
 > So, I think that update of polymorphic fields remains problematic. "
+>
+>
 
 
 Note that the "(ingenious)" and unscalable "hack" appears only in compiler-generated code.
@@ -397,41 +429,70 @@ Is it a requirement to be able to update polymorphic fields? Is it sufficient to
 ### Representation hiding/import/export
 
 
+
 See the discussion under [Application Programmer's view Import/Export](records/declared-overloaded-record-fields#import/export-and-representation-hiding)  and [No Mono Record Fields](records/declared-overloaded-record-fields/no-mono-record-fields). 
 
+
+>
 >
 > \[The following re the Proxy_type changed/added 1st March.\]
+>
+>
 
 
 When import/exporting we need to separately control exporting the Proxy_type:
 
+
 - The original plan was to control import/export shadowing the field selector function.
 
+>
+> >
 > >
 > > (As an afterthought: this would treat the function differently to usual functions.
 > >
+> >
+> > >
 > > >
 > > > On the other hand, no more special than exporting the function along with the H98 record label.)
+> > >
+> > >
+> >
+>
 
 - If not exported, update syntax cannot be desugarred to use it, so this hides the representation.
 
+>
+> >
 > >
 > > (So any records become in effect read-only, using the exported field selector function.)
+> >
+> >
+>
 
 - Furthermore, it prevents the client declaring records to 'share' the fieldLabel.
 
+>
+> >
 > >
 > > (Because the `Has` instance generated will try to use the Proxy_type.)
+> >
+> >
+>
 
 
 Drat! I was trying to keep the Proxy_type hidden from the programmer.
 
 
+
 It's possible we might want to hide the representation (prevent update), but allow sharing with a locally-declared record type/field??
 
+
+>
 >
 > \[Using a `String Kind` a la SORF would not help: can't control sharing nor hide the representation.
 >  End of Proxy_type addition.\]
+>
+>
 
 
 See also the attached `DORF Prototype Importing 29Feb2012.lhs`, which selectively imports some fieldLabels, and declares local versions of others. This shows that within a single record decl:
@@ -439,13 +500,23 @@ See also the attached `DORF Prototype Importing 29Feb2012.lhs`, which selectivel
 1. You can create fields that share Labels with imports.
 1. You can create fields that don't share, even with the same Label name.
 
+>
+> >
 > >
 > > (That is, the module system continues to control the namespace.)
+> >
+> >
+>
 
 1. You can prevent using the wrong field selector with the wrong record type,
 
+>
+> >
 > >
 > > even if they have the same Label name.
+> >
+> >
+>
 
 
 (Apologies for labouring the point: it seems to be widely mis-understood, and it's a point of difference compared to SORF.)

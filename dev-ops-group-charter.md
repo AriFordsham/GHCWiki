@@ -92,7 +92,10 @@ This is how we propose to reach this goal:
 - Appoint a release manager whose sole job it is to get a high-quality releases out of the door by the next release date. The release manager doesn’t decide which features go into GHC (that is the GHC Steering Committee’s job), but only into which release a new feature is admitted.   (He or she may refer to the GHC Devops Group for guidance in controversial cases.)
 
 >
+>
 > Details are yet to be agreed, but we expect more frequent releases (e.g. every six months), as well as more predictable ones.
+>
+>
 
 - Fully automatic and continuous regression testing against not only the test suite, but also a wider range of diverse and well-maintained packages (such as the Stackage package set). Ideally, commits only go into master and very definitely only onto a release branch after such testing. This minimises the risk of noticing blocking issues late in the release cycle (i.e., when a release candidate is cut).
 

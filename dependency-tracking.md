@@ -58,9 +58,21 @@ That leaves (1).  We'll need:
 
 - A way for Template Haskell code to express a dependency.  A [ possible solution](http://www.reddit.com/r/haskell/comments/k4lc4/yesod_the_limitations_of_haskell/c2hipo3) is to add a new function to the template-haskell package:
 
+>
+> >
+> >
 > > `addDependentFile :: FilePath -> Q ()`
+> >
+> >
+>
 
 >
+>
 > This in turn would require the `Qusai` class to support such an operation.
+>
+>
+
 
 **Note** that `ghc -M` would not spit out these dependencies.  The solution proposed here simply records what dependencies where encountered *while compiling M*, and hence when M should be re-compiled. It doesn't tell you (in advance) which files compiling M *will* depend on. 
+
+

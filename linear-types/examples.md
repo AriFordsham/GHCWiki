@@ -4,11 +4,36 @@ Examples of programs benefiting from linear types fall into three categories.
 # Enforcement of protocol
 
 
+
 Linear types can be used to encode protocols, in a way very similar to 'session types'. Linearity checks ensure that the protocol is respected (so one does not backtrack or drops out).
 
+
 ```
-type a ⊗ b =...{- see proposal -}type a ⊸ b =...{- see proposal -}typeEffect=IO()-- for examplepr::Double->Effect-- "prints" a numbertypeN a = a ⊸EffectdataClient=MulDoubleDouble(N(Double⊗Server))-- Client sends two 'Double' and-- expects a double and a new server-- session.|TerminatetypeServer=NClientexampleClient::N(NClient)exampleClient server = server $Mul1234$\(product,server')->-- do something with the product
-  pr product >> server' TerminateexampleServer::ServerexampleServer client =case client ofMul x y k -> k (x*y,exampleServer)Terminate-> return ()
+type a ⊗ b = ... {- see proposal -}
+type a ⊸ b = ... {- see proposal -}
+type Effect = IO () -- for example
+
+pr :: Double -> Effect -- "prints" a number
+
+type N a = a ⊸ Effect
+
+data Client
+  = Mul Double Double (N (Double ⊗ Server)) -- Client sends two 'Double' and
+                                            -- expects a double and a new server
+                                            -- session.
+  | Terminate
+type Server = N Client
+
+
+exampleClient :: N (N Client)
+exampleClient server = server $ Mul 12 34 $ \(product,server') ->
+  -- do something with the product
+  pr product >> server' Terminate
+
+exampleServer :: Server
+exampleServer client = case client of
+  Mul x y k -> k (x*y,exampleServer)
+  Terminate -> return ()
 ```
 
 # Correctness of optimized code
@@ -27,19 +52,28 @@ In general, fusion in GHC relies on the rewrite rules and the inliner.
 The problem with this scheme is that it involves two phases of heuristics (rules and inliner), and in practice programmers have difficulties to predict the performance of any given program.
 
 
+
 A partial remedy to this solution is to stop relying on rewrite rules, and use directly non-recursive representations. For example the following representation from Lippmeier et al. [ http://benl.ouroborus.net/papers/2016-polarized/dpdf-FHPC2016-preprint.pdf](http://benl.ouroborus.net/papers/2016-polarized/dpdf-FHPC2016-preprint.pdf):
 
+
 ```
-dataSources i m e =Sources-- 'i' is the array's index type, 'e' the type of elements and 'm' the effects{ arity :: i
-  , pull  :: i ->(e -> m ())-> m ()-> m ()}-- 'pull' is an iterator to apply to every elements of the array (like 'traverse')dataSinks i m e =Sinks{ arity :: i
-  , push  :: i -> e -> m (), eject :: i -> m ()}
+data Sources i m e = Sources -- 'i' is the array's index type, 'e' the type of elements and 'm' the effects
+  { arity :: i
+  , pull  :: i -> (e -> m ()) -> m () -> m () } -- 'pull' is an iterator to apply to every elements of the array (like 'traverse')
+
+data Sinks i m e = Sinks
+  { arity :: i
+  , push  :: i -> e -> m ()
+  , eject :: i -> m () }
 ```
 
 
 Such representations are typically functionals, and thus do not consume memory. One eventually gets code which is guaranteed to be 'fused'. For instance, in the following example from Lippmeier et al., neither the source nor the sink represent data in memory.
 
+
 ```
-copySetP::[FilePath]->[FilePath]->IO()copySetP srcs dsts =do
+copySetP :: [FilePath] -> [FilePath] -> IO ()
+copySetP srcs dsts = do
   ss <- sourceFs srcs
   sk <- sinkFs   dsts
   drainP ss sk
@@ -49,10 +83,12 @@ copySetP::[FilePath]->[FilePath]->IO()copySetP srcs dsts =do
 One then faces two classes of new problems.
 
 
+
 First, any non-linear (precisely non-affine) use of such a representation will **duplicate work**. For example:
 
+
 ```
-example srcs dsts =do
+example srcs dsts = do
   ss <- expensiveComputation <$> sourceFs srcs
   sk <- sinkFs  dsts
   drainP ss sk
@@ -66,10 +102,15 @@ If one is not careful, one may end up with a program which does not use any inte
 Second, such representations may contain effects. In this situation, non-linear uses may produce an **incorrect program**. If one takes the example of a non-recursive representation of files, one may have two processes writing simultaneously in the same file (potentially corrupting data), or one may forget to close the file.
 
 
+
 Quoting Lippmeier et al.:
 
+
+>
 >
 > In general an object of type Sources is an abstract producer of data, and it may not even be possible to rewind it to a previous state — suppose it was connected to a stream of sensor readings. Alas the Haskell type system does not check linearity so we rely on the programmer to enforce it manually.
+>
+>
 
 
 Literature on this style of non-recursive representations includes additionally:
@@ -95,6 +136,8 @@ A consequence of this choice is that linear data will only exist when pointed to
 According to de Vries
 ([ http://www.well-typed.com/blog/2016/09/sharing-conduit/](http://www.well-typed.com/blog/2016/09/sharing-conduit/)):
 
+
+>
 >
 > \[...\] In the presence of the full laziness optimization we have no
 > control over when values are not shared. While it is possible in
@@ -102,14 +145,22 @@ According to de Vries
 > self-referential and hence keeping them in memory does not cause a
 > memory leak, in practice the resulting code is too brittle and writing
 > code like this is just too difficult.
+>
+>
 
 >
+>
 > \[...\]
+>
+>
 
+>
 >
 > Full laziness can be disabled using `-fno-full-laziness`, but sadly this
 > throws out the baby with the bathwater. In many cases, full laziness
 > is a useful optimization.
+>
+>
 
 
 Linearity offers a solution to the problem. Indeed, linearly-typed
@@ -121,10 +172,14 @@ cannot apply to expressions in a linear context.
 Consider now a simple example which exhibits the problem, also provided
 by de Vries: 
 
-```
-ni_mapM_::(a ->IO b)->[a]->IO(){-# NOINLINE ni_mapM_ #-}ni_mapM_= mapM_
 
-main2::IO()main2= forM_ [1..5]$\_-> ni_mapM_ print [1..N]
+```
+ni_mapM_ :: (a -> IO b) -> [a] -> IO ()
+{-# NOINLINE ni_mapM_ #-}
+ni_mapM_ = mapM_
+
+main2 :: IO ()
+main2 = forM_ [1..5] $ \_ -> ni_mapM_ print [1 .. N]
 ```
 
 
@@ -141,10 +196,21 @@ minimal changes we have to redefine several basic types and functions
 --- in a practical application this would not happen because we would
 actually be using a custom streaming library, as de Vries does).
 
+
 ```
-data[a]where[]::[a](:):: a ⊸[a]⊸[a]discard::Int⊸IO()ni_mapM_::(a ⊸IO b)→List a ⊸IO()forM_::List a ⊸(a ⊸IO())→IO()main2::1IO()main2= forM_ [1..5]$\i ->do
+data [a] where
+  [] :: [a]
+  (:) :: a ⊸ [a] ⊸ [a]
+
+discard :: Int ⊸ IO ()
+
+ni_mapM_ :: (a ⊸ IO b) → List a ⊸ IO ()
+forM_ :: List a ⊸ (a ⊸ IO ()) → IO ()
+
+main2 ::1 IO ()
+main2 = forM_ [1..5] $ \i -> do
   discard i
-  ni_mapM_ print [1..N]
+  ni_mapM_ print [1 .. N]
 ```
 
 
@@ -152,9 +218,13 @@ In the above example, it is incorrect to share the intermediate
 list. Indeed, performing full laziness would amount to transform the
 program into the following form, which is not well-typed:
 
+
 ```
-main2::1IO()main2=let xs ::1[a]
-      xs =[1..N]in forM_ [1..5]$\i ->do
+main2 ::1 IO ()
+main2 =
+  let xs ::1 [a]
+      xs = [1 .. N]
+  in forM_ [1..5] $ \i -> do
        discard i
        ni_mapM_ print xs
 ```
@@ -167,9 +237,13 @@ it is bound only once.
 In our proposed extension, one could still write the following
 type-correct program, which introduces explicit sharing:
 
+
 ```
-main2::1IO()main2=let xs ::ω [a]
-      xs =[1..N]in forM_ [1..5]$\i ->do
+main2 ::1 IO ()
+main2 =
+  let xs ::ω [a]
+      xs = [1 .. N]
+  in forM_ [1..5] $ \i -> do
        discard i
        ni_mapM_ print xs
 ```

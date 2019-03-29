@@ -112,7 +112,7 @@ Some further details on this step:
   1. `{-# LANGUAGE PatternSynonyms, TypeFamilies, SynonymInstances, FelxibleInstances #-}`
   1. `{-# OPTIONS_GHC -fno-warn-orphans #-}`
 - when two constructors of /the same/ datatype, have /the same/ field name, we have to rename one of them, as record pattern synonyms cannot mimic this behaviour   
-- in a couple of files there are functions with type annotations including types like `Located (body GhcTc)` which should be changed to a type like `Located (body (GHC GhcTc))`
+- in a couple of files there are functions with type annotations including types like `Located (body GhcTc)` which should be changed to a type like `Located (body (GHC GhcTc))`  
 
 
 All these are pretty mechanical, and I use a set of primitive macros to do parts of the job for me.
@@ -138,12 +138,17 @@ We work on refactoring, by then redundant, bits and pieces of TH by either just 
 ## Naming conventions
 
 
+
 This is a quick capture of a discussion on \#ghc, about the naming conventions for TTG extension constructors
 
-```
-dataFoo p =FInt p
 
--- becomesdataFoo p =F(XF p)Int(Idp p)|XFoo(XXFoo p)
+```
+data Foo p = F Int p
+
+-- becomes
+
+data Foo p = F (XF p) Int (Idp p)
+           | XFoo (XXFoo p)
 ```
 
 
@@ -153,12 +158,17 @@ The extension point name is the constructor name (`F`) preceded by an X (`XF`), 
 The additional constructor is the data type name preceded by X (`XFoo`), and it's extension payload has `XX`, so the `XXFoo` above.
 
 
+
 Where a constructor has the same name as the data type, e.g.
 
-```
-dataFoo p =FooInt p
 
--- becomesdataFoo p =Foo(XCFoo p)Int(Idp p)|XFoo(XXFoo p)
+```
+data Foo p = Foo Int p
+
+-- becomes
+
+data Foo p = Foo (XCFoo p) Int (Idp p)
+           | XFoo (XXFoo p)
 ```
 
 
@@ -189,52 +199,86 @@ The intention is to
  
 It does this by adding a `HsExtension` module to `hsSyn`, defining as
 
+
 ```
-dataGhsPs-- Parser phasedataGhcRn-- RenamerdataGhcTc-- TypecheckerdataGhcTh-- Template Haskell. Currently unused
+data GhsPs -- Parser phase
+data GhcRn -- Renamer
+data GhcTc -- Typechecker
+data GhcTh -- Template Haskell. Currently unused
 ```
 
 
 This is a deviation from the *Trees that Grow* paper ([ http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf)) section 4.2 which suggests
 
+
 ```
-dataGHC(c ::Component)dataComponent=CompilerPass|TemplateHaskelldataPass=Parsed|Renamed|Typechecked
+data GHC (c :: Component)
+data Component = Compiler Pass | TemplateHaskell
+data Pass = Parsed | Renamed | Typechecked
 ```
 
 
 The deviation is due to a current problem in the implementation which requires the tag type to appear in the `hsSyn` AST types, and the requirement for `Data` instances for it.  See below for details.
 
 
+
 This is not important for the experiment however, as in practice we would define type synonyms of the form
 
+
 ```
-typeGhcPs=GHC'(Compiler Parsed)typeGhcRn=GHC'(Compiler Renamed)...
+type GhcPs = GHC '(Compiler Parsed)
+type GhcRn = GHC '(Compiler Renamed)
+...
 ```
 
 
 The `HsLit` module is amended as
 
+
 ```
-dataHsLit x
-  =HsChar(XHsChar x){- SourceText -}Char-- ^ Character|HsCharPrim(XHsCharPrim x){- SourceText -}Char-- ^ Unboxed character...|HsDoublePrim(XHsDoublePrim x)FractionalLit-- ^ Unboxed Double
+data HsLit x
+  = HsChar (XHsChar x) {- SourceText -} Char
+      -- ^ Character
+  | HsCharPrim (XHsCharPrim x) {- SourceText -} Char
+      -- ^ Unboxed character
+...
+  | HsDoublePrim (XHsDoublePrim x) FractionalLit
+      -- ^ Unboxed Double
 ```
 
 
 Each constructor gets its own tag type, derived mechanically from the constructor name for ease of reference when being used.  The extension point is used for the `SourceText` where this is needed. But note that it is also added to constructors without `SourceText`, such as `HsDoublePrim`.
 
 
+
 We then define the type families in `HsExtension.hs` for each extension point, as
 
+
 ```
-typefamilyXHsChar x
-typefamilyXHsCharPrim x
-...typefamilyXHsDoublePrim x
+type family XHsChar x
+type family XHsCharPrim x
+...
+type family XHsDoublePrim x
 ```
 
 
 For each compiler pass we define the specific mappings
 
+
 ```
--- GHCPtypeinstanceXHsCharGhcPs=SourceTexttypeinstanceXHsCharPrimGhcPs=SourceText...typeinstanceXHsDoublePrimGhsPc=()-- GHCRtypeinstanceXHsCharGhcRn=SourceTexttypeinstanceXHsCharPrimGhcRn=SourceText...typeinstanceXHsDoublePrimGhcRn=()...
+-- GHCP
+type instance XHsChar       GhcPs = SourceText
+type instance XHsCharPrim   GhcPs = SourceText
+...
+type instance XHsDoublePrim GhsPc = ()
+
+-- GHCR
+type instance XHsChar       GhcRn = SourceText
+type instance XHsCharPrim   GhcRn = SourceText
+...
+type instance XHsDoublePrim GhcRn = ()
+
+...
 ```
 
 
@@ -244,31 +288,49 @@ These are all the same at the moment, and `()` is used for points not requiring 
 One of the eventual goals (for \@alanz anyway) is to be able to pass an AST using different annotations on it to later passes of the compiler.
 
 
+
 To facilitate this, some type classes are defined for the `SourceText` and providing initial/default values.
 
+
 ```
-classHasSourceText a where-- Provide setters to mimic existing constructors
+class HasSourceText a where
+  -- Provide setters to mimic existing constructors
   noSourceText  :: a
-  sourceText    ::String-> a
+  sourceText    :: String -> a
 
-  setSourceText ::SourceText-> a
-  getSourceText :: a ->SourceText-- Named constraint to simplify usagetypeSourceTextX x =(HasSourceText(XHsChar x),HasSourceText(XHsCharPrim x)...)
+  setSourceText :: SourceText -> a
+  getSourceText :: a -> SourceText
+
+-- Named constraint to simplify usage
+type SourceTextX x =
+  ( HasSourceText (XHsChar x)
+  , HasSourceText (XHsCharPrim x)
+  ...
+  )
+
 ```
 
 ```
-classHasDefault a where
+class HasDefault a where
   def :: a
 
--- Named constraint to simplify usagetypeHasDefaultX x =(HasDefault(XHsChar x),HasDefault(XHsCharPrim x)...,HasDefault(XHsDoublePrim x))
+-- Named constraint to simplify usage
+type HasDefaultX x =
+  ( HasDefault (XHsChar x)
+  , HasDefault (XHsCharPrim x)
+...
+  , HasDefault (XHsDoublePrim x)
+  )
 ```
 
 
 These have the expected instances for the two types used in GHC
 
+
 ```
-instanceHasSourceTextSourceTextwhere
-  noSourceText    =NoSourceText
-  sourceText s    =SourceText s
+instance HasSourceText SourceText where
+  noSourceText    = NoSourceText
+  sourceText s    = SourceText s
 
   setSourceText s = s
   getSourceText a = a
@@ -276,39 +338,58 @@ instanceHasSourceTextSourceTextwhere
 ```
 
 ```
-instanceHasDefault()where
-  def =()instanceHasDefaultSourceTextwhere
-  def =NoSourceText
+instance HasDefault () where
+  def = ()
+
+instance HasDefault SourceText where
+  def = NoSourceText
 ```
 
 ### PostXXX types
 
 
+
 The paper also proposes explicitly using extension points for the `PostRn` and `PostTc` usages. This has not been done in the current experiment, which has the limited goals set out above. The types have been replaced with updated ones parameterised by the pass variable though
 
-```
-typefamilyPostTC x ty -- Note [Pass sensitive types]typeinstancePostTcGhcPs ty =PlaceHoldertypeinstancePostTcGhcRn ty =PlaceHoldertypeinstancePostTcGhcTc ty = ty
 
--- | Types that are not defined until after renamingtypefamilyPostRN x ty  -- Note [Pass sensitive types]typeinstancePostRnGhcPs ty =PlaceHoldertypeinstancePostRnGhcRn ty = ty
-typeinstancePostRnGhcTc ty = ty
+```
+type family PostTC x ty -- Note [Pass sensitive types]
+type instance PostTc GhcPs ty = PlaceHolder
+type instance PostTc GhcRn ty = PlaceHolder
+type instance PostTc GhcTc ty = ty
+
+-- | Types that are not defined until after renaming
+type family PostRN x ty  -- Note [Pass sensitive types]
+type instance PostRn GhcPs ty = PlaceHolder
+type instance PostRn GhcRn ty = ty
+type instance PostRn GhcTc ty = ty
 ```
 
 ### When we actually *need* a specific id type
 
 
+
 Many functions and data types need to refer to variables that used to be simply the AST type parameter.  This ability is provided through the `IdP` type family
 
+
 ```
--- Maps the "normal" id type for a given passtypefamilyIdP p
-typeinstanceIdPGhcPs=RdrNametypeinstanceIdPGhcRn=NametypeinstanceIdPGhcTc=Id
+-- Maps the "normal" id type for a given pass
+type family IdP p
+type instance IdP GhcPs = RdrName
+type instance IdP GhcRn = Name
+type instance IdP GhcTc = Id
 ```
 
 
 So we end up with
 
+
 ```
-dataSig pass
-    TypeSig[Located(IdP pass)]-- LHS of the signature; e.g.  f,g,h :: blah(LHsSigWcType pass)-- RHS of the signature; can have wildcards...
+data Sig pass
+    TypeSig
+       [Located (IdP pass)]  -- LHS of the signature; e.g.  f,g,h :: blah
+       (LHsSigWcType pass)   -- RHS of the signature; can have wildcards
+...
 ```
 
 ### Experiences
@@ -329,10 +410,14 @@ In some cases adding `SourceTextX` or `HasDefaultX` constraints is also required
 ### Problems
 
 
+
 The `Data` instance for the index type is required due to the following kind of construct
 
+
 ```
-|ValBindsOut[(RecFlag,LHsBinds idL)][LSigGHCR]-- AZ: how to do this?
+  | ValBindsOut
+        [(RecFlag, LHsBinds idL)]
+        [LSig GHCR] -- AZ: how to do this?
 ```
 
 
@@ -358,16 +443,25 @@ Can this be done? How?
 
 1. Use of type synonyms, if required.
 
+
+ 
+
+
 ## Experiment 2
+
 
 
 \@simonpj wrote
 
+
+>
 >
 > I was talking to Ben, Simon et al about your big patch [ https://phabricator.haskell.org/D3935](https://phabricator.haskell.org/D3935), which \> is Step 1 of [ https://ghc.haskell.org/trac/ghc/wiki/ImplementingTreesThatGrow](https://ghc.haskell.org/trac/ghc/wiki/ImplementingTreesThatGrow).
 >
 >
+>
 > To us it seems that separating out Step 3 is a pretty big detour:
+>
 >
 > - It involves defining a massive collection of pattern synonyms that we will then discard.
 >
@@ -380,10 +474,14 @@ Can this be done? How?
 > So could we just do Step 1 and Step 3 at once?
 >
 >
+>
 > Of course, that means that all pattern matches must be dealt with.   But many of them use field names anyway, and so will be minimally changed.  And it’s totally straightforward what to do.
 >
 >
+>
 > If you prefer, you could do it one data type at a time.  We already have the right type parameters.
+>
+>
 
 
 This experiment is taking place at [ https://github.com/ghc/ghc/tree/wip/ttg-2017-10-13](https://github.com/ghc/ghc/tree/wip/ttg-2017-10-13)
@@ -398,32 +496,36 @@ Pieces
 - The actual data structure containing the extension points
 
 ```
-dataPat x
-          =WildPat(XWildPat x)...
+        data Pat x
+          = WildPat
+              (XWildPat x)
+          ...
 ```
 
 - The type family definition per extension point
 
 ```
-typefamilyXWildPat   x
+        type family XWildPat   x
 ```
 
 - A convenience constraint naming all extension points for a given data type
 
 ```
-typeForallXPat c x =...
+        type ForallXPat c x = ...
 ```
 
 - The type instance definition, giving a concrete type for a given type tag
 
 ```
-typeinstanceXWildPat(GHC pass)=PostTc pass Type
+        type instance
+         XWildPat   (GHC pass) = PostTc pass Type
 ```
 
 1. In current implementation
 
 ```
-typePat pass =AST.Pat(GHC pass)
+    type
+      Pat pass = AST.Pat (GHC pass)
 ```
 
 
@@ -432,30 +534,54 @@ effectively forces all extension points to be in the GHC "namespace"
 1. Argument for patterns
 
 ```
-dataHsValBindsLR idL idR
-      =-- | Value Bindings In---- Before renaming RHS; idR is always RdrName-- Not dependency analysed-- Recursive by defaultValBindsIn(XValBinds idL idR)(LHsBindsLR idL idR)[LSig idR]-- | Value Bindings Out---- After renaming RHS; idR can be Name or Id Dependency analysed,-- later bindings in the list may depend on earlier ones.|NewValBindsLR(XNewValBindsLR idL idR)-- | ValBindsOut--       [(RecFlag, LHsBinds idL)]--       [LSig GhcRn] -- AZ: how to do this?
+    data HsValBindsLR idL idR
+      = -- | Value Bindings In
+        --
+        -- Before renaming RHS; idR is always RdrName
+        -- Not dependency analysed
+        -- Recursive by default
+        ValBindsIn
+            (XValBinds idL idR)
+            (LHsBindsLR idL idR) [LSig idR]
+
+        -- | Value Bindings Out
+        --
+        -- After renaming RHS; idR can be Name or Id Dependency analysed,
+        -- later bindings in the list may depend on earlier ones.
+      | NewValBindsLR
+          (XNewValBindsLR idL idR)
+      -- | ValBindsOut
+      --       [(RecFlag, LHsBinds idL)]
+      --       [LSig GhcRn] -- AZ: how to do this?
 ```
 
 1. We need to define a way of combining extensions
 
 ```
-    plusHsValBinds ::HsValBinds a ->HsValBinds a ->HsValBinds a
-    plusHsValBinds (ValBindsIn x1 ds1 sigs1)(ValBindsIn x2 ds2 sigs2)=ValBindsIn(x1 `mappend` x2)(ds1 `unionBags` ds2)(sigs1 ++ sigs2)
+    plusHsValBinds :: HsValBinds a -> HsValBinds a -> HsValBinds a
+    plusHsValBinds (ValBindsIn x1 ds1 sigs1) (ValBindsIn x2 ds2 sigs2)
+      = ValBindsIn (x1 `mappend` x2) (ds1 `unionBags` ds2) (sigs1 ++ sigs2)
 ```
 
 >
+>
 > Is `mappend` the right thing to use?
+>
+>
 
 1. Current implementation defines
 
 ```
     pattern
       ValBindsIn a b
-        =AST.ValBindsNoFieldExt a b
+        = AST.ValBinds   NoFieldExt a b
 ```
 
 >
+>
 > which means that any tag using the extension will break in GHC code.
+>
+>
 
 1. what are we trying to achieve with TTG?
 
@@ -477,14 +603,18 @@ dataHsValBindsLR idL idR
 ```
     pattern
       ValBindsOut a b
-        =NewValBindsLR(NValBindsOut a b)
+        = NewValBindsLR (NValBindsOut a b)
 ```
 
 >
+>
 > it is not possible to pattern match on the type params on the LHS
 > so the following does not parse
+>
+>
 
 ```
     pattern
-      ValBindsOut(GhcPass a)(GhcPass b)=NewValBindsLR(NValBindsOut(GhcPass a)(GhcPass b))
+      ValBindsOut (GhcPass a) (GhcPass b)
+        = NewValBindsLR (NValBindsOut (GhcPass a) (GhcPass b))
 ```

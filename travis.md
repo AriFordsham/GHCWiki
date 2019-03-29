@@ -45,14 +45,28 @@ These settings are made in [ghc/.travis.yml](/trac/ghc/browser/ghc/.travis.yml)[
 - **Success** (green checkmark):
 
 >
+>
 > The validation run went through without problems. Great!
+>
+>
 
 - **Failure** (Red cross):
 
 >
+>
 > There was a validation error, such as a build failure or a failing test case. Go and fix it!
+>
+>
 
 - **Error** (Grey exclamation mark): Travis could not finish the build. Most often, this is due to the build exceeding the time limit of 50 minutes. 
 
+
+   
+
+
+>
 >
 > In that case, you can probably ignore the problem. If you are a [ member of the GitHub GHC team](https://github.com/orgs/ghc/people), you can restart the build, to keep the build history tidy.
+>
+>
+

@@ -1,4 +1,7 @@
-** Index by Title ** \| **[Index by Date](recent-changes)**
+
+** Index by Title ** \| ** [Index by Date](recent-changes) **
+
+
 
 - [AboutVideos](/trac/ghc/wiki/AboutVideos)
 - [ActiveBranches](/trac/ghc/wiki/ActiveBranches)
@@ -1177,3 +1180,6 @@
   - [WorkingConventions/UsefulTools](/trac/ghc/wiki/WorkingConventions/UsefulTools)
 - [ZuriHac2014](/trac/ghc/wiki/ZuriHac2014)
 - [admin/lun](/trac/ghc/wiki/admin/lun)
+
+
+

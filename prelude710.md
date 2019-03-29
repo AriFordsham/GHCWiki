@@ -34,13 +34,22 @@ We discussed many alternatives, but ended up with two simple ones:
   - From `Data.List`: all, and, any, concat, concatMap, elem, find, foldl, foldl', foldl1, foldr, foldr1, length, mapAccumL, mapAccumR, maximum, maximumBy, minimum, minimumBy, notElem, null, or, product, sum
 
 >
+>
 > In the process of doing so, extend `Foldable` in such a way that we can do this without changing the semantics of existing programs or suffering performance regressions.
+>
+>
 
+>
 >
 > While this is a divergence from Haskell 2010, for the most part code that compiles with Haskell 2010 continues to compile under this scheme. The [ Applicative-Monad proposal](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal) is also a divergence from Haskell 2010, but by way of contrast it is one that requires active changes in user code for it to continue to compile.
+>
+>
 
 >
+>
 > The generalised types are almost entirely backward compatible.  However the `Foldable` class (in particular) may evolve further.
+>
+>
 
 - **Plan List** - leave these functions working on lists, as they do in GHC 7.8 (and Haskell 2010).  The generalised versions would still be available, but you would have to import them, and use qualification, hiding or specific imports to avoid name clashes.  e.g. `foldr` is defined on lists in the current `Prelude`, but is generalised in `Data.Foldable`.
 
