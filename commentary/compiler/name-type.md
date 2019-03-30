@@ -39,42 +39,36 @@ data NameSort
 			-- OccName is very uninformative (like 's')
 ```
 
-<table><tr><th>`Internal`, `System`</th>
-<td>
-An `Internal``Name` has only an occurrence name. Distinct `Internal``Names` may have the same occurrence name; the `n_uniq` distinguishes them.  
-</td></tr></table>
+* **`Internal`, `System`**
 
->
-> There is only a tiny difference between `Internal` and `System`; the former simply remembers that the name was originally written by the programmer, which helps when generating error messages.
+  An `Internal``Name` has only an occurrence name. Distinct `Internal``Names` may have the same occurrence name; the `n_uniq` distinguishes them.  
 
-<table><tr><th>`External`</th>
-<td>
-An `External``Name` has a globally-unique (module, occurrence name) pair, namely the original name of the entity, that describes where the thing was originally defined. So for example, if we have 
+  There is only a tiny difference between `Internal` and `System`; the former simply remembers that the name was originally written by the programmer, which helps when generating error messages.
 
-```wiki
-module M where
-  f = e1
-  g = e2
+* **`External`**
 
-module A where
-  import qualified M as Q
-  import M
-  a = Q.f + g
-```
+  An `External``Name` has a globally-unique (module, occurrence name) pair, namely the original name of the entity, that describes where the thing was originally defined. So for example, if we have 
 
-then in module `A`, the function `Q.f` has an External Name `M.f`.
-</td></tr></table>
+  ```wiki
+  module M where
+    f = e1
+    g = e2
 
-> >
-> > During any invocation of GHC, each (module, occurrence-name) gets one, and only one, `Unique`, stored in the `n_uniq` field of the `Name`.  This association remains fixed even when GHC finishes one module and starts to compile another.  This association between (module, occurrence-name) pairs and the corresponding `Name` (with its `n_uniq` field) is maintained by the Name Cache.
+  module A where
+    import qualified M as Q
+    import M
+    a = Q.f + g
+  ```
 
-<table><tr><th>`WiredIn`</th>
-<td>
-A `WiredIn``Name` is a special sort of `External``Name`, one that is completely known to the compiler (e.g. the `Bool` type constructor).  See [Commentary/Compiler/WiredIn](commentary/compiler/wired-in).
-</td></tr></table>
+  then in module `A`, the function `Q.f` has an External Name `M.f`.
 
-> >
-> > The `BuiltInSyntax` field is just a boolean yes/no flag that identifies entities that are denoted by built-in syntax, such as `[]` for the empty list.  These `Names` aren't "in scope" as such, and we occasionally need to know that.
+  * During any invocation of GHC, each (module, occurrence-name) gets one, and only one, `Unique`, stored in the `n_uniq` field of the `Name`.  This association remains fixed even when GHC finishes one module and starts to compile another.  This association between (module, occurrence-name) pairs and the corresponding `Name` (with its `n_uniq` field) is maintained by the Name Cache.
+
+* **`WiredIn`**
+
+  A `WiredIn``Name` is a special sort of `External``Name`, one that is completely known to the compiler (e.g. the `Bool` type constructor).  See [Commentary/Compiler/WiredIn](commentary/compiler/wired-in).
+
+  * The `BuiltInSyntax` field is just a boolean yes/no flag that identifies entities that are denoted by built-in syntax, such as `[]` for the empty list.  These `Names` aren't "in scope" as such, and we occasionally need to know that.
 
 ## Entities and `Names`
 
