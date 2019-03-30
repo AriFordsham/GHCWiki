@@ -64,11 +64,9 @@ dataIntegermkInteger::Bool-- True <=> non-negative->[Int]-- Absolute value in 31
 
 - **Representing integers**.  We stick to the `LitInteger` representation (which hides the concrete representation) as late as possible in the compiler.   In particular, it's important that the `LitInteger` representation is used in unfoldings in interface files, so that constant folding can happen on expressions that get inlined.  
 
->
-> We finally convert `LitInteger` to a proper core representation of Integer in [compiler/coreSyn/CorePrep.lhs](/ghc/ghc/tree/master/ghc/compiler/coreSyn/CorePrep.lhs), which looks up the Id for `mkInteger` and uses it to build an expression like `mkInteger True [123, 456]` (where the `Bool` represents the sign, and the list of `Int`s are 31 bit chunks of the absolute value from lowest to highest).
+  We finally convert `LitInteger` to a proper core representation of Integer in [compiler/coreSyn/CorePrep.lhs](/ghc/ghc/tree/master/ghc/compiler/coreSyn/CorePrep.lhs), which looks up the Id for `mkInteger` and uses it to build an expression like `mkInteger True [123, 456]` (where the `Bool` represents the sign, and the list of `Int`s are 31 bit chunks of the absolute value from lowest to highest).
 
->
-> However, there is a special case for `Integer`s that are within the range of `Int` when the `integer-gmp` implementation is being used; in that case, we use the `S#` constructor (via `integerGmpSDataCon` in [compiler/prelude/TysWiredIn.lhs](/ghc/ghc/tree/master/ghc/compiler/prelude/TysWiredIn.lhs)) to break the abstraction and directly create the datastructure.
+  However, there is a special case for `Integer`s that are within the range of `Int` when the `integer-gmp` implementation is being used; in that case, we use the `S#` constructor (via `integerGmpSDataCon` in [compiler/prelude/TysWiredIn.lhs](/ghc/ghc/tree/master/ghc/compiler/prelude/TysWiredIn.lhs)) to break the abstraction and directly create the datastructure.
 
 - **Don't inline integer functions**.  Most of the functions in the Integer implementation in the `integer` package are marked `NOINLINE`. For example in `integer-gmp` we have
 
