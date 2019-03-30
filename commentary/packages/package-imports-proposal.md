@@ -1,14 +1,14 @@
 # Note about this page
 
-> *Apparently, this page is out of date and the issue has been settled in favour of the syntax:*
->
-> ```wiki
-> import "somepackage" Some.Module
-> ```
->
->
-> See also:
-> [https://downloads.haskell.org/\~ghc/latest/docs/html/users_guide/glasgow_exts.html\#ghc-flag--XPackageImports](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#ghc-flag--XPackageImports)
+*Apparently, this page is out of date and the issue has been settled in favour of the syntax:*
+
+```wiki
+import "somepackage" Some.Module
+```
+
+See also:
+
+[https://downloads.haskell.org/\~ghc/latest/docs/html/users_guide/glasgow_exts.html\#ghc-flag--XPackageImports](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#ghc-flag--XPackageImports)
 
 # Explicit package imports
 
@@ -46,8 +46,7 @@ We think of this as rather like the question "If you import f from module M, can
 
 We propose to adopt the same principle for imports. That is, an import with no package specified, such as "`import A.B.C`", means: 
 
->
-> Find all modules A.B.C exported by all exposed packages, or the package or program being compiled. If there is exactly one such module, that's the one to import. Otherwise report "ambiguous import".
+- Find all modules A.B.C exported by all exposed packages, or the package or program being compiled. If there is exactly one such module, that's the one to import. Otherwise report "ambiguous import".
 
 
 If the reference to A.B.C is ambiguous, you can qualify the import by adding "`from "foo"`".
@@ -197,8 +196,7 @@ It is clear from the above examples that the keyword `from` is redundant - the p
 
 A possible syntax which covers everything in this proposal is therefore:
 
-> **import** \[*package-name*\] **{***import-specifier* \[**;***import-specifier*\] **}**
-
+  **import** \[*package-name*\] **{** *import-specifier* \[**;** *import-specifier*\] **}**
 
 where *package-name* is a string literal or the keyword `home`, the *import-specifier* corresponds to everything that is currently allowed after the keyword `import`, and the braces and semicolons would be added by the layout rule.
 
