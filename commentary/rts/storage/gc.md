@@ -45,25 +45,21 @@ The GC is designed to be flexible, supporting lots of ways to tune its behaviour
 
 The main data structure is `generation`, which contains:
 
-<table><tr><th>`blocks`</th>
-<td>
-a pointer to a list of blocks
-</td></tr></table>
+- **`blocks`**
 
-<table><tr><th>`large_objects`</th>
-<td>
-a pointer to a list of blocks containing large objects
-</td></tr></table>
+  a pointer to a list of blocks
 
-<table><tr><th>`threads`</th>
-<td>
-a list of threads in this generation
-</td></tr></table>
+- **`large_objects`**
 
-<table><tr><th>`mut_list`</th>
-<td>
-the [remembered set](commentary/rts/storage/gc/remembered-sets), a list of blocks containing pointers to objects in *this* generation that point to objects in *younger* generations
-</td></tr></table>
+  a pointer to a list of blocks containing large objects
+
+- **`threads`**
+
+  a list of threads in this generation
+
+- **`mut_list`**
+
+  the [remembered set](commentary/rts/storage/gc/remembered-sets), a list of blocks containing pointers to objects in *this* generation that point to objects in *younger* generations
 
 
 and various other administrative fields (see [includes/rts/storage/GC.h](/ghc/ghc/tree/master/ghc/includes/rts/storage/GC.h) for the details).
@@ -79,14 +75,13 @@ A `nursery` is a list of blocks into which the mutator allocates new (small) obj
 
 The struct `nursery` contains only two fields
 
-<table><tr><th>`blocks`</th>
-<td>
-the list of blocks in this nursery
-</td></tr>
-<tr><th>`n_blocks`</th>
-<td>
-the number of blocks in the above list
-</td></tr></table>
+- **`blocks`**
+
+  the list of blocks in this nursery
+
+- **`n_blocks`**
+
+  the number of blocks in the above list
 
 
 In the threaded RTS, there is one nursery per Capability, as each Capability allocates independently into its own allocation area.  Nurseries are therefore stored in an array `nurseries[]`, indexed by Capability number.
