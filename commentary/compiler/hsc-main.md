@@ -16,8 +16,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
   - The **[Renamer](commentary/compiler/renamer)** transforms this to `HsSyn` parameterised by **[Name](commentary/compiler/name-type)**.  To a first appoximation, a `Name` is a string plus a `Unique` (number) that uniquely identifies it.  In particular, the renamer associates each identifier with its binding instance and ensures that all occurrences which associate to the same binding instance share a single `Unique`. (`-ddump-rn`)  
   - The **[Typechecker](commentary/compiler/type-checker)** transforms this further, to `HsSyn` parameterised by **[Id](commentary/compiler/entity-types)**.  To a first approximation, an `Id` is a `Name` plus a type. In addition, the type-checker converts class declarations to `Class`es, and type declarations to `TyCon`s and `DataCon`s.  And of course, the type-checker deals in `Type`s and `TyVar`s. The [data types for these entities](commentary/compiler/entity-types) (`Type`, `TyCon`, `Class`, `Id`, `TyVar`) are pervasive throughout the rest of the compiler. (`-ddump-tc`)
 
->
-> These three passes can all discover programmer errors, which are sorted and reported to the user.
+  These three passes can all discover programmer errors, which are sorted and reported to the user.
 
 - The **Desugarer** ([compiler/deSugar/Desugar.hs](/ghc/ghc/tree/master/ghc/compiler/deSugar/Desugar.hs)) converts from the massive `HsSyn` type to [GHC's intermediate language, CoreSyn](commentary/compiler/core-syn-type).  This Core-language data type is unusually tiny: just eight constructors.) (`-ddump-ds`)
 
@@ -39,19 +38,16 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 
 - Then the **CoreTidy pass** gets the code into a form in which it can be imported into subsequent modules (when using `--make`) and/or put into an interface file.  
 
->
-> It makes a difference whether or not you are using `-O` at this stage.  With `-O` (or rather, with `-fomit-interface-pragmas` which is a consequence of `-O`), the tidied program (produced by `tidyProgram`) has unfoldings for Ids, and RULES.  Without `-O` the unfoldings and RULES are omitted from the tidied program.  And that, in turn, affects the interface file generated subsequently.
+  It makes a difference whether or not you are using `-O` at this stage.  With `-O` (or rather, with `-fomit-interface-pragmas` which is a consequence of `-O`), the tidied program (produced by `tidyProgram`) has unfoldings for Ids, and RULES.  Without `-O` the unfoldings and RULES are omitted from the tidied program.  And that, in turn, affects the interface file generated subsequently.
 
->
-> There are good notes at the top of the file [compiler/main/TidyPgm.hs](/ghc/ghc/tree/master/ghc/compiler/main/TidyPgm.hs); the main function is `tidyProgram`, documented as "Plan B" ("Plan A" is a simplified tidy pass that is run when we have only typechecked, but haven't run the desugarer or simplifier).
+  There are good notes at the top of the file [compiler/main/TidyPgm.hs](/ghc/ghc/tree/master/ghc/compiler/main/TidyPgm.hs); the main function is `tidyProgram`, documented as "Plan B" ("Plan A" is a simplified tidy pass that is run when we have only typechecked, but haven't run the desugarer or simplifier).
 
 - At this point, the data flow forks.  First, the tidied program is dumped into an interface file.  This part happens in two stages:
 
-  - It is **converted to `IfaceSyn`** (defined in [compiler/iface/IfaceSyn.hs](/ghc/ghc/tree/master/ghc/compiler/iface/IfaceSyn.hs) and [compiler/iface/IfaceType.hs](/trac/ghc/browser/ghc/compiler/iface/IfaceType.hs)).
+  * It is **converted to `IfaceSyn`** (defined in [compiler/iface/IfaceSyn.hs](/ghc/ghc/tree/master/ghc/compiler/iface/IfaceSyn.hs) and [compiler/iface/IfaceType.hs](/trac/ghc/browser/ghc/compiler/iface/IfaceType.hs)).
   - The `IfaceSyn` is **serialised into a binary output file** ([compiler/iface/BinIface.hs](/ghc/ghc/tree/master/ghc/compiler/iface/BinIface.hs)).
 
-> >
-> > The serialisation does (pretty much) nothing except serialise.  All the intelligence is in the `Core`-to-`IfaceSyn` conversion; or, rather, in the reverse of that step.
+    The serialisation does (pretty much) nothing except serialise.  All the intelligence is in the `Core`-to-`IfaceSyn` conversion; or, rather, in the reverse of that step.
 
 - The same, tidied Core program is now fed to the Back End.  First there is a two-stage conversion from `CoreSyn` to [GHC's intermediate language, StgSyn](commentary/compiler/stg-syn-type).
 
