@@ -14,12 +14,11 @@
 
 - `compiler/basicTypes/MkId.lhs` -- A machinery, responsible for generation of worker-wrappers makes use of demands. For instance, when a signature for a worker is generated, the following strictness signature is created:
 
-```wiki
-  wkr_sig = mkStrictSig (mkTopDmdType (replicate wkr_arity top) cpr_info)
-```
+  ```wiki
+    wkr_sig = mkStrictSig (mkTopDmdType (replicate wkr_arity top) cpr_info)
+  ```
 
->
-> In words, a non-bottoming demand type with `N` lazy/used arguments (`top`) is created for a worker, where `N` is just a worker's pre-computed arity. Also, particular demands are used when creating signatures for dictionary selectors (see `mkDictSelId`). 
+  In words, a non-bottoming demand type with `N` lazy/used arguments (`top`) is created for a worker, where `N` is just a worker's pre-computed arity. Also, particular demands are used when creating signatures for dictionary selectors (see `mkDictSelId`). 
 
 - `compiler/prelude/primops.txt.pp` -- this file defines demand signatures for primitive operations, which are inserted by `cpp` pass on the module `compiler/basicTypes/MkId.lhs`;
 
