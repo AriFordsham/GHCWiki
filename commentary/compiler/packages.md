@@ -27,28 +27,24 @@ GHC draws its information about what packages are installed from one or more pac
 
 Source files: [compiler/main/PackageConfig.hs](/ghc/ghc/tree/master/ghc/compiler/main/PackageConfig.hs), [compiler/main/Packages.lhs](/trac/ghc/browser/ghc/compiler/main/Packages.lhs)
 
-<table><tr><th>`PackageId`</th>
-<td>
-The most important package type inside ghc is `PackageId`, representing the full name of a package (including its version).
+* **`PackageId`**
+
+  The most important package type inside ghc is `PackageId`, representing the full name of a package (including its version).
 It is represented as a `FastString` for fast comparison.
-</td></tr></table>
 
-<table><tr><th>`PackageConfig`</th>
-<td>
-The information contained in the package database about a package.  Currently this is a synonym for `InstalledPackageInfo`,
+- **`PackageConfig`**
+
+  The information contained in the package database about a package.  Currently this is a synonym for `InstalledPackageInfo`,
 later it might contain extra GHC-specific info, or have a more optimised representation.
-</td></tr></table>
 
-<table><tr><th>`PackageConfigMap`</th>
-<td>
-A mapping (actually `UniqFM`) from `PackageId` to `PackageConfig`.
-</td></tr></table>
+- **`PackageConfigMap`**
 
-<table><tr><th>`PackageState`</th>
-<td>
-Everything the compiler knows about the package database.  This is built by `initPackages` in 
+  A mapping (actually `UniqFM`) from `PackageId` to `PackageConfig`.
+
+- **`PackageState`**
+
+  Everything the compiler knows about the package database.  This is built by `initPackages` in 
 [compiler/main/Packages.lhs](/ghc/ghc/tree/master/ghc/compiler/main/Packages.lhs), and stashed in the `DynFlags`.
-</td></tr></table>
 
 ## Modules
 
