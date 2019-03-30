@@ -234,8 +234,7 @@ This mechanism cannot derive `Functor`, `Foldable`, or `Traversable` instances f
 1. The data type's last type parameter cannot be used contravariantly. (see the section on covariant and contravariant positions.)
 1. The data type's last type parameter cannot be used in the "wrong place" in any constructor's data arguments. For example, in `data Right a = Right [a] (Either Int a)`, the type parameter `a` is only ever used as the last type argument in `[]` and `Either`, so both `[a]` and `Either Int a` values can be `fmap`ped. However, in `data Wrong a = Wrong (Either a a)`, the type variable `a` appears in a position other than the last, so trying to `fmap` an `Either a a` value would not typecheck.
 
->
-> Note that there are two exceptions to this rule: tuple and function types.
+   Note that there are two exceptions to this rule: tuple and function types.
 
 1. The data type's last type variable cannot used in a `-XDatatypeContexts` constraint. For example, `data Ord a => O a = O a deriving Functor` would be rejected.
 
@@ -245,24 +244,23 @@ In addition, GHC performs checks for certain classes only:
 1. For derived `Foldable` and `Traversable` instances, a data type cannot use function types. This restriction does not apply to derived `Functor` instances, however.
 1. For derived `Functor` and `Traversable` instances, the data type's last type variable must be truly universally quantified, i.e., it must not have any class or equality constraints. This means that the following is legal:
 
-```
-dataT a b whereT1:: a -> b ->T a b      -- Fine! Vanilla H-98T2:: b -> c ->T a b      -- Fine! Existential c, but we can still map over 'b'T3:: b ->TInt b         -- Fine! Constraint 'a', but 'b' is still polymorphicderivinginstanceFunctor(T a){-
-instance Functor (T a) where
-    fmap f (T1 a b) = T1 a (f b)
-    fmap f (T2 b c) = T2 (f b) c
-    fmap f (T3 x)   = T3 (f x)
--}
-```
+   ```
+   dataT a b whereT1:: a -> b ->T a b      -- Fine! Vanilla H-98T2:: b -> c ->T a b      -- Fine! Existential c, but we can still map over 
+   'b'T3:: b ->TInt b         -- Fine! Constraint 'a', but 'b' is still polymorphicderivinginstanceFunctor(T a){-
+   instance Functor (T a) where
+       fmap f (T1 a b) = T1 a (f b)
+       fmap f (T2 b c) = T2 (f b) c
+       fmap f (T3 x)   = T3 (f x)
+   -}
+   ```
 
->
-> but the following is not legal:
+   but the following is not legal:
 
-```
-dataT a b whereT4::Ord b => b ->T a b  -- No!  'b' is constrainedT5:: b ->T b b           -- No!  'b' is constrainedT6::T a (b,b)-- No!  'b' is constrained
-```
+   ```
+   dataT a b whereT4::Ord b => b ->T a b  -- No!  'b' is constrainedT5:: b ->T b b           -- No!  'b' is constrainedT6::T a (b,b)-- No!  'b' is constrained
+   ```
 
->
-> This restriction does not apply to derived `Foldable` instances. See the following section for more details.
+This restriction does not apply to derived `Foldable` instances. See the following section for more details.
 
 ### Relaxed universality check for `DeriveFoldable`
 
@@ -417,21 +415,19 @@ We can fix both of these issues by incorporating a slight twist to the usual alg
 - `ConName` has `n` arguments
 - `{b_i, ..., b_k}` is a subset of `{a_1, ..., a_n}` whose indices correspond to the arguments whose types mention the last type parameter. As a consequence, taking the difference of `{a_1, ..., a_n}` and `{b_i, ..., b_k}` yields the all the argument values of `ConName` whose types do not mention the last type parameter. Note that `[i, ..., k]` is a strictly increasing—but not necessarily consecutive—integer sequence.
 
->
-> For example, the datatype
+   For example, the datatype
 
-```
-dataFoo a =FooInt a Int a
-```
+   ```
+   dataFoo a =FooInt a Int a
+   ```
 
->
-> would generate the following `Traversable` instance:
+   would generate the following `Traversable` instance:
 
-```
-instanceTraversableFoowhere
-  traverse f (Foo a1 a2 a3 a4)=
-    fmap (\b2 b4 ->Foo a1 b2 a3 b4)(f a2)<*> f a4
-```
+   ```
+   instanceTraversableFoowhere
+     traverse f (Foo a1 a2 a3 a4)=
+       fmap (\b2 b4 ->Foo a1 b2 a3 b4)(f a2)<*> f a4
+   ```
 
 
 Technically, this approach would also work for `-XDeriveFunctor` as well, but we decide not to do so because:
@@ -440,26 +436,23 @@ Technically, this approach would also work for `-XDeriveFunctor` as well, but we
 
 1. There would be certain datatypes for which the above strategy would generate `Functor` code that would fail to typecheck. For example:
 
-```
-dataBar f a =Bar(forall f.Functor f => f a)derivingFunctor
-```
+   ```
+   dataBar f a =Bar(forall f.Functor f => f a)derivingFunctor
+   ```
 
->
-> With the conventional algorithm, it would generate something like:
+   With the conventional algorithm, it would generate something like:
 
-```
-fmap f (Bar a)=Bar(fmap f a)
-```
+   ```
+   fmap f (Bar a)=Bar(fmap f a)
+   ```
 
->
-> which typechecks. But with the strategy mentioned above, it would generate:
+   which typechecks. But with the strategy mentioned above, it would generate:
 
 ```
 fmap f (Bar a)=(\b ->Bar b)(fmap f a)
 ```
 
->
-> which does not typecheck, since GHC cannot unify the rank-2 type variables in the types of `b` and `fmap f a`.
+   which does not typecheck, since GHC cannot unify the rank-2 type variables in the types of `b` and `fmap f a`.
 
 ## Future work
 
