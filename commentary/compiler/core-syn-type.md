@@ -142,8 +142,7 @@ Case expressions have several invariants
   - tag, for `DataAlt`s
   - lit, for `LitAlt`s
 
->
-> This makes finding the relevant constructor easy, and makes comparison easier too.
+  This makes finding the relevant constructor easy, and makes comparison easier too.
 
 - The list of alternatives is **always exhaustive**, meaning that it covers **all reachable cases**.  Note, however, that an "exhaustive" case does not necessarily mention all constructors:
 
