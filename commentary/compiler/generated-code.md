@@ -155,34 +155,23 @@ Some of the key concepts in the STG machine include *closures*,
 *info tables* and *entry code*. We tackle them in reverse
 order:
 
-<table><tr><th>Entry code</th>
-<td>
-The actual machine code that the STG machine will execute upon
-"entry". Entry means different things for different heap objects.
-</td></tr></table>
+* **Entry code**
 
-- For *thunks*, entry is when the thunk is forced by some demand
-  for its value, such as a `case` expression scrutinising it
-- For *functions*, entry is when the function is applied to as
-  many arguments as are demanded by the arity recorded in its info
-  table
-- For *continuations*, entry occurs when a value is returned from
-  a nested call, and hence the need arises to consume the value and
+  The actual machine code that the STG machine will execute upon "entry". Entry means different things for different heap objects.
+
+  - For *thunks*, entry is when the thunk is forced by some demand for its value, such as a `case` expression scrutinising it
+  - For *functions*, entry is when the function is applied to as many arguments as are demanded by the arity recorded in its info table
+  - For *continuations*, entry occurs when a value is returned from a nested call, and hence the need arises to consume the value and
   continue evaluation
 
-<table><tr><th>Info table</th>
-<td>
-A block of memory allocated statically, which contains metadata
-about a closure. The most important fields for our purposes are the
-entry code pointer and the arity information (if this is the info
-table for a thunk, function or partial application)
-</td></tr></table>
+* **Info table**
 
-<table><tr><th>Closure</th>
-<td>
-Essentially a heap-allocated pair of the free variables of some
-code, and a pointer to its info table (i.e. its info pointer).
-</td></tr></table>
+  A block of memory allocated statically, which contains metadata about a closure. The most important fields for our purposes are the
+entry code pointer and the arity information (if this is the info table for a thunk, function or partial application)
+
+* **Closure**
+
+  Essentially a heap-allocated pair of the free variables of some code, and a pointer to its info table (i.e. its info pointer).
 
 For an example of how these parts work together, consider the
 following code
