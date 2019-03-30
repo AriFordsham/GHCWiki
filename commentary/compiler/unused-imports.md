@@ -109,10 +109,9 @@ The import-item choosing step 2 implies that there is a total order on
 import-items.  We say import-item A *dominates* import-item B if we choose
 A over B.  Here is one possible dominance relationship:
 
->
-> (a) `import Foo` dominates `import qualified Foo`, regardless of all-or-none.
-> (b) `import Foo` dominates `import Foo(x)`.
-> (c) Otherwise choose the textually first one.
+  * (a) `import Foo` dominates `import qualified Foo`, regardless of all-or-none.
+  (b) `import Foo` dominates `import Foo(x)`.
+  (c) Otherwise choose the textually first one.
 
 
 Rationale for (a).  Consider
