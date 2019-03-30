@@ -88,38 +88,37 @@ Every `Var` has fields `varName::Name` and a `realUnique::FastInt`. The latter i
 
 Here are some per-flavour notes:
 
-<table><tr><th>`TyVar`</th>
-<td>is self explanatory.
-</td></tr></table>
+* `TyVar`
 
-<table><tr><th>`TcTyVar`</th>
-<td>is used during type-checking only.  Once type checking is finished, there are no more `TcTyVar`s.
-</td></tr></table>
+  is self explanatory.
 
-<table><tr><th>`LocalId`</th>
-<td>is used for term variables bound *in the module being compiled*.   More specifically, a `LocalId` is bound either *within* an expression (lambda, case, local let), or at the top level of the module being compiled.
+* `TcTyVar`
 
-- The `IdInfo` of a `LocalId` may change as the simplifier repeatedly bashes on it.
-- A `LocalId` carries a flag saying whether it's exported. This is useful for knowing whether we can discard it if it is not used.
+  is used during type-checking only.  Once type checking is finished, there are no more `TcTyVar`s.
 
-  ```wiki
-  data LocalIdDetails 
-    = NotExported	-- Not exported; may be discarded as dead code.
-    | Exported	-- Exported; keep alive
-  ```
+* `LocalId`
 
-</td></tr></table>
+  is used for term variables bound *in the module being compiled*.   More specifically, a `LocalId` is bound either *within* an expression (lambda, case, local let), or at the top level of the module being compiled.
 
-<table><tr><th>`GlobalId`</th>
-<td>is used for fixed, immutable, top-level term variables, notably ones that are imported from other modules.  This means that, for example, the optimizer won't change its properties.
+  - The `IdInfo` of a `LocalId` may change as the simplifier repeatedly bashes on it.
+  - A `LocalId` carries a flag saying whether it's exported. This is useful for knowing whether we can discard it if it is not used.
 
-- Always has an `External` or `WiredIn`[Name](commentary/compiler/name-type), and hence has a `Unique` that is globally unique across the whole of a GHC invocation.
-- Always bound at top level. 
-- The `IdInfo` of a `GlobalId` is completely fixed.
-- All implicit Ids (data constructors, class method selectors, record selectors and the like) are are `GlobalId`s from birth, even the ones defined in the module being compiled.
-- When finding the free variables of an expression (`exprFreeVars`), we only collect `LocalIds` and ignore `GlobalIds`.
+    ```wiki
+    data LocalIdDetails 
+      = NotExported	-- Not exported; may be discarded as dead code.
+      | Exported	-- Exported; keep alive
+    ```
 
-</td></tr></table>
+
+* `GlobalId`
+
+  is used for fixed, immutable, top-level term variables, notably ones that are imported from other modules.  This means that, for example, the optimizer won't change its properties.
+
+  - Always has an `External` or `WiredIn`[Name](commentary/compiler/name-type), and hence has a `Unique` that is globally unique across the whole of a GHC invocation.
+  - Always bound at top level. 
+  - The `IdInfo` of a `GlobalId` is completely fixed.
+  - All implicit Ids (data constructors, class method selectors, record selectors and the like) are are `GlobalId`s from birth, even the ones defined in the module being compiled.
+  - When finding the free variables of an expression (`exprFreeVars`), we only collect `LocalIds` and ignore `GlobalIds`.
 
 
 All the value bindings in the module being compiled (whether top level or not) are `LocalId`s until the CoreTidy phase. In the CoreTidy phase, all top-level bindings are made into `GlobalId`s. This is the point when a `LocalId` becomes "frozen" and becomes a fixed, immutable `GlobalId`. 
