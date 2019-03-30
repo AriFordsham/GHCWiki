@@ -13,7 +13,7 @@ This document provides details of working of GHCi primarily for the normal mode 
 
 ### Source code instrumentation
 
-> `HsTick` are added to annotate the expressions in the de-sugaring phase, which is later converted to `Tick` (part of `CoreSyn`).
+`HsTick` are added to annotate the expressions in the de-sugaring phase, which is later converted to `Tick` (part of `CoreSyn`).
 
 
 When a source code is loaded in ghci or the user enters an expression, at the front end of the compiler, we annotate the source code with **ticks**, based on the program coverage tool of Andy Gill and Colin Runciman. Ticks are uniquely numbered with respect to a particular module. Ticks are annotations on expressions, so each tick is associated with a source span, which identifies the start and end locations of the ticked expression.
@@ -26,8 +26,7 @@ For each module we also allocate an array of breakpoint flags, with one entry fo
 
 ### Byte code generation
 
->
-> For each `Tick` a special breakpoint instruction `BRK_FUN` is added during byte code generation.
+For each `Tick` a special breakpoint instruction `BRK_FUN` is added during byte code generation.
 
 
 In the coverage tool the ticks are turned into real code which performs a side effect when evaluated. In the debugger the ticks are purely annotations. They are used to pass information to the byte code generator, which generates special breakpoint instructions for ticked expressions.
@@ -40,8 +39,7 @@ The BCIs for this BCO are generated as usual, and we prefix a new special breakp
 
 ## Runtime
 
->
-> The GHCi thread waits on a `statusMVar`, on hitting breakpoint this is filled with `EvalBreak` by the expression thread and it waits on the `breakMVar`. When doing resume `breakMVar` is filled by GHCi thread.
+The GHCi thread waits on a `statusMVar`, on hitting breakpoint this is filled with `EvalBreak` by the expression thread and it waits on the `breakMVar`. When doing resume `breakMVar` is filled by GHCi thread.
 
 
 To understand what happens when a breakpoint is hit, it is necessary to know how GHCi evaluates an expression at the command line.
