@@ -31,7 +31,7 @@ Other important points are these:
 
 - `CmmLint` is complains if you assign a gc-ptr to a non-gc-ptr and vice versa.  It treats "gc-ptr + constant" as a gc-ptr.  
 
-> > *NB: you'd better not make an interior pointer live across a call*, else we'll save it on the stack and treat it as a GC root.  It's not clear how to guarantee this doesn't happen as the result of some optimisation.
+  * *NB: you'd better not make an interior pointer live across a call*, else we'll save it on the stack and treat it as a GC root.  It's not clear how to guarantee this doesn't happen as the result of some optimisation.
 
 **Parsing `.cmm` RTS files.**  The global register `P0` is a gc-pointer version of `R0`.  They both map to the same physical register, though!
 
