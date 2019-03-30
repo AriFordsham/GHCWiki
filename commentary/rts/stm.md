@@ -15,57 +15,49 @@ This document assumes the reader is familiar with some general details of GHC's 
 
 ### Useful RTS terms
 
-`Capability`
+- `Capability`
 
->
-> Corresponds to a CPU. The number of capabilities should match the number of CPUs. See [Capabilities](commentary/rts/scheduler#capabilities).
-
-
-TSO
-
->
-> Thread State Object. The state of a Haskell thread. See [Thread State Objects](commentary/rts/storage/heap-objects#thread-state-objects).
+  Corresponds to a CPU. The number of capabilities should match the number of CPUs. See [Capabilities](commentary/rts/scheduler#capabilities).
 
 
-Heap object
+- TSO
 
->
-> Objects on the heap all take the form of an `StgClosure` structure with a header pointing and a payload of data. The header points to code and an info table. See [Heap Objects](commentary/rts/storage/heap-objects).
+  Thread State Object. The state of a Haskell thread. See [Thread State Objects](commentary/rts/storage/heap-objects#thread-state-objects).
+
+
+- Heap object
+
+  Objects on the heap all take the form of an `StgClosure` structure with a header pointing and a payload of data. The header points to code and an info table. See [Heap Objects](commentary/rts/storage/heap-objects).
 
 ### Transactional Memory terms
 
 
-Read set
+- Read set
 
->
-> The set of `TVar`s that are read, but not written to during a transaction.
-
-
-Write set
-
->
-> The set of `TVar`s that are written to during a transaction. In the code each written `TVar` is called an "update entry" in the transactional record.
+  The set of `TVar`s that are read, but not written to during a transaction.
 
 
-Access set
+- Write set
 
->
-> All `TVar`s accessed during the transaction.
+  The set of `TVar`s that are written to during a transaction. In the code each written `TVar` is called an "update entry" in the transactional record.
+
+
+- Access set
+
+  All `TVar`s accessed during the transaction.
 
 
 While GHC's STM does not have a separate read set and write set these terms are useful for discussion.
 
 
-Retry
+- Retry
 
->
-> Here we will use the term retry exclusively for the blocking primitive in GHC's STM. This should not be confused with the steps taken when a transaction detects that it has seen an inconsistent view of memory and must start again from the beginning.
+  Here we will use the term retry exclusively for the blocking primitive in GHC's STM. This should not be confused with the steps taken when a transaction detects that it has seen an inconsistent view of memory and must start again from the beginning.
 
 
-Failure
+- Failure
 
->
-> A failed transaction is one that has seen inconsistent state. This should not be confused with a successful transaction that executes the `retry` primitive.
+  A failed transaction is one that has seen inconsistent state. This should not be confused with a successful transaction that executes the `retry` primitive.
 
 ---
 
@@ -299,25 +291,21 @@ We will start this section with an overview of some of the details then review w
 
 As a transaction is executing it can collect dynamically checked data invariants. These invariants are transactions that are never committed, but if they raise an exception when executed successfully that exception will propagate out of the atomic frame.
 
-`check#`
+- `check#`
 
->
-> Primitive operation that adds an invariant (transaction to run) to the queue of the current `TRec` by calling `stmAddInvariantToCheck`.
+  Primitive operation that adds an invariant (transaction to run) to the queue of the current `TRec` by calling `stmAddInvariantToCheck`.
 
-`checkInv :: STM a -> STM ()`
+- `checkInv :: STM a -> STM ()`
 
->
-> A wrapper for `check#` (to give it the `STM` type).
+  A wrapper for `check#` (to give it the `STM` type).
 
-`alwaysSucceeds :: STM a -> STM ()`
+- `alwaysSucceeds :: STM a -> STM ()`
 
->
-> This is the `check` from the "Transactional memory with data invariants" paper. The action immediately runs, wrapped in a nested transaction so that it will never commit but will have an opportunity to raise an exception. If successful, the originally passed action is added to the invariant queue.
+  This is the `check` from the "Transactional memory with data invariants" paper. The action immediately runs, wrapped in a nested transaction so that it will never commit but will have an opportunity to raise an exception. If successful, the originally passed action is added to the invariant queue.
 
-`always :: STM Bool -> STM ()`
+- `always :: STM Bool -> STM ()`
 
->
-> Takes an `STM` action that results in a `Bool` and adds an invariant that throws an exception when the result of the transaction is `False`.
+  Takes an `STM` action that results in a `Bool` and adds an invariant that throws an exception when the result of the transaction is `False`.
 
 
 The bookkeeping for invariants is in each `TRec`s `invariants_to_check` queue and the `StgAtomicallyFrame`s `next_invariant_to_check` field. Each invariant is in a `StgAtomicInvariant` structure that includes the `STM` action, the `TRec` where it was last executed, and a lock. This is added to the current `TRec`s queue when `check#` is executed.
@@ -369,30 +357,25 @@ While the type system enforces STM actions to be constrained to STM side effects
 
 Each `TRec` has a `state` field that holds the status of the transaction. It can be one of the following:
 
-`TREC_ACTIVE`
+- `TREC_ACTIVE`
 
->
-> The transaction is actively running.
+  The transaction is actively running.
 
-`TREC_CONDEMNED`
+- `TREC_CONDEMNED`
 
->
-> The transaction has seen an inconsistency.
+  The transaction has seen an inconsistency.
 
-`TREC_COMMITTED`
+- `TREC_COMMITTED`
 
->
-> The transaction has committed and is in the process of updating `TVar` values.
+  The transaction has committed and is in the process of updating `TVar` values.
 
-`TREC_ABORTED`
+- `TREC_ABORTED`
 
->
-> The transaction has aborted and is working to release locks.
+  The transaction has aborted and is working to release locks.
 
-`TREC_WAITING`
+- `TREC_WAITING`
 
->
-> The transaction has hit a `retry` and is waiting to be woken.
+  The transaction has hit a `retry` and is waiting to be woken.
 
 
 If a `TRec` state is `TREC_CONDEMNED` (some inconsistency was seen) validate does nothing. When a top-level transaction is aborted in `stmAbortTransaction`, if the state is `TREC_WAITING` it will remove the watch queue entries for the `TRec`. Similarly if a waiting `TRec` is condemned via an asynchronous exception when a validation failure is observed after a thread yield, its watch queue entries are removed. Finally a `TRec` in the `TREC_WAITING` state is not condemned by a validation. In this case the `TRec` is already waiting for a wake up from a `TVar` that changes and observing an inconsistency merely indicates that this will happen soon.
