@@ -254,19 +254,15 @@ Whenever possible we try to avoid using CPP, as it can hide code from the compil
 
 The following CPP symbols are used throughout the compiler: 
 
-<table><tr><th>**DEBUG**</th>
-<td>
-Used to enables extra checks and debugging output in the compiler. The ASSERT macro (see `HsVersions.h`) provides assertions which disappear when DEBUG is not defined. 
-</td></tr></table>
+* **DEBUG**
 
->
-> However, whenever possible, it is better to use `debugIsOn` from the `Util` module, which is defined to be `True` when `DEBUG` is defined and `False` otherwise.  The ideal way to provide debugging output is to use a Haskell expression "`when debugIsOn $ ...`" to arrange that the compiler will be silent when `DEBUG` is off (unless of course something goes wrong or the verbosity level is nonzero). When option `-O` is used, GHC will easily sweep away the unreachable code.
+  Used to enables extra checks and debugging output in the compiler. The ASSERT macro (see `HsVersions.h`) provides assertions which disappear when DEBUG is not defined. 
 
->
-> As a last resort, debugging code can be placed inside `#ifdef DEBUG`, but since this strategy guarantees that only a fraction of the code is seen be the compiler on any one compilation, it is to be avoided when possible.
+  However, whenever possible, it is better to use `debugIsOn` from the `Util` module, which is defined to be `True` when `DEBUG` is defined and `False` otherwise.  The ideal way to provide debugging output is to use a Haskell expression "`when debugIsOn $ ...`" to arrange that the compiler will be silent when `DEBUG` is off (unless of course something goes wrong or the verbosity level is nonzero). When option `-O` is used, GHC will easily sweep away the unreachable code.
 
->
-> Regarding performance, a good rule of thumb is that `DEBUG` shouldn't add more than about 10-20% to the compilation time. This is the case at the moment. If it gets too expensive, we won't use it. For more expensive runtime checks, consider adding a flag - see for example `-dcore-lint`.
+  As a last resort, debugging code can be placed inside `#ifdef DEBUG`, but since this strategy guarantees that only a fraction of the code is seen be the compiler on any one compilation, it is to be avoided when possible.
+
+  Regarding performance, a good rule of thumb is that `DEBUG` shouldn't add more than about 10-20% to the compilation time. This is the case at the moment. If it gets too expensive, we won't use it. For more expensive runtime checks, consider adding a flag - see for example `-dcore-lint`.
 
 **Trap, pitfall for using the ASSERT macro**:
 
@@ -280,10 +276,9 @@ Not in scope: data constructor `ASSERT'
 
 Now you can Google for this error message :-)
 
-<table><tr><th>**GHCI**</th>
-<td>
-Enables GHCi support, including the byte code generator and interactive user interface. This isn't the default, because the compiler needs to be bootstrapped with itself in order for GHCi to work properly. The reason is that the byte-code compiler and linker are quite closely tied to the runtime system, so it is essential that GHCi is linked with the most up-to-date RTS. Another reason is that the representation of certain datatypes must be consistent between GHCi and its libraries, and if these were inconsistent then disaster could follow. 
-</td></tr></table>
+* **GHCI**
+
+  Enables GHCi support, including the byte code generator and interactive user interface. This isn't the default, because the compiler needs to be bootstrapped with itself in order for GHCi to work properly. The reason is that the byte-code compiler and linker are quite closely tied to the runtime system, so it is essential that GHCi is linked with the most up-to-date RTS. Another reason is that the representation of certain datatypes must be consistent between GHCi and its libraries, and if these were inconsistent then disaster could follow. 
 
 ### Platform tests
 
@@ -313,10 +308,9 @@ In order to avoid angering this git hook, you should set your editor to indent u
 
 - In TextMate, in the tabs pop-up menu at the bottom of the window, select "Soft Tabs", as show in the following screenshot where the blue rectangle is:
 
-> [](/trac/ghc/attachment/wiki/Commentary/CodingStyle/TextMate-tabs-menu.png)
+  [](/trac/ghc/attachment/wiki/Commentary/CodingStyle/TextMate-tabs-menu.png)
 
->
-> Alternatively, open the Bundle Editor and add a new Preference called Indentation to the bundle editor. Give it the following contents:
+  Alternatively, open the Bundle Editor and add a new Preference called Indentation to the bundle editor. Give it the following contents:
 
 ```wiki
 {	shellVariables = (
