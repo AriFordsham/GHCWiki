@@ -36,11 +36,9 @@ The core of the Cmm pipeline is implemented by the `cpsTop` function in [compile
   - Eliminating blocks that have only one predecessor by concatenating them with that predecessor
   - Shortcuting targets of branches and calls (see Note \[What is shortcutting\])
 
->
-> If a block becomes unreachable because of shortcutting it is eliminated from the graph. However, **it is theoretically possible that this pass will produce unreachable blocks**. The reason is the label renaming pass performed after block concatenation has been completed.
+  If a block becomes unreachable because of shortcutting it is eliminated from the graph. However, **it is theoretically possible that this pass will produce unreachable blocks**. The reason is the label renaming pass performed after block concatenation has been completed.
 
->
-> This pass might be optionally called for the second time at the end of the pipeline.
+  This pass might be optionally called for the second time at the end of the pipeline.
 
 - **Common Block Elimination**, implemented in `CmmCommonBlockElim`, eliminates blocks that are identical (except for the label on their first node). Since this pass traverses blocks in depth-first order any unreachable blocks introduced by Control Flow Optimisations are eliminated. **This pass is optional.**
 
@@ -54,7 +52,7 @@ The core of the Cmm pipeline is implemented by the `cpsTop` function in [compile
   - save any variables that are live across a call, and reload them as
     necessary.
 
-> **Important**: It may happen that stack layout will invalidate the computed set of proc-points by making a proc-point unreachable. This unreachable block is eliminated by one of subsequent passes that performs depth-first traversal of a graph: sinking pass (if optimisations are enabled), proc-point analysis (if optimisations are disabled and we're doing proc-point splitting) or at the very end of the pipeline (if optimisations are disabled and we're not doing proc-point splitting). This means that starting from this point in the pipeline we have inconsistent data and subsequent steps must be prepared for it.
+  **Important**: It may happen that stack layout will invalidate the computed set of proc-points by making a proc-point unreachable. This unreachable block is eliminated by one of subsequent passes that performs depth-first traversal of a graph: sinking pass (if optimisations are enabled), proc-point analysis (if optimisations are disabled and we're doing proc-point splitting) or at the very end of the pipeline (if optimisations are disabled and we're not doing proc-point splitting). This means that starting from this point in the pipeline we have inconsistent data and subsequent steps must be prepared for it.
 
 - **Sinking assignments**, implemented in `CmmSink`, performs these optimizations:
 
@@ -63,7 +61,7 @@ The core of the Cmm pipeline is implemented by the `cpsTop` function in [compile
   - inlines assignments to registers that are mentioned only once
   - discards dead assignments
 
-> **This pass is optional.** It currently does not eliminate dead code in loops ([\#8327](https://gitlab.haskell.org//ghc/ghc/issues/8327)) and has some other minor deficiencies (eg. [\#8336](https://gitlab.haskell.org//ghc/ghc/issues/8336)).
+  **This pass is optional.** It currently does not eliminate dead code in loops ([\#8327](https://gitlab.haskell.org//ghc/ghc/issues/8327)) and has some other minor deficiencies (eg. [\#8336](https://gitlab.haskell.org//ghc/ghc/issues/8336)).
 
 - **CAF analysis**, implemented in `CmmBuildInfoTables`. Computed CAF information is returned from `cmmPipeline` and used to create Static Reference Tables (SRT). See [here](commentary/rts/storage/gc/CAFs) for some more detail on CAFs and SRTs. This pass is implemented using Hoopl (see below).
 
@@ -87,9 +85,7 @@ Currently we have two ways to run the Cmm pipeline:
 
 - The `.cmm` file passed as input
 
->
-> Here we get into `hscCompileFile` and run the parser first. Ouput
-> from the parser can be dumped via the `-ddump-cmm-verbose` flag:
+  Here we get into `hscCompileFile` and run the parser first. Ouput from the parser can be dumped via the `-ddump-cmm-verbose` flag:
 
 ```wiki
   hscCompileFile
@@ -102,9 +98,7 @@ Currently we have two ways to run the Cmm pipeline:
 
 - The Haskell source passed as input
 
->
-> The compiler reached the `HscRecomp` phase and started to produce
-> hard code through the native codegen:
+  The compiler reached the `HscRecomp` phase and started to produce hard code through the native codegen:
 
 ```wiki
   hscGenHardCode
@@ -122,7 +116,7 @@ Currently we have two ways to run the Cmm pipeline:
     (dump) [-ddump-cmm-raw]     "== Raw Cmm =="
 ```
 
-> *"Cmm produced by codegen"* is emited in `HscMain` module after converting STG to Cmm. This Cmm has not been processed in any way by the Cmm pipeline. If you see that something is incorrect in that dump it means that the problem is located in the STG-\>Cmm pass. The last section, *"Output Cmm"*, is also dumped in `HscMain` but this is done after the Cmm has been processed by the whole Cmm pipeline.
+  *"Cmm produced by codegen"* is emited in `HscMain` module after converting STG to Cmm. This Cmm has not been processed in any way by the Cmm pipeline. If you see that something is incorrect in that dump it means that the problem is located in the STG-\>Cmm pass. The last section, *"Output Cmm"*, is also dumped in `HscMain` but this is done after the Cmm has been processed by the whole Cmm pipeline.
 
 
 All stages of the Cmm pipeline can be dumped separately (with set of the cmm subflags) or together (when `-ddump-cmm-verbose` specified). Note, that there is still problem with output into file (see ToDo in `CmmPipeline.hs:dumpWith`).
