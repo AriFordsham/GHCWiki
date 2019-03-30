@@ -21,167 +21,132 @@ Some relevant tickets: [\#10622](https://gitlab.haskell.org//ghc/ghc/issues/1062
 
 When we come up with identification schemes for packages, we are trying to solve a few problems:
 
-<table><tr><th>\[SYMBOL\]</th>
-<td>
-What symbol names should we put in the binary? (e.g., the "foozm0zi1" in   "foozm0zi1_A_DZCF_closure")
+- **\[SYMBOL\]**
 
-- It must be unique enough that for all libraries we would
-  like to be able to link together, there should not be
-  conflicts.
-- HOWEVER, it must be stable enough that if we make a minor
-  source code change, we don't have to gratuitously recompile
-  every dependency.
+  What symbol names should we put in the binary? (e.g., the "foozm0zi1" in   "foozm0zi1_A_DZCF_closure")
 
-</td></tr></table>
+  - It must be unique enough that for all libraries we would   like to be able to link together, there should not be   conflicts.
+  - HOWEVER, it must be stable enough that if we make a minor source code change, we don't have to gratuitously recompile every dependency.
 
-<table><tr><th>\[ABI\]</th>
-<td>
-When can I swap out one compiled package with another WITHOUT recompiling, i.e. what is the ABI of the package? Equal ABIs implies equal symbols, though not vice versa. ABI is usually computed after compilation is complete.
 
-- ABI can serve as correctness condition: if we link against a specific ABI, we can be sure that anything with an equivalent ABI won't cause our package to segfault.
-- ABI can also serve as an indirection: we linked against an ABI, anything that is compatible can be hotswapped in without compilation. In practice, this capability is rarely used by users because it's quite hard to compile a package multiple times with the same ABI, because (1) compilation is nondeterministic, and (2) even if no types change, a change in implementation can cause a different exported unfolding, which is ABI relevant.
+- **\[ABI\]**
 
-</td></tr></table>
+  When can I swap out one compiled package with another WITHOUT recompiling, i.e. what is the ABI of the package? Equal ABIs implies equal symbols, though not vice versa. ABI is usually computed after compilation is complete.
 
-<table><tr><th>\[SOURCE\]</th>
-<td>
-What is the unit of distribution? In other words, when a maintainer uploads an sdist to Hackage, how do you identify that source tarball?
+  - ABI can serve as correctness condition: if we link against a specific ABI, we can be sure that anything with an equivalent ABI won't cause our package to segfault.
+  - ABI can also serve as an indirection: we linked against an ABI, anything that is compatible can be hotswapped in without compilation. In practice, this capability is rarely used by users because it's quite hard to compile a package multiple times with the same ABI, because (1) compilation is nondeterministic, and (2) even if no types change, a change in implementation can cause a different exported unfolding, which is ABI relevant.
 
-- On Hackage, a package name plus version uniquely identifies an
-  sdist.  This is enforced by community standards; in a local
-  development environment, this may not hold since devs will edit
-  code without updating the version number. Call this \[WEAK SOURCE\].
-- Alternately, a cryptographic hash of the source code uniquely
-  identifies the stream of bytes.  This is enforced by math. Call this \[STRONG SOURCE\].
+- **\[SOURCE\]**
 
-</td></tr></table>
+  What is the unit of distribution? In other words, when a maintainer uploads an sdist to Hackage, how do you identify that source tarball?
 
-<table><tr><th>\[LIBRARY\]</th>
-<td>
-When you build a library, you get an `libfoo.so` file. What identifies an OS level library?
-</td></tr></table>
+  - On Hackage, a package name plus version uniquely identifies an sdist.  This is enforced by community standards; in a local development environment, this may not hold since devs will edit code without updating the version number. Call this \[WEAK SOURCE\].
+  - Alternately, a cryptographic hash of the source code uniquely identifies the stream of bytes.  This is enforced by math. Call this \[STRONG SOURCE\].
 
-<table><tr><th>\[NIX\]</th>
-<td>
-What is the full set of source which I can use to reproduceably build a build product?
+- **\[LIBRARY\]**
 
-- In today's Cabal, you could approximate this by taking \[WEAK SOURCE\] of a package, as well as all of its transitive dependencies. Call this \[WEAK NIX\].
-- The Nix approach is to ensure deterministic builds by taking the hash of the source \[STRONG SOURCE\] and also recursively including the \[NIX\] of each direct dependency. Call this \[STRONG NIX\].
-- Note that \[ABI\] does NOT imply \[NIX\]; a package might be binary compatible but do something different, and in a Nix model they should be recorded differently.
+  When you build a library, you get an `libfoo.so` file. What identifies an OS level library?
 
-</td></tr></table>
+- **\[NIX\]**
 
-<table><tr><th>\[TYPES\]</th>
-<td>
-When are two types the same?  If there are from differing packages, they are obviously different; if they are from the same package, they might still be different if the dependencies were different in each case.
+  What is the full set of source which I can use to reproduceably build a build product?
 
-- Types show up in error message, so this is a USER VISIBLE
-  notion.  Many people have (cogently) argued that this should
-  be AS SIMPLE as possible, because there's nothing worse
+  - In today's Cabal, you could approximate this by taking \[WEAK SOURCE\] of a package, as well as all of its transitive dependencies. Call this \[WEAK NIX\].
+  - The Nix approach is to ensure deterministic builds by taking the hash of the source \[STRONG SOURCE\] and also recursively including the \[NIX\] of each direct dependency. Call this \[STRONG NIX\].
+  - Note that \[ABI\] does NOT imply \[NIX\]; a package might be binary compatible but do something different, and in a Nix model they should be recorded differently.
+
+- **\[TYPES\]**
+
+  When are two types the same?  If there are from differing packages, they are obviously different; if they are from the same package, they might still be different if the dependencies were different in each case.
+
+  - Types show up in error message, so this is a USER VISIBLE notion.  Many people have (cogently) argued that this should be AS SIMPLE as possible, because there's nothing worse
   than being told that Data.ByteString.ByteString is not
   equal to Data.ByteString.ByteString (because they were from
   different packages.)
-
-</td></tr></table>
 
 ## Current mechanisms
 
 
 Today, we have a lot of different MECHANISMS for identifying these:
 
-<table><tr><th>Package Name</th>
-<td>
-Something like "lens"
-</td></tr></table>
+- **Package Name**
 
-<table><tr><th>Package Version</th>
-<td>
-Something like "0.1.2"
-</td></tr></table>
+  Something like "lens"
 
-<table><tr><th>(Source) Package ID</th>
-<td>
-Package name plus version.  With Hackage today, this identifies a unit of distribution: given a package ID you can download a source tarball \[SOURCE\] of a package (but not build it). Pre-GHC 7.10, the package ID was used for library identification, symbols and type-checking (\[LIBRARY\], \[SYMBOL\] and \[TYPES\]), but this is no longer the case.
-</td></tr></table>
+- **Package Version**
 
-<table><tr><th>Installed Package ID</th>
-<td>
-Package name, package version, and the output of ghc --abi-hash.  This is currently used to uniquely identify a built package, although technically it only identifies \[ABI\].
-</td></tr></table>
+  Something like "0.1.2"
 
-<table><tr><th>Package Key (new in 7.10)</th>
-<td>
-Hash of package name, package version, the package keys of all
+- **(Source) Package ID**
+
+  Package name plus version.  With Hackage today, this identifies a unit of distribution: given a package ID you can download a source tarball \[SOURCE\] of a package (but not build it). Pre-GHC 7.10, the package ID was used for library identification, symbols and type-checking (\[LIBRARY\], \[SYMBOL\] and \[TYPES\]), but this is no longer the case.
+
+- **Installed Package ID**
+
+  Package name, package version, and the output of ghc --abi-hash.  This is currently used to uniquely identify a built package, although technically it only identifies \[ABI\].
+
+- **Package Key (new in 7.10)**
+
+  Hash of package name, package version, the package keys of all
 textual dependencies the package included, and in Backpack
 a mapping from hole name to module by package key.
-In GHC 7.10 this is used for library identification, symbols and type-checking (\[LIBRARY\], \[SYMBOL\] and \[TYPES\]).  Because it includes package keys of textual dependencies, it also distinguishes between different dependency resolutions, ala \[WEAK NIX\].
-</td></tr></table>
+  In GHC 7.10 this is used for library identification, symbols and type-checking (\[LIBRARY\], \[SYMBOL\] and \[TYPES\]).  Because it includes package keys of textual dependencies, it also distinguishes between different dependency resolutions, ala \[WEAK NIX\].
 
 ## New concepts for Backpack
 
 
 First, we have to take the concept of an InstalledPackageId and make it more precise, having it identity components rather than packages.
 
-<table><tr><th>Component ID</th>
-<td>
-The package name, the package version, the name of the component (blank in the case of the default library component), and the hash of source code sdist tarball, selected Cabal flags (not the command line flags), GHC flags, hashes of direct dependencies of the component (the `build-depends` of the library in the Cabal file).
-</td></tr></table>
+- **Component ID**
+
+  The package name, the package version, the name of the component (blank in the case of the default library component), and the hash of source code sdist tarball, selected Cabal flags (not the command line flags), GHC flags, hashes of direct dependencies of the component (the `build-depends` of the library in the Cabal file).
 
 
 Then in Backpack we have these concepts:
 
-<table><tr><th>Indefinite/definite unit</th>
-<td>
-An indefinite unit is a single unit which hasn't been instantiated; a definite unit is one that has an instantiation of its holes.  Units without holes are both definite and indefinite (they can be used for both contexts).
-</td></tr></table>
+- **Indefinite/definite unit**
 
-<table><tr><th>Indefinite unit record (in "logical" indefinite unit database)</th>
-<td>
-An indefinite unit record is the most general result of type-checking a unit without any of its holes instantiated.  It consists of the types of the modules in the unit (ModIfaces) as well as the source code of the unit (so that it can be recompiled into a definite unit). Indefinite unit records can be installed in the "indefinite unit database."
-</td></tr></table>
+  An indefinite unit is a single unit which hasn't been instantiated; a definite unit is one that has an instantiation of its holes.  Units without holes are both definite and indefinite (they can be used for both contexts).
 
-<table><tr><th>Definite unit record (previously installed package record, in the definite unit database, previously the installed package database)</th>
-<td>
-A definite unit record is a fully-instantiated unit with its associated library. It consists of the types and objects of the compiled unit; they also contain metadata for their associated package.  Definite unit records can be installed in the "definite unit database" (previously known as the "installed package database.")
-</td></tr></table>
+- **Indefinite unit record (in "logical" indefinite unit database)**
+
+  An indefinite unit record is the most general result of type-checking a unit without any of its holes instantiated.  It consists of the types of the modules in the unit (ModIfaces) as well as the source code of the unit (so that it can be recompiled into a definite unit). Indefinite unit records can be installed in the "indefinite unit database."
+
+- **Definite unit record (previously installed package record, in the definite unit database, previously the installed package database)**
+
+  A definite unit record is a fully-instantiated unit with its associated library. It consists of the types and objects of the compiled unit; they also contain metadata for their associated package.  Definite unit records can be installed in the "definite unit database" (previously known as the "installed package database.")
 
 
 To handle these, we need some new identifiers:
 
-<table><tr><th>Unit Id (previously named Package Key)</th>
-<td>
-For Backpack units, the unit ID is the component ID plus a mapping from holes to modules (unit key plus module name). For non-Backpack units, the unit ID is equivalent to the component source hash (the hole mapping is empty). These serve the role of \[SYMBOL, LIBRARY, TYPES\]. (Partially definite unit keys can occur on-the-fly during type checking.) When all of the requirements are filled (so there is no occurrence of HOLE), the unit key serves as the primary key for the installed unit database. (We might call this an "installed unit ID" in this context) The unit ID "HOLE" is a distinguished unit ID, which is for the "hole package", representing modules which are not yet implemented (there is not actually a unit named hole, it's just a notational convention).
-</td></tr></table>
+- **Unit Id (previously named Package Key)**
 
-<table><tr><th>Module</th>
-<td>
-A unit ID plus a module name.
-</td></tr></table>
+  For Backpack units, the unit ID is the component ID plus a mapping from holes to modules (unit key plus module name). For non-Backpack units, the unit ID is equivalent to the component source hash (the hole mapping is empty). These serve the role of \[SYMBOL, LIBRARY, TYPES\]. (Partially definite unit keys can occur on-the-fly during type checking.) When all of the requirements are filled (so there is no occurrence of HOLE), the unit key serves as the primary key for the installed unit database. (We might call this an "installed unit ID" in this context) The unit ID "HOLE" is a distinguished unit ID, which is for the "hole package", representing modules which are not yet implemented (there is not actually a unit named hole, it's just a notational convention).
+
+- **Module**
+
+  A unit ID plus a module name.
 
 ## Features
 
 
 There are a number of enhancements proposed for how Cabal handles packages, which have often been conflated together. I want to clearly separate them out here:
 
-<table><tr><th>Non-destructive installs</th>
-<td>
-If I have package foo-0.2 compiled against bar-0.1, and a different build compiled against bar-0.2, I should be able to put them in the same installed package database.  THIS IS HIGH PRIORITY.
-</td></tr></table>
+- **Non-destructive installs**
 
-<table><tr><th>Views</th>
-<td>
-If I have package foo compiled against bar-0.1, and baz compiled against bar-0.2, these two packages aren't usable together (modulo private dependencies, see below).  Views are a UI paradigm making it easier for users to work in a universe where foo is available, or a universe where baz is available, but not both simultaneously. Cabal sandboxes are views but without a shared installed package database.  This is lower priority, because if you use cabal-install to get a coherent dependency set, you'll never see both foo and baz at the same time; the primary benefit of this is to assist with direct use of GHC/GHCi, however, it is generally believed that non-destructive installs will make it difficult to use GHC/GHCi by itself.
-</td></tr></table>
+  If I have package foo-0.2 compiled against bar-0.1, and a different build compiled against bar-0.2, I should be able to put them in the same installed package database.  THIS IS HIGH PRIORITY.
 
-<table><tr><th>Private dependencies</th>
-<td>
-If I have a package foo-0.2 which depends on a library bar-0.1, but not in any externally visible way, it should be allowed for a client to separately use bar-0.2. This is LOW priority; amusingly, in 7.10, this is already supported by GHC, but not by Cabal.
-</td></tr></table>
+- **Views**
 
-<table><tr><th>Hot swappable libraries</th>
-<td>
-If I install a library and it's assigned ABI hash 123abc, and then I install a number of libraries that depend on it, hot swappable library means that I can replace that installed library with another version with the same ABI hash, and everything will keep working. This feature is accidentally supported by GHC today, but no one uses it (because ABIs are not stable enough); we are willing to break this mode of use to support other features.
-</td></tr></table>
+  If I have package foo compiled against bar-0.1, and baz compiled against bar-0.2, these two packages aren't usable together (modulo private dependencies, see below).  Views are a UI paradigm making it easier for users to work in a universe where foo is available, or a universe where baz is available, but not both simultaneously. Cabal sandboxes are views but without a shared installed package database.  This is lower priority, because if you use cabal-install to get a coherent dependency set, you'll never see both foo and baz at the same time; the primary benefit of this is to assist with direct use of GHC/GHCi, however, it is generally believed that non-destructive installs will make it difficult to use GHC/GHCi by itself.
+
+- **Private dependencies**
+
+  If I have a package foo-0.2 which depends on a library bar-0.1, but not in any externally visible way, it should be allowed for a client to separately use bar-0.2. This is LOW priority; amusingly, in 7.10, this is already supported by GHC, but not by Cabal.
+
+- **Hot swappable libraries**
+
+  If I install a library and it's assigned ABI hash 123abc, and then I install a number of libraries that depend on it, hot swappable library means that I can replace that installed library with another version with the same ABI hash, and everything will keep working. This feature is accidentally supported by GHC today, but no one uses it (because ABIs are not stable enough); we are willing to break this mode of use to support other features.
 
 ## Constraints
 
