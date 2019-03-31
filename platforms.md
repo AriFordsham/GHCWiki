@@ -318,19 +318,16 @@ Tier 3 platforms worked in the past, but probably do not work now.
 
 ## Definitions
 
-**GHCi**
+- **GHCi**
 
->
-> The interactive environment, including dynamic linking of object
-> code and dynamic generation of FFI calls.
+  The interactive environment, including dynamic linking of object
+  code and dynamic generation of FFI calls.
 
-**NCG**
+- **NCG**
 
->
-> Native code generator: GHC can generate assembly code directly for this platform, bypassing gcc.
+  Native code generator: GHC can generate assembly code directly for this platform, bypassing gcc.
 
-**Dynamic libraries**
+- **Dynamic libraries**
 
->
-> Support for generating dynamically-linked sharable libraries from
-> Haskell code.
+  Support for generating dynamically-linked sharable libraries from
+  Haskell code.
