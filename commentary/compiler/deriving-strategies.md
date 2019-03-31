@@ -41,12 +41,11 @@ A solution to the above issues is to introduce a syntax extension called *derivi
 
 - Deriving stock instances: This is the usual approach that GHC takes. For certain classes that GHC is aware of, such as `Eq`, `Ord`, `Functor`, `Generic`, and others, GHC can use an algorithm to derive an instance of the class for a particular datatype mechanically. For example, a stock derived `Eq` instance for `data Foo = Foo Int` is:
 
-```
-instanceEqFoowhereFoo a ==Foo b = a == b
-```
+  ```
+  instanceEqFoowhereFoo a ==Foo b = a == b
+  ```
 
->
-> Stock applies to the "standard" derivable typeclasses mentioned in the Haskell Report like `Eq` and `Show`, as well as some GHC-specific classes like `Data` and `Generic`. The stock strategy only requires enabling language extensions in certain cases (`DeriveFunctor`, `DeriveGeneric`, etc.).
+  Stock applies to the "standard" derivable typeclasses mentioned in the Haskell Report like `Eq` and `Show`, as well as some GHC-specific classes like `Data` and `Generic`. The stock strategy only requires enabling language extensions in certain cases (`DeriveFunctor`, `DeriveGeneric`, etc.).
 
 - `GeneralizedNewtypeDeriving`: An approach that GHC only uses if the eponymous language extension is enabled, and if an instance is being derived for a newtype. GHC will reuse the instance of the newtype's underlying type to generate an instance for the newtype itself. For more information, see [http://downloads.haskell.org/\~ghc/8.0.1/docs/html/users_guide/glasgow_exts.html\#generalised-derived-instances-for-newtypes](http://downloads.haskell.org/~ghc/8.0.1/docs/html/users_guide/glasgow_exts.html#generalised-derived-instances-for-newtypes)
 - `DeriveAnyClass`: An approach that GHC only uses if the eponymous language extension is enabled. When this strategy is invoked, GHC will simply generate an instance with empty implementations for all methods. For more information, see [http://downloads.haskell.org/\~ghc/8.0.1/docs/html/users_guide/glasgow_exts.html\#deriving-any-other-class](http://downloads.haskell.org/~ghc/8.0.1/docs/html/users_guide/glasgow_exts.html#deriving-any-other-class)
@@ -80,28 +79,21 @@ With `-XDerivingStrategies` in the picture, we can now state how GHC figures out
 
 1. If deriving a stock class:
 
->
-> (a) If deriving `Eq`, `Ord`, `Ix`, or `Bounded` for a newtype, use the `GeneralizedNewtypeDeriving` strategy (even if the language extension isn't enabled).
+   (a) If deriving `Eq`, `Ord`, `Ix`, or `Bounded` for a newtype, use the `GeneralizedNewtypeDeriving` strategy (even if the language extension isn't enabled).
 
->
-> (b) If deriving `Functor`, `Foldable`, or `Enum` for a newtype, the datatype can be successfully used with `GeneralizedNewtypeDeriving`, and `-XGeneralizedNewtypeDeriving` has been enabled, use the `GeneralizedNewtypeDeriving` strategy.
+   (b) If deriving `Functor`, `Foldable`, or `Enum` for a newtype, the datatype can be successfully used with `GeneralizedNewtypeDeriving`, and `-XGeneralizedNewtypeDeriving` has been enabled, use the `GeneralizedNewtypeDeriving` strategy.
 
->
-> (c) Otherwise, if deriving a stock class and the corresponding language extension is enabled (if necessary), use the stock strategy. If the language extension is not enabled, throw an error. 
+   (c) Otherwise, if deriving a stock class and the corresponding language extension is enabled (if necessary), use the stock strategy. If the language extension is not enabled, throw an error. 
 
 1. If not deriving a stock class:
 
->
-> (a) If deriving an instance for a newtype and both `-XGeneralizedNewtypeDeriving` and `-XDeriveAnyClass` are enabled, default to `DeriveAnyClass`, but emit a warning stating the ambiguity.
+   (a) If deriving an instance for a newtype and both `-XGeneralizedNewtypeDeriving` and `-XDeriveAnyClass` are enabled, default to `DeriveAnyClass`, but emit a warning stating the ambiguity.
 
->
-> (b) Otherwise, if `-XDeriveAnyClass` is enabled, use `DeriveAnyClass`.
+   (b) Otherwise, if `-XDeriveAnyClass` is enabled, use `DeriveAnyClass`.
 
->
-> (c) Otherwise, if deriving an instance for a newtype, the datatype and typeclass can be successfully used with `GeneralizedNewtypeDeriving`, and `-XGeneralizedNewtypeDeriving` is enabled, do so.
+   (c) Otherwise, if deriving an instance for a newtype, the datatype and typeclass can be successfully used with `GeneralizedNewtypeDeriving`, and `-XGeneralizedNewtypeDeriving` is enabled, do so.
 
->
-> (d) Otherwise, throw an error.
+   (d) Otherwise, throw an error.
 
 
 The stock classes are:
