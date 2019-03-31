@@ -24,124 +24,94 @@ which ones succeeded and failed.
 
 The script runtests.py takes several options:
 
->
-> -e \<stmt\>
+- -e \<stmt\>
 
-> >
-> > executes the Python statement \<stmt\> before running any tests.
-> > The main purpose of this option is to allow certain
-> > configuration options to be tweaked from the command line; for
-> > example, the build system adds '-e config.accept=1' to the
-> > command line when 'make accept' is invoked.
+  executes the Python statement \<stmt\> before running any tests.
+  The main purpose of this option is to allow certain
+  configuration options to be tweaked from the command line; for
+  example, the build system adds '-e config.accept=1' to the
+  command line when 'make accept' is invoked.
 
->
-> --config-file \<file\>
+- --config-file \<file\>
 
-> >
-> > \<file\> is just a file containing Python code which is 
-> > executed.   The purpose of this option is so that a file
-> > containing settings for the configuration options can
-> > be specified on the command line.  Multiple --config-file 
-> > options may be given. (There is a depreciated --configfile
-> > flag that exists so the testsuite runs on older commits) 
+  \<file\> is just a file containing Python code which is 
+  executed.   The purpose of this option is so that a file
+  containing settings for the configuration options can
+  be specified on the command line.  Multiple --config-file 
+  options may be given. (There is a depreciated --configfile
+  flag that exists so the testsuite runs on older commits) 
 
->
-> --config \<field\>
+- --config \<field\>
 
-> >
-> > This command is the single-field variant of --config-file.
-> > Multiple --config options may be given.
+  This command is the single-field variant of --config-file.
+  Multiple --config options may be given.
 
->
-> --rootdir \<dir\>
+- --rootdir \<dir\>
 
-> >
-> > \<dir\> is the directory below which to search for .T files
-> > to run.
+  \<dir\> is the directory below which to search for .T files
+  to run.
 
->
-> --summary-file \<file\>
+- --summary-file \<file\>
 
-> >
-> > In addition to dumping the test summary to stdout, also
-> > put it in \<file\>.  (stdout also gets a lot of other output
-> > when running a series of tests, so redirecting it isn't  
-> > always the right thing).
+  In addition to dumping the test summary to stdout, also
+  put it in \<file\>.  (stdout also gets a lot of other output
+  when running a series of tests, so redirecting it isn't  
+  always the right thing).
 
->
-> --no-print-summary
+- --no-print-summary
 
-> >
-> > If this flag is given on the commandline, the summary will 
-> > not be printed.
+  If this flag is given on the commandline, the summary will 
+  not be printed.
 
->
-> --only \<test\>
+- --only \<test\>
 
-> >
-> > Only run tests named \<test\> will be run; multiple --only options 
-> > can be given.  Useful for running a single test from a .T file
-> > containing multiple tests.
+  Only run tests named \<test\> will be run; multiple --only options 
+  can be given.  Useful for running a single test from a .T file
+  containing multiple tests.
 
->
-> --way \<way\>
->
-> >
-> > Only ways named \<way\> will be run; multiple --way options can
-> > be given.
+- --way \<way\>
 
->
-> --skipway \<way\>
->
-> >
-> > The inverse of --way. \<way\> will be skipped if it would
-> > otherwise be ran.
+  Only ways named \<way\> will be run; multiple --way options can
+  be given.
 
->
-> --threads \<number\>
->
-> >
-> > Execute the testsuite in parallel.
+- --skipway \<way\>
 
->
-> --verbose \<number\>
->
-> >
-> > A verbosity value between 0 and 5. 0 is silent, 4 and higher
-> > activates extra output.
+  The inverse of --way. \<way\> will be skipped if it would
+  otherwise be ran.
 
->
-> --skip-perf-tests
->
-> >
-> > All performance tests will be skipped.
+- --threads \<number\>
 
->
-> --only-perf-tests
->
-> >
-> > Skips all tests except for performance tests. Useful for
-> > quickly determining if any changes have introduced a
-> > performance regression.
+  Execute the testsuite in parallel.
 
->
-> --junit \<file\>
->
-> >
-> > Writes the testsuite summary to \<file\> in JUnit format.
+- --verbose \<number\>
 
->
-> --test-env \<string\>
->
-> >
-> > Test-env defaults to 'local' if this flag is not given.
-> > If given, the performance test output (which is saved to
-> > git notes automatically) will contain the test-env you
-> > set. This is useful for copying over git notes to different
-> > computers without having to worry about different performance
-> > numbers due to hardware differences; it can also be used
-> > as an ad-hoc "tag" with the comparison tool to separate
-> > out different test-runs without committing.
+  A verbosity value between 0 and 5. 0 is silent, 4 and higher
+  activates extra output.
+
+- --skip-perf-tests
+
+  All performance tests will be skipped.
+
+- --only-perf-tests
+
+  Skips all tests except for performance tests. Useful for
+  quickly determining if any changes have introduced a
+  performance regression.
+
+- --junit \<file\>
+
+  Writes the testsuite summary to \<file\> in JUnit format.
+
+- --test-env \<string\>
+
+  Test-env defaults to 'local' if this flag is not given.
+  If given, the performance test output (which is saved to
+  git notes automatically) will contain the test-env you
+  set. This is useful for copying over git notes to different
+  computers without having to worry about different performance
+  numbers due to hardware differences; it can also be used
+  as an ad-hoc "tag" with the comparison tool to separate
+  out different test-runs without committing.
 
 
 Most of the code for running tests is located in driver/testlib.py.
@@ -170,8 +140,7 @@ idea is that it contains a sequence of calls to the function test(),
 which resides in testlib.py.  As described above, test() takes four
 arguments:
 
->
-> test(\<name\>, \<opt-fn\>, \<test-fn\>, \<args\>)
+    test(<name>, <opt-fn>, <test-fn>, <args>)
 
 
 The function \<opt-fn\> is allowed to be any Python callable object,
