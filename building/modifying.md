@@ -24,45 +24,39 @@ Here are the techniques that we use.  Note, for many of these diagnosis techniqu
 [phase ordering](building/architecture/idiom/phase-ordering) machinery of the top-level
 `Makefile`.
 
-<table><tr><th>`$(warning ... message ...)`</th>
-<td>
-equivalent to "printf-debugging" in a C program: this causes
+- **`$(warning ... message ...)`**
+
+  equivalent to "printf-debugging" in a C program: this causes
 **make** to print a message when it reads the `$(warning ..)`
 expression, and the message can include variable references.  Very
 useful for finding out what **make** thinks the value of a
 variable is at a particular point in the `Makefile`, or for finding
 out the parameters for a particular macro call.    Want to test your hypothesis about what the variable `rts_C_SRCS` contains?  Just add a `$(warning $(rts_C_SRCS))` somewhere.
-</td></tr></table>
 
-<table><tr><th>`make show VALUE=VAR`</th>
-<td>
-prints the value of variable `VAR`.  Useful for quick diagnosis.
-</td></tr></table>
+- **`make show VALUE=VAR`**
 
-<table><tr><th>`make show! VALUE=VAR`</th>
-<td>
-same as `make show`, but works right after ./configure (it skips reading package-data.mk files).
-</td></tr></table>
+  prints the value of variable `VAR`.  Useful for quick diagnosis.
 
-<table><tr><th>`make TRACE=1`</th>
-<td>
-prints messages about certain macros that are called and their arguments.  This is basically a system of `$(warning)` calls enabled when the value of `$(TRACE)` is non-empty.  To see how it works, look at the file [rules/trace.mk](/ghc/ghc/tree/master/rules/trace.mk)[](/trac/ghc/export/HEAD/ghc/rules/trace.mk), and feel free to add trace calls to more places in the build system.
-</td></tr></table>
+- **`make show! VALUE=VAR`**
 
-<table><tr><th>`make --debug=b --debug=m`</th>
-<td>
-causes **make** to show the sequence of dependencies that it is
+  same as `make show`, but works right after ./configure (it skips reading package-data.mk files).
+
+- **`make TRACE=1`**
+
+  prints messages about certain macros that are called and their arguments.  This is basically a system of `$(warning)` calls enabled when the value of `$(TRACE)` is non-empty.  To see how it works, look at the file [rules/trace.mk](/ghc/ghc/tree/master/rules/trace.mk)[](/trac/ghc/export/HEAD/ghc/rules/trace.mk), and feel free to add trace calls to more places in the build system.
+
+- **`make --debug=b --debug=m`**
+
+  causes **make** to show the sequence of dependencies that it is
 following, which will often tell you *why* something is being
 built.  This can help to track down missing or incorrect
 dependencies.
-</td></tr></table>
 
-<table><tr><th>`make -p`</th>
-<td>
-prints out all the generated rules and variables.  The output can be
+- **`make -p`**
+
+  prints out all the generated rules and variables.  The output can be
 huge; so pipe it to a file, and search through it for the bits of
 interest.
-</td></tr></table>
 
 ## Scenarios
 
@@ -104,8 +98,7 @@ To retire a GHC source file that is no longer needed:
 
   or `make all_compiler_stage2` if you prefer.
 
->
-> If you wish something slower but more confident, you may `cd $TOP; ./configure; make`.
+  If you wish something slower but more confident, you may `cd $TOP; ./configure; make`.
 
 ### Adding a source file to the RTS
 
