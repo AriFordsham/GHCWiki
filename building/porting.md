@@ -307,37 +307,33 @@ tweaks in order to get a registerised build going.
 The following files need architecture-specific code for a registerised
 build:
 
-<table><tr><th>`includes/MachRegs.h`</th>
-<td>
-Defines the STG-register to machine-register
+- **`includes/MachRegs.h`**
+
+  Defines the STG-register to machine-register
 mapping.  You need to know your platform's C calling
 convention, and which registers are generally available
 for mapping to global register variables.  There are
 plenty of useful comments in this file.
-</td></tr></table>
 
-<table><tr><th>`includes/TailCalls.h`</th>
-<td>
-Macros that make proper tail-calls work.
-</td></tr></table>
+- **`includes/TailCalls.h`**
 
-<table><tr><th>`rts/Adjustor.c`</th>
-<td>
-Support for `foreign import "wrapper"`.
+  Macros that make proper tail-calls work.
+
+- **`rts/Adjustor.c`**
+
+  Support for `foreign import "wrapper"`.
 Not essential for getting GHC bootstrapped, so this file
 can be deferred until later if necessary.
-</td></tr></table>
 
-<table><tr><th>`rts/StgCRun.c`</th>
-<td>
-The little assembly layer between the C world and
+- **`rts/StgCRun.c`**
+
+  The little assembly layer between the C world and
 the Haskell world.  See the comments and code for the
 other architectures in this file for pointers.
-</td></tr></table>
 
-<table><tr><th>`rts/sm/MBlock.h`, `rts/sm/MBlock.c`</th>
-<td>
-These files are really OS-specific rather than
+- **`rts/sm/MBlock.h`, `rts/sm/MBlock.c`**
+
+  These files are really OS-specific rather than
 architecture-specific.  In `MBlock.h`
 is specified the absolute location at which the RTS
 should try to allocate memory on your platform (try to
@@ -345,7 +341,6 @@ find an area which doesn't conflict with code or dynamic
 libraries).  In `Mblock.c` you might
 need to tweak the call to `mmap()` for
 your OS.
-</td></tr></table>
 
 ## The splitter
 
