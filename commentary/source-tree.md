@@ -8,33 +8,34 @@ Everything starts with the main GHC repository (see [Building/GettingTheSources]
 
 ## Files in `$(TOP)`
 
-<table><tr><th>**`packages`**</th>
-<td>
-Despite the name "package", this file contains the master list of the \*repositories\* that make up GHC. It is parsed by `./boot`.
-</td></tr></table>
+- **`packages`**
 
-<table><tr><th>**`tarballs`**</th>
-<td>
-Lists the various tarballs (binary packages) that ghc relies on and where to unpack them during a build.
-</td></tr></table>
+  Despite the name "package", this file contains the master list of the \*repositories\* that make up GHC. It is parsed by `./boot`.
 
-<table><tr><th>**`validate`**</th>
-<td>Run `validate` (a shell script) before committing (see [TestingPatches](testing-patches)). The script is documented in the file itself.
-</td></tr></table>
+- **`tarballs`**
 
-<table><tr><th>**Documentation files**</th>
-<td>`README`, `ANNOUNCE`, `HACKING`, `LICENSE`, `new_tc_notes`</td></tr></table>
+  Lists the various tarballs (binary packages) that ghc relies on and where to unpack them during a build.
 
-<table><tr><th>**GNU autoconf machinery**</th>
-<td>`aclocal.m4`, `config.guess`, `config.sub`, `configure.ac`, `install-sh`, `config.mk.in`, `settings.in`</td></tr></table>
+- **`validate`**
 
-<table><tr><th>**`Makefile`**</th>
-<td>The top-level `Makefile`: see [GHC Build System Architecture](building/architecture). GHC requires
+  Run `validate` (a shell script) before committing (see [TestingPatches](testing-patches)). The script is documented in the file itself.
+
+- **Documentation files**
+
+  `README`, `ANNOUNCE`, `HACKING`, `LICENSE`, `new_tc_notes`
+
+- **GNU autoconf machinery**
+
+  `aclocal.m4`, `config.guess`, `config.sub`, `configure.ac`, `install-sh`, `config.mk.in`, `settings.in`
+
+- **`Makefile`**
+
+  The top-level `Makefile`: see [GHC Build System Architecture](building/architecture). GHC requires
 [GNU make](http://www.gnu.org/software/make/).
-</td></tr></table>
 
-<table><tr><th>**Make system files**</th>
-<td>`ghc.mk`, `MAKEHELP`, `SUBMAKEHELP`</td></tr></table>
+- **Make system files**
+
+  `ghc.mk`, `MAKEHELP`, `SUBMAKEHELP`</td></tr></table>
 
 ## `libraries/`
 
