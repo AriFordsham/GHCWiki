@@ -6,50 +6,43 @@ This directory contains the source code for the runtime system.
 
 There are three types of files:
 
-<table><tr><th>`.h`</th>
-<td>
-Header files that are *private to the RTS*.  That is, header files in this directory are
+- **`.h`**
+
+  Header files that are *private to the RTS*.  That is, header files in this directory are
 not shipped with GHC, and APIs they define are therefore intended to be private and not
 usable by client code (in practice, we do not and probably cannot enforce this).  Header
 files that we *do* ship with GHC are in the [includes](commentary/source-tree/includes)
 directory.
-</td></tr></table>
 
-<table><tr><th>`.c`</th>
-<td>
-C source code for the runtime system.  Conventions used in this code are described in
+- **`.c`**
+
+  C source code for the runtime system.  Conventions used in this code are described in
 [Commentary/Rts/Conventions](commentary/rts/conventions).
-</td></tr></table>
 
-<table><tr><th>`.cmm`</th>
-<td>
-C-- code for parts of the runtime that are part of the Haskell execution environment: for
+- **`.cmm`**
+
+  C-- code for parts of the runtime that are part of the Haskell execution environment: for
 example, the implementation of primitives, exceptions, and so on.  A `.cmm` file is
 pseudo C--: more or less C-- syntax with some omissions and some additional macro-like
 extensions implemented by GHC.  The `.cmm` files are compiled using GHC itself: see
 [Commentary/Rts/Cmm](commentary/rts/cmm).
-</td></tr></table>
 
 ### Subdirectories of rts/
 
-<table><tr><th>`posix/`</th>
-<td></td></tr>
-<tr><th>`win32/`</th>
-<td>
-POSIX and Win32-specific parts of the runtime respectively.  We try to put platform-specific stuff in these directories,
+- **`posix/`**
+- **`win32/`**
+
+  POSIX and Win32-specific parts of the runtime respectively.  We try to put platform-specific stuff in these directories,
 however not all of the RTS follows this convention right now.
-</td></tr></table>
 
-<table><tr><th>`hooks/`</th>
-<td>
-Hooks for changing the RTS behaviour from client code, eg. changing the default heap size.
+- **`hooks/`**
+
+  Hooks for changing the RTS behaviour from client code, eg. changing the default heap size.
 (see [User's Guide for more about hooks](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/runtime_control.html#rts-hooks)).
-</td></tr></table>
 
-<table><tr><th>`sm/`</th>
-<td>
-The [Storage Manager](commentary/rts/storage).
-</td></tr></table>
+- **`sm/`**
+
+  The [Storage Manager](commentary/rts/storage).
 
 ### Haskell Execution
 
@@ -57,126 +50,105 @@ The [Storage Manager](commentary/rts/storage).
 All this code runs on the Haskell side of the Haskell/C divide; 
 `StgCRun` is the interface between the two layers.
 
-<table><tr><th>[Apply.cmm](http://darcs.haskell.org/ghc/rts/Apply.cmm), [AutoApply.h](http://darcs.haskell.org/ghc/rts/AutoApply.h), `AutoApply.cmm`, [Apply.h](http://darcs.haskell.org/ghc/rts/Apply.h)</th>
-<td>
-The eval/apply machinery.  Note: `AutoApply.cmm` is the family
+- **[Apply.cmm](http://darcs.haskell.org/ghc/rts/Apply.cmm), [AutoApply.h](http://darcs.haskell.org/ghc/rts/AutoApply.h), `AutoApply.cmm`, [Apply.h](http://darcs.haskell.org/ghc/rts/Apply.h)**
+
+  The eval/apply machinery.  Note: `AutoApply.cmm` is the family
 of functions for performing generic application of unknown
 functions, this code depends on the number of registers available
 for argument passing, so it is generated automatically by the program
 `genapply` in `utils/genapply`.
-</td></tr></table>
 
-<table><tr><th>[Exception.cmm](http://darcs.haskell.org/ghc/rts/Exception.cmm)</th>
-<td>
-Support for execptions.
-</td></tr></table>
+- **[Exception.cmm](http://darcs.haskell.org/ghc/rts/Exception.cmm)**
 
-<table><tr><th>[HeapStackCheck.cmm](http://darcs.haskell.org/ghc/rts/HeapStackCheck.cmm)</th>
-<td>
-Code for preparing the stack when the current Haskell thread needs
+  Support for execptions.
+
+- **[HeapStackCheck.cmm](http://darcs.haskell.org/ghc/rts/HeapStackCheck.cmm)**
+
+  Code for preparing the stack when the current Haskell thread needs
 to return to the RTS, because we either ran out of heap or stack, or
 need to block (eg. `takeMVar`), or yield.
-</td></tr></table>
 
-<table><tr><th>[PrimOps.cmm](http://darcs.haskell.org/ghc/rts/PrimOps.cmm)</th>
-<td>
-Implementation of out-of-line primitives (see [Commentary/PrimOps](commentary/prim-ops)).
-</td></tr></table>
+- **[PrimOps.cmm](http://darcs.haskell.org/ghc/rts/PrimOps.cmm)**
 
-<table><tr><th>[StgMiscClosures.cmm](http://darcs.haskell.org/ghc/rts/StgMiscClosures.cmm)</th>
-<td>
-Some built-in closures, such as the family of small `Int`s and
+  Implementation of out-of-line primitives (see [Commentary/PrimOps](commentary/prim-ops)).
+
+- **[StgMiscClosures.cmm](http://darcs.haskell.org/ghc/rts/StgMiscClosures.cmm)**
+
+  Some built-in closures, such as the family of small `Int`s and
 `Chars`, and some built-in info tables such as `BLACKHOLE`
 and `ARR_WORDS`.
-</td></tr></table>
 
-<table><tr><th>[StgStartup.cmm](http://darcs.haskell.org/ghc/rts/StgStartup.cmm)</th>
-<td>
-Code that executes when a Haskell thread begins and ends.
-</td></tr></table>
+- **[StgStartup.cmm](http://darcs.haskell.org/ghc/rts/StgStartup.cmm)**
 
-<table><tr><th>[StgStdThunks.cmm](http://darcs.haskell.org/ghc/rts/StgStdThunks.cmm)</th>
-<td>
-Some built-in thunks: [selector thunks](commentary/rts/storage/heap-objects#selector-thunks) and "apply" thunks.
-</td></tr></table>
+  Code that executes when a Haskell thread begins and ends.
 
-<table><tr><th>[Updates.cmm](http://darcs.haskell.org/ghc/rts/Updates.cmm), [Updates.h](http://darcs.haskell.org/ghc/rts/Updates.h)</th>
-<td>[Updates](commentary).
-</td></tr></table>
+- **[StgStdThunks.cmm](http://darcs.haskell.org/ghc/rts/StgStdThunks.cmm)**
 
-<table><tr><th>[HCIncludes.h](http://darcs.haskell.org/ghc/rts/HCIncludes.h)</th>
-<td>
-Header file included when compiling `.cmm` files via C.
-</td></tr></table>
+  Some built-in thunks: [selector thunks](commentary/rts/storage/heap-objects#selector-thunks) and "apply" thunks.
 
-<table><tr><th>[StgCRun.c](http://darcs.haskell.org/ghc/rts/StgCRun.c), [StgRun.h](http://darcs.haskell.org/ghc/rts/StgRun.h)</th>
-<td>
-The interface between the C execution layer and the Haskell
+- **[Updates.cmm](http://darcs.haskell.org/ghc/rts/Updates.cmm), [Updates.h](http://darcs.haskell.org/ghc/rts/Updates.h)**
+
+  [Updates](commentary).
+
+- **[HCIncludes.h](http://darcs.haskell.org/ghc/rts/HCIncludes.h)**
+
+  Header file included when compiling `.cmm` files via C.
+
+- **[StgCRun.c](http://darcs.haskell.org/ghc/rts/StgCRun.c), [StgRun.h](http://darcs.haskell.org/ghc/rts/StgRun.h)**
+
+  The interface between the C execution layer and the Haskell
 execution layer.
-</td></tr></table>
 
-<table><tr><th>[StgPrimFloat.c](http://darcs.haskell.org/ghc/rts/StgPrimFloat.c)</th>
-<td>
-Floating-point stuff.
-</td></tr></table>
+- **[StgPrimFloat.c](http://darcs.haskell.org/ghc/rts/StgPrimFloat.c)**
 
-<table><tr><th>[STM.c](http://darcs.haskell.org/ghc/rts/STM.c)</th>
-<td>
-Implementation of Software Transactional Memory.
-</td></tr></table>
+  Floating-point stuff.
+
+- **[STM.c](http://darcs.haskell.org/ghc/rts/STM.c)**
+
+  Implementation of Software Transactional Memory.
 
 ### The [Storage Manager](commentary/rts/storage)
 
-<table><tr><th>[sm/Storage.c](http://darcs.haskell.org/ghc/rts/sm/Storage.c)</th>
-<td>
-Top-level of the storage manager.
-</td></tr></table>
+- **[sm/Storage.c](http://darcs.haskell.org/ghc/rts/sm/Storage.c)**
 
-<table><tr><th>[sm/MBlock.c](http://darcs.haskell.org/ghc/rts/sm/MBlock.c), [sm/MBlock.h](http://darcs.haskell.org/ghc/rts/sm/MBlock.h), [sm/OSMem.h](http://darcs.haskell.org/ghc/rts/sm/OSMem.h)</th>
-<td>
-The "megablock" allocator; this is the thin layer between the RTS and
+  Top-level of the storage manager.
+
+- **[sm/MBlock.c](http://darcs.haskell.org/ghc/rts/sm/MBlock.c), [sm/MBlock.h](http://darcs.haskell.org/ghc/rts/sm/MBlock.h), [sm/OSMem.h](http://darcs.haskell.org/ghc/rts/sm/OSMem.h)**
+
+  The "megablock" allocator; this is the thin layer between the RTS and
 the operating system for allocating memory.
-</td></tr></table>
 
-<table><tr><th>[sm/BlockAlloc.c](http://darcs.haskell.org/ghc/rts/sm/BlockAlloc.c), [sm/BlockAlloc.h](http://darcs.haskell.org/ghc/rts/sm/BlockAlloc.h)</th>
-<td>
-The low-level block allocator, requires only `MBlock`.
-</td></tr></table>
+- **[sm/BlockAlloc.c](http://darcs.haskell.org/ghc/rts/sm/BlockAlloc.c), [sm/BlockAlloc.h](http://darcs.haskell.org/ghc/rts/sm/BlockAlloc.h)**
 
-<table><tr><th>[sm/GC.c](http://darcs.haskell.org/ghc/rts/sm/GC.c), [sm/Scav.c](http://darcs.haskell.org/ghc/rts/sm/Scav.c), [sm/Evac.c](http://darcs.haskell.org/ghc/rts/sm/Evac.c), [sm/GCUtils.c](http://darcs.haskell.org/ghc/rts/sm/GCUtils.c), [sm/MarkWeak.c](http://darcs.haskell.org/ghc/rts/sm/MarkWeak.c)</th>
-<td>
-The generational copying garbage collector.
-</td></tr></table>
+  The low-level block allocator, requires only `MBlock`.
 
-<table><tr><th>[sm/Compact.c](http://darcs.haskell.org/ghc/rts/sm/Compact.c), [sm/Compact.h](http://darcs.haskell.org/ghc/rts/sm/Compact.h)</th>
-<td>
-The compacting garbage collector.
-</td></tr></table>
+- **[sm/GC.c](http://darcs.haskell.org/ghc/rts/sm/GC.c), [sm/Scav.c](http://darcs.haskell.org/ghc/rts/sm/Scav.c), [sm/Evac.c](http://darcs.haskell.org/ghc/rts/sm/Evac.c), [sm/GCUtils.c](http://darcs.haskell.org/ghc/rts/sm/GCUtils.c), [sm/MarkWeak.c](http://darcs.haskell.org/ghc/rts/sm/MarkWeak.c)**
 
-<table><tr><th>[ClosureFlags.c](http://darcs.haskell.org/ghc/rts/ClosureFlags.c)</th>
-<td>
-Determining properties of various types of closures.
-</td></tr></table>
+  The generational copying garbage collector.
 
-<table><tr><th>[Sanity.c](http://darcs.haskell.org/ghc/rts/Sanity.c), [Sanity.h](http://darcs.haskell.org/ghc/rts/Sanity.h)</th>
-<td>
-A sanity-checker for the heap and related data structures.
-</td></tr></table>
+- **[sm/Compact.c](http://darcs.haskell.org/ghc/rts/sm/Compact.c), [sm/Compact.h](http://darcs.haskell.org/ghc/rts/sm/Compact.h)**
 
-<table><tr><th>[Stats.c](http://darcs.haskell.org/ghc/rts/Stats.c), [Stats.h](http://darcs.haskell.org/ghc/rts/Stats.h)</th>
-<td>
-Statistics for the garbage collector and storage manager.
-</td></tr></table>
+  The compacting garbage collector.
 
-<table><tr><th>[Stable.c](http://darcs.haskell.org/ghc/rts/Stable.c)</th>
-<td>
-Stable names and stable pointers.
-</td></tr></table>
+- **[ClosureFlags.c](http://darcs.haskell.org/ghc/rts/ClosureFlags.c)**
 
-<table><tr><th>[Weak.c](http://darcs.haskell.org/ghc/rts/Weak.c), [Weak.h](http://darcs.haskell.org/ghc/rts/Weak.h)</th>
-<td>
-Weak pointers.
-</td></tr></table>
+  Determining properties of various types of closures.
+
+- **[Sanity.c](http://darcs.haskell.org/ghc/rts/Sanity.c), [Sanity.h](http://darcs.haskell.org/ghc/rts/Sanity.h)**
+
+  A sanity-checker for the heap and related data structures.
+
+- **[Stats.c](http://darcs.haskell.org/ghc/rts/Stats.c), [Stats.h](http://darcs.haskell.org/ghc/rts/Stats.h)**
+
+  Statistics for the garbage collector and storage manager.
+
+- **[Stable.c](http://darcs.haskell.org/ghc/rts/Stable.c)**
+
+  Stable names and stable pointers.
+
+- **[Weak.c](http://darcs.haskell.org/ghc/rts/Weak.c), [Weak.h](http://darcs.haskell.org/ghc/rts/Weak.h)**
+
+  Weak pointers.
 
 ### Data Structures
 
