@@ -1,6 +1,6 @@
 # New Calendar-Based Six-Monthly Release Schedule
 
-> **This page is to facilitate and summarise the GHC DevOps group discussion around a calendar-based six monthly release schedule. Once, the discussion has finished and the new schedule been implemented all relevant information from this page should be absorbed into the parent page.**
+**This page is to facilitate and summarise the GHC DevOps group discussion around a calendar-based six monthly release schedule. Once, the discussion has finished and the new schedule been implemented all relevant information from this page should be absorbed into the parent page.**
 
 ## Proposed timeline
 
