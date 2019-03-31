@@ -134,8 +134,7 @@ currently supports several many others, among which the important ones described
   ./configure # On Windows run ./configure --enable-tarballs-autodownload
   ```
 
->
-> Beware that with this flag Hadrian may do network I/O on Windows to download necessary tarballs, which may sometimes be undesirable.
+  Beware that with this flag Hadrian may do network I/O on Windows to download necessary tarballs, which may sometimes be undesirable.
 
 - `--flavour=FLAVOUR`: choose a build flavour. The following settings are currently supported: `default`, `quick`, `quickest`, `perf`, `prof`, `devel1` and `devel2`. As an example, the `quickest` flavour adds `-O0` flag to all GHC invocations and builds libraries only in the `vanilla` way, which speeds up builds by 3-4x. Build flavours are documented [here](https://github.com/snowleopard/hadrian/blob/master/doc/flavours.md).
 
