@@ -32,45 +32,40 @@ currently being attempted; see [Building/Shake](building/shake) for more details
 
 The following are a few of the most important files in the build system.  For a more complete overview of the source-tree layout, see [Commentary/SourceTree](commentary/source-tree).
 
-<table><tr><th>[ghc.mk](/ghc/ghc/tree/master/ghc/ghc.mk)[](/trac/ghc/export/HEAD/ghc/ghc.mk)</th>
-<td>
-This is where you should start reading: `ghc.mk` is the main file in
+- **[ghc.mk](/ghc/ghc/tree/master/ghc/ghc.mk)[](/trac/ghc/export/HEAD/ghc/ghc.mk)**
+
+  This is where you should start reading: `ghc.mk` is the main file in
 the build system which ties together all the other build-system
 files.  It uses **make**'s `include` directive to include all the
 files in `mk/*.mk`, `rules/*.mk`, and all the other `ghc.mk` files
 elsewhere in the tree.
-</td></tr></table>
 
-<table><tr><th>[Makefile](/ghc/ghc/tree/master/ghc/Makefile)[](/trac/ghc/export/HEAD/ghc/Makefile)</th>
-<td>
-The top-level `Makefile`, recursively invokes `make` on `ghc.mk`
+- **[Makefile](/ghc/ghc/tree/master/ghc/Makefile)[](/trac/ghc/export/HEAD/ghc/Makefile)**
+
+  The top-level `Makefile`, recursively invokes `make` on `ghc.mk`
 according to the [phase ordering idiom](building/architecture/idiom/phase-ordering).
-</td></tr></table>
 
-<table><tr><th>`rules/*.mk`</th>
-<td>
-Each `.mk` file in the `rules` directory corresponds to a single
+- **`rules/*.mk`**
+
+  Each `.mk` file in the `rules` directory corresponds to a single
 macro that can be called using **make**'s `$(call ...)`
 expression.  For example, the `build-package` macro is in
 `rules/build-package.mk`.
-</td></tr></table>
 
-<table><tr><th>[mk/config.mk.in](/ghc/ghc/tree/master/mk/config.mk.in)[](/trac/ghc/export/HEAD/ghc/mk/config.mk.in)</th>
-<td>
-The configuration information for the build system, processed by
+- **[mk/config.mk.in](/ghc/ghc/tree/master/mk/config.mk.in)**
+
+  The configuration information for the build system, processed by
 `configure` to produce `mk/config.mk`.  Settings can be overriden by
 creating a local file `mk/build.mk` (see
 [Build configuration](building/using#build-configuration)).
-</td></tr></table>
 
-<table><tr><th>[compiler/ghc.mk](/ghc/ghc/tree/master/compiler/ghc.mk)[](/trac/ghc/export/HEAD/ghc/compiler/ghc.mk), [rts/ghc.mk](/trac/ghc/browser/rts/ghc.mk)[](/trac/ghc/export/HEAD/ghc/rts/ghc.mk), etc.</th>
-<td>
-Most subdirectories of the source tree have a `ghc.mk` file which
+- **[compiler/ghc.mk](/ghc/ghc/tree/master/compiler/ghc.mk), [rts/ghc.mk](/trac/ghc/browser/rts/ghc.mk), etc.**
+
+  Most subdirectories of the source tree have a `ghc.mk` file which
 contains the instructions for building the components in that
 directory.  Note: these `ghc.mk` files cannot be invoked
 individually, they should only be included by the top-level
 `ghc.mk`.
-</td></tr></table>
 
 ## Idioms
 
