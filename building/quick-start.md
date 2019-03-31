@@ -6,7 +6,7 @@ If you are an aspiring GHC developer, you may want to read the [Contributing](co
 
 To build GHC, first make sure to:
 
-> [Prepare your machine](building/preparation)
+- [Prepare your machine](building/preparation)
 
 
 For Windows users, all the commands below must be executed in the MinGW shell, not Command Prompt or PowerShell.
