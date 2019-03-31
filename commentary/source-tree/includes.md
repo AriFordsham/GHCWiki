@@ -11,24 +11,21 @@ These are header files that define an external API to the RTS that can
 be used by client code.  These interfaces are intended to be
 relatively stable:
 
-<table><tr><th>[HsFFI.h](/ghc/ghc/tree/master/includes/HsFFI.h)[](/trac/ghc/export/HEAD/ghc/includes/HsFFI.h)</th>
-<td>
-The external FFI api, as required by the FFI spec
-</td></tr></table>
+- **[HsFFI.h](/ghc/ghc/tree/master/includes/HsFFI.h)**
 
-<table><tr><th>[RtsAPI.h](/ghc/ghc/tree/master/includes/RtsAPI.h)[](/trac/ghc/export/HEAD/ghc/includes/RtsAPI.h)</th>
-<td>
-The API for calling into the RTS.  Used by the implementation
+  The external FFI api, as required by the FFI spec
+
+- **[RtsAPI.h](/ghc/ghc/tree/master/includes/RtsAPI.h)**
+
+  The API for calling into the RTS.  Used by the implementation
 of `foreign export` calls, but may also be used by external
 clients.
-</td></tr></table>
 
-<table><tr><th>[Rts.h](/ghc/ghc/tree/master/includes/Rts.h)[](/trac/ghc/export/HEAD/ghc/includes/Rts.h)</th>
-<td>
-This header file defines everything that is visible
+- **[Rts.h](/ghc/ghc/tree/master/includes/Rts.h)**
+
+  This header file defines everything that is visible
 externally to the RTS.  It includes `Stg.h` and everything
 in the `rts` subdirectory.
-</td></tr></table>
 
 ## Derived Constants
 
@@ -60,50 +57,48 @@ These days the amount of stuff included this way is kept to a minimum.
 In particular, there are no function prototypes: all calls to C
 functions from `.hc` files are given types at the call site.
 
-<table><tr><th>[Stg.h](/ghc/ghc/tree/master/includes/Stg.h)[](/trac/ghc/export/HEAD/ghc/includes/Stg.h)</th>
-<td>
-The top of the hierarchy is `Stg.h`, which includes everything
-required by `.hc` code.  Most files `#included` by `Stg.h` are in the
-`stg` subdirectory.
-</td></tr></table>
+- **[Stg.h](/ghc/ghc/tree/master/includes/Stg.h)**
 
-<table><tr><th>[ghcconfig.h](/ghc/ghc/tree/master/includes/ghcconfig.h)[](/trac/ghc/export/HEAD/ghc/includes/ghcconfig.h)</th>
-<td>
-Configuration info derived by the `configure` script.
-</td></tr>
-<tr><th>[MachDeps.h](/ghc/ghc/tree/master/includes/MachDeps.h)[](/trac/ghc/export/HEAD/ghc/includes/MachDeps.h)</th>
-<td>
-Sizes of various basic types (should be in the `stg` subdirectory,
+  The top of the hierarchy is `Stg.h`, which includes everything
+required by `.hc` code.  Most files `#included` by `Stg.h` are in the `stg` subdirectory.
+
+- **[ghcconfig.h](/ghc/ghc/tree/master/includes/ghcconfig.h)**
+
+  Configuration info derived by the `configure` script.
+
+- **[MachDeps.h](/ghc/ghc/tree/master/includes/MachDeps.h)**
+
+  Sizes of various basic types (should be in the `stg` subdirectory,
 but left here for backwards-compatibility reasons).
-</td></tr>
-<tr><th>[stg/DLL.h](/ghc/ghc/tree/master/includes/stg/DLL.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/DLL.h)</th>
-<td>
-Stuff related to Windows DLLs.
-</td></tr>
-<tr><th>[stg/MachRegs.h](/ghc/ghc/tree/master/includes/stg/MachRegs.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/MachRegs.h)</th>
-<td>
-Global register assignments for this processor.
-</td></tr>
-<tr><th>[stg/MiscClosures.h](/ghc/ghc/tree/master/includes/stg/MiscClosures.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/MiscClosures.h)</th>
-<td>
-Declarations for closures & info tables built-in to the RTS
-</td></tr>
-<tr><th>[stg/Regs.h](/ghc/ghc/tree/master/includes/stg/Regs.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/Regs.h)</th>
-<td>
-"registers" in the virtual machine.
-</td></tr>
-<tr><th>[stg/SMP.h](/ghc/ghc/tree/master/includes/stg/SMP.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/SMP.h)</th>
-<td>
-Atomic memory operations for SMP support
-</td></tr>
-<tr><th>[stg/Ticky.h](/ghc/ghc/tree/master/includes/stg/Ticky.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/Ticky.h)</th>
-<td>
-Declarations for ticky-ticky counters
-</td></tr>
-<tr><th>[stg/Types.h](/ghc/ghc/tree/master/includes/stg/Types.h)[](/trac/ghc/export/HEAD/ghc/includes/stg/Types.h)</th>
-<td>
-Basic types specific to the virtual machine (eg. `StgWord`).
-</td></tr></table>
+
+- **[stg/DLL.h](/ghc/ghc/tree/master/includes/stg/DLL.h)**
+
+  Stuff related to Windows DLLs.
+
+- **[stg/MachRegs.h](/ghc/ghc/tree/master/includes/stg/MachRegs.h)**
+
+  Global register assignments for this processor.
+
+- **[stg/MiscClosures.h](/ghc/ghc/tree/master/includes/stg/MiscClosures.h)**
+
+  Declarations for closures & info tables built-in to the RTS
+
+- **[stg/Regs.h](/ghc/ghc/tree/master/includes/stg/Regs.h)**
+
+  "registers" in the virtual machine.
+
+- **[stg/SMP.h](/ghc/ghc/tree/master/includes/stg/SMP.h)**
+
+  Atomic memory operations for SMP support
+
+- **[stg/Ticky.h](/ghc/ghc/tree/master/includes/stg/Ticky.h)**
+
+  Declarations for ticky-ticky counters
+
+- **[stg/Types.h](/ghc/ghc/tree/master/includes/stg/Types.h)**
+
+  Basic types specific to the virtual machine (eg. `StgWord`).
+
 
 ## The RTS external APIs
 
@@ -127,8 +122,7 @@ The rts header files are divided into a few directories:
 
 ## Included into C-- (`.cmm`) code
 
-<table><tr><th>[Cmm.h](/ghc/ghc/tree/master/includes/Cmm.h)[](/trac/ghc/export/HEAD/ghc/includes/Cmm.h)</th>
-<td>
-included into `.cmm` source only; provides useful macros for writing
+- **[Cmm.h](/ghc/ghc/tree/master/includes/Cmm.h)**
+
+  included into `.cmm` source only; provides useful macros for writing
 low-level C-- code for GHC.
-</td></tr></table>
