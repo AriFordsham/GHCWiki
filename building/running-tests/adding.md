@@ -388,24 +388,23 @@ file. The possible test functions are:
   This is the simplest test function and can only handle compiling a single module test case.
   The source file to compile must correspond to the \<name\> of the test.
 
-> *\<args...\> = \[\<extra_hc_opts\>\]*
+  *\<args...\> = \[\<extra_hc_opts\>\]*
 
->
-> Where:
->
-> > *\<extra_hc_opts\>*: arguments to pass to GHC when it compiles your test case.
+  Where:
+
+  *\<extra_hc_opts\>*: arguments to pass to GHC when it compiles your test case.
 
 - **multimod_compile**, **multimod_compile_fail**, **multimod_compile_and_run**: 
 
   Compile a multi-module program using the GHC `--make` build system.
 
-> *\<args...\> = \[\<topmod\>, \<extra_hc_opts\>\]*
+  *\<args...\> = \[\<topmod\>, \<extra_hc_opts\>\]*
 
->
-> Where:
->
-> > *\<topmod\>*: The top level source file for your test case. 
-> > *\<extra_hc_opts\>*: arguments to pass to GHC when it compiles your test case.
+  Where:
+
+  *\<topmod\>*: The top level source file for your test case.
+
+  *\<extra_hc_opts\>*: arguments to pass to GHC when it compiles your test case.
 
 - **multi_compile**, **multi_compile_fail**, **multi_compile_and_run**: 
 
@@ -413,14 +412,15 @@ file. The possible test functions are:
   not enough, such as when you first need to compile a .c or .cmm file before compiling the
   Haskell top level module.
 
-> *\<args...\> = \[\<topmod\>, \[(\<extra_mod\>, \<hc_opts\>)\], \<extra_hc_opts\>\]*
+  *\<args...\> = \[\<topmod\>, \[(\<extra_mod\>, \<hc_opts\>)\], \<extra_hc_opts\>\]*
 
->
-> Where:
->
-> > *\<topmod\>*: The top level source file for your test case. 
-> > *\[(\<extra_mod\>, \<hc_opts\>)\]*: A list of tuples where the first element is a source file for GHC to compile and the second element are arguments GHC should use to compile that particular source file. 
-> > *\<extra_hc_opts\>*: arguments to pass to GHC when it compiles your test case (applied to all source files).
+  Where:
+
+  *\<topmod\>*: The top level source file for your test case.
+
+  *\[(\<extra_mod\>, \<hc_opts\>)\]*: A list of tuples where the first element is a source file for GHC to compile and the second element are arguments GHC should use to compile that particular source file.
+
+  *\<extra_hc_opts\>*: arguments to pass to GHC when it compiles your test case (applied to all source files).
 
 - **run_command**
   Just run an arbitrary command.  The output is checked
