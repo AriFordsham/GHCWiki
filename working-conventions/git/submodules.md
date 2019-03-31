@@ -93,11 +93,9 @@ It's very important to keep in mind that Git submodules track commits (i.e. not 
 
 So, in order to make change to a submodule you can either:
 
->
-> 1) Work directly on the detached HEAD in the submodule directory.
+1) Work directly on the detached HEAD in the submodule directory.
 
->
-> 2) Checkout the respective branch the commit is supposed to be pointed at from (normally `master`. See the table on [Repositories](repositories) for the full branch/repo summary). 
+2) Checkout the respective branch the commit is supposed to be pointed at from (normally `master`. See the table on [Repositories](repositories) for the full branch/repo summary). 
 
 
 If you merely need to update a submodule to point to the latest upstream commit of that submodule, which also takes care to lookup the proper upstream Git branch (in case it's not `master`) as specified in the `.gitmodules` file.
@@ -174,14 +172,11 @@ TODO show how to define a `git pushall` alias in the style of the `git pullall` 
 
 There are server-side validation hooks in place on `git.haskell.org` to make sure for non-`wip/` branches that `ghc.git` never points to non-existing commits. Also, as a safe-guard against accidental submodule reference updates, the string `submodule`**\*must occur somewhere in commit messages of commits**\* updating submodule references. So just remember that:
 
->
-> 1) If you update a submodule pointer,
+1) If you update a submodule pointer,
 
->
-> 2) You had to have pushed it upstream already,
+2) You had to have pushed it upstream already,
 
->
-> 3) And you have to say the word 'submodule' in the commit.
+3) And you have to say the word 'submodule' in the commit.
 
 ## Upstream repositories
 
