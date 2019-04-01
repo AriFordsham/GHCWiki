@@ -28,7 +28,7 @@ alphabetical order.
 
 # Miscellaneous
 
- * ~"CI breakage"
+ * ~"CI breakage": Denotes a bug that broke CI (this could likely be dropped; nothing should break CI now)
  * ~"user-facing": Denotes a merge request which changes the interface exposed by GHC or its core libraries in a user-noticable way. Merge requests so-marked trigger the head.hackage build jobs.
  * ~"info needed": Information is needed from the issue reporter
  * ~"upstream": Things that require coordination with an upstream package
