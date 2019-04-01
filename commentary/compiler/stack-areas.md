@@ -45,7 +45,7 @@ k:  // on entry to k, sp == stack<k+12>
 
 We use the following types to represent stack slots and parameter-passing areas:
 
-```wiki
+```haskell
 data Area
   = RegSlot  LocalReg
   | CallArea AreaId
@@ -99,7 +99,7 @@ to make `Sp` point to a particular stack slot.   Use a `CmmLoad` to load from th
 
 The following figure shows the layout of a `CallArea` for both the outgoing parameters (function call) and incoming results (continuation after returning from the function call). Note that the incoming and outgoing parameters may be different, and they may overlap.
 
-[](/trac/ghc/attachment/wiki/Commentary/Compiler/StackAreas/CallArea.png)
+![](stack-areas/call-area.png)
 
 
 A `RegSlot` is laid out in the same fashion, with the offset 0 pointing off the high byte of the stack slot. To address an 8-byte double-word, we would use the offset 8. To address only the high word of the same stack slot, we would use the offset 4.
