@@ -67,4 +67,4 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 
 This diagram is also located [here](commentary/compiler/hsc-pipe), so that you can open it in a separate window.
 
-[](pipeline.png)
+![](pipeline.png)
