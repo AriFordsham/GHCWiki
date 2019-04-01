@@ -195,7 +195,7 @@ This unfortunately bloats the `TyCon` bindings produced by the compiler with eve
 
 ## Tickets
 
-See the ~typeable label.
+See the ~Typeable label.
 
 
 
