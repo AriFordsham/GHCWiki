@@ -106,6 +106,7 @@ These labels identify compiler subsystems which are in some way implicated in a 
  * ~"CSE": Common Subexpression Elimination optimisation
  * ~"demand analysis": Demand (strictness) analysis
  * ~float-out: The binding float-out optimisation
+ * ~float-in: The binding float-in optimisation
  * ~"inlining": Code inlining optimisationn
  * ~"join points": GHC's join points optimisation
  * ~"late lambda lifting": GHC's late lambda-lifting optimisation
