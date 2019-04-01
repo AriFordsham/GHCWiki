@@ -24,7 +24,7 @@ The names of functions and type constructors is totally up for grabs.
 
 # Status
 
-See the ~typeable ticket for tickets.
+See the ~Typeable ticket for tickets.
 
 
 ## Goal
