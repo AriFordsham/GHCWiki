@@ -3,7 +3,7 @@
 
 Here's a summary of the things in GitLab's universe, what they mean, and how they relate to each other.
 
-- **Wiki**. The [GHCI wiki index is here](https://gitlab.haskell.org/ghc/ghc/wikis/index)
+- **Wiki**. The [GHCI wiki index is here](https://gitlab.haskell.org/ghc/ghc/wikis/index), and the [GHC label summary](https://gitlab.haskell.org/ghc/ghc/wikis/GitLab-Labels/)
 
 - **Groups.**  Example, the [GHC group](https://gitlab.haskell.org/ghc)
 
