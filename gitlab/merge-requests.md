@@ -1,5 +1,7 @@
 # Merge request conventions
 
+This page describes GHC's conventions for handling merge requests and code review.
+
 ## Merge request checklist
 
 See the [merge request description template](https://gitlab.haskell.org/ghc/ghc/blob/master/.gitlab/merge_request_templates/merge-request.md) for checklist of requirements for a merge request.
