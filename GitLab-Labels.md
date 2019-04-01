@@ -176,6 +176,7 @@ These labels identify user-visible language features which a bug is triggered by
  * ~"stream fusion": Issues affect stream fusion applications
  * ~"strings": Treatment of literal strings (~OverloadedStrings may also be relevant)
  * ~"Typeable": The `Typeable` typeclass and associated machinery
+ * ~"type literals" Type-level naturals (`Nat`) and strings (`Symbol`)
  * ~"typed holes": Typed holes
  * ~"Unicode": Issues with Unicode support
  * ~"visible dependent quantification"
