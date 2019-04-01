@@ -1,8 +1,7 @@
 # Deriving instances
 
-
 All about the `deriving` keyword.
 
 # Status
 
-See the ~deriving label (or ~deriving-perf for performance related tickets).
+See the ~deriving label for general deriving things. The ~DerivingVia label may also be of interest.
