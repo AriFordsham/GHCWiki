@@ -5,30 +5,7 @@ This page collects information on how to work with type-level literals, as imple
 
 ## Status
 
-
-Use Keyword = `TypeLits` to ensure that a ticket ends up on these lists.
-
-
-
-Open Tickets:
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8422">#8422</a></th>
-<td>type nats solver is too weak!</td></tr></table>
-
-
-
-
-Closed Tickets:
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9036">#9036</a></th>
-<td>ghc: panic! Binder&apos;s type (SingI Symbol &lt;a String&gt;) /= RHS type (String)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10321">#10321</a></th>
-<td>GHC.TypeLits.Nat types no longer fully simplified.</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10742">#10742</a></th>
-<td>GHC cannot deduce (irrelevant) reflexive type equality.</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10774">#10774</a></th>
-<td>Use `Natural` rather than `Integer` in `GHC.TypeLits`</td></tr></table>
-
+See the ~"type literals" label for tickets.
 
 
 ## User's Guide
