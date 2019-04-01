@@ -52,10 +52,14 @@ These labels identify the environments in which a ~bug will manifest.
 
 ## Operating systems
 
+Issues lacking of these labels are assumed to be reproducible on Linux.
+
  * ~macOS: Issues affecting Apple's macOS, iOS, of watchOS
  * ~Windows: Issues affecting Microsoft Windows
 
 ## Architectures
+
+Issues lacking of these labels are assumed to be reproducible on x86-64.
 
  * ~ARM: Issues affecting one of the ARM architectures (e.g. ARMv*, AArch32, or AArch64)
  * ~PowerPC: Issues affecting the PowerPC architecture
