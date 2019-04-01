@@ -37,3 +37,16 @@ Triaging a new issue typically proceeds as follows:
    * otherwise set milestone to the next major release
 
 1. Remove the ~"needs triage" label
+
+
+## Marking an issue as resolved
+
+When a fix for an open issue is landed, it is good practice to look over the ticket before closing it. Some questions to ask yourself:
+
+ * Is the issue **fully resolved**? If there are still parts outstanding then it may be best to open a new ticket to track them.
+
+ * Is the **milestone appropriate**? If the patch is low-risk or the issue severe, perhaps it should be backported to the stable branch. In this case set the milestone to the next stable release and apply the ~"backport needed" label.
+
+ * Was a **testcase added** to the testsuite? If not then do so if possible. It is customary to name tests after their issue (e.g. #1234 would have an testcase named `T1234`). See the [testsuite documentation](building/running-tests/adding) for details.
+
+ * Are the resolving **merge request and the issue linked**? A link will be created automatically if the MR description mentions the ticket. Otherwise leave a comment on the ticket pointing to the MR.
