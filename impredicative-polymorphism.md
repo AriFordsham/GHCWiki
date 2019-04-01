@@ -8,61 +8,7 @@ See the new plan at [ImpredicativePolymorphism/Impredicative-2015](impredicative
 
 ## Tickets
 
-
-
-Use Keyword = `ImpredicativeTypes` to ensure that a ticket ends up on these lists.
-
-
-
-**Open Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/1330">#1330</a></th>
-<td>Impredicativity bug: Church2 test gives a rather confusing error with the HEAD</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/4281">#4281</a></th>
-<td>Make impredicativity work properly</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/4295">#4295</a></th>
-<td>Review higher-rank and impredicative types</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7026">#7026</a></th>
-<td>Impredicative implicit parameters</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8808">#8808</a></th>
-<td>ImpredicativeTypes type checking fails depending on syntax of arguments</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9730">#9730</a></th>
-<td>Polymorphism and type classes</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10709">#10709</a></th>
-<td>Using ($) allows sneaky impredicativity on its left</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11514">#11514</a></th>
-<td>Impredicativity is still sneaking in</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14859">#14859</a></th>
-<td>Allow explicit impredicativity</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16140">#16140</a></th>
-<td>Cannot create type synonym for quantified constraint without ImpredicativeTypes</td></tr></table>
-
-
-
-
-**Closed Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/4347">#4347</a></th>
-<td>Bug in unification of polymorphic and not-yet-polymorphic type</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7264">#7264</a></th>
-<td>Adding GHC&apos;s inferred type signatures to a working program can make it fail with Rank2Types</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9420">#9420</a></th>
-<td>Impredicative type instantiation without -XImpredicativeTypes</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10619">#10619</a></th>
-<td>Order matters when type-checking</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11319">#11319</a></th>
-<td>ImpredicativeTypes even more broken than usual</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11428">#11428</a></th>
-<td>ImpredicativeTypes causes GHC panic with 8.0.1-rc1</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12557">#12557</a></th>
-<td>Regression in type inference with RankNTypes</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13895">#13895</a></th>
-<td>&quot;Illegal constraint in a type&quot; error - is it fixable?</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14160">#14160</a></th>
-<td>Type inference breaking change in GHC 8.0.2</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15628">#15628</a></th>
-<td>Higher-rank kinds</td></tr></table>
-
+See the ~ImpredicativeTypes label.
 
 
 ### What is impredicative polymorphism?
@@ -70,7 +16,7 @@ Use Keyword = `ImpredicativeTypes` to ensure that a ticket ends up on these list
 
 Consider this
 
-```wiki
+```haskell
 foo :: (forall a. a -> a) -> Int
 bar :: forall b. Bool -> b -> b
 
@@ -87,7 +33,7 @@ Should `test1` typecheck?  Yes: GHC can see that `foo`'s argument should have ty
 
 What about `test2`?  After all, it's just an eta-abstracted version of `test1`.  No, `test2` is rejected.  Remember the type of `(.)`:
 
-```wiki
+```haskell
 (.) :: forall p q r. (q -> r) -> (p -> q) -> p -> r
 ```
 
@@ -102,7 +48,7 @@ Although it does not appear to involve instantiating any polymorphic type variab
 
 For example
 
-```wiki
+```haskell
 type Monadic m a = Monad m => m a
 monadics :: [Monadic m a]
 monadics = undefined
@@ -114,7 +60,7 @@ is not allowed.
 
 A workaround for cases like this remove the constraint from the type synonym and add it at the use sites. I.e., the above example works if we change it to
 
-```wiki
+```haskell
 type Monadic m a = m a
 monadics :: Monad m => [Monadic m a]
 monadics = undefined
@@ -125,7 +71,7 @@ monadics = undefined
 
 Consider
 
-```wiki
+```haskell
 runST :: (forall s. ST s a) -> a
 
 foo = runST $ do { ...blah... }
