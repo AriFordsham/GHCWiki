@@ -10,50 +10,7 @@
 
 ## Issues
 
-
-Add **TypeCheckerPlugins** to the ticket's keywords to include it in these lists.
-
-
-
-Open Tickets:
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9980">#9980</a></th>
-<td>TcS monad is too heavy</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10077">#10077</a></th>
-<td>Providing type checker plugin on command line results in false cyclic import error</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11435">#11435</a></th>
-<td>Evidence from TC Plugin triggers core-lint warning</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11457">#11457</a></th>
-<td>Run type-checker plugins before GHC&apos;s solver</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12780">#12780</a></th>
-<td>Calling &quot;do nothing&quot; type checker plugin affects type checking when it shouldn&apos;t</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15147">#15147</a></th>
-<td>Type checker plugin receives Wanteds that are not completely unflattened</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15248">#15248</a></th>
-<td>Coercions from plugins cannot be stopped from floating out</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15322">#15322</a></th>
-<td>`KnownNat` does not imply `Typeable` any more when used with plugin</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15745">#15745</a></th>
-<td>Panicking typechecker plugins</td></tr></table>
-
-
-
-
-Closed Tickets:
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9840">#9840</a></th>
-<td>Permit empty closed type families</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10078">#10078</a></th>
-<td>tcPluginStop of a type checker plugin is not called if an error occurs</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11462">#11462</a></th>
-<td>Use of typechecker plugin erroneously triggers &quot;unbound implicit parameter&quot; error</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11525">#11525</a></th>
-<td>Using a dummy typechecker plugin causes an ambiguity check error</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14691">#14691</a></th>
-<td>Replace EvTerm with CoreExpr</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15633">#15633</a></th>
-<td>Type-checker plugins aren&apos;t loaded in GHCi 8.6.1</td></tr></table>
-
+See the ~"typechecker plugins" label.
 
 
 ## Motivation
@@ -105,7 +62,7 @@ A type checker plugin, like a Core plugin, consists of a normal Haskell
 module that exports an identifier `plugin :: Plugin`.  We extend the
 `Plugin` type (moved to a new module `Plugins`) with an additional field:
 
-```wiki
+```haskell
 data Plugin = Plugin
   { installCoreToDos :: ... -- as at present
   , tcPlugin         :: [CommandLineOption] -> Maybe TcPlugin
@@ -115,7 +72,7 @@ data Plugin = Plugin
 
 The `TcPlugin` type and related pieces are defined in `TcRnTypes`:
 
-```wiki
+```haskell
 data TcPlugin = forall s . TcPlugin
   { tcPluginInit  :: TcPluginM s
   , tcPluginSolve :: s -> TcPluginSolver
@@ -236,7 +193,7 @@ Plugins that define type families often need to ensure that those type families 
 
 The existing API does not offer a very direct way for plugins to create new constraints. In particular, creating new givens is problematic now that [givens contain EvVars rather than EvTerms](https://github.com/ghc/ghc/commit/fa46c597db9939de1de4bc9b917c8dc1d9e2093a). I propose that we add new functions to `TcPluginM`:
 
-```wiki
+```haskell
 newWanted  :: CtLoc -> PredType -> TcPluginM CtEvidence
 newDerived :: CtLoc -> PredType -> TcPluginM CtEvidence
 newGiven   :: CtLoc -> PredType -> EvTerm -> TcPluginM CtEvidence
@@ -256,7 +213,7 @@ Defining type families in plugins is more work than it needs to be, because the 
 
 I propose to extend the `TcPlugin` data type with a new field
 
-```wiki
+```haskell
 tcPluginMatchFam :: s -> TyCon -> [Type] -> TcPluginM (Maybe (TcCoercion, TcType))
 ```
 
@@ -273,7 +230,7 @@ At the moment, the `EvTerm` type used to represent evidence for constraints is q
 
 The plan is to add a constructor `EvCoreExpr CoreExpr` to `EvTerm`, with
 
-```wiki
+```haskell
 dsEvTerm :: EvTerm -> DsM CoreExpr
 dsEvTerm (EvCoreExpr e) = return e
 ...
