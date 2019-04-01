@@ -57,7 +57,7 @@ These labels identify the environments in which a ~bug will manifest.
 
 ## Architectures
 
- * ~ARM: Issues affecting the ARM architecture
+ * ~ARM: Issues affecting one of the ARM architectures (e.g. ARMv*, AArch32, or AArch64)
  * ~PowerPC: Issues affecting the PowerPC architecture
  * ~SPARC: Issues affecting the SPARC architecture
 
