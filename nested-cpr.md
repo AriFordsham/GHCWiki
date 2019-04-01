@@ -1,6 +1,5 @@
 # CPR analysis
 
-
 This is a status page for CPR analysis, especially Nested CPR
 
 
@@ -35,43 +34,7 @@ Tickets with example of code that would benefit from nested CPR:
 
 ### Tickets
 
-
-
-Use Keyword = `CPRAnalysis` to ensure that a ticket ends up on these lists.
-
-
-
-**Open Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/1600">#1600</a></th>
-<td>Optimisation: CPR the results of IO</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/1885">#1885</a></th>
-<td>Improve CPR analysis</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/2289">#2289</a></th>
-<td>Needless reboxing of values when returning from a tight loop</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/2387">#2387</a></th>
-<td>Optimizer misses unboxing opportunity</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5075">#5075</a></th>
-<td>CPR optimisation for sum types if only one constructor is used</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8598">#8598</a></th>
-<td>IO hack in demand analyzer gets in the way of CPR</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8655">#8655</a></th>
-<td>Evaluate know-to-terminate-soon thunks</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12364">#12364</a></th>
-<td>Demand analysis for sum types</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14259">#14259</a></th>
-<td>Worker/Wrapper for sum return</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16040">#16040</a></th>
-<td>Unboxing-Related Performance Issue with Polymorphic Functions</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16335">#16335</a></th>
-<td>Make CPR Analysis more aggressive for inductive cases</td></tr></table>
-
-
-
-
-**Closed Tickets:**
-No results
-
+See the ~"CPR analysis" label.
 
 ### Related testcases
 
