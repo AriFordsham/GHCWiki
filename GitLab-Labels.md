@@ -29,6 +29,7 @@ These labels describe how a ~bug manifests. Usually every bug should be bear exa
  * ~"user-facing": Denotes a merge request which changes the interface exposed by GHC or its core libraries in a user-noticeable way. Merge requests so-marked trigger the head.hackage build jobs.
  * ~"broken test": An issue due to which one or more tests in the testsuite are marked as `expect_broken`
  * ~"Trac import": Issues imported from GHC's old Trac instance
+ * ~"report impact": Issues affect adherance to the [Haskell Report](/haskell-report)
 
 # Issue lifecycle
 
