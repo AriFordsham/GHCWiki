@@ -13,6 +13,8 @@ alphabetical order.
 
 # Types of bugs
 
+These labels describe how a bug manifests. Usually every bug should be bear exactly one of the following.
+
  * ~"compiler perf": A case where compilation time isn't what we would like it to be
  * ~"runtime perf": A case where the code produced by GHC isn't as performant as we would like
  * ~"compiler crash": A case where GHC itself crashes
