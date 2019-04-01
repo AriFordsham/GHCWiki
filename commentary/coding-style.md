@@ -24,7 +24,7 @@ There are two kinds of comments in source code, comments that describe the inter
 
 Every top-level entity should have a Haddock comment that describes what it does and, if needed, why it's there. Example:
 
-```wiki
+```haskell
 -- | Returns which registers are read and written by this 
 -- instruction, as a (read, written) pair. This info is used
 -- by the register allocator.
@@ -48,7 +48,7 @@ Commenting is good but
 
 We have adopted a style that seems to help.  Here's an example:
 
-```wiki
+```haskell
 prepareRhs :: SimplEnv -> OutExpr -> SimplM (SimplEnv, OutExpr)
 -- Adds new floats to the env iff that allows us to return a good RHS
 prepareRhs env (Cast rhs co)    -- Note [Float coercions]
@@ -82,7 +82,7 @@ Notice that
 
 The standard format "`Note [Float coercions]`" serves like an URL, to point to an out-of-line comment.  Usually the target is in the same module, but not always.  Sometimes we say
 
-```wiki
+```haskell
     -- See Note [Float coercions] in SpecConstr.lhs
 ```
 
@@ -96,7 +96,7 @@ When writing a comment to explain a subtle point, consider including an example 
 snippet that illustrates the point.  For example, the above `Note [Float coercions]` continues thus:
 
 ```wiki
-There's a chance that e will be a constructor application or function, or something
+There's a chance that be will be a constructor application or function, or something
 like that, so moving the coerion to the usage site may well cancel the coersions
 and lead to further optimisation.  Example:
 
@@ -154,7 +154,7 @@ The [validate script](testing-patches), which is used to test the build before c
 
 Currently we are some way from our goal, so some modules have a
 
-```wiki
+```haskell
 {-# OPTIONS_GHC -fno-warn-... #-}
 ```
 
@@ -165,7 +165,7 @@ pragma; you are encouraged to remove this pragma and fix any warnings when worki
 
 ### Exports
 
-```wiki
+```haskell
 module Foo (
    T(..),
    foo,	     -- :: T -> T
@@ -188,7 +188,7 @@ List imports in the following order:
 - Library imports 
 - Standard Haskell 98 imports last 
 
-  ```wiki
+  ```haskell
   -- friends
   import SimplMonad
 
@@ -206,7 +206,7 @@ List imports in the following order:
   ```
 
 
-Import library modules from the [boot packages](commentary/libraries) only (boot packages are those packages in the file [packages](/ghc/ghc/blob/master/packages) that have a '-' in the "tag" column). Use `#defines `in `HsVersions.h` when the modules names differ between versions of GHC.  For code inside `#ifdef GHCI`, don't worry about GHC versioning issues, because this code is only ever compiled by the this very version of GHC.
+Import library modules from the [boot packages](commentary/libraries) only (boot packages are those packages in the file [packages](https://gitlab.haskell.org/ghc/ghc/blob/master/packages) that have a '-' in the "tag" column). Use `#defines `in `HsVersions.h` when the modules names differ between versions of GHC.  For code inside `#ifdef GHCI`, don't worry about GHC versioning issues, because this code is only ever compiled by the this very version of GHC.
 
 **Do not use explicit import lists**, except to resolve name clashes.  There are several reasons for this:
 
@@ -237,7 +237,7 @@ To maintain compatibility, use [HsVersions.h](commentary/coding-style#) (see bel
 
 `HsVersions.h` is a CPP header file containing a number of macros that help smooth out the differences between compiler versions. It defines, for example, macros for library module names which have moved between versions. Take a look [compiler/HsVersions.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/HsVersions.h).
 
-```wiki
+```c
 #include "HsVersions.h"
 ```
 
@@ -254,7 +254,7 @@ Whenever possible we try to avoid using CPP, as it can hide code from the compil
 
 The following CPP symbols are used throughout the compiler: 
 
-* **DEBUG**
+* `DEBUG`
 
   Used to enables extra checks and debugging output in the compiler. The ASSERT macro (see `HsVersions.h`) provides assertions which disappear when DEBUG is not defined. 
 
@@ -264,10 +264,10 @@ The following CPP symbols are used throughout the compiler:
 
   Regarding performance, a good rule of thumb is that `DEBUG` shouldn't add more than about 10-20% to the compilation time. This is the case at the moment. If it gets too expensive, we won't use it. For more expensive runtime checks, consider adding a flag - see for example `-dcore-lint`.
 
-**Trap, pitfall for using the ASSERT macro**:
+**Trap, pitfall for using the `ASSERT` macro**:
 
 
-The ASSERT macro uses CPP, and if you are unwise enough to try to write assertions using primed variables (`ASSERT (not $ intersectsBlockEnv b b')`), one possible outcome is that CPP silently fails to expand the ASSERT, and you get this very baffling error message:
+The `ASSERT` macro uses CPP, and if you are unwise enough to try to write assertions using primed variables (`ASSERT (not $ intersectsBlockEnv b b')`), one possible outcome is that CPP silently fails to expand the ASSERT, and you get this very baffling error message:
 
 ```wiki
 Not in scope: data constructor `ASSERT'
@@ -276,7 +276,7 @@ Not in scope: data constructor `ASSERT'
 
 Now you can Google for this error message :-)
 
-* **GHCI**
+* `GHCI`
 
   Enables GHCi support, including the byte code generator and interactive user interface. This isn't the default, because the compiler needs to be bootstrapped with itself in order for GHCi to work properly. The reason is that the byte-code compiler and linker are quite closely tied to the runtime system, so it is essential that GHCi is linked with the most up-to-date RTS. Another reason is that the representation of certain datatypes must be consistent between GHCi and its libraries, and if these were inconsistent then disaster could follow. 
 
@@ -299,7 +299,7 @@ In order to avoid angering this git hook, you should set your editor to indent u
 - In Emacs, add `(setq-default indent-tabs-mode nil)` to your `.emacs` file ([more discussion](http://cscs.umich.edu/~rlr/Misc/emacs_tabs.htm))
 - In Sublime Text, save the following to files at `Packages/User/Haskell.sublime-settings` and `Packages/User/Literate Haskell.sublime-settings`:
 
-```wiki
+```
 {
 	"tab_size": 8,
 	"translate_tabs_to_spaces": true
@@ -312,7 +312,7 @@ In order to avoid angering this git hook, you should set your editor to indent u
 
   Alternatively, open the Bundle Editor and add a new Preference called Indentation to the bundle editor. Give it the following contents:
 
-```wiki
+```
 {	shellVariables = (
 		{	name = 'TM_SOFT_TABS';
 			value = 'YES';
