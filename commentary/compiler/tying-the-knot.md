@@ -21,87 +21,7 @@ How this knot tying works is a dark corner of GHC, but hopefully this wiki page 
 
 Knot-tying is all intimately tied up with the treatment of `hs-boot` files, so those tickets are listed here.
 
-
-
-Use Keyword = `hs-boot` to ensure that a ticket ends up on these lists.
-
-
-
-**Open Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/1012">#1012</a></th>
-<td>ghc panic with mutually recursive modules and template haskell</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8441">#8441</a></th>
-<td>Allow family instances in an hs-boot file</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9450">#9450</a></th>
-<td>GHC instantiates Data instances before checking hs-boot files</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9562">#9562</a></th>
-<td>Type families + hs-boot files = unsafeCoerce</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10333">#10333</a></th>
-<td>hs-boot modification doesn&apos;t induce recompilation</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12034">#12034</a></th>
-<td>Template Haskell + hs-boot = Not in scope during type checking, but it passed the renamer</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12063">#12063</a></th>
-<td>Knot-tying failure when type-synonym refers to non-existent data</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13069">#13069</a></th>
-<td>hs-boot files permit default methods in type class (but don&apos;t typecheck them)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13180">#13180</a></th>
-<td>Confusing error when hs-boot abstract data implemented using synonym</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13299">#13299</a></th>
-<td>Typecheck multiple modules at the same time</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13322">#13322</a></th>
-<td>Pattern synonyms in hs-boot files</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13347">#13347</a></th>
-<td>Abstract classes in hs-boot should not be treated as injective</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13981">#13981</a></th>
-<td>Family instance consistency checks happens too early when hs-boot defined type occurs on LHS</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14092">#14092</a></th>
-<td>hs-boot unfolding visibility not consistent between --make and -c</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14103">#14103</a></th>
-<td>Retypechecking the loop in --make mode is super-linear when there are many .hs-boot modules</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14382">#14382</a></th>
-<td>The &apos;impossible&apos; happened whilst installing gi-gtk via cabal</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16127">#16127</a></th>
-<td>Panic: piResultTys1 in compiler/types/Type.hs:1022:5</td></tr></table>
-
-
-
-
-**Closed Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/2412">#2412</a></th>
-<td>Interaction between type synonyms and .hs-boot causes panic &quot;tcIfaceGlobal (local): not found&quot;</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/4003">#4003</a></th>
-<td>tcIfaceGlobal panic building HEAD with 6.12.2</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7672">#7672</a></th>
-<td>boot file entities are sometimes invisible and are not (semantically) unified with corresponding entities in implementing module</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10083">#10083</a></th>
-<td>ghc: panic! (the &apos;impossible&apos; happened)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11062">#11062</a></th>
-<td>Type families + hs-boot files = panic (type family consistency check too early)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12035">#12035</a></th>
-<td>hs-boot knot tying insufficient for ghc --make</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12042">#12042</a></th>
-<td>Infinite loop with type synonyms and hs-boot</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12064">#12064</a></th>
-<td>tcIfaceGlobal error with existentially quantified types</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13140">#13140</a></th>
-<td>Handle subtyping relation for roles in Backpack</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13591">#13591</a></th>
-<td>&quot;*** Exception: expectJust showModule&quot; in ghci with hs-boot</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13710">#13710</a></th>
-<td>panic with boot and -jX</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13803">#13803</a></th>
-<td>Panic while forcing the thunk for TyThing IsFile (regression)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14075">#14075</a></th>
-<td>GHC panic with parallel make</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14080">#14080</a></th>
-<td>GHC panic while forcing the thunk for TyThing IsFile (regression)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14396">#14396</a></th>
-<td>Hs-boot woes during family instance consistency checks</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14531">#14531</a></th>
-<td>tcIfaceGlobal (local): not found</td></tr></table>
-
+See the ~"hs-boot" label.
 
 
 ## Practical advice
@@ -141,7 +61,7 @@ data IfaceRule      data CoreRule
 Taking `IfaceType` and `Type` as an example, we can see the big difference in a constructor for type constructor application:
 
 
-```
+```haskell
 data Type
   = ...
   | TyConApp TyCon [KindOrType]
@@ -149,6 +69,7 @@ data Type
 data IfaceType
   = ...
   | IfaceTyConApp IfaceTyCon IfaceTcArgs
+
 data IfaceTyCon
   = IfaceTyCon { ifaceTyConName :: IfExtName
                , ifaceTyConInfo :: IfaceTyConInfo }       
@@ -168,7 +89,7 @@ In `Type`, the type constructor application contains the full `TyCon` which cont
 Consider the following Haskell file:
 
 
-```
+```haskell
 data T = MkT S
 data S = MkS T
 ```
@@ -221,14 +142,16 @@ As we typecheck Haskell source code, we produce `TyCon`s and other type-checking
 **An hs file which implements an hs-boot file.** This is the trickiest case of knot-tying during type checking, so let's look at a particular example:
 
 
-```
+```haskell
 -- A.hs-boot
 module A where
 data T
+
 -- B.hs
 module B where
 import {-# SOURCE #-} A
 data S = MkS T
+
 -- A.hs
 module A where
 import B
