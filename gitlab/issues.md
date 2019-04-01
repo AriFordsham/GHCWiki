@@ -15,12 +15,12 @@ Triaging a new issue typically proceeds as follows:
 1. Apply the appropriate **labels** to the ticket. See the [labels list](labels) for the full listing of valid labels. Generally a ticket should always have the following labels:
 
    * one of ~bug, ~"feature request", or ~"task"; generally this will be taken care of by the template.
-   * if a ~bug, one of the [bug types labels](labels#types-of-bugs).
-   * if the bug looks to be operating-system-dependent, one of the [operating system labels](labels#operating-systems). If no operating system label is present the default is assumed to be Linux.
-   * if the bug looks to be architecture-dependent, one of the [architecture labels](labels#architecture). If no architecture label is present the default is assumed to be x86-64.
-   * any appropriate [language extension](labels#language-extensions) or [compiler subsystem](labels#subsystems) labels
+   * if a ~bug, one of the [bug types labels](gitlab/labels#types-of-bugs).
+   * if the bug looks to be operating-system-dependent, one of the [operating system labels](gitlab/labels#operating-systems). If no operating system label is present the default is assumed to be Linux.
+   * if the bug looks to be architecture-dependent, one of the [architecture labels](gitlab/labels#architecture). If no architecture label is present the default is assumed to be x86-64.
+   * any appropriate [language extension](gitlab/labels#language-extensions) or [compiler subsystem](gitlab/labels#subsystems) labels
    * if the bug looks to be an appropriate task for a newcomer, apply ~newcomer
-   * if any of the [miscellaneous labels](labels#miscellaneous) are appropriate, apply then
+   * if any of the [miscellaneous labels](gitlab/labels#miscellaneous) are appropriate, apply then
 
 1. Check that the ticket includes **sufficient detail** to be reproducible. If something is missing then kindly the reporter for clarification and apply the ~"info needed" label.
 
@@ -37,7 +37,3 @@ Triaging a new issue typically proceeds as follows:
    * otherwise set milestone to the next major release
 
 1. Remove the ~"needs triage" label
-
-## Backports
-
-If an issue is 
