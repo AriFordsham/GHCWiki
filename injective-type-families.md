@@ -29,56 +29,7 @@ full discussion of injective type families see Haskell Symposium 2015 [paper](ht
 
 ## Tickets
 
-
-
-Use Keyword = `InjectiveFamilies` to ensure that a ticket ends up on these lists.
-
-
-
-**Open Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/4259">#4259</a></th>
-<td>Relax restrictions on type family instance overlap</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10227">#10227</a></th>
-<td>Type checker cannot deduce type</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10832">#10832</a></th>
-<td>Generalize injective type families</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10833">#10833</a></th>
-<td>Use injective type families (decomposition) when dealing with givens</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11511">#11511</a></th>
-<td>Type family producing infinite type accepted as injective</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13571">#13571</a></th>
-<td>Injective type family syntax accepted without TypeFamilyDependencies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13621">#13621</a></th>
-<td>Problems with injective type families</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13797">#13797</a></th>
-<td>Mark negation injective</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14164">#14164</a></th>
-<td>GHC hangs on type family dependency</td></tr></table>
-
-
-
-
-**Closed Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/6018">#6018</a></th>
-<td>Injective type families</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12119">#12119</a></th>
-<td>Can&apos;t create injective type family equation with TypeError as the RHS</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12199">#12199</a></th>
-<td>GHC is oblivious to injectivity when solving an equality constraint</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12430">#12430</a></th>
-<td>TypeFamilyDependencies accepts invalid injectivity annotation</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13643">#13643</a></th>
-<td>Core lint error with TypeInType and TypeFamilyDependencies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13651">#13651</a></th>
-<td>Invalid redundant pattern matches with -XTypeFamilyDependencies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13822">#13822</a></th>
-<td>GHC not using injectivity?</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14369">#14369</a></th>
-<td>GHC warns an injective type family &quot;may not be injective&quot;</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15691">#15691</a></th>
-<td>Marking Pred(S n) = n as injective</td></tr></table>
+See the ~"injective type families" label.
 
 
 
@@ -92,12 +43,12 @@ injective.  We have identified three forms of injectivity:
   side) of a type family determines all the arguments on the left-hand
   side. Examples:
 
-```
+```haskell
 type family Id a where
      Id a = a
 ```
 
-```
+```haskell
 type family F a b c
 type instance F Int  Char Bool = Bool
 type instance F Char Bool Int  = Int
@@ -107,7 +58,7 @@ type instance F Bool Int  Char = Char
 1. Injectivity in some of the arguments, where knowing the RHS of a type
   family determines only some of the arguments on the LHS. Example:
 
-```
+```haskell
 type family G a b c
 type instance G Int  Char Bool = Bool
 type instance G Int  Char Int  = Bool
@@ -125,7 +76,7 @@ type instance G Bool Int  Int  = Int
   family and some of the LHS arguments determines other (possibly not all)
   LHS arguments. Examples:
 
-```
+```haskell
 type family Plus a b where
      Plus Z     n = n
      Plus (S m) n = S (Plus m n)
@@ -138,7 +89,7 @@ type family Plus a b where
 >
 >
 
-```
+```haskell
 type family H a b c
 type instance H Int  Char   Double = Int
 type instance H Bool Double Double = Int
@@ -183,7 +134,7 @@ allowed `:: kind` annotation. In other words all these declaration are
 well-formed:
 
 
-```
+```haskell
 type family Plus (a :: Nat) (b :: Nat) where ...
 type family Plus (a :: Nat) (b :: Nat) :: Nat where ...
 type family Plus (a :: Nat) (b :: Nat) = c where ...
@@ -197,7 +148,7 @@ following the result type variable.  `|` is followed by an injectivity
 condition. Injectivity condition has the form:
 
 
-```
+```haskell
 A -> B
 ```
 
@@ -214,7 +165,7 @@ is not injective in a given argument.
 Here are examples of injectivity declarations using proposed syntax:
 
 
-```
+```haskell
 type family Id a = result | result -> a where { ... }
 type family F a b c = d | d -> c a b
 type family G a b c = foo | foo -> a b where { ... }
@@ -228,7 +179,7 @@ injectivity condition can mention type variables that name the arguments, not
 just the result.  With this extended syntax we could write:
 
 
-```
+```haskell
 type family Plus a b = (sum :: Nat) | sum a -> b, sum b -> a where
 type family H a b c = xyz | xyz a -> b c, xyz b -> a c
 ```
