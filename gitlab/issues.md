@@ -22,7 +22,7 @@ Triaging a new issue typically proceeds as follows:
    * if the bug looks to be an appropriate task for a newcomer, apply ~newcomer
    * if any of the [miscellaneous labels](gitlab/labels#miscellaneous) are appropriate, apply then
 
-1. Check that the ticket includes **sufficient detail** to be reproducible. If something is missing then kindly the reporter for clarification and apply the ~"info needed" label.
+1. Check that the ticket includes **sufficient detail** to be reproducible. If something is missing then kindly the reporter for clarification and apply the ~"info needed" label (don't forget to remove this when the reporter responds).
 
 1. Set the **weight** field appropriately for the issue's severity. Recall that GHC uses a 10-point weight scale:
 
