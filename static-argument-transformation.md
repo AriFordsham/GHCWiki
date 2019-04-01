@@ -1,6 +1,5 @@
 # The Static Argument Transformation (SAT)
 
-
 This page summarises progress on the Static Argument Transformation.
 
 
@@ -18,40 +17,7 @@ Also see [this comment in #9374](https://gitlab.haskell.org/ghc/ghc/issues/9374#
 
 ## Tickets
 
-
-
-Use Keyword = `StaticArgumentTransformation` to ensure that a ticket ends up on these lists.
-
-
-
-**Open Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/888">#888</a></th>
-<td>Implement the static argument transformation</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5059">#5059</a></th>
-<td>Pragma to SPECIALISE on value arguments</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9374">#9374</a></th>
-<td>Investigate Static Argument Transformation</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13502">#13502</a></th>
-<td>Static argument transformation should also run after specialisation</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13966">#13966</a></th>
-<td>Skip-less stream fusion: a missed opportunity</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14211">#14211</a></th>
-<td>Compiler is unable to INLINE as well as the programmer can manually</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14231">#14231</a></th>
-<td>Core lint error &quot;in result of Static argument&quot;</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14649">#14649</a></th>
-<td>ghc panic: mergeSATInfo</td></tr></table>
-
-
-
-
-**Closed Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9545">#9545</a></th>
-<td>Evaluate Takano Akio&apos;s foldrW/buildW fusion framework as a possible replacement for foldr/build</td></tr></table>
-
-
+See the ~"static argument transformation" label.
 
 # Matt's Notes
 
