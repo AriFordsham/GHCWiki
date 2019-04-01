@@ -1,0 +1,43 @@
+# Issue conventions
+
+A few notes about GHC's issue tracker:
+
+ * The **weight** field is a 10-point scale of issue severity.
+
+## Triage protocol
+
+When a reporter opens a new issue they will generally only provide an issue description using one of the [provided templates](https://gitlab.haskell.org/ghc/ghc/tree/master/.gitlab/issue_templates). The triage process involves ensuring that the issue report is complete and filling in any missing metadata. To ensure that new issues are triaged, the issue templates apply the ~"triage needed" label to all new issues.
+
+Triaging a new issue typically proceeds as follows:
+
+1. Check that the ticket is really **supposed to be filed against GHC** and not another project (e.g. `haskeline` or `Cabal`). If it should be filed against another project then kindly direct the reporter to the appropriate issue tracker.
+
+1. Apply the appropriate **labels** to the ticket. See the [labels list](labels) for the full listing of valid labels. Generally a ticket should always have the following labels:
+
+   * one of ~bug, ~"feature request", or ~"task"; generally this will be taken care of by the template.
+   * if a ~bug, one of the [bug types labels](labels#types-of-bugs).
+   * if the bug looks to be operating-system-dependent, one of the [operating system labels](labels#operating-systems). If no operating system label is present the default is assumed to be Linux.
+   * if the bug looks to be architecture-dependent, one of the [architecture labels](labels#architecture). If no architecture label is present the default is assumed to be x86-64.
+   * any appropriate [language extension](labels#language-extensions) or [compiler subsystem](labels#subsystems) labels
+   * if the bug looks to be an appropriate task for a newcomer, apply ~newcomer
+   * if any of the [miscellaneous labels](labels#miscellaneous) are appropriate, apply then
+
+1. Check that the ticket includes **sufficient detail** to be reproducible. If something is missing then kindly the reporter for clarification and apply the ~"info needed" label.
+
+1. Set the **weight** field appropriately for the issue's severity. Recall that GHC uses a 10-point weight scale:
+
+   * if the user's program crashes (~"runtime crash") or results in incorrect evaluation (~"incorrect runtime result"), set weight to 7 or higher
+   * if the issue not a crash or incorrect result and is unlikely to affect a large number of users, set weight to 3 or lower.
+
+1. Set the **milestone** field appropriately:
+
+   * if the issue is a regression from the previous major release, set milestone to the next minor release
+   * if the issue is of high severity, set milestone to the next minor release
+   * if the issue is not important (e.g. weight of 3 or less) and unlikely to see attention in the next six months, set milestone to %"_|_"
+   * otherwise set milestone to the next major release
+
+1. Remove the ~"needs triage" label
+
+## Backports
+
+If an issue is 
