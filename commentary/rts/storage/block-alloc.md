@@ -40,7 +40,7 @@ There are two options:
 
 We adopt the second approach.  The following diagram shows a megablock:
 
-[](/trac/ghc/attachment/wiki/Commentary/Rts/Storage/BlockAlloc/sm-block.png)
+![](sm-block.png)
 
 
 We currently have megablocks of 1Mb in size (m = 20) with blocks of 4k in size (k = 12), and these sizes are easy to change  ([includes/rts/Constants.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/rts/Constants.h)).  
