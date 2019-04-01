@@ -12,7 +12,7 @@ This page describes how to do cross-compilation with GHC.  That is:
 
   - [TakeoffGW](http://takeoffgw.sourceforge.net/) is a distribution of Unix tools for Windows, built by cross-compiling on a Linux machine.  They would like to be able to build and distribute GHC this way.  It might be useful for us to be able to cross-compile a Windows GHC from Linux too.
   - build a 64-bit GHC on OS X, by cross-compiling using the 32-bit version.
-  - We could port to Win64 ([\#1884](https://gitlab.haskell.org/ghc/ghc/issues/1884)) by cross-compiling using a 32-bit Windows GHC.
+  - We could port to Win64 (#1884) by cross-compiling using a 32-bit Windows GHC.
   - Other porting tasks might be easier, given a suitable cross-compilation toolchain.
 
 ## Terminology and background

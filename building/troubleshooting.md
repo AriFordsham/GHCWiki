@@ -36,7 +36,7 @@ then it could mean you have introduced a build system bug, causing an infinite l
 This can also happen (although we don't know precisely why) if you modify something in a built tree, and then re-run `make`. In this case the error is just overly conservative, and restarting is the right workaround.
 
 
-It can also happen if you are building the sources on FreeBSD in a really fast environment, e.g. on a multi-core Xeon with multiple parallel threads (`make -j`) or a memory-backed file system (`mfs`, `tmpfs`) (see [\#7592](https://gitlab.haskell.org/ghc/ghc/issues/7592)). It is because precision of file timestamps is not fine-grained enough by default (due to the common VFS layer).  You can change this granularity by adjusting the value of the `vfs.timestamp_precision` sysctl(3) variable (`sudo sysctl -w vfs.timestamp_precision=1`).
+It can also happen if you are building the sources on FreeBSD in a really fast environment, e.g. on a multi-core Xeon with multiple parallel threads (`make -j`) or a memory-backed file system (`mfs`, `tmpfs`) (see #7592). It is because precision of file timestamps is not fine-grained enough by default (due to the common VFS layer).  You can change this granularity by adjusting the value of the `vfs.timestamp_precision` sysctl(3) variable (`sudo sysctl -w vfs.timestamp_precision=1`).
 
 
 If you encounter this without touching any files after typing 'make', then it's probably a bug in the build system. The `make -d` output will be useful in tracking it down, but depending on when it happens there might be a lot of it!
@@ -143,7 +143,7 @@ rm libraries/*/*/doc/*/*/*.haddock
 
 ### ar: Bad file number
 
-**Fixed in 6.12.1**.  See [\#3201](https://gitlab.haskell.org/ghc/ghc/issues/3201).  Workaround: add `SplitObjs=NO` to `mk/build.mk`.
+**Fixed in 6.12.1**.  See #3201.  Workaround: add `SplitObjs=NO` to `mk/build.mk`.
 
 ### chr: bad argument
 
@@ -469,7 +469,7 @@ then you have probably not got `automake` installed (or at least findable).
 Vista has a "feature" called "installer detection" which tries to elevate permissinos for executables named things like `Setup` and `Install`.  There are lots of programs called `Setup` in a GHC build, and if you see permission-denied errors relating to programs called `Setup` you may need to disable installer detection.  Go to `Start -> All Programs -> Accessories > Run` and enter `secpol.msc`.  Then under `Security Settings -> Local Policies -> Security Options`,  disable `UAC: Detect application installations and prompt for elevation`.  Then reboot.
 
 
-We added a workaround for install-detection in GHC 6.8.1 (see [\#1271](https://gitlab.haskell.org/ghc/ghc/issues/1271)), so if you're using that version or later you shouldn't encounter this issue.
+We added a workaround for install-detection in GHC 6.8.1 (see #1271), so if you're using that version or later you shouldn't encounter this issue.
 
 ### Cygwin: failure to use native path to `gcc` when configuring
 

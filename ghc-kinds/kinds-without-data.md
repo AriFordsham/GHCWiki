@@ -2,12 +2,12 @@
 
 
 This page tracks feature requests for declaring closed data kinds without
-associated data types ([\#6024](https://gitlab.haskell.org/ghc/ghc/issues/6024)) and declaring open data kinds that can be freely
-extended after they are declared ([\#11080](https://gitlab.haskell.org/ghc/ghc/issues/11080)).  What comes below is a design
+associated data types (#6024) and declaring open data kinds that can be freely
+extended after they are declared (#11080).  What comes below is a design
 proposal that is not yet implemented (as of Jan 2015).  Main person responsible
 for working on the implementation is Jan Stolarek (JS).
 
-## Motivation for closed data kinds ([\#6024](https://gitlab.haskell.org/ghc/ghc/issues/6024))
+## Motivation for closed data kinds (#6024)
 
 
 When using `-XDataKinds` GHC automatically promotes every datatype to a kind,
@@ -48,7 +48,7 @@ In this case, having to declare a datatype for `Universe` has two disadvantages:
   and `K` cannot be used as constructors of `Interpretation` as above,
   because those are also constructors of `Universe`.
 
-## Motivation for open data kinds ([\#11080](https://gitlab.haskell.org/ghc/ghc/issues/11080))
+## Motivation for open data kinds (#11080)
 
 
 Users might want to create type-level symbols for the purpose of indexing types.
@@ -82,7 +82,7 @@ data Universe = Sum  Universe Universe
 
 
 This addresses disadvantage (1) but still leaves us with disadvantage (2).  So
-the idea behind [\#6024](https://gitlab.haskell.org/ghc/ghc/issues/6024) is to let users define things like:
+the idea behind #6024 is to let users define things like:
 
 
 ```
@@ -160,7 +160,7 @@ broken.
 [Richard Eisenberg argues](https://mail.haskell.org/pipermail/ghc-devs/2015-December/010812.html)
 that this is bad and in the case of above declaration
 `MkFoo` should go into data namespace.  But that does not solve disadvantage (2)
-and thus misses the point of [\#6024](https://gitlab.haskell.org/ghc/ghc/issues/6024) (given that disadvantage (1) is already
+and thus misses the point of #6024 (given that disadvantage (1) is already
 solved by `-XTypeInType`).  Richard also argues that members of an open data
 kind should also be placed in data namespace.  Putting `MkFoo` into data
 namespace will also allow us to have quite good error messages from the

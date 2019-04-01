@@ -10,7 +10,7 @@ Rebindable syntax is fully supported for standard monad comprehensions with gene
 For further details and usage examples, see the paper "Bringing back monad comprehensions" [http://db.inf.uni-tuebingen.de/staticfiles/publications/haskell2011.pdf](http://db.inf.uni-tuebingen.de/staticfiles/publications/haskell2011.pdf) at the 2011 Haskell Symposium.
 
 
-See ticket [\#4370](https://gitlab.haskell.org/ghc/ghc/issues/4370).
+See ticket #4370.
 
 ## Translation rules
 

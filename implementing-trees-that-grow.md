@@ -7,7 +7,7 @@ In this page, we discuss the overall plan and details of implementing Trees that
 - The motivation and some background information can be found at the [report](https://ghc.haskell.org/trac/ghc/wiki/NativeMetaprogramming) of a related Summer of Haskell project.
 - [Notes about instances](implementing-trees-that-grow/instances)
 - Main GHC branch: `wip/GrowableAST`
-- [\#14490](https://gitlab.haskell.org/ghc/ghc/issues/14490): TTG snags
+- #14490: TTG snags
 - [Potential use for adding IDE support](implementing-trees-that-grow/ide-support)
 - [A set of advises for GHC developers on how to work with TTG](implementing-trees-that-grow/trees-that-grow-guidance)
 - [Handling Source Locations](implementing-trees-that-grow/handling-source-locations)

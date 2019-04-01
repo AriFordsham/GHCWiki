@@ -20,26 +20,26 @@ This section collects notes about the new constraint solver (Dec 2009) that we a
 
 - Declarations involving families:
 
-  - [\#3714](https://gitlab.haskell.org/ghc/ghc/issues/3714): scoping error for associated types
+  - #3714: scoping error for associated types
   - If a type variable occurs only in arguments to type synonym families in a signature, GHC ought to reject the signature as ambiguous.  (If the variable is mentioned in an argument to a type class in the context, we cannot reject it though, as the class may contain a TF or FD that constrains the variable.)
-  - [\#2435](https://gitlab.haskell.org/ghc/ghc/issues/2435) (Inconsistency in handling qualification of names of class methods and associated types in instance declarations)
+  - #2435 (Inconsistency in handling qualification of names of class methods and associated types in instance declarations)
   - Defaults for associated type synonyms.  (Having both a kind signature and vanilla synonym is problematic as in `RnNames.getLocalDeclBinders` its hard to see that not both of them are defining declarations, which leads to a multiple declarations error.  Defaults are quite different from vanilla synonyms anyway, as they usually have tyvars on their rhs that do not occur on the lhs.)  If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
 
 - Constraint simplification:
 
-  - [\#3787](https://gitlab.haskell.org/ghc/ghc/issues/3787): ill-typed program made by typechecker
-  - [\#3651](https://gitlab.haskell.org/ghc/ghc/issues/3651): unreachable branches not discovered
-  - [\#3584](https://gitlab.haskell.org/ghc/ghc/issues/3584): premature commitment to an instance declaration
-  - [\#3554](https://gitlab.haskell.org/ghc/ghc/issues/3554): assertion failure
-  - [\#3500](https://gitlab.haskell.org/ghc/ghc/issues/3500): type functions and recursive dictionaries — need to require UndecidableInstances
-  - [\#3484](https://gitlab.haskell.org/ghc/ghc/issues/3484): type checker diverges (involves higher rank types)
-  - [\#3460](https://gitlab.haskell.org/ghc/ghc/issues/3460): mixed equalities and type classes
-  - [\#3208](https://gitlab.haskell.org/ghc/ghc/issues/3208) (another problem with recursive groups that containing signatures with equalities over TFs)
-  - [\#3297](https://gitlab.haskell.org/ghc/ghc/issues/3297): Rank-n types: In `TcTyFuns.flattenType`, we need to pull out type families below foralls -maybe pull out if possible, but definitely improve the error message
+  - #3787: ill-typed program made by typechecker
+  - #3651: unreachable branches not discovered
+  - #3584: premature commitment to an instance declaration
+  - #3554: assertion failure
+  - #3500: type functions and recursive dictionaries — need to require UndecidableInstances
+  - #3484: type checker diverges (involves higher rank types)
+  - #3460: mixed equalities and type classes
+  - #3208 (another problem with recursive groups that containing signatures with equalities over TFs)
+  - #3297: Rank-n types: In `TcTyFuns.flattenType`, we need to pull out type families below foralls -maybe pull out if possible, but definitely improve the error message
   - Implicit parameters: In `TcTyFuns`, we need to normalise IP constraints, too (in `normDict` and `substDict`).
-  - [\#3330](https://gitlab.haskell.org/ghc/ghc/issues/3330): typechecker goes into a loop
-  - [\#2664](https://gitlab.haskell.org/ghc/ghc/issues/2664) (typechecker diverges; actually, it's after Tc9, probably during zonking)
-  - [\#2102](https://gitlab.haskell.org/ghc/ghc/issues/2102) & [\#2715](https://gitlab.haskell.org/ghc/ghc/issues/2715) (superclass equalities)
+  - #3330: typechecker goes into a loop
+  - #2664 (typechecker diverges; actually, it's after Tc9, probably during zonking)
+  - #2102 & #2715 (superclass equalities)
 
     - To fix superclass equalities (specifically getting the coercion evidence), we could introduce a kind of typelet just for evidence.  In fact, re-use `HsBind.VarBind` and make its right-hand side a specially data structure describing evidence construction, instead of being a general `HsExpr`.  That evidence construction generation can have a case for extracting superclass constraints.  The desugarer than has to generate the case expression bringing the equality in scope from that.
     - What about filtering the `EqInst`s in `TcSimplify.addSCs`.  We need them, don't we?  But they give rise to `Var`s, not `Id`s, and we haven't got selectors.
@@ -59,38 +59,38 @@ This section collects notes about the new constraint solver (Dec 2009) that we a
 
 - Misc:
 
-  - [\#3064](https://gitlab.haskell.org/ghc/ghc/issues/3064): exponentially slow compile times
-  - [\#3169](https://gitlab.haskell.org/ghc/ghc/issues/3169) & [\#2360](https://gitlab.haskell.org/ghc/ghc/issues/2360) (improve occurs-check error message in two instances)
-  - [\#2721](https://gitlab.haskell.org/ghc/ghc/issues/2721) (generalised newtype deriving for classes with associated types) Tom S has a use-case for this
+  - #3064: exponentially slow compile times
+  - #3169 & #2360 (improve occurs-check error message in two instances)
+  - #2721 (generalised newtype deriving for classes with associated types) Tom S has a use-case for this
   - `TcPat` and `TcUnify` (and maybe other modules) still have calls to the unification engine that ignore the returned coercion!!
   - Test `Simple17` (corelint error as a dict binding, used to specialise a call to a local function, floats out too far)
   - Improve error messages for loopy equalities: TF tests `Simple13` & `SkolemOccursLoop`
-  - [\#1897](https://gitlab.haskell.org/ghc/ghc/issues/1897): If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html).
-  - [\#1769](https://gitlab.haskell.org/ghc/ghc/issues/1769) (deriving typeable for data families)
+  - #1897: If you infer a type for a function, then should check the function against that sigature, to check that if the user gave that signature, then typechecking would again succeed.  See this thread [http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html](http://www.haskell.org/pipermail/haskell-cafe/2008-April/041385.html).
+  - #1769 (deriving typeable for data families)
   - When a `type instance` changes (in an orphan modules), currently clients are not properly recompiled at least by `--make`.
   - When we raise a mismatch error in `TcSimplify` for unresolvable equalities, we effectively tidy the two non-matching types twice.  Add a comment to highlight this and say why it is ok (i.e., they are never grouped together with `groupErrs` or similar).
-  - [\#2296](https://gitlab.haskell.org/ghc/ghc/issues/2296): error message involving fundep gives unhelpful location.  I want to remember to come back to this one when we have the new type-family simplification stuff in place.
+  - #2296: error message involving fundep gives unhelpful location.  I want to remember to come back to this one when we have the new type-family simplification stuff in place.
   - Fix export list problem (ie, export of data constructors introduced by orphan data instances):
 
     - Change `HscTypes.IfaceExport` to use `Name` instead of `OccName`.
     - Then, there is also no need for the grouping of the identifiers by module anymore (but sort it to avoid spurious iface changes dur to re-ordering when re-compiling).
     - We still need to have the name parent map, though.
     - See email for example.
-  - [\#2436](https://gitlab.haskell.org/ghc/ghc/issues/2436) (Bad warning on export)
+  - #2436 (Bad warning on export)
   - Eliminate code duplication between `tcTyClDecl1` and `tcFamInstDecl1`.  The code for vanilla data/newtype declarations and the code for data/newtype instances has many commonalities.
 
 **Additional feature:**
 
-- [\#3699](https://gitlab.haskell.org/ghc/ghc/issues/3699): wildcards in type function LHSs
-- [\#3490](https://gitlab.haskell.org/ghc/ghc/issues/3490): relax restrictions on superclass contexts
-- [\#2101](https://gitlab.haskell.org/ghc/ghc/issues/2101)
+- #3699: wildcards in type function LHSs
+- #3490: relax restrictions on superclass contexts
+- #2101
 - Total families
 - Test `DerivingNewType`
 - Implementing FDs by TFs:
 
   - Step 1: Replace the existing improvement machinery for FDs by code that generates explicit equalities from the two FD rules.  Then, all improvement is by normalisation of equalities, which hopefully allows us to simplify `TcSimplify.reduceContext`.  (Apply this change when integrating the simplification of equalities and dictionaries.)
   - Step 2: Desugar FDs into TFs and superclass equalities.
-- [\#3005](https://gitlab.haskell.org/ghc/ghc/issues/3005) & ghci command to print normalised type and add [http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799](http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799) as a test to the testsuite.
+- #3005 & ghci command to print normalised type and add [http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799](http://article.gmane.org/gmane.comp.lang.haskell.cafe/28799) as a test to the testsuite.
 - Most general signatures for record selectors:
 
   ```wiki
@@ -147,7 +147,7 @@ Done:
 Todo (low-level):
 
 - Allow data family GADT instances.
-- Deriving `Typeable` for data families ([\#1769](https://gitlab.haskell.org/ghc/ghc/issues/1769))
+- Deriving `Typeable` for data families (#1769)
 - If an associated synonym has a default definition, use that in the instances.  In contrast to methods, this cannot be overridden by a specialised definition.  (Confluence requires that any specialised version is extensionally the same as the default.)
 
 

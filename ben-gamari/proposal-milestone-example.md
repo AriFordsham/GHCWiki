@@ -162,7 +162,7 @@ instance Monoid MyType where
 
 ## Implementation
 
-### Phase 1 (GHC 8.0)  [\#10365](https://gitlab.haskell.org/ghc/ghc/issues/10365)
+### Phase 1 (GHC 8.0)  #10365
 
 - Move `Data.Semigroup` & `Data.List.NonEmpty` from `semigroups-0.18` to `base`.
 

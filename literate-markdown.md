@@ -103,6 +103,6 @@ The above design has been implemented in [https://github.com/elliottt/ghc/tree/l
 The implementation involved the following:
 
 1. Modify `unlit` to support the new form of code block
-1. Don't get confused with CPP handline (see bug [\#4836](https://gitlab.haskell.org/ghc/ghc/issues/4836))
+1. Don't get confused with CPP handline (see bug #4836)
 1. Make GHC look for modules in `.md` and `.markdown` files.
 1. TODO when unliting markdown, do not recognize bird-tracks as code blocks.

@@ -1,5 +1,5 @@
 
-This page describe implementation plan for ticket  [\#8109](https://gitlab.haskell.org/ghc/ghc/issues/8109) (Type family patterns should support as-patterns.)
+This page describe implementation plan for ticket  #8109 (Type family patterns should support as-patterns.)
 
 
 The idea is to introduce support for as-pattens in type families that may make
@@ -16,7 +16,7 @@ type family Last u where
 ```
 
 
-Similar example (taken from [\#8109](https://gitlab.haskell.org/ghc/ghc/issues/8109)):
+Similar example (taken from #8109):
 
 
 ```
@@ -30,7 +30,7 @@ instance (SingI n, C ns) => C (n ': ns@(_ ': _)) where
 ```
 
 
-Another example taked from [\#9608](https://gitlab.haskell.org/ghc/ghc/issues/9608):
+Another example taked from #9608:
 
 
 ```

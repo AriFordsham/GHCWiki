@@ -13,8 +13,8 @@ This page describes an extension to type families that supports overlap.
 
 See also 
 
-- [\#8154](https://gitlab.haskell.org/ghc/ghc/issues/8154)
-- [\#8155](https://gitlab.haskell.org/ghc/ghc/issues/8155)
+- #8154
+- #8155
 - [Email thread](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-August/022712.html) on overlap restrictions for open families
 - [Draft paper](http://www.cis.upenn.edu/~eir/papers/2014/axioms/axioms-extended.pdf) about closed type families
 

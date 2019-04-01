@@ -1,7 +1,7 @@
 # Package Compatibility
 
 
-In GHC 6.8.1 we reorganised some of the contents of the packages we ship with GHC, see [\#710](https://gitlab.haskell.org/ghc/ghc/issues/710).  The idea was to lessen the problem caused by the base package being essentially static between GHC major releases.  By separating modules out of base and putting them into separate packages, it is possible to updgrade these modules independently of GHC.
+In GHC 6.8.1 we reorganised some of the contents of the packages we ship with GHC, see #710.  The idea was to lessen the problem caused by the base package being essentially static between GHC major releases.  By separating modules out of base and putting them into separate packages, it is possible to updgrade these modules independently of GHC.
 
 
 The reorganisations unfortunately exposed some problems with our package infrastructure, in particular most packages that compiled with 6.6 do not compile with 6.8.1 because they don't depend on the new packages.  Some instructions for upgrading packages are here: [Upgrading packages](http://haskell.org/haskellwiki/Upgrading_packages).

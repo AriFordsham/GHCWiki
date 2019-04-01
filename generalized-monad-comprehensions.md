@@ -1,7 +1,7 @@
 # Generalized monad comprehensions
 
 
-This is a proposal to generalize [MonadComprehensions](monad-comprehensions) (in conjunction with the `ParallelListComp` and `TransformListComp` extensions) from ticket [\#8914](https://gitlab.haskell.org/ghc/ghc/issues/8914) as well as do-notation.
+This is a proposal to generalize [MonadComprehensions](monad-comprehensions) (in conjunction with the `ParallelListComp` and `TransformListComp` extensions) from ticket #8914 as well as do-notation.
 
 ## Related proposals
 

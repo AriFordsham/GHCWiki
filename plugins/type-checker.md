@@ -229,7 +229,7 @@ In the light of experience with GHC 7.10.1, we are considering some changes to t
 ### Implemented: Empty closed type families
 
 
-Plugins that define type families often need to ensure that those type families have no normal instances, to avoid inconsistency, but empty closed type families were previously rejected ([\#9840](https://gitlab.haskell.org/ghc/ghc/issues/9840)). They are now permitted in HEAD. See [Phab:D841](https://phabricator.haskell.org/D841).
+Plugins that define type families often need to ensure that those type families have no normal instances, to avoid inconsistency, but empty closed type families were previously rejected (#9840). They are now permitted in HEAD. See [Phab:D841](https://phabricator.haskell.org/D841).
 
 ### Implemented: Creating constraints
 
@@ -263,7 +263,7 @@ tcPluginMatchFam :: s -> TyCon -> [Type] -> TcPluginM (Maybe (TcCoercion, TcType
 
 This is similar to `sfMatchFam`, which gives the definition of built-in type families like `(+)`. However, it would be invoked only in `matchFam`, rather than `reduceTyFamApp_maybe`, to save having to load plugins at all the call sites of the latter. Thus plugin-defined type families would reduce in the constraint solver, but not necessarily elsewhere.
 
-**Richard:** This makes me uncomfortable, in exactly the same way that I was made to feel uncomfortable in the comments starting with [comment:4:ticket:9840](https://gitlab.haskell.org/ghc/ghc/issues/9840). The fact that the new, (what I will call) *external* type families will behave differently than internal type families is further evidence that something is amiss. (The difference in behavior I'm referring to is the difference between `matchFam` and `reduceTyFamApp_maybe`.) This, of course, ties into [\#9636](https://gitlab.haskell.org/ghc/ghc/issues/9636) as well and to some of the more esoteric issues that cropped up while working on [\#6018](https://gitlab.haskell.org/ghc/ghc/issues/6018)/[Phab:D202](https://phabricator.haskell.org/D202) and perhaps even [\#10327](https://gitlab.haskell.org/ghc/ghc/issues/10327). I would love to approach this problem with the idea of making broader changes instead of looking for a minimal change just to support typechecker plugins better. **End Richard**
+**Richard:** This makes me uncomfortable, in exactly the same way that I was made to feel uncomfortable in the comments starting with [comment:4:ticket:9840](https://gitlab.haskell.org/ghc/ghc/issues/9840). The fact that the new, (what I will call) *external* type families will behave differently than internal type families is further evidence that something is amiss. (The difference in behavior I'm referring to is the difference between `matchFam` and `reduceTyFamApp_maybe`.) This, of course, ties into #9636 as well and to some of the more esoteric issues that cropped up while working on #6018/[Phab:D202](https://phabricator.haskell.org/D202) and perhaps even #10327. I would love to approach this problem with the idea of making broader changes instead of looking for a minimal change just to support typechecker plugins better. **End Richard**
 
 ### Implemented: Embedding CoreExpr in EvTerm
 
@@ -283,7 +283,7 @@ dsEvTerm (EvCoreExpr e) = return e
 I'm not very clear on whether we need to extend zonking to work on `CoreExpr`? Or should `EvCoreExpr` take a pre-zonked expression?
 
 
-This is now implemented; see [\#14691](https://gitlab.haskell.org/ghc/ghc/issues/14691).
+This is now implemented; see #14691.
 
 ### Under discussion: Evidence for axioms
 
@@ -339,13 +339,13 @@ Known plugins:
 
 Other possible applications:
 
-- making particular type families [injective](injective-type-families) (cf. [\#6018](https://gitlab.haskell.org/ghc/ghc/issues/6018))
+- making particular type families [injective](injective-type-families) (cf. #6018)
 
-- extra improvement for closed type families (cf. [\#10227](https://gitlab.haskell.org/ghc/ghc/issues/10227))
+- extra improvement for closed type families (cf. #10227)
 
 - adding functional dependency style behaviour to particular typeclasses
 
-- eta-expansion of type-level products ([\#7259](https://gitlab.haskell.org/ghc/ghc/issues/7259))
+- eta-expansion of type-level products (#7259)
 
 
 Feel free to extend these lists.
@@ -412,7 +412,7 @@ This occurs because `-fplugin=MyPlugin` essentially imports `MyPlugin` in every 
 If you're defining and using a plugin in a single package, use `OPTIONS_GHC` pragmas in the modules that rely on the plugin, rather than supplying `-fplugin` on the command line. Alternatively, you can define the plugin in one package and use it in another, then it is easy to compile the first package without `-fplugin`, and you can use it globally in the second package.
 
 
-See [\#10077](https://gitlab.haskell.org/ghc/ghc/issues/10077) for more information.
+See #10077 for more information.
 
 ### Error: `cannot find normal object file`
 

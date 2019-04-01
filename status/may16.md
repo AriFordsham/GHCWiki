@@ -25,7 +25,7 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 - **Improved generics representation** leveraging type-level literals. This makes `GHC.Generics` more expressive and uses new type system features to give more natural types to its representations.
 
-- A new **DeriveLift language extension**, allowing the `Lift` type class from `Language.Haskell.TH.Syntax` to be derived automatically. This was introduced in the spirit of `DeriveDataTypeable` and `DeriveGeneric` to allow easier metaprogramming, and to allow users to easily define `Lift` instances without needing to depend on the existence of Template Haskell itself (see [\#1830](https://gitlab.haskell.org/ghc/ghc/issues/1830)).
+- A new **DeriveLift language extension**, allowing the `Lift` type class from `Language.Haskell.TH.Syntax` to be derived automatically. This was introduced in the spirit of `DeriveDataTypeable` and `DeriveGeneric` to allow easier metaprogramming, and to allow users to easily define `Lift` instances without needing to depend on the existence of Template Haskell itself (see #1830).
 
 - **Support for DWARF-based stacktraces** ([DWARF](dwarf)). Haskell has at long last gained the ability to collect stack-traces of running programs. While still experimental, `base` now includes an interface which user code can use to request a representation of the current execution stack when running on a supported machine (currently Linux x86-64). Furthermore, the runtime system will now provide a backtrace of the currently running thread when thrown a `SIGUSR2` signal. Note that this functionality is highly experimental and there are some known issues which can potentially threaten the stability of the program.
 
@@ -35,9 +35,9 @@ GHC development churns onward - and **GHC 8.0 is right around the corner**! The 
 
 - A new **Strict language extension** ([StrictPragma](strict-pragma)), allowing modules to be compiled such that local bindings are evaluated eagerly. Implemented by Adam Sandberg Eriksson based on an proposal by Johan Tibell.
 
-- Significant improvements in cross-platform support, including a variety of fixes to **Windows linker support** ([Phab:D1696](https://phabricator.haskell.org/D1696), [ Phab:D1805](https://phabricator.haskell.org/D1805)), great improvements in **reliability on ARM** ([\#11206](https://gitlab.haskell.org/ghc/ghc/issues/11206)), revived **unregisterised [ m68k support](https://trofi.github.io/posts/191-ghc-on-m68k.html)**, and new support for **AIX targets** (Herbert) and Linux **PowerPC 64-bit big- and little-endian native code generation** ([ Phab:D629](https://phabricator.haskell.org/D629)).
+- Significant improvements in cross-platform support, including a variety of fixes to **Windows linker support** ([Phab:D1696](https://phabricator.haskell.org/D1696), [ Phab:D1805](https://phabricator.haskell.org/D1805)), great improvements in **reliability on ARM** (#11206), revived **unregisterised [ m68k support](https://trofi.github.io/posts/191-ghc-on-m68k.html)**, and new support for **AIX targets** (Herbert) and Linux **PowerPC 64-bit big- and little-endian native code generation** ([ Phab:D629](https://phabricator.haskell.org/D629)).
 
-- Improved support for **pattern synonyms**, including record syntax ([\#8582](https://gitlab.haskell.org/ghc/ghc/issues/8582)) and the ability to associate pattern synonyms with type constructors on export, implemented by Matthew Pickering. See Matthew's [blog](http://mpickering.github.io/posts/2015-12-12-pattern-synonyms-8.html) for details.
+- Improved support for **pattern synonyms**, including record syntax (#8582) and the ability to associate pattern synonyms with type constructors on export, implemented by Matthew Pickering. See Matthew's [blog](http://mpickering.github.io/posts/2015-12-12-pattern-synonyms-8.html) for details.
 
 # Upcoming plans for GHC 8.2
 
@@ -63,8 +63,8 @@ Of course, GHC only evolves because of its contributors. Please let us know if y
 - Backpack is targeting to be merged in GHC 8.2. More to come here. (Edward Z Yang)
 - Merge `Bifoldable` and `Bitraversable` into `base` (Edward Kmett, Ryan Scott)
 - Generalize the `deriving` algorithms for `Eq`, `Functor`, etc. to be able to derive the data types in `Data.Functor.Classes` (`Eq1`, `Eq2`, etc.), `Bifunctor`, `Bifoldable`, and `Bitraversable` (Ryan Scott)
-- Deriving strategies (Ryan Scott): grant users the ability to choose explicitly how a class should be `derived` (using a built-in algorithm, `GeneralizedNewtypeDeriving`, `DeriveAnyClass`, or otherwise), addressing [\#10598](https://gitlab.haskell.org/ghc/ghc/issues/10598).
-- Exhaustiveness checking for `EmptyCase`s ([Phab:D2105](https://phabricator.haskell.org/D2105)), addressing [\#10746](https://gitlab.haskell.org/ghc/ghc/issues/10746). 
+- Deriving strategies (Ryan Scott): grant users the ability to choose explicitly how a class should be `derived` (using a built-in algorithm, `GeneralizedNewtypeDeriving`, `DeriveAnyClass`, or otherwise), addressing #10598.
+- Exhaustiveness checking for `EmptyCase`s ([Phab:D2105](https://phabricator.haskell.org/D2105)), addressing #10746. 
 
 ## Back-end and runtime system
 

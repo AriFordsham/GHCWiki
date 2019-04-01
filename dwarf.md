@@ -447,7 +447,7 @@ a bit:
 
 Performance problems:
 
-- Potential slowdown bug: "Using -g causes differences in generated core" - [\#15960](https://gitlab.haskell.org/ghc/ghc/issues/15960)
+- Potential slowdown bug: "Using -g causes differences in generated core" - #15960
 
 ## Design decisions
 

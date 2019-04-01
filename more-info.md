@@ -1,5 +1,5 @@
 
-javran is working on extending `:info` to support more general cases (as requested in [\#9394](https://gitlab.haskell.org/ghc/ghc/issues/9394)), here is the detail of my plan.
+javran is working on extending `:info` to support more general cases (as requested in #9394), here is the detail of my plan.
 
 # Motiviation
 
@@ -18,7 +18,7 @@ The motivation is to extend `:info` to parse info query better and support searc
 # Dealing With More General Queries
 
 
-Most of the following are copied from s9gf4ult comments on [\#9394](https://gitlab.haskell.org/ghc/ghc/issues/9394), as I myself am still new to some of those concepts.
+Most of the following are copied from s9gf4ult comments on #9394, as I myself am still new to some of those concepts.
 Hopefully I'll make myself comfortable with them when getting into details
 
 - Finite typeclass application: For finite typeclass application we can print detailed information about specific instance, for example `:info (Eq Int)` must print assigned type/data families, module where instance is defined, maybe something else.

@@ -27,7 +27,7 @@ The GHC 7.8 release is in its final stages, and will be released in late Novembe
 
   to express that `Flip` may have no more instances written, meaning nefarious users can no longer write silly instances like `Flip Bool = Int`.
 
-- **Role support** - Richard Eisenberg implemented support for *role checking* in GHC, fixing a long standing bug [\#1496](https://gitlab.haskell.org/ghc/ghc/issues/1496) where `GeneralizedNewtypeDeriving` could be used to derive unsafe instances for a `newtype` (wiki \[Roles-wiki\] and paper \[Roles-paper\]).
+- **Role support** - Richard Eisenberg implemented support for *role checking* in GHC, fixing a long standing bug #1496 where `GeneralizedNewtypeDeriving` could be used to derive unsafe instances for a `newtype` (wiki \[Roles-wiki\] and paper \[Roles-paper\]).
 
 - **New and improved I/O manager** - Earlier this year, Andreas Voellmy and Kazu Yamamoto worked on a host of improvements to our I/O manager, making it scale significantly better on multicore machines. Since then, it's seen some other performance tweaks, and many bugfixes. As a result, the new I/O manager should scale linearly up to about 40 cores. Andreas reports their McNettle Software-defined-network (SDN) implementation can now achieve over *twenty million connections per second*, making it the fastest SDN implementation around - an incredible feat!
 

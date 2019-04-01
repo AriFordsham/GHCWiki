@@ -32,7 +32,7 @@ On top of that, we've also done a ton of other work over the past half year, inc
 
 - Support for record pattern synonyms ([Phab:D1152](https://phabricator.haskell.org/D1152))
 
-- **Implement phase 1 of the `MonadFail` proposal**. ([\#10751](https://gitlab.haskell.org/ghc/ghc/issues/10751))
+- **Implement phase 1 of the `MonadFail` proposal**. (#10751)
 
 - **Overloaded record fields** \[[OverloadedRecordFields](overloaded-record-fields)\]. At long last, ORF will finally be available in GHC 8.0, allowing multiple uses of the same field name and a form of type-directed name resolution.
 
@@ -54,7 +54,7 @@ Naturally, there were several things we didn't get around to this cycle, or thin
 - A new, type-indexed type representation, `data TTypeRep (a :: k)`. See [TypeableT](typeable-t).
 - Support for **Type Signature Sections**, allowing you to write `(:: ty)` as a shorthand for `(\x -> x :: ty)`.
 - A (possible) overhaul of GHC's build system to use **Shake** instead of Make.
-- A `DEPRECATED` pragma for exports ([\#4879](https://gitlab.haskell.org/ghc/ghc/issues/4879))
+- A `DEPRECATED` pragma for exports (#4879)
 
 ## Back-end and runtime system
 

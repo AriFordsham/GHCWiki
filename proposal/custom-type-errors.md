@@ -5,7 +5,7 @@ This page outlines the design for a GHC feature to provide support for user-spec
 The main idea was [presented by Lennart Augustsson at the 2015 Haskell Symposium in Vancouver BC](https://youtu.be/ZlZbSiYrqcQ). 
 
 
-The relevant ticket is [\#9637](https://gitlab.haskell.org/ghc/ghc/issues/9637).
+The relevant ticket is #9637.
 
 ## Status
 

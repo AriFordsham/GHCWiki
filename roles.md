@@ -86,7 +86,7 @@ Use Keyword = `Roles` to ensure that a ticket ends up on these lists.
 ## The problem we wish to solve
 
 
-GHC has had a hole in its type system for several years, as documented in [\#1496](https://gitlab.haskell.org/ghc/ghc/issues/1496), [\#4846](https://gitlab.haskell.org/ghc/ghc/issues/4846), [\#5498](https://gitlab.haskell.org/ghc/ghc/issues/5498), and [\#7148](https://gitlab.haskell.org/ghc/ghc/issues/7148). The common cause behind all of this is the magic behind `-XGeneralizedNewtypeDeriving` (GND). Here is an example:
+GHC has had a hole in its type system for several years, as documented in #1496, #4846, #5498, and #7148. The common cause behind all of this is the magic behind `-XGeneralizedNewtypeDeriving` (GND). Here is an example:
 
 ```wiki
 newtype Age = MkAge { unAge :: Int }

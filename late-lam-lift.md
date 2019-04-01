@@ -21,7 +21,7 @@ Since heap allocation is expensive, this has the possibility of making programs 
 The challenge is all about getting consistent speedups.
 
 
-There is a ticket to track progress: [\#9476](https://gitlab.haskell.org/ghc/ghc/issues/9476). There's a paper in the making at [https://github.com/sgraf812/late-lam-lift/blob/master/paper.pdf](https://github.com/sgraf812/late-lam-lift/blob/master/paper.pdf).
+There is a ticket to track progress: #9476. There's a paper in the making at [https://github.com/sgraf812/late-lam-lift/blob/master/paper.pdf](https://github.com/sgraf812/late-lam-lift/blob/master/paper.pdf).
 
 ## Tickets
 

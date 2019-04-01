@@ -1,4 +1,4 @@
-# Class Method Deprecations ([\#10071](https://gitlab.haskell.org/ghc/ghc/issues/10071))
+# Class Method Deprecations (#10071)
 
 ## What?
 
@@ -132,7 +132,7 @@ x = bar () -- no warning, because the import doesn't limit `bar` to be a method 
 ## Practical Use Case
 
 
-This would aid long-term transitions like phasing out class-methods, such as e.g. `Monad(return)` in the spirit of [\#4834](https://gitlab.haskell.org/ghc/ghc/issues/4834):
+This would aid long-term transitions like phasing out class-methods, such as e.g. `Monad(return)` in the spirit of #4834:
 
 
 

@@ -9,7 +9,7 @@ We organise our work (both bug fixing and feature requests) using the Trac bug t
 ## Type and status
 
 
-Every ticket has a **status** and a **type**, which appear in the title of the ticket.  Thus "Ticket [\#2057](https://gitlab.haskell.org/ghc/ghc/issues/2057) (new bug)" means status=new, and type=bug.  Here's what they mean:
+Every ticket has a **status** and a **type**, which appear in the title of the ticket.  Thus "Ticket #2057 (new bug)" means status=new, and type=bug.  Here's what they mean:
 
 - **Type** is one of `bug`, `feature request` or `task`.
 
@@ -58,12 +58,12 @@ Each ticket has a bunch of other fields too:
 - **Test Case**: fill in this field with the name of the test in the test suite.  Typically every bug
   closed should have an appropriate test case added to the test suite.
 
-  Typically we name the regression the same as the ticket (eg "T7901" for [\#7901](https://gitlab.haskell.org/ghc/ghc/issues/7901)), but the test case field:
+  Typically we name the regression the same as the ticket (eg "T7901" for #7901), but the test case field:
 
   - is a quick check that there IS a regression test
-  - works even if the test is named differently (eg `ParserNoForallUnicode` in the case of [\#7901](https://gitlab.haskell.org/ghc/ghc/issues/7901))
+  - works even if the test is named differently (eg `ParserNoForallUnicode` in the case of #7901)
   - works if there are multiple tests
-  - tells which directory to look in (eg `parser/should_fail` in the case of [\#7901](https://gitlab.haskell.org/ghc/ghc/issues/7901))
+  - tells which directory to look in (eg `parser/should_fail` in the case of #7901)
 
 - **cc**: we pay more attention to tickets with a long cc list, so add yourself to the cc list if you care about the ticket.  It is *vastly* more effective if you also add a comment to explain why you care. 
 

@@ -32,7 +32,7 @@ Things we'd likely want to change, though it wouldn't greatly matter if the old 
 ## Typechecking
 
 
-See [\#1537](https://gitlab.haskell.org/ghc/ghc/issues/1537) (do notation translation); make the obvious extensions to alternate base packages.
+See #1537 (do notation translation); make the obvious extensions to alternate base packages.
 
 ## Derivings
 
@@ -41,5 +41,5 @@ The derivings, as they are, clearly wouldn't work too well for changed classes. 
 
 ## See Also
 
-- [\#1580](https://gitlab.haskell.org/ghc/ghc/issues/1580) (our bug)
+- #1580 (our bug)
 - [PackageReorg: the base package](commentary/packages/package-reorg#the-base-package).

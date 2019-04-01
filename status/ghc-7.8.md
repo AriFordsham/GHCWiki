@@ -76,10 +76,10 @@ The dynamic story is complex. Here's the breakdown:
   - Consequently, GHCi can't be dynamically linked.
   - We're punting all three of them for the RC.
 
-    - This leaves GHC in the same place it was before essentially (but 64bit is in a difficult spot, see [\#7134](https://gitlab.haskell.org/ghc/ghc/issues/7134))
+    - This leaves GHC in the same place it was before essentially (but 64bit is in a difficult spot, see #7134)
 
 
-(Related but not immediately critical: we have too many DLL symbols, and are very close to the limit ([\#5987](https://gitlab.haskell.org/ghc/ghc/issues/5987)). Linking also takes a long time ([\#8229](https://gitlab.haskell.org/ghc/ghc/issues/8229)))
+(Related but not immediately critical: we have too many DLL symbols, and are very close to the limit (#5987). Linking also takes a long time (#8229))
 
 ## Other things
 

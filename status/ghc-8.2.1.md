@@ -52,16 +52,16 @@ Below are the major highlights of 8.2.
 
 - **Deriving**:
 
-  - Deriving strategies (Ryan Scott): grant users the ability to choose explicitly how a class should be `derived` (using a built-in algorithm, `GeneralizedNewtypeDeriving`, `DeriveAnyClass`, or otherwise), addressing [\#10598](https://gitlab.haskell.org/ghc/ghc/issues/10598).
+  - Deriving strategies (Ryan Scott): grant users the ability to choose explicitly how a class should be `derived` (using a built-in algorithm, `GeneralizedNewtypeDeriving`, `DeriveAnyClass`, or otherwise), addressing #10598.
 
-- **Levity polymorphism**.  Richard E is actively involved in consolidating the implementation of levity polymorphism; see [LevityPolymorphism](levity-polymorphism).  This will not include resolving the `Constraint` vs `*` debate [\#11715](https://gitlab.haskell.org/ghc/ghc/issues/11715).
+- **Levity polymorphism**.  Richard E is actively involved in consolidating the implementation of levity polymorphism; see [LevityPolymorphism](levity-polymorphism).  This will not include resolving the `Constraint` vs `*` debate #11715.
 
 - **Backpack** (Edward Z Yang) has been merged into GHC 8.2. However, at this point, it has only really been seriously used by Edward, and so it really needs testing! For up-to-date links to documentation and reference material, see [Backpack](backpack)
 
 - **Exhaustiveness checking**
 
-  - Exhaustiveness checking for `EmptyCase`s ([Phab:D2105](https://phabricator.haskell.org/D2105)), addressing [\#10746](https://gitlab.haskell.org/ghc/ghc/issues/10746). 
-  - Exhaustiveness checking for pattern synonyms, including the ability to define sets of synonyms that constitute a complete match, addressing [\#8779](https://gitlab.haskell.org/ghc/ghc/issues/8779) (Matthew Pickering),
+  - Exhaustiveness checking for `EmptyCase`s ([Phab:D2105](https://phabricator.haskell.org/D2105)), addressing #10746. 
+  - Exhaustiveness checking for pattern synonyms, including the ability to define sets of synonyms that constitute a complete match, addressing #8779 (Matthew Pickering),
 
 - **Overloaded record fields** (Adam Gundry, [Phab:D2708](https://phabricator.haskell.org/D2708), [ Phab:D3144](https://phabricator.haskell.org/D3144)): Changes to `IsLabel` class used by `OverloadedLabels` extension, plus the addition of a `HasField` class supporting polymorphism over record field selectors, but no `OverloadedRecordFields` extension or `IsLabel x (r -> a)` instance. See [ the proposal and discussion](https://github.com/ghc-proposals/ghc-proposals/pull/6) for more details.
 
@@ -77,7 +77,7 @@ Below are the major highlights of 8.2.
 
 - **Experimental changes to the scheduler** (Simon Marlow, [in progress](https://github.com/simonmar/ghc/commit/7e05ec18b4eda8d97e37015d415e627353de6b50)) that enable the number of threads used for GC to be lower than the `-N` setting.
 
-- **Improved idle CPU usage**: A long-standing regression ([\#11965](https://gitlab.haskell.org/ghc/ghc/issues/11965)) resulting in unnecessary wake-ups in an otherwise idle program was fixed. This should lower CPU utilization and improve power consumption for some programs.
+- **Improved idle CPU usage**: A long-standing regression (#11965) resulting in unnecessary wake-ups in an otherwise idle program was fixed. This should lower CPU utilization and improve power consumption for some programs.
 
 - **Live streaming of event-log data** ([Phab:2934](https://phabricator.haskell.org/2934))
 
@@ -95,7 +95,7 @@ Below are the major highlights of 8.2.
 
 #### Library changes
 
-- Merge `Bifoldable` and `Bitraversable` into `base`, addressing [\#10448](https://gitlab.haskell.org/ghc/ghc/issues/10448) (Edward Kmett, Ryan Scott)
+- Merge `Bifoldable` and `Bitraversable` into `base`, addressing #10448 (Edward Kmett, Ryan Scott)
 
 #### Build system and miscellaneous changes
 

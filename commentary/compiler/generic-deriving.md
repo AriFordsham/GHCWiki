@@ -748,7 +748,7 @@ data MyDatatype = .... deriving (Generic, GBinary)
 Ultimately, this might even allow us to replace the generated code by classes such as `Eq`, `Ord`, etc. with plain generic code.
 
 
-The ticket for this request is [\#5462](https://gitlab.haskell.org/ghc/ghc/issues/5462). We refer to this new feature as `DeriveAnyClass`.
+The ticket for this request is #5462. We refer to this new feature as `DeriveAnyClass`.
 
 ## Which classes can be derived?
 
@@ -1059,7 +1059,7 @@ instance Generic IntHash where
 # Compilation performance tricks
 
 
-Unfortunately, deriving `Generic` has been known to incur large compilation times. It is suspected that deriving `Generic` has both nonlinear behavior as well as a large constant overhead (see [\#5642](https://gitlab.haskell.org/ghc/ghc/issues/5642) for further discussion). This section discusses some of the tricks GHC developers have used to make deriving `Generic` faster.
+Unfortunately, deriving `Generic` has been known to incur large compilation times. It is suspected that deriving `Generic` has both nonlinear behavior as well as a large constant overhead (see #5642 for further discussion). This section discusses some of the tricks GHC developers have used to make deriving `Generic` faster.
 
 ## Factoring out `M1`
 

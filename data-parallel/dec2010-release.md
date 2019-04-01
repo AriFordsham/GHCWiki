@@ -43,7 +43,7 @@ Bug fixes:
   *** Vectorisation error ***
       Tycon not vectorised:  Data.Array.Parallel.Lifted.PArray.PArray
   ```
-- LLVM back end only partially working with DPH (held up due to LLVM backend problems in the HEAD [\#4838](https://gitlab.haskell.org/ghc/ghc/issues/4838)); only affects BarnesHut \[BEN\]
+- LLVM back end only partially working with DPH (held up due to LLVM backend problems in the HEAD #4838); only affects BarnesHut \[BEN\]
 - Repa edge-detection is deadlocking with more than 2 threads \[DONE\]
 - Fix the BH seg fault in DPH. Roman has found the problem \[DONE\]
 
@@ -68,9 +68,9 @@ Performance goals:
 
   - SumSquares \[FINE\]
   - Dot product \[FINE\]
-  - Evens \[OK (but more than 3 times slower than C; any improvement since [\#4830](https://gitlab.haskell.org/ghc/ghc/issues/4830) was fixed?)\]
+  - Evens \[OK (but more than 3 times slower than C; any improvement since #4830 was fixed?)\]
 
-    - rl reckons this is due to GHC compiling modulo of powers of two inefficiently; c.f., [\#3065](https://gitlab.haskell.org/ghc/ghc/issues/3065) (in `packByTags`)
+    - rl reckons this is due to GHC compiling modulo of powers of two inefficiently; c.f., #3065 (in `packByTags`)
   - SMVM (blocked on optimisation of lifted indexing) \[Done\]
 - Dynamically-nested DPH programs without user-defined datatypes should run correctly and scale, but absolute performance may be lacking
 
@@ -80,7 +80,7 @@ Performance goals:
 
   - Words \[BROKEN ([SpecConstr](spec-constr) loop again, when using `-dph-seq`; same as Quicksort)\] \[ROMAN & SIMON\]
 
-    - [\#4831](https://gitlab.haskell.org/ghc/ghc/issues/4831)
+    - #4831
   - BarnesHut. \[BROKEN: ROMAN\]
 
 

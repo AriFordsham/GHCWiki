@@ -3,37 +3,37 @@ GHC's support for Unicode is not as good as it could be. This page collects rele
 
 ## FFI spec behaviour for CString
 
-- [\#5061](https://gitlab.haskell.org/ghc/ghc/issues/5061): Implement FFI spec behaviour for \*CString family
+- #5061: Implement FFI spec behaviour for \*CString family
 
-- [\#1414](https://gitlab.haskell.org/ghc/ghc/issues/1414): CString marshalling functions do not perform the specified conversion
+- #1414: CString marshalling functions do not perform the specified conversion
 
 ## Not decoding/encoding file names when we should be
 
-- [\#3309](https://gitlab.haskell.org/ghc/ghc/issues/3309): getArgs should return Unicode on Unix
+- #3309: getArgs should return Unicode on Unix
 
-- [\#3308](https://gitlab.haskell.org/ghc/ghc/issues/3308): getArgs should return Unicode on Windows
+- #3308: getArgs should return Unicode on Windows
 
-- [\#3307](https://gitlab.haskell.org/ghc/ghc/issues/3307): System.IO and System.Directory functions not Unicode-aware under Unix
+- #3307: System.IO and System.Directory functions not Unicode-aware under Unix
 
-- [\#4006](https://gitlab.haskell.org/ghc/ghc/issues/4006): System.Process doesn't encode its arguments
+- #4006: System.Process doesn't encode its arguments
 
-- [\#4855](https://gitlab.haskell.org/ghc/ghc/issues/4855): Debug.Trace.trace mangles Unicode strings
+- #4855: Debug.Trace.trace mangles Unicode strings
 
 ## More encoding support
 
-- [\#3977](https://gitlab.haskell.org/ghc/ghc/issues/3977): Support double-byte encodings (Chinese/Japanese/Korean) on Windows
+- #3977: Support double-byte encodings (Chinese/Japanese/Korean) on Windows
 
 ## Unicode API issues
 
-- [\#4471](https://gitlab.haskell.org/ghc/ghc/issues/4471): Incorrect Unicode output on Windows Console
+- #4471: Incorrect Unicode output on Windows Console
 
-- [\#3569](https://gitlab.haskell.org/ghc/ghc/issues/3569): ghci can't handle utf-8 chinese char correctly when modify
+- #3569: ghci can't handle utf-8 chinese char correctly when modify
 
 ## Misc
 
-- [\#2507](https://gitlab.haskell.org/ghc/ghc/issues/2507): quotation characters in error messages
+- #2507: quotation characters in error messages
 
-- [\#5088](https://gitlab.haskell.org/ghc/ghc/issues/5088): TextEncoding iconv instances are shared between threads
+- #5088: TextEncoding iconv instances are shared between threads
 
 ## Interesting links
 

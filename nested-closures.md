@@ -1,12 +1,12 @@
 # Nested closure representation in STG
 
 
-Progess on this is tracked by Trac [\#14461](https://gitlab.haskell.org/ghc/ghc/issues/14461).
+Progess on this is tracked by Trac #14461.
 
 ## The problem
 
 
-Consider this function (taken from comment:87 of [\#7258](https://gitlab.haskell.org/ghc/ghc/issues/7258)):
+Consider this function (taken from comment:87 of #7258):
 
 ```wiki
 f10 :: A (Int, Int, Int, Int, Int, Int, Int, Int, Int, Int)

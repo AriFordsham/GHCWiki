@@ -71,7 +71,7 @@ Implementation work on Typed Template Haskell is being done on the `th-new` bran
 
 1. Check out the `th-new` branch in `testsuite`.
 
-1. Configure and build as you would normally (see Building). Note that if you want to use the GHC API to perform run time compilation, you will have to build a static GHCi by adding the following to your `mk/build.mk`. See [\#7774](https://gitlab.haskell.org/ghc/ghc/issues/7774).
+1. Configure and build as you would normally (see Building). Note that if you want to use the GHC API to perform run time compilation, you will have to build a static GHCi by adding the following to your `mk/build.mk`. See #7774.
 
 ```wiki
 DYNAMIC_BY_DEFAULT = NO

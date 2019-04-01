@@ -9,7 +9,7 @@ Meanwhile, HEAD steams onward, with some preliminary work for the 7.10 milestone
 ## GHC 7.8
 
 
-We released GHC 7.8.1 in early April, and immediately discovered a disastrous bug ([\#8978](https://gitlab.haskell.org/ghc/ghc/issues/8978)) that had slipped in between the release candidates.  That led to an immediate follow-up release of 7.8.2, which seems pretty stable. We will continue to fix bugs on the 7.8 branch, and release 7.8.3 later this year, when (and if) pressure builds up from users to get the fixes into the field.
+We released GHC 7.8.1 in early April, and immediately discovered a disastrous bug (#8978) that had slipped in between the release candidates.  That led to an immediate follow-up release of 7.8.2, which seems pretty stable. We will continue to fix bugs on the 7.8 branch, and release 7.8.3 later this year, when (and if) pressure builds up from users to get the fixes into the field.
 
 
 However, now that 7.8 is out, there is a lot there for users to play with: the release was one of the most feature-packed ones we've done, with a lot of changes touching almost every part of the compiler. To recap a few of them:
@@ -58,7 +58,7 @@ However, now that 7.8 is out, there is a lot there for users to play with: the r
   newtype Age = MkAge Int
   ```
 
-  you can convert betwen `Age` and `Int` by using the `MkAge` constructor, knowing that the conversion is free at runtime.  But to convert betwen `Maybe Age` and `Maybe Int` you have to write code that unpacks and packs the `Maybe` type, and GHC cannot reasonably eliminate the cost.  Safe coercions let you do just that.  But (and this is not obvious) to be type-safe, in the presence of type families, we have to extend the type system with so-called *type roles*.  Moreover, using roles finally solves the notorious, seven-year-old Generalised Newtype Deriving bug ([\#1496](https://gitlab.haskell.org/ghc/ghc/issues/1496)).  Safe conversions were implemented by Joachim Breitner with help from Richard Eisenberg; there is a full description in our ICFP submission [\[SafeCo](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)\].
+  you can convert betwen `Age` and `Int` by using the `MkAge` constructor, knowing that the conversion is free at runtime.  But to convert betwen `Maybe Age` and `Maybe Int` you have to write code that unpacks and packs the `Maybe` type, and GHC cannot reasonably eliminate the cost.  Safe coercions let you do just that.  But (and this is not obvious) to be type-safe, in the presence of type families, we have to extend the type system with so-called *type roles*.  Moreover, using roles finally solves the notorious, seven-year-old Generalised Newtype Deriving bug (#1496).  Safe conversions were implemented by Joachim Breitner with help from Richard Eisenberg; there is a full description in our ICFP submission [\[SafeCo](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/)\].
 
 - **New code generator** - As previously reported, the New Code Generator is live and switched on by default. There have been a host of bugfixes and stability improvements, meaning it should be solid for the 7.8 release.
 

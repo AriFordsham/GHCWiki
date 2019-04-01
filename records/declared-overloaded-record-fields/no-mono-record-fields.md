@@ -1,7 +1,7 @@
 ## No Record Selector Functions
 
 
-This proposal is a precursor to overloaded record fields. It's also a modest step towards freeing up the namespace, without in any way pre-judging how the 'narrow namespace issue' might get addressed. Ticket [\#5972](https://gitlab.haskell.org/ghc/ghc/issues/5972).
+This proposal is a precursor to overloaded record fields. It's also a modest step towards freeing up the namespace, without in any way pre-judging how the 'narrow namespace issue' might get addressed. Ticket #5972.
 
 
 There is to be a compiler flag **-XNoRecordSelectorFunctions**. (Default value **‑XRecordSelectorFunctions**, to give H98 behaviour.)

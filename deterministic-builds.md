@@ -6,7 +6,7 @@
 Given the same inputs (source files and flags), GHC does not produce deterministic outputs.  This causes a number of problems:
 
 - Gratuitous recompilation.  Suppose you edit a module in the middle of a project, changing only a comment.  GHC recompiles the module, producing a result that differs from the previous version, and then recompilation proceeds up the tree forcing many more modules to be recompiled.  This is an extreme example, but it happens on a smaller scale all the time.  The effect is much worse when optimisation is on, because gratuitous changes in unfoldings and other cross-module optimisation properties are more likely.
-- Problems for third-party build and packaging systems such as Nix and Debian (see [\#4012](https://gitlab.haskell.org/ghc/ghc/issues/4012)).  For example in Debian, if a package changes its hash, everything that depends on it (transitively) needs to be recompiled.  GHC's non-determinism means that simply recompiling a package can change its hash; so this forces a lot of unnecessary recompiling of packages.
+- Problems for third-party build and packaging systems such as Nix and Debian (see #4012).  For example in Debian, if a package changes its hash, everything that depends on it (transitively) needs to be recompiled.  GHC's non-determinism means that simply recompiling a package can change its hash; so this forces a lot of unnecessary recompiling of packages.
 - Problems for build systems that cache build outputs, which assume that compilation is deterministic.  Build systems that assume a given set of inputs will produce the same (or a compatible) output don't work with GHC. 
 
 ## Goal
@@ -168,7 +168,7 @@ work for any subset of interface files present. When you add parallelism this ma
 
 This is not a problem with GHC, but comes up when compiling some packages that have `Lexer.x` and `Lexer.hs` files. 
 `Cabal` will sometimes run `alex Lexer.x` to regenerate `Lexer.hs` file. If the versions of `alex` are different you can get different sources.
-See [\#2311](https://github.com/haskell/cabal/issues/2311), [ \#2940](https://github.com/haskell/cabal/issues/2940).
+See #2311, [ \#2940](https://github.com/haskell/cabal/issues/2940).
 
 ### cabal sometimes finding cpphs or c2hs from the sandbox
 
@@ -207,13 +207,13 @@ By varying these you can get interesting effects:
 ## Deterministic multithreaded builds
 
 
-At this moment we don't need it, but judging by the comments on [\#4012](https://gitlab.haskell.org/ghc/ghc/issues/4012) some people would and we might in the future.
+At this moment we don't need it, but judging by the comments on #4012 some people would and we might in the future.
 To the best of my knowledge it just works.
 
 ## Previous discussions
 
 [https://mail.haskell.org/pipermail/ghc-devs/2015-September/009964.html](https://mail.haskell.org/pipermail/ghc-devs/2015-September/009964.html)
 
-[\#4012](https://gitlab.haskell.org/ghc/ghc/issues/4012)
+#4012
 
-[\#12262](https://gitlab.haskell.org/ghc/ghc/issues/12262), [\#12935](https://gitlab.haskell.org/ghc/ghc/issues/12935) - for bit-for-bit determinism
+#12262, #12935 - for bit-for-bit determinism

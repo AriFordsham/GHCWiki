@@ -315,7 +315,7 @@ The warning was implemented in GHC 8.0 and is called <b><tt>-Wnoncanonical-monad
 
 >
 >
-> This warning can be controlled via the new flag ~~`-fwarn-mrp-compat`~~ `-Wnoncanonical-monad-instances`, and becomes part of the `-Wall` and `-Wcompat` ([\#11000](https://gitlab.haskell.org/ghc/ghc/issues/11000)) warning-sets, but *not* part of the default warning-set. 
+> This warning can be controlled via the new flag ~~`-fwarn-mrp-compat`~~ `-Wnoncanonical-monad-instances`, and becomes part of the `-Wall` and `-Wcompat` (#11000) warning-sets, but *not* part of the default warning-set. 
 >
 >
 

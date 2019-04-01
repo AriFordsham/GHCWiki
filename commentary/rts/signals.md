@@ -48,7 +48,7 @@ Source files:
   - [rts/win32/Ticker.c](/ghc/ghc/tree/master/ghc/rts/win32/Ticker.c)
 
 
-On Posix, the timer signal is implemented by calling `timer_create()` to generate regular `SIGVTALRM` signals (this was changed from SIGALRM in [\#850](https://gitlab.haskell.org/ghc/ghc/issues/850)).
+On Posix, the timer signal is implemented by calling `timer_create()` to generate regular `SIGVTALRM` signals (this was changed from SIGALRM in #850).
 
 
 On Windows, we spawn a new thread that repeatedly sleeps for the timer interval and then executes the timer interrupt handler.

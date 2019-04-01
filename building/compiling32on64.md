@@ -4,7 +4,7 @@
 For now, this page is focused on installing and using a stock x86 (i386) binary GHC distribution on x86_64 (amd64) Ubuntu computers. But, in principle, compiling for 32 bits on 64 bits should be possible on any architecture and OS that has multi-arch capabilities. The problems and workarounds may be similar, too (and similar to problems with cross-compilation). Please add your experience reports here. So far, this is known to work on Ubuntu precise, LTS 12.04.4, GHC 7.8.3, cabal 1.20.
 
 
-Compiling i386 Haskell programs on a x86_64 system can be accomplished by building a proper [cross-compiler](cross-compilation). The method described below doesn't involve building GHC with different host and target, but does involve running a (stock binary distribution of) GHC with i386 target (and intended host) on a by-default x86_64 OS (the actual host). See [\#9421](https://gitlab.haskell.org/ghc/ghc/issues/9421) for context and common problems. Please report any new spotted problems there.
+Compiling i386 Haskell programs on a x86_64 system can be accomplished by building a proper [cross-compiler](cross-compilation). The method described below doesn't involve building GHC with different host and target, but does involve running a (stock binary distribution of) GHC with i386 target (and intended host) on a by-default x86_64 OS (the actual host). See #9421 for context and common problems. Please report any new spotted problems there.
 
 ## Installing the i386 GHC
 

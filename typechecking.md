@@ -24,7 +24,7 @@ tcExpr :: HsExpr Name -> TcRhoType -> TcM (HsExpr TcId)
 where the `TcRhoType` in there is the expected type for the expression. If we are inferring, the expected type will be a `ReturnTv` unification type variable. `ReturnTv`s can unify with *anything* -- polytypes, type families, whatever. In reality, it is more of a hole than a type variable. For example, a `ReturnTv` should never be compared against another type for equality, and type-checking against a `ReturnTv` should always fill in the hole. But none of this is checked.
 
 
-Because of the lack of clarity around these issues, GHC has some strange behavior around the margins. For example, see [\#10619](https://gitlab.haskell.org/ghc/ghc/issues/10619).
+Because of the lack of clarity around these issues, GHC has some strange behavior around the margins. For example, see #10619.
 
 # Proposed change
 

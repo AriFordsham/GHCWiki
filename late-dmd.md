@@ -14,10 +14,10 @@ Commits
 - [34728de0f059d8e076981448392203f2501aa120](/trac/ghc/changeset/34728de0f059d8e076981448392203f2501aa120/ghc) - I updated the documentation and a source Note for -flate-dmd-anal and -ffun-to-thunk
 
 
-The -flate-dmd-anal flag runs the demand analysis a second time just before CorePrep, with a subsequent run of the Simplifier.  Cf [\#7782](https://gitlab.haskell.org/ghc/ghc/issues/7782).
+The -flate-dmd-anal flag runs the demand analysis a second time just before CorePrep, with a subsequent run of the Simplifier.  Cf #7782.
 
 
-It's not on by default yet, but we hope -O2 will eventually imply it, perhaps even for the GHC 7.8 release. UPDATE (2018-02-21): nofib results with `-flate-dmd-anal` were not conclusive, see [\#6087](https://gitlab.haskell.org/ghc/ghc/issues/6087) for results.
+It's not on by default yet, but we hope -O2 will eventually imply it, perhaps even for the GHC 7.8 release. UPDATE (2018-02-21): nofib results with `-flate-dmd-anal` were not conclusive, see #6087 for results.
 
 
 The bulk of this patch merely simplifies the treatment of wrappers in interface files; see "Removing the clever .hi files scheme" below.
@@ -33,7 +33,7 @@ The bulk of this patch merely simplifies the treatment of wrappers in interface 
 ### Relation to other tickets
 
 
-There are some tickets documenting runtime bugs that can be cleaned up by running the demand analyzer (followed by a simplifier run) a second time at the end of the pipeline: [\#4941](https://gitlab.haskell.org/ghc/ghc/issues/4941), [\#5302](https://gitlab.haskell.org/ghc/ghc/issues/5302), [\#6087](https://gitlab.haskell.org/ghc/ghc/issues/6087). [\#6070](https://gitlab.haskell.org/ghc/ghc/issues/6070) ? Others?
+There are some tickets documenting runtime bugs that can be cleaned up by running the demand analyzer (followed by a simplifier run) a second time at the end of the pipeline: #4941, #5302, #6087. #6070 ? Others?
 
 ---
 
@@ -580,10 +580,10 @@ All other changes less than 1% allocation.
 Note that it improves a couple tests significantly just via changes in the base libraries.
 
 
-For cryptarithm2, (cf remarks in [\#4941](https://gitlab.haskell.org/ghc/ghc/issues/4941))
+For cryptarithm2, (cf remarks in #4941)
 
 - 4% increase allocation is due to reboxing
-- 4% is due to dead closures, because the fix in [\#4962](https://gitlab.haskell.org/ghc/ghc/issues/4962) isn't working for some reason.
+- 4% is due to dead closures, because the fix in #4962 isn't working for some reason.
 
 
 For nucleic2, in var_most_distant_atom, an let-bound function is inlined after w/w, and hence grows numerous closures by a significant amount. I'm not sure where to lay the blame for this. Note however, that just making nucleic2's data types use strict !Float fields changes its allocation -72.4%, so maybe this "bad practice" corner case is a small issue.

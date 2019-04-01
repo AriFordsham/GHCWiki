@@ -6,7 +6,7 @@
 I want to implement possibility to suppress particular kinds of warnings for parts of a source file.
 
 
-According to [\#602](https://gitlab.haskell.org/ghc/ghc/issues/602):
+According to #602:
 "One way to achieve this is to allow parts of a file to be delimited by pragmas specifying the warnings to be suppressed, and then filter out the warnings during compilation based on the source location attached to the warning."
 
 

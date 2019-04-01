@@ -1,7 +1,7 @@
 # Static Data
 
 
-WIP proposal allowing to store static data/objects into programs (see [\#5218](https://gitlab.haskell.org/ghc/ghc/issues/5218)). It would allow large resources data (images, sounds, etc.) to be embedded (see [\#14741](https://gitlab.haskell.org/ghc/ghc/issues/14741)).
+WIP proposal allowing to store static data/objects into programs (see #5218). It would allow large resources data (images, sounds, etc.) to be embedded (see #14741).
 
 ## Step 1: support dependent object files
 

@@ -118,4 +118,4 @@ collect2: error: ld returned 1 exit status
 ```
 
 
-You are seeing [\#12759](https://gitlab.haskell.org/ghc/ghc/issues/12759) and need to cherry-pick d421a7e2.
+You are seeing #12759 and need to cherry-pick d421a7e2.

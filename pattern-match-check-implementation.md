@@ -275,7 +275,7 @@ type Uncovered = ValSetAbs
 
 
 **NOTE**: We have attempted to use a nicer representation of value set abstractions as prefix trees but
-we faced some performance issues. Hence, we created the task [\#11528](https://gitlab.haskell.org/ghc/ghc/issues/11528) to further investigate whether such
+we faced some performance issues. Hence, we created the task #11528 to further investigate whether such
 an approach is achievable.
 
 
@@ -323,7 +323,7 @@ it). That is:
 Since this is really bad for performance (significantly increases the number of clauses), we took a different
 approach: Process the guards separately using `pmcheckGuards` and plug the results at the end of the respective
 clause. Yet, this comes with a price: We are not able to issue warnings per-guard but only per-clause. This was
-the case already in GHC though (see ticket [\#8494](https://gitlab.haskell.org/ghc/ghc/issues/8494)).
+the case already in GHC though (see ticket #8494).
 
 
 All three `pmcheck`-functions compute (as the signatures suggest) coverage, exhaustiveness and divergence at

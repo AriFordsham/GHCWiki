@@ -6,7 +6,7 @@ Deriving strategies grant users finer-grained control over how instances may be 
 ## Motivation
 
 
-GHC Trac [\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598) revealed a limitation of GHC's current instance deriving mechanism. Consider the following program which uses both `DeriveAnyClass` and `GeneralizedNewtypeDeriving`:
+GHC Trac #10598 revealed a limitation of GHC's current instance deriving mechanism. Consider the following program which uses both `DeriveAnyClass` and `GeneralizedNewtypeDeriving`:
 
 ```haskell
 {-# LANGUAGE DeriveAnyClass, GeneralizedNewtypeDeriving #-}
@@ -198,12 +198,12 @@ newtype T = MkT S deriving (Foo, Bar)
 This code compiles without issue, and uses `GeneralizedNewtypeDeriving` to derive `Foo` and `Bar` instances for `T`. But if you turn on `-XDerivingStrategies` as well, suddenly the above code will change in semantics: it will emit a warning about `GeneralizedNewtypeDeriving` and `DeriveAnyClass` both being on, and default to `DeriveAnyClass`! The intention of `-XDerivingStrategies` is to simply enable new syntactic forms that allow strictly more code to compile, and in particular, it is not intended to change the semantics of any existing code.
 
 
-In addition, having `-XDerivingStrategies` imply `-XGeneralizedNewtypeDeriving` would have Safe Haskell repercussions, since one cannot currently use `-XSafe` in combination with `-XGeneralizedNewtypeDeriving` (see Trac [\#8827](https://gitlab.haskell.org//ghc/ghc/issues/8827)).
+In addition, having `-XDerivingStrategies` imply `-XGeneralizedNewtypeDeriving` would have Safe Haskell repercussions, since one cannot currently use `-XSafe` in combination with `-XGeneralizedNewtypeDeriving` (see Trac #8827).
 
 ### Alternative syntax
 
 
-Several alternative syntaxes and keyword suggestions have been proposed in the original track ticket ([\#10598](https://gitlab.haskell.org//ghc/ghc/issues/10598)) and on the ghc-devs mailing list ([https://mail.haskell.org/pipermail/ghc-devs/2016-July/012442.html](https://mail.haskell.org/pipermail/ghc-devs/2016-July/012442.html)). Here is an overview of some previous ideas:
+Several alternative syntaxes and keyword suggestions have been proposed in the original track ticket (#10598) and on the ghc-devs mailing list ([https://mail.haskell.org/pipermail/ghc-devs/2016-July/012442.html](https://mail.haskell.org/pipermail/ghc-devs/2016-July/012442.html)). Here is an overview of some previous ideas:
 
 - Use pragmas instead of keywords. We could indicate the use of deriving strategies like so:
 

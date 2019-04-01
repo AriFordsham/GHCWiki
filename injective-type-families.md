@@ -1,7 +1,7 @@
 # Injective type families
 
 
-This page summarizes the design of injective type families ([\#6018](https://gitlab.haskell.org/ghc/ghc/issues/6018)).
+This page summarizes the design of injective type families (#6018).
 
 
 Injective type families have been merged into HEAD in September 2015 and became available in GHC 8.0 with the `TypeFamilyDependencies` language extension.
@@ -12,11 +12,11 @@ match the expressive power of functional dependencies.  The work was started in
 September 2015 but later stalled and was left unfinished.  Partial
 implementation is available as  [Phab:D1287](https://phabricator.haskell.org/D1287) and on the
 wip/T10832-generalised-injectivity branch. The relevant Trac ticket is
-[\#10832](https://gitlab.haskell.org/ghc/ghc/issues/10832). See
+#10832. See
 [this section below](https://ghc.haskell.org/trac/ghc/wiki/InjectiveTypeFamilies#TypeCinjectivityaka.generalizedinjectivity) for full details.
 
 
-Other tickets related to further development of injective type families: [\#10833](https://gitlab.haskell.org/ghc/ghc/issues/10833), [\#11511](https://gitlab.haskell.org/ghc/ghc/issues/11511).
+Other tickets related to further development of injective type families: #10833, #11511.
 
 
 Person responsible for this page is Jan Stolarek (just so you now who is meant
@@ -85,7 +85,7 @@ Use Keyword = `InjectiveFamilies` to ensure that a ticket ends up on these lists
 ## Forms of injectivity
 
 
-The idea behind [\#6018](https://gitlab.haskell.org/ghc/ghc/issues/6018) is to allow users to declare that a type family is
+The idea behind #6018 is to allow users to declare that a type family is
 injective.  We have identified three forms of injectivity:
 
 1. Injectivity in all the arguments, where knowing the result (right-hand
@@ -418,7 +418,7 @@ dependencies. Here are several properties of generalized injectivity annotations
 
 
 I started implementation work on generalized injectivity in September 2015 but
-didn't finish it. The relevant Trac ticket is [\#10832](https://gitlab.haskell.org/ghc/ghc/issues/10832). Partial implementation
+didn't finish it. The relevant Trac ticket is #10832. Partial implementation
 is available as [Phab:D1287](https://phabricator.haskell.org/D1287) and on the wip/T10832-generalised-injectivity
 branch. In October/November 2016 I tried to rebase this branch on top of HEAD
 and resume work but the typechecker code has changed significantly and I was
@@ -727,7 +727,7 @@ Simon Peyton Jones, 23rd July 2015:
 
 1. GHC has an outright bug in its handling of consistency,
   as you both point out.  But it's a bug that seems to be exploited!
-  See Trac [\#10675](https://gitlab.haskell.org/ghc/ghc/issues/10675).
+  See Trac #10675.
 
 
   

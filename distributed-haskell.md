@@ -3,7 +3,7 @@
 
 This page collects thinking about mechanisms that support type-safe distribution
 of Haskell programs, particularly focusing on the issues of serialisation.
-The corresponding Trac ticket to track progress is [\#7015](https://gitlab.haskell.org/ghc/ghc/issues/7015).
+The corresponding Trac ticket to track progress is #7015.
 
 
 Several distinct layers are involved; they constitute the main payload of this design:
@@ -24,7 +24,7 @@ the smallest possible trusted code base, that would enable
 libraries like `distributed-closure` to be written in an entirely type-safe way.
 
 
-See also this ticket about rationalising the runtime reflection naming structures: [\#10068](https://gitlab.haskell.org/ghc/ghc/issues/10068).
+See also this ticket about rationalising the runtime reflection naming structures: #10068.
 
 
 

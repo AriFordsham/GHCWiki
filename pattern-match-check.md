@@ -1,14 +1,14 @@
 # Exhaustiveness/Redundancy Check
 
 
-As stated in [\#595](https://gitlab.haskell.org/ghc/ghc/issues/595), GHC's overlapping/non-exhaustive pattern checking is old and
+As stated in #595, GHC's overlapping/non-exhaustive pattern checking is old and
 crufty and misbehaves with several GHC's extensions, notably GADTs. In this page
 we describe the problem and the algorithm.  It forms part of GHC 8.0.
 
 ## Status
 
 
-The ticket [\#11528](https://gitlab.haskell.org/ghc/ghc/issues/11528) tracks our aspiration to return to a more elegant (but currently less performant) implementation.
+The ticket #11528 tracks our aspiration to return to a more elegant (but currently less performant) implementation.
 
 
 
@@ -196,36 +196,36 @@ Tickets should include `PatternMatchWarnings` in their Keywords to appear in the
 
 **Related tickets** (ones that are closed are still useful examples in the wild; they were only closed as duplicates):
 
-- [\#29](https://gitlab.haskell.org/ghc/ghc/issues/29)
-- [\#322](https://gitlab.haskell.org/ghc/ghc/issues/322)
-- [\#366](https://gitlab.haskell.org/ghc/ghc/issues/366)
-- [\#595](https://gitlab.haskell.org/ghc/ghc/issues/595)
-- [\#851](https://gitlab.haskell.org/ghc/ghc/issues/851)
-- [\#1307](https://gitlab.haskell.org/ghc/ghc/issues/1307)
-- [\#2006](https://gitlab.haskell.org/ghc/ghc/issues/2006)
-- [\#2204](https://gitlab.haskell.org/ghc/ghc/issues/2204)
-- [\#3078](https://gitlab.haskell.org/ghc/ghc/issues/3078)
-- [\#3927](https://gitlab.haskell.org/ghc/ghc/issues/3927)
-- [\#4139](https://gitlab.haskell.org/ghc/ghc/issues/4139)
-- [\#5724](https://gitlab.haskell.org/ghc/ghc/issues/5724)
-- [\#5728](https://gitlab.haskell.org/ghc/ghc/issues/5728)
-- [\#5762](https://gitlab.haskell.org/ghc/ghc/issues/5762)
-- [\#6124](https://gitlab.haskell.org/ghc/ghc/issues/6124)
-- [\#8016](https://gitlab.haskell.org/ghc/ghc/issues/8016)
-- [\#8494](https://gitlab.haskell.org/ghc/ghc/issues/8494)
-- [\#8779](https://gitlab.haskell.org/ghc/ghc/issues/8779)
-- [\#8853](https://gitlab.haskell.org/ghc/ghc/issues/8853)
-- [\#8970](https://gitlab.haskell.org/ghc/ghc/issues/8970)
-- [\#9113](https://gitlab.haskell.org/ghc/ghc/issues/9113)
-- [\#9951](https://gitlab.haskell.org/ghc/ghc/issues/9951)
-- [\#10116](https://gitlab.haskell.org/ghc/ghc/issues/10116)
-- [\#10600](https://gitlab.haskell.org/ghc/ghc/issues/10600)
+- #29
+- #322
+- #366
+- #595
+- #851
+- #1307
+- #2006
+- #2204
+- #3078
+- #3927
+- #4139
+- #5724
+- #5728
+- #5762
+- #6124
+- #8016
+- #8494
+- #8779
+- #8853
+- #8970
+- #9113
+- #9951
+- #10116
+- #10600
 
 # The main problem we wish to solve
 
 
 Since GHC's exhaustiveness/redundancy checker was outdated, it did not take into account constraints introduced
-by GADT matches when reporting warnings. This is illustrated in the following example ([\#3927](https://gitlab.haskell.org/ghc/ghc/issues/3927)):
+by GADT matches when reporting warnings. This is illustrated in the following example (#3927):
 
 
 ```

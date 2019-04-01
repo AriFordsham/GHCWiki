@@ -413,4 +413,4 @@ type AppendsCallStack = ?callStack :: CallStack
 ```
 
 
-This is currently rejected by GHC 8.0 RC1 ([\#11466](https://gitlab.haskell.org/ghc/ghc/issues/11466)), but would achieve the same user-facing goal of hiding the implicit parameter.
+This is currently rejected by GHC 8.0 RC1 (#11466), but would achieve the same user-facing goal of hiding the implicit parameter.

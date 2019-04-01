@@ -19,7 +19,7 @@ There are a number of tasks outstanding. These involve only Ben,
 - Look at testsuite failures involving stack overflows: `T10294, plugins01, T5550, annrun01, ann01, annth_make`
 - Evaluate whether we want to try harder to preserve the re-exports that have been dropped from `Data.Dynamic`.
 - Some of the new naming choices should be revisited (e.g. `TRFun`)
-- Typeable fingerprints need to be made more robust ([\#7897](https://gitlab.haskell.org/ghc/ghc/issues/7897))
+- Typeable fingerprints need to be made more robust (#7897)
 - When, if at all, should the `Show` instance produce kind signatures?
 
   - Should `show (typeRep @Int)` produce `Int` or `Int :: *`?
@@ -35,11 +35,11 @@ There are a number of tasks outstanding. These involve only Ben,
 
 These are issues that need to be addressed elsewhere in the compiler,
 
-- [\#11736](https://gitlab.haskell.org/ghc/ghc/issues/11736): Core Lint rejects unsaturated applications of unlifted types; it's not clear whether this is actually a safe thing to do
-- [\#11714](https://gitlab.haskell.org/ghc/ghc/issues/11714): kind of  `(->)` is overly-restrictive consequently `T11120` testcase fails
-- [\#11722](https://gitlab.haskell.org/ghc/ghc/issues/11722): need a representation for unboxed types; closely related to [\#11736](https://gitlab.haskell.org/ghc/ghc/issues/11736)
-- [\#11715](https://gitlab.haskell.org/ghc/ghc/issues/11715): `TypeOf` fails due to the fact that `Constraint` and `*` are indistinguishable in Core
-- [\#12670](https://gitlab.haskell.org/ghc/ghc/issues/12670): RuntimeRep polymorphism check is too strict (needed to implement `TrFun` described below)
+- #11736: Core Lint rejects unsaturated applications of unlifted types; it's not clear whether this is actually a safe thing to do
+- #11714: kind of  `(->)` is overly-restrictive consequently `T11120` testcase fails
+- #11722: need a representation for unboxed types; closely related to #11736
+- #11715: `TypeOf` fails due to the fact that `Constraint` and `*` are indistinguishable in Core
+- #12670: RuntimeRep polymorphism check is too strict (needed to implement `TrFun` described below)
 
 ## Immediate next steps
 
@@ -48,7 +48,7 @@ These are issues that need to be addressed elsewhere in the compiler,
  
 
 
-- Fix [\#11714](https://gitlab.haskell.org/ghc/ghc/issues/11714)
+- Fix #11714
 - Move things to a richer `TypeRep` representation to make user serialization implementations safer.
 
 ## Representing tycon kinds
@@ -89,7 +89,7 @@ mkApp (SomeTypeRep f) (SomeTypeRep x) = do
 ```
 
 
-Note that before we can apply `x` to `f` we must prove to GHC that the kind of `x` is compatible with that expected by `f`. I haven't proven to myself that omitting this check will result in unsafety, but I'm fairly confident that someone with enough time to read through [\#9858](https://gitlab.haskell.org/ghc/ghc/issues/9858) would be able to find a way.
+Note that before we can apply `x` to `f` we must prove to GHC that the kind of `x` is compatible with that expected by `f`. I haven't proven to myself that omitting this check will result in unsafety, but I'm fairly confident that someone with enough time to read through #9858 would be able to find a way.
 
 ### Encoding kind instantiations
 
@@ -764,7 +764,7 @@ data TypeRep (a :: k) where
 ```
 
 
-(although `TrArrow` won't quite work yet due to [\#11714](https://gitlab.haskell.org/ghc/ghc/issues/11714))
+(although `TrArrow` won't quite work yet due to #11714)
 
 
 

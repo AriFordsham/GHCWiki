@@ -1,4 +1,4 @@
-# Git Repository Reorganization ([\#8545](https://gitlab.haskell.org/ghc/ghc/issues/8545))
+# Git Repository Reorganization (#8545)
 
 
 The content on this page is still work in progress

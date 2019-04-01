@@ -19,8 +19,8 @@ If you choose (b) you cannot ever give explicit kind arguments.
 
 Relevant tickets (at least)
 
-- [\#5296](https://gitlab.haskell.org/ghc/ghc/issues/5296)
-- [\#4466](https://gitlab.haskell.org/ghc/ghc/issues/4466)
+- #5296
+- #4466
 
 
 See also [ImpredicativePolymorphism](impredicative-polymorphism).
@@ -246,4 +246,4 @@ type Typeable1 = Typeable @(* -> *)
 ### Further Information
 
 
-For more information on explicit type application, see [\#4466](https://gitlab.haskell.org/ghc/ghc/issues/4466).
+For more information on explicit type application, see #4466.

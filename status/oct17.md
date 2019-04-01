@@ -34,9 +34,9 @@ of user-facing changes.
 >
 >
 
--   Improved leverage of join-points: By floating out the “exit path” as a join point of a recursive function, we expose more opportunities for inlining to the simplifier. In the case of nested loops, this can make inner loops allocation-free! (see [\#14152](https://gitlab.haskell.org/ghc/ghc/issues/14152), Joachim Brietner)
+-   Improved leverage of join-points: By floating out the “exit path” as a join point of a recursive function, we expose more opportunities for inlining to the simplifier. In the case of nested loops, this can make inner loops allocation-free! (see #14152, Joachim Brietner)
 
--   Serialisation performance of `Typeable` has improved ([\#14254](https://gitlab.haskell.org/ghc/ghc/issues/14254), David Feuer)
+-   Serialisation performance of `Typeable` has improved (#14254, David Feuer)
 
 -   Improved SIMD support. While previous GHC versions supported a variety
 

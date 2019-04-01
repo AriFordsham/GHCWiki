@@ -1,7 +1,7 @@
 # Deferring compilation type errors to runtime
 
 
-This page describes the `-fdefer-type-errors` flag that was added in GHC 7.6.1. Ticket [\#5624](https://gitlab.haskell.org/ghc/ghc/issues/5624) tracks this feature request.
+This page describes the `-fdefer-type-errors` flag that was added in GHC 7.6.1. Ticket #5624 tracks this feature request.
 
 
 For more information, see the associated [Equality Proofs and Deferred Type Errors](https://www.microsoft.com/en-us/research/publication/equality-proofs-and-deferred-type-errors-a-compiler-pearl/) (ICFP'12).

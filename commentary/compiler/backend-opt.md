@@ -213,12 +213,12 @@ splitting the block, etc.
 ## Tuning LLVM IR Passes
 
 
-The optimization pass sequence in LLVM is well tested for languages like C/C++, but not Haskell. See [\#11295](https://gitlab.haskell.org/ghc/ghc/issues/11295) for details and progress updates.
+The optimization pass sequence in LLVM is well tested for languages like C/C++, but not Haskell. See #11295 for details and progress updates.
 
 ## Improving Heap Checks
 
 
-See [\#8905](https://gitlab.haskell.org/ghc/ghc/issues/8905) and [\#12231](https://gitlab.haskell.org/ghc/ghc/issues/12231) and \[Compiling case expressions\] in StgCmmExpr
+See #8905 and #12231 and \[Compiling case expressions\] in StgCmmExpr
 
 ---
 
@@ -281,5 +281,5 @@ rightSide:
 ### Other Performance Bugs To Consider
 
 
-- [\#12798](https://gitlab.haskell.org/ghc/ghc/issues/12798)
-- [\#12808](https://gitlab.haskell.org/ghc/ghc/issues/12808)
+- #12798
+- #12808

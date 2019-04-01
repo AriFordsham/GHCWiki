@@ -1,6 +1,6 @@
 
 This page describes how GHC depends on and makes use of Cabal.  It describes the situation
-after the changes implemented in [\#8244](https://gitlab.haskell.org/ghc/ghc/issues/8244) are complete.
+after the changes implemented in #8244 are complete.
 
 ## Design of GHC-library's non-dependency on Cabal
 
@@ -166,7 +166,7 @@ It uses the class to convert to/from the on disk UTF8 representation, and the in
 # History: Removal of the GHC library dependency on the Cabal library
 
 
-See ticket [\#8244](https://gitlab.haskell.org/ghc/ghc/issues/8244)
+See ticket #8244
 
 
 The GHC library used to depend on the Cabal library directly, for the representation of installed packages. This was convenient for implementation but had a number of drawbacks:

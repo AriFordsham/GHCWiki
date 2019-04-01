@@ -149,7 +149,7 @@ foreign import ccall unsafe "getOrSetLibHSghcFastStringTable"
 ```
 
 
-Thus there ever exists only one such CAF per process, regardless of how many copies of libHSghc are loaded, since they all share the first such CAF forced. This is arbitrated by the process's sole image of the RTS. (Things have terribly gone wrong if there is more than one RTS in memory; a l a[\#5620](https://gitlab.haskell.org/ghc/ghc/issues/5620).)
+Thus there ever exists only one such CAF per process, regardless of how many copies of libHSghc are loaded, since they all share the first such CAF forced. This is arbitrated by the process's sole image of the RTS. (Things have terribly gone wrong if there is more than one RTS in memory; a l a#5620.)
 
 **Concerns**
 
@@ -203,9 +203,9 @@ I'm concerned that requiring the buiding/installing/use of a dynamically-linked 
 The repercussions of this rule are not totally apparent to me.  Plugins themselves are already dynamically loaded, so the platform already supports dynamic libraries (right?).  So I think the only burden on the plugin user is having to ensure that their GHC is dynamically linked. 'From 7.8, the plan is for this to be the default on platforms that
 support it.' [Ian Lynagh](http://www.haskell.org/pipermail/ghc-devs/2013-July/001651.html).
 
-- [\#3658](https://gitlab.haskell.org/ghc/ghc/issues/3658) — this is for GHCi, but it might carry over for ghc; that's an open question
+- #3658 — this is for GHCi, but it might carry over for ghc; that's an open question
 
-- [\#8039](https://gitlab.haskell.org/ghc/ghc/issues/8039) — might be blocking 3658
+- #8039 — might be blocking 3658
 
 - [DynamicByDefault\#Performance](dynamic-by-default#performance) — the dynamically-link compiler may be significantly slower than the statically-linked one. So people may prefer to have a statically-linked ghc, which would then mean they couldn't (safely) use the Core plugins that use the `FastString.string_table`.
 

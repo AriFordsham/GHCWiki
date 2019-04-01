@@ -125,7 +125,7 @@ original imprecise-exceptions paper: the exception propagates without
 being caught.
 
 
-So, looking at [\#11555](https://gitlab.haskell.org/ghc/ghc/issues/11555), `catchIO# undefined` throws an exception that is not caught;
+So, looking at #11555, `catchIO# undefined` throws an exception that is not caught;
 and `catchIO# (putStr x) h s` is strict in `x`.
 
 
@@ -135,7 +135,7 @@ and the precise sort by matching on `Left`.
 
 
 So `catch# undefined h s` calls the handler `h`.  And, for the
-reasons discussed in [\#11555](https://gitlab.haskell.org/ghc/ghc/issues/11555), `catch#` should be lazy so that `catch# (f x)` does not
+reasons discussed in #11555, `catch#` should be lazy so that `catch# (f x)` does not
 look strict in `x` and hence perhaps evaluate `x` prematurely.
 
 

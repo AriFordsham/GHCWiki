@@ -128,7 +128,7 @@ GHC.
 
 
 Meanwhile, Dimitrios, Simon, and Stephanie Weirich are also working on
-fixing one of GHC's more embarrassing bugs (Trac [\#1496](https://gitlab.haskell.org/ghc/ghc/issues/1496)),
+fixing one of GHC's more embarrassing bugs (Trac #1496),
 whereby an interaction of type families and the newtype-deriving can
 persuade GHC to generate type-unsound code. It's remained un-fixed
 because the obvious approaches seem to be hacks, so the cure was as

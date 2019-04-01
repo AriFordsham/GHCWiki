@@ -3,7 +3,7 @@
 ## The problem
 
 
-Haskell declarations and pragmas can appear in a variety of contexts, but not all declarations/pragmas can appear in all contexts. For examples, data declarations can appear only at top level; type family instances can appear at top-level, in classes (as defaults), and in instances, but never in `let`/`where` blocks; fixity declarations can be used anywhere other than in an instance declaration; etc. Yet, the Template Haskell `Dec` type monolithically includes *all* possible declarations. Currently, consumers of `Dec`s need to eliminate the possibility of `Dec`s in various contexts by emitting errors. Many users of Template Haskell might not know the intricate details of where which declarations can appear, making these "impossible" scenarios error-prone. And, with the solutions to [\#8100](https://gitlab.haskell.org/ghc/ghc/issues/8100) (adding standalone-deriving) and [\#9064](https://gitlab.haskell.org/ghc/ghc/issues/9064) (adding `default` type signatures to class declarations), the problem gets worse.
+Haskell declarations and pragmas can appear in a variety of contexts, but not all declarations/pragmas can appear in all contexts. For examples, data declarations can appear only at top level; type family instances can appear at top-level, in classes (as defaults), and in instances, but never in `let`/`where` blocks; fixity declarations can be used anywhere other than in an instance declaration; etc. Yet, the Template Haskell `Dec` type monolithically includes *all* possible declarations. Currently, consumers of `Dec`s need to eliminate the possibility of `Dec`s in various contexts by emitting errors. Many users of Template Haskell might not know the intricate details of where which declarations can appear, making these "impossible" scenarios error-prone. And, with the solutions to #8100 (adding standalone-deriving) and #9064 (adding `default` type signatures to class declarations), the problem gets worse.
 
 ## A proposed solution
 
@@ -152,11 +152,11 @@ data Pragma :: DecContext -> * where
 ### Pros
 
 
-This seems to work, in preliminary tests. Matching on this GADT does not trigger [\#3927](https://gitlab.haskell.org/ghc/ghc/issues/3927) (that is, it does not warn about vacuous incomplete patterns), and you can't squeeze, say, a `DataD` into a `LetDec`.
+This seems to work, in preliminary tests. Matching on this GADT does not trigger #3927 (that is, it does not warn about vacuous incomplete patterns), and you can't squeeze, say, a `DataD` into a `LetDec`.
 
 ### Cons
 
-- `Data` and `Generic` (see [\#9527](https://gitlab.haskell.org/ghc/ghc/issues/9527), requesting `Generic` instances) don't play well with GADTs. I can hand-write `Data` instances for `Dec` and `Pragma`, but these implement only `gfoldl` and error on `gunfold`. I have not yet tried to write hand-written `Generic` instances, but I'm not hopeful.
+- `Data` and `Generic` (see #9527, requesting `Generic` instances) don't play well with GADTs. I can hand-write `Data` instances for `Dec` and `Pragma`, but these implement only `gfoldl` and error on `gunfold`. I have not yet tried to write hand-written `Generic` instances, but I'm not hopeful.
 
 - I frequently use `:info Dec` in GHCi when writing TH code. The output after this transformation is much noisier than it was before.
 

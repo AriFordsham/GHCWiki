@@ -1,7 +1,7 @@
 # Allow for multiple instances of the GHCi linker
 
 
-This page discusses a plan to fix bug [\#3372](https://gitlab.haskell.org/ghc/ghc/issues/3372).
+This page discusses a plan to fix bug #3372.
 
 ## The problem
 

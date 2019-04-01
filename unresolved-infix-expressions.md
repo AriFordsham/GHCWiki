@@ -1,5 +1,5 @@
 
-This page outlines a design for the "unresolved infix expressions" feature requested in [\#4430](https://gitlab.haskell.org/ghc/ghc/issues/4430). Parts of this page are copied from the ticket.
+This page outlines a design for the "unresolved infix expressions" feature requested in #4430. Parts of this page are copied from the ticket.
 
 ## Motivation
 

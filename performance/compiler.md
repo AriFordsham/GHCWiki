@@ -506,7 +506,7 @@ Identify tickets by using "Compile time performance bug" for the "Type of failur
 
 Some programs can produce very deeply nested types of non-linear size. See [Scrap your type applications](http://research.microsoft.com/en-us/um/people/simonpj/papers/variant-f/index.htm) for a way to improve these bad cases
 
-- [\#9198](https://gitlab.haskell.org/ghc/ghc/issues/9198): large performance regression in type checker speed in 7.8 
+- #9198: large performance regression in type checker speed in 7.8 
 
   - Types in Core blowing up quadratically (as seen in `-ddump-ds` output)
 
@@ -515,24 +515,24 @@ Some programs can produce very deeply nested types of non-linear size. See [Scra
 
 One theme that seems to pop up rather often is the production of Core with long strings of coercions, with the size scaling non-linearly with the size of the types in the source program. These may or may not be due to similar root-causes.
 
-- [\#8095](https://gitlab.haskell.org/ghc/ghc/issues/8095): TypeFamilies painfully slow
+- #8095: TypeFamilies painfully slow
 
   - Here a recursive type family instance leads to quadratic blow-up of coercions
 
   This ticket has a discussion about a way to snip off coercions when not using `-dcore-lint`.
 
-- [\#7428](https://gitlab.haskell.org/ghc/ghc/issues/7428): GHC compile times are seriously non-linear in program size
+- #7428: GHC compile times are seriously non-linear in program size
 
   - Here a CPS'd State monad is leading to a quadratic blowup in Core size over successive simplifier iterations
 
-- [\#5642](https://gitlab.haskell.org/ghc/ghc/issues/5642): Deriving Generic of a big type takes a long time and lots of space
+- #5642: Deriving Generic of a big type takes a long time and lots of space
 
-- [\#14338](https://gitlab.haskell.org/ghc/ghc/issues/14338): Simplifier fails with "Simplifier ticks exhausted"
+- #14338: Simplifier fails with "Simplifier ticks exhausted"
 
   - Specialised dictionaries parametrized on a type-level list produce very large coercions.
 
 
-One possible solution (proposed in [\#8095](https://gitlab.haskell.org/ghc/ghc/issues/8095)) is to eliminate coercions from the Core AST during usual compilation, instead only including them when we want to lint the Core.
+One possible solution (proposed in #8095) is to eliminate coercions from the Core AST during usual compilation, instead only including them when we want to lint the Core.
 
 ### Deriving instances
 
@@ -1140,20 +1140,20 @@ While it's possible to fix (1) and (2), (3) is inherent.
 
 ### Uncategorised compiler performance issues
 
-- [\#2346](https://gitlab.haskell.org/ghc/ghc/issues/2346): desugaring let-bindings
-- [\#10228](https://gitlab.haskell.org/ghc/ghc/issues/10228): increase in compiler memory usage, regression from 7.8.4 to 7.10.1
-- [\#10289](https://gitlab.haskell.org/ghc/ghc/issues/10289): 2.5k static HashSet takes too much memory to compile
+- #2346: desugaring let-bindings
+- #10228: increase in compiler memory usage, regression from 7.8.4 to 7.10.1
+- #10289: 2.5k static HashSet takes too much memory to compile
 
-  - Significantly improved in memory usage from [\#10370](https://gitlab.haskell.org/ghc/ghc/issues/10370), but worse at overall wall-clock time!
-- [\#7450](https://gitlab.haskell.org/ghc/ghc/issues/7450): Regression in optimisation time of functions with many patterns (6.12 to 7.4)? 
+  - Significantly improved in memory usage from #10370, but worse at overall wall-clock time!
+- #7450: Regression in optimisation time of functions with many patterns (6.12 to 7.4)? 
 
   - [Phab:D1041](https://phabricator.haskell.org/D1041), [ Phab:D1012](https://phabricator.haskell.org/D1012)
   - Unnecessary recomputation of free variables ([Phab:D1012](https://phabricator.haskell.org/D1012))
   - Thunk leak in `Bitmap` ([Phab:D1040](https://phabricator.haskell.org/D1040))
-- [\#10800](https://gitlab.haskell.org/ghc/ghc/issues/10800): vector-0.11 compile time increased substantially with 7.10.1
+- #10800: vector-0.11 compile time increased substantially with 7.10.1
 
   - Regression in `vector` testsuite perhaps due to change in inlinings
-- [\#13639](https://gitlab.haskell.org/ghc/ghc/issues/13639): Skylighting package compilation is glacial 
+- #13639: Skylighting package compilation is glacial 
 
 ## nofib results
 
@@ -1204,7 +1204,7 @@ Random note: GHC 7.10's build system actually disabled DPH (half a dozen more pa
 ## Interesting third-party library numbers
 
 - Compile time of some example program (`fluid-tree`) of `fltkhs` library increased from about 15 seconds to more than a minute ([original message](https://mail.haskell.org/pipermail/haskell-cafe/2016-May/123995.html)).
-- GHC takes significantly more memory compiling the `xmlhtml` library with `-j4` than `-j1` (1GB vs 150MB). See [\#9370](https://gitlab.haskell.org/ghc/ghc/issues/9370). 
+- GHC takes significantly more memory compiling the `xmlhtml` library with `-j4` than `-j1` (1GB vs 150MB). See #9370. 
 - The `Language.Haskell.Exts.Annotated.Syntax` of `haskell-src-exts` takes many tens of seconds to compile. Howeever, this may not be surprising: Consists of roughly 70 data definitions, some with many constructors, `deriving (Eq,Ord,Show,Typeable,Data,Foldable,Traversable)` on most of them as well as defining `Functor`.
 - `vector-algorithms` may be a nice test and reportedly got slower to compile and run in recent GHC releases.
 
@@ -1214,18 +1214,18 @@ Random note: GHC 7.10's build system actually disabled DPH (half a dozen more pa
 
 - The performance effect of the `TypeInType` merge shows up in [b5d5d83122c93c2a25839127edfd6b2df7ed6928](/trac/ghc/changeset/b5d5d83122c93c2a25839127edfd6b2df7ed6928/ghc) ("Revert .gitmodules changes from 6746549772c5") due to various broken intermediate commits.
 - [91c6b1f54aea658b0056caec45655475897f1972](/trac/ghc/changeset/91c6b1f54aea658b0056caec45655475897f1972/ghc) is a refactoring of the `Typeable` implementation which moves `Typeable` dictionary generation from evidence generation time to the point where the represented type is defined. This tends to regress compile allocations by a few percent for programs defining lots of types (although programs which make large use of `Typeable` may see improvement).
-- Improvements in code generation ([\#7450](https://gitlab.haskell.org/ghc/ghc/issues/7450), [b29633f5cf310824f3e34716e9261162ced779d3](/trac/ghc/changeset/b29633f5cf310824f3e34716e9261162ced779d3/ghc)) and simplification ([4681f55970cabc6e33591d7e698621580818f9a2](/trac/ghc/changeset/4681f55970cabc6e33591d7e698621580818f9a2/ghc))
+- Improvements in code generation (#7450, [b29633f5cf310824f3e34716e9261162ced779d3](/trac/ghc/changeset/b29633f5cf310824f3e34716e9261162ced779d3/ghc)) and simplification ([4681f55970cabc6e33591d7e698621580818f9a2](/trac/ghc/changeset/4681f55970cabc6e33591d7e698621580818f9a2/ghc))
 
 ### GHC 8.0 to GHC 8.2
 
-- [f53d761df9762232b54ec57a950d301011cd21f8](/trac/ghc/changeset/f53d761df9762232b54ec57a950d301011cd21f8/ghc) ("TysWiredIn: Use UniqFM lookup for built-in OccNames") improves the efficiency of built-in `OccName` lookup, resulting in a 2-5% improvement in compiler allocations on nofib. This was noticed due to unexpectedly large allocations regressions in [dd3080fe0263082f65bf2570f49189c277b12e28](/trac/ghc/changeset/dd3080fe0263082f65bf2570f49189c277b12e28/ghc) ([\#12357](https://gitlab.haskell.org/ghc/ghc/issues/12357)).
-- [ed4809813fa51524ae73a4475afe33018a67f87d](/trac/ghc/changeset/ed4809813fa51524ae73a4475afe33018a67f87d/ghc) ("InstEnv: Ensure that instance visibility check is lazy") fixes a bug introduced earlier change ([4c834fdddf4d44d12039da4d6a2c63a660975b95](/trac/ghc/changeset/4c834fdddf4d44d12039da4d6a2c63a660975b95/ghc)) in the instance visibility check which broke laziness of instance resolution. This reduces compiler allocations by roughly 5-10% on nofib. The underlying bug was noticed by unexpectedly large allocation regressions due to [673efccb3b348e9daf23d9e65460691bbea8586e](/trac/ghc/changeset/673efccb3b348e9daf23d9e65460691bbea8586e/ghc) and [4e6bcc2c8134f9c1ba7d715b3206130f23c529fb](/trac/ghc/changeset/4e6bcc2c8134f9c1ba7d715b3206130f23c529fb/ghc), which added instances to various `base` modules ([\#12367](https://gitlab.haskell.org/ghc/ghc/issues/12367)).
+- [f53d761df9762232b54ec57a950d301011cd21f8](/trac/ghc/changeset/f53d761df9762232b54ec57a950d301011cd21f8/ghc) ("TysWiredIn: Use UniqFM lookup for built-in OccNames") improves the efficiency of built-in `OccName` lookup, resulting in a 2-5% improvement in compiler allocations on nofib. This was noticed due to unexpectedly large allocations regressions in [dd3080fe0263082f65bf2570f49189c277b12e28](/trac/ghc/changeset/dd3080fe0263082f65bf2570f49189c277b12e28/ghc) (#12357).
+- [ed4809813fa51524ae73a4475afe33018a67f87d](/trac/ghc/changeset/ed4809813fa51524ae73a4475afe33018a67f87d/ghc) ("InstEnv: Ensure that instance visibility check is lazy") fixes a bug introduced earlier change ([4c834fdddf4d44d12039da4d6a2c63a660975b95](/trac/ghc/changeset/4c834fdddf4d44d12039da4d6a2c63a660975b95/ghc)) in the instance visibility check which broke laziness of instance resolution. This reduces compiler allocations by roughly 5-10% on nofib. The underlying bug was noticed by unexpectedly large allocation regressions due to [673efccb3b348e9daf23d9e65460691bbea8586e](/trac/ghc/changeset/673efccb3b348e9daf23d9e65460691bbea8586e/ghc) and [4e6bcc2c8134f9c1ba7d715b3206130f23c529fb](/trac/ghc/changeset/4e6bcc2c8134f9c1ba7d715b3206130f23c529fb/ghc), which added instances to various `base` modules (#12367).
 - [eb3d6595735671605c5d6294a796dc0f16f784a4](/trac/ghc/changeset/eb3d6595735671605c5d6294a796dc0f16f784a4/ghc) ("OccName: Avoid re-encoding derived OccNames") is a refactoring which reduces allocations in the computation of derived `OccName`s by eliminating `String` intermediates.
 
 ### GHC 8.2 to GHC 8.4
 
 
-- Regressions: [\#14944](https://gitlab.haskell.org/ghc/ghc/issues/14944), [\#14928](https://gitlab.haskell.org/ghc/ghc/issues/14928), [\#14974](https://gitlab.haskell.org/ghc/ghc/issues/14974)
+- Regressions: #14944, #14928, #14974
 
 
  

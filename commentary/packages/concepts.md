@@ -14,7 +14,7 @@ The content here overlaps with [wiki:Commentary/Packages](commentary/packages) b
 See also `Note [The identifier lexicon]` in `compiler/basicTypes/Module.hs`.
 
 
-Some relevant tickets: [\#10622](https://gitlab.haskell.org//ghc/ghc/issues/10622)
+Some relevant tickets: #10622
 
 ## What problems do we need to solve?
 

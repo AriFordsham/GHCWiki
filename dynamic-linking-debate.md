@@ -27,7 +27,7 @@ We decided to keep static linking as the default for ordinary standalone executa
 To ensure that all the libraries are available both to use in GHCi and to use when static linking, cabal has to build everything twice.  To mitigate the overhead of building everything twice, we implemented the `-dynamic-too` flag, which generates both static and dynamic object files from a single compilation, sharing most of the compilation pipeline and only performing the code-generation steps twice.
 
 
-GHCi can load object files if some source files are precompiled.  To make this work with dynamic linking, we have to link the object files together into a temporary shared library in `/tmp`, and then load that.  To make it possible for new object files to override old object files, we had to load shared libraries into separate namespaces, which lead to breakage in the old static linker that we still haven't found a good fix for: [\#8935](https://gitlab.haskell.org/ghc/ghc/issues/8935).
+GHCi can load object files if some source files are precompiled.  To make this work with dynamic linking, we have to link the object files together into a temporary shared library in `/tmp`, and then load that.  To make it possible for new object files to override old object files, we had to load shared libraries into separate namespaces, which lead to breakage in the old static linker that we still haven't found a good fix for: #8935.
 
 
 When using TemplateHaskell, we have to be able to load object code into GHCi, which means we need to have dynamic versions of all the object files.  Therefore, we automatically enable `-dynamic-too` when `TemplateHaskell` is on.  This slows down compilation, and is an annoying special case.
@@ -36,7 +36,7 @@ When using TemplateHaskell, we have to be able to load object code into GHCi, wh
 
 - GHCi starts up faster (when the dynamic libs are cached)
 - We can get GHCi support on some platforms where we couldn't before, using the LLVM backend + dynamic linking
-- Some weird workarounds could go away: the GlobalStore in the RTS and related nonsense in the base package, which is necessary to handle the fact that with static linking we had two copies of the base package loaded.  There is similar stuff in the GHC package for the same reason (see [\#8276](https://gitlab.haskell.org/ghc/ghc/issues/8276))
+- Some weird workarounds could go away: the GlobalStore in the RTS and related nonsense in the base package, which is necessary to handle the fact that with static linking we had two copies of the base package loaded.  There is similar stuff in the GHC package for the same reason (see #8276)
 - If we could fully replace the static linker, we could remove that code from the RTS (but see "Do we need the static linker anyway?" below).
 
 ## Cons of dynamic linking
@@ -65,7 +65,7 @@ Dynamic linking is useful: it reduces executable sizes for one thing.  We've sup
 One of the stated reasons for switching to dynamic linking was that we could support C++ code much better in GHCi.  I suspect this is a non-issue.
 
 - We support linking shared libraries containing C++ code regardless of whether GHCi is linking statically or dynamically.  This has always worked.
-- If you have C++ code in your Haskell package, then it should also work both ways, now that the RTS linker supports running constructor functions ([\#5435](https://gitlab.haskell.org/ghc/ghc/issues/5435)).
+- If you have C++ code in your Haskell package, then it should also work both ways, now that the RTS linker supports running constructor functions (#5435).
 
 ## Bugs in the static linker
 

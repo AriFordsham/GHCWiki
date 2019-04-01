@@ -46,7 +46,7 @@ In many languages exceptions are automatically tagged with a stack-trace of the 
 ## Status as of 8.0
 
 
-While DWARF support will be much improved in 8.0.1, it is unfortunately still rather unsafe. This is due to prevalence of foreign calls in GHC/Haskell code, which can currently result in incorrect stack unwinding information ([\#11353](https://gitlab.haskell.org/ghc/ghc/issues/11353), [\#11338](https://gitlab.haskell.org/ghc/ghc/issues/11338), [\#11337](https://gitlab.haskell.org/ghc/ghc/issues/11337)). This means that requesting a stack trace may result in a segmentation fault of the program. Unfortunately, fixing this was beyond the scope of my time budget for 8.0, although hopefully can be done for 8.2.
+While DWARF support will be much improved in 8.0.1, it is unfortunately still rather unsafe. This is due to prevalence of foreign calls in GHC/Haskell code, which can currently result in incorrect stack unwinding information (#11353, #11338, #11337). This means that requesting a stack trace may result in a segmentation fault of the program. Unfortunately, fixing this was beyond the scope of my time budget for 8.0, although hopefully can be done for 8.2.
 
 
 If you are prepared to accept the potential for segfaults, GHC 8.0.1 now provides a good amount of new functionality,
@@ -146,7 +146,7 @@ and reporting.
 
 While the DWARF annotations produced by GHC 8.0.1 were a significant improvement over
 previous releases, they still broke in a number of important cases (largely
-due to foreign calls; see [\#11137](https://gitlab.haskell.org/ghc/ghc/issues/11137), [\#11138](https://gitlab.haskell.org/ghc/ghc/issues/11138)). GHC 8.2 will hopefully fix up these remaining cases,
+due to foreign calls; see #11137, #11138). GHC 8.2 will hopefully fix up these remaining cases,
 
 - \[RFC\]     [Phab:D1732](https://phabricator.haskell.org/D1732): Improve accuracy of unwinding in presence of foreign calls
 - \[RFC\]     [Phab:D2738](https://phabricator.haskell.org/D2738): Cmm: Add support for undefined unwinding statements

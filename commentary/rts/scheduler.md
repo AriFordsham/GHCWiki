@@ -243,7 +243,7 @@ scheduler(cap)
 ### The run queue
 
 
-The run queue is at the heart of the scheduler, as any runnable thread will hit the run queue before the scheduler actually pops it off the queue and runs it.  There’s one per capability [rts/Capability.h](/trac/ghc/browser/ghc/rts/Capability.h) (in the bad old days, there was a global run queue, but this performed badly for multithreaded processes), and it is implemented as a doubly-linked list `run_queue_hd` and `run_queue_tl`. (It is doubly linked due to ticket [\#3838](https://gitlab.haskell.org/ghc/ghc/issues/3838)). The head and tail pointers mean that the queue is actually a deque: this is important because the scheduler will often have to handle threads that were interrupted in some way, and should let the threads get back on.  The links themselves are on the TSOs and modified with `setTSOLink` and `setTSOPrev`, so modifying the queue dirties the TSOs involved. Otherwise, the run queue is exclusively owned by the scheduler. If there are idle capabilities and if we have more than one thread left in our run queue, threads will be pushed to other queues with `schedulePushWork`.
+The run queue is at the heart of the scheduler, as any runnable thread will hit the run queue before the scheduler actually pops it off the queue and runs it.  There’s one per capability [rts/Capability.h](/trac/ghc/browser/ghc/rts/Capability.h) (in the bad old days, there was a global run queue, but this performed badly for multithreaded processes), and it is implemented as a doubly-linked list `run_queue_hd` and `run_queue_tl`. (It is doubly linked due to ticket #3838). The head and tail pointers mean that the queue is actually a deque: this is important because the scheduler will often have to handle threads that were interrupted in some way, and should let the threads get back on.  The links themselves are on the TSOs and modified with `setTSOLink` and `setTSOPrev`, so modifying the queue dirties the TSOs involved. Otherwise, the run queue is exclusively owned by the scheduler. If there are idle capabilities and if we have more than one thread left in our run queue, threads will be pushed to other queues with `schedulePushWork`.
 
 
 In general, if the thread has exhausted its time slice (`context_switch != 0`), then it goes to the back of the queue, otherwise, it goes on the front and we keep running it.
@@ -257,7 +257,7 @@ In more detail, threads are put **in front** (`pushOnRunQueue`) if:
 
 - A task attempts to run a thread, but it is [bound](http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Concurrent.html#v:forkOS) and the current task is the wrong one;
 
-- A thread is associated with a black hole (a thunk that is being evaluated), and another thread, possibly on another capability, has blocked on its evaluation (see ticket [\#3838](https://gitlab.haskell.org/ghc/ghc/issues/3838));
+- A thread is associated with a black hole (a thunk that is being evaluated), and another thread, possibly on another capability, has blocked on its evaluation (see ticket #3838);
 
 - In the threaded runtime, if a thread was interrupted because another Capability needed to do a stop-the-world GC (see commit [6d18141d8/repo](/trac/ghc/changeset/6d18141d8/ghc/repo));
 

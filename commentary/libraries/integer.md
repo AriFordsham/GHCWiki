@@ -78,7 +78,7 @@ plusInteger :: Integer -> Integer -> Integer
 
   Constant folding rules for divisions are defined for `quotInteger` and other division functions from `integer-gmp` library. If `quot` was not inlined constant folding rules would not fire. The rules would also not fire if call to `quotInteger` was inlined, but this does not happen because it is marked with NOINLINE pragma - see below.
 
-- **Converting between Int and Integer**.  It's quite commonly the case that, after some inlining, we get something like `integerToInt (intToInteger i)`, which converts an `Int` to an `Integer` and back.  This *must* optimise away (see [\#5767](https://gitlab.haskell.org/ghc/ghc/issues/5767)).  We do this by requiring that the `integer` package exposes
+- **Converting between Int and Integer**.  It's quite commonly the case that, after some inlining, we get something like `integerToInt (intToInteger i)`, which converts an `Int` to an `Integer` and back.  This *must* optimise away (see #5767).  We do this by requiring that the `integer` package exposes
 
   ```haskell
   smallInteger :: Int# -> Integer

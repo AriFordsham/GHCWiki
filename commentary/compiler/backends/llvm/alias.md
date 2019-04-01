@@ -4,7 +4,7 @@
 This page tracks the information and progress relevant to improving the alias analysis pass for the LLVM backend of GHC.
 
 
-This correspond to bug [\#5567](https://gitlab.haskell.org/ghc/ghc/issues/5567).
+This correspond to bug #5567.
 
 ## LLVM Alias Analysis Infrastructure
 
@@ -180,7 +180,7 @@ As a quick experiment, I hacked LLVM to accept "safe" annotations on loads and t
 ### GHC Heap Check (case merging)
 
 
-See bug [\#1498](https://gitlab.haskell.org/ghc/ghc/issues/1498)
+See bug #1498
 
 **Following is from Roman Leshchinskiy**
 

@@ -296,7 +296,7 @@ As part of this implementation `dataConUserTy` has been change to reflect the ex
 #### Rules and Wrappers
 
 
-Giving data constructors wrappers makes RULES mentioning data constructors not work as well. Mentioning a data constructor in a RULE currently means the wrapper, which is often inlined without hesitation and hence means that rule will not fire at a later point. We solve this by inlining the wrapper late (in phase 0); see [\#15840](https://gitlab.haskell.org/ghc/ghc/issues/15840) and [https://phabricator.haskell.org/D5400](https://phabricator.haskell.org/D5400).
+Giving data constructors wrappers makes RULES mentioning data constructors not work as well. Mentioning a data constructor in a RULE currently means the wrapper, which is often inlined without hesitation and hence means that rule will not fire at a later point. We solve this by inlining the wrapper late (in phase 0); see #15840 and [https://phabricator.haskell.org/D5400](https://phabricator.haskell.org/D5400).
 
 #### `magicDict`
 

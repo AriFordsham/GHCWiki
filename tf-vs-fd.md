@@ -199,8 +199,8 @@ instance false ~ HFalse => TypeEq a b false
 
 ### See Also
 
-- Injective type families ([\#6018](https://gitlab.haskell.org/ghc/ghc/issues/6018))
-- TF overlap check is limited ([\#4259](https://gitlab.haskell.org/ghc/ghc/issues/4259))
+- Injective type families (#6018)
+- TF overlap check is limited (#4259)
 
 ## Advantages of Type Families
 
@@ -289,7 +289,7 @@ C :: * -> * -> Constraint
 With constraint kinds, a constraint can be an open type family. There is no
 way at all of telling what its FD are.
 
-#### `UndecidableInstances` allows instances that violate the FD ([\#1241](https://gitlab.haskell.org/ghc/ghc/issues/1241), [\#2247](https://gitlab.haskell.org/ghc/ghc/issues/2247))
+#### `UndecidableInstances` allows instances that violate the FD (#1241, #2247)
 
 ```wiki
 class F a b | a -> b where f :: (a,b)
@@ -299,7 +299,7 @@ instance F Int b
 
 Allows F Int Bool and F Int Char.
 
-#### FD don't provide evidence ([\#4894](https://gitlab.haskell.org/ghc/ghc/issues/4894))
+#### FD don't provide evidence (#4894)
 
 ```wiki
 class F a b | a -> b
@@ -317,7 +317,7 @@ Could not deduce (b ~ c)
 
 #### See also
 
-- FD superclass variables need to be in scope ([\#714](https://gitlab.haskell.org/ghc/ghc/issues/714), [\#3490](https://gitlab.haskell.org/ghc/ghc/issues/3490))
+- FD superclass variables need to be in scope (#714, #3490)
 
 ## Converting from FD to TF
 
@@ -343,8 +343,8 @@ class (F a ~ b) => C a b where
 Examples:
 
 - [http://www.haskell.org/pipermail/haskell-cafe/2012-June/101576.html](http://www.haskell.org/pipermail/haskell-cafe/2012-June/101576.html)
-- [\#1614](https://gitlab.haskell.org/ghc/ghc/issues/1614)
-- [\#816](https://gitlab.haskell.org/ghc/ghc/issues/816)
+- #1614
+- #816
 
 ## See Also
 

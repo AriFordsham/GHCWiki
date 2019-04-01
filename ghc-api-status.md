@@ -196,14 +196,14 @@ There are also a few non-functional requirements:
 ## Trac Tickets Related to the GHC API
 
 
-- [\#1467](https://gitlab.haskell.org/ghc/ghc/issues/1467) - GHC API: expose separate compilation stages
-- [\#1886](https://gitlab.haskell.org/ghc/ghc/issues/1886) - GHC API should preserve and provide access to comments
-- [\#654](https://gitlab.haskell.org/ghc/ghc/issues/654) - Cabalization of the GHC library.
+- #1467 - GHC API: expose separate compilation stages
+- #1886 - GHC API should preserve and provide access to comments
+- #654 - Cabalization of the GHC library.
 
 ### Possibly Related
 
-- [\#2159](https://gitlab.haskell.org/ghc/ghc/issues/2159) - Use a more efficient representation than `[DynFlag]`
-- [\#1631](https://gitlab.haskell.org/ghc/ghc/issues/1631) - Make the External Package Table contain `ModDetails` not `ModIface`
+- #2159 - Use a more efficient representation than `[DynFlag]`
+- #1631 - Make the External Package Table contain `ModDetails` not `ModIface`
 
 ## Related Documents and Discussions
 
@@ -254,7 +254,7 @@ There are also a few non-functional requirements:
   anyway, but it would be nice to have the ugly bits hidden,
   such as `unsafeCast#`, or whatever it was). that might require
   a standard for typeReps, if I recall correctly.. (Claus Reinke)
-- since the refactoring ideas below mention error handling: it appears that some GHC Api functions output error messages directly, without providing a means to handle/capture them in callers. I ran into one such instance a while ago ([\#1463](https://gitlab.haskell.org/ghc/ghc/issues/1463), comments 8, 10, 11)
+- since the refactoring ideas below mention error handling: it appears that some GHC Api functions output error messages directly, without providing a means to handle/capture them in callers. I ran into one such instance a while ago (#1463, comments 8, 10, 11)
 - ... more comments here ...
 
 

@@ -1,5 +1,5 @@
 
-Some ideas related to [\#7994](https://gitlab.haskell.org/ghc/ghc/issues/7994):
+Some ideas related to #7994:
 
 
 Here are some ideas.

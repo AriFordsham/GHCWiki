@@ -22,7 +22,7 @@ Requires small **gcc** patch to fix sdata overflow: [https://gcc.gnu.org/ml/gcc-
 # 2010-2011 update
 
 
-As of this time (2010-2011) some linux distros provides just GHC 6.8.2 build as binary package(s) on IA64 Itanium platform. To upgrade to GHC 7.x you will need to perform manual bootstrap of either GHC 6.10.x or GHC 6.12.x. The problem is that both show several critical issues which make them unbuildable or unstable. See [\#3891](https://gitlab.haskell.org/ghc/ghc/issues/3891) for example, although it's closed, it's not solved neither in 6.10.x nor in 6.12.x source tree.
+As of this time (2010-2011) some linux distros provides just GHC 6.8.2 build as binary package(s) on IA64 Itanium platform. To upgrade to GHC 7.x you will need to perform manual bootstrap of either GHC 6.10.x or GHC 6.12.x. The problem is that both show several critical issues which make them unbuildable or unstable. See #3891 for example, although it's closed, it's not solved neither in 6.10.x nor in 6.12.x source tree.
 
 
 As a solution, nice Gentoo Linux folks provide their own set of patches for IA64 GHC build and you can use them to compile either GHC 6.10.4 or GHC 6.12.3 on IA64 platform. Download and apply all **ghc-\<version\>-ia64\*patch** patches  for your preferred GHC version from [here](http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/dev-lang/ghc/files/).

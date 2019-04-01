@@ -147,7 +147,7 @@ Compare this to a Github workflow, where you just push your updated branch (with
 - "the commit msg resulting from phab/arc almost never is acceptable to me"
 - "Should I specify reviewers?"
 - **"Diffs just seem to be too expensive to create ... I can't blame contributors for not wanting to do this for every atomic change"**
-- "Attempt to connect to phabricator\@127.0.0.1 failed with error [\#2013](https://gitlab.haskell.org/ghc/ghc/issues/2013): Lost connection to MySQL server at 'reading initial communication packet', system error: 0."
+- "Attempt to connect to phabricator\@127.0.0.1 failed with error #2013: Lost connection to MySQL server at 'reading initial communication packet', system error: 0."
 - "run 'arc which' before updating a  code-rev to get a feeling for arcanist's weird heuristic"
 - "arcanist kinda makes stuff even more confusing than Git by itself =)"
 - "My browser and everything works fine, arcanist just falls on its face with a libcurl issue"

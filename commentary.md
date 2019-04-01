@@ -111,7 +111,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 
 - Notes on implemented GHC features:
 
-  - [Evaluation order and state tokens](https://www.fpcomplete.com/tutorial-preview/4431/z0KpB0ai2R): notes written by Michael Snoyberg in response to [\#9390](https://gitlab.haskell.org/ghc/ghc/issues/9390).
+  - [Evaluation order and state tokens](https://www.fpcomplete.com/tutorial-preview/4431/z0KpB0ai2R): notes written by Michael Snoyberg in response to #9390.
   - [Notes on fusion](foldr-build-notes) (eg foldr/build)
   - [Overloaded list syntax](overloaded-lists) allows you to use list notation for things other than lists.
   - [Kind polymorphism and data type promotion](ghc-kinds)
@@ -145,9 +145,9 @@ The above commentary covers the source code of GHC. For material that doesn't co
   - [Improving pattern-match overlap and exhaustiveness checks](pattern-match-check)
   - [Source-locations on HsSyn](ghc-ast-annotations)
   - [How GHC inter-operates with Cabal](cabal-dependency) and [Backpack](backpack)
-  - [StaticValues](static-values) and ticket [\#7015](https://gitlab.haskell.org/ghc/ghc/issues/7015)
-  - [Partial type signatures](partial-type-signatures) and its ticket [\#9478](https://gitlab.haskell.org/ghc/ghc/issues/9478)
-  - [Late lambda-lifting](late-lam-lift), and its ticket [\#9476](https://gitlab.haskell.org/ghc/ghc/issues/9476)
+  - [StaticValues](static-values) and ticket #7015
+  - [Partial type signatures](partial-type-signatures) and its ticket #9478
+  - [Late lambda-lifting](late-lam-lift), and its ticket #9476
   - [Roles in Haskell](roles)
   - [Dependent types in Haskell](dependent-haskell)
   - [Nested CPR analysis](nested-cpr)

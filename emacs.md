@@ -394,7 +394,7 @@ If you are not working of off `master` you can `setq` `ghc-revision` to lint aga
       (The type signature must be given where \342\200\233foo\342\200\231 is declared)
 ```
 
-**How to enable**: To make emacs display this Unicode nicely, use this (see [\#2507](https://gitlab.haskell.org/ghc/ghc/issues/2507))
+**How to enable**: To make emacs display this Unicode nicely, use this (see #2507)
 
 ```wiki
 (setq locale-coding-system 'utf-8)

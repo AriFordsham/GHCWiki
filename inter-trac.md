@@ -75,7 +75,7 @@ Now, given the above configuration, one could create the following links:
   - `trac:wiki:InterTrac` [trac:wiki:InterTrac](http://trac.edgewall.org/intertrac/wiki%3AInterTrac)
   - `t:wiki:InterTrac` t:wiki:InterTrac
   - Keys are case insensitive: `T:wiki:InterTrac` T:wiki:InterTrac
-- to the ticket [\#234](https://gitlab.haskell.org/ghc/ghc/issues/234):
+- to the ticket #234:
 
   - `trac:ticket:234` [trac:ticket:234](http://trac.edgewall.org/intertrac/ticket%3A234)
   - `trac:#234` [trac:\#234](http://trac.edgewall.org/intertrac/%23234) 

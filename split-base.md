@@ -49,7 +49,7 @@ the `base` package.  (Why?  Because those libraries in turn depend on `base` and
   - `containers` depends on `base-pure`
   - `base-io` depends on `containers`
 
-- In [\#7427](https://gitlab.haskell.org/ghc/ghc/issues/7427), we would like to use functions from the `unix` package in `base:System.Environment`
+- In #7427, we would like to use functions from the `unix` package in `base:System.Environment`
 
 #### (G5) Installable base
 

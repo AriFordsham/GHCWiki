@@ -133,7 +133,7 @@ fashion.
 ## Patches
 
 
-Attached are patches against 7.4.2 and 7.7. Note that the patch against 7.7 invalidates the check implemented in [\#7780](https://gitlab.haskell.org/ghc/ghc/issues/7780); you have to temporarily disable it:
+Attached are patches against 7.4.2 and 7.7. Note that the patch against 7.7 invalidates the check implemented in #7780; you have to temporarily disable it:
 
 ```wiki
 diff --git a/utils/dll-split/Main.hs b/utils/dll-split/Main.hs

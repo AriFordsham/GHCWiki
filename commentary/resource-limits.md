@@ -389,7 +389,7 @@ Some points to bikeshed:
 ## Runtime changes
 
 - `Listener` is a new garbage collected object; we expect it can be implemented as a simple `PRIM` using techniques similar to `StgMVarTSOQueue`.
-- Checks for listeners occur during heap census; you'll need to pass the `-hc` flag for this machinery to do anything. Actually, we added a new flag `-hl` which is `-hc` but without writing an `.hp` file. See also [\#7751](https://gitlab.haskell.org/ghc/ghc/issues/7751) which will dramatically improve performance. Right now, running heap census is very slow; if we can make censuses incremental their cost can be amortized with ordinary garbage collector behavior.
+- Checks for listeners occur during heap census; you'll need to pass the `-hc` flag for this machinery to do anything. Actually, we added a new flag `-hl` which is `-hc` but without writing an `.hp` file. See also #7751 which will dramatically improve performance. Right now, running heap census is very slow; if we can make censuses incremental their cost can be amortized with ordinary garbage collector behavior.
 
 ## Commentary
 

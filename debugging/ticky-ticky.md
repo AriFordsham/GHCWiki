@@ -5,7 +5,7 @@ Ticky-ticky profiling adds counters to every STG function.  It's very low-level,
 
 - Add the `-ticky` flag when compiling a Haskell module to enable "ticky-ticky" profiling of that module.  This makes GHC emit performance-counting instructions in every STG function.
 
-- Add `-ticky` to the command line when linking, so that you link against a version of the runtime system that allows you to display the results.  In fact, in the link phase `-ticky` implies `-debug` (see [\#3439](https://gitlab.haskell.org/ghc/ghc/issues/3439)), so you get the debug version of the runtime system too.
+- Add `-ticky` to the command line when linking, so that you link against a version of the runtime system that allows you to display the results.  In fact, in the link phase `-ticky` implies `-debug` (see #3439), so you get the debug version of the runtime system too.
 
 - Add `+RTS -rfoo.ticky` to the run-time command line, to put the ticky-ticky profile in the file `foo.ticky`.
 
@@ -318,7 +318,7 @@ counters), and standardized the enabled allocation counters on bytes.
 Prior history:
 
 
-- tickets: [\#607](https://gitlab.haskell.org/ghc/ghc/issues/607) [\#2455](https://gitlab.haskell.org/ghc/ghc/issues/2455) [\#3439](https://gitlab.haskell.org/ghc/ghc/issues/3439)
+- tickets: #607 #2455 #3439
 
 - there used to be a `t` "way", but it was folded into `debug`
 

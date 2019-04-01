@@ -146,7 +146,7 @@ But there is another technical concern: it turns out that there exists a form of
 The combinators will remain, on the other hand whether we go through a smooth deprecation cycle to remove some from the class and move them out to top level definitions when and if we can find ways to implement them without suffering an asymptotic or large constant factor hit is the major concern.
 
 
-We are proactively seeking ways to resolve this issue. Ticket [\#10071](https://ghc.haskell.org/trac/ghc/ticket/10071) explores adding the ability to deprecate class member redefinition. This gives us the ability to move things out of the class over a pair of release cycles, should we find something we can improve in this manner.
+We are proactively seeking ways to resolve this issue. Ticket #10071 explores adding the ability to deprecate class member redefinition. This gives us the ability to move things out of the class over a pair of release cycles, should we find something we can improve in this manner.
 
 # `Data.List` now has many functions that don't mention list in their type signature. Having such functions in the `Data.List` module is awkward from a naming perspective.
 
@@ -163,7 +163,7 @@ However, it is an ugly intermediate state at best.
 There are two clear paths for how to evolve `Data.List` from here.
 
 
-1.) Deprecate the re-export of the methods from the `Prelude` in GHC 7.12 and to remove them entirely in GHC 7.14. This ensures that group A never feels any pain at all, and that group B gets a deprecation window of warnings notifying them that they don't have to use the combinators qualified any more. The cost of this approach is that we'd have no place in `base` to house monomorphic versions of these combinators. Ticket [\#4879](https://ghc.haskell.org/trac/ghc/ticket/4879) addresses the need for deprecated re-exports, which are useful for many things and a patch is now available that can enable this functionality.
+1.) Deprecate the re-export of the methods from the `Prelude` in GHC 7.12 and to remove them entirely in GHC 7.14. This ensures that group A never feels any pain at all, and that group B gets a deprecation window of warnings notifying them that they don't have to use the combinators qualified any more. The cost of this approach is that we'd have no place in `base` to house monomorphic versions of these combinators. Ticket #4879 addresses the need for deprecated re-exports, which are useful for many things and a patch is now available that can enable this functionality.
 
 
 2.) Concoct some form of `{-# WEAK #-} ` pragma or enable users to export type restricted versions of another combinator and then apply this pragma to these members of `Data.List`. This could revert those combinators to monomorphic form, but requires a more controversial language extension that has some potentially thorny implementation issues to work through, and we've elected not to presume they can be resolved.

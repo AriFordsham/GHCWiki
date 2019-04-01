@@ -6,7 +6,7 @@
 Relevant links
 
 - [Thomas Winant's blog post](https://www.fpcomplete.com/user/thomasw/new-in-ghc-7-10-partial-type-signatures)
-- Ticket to track progress: [\#9478](https://gitlab.haskell.org/ghc/ghc/issues/9478)
+- Ticket to track progress: #9478
 
 
  
@@ -220,7 +220,7 @@ normal type signature?
   ```
 
 - **Community** Feature requests or wiki pages for partial type
-  signatures in some form or other already exist: [\#5248](https://gitlab.haskell.org/ghc/ghc/issues/5248),
+  signatures in some form or other already exist: #5248,
   [PartialTypeSigs](https://ghc.haskell.org/trac/haskell-prime/wiki/PartialTypeSigs),
   [PartialTypeAnnotations](https://ghc.haskell.org/trac/haskell-prime/wiki/PartialTypeAnnotations).
   More recently,
@@ -980,7 +980,7 @@ some things that may be non-obvious.
 
 >
 >
-> Related feature request for TypedHoles: [\#9091](https://gitlab.haskell.org/ghc/ghc/issues/9091).
+> Related feature request for TypedHoles: #9091.
 >
 >
 

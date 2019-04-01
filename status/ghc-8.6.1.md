@@ -37,19 +37,19 @@ Below are the major highlights of 8.6.
 
 - The core functionality of the `ghc-heap-view` package has been merged into GHC, allowing introspection into the structure of GHC's heap. (Patrick Dougherty, [Phab:D3055](https://phabricator.haskell.org/D3055))
 
-- Many improvements to exhausiveness checking ([\#14546](https://gitlab.haskell.org/ghc/ghc/issues/14546))
+- Many improvements to exhausiveness checking (#14546)
 
-- Valid hole fits ([\#14969](https://gitlab.haskell.org/ghc/ghc/issues/14969), [\#14990](https://gitlab.haskell.org/ghc/ghc/issues/14990), [\#10946](https://gitlab.haskell.org/ghc/ghc/issues/10946))
+- Valid hole fits (#14969, #14990, #10946)
 
 - Improvements in code generation, include a new SRT representation that results in more compact generated code ([blog post](http://simonmar.github.io/posts/2018-06-22-New-SRTs.html))
 
 - Further improvements to DWARF unwinding support
 
-- More sophisticated constant folding ([\#9136](https://gitlab.haskell.org/ghc/ghc/issues/9136))
+- More sophisticated constant folding (#9136)
 
-- BlockArguments extension ([\#10843](https://gitlab.haskell.org/ghc/ghc/issues/10843), [proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0010-block-arguments.rst))
+- BlockArguments extension (#10843, [proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0010-block-arguments.rst))
 
-- NumericUnderscores extension ([\#14473](https://gitlab.haskell.org/ghc/ghc/issues/14473), [proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0009-numeric-underscores.rst))
+- NumericUnderscores extension (#14473, [proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0009-numeric-underscores.rst))
 
 - StarIsType extension ([proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0020-no-type-in-type.rst), Vladislav Zavialov)
 

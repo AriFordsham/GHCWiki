@@ -1,7 +1,7 @@
 # Type Level Literals
 
 
-This page collects information on how to work with type-level literals, as implemented in the Haskell compiler GHC (ticket [\#4385](https://gitlab.haskell.org/ghc/ghc/issues/4385)).
+This page collects information on how to work with type-level literals, as implemented in the Haskell compiler GHC (ticket #4385).
 
 ## Status
 

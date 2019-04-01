@@ -2,7 +2,7 @@
 
 
 With GHC 8.0 we have implemented a new warning-group `-Wcompat` (see
-[\#11000](https://gitlab.haskell.org/ghc/ghc/issues/11000)) which includes warnings that will be enabled by default in the
+#11000) which includes warnings that will be enabled by default in the
 future, but remain off in normal compilations for the time
 being. This allows library authors eager to make their code future
 compatible to adapt to new features before they even generate
@@ -52,7 +52,7 @@ In the case of GHC 8.0.1 there will be three warnings in `-Wcompat`,
 >
 
 
-Of course, in order for this new group to be effective in bringing coming changes to light, people must to use it. One way to encourage this would be to add `-Wcompat` to the widely used `-Wall` group (tracked as [\#11494](https://gitlab.haskell.org/ghc/ghc/issues/11494)).
+Of course, in order for this new group to be effective in bringing coming changes to light, people must to use it. One way to encourage this would be to add `-Wcompat` to the widely used `-Wall` group (tracked as #11494).
 
 
 

@@ -266,7 +266,7 @@ the rts being loaded at the same time and both being used.
 
 
 So we need to delay the choice of RTS as much as possible so that the final executable can make the choice. To do this we can use a slight alteration of
-[\#10352](https://gitlab.haskell.org/ghc/ghc/issues/10352) .
+#10352 .
 
 
 For this to work on Windows we need a few things:

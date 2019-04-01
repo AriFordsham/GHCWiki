@@ -78,7 +78,7 @@ Quoting from Simon Marlow in the ghc-cvs list:
 
 
 
-UPDATE: This is now done differently. See ticket [\#1085](https://gitlab.haskell.org/ghc/ghc/issues/1085)
+UPDATE: This is now done differently. See ticket #1085
 
 
 

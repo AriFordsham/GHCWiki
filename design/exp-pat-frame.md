@@ -41,7 +41,7 @@ There are places in the grammar where we do not know whether we are parsing an e
 
 The approach GHC uses is to parse patterns as expressions and rejig later. This turns out to be suboptimal:
 
-- We can't handle corner cases. For instance, the following function declaration LHS is not a valid expression (see [\#1087](https://gitlab.haskell.org/ghc/ghc/issues/1087)):
+- We can't handle corner cases. For instance, the following function declaration LHS is not a valid expression (see #1087):
 
   ```
         !a + !b = ...
@@ -314,7 +314,7 @@ Hopefully, this will allow us to remove at least some duplication, even if not m
 ## Implementation Plan
 
 
-Initially I (int-index) tried to do the refactoring and fix [\#1087](https://gitlab.haskell.org/ghc/ghc/issues/1087) simultaneously, and I have a semi-working proof-of-concept passing (almost all) tests: [https://github.com/serokell/ghc/commit/39c5db2d77c96d4b0962f581b60908343edf8624](https://github.com/serokell/ghc/commit/39c5db2d77c96d4b0962f581b60908343edf8624)
+Initially I (int-index) tried to do the refactoring and fix #1087 simultaneously, and I have a semi-working proof-of-concept passing (almost all) tests: [https://github.com/serokell/ghc/commit/39c5db2d77c96d4b0962f581b60908343edf8624](https://github.com/serokell/ghc/commit/39c5db2d77c96d4b0962f581b60908343edf8624)
 
 
 This prototype also revealed that doing the `ExpPatFrame` refactoring allows for better error messages in some cases. Compare:
@@ -350,5 +350,5 @@ However, after a few hellish rebases, I decided to split this effort into many s
 
 1. Introduce `ExpPatFrame` with as little churn as possible.
 1. Use it to clean up the definition of `HsExpr`, removing `EAsPat`, `EWildPat`, `EViewPat`, `ELazyPat`. Perhaps also `HsArrApp` and `HsArrForm`.
-1. Use it as the basis for fixing [\#1087](https://gitlab.haskell.org/ghc/ghc/issues/1087)
+1. Use it as the basis for fixing #1087
 1. Investigate its viability for term/type parser unification

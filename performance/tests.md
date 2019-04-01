@@ -180,4 +180,4 @@ It appears that automatically detecting drift is a hard problem. So we leave it 
 
 ## See also
 
-- Issue [\#12758](https://gitlab.haskell.org/ghc/ghc/issues/12758).
+- Issue #12758.

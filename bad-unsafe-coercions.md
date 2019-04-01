@@ -20,7 +20,7 @@ In order to solve this problem a solution was proposed by Simon in [9122](https:
 
 >
 >
-> I think it would be a great idea for Core Lint to check for uses of `unsafeCoerce` that don't obey the rules. It won't catch all cases, of course, but it would have caught [\#9035](https://gitlab.haskell.org/ghc/ghc/issues/9035). 
+> I think it would be a great idea for Core Lint to check for uses of `unsafeCoerce` that don't obey the rules. It won't catch all cases, of course, but it would have caught #9035. 
 >
 >
 

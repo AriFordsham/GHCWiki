@@ -359,7 +359,7 @@ $upd:x:W s e = s { x = e }
 ```
 
 
-but this record update is rejected by the typechecker, even though it is perfectly sensible, because of [\#2595](https://gitlab.haskell.org/ghc/ghc/issues/2595). The currently implemented workaround is instead to generate the explicit update
+but this record update is rejected by the typechecker, even though it is perfectly sensible, because of #2595. The currently implemented workaround is instead to generate the explicit update
 
 ```wiki
 $upd:x:W (MkW _ y) x = MkW x y

@@ -1,14 +1,14 @@
 # Adding dependent types to Haskell
 
 
-This page is to track design and implementation ideas around adding a form of dependent types to Haskell. This work will also fix bug [\#7961](https://gitlab.haskell.org/ghc/ghc/issues/7961). Richard Eisenberg (a.k.a. goldfire) is expecting to take on most (all?) of this work.
+This page is to track design and implementation ideas around adding a form of dependent types to Haskell. This work will also fix bug #7961. Richard Eisenberg (a.k.a. goldfire) is expecting to take on most (all?) of this work.
 
 ***Disclaimer:*** Everything below represents a research proposal. While it is my (RAE's) hope that something resembling this all will actually make it into GHC, no one should read anything too strongly into words like "will happen".
 
 # Surface Language Design
 
 
-It is possible to fix [\#7961](https://gitlab.haskell.org/ghc/ghc/issues/7961) without any surface language changes, as that bug addresses only lifting restrictions on promotion. There is a chance that this bugfix will enter HEAD without all of the other features below, but this writeup generally will not consider fixing [\#7961](https://gitlab.haskell.org/ghc/ghc/issues/7961) separate from adding dependent types.
+It is possible to fix #7961 without any surface language changes, as that bug addresses only lifting restrictions on promotion. There is a chance that this bugfix will enter HEAD without all of the other features below, but this writeup generally will not consider fixing #7961 separate from adding dependent types.
 
 ## Merging Types and Kinds
 
@@ -18,7 +18,7 @@ Following the work in [the kind equality paper](dependent-haskell#nokinds), the 
 
 There are actually two separate aspects to this change:
 
-1. Merge the grammar of types and kinds. This is a simplification (with a sizable [caveat](dependent-haskell#)) of the current scenario and will fix the original motivation for [\#8706](https://gitlab.haskell.org/ghc/ghc/issues/8706).
+1. Merge the grammar of types and kinds. This is a simplification (with a sizable [caveat](dependent-haskell#)) of the current scenario and will fix the original motivation for #8706.
 1. Add `* :: *`. Why do this? One alternative is to go the route of Coq and Agda and have an infinite tower of type universes. But, this adds a lot of complexity. These languages take this route because `* :: *` makes a language inconsistent as a logic. However, Haskell is *already* inconsistent as a logic (because of `undefined` and `GHC.Exts.Any`) and so we don't have to worry about a new source of inconsistency. Furthermore, the type safety of Haskell does not depend on its own consistency -- unlike Coq and Agda, Haskell relies on the consistency of a coercion language, which is not threatened by `* :: *`. See [the paper](dependent-haskell#nokinds) for more details.
 
 ## Quantifiers

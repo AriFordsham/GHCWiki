@@ -55,10 +55,10 @@ Use Keyword = `CSE` to ensure that a ticket ends up on these lists.
 ## More aggressive CSE
 
 
-Joachim did some experiments trying to achieve more CSE, but could not achieve a uniform win in the benchmarks. This page holds some of the notes of what has been tried, and what happened. Some of this has also been noted at [\#7596](https://gitlab.haskell.org/ghc/ghc/issues/7596). This is more a list of anecdotal insights; full insights would have led to a patch to master... :-)
+Joachim did some experiments trying to achieve more CSE, but could not achieve a uniform win in the benchmarks. This page holds some of the notes of what has been tried, and what happened. Some of this has also been noted at #7596. This is more a list of anecdotal insights; full insights would have led to a patch to master... :-)
 
 
-The main idea was to make the float out phase flout out more stuff, so that later on the CSE pass sees more possibilities to CSE expressions up. In itself, this works as expected, and solves the motivating example from [\#7596](https://gitlab.haskell.org/ghc/ghc/issues/7596), but for various reasons the results were not as good as hoped-for.
+The main idea was to make the float out phase flout out more stuff, so that later on the CSE pass sees more possibilities to CSE expressions up. In itself, this works as expected, and solves the motivating example from #7596, but for various reasons the results were not as good as hoped-for.
 
 
 Some reasons why more CSE could hurt:

@@ -6,7 +6,7 @@ This page discusses the design and implementation of "typed holes" in GHC.
 
 See also
 
-- The original ticket on this feature: [\#5910](https://gitlab.haskell.org/ghc/ghc/issues/5910). 
+- The original ticket on this feature: #5910. 
 
 
 Historical note: the [development repository](https://github.com/xnyhps/ghc) and its [ issue tracker](https://github.com/xnyhps/ghc/issues).

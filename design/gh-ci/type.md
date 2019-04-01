@@ -4,12 +4,12 @@
 This page, created on April 25, 2016, is to discuss the need (if any) to improve GHCi's `:type` command to deal with different use cases and desired output.
 
 
-Relevant tickets: [\#10963](https://gitlab.haskell.org/ghc/ghc/issues/10963) (about defaults/specializations), [\#11376](https://gitlab.haskell.org/ghc/ghc/issues/11376) (about default behavior of `:type`), and [\#11975](https://gitlab.haskell.org/ghc/ghc/issues/11975) (about printing specified variables).
+Relevant tickets: #10963 (about defaults/specializations), #11376 (about default behavior of `:type`), and #11975 (about printing specified variables).
 
 ## Problem 1: variables available for visible type application
 
 
-As discussed at length in [\#11376](https://gitlab.haskell.org/ghc/ghc/issues/11376), `:type` instantiates the inferred type before generalizing and reporting to the user. Here is the example: Given `  bar :: forall a b. Show a => a -> b -> a`, what should `:type bar @Int` show (with `-fprint-explicit-foralls`)?
+As discussed at length in #11376, `:type` instantiates the inferred type before generalizing and reporting to the user. Here is the example: Given `  bar :: forall a b. Show a => a -> b -> a`, what should `:type bar @Int` show (with `-fprint-explicit-foralls`)?
 
 1. `forall b. Show Int => Int -> b -> Int`
 1. `forall b. Int -> b -> Int`
@@ -17,7 +17,7 @@ As discussed at length in [\#11376](https://gitlab.haskell.org/ghc/ghc/issues/11
 1. `Int -> b -> Int`
 
 
-We choose (3), because (1) has an unsolved `Show Int`, (2) is quite hard to arrange for (and may not be fully specified), and (4) is ill-scoped. [\#11376](https://gitlab.haskell.org/ghc/ghc/issues/11376) has much more discussion.
+We choose (3), because (1) has an unsolved `Show Int`, (2) is quite hard to arrange for (and may not be fully specified), and (4) is ill-scoped. #11376 has much more discussion.
 
 
 However, the choice of (3) means that there is no way to discover the specified type variables of a type, where "specified" here refers to the type variables available for visible type application. For example, the type `foldr` is parameterized by three type variables, `t :: * -> *`, `a :: *` and `b :: *`, *in that order*, and these variables are available for visible type application. However, with instantiation and generalization, there is no guarantee that the variables' ordering will be maintained, and GHC reports the variables as unavailable for visible type application.

@@ -1,7 +1,7 @@
 # Continuous Integration
 
 
-This page is to support the discussion of GHC DevOps Group on the CI solution for GHC to provide continuous testing and release artefact generation. See also [\#13716](https://gitlab.haskell.org/ghc/ghc/issues/13716).
+This page is to support the discussion of GHC DevOps Group on the CI solution for GHC to provide continuous testing and release artefact generation. See also #13716.
 
 
 If you are looking for information about how to maintain our new CircleCI and Appveyor infrastructure see [ContinuousIntegration/Usage](continuous-integration/usage).
@@ -2560,15 +2560,15 @@ The following are GHC issues which are currently breaking CI builds,
 Probably easiest to just trigger those builds from GitHub (as all commits are mirrored there anyway).
 
 
-- Need to get builds on every individual commit (e.g., to do easy bisection) — see [\#14505](https://gitlab.haskell.org/ghc/ghc/issues/14505). **Alternative:** Use GitHub PRs instead of pushing to master directly.
+- Need to get builds on every individual commit (e.g., to do easy bisection) — see #14505. **Alternative:** Use GitHub PRs instead of pushing to master directly.
 
 ### Daily builds on Linux/i386, macOS/x86_64 & Windows/x86_64
 
 
 - Implement AppVeyor build config. **Blocked:** waiting for AppVeyor to increase time limit. (Apparently, Rust are on a payed plan, so maybe we have to do that, too.)
 - Linux/i386 ought to be a small change on Linux/x86_64, or is there more to it?
-- *Low priority:* Implement end-to-end testing. **Blocked:** on [\#14392](https://gitlab.haskell.org/ghc/ghc/issues/14392), [\#14411](https://gitlab.haskell.org/ghc/ghc/issues/14411) & [\#14412](https://gitlab.haskell.org/ghc/ghc/issues/14412).
-- *Low priority:* We want to run `./validate --slow` at some point — see [\#13205](https://gitlab.haskell.org/ghc/ghc/issues/13205).
+- *Low priority:* Implement end-to-end testing. **Blocked:** on #14392, #14411 & #14412.
+- *Low priority:* We want to run `./validate --slow` at some point — see #13205.
 - *Low priority:* We also want to run LLVM and unregisterised builds
 
 ### Per-PR/Differential build on Linux/x86_64

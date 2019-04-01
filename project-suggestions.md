@@ -10,7 +10,7 @@ Here are some suggestions for projects related to GHC that could be undertaken b
 
 ## Projects that should be within reach of a good undergraduate
 
-- **Implement overlap and exhaustiveness checking for pattern matching**.  GHC's current overlap and exhaustiveness checker is old and inadequate.  Furthermore, it takes no account of GADTs and type families. See [\#595](https://gitlab.haskell.org/ghc/ghc/issues/595) and [\#2395](https://gitlab.haskell.org/ghc/ghc/issues/2395).  There's an excellent selection of background material:
+- **Implement overlap and exhaustiveness checking for pattern matching**.  GHC's current overlap and exhaustiveness checker is old and inadequate.  Furthermore, it takes no account of GADTs and type families. See #595 and #2395.  There's an excellent selection of background material:
 
   - [Warnings for pattern matching](http://pauillac.inria.fr/~maranget/papers/warn/warn.pdf) by Luc Maranget (JFP 17(3), 2007)
   - [Focusing on pattern matching](http://www.cs.cmu.edu/~neelk/pattern-popl09.pdf) by Neelakantan Krishnaswami (POPL 2009)

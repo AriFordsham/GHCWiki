@@ -209,7 +209,7 @@ This occurs in *every* application, so refer to Trac tickets at will!
 ### Linking reviews to Trac tickets and vice versa
 
 
-Let's say you have a revision and it fixes a bug on Trac - like [\#8634](https://gitlab.haskell.org/ghc/ghc/issues/8634). And let's say you have a differential revision for it - like [Phab:D69](https://phabricator.haskell.org/D69).
+Let's say you have a revision and it fixes a bug on Trac - like #8634. And let's say you have a differential revision for it - like [Phab:D69](https://phabricator.haskell.org/D69).
 
 
 First, **when you submit a review, add the ticket number to the `GHC Trac Issues` field**. This field will be shown when you run `arc diff`. This field should be a comma-separated list of ticket numbers. By doing this, these ticket numbers will automatically appear in Phabricator:
@@ -217,7 +217,7 @@ First, **when you submit a review, add the ticket number to the `GHC Trac Issues
 [](https://i.imgur.com/QIGhD0T.png)
 
 
-Next, add a link to the revision in the Trac ticket. Fill out the field called "Differential Revisions" when you modify the ticket. You can hyperlink to any Phabricator revision using the syntax `Phab:Dxx` with a specific number. For example, to link to Differential Revision D69, say [Phab:D69](https://phabricator.haskell.org/D69). As an example, Ticket [\#8634](https://gitlab.haskell.org/ghc/ghc/issues/8634) has this set:
+Next, add a link to the revision in the Trac ticket. Fill out the field called "Differential Revisions" when you modify the ticket. You can hyperlink to any Phabricator revision using the syntax `Phab:Dxx` with a specific number. For example, to link to Differential Revision D69, say [Phab:D69](https://phabricator.haskell.org/D69). As an example, Ticket #8634 has this set:
 
 [](https://i.imgur.com/gYHkAhe.png)
 

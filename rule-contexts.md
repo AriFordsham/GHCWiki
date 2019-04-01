@@ -5,7 +5,7 @@ As of GHC 7.10 rewrite rules, even built-in ones, cannot inspect the context of 
 
 
 
-Consider, for example, the `litEq` built-in rule (see Bug [\#9661](https://gitlab.haskell.org/ghc/ghc/issues/9661) for further motivation). This rewrites expressions such as `n ==# 3` into case analyses of the form,
+Consider, for example, the `litEq` built-in rule (see Bug #9661 for further motivation). This rewrites expressions such as `n ==# 3` into case analyses of the form,
 
 
 ```

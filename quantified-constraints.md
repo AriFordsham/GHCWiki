@@ -21,7 +21,7 @@ Here are some resources
 
 - [Derivable type classes](https://www.microsoft.com/en-us/research/publication/derivable-type-classes), Section 7, where the idea was first proposed (I think).
 
-- [\#2893](https://gitlab.haskell.org/ghc/ghc/issues/2893), a ticket about the idea
+- #2893, a ticket about the idea
 
 - [Quantified class constraints](http://i.cs.hku.hk/~bruno//papers/hs2017.pdf), a Haskell 2017 paper that works out the idea in some detail, and a [ Reddit thread](https://www.reddit.com/r/haskell/comments/6me3sv/quantified_class_constraints_pdf/) about it.
 

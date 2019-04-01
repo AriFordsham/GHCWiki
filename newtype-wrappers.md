@@ -58,7 +58,7 @@
 
 This page proposes **newtype wrappers**, a new feature for Haskell
 indended to make newtypes more flexible and useful.  It tackles head-on 
-the problem underlying [\#7542](https://gitlab.haskell.org/ghc/ghc/issues/7542) and [\#2110](https://gitlab.haskell.org/ghc/ghc/issues/2110).
+the problem underlying #7542 and #2110.
 
 
 Email thread [here](http://www.haskell.org/pipermail/glasgow-haskell-users/2013-January/023455.html).
@@ -104,9 +104,9 @@ Alas, not easily, and certainly not without overhead.
 
 - For `x1` we can write `map MkAge x1 :: [Age]`. But this does not follow the newtype cost model: there will be runtime overhead from executing the `map` at runtime, and sharing will be lost too.  Could GHC optimise the `map` somehow?  This is hard; apart from anything else, how would GHC know that `map` was special?  And it gets worse.
 
-- For `x2` we'd have to eta-expand: `(\y -> MkAge (x2 y)) :: Char -> Age`.  But this isn't good either, because eta exapansion isn't semantically valid (if `x2` was bottom, `seq` could distinguish the two).  See [\#7542](https://gitlab.haskell.org/ghc/ghc/issues/7542) for a real life example.
+- For `x2` we'd have to eta-expand: `(\y -> MkAge (x2 y)) :: Char -> Age`.  But this isn't good either, because eta exapansion isn't semantically valid (if `x2` was bottom, `seq` could distinguish the two).  See #7542 for a real life example.
 
-- For `x3`, we'd have to map over `T`, thus `mapT MkAge x3`.  But what if `mapT` didn't exist?  We'd have to make it. And not all data types have maps. `S` is a harder one: you could only map over S-values if `m` was a functor.  There's a lot of discussion about this on [\#2110](https://gitlab.haskell.org/ghc/ghc/issues/2110).
+- For `x3`, we'd have to map over `T`, thus `mapT MkAge x3`.  But what if `mapT` didn't exist?  We'd have to make it. And not all data types have maps. `S` is a harder one: you could only map over S-values if `m` was a functor.  There's a lot of discussion about this on #2110.
 
 ## Goal
 

@@ -62,7 +62,7 @@ View patterns were introduced in GHC 6.10.  This page has been revised to reflec
 - For the previous discussion, see [ViewPatternsArchive](view-patterns-archive).
 - For an assessment of view patterns in practice, see [Neil Mitchell's blog entry](http://neilmitchell.blogspot.com/2009/11/reviewing-view-patterns.html)
 - For some discussion of implicit view patterns see [GHC feature request 3583](http://hackage.haskell.org/trac/ghc/ticket/3583)
-- For a discussion of pattern bindings and view patterns see [\#4061](https://gitlab.haskell.org/ghc/ghc/issues/4061)
+- For a discussion of pattern bindings and view patterns see #4061
 - For an alternative syntax for view patterns: [ViewPatternsAlternative](view-patterns-alternative).
 
 ## Basic view patterns

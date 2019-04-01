@@ -86,7 +86,7 @@ It seems that these do not overlap, even in the presence of infinite types. But,
 ## Problem: coincident overlap
 
 
-In the official release of GHC, it is permitted to write something like this (see [manual](http://www.haskell.org/ghc/docs/latest/html/users_guide/type-families.html#type-family-overlap)), and the extensive discussion on [\#4259](https://gitlab.haskell.org/ghc/ghc/issues/4259):
+In the official release of GHC, it is permitted to write something like this (see [manual](http://www.haskell.org/ghc/docs/latest/html/users_guide/type-families.html#type-family-overlap)), and the extensive discussion on #4259:
 
 ```wiki
 type instance F Int = Int

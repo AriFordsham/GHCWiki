@@ -1,7 +1,7 @@
 # Overview
 
 
-This page documents a proposed syntactical extension called `ArgumentDo`. The feature request is tracked at [\#10843](https://gitlab.haskell.org/ghc/ghc/issues/10843).
+This page documents a proposed syntactical extension called `ArgumentDo`. The feature request is tracked at #10843.
 
 
 

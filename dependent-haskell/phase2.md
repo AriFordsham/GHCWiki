@@ -152,7 +152,7 @@ Note the coercion quantification.
 Bottom line: a consequence of switching to homogeneous equality is that we need coercion quantification in types.  So it's time to implement it.
 
 
-Note that this currently proposes to use coercion quantification only in GADT types -- never elsewhere. In particular, the user will not be able to write a coercion-quantified type. Addressing this idea is ticket [\#15710](https://gitlab.haskell.org/ghc/ghc/issues/15710), but it's not on the critical path toward homogeneous equality.
+Note that this currently proposes to use coercion quantification only in GADT types -- never elsewhere. In particular, the user will not be able to write a coercion-quantified type. Addressing this idea is ticket #15710, but it's not on the critical path toward homogeneous equality.
 
 ### Coercions are quantified both relevantly and dependently
 
@@ -273,7 +273,7 @@ One challenge here is that `HeteroEqEvBind` binds *two* variables, and yet an `E
 For wanteds, the story is much easier: we just make a hetero equality constraint, which we'll have for wanteds anyway. (Recall that a homogeneous equality means that coercion *variables* will be homogeneous, but coercions may still be hetero.)
 
 
-So this will take a little custom coding and a Note or two, but it seems easier than other approaches. This still requires that equality evidence be strict (causing [\#11197](https://gitlab.haskell.org/ghc/ghc/issues/11197)), but the situation is no worse than today, and the approach outlined in [\#11197](https://gitlab.haskell.org/ghc/ghc/issues/11197), of fixing it in FloatIn, still works.
+So this will take a little custom coding and a Note or two, but it seems easier than other approaches. This still requires that equality evidence be strict (causing #11197), but the situation is no worse than today, and the approach outlined in #11197, of fixing it in FloatIn, still works.
 
 *Small implementation wrinkle*: Desugaring a `HeteroEqEvBind` is harder than desugaring an `EvBind`. Currently, `EvBind`s are desugared into `CoreBind`s, which can be thought of as a `(Id, CoreExpr)`, that is, something that you can use to build a Core `let`. However, a `HeteroEqEvBind` is really a `case`, not a `let`. So how will we desugar it?
 
@@ -645,6 +645,6 @@ Gah!  Looking at the bindings, transitive closure... horrible.  If every coercio
 
 
 
-**RAE:** To summarize, you propose to ignore unification variables when doing the floating-out level-check. (Presumably, we won't ignore unification variables' kinds. **SLPJ: good point; I have edited**) I'm still bothered though: we're worried about having coercion holes prevent floating. Coercion holes are very much like unification variables. If we ignore unification variables (and, by consequence, coercion holes), then do we have [\#14584](https://gitlab.haskell.org/ghc/ghc/issues/14584) again? If we don't ignore coercion holes, then when will coercion holes ever get floated? I'm still very unconvinced here. **End RAE**
+**RAE:** To summarize, you propose to ignore unification variables when doing the floating-out level-check. (Presumably, we won't ignore unification variables' kinds. **SLPJ: good point; I have edited**) I'm still bothered though: we're worried about having coercion holes prevent floating. Coercion holes are very much like unification variables. If we ignore unification variables (and, by consequence, coercion holes), then do we have #14584 again? If we don't ignore coercion holes, then when will coercion holes ever get floated? I'm still very unconvinced here. **End RAE**
 
 

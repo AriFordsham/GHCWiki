@@ -230,7 +230,7 @@ It takes a different perspective, in that \`x is just a way to write a type leve
 1. It's not just record types, any lens can go in the lens composition, e.g. one for Data.Map.  So you can translate imperative `record.a.b[c].d = 42` to `set (#d . Map.lens c . #b . #a) 42 record`.  Make a new operators if you like left to right or want infix modification.
 1. Module export list controls access over record fields as always.
 1. Orthogonal to records: any function can be addressed.
-1. "Support" for polymorphic and higher-ranked fields, via existing record update syntax.  It's a cheat because it's also con [\#2](https://gitlab.haskell.org/ghc/ghc/issues/2), but I think it's a valid design to build on top of the existing syntax instead of replacing it.  Maybe it can be extended to support fancy stuff later, but meanwhile it solves the simple case while not precluding the complicated one.
+1. "Support" for polymorphic and higher-ranked fields, via existing record update syntax.  It's a cheat because it's also con #2, but I think it's a valid design to build on top of the existing syntax instead of replacing it.  Maybe it can be extended to support fancy stuff later, but meanwhile it solves the simple case while not precluding the complicated one.
 
 ## cons
 

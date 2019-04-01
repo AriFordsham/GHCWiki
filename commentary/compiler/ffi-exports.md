@@ -1,7 +1,7 @@
 # FFI Exports
 
 
-On this page I've collected some information about how we handle FFI exports which I found while working on [\#15808](https://gitlab.haskell.org/ghc/ghc/issues/15808).
+On this page I've collected some information about how we handle FFI exports which I found while working on #15808.
 
 
 It's incomplete but should hopefully make the journey less painful for these who follow my footsteps.

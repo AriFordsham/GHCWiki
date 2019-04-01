@@ -1,7 +1,7 @@
 # Native `{-# LANGUAGE CPP #-}`
 
 
-The status of this proposal is tracked by [\#14553](https://gitlab.haskell.org/ghc/ghc/issues/14553).
+The status of this proposal is tracked by #14553.
 
 ## Problem Statement
 
@@ -60,11 +60,11 @@ Currently, GHC relies on the system-installed [C-preprocessor](http://en.wikiped
 
   - Consider all the Clang-issues GHC experienced when Apple switched from the GCC toolchain to the Clang toolchain
   - Packages using `-XCPP` only tested with one system-`cpp` variant may not work with another system-`cpp` which either means more testing-cost and/or support-costs
-  - Clang cpp does not support stringize and string concatenation in traditional mode (see ticket [\#12516](https://gitlab.haskell.org/ghc/ghc/issues/12516))
+  - Clang cpp does not support stringize and string concatenation in traditional mode (see ticket #12516)
 
 - As system-`cpp` is designed to handle mostly C-code, it conflicts with Haskell's tokenization/syntax, specifically:
 
-  - Haskell-multi-line string literals can't be used anymore with `-XCPP` (c.f. [SO Question](http://stackoverflow.com/questions/2549167/cpp-extension-and-multiline-literals-in-haskell) and/or [\#10230](https://gitlab.haskell.org/ghc/ghc/issues/10230))
+  - Haskell-multi-line string literals can't be used anymore with `-XCPP` (c.f. [SO Question](http://stackoverflow.com/questions/2549167/cpp-extension-and-multiline-literals-in-haskell) and/or #10230)
   - Haddock comments get mangled as system-`cpp` isn't aware of Haskell comments
   - system-`cpp` may get confused about "unterminated" `'`s even though in Haskell they are not always used for quoting character literals. For example, Haskell allows variable names like `x'` or even `x'y`.  Another practical example from the [int-cast](http://hackage.haskell.org/package/int-cast) package, in the following code
 

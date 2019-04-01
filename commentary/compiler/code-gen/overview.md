@@ -61,13 +61,13 @@ The core of the Cmm pipeline is implemented by the `cpsTop` function in [compile
   - inlines assignments to registers that are mentioned only once
   - discards dead assignments
 
-  **This pass is optional.** It currently does not eliminate dead code in loops (#8327) and has some other minor deficiencies (eg. [\#8336](https://gitlab.haskell.org//ghc/ghc/issues/8336)).
+  **This pass is optional.** It currently does not eliminate dead code in loops (#8327) and has some other minor deficiencies (eg. #8336).
 
 - **CAF analysis**, implemented in `CmmBuildInfoTables`. Computed CAF information is returned from `cmmPipeline` and used to create Static Reference Tables (SRT). See [here](commentary/rts/storage/gc/CAFs) for some more detail on CAFs and SRTs. This pass is implemented using Hoopl (see below).
 
 - **Proc-point analysis and splitting** (only when splitting proc-points), implemented by `procPointAnalysis` in `CmmProcPoint`, takes a list of proc-points and for each block and determines from which proc-point the block is reachable. This is implemented using Hoopl.
   Then the call to `splitAtProcPoints` splits the Cmm graph into multiple Cmm graphs (each represents a single function) and build info tables to each of them.
-  When doing this we must be prepared for the fact that a proc-point does not actually exist in the graph since it was removed by stack layout pass (see [\#8205](https://gitlab.haskell.org//ghc/ghc/issues/8205)).
+  When doing this we must be prepared for the fact that a proc-point does not actually exist in the graph since it was removed by stack layout pass (see #8205).
 
 - **Attach continuations' info tables** (only when NOT splitting proc-points), implemented by `attachContInfoTables` in `CmmProcPoint` attaches info tables for the continuations of calls in the graph. *\[PLEASE WRITE MORE IF YOU KNOW WHY THIS IS DONE\]*
 

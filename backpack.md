@@ -47,7 +47,7 @@ Some more out-of-date documents:
 
 **Can I use this with the C preprocessor?** Yes; this used to be buggy but the fix is released in the latest version of GHC.
 
-**Make sure cabal-version is recent enough.** ([\#4448](https://github.com/haskell/cabal/issues/4448)) If you set the `cabal-version` of your package too low, you may get this error:
+**Make sure cabal-version is recent enough.** (#4448) If you set the `cabal-version` of your package too low, you may get this error:
 
 ```wiki
 Error:

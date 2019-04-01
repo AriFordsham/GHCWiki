@@ -60,7 +60,7 @@ See also the individual questions sections below.
 - Any comments would be gladly received!
 
 
-There is [\#11011](https://gitlab.haskell.org/ghc/ghc/issues/11011) for discussion of this proposal.
+There is #11011 for discussion of this proposal.
 
 ---
 

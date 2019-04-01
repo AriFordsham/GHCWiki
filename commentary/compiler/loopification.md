@@ -10,10 +10,10 @@ Here is a summary of relevant links and tickets
 
 - Tickets:
 
-  - [\#8285](https://gitlab.haskell.org/ghc/ghc/issues/8285)
-  - [\#8793](https://gitlab.haskell.org/ghc/ghc/issues/8793), [\#11372](https://gitlab.haskell.org/ghc/ghc/issues/11372); see comment 15 of [\#8793](https://gitlab.haskell.org/ghc/ghc/issues/8793)) etc, where it seems that we are missing loopification for a simple IO function
-  - [\#8585](https://gitlab.haskell.org/ghc/ghc/issues/8585) concerned getting the loop to start *after* the stack check
-  - [\#13567](https://gitlab.haskell.org/ghc/ghc/issues/13567): Do loopification using join points
+  - #8285
+  - #8793, #11372; see comment 15 of #8793) etc, where it seems that we are missing loopification for a simple IO function
+  - #8585 concerned getting the loop to start *after* the stack check
+  - #13567: Do loopification using join points
 
 ## Current implementation (Apr 17)
 

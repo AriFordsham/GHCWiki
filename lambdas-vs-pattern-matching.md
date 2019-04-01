@@ -1,5 +1,5 @@
 
-This page is a summary of proposals from [\#4359](https://gitlab.haskell.org/ghc/ghc/issues/4359)
+This page is a summary of proposals from #4359
 
 ## The problem
 

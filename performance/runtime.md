@@ -5,10 +5,10 @@ Here is where we track various on-going efforts to improve the runtime performan
 
 ## Relevant tickets
 
-- [\#10992](https://gitlab.haskell.org/ghc/ghc/issues/10992): `Data.List.sum` is much slower than the naive recursive definition for it.  Does not happen in 7.8.
-- [\#6166](https://gitlab.haskell.org/ghc/ghc/issues/6166): An alleged runtime performance regression in `mwc-random`.
+- #10992: `Data.List.sum` is much slower than the naive recursive definition for it.  Does not happen in 7.8.
+- #6166: An alleged runtime performance regression in `mwc-random`.
 
-- [\#14980](https://gitlab.haskell.org/ghc/ghc/issues/14980) (regressed in 8.4): Runtime performance regression with binary operations on vectors 
+- #14980 (regressed in 8.4): Runtime performance regression with binary operations on vectors 
 
 
 Identify tickets by using "Runtime performance bug" for the "Type of failure field".
@@ -1347,7 +1347,7 @@ Baseline is 7.4.2.
   - 7.6.3: `<<ghc: 870987952 bytes, 1668 GCs (1666 + 2), 0/0 avg/max bytes residency (0 samples), 84640 bytes GC work, 1M in use, 0.00 INIT (0.00 elapsed), 2.43 MUT (2.43 elapsed), 0.00 GC (0.00 elapsed), 0.00 GC(0) (0.00 elapsed), 0.00 GC(1) (0.00 elapsed), 1 balance :ghc>>`
   - 7.4.2: `<<ghc: 74944 bytes, 1 GCs (0 + 1), 0/0 avg/max bytes residency (0 samples), 3512 bytes GC work, 1M in use, 0.00 INIT (0.00 elapsed), 2.25 MUT (2.25 elapsed), 0.00 GC (0.00 elapsed), 0.00 GC(0) (0.00 elapsed), 0.00 GC(1) (0.00 elapsed), 1 balance :ghc>>`
   - According to \[[FoldrBuildNotes](foldr-build-notes)\] this test is very sensitive to fusion
-  - Filed [\#10717](https://gitlab.haskell.org/ghc/ghc/issues/10717) to track this.
+  - Filed #10717 to track this.
 
 ##### 7.6 to 7.8
 

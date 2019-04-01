@@ -140,10 +140,10 @@ As it seems possible to implement most of the functionality in a library, there 
 
 - portability: it would be nice if extensible records libraries were portable over multiple Haskell implementations. That not only means that these implementations need to support the same features, but that they need to interpret these features in the same way (this is currently not the case for the interaction of functional dependencies and type class overlap resolution in GHC and Hugs).
 
-- permutativity: The easiest way to implement permutativity of field labels is to sort them by some total ordering. Although this can be implemented using functional dependencies, it's complex and inefficient. Compiler support for a global order on tycons (based on fully qualified name, perhaps) would be very helpful. I have submitted a feature request [\#1894](https://gitlab.haskell.org/ghc/ghc/issues/1894). Does this conflict with type sharing?
+- permutativity: The easiest way to implement permutativity of field labels is to sort them by some total ordering. Although this can be implemented using functional dependencies, it's complex and inefficient. Compiler support for a global order on tycons (based on fully qualified name, perhaps) would be very helpful. I have submitted a feature request #1894. Does this conflict with type sharing?
 
 
-I have submitted another feature request, [\#2104](https://gitlab.haskell.org/ghc/ghc/issues/2104), which would support permutativity and labels without declaration, as well as sort out sharing in the simplest possible way (all labels are global).
+I have submitted another feature request, #2104, which would support permutativity and labels without declaration, as well as sort out sharing in the simplest possible way (all labels are global).
 
 # Examples
 

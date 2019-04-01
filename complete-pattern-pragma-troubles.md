@@ -3,7 +3,7 @@ A couple issues have arisen with `COMPLETE` pragmas for patterns.
 
 ### Type issues
 
-[\#14135](https://gitlab.haskell.org/ghc/ghc/issues/14135) involves a panic when types don't match up correctly. Simon's suggestion in
+#14135 involves a panic when types don't match up correctly. Simon's suggestion in
 [ticket:14135\#comment:8](https://gitlab.haskell.org/ghc/ghc/issues/14135) seems to make a lot of sense:
 
 
@@ -36,7 +36,7 @@ uninhabited.
 
 
 Pattern matches on *individual constructors* can't overlap. This is *not* the
-case for general pattern synonyms. This is highlighted by [\#14253](https://gitlab.haskell.org/ghc/ghc/issues/14253). In particular, the
+case for general pattern synonyms. This is highlighted by #14253. In particular, the
 fact that `P1` and `P2` form a `COMPLETE` set does *not* mean that other patterns
 are necessarily redundant. The simplest rule that will do something fairly sensible
 is this: only consider patterns redundant as a result of a `COMPLETE` pragma if they

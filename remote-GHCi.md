@@ -16,7 +16,7 @@ There are several reasons for wanting to do this:
 
 - It **decouples the compiler from the interpreted code**, meaning that they can run on separate runtimes.  This means that the interpreted code can run profiled while the compiler can be unprofiled, for example.   
 
-- We can have **stack traces in interpreted code** ([\#11047](https://gitlab.haskell.org/ghc/ghc/issues/11047)), without the compiler itself having to be profiled.
+- We can have **stack traces in interpreted code** (#11047), without the compiler itself having to be profiled.
 
 - It separates the decision about whether to use the dynamic linker for interpreted code from whether GHC itself must be dynamically linked.  We could **go back to a statically-linked GHC, which should be faster.
   **
@@ -35,7 +35,7 @@ There are several reasons for wanting to do this:
 
 - The virtual CWD in `InteractiveEval` is not necessary, because the GHCi process has its own CWD.
 
-- We could use TH and limited GHCi without any dynamic linker support at all. ([\#12218](https://gitlab.haskell.org/ghc/ghc/issues/12218))
+- We could use TH and limited GHCi without any dynamic linker support at all. (#12218)
 
 ## Disadvantages
 

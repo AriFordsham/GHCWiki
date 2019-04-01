@@ -2,7 +2,7 @@
 This is a proposal (formerly named *pattern families*) for extending pattern synonyms ([PatternSynonyms](pattern-synonyms)) allowing patterns to depend on terms. The implementation is a straightforward desugaring into pattern synonyms and view patterns ([ViewPatterns](view-patterns)) so familiarity with those two extensions is recommended before reading the proposal.
 
 
-The ticket associated with this design is [\#9671](https://gitlab.haskell.org/ghc/ghc/issues/9671).
+The ticket associated with this design is #9671.
 
 
 

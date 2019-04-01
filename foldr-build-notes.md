@@ -84,7 +84,7 @@ Guess: it may be that there isn't enough opportunity for inlining to do anything
 Q: Why does `repeat` fuse, but not `cycle`?
 
 
-A: See [\#9398](https://gitlab.haskell.org/ghc/ghc/issues/9398). This seems almost to work out, but then it doesn't quite—things that are unboxed when the current implementation is used aren't, and it can be very bad.
+A: See #9398. This seems almost to work out, but then it doesn't quite—things that are unboxed when the current implementation is used aren't, and it can be very bad.
 
 
 Q: Why does making one thing fuse sometimes make something else not fuse?

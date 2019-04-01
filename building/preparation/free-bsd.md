@@ -116,7 +116,7 @@ Here is a random list of thoughts about things that are good to know when workin
 
 - The GHC source code have an in-tree version of `libffi` and `gmp` which may work by accident -- especially if the version of `libgmp.so` and `libffi.so` matches the version installed by the ports.  But using them is not recommended as they could result in various strange build and run-time errors.  See the `configure` options to work around them.
 
-- In an extremely high-speed environment it might happen that `gmake` restarts multiple times, c.f. [\#7592](https://gitlab.haskell.org/ghc/ghc/issues/7592).  This is because timestamp precision for the VFS layer is set to a POSIX-friendly value by default. Adjusting the `vfs.timestamp_precision` sysctl(3) variable can help.
+- In an extremely high-speed environment it might happen that `gmake` restarts multiple times, c.f. #7592.  This is because timestamp precision for the VFS layer is set to a POSIX-friendly value by default. Adjusting the `vfs.timestamp_precision` sysctl(3) variable can help.
 
 - Building GHC sources and Haskell sources in general could be sped up by setting up a [tmpfs(5)](http://www.freebsd.org/cgi/man.cgi?query=tmpfs&apropos=0&sektion=0&manpath=FreeBSD+9.1-stable&arch=default&format=html) partition.  (This is not created by the default install.)  Just replace the `/tmp` partition with a tmpfs-backed entry in `/etc/fstab`:
 

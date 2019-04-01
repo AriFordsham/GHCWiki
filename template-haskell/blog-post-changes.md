@@ -3,7 +3,7 @@
 **Nota bene:** These changes have largely all been implemented in GHC 7.8 (although there are a few dangling tickets which are left.) When in doubt, look at the linked tickets.
 
 
-This page explores a set of design proposals for Template Haskell.  They are inspired by discussion with Tim Sheard, Kathleen Fisher, and Jacques Carette.  It was originally triggered by several Template Haskell tickets: including [\#4230](https://gitlab.haskell.org/ghc/ghc/issues/4230), [\#4135](https://gitlab.haskell.org/ghc/ghc/issues/4135), [\#4128](https://gitlab.haskell.org/ghc/ghc/issues/4128), [\#4170](https://gitlab.haskell.org/ghc/ghc/issues/4170), [\#4125](https://gitlab.haskell.org/ghc/ghc/issues/4125), [\#4124](https://gitlab.haskell.org/ghc/ghc/issues/4124), [\#4364](https://gitlab.haskell.org/ghc/ghc/issues/4364), [\#6062](https://gitlab.haskell.org/ghc/ghc/issues/6062), [\#6089](https://gitlab.haskell.org/ghc/ghc/issues/6089). (See also [\#7016](https://gitlab.haskell.org/ghc/ghc/issues/7016), which work better with the suggestions below.) Taken together, these proposals would make quite a big change to TH, I think for the better.  Happily, I'm pretty sure they are relatively easy to implement.  
+This page explores a set of design proposals for Template Haskell.  They are inspired by discussion with Tim Sheard, Kathleen Fisher, and Jacques Carette.  It was originally triggered by several Template Haskell tickets: including #4230, #4135, #4128, #4170, #4125, #4124, #4364, #6062, #6089. (See also #7016, which work better with the suggestions below.) Taken together, these proposals would make quite a big change to TH, I think for the better.  Happily, I'm pretty sure they are relatively easy to implement.  
 
 
 The page was originally [this blog post](http://hackage.haskell.org/trac/ghc/blog/Template%20Haskell%20Proposal), but has moved here so that others can edit it.
@@ -182,7 +182,7 @@ We can't sensibly typecheck the term without knowing what f's type signature
 is, and we can't know that without expanding the splice.
 
 
-Here's a rather different example, [\#4364](https://gitlab.haskell.org/ghc/ghc/issues/4364):
+Here's a rather different example, #4364:
 
 ```wiki
 type N0 = $( [t| Z |] )
@@ -235,7 +235,7 @@ On the "make-it-weaker" front, here's what I propose:
 
 - **Cease typechecking TH quotes altogether**. Instead, to use GHC's terminology, we would *rename* a quote, but not *typecheck* it.  The renaming pass ensures that the scope hygiene mechanisms would remain unchanged.  By not attempting to typecheck we avoid all the tricky problems sketched above.
 
-- **Add pattern splices and local declaration splices**, as requested in [\#1476](https://gitlab.haskell.org/ghc/ghc/issues/1476). For example
+- **Add pattern splices and local declaration splices**, as requested in #1476. For example
 
   ```wiki
   -- mkPat :: Q Pat -> Q Pat
@@ -251,7 +251,7 @@ On the "make-it-weaker" front, here's what I propose:
 
 >
 >
-> This solves [\#4364](https://gitlab.haskell.org/ghc/ghc/issues/4364) because we run the splice in the renamer, so things are sorted out by the time we are checking for cycles (in the type checker).
+> This solves #4364 because we run the splice in the renamer, so things are sorted out by the time we are checking for cycles (in the type checker).
 >
 >
 
@@ -554,9 +554,9 @@ typechecked.
 ## Part D: quasiquotation
 
 
-This part is unrelated to the preceding proposals, and is responding to [\#4372](https://gitlab.haskell.org/ghc/ghc/issues/4372) and [\#2041](https://gitlab.haskell.org/ghc/ghc/issues/2041).
+This part is unrelated to the preceding proposals, and is responding to #4372 and #2041.
 
-- For [\#2041](https://gitlab.haskell.org/ghc/ghc/issues/2041), rather than the proposal made there, I think the nicest thing is for `Language.Haskell.TH` to expose a *Haskell* quasiquoter:
+- For #2041, rather than the proposal made there, I think the nicest thing is for `Language.Haskell.TH` to expose a *Haskell* quasiquoter:
 
   ```wiki
   parseHaskell :: QuasiQuoter
@@ -580,14 +580,14 @@ This part is unrelated to the preceding proposals, and is responding to [\#4372]
 >
 > >
 > >
-> > See [\#4430](https://gitlab.haskell.org/ghc/ghc/issues/4430) for an excellent point about fixities.
+> > See #4430 for an excellent point about fixities.
 > >
 > >
 >
 
-- For [\#4372](https://gitlab.haskell.org/ghc/ghc/issues/4372), I'm a bit agnostic.  There is no technical issue here; it's just about syntax.  Read the notes on the ticket.
+- For #4372, I'm a bit agnostic.  There is no technical issue here; it's just about syntax.  Read the notes on the ticket.
 
-- See [\#4429](https://gitlab.haskell.org/ghc/ghc/issues/4429) for a suggestion about reifying `Names`.
+- See #4429 for a suggestion about reifying `Names`.
 
 ---
 
@@ -598,4 +598,4 @@ This part is unrelated to the preceding proposals, and is responding to [\#4372]
 This section collects other TH changes that I think should be done.
 
 
-- The `InfixE` constructor of `Syntax.Exp` should only allow a `Var` in the operator position.  See Trac [\#4877](https://gitlab.haskell.org/ghc/ghc/issues/4877)
+- The `InfixE` constructor of `Syntax.Exp` should only allow a `Var` in the operator position.  See Trac #4877

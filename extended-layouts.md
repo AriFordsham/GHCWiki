@@ -1,5 +1,5 @@
 
-This page is discussing the feature request of generalized `do`-layouts, see ticket [\#5744](https://gitlab.haskell.org/ghc/ghc/issues/5744).
+This page is discussing the feature request of generalized `do`-layouts, see ticket #5744.
 
 
 For translation and typechecking rules the following notation is used:

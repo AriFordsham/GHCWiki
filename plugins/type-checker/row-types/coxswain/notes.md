@@ -55,7 +55,7 @@ touchables (alpha[tau:2], alpha[tau:2])
 ```
 
 
-(I opened [\#15147](https://gitlab.haskell.org/ghc/ghc/issues/15147) because the `fsk` is supposedly unexpected in a
+(I opened #15147 because the `fsk` is supposedly unexpected in a
 Wanted.)
 
 

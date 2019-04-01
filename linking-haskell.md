@@ -83,8 +83,8 @@ SM: We now have [RemoteGHCi](remote-GHCi), which means that it will become irrel
 
 ### Issues
 
-1. To load dynamic C libraries the development files for the C library need to be installed. [\#9498](https://gitlab.haskell.org/ghc/ghc/issues/9498)
-1. On some systems the development library file contains a linker script and the RTS linker implementation of the parser trips over some linker scripts. [\#9237](https://gitlab.haskell.org/ghc/ghc/issues/9237)
+1. To load dynamic C libraries the development files for the C library need to be installed. #9498
+1. On some systems the development library file contains a linker script and the RTS linker implementation of the parser trips over some linker scripts. #9237
 
 ### Proposal
 

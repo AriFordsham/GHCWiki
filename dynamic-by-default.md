@@ -15,7 +15,7 @@ There is some benefit (in terms of both bugs fixed and code removed) to removing
 Our solution is to switch GHCi from using the "static way", to using the "dynamic way". GHCi will then use the system linker to load the `.dll` for the library, rather than using the GHCi linker to load the `.a`.
 
 
-(See [\#3658](https://gitlab.haskell.org/ghc/ghc/issues/3658) for related design decisions etc.)
+(See #3658 for related design decisions etc.)
 
 
 For this to work, there is technically no need to change anything else: ghc could continue to compile for the static way by default. However, there are 2 problems that arise:
@@ -804,7 +804,7 @@ It would still be possible to compile programs using the "static way" by giving 
 ### Cabal support
 
 
-Currently released versions of Cabal/cabal-install don't handle dynamic-by-default GHCs well, as they don't pass the `-static` flag when building for static ways (as they assume that it is enabled by default). We should get fixed versions out as soon as possible ([\#7439](https://gitlab.haskell.org/ghc/ghc/issues/7439)).
+Currently released versions of Cabal/cabal-install don't handle dynamic-by-default GHCs well, as they don't pass the `-static` flag when building for static ways (as they assume that it is enabled by default). We should get fixed versions out as soon as possible (#7439).
 
 ### Profiling
 

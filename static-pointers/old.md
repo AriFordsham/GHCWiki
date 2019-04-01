@@ -4,7 +4,7 @@
 These notes discuss the design of the language extension for static pointers as proposed in [\[1](static-pointers/old#)\] (called “static values” there). This language extension is useful for remoting computations to a distant machine. This wiki page documents the extension and its implementation, but first starts with how its meant tobe used with the help of some userland libraries (the “Cloud Haskell” section).
 
 
-The corresponding Trac ticket to track progress is [\#7015](https://gitlab.haskell.org/ghc/ghc/issues/7015).
+The corresponding Trac ticket to track progress is #7015.
 
 
 See also [Simon PJ's long blog post](/trac/ghc/blog/simonpj/StaticPointers).

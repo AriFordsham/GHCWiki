@@ -1,10 +1,10 @@
 # Update to Roles
 
 
-It has become (somewhat) clear that the Roles mechanism as implemented in GHC 7.8 is insufficient. (See [examples](roles2#examples) below.) This page is dedicated to creating a new design for roles that might fix the problems, continuing the discussion started in [\#9123](https://gitlab.haskell.org/ghc/ghc/issues/9123).
+It has become (somewhat) clear that the Roles mechanism as implemented in GHC 7.8 is insufficient. (See [examples](roles2#examples) below.) This page is dedicated to creating a new design for roles that might fix the problems, continuing the discussion started in #9123.
 
 
-See also the [main roles wiki page](roles) and these related tickets: [\#9117](https://gitlab.haskell.org/ghc/ghc/issues/9117), [\#9118](https://gitlab.haskell.org/ghc/ghc/issues/9118), [\#9123](https://gitlab.haskell.org/ghc/ghc/issues/9123), and [\#9131](https://gitlab.haskell.org/ghc/ghc/issues/9131).
+See also the [main roles wiki page](roles) and these related tickets: #9117, #9118, #9123, and #9131.
 
 ## Problem examples
 
@@ -166,7 +166,7 @@ Using the enhanced rule (as suggested originally by Edward Kmett) will thus lead
 
 Writing the solver still presents challenges. There are many "overlapping instances" floating around -- in other words, the solver may choose to go down a dead-end path when a perfectly good path exists. In particular, we must be wary of unification variables that might become more informative. It seems that simplifying a wanted `Coercible` constraint that has unification variables present is a bad idea. However, this problem (of increased information) does not exist with *skolems*, for which the solver will *not* get more information. Because all solutions are equivalent, we do not care if a skolem variable is instantiated with a type that could yield a different solution. (Contrast to OverlappingInstances, which cares very much about skolems.) We just care that the solver works independent of when unification variables are solved. This may or may not be related to the parameter to GHC's `SkolemTv` constructor. (RAE thinks the ideas are close, but the implementations won't be.)
 
-**Conjecture:** normalizing newtypes (with respect to in-scope constructors) first, before anything else, is a good starting point. Indeed, this idea has been adopted en route to solving [\#9117](https://gitlab.haskell.org/ghc/ghc/issues/9117).
+**Conjecture:** normalizing newtypes (with respect to in-scope constructors) first, before anything else, is a good starting point. Indeed, this idea has been adopted en route to solving #9117.
 
 ### Open user-facing design questions
 
@@ -207,7 +207,7 @@ instance Rep m => Rep (ReaderT r m)
 
 1. The `ReaderT` example defined `ReaderT` as a newtype. The `Rep` instance shown is indeed writable by hand, right now. But, if `ReaderT` were defined as a *data* type, the `Rep` instance would be impossible to write, as there are no newtype-unwrapping instances. It seems a new form of axiom would be necessary to implement this trick for data types. This axiom would have to be produced at the data type definition, much like how newtype axioms are produced with newtype definitions.
 
-1. The `Coercible` solver is getting somewhat involved already ([\#9117](https://gitlab.haskell.org/ghc/ghc/issues/9117), [\#9131](https://gitlab.haskell.org/ghc/ghc/issues/9131)). Can this be incorporated cleanly? We surely hope that the solver is sound with respect to the definition of representational coercions in Core. How complete is it? How will this affect completeness? In other words, will adding this extension necessarily mean that there are more types that are provably representationally equal but which GHC is unable to find this proof?
+1. The `Coercible` solver is getting somewhat involved already (#9117, #9131). Can this be incorporated cleanly? We surely hope that the solver is sound with respect to the definition of representational coercions in Core. How complete is it? How will this affect completeness? In other words, will adding this extension necessarily mean that there are more types that are provably representationally equal but which GHC is unable to find this proof?
 
 ### Other issues
 

@@ -10,14 +10,14 @@ This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias a
 
 - Bug list (code-gen related bugs that we may be able to fix):
 
-  - [\#1498](https://gitlab.haskell.org/ghc/ghc/issues/1498) (avoid redundant heap check on the fast path)
-  - [\#3552](https://gitlab.haskell.org/ghc/ghc/issues/3552) (unreachable code)
-  - [\#3462](https://gitlab.haskell.org/ghc/ghc/issues/3462) (a feature)
-  - [\#2249](https://gitlab.haskell.org/ghc/ghc/issues/2249)
-  - [\#2253](https://gitlab.haskell.org/ghc/ghc/issues/2253)
-  - [\#2289](https://gitlab.haskell.org/ghc/ghc/issues/2289)
-  - [\#7219](https://gitlab.haskell.org/ghc/ghc/issues/7219) (reinstate constant-prop)
-  - [\#7213](https://gitlab.haskell.org/ghc/ghc/issues/7213) (massive array)
+  - #1498 (avoid redundant heap check on the fast path)
+  - #3552 (unreachable code)
+  - #3462 (a feature)
+  - #2249
+  - #2253
+  - #2289
+  - #7219 (reinstate constant-prop)
+  - #7213 (massive array)
 
 - (Sept 12) New code generator is live.  Here's the [page listing clean-up tasks](commentary/compiler/new-code-gen/cleanup) that we can now do.
 

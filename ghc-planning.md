@@ -27,7 +27,7 @@ Ian's projects
 
 - **GHC API**. File/reclassify bugs/tasks from the API users.
 
-- **Ghc Performance Index** ([\#1009](https://gitlab.haskell.org/ghc/ghc/issues/1009)).
+- **Ghc Performance Index** (#1009).
 
 - **Download statistics**
 
@@ -67,7 +67,7 @@ Simon M's projects
 
 This list intended to be in priority order (but of course the priorities might not be right!)
 
-- **Windows installers**. Want to help Neil get going (see also [\#604](https://gitlab.haskell.org/ghc/ghc/issues/604)).
+- **Windows installers**. Want to help Neil get going (see also #604).
 - **Merge commentaries**. We should merge all the info from the old commentary into the new one and then remove the old one.
 - **Dynamicise flags**. `-auto-all` should be dynamic, and `-prof` too if it's easy. And many, many others!
 - **stdin/stdout/stderr**. The initialisation should be done at startup, not when stdin/stdout/stderr are forced. May be tricky on Windows when we don't have a console.

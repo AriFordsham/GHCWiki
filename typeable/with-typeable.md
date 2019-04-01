@@ -62,7 +62,7 @@ The proposal here is to lock in this approach as part of the definition of the G
 ### But that's impredicative!
 
 
-The constraint `Coercible (a -> r) (D a => r)` is indeed impredicative, and we can't reasonably expect GHC to infer the type `coerce :: (a -> r) -> (D a => r)`. But, with explicit type application ([\#5296](https://gitlab.haskell.org/ghc/ghc/issues/5296)), this is straightforward. Indeed, in the proposed implementation ([Phab:D1138](https://phabricator.haskell.org/D1138)), we can (almost) say `coerce :: (D a => r) -> (a -> r)`. The only thing holding us back is that the `Coercible` mechanism requires newtypes' constructors to be in scope in order to unwrap them. Dictionary constructors are never in scope, so this check fails.
+The constraint `Coercible (a -> r) (D a => r)` is indeed impredicative, and we can't reasonably expect GHC to infer the type `coerce :: (a -> r) -> (D a => r)`. But, with explicit type application (#5296), this is straightforward. Indeed, in the proposed implementation ([Phab:D1138](https://phabricator.haskell.org/D1138)), we can (almost) say `coerce :: (D a => r) -> (a -> r)`. The only thing holding us back is that the `Coercible` mechanism requires newtypes' constructors to be in scope in order to unwrap them. Dictionary constructors are never in scope, so this check fails.
 
 
 But, if we simply say that `-XIncoherentInstances` allows the `Coercible` solver to skip this check for class dictionaries, then we're home free. Problem solved.

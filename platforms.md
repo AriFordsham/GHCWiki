@@ -77,7 +77,7 @@ Criteria for Tier 1 platforms:
 
 
 
-**\*W** Windows DLL support currently quite limited due to platform limitations (see [\#5987](https://gitlab.haskell.org/ghc/ghc/issues/5987))
+**\*W** Windows DLL support currently quite limited due to platform limitations (see #5987)
 
 ## Tier 2 platforms
 

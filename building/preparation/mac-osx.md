@@ -56,7 +56,7 @@ Firstly, you need to install the Xcode Command Line tools from Apple. You can do
 Get the most recent version of Apple's Xcode tools that you can. Your OS X CD has a version on it. You may be able to download a newer version from the [Apple Developer Connection](http://developer.apple.com/tools/xcode) website. You may need to sign up for a free membership in the Apple Developer Connection, and downloading may still cost a little money.  In later versions of OS X (10.6 / 10.7), Apple added the "App Store". Xcode is available within the App Store for "Free".
 
 
-Successful builds of older GHC sources have been reported using Xcode 3.0, 2.4 and 2.4.1 on Intel Macs. Xcode 2.2.1 is known *not* to work out of the box on Intel Macs, and Xcode 3.0 is known *not* to work out of the box on PowerPC Macs ([\#2887](https://gitlab.haskell.org/ghc/ghc/issues/2887)). Versions prior to 3.1 may build GHC successfully, but choke on certain libraries.
+Successful builds of older GHC sources have been reported using Xcode 3.0, 2.4 and 2.4.1 on Intel Macs. Xcode 2.2.1 is known *not* to work out of the box on Intel Macs, and Xcode 3.0 is known *not* to work out of the box on PowerPC Macs (#2887). Versions prior to 3.1 may build GHC successfully, but choke on certain libraries.
 
 ## GHC
 
@@ -100,7 +100,7 @@ to you `mk/build.mk` file  (which hosts all your other build system config prefe
 Running a command like  `export MACOSX_DEPLOYMENT_TARGET=10.7` before building will imply setting `-mmacosx-version-min=version` for clang and friends, and will result in a GHC build that can run on any OS X `>= version` (where version can be older than the host machine's OS X version). 
 
 
-Note that this the deployment target does not affect library availability. This means that builds performed on Sierra (macOS 10.12) systems (which have `clock_gettime`), will be incompatible with previous OS X releases (see [\#12858](https://gitlab.haskell.org/ghc/ghc/issues/12858)). If you need to build a binary distribution on Sierra which is compatible with previous releases, it's best to simply disable `clock_gettime` support at configuration time, such as by setting the environment variables as follows
+Note that this the deployment target does not affect library availability. This means that builds performed on Sierra (macOS 10.12) systems (which have `clock_gettime`), will be incompatible with previous OS X releases (see #12858). If you need to build a binary distribution on Sierra which is compatible with previous releases, it's best to simply disable `clock_gettime` support at configuration time, such as by setting the environment variables as follows
 
 ```wiki
 export MACOSX_DEPLOYMENT_TARGET=10.7

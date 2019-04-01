@@ -496,7 +496,7 @@ instance C t where ...
 now the DFun for the instance `C T` will be attached to `T`, and so `T`'s fingerprint will change when anything about the instance changes, including `C` itself.  So there is now have a dependency of `T` on `C`, which can cause a lot of recompilation whenever `C` changes.  Modules using `T` who do not care about `C` will still be recompiled.
 
 
-This seems like it would cause a lot of unnecessary recompilation.  Indeed, in GHC 7.0.1 and earlier we tried to optimise this case, by breaking the dependency of `T` on `C` and tracking usages of DFuns directly - whenever a DFun was used, the typechecker would record the fact, and a usage on the DFun would be recorded in the interface file.  Unfortunately, there's a bug in this plan (see [\#4469](https://gitlab.haskell.org/ghc/ghc/issues/4469)).  When we're using `make`, we only recompile a module when any of the interfaces that it directly imports have changed; but a DFun dependency can refer to any module, not just the directly imported ones.  Instead, we have to ensure that if an instance related to a particular type or class has changed, then the fingerprint on either the type or class changes, which is what the current plan does.  It would be nice to optimise this in a safe way, and maybe in the future we will be able to do that.
+This seems like it would cause a lot of unnecessary recompilation.  Indeed, in GHC 7.0.1 and earlier we tried to optimise this case, by breaking the dependency of `T` on `C` and tracking usages of DFuns directly - whenever a DFun was used, the typechecker would record the fact, and a usage on the DFun would be recorded in the interface file.  Unfortunately, there's a bug in this plan (see #4469).  When we're using `make`, we only recompile a module when any of the interfaces that it directly imports have changed; but a DFun dependency can refer to any module, not just the directly imported ones.  Instead, we have to ensure that if an instance related to a particular type or class has changed, then the fingerprint on either the type or class changes, which is what the current plan does.  It would be nice to optimise this in a safe way, and maybe in the future we will be able to do that.
 
 ### Orphans
 
@@ -571,7 +571,7 @@ module that was imported by the current module.  That way, if anything about the
 that package module has changed, then we can trigger a recompilation.
 
 
-(Correctly triggering recompilation when packages change was one of the things we fixed when implementing fingerprints, see [\#1372](https://gitlab.haskell.org/ghc/ghc/issues/1372)).
+(Correctly triggering recompilation when packages change was one of the things we fixed when implementing fingerprints, see #1372).
 
 ### Package version changes
 
@@ -594,4 +594,4 @@ For recompilation avoidance to be really effective, we need to ensure that finge
 
   In GHC 6.12 we changed this so that compiler-generated bindings are given names of the form `f_x`, where `f` is the name of the exported Id that refers to the binding.  If there are multiple `f_x`s, then they are disambiguated with an integer suffix, but the numbers are assigned deterministically, by traversing the definition of `f` in depth-first left-to-right order to find references.  See `TidyPgm.chooseExternalIds`.
 
-- There are still some cases where an interface can change without changing the source code.  The ones we know about are listed in [\#4012](https://gitlab.haskell.org/ghc/ghc/issues/4012)
+- There are still some cases where an interface can change without changing the source code.  The ones we know about are listed in #4012

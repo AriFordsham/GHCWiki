@@ -2,7 +2,7 @@
 
 
 
-These are Joachim’s random scribblings in order to solve [\#9291](https://gitlab.haskell.org/ghc/ghc/issues/9291). This is wip, but of course if you want to comment on this, let me know.
+These are Joachim’s random scribblings in order to solve #9291. This is wip, but of course if you want to comment on this, let me know.
 
 
 ## The problem

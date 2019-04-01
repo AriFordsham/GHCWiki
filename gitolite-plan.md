@@ -144,7 +144,7 @@ This will correctly set up both push and pull URLs (use `http://` instead of `gi
 ## Current status
 
 
-See [\#8121](https://gitlab.haskell.org/ghc/ghc/issues/8121)
+See #8121
 
 ### Questions
 
@@ -160,4 +160,4 @@ See [\#8121](https://gitlab.haskell.org/ghc/ghc/issues/8121)
 ### Contact points
 
 
-Austin Seipp (thoughtpolice) and Herbert Valerio Riedel (hvr) can be contacted about details or specifics. If you encounter any issues, you can also comment on [\#8121](https://gitlab.haskell.org/ghc/ghc/issues/8121).
+Austin Seipp (thoughtpolice) and Herbert Valerio Riedel (hvr) can be contacted about details or specifics. If you encounter any issues, you can also comment on #8121.

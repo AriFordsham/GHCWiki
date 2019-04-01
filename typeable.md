@@ -4,7 +4,7 @@
 This page is the main root page for a re-design of the `Typeable` class, to make **type-indexed** type representations.  
 
 
-The main ticket for tracking progress is [\#11011](https://gitlab.haskell.org/ghc/ghc/issues/11011). There is currently an active implementation effort which is being documented at [Typeable/BenGamari](typeable/ben-gamari)
+The main ticket for tracking progress is #11011. There is currently an active implementation effort which is being documented at [Typeable/BenGamari](typeable/ben-gamari)
 
 
 Relevant links
@@ -341,7 +341,7 @@ kindRep :: TTypeRep (a :: k) -> TTypeRep k
 ```
 
 
-in the API. I (Richard) conjecture that this is all possible without kind equalities, but would be rather awkward due to GHC's insistence that kind parameters be implicit. See [\#10343](https://gitlab.haskell.org/ghc/ghc/issues/10343), which inspired this bit.
+in the API. I (Richard) conjecture that this is all possible without kind equalities, but would be rather awkward due to GHC's insistence that kind parameters be implicit. See #10343, which inspired this bit.
 
 ---
 

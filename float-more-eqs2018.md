@@ -1,5 +1,5 @@
 
-I've created this wiki page to track my learning/research as I try to improve my feature request that I made in the comments of [\#15009](https://gitlab.haskell.org/ghc/ghc/issues/15009).
+I've created this wiki page to track my learning/research as I try to improve my feature request that I made in the comments of #15009.
 
 # 20181125 -- wanted on the RHS
 

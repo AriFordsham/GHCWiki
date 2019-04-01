@@ -8,7 +8,7 @@ See [milestone:7.8.4](/trac/ghc/milestone/7.8.4)
 
 This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that simply prevents you using the compiler at all.  The main reason for making a new release is to kill off show-stoppers.  Everything not in this section counts as "nice to have".
 
-- [\#9439](https://gitlab.haskell.org/ghc/ghc/issues/9439): LLVM mangler mangles too vigorously.  After 7.8.3 it was realized that the LLVM code generator's mangler mangled occurrences of tokens occurring within strings of user code. This very non-obvious miscompilation. While the tokens involved aren't likely to appear in user code, they do appear in the code generator itself.  This will result in GHC builds bootstrapped with an affected compiler to produce incorrect binaries.
+- #9439: LLVM mangler mangles too vigorously.  After 7.8.3 it was realized that the LLVM code generator's mangler mangled occurrences of tokens occurring within strings of user code. This very non-obvious miscompilation. While the tokens involved aren't likely to appear in user code, they do appear in the code generator itself.  This will result in GHC builds bootstrapped with an affected compiler to produce incorrect binaries.
 
 >
 >
@@ -16,7 +16,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
 >
 >
 
-- [\#8819](https://gitlab.haskell.org/ghc/ghc/issues/8819) and [\#8849](https://gitlab.haskell.org/ghc/ghc/issues/8849): Arithmetic is broken in unregisterised compiler. A regression in the C code backend leads to the compiler producing incorrect code that fails almost all arithmetic tests ([\#8849](https://gitlab.haskell.org/ghc/ghc/issues/8849)) and others ([\#8819](https://gitlab.haskell.org/ghc/ghc/issues/8819)) in the test suite. Moreover, the resulting 7.8.3 cannot bootstrap itself. This is a significant inconvenience for users of architectures where only the unregisterised backend via C is supported, such as powerpc64 and s390.
+- #8819 and #8849: Arithmetic is broken in unregisterised compiler. A regression in the C code backend leads to the compiler producing incorrect code that fails almost all arithmetic tests (#8849) and others (#8819) in the test suite. Moreover, the resulting 7.8.3 cannot bootstrap itself. This is a significant inconvenience for users of architectures where only the unregisterised backend via C is supported, such as powerpc64 and s390.
 
 >
 >
@@ -24,7 +24,7 @@ This section lists show-stopper bugs in 7.8.3.  A show-stopper is a bug that sim
 >
 >
 
-- [\#8960](https://gitlab.haskell.org/ghc/ghc/issues/8960) & co: `SpecConstr` frequently explodes in the wild, causing the compiler to essentially loop forever.
+- #8960 & co: `SpecConstr` frequently explodes in the wild, causing the compiler to essentially loop forever.
 
 ## Tickets marked merge with no milestone
 

@@ -34,7 +34,7 @@ foo = Coercion
 
 - To my shock and horror, if I want kind equalities, I need the solver to think about both lifted and unlifted nominal equality (I knew that) and also (very sadly) lifted and unlifted representational equality. The current setup has just enough room for me to somewhat-ungracefully shoehorn unlifted nominal equality into the solver, but there's just no way to squeeze in unlifted representational equality without drastic changes.
 
-- This change might address [\#9117](https://gitlab.haskell.org/ghc/ghc/issues/9117) more fully.
+- This change might address #9117 more fully.
 
 ## Drawbacks
 

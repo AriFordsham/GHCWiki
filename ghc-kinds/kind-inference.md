@@ -3,12 +3,12 @@
 
 This page summarises several alternative designs for doing kind inference for
 types and classes, under `-XPolyKinds`.
-Though originally written with respect to [\#9200](https://gitlab.haskell.org/ghc/ghc/issues/9200), there are more issues at play here. Relevant other tickets: [\#9201](https://gitlab.haskell.org/ghc/ghc/issues/9201), [\#9427](https://gitlab.haskell.org/ghc/ghc/issues/9427), [\#14451](https://gitlab.haskell.org/ghc/ghc/issues/14451), [\#14847](https://gitlab.haskell.org/ghc/ghc/issues/14847), [\#15142](https://gitlab.haskell.org/ghc/ghc/issues/15142), and (to a lesser extent) [\#12088](https://gitlab.haskell.org/ghc/ghc/issues/12088), [\#12643](https://gitlab.haskell.org/ghc/ghc/issues/12643), [\#14668](https://gitlab.haskell.org/ghc/ghc/issues/14668), [\#15561](https://gitlab.haskell.org/ghc/ghc/issues/15561), and [\#15987](https://gitlab.haskell.org/ghc/ghc/issues/15987), which are all about instances.
+Though originally written with respect to #9200, there are more issues at play here. Relevant other tickets: #9201, #9427, #14451, #14847, #15142, and (to a lesser extent) #12088, #12643, #14668, #15561, and #15987, which are all about instances.
 
 
 See also [GhcKinds/KindInference/Examples](ghc-kinds/kind-inference/examples) for a growing set of examples to consider when evaluating any new algorithm.
 
-## Simplifying `getInitialKinds` ([\#15142](https://gitlab.haskell.org/ghc/ghc/issues/15142))
+## Simplifying `getInitialKinds` (#15142)
 
 
 In terms, we make a drastic distinction between how we check a term
@@ -131,10 +131,10 @@ data Q5 k a : Set1 where
 
 I have no clue how they pull that off!
 
-## Trouble when fixing [\#14066](https://gitlab.haskell.org/ghc/ghc/issues/14066)
+## Trouble when fixing #14066
 
 
-Ticket [\#14066](https://gitlab.haskell.org/ghc/ghc/issues/14066) requests a more robust way of tracking the scope of type
+Ticket #14066 requests a more robust way of tracking the scope of type
 variables. A full discussion is out of scope here, but it required hard
 thought about kind inference. Here are some notes I (Richard) have 
 drawn up around it:
@@ -473,7 +473,7 @@ Then step 2 works thus:
 
 ## Proposed new strategy
 
-**Note:** This is implemented. See the commit messages in [\#9200](https://gitlab.haskell.org/ghc/ghc/issues/9200).
+**Note:** This is implemented. See the commit messages in #9200.
 
 
 The main proposed change is to the definition of a "complete user-supplied kind" (CUSK).  The current story is in [Section 7.8.3 of the user manual](http://www.haskell.org/ghc/docs/latest/html/users_guide/kind-polymorphism.html#complete-kind-signatures).  Alas, it does not allow CUSKs for class declarations.
@@ -491,7 +491,7 @@ The new proposal is this:
 
 
 This is somewhat simpler, it covers classes. See [comment:19:ticket:9200](https://gitlab.haskell.org/ghc/ghc/issues/9200) for more exposition.
-This change alone is enough to satisfy [\#9200](https://gitlab.haskell.org/ghc/ghc/issues/9200).
+This change alone is enough to satisfy #9200.
 
 
 Examples:
@@ -517,7 +517,7 @@ If a datatype has a CUSK and its kind has any unsolved metavariables after infer
 
 ## A possible variation
 
-**RAE:** This variation is partially implemented in tag `re-sort-non-cusk-decls` at [my GitHub fork](https://github.com/goldfirere/ghc). It is tracked in ticket [\#9427](https://gitlab.haskell.org/ghc/ghc/issues/9427).
+**RAE:** This variation is partially implemented in tag `re-sort-non-cusk-decls` at [my GitHub fork](https://github.com/goldfirere/ghc). It is tracked in ticket #9427.
 
 
 This algorithm is not quite as expressive as it could be.  Consider
@@ -640,7 +640,7 @@ deleting stuff!
 ```
 
 
-This will fail despite the CUSK for `S` because `SSyn` lacks one.  (The variation below would fix this particular example.)  I think [\#9151](https://gitlab.haskell.org/ghc/ghc/issues/9151) is another example.
+This will fail despite the CUSK for `S` because `SSyn` lacks one.  (The variation below would fix this particular example.)  I think #9151 is another example.
 
 **Richard:** Good example. But, wouldn't this be fixed with the more-careful dependency checking described immediately below? Then, `S`, with its CUSK, would be added to the environment and generalized before looking at `SSyn`, and all is well. I don't like the idea of saying that a type synonym has a CUSK when its tyvars and its RHS are annotated, because the RHS is just a plain type -- there's not really a place in the syntax to put the RHS's kind annotation. Looking at the code, something approaching this is done already, where all non-synonyms are first added to the environment (with `getInitialKinds`) and then all the synonyms are fully kind-checked, and then all the other decls are kind-checked. The more-careful dependency checking below could be implemented simply by having `getInitialKinds` notice the CUSK and generalize, I think. Indeed, if I give `S` a CUSK using the current CUSK syntax, the example above compiles today.
 
@@ -1021,7 +1021,7 @@ But that might be a price worth paying for the simplicity, uniformity, and predi
 **Richard:** I think changing to (PARTIAL) throughout would be a mistake, as lots of code would fail to compile. Kind polymorphism by default in datatypes and classes has been around since 7.4, and I suspect there is quite a bit of code that such a change would disrupt.
 
 
-On the other hand, I think changing to (PARGEN) throughout would work nicely. I believe that it would allow all current code to type-check (except for the weird example that probably should be rejected in [\#9201](https://gitlab.haskell.org/ghc/ghc/issues/9201)). If we were to choose (PARGEN) over (ALL), it's possible that some code would become *more* polymorphic, as (PARGEN) is more polymorphic than (BASELINE) in the presence of a CUSK. However, I don't believe that this could be a *breaking* change, and I would prefer going with (PARGEN) over (ALL) for the sake of simplicity -- no need to have two systems around.
+On the other hand, I think changing to (PARGEN) throughout would work nicely. I believe that it would allow all current code to type-check (except for the weird example that probably should be rejected in #9201). If we were to choose (PARGEN) over (ALL), it's possible that some code would become *more* polymorphic, as (PARGEN) is more polymorphic than (BASELINE) in the presence of a CUSK. However, I don't believe that this could be a *breaking* change, and I would prefer going with (PARGEN) over (ALL) for the sake of simplicity -- no need to have two systems around.
 
 
 I can't figure out a way that (BASELINE) and (PARGEN) are different in type signatures for terms. This version doesn't have quite as nice a declarative typing rule because the type is generalized over kind variables that go completely unmentioned in the type -- a straightforward `forall ftv(t). t` doesn't quite do it. We need to generalize over seen variables, infer kinds, and then generalize over meta-kind variables. But, this is what is done today.

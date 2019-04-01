@@ -152,7 +152,7 @@ removes all such types from consideration.
 ```
 
 
-In addition to `foldr`, `DeriveFoldable` also generates a definition for `foldMap` as of GHC 7.8.1 (addressing [\#7436](https://gitlab.haskell.org/ghc/ghc/issues/7436)). The pseudo-definition for `$(foldMap)` would look something like this:
+In addition to `foldr`, `DeriveFoldable` also generates a definition for `foldMap` as of GHC 7.8.1 (addressing #7436). The pseudo-definition for `$(foldMap)` would look something like this:
 
 ```wiki
   $(foldMap 'a 'b)         = \x -> mempty     -- when b does not contain a
@@ -394,7 +394,7 @@ data HigherKinded f a where
 In this example, the last type variable is instantiated with `f a`, which contains one type variable `f` applied to another type variable `a`. We would *not* fold over the argument of type `f a` in this case, because the last type variable should be *simple*, i.e., contain only a single variable without any application.
 
 
-For the original discussion on this proposal, see [\#10447](https://gitlab.haskell.org/ghc/ghc/issues/10447).
+For the original discussion on this proposal, see #10447.
 
 ## Alternative strategy for deriving `Foldable` and `Traversable`
 
