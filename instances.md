@@ -8,5 +8,4 @@ But not 'deriving'; there's a separate [page for that](deriving-instances)
 
 ## Tickets
 
-See the ~instances label.
-
+None at the moment.
