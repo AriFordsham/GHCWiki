@@ -162,10 +162,10 @@ The rest of the changes are rather more isolated—places where we needed to cha
 
 ## Benchmarks
 
-- [imaginary.nofib](/trac/ghc/attachment/wiki/SequentCore/imaginary.nofib)[](/trac/ghc/raw-attachment/wiki/SequentCore/imaginary.nofib)
-- [spectral.nofib](/trac/ghc/attachment/wiki/SequentCore/spectral.nofib)[](/trac/ghc/raw-attachment/wiki/SequentCore/spectral.nofib)
-- [real.nofib](/trac/ghc/attachment/wiki/SequentCore/real.nofib)[](/trac/ghc/raw-attachment/wiki/SequentCore/real.nofib)
-- [shootout.nofib](/trac/ghc/attachment/wiki/SequentCore/shootout.nofib)[](/trac/ghc/raw-attachment/wiki/SequentCore/shootout.nofib)
+- [imaginary.nofib](/trac/ghc/attachment/wiki/SequentCore/imaginary.nofib)
+- [spectral.nofib](/trac/ghc/attachment/wiki/SequentCore/spectral.nofib)
+- [real.nofib](/trac/ghc/attachment/wiki/SequentCore/real.nofib)
+- [shootout.nofib](/trac/ghc/attachment/wiki/SequentCore/shootout.nofib)
 
 
 The `shootout` tests are non-standard, but it's hard to ignore "-100.0%" in allocations (for both `fannkuch-redux` and `n-body`). Join points (and the "case-of-join-point transform" in particular) are apparently quite good at wringing out the last few allocations from an already heavily optimized loop by making sure the inner loops actually compile as mere loops rather than closures.

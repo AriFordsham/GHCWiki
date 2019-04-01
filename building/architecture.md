@@ -32,7 +32,7 @@ currently being attempted; see [Building/Shake](building/shake) for more details
 
 The following are a few of the most important files in the build system.  For a more complete overview of the source-tree layout, see [Commentary/SourceTree](commentary/source-tree).
 
-- **[ghc.mk](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/ghc.mk)[](/trac/ghc/export/HEAD/ghc/ghc.mk)**
+- **[ghc.mk](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/ghc.mk)**
 
   This is where you should start reading: `ghc.mk` is the main file in
 the build system which ties together all the other build-system
@@ -40,7 +40,7 @@ files.  It uses **make**'s `include` directive to include all the
 files in `mk/*.mk`, `rules/*.mk`, and all the other `ghc.mk` files
 elsewhere in the tree.
 
-- **[Makefile](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/Makefile)[](/trac/ghc/export/HEAD/ghc/Makefile)**
+- **[Makefile](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/Makefile)**
 
   The top-level `Makefile`, recursively invokes `make` on `ghc.mk`
 according to the [phase ordering idiom](building/architecture/idiom/phase-ordering).

@@ -32,8 +32,8 @@ in the `rts` subdirectory.
 
 The canonical definition of certain structures are in C header files.
 For example, the layout of closures and info tables are defined in the
-headers [Closures.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/rts/storage/Closures.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/Closures.h) and
-[InfoTables.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/rts/storage/InfoTables.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/InfoTables.h) respectivesly.  How do we get the information about the
+headers [Closures.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/rts/storage/Closures.h) and
+[InfoTables.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/rts/storage/InfoTables.h) respectivesly.  How do we get the information about the
 layout of these structures to the parts of the system that are not
 written in C, such as the compiler itself, or the C-- code in the RTS?
 
@@ -103,7 +103,7 @@ but left here for backwards-compatibility reasons).
 ## The RTS external APIs
 
 
-The header [Rts.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/Rts.h)[](/trac/ghc/export/HEAD/ghc/includes/Rts.h)
+The header [Rts.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/Rts.h)
 includes all the headers below the `rts` subdirectory, which together
 define the RTS external API.  Virtually all RTS code `#includes``Rts.h`.
 

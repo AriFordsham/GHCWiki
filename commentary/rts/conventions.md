@@ -429,7 +429,7 @@ There are three macros to do inline portably.  Don't use `inline` directly, use 
 
 - `EXTERN_INLINE`
 
-  A function which is optionally inlined.  The C compiler is told to inline if possible, but we also generated a standalone copy of the function just in case (see [source:rts/Inlines.c](https://gitlab.haskell.org/ghc/ghc/tree/master/rts/Inlines.c)[](/trac/ghc/export/HEAD/ghc/rts/Inlines.c)).
+  A function which is optionally inlined.  The C compiler is told to inline if possible, but we also generated a standalone copy of the function just in case (see [source:rts/Inlines.c](https://gitlab.haskell.org/ghc/ghc/tree/master/rts/Inlines.c)).
 
 ## Source-control issues
 

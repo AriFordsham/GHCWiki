@@ -39,7 +39,7 @@ The ways that the RTS is built in are controlled by the `GhcRTSWays` Makefile va
 ## Combinations
 
 
-All combinations are allowed.  Only some are built by default though; see [mk/config.mk.in](https://gitlab.haskell.org/ghc/ghc/tree/master/mk/config.mk.in)[](/trac/ghc/export/HEAD/ghc/mk/config.mk.in) to see how the `GhcRTSWays` variable is set.
+All combinations are allowed.  Only some are built by default though; see [mk/config.mk.in](https://gitlab.haskell.org/ghc/ghc/tree/master/mk/config.mk.in) to see how the `GhcRTSWays` variable is set.
 
 ## Other configuration options
 

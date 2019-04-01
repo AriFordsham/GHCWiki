@@ -6,7 +6,7 @@ The **goal** is to build a better story for impredicative and higher-rank polymo
 
 This is the result of discussion between Alejandro Serrano Mena \<A.SerranoMena@…\>, Jurriaan Hage, Dimitrios Vytiniotis, and Simon PJ.
 
-**The most up-to-date description is available here: [Impredicativity in GHC (PDF)](/trac/ghc/attachment/wiki/ImpredicativePolymorphism/Impredicative-2015/impredicativity.pdf)[](/trac/ghc/raw-attachment/wiki/ImpredicativePolymorphism/Impredicative-2015/impredicativity.pdf)**
+**The most up-to-date description is available here: [Impredicativity in GHC (PDF)](/trac/ghc/attachment/wiki/ImpredicativePolymorphism/Impredicative-2015/impredicativity.pdf)**
 
 
 
@@ -285,7 +285,7 @@ Gamma, (x :_~ alpha) |- e : tau1 --> C1    Gamma, (x :_~ alpha) |- b : tau2 --> 
 
 With this change, our initial example leads to an error (`f cannot be applied to both Bool and Int`), from which one can recover by adding an extra annotation. This is a better situation, though, that getting stuck in the middle of the solving process.
 
-**Summary**: a PDF with the entire set of rules is available as an attachment. [only-gen.pdf](/trac/ghc/attachment/wiki/ImpredicativePolymorphism/Impredicative-2015/only-gen.pdf)[](/trac/ghc/raw-attachment/wiki/ImpredicativePolymorphism/Impredicative-2015/only-gen.pdf)
+**Summary**: a PDF with the entire set of rules is available as an attachment. [only-gen.pdf](/trac/ghc/attachment/wiki/ImpredicativePolymorphism/Impredicative-2015/only-gen.pdf)
 
 *Implementation note*: the type of local environments, `TcLclEnv` in `compiler/typecheck/TcExpr.hs`, needs to be upgraded to take into account whether a variable is tagged as generating `~`. Maybe just change `type TcTypeEnv = NameEnv (TcTyThing, Bool)`?
 
@@ -310,7 +310,7 @@ None of them will work! The problem is that, in the first case, we do not use th
 In the second case the solver does not know that it should generalize at the point of the `\x -> x` expression. Thus, we will come to a point where we have `tau -> tau ~ forall a. a -> a`, which leads to an error, since quantified and not quantified types cannot be equated.
 
 
-However, we expect both cases to work. After all, the information is there, we only have to make it flow to the right place. This is exactly the goal of adding **propagation** to the constraint generation phase. Lucikly, GHC already does some propagation now, as reflected in the type of the function `tcExpr`. The main change is that, whereas the current implementation pushes down and infers shapes of functions, the new one is simpler, and only pushes information down. A **PDF with the rules** is available as an attachment. [only-prop.pdf](/trac/ghc/attachment/wiki/ImpredicativePolymorphism/Impredicative-2015/only-prop.pdf)[](/trac/ghc/raw-attachment/wiki/ImpredicativePolymorphism/Impredicative-2015/only-prop.pdf)
+However, we expect both cases to work. After all, the information is there, we only have to make it flow to the right place. This is exactly the goal of adding **propagation** to the constraint generation phase. Lucikly, GHC already does some propagation now, as reflected in the type of the function `tcExpr`. The main change is that, whereas the current implementation pushes down and infers shapes of functions, the new one is simpler, and only pushes information down. A **PDF with the rules** is available as an attachment. [only-prop.pdf](/trac/ghc/attachment/wiki/ImpredicativePolymorphism/Impredicative-2015/only-prop.pdf)
 
 
 The most surprising rule is the one named \[AppFun\], which applies when we have a block of known expressions `f1 ... fm` whose type can be recovered from the environment followed by some other freely-shaped expressions. For example, the case of `f (\x -> x)` above, where `f` is in the environment of `g`. In that case, we compute the type that the first block ought to have, and propagate it to the rest of arguments.

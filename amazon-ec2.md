@@ -63,8 +63,8 @@ export EC2_URL=https://ec2.us-east-1.amazonaws.com
 ```
 
 
-Now, take the attached scripts [attachment:start-ec2-instance](/trac/ghc/attachment/wiki/AmazonEC2/start-ec2-instance)[](/trac/ghc/raw-attachment/wiki/AmazonEC2/start-ec2-instance),
-[attachment:validate](/trac/ghc/attachment/wiki/AmazonEC2/validate)[](/trac/ghc/raw-attachment/wiki/AmazonEC2/validate), and [attachment:prep_instance](/trac/ghc/attachment/wiki/AmazonEC2/prep_instance)[](/trac/ghc/raw-attachment/wiki/AmazonEC2/prep_instance) and save them in
+Now, take the attached scripts [attachment:start-ec2-instance](/trac/ghc/attachment/wiki/AmazonEC2/start-ec2-instance),
+[attachment:validate](/trac/ghc/attachment/wiki/AmazonEC2/validate), and [attachment:prep_instance](/trac/ghc/attachment/wiki/AmazonEC2/prep_instance) and save them in
 your home directory in the same place you saved your key-pair file.
 Edit `start-ec2-instance` to point to your key-pair file.
 

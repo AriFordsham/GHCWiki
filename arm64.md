@@ -116,7 +116,7 @@ cp /usr/share/gnuconfig/config.guess $ICONVDIR/libiconv-1.14/libcharset/build-au
 ```
 
 
-I also had to make the edits described in [localcharset.c.patch](/trac/ghc/attachment/wiki/Arm64/localcharset.c.patch)[](/trac/ghc/raw-attachment/wiki/Arm64/localcharset.c.patch). I can't say whether these changes are appropriate, but they allowed it to compile. Put the patch in `$ICONVDIR`, and then do:
+I also had to make the edits described in [localcharset.c.patch](/trac/ghc/attachment/wiki/Arm64/localcharset.c.patch). I can't say whether these changes are appropriate, but they allowed it to compile. Put the patch in `$ICONVDIR`, and then do:
 
 ```wiki
 cd $ICONVDIR/libiconv-1.14
@@ -124,7 +124,7 @@ patch -b -p1 -i ../localcharset.c.patch
 ```
 
 
-Now we create some files that tell Android's build system what to do. I don't really understand these files, I just made some guesses and modified them until they worked. Download both files and put them into `$ICONVDIR`, for now. The first file is [Android.mk](/trac/ghc/attachment/wiki/Arm64/Android.mk)[](/trac/ghc/raw-attachment/wiki/Arm64/Android.mk), and the second file is [Application.mk](/trac/ghc/attachment/wiki/Arm64/Application.mk)[](/trac/ghc/raw-attachment/wiki/Arm64/Application.mk).
+Now we create some files that tell Android's build system what to do. I don't really understand these files, I just made some guesses and modified them until they worked. Download both files and put them into `$ICONVDIR`, for now. The first file is [Android.mk](/trac/ghc/attachment/wiki/Arm64/Android.mk), and the second file is [Application.mk](/trac/ghc/attachment/wiki/Arm64/Application.mk).
 
 ```wiki
 mkdir $ICONVDIR/jni
@@ -179,7 +179,7 @@ tar xvjf ghc-8.0.0.20160111-src.tar.bz2
 ```
 
 
-Now we have to patch a bunch of files in the GHC source. Download [ghc_android.patch](/trac/ghc/attachment/wiki/Arm64/ghc_android.patch)[](/trac/ghc/raw-attachment/wiki/Arm64/ghc_android.patch) and put it in `$PROJDIR`.
+Now we have to patch a bunch of files in the GHC source. Download [ghc_android.patch](/trac/ghc/attachment/wiki/Arm64/ghc_android.patch) and put it in `$PROJDIR`.
 
 - The first patch is for `compiler/llvmGen/LlvmCodeGen/Ppr.hs`. It doesn't recognize our target triple, so we have to fix that. At different points in time, I saw it mention `aarch64-unknown-linux-android` and `aarch64-none-linux-android`, so without knowing which is correct, I added both. As suggested in the sourcecode of `Ppr.hs`, I used `clang -target aarch64-none-linux-android hello.c -o hello.ll -emit-llvm -S` to figure out what the datalayout should be. I didn't install my own clang, just used version 3.6 from the Android ndk. My `hello.c` was just `main() { return(4); }`.
 
@@ -210,14 +210,14 @@ patch -b -p1 -i ../ghc_android.patch
 ```
 
 
-My [build.mk](/trac/ghc/attachment/wiki/Arm64/build.mk)[](/trac/ghc/raw-attachment/wiki/Arm64/build.mk) is pretty straightforward. Somewhat of a mix between `quick.mk` and `quick-cross.mk`, with some extra options to turn off dynamic linking (I forget why, but it had something to do with making it use `-pie`... maybe `rwbarton` knows.) and to turn on `-fPIC`. Download it to `$PROJDIR`.
+My [build.mk](/trac/ghc/attachment/wiki/Arm64/build.mk) is pretty straightforward. Somewhat of a mix between `quick.mk` and `quick-cross.mk`, with some extra options to turn off dynamic linking (I forget why, but it had something to do with making it use `-pie`... maybe `rwbarton` knows.) and to turn on `-fPIC`. Download it to `$PROJDIR`.
 
 ```wiki
 mv $PROJDIR/build.mk $PROJDIR/ghc-8.0.0.20160111/mk/build.mk
 ```
 
 
-In order to get ld and ld.gold to do what I want (link as much with `-pie` as possible), I created some wrapper scripts to eliminate `pie` from the list of arguments whenever `-r` or `-shared` is found. There is probably a better way to do this, perhaps making use of substitution parameters (`-S`), but this worked for now. Download the two wrapper scripts, [aarch64-linux-android-ld](/trac/ghc/attachment/wiki/Arm64/aarch64-linux-android-ld)[](/trac/ghc/raw-attachment/wiki/Arm64/aarch64-linux-android-ld) and [aarch64-linux-android-ld.gold](/trac/ghc/attachment/wiki/Arm64/aarch64-linux-android-ld.gold)[](/trac/ghc/raw-attachment/wiki/Arm64/aarch64-linux-android-ld.gold), and put them in `$PROJDIR`.
+In order to get ld and ld.gold to do what I want (link as much with `-pie` as possible), I created some wrapper scripts to eliminate `pie` from the list of arguments whenever `-r` or `-shared` is found. There is probably a better way to do this, perhaps making use of substitution parameters (`-S`), but this worked for now. Download the two wrapper scripts, [aarch64-linux-android-ld](/trac/ghc/attachment/wiki/Arm64/aarch64-linux-android-ld) and [aarch64-linux-android-ld.gold](/trac/ghc/attachment/wiki/Arm64/aarch64-linux-android-ld.gold), and put them in `$PROJDIR`.
 
 
 There's also a problem with android-ndk shipping llvm 3.6, but we need llvm 3.7, so we'll replace the `opt` and `llc` binaries with symlinks to our system versions. `clang` might also need the same treatment, but I forgot, and it seemed to work OK. Maybe it's not used?

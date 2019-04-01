@@ -29,6 +29,6 @@ Doing this imports the module `GHC` from the package `ghc`, which comes with GHC
 
 
 
-Here's an example main program that does it [Main.hs](/trac/ghc/attachment/wiki/UsingGhcAsLibrary/Main.hs)[](/trac/ghc/raw-attachment/wiki/UsingGhcAsLibrary/Main.hs)
+Here's an example main program that does it [Main.hs](/trac/ghc/attachment/wiki/UsingGhcAsLibrary/Main.hs)
 
 
