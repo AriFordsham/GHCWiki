@@ -3,7 +3,7 @@
 ## Tickets
 
 
-The CSE pass is pretty simple at the moment.  There are many tickets that identify currently-missed opportunities. These tickets and many others are labelled with the ~cse label.
+The CSE pass is pretty simple at the moment.  There are many tickets that identify currently-missed opportunities. These tickets and many others are labelled with the ~CSE label.
 
 ## More aggressive CSE
 
