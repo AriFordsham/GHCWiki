@@ -12,8 +12,7 @@ can extend it, modify it, and use it to build your code.
 **Getting started**
 
 - [Getting the sources](building/getting-the-sources)
-- [Setting up your system for building GHC](building/preparation) (including platform specific instructions)
-- [Quick Start: just build GHC](building/quick-start)
+- [Preparing a build environment](building/preparation)
 - [Getting ready to contribute (i.e. forking GHC)](building/fork)
 - Newcomers should also go to [Contributing](contributing).
 
@@ -64,3 +63,4 @@ Please feel free to add pages here.  In due course, information can be incorpora
 
 - [SonyPS3](sony-ps3) : Hints for building on the Sony PS3
 - [Arm64](arm64) : An attempt to cross-compile GHC for Android on ARM64.
+- [Quick Start: just build GHC](building/quick-start)
