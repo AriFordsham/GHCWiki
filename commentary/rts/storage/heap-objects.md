@@ -32,7 +32,7 @@ All heap objects have the same basic layout, embodied by the type `StgClosure` i
 
 A heap object always begins with a *header*, defined by `StgHeader` in [Closures.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/rts/storage/Closures.h):
 
-```wiki
+```c
 typedef struct {
     const struct StgInfoTable* info;
 #ifdef PROFILING
@@ -61,7 +61,7 @@ The compiler also needs to know the layout of heap objects, and the way this inf
 
 The info table contains all the information that the runtime needs to know about the closure.  The layout of info tables is defined by `StgInfoTable` in [InfoTables.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/rts/storage/InfoTables.h).  The basic info table layout looks like this:
 
-[](/trac/ghc/attachment/wiki/Commentary/Rts/Storage/HeapObjects/basic-itbl.png)
+![](basic-itbl.png)
 
 
 Where:
