@@ -88,7 +88,6 @@ represented by `PredTy (EqPred T1 T2)`.
 
 There is a small amount of sub-typing in kinds.  Suppose you see `(t1 -> t2)`.  What kind must `t1` and `t2` have?  It could be `*` or `#`.  So we have a single kind `OpenKind`, which is a super-kind of both, with this simple lattice:
 
-[](https://docs.google.com/drawings/pub?id=1M5yBP8iAWTgqdI3oG1UNnYihVlipnvvk2vLInAFxtNM&w=359&h=229)
-
+![](https://docs.google.com/drawings/pub?id=1M5yBP8iAWTgqdI3oG1UNnYihVlipnvvk2vLInAFxtNM&w=359&h=229)
 
 (You can edit this picture [here](https://docs.google.com/drawings/d/1M5yBP8iAWTgqdI3oG1UNnYihVlipnvvk2vLInAFxtNM/edit?hl=en_GB).)
