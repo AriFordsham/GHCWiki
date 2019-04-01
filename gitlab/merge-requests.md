@@ -14,3 +14,5 @@ There are two ways to backport a merge request:
  * Via the command-line using the `git cherry-pick` command. In this case select the appropriate "backport" template (e.g. `backport-for-ghc-8.8`) when creating your merge request.
 
 After the merge request is created ensure that the ~backport label is applied.
+
+Once the backport MR lands the ~"backport needed" label can be removed from the source MR.
