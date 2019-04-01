@@ -24,7 +24,7 @@ Next, we try to make sense of how it all fits together.
 
 ## Block Diagram
 
-![](commentary/rts/rts-overview.svg)
+![](rts-overview.svg)
 
 ## Find your way around the code
 
