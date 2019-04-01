@@ -207,39 +207,25 @@ implemented in `StgLiftLams.Analysis.goodToLift`.
 - C3 might increase or decrease heap allocation. If `f` occurs in
   a closure in the let body, then
 
-> > A) it can increase heap allocation, if the additional arguments to
-> > `f` did not previously occur in that closure
-> >
-> >
->
-
->
-> >
-> >
-> > B) it can decrease heap allocation, if those additional arguments
-> > did already occur in the closure.
-> >
-> >
->
-
->
->
-> We call the sum result of A and B *closure growth*. Estimating closure
-> growth is paramount to achieving unambiguously good results.
-> See "Closure Growth" below.
->
->
+  - it can increase heap allocation, if the additional arguments to
+    `f` did not previously occur in that closure
+   
+  - it can decrease heap allocation, if those additional arguments
+    did already occur in the closure.
+ 
+  We call the sum result of A and B *closure growth*. Estimating closure
+  growth is paramount to achieving unambiguously good results.
+  See "Closure Growth" below.
 
 - C4 might increase stack allocation and/or increase register
   pressure, depending on how many arguments the new top-level function
   function would take. We determined 5 extra arguments (the number of
-  available free argument registers on x86_64) to be a sweet spot for cut off.
+  available free argument registers on x86-64) to be a sweet spot for cut off.
 
 - C4 might cause a slowdown because it can convert known calls into
   unknown calls when the lifted function previously closed over a
   function.
   We don't perform the lift in this case.
-
 
 Finally, we obviously only lift functions, no closures or constructor
 applications.
