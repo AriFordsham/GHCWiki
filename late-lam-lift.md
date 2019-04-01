@@ -25,29 +25,7 @@ There is a ticket to track progress: #9476. There's a paper in the making at [ht
 
 ## Tickets
 
-
-
-Use Keyword = `LateLamLift` to ensure that a ticket ends up on these lists.
-
-
-
-**Open Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9279">#9279</a></th>
-<td>Local wrapper function remains in final program; result = extra closure allocation</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9374">#9374</a></th>
-<td>Investigate Static Argument Transformation</td></tr></table>
-
-
-
-
-**Closed Tickets:**  NB: closed tickets may be closed as duplicates; but may still have very illuminating test cases.
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5945">#5945</a></th>
-<td>Lambda lifting</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9476">#9476</a></th>
-<td>Implement late lambda-lifting</td></tr></table>
-
+See the ~"late lambda lifting" label.
 
 
 ## Implementation
@@ -74,7 +52,7 @@ caffyness.
 
 Late lambda lifting is configurable via these flags:
 
-```wiki
+```haskell
 data GeneralFlag =
    ...
    | Opt_StgLiftLam -- ^ Enable late lambda lifting. 
@@ -131,7 +109,7 @@ annotated with their free variables.
 
 Consider lambda-lifting `f` out of `before`.
 
-```wiki
+```haskell
 before a b =
   let f x = RHS[f, b, x]
   in BODY[f, a, b]
@@ -140,7 +118,7 @@ before a b =
 
 Lifting `f` out of `before` would yield:
 
-```wiki
+```haskell
 $lf b x = RHS[$lf b, b, x]
 
 after a b = BODY[$lf b, a, b]
@@ -153,13 +131,13 @@ replaced by the entire expression.
 `before1` (an instance of `before`) is the basic motivating case for
 the LLF.
 
-```wiki
+```haskell
 before1 a b c =
   let f1 x y = (b + x) + (c + y)
   in f1 a b * f1 c a
 ```
 
-```wiki
+```haskell
 $lf1 b c x y = (b + x) + (c + y)
 
 after1 a b c =
@@ -197,33 +175,17 @@ that turns closures into extra arguments *when doing so is viable*.
 
 Lifting a dynamic function closure has four immediate consequences.
 
+- **C1** It eliminates the let.
 
->
->
-> **C1** It eliminates the let.
->
->
+- **C2** It creates a new top-level definition.
 
->
->
-> **C2** It creates a new top-level definition.
->
->
+- **C3** It replaces all occurrences of the lifted function in the let's
+  body with a (partial) application. E.g., all occurences of `f1` were
+  replaced by `$lf1 b`.
 
->
->
-> **C3** It replaces all occurrences of the lifted function in the let's
-> body with a (partial) application. E.g., all occurences of `f1` were
-> replaced by `$lf1 b`.
->
->
+- **C4** All non-top-level variables that occured in the let's RHS become
+  occurrences of parameters.
 
->
->
-> **C4** All non-top-level variables that occured in the let's RHS become
-> occurrences of parameters.
->
->
 
 ### Operational Consequences of Lifting
 
@@ -245,9 +207,6 @@ implemented in `StgLiftLams.Analysis.goodToLift`.
 - C3 might increase or decrease heap allocation. If `f` occurs in
   a closure in the let body, then
 
->
-> >
-> >
 > > A) it can increase heap allocation, if the additional arguments to
 > > `f` did not previously occur in that closure
 > >
