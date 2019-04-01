@@ -33,7 +33,7 @@ Triaging a new issue typically proceeds as follows:
 
    * if the issue is a regression from the previous major release, set milestone to the next minor release
    * if the issue is of high severity, set milestone to the next minor release
-   * if the issue is not important (e.g. weight of 3 or less) and unlikely to see attention in the next six months, set milestone to %"_|_"
+   * if the issue is not important (e.g. weight of 3 or less) and unlikely to see attention in the next six months, set milestone to %"⊥"
    * otherwise set milestone to the next major release
 
 1. Remove the ~"needs triage" label
