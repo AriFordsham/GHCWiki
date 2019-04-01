@@ -55,6 +55,6 @@ When a fix for an open issue is landed, it is good practice to look over the tic
    
    > This is a comment. Blah blah blah. More things to say. Lorem ipsum.
    > 
-   > Tests: T1234
+   > Tests: T1234a, T1234b
    
  * Are the **issue and resolving merge request linked**? A link will be created automatically if the MR description mentions the ticket. Otherwise leave a comment on the ticket pointing to the MR.
