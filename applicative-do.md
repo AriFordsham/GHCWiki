@@ -14,84 +14,13 @@ See also [RecursiveDo](recursive-do)
 
 ## Tickets
 
-
-
-Use Keyword = `ApplicativeDo` to ensure that a ticket ends up on these lists.
-
-
-
-**Open Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10892">#10892</a></th>
-<td>ApplicativeDo should use *&gt; and &lt;*</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10976">#10976</a></th>
-<td>Applicative Comprehensions</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11982">#11982</a></th>
-<td>Typechecking fails for parallel monad comprehensions with polymorphic let (GHC 7.10.3 through 8.6.3)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13309">#13309</a></th>
-<td>Use liftA2 in ApplicativeDo</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13511">#13511</a></th>
-<td>ApplicativeDo return case doesn&apos;t handle lets</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13905">#13905</a></th>
-<td>ApplicativeDo is too strict with newtype patterns</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13906">#13906</a></th>
-<td>ApplicativeDo doesn&apos;t handle existentials as well as it could</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14252">#14252</a></th>
-<td>ApplicativeDo: Add compiler message about irrefutable pattern matches and Monad constraints</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14700">#14700</a></th>
-<td>ApplicativeDo in MonadComprehensions</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15016">#15016</a></th>
-<td>Referencing a do-bound variable in a rec block with ApplicativeDo results in variable not in scope during type checking</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15100">#15100</a></th>
-<td>`ApplicativeDo` needlessly uses `join` too much</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15344">#15344</a></th>
-<td>ApplicativeDo seems to prevent the fail method from being used</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16135">#16135</a></th>
-<td>Panic with ExistentialQuantification and ApplicativeDo</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16171">#16171</a></th>
-<td>&quot;ApplicativeDo&quot; disables -Wunused-do-binds?</td></tr></table>
-
-
-
-
-**Closed Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11607">#11607</a></th>
-<td>ApplicativeDo easily foiled with `pure`</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11612">#11612</a></th>
-<td>Bug in ApplicativeDo</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11835">#11835</a></th>
-<td>ApplicativeDo failed to desugar last line with pure $ &lt;expr&gt;</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12143">#12143</a></th>
-<td>ApplicativeDo Fails to Desugar &apos;return True&apos;</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12490">#12490</a></th>
-<td>With RebindableSyntax, ApplicativeDo should eliminate return/pure</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13242">#13242</a></th>
-<td>Panic &quot;StgCmmEnv: variable not found&quot; with ApplicativeDo and ExistentialQuantification</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13648">#13648</a></th>
-<td>ApplicativeDo selects &quot;GHC.Base.Monad.return&quot; when actions are used without patterns.</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13875">#13875</a></th>
-<td>ApplicativeDo desugaring is lazier than standard desugaring</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14105">#14105</a></th>
-<td>ApplicativeDo causes GHC panic on irrefutable list pattern match</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14163">#14163</a></th>
-<td>Stack Overflow with ApplicativeDo</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14249">#14249</a></th>
-<td>ApplicativeDo: Pattern matching on a bind forces a Monad constraint</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14471">#14471</a></th>
-<td>Certain do blocks cause TH to barf when ApplicativeDo is enabled</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14670">#14670</a></th>
-<td>-XRebindableSyntax needs return?</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15422">#15422</a></th>
-<td>GHCi debugger doesn&apos;t see free variables when using ApplicativeDo</td></tr></table>
-
-
+See the ~ApplicativeDo label.
 
 ## Summary
 
 `ApplicativeDo` is a language extension enabled in the usual way via
 
-```wiki
+```haskell
 {-# LANGUAGE ApplicativeDo #-}
 ```
 
@@ -119,19 +48,19 @@ For a type that is a `Monad`, `ApplicativeDo` implements the same semantics as t
   Do-notation is more natural, so we would like to be able to write
   Applicative composition in do-notation where possible.  For example:
 
-  ```wiki
+  ```haskell
   (\x y z -> x*y + y*z + z*x) <$> expr1 <*> expr2 <*> expr3
   ```
 
   vs.
 
-  ```wiki
+  ```haskell
   do x <- expr1; y <- expr2; z <- expr3; return (x*y + y*z + z*x)
   ```
 
 ## Example 1
 
-```wiki
+```haskell
 do
   x <- a
   y <- b
@@ -141,7 +70,7 @@ do
 
 This translates to
 
-```wiki
+```haskell
 (\x y -> f x y) <$> a <*> b
 ```
 
@@ -153,7 +82,7 @@ Here we noticed that the statements `x <- a` and `y <- b` are independent, so we
 
 If the final statement does not have a `return`, then we need to use `join`:
 
-```wiki
+```haskell
 do
   x <- a
   y <- b
@@ -163,7 +92,7 @@ do
 
 Translates to
 
-```wiki
+```haskell
 join ((\x y -> f x y) <$> a <*> b)
 ```
 
@@ -172,7 +101,7 @@ Since `join` is a `Monad` operation, this expression requires `Monad`.
 
 ## Example 3
 
-```wiki
+```haskell
   do
     x1 <- A
     x2 <- B
@@ -184,7 +113,7 @@ Since `join` is a `Monad` operation, this expression requires `Monad`.
 
 Here we can do `A` and `B` together, and `C` and `D` together.  We could do it like this:
 
-```wiki
+```haskell
   do
     (x1,x2) <- (,) <$> A <*> B
     (\x3 x4 -> (x1,x2,x3,x4)) <$> C x1 <*> D x2
@@ -193,7 +122,7 @@ Here we can do `A` and `B` together, and `C` and `D` together.  We could do it l
 
 But it is slightly more elegant like this:
 
-```wiki
+```haskell
    join ((\x1 x2 -> (\x3 x4 -> (x1,x2,x3,x4)) <$> C x1 <*> D x2)) <$> A <*> B)
 ```
 
@@ -202,7 +131,7 @@ because we avoid the intermediate tuple.
 
 ## Example 4
 
-```wiki
+```haskell
    do
      x <- A
      y <- B x
@@ -213,7 +142,7 @@ because we avoid the intermediate tuple.
 
 Now we have a dependency: `y` depends on `x`, but there is still an opportunity to use `Applicative` since `z` does not depend on `x` or `y`.  In this case we end up with:
 
-```wiki
+```haskell
   (\(x,y) z -> f x y z) <$> (do x <- A; y <- B x; return (x,y)) <*> C
 ```
 
@@ -223,7 +152,7 @@ Note that we had to introduce a tuple to return both the values of `x` and `y` f
 
 It's important that we keep the original ordering.  For example, we don't want this:
 
-```wiki
+```haskell
   do 
     (x,z) <- (,) <$> A <*> C
     y <- B x
@@ -236,7 +165,7 @@ because this has a different semantics from the standard 'do' desugaring; a `Mon
 
 Another wrong result would be:
 
-```wiki
+```haskell
   do
     x <- A
     (\y z -> f x y z) <$> B x <*> C
@@ -250,7 +179,7 @@ Because this version has less parallelism than the first result, in which `A` an
 
 In general, `ApplicativeDo` might have to build a complicated nested `Applicative` expression.
 
-```wiki
+```haskell
 do
   x1 <- a
   x2 <- b
@@ -265,7 +194,7 @@ Here we can do `a/b/d` in parallel, but `c` depends on `x1`, which makes things 
 
 This translates to
 
-```wiki
+```haskell
 (\(x2,x3) x4 -> (x2, x3, x4))
   <$> join ((\x1 x2 -> do
                          x3 <- c x1
@@ -442,7 +371,7 @@ See comments in [https://phabricator.haskell.org/D729](https://phabricator.haske
 
 ### Tricky case
 
-```wiki
+```haskell
  do { x <- A
     ; y <- B
     ; z <- C x
