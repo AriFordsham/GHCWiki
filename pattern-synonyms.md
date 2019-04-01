@@ -4,7 +4,7 @@
 Most language entities in Haskell can be named so that they can be abbreviated instead of written out in full.
 This proposal provides the same power for patterns.  See the [implementation](pattern-synonyms/implementation) page for implementation details.
 
-See the ~"pattern synonyms" label.
+See the ~"PatternSynonyms" label.
 
 ## Motivating example
 
