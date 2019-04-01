@@ -5,56 +5,10 @@ The status of this proposal is tracked by #14553.
 
 ## Problem Statement
 
-
-
 Currently, GHC relies on the system-installed [C-preprocessor](http://en.wikipedia.org/wiki/C_preprocessor) (lateron referred to as system-`cpp`) accompanying the C compiler for implementing `{-# LANGUAGE CPP #-}`. However, this has several drawbacks:
 
 
-- We already have a couple of tickets filed w/ the `cpp` keyword: 
-
-  <table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/860">#860</a></th>
-  <td>CPP fails when a macro is used on a line containing a single quote character</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/1290">#1290</a></th>
-  <td>ghc runs preprocessor too much</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/6132">#6132</a></th>
-  <td>Can&apos;t use both shebang line and #ifdef declarations in the same file.</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8444">#8444</a></th>
-  <td>Fix CPP issue with Xcode5 in integer-simple</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8445">#8445</a></th>
-  <td>Fix Xcode5 CPP issue with compiler/deSugar/DsBinds.lhs and compiler/utils/FastString.lhs</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8493">#8493</a></th>
-  <td>Can&apos;t compile happy + ghc with clang&apos;s CPP</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9399">#9399</a></th>
-  <td>CPP does not process test case enum01.hs correctly</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9978">#9978</a></th>
-  <td>DEBUG is always replaced as 1 when CPP pragma is on</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10044">#10044</a></th>
-  <td>Wrong line number reported with CPP and line beginning with #</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10146">#10146</a></th>
-  <td>Clang CPP adds extra newline character</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10230">#10230</a></th>
-  <td>multiline literals doesn&apos;t work with CPP extension.</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10543">#10543</a></th>
-  <td>MacOS: validate fails on \u</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12391">#12391</a></th>
-  <td>LANGUAGE CPP messes up parsing when backslash like \\ is at end of line (eol)</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12516">#12516</a></th>
-  <td>Preprocessing: no way to portably use stringize and string concatenation</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12628">#12628</a></th>
-  <td>__GLASGOW_HASKELL_LLVM__ is no longer an Int</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14113">#14113</a></th>
-  <td>Error message carets point at the wrong places in the presence of CPP macros</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14756">#14756</a></th>
-  <td>`ghc -M` doesn&apos;t emit dependencies for header files included either via CPP or CApiFFI</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14757">#14757</a></th>
-  <td>ghc recompilation check doesn&apos;t take into account headers directly included by CApiFFI</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15279">#15279</a></th>
-  <td>CPP #includes may result in nonsensical SrcSpans</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15328">#15328</a></th>
-  <td>cpphs: internal error: evacuate(static): strange closure type 8440</td></tr>
-  <tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15775">#15775</a></th>
-  <td>Interpreter is treating a comment character as an identifier character.</td></tr></table>
-
+- We already have a couple of tickets filed w/ the ~cpp label
 
 - Fragile semantics, as the "traditional mode" in `cpp` GHC relies on is not well-specified, and therefore implementations disagree in subtle but annoying ways
 

@@ -9,56 +9,7 @@ The relevant ticket is #9637.
 
 ## Status
 
-
-Use Keyword = `CustomTypeErrors` to ensure that a ticket ends up on these lists.
-
-
-
-Open Tickets:
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11099">#11099</a></th>
-<td>Incorrect warning about redundant constraints</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11503">#11503</a></th>
-<td>TypeError woes (incl. pattern match checker)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11967">#11967</a></th>
-<td>Custom message when showing functions, comparing functions, ...</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12048">#12048</a></th>
-<td>Allow CustomTypeErrors in type synonyms (+ evaluate nested type family?)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12049">#12049</a></th>
-<td>`OverloadedStrings` for types</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13775">#13775</a></th>
-<td>Type family expansion is too lazy, allows accepting of ill-typed terms</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14141">#14141</a></th>
-<td>Custom type errors don&apos;t trigger when matching on a GADT constructor with an error in the constraint</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14771">#14771</a></th>
-<td>TypeError reported too eagerly</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14983">#14983</a></th>
-<td>Have custom type errors imply Void</td></tr></table>
-
-
-
-
-Closed Tickets:
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11391">#11391</a></th>
-<td>TypeError is fragile</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12104">#12104</a></th>
-<td>Type families, `TypeError`, and `-fdefer-type-errors` cause &quot;opt_univ fell into a hole&quot;</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12119">#12119</a></th>
-<td>Can&apos;t create injective type family equation with TypeError as the RHS</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12237">#12237</a></th>
-<td>Constraint resolution vs. type family resolution vs. TypeErrors</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14339">#14339</a></th>
-<td>GHC 8.2.1 regression when combining GND with TypeError (solveDerivEqns: probable loop)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15052">#15052</a></th>
-<td>DeriveAnyClass instances may skip TypeError constraints</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15232">#15232</a></th>
-<td>TypeError is reported as &quot;redundant constraint&quot; starting with GHC 8.2</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16362">#16362</a></th>
-<td>Deriving a class via an instance that has a TypeError constraint using standalone deriving fails during compilation.</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16377">#16377</a></th>
-<td>`TypeError` in a pattern should flag inaccessible code</td></tr></table>
-
+See the ~"custom type errors" label.
 
 
 ### The Problem
@@ -78,12 +29,10 @@ report an EDSL specific error, rather than a generic error about an ambiguous ty
 
 ### A Solution
 
-
-
 One way to solve the above problem is by adding a single uninterpreted type-function as follows:
 
 
-```
+```haskell
 type family TypeError (msg :: ErrorMessage) :: k
 ```
 
@@ -97,7 +46,7 @@ will never evaluate to anything, and it is basically very similar to the polymor
 The kind `ErrorMessage` is a small DSL for constructing error messages, and may be defined using a promoted datatype:
 
 
-```
+```haskell
 data {-kind-} ErrorMessage =
     Text Symbol                        -- Show this text as is
   | forall t. ShowType t               -- Pretty print a type
@@ -107,12 +56,10 @@ data {-kind-} ErrorMessage =
 
 ### Examples
 
-
-
 Here are some examples of how one might use these:
 
 
-```
+```haskell
 instance TypeError (Text "Cannot 'Show' functions." :$$: 
                     Text "Perhaps there is a missing argument?")
          => Show (a -> b) where
@@ -132,7 +79,7 @@ In an equation for ‘f’: f = show id
 
 Similarly, one may use the same sort of technique in type family instances;
 
-```wiki
+```haskell
 type family F a where
   F Int     = Bool
   F Integer = Bool
@@ -191,10 +138,6 @@ The implementation in GHC is fairly straight-forward:
 
 
 This approach would be quite a bit simpler than your current story, where you specially recognise type functions whose RHS is `TypeError`, and also have to suppress calls to `TypeError` that appear embedded in types.
-
-
-
-  
 
 
 ### Alternative Design

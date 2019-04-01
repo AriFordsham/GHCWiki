@@ -17,6 +17,8 @@ Cons: source distributions are stuck to a particular GHC version and shouldn't b
 
 GHC uses [Git](http://git-scm.com/) for revision control (version 1.7.8 or newer recommended). You must install it on your platform before executing any "git" commands.
 
+**Important:** on Windows you must configure Git to check out Unix-style line endings before executing the following commands (the default behaviour is to check out Windows-style line endings) otherwise you will likely encounter issues during the build. This can be changed using the following command: ``git config --global core.autocrlf false`` (set it to "true" the same way to restore the default behavior).
+
 The main GHC repository is located on a Gitlab instance on haskell.org and a complete GHC source tree can be obtained (located in `ghc`) by running the following command:
 
 ```

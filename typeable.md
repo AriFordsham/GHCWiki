@@ -24,112 +24,7 @@ The names of functions and type constructors is totally up for grabs.
 
 # Status
 
-
-Use Keyword = `Typeable` to ensure that a ticket ends up on these lists.
-
-
-
-Open Tickets:
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10770">#10770</a></th>
-<td>Typeable solver has strange effects</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11251">#11251</a></th>
-<td>isInstance does not work on Typeable with base-4.8 anymore</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11349">#11349</a></th>
-<td>[TypeApplications] Create Proxy-free alternatives of functions in base</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11715">#11715</a></th>
-<td>Constraint vs *</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12451">#12451</a></th>
-<td>TemplateHaskell and Data.Typeable - tcIfaceGlobal (local): not found</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13261">#13261</a></th>
-<td>Consider moving Typeable evidence generation wholly back to solver</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13276">#13276</a></th>
-<td>Unboxed sums are not Typeable</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13647">#13647</a></th>
-<td>Tidy up TcTypeable</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13933">#13933</a></th>
-<td>Support Typeable instances for types with coercions</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14190">#14190</a></th>
-<td>Typeable imposes seemingly redundant constraints on polykinded instances</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14255">#14255</a></th>
-<td>Type-indexed type fingerprints</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14270">#14270</a></th>
-<td>GHC HEAD&apos;s ghc-stage1 panics on Data.Typeable.Internal</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14337">#14337</a></th>
-<td>typeRepKind can perform substantial amounts of allocation</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14341">#14341</a></th>
-<td>Show instance for TypeReps is a bit broken</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14401">#14401</a></th>
-<td>Add a test ensuring that TypeReps can be stored in compact regions</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14480">#14480</a></th>
-<td>Clean up tyConTYPE</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14582">#14582</a></th>
-<td>Review and improve the Typeable API</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14663">#14663</a></th>
-<td>Deriving Typeable for enumerations seems expensive</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15322">#15322</a></th>
-<td>`KnownNat` does not imply `Typeable` any more when used with plugin</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15862">#15862</a></th>
-<td>Panic with promoted types that Typeable doesn&apos;t support</td></tr></table>
-
-
-
-
-Closed Tickets:
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/3480">#3480</a></th>
-<td>Easily make Typeable keys pure, so that Typeable can be handled efficiently across communications</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8931">#8931</a></th>
-<td>The type defaulting in GHCi with Typeable</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9639">#9639</a></th>
-<td>Remove OldTypeable</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9707">#9707</a></th>
-<td>(Try to) restructure `base` to allow more use of `AutoDeriveTypeable`</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10163">#10163</a></th>
-<td>Export typeRepKinds in Data.Typeable</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10343">#10343</a></th>
-<td>Make Typeable track kind information better</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11011">#11011</a></th>
-<td>Add type-indexed type representations (`TypeRep a`)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11120">#11120</a></th>
-<td>Missing type representations</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11714">#11714</a></th>
-<td>Kind of (-&gt;) type constructor is overly constrained</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11722">#11722</a></th>
-<td>No TypeRep for unboxed tuples</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11736">#11736</a></th>
-<td>Allow unsaturated uses of unlifted types in Core</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12082">#12082</a></th>
-<td>Typeable on RealWorld fails</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12123">#12123</a></th>
-<td>GHC crashes when calling typeRep on a promoted tuple</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12409">#12409</a></th>
-<td>Unboxed tuples have no type representations</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12670">#12670</a></th>
-<td>Representation polymorphism validity check is too strict</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12905">#12905</a></th>
-<td>Core lint failure with pattern synonym and levity polymorphism</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13197">#13197</a></th>
-<td>Perplexing levity polymorphism issue</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13333">#13333</a></th>
-<td>Typeable regression in GHC HEAD</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13871">#13871</a></th>
-<td>GHC panic in 8.2 only: typeIsTypeable(Coercion)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13872">#13872</a></th>
-<td>Strange Typeable error message involving TypeInType</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13915">#13915</a></th>
-<td>GHC 8.2 regression: &quot;Can&apos;t find interface-file declaration&quot; for promoted data family instance</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14199">#14199</a></th>
-<td>Document Type.Reflection better (Fun and Con&apos;)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14254">#14254</a></th>
-<td>The Binary instance for TypeRep smells a bit expensive</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14925">#14925</a></th>
-<td>Non-ASCII type names get garbled when their `TypeRep` is shown</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15067">#15067</a></th>
-<td>When Typeable and unboxed sums collide, GHC panics</td></tr></table>
-
-
- 
+See the ~Typeable ticket for tickets.
 
 
 ## Goal
@@ -139,7 +34,7 @@ Closed Tickets:
 Consider `Dynamic`:
 
 
-```
+```haskell
 data Dynamic where
   Dyn :: TypeRep -> a -> Dynamic
 ```
@@ -148,7 +43,7 @@ data Dynamic where
 We'd like to write `dynApply`:
 
 
-```
+```haskell
 dynApply :: Dynamic -> Dynamic -> Maybe Dynamic
 ```
 
@@ -156,7 +51,7 @@ dynApply :: Dynamic -> Dynamic -> Maybe Dynamic
 which succeeds only when the application is type correct. But how?  Let's try
 
 
-```
+```haskell
 dynApply (Dyn tf f) (Dyn tx x) = ???
 ```
 
@@ -168,7 +63,7 @@ We need some way to decompose `tf` (the type representation for `f`), ask if it 
 But at the moment we don't have any *type-safe* way to decompose `TypeRep`.  Indeed `dynApply` is defined like this right now:
 
 
-```
+```haskell
 dynApply (Dyn tf f) (Dyn tx x)
   = case funResultTy tf tx of
        Just tr -> Just (Dyn tr (unsafeCoerce f x))
@@ -192,7 +87,7 @@ So **our main goal is to be able to write `dynApply` in a type-safe way** so tha
 The first obvious thing is that we must make a connection between the type-rep arg of `Dyn` and the value itself. Something like this:
 
 
-```
+```haskell
 data Dynamic where
   Dyn :: TTypeRep a -> a -> Dynamic
 ```
@@ -205,7 +100,7 @@ Here we are using a *type-indexed* type representation, `TTypeRep`.  Now the con
 We can re-define the `Typeable` class and `TypeRep` thus:
 
 
-```
+```haskell
 class Typeable a where
   tTypeRep :: TTypeRep a     -- No need for a proxy argument!
 
@@ -228,7 +123,7 @@ We can get from `Typeable a` to `TTypeRep` by using the class method `tTypeRep`.
 We need to add the following primitive: 
 
 
-```
+```haskell
 withTypeable :: TTypeRep a -> (Typeable a => b) -> b
 ```
 
@@ -240,7 +135,7 @@ withTypeable :: TTypeRep a -> (Typeable a => b) -> b
 We can also compare two `TTypeReps` to give a statically-usable proof of equality:
 
 
-```
+```haskell
 eqTT :: TTypeRep a -> TTypeRep b -> Maybe (a :~: b)
 eqT  :: (Typeable a, Typeable b) => Maybe (a :~: b)
 
@@ -260,7 +155,7 @@ data a :~: b where  -- Defined in Data.Typeable.Equality
 If we want to decompose `TTypable`, at least in the function arrow case, we need a function like this:
 
 
-```
+```haskell
 decomposeFun :: TTypeRep fun
              -> r
              -> (forall arg res. (fun ~ (arg->res)) 
@@ -279,7 +174,7 @@ This function is part of `Typeable`, and replaces `funResultTy`.
 Now we can write `dynApply`, in a completely type-safe way, outside the TCB:
 
 
-```
+```haskell
 dynApply :: Dynamic -> Dynamic -> Maybe Dynamic
 dynApply (Dyn tf f) (Dyn tx x)
   = decomposeFun tf Nothing $ \ ta tr ->
@@ -292,7 +187,7 @@ dynApply (Dyn tf f) (Dyn tx x)
 **Pattern synonyms**.  An alternative, rather nicer interface for `decomoposeFun` would use a [pattern synonym](pattern-synonyms) instead of continuation-passing style.  Here is the signature for the pattern synonym:
 
 
-```
+```haskell
 pattern TRFun :: fun ~ (arg -> res)
               => TTypeRep arg 
               -> TTypeRep res 
@@ -303,7 +198,7 @@ pattern TRFun :: fun ~ (arg -> res)
 which looks (by design) very like the signature for a GADT data constructor.  Now we can use `TRFun` in a pattern, thus:
 
 
-```
+```haskell
 dynApply :: Dynamic -> Dynamic -> Maybe Dynamic
 dynApply (Dyn (TRFun ta tr) f) (Dyn tx x)
   = case eqTT ta tx of
@@ -324,7 +219,7 @@ Suppose we have a `TTypeRep (a :: k)`. It might be nice to get a `TTypeRep (k ::
 out of it. (Here, we assume `* :: *`, but the idea actually works without that assumption.) An example is an attempt to typecheck the *expression*
 
 
-```
+```haskell
 typeOf :: Typeable (a :: k) => Proxy a -> TypeRep
 ```
 
@@ -336,7 +231,7 @@ where `typeOf :: Typeable a => a -> TypeRep` is a long-standing part of the `Typ
 So, we now include
 
 
-```
+```haskell
 kindRep :: TTypeRep (a :: k) -> TTypeRep k
 ```
 
@@ -355,7 +250,7 @@ It is all very well being able to decompose functions, but what about decomposin
 To do this it is natural to regard types as built from type constructors and binary application, like this:
 
 
-```
+```haskell
 data TTypeRep (a :: k) :: * where
     TRApp :: TTypeRep a -> TTypeRep b -> TTypeRep (a b)
     TRCon :: TTyCon a -> TTypeRep a
@@ -373,7 +268,7 @@ data TTypeRep (a :: k) :: * where
 While this GADT is expressible in GHC now (note the existential kind in TRApp), **it is not very useful without kind equalities**.   (GHC does not currently support kind equalities, but Richard Eisenberg is working that very question.)  Why?  Here is the type of `TRApp` in its full glory, with normally-invisible kind args in angle brackets:
 
 
-```
+```haskell
 TRApp :: forall k1 k2. forall (a :: k1 -> k2) (b :: k1).
          TTypeRep <k1->k2> a -> TTypeRep <k1> b -> TTypeRep <k2> (a b)
 ```
@@ -382,7 +277,7 @@ TRApp :: forall k1 k2. forall (a :: k1 -> k2) (b :: k1).
 Or, to be really explicit about the existentials:
 
 
-```
+```haskell
 TRApp :: forall k2 (c:k2).                      -- Universal
          forall k1 (a :: k1 -> k2) (b :: k1).   -- Existential
          (c ~ a b)
@@ -395,7 +290,7 @@ TRApp :: forall k2 (c:k2).                      -- Universal
 Now suppose we want to implement `decomposeFun`.  We should be able to do this outside the TCB, i.e. without `unsafeCoerce`:
 
 
-```
+```haskell
 arrowCon :: TTyCon (->)   -- The type rep for (->)
 
 decomposeFun :: TTypeRep fun
@@ -415,7 +310,7 @@ decomposeFun tr def kont
 But look at the arguments of `eqTyCon`:
 
 
-```
+```haskell
    arrowCon :: TTyCon <*->*->*>   (->)
    c        :: TTyCon <k1->k2->*> tc
 ```
@@ -428,7 +323,7 @@ where `k1` and `k2` are existential kinds bound by the two nested `TRApp` constr
 The real work is done by `eqTyCon`:
 
 
-```
+```haskell
 eqTyCon :: forall (k1 k2 :: *). 
            forall (a :: k1) (b :: k2). 
            TTyCon <k1> a -> TTyCon <k2> b -> Maybe (a :~~: b)
@@ -438,7 +333,7 @@ eqTyCon :: forall (k1 k2 :: *).
 where `:~~:` is a *kind-heterogeneous* version of `:~:`:
 
 
-```
+```haskell
 data (a::k1) :~~: (b::k2) where
   HRefl :: forall (a::k).  a :~~: a
 ```
@@ -447,7 +342,7 @@ data (a::k1) :~~: (b::k2) where
 Or, to write the type of `HRefl` with its constraints explicit:
 
 
-```
+```haskell
 HRefl :: forall k1 k2. forall (a::k1) (b::k2).
          (k1 ~ k2, a ~ b) 
       => a :~~: b
@@ -478,7 +373,7 @@ Conclusion: make `TypeRep` abstract.  But then how can we pattern-match on it?  
 With all of this, what is left in the TCB?  The `TTyCon` type is a new abstract type, and the comparison (based on fingerprints) must be in the TCB.
 
 
-```
+```haskell
 TTyCon a  --- abstract type
 eqTyCon :: forall k1 k2. forall (a :: k1) (b :: k2). 
            TTyCon a -> TTyCon b -> Maybe (a :~~: b)
@@ -493,7 +388,7 @@ Note that `TTyCon` represents type constructors already applied to any kind argu
 `withTypeable` could be written in core (and perhaps could be generalized to other constraints) but not in source Haskell:
 
 
-```
+```haskell
 withTypeable :: TypeRep a -> (Typeable a => b) -> b
 ```
 
@@ -523,7 +418,7 @@ implementation of `decomposeFun` will use `unsafeCoerce` and will be part of the
 This version assumes homoegeneous equality (as GHC is today, July 2, 2015). Below is the version with heterogeneous equality.
 
 
-```
+```haskell
 data TTypeRep (a :: k)        -- abstract
 data TTyCon (a :: k)          -- abstract
 
@@ -552,7 +447,7 @@ eqTT    :: forall k (a :: k) (b :: k).
 This assumes heterogeneous equality (that is, with kind equalities).
 
 
-```
+```haskell
 data TTypeRep (a :: k)        -- abstract
 data TTyCon (a :: k)          -- abstract
 
@@ -621,7 +516,7 @@ As painfully demonstrated (painful in the conclusion, not the demonstration!) in
 Drawing this out somewhat: we allow only `Typeable` instances for unapplied constructors. That is, we have
 
 
-```
+```haskell
 deriving instance Typeable Maybe
 ```
 
@@ -629,7 +524,7 @@ deriving instance Typeable Maybe
 never
 
 
-```
+```haskell
 deriving instance Typeable (Maybe Int)
 ```
 
@@ -637,7 +532,7 @@ deriving instance Typeable (Maybe Int)
 However, what if we have
 
 
-```
+```haskell
 data PK (a :: k)
 ```
 
@@ -646,7 +541,7 @@ data PK (a :: k)
 when we write
 
 
-```
+```haskell
 deriving instance Typeable PK
 ```
 
@@ -668,7 +563,7 @@ The "obvious" answer -- don't supply the `k` here -- doesn't work. The instance 
 One (somewhat unpleasant) way forward is to allow kind parameters to be supplied in `Typeable` instances, but still restrict type parameters. So, we would have
 
 
-```
+```haskell
 deriving instance Typeable (PK :: * -> *)
 deriving instance Typeable (PK :: (* -> *) -> *)
 ```
@@ -706,7 +601,7 @@ Some drawbacks:
 We actually don't have a good long-term solution available. We thought that `* :: *` and kind equalities would fix this, but they don't. To see why, let's examine the type of `trApp`:
 
 
-```
+```haskell
 trApp :: forall k k1 (a :: k1 -> k) (b :: k1). 
          TTypeRep a -> TTypeRep b -> TTypeRep (a b)
 ```
@@ -715,7 +610,7 @@ trApp :: forall k k1 (a :: k1 -> k) (b :: k1).
 In the `* :: *` world, it would be reasonable to have `TTypeRep`s for kinds, assuming we have `TTypeRep`s always take explicit kind parameters. So, we might imagine having a `TTypeRep` for `PK` (call it `pkRep`) and a `TTypeRep` for `Bool` (call it `boolRep`). Does `pkRep `trApp` boolRep`` type-check? Unfortunately, no. We have
 
 
-```
+```haskell
 pkRep   :: TTypeRep <forall k. k -> *> PK
 boolRep :: TTypeRep <*> Bool
 ```
@@ -724,7 +619,7 @@ boolRep :: TTypeRep <*> Bool
 but `trApp` says that `a` must have type `k1 -> k` for some `k1` and `k`. Here `PK` would be the value for `a`, but `PK`'s kind is `forall k. k -> *`, which doesn't fit `k1 -> k` at all! We would need to generalize `trApp` to
 
 
-```
+```haskell
 trApp2 :: forall (k1 :: *) (k :: k1 -> *)
                  (a :: pi (b :: k1). k b) (b :: k1).
           TTypeRep <pi (b :: k1). k b> a -> TTypeRep <k1> b

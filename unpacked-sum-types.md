@@ -11,50 +11,7 @@ See also [UnliftedDataTypes](unlifted-data-types)
 
 ## Current status
 
-
-Use **Keyword** = `UnboxedSums` to ensure that a ticket ends up on these lists.
-
-
-
-Open Tickets:
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13276">#13276</a></th>
-<td>Unboxed sums are not Typeable</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14259">#14259</a></th>
-<td>Worker/Wrapper for sum return</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14727">#14727</a></th>
-<td>Unboxed sum performance surprisingly poor</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14865">#14865</a></th>
-<td>GHC Defeats Manual Worker Wrapper with Unboxed Sum</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15358">#15358</a></th>
-<td>no way to talk about unpacking sum types / unpacking tuples</td></tr></table>
-
-
-
-
-Closed Tickets:
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12417">#12417</a></th>
-<td>API annotations for unboxed sums needs reworking</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12478">#12478</a></th>
-<td>Template Haskell support for unboxed sums</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12514">#12514</a></th>
-<td>Can&apos;t write unboxed sum type constructors in prefix form</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12711">#12711</a></th>
-<td>GHC Internal error, unboxed sums</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14051">#14051</a></th>
-<td>Unboxed sums-related panic: getUnboxedSumName 513</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14228">#14228</a></th>
-<td>PatternSynonyms Non-exhaustive with UnboxedSums</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14742">#14742</a></th>
-<td>Unboxed sums can treat Word#s as Int#s</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14752">#14752</a></th>
-<td>Unboxed sums documentation looks wrong</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15067">#15067</a></th>
-<td>When Typeable and unboxed sums collide, GHC panics</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15300">#15300</a></th>
-<td>Unboxed Sums Crash</td></tr></table>
-
+See the ~UnboxedSums label.
 
 
 ## Motivation
@@ -62,7 +19,7 @@ Closed Tickets:
 
 GHC does a good job of unpacking product types. Given a declaration like
 
-```wiki
+```haskell
 data T1 a b = C1 a b
 data T2 a b = C2 {-# UNPACK #-} !(T1 a b)
 ```
@@ -75,7 +32,7 @@ indirection  compared to a packed representation, which uses five words.
 
 Unfortunately, a similar example using sum types cannot be unpacked today:
 
-```wiki
+```haskell
 data T1 a = Some a | None
 data T2 a = C !(T1 a)  -- Cannot UNPACK here
 ```
@@ -126,7 +83,7 @@ analogous to the existing anonymous unboxed tuples. Specifically:
 - Each n-ary-sum type constructor comes with n **data constructors**, with
   systematically-derived names, thus:
 
-  ```wiki
+  ```haskell
   data (#||#) a b c = (# _ | | #) a
                     | (# | _ | #) b
                     | (# | | _ #) c
@@ -136,7 +93,7 @@ analogous to the existing anonymous unboxed tuples. Specifically:
 
 - You use the type constructor in a distfix way, like so:
 
-  ```wiki
+  ```haskell
   (# Int | Bool #)        means   (#|#) Int Bool
   (# Int | Bool | Int #)  means   (#||#) Int Bool Int
   (# Int | Bool #)        means   (#|#) Int Bool
@@ -243,7 +200,7 @@ going to submit it soon)
 
 Given
 
-```wiki
+```haskell
 data T1 a = Some a | None
 data T2 a = C {-# UNPACK #-} !(T1 a)
 ```
@@ -251,7 +208,7 @@ data T2 a = C {-# UNPACK #-} !(T1 a)
 
 we generate a "worker" constructor
 
-```wiki
+```haskell
 C (# a | (# #) #)
 ```
 

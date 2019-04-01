@@ -127,7 +127,8 @@ These labels identify compiler subsystems which are in some way implicated in a 
  * ~"integer-simple": GHC's `integer-simple` bignum library
  * ~"nofib": The nofib benchmark suite
  * ~"packaging": Issues with GHC's released source and binary packages
- * ~plugins: The compiler plugin mechanism (e.g. source plugins, typechecker plugins, Core-to-Core plugins)
+ * ~"typechecker plugins": GHC's typechecker plugin mechanism
+ * ~plugins: The compiler's other plugin mechanisms (e.g. source plugins, Core-to-Core plugins)
  * ~testsuite: GHC's testsuite tests and driver
 
 ## External projects
@@ -175,6 +176,7 @@ These labels identify user-visible language features which a bug is triggered by
  * ~"stream fusion": Issues affect stream fusion applications
  * ~"strings": Treatment of literal strings (~OverloadedStrings may also be relevant)
  * ~"Typeable": The `Typeable` typeclass and associated machinery
+ * ~"type literals" Type-level naturals (`Nat`) and strings (`Symbol`)
  * ~"typed holes": Typed holes
  * ~"Unicode": Issues with Unicode support
  * ~"visible dependent quantification"
