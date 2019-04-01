@@ -10,191 +10,23 @@ we describe the problem and the algorithm.  It forms part of GHC 8.0.
 
 The ticket #11528 tracks our aspiration to return to a more elegant (but currently less performant) implementation.
 
-
-
-Tickets should include `PatternMatchWarnings` in their Keywords to appear in these summary lists.
-
-
-
-**Open Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10116">#10116</a></th>
-<td>Closed type families: Warn if it doesn&apos;t handle all cases</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11195">#11195</a></th>
-<td>New pattern-match check can be non-performant</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11253">#11253</a></th>
-<td>Duplicate warnings for pattern guards and relevant features (e.g. View Patterns)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11503">#11503</a></th>
-<td>TypeError woes (incl. pattern match checker)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11528">#11528</a></th>
-<td>Representation of value set abstractions as trees causes performance issues</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11822">#11822</a></th>
-<td>Pattern match checker exceeded (2000000) iterations</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12694">#12694</a></th>
-<td>GHC HEAD no longer reports inaccessible code</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12949">#12949</a></th>
-<td>Pattern coverage checker ignores dictionary arguments</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13021">#13021</a></th>
-<td>Inaccessible RHS warning is confusing for users</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13363">#13363</a></th>
-<td>Wildcard patterns and COMPLETE sets can lead to misleading redundant pattern-match warnings</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13717">#13717</a></th>
-<td>Pattern synonym exhaustiveness checks don&apos;t play well with EmptyCase</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13766">#13766</a></th>
-<td>Confusing &quot;redundant pattern match&quot; in 8.0, no warning at all in 8.2</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13964">#13964</a></th>
-<td>Pattern-match warnings for datatypes with COMPLETE sets break abstraction</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13965">#13965</a></th>
-<td>COMPLETE sets nerf redundant pattern-match warnings</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14059">#14059</a></th>
-<td>COMPLETE sets don&apos;t work at all with data family instances</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14133">#14133</a></th>
-<td>COMPLETE pragmas seem to be ignored when using view patterns</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14253">#14253</a></th>
-<td>Pattern match checker mistakenly concludes pattern match on pattern synonym is unreachable</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14838">#14838</a></th>
-<td>missing &quot;incomplete-patterns&quot; warning for TH-generated functions</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14851">#14851</a></th>
-<td>&quot;Pattern match has inaccessible right hand side&quot; with TypeRep</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14899">#14899</a></th>
-<td>Significant compilation time regression between 8.4 and HEAD due to coverage checking</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14987">#14987</a></th>
-<td>Memory usage exploding for complex pattern matching</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15014">#15014</a></th>
-<td>Exhaustivity check should suggest when COMPLETE could be helpful</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15554">#15554</a></th>
-<td>COMPLETE pragmas make overlapping-patterns warnings behave oddly</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15681">#15681</a></th>
-<td>Take exhaustiveness checking into consideration when using MonadFailDesugaring</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15713">#15713</a></th>
-<td>Bogus -Woverlapping-patterns warning with OverloadedStrings</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15744">#15744</a></th>
-<td>Existence of complete pattern synonym hides unrelated incomplete pattern warning</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15753">#15753</a></th>
-<td>Inconsistent pattern-match warnings when using guards versus case expressions</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15885">#15885</a></th>
-<td>Enhancing COMPLETE pragma to support pattern synonyms with polymorphic (output) types</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16128">#16128</a></th>
-<td>Pattern match checker should shortcut on simple cases</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16278">#16278</a></th>
-<td>Exhaustivity checking GADT with free variables</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16289">#16289</a></th>
-<td>GHC thinks pattern match is exhaustive</td></tr></table>
+See the ~"pattern match warnings" label for many other relevant tickets.
 
 
 
-
-**Closed Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/322">#322</a></th>
-<td>fromInteger-related pattern match overlap warnings</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/595">#595</a></th>
-<td>Overhaul GHC&apos;s overlapping/non-exhaustive pattern checking</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/2204">#2204</a></th>
-<td>Improve &apos;patterns not matched&apos; warnings</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/3927">#3927</a></th>
-<td>Incomplete/overlapped pattern warnings + GADTs = inadequate</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/4139">#4139</a></th>
-<td>Spurious non-exhaustive pattern match warnings are given using GADTs</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5724">#5724</a></th>
-<td>Confusing warning message for incomplete patterns</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5728">#5728</a></th>
-<td>Warnings from -fwarn-incomplete-record-updates even with all constructors matched</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5762">#5762</a></th>
-<td>GHC gives incorrect warnings with simple applications of the view patterns extension</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/6124">#6124</a></th>
-<td>Spurious non-exhaustive warning with GADT and newtypes</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7669">#7669</a></th>
-<td>Empty case causes warning</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8016">#8016</a></th>
-<td>case expression with mixed use of Num instances cause spurious overlap warning</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8494">#8494</a></th>
-<td>Warn if a pattern guard obviates all others</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8710">#8710</a></th>
-<td>Overlapping patterns warning misplaced</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8853">#8853</a></th>
-<td>Surprising mention of unboxed integers in pattern exhaustiveness warning</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8970">#8970</a></th>
-<td>Non-exhaustive pattern match warning with DataKinds and TypeFamilies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9113">#9113</a></th>
-<td>Template Haskell should warn about non-exhaustive pattern matches</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9951">#9951</a></th>
-<td>OverloadedLists breaks exhaustiveness check</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10393">#10393</a></th>
-<td>Bogus warning with OverloadedLists</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10746">#10746</a></th>
-<td>No non-exhaustive pattern match warning given for empty case analysis</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11160">#11160</a></th>
-<td>New exhaustiveness checker breaks ghcirun004</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11161">#11161</a></th>
-<td>New exhaustiveness checker breaks concurrent/prog001</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11162">#11162</a></th>
-<td>T783 regresses severely in allocations with new pattern match checker</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11163">#11163</a></th>
-<td>New exhaustiveness checker breaks T5642</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11276">#11276</a></th>
-<td>GHC hangs/takes an exponential amount of time with simple program</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11302">#11302</a></th>
-<td>GHC HEAD uses up all memory while compiling `genprimcode`</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11303">#11303</a></th>
-<td>Pattern matching against sets of strings sharing a prefix blows up pattern checker</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11316">#11316</a></th>
-<td>Too many guards warning causes issues</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11374">#11374</a></th>
-<td>`-Woverlapping-patterns` induced memory-blowup</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11390">#11390</a></th>
-<td>GHC does not warn about redundant patterns</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11806">#11806</a></th>
-<td>GHC does not warn for mistakenly empty case</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11984">#11984</a></th>
-<td>Pattern match incompleteness / inaccessibility discrepancy</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12158">#12158</a></th>
-<td>ghc: panic! (the &apos;impossible&apos; happened)  translateConPatVec: lookup</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13517">#13517</a></th>
-<td>No warnings produced, yet the pattern matching fails at runtime.</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14098">#14098</a></th>
-<td>Incorrect pattern match warning on nested GADTs</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14546">#14546</a></th>
-<td>-Woverlapping-patterns warns on wrong patterns for Int</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14547">#14547</a></th>
-<td>Wrong warning by -Wincomplete-patterns</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14773">#14773</a></th>
-<td>MultiWayIf makes it easy to write partial programs that are not catched by -Wall</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14813">#14813</a></th>
-<td>EmptyCase thinks pattern match involving type family is not exhaustive, when it actually is</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15305">#15305</a></th>
-<td>Erroneous &quot;non-exhaustive pattern match&quot; using nested GADT with strictness annotation</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15385">#15385</a></th>
-<td>-Wincomplete-patterns gets confused when combining GADTs and pattern guards</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15398">#15398</a></th>
-<td>GADT deriving Ord generates inaccessible code in a pattern with constructor.</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15450">#15450</a></th>
-<td>Inconsistency w.r.t. coverage checking warnings for EmptyCase under unsatisfiable constraints</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15584">#15584</a></th>
-<td>nonVoid is too conservative w.r.t. strict argument types</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15884">#15884</a></th>
-<td>Completeness of View Patterns With a Complete Set of Output Patterns</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15886">#15886</a></th>
-<td>Spurious warning about incomplete pattern with PatternSynonyms</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16129">#16129</a></th>
-<td>Incorrect non-exhaustive pattern warning with PatternSynonyms</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/16377">#16377</a></th>
-<td>`TypeError` in a pattern should flag inaccessible code</td></tr></table>
-
-
-
-
-**Background**:
+## Background
 
 - The paper on which the previous approach was based [Two techniques for compiling lazy pattern matching](http://moscova.inria.fr/~maranget/papers/lazy-pats-derniere.ps.gz)
 - Peter Sestoft's paper for negative patterns [ML's pattern matching compilation and partial evaluation](http://lambda.csail.mit.edu/~chet/papers/others/s/sestoft/sestoft96ml.pdf)
 
-**Our solution**
+## Our solution
 
 - Our paper, describing the algorithm we implemented [GADTs meet their match](http://people.cs.kuleuven.be/~george.karachalias/papers/p424-karachalias.pdf).
 - [PatternMatchCheckImplementation](pattern-match-check-implementation) talks about the implementation in GHC.
 
-**Related tickets** (ones that are closed are still useful examples in the wild; they were only closed as duplicates):
+## Related tickets
+
+Ones that are closed are still useful examples in the wild; they were only closed as duplicates:
 
 - #29
 - #322
@@ -228,7 +60,7 @@ Since GHC's exhaustiveness/redundancy checker was outdated, it did not take into
 by GADT matches when reporting warnings. This is illustrated in the following example (#3927):
 
 
-```
+```haskell
 data T a where
   T1 :: T Int
   T2 :: T Bool
@@ -254,7 +86,7 @@ Obviously, both pattern vectors issued as not matched, are ill-typed, because th
 constraint `Int ~ Bool`. This becomes more clear if we rewrite the definition of `T` in the equivalent form:
 
 
-```
+```haskell
 data T a where
   T1 :: forall a. (a ~ Int)  => T a
   T2 :: forall a. (a ~ Bool) => T a
@@ -264,7 +96,7 @@ data T a where
 Additionally, if we add one more branch to `f`:
 
 
-```
+```haskell
 f :: T a -> T a -> Bool
 f T1 T1 = True
 f T2 T2 = False
@@ -328,7 +160,7 @@ For example, for function `f` above we have:
 
 - initial_missing = `[(x y)]` where `x :: T a` and `y :: T a`
 
-  ```
+  ```haskell
   f T1 T1 = True -- first clause
   ```
 - Covers `[(T1 T1 |> {a ~ Int, a ~ Int})]`
@@ -336,8 +168,8 @@ For example, for function `f` above we have:
 - If 1st argument is `T1` forces the evaluation of the 2nd argument
 - Remain uncovered:
 
-  ```wiki
-  [(T2 y  |> {a ~ Bool})
+  ```
+  [ (T2 y  |> {a ~ Bool})
   , (T1 T2 |> {a ~ Int, a ~ Bool) ]
   ```
 
@@ -348,15 +180,15 @@ of constraints is the ` |> {...}`-part of every vector. Now it becomes apparent 
 (`a ~ Int, a ~ Bool`) is not satisfiable (which in turn means that it represents an inaccessible case).
 Removing the second vector gives us:
 
-```wiki
-uncovered = [(T2 y  |> {a ~ Bool})]
+```
+uncovered = [ (T2 y  |> {a ~ Bool})]
 ```
 
 
 With this, we now process the second clause:
 
 
-```
+```haskell
 f T2 T2 = False -- second clause
 ```
 
@@ -367,7 +199,7 @@ f T2 T2 = False -- second clause
 
 Same as before, the uncovered set contains non satisfiable constraints, so we end up with
 
-```wiki
+```haskell
 uncovered = []
 ```
 
@@ -375,7 +207,7 @@ uncovered = []
 Finally, checking the last clause given that nothing is uncovered we get: 
 
 
-```
+```haskell
 f _  _  = undefined -- third clause (inaccessible)
 ```
 
@@ -400,7 +232,7 @@ term constraints so that we can handle guards (see section below).
 A pattern guard (`p <- e`) behaves exactly like if we had one more argument to pattern match against. For example:
 
 
-```
+```haskell
 f x :: [a] -> Bool
 f x | (z:zs) <- x = ...
 ```
@@ -409,7 +241,7 @@ f x | (z:zs) <- x = ...
 is equivalent to:
 
 
-```
+```haskell
 g x :: [a] -> [a] -> Bool
 g x (z:zs) = ...
 
@@ -422,7 +254,7 @@ Using this trick, we can reason about pattern guards in the same way we reason a
 Consider the following example:
 
 
-```
+```haskell
 -- the above example, written using guards
 f :: T a -> T a -> Bool
 f c d | T1 <- c, T1 <- d = True
@@ -478,7 +310,7 @@ cases:
 Consider the following function:
 
 
-```
+```haskell
 g :: Bool -> Bool -> Bool
 g _    True = True
 g True True = True
@@ -534,7 +366,7 @@ By "useful" we mean that the RHS will be returned if matched.
 Interestingly, one can trigger this behaviour indirectly, using GADTs. Consider the function `h`:
 
 
-```
+```haskell
 data F a where
   F1 :: F Int
   F2 :: F Bool
@@ -552,7 +384,7 @@ h _  G1 = 2 -- what about this clause?
 Running the check on the first clause leaves us with an uncovered set:
 
 ```wiki
-uncovered = [(F2 y  |> {a ~ Bool})
+uncovered = [ (F2 y  |> {a ~ Bool})
             , (F1 G2 |> {a ~ Int, a ~ Char}) ]
 ```
 
@@ -560,7 +392,7 @@ uncovered = [(F2 y  |> {a ~ Bool})
 and by dropping the second (has non-satisfiable type constraints) we end up with:
 
 ```wiki
-uncovered = [(F2 y  |> {a ~ Bool}) ]
+uncovered = [ (F2 y  |> {a ~ Bool}) ]
 ```
 
 
@@ -572,7 +404,7 @@ About the second clause:
 - The covered set is:
 
   ```wiki
-  covered = [(F2 G1  |> {a ~ Bool, a ~Int}) ]
+  covered = [ (F2 G1  |> {a ~ Bool, a ~Int}) ]
   ```
 
 
@@ -586,7 +418,7 @@ call-by-value, `F2 undefined` is a perfectly well-typed combination of arguments
 the following interesting behaviour:
 
 
-```
+```haskell
 h1 :: F a -> G a -> Int
 h1 F1 G1 = 1
 h1 _  G1 = 2 -- emits warning that the RHS is inaccessible
