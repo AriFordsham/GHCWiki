@@ -73,9 +73,9 @@ Issues lacking of these labels are assumed to be reproducible on x86-64.
  * ~unregisterised: Issues with GHC's unregisterised C backend
  * ~determinism: Issues of non-determinism in GHC's output (see #4012)
 
-# Bug subsystems
+# Subsystems
 
-These labels identify compiler subsystems which are in some way implicated in a bug.
+These labels identify compiler subsystems which are in some way implicated in a bug or touched by a merge request.
 
  * ~"ambiguity check": A bug in type ambiguity checking
  * ~"API annotations": TODO
