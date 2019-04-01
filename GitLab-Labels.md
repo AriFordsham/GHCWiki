@@ -32,18 +32,22 @@ These labels describe how a ~bug manifests. Usually every bug should be bear exa
 
 # Issue lifecycle
 
+These indicate various stages in the lifecycle of an issue.
+
  * ~"needs triage": An issue that hasn't yet been triaged. This involves a maintainer applying the appropriate labels and weight.
  * ~"info needed": Information is needed from the issue reporter
  * ~"upstream": Things that require coordination with an upstream package
 
 ## Backport status
 
+These labels are to do with backporting of fixes to stable release branches.
+
  * ~"backport needed": This denotes a merge request which should be backported to a stable branch before the next release.
  * ~"backport": This denotes a merge request which backports a merge request to a stable branch. The merge request description should link to the MR or issue from which the backported patch came
 
 # Bug environmental scope
 
-These labels identify the environments in which a bug will manifest.
+These labels identify the environments in which a ~bug will manifest.
 
 ## Operating systems
 
