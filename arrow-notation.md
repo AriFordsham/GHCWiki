@@ -16,51 +16,7 @@ Apart from the tickets below, there are a number of things that need doing
 
 ## Tickets
 
-
-
-Use Keyword = `Arrows` to ensure that a ticket ends up on these lists.
-
-
-
-**Open Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/344">#344</a></th>
-<td>arrow notation: incorrect scope of existential dictionaries</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5267">#5267</a></th>
-<td>Missing type checks for arrow command combinators</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5777">#5777</a></th>
-<td>core lint error with arrow notation and GADTs</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7828">#7828</a></th>
-<td>RebindableSyntax and Arrow</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9985">#9985</a></th>
-<td>GHC panic with ViewPatterns and GADTs in a proc pattern</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10582">#10582</a></th>
-<td>Tiny bug in lexer around lexing banana brackets</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13547">#13547</a></th>
-<td>Lint error in arrows program</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15175">#15175</a></th>
-<td>ghc: panic! (the &apos;impossible&apos; happened)</td></tr></table>
-
-
-
-
-**Closed Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/2722">#2722</a></th>
-<td>&lt;&lt;loop&gt; when compiling with -O option with ghc-6.10.0.20081019</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/3822">#3822</a></th>
-<td>guards in arrow notation (Arrows extension) case statement cause compiler panic</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5022">#5022</a></th>
-<td>Core Lint error from polymorphic definitions inside arrow rec</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5333">#5333</a></th>
-<td>Arrow command combinators and infixr cause the desugarer to fail</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/5609">#5609</a></th>
-<td>Type checking arrow notation in the presence of deferred constraints</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7071">#7071</a></th>
-<td>Refactoring arrows</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8505">#8505</a></th>
-<td>Arrows example error</td></tr></table>
-
+See the ~Arrows label.
 
 
 ## Changing the types of arrow operators (implemented in March 2013, for GHC 7.8)
@@ -68,14 +24,14 @@ Use Keyword = `Arrows` to ensure that a ticket ends up on these lists.
 
 Currently, the type of each argument of an operator (and its result) is required to have the form
 
-```wiki
+```haskell
 a (...(e,t1), ... tn) t
 ```
 
 
 where `e` is a polymorphic type variable shared by all these types, but the arrow types `a` can vary.  The *User's Guide* has these examples:
 
-```wiki
+```haskell
 ArrowPlus a => (<+>) :: a e c -> a e c -> a e c
 untilA :: ArrowChoice a => a e () -> a e Bool -> a e ()
 handleA :: ... => a e c -> a (e,Ex) c -> a e c
@@ -93,14 +49,14 @@ The problem is that to work out how many `ti`s there are, the type checker needs
 
 The plan is to re-arrange the shapes of the argument and result types to
 
-```wiki
+```haskell
 a (e, (t1, ... (tn, ())...)) t
 ```
 
 
 For the above examples, the new types will be
 
-```wiki
+```haskell
 ArrowPlus a => (<+>) :: a (e,()) c -> a (e,()) c -> a (e,()) c
 untilA :: ArrowChoice a => a (e,()) () -> a (e,()) Bool -> a (e,()) ()
 handleA :: ... => a (e,()) c -> a (e,(Ex,())) c -> a (e,()) c
@@ -120,7 +76,7 @@ Now in the cases of `(<+>)`, `untilA` and `bind`, the new types are specializati
 
 The translation of many of the different varieties of command does not require the full `Arrow` class, but rather just
 
-```wiki
+```haskell
 premap :: Arrow a => (b -> b') -> a b' c -> a b c
 premap f g = arr f >>> g
 ```
@@ -128,7 +84,7 @@ premap f g = arr f >>> g
 
 So the proposal is to introduce a superclass of `Arrow` with just this:
 
-```wiki
+```haskell
 class PreArrow a where
     premap :: Arrow a => (b -> b') -> a b' c -> a b c
 ```
