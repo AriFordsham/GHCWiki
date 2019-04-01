@@ -115,50 +115,32 @@ the FD-consistency follows trivially.
 
 - FD-consistency is orthogonal to instance coherence.
 
->
-> >
-> >
-> > FD-consistent but not coherent:
-> >
-> >
-> > ```wiki
-> >          instance C Int Int Int where f = definition_1
-> >          instance C Int Int Int where f = definition_2
-> > ```
-> >
-> >
-> > Coherent but not FD-consistent:
-> >
-> >
-> > ```wiki
-> >          instance C Int  Int Char where ...
-> >          instance C Char Int Bool where ...
-> > ```
->
->
+  FD-consistent but not coherent:
+  
+  ```haskell
+  instance C Int Int Int where f = definition_1
+  instance C Int Int Int where f = definition_2
+  ```
+  
+  Coherent but not FD-consistent:
+  
+  ```haskell
+  instance C Int  Int Char where ...
+  instance C Char Int Bool where ...
+  ```
 
 - FD-consistency is orthogonal to termination of instances.
 
->
-> >
-> > >
-> > >
-> > > FD-consistent but "non-terminating":
-> > >
-> > >
-> > > ```wiki
-> > >          instance C a b c => C a b c
-> > > ```
-> > >
-> > >
-> > > Terminating but not FD-consistent:
-> > >
-> > >
-> > > ```wiki
-> > >          instance C Int  Int Char where ...
-> > >          instance C Char Int Bool where ...
-> > > ```
-> >
-> >
->
+  FD-consistent but "non-terminating":
+  
+  ```haskell
+  instance C a b c => C a b c
+  ```
+  
+  Terminating but not FD-consistent:
+  
+  ```haskell
+  instance C Int  Int Char where ...
+  instance C Char Int Bool where ...
+  ```
 
