@@ -67,6 +67,7 @@ These labels identify the environments in which a ~bug will manifest.
  * ~cpp: Bugs related to use of the C preprocessor
  * ~cross-compilation: Bugs which only show up during cross-compilation
  * ~unregisterised: Issues with GHC's unregisterised C backend
+ * ~determinism: Issues of non-determinism in GHC's output (see #4012)
 
 # Bug subsystems
 
