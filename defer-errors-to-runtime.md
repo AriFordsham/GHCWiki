@@ -1,6 +1,5 @@
 # Deferring compilation type errors to runtime
 
-
 This page describes the `-fdefer-type-errors` flag that was added in GHC 7.6.1. Ticket #5624 tracks this feature request.
 
 
@@ -8,29 +7,7 @@ For more information, see the associated [Equality Proofs and Deferred Type Erro
 
 ## Tickets
 
-
-
-Use Keyword = `DeferredErrors` to ensure that a ticket ends up on these lists.
-
-
-
-**Open Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11197">#11197</a></th>
-<td>Overeager deferred type errors</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14370">#14370</a></th>
-<td>improve documentation of -fdefer-typed-holes for naked expressions in ghci</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14722">#14722</a></th>
-<td>Error message points to wrong location</td></tr></table>
-
-
-
-
-**Closed Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14325">#14325</a></th>
-<td>Erroneous program emits no errors</td></tr></table>
-
+See the ~"deferred type errors" label.
 
 
 ## Overview
@@ -39,7 +16,7 @@ Use Keyword = `DeferredErrors` to ensure that a ticket ends up on these lists.
 While developing, sometimes it is desirable to allow compilation to succeed even
 if there are type errors in the code. Consider the following case:
 
-```wiki
+```haskell
 module Main where
 
 a :: Int
@@ -58,7 +35,7 @@ we run into a type mismatch in `TcUnify`, we would normally just emit an error. 
 is always safe to defer the mismatch to the main constraint solver. If we do
 that, `a` will get transformed into
 
-```wiki
+```haskell
 $co :: Int ~# Char
 $co = ...
 
@@ -79,7 +56,7 @@ the way".
 
 Here's an example of all sorts of errors that can be deferred:
 
-```wiki
+```haskell
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE GADTs #-}
 {-# OPTIONS_GHC -fdefer-type-errors #-}
