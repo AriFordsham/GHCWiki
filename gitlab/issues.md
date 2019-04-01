@@ -53,6 +53,8 @@ When a fix for an open issue is landed, it is good practice to look over the tic
 
    GHC uses a formal convention to note the addition of tests on an issue. When adding a test for an issue also leave a comment of the following form on the ticket:
    
+   > This is a comment. Blah blah blah. More things to say. Lorem ipsum.
+   > 
    > Tests: T1234
    
  * Are the **issue and resolving merge request linked**? A link will be created automatically if the MR description mentions the ticket. Otherwise leave a comment on the ticket pointing to the MR.
