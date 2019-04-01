@@ -17,7 +17,7 @@ But, why would we be interested in modifying GHC's concurrency environment? Ther
 
 While we want to provide flexibility to the Haskell programmer, this should not come at a cost of added complexity and decreased performance. This idea reflects in the synchronization abstractions exposed to the programmer - [Primitive Transactional Memory(PTM)](lightweight-concurrency#ptm)), and our decision to keep certain pieces of the concurrency puzzle in the RTS ([Safe Foreign Calls](lightweight-concurrency#safe-foreign-calls),[Blackholes](lightweight-concurrency#)). One would think lifting parts of the runtime system to Haskell, and retaining other parts in C, would complicate the interactions between the concurrency primitives and schedulers. We abstract the scheduler interface using PTM monads, which simplifies the interactions. The figure below captures the key design principles of the proposed system.
 
-![](LightweightConcurrency/GHC_LWC_Key.jpg)
+![](lightweight-concurrency/GHC_LWC_Key.jpg)
 
 
 Although implementing concurrency primitives as a library is hardly a novel idea, the aim of this work is to bring it to the GHC programmer, without having to give up any of the existing concurrency features in return.
