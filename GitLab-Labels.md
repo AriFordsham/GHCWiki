@@ -127,8 +127,8 @@ These labels identify compiler subsystems which are in some way implicated in a 
  * ~"integer-simple": GHC's `integer-simple` bignum library
  * ~"nofib": The nofib benchmark suite
  * ~"packaging": Issues with GHC's released source and binary packages
- * ~"typechecker plugins": GHC's typechecker plugin mechanism
  * ~plugins: The compiler's other plugin mechanisms (e.g. source plugins, Core-to-Core plugins)
+ * ~"typechecker plugins": GHC's typechecker plugin mechanism
  * ~testsuite: GHC's testsuite tests and driver
 
 ## External projects
@@ -187,6 +187,7 @@ These labels correspond to the language extensions after which they are named.
 
  * ~ApplicativeDo
  * ~Arrows
+ * ~BangPatterns
  * ~ConstraintKinds
  * ~DataKinds
  * ~DefaultSignatures
@@ -219,4 +220,3 @@ These labels correspond to the language extensions after which they are named.
  * ~UndecidableSuperClasses
  * ~UndecideableInstances
  * ~ViewPatterns
-
