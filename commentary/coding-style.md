@@ -308,7 +308,7 @@ In order to avoid angering this git hook, you should set your editor to indent u
 
 - In TextMate, in the tabs pop-up menu at the bottom of the window, select "Soft Tabs", as show in the following screenshot where the blue rectangle is:
 
-  ![](CodingStyle/TextMate-tabs-menu.png)
+  ![](coding-style/TextMate-tabs-menu.png)
 
   Alternatively, open the Bundle Editor and add a new Preference called Indentation to the bundle editor. Give it the following contents:
 
