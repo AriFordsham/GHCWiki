@@ -62,14 +62,11 @@ Here is the setup in more detail:
   - `git add libraries/parallel`: record the new library commit in the main GHC repo.
   - `git push`, with a commit message mentioning the word "submodule"
 
->
->
-> More details in [the Submodules page](working-conventions/git/submodules)
->
->
+  More details in [the Submodules page](working-conventions/git/submodules)
 
 
 Here are the submodules we use, and where their upstreams point:
+
 
 
 <table><tr><th><b>Location in tree</b></th>

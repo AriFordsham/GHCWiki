@@ -20,8 +20,7 @@ The other implementation currently available is `integer-simple`, which uses a s
 All Integer implementations should export the same set of types and functions from `GHC.Integer` (within whatever `integer` package you are using). These exports are used by the `base` package. However, all of these types and functions must actually be defined in `GHC.Integer.Type`, so that GHC knows where to find them.
 Specifically, the interface is this:
 
-
-```
+```haskell
 data Integer 
 
 mkInteger :: Bool   -- True <=> non-negative
@@ -60,7 +59,7 @@ plusInteger :: Integer -> Integer -> Integer
 
 - **Core**.  In `Core` representation, an integer literal is represented by the `LitInteger` constructor of the `Literal` type. 
 
-  ```
+  ```haskell
   data Literal = ... | LitInteger Integer Type
   ```
 
@@ -68,7 +67,7 @@ plusInteger :: Integer -> Integer -> Integer
 
 - **Constant folding**.  There are many constant-folding optimisations for `Integer` expressed as built-in rules in [compiler/prelude/PrelRules.lhs](/ghc/ghc/tree/master/ghc/compiler/prelude/PrelRules.lhs); look at `builtinIntegerRules`.  All of the types and functions in the `Integer` interface have built-in names, e.g. `plusIntegerName`, defined in [compiler/prelude/PrelNames.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.lhs) and included in `basicKnownKeyNames`. This allows us to match on all of the functions in `builtinIntegerRules` in [compiler/prelude/PrelRules.lhs](/trac/ghc/browser/ghc/compiler/prelude/PrelRules.lhs), so we can constant-fold Integer expressions. An important thing about constant folding of Integer divisions is that they depend on inlining. Here's a fragment of `Integral Integer` instance definition from `libraries/base/GHC/Real.lhs`:
 
-  ```
+  ```haskell
   instance Integral Integer where
       toInteger n      = n
 
@@ -81,13 +80,13 @@ plusInteger :: Integer -> Integer -> Integer
 
 - **Converting between Int and Integer**.  It's quite commonly the case that, after some inlining, we get something like `integerToInt (intToInteger i)`, which converts an `Int` to an `Integer` and back.  This *must* optimise away (see [\#5767](https://gitlab.haskell.org/ghc/ghc/issues/5767)).  We do this by requiring that the `integer` package exposes
 
-  ```
+  ```haskell
   smallInteger :: Int# -> Integer
   ```
 
   Now we can define `intToInteger` (or, more precisely, the `toInteger` method of the `Integral Int` instance in `GHC.Real` ) thus
 
-  ```
+  ```haskell
   toInteger (I# i) = smallInteger i
   ```
 
@@ -95,21 +94,13 @@ plusInteger :: Integer -> Integer -> Integer
 
 - **Representing integers**.  We stick to the `LitInteger` representation (which hides the concrete representation) as late as possible in the compiler.   In particular, it's important that the `LitInteger` representation is used in unfoldings in interface files, so that constant folding can happen on expressions that get inlined.  
 
->
->
-> We finally convert `LitInteger` to a proper core representation of Integer in [compiler/coreSyn/CorePrep.lhs](/trac/ghc/browser/ghc/compiler/coreSyn/CorePrep.lhs), which looks up the Id for `mkInteger` and uses it to build an expression like `mkInteger True [123, 456]` (where the `Bool` represents the sign, and the list of `Int`s are 31 bit chunks of the absolute value from lowest to highest).
->
->
+  We finally convert `LitInteger` to a proper core representation of Integer in [compiler/coreSyn/CorePrep.lhs](/ghc/ghc/tree/master/ghc/compiler/coreSyn/CorePrep.lhs), which looks up the Id for `mkInteger` and uses it to build an expression like `mkInteger True [123, 456]` (where the `Bool` represents the sign, and the list of `Int`s are 31 bit chunks of the absolute value from lowest to highest).
 
->
->
-> However, there is a special case for `Integer`s that are within the range of `Int` when the `integer-gmp` implementation is being used; in that case, we use the `S#` constructor (via `integerGmpSDataCon` in [compiler/prelude/TysWiredIn.lhs](/trac/ghc/browser/ghc/compiler/prelude/TysWiredIn.lhs)) to break the abstraction and directly create the datastructure.
->
->
+  However, there is a special case for `Integer`s that are within the range of `Int` when the `integer-gmp` implementation is being used; in that case, we use the `S#` constructor (via `integerGmpSDataCon` in [compiler/prelude/TysWiredIn.lhs](/ghc/ghc/tree/master/ghc/compiler/prelude/TysWiredIn.lhs)) to break the abstraction and directly create the datastructure.
 
 - **Don't inline integer functions**.  Most of the functions in the Integer implementation in the `integer` package are marked `NOINLINE`. For example in `integer-gmp` we have
 
-  ```
+  ```haskell
   plusInteger :: Integer -> Integer -> Integer
   plusInteger (S# i1) (S# i2) = ...
   plusInteger (S# i1) (J# j1 j2) = ...

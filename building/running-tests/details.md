@@ -22,236 +22,96 @@ execute each one, keeping a track of the number of tests run, and
 which ones succeeded and failed.
 
 
-
 The script runtests.py takes several options:
 
+- -e \<stmt\>
 
->
->
-> -e \<stmt\>
->
->
+  executes the Python statement \<stmt\> before running any tests.
+  The main purpose of this option is to allow certain
+  configuration options to be tweaked from the command line; for
+  example, the build system adds '-e config.accept=1' to the
+  command line when 'make accept' is invoked.
 
->
-> >
-> >
-> > executes the Python statement \<stmt\> before running any tests.
-> > The main purpose of this option is to allow certain
-> > configuration options to be tweaked from the command line; for
-> > example, the build system adds '-e config.accept=1' to the
-> > command line when 'make accept' is invoked.
-> >
-> >
->
+- --config-file \<file\>
 
->
->
-> --config-file \<file\>
->
->
+  \<file\> is just a file containing Python code which is 
+  executed.   The purpose of this option is so that a file
+  containing settings for the configuration options can
+  be specified on the command line.  Multiple --config-file 
+  options may be given. (There is a depreciated --configfile
+  flag that exists so the testsuite runs on older commits) 
 
+- --config \<field\>
 
-  
+  This command is the single-field variant of --config-file.
+  Multiple --config options may be given.
 
+- --rootdir \<dir\>
 
->
-> >
-> >
-> > \<file\> is just a file containing Python code which is 
-> > executed.   The purpose of this option is so that a file
-> > containing settings for the configuration options can
-> > be specified on the command line.  Multiple --config-file 
-> > options may be given. (There is a depreciated --configfile
-> > flag that exists so the testsuite runs on older commits) 
-> >
-> >
->
+  \<dir\> is the directory below which to search for .T files
+  to run.
 
->
->
-> --config \<field\>
->
->
+- --summary-file \<file\>
 
->
-> >
-> >
-> > This command is the single-field variant of --config-file.
-> > Multiple --config options may be given.
-> >
-> >
->
+  In addition to dumping the test summary to stdout, also
+  put it in \<file\>.  (stdout also gets a lot of other output
+  when running a series of tests, so redirecting it isn't  
+  always the right thing).
 
->
->
-> --rootdir \<dir\>
->
->
+- --no-print-summary
 
->
-> >
-> >
-> > \<dir\> is the directory below which to search for .T files
-> > to run.
-> >
-> >
->
+  If this flag is given on the commandline, the summary will 
+  not be printed.
 
->
->
-> --summary-file \<file\>
->
->
+- --only \<test\>
 
->
-> >
-> >
-> > In addition to dumping the test summary to stdout, also
-> > put it in \<file\>.  (stdout also gets a lot of other output
-> > when running a series of tests, so redirecting it isn't  
-> > always the right thing).
-> >
-> >
->
+  Only run tests named \<test\> will be run; multiple --only options 
+  can be given.  Useful for running a single test from a .T file
+  containing multiple tests.
 
->
->
-> --no-print-summary
->
->
+- --way \<way\>
 
->
-> >
-> >
-> > If this flag is given on the commandline, the summary will 
-> > not be printed.
-> >
-> >
->
+  Only ways named \<way\> will be run; multiple --way options can
+  be given.
 
->
->
-> --only \<test\>
->
->
+- --skipway \<way\>
 
->
-> >
-> >
-> > Only run tests named \<test\> will be run; multiple --only options 
-> > can be given.  Useful for running a single test from a .T file
-> > containing multiple tests.
-> >
-> >
->
+  The inverse of --way. \<way\> will be skipped if it would
+  otherwise be ran.
 
->
->
-> --way \<way\>
->
->
-> >
-> >
-> > Only ways named \<way\> will be run; multiple --way options can
-> > be given.
-> >
-> >
->
+- --threads \<number\>
 
->
->
-> --skipway \<way\>
->
->
-> >
-> >
-> > The inverse of --way. \<way\> will be skipped if it would
-> > otherwise be ran.
-> >
-> >
->
+  Execute the testsuite in parallel.
 
->
->
-> --threads \<number\>
->
->
-> >
-> >
-> > Execute the testsuite in parallel.
-> >
-> >
->
+- --verbose \<number\>
 
->
->
-> --verbose \<number\>
->
->
-> >
-> >
-> > A verbosity value between 0 and 5. 0 is silent, 4 and higher
-> > activates extra output.
-> >
-> >
->
+  A verbosity value between 0 and 5. 0 is silent, 4 and higher
+  activates extra output.
 
->
->
-> --skip-perf-tests
->
->
-> >
-> >
-> > All performance tests will be skipped.
-> >
-> >
->
+- --skip-perf-tests
 
->
->
-> --only-perf-tests
->
->
-> >
-> >
-> > Skips all tests except for performance tests. Useful for
-> > quickly determining if any changes have introduced a
-> > performance regression.
-> >
-> >
->
+  All performance tests will be skipped.
 
->
->
-> --junit \<file\>
->
->
-> >
-> >
-> > Writes the testsuite summary to \<file\> in JUnit format.
-> >
-> >
->
+- --only-perf-tests
 
->
->
-> --test-env \<string\>
->
->
-> >
-> >
-> > Test-env defaults to 'local' if this flag is not given.
-> > If given, the performance test output (which is saved to
-> > git notes automatically) will contain the test-env you
-> > set. This is useful for copying over git notes to different
-> > computers without having to worry about different performance
-> > numbers due to hardware differences; it can also be used
-> > as an ad-hoc "tag" with the comparison tool to separate
-> > out different test-runs without committing.
-> >
-> >
->
+  Skips all tests except for performance tests. Useful for
+  quickly determining if any changes have introduced a
+  performance regression.
+
+- --junit \<file\>
+
+  Writes the testsuite summary to \<file\> in JUnit format.
+
+- --test-env \<string\>
+
+  Test-env defaults to 'local' if this flag is not given.
+  If given, the performance test output (which is saved to
+  git notes automatically) will contain the test-env you
+  set. This is useful for copying over git notes to different
+  computers without having to worry about different performance
+  numbers due to hardware differences; it can also be used
+  as an ad-hoc "tag" with the comparison tool to separate
+  out different test-runs without committing.
 
 
 Most of the code for running tests is located in driver/testlib.py.

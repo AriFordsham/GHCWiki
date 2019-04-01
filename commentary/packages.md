@@ -11,81 +11,62 @@ GHC maintains a package database, that is basically a list of `InstalledPackageI
 
 There are four main components of the package system:
 
-<table><tr><th>Cabal</th>
-<td>
-Cabal is a Haskell library, which provides basic data types for the package system, and support for building,
+- **Cabal**
+
+  Cabal is a Haskell library, which provides basic data types for the package system, and support for building,
 configuring, and installing packages.
-</td></tr></table>
 
+- **GHC itself**
 
-<table><tr><th>GHC itself</th>
-<td>
-GHC reads the package database(s), understands the flags <tt>-package</tt>, <tt>-hide-package</tt>, etc., and uses the package database
-to find <tt>.hi</tt> files and library files for packages.  GHC imports modules from Cabal.
-</td></tr></table>
+  GHC reads the package database(s), understands the flags `-package`, `-hide-package`, etc., and uses the package database
+to find `.hi` files and library files for packages.  GHC imports modules from Cabal.
 
+- **`ghc-pkg`**
 
-<table><tr><th><tt>ghc-pkg</tt></th>
-<td>
-The <tt>ghc-pkg</tt> tool manages the package database, including registering/unregistering packages, queries, and
-checking consistency.  <tt>ghc-pkg </tt> also imports modules from Cabal.
-</td></tr></table>
+  The `ghc-pkg` tool manages the package database, including registering/unregistering packages, queries, and
+checking consistency.  `ghc-pkg ` also imports modules from Cabal.
 
+- **`cabal-install`**
 
-<table><tr><th><tt>cabal-install</tt></th>
-<td>
-A tool built on top of Cabal, which adds support for downloading packages from Hackage, and building and installing
+  A tool built on top of Cabal, which adds support for downloading packages from Hackage, and building and installing
 multiple packages with a single command.
-</td></tr></table>
-
 
 
 For the purposes of this commentary, we are mostly concerned with GHC and `ghc-pkg`.
 
-
 ## Identifying Packages
 
+- **`Cabal.PackageName` ("base")**
 
-<table><tr><th><tt>Cabal.PackageName</tt> (&quot;base&quot;)</th>
-<td>
-A string.  Defined in <tt>Distribution.Package</tt>.  Does not uniquely identify a package: the package
+  A string.  Defined in `Distribution.Package`.  Does not uniquely identify a package: the package
 database can contain several packages with the same name.
-</td></tr></table>
 
+- **`Cabal.PackageId` ("base-4.1.0.0")**
 
-<table><tr><th><tt>Cabal.PackageId</tt> (&quot;base-4.1.0.0&quot;)</th>
-<td>
-A <tt>PackageName</tt> plus a <tt>Version</tt>.  A <tt>PackageId</tt> names an API.  If two <tt>PackageId</tt>s are
+  A `PackageName` plus a `Version`.  A `PackageId` names an API.  If two `PackageId`s are
 the same, they are assumed to have the same API.
-<br><br>
-<tt>InstalledPackageInfo</tt> contains the field <tt>sourcePackageId :: PackageId</tt>.
-<br><br>
-In GHC 6.11, the <tt>PackageId</tt> also uniquely identifies a package instance in the package database, but
+`InstalledPackageInfo` contains the field `sourcePackageId :: PackageId`.
+
+  In GHC 6.11, the `PackageId` also uniquely identifies a package instance in the package database, but
 only by convention (we may lift this restriction in the future, and allow the database to contain
-multiple package instances with the same <tt>PackageId</tt> (and different <tt>InstalledPackageId</tt>s).
-</td></tr></table>
+multiple package instances with the same `PackageId` (and different `InstalledPackageId`s).
 
+- **`Cabal.InstalledPackageId` ("base-4.1.0.0-1mpgjN")**
 
-<table><tr><th><tt>Cabal.InstalledPackageId</tt> (&quot;base-4.1.0.0-1mpgjN&quot;)</th>
-<td>
-(introduced in GHC 6.12 / Cabal 1.7.2) A string that uniquely identifies a package instance in the database.
-An <tt>InstalledPackageId</tt> identifies an ABI: if two <tt>InstalledPackageIds</tt> are the same, they have the
+  (introduced in GHC 6.12 / Cabal 1.7.2) A string that uniquely identifies a package instance in the database.
+An `InstalledPackageId` identifies an ABI: if two `InstalledPackageIds` are the same, they have the
 same ABI.
-<br><br>
-<tt>InstalledPackageInfo</tt> contains the field <tt>installedPackageId :: InstalledPackageId</tt>.
-<br><br>
-Dependencies between installed packages are identified by the <tt>InstalledPackageId</tt>.  An <tt>InstalledPackageId</tt> is
-chosen when a package is registered. It is chosen by calling <tt>ghc --abi-hash</tt> on the compiled modules and appending
-the hash as a suffix to the string representing the <tt>PackageIdentifier</tt>.
-</td></tr></table>
+`InstalledPackageInfo` contains the field `installedPackageId :: InstalledPackageId`.
 
+  Dependencies between installed packages are identified by the `InstalledPackageId`.  An `InstalledPackageId` is
+chosen when a package is registered. It is chosen by calling `ghc --abi-hash` on the compiled modules and appending
+the hash as a suffix to the string representing the `PackageIdentifier`.
 
-<table><tr><th><tt>GHC.PackageId</tt> (these currently look like &quot;base-4.1.0.0&quot; in GHC 6.12)</th>
-<td>
-Inside GHC, we use the type <tt>PackageId</tt>, which is a <tt>FastString</tt>.  The (Z-encoding of) <tt>PackageId</tt> prefixes each
+- **`GHC.PackageId` (these currently look like "base-4.1.0.0" in GHC 6.12)**
+
+  Inside GHC, we use the type `PackageId`, which is a `FastString`.  The (Z-encoding of) `PackageId` prefixes each
 external symbol in the generated code, so that the modules of one package do not clash with those of another package,
 even when the module names overlap.
-</td></tr></table>
 
 ## Design constraints
 

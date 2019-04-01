@@ -120,10 +120,7 @@ When we build a distribution of GHC, it includes at least some libraries, otherw
 Alas, since the `ghc` package (implementing the GHC API) is certainly an installed package, all the packages on which it depends must also be installed, and hence willy-nilly become part of the Haskell Platform.  In practice that means that almost all the Boot Packages are installed.  In some cases that is unfortunate.  For example, we currently have a special version of the `binary` library, which we don't really expect Haskell users to use; in this case, we call it `ghc-binary`, and informally discourage its use.
 
 
-
-Currently the Boot Packages that are not installed are `haskeline`, `mtl`, and `terminfo`; these are needed to build the GHC front-end, but not to build the `ghc` *package*.
-
-
+Currently the Boot Packages that are not installed are `haskeline`, `mtl`, and `terminfo`; these are needed to build the GHC front-end, but not to build the `ghc`*package*.
 
 **QUESTION**: where in the build system is the list of installed packages defined?
 
@@ -138,19 +135,9 @@ Currently the Boot Packages that are not installed are `haskeline`, `mtl`, and `
   - `integer-gmp`
   - `integer-simple`
 
->
->
-> The two have the same interface, and only one of the two is used. (When we want to be vague about which one, we call it `integer-impl`.)  They provide a definition of the `Integer` type (on top of the C `gmp` library, or in plain Haskell, respectively). Which functionality is provided in `ghc-prim` is mostly driven by what functionality the `integer-impl` packages need. By default `integer-gmp` is used; to use `integer-simple` define `INTEGER_LIBRARY=integer-simple` in `mk/build.mk`.
->
->
+  The two have the same interface, and only one of the two is used. (When we want to be vague about which one, we call it `integer-impl`.)  They provide a definition of the `Integer` type (on top of the C `gmp` library, or in plain Haskell, respectively). Which functionality is provided in `ghc-prim` is mostly driven by what functionality the `integer-impl` packages need. By default `integer-gmp` is used; to use `integer-simple` define `INTEGER_LIBRARY=integer-simple` in `mk/build.mk`.
 
->
-> >
-> >
-> > See "WARNING: pattern matching" below.
-> >
-> >
->
+  - See "WARNING: pattern matching" below.
 
 - Next is the **`base`** package. This contains a large number of modules, many of which are in one big cyclic import knot, mostly due to the `Exception` type.
 
@@ -196,7 +183,7 @@ f (J# _ _) (J# _ _) = ...
 GHC ships with two few libraries which exist to share code between components of the compiler: `ghc-boot` and `ghc-boot-th`.
 
 
-Previously there was one `ghc-boot` library to allow us to share types and functions between the `ghc` library, the `ghci` library, and the `template-haskell` library. This situation was suboptimal (see [\#12052](https://gitlab.haskell.org/ghc/ghc/issues/12052)) since it is important that `template-haskell` has a minimal set of dependencies (as it is depended upon by a large set of user code) yet `ghc-boot` has dependencies on `binary` and `bytestring`.
+Previously there was one `ghc-boot` library to allow us to share types and functions between the `ghc` library, the `ghci` library, and the `template-haskell` library. This situation was suboptimal (see [\#12052](https://gitlab.haskell.org//ghc/ghc/issues/12052)) since it is important that `template-haskell` has a minimal set of dependencies (as it is depended upon by a large set of user code) yet `ghc-boot` has dependencies on `binary` and `bytestring`.
 
 
 To reduce the transitive dependency set of `template-haskell` it was decided that `ghc-boot` would be split into two separate libraries. Those definitions required by `template-haskell` live in `ghc-boot-th` and everything else lives in `ghc-boot`. Modules provided by `ghc-boot-th` are re-exported by \`ghc-boot.

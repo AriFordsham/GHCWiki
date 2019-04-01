@@ -62,29 +62,25 @@ $ make show VALUE=prefix
 
 A GHC installation typically has three parts:
 
+- **`bindir`**
 
-<table><tr><th><tt>bindir</tt></th>
-<td>
-(default: <tt>$(prefix)/bin</tt>)<br>
-This is where the programs that you can run are installed, such as <tt>ghc</tt>, <tt>ghci</tt>, <tt>ghc-pkg</tt>, and <tt>haddock</tt>.
-</td></tr></table>
+  (default: `$(prefix)/bin`)
+  This is where the programs that you can run are installed, such as `ghc`, `ghci`, `ghc-pkg`, and `haddock`.
 
+- **`libdir`**
 
-<table><tr><th><tt>libdir</tt></th>
-<td>
-(default: Unix: <tt>$(prefix)/lib/ghc-<version></tt>, Windows: <tt>$(prefix)/lib</tt>)<br>
-Where all of GHC&apos;s support files are kept, including <tt>package.conf</tt>, the header files, and the libraries.
-The location of <tt>libdir</tt> can be found by asking GHC: <tt>ghc --print-libdir</tt>.  Normally you shouldn&apos;t have to
-look in here, and you shouldn&apos;t install extra files here.  The only reason you might need to know the location
-of <tt>libdir</tt> at all is for passing to the GHC API, and the best way to do that is to use the <a href="http://hackage.haskell.org/cgi-bin/hackage-scripts/package/ghc-paths"> ghc-paths package</a>.
-</td></tr></table>
+  (default: Unix: `$(prefix)/lib/ghc-<version>`, Windows: `$(prefix)/lib`)
 
+  Where all of GHC's support files are kept, including `package.conf`, the header files, and the libraries.
 
-<table><tr><th><tt>docdir</tt></th>
-<td>
-(default: Unix: <tt>$(prefix)/share/doc/ghc</tt>, Windows: <tt>$(prefix)/doc</tt>)<br>
-Where the documentation is installed.
-</td></tr></table>
+The location of `libdir` can be found by asking GHC: `ghc --print-libdir`.  Normally you shouldn't have to
+look in here, and you shouldn't install extra files here.  The only reason you might need to know the location
+of `libdir` at all is for passing to the GHC API, and the best way to do that is to use the [ghc-paths package](http://hackage.haskell.org/cgi-bin/hackage-scripts/package/ghc-paths).
+
+- **`docdir`**
+
+  (default: Unix: `$(prefix)/share/doc/ghc`, Windows: `$(prefix)/doc`)
+  Where the documentation is installed.
 
 
 On Unix systems you can change `libdir` and `bindir` using the `--libdir` and `--bindir` options respectively, and the location of the documentation can be changed using `--datadir`.  On Windows all you can do is change `$(prefix)`, because GHC finds the rest of its files by knowing their location relative to the `ghc.exe` binary, so the layout of the install tree is fixed (see [How GHC finds its files](building/installing#how-ghc-finds-its-files), below).

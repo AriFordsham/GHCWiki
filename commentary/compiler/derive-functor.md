@@ -1,17 +1,11 @@
 # Support for deriving `Functor`, `Foldable`, and `Traversable` instances
 
 
-
-
-
-
-GHC 6.12.1 introduces an extension to the `deriving` mechanism allowing for automatic derivation of `Functor`, `Foldable`, and `Traversable` instances using the `DeriveFunctor`, `DeriveFoldable`, and `DeriveTraversable` extensions, respectively. Twan van Laarhoven [first proposed this feature](https://mail.haskell.org/pipermail/haskell-prime/2007-March/002137.html) in 2007, and [ opened a related GHC Trac ticket](https://ghc.haskell.org/trac/ghc/ticket/2953) in 2009.
-
+GHC 6.12.1 introduces an extension to the `deriving` mechanism allowing for automatic derivation of `Functor`, `Foldable`, and `Traversable` instances using the `DeriveFunctor`, `DeriveFoldable`, and `DeriveTraversable` extensions, respectively. Twan van Laarhoven [first proposed this feature](https://mail.haskell.org/pipermail/haskell-prime/2007-March/002137.html) in 2007, and [opened a related GHC ticket](https://gitlab.haskell.org/ghc/ghc/ticket/2953) in 2009.
 
 ## Example
 
-
-```
+```haskell
 {-# LANGUAGE DeriveFunctor, DeriveFoldable, DeriveTraversable #-}
 
 data Example a = Ex a Char (Example a) (Example Char)
@@ -21,8 +15,7 @@ data Example a = Ex a Char (Example a) (Example Char)
 
 The derived code would look something like this:
 
-
-```
+```haskell
 instance Functor Example where
     fmap f (Ex a1 a2 a3 a4) = Ex (f a1) a2 (fmap f a3) a4
 
@@ -159,7 +152,7 @@ removes all such types from consideration.
 ```
 
 
-In addition to `foldr`, `DeriveFoldable` also generates a definition for `foldMap` as of GHC 7.8.1 (addressing [\#7436](https://ghc.haskell.org/trac/ghc/ticket/7436)). The pseudo-definition for `$(foldMap)` would look something like this:
+In addition to `foldr`, `DeriveFoldable` also generates a definition for `foldMap` as of GHC 7.8.1 (addressing [\#7436](https://gitlab.haskell.org/ghc/ghc/issues/7436)). The pseudo-definition for `$(foldMap)` would look something like this:
 
 ```wiki
   $(foldMap 'a 'b)         = \x -> mempty     -- when b does not contain a
@@ -206,11 +199,9 @@ removes all such types from consideration.
 ### Covariant and contravariant positions
 
 
-
 One challenge of deriving `Functor` instances for arbitrary data types is handling function types. To illustrate this, note that these all can have derived `Functor` instances:
 
-
-```
+```haskell
 data CovFun1 a = CovFun1 (Int -> a)
 data CovFun2 a = CovFun2 ((a -> Int) -> a)
 data CovFun3 a = CovFun3 (((Int -> a) -> Int) -> a)
@@ -219,8 +210,7 @@ data CovFun3 a = CovFun3 (((Int -> a) -> Int) -> a)
 
 but none of these can:
 
-
-```
+```haskell
 data ContraFun1 a = ContraFun1 (a -> Int)
 data ContraFun2 a = ContraFun2 ((Int -> a) -> Int)
 data ContraFun3 a = ContraFun3 (((a -> Int) -> a) -> Int)
@@ -254,10 +244,7 @@ This mechanism cannot derive `Functor`, `Foldable`, or `Traversable` instances f
 1. The data type's last type parameter cannot be used in the "wrong place" in any constructor's data arguments. For example, in `data Right a = Right [a] (Either Int a)`, the type parameter `a` is only ever used as the last type argument in `[]` and `Either`, so both `[a]` and `Either Int a` values can be `fmap`ped. However, in `data Wrong a = Wrong (Either a a)`, the type variable `a` appears in a position other than the last, so trying to `fmap` an `Either a a` value would not typecheck.
 
 >
->
 > Note that there are two exceptions to this rule: tuple and function types.
->
->
 
 1. The data type's last type variable cannot used in a `-XDatatypeContexts` constraint. For example, `data Ord a => O a = O a deriving Functor` would be rejected.
 
@@ -267,7 +254,7 @@ In addition, GHC performs checks for certain classes only:
 1. For derived `Foldable` and `Traversable` instances, a data type cannot use function types. This restriction does not apply to derived `Functor` instances, however.
 1. For derived `Functor` and `Traversable` instances, the data type's last type variable must be truly universally quantified, i.e., it must not have any class or equality constraints. This means that the following is legal:
 
-```
+```haskell
 data T a b where
     T1 :: a -> b -> T a b      -- Fine! Vanilla H-98
     T2 :: b -> c -> T a b      -- Fine! Existential c, but we can still map over 'b'
@@ -283,11 +270,8 @@ instance Functor (T a) where
 -}
 ```
 
->
->
-> but the following is not legal:
->
->
+but the following is not legal:
+
 
 ```
 data T a b where
@@ -296,22 +280,16 @@ data T a b where
     T6 :: T a (b,b)            -- No!  'b' is constrained
 ```
 
->
->
-> This restriction does not apply to derived `Foldable` instances. See the following section for more details.
->
->
+This restriction does not apply to derived `Foldable` instances. See the following section for more details.
 
 ### Relaxed universality check for `DeriveFoldable`
 
 `DeriveFunctor` and `DeriveTraversable` cannot be used with data types that use existential constraints, since the type signatures of `fmap` and `traverse` make this impossible. However, `Foldable` instances are unique in that they do not produce constraints, but only consume them. Therefore, it is permissible to derive `Foldable` instances for constrained data types (e.g., GADTs).
 
 
-
 For example, consider the following GADT:
 
-
-```
+```haskell
 data T a where
     T1 :: Ord a => a -> T a
 ```
@@ -319,12 +297,9 @@ data T a where
 
 In the type signatures for `fmap :: Functor t => (a -> b) -> t a -> t b` and `traverse :: (Applicative f, Traversable t) => (a -> f b) -> t a -> f (t b)`, the `t` parameter appears both in an argument and the result type, so pattern-matching on a value of `t` must not impose any constraints, as neither `fmap` nor `traverse` would typecheck.
 
-
-
 `Foldable`, however, only mentions `t` in argument types:
 
-
-```
+```haskell
 class Foldable t where
     fold :: Monoid m => t m -> m
     foldMap :: Monoid m => (a -> m) -> t a -> m
@@ -347,8 +322,7 @@ class Foldable t where
 
 Therefore, a derived `Foldable` instance for `T` typechecks:
 
-
-```
+```haskell
 instance Foldable T where
     foldr f z (T1 a) = f a z -- foldr :: Ord a => (a -> b -> b) -> b -> T a -> b
     foldMap f (T1 a) = f a   -- foldMap :: (Monoid m, Ord a) => (a -> m) -> T a -> m
@@ -357,8 +331,7 @@ instance Foldable T where
 
 Deriving `Foldable` instances for GADTs with equality constraints could become murky, however. Consider this GADT:
 
-
-```
+```haskell
 data E a where
     E1 :: (a ~ Int) => a   -> E a
     E2 ::              Int -> E Int
@@ -369,8 +342,7 @@ data E a where
 
 All four `E` constructors have the same "shape" in that they all take an argument of type `a` (or `Int`, to which `a` is constrained to be equal). Does that mean all four constructors would have their arguments folded over? While it is possible to derive perfectly valid code which would do so:
 
-
-```
+```haskell
 instance Foldable E where
     foldr f z (E1 e) = f e z
     foldr f z (E2 e) = f e z
@@ -386,8 +358,7 @@ instance Foldable E where
 
 it is much harder to determine which arguments are equivalent to `a`. Also consider this case:
 
-
-```
+```haskell
 data UnknownConstraints a where
     UC :: Mystery a => Int -> UnknownConstraints a
 ```
@@ -396,11 +367,9 @@ data UnknownConstraints a where
 For all we know, it may be that `a ~ Int => Mystery a`. Does this mean that the `Int` argument in `UC` should be folded over?
 
 
-
 To avoid these thorny edge cases, we only consider constructor arguments (1) whose types are *syntactically* equivalent to the last type parameter and (2) in cases when the last type parameter is a truly universally polymorphic. In the above `E` example, only `E1` fits the bill, so the derived `Foldable` instance is actually:
 
-
-```
+```haskell
 instance Foldable E where
     foldr f z (E1 e) = f e z
     foldr f z (E2 e) = z
@@ -416,8 +385,7 @@ instance Foldable E where
 
 To expound more on the meaning of criterion (2), we want not only to avoid cases like `E2 :: Int -> E Int`, but also something like this:
 
-
-```
+```haskell
 data HigherKinded f a where
     HigherKinded :: f a -> HigherKinded f (f a)
 ```
@@ -426,7 +394,7 @@ data HigherKinded f a where
 In this example, the last type variable is instantiated with `f a`, which contains one type variable `f` applied to another type variable `a`. We would *not* fold over the argument of type `f a` in this case, because the last type variable should be *simple*, i.e., contain only a single variable without any application.
 
 
-For the original discussion on this proposal, see [\#10447](https://ghc.haskell.org/trac/ghc/ticket/10447).
+For the original discussion on this proposal, see [\#10447](https://gitlab.haskell.org/ghc/ghc/issues/10447).
 
 ## Alternative strategy for deriving `Foldable` and `Traversable`
 
@@ -435,15 +403,14 @@ For the original discussion on this proposal, see [\#10447](https://ghc.haskell.
 We adapt the algorithms for `-XDeriveFoldable` and `-XDeriveTraversable` based on that of `-XDeriveFunctor`. However, there is an important difference between deriving the former two typeclasses and the latter one (as of GHC 8.2, addressing [Trac \#11174](https://ghc.haskell.org/trac/ghc/ticket/11174)), which is best illustrated by the following scenario:
 
 
-```
+```haskell
 data WithInt a = WithInt a Int# deriving (Functor, Foldable, Traversable)
 ```
 
 
 The generated code for the `Functor` instance is straightforward:
 
-
-```
+```haskell
 instance Functor WithInt where
   fmap f (WithInt a i) = WithInt (f a) i
 ```
@@ -451,8 +418,7 @@ instance Functor WithInt where
 
 But if we use too similar of a strategy for deriving the `Foldable` and `Traversable` instances, we end up with this code:
 
-
-```
+```haskell
 instance Foldable WithInt where
   foldMap f (WithInt a i) = f a <> mempty
 
@@ -463,7 +429,7 @@ instance Traversable WithInt where
 
 This is unsatisfying for two reasons:
 
-1. The `Traversable` instance doesn't typecheck! `Int#` is of kind `#`, but `pure` expects an argument whose type is of kind `*`. This effectively prevents `Traversable` from being derived for any datatype with an unlifted argument type (see [Trac \#11174](https://ghc.haskell.org/trac/ghc/ticket/11174)).
+1. The `Traversable` instance doesn't typecheck! `Int#` is of kind `#`, but `pure` expects an argument whose type is of kind `*`. This effectively prevents `Traversable` from being derived for any datatype with an unlifted argument type (see [Trac \#11174](https://gitlab.haskell.org/ghc/ghc/issues/11174)).
 
 1. The generated code contains superfluous expressions. By the `Monoid` laws, we can reduce `f a <> mempty` to `f a`, and by the `Applicative` laws, we can reduce `fmap WithInt (f a) <*> pure i` to `fmap (\b -> WithInt b i) (f a)`.
 
@@ -477,27 +443,19 @@ We can fix both of these issues by incorporating a slight twist to the usual alg
 - `ConName` has `n` arguments
 - `{b_i, ..., b_k}` is a subset of `{a_1, ..., a_n}` whose indices correspond to the arguments whose types mention the last type parameter. As a consequence, taking the difference of `{a_1, ..., a_n}` and `{b_i, ..., b_k}` yields the all the argument values of `ConName` whose types do not mention the last type parameter. Note that `[i, ..., k]` is a strictly increasing—but not necessarily consecutive—integer sequence.
 
->
->
-> For example, the datatype
->
->
+   For example, the datatype
 
-```
+```haskell
 data Foo a = Foo Int a Int a
 ```
 
->
->
-> would generate the following `Traversable` instance:
->
->
+   would generate the following `Traversable` instance:
 
-```
-instance Traversable Foo where
-  traverse f (Foo a1 a2 a3 a4) =
-    fmap (\b2 b4 -> Foo a1 b2 a3 b4) (f a2) <*> f a4
-```
+   ```haskell
+   instanceTraversableFoowhere
+     traverse f (Foo a1 a2 a3 a4)=
+       fmap (\b2 b4 ->Foo a1 b2 a3 b4)(f a2)<*> f a4
+   ```
 
 
 Technically, this approach would also work for `-XDeriveFunctor` as well, but we decide not to do so because:
@@ -506,35 +464,23 @@ Technically, this approach would also work for `-XDeriveFunctor` as well, but we
 
 1. There would be certain datatypes for which the above strategy would generate `Functor` code that would fail to typecheck. For example:
 
-```
-data Bar f a = Bar (forall f. Functor f => f a) deriving Functor
-```
+   ```
+   dataBar f a =Bar(forall f.Functor f => f a)derivingFunctor
+   ```
 
->
->
-> With the conventional algorithm, it would generate something like:
->
->
+   With the conventional algorithm, it would generate something like:
 
-```
-fmap f (Bar a) = Bar (fmap f a)
-```
+   ```haskell
+   fmap f (Bar a) = Bar(fmap f a)
+   ```
 
->
->
-> which typechecks. But with the strategy mentioned above, it would generate:
->
->
+   which typechecks. But with the strategy mentioned above, it would generate:
 
-```
-fmap f (Bar a) = (\b -> Bar b) (fmap f a)
-```
+   ```
+   fmap f (Bar a) = (\b -> Bar b) (fmap f a)
+   ```
 
->
->
-> which does not typecheck, since GHC cannot unify the rank-2 type variables in the types of `b` and `fmap f a`.
->
->
+   which does not typecheck, since GHC cannot unify the rank-2 type variables in the types of `b` and `fmap f a`.
 
 ## Future work
 
@@ -542,19 +488,17 @@ fmap f (Bar a) = (\b -> Bar b) (fmap f a)
 There are more classes in `base` that we could derive!
 
 
-In particular, the `Bifunctor` class (born from the [bifunctors](http://hackage.haskell.org/package/bifunctors) library) [ was added](https://ghc.haskell.org/trac/ghc/ticket/9682) to `base` in GHC 7.10, and the `Bifoldable` and `Bitraversable` classes (also from `bifunctors`) [ were added](https://ghc.haskell.org/trac/ghc/ticket/10448) to `base` in GHC 8.2. All three classes could be derived in much the same way as their cousins `Functor`, `Foldable`, and `Traversable`. The existing algorithms would simply need to be adapted to accommodate two type parameters instead of one. The [ Data.Bifunctor.TH](http://hackage.haskell.org/package/bifunctors-5.3/docs/Data-Bifunctor-TH.html) module from the `bifunctors` library demonstrates an implementation of the following proposal using Template Haskell.
+In particular, the `Bifunctor` class (born from the [bifunctors](http://hackage.haskell.org/package/bifunctors) library) [was added](https://gitlab.haskell.org/ghc/ghc/issues/9682) to `base` in GHC 7.10, and the `Bifoldable` and `Bitraversable` classes (also from `bifunctors`) [were added](https://gitlab.haskell.org/ghc/ghc/issues/10448) to `base` in GHC 8.2. All three classes could be derived in much the same way as their cousins `Functor`, `Foldable`, and `Traversable`. The existing algorithms would simply need to be adapted to accommodate two type parameters instead of one. The [Data.Bifunctor.TH](http://hackage.haskell.org/package/bifunctors-5.3/docs/Data-Bifunctor-TH.html) module from the `bifunctors` library demonstrates an implementation of the following proposal using Template Haskell.
 
 
-In GHC 8.0, higher-order versions of the `Eq`, `Ord`, `Read`, and `Show` typeclasses were added to `base` in the `Data.Functor.Classes` module (which originally lived in the `transformers` library). These classes are generalized to work over datatypes indexed by one type parameter (for `Eq1`, `Ord1`, `Read1`, and `Show1`) or by two type parameters (`Eq2`, `Ord2`, `Read2`, and `Show2`). Haskell programmers have been able to derive `Eq`, `Ord`, `Read`, and `Show` for a long time, so it wouldn't be hard at all to envision a deriving mechanism for `Eq1`, `Eq2`, and friends which takes advantage of tricks that `DeriveFunctor` uses. The [deriving-compat](http://hackage.haskell.org/package/deriving-compat-0.3) library demonstrates proofs-of-concept for deriving [ Eq1/2](http://hackage.haskell.org/package/deriving-compat-0.3/docs/Data-Eq-Deriving.html), [ Ord1/2](http://hackage.haskell.org/package/deriving-compat-0.3/docs/Data-Ord-Deriving.html), [ Read1/2](http://hackage.haskell.org/package/deriving-compat-0.3/docs/Text-Read-Deriving.html), and [ Show1/2](http://hackage.haskell.org/package/deriving-compat-0.3/docs/Text-Show-Deriving.html) using Template Haskell.
+In GHC 8.0, higher-order versions of the `Eq`, `Ord`, `Read`, and `Show` typeclasses were added to `base` in the `Data.Functor.Classes` module (which originally lived in the `transformers` library). These classes are generalized to work over datatypes indexed by one type parameter (for `Eq1`, `Ord1`, `Read1`, and `Show1`) or by two type parameters (`Eq2`, `Ord2`, `Read2`, and `Show2`). Haskell programmers have been able to derive `Eq`, `Ord`, `Read`, and `Show` for a long time, so it wouldn't be hard at all to envision a deriving mechanism for `Eq1`, `Eq2`, and friends which takes advantage of tricks that `DeriveFunctor` uses. The [deriving-compat](http://hackage.haskell.org/package/deriving-compat-0.3) library demonstrates proofs-of-concept for deriving [Eq1/2](http://hackage.haskell.org/package/deriving-compat-0.3/docs/Data-Eq-Deriving.html), [Ord1/2](http://hackage.haskell.org/package/deriving-compat-0.3/docs/Data-Ord-Deriving.html), [Read1/2](http://hackage.haskell.org/package/deriving-compat-0.3/docs/Text-Read-Deriving.html), and [Show1/2](http://hackage.haskell.org/package/deriving-compat-0.3/docs/Text-Show-Deriving.html) using Template Haskell.
 
 ### Classes
 
 
-
 The `Bifunctor`, `Bifoldable`, and `Bitraversable` classes are defined as follows:
 
-
-```
+```haskell
 class Bifunctor p where
     bimap :: (a -> b) -> (c -> d) -> p a c -> p b d
 
@@ -570,11 +514,9 @@ class (Bifunctor t, Bifoldable t) => Bitraversable t where
 Each class contains further methods, but they can be defined in terms of the above ones. Therefore, we need only derive implementations for them. This also mirrors how the algorithms currently work in the one-parameter cases, as they only implement `fmap`, `foldMap`, `foldr`, and `traverse`.
 
 
-
 The typeclasses in `Data.Functor.Classes` are defined as follows:
 
-
-```
+```haskell
 class Eq1 f where
     liftEq :: (a -> b -> Bool) -> f a -> f b -> Bool
 
@@ -654,11 +596,9 @@ This algorithm isn't terribly different from the one above for generating an `fm
 (The caveats in [https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor\#AlternativestrategyforderivingFoldableandTraversable](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor#AlternativestrategyforderivingFoldableandTraversable) apply.)
 
 
-
 There's one part of the `bifoldMap` algorithm that deserves futher discussion: the overlapping cases for `T c1 c1 c3`. Whenever an argument to a constructor has a type  where each of the last two type variables mention `a` or `b`, we opt to generate `bifoldMap` instead of `foldMap`. We *could* go the other way, though. For instance, the following is a valid implementation of `Bifoldable` for `newtype T a b = T (Either a b)`:
 
-
-```
+```haskell
 instance Bifoldable T where
   bifoldMap _ g (T e) = foldMap g e
 ```
@@ -666,8 +606,7 @@ instance Bifoldable T where
 
 But this is unsatisfying for a couple of reasons, though. One obvious issue is that this definition blatantly ignores the first argument to `bifoldMap`, preventing users from folding over the `a` type parameter. Another problem is that doing this would be inconsistent with how `bimap` and `bitraverse` are generated. Unlike with `bifoldMap`, parametricity forces there to be one definition for `bimap` and `bitraverse` (see [https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor\#RelaxeduniversalitycheckforDeriveFoldable](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/DeriveFunctor#RelaxeduniversalitycheckforDeriveFoldable) for more info):
 
-
-```
+```haskell
 instance Bifunctor T where
   bimap f g (T e) = T (bimap f g e)
 
@@ -678,8 +617,7 @@ instance Bitraversable T where
 
 Therefore, it feels far more natural to generate this `Bifoldable` instance:
 
-
-```
+```haskell
 instance Bifoldable T where
   bifoldMap f g (T e) = bifoldMap f g e
 ```
@@ -690,22 +628,18 @@ This also ensures that [bifoldMapDefault](http://hackage.haskell.org/package/bif
 #### Corner case: GADTs
 
 
-
 Consider the following code:
 
-
-```
+```haskell
 data Both a b where
   BothCon :: x -> x -> Both x x
 
 deriving instance Bifoldable Both
 ```
 
-
 What should be the definition of `bifoldMap` for `Both`? We have a choice, since both the function argument of type `(a -> m)` and of type `(b -> m)` can be applied to either argument. In such a scenario, the second fold function takes precedence over the first fold function, so the derived `Bifoldable` instance would be:
 
-
-```
+```haskell
 instance Bifoldable Both where
   bifoldMap _ g (BothCon x1 x2) = g x1 <> g x2
 ```

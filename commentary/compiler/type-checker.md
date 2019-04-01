@@ -36,21 +36,13 @@ It is also noteworthy, that the representations of types changes during type che
   - `TcUnify`: solves unification constraints "on the fly"; if it can't, it generates a constraint for the constraint solver to deal with later
   - `TcErrors`: generates good error messages from the residual, unsolved constraints.
 
->
->
-> The best place reading for the constraint solver is the paper [Modular type inference with local assumptions](http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn)
->
->
+  The best place reading for the constraint solver is the paper [Modular type inference with local assumptions](http://www.haskell.org/haskellwiki/Simonpj/Talk:OutsideIn)
 
 - Underlying infrastructure:
 
   - `TcRnTypes`: a big collection of the types used during type checking
   - [TcRnMonad](commentary/compiler/tc-rn-monad): the main typechecker monad
   - `TcType`: pure functions over types, used by the type checker
-
-
-   
-
 
 ### Entry Points Into the Type Checker
 
@@ -92,7 +84,7 @@ Inside this big knot, the first main operation is kind checking, which again inv
 ### Types Variables and Zonking
 
 
-During type checking type variables are represented by mutable variables - cf. the [variable story](http://darcs.haskell.org/ghc/docs/comm/the-beast/vars.html#TyVar) (TODO Point at new commentary equivalent). Consequently, unification can instantiate type variables by updating those mutable variables. This process of instantiation is (for reasons that elude me) called [ zonking](http://dictionary.reference.com/browse/zonk) in GHC's sources. The zonking routines for the various forms of Haskell constructs are responsible for most of the code in the module [compiler/typecheck/TcHsSyn.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcHsSyn.hs), whereas the routines that actually operate on mutable types are defined in [compiler/typecheck/TcMType.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcMType.hs); this includes the zonking of type variables and type terms, routines to create mutable structures and update them as well as routines that check constraints, such as that type variables in function signatures have not been instantiated during type checking. The actual type unification routine is `uTys` in the module [compiler/typecheck/TcUnify.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcUnify.hs).
+During type checking type variables are represented by mutable variables - cf. the [variable story](http://darcs.haskell.org/ghc/docs/comm/the-beast/vars.html#TyVar) (TODO Point at new commentary equivalent). Consequently, unification can instantiate type variables by updating those mutable variables. This process of instantiation is (for reasons that elude me) called [zonking](http://dictionary.reference.com/browse/zonk) in GHC's sources. The zonking routines for the various forms of Haskell constructs are responsible for most of the code in the module [compiler/typecheck/TcHsSyn.hs](/ghc/ghc/tree/master/ghc/compiler/typecheck/TcHsSyn.hs), whereas the routines that actually operate on mutable types are defined in [compiler/typecheck/TcMType.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcMType.hs); this includes the zonking of type variables and type terms, routines to create mutable structures and update them as well as routines that check constraints, such as that type variables in function signatures have not been instantiated during type checking. The actual type unification routine is `uTys` in the module [compiler/typecheck/TcUnify.hs](/trac/ghc/browser/ghc/compiler/typecheck/TcUnify.hs).
 
 
 All type variables that may be instantiated (those in signatures may not), but haven't been instantiated during type checking, are zonked to `()`, so that after type checking all mutable variables have been eliminated.

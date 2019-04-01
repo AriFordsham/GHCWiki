@@ -14,13 +14,7 @@ in the left-hand column:
 
   - The HEAD is simply the latest, greatest version that we are working on; it may be broken on any given day, although you are encouraged not to break it gratuitiously.  The HEAD has an odd version numbers (e.g 6.5, 6.7).  Every night we build the HEAD, and dump the result on the download site under "Development snapshots", with a version number that encodes the date (e..g 6.5.20060831).
 
->
-> >
-> >
-> > A very useful link on the download page is the [documentation for the HEAD](http://www.haskell.org/ghc/dist/current/docs/) (under Development snapshots).  Useful because typesetting the documentation uses DocBook, which easy to install on every platform.
-> >
-> >
->
+  - A very useful link on the download page is the [documentation for the HEAD](http://www.haskell.org/ghc/dist/current/docs/) (under Development snapshots).  Useful because typesetting the documentation uses DocBook, which easy to install on every platform.
 
 # GHC source code
 

@@ -9,18 +9,11 @@ GHCi currently has two modes of operation
 
 This document provides details of working of GHCi primarily for the normal mode of working, though the details are more or less similar for both. **The main goal here is to answer the question '*How does GHCi support breakpoints?*' **, but it will present more details of the basic working along with this.
 
-
 ## Compilation
-
 
 ### Source code instrumentation
 
-
->
->
-> `HsTick` are added to annotate the expressions in the de-sugaring phase, which is later converted to `Tick` (part of `CoreSyn`).
->
->
+`HsTick` are added to annotate the expressions in the de-sugaring phase, which is later converted to `Tick` (part of `CoreSyn`).
 
 
 When a source code is loaded in ghci or the user enters an expression, at the front end of the compiler, we annotate the source code with **ticks**, based on the program coverage tool of Andy Gill and Colin Runciman. Ticks are uniquely numbered with respect to a particular module. Ticks are annotations on expressions, so each tick is associated with a source span, which identifies the start and end locations of the ticked expression.
@@ -29,18 +22,11 @@ When a source code is loaded in ghci or the user enters an expression, at the fr
 The instrumentation is implemented in [compiler/deSugar/Coverage.hs](/ghc/ghc/tree/master/ghc/compiler/deSugar/Coverage.hs). For details on the heuristics of this instrumentation, see the use of `TickForBreakPoints`. (It would be nice to have this documented properly)
 
 
-
 For each module we also allocate an array of breakpoint flags, with one entry for each tick in that module. This array is managed by the GHC storage manager, so it can be garbage collected if the module is re-loaded and re-ticked. We retain this array inside the `ModGuts` data structure, which is defined in [compiler/main/HscTypes.hs](/ghc/ghc/tree/master/ghc/compiler/main/HscTypes.hs). This array is stored inside something called `ModBreaks`, which also stores an association list of source spans and ticks.
-
 
 ### Byte code generation
 
-
->
->
-> For each `Tick` a special breakpoint instruction `BRK_FUN` is added during byte code generation.
->
->
+For each `Tick` a special breakpoint instruction `BRK_FUN` is added during byte code generation.
 
 
 In the coverage tool the ticks are turned into real code which performs a side effect when evaluated. In the debugger the ticks are purely annotations. They are used to pass information to the byte code generator, which generates special breakpoint instructions for ticked expressions.
@@ -49,18 +35,11 @@ In the coverage tool the ticks are turned into real code which performs a side e
 The byte code generator turns `CoreSyn` into a bunch of Byte Code Objects (BCOs). BCOs are heap objects which correspond to top-level bindings, and `let` and `case` expressions. Each BCO contains a sequence of byte code instructions (BCIs), which are executed by the byte code interpreter ([rts/Interpreter.c](/ghc/ghc/tree/master/ghc/rts/Interpreter.c)). Each BCO also contains some local data which is needed in the instructions. 
 
 
-
 The BCIs for this BCO are generated as usual, and we prefix a new special breakpoint instruction (`BRK_FUN`) on the front. Thus, when the BCO is evaluated, the first thing it will do is interpret the breakpoint instruction, and hence decide whether to break or not. We annotate the BCO with information about the tick, such as its free variables, and the breakpoint number. 
-
 
 ## Runtime
 
-
->
->
-> The GHCi thread waits on a `statusMVar`, on hitting breakpoint this is filled with `EvalBreak` by the expression thread and it waits on the `breakMVar`. When doing resume `breakMVar` is filled by GHCi thread.
->
->
+The GHCi thread waits on a `statusMVar`, on hitting breakpoint this is filled with `EvalBreak` by the expression thread and it waits on the `breakMVar`. When doing resume `breakMVar` is filled by GHCi thread.
 
 
 To understand what happens when a breakpoint is hit, it is necessary to know how GHCi evaluates an expression at the command line.
@@ -68,9 +47,7 @@ To understand what happens when a breakpoint is hit, it is necessary to know how
 ### Execution of an Expression in GHCi
 
 
-
-When the user types in an expression (as a string) it is parsed, type checked, and compiled, and then run. In [compiler/main/InteractiveEval.hs](/trac/ghc/browser/ghc/compiler/main/InteractiveEval.hs) we have the function:
-
+When the user types in an expression (as a string) it is parsed, type checked, and compiled, and then run. In [compiler/main/InteractiveEval.hs](/ghc/ghc/tree/master/ghc/compiler/main/InteractiveEval.hs) we have the function:
 
 ```
 -- | Run a statement in the current interactive context.
@@ -85,22 +62,12 @@ execStmt
 The `GhcMonad` carries a `Session` which contains the gobs of environmental information which is important to the compiler. The `String` is what the user typed in, and `ExecResult`, is the answer that you get back if the execution terminates. `ExecResult` is defined like so:
 (in [compiler/main/InteractiveEvalTypes.hs](/ghc/ghc/tree/master/ghc/compiler/main/InteractiveEvalTypes.hs)
 
-
 ```
-data ExecResult
-  = ExecComplete
-       { execResult :: Either SomeException [Name]
-       , execAllocation :: Word64
-       }
-  | ExecBreak
-       { breakNames :: [Name]
-       , breakInfo :: Maybe BreakInfo
-       }
+dataExecResult=ExecComplete{ execResult ::EitherSomeException[Name], execAllocation ::Word64}|ExecBreak{ breakNames ::[Name], breakInfo ::MaybeBreakInfo}
 ```
 
 
-Normally what happens is that `execStmt` forks a new thread to handle the evaluation of the expression. It calls `evalStmt` ([compiler/ghci/GHCi.hs](/trac/ghc/browser/ghc/compiler/ghci/GHCi.hs) in both remote and normal mode) to create an `EvalStmt` `Message`. This message is processed by the `evalStmt` ([libraries/ghci/GHCi/Run.hs](/trac/ghc/browser/ghc/libraries/ghci/GHCi/Run.hs)  in normal mode). This in turns calls the `sandboxIO` to do `forkIO`. It then blocks on an `MVar` and waits for the thread to finish.
-
+Normally what happens is that `execStmt` forks a new thread to handle the evaluation of the expression. It calls `evalStmt` ([compiler/ghci/GHCi.hs](/ghc/ghc/tree/master/ghc/compiler/ghci/GHCi.hs) in both remote and normal mode) to create an `EvalStmt``Message`. This message is processed by the `evalStmt` ([libraries/ghci/GHCi/Run.hs](/trac/ghc/browser/ghc/libraries/ghci/GHCi/Run.hs)  in normal mode). This in turns calls the `sandboxIO` to do `forkIO`. It then blocks on an `MVar` and waits for the thread to finish.
 
 
 This `MVar` is (now) called `statusMVar`, because it carries the execution status of the computation which is being evaluated. We will discuss its type shortly. When the thread finishes it fills in `statusMVar`, which wakes up `execStmt`, and it returns a `ExecResult`.
@@ -132,7 +99,6 @@ This raises a few questions:
 
 To arrange the early return of the expression thread when it hits a breakpoint we introduce a second MVar
 
-
 ```
    breakMVar :: MVar ()
 ```
@@ -141,9 +107,7 @@ To arrange the early return of the expression thread when it hits a breakpoint w
 When the expression thread hits a breakpoint it waits on `breakMVar`. When the user decides to continue execution after a breakpoint, the GHCi thread fills `breakMVar`, which wakes up the expression thread and allows it to continue execution.
 
 
-
 Now we must return to `statusMVar` and look at it in more detail. We introduce a new type called `EvalStatus`
-
 
 ```
 type EvalStatus a = EvalStatus_ a a
@@ -180,7 +144,6 @@ The two MVars, `statusMVar` and `breakMVar`, are used like so: (This is part of 
 
 Now we turn our attention to the `EvalBreak` constructor:
 
-
 ```
   | EvalBreak Bool
        HValueRef{- AP_STACK -}
@@ -199,7 +162,6 @@ The arguments of `EvalBreak` are as follows
 
 
 The `EvalBreak` get assembled by the I/O action which is executed by a thread when it hits a breakpoint. The code for the I/O action is as follows:
-
 
 ```
 type BreakpointCallback = Int# -> Int# -> Bool -> HValue -> IO ()
@@ -225,9 +187,7 @@ Note that the I/O action proceeds to write to the `statusMVar`, which wakes up t
 ### Resuming execution after a breakpoint
 
 
-
 A resume context is created to store the MVars on the execution thread inside the `onBreak` action.
-
 
 ```
 data ResumeContext a = ResumeContext
@@ -258,7 +218,6 @@ As mentioned above, we add a new kind of BCI for breakpoints. It is called `bci_
 
 
 Here's how the stack is set up just prior to yielding:
-
 
 ```
     Sp -= 11;

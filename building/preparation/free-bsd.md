@@ -1,8 +1,7 @@
 # Setting Up a FreeBSD System for Building GHC
 
 
-
-Building GHC on FreeBSD is currently supported on `8.4-RELEASE` or later, on `i386` (x86) and `amd64` (x86_64) architectures.  One might be able to build GHC on different architectures and earlier versions but they are not maintained actively.  Note that `8.4-RELEASE` is used for the FreeBSD nightly builds ([amd64 head](http://haskell.inf.elte.hu/builders/freebsd-amd64-head/), [ i386 head](http://haskell.inf.elte.hu/builders/freebsd-i386-head/)).
+Building GHC on FreeBSD is currently supported on `8.4-RELEASE` or later, on `i386` (x86) and `amd64` (x86_64) architectures.  One might be able to build GHC on different architectures and earlier versions but they are not maintained actively.  Note that `8.4-RELEASE` is used for the FreeBSD nightly builds ([amd64 head](http://haskell.inf.elte.hu/builders/freebsd-amd64-head/), [i386 head](http://haskell.inf.elte.hu/builders/freebsd-i386-head/)).
 
 
 
@@ -60,7 +59,7 @@ $ ./configure \
 ```
 
 
-The `--disable-large-address-space` disables the runtime's two-step allocator, which isn't currently supported on FreeBSD prior to 11.1 and GHC earlier than 8.6 (see [\#12695](https://gitlab.haskell.org/ghc/ghc/issues/12695)).
+The `--disable-large-address-space` disables the runtime's two-step allocator, which isn't currently supported on FreeBSD prior to 11.1 and GHC earlier than 8.6 (see #12695).
 On systems earlier than `10.0-RELEASE`, one has to configure `iconv(3)` as well.  For `10.0-RELEASE` and later, `iconv(3)` functions are part of the base system libraries, so these flags is not needed any more.
 
 ```wiki
@@ -108,16 +107,12 @@ Here is a random list of thoughts about things that are good to know when workin
 
 - The FreeBSD base system is shipped with a version of `ncurses` but this may not be the latest.  Unfortunately, when [devel/ncurses](http://www.freshports.org/devel/ncurses) is installed one should add some extra lines to `mk/build.mk` to tell GNU make we want to use `ncurses` from `$LOCALBASE` (see above) instead, otherwise `terminfo` (which uses `ncurses`) becomes linked to `ncurses` in the base:
 
-```wiki
-SRC_HC_OPTS += -I$LOCALBASE/include -L$LOCALBASE/lib
-libraries/terminfo_CONFIGURE_OPTS += --configure-option=--with-curses-includes=$LOCALBASE/include --configure-option=--with-curses-libraries=$LOCALBASE/lib
-```
+  ```wiki
+  SRC_HC_OPTS += -I$LOCALBASE/include -L$LOCALBASE/lib
+  libraries/terminfo_CONFIGURE_OPTS += --configure-option=--with-curses-includes=$LOCALBASE/include --configure-option=--with-curses-libraries=$LOCALBASE/lib
+  ```
 
->
->
-> See [\#7472](https://gitlab.haskell.org/ghc/ghc/issues/7472) for possible symptoms.
->
->
+  See #7472 for possible symptoms.
 
 - The GHC source code have an in-tree version of `libffi` and `gmp` which may work by accident -- especially if the version of `libgmp.so` and `libffi.so` matches the version installed by the ports.  But using them is not recommended as they could result in various strange build and run-time errors.  See the `configure` options to work around them.
 
@@ -125,16 +120,12 @@ libraries/terminfo_CONFIGURE_OPTS += --configure-option=--with-curses-includes=$
 
 - Building GHC sources and Haskell sources in general could be sped up by setting up a [tmpfs(5)](http://www.freebsd.org/cgi/man.cgi?query=tmpfs&apropos=0&sektion=0&manpath=FreeBSD+9.1-stable&arch=default&format=html) partition.  (This is not created by the default install.)  Just replace the `/tmp` partition with a tmpfs-backed entry in `/etc/fstab`:
 
-```wiki
-tmpfs /tmp tmpfs rw,mode=777 0 0
-```
+  ```wiki
+  tmpfs /tmp tmpfs rw,mode=777 0 0
+  ```
 
->
->
-> and use your original `/tmp` partition as a swap device (substitute `ada0s1` with your device):
->
->
+  and use your original `/tmp` partition as a swap device (substitute `ada0s1` with your device):
 
-```wiki
-/dev/ada0s1d none swap sw 0 0
-```
+  ```wiki
+  /dev/ada0s1d none swap sw 0 0
+  ```

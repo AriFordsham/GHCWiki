@@ -133,12 +133,7 @@ case (reverse xs) of y { DEFAULT -> f y }
 
 Case expressions have several invariants
 
-
-- The `res_ty` type is the same as the type of any of the right-hand sides (up to refining unification -- coreRefineTys in [compiler/types/Unify.hs](/trac/ghc/browser/ghc/compiler/types/Unify.hs) -- in pre-[FC](commentary/compiler/fc)).
-
-
- 
-
+- The `res_ty` type is the same as the type of any of the right-hand sides (up to refining unification -- coreRefineTys in [compiler/types/Unify.hs](/ghc/ghc/tree/master/ghc/compiler/types/Unify.hs) -- in pre-[FC](commentary/compiler/fc)).
 
 - If there is a `DEFAULT` alternative, it must appear first.  This makes finding a `DEFAULT` alternative easy, when it exists.
 
@@ -147,11 +142,7 @@ Case expressions have several invariants
   - tag, for `DataAlt`s
   - lit, for `LitAlt`s
 
->
->
-> This makes finding the relevant constructor easy, and makes comparison easier too.
->
->
+  This makes finding the relevant constructor easy, and makes comparison easier too.
 
 - The list of alternatives is **always exhaustive**, meaning that it covers **all reachable cases**.  Note, however, that an "exhaustive" case does not necessarily mention all constructors:
 
@@ -185,4 +176,4 @@ explanations about this approach see
 ## Human readable Core generation
 
 
-If you are interested in the way Core is translated into human readable form, you should check the sources for [compiler/coreSyn/PprCore.hs](/ghc/ghc/tree/master/ghc/compiler/coreSyn/PprCore.hs). It is especially usefull if you want to see how the Core data types are being built, especially when there is no Show instance defined for them.
+If you are interested in the way Core is translated into human readable form, you should check the sources for [compiler/coreSyn/PprCore.hs](/ghc/ghc/tree/master/ghc/compiler/coreSyn/PprCore.hs). It is especially useful if you want to see how the Core data types are being built, especially when there is no Show instance defined for them.

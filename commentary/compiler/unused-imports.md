@@ -2,13 +2,13 @@
 
 
 GHC has a series of bugs related to the "report unused imports"
-flags, including [\#1148](https://gitlab.haskell.org/ghc/ghc/issues/1148), [\#2267](https://gitlab.haskell.org/ghc/ghc/issues/2267), [\#1074](https://gitlab.haskell.org/ghc/ghc/issues/1074), [\#2436](https://gitlab.haskell.org/ghc/ghc/issues/2436), [\#10117](https://gitlab.haskell.org/ghc/ghc/issues/10117), [\#12067](https://gitlab.haskell.org/ghc/ghc/issues/12067).
+flags, including [\#1148](https://gitlab.haskell.org//ghc/ghc/issues/1148), [\#2267](https://gitlab.haskell.org//ghc/ghc/issues/2267), [\#1074](https://gitlab.haskell.org//ghc/ghc/issues/1074), [\#2436](https://gitlab.haskell.org//ghc/ghc/issues/2436), [\#10117](https://gitlab.haskell.org//ghc/ghc/issues/10117), [\#12067](https://gitlab.haskell.org//ghc/ghc/issues/12067).
 
 
 This page describes the current design (GHC 8.4 onwards, or thereabouts).
 
 
-NB: GHC 8.4 and 8.6 had a bug (Trac [\#13064](https://gitlab.haskell.org/ghc/ghc/issues/13064)) which meant that GHC did not implement the design advertised below.
+NB: GHC 8.4 and 8.6 had a bug (Trac [\#13064](https://gitlab.haskell.org//ghc/ghc/issues/13064)) which meant that GHC did not implement the design advertised below.
 
 
 See also 
@@ -109,14 +109,9 @@ The import-item choosing step 2 implies that there is a total order on
 import-items.  We say import-item A *dominates* import-item B if we choose
 A over B.  Here is one possible dominance relationship:
 
-
->
->
-> (a) `import Foo` dominates `import qualified Foo`, regardless of all-or-none.
-> (b) `import Foo` dominates `import Foo(x)`.
-> (c) Otherwise choose the textually first one.
->
->
+  * (a) `import Foo` dominates `import qualified Foo`, regardless of all-or-none.
+  (b) `import Foo` dominates `import Foo(x)`.
+  (c) Otherwise choose the textually first one.
 
 
 Rationale for (a).  Consider
@@ -131,7 +126,7 @@ Rationale for (a).  Consider
 The unqualified `x` can only come from `import #2`.  The qualified `M.x`
 could come from either, but `bestImport` picks `import #2`, because it is
 more likely to be useful in other imports, as indeed it is in this
-case (see Trac [\#5211](https://gitlab.haskell.org/ghc/ghc/issues/5211) for a concrete example).
+case (see Trac [\#5211](https://gitlab.haskell.org//ghc/ghc/issues/5211) for a concrete example).
 
 
 Other notes:

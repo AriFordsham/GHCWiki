@@ -25,36 +25,26 @@ GHC draws its information about what packages are installed from one or more pac
 ## Package-related types
 
 
+Source files: [compiler/main/PackageConfig.hs](/ghc/ghc/tree/master/ghc/compiler/main/PackageConfig.hs), [compiler/main/Packages.lhs](/trac/ghc/browser/ghc/compiler/main/Packages.lhs)
 
-Source files: [compiler/main/PackageConfig.hs](/trac/ghc/browser/ghc/compiler/main/PackageConfig.hs), [compiler/main/Packages.lhs](/trac/ghc/browser/ghc/compiler/main/Packages.lhs)
+* **`PackageId`**
 
+  The most important package type inside ghc is `PackageId`, representing the full name of a package (including its version).
+It is represented as a `FastString` for fast comparison.
 
-<table><tr><th><tt>PackageId</tt></th>
-<td>
-The most important package type inside ghc is <tt>PackageId</tt>, representing the full name of a package (including its version).
-It is represented as a <tt>FastString</tt> for fast comparison.
-</td></tr></table>
+- **`PackageConfig`**
 
-
-<table><tr><th><tt>PackageConfig</tt></th>
-<td>
-The information contained in the package database about a package.  Currently this is a synonym for <tt>InstalledPackageInfo</tt>,
+  The information contained in the package database about a package.  Currently this is a synonym for `InstalledPackageInfo`,
 later it might contain extra GHC-specific info, or have a more optimised representation.
-</td></tr></table>
 
+- **`PackageConfigMap`**
 
-<table><tr><th><tt>PackageConfigMap</tt></th>
-<td>
-A mapping (actually <tt>UniqFM</tt>) from <tt>PackageId</tt> to <tt>PackageConfig</tt>.
-</td></tr></table>
+  A mapping (actually `UniqFM`) from `PackageId` to `PackageConfig`.
 
+- **`PackageState`**
 
-<table><tr><th><tt>PackageState</tt></th>
-<td>
-Everything the compiler knows about the package database.  This is built by <tt>initPackages</tt> in 
-<a href="/trac/ghc/browser/ghc/compiler/main/Packages.lhs">compiler/main/Packages.lhs</a>, and stashed in the <tt>DynFlags</tt>.
-</td></tr></table>
-
+  Everything the compiler knows about the package database.  This is built by `initPackages` in 
+[compiler/main/Packages.lhs](/ghc/ghc/tree/master/ghc/compiler/main/Packages.lhs), and stashed in the `DynFlags`.
 
 ## Modules
 
@@ -132,7 +122,7 @@ At the time of writing (GHC 6.6) GHC doesn't have working support for generating
 ## Reexported modules
 
 
-Starting with GHC 7.10 ([\#8407](https://gitlab.haskell.org/ghc/ghc/issues/8407)), we will have support for reexporting modules from other packages you depend upon.  How does this work?  In the package database, a package not only declare that it exposes a module, but it can also say that it reexports a module, with an indirection to the defining package (and original module name, if it is renamed).  There is a twist however: this simple strategy could require GHC to follow a chain of indirections in the package database.  Instead, we maintain the invariant that an indirection always points to the original defining module. To enforce this invariant, `ghc-pkg` processes installed package info with `resolveReexports`, shortcutting the indirections before adding a package to the database.
+Starting with GHC 7.10 ([\#8407](https://gitlab.haskell.org//ghc/ghc/issues/8407)), we will have support for reexporting modules from other packages you depend upon.  How does this work?  In the package database, a package not only declare that it exposes a module, but it can also say that it reexports a module, with an indirection to the defining package (and original module name, if it is renamed).  There is a twist however: this simple strategy could require GHC to follow a chain of indirections in the package database.  Instead, we maintain the invariant that an indirection always points to the original defining module. To enforce this invariant, `ghc-pkg` processes installed package info with `resolveReexports`, shortcutting the indirections before adding a package to the database.
 
 ## Packages in a GHC build
 

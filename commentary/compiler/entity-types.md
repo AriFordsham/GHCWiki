@@ -6,11 +6,11 @@ Video: [Types and Classes](http://www.youtube.com/watch?v=pN9rhQHcfCo&list=PLBkR
 
 For each kind of Haskell entity (identifier, type variable, type constructor, data constructor, class) GHC has a data type to represent it.  Here they are:
 
-- **Type constructors** are represented by the `TyCon` type ([compiler/types/TyCon.hs](/trac/ghc/browser/ghc/compiler/types/TyCon.hs)).
-- **Classes** are represented by the `Class` type ([compiler/types/Class.hs](/trac/ghc/browser/ghc/compiler/types/Class.hs)).
-- **Data constructors** are represented by the `DataCon` type ([compiler/basicTypes/DataCon.hs](/trac/ghc/browser/ghc/compiler/basicTypes/DataCon.hs)).
-- **Pattern synonyms** are represented by the `PatSyn` type ([compiler/basicTypes/PatSyn.hs](/trac/ghc/browser/ghc/compiler/basicTypes/PatSyn.hs)).
-- **Term variables** `Id` and **type variables** `TyVar` are both represented by the `Var` type ([compiler/basicTypes/Var.hs](/trac/ghc/browser/ghc/compiler/basicTypes/Var.hs)).
+- **Type constructors** are represented by the `TyCon` type ([compiler/types/TyCon.hs](/ghc/ghc/tree/master/ghc/compiler/types/TyCon.hs)).
+- **Classes** are represented by the `Class` type ([compiler/types/Class.hs](/ghc/ghc/tree/master/ghc/compiler/types/Class.hs)).
+- **Data constructors** are represented by the `DataCon` type ([compiler/basicTypes/DataCon.hs](/ghc/ghc/tree/master/ghc/compiler/basicTypes/DataCon.hs)).
+- **Pattern synonyms** are represented by the `PatSyn` type ([compiler/basicTypes/PatSyn.hs](/ghc/ghc/tree/master/ghc/compiler/basicTypes/PatSyn.hs)).
+- **Term variables**`Id` and **type variables**`TyVar` are both represented by the `Var` type ([compiler/basicTypes/Var.hs](/ghc/ghc/tree/master/ghc/compiler/basicTypes/Var.hs)).
 
 
 All of these entities have a `Name`, but that's about all they have in common.  However they are sometimes treated uniformly:
@@ -86,45 +86,38 @@ data Var
 Every `Var` has fields `varName::Name` and a `realUnique::FastInt`. The latter is identical to the `Unique` in the former, but is cached in the `Var` for fast comparison.
 
 
-
 Here are some per-flavour notes:
 
+* `TyVar`
 
-<table><tr><th><tt>TyVar</tt></th>
-<td>is self explanatory.
-</td></tr></table>
+  is self explanatory.
 
+* `TcTyVar`
 
-<table><tr><th><tt>TcTyVar</tt></th>
-<td>is used during type-checking only.  Once type checking is finished, there are no more <tt>TcTyVar</tt>s.
-</td></tr></table>
+  is used during type-checking only.  Once type checking is finished, there are no more `TcTyVar`s.
 
+* `LocalId`
 
-<table><tr><th><tt>LocalId</tt></th>
-<td>is used for term variables bound <i>in the module being compiled</i>.   More specifically, a <tt>LocalId</tt> is bound either <i>within</i> an expression (lambda, case, local let), or at the top level of the module being compiled.
+  is used for term variables bound *in the module being compiled*.   More specifically, a `LocalId` is bound either *within* an expression (lambda, case, local let), or at the top level of the module being compiled.
 
-- The <tt>IdInfo</tt> of a <tt>LocalId</tt> may change as the simplifier repeatedly bashes on it.
-- A <tt>LocalId</tt> carries a flag saying whether it&apos;s exported. This is useful for knowing whether we can discard it if it is not used.
+  - The `IdInfo` of a `LocalId` may change as the simplifier repeatedly bashes on it.
+  - A `LocalId` carries a flag saying whether it's exported. This is useful for knowing whether we can discard it if it is not used.
 
-  ```wiki
-  data LocalIdDetails 
-    = NotExported	-- Not exported; may be discarded as dead code.
-    | Exported	-- Exported; keep alive
-  ```
+    ```wiki
+    data LocalIdDetails 
+      = NotExported	-- Not exported; may be discarded as dead code.
+      | Exported	-- Exported; keep alive
+    ```
 
-</td></tr></table>
+* `GlobalId`
 
+  is used for fixed, immutable, top-level term variables, notably ones that are imported from other modules.  This means that, for example, the optimizer won't change its properties.
 
-<table><tr><th><tt>GlobalId</tt></th>
-<td>is used for fixed, immutable, top-level term variables, notably ones that are imported from other modules.  This means that, for example, the optimizer won&apos;t change its properties.
-
-- Always has an <tt>External</tt> or <tt>WiredIn</tt> <a href="commentary/compiler/name-type">Name</a>, and hence has a <tt>Unique</tt> that is globally unique across the whole of a GHC invocation.
-- Always bound at top level. 
-- The <tt>IdInfo</tt> of a <tt>GlobalId</tt> is completely fixed.
-- All implicit Ids (data constructors, class method selectors, record selectors and the like) are are <tt>GlobalId</tt>s from birth, even the ones defined in the module being compiled.
-- When finding the free variables of an expression (<tt>exprFreeVars</tt>), we only collect <tt>LocalIds</tt> and ignore <tt>GlobalIds</tt>.
-
-</td></tr></table>
+  - Always has an `External` or `WiredIn`[Name](commentary/compiler/name-type), and hence has a `Unique` that is globally unique across the whole of a GHC invocation.
+  - Always bound at top level. 
+  - The `IdInfo` of a `GlobalId` is completely fixed.
+  - All implicit Ids (data constructors, class method selectors, record selectors and the like) are are `GlobalId`s from birth, even the ones defined in the module being compiled.
+  - When finding the free variables of an expression (`exprFreeVars`), we only collect `LocalIds` and ignore `GlobalIds`.
 
 
 All the value bindings in the module being compiled (whether top level or not) are `LocalId`s until the CoreTidy phase. In the CoreTidy phase, all top-level bindings are made into `GlobalId`s. This is the point when a `LocalId` becomes "frozen" and becomes a fixed, immutable `GlobalId`. 

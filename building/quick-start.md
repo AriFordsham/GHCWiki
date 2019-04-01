@@ -4,15 +4,9 @@
 If you are an aspiring GHC developer, you may want to read the [Contributing](contributing) page first.
 
 
-
 To build GHC, first make sure to:
 
-
->
->
-> [Prepare your machine](building/preparation)
->
->
+- [Prepare your machine](building/preparation)
 
 
 For Windows users, all the commands below must be executed in the MinGW shell, not Command Prompt or PowerShell.
@@ -82,18 +76,13 @@ There are 4 things to remember:
   change to the directory (`compiler`, `utils`, `ghc` or `libraries`) where you're making your changes.
   See [Building a single sub-component](building/using#).
 
-
- 
-
-
 1. Set `stage=2` in your `mk/build.mk` file, to
   [freeze the stage 1 compiler](building/using#freezing-stage-1).
   This makes sure that only the
   [stage-2](building/architecture/idiom/stages) compiler will be
   rebuilt after this.
 
-1. While in the sub-component directory, use `make fast`
-  [skip dependency building](building/using#skip-dependency-building) (except after pulling in changes from others).
+1. While in the sub-component directory, use `make fast` [skip dependency building](building/using#skip-dependency-building) (except after pulling in changes from others).
 
 
 A good first sanity check is to twiddle some error message in the code, just to see that changed error message pop up when you compile a file. Write some Haskell code with an error in it, and look at the error message. Search through the code for that error message. Change the message, rebuild ghc (run `make fast` in the `ghc` directory), and recompile your file again with `./inplace/bin/ghc-stage2`. If you see the changed message, you're good to go.

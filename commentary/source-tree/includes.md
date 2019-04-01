@@ -11,28 +11,21 @@ These are header files that define an external API to the RTS that can
 be used by client code.  These interfaces are intended to be
 relatively stable:
 
+- **[HsFFI.h](/ghc/ghc/tree/master/includes/HsFFI.h)**
 
-<table><tr><th><a href="/trac/ghc/browser/includes/HsFFI.h">HsFFI.h</a><a href="/trac/ghc/export/HEAD/ghc/includes/HsFFI.h"></a></th>
-<td>
-The external FFI api, as required by the FFI spec
-</td></tr></table>
+  The external FFI api, as required by the FFI spec
 
+- **[RtsAPI.h](/ghc/ghc/tree/master/includes/RtsAPI.h)**
 
-<table><tr><th><a href="/trac/ghc/browser/includes/RtsAPI.h">RtsAPI.h</a><a href="/trac/ghc/export/HEAD/ghc/includes/RtsAPI.h"></a></th>
-<td>
-The API for calling into the RTS.  Used by the implementation
-of <tt>foreign export</tt> calls, but may also be used by external
+  The API for calling into the RTS.  Used by the implementation
+of `foreign export` calls, but may also be used by external
 clients.
-</td></tr></table>
 
+- **[Rts.h](/ghc/ghc/tree/master/includes/Rts.h)**
 
-<table><tr><th><a href="/trac/ghc/browser/includes/Rts.h">Rts.h</a><a href="/trac/ghc/export/HEAD/ghc/includes/Rts.h"></a></th>
-<td>
-This header file defines everything that is visible
-externally to the RTS.  It includes <tt>Stg.h</tt> and everything
-in the <tt>rts</tt> subdirectory.
-</td></tr></table>
-
+  This header file defines everything that is visible
+externally to the RTS.  It includes `Stg.h` and everything
+in the `rts` subdirectory.
 
 ## Derived Constants
 
@@ -64,63 +57,55 @@ These days the amount of stuff included this way is kept to a minimum.
 In particular, there are no function prototypes: all calls to C
 functions from `.hc` files are given types at the call site.
 
+- **[Stg.h](/ghc/ghc/tree/master/includes/Stg.h)**
 
-<table><tr><th><a href="/trac/ghc/browser/includes/Stg.h">Stg.h</a><a href="/trac/ghc/export/HEAD/ghc/includes/Stg.h"></a></th>
-<td>
-The top of the hierarchy is <tt>Stg.h</tt>, which includes everything
-required by <tt>.hc</tt> code.  Most files <tt>#included</tt> by <tt>Stg.h</tt> are in the
-<tt>stg</tt> subdirectory.
-</td></tr></table>
+  The top of the hierarchy is `Stg.h`, which includes everything
+required by `.hc` code.  Most files `#included` by `Stg.h` are in the `stg` subdirectory.
 
+- **[ghcconfig.h](/ghc/ghc/tree/master/includes/ghcconfig.h)**
 
-<table><tr><th><a href="/trac/ghc/browser/includes/ghcconfig.h">ghcconfig.h</a><a href="/trac/ghc/export/HEAD/ghc/includes/ghcconfig.h"></a></th>
-<td>
-Configuration info derived by the <tt>configure</tt> script.
-</td></tr>
-<tr><th><a href="/trac/ghc/browser/includes/MachDeps.h">MachDeps.h</a><a href="/trac/ghc/export/HEAD/ghc/includes/MachDeps.h"></a></th>
-<td>
-Sizes of various basic types (should be in the <tt>stg</tt> subdirectory,
+  Configuration info derived by the `configure` script.
+
+- **[MachDeps.h](/ghc/ghc/tree/master/includes/MachDeps.h)**
+
+  Sizes of various basic types (should be in the `stg` subdirectory,
 but left here for backwards-compatibility reasons).
-</td></tr>
-<tr><th><a href="/trac/ghc/browser/includes/stg/DLL.h">stg/DLL.h</a><a href="/trac/ghc/export/HEAD/ghc/includes/stg/DLL.h"></a></th>
-<td>
-Stuff related to Windows DLLs.
-</td></tr>
-<tr><th><a href="/trac/ghc/browser/includes/stg/MachRegs.h">stg/MachRegs.h</a><a href="/trac/ghc/export/HEAD/ghc/includes/stg/MachRegs.h"></a></th>
-<td>
-Global register assignments for this processor.
-</td></tr>
-<tr><th><a href="/trac/ghc/browser/includes/stg/MiscClosures.h">stg/MiscClosures.h</a><a href="/trac/ghc/export/HEAD/ghc/includes/stg/MiscClosures.h"></a></th>
-<td>
-Declarations for closures &amp; info tables built-in to the RTS
-</td></tr>
-<tr><th><a href="/trac/ghc/browser/includes/stg/Regs.h">stg/Regs.h</a><a href="/trac/ghc/export/HEAD/ghc/includes/stg/Regs.h"></a></th>
-<td>
-&quot;registers&quot; in the virtual machine.
-</td></tr>
-<tr><th><a href="/trac/ghc/browser/includes/stg/SMP.h">stg/SMP.h</a><a href="/trac/ghc/export/HEAD/ghc/includes/stg/SMP.h"></a></th>
-<td>
-Atomic memory operations for SMP support
-</td></tr>
-<tr><th><a href="/trac/ghc/browser/includes/stg/Ticky.h">stg/Ticky.h</a><a href="/trac/ghc/export/HEAD/ghc/includes/stg/Ticky.h"></a></th>
-<td>
-Declarations for ticky-ticky counters
-</td></tr>
-<tr><th><a href="/trac/ghc/browser/includes/stg/Types.h">stg/Types.h</a><a href="/trac/ghc/export/HEAD/ghc/includes/stg/Types.h"></a></th>
-<td>
-Basic types specific to the virtual machine (eg. <tt>StgWord</tt>).
-</td></tr></table>
+
+- **[stg/DLL.h](/ghc/ghc/tree/master/includes/stg/DLL.h)**
+
+  Stuff related to Windows DLLs.
+
+- **[stg/MachRegs.h](/ghc/ghc/tree/master/includes/stg/MachRegs.h)**
+
+  Global register assignments for this processor.
+
+- **[stg/MiscClosures.h](/ghc/ghc/tree/master/includes/stg/MiscClosures.h)**
+
+  Declarations for closures & info tables built-in to the RTS
+
+- **[stg/Regs.h](/ghc/ghc/tree/master/includes/stg/Regs.h)**
+
+  "registers" in the virtual machine.
+
+- **[stg/SMP.h](/ghc/ghc/tree/master/includes/stg/SMP.h)**
+
+  Atomic memory operations for SMP support
+
+- **[stg/Ticky.h](/ghc/ghc/tree/master/includes/stg/Ticky.h)**
+
+  Declarations for ticky-ticky counters
+
+- **[stg/Types.h](/ghc/ghc/tree/master/includes/stg/Types.h)**
+
+  Basic types specific to the virtual machine (eg. `StgWord`).
 
 
 ## The RTS external APIs
 
 
-
-The header [Rts.h](/trac/ghc/browser/includes/Rts.h)[](/trac/ghc/export/HEAD/ghc/includes/Rts.h)
+The header [Rts.h](/ghc/ghc/tree/master/includes/Rts.h)[](/trac/ghc/export/HEAD/ghc/includes/Rts.h)
 includes all the headers below the `rts` subdirectory, which together
-define the RTS external API.  Virtually all RTS code `#includes`
-`Rts.h`.
-
+define the RTS external API.  Virtually all RTS code `#includes``Rts.h`.
 
 
 The rts header files are divided into a few directories:
@@ -137,11 +122,7 @@ The rts header files are divided into a few directories:
 
 ## Included into C-- (`.cmm`) code
 
+- **[Cmm.h](/ghc/ghc/tree/master/includes/Cmm.h)**
 
-<table><tr><th><a href="/trac/ghc/browser/includes/Cmm.h">Cmm.h</a><a href="/trac/ghc/export/HEAD/ghc/includes/Cmm.h"></a></th>
-<td>
-included into <tt>.cmm</tt> source only; provides useful macros for writing
+  included into `.cmm` source only; provides useful macros for writing
 low-level C-- code for GHC.
-</td></tr></table>
-
-

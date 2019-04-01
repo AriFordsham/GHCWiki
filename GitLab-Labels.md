@@ -2,17 +2,8 @@ GitLab uses labels to organize both issues and merge requests. GHC uses this
 mechanism to track a variety of information. Here we document the conventions
 we use.
 
-If you create a new label please do add it to this list, keeping the list inv
+If you create a new label please do add it to this list, keeping the list in
 alphabetical order.
-
-# Miscellaneous
-
- * ~"Trac import": Things imported from GHC's old Trac instance
-
-# Backport state
-
- * ~"backport needed": This denotes a merge request which should be backported to a stable branch before the next release.
- * ~"backport": This denotes a merge request which backports a merge request to a stable branch. The merge request description should link to the MR or issue from which the backported patch came
 
 # Types of issues
 
@@ -22,6 +13,8 @@ alphabetical order.
 
 # Types of bugs
 
+These labels describe how a ~bug manifests. Usually every bug should be bear exactly one of the following.
+
  * ~"compiler perf": A case where compilation time isn't what we would like it to be
  * ~"runtime perf": A case where the code produced by GHC isn't as performant as we would like
  * ~"compiler crash": A case where GHC itself crashes
@@ -30,16 +23,31 @@ alphabetical order.
  * ~"runtime crash": A case where a program compiled by GHC crashes at runtime
  * ~"error messages": Issues with the error messages produced by GHC
 
-# Issue flags
+# Miscellaneous
 
- * ~"CI breakage"
- * ~"user-facing": Denotes a merge request which changes the interface exposed by GHC or its core libraries in a user-noticable way. Merge requests so-marked trigger the head.hackage build jobs.
+ * ~"CI breakage": Denotes a bug that broke CI (this could likely be dropped; nothing should break CI now)
+ * ~"user-facing": Denotes a merge request which changes the interface exposed by GHC or its core libraries in a user-noticeable way. Merge requests so-marked trigger the head.hackage build jobs.
+ * ~"broken test": An issue due to which one or more tests in the testsuite are marked as `expect_broken`
+ * ~"Trac import": Issues imported from GHC's old Trac instance
+
+# Issue lifecycle
+
+These indicate various stages in the lifecycle of an issue.
+
+ * ~"needs triage": An issue that hasn't yet been triaged. This involves a maintainer applying the appropriate labels and weight.
  * ~"info needed": Information is needed from the issue reporter
  * ~"upstream": Things that require coordination with an upstream package
 
+## Backport status
+
+These labels are to do with backporting of fixes to stable release branches.
+
+ * ~"backport needed": This denotes a merge request which should be backported to a stable branch before the next release.
+ * ~"backport": This denotes a merge request which backports a merge request to a stable branch. The merge request description should link to the MR or issue from which the backported patch came
+
 # Bug environmental scope
 
-These labels identify the environments in which a bug will manifest.
+These labels identify the environments in which a ~bug will manifest.
 
 ## Operating systems
 

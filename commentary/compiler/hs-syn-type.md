@@ -40,20 +40,14 @@ The type checker adds type information to the syntax tree, otherwise leaving it 
 
   An `ExplicitList` represents the explicit list construct in Haskell (e.g. "`[2, 4, 1]`"). The parser fills the `PostTcType` field with an error thunk `HsTypes.placeHolderType`; and the renamer does not touch it.  The typechecker figures out the type, and fills in the value.  So until the type checker, we cannot examine or print the `PostTcType` fields.
 
->
->
-> The error thunks mean that we can't conveniently pretty-print the `PostTcType` fields, because the pretty-printer would poke the error thunks when run on pre-typchecked code.  We could have defined `PostTcType` to be `Maybe Type`, but that would have meant unwrapping lots of `Just` constructors, which is messy.  It would be nicer to parameterise `HsSyn` over the `PostTcType` fields.  Thus:
->
->
-> ```wiki
->   type RnHsBinds = HsBinds Name ()   -- After renaming
->   type TcHsBinds = HsBinds Id Type   -- After type checking
-> ```
->
->
-> This would be a Good Thing to do.
->
->
+  The error thunks mean that we can't conveniently pretty-print the `PostTcType` fields, because the pretty-printer would poke the error thunks when run on pre-typchecked code.  We could have defined `PostTcType` to be `Maybe Type`, but that would have meant unwrapping lots of `Just` constructors, which is messy.  It would be nicer to parameterise `HsSyn` over the `PostTcType` fields.  Thus:
+
+  ```wiki
+    type RnHsBinds = HsBinds Name ()   -- After renaming
+    type TcHsBinds = HsBinds Id Type   -- After type checking
+  ```
+
+  This would be a Good Thing to do.
 
 - In a few cases, the typechecker moves from one constructor to another.  Example:
 
@@ -79,11 +73,7 @@ The type checker adds type information to the syntax tree, otherwise leaving it 
   - `HsWrap`, in the `HsExpr` type.
   - `AbsBinds`, in the `HsBinds` type.
 
->
->
-> These are invariably to do with type abstraction and application, since Haskell source is implicitly generalized and instantiated, whereas GHC's intermediate form is explicitly generalized and instantiated.
->
->
+  These are invariably to do with type abstraction and application, since Haskell source is implicitly generalized and instantiated, whereas GHC's intermediate form is explicitly generalized and instantiated.
 
 ## Source Locations
 

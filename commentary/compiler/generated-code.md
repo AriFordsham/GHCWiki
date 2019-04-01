@@ -98,7 +98,6 @@ sources:
 - [The Haskell Execution Model](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Rts/HaskellExecution)
 - [Storage](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Rts/Storage)
 - [The Spineless Tagless G-machine](http://research.microsoft.com/en-us/um/people/simonpj/Papers/spineless-tagless-gmachine.ps.gz)
-
   - now sadly rather out of date
 - [Faster laziness through dynamic pointer tagging](http://research.microsoft.com/en-us/um/people/simonpj/papers/ptr-tag/ptr-tagging.pdf)
 
@@ -156,35 +155,23 @@ Some of the key concepts in the STG machine include *closures*,
 *info tables* and *entry code*. We tackle them in reverse
 order:
 
-<table><tr><th>Entry code</th>
-<td>
-The actual machine code that the STG machine will execute upon
-&quot;entry&quot;. Entry means different things for different heap objects.
-</td></tr></table>
+* **Entry code**
 
+  The actual machine code that the STG machine will execute upon "entry". Entry means different things for different heap objects.
 
-- For *thunks*, entry is when the thunk is forced by some demand
-  for its value, such as a `case` expression scrutinising it
-- For *functions*, entry is when the function is applied to as
-  many arguments as are demanded by the arity recorded in its info
-  table
-- For *continuations*, entry occurs when a value is returned from
-  a nested call, and hence the need arises to consume the value and
+  - For *thunks*, entry is when the thunk is forced by some demand for its value, such as a `case` expression scrutinising it
+  - For *functions*, entry is when the function is applied to as many arguments as are demanded by the arity recorded in its info table
+  - For *continuations*, entry occurs when a value is returned from a nested call, and hence the need arises to consume the value and
   continue evaluation
 
-<table><tr><th>Info table</th>
-<td>
-A block of memory allocated statically, which contains metadata
-about a closure. The most important fields for our purposes are the
-entry code pointer and the arity information (if this is the info
-table for a thunk, function or partial application)
-</td></tr></table>
+* **Info table**
 
-<table><tr><th>Closure</th>
-<td>
-Essentially a heap-allocated pair of the free variables of some
-code, and a pointer to its info table (i.e. its info pointer).
-</td></tr></table>
+  A block of memory allocated statically, which contains metadata about a closure. The most important fields for our purposes are the
+entry code pointer and the arity information (if this is the info table for a thunk, function or partial application)
+
+* **Closure**
+
+  Essentially a heap-allocated pair of the free variables of some code, and a pointer to its info table (i.e. its info pointer).
 
 For an example of how these parts work together, consider the
 following code
@@ -256,8 +243,7 @@ pointer and arity for.
 Application of functions is the bread and butter of the STG
 machine. Correspondingly, this first Haskell program
 
-
-```
+```haskell
 {-# NOINLINE known_fun #-}
 known_fun :: a -> a
 known_fun x = x
@@ -268,7 +254,6 @@ known_app _ = known_fun 10
 
 compiles to very simple C-- code
 
-
 ```
 Main_knownzuapp_entry() {
     cl3:
@@ -277,7 +262,7 @@ Main_knownzuapp_entry() {
 }
 ```
 
-```
+```asm
 _Main_knownzuapp_entry:
 Lcl3:
     movl L_stg_INTLIKE_closure$non_lazy_ptr,%eax
@@ -305,8 +290,7 @@ tail-call into the entry code of `known_fun`.
 This Haskell code is apparently little more complicated than the
 previous example
 
-
-```
+```haskell
 {-# NOINLINE known_fun_2 #-}
 known_fun_2 :: a -> a -> a
 known_fun_2 x _ = x
@@ -316,7 +300,6 @@ known_app_2 _ = known_fun_2 10 10
 ```
 
 however, it generates radically different C-- code:
-
 
 ```
 Main_knownzuappzu2_entry() {
@@ -332,7 +315,7 @@ Main_knownzuappzu2_entry() {
 }
 ```
 
-```
+```asm
 _Main_knownzuappzu2_entry:
 LclE:
     leal -4(%ebp),%eax
@@ -364,7 +347,6 @@ First, we check to see if growing the stack would overflow
 allocated stack space, by comparing the STG stack pointer register
 `Sp` with the stack limit register `SpLim`:
 
-
 ```
     if (Sp - 4 < SpLim) goto clH;
 ```
@@ -395,7 +377,6 @@ and write the two arguments to `known_fun_2` into the top two stack
 slots (overwriting our own first argument in the process, of
 course):
 
-
 ```
     I32[Sp + 0] = stg_INTLIKE_closure+209;
     I32[Sp - 4] = stg_INTLIKE_closure+209;
@@ -404,19 +385,15 @@ course):
 
 A simple tail call to the new function finishes us off:
 
-
 ```
     jump Main_knownzufunzu2_entry ();
 ```
 
 ## Example 3: Unsaturated applications to known functions
 
-
-
 Despite describing an undersaturated call, this Haskell code
 
-
-```
+```haskell
 {-# NOINLINE known_fun_2 #-}
 known_fun_2 :: a -> a -> a
 known_fun_2 x _ = x
@@ -426,7 +403,6 @@ known_undersaturated_app _ = known_fun_2 10
 ```
 
 compiles to straightforward C-- as follows
-
 
 ```
 Main_knownzuundersaturatedzuapp_entry() {
@@ -459,14 +435,12 @@ until we've considered happens to calls to statically-unknown
 functions. To see what these look like, we are going to use the
 following Haskell code
 
-
-```
+```haskell
 unknown_app :: (Int -> Int) -> Int -> Int
 unknown_app f x = f x
 ```
 
 Which compiles to this C-- function
-
 
 ```
 Main_unknownzuapp_entry() {
@@ -539,9 +513,7 @@ applications.
 
 ### Making the call to the generic application code
 
-
 Let's remind ourselves of the original code:
-
 
 ```
     R1 = I32[Sp + 0];
@@ -558,11 +530,9 @@ deals with all the cases for `f` described above.
 
 ## Example 5: oversaturated applications to known functions
 
-
 This Haskell code
 
-
-```
+```haskell
 {-# NOINLINE known_fun_2 #-}
 known_fun_2 :: a -> a -> a
 known_fun_2 x _ = x
@@ -572,7 +542,6 @@ known_oversat_app _ = known_fun_2 id id 10
 ```
 
 compiles to the following C-- function
-
 
 ```
 Main_knownzuoversatzuapp_entry() {
@@ -618,7 +587,6 @@ First, we do the usual stack check. What differs from the last time
 we saw this check is that we are not only allocating space for
 arguments on the stack, but also for a *continuation*. We set up
 these new stack entries as follows:
-
 
 ```
     I32[Sp + 0] = stg_INTLIKE_closure+209;
@@ -691,14 +659,12 @@ common characteristics:
 Let us look at how a thunk and a data constructor get allocated in
 a simple setting:
 
-
-```
+```haskell
 build_data :: Int -> Maybe Int
 build_data x = Just (x + 1)
 ```
 
 This compiles into the following C--:
-
 
 ```
 Main_buildzudata_entry() {
@@ -721,7 +687,7 @@ Main_buildzudata_entry() {
 }
 ```
 
-```
+```asm
 _Main_buildzudata_entry:
 LclE:
     addl $20,%edi
@@ -756,7 +722,6 @@ garbage collector in order to get the heap cleaned up and
 
 Hence, the first thing any such function does is check to see if
 enough memory is available for its purposes:
-
 
 ```
 clE:
@@ -797,7 +762,6 @@ Once the heap check succeeds, we will be able to enter the body of
 the function proper. Since the `Hp` has already been incremented,
 we can just construct the new heap objects directly:
 
-
 ```
     I32[Hp - 16] = slk_info;
     I32[Hp - 8] = I32[Sp + 0];
@@ -833,7 +797,6 @@ above that correspond to the `x + 1` closure.
 Now that we have allocated the data we entered the function in
 order to construct, we need to return it to the caller. This is
 achieved by the following code:
-
 
 ```
     R1 = Hp - 2;
@@ -921,7 +884,6 @@ case_scrut x = case x of Just x -> x; Nothing -> 10
 
 Produces this C-- code
 
-
 ```
 Main_casezuscrut_entry() {
     ccx:
@@ -948,7 +910,7 @@ scj_ret() {
 }
 ```
 
-```
+```asm
 _Main_casezuscrut_entry:
 Lccx:
     movl (%ebp),%esi
@@ -991,7 +953,6 @@ work!
 When we first call the `case_scrut` function, its entry code begins
 executing:
 
-
 ```
 ccx:
     R1 = I32[Sp + 0];
@@ -1026,7 +987,6 @@ present at the top of the stack.
 The code starts off by saving this argument (the `x`) temporarily
 into `R1`:
 
-
 ```
 ccx:
     R1 = I32[Sp + 0];
@@ -1037,7 +997,6 @@ stack with a pointer to the info-table of the continuation code.
 This is the code that will be invoked after `x` has been evaluated
 into WHNF, and which will do the test to decide whether to continue
 as the `Nothing` or as the `Just` branch of the case:
-
 
 ```
     I32[Sp + 0] = scj_info;
@@ -1060,7 +1019,6 @@ tagged, then we know that it is already evaluated and hence jump
 directly to the code for the continuation. If it is not tagged, we
 are forced to make the jump into the entry code for `x`. This
 choice is embodied by the following code:
-
 
 ```
     if (R1 & 3 != 0) goto ccA;
@@ -1090,9 +1048,7 @@ after `x` becomes a value.
 
 ### Dealing with the forced scrutinee
 
-
 The continuation code is a little more complicated:
-
 
 ```
 cct:
@@ -1116,7 +1072,6 @@ that was just evaluated. Because we are scrutinising a `Maybe` type
 continuation is able to use the tag bits on the returned pointer to
 decide which of the two branches to take:
 
-
 ```
 cct:
     _ccu::I32 = R1 & 3;
@@ -1135,7 +1090,6 @@ branch, which deals with what happens if we had a `Just`. In this
 case, we need to continue by forcing the thunk inside the `Just`
 and returning that value to our caller, which is what these lines
 are doing:
-
 
 ```
 ccv:
@@ -1168,15 +1122,13 @@ previous section will behave when it is actually forced. To remind
 you, the thunk we saw was constructed by the following Haskell
 code:
 
-
-```
+```haskell
 build_data :: Int -> Maybe Int
 build_data x = Just (x + 1)
 ```
 
 So how does the `x + 1` thunk work? An excellent question! Let's
 take a look at the C-- for its entry code and find out:
-
 
 ```
 slk_entry() {
@@ -1254,7 +1206,6 @@ The original Haskell code read `x + 1`, but GHC has inlined the
 actual code for the addition operation on `Int`s, which looks
 something like:
 
-
 ```
 plusInt (I# a) (I# b) = I# (a + b)
 ```
@@ -1270,7 +1221,6 @@ the `a` argument to `plusInt`.
 
 This evaluation is what is being done by the thunk entry code
 `slk_entry`. Ignoring the stack check, the C-- begins thusly:
-
 
 ```
     I32[Sp - 8] = stg_upd_frame_info;
@@ -1304,7 +1254,6 @@ the free variable of the thunk (which was set up in
 
 Finally, the entry code evaluates that free variable (checking the
 tag bits of the pointer first, as usual):
-
 
 ```
     if (R1 & 3 != 0) goto cpk;
@@ -1346,7 +1295,6 @@ Upon entry to the continuation code, we have the evaluated `x` in
 constructor to hold the result of the addition. Because of the
 allocation, `soN_ret` begins with a heap check. Ignoring that
 check, we have the following code:
-
 
 ```
     _soL::I32 = I32[R1 + 3] + 1;

@@ -1,27 +1,19 @@
 # GHC Commentary: The Word
 
 
+The most important type in the runtime is `StgWord`, defined in [includes/stg/Types.h](/ghc/ghc/tree/master/ghc/includes/stg/Types.h).  A word is defined to be the same size as a pointer on the current platform.  All these types are interconvertible without losing information, and have the same size (as reported by `sizeof`):
 
-The most important type in the runtime is `StgWord`, defined in [includes/stg/Types.h](/trac/ghc/browser/ghc/includes/stg/Types.h).  A word is defined to be the same size as a pointer on the current platform.  All these types are interconvertible without losing information, and have the same size (as reported by `sizeof`):
+- **`StgWord`**
 
+  An unsiged integral type of word size
 
-<table><tr><th><tt>StgWord</tt></th>
-<td>
-An unsiged integral type of word size
-</td></tr></table>
+- **`StgInt`**
 
+  A signed integral type of word size
 
-<table><tr><th><tt>StgInt</tt></th>
-<td>
-A signed integral type of word size
-</td></tr></table>
+- **`StgPtr`**
 
-
-<table><tr><th><tt>StgPtr</tt></th>
-<td>
-Pointer to <tt>StgWord</tt>
-</td></tr></table>
-
+  Pointer to `StgWord`
 
 
 The word is the basic unit of allocation in GHC: the heap and stack are both allocated in units of a word.  Throughout the runtime we often use sizes that are in units of words, so as to abstract away from the real word size of the underlying architecture.

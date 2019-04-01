@@ -19,68 +19,57 @@ Other documentation for Windows includes:
 
 1. **Install the following tools:**
 
-  - [Haskell Platform](http://hackage.haskell.org/platform/)
-  - [Git](http://git-scm.com/)
-  - [Python](http://python.org/) (Version 2.7 is a good choice, we don't support version 3.x at this time)
+   - [Haskell Platform](http://hackage.haskell.org/platform/)
+   - [Git](http://git-scm.com/)
+   - [Python](http://python.org/) (Version 2.7 is a good choice, we don't support version 3.x at this time)
   - [LLVM](http://www.llvm.org/releases/download.html) (Optional, for using GHC's LLVM backend, grab the file called 'LLVM Binaries for Mingw32/x86')
 
->
->
-> We recommend using the **default install locations** for all these tools.  If you choose your own paths, then we recommend not using a path containing spaces if the default did not have spaces.
->
->
+   We recommend using the **default install locations** for all these tools.  If you choose your own paths, then we recommend not using a path containing spaces if the default did not have spaces.
 
 1. **Install the MinGW and MSYS tools:**
 
-  MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is totally confusing, so go here [Mingw/MSYS Getting Started](http://www.mingw.org/wiki/Getting_Started) and follow the download instructions for the **mingw-get-setup** installer. This is an easy to use installer for installing both MinGW and MSYS.   Make sure when you run the installer that you select to install 
+   MinGW provides a windows version of GCC while MSYS provides a minimal UNIX environment (e.g bash, make... ect). The website for MinGW is totally confusing, so go here [Mingw/MSYS Getting Started](http://www.mingw.org/wiki/Getting_Started) and follow the download instructions for the **mingw-get-setup** installer. This is an easy to use installer for installing both MinGW and MSYS.   Make sure when you run the installer that you select to install 
 
-  - mingw-developer-toolkit (this includes `autoconf` etc)
-  - binutils (this includes `ar`)
+   - mingw-developer-toolkit (this includes `autoconf` etc)
+   - binutils (this includes `ar`)
 
 1. **Set your `PATH`**. You need to include at least
 
-  - `c:/MinGW/bin` (contains `autoconf` etc)
-  - `c:/MinGW/msys/1.0/bin` (contains `bash`, `make` etc)
-  - `c:/git/bin` (or wherever you installed git)
-  - `c:/Python27` (or wherever you installed Python)
-  - `c:/dev/llvm/bin` (or wherever you installed LLVM, if you got it)
-  - The Haskell platform installer should have already done the work needed to make GHC, `happy`, and `alex` available on the path, but if not add them too: `$HP/bin` and `$HP/lib/extralibs/bin`. 
+   - `c:/MinGW/bin` (contains `autoconf` etc)
+   - `c:/MinGW/msys/1.0/bin` (contains `bash`, `make` etc)
+   - `c:/git/bin` (or wherever you installed git)
+   - `c:/Python27` (or wherever you installed Python)
+   - `c:/dev/llvm/bin` (or wherever you installed LLVM, if you got it)
+   - The Haskell platform installer should have already done the work needed to make GHC, `happy`, and `alex` available on the path, but if not add them too: `$HP/bin` and `$HP/lib/extralibs/bin`. 
 
->
->
-> Moreover, **these must precede the standard `c:/windows/system32`**: see below for the Awful Warnings about your PATH.  
->
->
+   Moreover, **these must precede the standard `c:/windows/system32`**: see below for the Awful Warnings about your PATH.  
 
->
->
-> We recommend doing this by creating a file `.profile` in your home directory (by default `c:/MinGW/msys/1.0/home/<username>`). The contents of your `.profile` should be something like this:
->
->
-> ```wiki
-> # Add Python to path
-> export PATH=/c/Python27:$PATH
-> ...etc..etc...
-> ```
+   We recommend doing this by creating a file `.profile` in your home directory (by default `c:/MinGW/msys/1.0/home/<username>`). The contents of your `.profile` should be something like this:
+
+   ```wiki
+   # Add Python to path
+   export PATH=/c/Python27:$PATH
+   ..etc..etc...
+   ```
 
 1. **Mount `c:/mingw` as `/mingw`**.  You do this by saying
 
-  ```wiki
-  mount c:/mingw /mingw
-  ```
+   ```wiki
+   mount c:/mingw /mingw
+   ```
 
-  or by directly editing `c:/mingw/msys/1.0/etc/fstab` to have the line
+   or by directly editing `c:/mingw/msys/1.0/etc/fstab` to have the line
 
-  ```wiki
-  c:/mingw /mingw
-  ```
+   ```wiki
+   c:/mingw /mingw
+   ```
 
-  You only need to do this once, at installation time. If you forget, you'll get an error from `automake` like this
+   You only need to do this once, at installation time. If you forget, you'll get an error from `automake` like this
 
-  ```wiki
-  Can't locate Autom4te/ChannelDefs.pm in @INC (@INC contains: /mingw/share/autoconf /usr/lib/perl5/5.8/msys /usr/lib/perl5/5.8 /usr/lib/perl5/site_perl/5.8/msys /usr/lib/perl5/site_perl/5.8 /usr/lib/perl5/site_perl/5.8 /usr/lib/perl5/vendor_perl/5.8/msys /usr/lib/perl5/vendor_perl/5.8 /usr/lib/perl5/vendor_perl/5.8 .) at /c/mingw/bin/autoreconf-2.68 line 40.
-  BEGIN failed--compilation aborted at /c/mingw/bin/autoreconf-2.68 line 40.
-  ```
+   ```wiki
+   Can't locate Autom4te/ChannelDefs.pm in @INC (@INC contains: /mingw/share/autoconf /usr/lib/perl5/5.8/msys /usr/lib/perl5/5.8 /usr/lib/perl5/site_perl/5.8/msys /usr/lib/perl5/site_perl/5.8 /usr/lib/perl5/site_perl/5.8 /usr/lib/perl5/vendor_perl/5.8/msys /usr/lib/perl5/vendor_perl/5.8 /usr/lib/perl5/vendor_perl/5.8 .) at /c/mingw/bin/autoreconf-2.68 line 40.
+   BEGIN failed--compilation aborted at /c/mingw/bin/autoreconf-2.68 line 40.
+   ```
 
 1. If you use a shell within Emacs, make sure your `SHELL` environment variable points to the `bash` in `c:/MinGW/msys/1.0/bin`. 
 
@@ -108,10 +97,7 @@ If you want to build HTML Help, you have to install the [HTML Help SDK](http://m
 ## Awful warnings about your PATH
 
 
-
-It is very important to put the msys/mingw stuff on your path *before* `c:/windows/system32`. Here is what happens if you don't.
-
-
+It is very important to put the msys/mingw stuff on your path *before*`c:/windows/system32`. Here is what happens if you don't.
 
 **Symptom**: `sh libtool` hangs indefinitely.  The process manager shows an extant `cmd` and `sed`, but nothing else.  `libtool` is a shell script that comes from a tarball, and is unpacked into `libraries/integer-gmp/gmp/gmpbuild/libtool`
 

@@ -80,19 +80,12 @@ Here is how to understand these types:
   - An `ImpDeclSpec` that describes the entire import declaration. This is shared between all entities brought into scope by a particular import declaration.
   - An `ImpItemSpec` that describes the import item that brought the entity into scope.
 
->
->
-> For example, given
->
->
-> ```wiki
-> import qualified M( x, T(g) ) as Q
-> ```
->
->
-> the `ImpDeclSpec` would describe the `qualified` and `as` part, while the `ImpItemSpec` describes the `T(g)` part.  You can look in `RdrName.hs` to see what an `ImportDeclSpec` and `ImpItemSpec` are like!
->
->
+  For example, given
+
+  ```haskell
+  import qualified M( x, T(g) ) as Q
+  ```
+  the `ImpDeclSpec` would describe the `qualified` and `as` part, while the `ImpItemSpec` describes the `T(g)` part.  You can look in `RdrName.hs` to see what an `ImportDeclSpec` and `ImpItemSpec` are like!
 
 - The `Parent` of an entity is the `Name` under which it is grouped when the forms `T(..)` or `T(C,D)` are used in an export or import list.  In the `T(..)` form, all the things whose `Parent` is `T` are chosen.  In the `T(C,D)` form, it is required that `C` and `D` have `T` as parents.  
   For example, 

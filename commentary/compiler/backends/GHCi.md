@@ -38,21 +38,13 @@ Here are some tips for tracking down interactive nonsense:
 $1 = void
 ```
 
->
->
-> In this case the enquired-about address is `PrelBase_ZMZN_static_entry`. If no symbols are close to the given addr, nothing is printed. Not a great mechanism, but better than nothing.
->
->
+  In this case the enquired-about address is `PrelBase_ZMZN_static_entry`. If no symbols are close to the given addr, nothing is printed. Not a great mechanism, but better than nothing.
 
 - We have had various problems in the past due to the bytecode generator (compiler/ghci/ByteCodeGen.lhs) being confused about the true set of free variables of an expression. The compilation scheme for `let`s applies the BCO for the RHS of the `let` to its free variables, so if the free-var annotation is wrong or misleading, you end up with code which has wrong stack offsets, which is usually fatal.
 
 - Following the traces is often problematic because execution hops back and forth between the interpreter, which is traced, and compiled code, which you can't see. Particularly annoying is when the stack looks OK in the interpreter, then compiled code runs for a while, and later we arrive back in the interpreter, with the stack corrupted, and usually in a completely different place from where we left off.
 
->
->
-> If this is biting you baaaad, it may be worth copying sources for the compiled functions causing the problem, into your interpreted module, in the hope that you stay in the interpreter more of the time.
->
->
+  If this is biting you baaaad, it may be worth copying sources for the compiled functions causing the problem, into your interpreted module, in the hope that you stay in the interpreter more of the time.
 
 - There are various commented-out pieces of code in Interpreter.c which can be used to get the stack sanity-checked after every entry, and even after after every bytecode instruction executed. Note that some bytecodes (`PUSH_UBX`) leave the stack in an unwalkable state, so the `do_print_stack` local variable is used to suppress the stack walk after them. 
 

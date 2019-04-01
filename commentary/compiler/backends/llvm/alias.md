@@ -55,7 +55,7 @@ I64[I64[R1 + n] + m ] = "heap"
 I64[I64[Sp + n] +  I64 [R1 + n] ] = "heap"
 ```
 
-** Simon**: As long as it propagates properly, such that every F(Sp) is a stack pointer, where F() is any expression context except a dereference.  That is, we better be sure that
+**Simon**: As long as it propagates properly, such that every F(Sp) is a stack pointer, where F() is any expression context except a dereference.  That is, we better be sure that
 
 ```wiki
 I64[Sp + R1[n]]

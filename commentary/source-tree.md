@@ -4,50 +4,38 @@
 This page summarises the overall file and directory structure of GHC. We include both source files and generated files; the latter are always identified "build-tree only".
 
 
-
 Everything starts with the main GHC repository (see [Building/GettingTheSources](building/getting-the-sources)). The build system calls that directory `$(TOP)`. All the paths below are relative to `$(TOP)`.
-
 
 ## Files in `$(TOP)`
 
+- **`packages`**
 
-<table><tr><th><b><tt>packages</tt></b></th>
-<td>
-Despite the name &quot;package&quot;, this file contains the master list of the *repositories* that make up GHC. It is parsed by <tt>./boot</tt>.
-</td></tr></table>
+  Despite the name "package", this file contains the master list of the \*repositories\* that make up GHC. It is parsed by `./boot`.
 
+- **`tarballs`**
 
-<table><tr><th><b><tt>tarballs</tt></b></th>
-<td>
-Lists the various tarballs (binary packages) that ghc relies on and where to unpack them during a build.
-</td></tr></table>
+  Lists the various tarballs (binary packages) that ghc relies on and where to unpack them during a build.
 
+- **`validate`**
 
-<table><tr><th><b><tt>validate</tt></b></th>
-<td>Run <tt>validate</tt> (a shell script) before committing (see <a href="testing-patches">TestingPatches</a>). The script is documented in the file itself.
-</td></tr></table>
+  Run `validate` (a shell script) before committing (see [TestingPatches](testing-patches)). The script is documented in the file itself.
 
+- **Documentation files**
 
-<table><tr><th><b>Documentation files</b></th>
-<td><tt>README</tt>, <tt>ANNOUNCE</tt>, <tt>HACKING</tt>, <tt>LICENSE</tt>, <tt>new_tc_notes</tt>
-</td></tr></table>
+  `README`, `ANNOUNCE`, `HACKING`, `LICENSE`, `new_tc_notes`
 
+- **GNU autoconf machinery**
 
-<table><tr><th><b>GNU autoconf machinery</b></th>
-<td><tt>aclocal.m4</tt>, <tt>config.guess</tt>, <tt>config.sub</tt>, <tt>configure.ac</tt>, <tt>install-sh</tt>, <tt>config.mk.in</tt>, <tt>settings.in</tt>
-</td></tr></table>
+  `aclocal.m4`, `config.guess`, `config.sub`, `configure.ac`, `install-sh`, `config.mk.in`, `settings.in`
 
+- **`Makefile`**
 
-<table><tr><th><b><tt>Makefile</tt></b></th>
-<td>The top-level <tt>Makefile</tt>: see <a href="building/architecture">GHC Build System Architecture</a>. GHC requires
-<a href="http://www.gnu.org/software/make/"> GNU make</a>.
-</td></tr></table>
+  The top-level `Makefile`: see [GHC Build System Architecture](building/architecture). GHC requires
+[GNU make](http://www.gnu.org/software/make/).
 
+- **Make system files**
 
-<table><tr><th><b>Make system files</b></th>
-<td><tt>ghc.mk</tt>, <tt>MAKEHELP</tt>, <tt>SUBMAKEHELP</tt>
-</td></tr></table>
-
+  `ghc.mk`, `MAKEHELP`, `SUBMAKEHELP`
 
 ## `libraries/`
 
@@ -154,9 +142,7 @@ The `inplace/` directory is where we "install" stage1 and stage2 compilers, and 
 ### `.../dist*/`
 
 
-
 In many directories, `dist*` subdirectories appear. These are where Cabal, and the build system makefiles, put all of the files generated while building.  Some particularly interesting files are:
-
 
 - **`docs/users_guide/users_guide/index.html`**: the HTML for the user manual
 - **`libraries/`*lib*`/dist-install/doc/html/`*lib***: contains the Haddock'd documentation for library *lib*
