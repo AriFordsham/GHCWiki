@@ -6,77 +6,7 @@ This is the root page for material about functional dependencies in GHC.
 ## Tickets
 
 
-
-Use Keyword = `FunDeps` to ensure that a ticket ends up on these lists.
-
-
-
-**Open Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/816">#816</a></th>
-<td>Weird fundep behavior (with -fallow-undecidable-instances)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9210">#9210</a></th>
-<td>&quot;overlapping instances&quot; through FunctionalDependencies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10675">#10675</a></th>
-<td>GHC does not check the functional dependency consistency condition correctly</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11534">#11534</a></th>
-<td>Allow class associated types to reference functional dependencies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11641">#11641</a></th>
-<td>Allow wildcards for parameters functionally determined (also type synonyms)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11655">#11655</a></th>
-<td>Ambiguous types in pattern synonym not determined by functional dependencies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12647">#12647</a></th>
-<td>Can&apos;t capture improvement of functional dependencies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12704">#12704</a></th>
-<td>Check if constraint synonym satisfies functional dependencies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12860">#12860</a></th>
-<td>GeneralizedNewtypeDeriving + MultiParamTypeClasses sends typechecker into an infinite loop</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14745">#14745</a></th>
-<td>Functional dependency conflicts in givens</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14778">#14778</a></th>
-<td>FunDep origin not correctly attributed</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15632">#15632</a></th>
-<td>Undependable Dependencies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15927">#15927</a></th>
-<td>Weird interaction between fundeps and overlappable instances</td></tr></table>
-
-
-
-
-**Closed Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/3108">#3108</a></th>
-<td>Do a better job of solving recursive type-class constraints with functional dependencies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7128">#7128</a></th>
-<td>Panic &quot;lookupVarEnv_NF&quot; when using a functional dependency with a kind variable</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7171">#7171</a></th>
-<td>erroneous overlapping instances reported with FunDeps</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7384">#7384</a></th>
-<td>Panic &quot;ctEvTerm&quot; when using functional dependencies and PolyKinds</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/7777">#7777</a></th>
-<td>ghc panic: varargs + sets</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10109">#10109</a></th>
-<td>Kinds aren&apos;t checked in the coverage condition</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10564">#10564</a></th>
-<td>GHC 7.10.2 RC cannot build HList-0.4.0.0</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10570">#10570</a></th>
-<td>Terrible error message with fundeps and PolyKinds</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10797">#10797</a></th>
-<td>Kind-level functional dependencies are not resolved properly</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12763">#12763</a></th>
-<td>Incorrect behavior with empty functional dependencies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13506">#13506</a></th>
-<td>Spurious extra error message due to functional dependencies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13774">#13774</a></th>
-<td>Singletons code fails to typecheck when type signature involving type family is added</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14327">#14327</a></th>
-<td>Type error in program caused by unrelated definition</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14763">#14763</a></th>
-<td>GHC 8.4.1-alpha regression with FunctionalDependencies</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15355">#15355</a></th>
-<td>Functional dependencies can get GHC to print &quot;UnkSkol&quot;</td></tr></table>
-
-
+See the ~FunctionalDependencies label.
 
 ## Consistency of Functional Dependencies
 
@@ -87,7 +17,7 @@ Use Keyword = `FunDeps` to ensure that a ticket ends up on these lists.
 The functional dependencies on a class restrict the instances that may
 be declared for a given class.  The instances of a class:
 
-```wiki
+```haskell
     class C a b c | b -> c where f :: ...
 ```
 
