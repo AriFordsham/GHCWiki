@@ -20,118 +20,13 @@ Special things of note:
 
 ## Migration Guide to 7.10
 
-
-
-[https://ghc.haskell.org/trac/ghc/wiki/Migration/7.10](https://ghc.haskell.org/trac/ghc/wiki/Migration/7.10)
+[Migration/7.10](/Migration/7.10)
 
 
 ## Tickets slated for 7.10.1
 
+See the %7.10.1 milestone.
 
-
-
-  
-  
-  
-  
-  
-    
-  
-  
-
-<table><tr><td>
-      </td>
-<th>
-        
-        Ticket (Ticket query: status: !closed, milestone: 7.10.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: id)
-      </th>
-<th>
-        
-        Type (Ticket query: status: !closed, milestone: 7.10.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
-      </th>
-<th>
-        
-        Summary (Ticket query: status: !closed, milestone: 7.10.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
-      </th>
-<th>
-        
-        Priority (Ticket query: status: !closed, milestone: 7.10.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: priority)
-      </th>
-<th>
-        
-        Owner (Ticket query: status: !closed, milestone: 7.10.1, group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
-      </th>
-<td>
-    </td></tr>
-<tr><td>
-          </td>
-<th>
-            No tickets found
-          </th>
-<td>
-        </td>
-<td></td>
-<td></td>
-<td></td>
-<td></td></tr></table>
-
-
-  
-
-
-
-## Tickets marked merge with no milestone
-
-
-
-
-  
-  
-  
-  
-  
-    
-  
-  
-
-<table><tr><td>
-      </td>
-<th>
-        
-        Ticket (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, desc: 1, order: id)
-      </th>
-<th>
-        
-        Type (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: type)
-      </th>
-<th>
-        
-        Summary (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: summary)
-      </th>
-<th>
-        
-        Priority (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: priority)
-      </th>
-<th>
-        
-        Owner (Ticket query: status: merge, milestone: , group: status, max: 0, col: id, col: type, col: summary, col: priority, col: owner, order: owner)
-      </th>
-<td>
-    </td></tr>
-<tr><td>
-          </td>
-<th>
-            No tickets found
-          </th>
-<td>
-        </td>
-<td></td>
-<td></td>
-<td></td>
-<td></td></tr></table>
-
-
-  
 
 
 
