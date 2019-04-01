@@ -47,6 +47,8 @@ When a fix for an open issue is landed, it is good practice to look over the tic
 
  * Is the **milestone appropriate**? If the patch is low-risk or the issue severe, perhaps it should be backported to the stable branch. In this case set the milestone to the next stable release and apply the ~"backport needed" label.
 
+   You might also considering submitting a backport merge request. See the [merge request conventions](gitlab/merge-requests) for guidance on how to do this.
+
  * Was a **testcase added** to the testsuite? If not then do so if possible. It is customary to name tests after their issue (e.g. #1234 would have an testcase named `T1234`). See the [testsuite documentation](building/running-tests/adding) for details.
 
  * Are the resolving **merge request and the issue linked**? A link will be created automatically if the MR description mentions the ticket. Otherwise leave a comment on the ticket pointing to the MR.
