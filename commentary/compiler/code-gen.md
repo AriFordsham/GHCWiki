@@ -30,4 +30,4 @@ Various historical pages, with still-useful info:
 
 ## Tickets
 
-See the ~"code generation" keyword.
+See the ~"code generation" label.
