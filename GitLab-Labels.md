@@ -139,6 +139,7 @@ track issues in external projects. New issues with these projects should rather
 be filed against the appropriate upstream.
 
  * ~external-directory: The `directory` library ([upstream](https://github.com/haskell/directory/issues))
+ * ~external-haskeline: The `haskeline` library ([upstream](https://github.com/judah/haskeline/issues))
  * ~external-hoopl: The `hoopl` library ([upstream](https://github.com/haskell/hoopl/issues))
  * ~external-hsc2hs: The `hsc2hs` library ([upstream](https://github.com/haskell/hsc2hs/issues))
  * ~external-old-time: The `old-time` library ([upstream](https://github.com/haskell/old-time/issues))
