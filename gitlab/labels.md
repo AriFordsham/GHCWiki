@@ -3,7 +3,8 @@ mechanism to track a variety of information. Here we document the conventions
 we use.
 
 If you create a new label please do add it to this list, keeping the list in
-alphabetical order.
+alphabetical order. Also, avoid using colors other than blue unless your
+label really needs to be noticed.
 
 # Types of issues
 
