@@ -182,7 +182,7 @@ Before delving into possible answers, we should note that any of these are sound
 There seem to be three defensible choices for which of these to accept.
 
 
-1. 
+### Option 1
 
   1. YES
   2. YES
@@ -199,7 +199,7 @@ This version simply ignores visibility flags on binders when doing an equality c
 - The bullet above argues that `X (P1 k :: forall k. k -> *)` should be accepted. But plan (A) says that `X P1` should be accepted. It surely can't hurt to add a type signature, so that means that `X (P1 :: forall k. k -> *)` should be accepted. And this is quite bizarre to accept that last one alongside the first one.
 - In the term-level type inference rules for a polytype type annotation, the first thing that happens is skolemization. It would be a bit odd for the type-level type inference rules to be different, yet such a difference is required if we are to accept `P1 :: forall k. k -> *`.
 
-1. 
+### Option 2
 
   1. NO
   2. YES
@@ -213,7 +213,7 @@ This version is a bit harder to implement, discerning between visible/not visibl
 - This plan (as does plan (A)) fails source level substitution. Specifically, if `a` (the variable of type `forall k. k -> *` bound in the declaration for `X`) is used as `a @* Int` in the definition of `X`, then `X P3` would expand to mention `P3 @* Int`, which is disallowed. Substitution is restored if we substitute along with a type annotation, thus: `(P3 :: forall k. k -> *) @* Int`.
 - This one seems most similar to the term-level treatment. It's hard to fully compare, because case (1) does not exist in terms.
 
-1. 
+### Option 3
 
   1. NO
   2. YES
