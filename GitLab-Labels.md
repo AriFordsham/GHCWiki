@@ -201,6 +201,7 @@ These labels correspond to the language extensions after which they are named.
  * ~ImpredicativeTypes
  * ~IncoherentInstances
  * ~InstanceSigs
+ * ~MonomorphismRestriction
  * ~MultiParamTypeClasses
  * ~OverlappingInstances
  * ~OverloadedRecordFields
