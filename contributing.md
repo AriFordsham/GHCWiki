@@ -15,7 +15,8 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
 
 - **GitLab conventions**:
    - [Label usage](gitlab/labels)
-   - [Ticket triage guidelines](gitlab/triage)
+   - [Issue tracker conventions](gitlab/issues)
+   - [Merge request conventions](gitlab/merge-requests)
 
 - **Releases and branches**: Our conventions for making releases and how the branches are managed: [Releases](working-conventions/releases)
 
