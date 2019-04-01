@@ -2,7 +2,7 @@
 
 There are two ways to get GHC sources:
 1. downloading a [source distribution](#source-distributions)
-2. cloning the [git repositories](#Git)
+2. cloning the [Git repositories](#git)
 
 ## Source distributions
 
