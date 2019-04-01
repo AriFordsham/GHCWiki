@@ -32,8 +32,8 @@ The environment set up by Stack is configured by the "hadrian/stack.yaml" file i
 Note: in the commands above we have used the "-c" flag to automatically execute "boot" and "configure" scripts in the environment managed by Stack. If you want to pass additional flags to these scripts, use the following commands instead:
 ```
 cd hadrian
-stack exec --cwd=.. boot <boot-params>
-stack exec --cwd=.. configure <configure-params>
+stack exec --cwd=.. boot -- <boot-params>
+stack exec --cwd=.. configure -- <configure-params>
 cd ..
 hadrian/build.stack.{sh,bat} -j --flavour=quick # don't use "-c" here
 
