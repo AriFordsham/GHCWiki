@@ -18,6 +18,6 @@ The key to understanding GHC is to understand its key data types.  There are pag
 - [Back end types](commentary/compiler/back-end-types)
 
 
-[](/trac/ghc/attachment/wiki/Commentary/Compiler/KeyDataTypes/types.png)
+[Relationships between GHC's key data types](types.png)
 
 
