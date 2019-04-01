@@ -17,7 +17,7 @@ But, why would we be interested in modifying GHC's concurrency environment? Ther
 
 While we want to provide flexibility to the Haskell programmer, this should not come at a cost of added complexity and decreased performance. This idea reflects in the synchronization abstractions exposed to the programmer - [Primitive Transactional Memory(PTM)](lightweight-concurrency#ptm)), and our decision to keep certain pieces of the concurrency puzzle in the RTS ([Safe Foreign Calls](lightweight-concurrency#safe-foreign-calls),[Blackholes](lightweight-concurrency#)). One would think lifting parts of the runtime system to Haskell, and retaining other parts in C, would complicate the interactions between the concurrency primitives and schedulers. We abstract the scheduler interface using PTM monads, which simplifies the interactions. The figure below captures the key design principles of the proposed system.
 
-[](/trac/ghc/attachment/wiki/LightweightConcurrency/GHC_LWC_Key.jpg)
+![](LightweightConcurrency/GHC_LWC_Key.jpg)
 
 
 Although implementing concurrency primitives as a library is hardly a novel idea, the aim of this work is to bring it to the GHC programmer, without having to give up any of the existing concurrency features in return.
@@ -37,7 +37,7 @@ The idea of the concurrency substrate is to provide a minimal set of primitives 
 
 The only synchronization mechanism exposed by the concurrency substrate is a primitive transactional memory (PTM). Locks and condition variables can be notoriously difficult to use, especially in an environment with user-level threads, where they tend to interfere with the scheduler. Moreover, they do not compose elegantly with lazy evaluation. PTM interface is shown below:
 
-```wiki
+```haskell
 data PTM a
 data PVar a
 instance Monad PTM
@@ -57,7 +57,7 @@ A PTM transaction may allocate, read and write transactional variables of type `
 
 The concurrency substrate enables creation and scheduling of I/O-performing computations through *one-shot continuations*. An SCont (stack continuation) is a suspended I/O computation, which is in fact just a reference to a TSO object. Capturing the current continuation is just getting a reference to the current TSO, and hence is very fast. In the following discussion, we use SConts when referring to the Haskell object and threads when referring to its corresponding RTS version. SCont interface is shown below:
 
-```wiki
+```haskell
 data SCont
 newSCont         :: IO () -> IO SCont
 switch           :: (SCont -> PTM SCont) -> IO ()
@@ -76,7 +76,7 @@ Performing the body of switch atomically in a transaction avoids the nasty race 
 
 Since switchTo eagerly commits the transaction, the code that follows switchTo is not evaluated. This is a problem if the transaction that contains switchTo has a type different than PTM (). Consider the following code:
 
-```wiki
+```haskell
 s :: String <- atomically $ do {
   sc <- getCurrentSCont;
   -- save the current SCont somewhere
@@ -94,7 +94,7 @@ The type of the transaction that contains switchTo is PTM string, and atomically
 
 Of course, care must be taken to ensure that the control does not switch to an SCont that is either running, blocked on an MVar, or completed. But how do we know whether the given SCont is ready to run? We expect the scheduler writer or library implementer to indicate the status of SCont before switching. SCont status API is show below.
 
-```wiki
+```haskell
 data ResumeToken
 
 data SContStatus = SContRunning | 
@@ -130,7 +130,7 @@ Resume tokens are utilized for supporting asynchronous exceptions. Resume tokens
 
 SCont-local storage (SLS) provides a solution for associating arbitrary state with an SCont. Each SCont has a single slot with type [Dynamic](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Data-Dynamic.html). SLS interface is give below:
 
-```wiki
+```haskell
 setSLS :: SCont -> Dynamic -> IO ()
 getSLS :: SCont -> PTM Dynamic
 ```
@@ -142,7 +142,7 @@ getSLS :: SCont -> PTM Dynamic
 
 Concurrency substrate does not impose any structure on the user-level schedulers. The programmer might choose to implement a single scheduler for the entire system or a scheduler per capability. The schedulers might also be hierarchical, with pluggable load-balancing policies. However, we need a uniform interface such that the concurrency libraries, STM, asynchronous exceptions, safe-foreign calls, blackholes and other such mechanisms can interact with the user-level scheduler. For this purpose, we introduce the notion of `scheduler actions`, which is expected for every SCont. The substrate interface for scheduler actions is shown below:
 
-```wiki
+```haskell
 ------ Schedule SCont Action :: SCont -> PTM () ------
 
 getScheduleSContAction :: PTM (SCont -> PTM ())
@@ -157,7 +157,7 @@ setYieldControlAction :: SCont -> PTM () -> PTM ()
 
 Abstractly, given an SCont, the scheduleSContAction appends the SCont to a scheduler. The yieldControlAction picks an SCont from a scheduler and switches to it. The `get*` functions will fetch the scheduler actions of the current SCont. In order to make the ideas more concrete, let us assume that we have a very simple round-robin scheduler, implemented as a `PVar[SCont]`. One possible implementation of scheduler actions for this scheduler is given below.
 
-```wiki
+```haskell
 scheduleSContAction :: SCont -> PTM () 
 scheduleSContAction sc = do
   sched :: PVar [SCont] <- -- get sched 
@@ -191,7 +191,7 @@ Now that we have defined an abstract scheduler interface, lets look at how to co
 
 Since our first goal is to implement GHC's concurrency support in Haskell, let us start with`forkIO` and `yield`. These two primitives are sufficient for a simple cooperatively scheduled lightweight thread system. In order to make the presentation cleaner, assume that we have the following helper functions.
 
-```wiki
+```haskell
 getSSA = getScheduleSContAction
 setSSA = setScheduleSContAction
 getYCA = getYieldControlAction
@@ -201,7 +201,7 @@ setYCA = setYieldControlAction
 
 Primitive `yield` appends the current SCont to the scheduler, picks the next SCont from the scheduler and switches to it. We utilize the scheduler actions to achieve this. The implementation of yield is shown below. It is important to notice that yield does not assume anything about the implementation of the scheduler except for the scheduler actions. Hence, there is no need to re-implement yield primitive for every scheduler, thus minimizing the overhead of implementing new schedulers.
 
-```wiki
+```haskell
 yield :: IO ()
 yield = atomically $ do
   -- Append current SCont to scheduler
@@ -215,7 +215,7 @@ yield = atomically $ do
 
 Primitive `forkIO` also follows the strategy of utilizing scheduler actions. The implementation of forkIO is shown below. 
 
-```wiki
+```haskell
 forkIO :: IO () -> IO SCont
 forkIO f = do
   -- Switch to next thread after completion
@@ -248,7 +248,7 @@ A full implementation of a round-robin scheduler can be found [here](https://git
 
 [MVars](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Concurrent-MVar.html) are one of the basic synchronization mechanisms exposed by GHC's concurrency library. A simple user-level implementation of MVar might look like:
 
-```wiki
+```haskell
 newtype MVar a = MVar (PVar (State a))
 data State a = Full a [(a, PTM ())] | Empty [(PVar a, PTM ())]
 ```
@@ -256,7 +256,7 @@ data State a = Full a [(a, PTM ())] | Empty [(PVar a, PTM ())]
 
 MVar is either empty with a list of pending takers, or full with a value and a list of pending putters. The PTM () action in the full and empty list represents the logic necessary for waking up the pending putters and takers. The following snippet shows the implementation of `takeMVar`.
 
-```wiki
+```haskell
 takeMVar :: MVar a -> IO a 
 takeMVar (MVar ref) = do
   hole <- atomically $ newPVar undefined 
@@ -300,7 +300,7 @@ We retain the task model of the current runtime system. There is a one-to-one ma
 
 A program always boots up on 1 core running the `main` function. Additional capabilities can be created on demand using the following primitives.
 
-```wiki
+```haskell
 getNumCapabilities   :: IO Int
 getCurrentCapability :: PTM Int
 newCapability :: SCont -> IO ()
@@ -309,7 +309,7 @@ newCapability :: SCont -> IO ()
 
 Primitive `newCapability` runs the given SCont on a free capability. If there are no free capabilities, a runtime error is raised. A typical, initial task spawned on another core would pull work from the scheduler and switch to it. For example,
 
-```wiki
+```haskell
 initialTask :: IO ()
 initialTask = atomically $ do
   s <- getCurrentSCont
@@ -326,14 +326,14 @@ When a program boots up with `N` capabilities, the programmer can choose to crea
 
 In a multicore setting, runnable SConts might not always be available on a capability. In this case, the capability must wait for SConts to be added to the scheduler. In our system, this must be handled under `yieldControlAction`, where it is expected that the control switches to another SCont. The concurrency substrate provides 
 
-```wiki
+```haskell
 sleepCapability :: PTM ()
 ```
 
 
 primitive that aborts the current transaction and blocks the current capability. The capability is implicitly woken up when one of the PVars that it has read from has been updated. Then, the original transaction is re-executed. Under yieldControlAction, one of the PVars read before sleeping will be the scheduler data structure. Hence, the capability is woken up when the scheduler data structure is updated. The complete implementation of yieldControlAction example introduced [earlier](lightweight-concurrency#abstracting-the-scheduler) is given below.
 
-```wiki
+```haskell
 yieldControlAction :: PTM () 
 yieldControlAction = do
   sched :: PVar [SCont] <- -- get sched 
@@ -351,7 +351,7 @@ yieldControlAction = do
 
 Every SCont is bound to a particular capability and only that capability is capable of running the SCont. Switching to an SCont that is not bound to the current capability raises a runtime error. SCont affinity interface is shown below.
 
-```wiki
+```haskell
 setSContCapability   :: SCont -> Int -> IO ()
 getSContCapability   :: SCont -> PTM Int
 ```
@@ -364,7 +364,7 @@ A newly created SCont is bound to the current capability. Primitive `setSContCap
 
 Similar to [bound threads](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Concurrent.html#g:9) concurrency substrate supports bound SConts. The interface is shown below.
 
-```wiki
+```haskell
 newBoundSCont          :: IO () -> IO SCont
 isCurrentSContBound    :: IO Bool
 rtsSupportsBoundSConts :: Bool
@@ -405,7 +405,7 @@ We know that any SCont blocked with status `SContSwitched BlockedInHaskell t` is
 
 Unlike the vanilla RTS, schedulers can become unreachable in the LWC implementation. Concurrency substrate allows the programmer to install finalizers with the following primitive.
 
-```wiki
+```haskell
 setFinalizer :: SCont -> IO () -> IO()
 ```
 
@@ -482,7 +482,7 @@ Every SCont has a top-level exception handler, which catches all exceptions and 
 
 The substrate exposes 
 
-```wiki
+```haskell
 throwTo :: Exception e => SCont -> e -> IO ()
 ```
 
@@ -498,7 +498,7 @@ For blocking actions in the RTS, such as STM, and blackholes, RTS knows how to r
 
 Alternatively, instead of eagerly removing the SCont from the user-level blocking queue, we can defer it until the SCont is about to be unblocked from the blocking queue. In this case, on receiving the asynchronous exception, we will raise the exception on the SCont, eagerly append it to the scheduler, and mark the blocked action as invalid. The invalidation is achieved through resume tokens.
 
-```wiki
+```haskell
 data ResumeToken
 
 newResumeToken     :: PTM ResumeToken
@@ -510,7 +510,7 @@ data SContSwitchReason = BlockedInHaskell ResumeToken | ...
 
 Primitive `newResumeToken` allocates a new, valid resume token. The validity of a resume token can be queried using the primitive `isResumeTokenValid`. Whenever an SCont blocks on a user-level data structure (i.e. updating switch reason to `BlockedInHaskell`), it is expected that it is provided a new, valid resume token. If an asynchronous exception is raised on this blocked SCont, the resume token is transparently invalidated. Eventually, when the SCont is about to be unblocked from the concurrent data-structure, the resume token can be queried for validity. If the resume token is invalid, then the blocked SCont has been resumed already and hence it should not be resumed again. The following snippet shows the implementation of `takeMVar` primitive that can tolerate asynchronous exceptions. The only change is to the `wakeup` function.
 
-```wiki
+```haskell
 takeMVar :: MVar a -> IO a 
 takeMVar (MVar ref) = do
   hole <- atomically $ newPVar undefined 
