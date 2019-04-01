@@ -25,7 +25,7 @@ The code for evaluating a `case` pushes a new stack frame representing the alter
 
 The info table for a stack frame has a couple of extra fields in addition to the [basic info table layout](commentary/rts/heap-objects#info-tables).  A stack-frame info table is defined by `StgRetInfoTable` in [includes/rts/storage/InfoTables.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/rts/storage/InfoTables.h).
 
-[](/trac/ghc/attachment/wiki/Commentary/Rts/Storage/Stack/ret-itbl-no-rv.png)
+![](ret-itbl-no-rv.png)
 
 
 The *SRT* field points to the static reference table (SRT) for this stack frame (see [Commentary/Rts/Storage/GC/CAFs](commentary/rts/storage/gc/CAFs) for details of SRTs).
