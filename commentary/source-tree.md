@@ -145,4 +145,4 @@ The `inplace/` directory is where we "install" stage1 and stage2 compilers, and 
 In many directories, `dist*` subdirectories appear. These are where Cabal, and the build system makefiles, put all of the files generated while building.  Some particularly interesting files are:
 
 - **`docs/users_guide/users_guide/index.html`**: the HTML for the user manual
-- **`libraries/`*lib*`/dist-install/doc/html/`*lib***: contains the Haddock'd documentation for library *lib*
+- **`libraries/LIB/dist-install/doc/html/LIB`**: contains the Haddock'd documentation for library *LIB*
