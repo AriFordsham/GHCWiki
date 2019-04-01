@@ -43,11 +43,6 @@ These are issues that need to be addressed elsewhere in the compiler,
 
 ## Immediate next steps
 
-
-
- 
-
-
 - Fix #11714
 - Move things to a richer `TypeRep` representation to make user serialization implementations safer.
 
@@ -56,7 +51,6 @@ These are issues that need to be addressed elsewhere in the compiler,
 
 
 In order to provide `typeRepKind` we must have some way of getting a kind from a `TrTyCon` `TypeRep` node. There are two ways of doing this,
-
 
 1. Making the `TrTyCon` carry its kind
 1. Making the `TrTyCon` carry the instantiations of its kind variables and ensuring that we have a way of conjuring the final kind from these variables (e.g. encoding a representation of the type's uninstantiated kind in its `TyCon`)
@@ -80,7 +74,7 @@ On the other hand, (2) lacks these disadvantages but presents a few challenges,
 While `typeRepKind` may seem like a non-essential feature, it ends up being quite important in the presence of representationally polymorphic arrow lest we may produce ill-kinded type representations. Consider, for a moment, that we have a function, `mkApp`, which attempts to construct an application type from two `SomeTypeRep`s. It might look like,
 
 
-```
+```haskell
 mkApp :: SomeTypeRep -> SomeTypeRep -> Maybe SomeTypeRep
 mkApp (SomeTypeRep f) (SomeTypeRep x) = do
     FunTy a b <- pure f
@@ -98,7 +92,7 @@ Note that before we can apply `x` to `f` we must prove to GHC that the kind of `
 One approach would be,
 
 
-```
+```haskell
 type KindBndr = Int
 data KindRep = KindTyCon TyCon
              | KindVar !KindBndr
@@ -124,7 +118,7 @@ However this has the unfortunate side-effect of making the production of `TyCon`
 An alternative to this would be to push the `KindRep` out of `TyCon` and into evidence generation,
 
 
-```
+```haskell
 type KindBndr = Int
 data KindRep = KindTyCon TyCon
              | KindVar !KindBndr
@@ -149,7 +143,7 @@ This has the advantage of only inflicting the cost of `KindRep` generation on us
 Another alternative would be to drop `KindRep` entirely and instead capture kinds through constraints,
 
 
-```
+```haskell
 data TyCon = TyCon { tyConName :: String, ...
                    }
 
@@ -191,7 +185,7 @@ Instead of encoding the kind of a constructor in `TrTyCon` let's encode its inst
 This slightly complicates the implementation of `typeRepKind`, however. We will need some way of moving from the list of kind variable instantiations to the resulting kind of a tycon. This will need to be encoded with the `TyCon` in a manner than can serialized. For instance,
 
 
-```
+```haskell
 data TyCon = Tc String [String] TyConKindRep
 data TyConKindRep = Var String | TyConApp TyCon [TyConKindRep]
 ```
@@ -201,110 +195,7 @@ This unfortunately bloats the `TyCon` bindings produced by the compiler with eve
 
 ## Tickets
 
-
-
-Use Keyword = `Typeable` to ensure that a ticket ends up on these lists.
-
-
-
-**Open Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10770">#10770</a></th>
-<td>Typeable solver has strange effects</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11251">#11251</a></th>
-<td>isInstance does not work on Typeable with base-4.8 anymore</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11349">#11349</a></th>
-<td>[TypeApplications] Create Proxy-free alternatives of functions in base</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11715">#11715</a></th>
-<td>Constraint vs *</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12451">#12451</a></th>
-<td>TemplateHaskell and Data.Typeable - tcIfaceGlobal (local): not found</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13261">#13261</a></th>
-<td>Consider moving Typeable evidence generation wholly back to solver</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13276">#13276</a></th>
-<td>Unboxed sums are not Typeable</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13647">#13647</a></th>
-<td>Tidy up TcTypeable</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13933">#13933</a></th>
-<td>Support Typeable instances for types with coercions</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14190">#14190</a></th>
-<td>Typeable imposes seemingly redundant constraints on polykinded instances</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14255">#14255</a></th>
-<td>Type-indexed type fingerprints</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14270">#14270</a></th>
-<td>GHC HEAD&apos;s ghc-stage1 panics on Data.Typeable.Internal</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14337">#14337</a></th>
-<td>typeRepKind can perform substantial amounts of allocation</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14341">#14341</a></th>
-<td>Show instance for TypeReps is a bit broken</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14401">#14401</a></th>
-<td>Add a test ensuring that TypeReps can be stored in compact regions</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14480">#14480</a></th>
-<td>Clean up tyConTYPE</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14582">#14582</a></th>
-<td>Review and improve the Typeable API</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14663">#14663</a></th>
-<td>Deriving Typeable for enumerations seems expensive</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15322">#15322</a></th>
-<td>`KnownNat` does not imply `Typeable` any more when used with plugin</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15862">#15862</a></th>
-<td>Panic with promoted types that Typeable doesn&apos;t support</td></tr></table>
-
-
-
-
-**Closed Tickets:**
-
-<table><tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/3480">#3480</a></th>
-<td>Easily make Typeable keys pure, so that Typeable can be handled efficiently across communications</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/8931">#8931</a></th>
-<td>The type defaulting in GHCi with Typeable</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9639">#9639</a></th>
-<td>Remove OldTypeable</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/9707">#9707</a></th>
-<td>(Try to) restructure `base` to allow more use of `AutoDeriveTypeable`</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10163">#10163</a></th>
-<td>Export typeRepKinds in Data.Typeable</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/10343">#10343</a></th>
-<td>Make Typeable track kind information better</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11011">#11011</a></th>
-<td>Add type-indexed type representations (`TypeRep a`)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11120">#11120</a></th>
-<td>Missing type representations</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11714">#11714</a></th>
-<td>Kind of (-&gt;) type constructor is overly constrained</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11722">#11722</a></th>
-<td>No TypeRep for unboxed tuples</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/11736">#11736</a></th>
-<td>Allow unsaturated uses of unlifted types in Core</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12082">#12082</a></th>
-<td>Typeable on RealWorld fails</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12123">#12123</a></th>
-<td>GHC crashes when calling typeRep on a promoted tuple</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12409">#12409</a></th>
-<td>Unboxed tuples have no type representations</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12670">#12670</a></th>
-<td>Representation polymorphism validity check is too strict</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/12905">#12905</a></th>
-<td>Core lint failure with pattern synonym and levity polymorphism</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13197">#13197</a></th>
-<td>Perplexing levity polymorphism issue</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13333">#13333</a></th>
-<td>Typeable regression in GHC HEAD</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13871">#13871</a></th>
-<td>GHC panic in 8.2 only: typeIsTypeable(Coercion)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13872">#13872</a></th>
-<td>Strange Typeable error message involving TypeInType</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/13915">#13915</a></th>
-<td>GHC 8.2 regression: &quot;Can&apos;t find interface-file declaration&quot; for promoted data family instance</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14199">#14199</a></th>
-<td>Document Type.Reflection better (Fun and Con&apos;)</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14254">#14254</a></th>
-<td>The Binary instance for TypeRep smells a bit expensive</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/14925">#14925</a></th>
-<td>Non-ASCII type names get garbled when their `TypeRep` is shown</td></tr>
-<tr><th><a href="https://gitlab.haskell.org/ghc/ghc/issues/15067">#15067</a></th>
-<td>When Typeable and unboxed sums collide, GHC panics</td></tr></table>
+See the ~typeable label.
 
 
 
@@ -317,7 +208,7 @@ The new type-indexed typeable machinery will be exposed via a new module
 library). The user-visible interface of `Type.Reflection` will look like this,
 
 
-```
+```haskell
 -- The user-facing interface
 module Type.Reflection where
 
@@ -411,7 +302,7 @@ module. The goal of this is to preserve compatibility with the old
 (thanks due to Richard Eisenberg for first proposing this),
 
 
-```
+```haskell
 module Data.Typeable
     ( -- We can use the same Typeable class
       I.Typeable
@@ -474,7 +365,7 @@ say that we want to serialize (say, using the `binary` package), for instance, a
 type-indexed map,
 
 
-```
+```haskell
 data TMap a
 lookup :: TypeRepX -> TMap a -> Maybe a
 insert :: TypeRepX -> a -> TMap a -> TMap a
@@ -495,7 +386,7 @@ serialize and deserialize `TypeRepX`s. Serialization poses no particular issue.
 For instance, we might write,
 
 
-```
+```haskell
 instance Binary TyCon
 
 putTypeRep :: TypeRep a -> Put
@@ -523,7 +414,7 @@ Now let's try deserialization.
 First, we need to define how deserialization should behave. For instance, defining
 
 
-```
+```haskell
 getTypeRep :: Get (TypeRep a)
 ```
 
@@ -536,7 +427,7 @@ deserialize plausibly represents the type `a` that the user requests.
 Instead, let's first consider `TypeRepX` (thanks to Adam Gundry for his guidance),
 
 
-```
+```haskell
 getTypeRepX :: Get TypeRepX
 getTypeRepX = do
     tag <- get :: Get Word8
@@ -569,7 +460,7 @@ Note how we need to invoke type equality here to ensure,
 Given this we can easily implement `TypeRep a` given a representation of the expected `a`,
 
 
-```
+```haskell
 getTypeRep :: Typeable a => Get (TypeRep a)
 getTypeRep = do
    TypeRepX rep <- getTypeRepX
@@ -595,7 +486,7 @@ type information and consequently the user is quite limited in what they can do 
 Another point in the design space would be to add a type index to `TyCon`,
 
 
-```
+```haskell
 -- metadata describing a tycon
 data TyConMeta = TyConMeta { tyConPackage :: String
                            , tyConModule  :: String
@@ -623,7 +514,7 @@ so ultimately you should be able to accomplish everything you can with type-inde
 `Dynamic` doesn't really change,
 
 
-```
+```haskell
 module Data.Dynamic where
 
 -- Dynamic itself no longer needs to be abstract
@@ -655,7 +546,7 @@ variant of `Dynamic`, which models a value of dynamic type "inside" of a known
 functor. He p
 
 
-```
+```haskell
 data SDynamic s where
     SDynamic :: TypeRep a -> s a -> SDynamic s
 
@@ -695,7 +586,7 @@ kind of type.
 `Typeable` evidence is merely a `TypeRep`,
 
 
-```
+```haskell
 data TypeRep (a :: k) where
     TrTyCon :: !Fingerprint -> !TyCon -> TypeRep k -> TypeRep (a :: k)
 
@@ -718,7 +609,7 @@ recursive kind relationships during evidence generation. Thankfully there are
 only a few types which we need to worry about,
 
 
-```
+```haskell
 TYPE               :: RuntimeRep -> TYPE 'PtrRepLifted
 RuntimeRep         :: TYPE 'PtrRepLifted
 'PtrRepLifted      :: RuntimeRep
@@ -740,7 +631,7 @@ Another approach would be to to encode these special cases in the `TypeRep`
 type itself
 
 
-```
+```haskell
 data TypeRep (a :: k) where
     TrTyCon :: !Fingerprint -> !TyCon -> TypeRep k -> TypeRep (a :: k)
 
@@ -771,7 +662,7 @@ data TypeRep (a :: k) where
 With this we can easily write `typeRepKind`,
 
 
-```
+```haskell
 typeRepKind :: forall k (a :: k). TypeRep a -> TypeRep k
 -- these cases are unchanged...
 typeRepKind (TrTyCon _ _ k) = k
@@ -790,7 +681,7 @@ Although providing pattern synonyms to allow decomposition of, e.g.,
 `TYPE 'PtrTypeLifted` becomes a bit trickier,
 
 
-```
+```haskell
 -- Just as above, we can decompose applications but we
 -- now need to define it in terms of the splitApp helper,
 pattern TRApp :: forall k2 (t :: k2). ()
@@ -815,7 +706,7 @@ splitApp Tr'PtrRepLifted = Nothing
 Pretty much everything else follows from this. For instance `TRFun`,
 
 
-```
+```haskell
 pattern TRFun :: forall fun. ()
               => forall arg res. (fun ~ (arg -> res))
               => TypeRep arg
@@ -834,7 +725,7 @@ needs to take care to normalize representations that it builds (e.g. prefer
 more efficient for the compiler to produce dictionaries in this form.
 
 
-```
+```haskell
 mkApp :: TypeRep a -> TypeRep b -> TypeRep (a b)
 mkApp TrTYPE Tr'PtrRepLifted = TrType
 mkApp TrTYPE 
