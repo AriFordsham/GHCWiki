@@ -10,7 +10,7 @@ Resource limits is a new way (similar to profiled and dynamic). Here are the rel
 
 ### Dynamic closure allocation
 
-[compiler/codeGen/StgCmmHeap.hs](/ghc/ghc/tree/master/ghc/compiler/codeGen/StgCmmHeap.hs):allocDynClosureCmm (via StgCmmCon, also handles StgCmmBind:mkRhsClosure/cgRhsStdThunk. link_caf needs special treatment.)
+[compiler/codeGen/StgCmmHeap.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/codeGen/StgCmmHeap.hs):allocDynClosureCmm (via StgCmmCon, also handles StgCmmBind:mkRhsClosure/cgRhsStdThunk. link_caf needs special treatment.)
 
 ```wiki
 // profDynAlloc rep use_cc
@@ -40,7 +40,7 @@ I.e. no change from un-profiled.
 
 ### CAF Allocation
 
-[compiler/codeGen/StgCmmBind.hs](/ghc/ghc/tree/master/ghc/compiler/codeGen/StgCmmBind.hs):thunkCode
+[compiler/codeGen/StgCmmBind.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/codeGen/StgCmmBind.hs):thunkCode
 
 
 Here is an interesting bugger:
@@ -145,7 +145,7 @@ We also hit the slow function application path.
 
 ### Thunk code
 
-[compiler/codeGen/StgCmmBind.hs](/ghc/ghc/tree/master/ghc/compiler/codeGen/StgCmmBind.hs):thunkCode
+[compiler/codeGen/StgCmmBind.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/codeGen/StgCmmBind.hs):thunkCode
 
 ```wiki
 // ldvEnterClosure cl_info

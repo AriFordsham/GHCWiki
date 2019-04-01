@@ -19,37 +19,37 @@ NOTE! The native code generator was largely rewritten as part of the C-- backend
 ### Files, Parts
 
 
-After GHC has produced [Cmm](commentary/compiler/cmm-type) (use -ddump-cmm or -ddump-opt-cmm to view), the Native Code Generator (NCG) transforms Cmm into architecture-specific assembly code.  The NCG is located in [compiler/nativeGen](/ghc/ghc/tree/master/ghc/compiler/nativeGen) and is separated into eight modules:
+After GHC has produced [Cmm](commentary/compiler/cmm-type) (use -ddump-cmm or -ddump-opt-cmm to view), the Native Code Generator (NCG) transforms Cmm into architecture-specific assembly code.  The NCG is located in [compiler/nativeGen](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/nativeGen) and is separated into eight modules:
 
-- [compiler/nativeGen/AsmCodeGen.hs](/ghc/ghc/tree/master/ghc/compiler/nativeGen/AsmCodeGen.hs)
+- [compiler/nativeGen/AsmCodeGen.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/nativeGen/AsmCodeGen.hs)
 
-  top-level module for the NCG, imported by [compiler/main/CodeOutput.hs](/ghc/ghc/tree/master/ghc/compiler/main/CodeOutput.hs); also defines the Monad for optimising generic Cmm code, `CmmOptM`
-- [compiler/nativeGen/MachCodeGen.hs](/ghc/ghc/tree/master/ghc/compiler/nativeGen/MachCodeGen.hs)
+  top-level module for the NCG, imported by [compiler/main/CodeOutput.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/main/CodeOutput.hs); also defines the Monad for optimising generic Cmm code, `CmmOptM`
+- [compiler/nativeGen/MachCodeGen.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/nativeGen/MachCodeGen.hs)
 
   generates architecture-specific instructions (a Haskell-representation of assembler) from Cmm code
-- [compiler/nativeGen/MachInstrs.hs](/ghc/ghc/tree/master/ghc/compiler/nativeGen/MachInstrs.hs)
+- [compiler/nativeGen/MachInstrs.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/nativeGen/MachInstrs.hs)
 
   contains data definitions and some functions (comparison, size, simple conversions) for machine instructions, mostly carried out through the `Instr` data type, defined here
-- [compiler/nativeGen/NCGMonad.hs](/ghc/ghc/tree/master/ghc/compiler/nativeGen/NCGMonad.hs)
+- [compiler/nativeGen/NCGMonad.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/nativeGen/NCGMonad.hs)
 
   defines the the main monad in the NCG: the Native code Machine instruction Monad, `NatM`, and related functions.  *Note: the NCG switches between two monads at times, especially in `AsmCodeGen`: `NatM` and the `UniqSM` Monad used throughout the compiler.*
-- [compiler/nativeGen/PIC.hs](/ghc/ghc/tree/master/ghc/compiler/nativeGen/PIC.hs)
+- [compiler/nativeGen/PIC.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/nativeGen/PIC.hs)
 
   handles generation of position independent code and issues related to dynamic linking in the NCG; related to many other modules outside the NCG that handle symbol import, export and references, including `CLabel`, `Cmm`, `codeGen` and the RTS, and the Mangler
-- [compiler/nativeGen/PprMach.hs](/ghc/ghc/tree/master/ghc/compiler/nativeGen/PprMach.hs)
+- [compiler/nativeGen/PprMach.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/nativeGen/PprMach.hs)
 
   Pretty prints machine instructions (`Instr`) to assembler code (currently readable by GNU's `as`), with some small modifications, especially for comparing and adding floating point numbers on x86 architectures
-- [compiler/nativeGen/RegAllocInfo.hs](/ghc/ghc/tree/master/ghc/compiler/nativeGen/RegAllocInfo.hs)
+- [compiler/nativeGen/RegAllocInfo.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/nativeGen/RegAllocInfo.hs)
 
   defines the main register information function, `regUsage`, which takes a set of real and virtual registers and returns the actual registers used by a particular `Instr`; register allocation is in AT&T syntax order (source, destination), in an internal function, `usage`; defines the `RegUsage` data type
-- [compiler/nativeGen/RegisterAlloc.hs](/ghc/ghc/tree/master/ghc/compiler/nativeGen/RegisterAlloc.hs)
+- [compiler/nativeGen/RegisterAlloc.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/nativeGen/RegisterAlloc.hs)
 
   one of the most complicated modules in the NCG, `RegisterAlloc` manages the allocation of registers for each *basic block* of Haskell-abstracted assembler code: management involves *liveness* analysis, allocation or deletion of temporary registers, *spilling* temporary values to the *spill stack* (memory) and many optimisations.  *See [The Cmm language](commentary/compiler/cmm-type) for the definition of a *basic block* (in Haskell, *`type CmmBasicBlock =  GenBasicBlock CmmStmt`*).*
 
 
 and one header file:
 
-- [compiler/nativeGen/NCG.h](/ghc/ghc/tree/master/ghc/compiler/nativeGen/NCG.h)
+- [compiler/nativeGen/NCG.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/nativeGen/NCG.h)
 
   defines macros used to separate architecture-specific code in the Haskell NCG files; since GHC currently only generates machine code for the architecture on which it was compiled (GHC is not currently a cross-compiler), the Haskell NCG files become considerably smaller after preprocessing; ideally all architecture-specific code would reside in separate files and GHC would have them available to support cross-compiler capabilities.
 

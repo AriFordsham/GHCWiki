@@ -86,7 +86,7 @@ of `libdir` at all is for passing to the GHC API, and the best way to do that is
 On Unix systems you can change `libdir` and `bindir` using the `--libdir` and `--bindir` options respectively, and the location of the documentation can be changed using `--datadir`.  On Windows all you can do is change `$(prefix)`, because GHC finds the rest of its files by knowing their location relative to the `ghc.exe` binary, so the layout of the install tree is fixed (see [How GHC finds its files](building/installing#how-ghc-finds-its-files), below).
 
 
-To see how the install directories are derived from `$(prefix)`, look in [mk/install.mk.in](/ghc/ghc/tree/master/mk/install.mk.in)[](/trac/ghc/export/HEAD/ghc/mk/install.mk.in).
+To see how the install directories are derived from `$(prefix)`, look in [mk/install.mk.in](https://gitlab.haskell.org/ghc/ghc/tree/master/mk/install.mk.in)[](/trac/ghc/export/HEAD/ghc/mk/install.mk.in).
 
 ## DESTDIR
 

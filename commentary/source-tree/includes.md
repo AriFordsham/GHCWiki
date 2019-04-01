@@ -11,17 +11,17 @@ These are header files that define an external API to the RTS that can
 be used by client code.  These interfaces are intended to be
 relatively stable:
 
-- **[HsFFI.h](/ghc/ghc/tree/master/includes/HsFFI.h)**
+- **[HsFFI.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/HsFFI.h)**
 
   The external FFI api, as required by the FFI spec
 
-- **[RtsAPI.h](/ghc/ghc/tree/master/includes/RtsAPI.h)**
+- **[RtsAPI.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/RtsAPI.h)**
 
   The API for calling into the RTS.  Used by the implementation
 of `foreign export` calls, but may also be used by external
 clients.
 
-- **[Rts.h](/ghc/ghc/tree/master/includes/Rts.h)**
+- **[Rts.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/Rts.h)**
 
   This header file defines everything that is visible
 externally to the RTS.  It includes `Stg.h` and everything
@@ -32,8 +32,8 @@ in the `rts` subdirectory.
 
 The canonical definition of certain structures are in C header files.
 For example, the layout of closures and info tables are defined in the
-headers [Closures.h](/ghc/ghc/tree/master/includes/rts/storage/Closures.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/Closures.h) and
-[InfoTables.h](/ghc/ghc/tree/master/includes/rts/storage/InfoTables.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/InfoTables.h) respectivesly.  How do we get the information about the
+headers [Closures.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/rts/storage/Closures.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/Closures.h) and
+[InfoTables.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/rts/storage/InfoTables.h)[](/trac/ghc/export/HEAD/ghc/includes/rts/storage/InfoTables.h) respectivesly.  How do we get the information about the
 layout of these structures to the parts of the system that are not
 written in C, such as the compiler itself, or the C-- code in the RTS?
 
@@ -57,45 +57,45 @@ These days the amount of stuff included this way is kept to a minimum.
 In particular, there are no function prototypes: all calls to C
 functions from `.hc` files are given types at the call site.
 
-- **[Stg.h](/ghc/ghc/tree/master/includes/Stg.h)**
+- **[Stg.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/Stg.h)**
 
   The top of the hierarchy is `Stg.h`, which includes everything
 required by `.hc` code.  Most files `#included` by `Stg.h` are in the `stg` subdirectory.
 
-- **[ghcconfig.h](/ghc/ghc/tree/master/includes/ghcconfig.h)**
+- **[ghcconfig.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/ghcconfig.h)**
 
   Configuration info derived by the `configure` script.
 
-- **[MachDeps.h](/ghc/ghc/tree/master/includes/MachDeps.h)**
+- **[MachDeps.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/MachDeps.h)**
 
   Sizes of various basic types (should be in the `stg` subdirectory,
 but left here for backwards-compatibility reasons).
 
-- **[stg/DLL.h](/ghc/ghc/tree/master/includes/stg/DLL.h)**
+- **[stg/DLL.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/stg/DLL.h)**
 
   Stuff related to Windows DLLs.
 
-- **[stg/MachRegs.h](/ghc/ghc/tree/master/includes/stg/MachRegs.h)**
+- **[stg/MachRegs.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/stg/MachRegs.h)**
 
   Global register assignments for this processor.
 
-- **[stg/MiscClosures.h](/ghc/ghc/tree/master/includes/stg/MiscClosures.h)**
+- **[stg/MiscClosures.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/stg/MiscClosures.h)**
 
   Declarations for closures & info tables built-in to the RTS
 
-- **[stg/Regs.h](/ghc/ghc/tree/master/includes/stg/Regs.h)**
+- **[stg/Regs.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/stg/Regs.h)**
 
   "registers" in the virtual machine.
 
-- **[stg/SMP.h](/ghc/ghc/tree/master/includes/stg/SMP.h)**
+- **[stg/SMP.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/stg/SMP.h)**
 
   Atomic memory operations for SMP support
 
-- **[stg/Ticky.h](/ghc/ghc/tree/master/includes/stg/Ticky.h)**
+- **[stg/Ticky.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/stg/Ticky.h)**
 
   Declarations for ticky-ticky counters
 
-- **[stg/Types.h](/ghc/ghc/tree/master/includes/stg/Types.h)**
+- **[stg/Types.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/stg/Types.h)**
 
   Basic types specific to the virtual machine (eg. `StgWord`).
 
@@ -103,26 +103,26 @@ but left here for backwards-compatibility reasons).
 ## The RTS external APIs
 
 
-The header [Rts.h](/ghc/ghc/tree/master/includes/Rts.h)[](/trac/ghc/export/HEAD/ghc/includes/Rts.h)
+The header [Rts.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/Rts.h)[](/trac/ghc/export/HEAD/ghc/includes/Rts.h)
 includes all the headers below the `rts` subdirectory, which together
 define the RTS external API.  Virtually all RTS code `#includes``Rts.h`.
 
 
 The rts header files are divided into a few directories:
 
-- [includes/rts](/ghc/ghc/tree/master/includes/rts): Most of
+- [includes/rts](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/rts): Most of
   the external RTS APIs, in separate header files per-subsystem
 
-- [includes/rts/storage](/ghc/ghc/tree/master/includes/rts/storage): Definitions of the layout of heap and stack
+- [includes/rts/storage](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/rts/storage): Definitions of the layout of heap and stack
   objects, info tables, structures that define memory areas managed
   by the GC, and memory management APIs.
 
-- [includes/rts/prof](/ghc/ghc/tree/master/includes/rts/prof):
+- [includes/rts/prof](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/rts/prof):
   Interfaces and definitions for profiling.
 
 ## Included into C-- (`.cmm`) code
 
-- **[Cmm.h](/ghc/ghc/tree/master/includes/Cmm.h)**
+- **[Cmm.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/Cmm.h)**
 
   included into `.cmm` source only; provides useful macros for writing
 low-level C-- code for GHC.

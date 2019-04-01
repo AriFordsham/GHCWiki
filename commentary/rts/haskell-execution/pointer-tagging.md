@@ -87,7 +87,7 @@ Pointers to top-level functions are not necessarily tagged, because we don't alw
 ## Compacting GC
 
 
-Compacting GC also uses tag bits, because it needs to distinguish between a heap pointer and an info pointer quickly.  The compacting GC has a complicated scheme to ensure that pointer tags are retained, see the comments in [rts/sm/Compact.c](/ghc/ghc/tree/master/ghc/rts/sm/Compact.c).
+Compacting GC also uses tag bits, because it needs to distinguish between a heap pointer and an info pointer quickly.  The compacting GC has a complicated scheme to ensure that pointer tags are retained, see the comments in [rts/sm/Compact.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/sm/Compact.c).
 
 ## Dealing with tags in the code
 

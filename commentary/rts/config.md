@@ -26,7 +26,7 @@ The CPP symbols and their corresponding command-line flags are:
 
 - **`TRACING`**
 
-  - Enables RTS tracing and event logging, see [rts/Trace.c](/ghc/ghc/tree/master/ghc/rts/Trace.c).  Implied by `DEBUG`.
+  - Enables RTS tracing and event logging, see [rts/Trace.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/Trace.c).  Implied by `DEBUG`.
   - GHC option: `-eventlog`
   - RTS suffix: `l`
 
@@ -39,7 +39,7 @@ The ways that the RTS is built in are controlled by the `GhcRTSWays` Makefile va
 ## Combinations
 
 
-All combinations are allowed.  Only some are built by default though; see [mk/config.mk.in](/ghc/ghc/tree/master/mk/config.mk.in)[](/trac/ghc/export/HEAD/ghc/mk/config.mk.in) to see how the `GhcRTSWays` variable is set.
+All combinations are allowed.  Only some are built by default though; see [mk/config.mk.in](https://gitlab.haskell.org/ghc/ghc/tree/master/mk/config.mk.in)[](/trac/ghc/export/HEAD/ghc/mk/config.mk.in) to see how the `GhcRTSWays` variable is set.
 
 ## Other configuration options
 

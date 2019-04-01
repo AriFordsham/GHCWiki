@@ -20,4 +20,4 @@ See also [Idiom: macros](building/architecture/idiom/macros) where many applicat
 ## Variables affecting compilation
 
 
-The file [rules/distdir-way-opts.mk](/ghc/ghc/tree/master/ghc/rules/distdir-way-opts.mk) contains a list of the variables affecting compilation, such as `$1_$2_HC_OPTS` and `$1_$2_MORE_HC_OPTS`.
+The file [rules/distdir-way-opts.mk](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rules/distdir-way-opts.mk) contains a list of the variables affecting compilation, such as `$1_$2_HC_OPTS` and `$1_$2_MORE_HC_OPTS`.

@@ -215,7 +215,7 @@ To understand more about what you can put in `mk/build.mk`, read on.
 
 The following are some common variables that you might want to set in
 your `mk/build.mk`.  For other variables that you can override,
-take a look in [mk/config.mk.in](/ghc/ghc/tree/master/ghc/mk/config.mk.in).
+take a look in [mk/config.mk.in](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/mk/config.mk.in).
 
 - **`SRC_HC_OPTS`**
 

@@ -20,7 +20,7 @@ form `T1 :=: T2`. (`c :: T1 :=: T2`) is a proof that a term of type `T1`
 can be coerced to type `T2`. 
 Coercions are classified by a new sort of kind (with the form 
 `T1 :=: T2`).  Most of the coercion construction and manipulation functions
-are found in the `Coercion` module, [compiler/types/Coercion.hs](/ghc/ghc/tree/master/ghc/compiler/types/Coercion.hs).
+are found in the `Coercion` module, [compiler/types/Coercion.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/types/Coercion.hs).
 
 
 Coercions appear in Core in the form of `Cast` expressions:

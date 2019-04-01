@@ -217,7 +217,7 @@ Line 95 of "compiler/basicTypes/NameCache.hs"
 
 
 Symbols in GHC are encoded using something called the [Z-encoding](commentary/compiler/symbol-names) (see
-[compiler/utils/Encoding.hs](/ghc/ghc/tree/master/ghc/compiler/utils/Encoding.hs)).  Basically special symbols are replaced by sequences
+[compiler/utils/Encoding.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/utils/Encoding.hs)).  Basically special symbols are replaced by sequences
 beginning with `z` or `Z`.  eg. `state#` becomes
 `statezh`.  The letter `z` itself is replaced by `zz`.
 
@@ -242,7 +242,7 @@ symbol relates to, and *kind* is the kind of symbol:
 </th></tr></table>
 
 
-(see [compiler/cmm/CLabel.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/CLabel.hs)
+(see [compiler/cmm/CLabel.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/cmm/CLabel.hs)
 for a table of these).  Note that if you're matching up assembly with
 C-- and (info) tables next to code is enabled (as it is by default),
 then code that is named `entry` is equivalent to `info` symbols
@@ -301,7 +301,7 @@ nicer output:
 the bottom.  In this case I'm displaying memory pointed to by the
 register `rbx`, which corresponds to the STG register `R1` on
 a recent x86_64 build.  Check
-[includes/stg/MachRegs.h](/ghc/ghc/tree/master/ghc/includes/stg/MachRegs.h) to
+[includes/stg/MachRegs.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/stg/MachRegs.h) to
 see which machine registers correspond to which STG registers on your
 platform.
 
@@ -311,7 +311,7 @@ closure for the `Int` value 5.  Closures always consist of an info
 pointer (`GHCziBase_Izh_con_info` in this case, the `I#`
 constructor), followed by any number of payload words (just one word
 containing the value 5, here).  Full details on closure layouts are in
-[includes/rts/storage/Closures.h](/ghc/ghc/tree/master/ghc/includes/rts/storage/Closures.h).
+[includes/rts/storage/Closures.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/rts/storage/Closures.h).
 
 
 It looks like the next word contains garbage, probably because it is
@@ -336,7 +336,7 @@ execution.  The *info pointer* of a closure actually points to the
 entry code (this is a trick used by GHC so that the common operation
 of jumping to the entry code for a closure can be done with a single
 indirection).  The layout of info tables is defined in
-[includes/rts/storage/InfoTables.h](/ghc/ghc/tree/master/ghc/includes/rts/storage/InfoTables.h).
+[includes/rts/storage/InfoTables.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/rts/storage/InfoTables.h).
 
 
 To display the stack, you need to know what the `Sp` register is
@@ -386,7 +386,7 @@ $5 = {srt_offset = 4241688, __pad_srt_offset = 6684481, i = {layout = {
 
 The `type` field tells us what kind of object this is, in this
 case `36`}, which means a `RET_SMALL` stack frame (see
-[includes/rts/storage/ClosureTypes.h](/ghc/ghc/tree/master/ghc/includes/rts/storage/ClosureTypes.h)
+[includes/rts/storage/ClosureTypes.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/rts/storage/ClosureTypes.h)
 for a list of closure types, but make sure you are
 looking at the right version of this file for the build you're using,
 because the types do change).

@@ -484,7 +484,7 @@ Can this be done? How?
 >
 
 
-This experiment is taking place at [https://github.com/ghc/ghc/tree/wip/ttg-2017-10-13](https://github.com/ghc/ghc/tree/wip/ttg-2017-10-13)
+This experiment is taking place at [https://github.comhttps://gitlab.haskell.org/ghc/ghc/tree/wip/ttg-2017-10-13](https://github.comhttps://gitlab.haskell.org/ghc/ghc/tree/wip/ttg-2017-10-13)
 
 ### Rough notes based on starting the work (AZ)
 

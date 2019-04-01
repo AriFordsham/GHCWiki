@@ -1,7 +1,7 @@
 # GHC Commentary: Garbage Collecting CAFs
 
 
-Files: [rts/sm/GC.c](/ghc/ghc/tree/master/ghc/rts/sm/GC.c), function `scavenge_fun_srt`/`scavenge_thunk_srt` in [rts/sm/Scav.c](/trac/ghc/browser/ghc/rts/sm/Scav.c)
+Files: [rts/sm/GC.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/sm/GC.c), function `scavenge_fun_srt`/`scavenge_thunk_srt` in [rts/sm/Scav.c](/trac/ghc/browser/ghc/rts/sm/Scav.c)
 
 
 A **static closure** is a heap object that is allocated statically, once and for all, at compile time. It lives at a fixed address.
@@ -39,7 +39,7 @@ So here's what we do:
 - When following the reachable pointers in a closure, the garbage collector also follows the pointer to the SRT
 
 
-For all the details on how SRTs work, see `Note [SRTs]` in [compiler/cmm/CmmBuildInfoTables.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmBuildInfoTables.hs).
+For all the details on how SRTs work, see `Note [SRTs]` in [compiler/cmm/CmmBuildInfoTables.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/cmm/CmmBuildInfoTables.hs).
 
 
 We say that a static closure (whether a thunk or not) is CAFFY if
@@ -76,17 +76,17 @@ that keeps `squares_closure` alive, and hence keeps alive the list that `squares
 Some implementation details
 
 - A CAFFY closure has a `CafInfo` of `MayHaveCafRefs`; a definitely non-CAFFY closure has a `CafInfo` of `NoCafRefs`.
-- See Note \[CAF management\] in [rts/sm/Storage.c](/ghc/ghc/tree/master/ghc/rts/sm/Storage.c) for more information.
+- See Note \[CAF management\] in [rts/sm/Storage.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/sm/Storage.c) for more information.
 
 ## Static Reference Tables
 
 
-For all the details on how SRTs work, see `Note [SRTs]` in [compiler/cmm/CmmBuildInfoTables.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/CmmBuildInfoTables.hs).
+For all the details on how SRTs work, see `Note [SRTs]` in [compiler/cmm/CmmBuildInfoTables.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/cmm/CmmBuildInfoTables.hs).
 
 ## Evacuating Static Objects
 
 
-Files: [rts/sm/GCThread.h](/ghc/ghc/tree/master/ghc/rts/sm/GCThread.h), [rts/sm/Evac.c](/trac/ghc/browser/ghc/rts/sm/Evac.c), [rts/sm/GC.c](/trac/ghc/browser/ghc/rts/sm/GC.c)
+Files: [rts/sm/GCThread.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/sm/GCThread.h), [rts/sm/Evac.c](/trac/ghc/browser/ghc/rts/sm/Evac.c), [rts/sm/GC.c](/trac/ghc/browser/ghc/rts/sm/GC.c)
 
 
 While scavenging objects, we also process (aka "evacuate") any static objects that need to be kept alive.  When a GC thread discovers a live static object, it places it on its `static_objects`

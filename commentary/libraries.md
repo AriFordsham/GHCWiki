@@ -1,13 +1,13 @@
 # GHC Commentary: Libraries
 
 
-All GHC build trees contain a set of libraries, called the **Boot Packages**.  These are the libraries that GHC's source code imports.  Obviously you need the boot packages to build GHC at all.  The boot packages are those packages in the file [packages](/ghc/ghc/tree/master/packages)[](/trac/ghc/export/HEAD/ghc/packages) that have a `-` in the "tag" column.
+All GHC build trees contain a set of libraries, called the **Boot Packages**.  These are the libraries that GHC's source code imports.  Obviously you need the boot packages to build GHC at all.  The boot packages are those packages in the file [packages](https://gitlab.haskell.org/ghc/ghc/tree/master/packages)[](/trac/ghc/export/HEAD/ghc/packages) that have a `-` in the "tag" column.
 
 
 The repository structure of a GHC source tree is described in [Repositories](repositories).
 
 
-You can see exactly which versions of what packages GHC depends on by looking in [compiler/ghc.cabal.in](/ghc/ghc/tree/master/compiler/ghc.cabal.in)[](/trac/ghc/export/HEAD/ghc/compiler/ghc.cabal.in).  The versions of the boot packages (including the `base` library) associated with each GHC release are tabulated in [GHC Boot Library Version History](commentary/libraries/version-history).
+You can see exactly which versions of what packages GHC depends on by looking in [compiler/ghc.cabal.in](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/ghc.cabal.in)[](/trac/ghc/export/HEAD/ghc/compiler/ghc.cabal.in).  The versions of the boot packages (including the `base` library) associated with each GHC release are tabulated in [GHC Boot Library Version History](commentary/libraries/version-history).
 
 # Building packages that GHC doesn't depend on
 
@@ -141,7 +141,7 @@ Currently the Boot Packages that are not installed are `haskeline`, `mtl`, and `
 
 - Next is the **`base`** package. This contains a large number of modules, many of which are in one big cyclic import knot, mostly due to the `Exception` type.
 
-- On top of base are a number of other, more specialised packages, whose purpose is generally clear from their name. If not, you can get more detail from the descriptions in their Cabal files.  The up-to-date list of packages can be found in the file [packages](/ghc/ghc/tree/master/packages)[](/trac/ghc/export/HEAD/ghc/packages).
+- On top of base are a number of other, more specialised packages, whose purpose is generally clear from their name. If not, you can get more detail from the descriptions in their Cabal files.  The up-to-date list of packages can be found in the file [packages](https://gitlab.haskell.org/ghc/ghc/tree/master/packages)[](/trac/ghc/export/HEAD/ghc/packages).
 
 
 The `haskell98`, `old-time`, `old-locale` and `random` packages are mostly only needed for Haskell 98 support, although `dph` currently uses `random` too.

@@ -52,7 +52,7 @@ The `hscTarget` field of `DynFlags` tells the compiler what kind of output to ge
 The targets specify the source files or modules at the top of the dependency tree.  For a Haskell program there is often just a single target `Main.hs`, but for a library the targets would consist of every visible module in the library.
 
 
-The `Target` type is defined in [compiler/main/HscTypes.hs](/ghc/ghc/tree/master/ghc/compiler/main/HscTypes.hs).  Note that a `Target` includes not just the file or module name, but also optionally the complete source text of the module as a `StringBuffer`: this is to support an interactive development environment where the source file is being edited, and the in-memory copy of the source file is to be used in preference to the version on disk.
+The `Target` type is defined in [compiler/main/HscTypes.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/main/HscTypes.hs).  Note that a `Target` includes not just the file or module name, but also optionally the complete source text of the module as a `StringBuffer`: this is to support an interactive development environment where the source file is being edited, and the in-memory copy of the source file is to be used in preference to the version on disk.
 
 ## Dependency Analysis
 
@@ -65,7 +65,7 @@ The `downsweep` function takes the targets and returns a list of `ModSummary` co
 ## The ModSummary type
 
 
-A `ModSummary` (defined in [compiler/main/HscTypes.hs](/ghc/ghc/tree/master/ghc/compiler/main/HscTypes.hs)) contains various information about a module:
+A `ModSummary` (defined in [compiler/main/HscTypes.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/main/HscTypes.hs)) contains various information about a module:
 
 - Its `Module`, which includes the package that it belongs to
 - Its `ModLocation`, which lists the pathnames of all the files associated with the module
@@ -74,10 +74,10 @@ A `ModSummary` (defined in [compiler/main/HscTypes.hs](/ghc/ghc/tree/master/ghc/
 - ... some other things
 
 
-We collect `ModSumary` information for all the modules we are interested in during the *downsweep*, below.  Extracting the information about the module name and the imports from a source file is the job of [compiler/main/HeaderInfo.hs](/ghc/ghc/tree/master/ghc/compiler/main/HeaderInfo.hs) which partially parses the source file.
+We collect `ModSumary` information for all the modules we are interested in during the *downsweep*, below.  Extracting the information about the module name and the imports from a source file is the job of [compiler/main/HeaderInfo.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/main/HeaderInfo.hs) which partially parses the source file.
 
 
-Converting a given module name into a `ModSummary` is done by `summariseModule` in [compiler/main/GHC.hs](/ghc/ghc/tree/master/ghc/compiler/main/GHC.hs).  Similarly, if we have a filename rather than a module name, we generate a `ModSummary` using `summariseFile`.
+Converting a given module name into a `ModSummary` is done by `summariseModule` in [compiler/main/GHC.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/main/GHC.hs).  Similarly, if we have a filename rather than a module name, we generate a `ModSummary` using `summariseFile`.
 
 ## Loading (compiling) the Modules
 

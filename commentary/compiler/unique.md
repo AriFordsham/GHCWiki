@@ -53,7 +53,7 @@ A hundred or two library entities (types, classes, functions) are so-called "kno
 ### Interface files
 
 
-Entities in a interface file (.hi file) are, for the most part, stored in a symbol table, and referred to (from elsewhere in the same interface file) by an index into that table.  Here are the details from [compiler/iface/BinIface.lhs](/ghc/ghc/tree/master/ghc/compiler/iface/BinIface.lhs):
+Entities in a interface file (.hi file) are, for the most part, stored in a symbol table, and referred to (from elsewhere in the same interface file) by an index into that table.  Here are the details from [compiler/iface/BinIface.lhs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/iface/BinIface.lhs):
 
 ```wiki
 -- Note [Symbol table representation of names]
@@ -118,7 +118,7 @@ making automatic derivation of such type class instances hard. There was already
 ### Status Quo (pre redesign)
 
 
-A `Unique` has a domain (`TyCon`, `DataCon`, `PrelName`, `Builtin`, etc.) that was codified by a character. The remainder of the `Unique` was an integer that should be unique for said domain. This **was** once guaranteed through the export list of [compiler/basicTypes/Unique.lhs](/ghc/ghc/tree/master/ghc/compiler/basicTypes/Unique.lhs), where direct access to the domain-character was hidden, i.e.
+A `Unique` has a domain (`TyCon`, `DataCon`, `PrelName`, `Builtin`, etc.) that was codified by a character. The remainder of the `Unique` was an integer that should be unique for said domain. This **was** once guaranteed through the export list of [compiler/basicTypes/Unique.lhs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/Unique.lhs), where direct access to the domain-character was hidden, i.e.
 
 ```wiki
 mkUnique :: Char -> Int -> Unique
@@ -126,7 +126,7 @@ unpkUnique :: Unique -> (Char,Int)
 ```
 
 
-were not exported. This should have guaranteed that every domain was assigned its own unique character, because only in [compiler/basicTypes/Unique.lhs](/ghc/ghc/tree/master/ghc/compiler/basicTypes/Unique.lhs) could those `Char`s be assigned. However, through
+were not exported. This should have guaranteed that every domain was assigned its own unique character, because only in [compiler/basicTypes/Unique.lhs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/Unique.lhs) could those `Char`s be assigned. However, through
 
 ```wiki
 mkUniqueGrimily :: Int -> Unique

@@ -49,7 +49,7 @@ The renamer sits between the parser and the typechecker. However, its operation 
 A big part of the renamer's task is to build the **global rdr-env** for the module, of type `GlobalRdrEnv`.  This environment allows us to take a qualified or un-qualified `RdrName` and figure out which `Name` it means.  The global rdr-env is built by looking at all the imports, and the top-level declarations of the module.
 
 
-You might think that the global rdr-env would be a mapping from `RdrName` to `Name`, but it isn't.  Here is what it looks like, after at least three iterations (all in [compiler/basicTypes/RdrName.hs](/ghc/ghc/tree/master/ghc/compiler/basicTypes/RdrName.hs)):
+You might think that the global rdr-env would be a mapping from `RdrName` to `Name`, but it isn't.  Here is what it looks like, after at least three iterations (all in [compiler/basicTypes/RdrName.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/RdrName.hs)):
 
 ```wiki
 type GlobalRdrEnv = OccEnv [GlobalRdrElt]
@@ -98,7 +98,7 @@ Here is how to understand these types:
 With all that information, we can give good error messages, especially in the case where an occurrence "f" is ambiguous (i.e. different entities, both called "f", were imported by different import statements).
 
 
-The global rdr-env is created by [compiler/rename/RnNames.hs](/ghc/ghc/tree/master/ghc/compiler/rename/RnNames.hs).
+The global rdr-env is created by [compiler/rename/RnNames.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/rename/RnNames.hs).
 
 
 It is important to note that the global rdr-env is created  *before* the renamer actually descends into the top-level bindings of a module. In other words, before `TcRnDriver.rnTopSrcDecls` performs the renaming of a module by way of `RnSource.rnSrcDecls`, it uses `RnNames.importsFromLocalDecls` to set up the global rdr-env environment, which contains `Names` for all imported and all locally defined toplevel binders.  Hence, when the helpers of `rnSrcDecls` come across the defining occurences of a toplevel `RdrName`, they don't rename it by generating a new name, but they simply look up its name in the global rdr-env. 

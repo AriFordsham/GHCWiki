@@ -10,21 +10,21 @@ The rest of this commentary describes code that is not checked in to the HEAD ye
 
 
 Update: as of 2014-02-12, newer documentation (apparently on the same topic and apparently more up-to-date) is available at [Commentary/Compiler/Demand](commentary/compiler/demand) (I am not an expert on the GHC internals though).
-Also, [compiler/basicTypes/NewDemand.lhs](/ghc/ghc/tree/master/ghc/compiler/basicTypes/NewDemand.lhs) is not any more in the sources, replaced by (or renamed to?) [compiler/basicTypes/Demand.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/Demand.lhs).
+Also, [compiler/basicTypes/NewDemand.lhs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/NewDemand.lhs) is not any more in the sources, replaced by (or renamed to?) [compiler/basicTypes/Demand.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/Demand.lhs).
 
 # The demand analyzer
 
 
 Most of the demand analyzer lives in two files:
 
-- [compiler/basicTypes/NewDemand.lhs](/ghc/ghc/tree/master/ghc/compiler/basicTypes/NewDemand.lhs) (defines the datatypes used by the demand analyzer, and some functions on them)
-- [compiler/stranal/DmdAnal.lhs](/ghc/ghc/tree/master/ghc/compiler/stranal/DmdAnal.lhs) (the demand analyzer itself)
+- [compiler/basicTypes/NewDemand.lhs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/NewDemand.lhs) (defines the datatypes used by the demand analyzer, and some functions on them)
+- [compiler/stranal/DmdAnal.lhs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/stranal/DmdAnal.lhs) (the demand analyzer itself)
 
 
 The demand analyzer does strictness analysis, absence analysis, and box-demand analysis in a single pass. (ToDo: explain what these are.)
 
 
-In [compiler/stranal/DmdAnal.lhs](/ghc/ghc/tree/master/ghc/compiler/stranal/DmdAnal.lhs), `dmdAnal` is the function that performs demand analysis on an expression. It has the following type:
+In [compiler/stranal/DmdAnal.lhs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/stranal/DmdAnal.lhs), `dmdAnal` is the function that performs demand analysis on an expression. It has the following type:
 
 ```wiki
 dmdAnal :: SigEnv -> Demand-> CoreExpr -> (DmdType, CoreExpr)

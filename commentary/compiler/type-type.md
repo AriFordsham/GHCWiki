@@ -72,7 +72,7 @@ Notice the first line, which uses the view, and recurses when the view 'fires'. 
 ## The representation of `Type`
 
 
-Here, then is the representation of types (see [compiler/types/TyCoRep.hs](/ghc/ghc/tree/master/ghc/compiler/types/TyCoRep.hs) for more details):
+Here, then is the representation of types (see [compiler/types/TyCoRep.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/types/TyCoRep.hs) for more details):
 
 ```haskell
 type TyVar = Var

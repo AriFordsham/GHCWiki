@@ -6,7 +6,7 @@ This page gives a hopefully comprehensive view of how `Bool` type is wired-in in
 ## Constants for Bool type and data constructors
 
 
-All data constructors, type constructors and so on have their unique identifier which is needed during the compilation process. For the wired-in types these unique values are defined in the [compiler/prelude/PrelNames.hs](/ghc/ghc/tree/master/ghc/compiler/prelude/PrelNames.hs). In case of `Bool` the relevant definitions look like this:
+All data constructors, type constructors and so on have their unique identifier which is needed during the compilation process. For the wired-in types these unique values are defined in the [compiler/prelude/PrelNames.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/prelude/PrelNames.hs). In case of `Bool` the relevant definitions look like this:
 
 ```wiki
 boolTyConKey, falseDataConKey, trueDataConKey :: Unique
@@ -18,7 +18,7 @@ trueDataConKey  = mkPreludeDataConUnique 15 -- line 1451
 ### A side note on generating Unique values
 
 
-The `mkPreludeTyConUnique` and `mkPreludeDataConUnique` take care of generating a unique `Unique` value. They are defined in [compiler/basicTypes/Unique.hs](/ghc/ghc/tree/master/ghc/compiler/basicTypes/Unique.hs):
+The `mkPreludeTyConUnique` and `mkPreludeDataConUnique` take care of generating a unique `Unique` value. They are defined in [compiler/basicTypes/Unique.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/Unique.hs):
 
 ```wiki
 data Unique = MkUnique FastInt
@@ -31,12 +31,12 @@ mkPreludeDataConUnique i = mkUnique '6' (2*i)
 ```
 
 
-You will find definition of `mkUnique :: Char -> Int -> Unique` at line 135 in [compiler/basicTypes/Unique.hs](/ghc/ghc/tree/master/ghc/compiler/basicTypes/Unique.hs).
+You will find definition of `mkUnique :: Char -> Int -> Unique` at line 135 in [compiler/basicTypes/Unique.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/Unique.hs).
 
 ## Defining wired-in information about Bool
 
 
-All the wired-in information that compiler needs to know about `Bool` is defined in [compiler/prelude/TysWiredIn.hs](/ghc/ghc/tree/master/ghc/compiler/prelude/TysWiredIn.hs). This file exports following functions related to `Bool`:
+All the wired-in information that compiler needs to know about `Bool` is defined in [compiler/prelude/TysWiredIn.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/prelude/TysWiredIn.hs). This file exports following functions related to `Bool`:
 
 ```wiki
   boolTy, boolTyCon, boolTyCon_RDR, boolTyConName,
@@ -62,13 +62,13 @@ falseDataConName  = mkWiredInDataConName UserSyntax gHC_TYPES (fsLit "False") fa
 trueDataConName   = mkWiredInDataConName UserSyntax gHC_TYPES (fsLit "True")  trueDataConKey  trueDataCon
 ```
 
-`boolTyConKey`, `falseDataConKey` and `trueDataConKey` are `Unique` values defined earlier. `boolTyCon`, `falseDataCon` and `trueDataCon` are yet undefined. Type of syntax is defined in [compiler/basicTypes/Name.hs](/ghc/ghc/tree/master/ghc/compiler/basicTypes/Name.hs), line 129:
+`boolTyConKey`, `falseDataConKey` and `trueDataConKey` are `Unique` values defined earlier. `boolTyCon`, `falseDataCon` and `trueDataCon` are yet undefined. Type of syntax is defined in [compiler/basicTypes/Name.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/Name.hs), line 129:
 
 ```wiki
 data BuiltInSyntax = BuiltInSyntax | UserSyntax
 ```
 
-`BuiltInSyntax` is used for things like (:), \[\] and tuples. All other things are `UserSyntax`. `gHC_TYPES` is a module `GHC.Types` to which these type and data constructors get assigned. It is defined in [compiler/prelude/PrelNames.hs](/ghc/ghc/tree/master/ghc/compiler/prelude/PrelNames.hs):
+`BuiltInSyntax` is used for things like (:), \[\] and tuples. All other things are `UserSyntax`. `gHC_TYPES` is a module `GHC.Types` to which these type and data constructors get assigned. It is defined in [compiler/prelude/PrelNames.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/prelude/PrelNames.hs):
 
 ```wiki
 gHC_TYPES = mkPrimModule (fsLit "GHC.Types") -- line 359
@@ -77,7 +77,7 @@ mkPrimModule :: FastString -> Module               -- line 435
 mkPrimModule m = mkModule primPackageId (mkModuleNameFS m)
 ```
 
-`FastString` is a string type based on `ByteStrings` and the `fsLit` function converts a standard Haskell `Strings` to `FastString`. See [compiler/utils/FastString.hs](/ghc/ghc/tree/master/ghc/compiler/utils/FastString.hs) for more details.
+`FastString` is a string type based on `ByteStrings` and the `fsLit` function converts a standard Haskell `Strings` to `FastString`. See [compiler/utils/FastString.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/utils/FastString.hs) for more details.
 
 ### A side note on creating wired-in Names
 
@@ -100,7 +100,7 @@ data NameSort
 ```
 
 
-The `mkWiredInTyConName` and `mkWiredInDataConName` are functions that create `Name`s for wired in types and data constructors. They are defined in [compiler/prelude/TysWiredIn.hs](/ghc/ghc/tree/master/ghc/compiler/prelude/TysWiredIn.hs), lines 163-173:
+The `mkWiredInTyConName` and `mkWiredInDataConName` are functions that create `Name`s for wired in types and data constructors. They are defined in [compiler/prelude/TysWiredIn.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/prelude/TysWiredIn.hs), lines 163-173:
 
 ```wiki
 mkWiredInTyConName :: BuiltInSyntax -> Module -> FastString -> Unique -> TyCon -> Name
@@ -117,7 +117,7 @@ mkWiredInDataConName built_in modu fs unique datacon
 ```
 
 
-The `mkWiredInName` is defined in [compiler/basicTypes/Name.hs](/ghc/ghc/tree/master/ghc/compiler/basicTypes/Name.hs) (lines 279-283), and it just assigns values to fields of `Name`:
+The `mkWiredInName` is defined in [compiler/basicTypes/Name.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/Name.hs) (lines 279-283), and it just assigns values to fields of `Name`:
 
 ```wiki
 mkWiredInName :: Module -> OccName -> Unique -> TyThing -> BuiltInSyntax -> Name
@@ -130,7 +130,7 @@ mkWiredInName mod occ uniq thing built_in
 ## RdrNames for Bool
 
 
-Having defined `Name`s for `Bool`, the [RdrName](commentary/compiler/rdr-name-type)s can be defined ([compiler/prelude/TysWiredIn.hs](/ghc/ghc/tree/master/ghc/compiler/prelude/TysWiredIn.hs), lines 221-225):
+Having defined `Name`s for `Bool`, the [RdrName](commentary/compiler/rdr-name-type)s can be defined ([compiler/prelude/TysWiredIn.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/prelude/TysWiredIn.hs), lines 221-225):
 
 ```wiki
 boolTyCon_RDR, false_RDR, true_RDR :: RdrName
@@ -170,14 +170,14 @@ Note that `boolTyCon` is on the list of wired in type constructors created by `w
 
 ### A side note on functions generating type and data constructors
 
-[compiler/types/TypeRep.hs](/ghc/ghc/tree/master/ghc/compiler/types/TypeRep.hs), lines 281-282:
+[compiler/types/TypeRep.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/types/TypeRep.hs), lines 281-282:
 
 ```wiki
 mkTyConTy :: TyCon -> Type
 mkTyConTy tycon = TyConApp tycon []
 ```
 
-[compiler/prelude/TysWiredIn.hs](/ghc/ghc/tree/master/ghc/compiler/prelude/TysWiredIn.hs), 247-257:
+[compiler/prelude/TysWiredIn.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/prelude/TysWiredIn.hs), 247-257:
 
 ```wiki
 pcTyCon :: Bool -> RecFlag -> Name -> Maybe CType -> [TyVar] -> [DataCon] -> TyCon
@@ -239,7 +239,7 @@ falseDataConId = dataConWorkId falseDataCon
 trueDataConId  = dataConWorkId trueDataCon
 ```
 
-`falseDataConId` and `trueDataConId` just extract `Id` from previously defined data constructors. These definitions are from [compiler/basicTypes/DataCon.hs](/ghc/ghc/tree/master/ghc/compiler/basicTypes/DataCon.hs):
+`falseDataConId` and `trueDataConId` just extract `Id` from previously defined data constructors. These definitions are from [compiler/basicTypes/DataCon.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/DataCon.hs):
 
 ```wiki
 data DataCon -- line 253

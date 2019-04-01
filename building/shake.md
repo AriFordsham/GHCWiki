@@ -18,7 +18,7 @@ The existing build system performs the following major steps:
 
 - **configure**: take a bunch of `*.in` files {`config.mk.in`, `ghc.cabal.in`, `ghc-bin.cabal.in`, ...} and generate {`config.mk`, `ghc.cabal`, `ghc-bin.cabal`, ...}. 
 
-- **make**: do the rest of the build in three phases by invoking `ghc.mk` with the phase parameter set to one of {`0`, `1`, `final`}. All other `*.mk` files {`config.mk`, `tree.mk`, ...} are included in `ghc.mk`. The approximate build order is described in [ghc.mk](/ghc/ghc/tree/master/ghc/ghc.mk)[](/trac/ghc/export/HEAD/ghc/ghc.mk). 
+- **make**: do the rest of the build in three phases by invoking `ghc.mk` with the phase parameter set to one of {`0`, `1`, `final`}. All other `*.mk` files {`config.mk`, `tree.mk`, ...} are included in `ghc.mk`. The approximate build order is described in [ghc.mk](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/ghc.mk)[](/trac/ghc/export/HEAD/ghc/ghc.mk). 
 
 
 The goal is to eventually replace all of the above with a single shake script that will be invoking `autoconf`, `configure`, etc., and taking care of all dependencies. Specific parts of the old build system that will be shake-ified are: `boot`, `ghc-cabal` and `*.mk`.

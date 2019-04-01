@@ -1,7 +1,7 @@
 # Heap and Stack checks
 
 
-Source files: [rts/HeapStackCheck.cmm](/ghc/ghc/tree/master/ghc/rts/HeapStackCheck.cmm)
+Source files: [rts/HeapStackCheck.cmm](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/HeapStackCheck.cmm)
 
 
 

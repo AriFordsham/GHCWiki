@@ -53,13 +53,13 @@ staticTickyHdr =
 ```
 
 
-in [compiler/codeGen/CgTicky.hs](/ghc/ghc/tree/master/ghc/compiler/codeGen/CgTicky.hs).
+in [compiler/codeGen/CgTicky.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/codeGen/CgTicky.hs).
 
 
-Other relevant functions: `emitTickyCounter` in [compiler/codeGen/CgTicky.hs](/ghc/ghc/tree/master/ghc/compiler/codeGen/CgTicky.hs) (called by `closureCodeBody` in [compiler/codeGen/CgClosure.lhs](/trac/ghc/browser/ghc/compiler/codeGen/CgClosure.lhs)).
+Other relevant functions: `emitTickyCounter` in [compiler/codeGen/CgTicky.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/codeGen/CgTicky.hs) (called by `closureCodeBody` in [compiler/codeGen/CgClosure.lhs](/trac/ghc/browser/ghc/compiler/codeGen/CgClosure.lhs)).
 
 
-Argh! I spent days tracking down this bug: `idInfoLabelType` in [compiler/cmm/CLabel.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/CLabel.hs) needs to return `DataLabel` for labels of type `RednCount` (i.e., labels for ticky counters.) By default, it was returning `CodeLabel`, which caused the ticky counter labels to get declared with the wrong type in the generated C, which caused C compiler errors.
+Argh! I spent days tracking down this bug: `idInfoLabelType` in [compiler/cmm/CLabel.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/cmm/CLabel.hs) needs to return `DataLabel` for labels of type `RednCount` (i.e., labels for ticky counters.) By default, it was returning `CodeLabel`, which caused the ticky counter labels to get declared with the wrong type in the generated C, which caused C compiler errors.
 
 ## Declarations for ticky counters
 
@@ -76,13 +76,13 @@ StgWord Main_zdwrepeated_ct[] = {
 ```
 
 
-Here, `Main_zdwrepeated_ct` is actually an `StgEntCounter` (this type is declared in [includes/StgTicky.h](/ghc/ghc/tree/master/ghc/includes/StgTicky.h)). The counters get used by `printRegisteredCounterInfo` in [rts/Ticky.c](/trac/ghc/browser/ghc/rts/Ticky.c), which prints out the ticky reports. The counter fields are accessed using offsets defined in [includes/GHCConstants.h](/trac/ghc/browser/ghc/includes/GHCConstants.h) (`oFFSET_StgEntCounter_*`), which in turn get generated from [includes/mkDerivedConstants.c](/trac/ghc/browser/ghc/includes/mkDerivedConstants.c) (change it and then run `make` in `includes/`. 
+Here, `Main_zdwrepeated_ct` is actually an `StgEntCounter` (this type is declared in [includes/StgTicky.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/StgTicky.h)). The counters get used by `printRegisteredCounterInfo` in [rts/Ticky.c](/trac/ghc/browser/ghc/rts/Ticky.c), which prints out the ticky reports. The counter fields are accessed using offsets defined in [includes/GHCConstants.h](/trac/ghc/browser/ghc/includes/GHCConstants.h) (`oFFSET_StgEntCounter_*`), which in turn get generated from [includes/mkDerivedConstants.c](/trac/ghc/browser/ghc/includes/mkDerivedConstants.c) (change it and then run `make` in `includes/`. 
 
 
 \<s\>Note that the first 3 fields of the counters are 16-bit ints and so the generated ticky-counter registration code has to reflect that (I fixed a bug where the first field was getting treated as a 32-bit int.)\</s\> I modified the `StgEntCounter` type so that all fields are `StgWord`s, because it seems that the code generator can't cope with anything else anyway (i.e., in the declaration above, `Main_zdwrepeated_ct[]` is an array of `StgWord`s, even though the C type declaration implies that some fields are halfwords.)
 
 
-In `emitBlackHoleCode` in [compiler/codeGen/CgClosure.lhs](/ghc/ghc/tree/master/ghc/compiler/codeGen/CgClosure.lhs), "eager blackholing" was getting employed in the case where ticky was turned on; this was causing programs to `<<loop>>` when they wouldn't with ticky disabled, so I turned that off.
+In `emitBlackHoleCode` in [compiler/codeGen/CgClosure.lhs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/codeGen/CgClosure.lhs), "eager blackholing" was getting employed in the case where ticky was turned on; this was causing programs to `<<loop>>` when they wouldn't with ticky disabled, so I turned that off.
 
 # Strictness and let-floating
 
@@ -96,7 +96,7 @@ f x =
 ```
 
 
-where `stuff` doesn't depend on `x`. Demand analysis says that `foo` has a strict demand placed on it. Later, `foo` gets floated to the top level because it doesn't depend on `x` (in reality it's more complicated because in this case `foo` probably would have gotten floated out before demand analysis, but bear with me). `foo` still has a strict demand signature, which a top-level binding isn't allowed to have. Currently this manifests itself as an assertion failure in [compiler/simplCore/SimplEnv.lhs](/ghc/ghc/tree/master/ghc/compiler/simplCore/SimplEnv.lhs).
+where `stuff` doesn't depend on `x`. Demand analysis says that `foo` has a strict demand placed on it. Later, `foo` gets floated to the top level because it doesn't depend on `x` (in reality it's more complicated because in this case `foo` probably would have gotten floated out before demand analysis, but bear with me). `foo` still has a strict demand signature, which a top-level binding isn't allowed to have. Currently this manifests itself as an assertion failure in [compiler/simplCore/SimplEnv.lhs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/simplCore/SimplEnv.lhs).
 
 
 There are two possible easy solutions: don't float out bindings for strict things, or "both" the demand for a binder with Lazy when its binding gets floated out. The question is, is it better to do the let-floating and lose the strictness into or to evaluate something strictly but lose sharing?

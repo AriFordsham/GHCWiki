@@ -19,7 +19,7 @@ See also [the description of the new code generation pipeline](commentary/compil
 
 There is a new Cmm data type:
 
-- [compiler/cmm/ZipCfg.hs](/ghc/ghc/tree/master/ghc/compiler/cmm/ZipCfg.hs) contains a generic zipper-based control-flow graph data type.  It is generic in the sense that it's polymorphic in the type of **middle nodes** and **last nodes** of a block.  (Middle nodes don't do control transfers; last nodes only do control transfers.)  There are extensive notes at the start of the module.
+- [compiler/cmm/ZipCfg.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/cmm/ZipCfg.hs) contains a generic zipper-based control-flow graph data type.  It is generic in the sense that it's polymorphic in the type of **middle nodes** and **last nodes** of a block.  (Middle nodes don't do control transfers; last nodes only do control transfers.)  There are extensive notes at the start of the module.
 
   The key types it defines are:
 
