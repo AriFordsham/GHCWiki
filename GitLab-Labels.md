@@ -2,7 +2,7 @@ GitLab uses labels to organize both issues and merge requests. GHC uses this
 mechanism to track a variety of information. Here we document the conventions
 we use.
 
-If you create a new label please do add it to this list, keeping the list inv
+If you create a new label please do add it to this list, keeping the list in
 alphabetical order.
 
 # Miscellaneous
