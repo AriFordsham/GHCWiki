@@ -109,9 +109,6 @@ You never commit directly to HEAD.  Rather, follow this workflow.
   - The [code owners file](https://gitlab.haskell.org/ghc/ghc/blob/master/CODEOWNERS): if your patch touches code listed in this file, the corresponding users become approvers for that MR.
   - Per-MR approvers, which you as MR author can add.  *From what list?*****
 
-
-
-
 ## Gitlab tips
 
 - **Search** is rather confusing. If you type a search into the prominent "Search of jump to.." box in the black menu bar at the top, you'll see a list of results, but it's easy to miss the fact that **there are a bunch of separate non-prominent tabs**, one for code, one for issues, one for comments etc.
@@ -129,7 +126,9 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
 - **Zooming**.  If you zoom your browser too much, stuff starts disappearing from the top menu bar; e.g. your picture and the settings linked to it. You have to zoom out.  This happens less if you switch to "fluid" layout in [your preferences](https://gitlab.haskell.org/profile/preferences).
 
-- **Notifications**.  For projects you care about (e.g. [https://gitlab.haskell.org/ghc/ghc](https://gitlab.haskell.org/ghc/ghc)), click on "Watch" (there's a little bell icon) about four rows down from the top. Then you'll get notifications of what changes.
+- **Notifications**.  
+  * For projects you care about (e.g. [https://gitlab.haskell.org/ghc/ghc](https://gitlab.haskell.org/ghc/ghc)), click on "Watch" (there's a little bell icon) about four rows down from the top. Then you'll get notifications of what changes.
+  * By default GitLab does not send you mail about your own activity, e.g. contributions to the Discussion of an issue.  I'm an email-driven person, so I find that confusing. You can switch this on in your settings: click on the down-arrow next to your picture in the top right-hand corner, and then pick "Notifications" in the left-hand column.
 
 - **From branch name to merge request**.  Say you are on branch `wip/T16185`, and you know you (or someone) has submitted a MR based on that branch. How can you find the MR?
 
