@@ -5,8 +5,8 @@ In order to build GHC, you need a UNIX-like environment with:
 * a GHC compiler ([bootstrap compiler](https://en.wikipedia.org/wiki/Bootstrapping_(compilers)))
 
 This can be difficult to set up on some platforms (e.g. Windows) so there are two documented ways to do it:
-* [automatically using Stack](building-ghc-with-stack)
-* [manually](configuring-a-build-environment)
+* [automatically using Stack](#building-ghc-with-stack)
+* [manually](#configuring-a-build-environment)
 
 ## Building GHC with Stack
 
@@ -40,7 +40,7 @@ hadrian/build.stack.{sh,bat} -j --flavour=quick # don't use "-c" here
 ```
 
 
-## Configuring a building environment
+## Configuring a build environment
 
 It is also possible to set up a build environment for GHC by installing the required dependencies and tools manually. The following pages explain how to do it depending on your [platform](platforms). Note that some pages still refer to the legacy Make-based build system and should be updated (any help is welcome!).
 
