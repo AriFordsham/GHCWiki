@@ -49,7 +49,7 @@ When a fix for an open issue is landed, it is good practice to look over the tic
 
  * Is the issue **fully resolved**? If there are still parts outstanding then it may be best to open a new ticket to track them.
 
- * Is the **milestone appropriate**? If the patch is low-risk or the issue severe, perhaps it should be backported to the stable branch. In this case set the milestone to the next stable release and apply the ~"backport needed" label.
+ * Is the **milestone appropriate**? If the patch is low-risk or the issue severe, perhaps it should be backported to the stable branch. In this case set the milestone to the next stable release and apply the ~"backport needed" label. If a backport is needed **do not close** the issue until the backported patch has been merged.
 
    You might also considering submitting a backport merge request. See the [merge request conventions](gitlab/merge-requests) for guidance on how to do this.
 
