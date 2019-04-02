@@ -6,6 +6,18 @@ This page describes GHC's conventions for handling merge requests and code revie
 
 See the [merge request description template](https://gitlab.haskell.org/ghc/ghc/blob/master/.gitlab/merge_request_templates/merge-request.md) for checklist of requirements for a merge request.
 
+## Review checklist
+
+When reviewing a merge request here are a few things to check for:
+
+ * Are the commits logically structure? Are their commit messages descriptive?
+ * Are ticket numbers referenced as appropriate?
+ * Changelog entry included?
+ * Release notes entry included?
+ * Test case present?
+ * Milestone and ~"backport needed" label set as appropriate
+
+
 ## Backports
 
 After a patch has made it to `master` it might be appropriate to backport it to the stable branch (e.g. `ghc-8.8`). If backporting is desired first ensure that the issue is milestoned for the next minor release and mark the merge request containing the fix with the ~"backport needed" label.
