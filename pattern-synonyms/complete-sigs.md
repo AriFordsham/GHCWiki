@@ -299,4 +299,4 @@ The results are prioritised in this order.
 1. Whether the match comes from a `COMPLETE` pragma or the built-in set of data constructors for a type constructor.
 
 
-It may be desirable to produce a summary of the results in a more intelligent way. Exploration of this is left open for further discussion.
+It may be desirable to produce a summary of the results in a more intelligent way; #13363 showed that the current state of affairs is broken. Exploration of this is left open for further discussion.
