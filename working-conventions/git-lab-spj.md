@@ -1,9 +1,17 @@
-# GitLab's model
+# GHC working conventions
 
+These pages document GHC-specific working conventions
+
+* [GHCI wiki index](https://gitlab.haskell.org/ghc/ghc/wikis/index)
+* [GHC label summary](https://gitlab.haskell.org/ghc/ghc/wikis/GitLab-Labels/)
+* [GHC issue conventions](https://gitlab.haskell.org/ghc/ghc/wikis/gitlab/issues)
+* [GHC merge request conventions](https://gitlab.haskell.org/ghc/ghc/wikis/gitlab/merge-requests)
+
+# GitLab's model
 
 Here's a summary of the things in GitLab's universe, what they mean, and how they relate to each other.
 
-- **Wiki**. The [GHCI wiki index is here](https://gitlab.haskell.org/ghc/ghc/wikis/index), and the [GHC label summary](https://gitlab.haskell.org/ghc/ghc/wikis/GitLab-Labels/)
+- **Wiki**. GHC's wiki is [rooted here](https://gitlab.haskell.org/ghc/ghc/wikis), and we mainain [an index of the wiki structure](https://gitlab.haskell.org/ghc/ghc/wikis/index).
 
 - **Groups.**  Example, the [GHC group](https://gitlab.haskell.org/ghc)
 
