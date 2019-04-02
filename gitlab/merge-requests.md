@@ -35,6 +35,6 @@ While the release manager can perform the backport on your behalf, it is appreci
  * Via the web interface using the "Cherry-pick" button on the merged MR. While convenient, this is only possible if there are no merge conflicts with the stable branch. Be sure to **select the correct target branch**.
  * Via the command-line using the `git cherry-pick` command. In this case select the appropriate "backport" template (e.g. `backport-for-ghc-8.8`) when creating your merge request.
 
-After the merge request is created ensure that the ~backport label is applied.
+After the merge request is created ensure it has the ~backport label applied and that its milestone is set appropriately.
 
 Once the backport MR lands the ~"backport needed" label can be removed from the source MR.
