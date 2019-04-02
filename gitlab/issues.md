@@ -5,7 +5,7 @@ A few notes about GHC's issue tracker:
  * The **weight** field is a 10-point scale of issue severity.
  * Our labels are documented [here](gitlab/labels).
  * We define one milestone for every minor release. However, issue targetting a milestone does not necessarily mean that the issue will be fixed in that release. New tickets are generally milestoned to the next major release. If a ticket remained unfixed when that milestone arrives, it is kicked to the next major release. If after three releases the ticket is still unfixed, its milestone is unset.
- * A commit will automatically close an issue if it it contains a line starting with the text `Fixes #1234`. This is significantly more conservative than GitLab's default behavior, which auto-closes in response to a [much larger set](https://docs.gitlab.com/ee/administration/issue_closing_pattern.html) of patterns.
+ * A commit will automatically close an issue if it it contains a line starting with the text `Closes #1234`. This is significantly more conservative than GitLab's default behavior, which auto-closes in response to a [much larger set](https://docs.gitlab.com/ee/administration/issue_closing_pattern.html) of patterns.
 
 
 ## Triage protocol
