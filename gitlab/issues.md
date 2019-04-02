@@ -38,6 +38,8 @@ Triaging a new issue typically proceeds as follows:
    * if the issue is not important (e.g. weight of 3 or less) and unlikely to see attention in the next six months, set milestone to %"⊥"
    * otherwise set milestone to the next major release
 
+1. Is there anyone who is particularly qualified to comment on the ticket? If so, leaving a comment mentioning them to ensure they see it.
+
 1. Remove the ~"needs triage" label
 
 
