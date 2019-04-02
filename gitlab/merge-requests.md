@@ -19,7 +19,7 @@ When reviewing a merge request here are a few things to check for:
  * Does the patch add a significant new user-facing feature to GHC? If so perhaps a [GHC proposal](https://github.com/ghc-proposals/ghc-proposals) is in order.
  * Does the patch change GHC's core libraries (e.g. `base`, `template-haskell`, `ghc-prim`)? If so:
     * Has the [core libraries committee](https://wiki.haskell.org/Core_Libraries_Committee) consented
-    * Has the ~"user facing" label been applied?
+    * Has the ~"user-facing" label been applied?
     * Has the [head.hackage job](https://gitlab.haskell.org/ghc/head.hackage/) been run to characterise the effect of the change on user code?
     * Changelog and release notes entries are mandatory
     * Have package versions been bumped as appropriate?
