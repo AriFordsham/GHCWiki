@@ -24,7 +24,7 @@ Triaging a new issue typically proceeds as follows:
    * if the bug looks to be architecture-dependent, one of the [architecture labels](gitlab/labels#architecture). If no architecture label is present the default is assumed to be x86-64.
    * any appropriate [language extension](gitlab/labels#language-extensions) or [compiler subsystem](gitlab/labels#subsystems) labels
    * if the bug looks to be an appropriate task for a newcomer, apply ~newcomer
-   * if any of the [miscellaneous labels](gitlab/labels#miscellaneous) are appropriate, apply then
+   * if any of the [miscellaneous labels](gitlab/labels#miscellaneous) are appropriate, apply them
 
 1. Check that the ticket includes **sufficient detail** to be reproducible. If something is missing then kindly the reporter for clarification and apply the ~"info needed" label (don't forget to remove this when the reporter responds).
 
