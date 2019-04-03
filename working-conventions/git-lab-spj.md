@@ -44,7 +44,7 @@ Here's a summary of the things in GitLab's universe, what they mean, and how the
 
 - An **issue** is GitLab's name for a Trac "ticket".
 
-- A **label** is GitLab's name for a Trac "keyword".
+- A **label** is GitLab's name for a Trac "keyword".  Here is [GHC's list of labels](https://gitlab.haskell.org/ghc/ghc/wikis/GitLab-Labels/).
 
 # Workflows
 
