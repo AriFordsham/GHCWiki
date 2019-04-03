@@ -37,7 +37,7 @@ Here's a summary of the things in GitLab's universe, what they mean, and how the
 
 - A **merge request** (MR) is a set of one or more commits that you want to have merged into master.
 
-  - Every MR has an associated **GIT branch**.  It is this branch that will be ultimately merged into master.
+  - Every MR has an associated **git branch**.  It is this branch that will be ultimately merged into master.
   - The branch may have multiple commits; these are all merged individually onto master.
 
 - A **review** is a set of comments on a MR.  Always comment on MRs using a review, else the recipients get one email per comment, which is terrible.
