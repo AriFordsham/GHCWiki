@@ -1,6 +1,6 @@
 # GHC working conventions
 
-These pages document GHC-specific working conventions
+These pages document [GHC-specific working conventions](https://gitlab.haskell.org/ghc/ghc/wikis/contributing)
 
 * [GHCI wiki index](https://gitlab.haskell.org/ghc/ghc/wikis/index)
 * [GHC label summary](https://gitlab.haskell.org/ghc/ghc/wikis/GitLab-Labels/)
