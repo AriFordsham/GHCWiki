@@ -1,18 +1,18 @@
 
 Some proposals are under this namespace:
 
-- [Proposal/AbstractFilePath](Proposal/AbstractFilePath)
-- [Proposal/CustomTypeErrors](Proposal/CustomTypeErrors)
-- [Proposal/ErrorMessages](Proposal/ErrorMessages)
-- [Proposal/HelpfulImportError](Proposal/HelpfulImportError)
-- [Proposal/LeftAssocSemigroupOp](Proposal/LeftAssocSemigroupOp)
-- [Proposal/MonadOfNoReturn](Proposal/MonadOfNoReturn)
-- [Proposal/MonadOfNoReturn/Discussion](Proposal/MonadOfNoReturn/Discussion)
-- [Proposal/NativeCpp](Proposal/NativeCpp)
-- [Proposal/OpenImportExtension](Proposal/OpenImportExtension)
-- [Proposal/SelfExplinatoryInlinePragmas](Proposal/SelfExplinatoryInlinePragmas)
-- [Proposal/SemigroupMonoid](Proposal/SemigroupMonoid)
-- [Proposal/SpecializationInfo](Proposal/SpecializationInfo)
+- [Proposal/AbstractFilePath](Proposal/Abstract-File-Path)
+- [Proposal/CustomTypeErrors](Proposal/Custom-Type-Errors)
+- [Proposal/ErrorMessages](Proposal/Error-Messages)
+- [Proposal/HelpfulImportError](Proposal/Helpful-Import-Error)
+- [Proposal/LeftAssocSemigroupOp](Proposal/Left-Assoc-Semigroup-Op)
+- [Proposal/MonadOfNoReturn](Proposal/Monad-Of-No-Return)
+- [Proposal/MonadOfNoReturn/Discussion](Proposal/Monad-Of-No-Return/Discussion)
+- [Proposal/NativeCpp](Proposal/Native-Cpp)
+- [Proposal/OpenImportExtension](Proposal/Open-Import-Extension)
+- [Proposal/SelfExplinatoryInlinePragmas](Proposal/Self-Explinatory-Inline-Pragmas)
+- [Proposal/SemigroupMonoid](Proposal/Semigroup-Monoid)
+- [Proposal/SpecializationInfo](Proposal/Specialization-Info)
 
 
 See also [Design](design)s
