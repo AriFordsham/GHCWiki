@@ -2,13 +2,13 @@
 
 There are two ways to get GHC sources:
 1. downloading a [source distribution](#via-source-distributions)
-2. cloning the [Git repositories](#via-git-repositories)
+2. cloning [Git repositories](#via-git-repositories)
 
 ## Via source distributions
 
 A source distribution is a file like `ghc-7.8.3-src.tar.xz`, which contains a complete snapshot of the source tree for a particular version of GHC. All the source distributions we provide are available from the [download page](http://www.haskell.org/ghc/).
 
-Pros: source distributions are easier to build, because we also include the output from running certain external tools like [Happy](http://haskell.org/happy), so you don't need to install these tools.
+Pros: source distributions are easy to build, because they contain the output from running certain external tools like [Happy](http://haskell.org/happy), so you don't need to install these tools.
 
 Cons: source distributions are stuck to a particular GHC version and shouldn't be used to contribute to GHC.
 
