@@ -29,6 +29,8 @@ See the ~"hs-boot" label.
 
 - Add a `pprTrace` to a type environment, and have GHC spin into a loop or panic? This may be because you are forcing a thunk too early. Try printing out the unique keys of the environment instead, or moving the trace later.
 
+  If you _really_ need to add `pprTrace` statements inside the knot, consider trying the advice [here](commentary/compiler/tying-the-knot/printing).
+
 - Consider using `mkNaked****` instead of the usual functions if you are within the knot-tying code
 
 ## Graph representation versus interface representation
