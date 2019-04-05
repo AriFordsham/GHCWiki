@@ -396,7 +396,7 @@ in GHC required several approximations and simplifications:
 1. Function `translateGuards` drops unhandled guards. That is, if there are guards involving `PmExprOther` that
   will make the algorithm branch but the oracle will not be able to reason about, it replaces them with a
   single may-fail guard. This way, we record the possibility of failure, without generating unreasonably big
-  value set abstractions.
+  value set abstractions. It is a little troubling because we reject seemingly obvious cases like #15753, see also https://gitlab.haskell.org/ghc/ghc/merge_requests/699#note_191679.
 1. As-patterns are translated in reverse: An as-pattern `x@p` should be formally translated to a variable
   pattern `x` and a guard pattern `x <- translate p`. This has a big disadvantage though: pattern matching
   is transferred to the guard pattern so resolution is postponed until the term oracle. Consider the following
