@@ -3,7 +3,7 @@
 
 For many years, GHC's intermediate language was essentially:
 
-- System Fw, plus
+- System Fw (minus type lambdas), plus
 - algebraic data types (including existentials)
 
 
