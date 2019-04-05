@@ -40,4 +40,4 @@ Here is a table of corresponding functions from `TcMType` and `TcHsSyn`:
 | `zonkTcTyVar` | `zonkTyVarOcc` |
 | `zonkTcTyVars` | `zonkTyVarOccs`* |
 
-* These functions don't actually exist yet, but it would not be difficult to create them.
+\* These functions don't actually exist yet, but it would not be difficult to create them.
