@@ -348,6 +348,6 @@ Benchmarking shows that `filterN` function is about 55-65% faster than the `filt
 
 
 
-[](/trac/ghc/attachment/wiki/PrimBool/prim-bool-criterion.png)
+![](prim-bool/prim-bool-criterion.png)
 
 
