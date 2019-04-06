@@ -1,6 +1,6 @@
 # GHC Commentary: Top-level orgainsation of GHC
 
-![](organisation/ghc-top.png)
+![](commentary/compiler/ghc-top.png)
 
 
 
