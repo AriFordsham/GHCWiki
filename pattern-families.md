@@ -39,7 +39,7 @@ answer (NotMember 42) = "Never mind."
 
 This allows us to avoid pattern matching on the Boolean result of `member`. In the case of `IsMember` (and `NotMember`) the argument `val` flows into the view pattern as indicated by this figure:
 
-[](/trac/ghc/attachment/wiki/PatternFamilies/member.png)
+![](pattern-families/member.png)
 
 
 
@@ -71,7 +71,7 @@ addressAlice _                        = Left "Alice's address not found."
 
 where the key `"Alice"` is used in the view pattern expression and the resulting value is made available in the pattern main pattern:
 
-[](/trac/ghc/attachment/wiki/PatternFamilies/lookup.png)
+![](pattern-families/lookup.png)
 
 
 
