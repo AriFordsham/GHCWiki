@@ -1,3 +1,21 @@
+Hi @tjknoth, thanks for your report.
+But here is not the submission page for new issue. (Here is the Wiki page.)
+
+Could you create an issue on the following page? :
+  * https://gitlab.haskell.org/ghc/ghc/issues
+
+In addtion, issue conventions is here:
+  * https://gitlab.haskell.org/ghc/ghc/wikis/gitlab/issues
+
+Thanks, from @takenobu-hs
+
+
+
+
+
+
+
+----------------------------
 I received the following error:
 ```
 ghc: panic! (the 'impossible' happened)
