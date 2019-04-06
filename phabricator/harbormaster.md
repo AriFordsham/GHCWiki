@@ -6,7 +6,7 @@ When **you use Arcanist to submit a diff**, Phabricator will automatically trigg
 
 The current status of the build is at the top. [Phab:D162](https://phabricator.haskell.org/D162) is a good example:
 
-[](https://i.imgur.com/spVHWUT.png)
+![](https://i.imgur.com/spVHWUT.png)
 
 
 Click on the link posted by Harbormaster (in this case, "Harbormaster completed building B467: Diff 379") to the build to go to the Buildable, like [Phab:B467](https://phabricator.haskell.org/B467) in this case. There you can follow links to individual builds, containing stdout/stderr logs, like [ https://phabricator.haskell.org/harbormaster/build/468/](https://phabricator.haskell.org/harbormaster/build/468/)
@@ -27,7 +27,7 @@ However, it's also useful to understand the application UI as well, so you can l
 
 First, go to [https://phabricator.haskell.org/harbormaster](https://phabricator.haskell.org/harbormaster), the top-level application. Here, you can see a list of all the latest builds; for example:
 
-[](https://i.imgur.com/MZJBSWa.jpg)
+![](https://i.imgur.com/MZJBSWa.jpg)
 
 
 Here we see builds for **commits** and builds for **revisions**. The metadata attached to each entry tells you this: things of the form `Dabc - Diff xyz` represent diffs, and things of the form `rGHC: foo ...` are for GHC commits.
@@ -44,7 +44,7 @@ Furthermore, a build is:
 
 For any build, you can view the build logs. To do that, go to the harbormaster build from the application page - for example, you can go to [Phab:B609](https://phabricator.haskell.org/B609) to see the results for commit [9f8754eb46b59886ebc09dec2581ed31eea053dc](/trac/ghc/changeset/9f8754eb46b59886ebc09dec2581ed31eea053dc/ghc).
 
-[](https://i.imgur.com/UdRGunV.png)
+![](https://i.imgur.com/UdRGunV.png)
 
 
 
@@ -52,6 +52,6 @@ Click on *Build 610* to get the logs for that build:
 
 
 
-[](https://i.imgur.com/Pnr7cyz.png)
+![](https://i.imgur.com/Pnr7cyz.png)
 
 
