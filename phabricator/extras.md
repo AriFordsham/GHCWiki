@@ -8,7 +8,7 @@ While you can mostly just think of Phabricator as a powerful review too, it's re
 
 The very first thing you want to do before continuing is *configure the applications you can see*. First off, click on the 'Customize Applications' link, which you can find on the bottom of the left side pane:
 
-[](https://i.imgur.com/JURmxre.png)
+![](https://i.imgur.com/JURmxre.png)
 
 
 Next, configure the applications you want, and drag them around to configure the order. Do this by clicking **Pin Applications** on the top right.
@@ -119,7 +119,7 @@ Auditing works mostly the same way as reviewing, only after the fact - instead o
 
 **NB**: commits you should audit, or commits of yours that have had concerns raised will appear on the homepage. They look like this, found at the bottom of the homepage:
 
-[](https://i.imgur.com/r5mpGkb.png)
+![](https://i.imgur.com/r5mpGkb.png)
 
 
 The section **Need Attention** are commits you need to examine. The **Problem Commits** section are the commits of yours people have raised issues with.
@@ -140,7 +140,7 @@ Then anyone in the `Auditors` field will automatically need to audit your commit
 
 **[Owners](https://phabricator.haskell.org/owners)** is an application that lets you easily categorize source code, see who owns it, and make it easy to track changes to those files. First, open up the application, and click **All** on the left-side pane. You'll see a screen like this:
 
-[](https://i.imgur.com/cQe8zed.png)
+![](https://i.imgur.com/cQe8zed.png)
 
 
 A **Package** is a set of paths in a source tree, which is *owned* by one-or-more people. Every package has a *Primary* owner (with a bolded name), as well as fellow owners. For example, the **GHC - Runtime System** package consists of the files in `./includes` and `./rts` in the GHC repository. `simonmar` is the primary owner, while `ezyang` is a fellow owner. Similarly, `austin` owns the **GHC - Testsuite** package.
@@ -167,7 +167,7 @@ For example, Austin has a **Personal Rule** for **Differential Revisions**. The 
 
 
 
-[](https://i.imgur.com/lUPSMmZ.png)
+![](https://i.imgur.com/lUPSMmZ.png)
 
 
 With this rule, all GHC patches must be signed off on.
@@ -175,7 +175,7 @@ With this rule, all GHC patches must be signed off on.
 
 Here's a more complex rule that Austin uses, combining Owners, Herald, and Audit:
 
-[](https://i.imgur.com/9eZYKJo.png)
+![](https://i.imgur.com/9eZYKJo.png)
 
 **NOTE**: The last field is truncated, but says "Any package whos owners...", i.e. the last clause means it only fires if I am the owner of a package, set up in the Owners application.
 
@@ -201,7 +201,7 @@ Phabricator has some special support for GHC.
 
 In any place in Phabricator, if you say the word `#1234` to refer to a Trac ticket, it will auto-hyperlink that phrase to the right place:
 
-[](https://i.imgur.com/Fv2Pi1v.png)
+![](https://i.imgur.com/Fv2Pi1v.png)
 
 
 This occurs in *every* application, so refer to Trac tickets at will!
@@ -214,12 +214,12 @@ Let's say you have a revision and it fixes a bug on Trac - like #8634. And let's
 
 First, **when you submit a review, add the ticket number to the `GHC Trac Issues` field**. This field will be shown when you run `arc diff`. This field should be a comma-separated list of ticket numbers. By doing this, these ticket numbers will automatically appear in Phabricator:
 
-[](https://i.imgur.com/QIGhD0T.png)
+![](https://i.imgur.com/QIGhD0T.png)
 
 
 Next, add a link to the revision in the Trac ticket. Fill out the field called "Differential Revisions" when you modify the ticket. You can hyperlink to any Phabricator revision using the syntax `Phab:Dxx` with a specific number. For example, to link to Differential Revision D69, say [Phab:D69](https://phabricator.haskell.org/D69). As an example, Ticket #8634 has this set:
 
-[](https://i.imgur.com/gYHkAhe.png)
+![](https://i.imgur.com/gYHkAhe.png)
 
 ## Contributing to our Phabricator infrastructure
 
