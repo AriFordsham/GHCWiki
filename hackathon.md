@@ -53,9 +53,9 @@ We expect that some of you will come with GHC-related projects that you want to 
 The Hackathon will be hosted by Galois and PSU, and will be held on the PSU campus, in the Fourth Avenue Building, 1900 SW 4th Avenue, Room 10,
 near the other ICFP activities. (Note this is changed from the original planned location, near the Galois offices in Beaverton).
 
-[](/trac/ghc/attachment/wiki/Hackathon/Hackathon%20Map.gif)
+![](hackathon/Hackathon_Map.gif)
 
-[](/trac/ghc/attachment/wiki/Hackathon/Campus%20Map.gif)
+![](hackathon/Campus_Map.gif)
 
 
 Entry to the Forth Avenue Building with be via the main entrance, on the south west corner of the building.
