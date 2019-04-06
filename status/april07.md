@@ -8,7 +8,7 @@ bug reports filed has varied with time:
 
 
 
-[](/trac/ghc/attachment/wiki/Status/April07/bugs_per_day.png)
+![](april07/bugs_per_day.png)
 
 
 
