@@ -30,7 +30,7 @@ GHC HQ controlled `base`/`array`/`integer-gmp`/`template-haskell`/etc. are not l
 
 
 
-[](http://hackage.haskell.org/package/Cabal)
+http://hackage.haskell.org/package/Cabal
 
 
 
@@ -41,7 +41,7 @@ TODO The `1.24` branch has been created, please use it for GHC 8 RC3. Cabal `1.2
 
 
 
-[](http://hackage.haskell.org/package/binary)
+http://hackage.haskell.org/package/binary
 
 
 
@@ -52,7 +52,7 @@ TODO `0.8.2.1` has just been released, please use that for RC3. GHC 8.0.1 final 
 
 
 
-[](http://hackage.haskell.org/package/bytestring)
+http://hackage.haskell.org/package/bytestring
 
 
 
@@ -63,7 +63,7 @@ TODO most likely: RC1 will ship with the odd (unreleased) version `0.10.7.0`, wh
 
 
 
-[](http://hackage.haskell.org/package/containers)
+http://hackage.haskell.org/package/containers
 
 
 
@@ -74,7 +74,7 @@ DONE Freshly released `0.5.7.1` should be used for GHC 8 (instead of previously 
 
 
 
-[](http://hackage.haskell.org/package/deepseq)
+http://hackage.haskell.org/package/deepseq
 
 
 
@@ -85,7 +85,7 @@ TODO the upcoming `deepseq-1.4.2.0` release will be used for GHC 8
 
 
 
-[](http://hackage.haskell.org/package/directory)
+http://hackage.haskell.org/package/directory
 
 
 
@@ -94,49 +94,49 @@ DONE `directory-1.2.6.2` should be used.
 
 ### `filepath`
 
-[](http://hackage.haskell.org/package/filepath)
+http://hackage.haskell.org/package/filepath
 
 DONE released `filepath-1.4.1.0` shall be used until further notice
 
 ### `haskeline`
 
-[](http://hackage.haskell.org/package/haskeline)
+http://hackage.haskell.org/package/haskeline
 
 DONE The release `0.7.2.2` should be used.
 
 ### `hoopl`
 
-[](http://hackage.haskell.org/package/hoopl)
+http://hackage.haskell.org/package/hoopl
 
 DONE The 3.10.2.1 release shall be used
 
 ### `hpc`
 
-[](http://hackage.haskell.org/package/hpc)
+http://hackage.haskell.org/package/hpc
 
 TODO (hvr) upload `hpc-0.6.0.3` release to Hackage
 
 ### `pretty`
 
-[](http://hackage.haskell.org/package/pretty)
+http://hackage.haskell.org/package/pretty
 
 DONE The `1.1.3.3` release should be used.
 
 ### `process`
 
-[](http://hackage.haskell.org/package/process)
+http://hackage.haskell.org/package/process
 
 DONE The existing v1.4.1.0 release shall be used for GHC 8.0.1 according to Michael
 
 ### `terminfo`
 
-[](http://hackage.haskell.org/package/terminfo)
+http://hackage.haskell.org/package/terminfo
 
 DONE The release `0.4.0.2` should be used.
 
 ### `time`
 
-[](http://hackage.haskell.org/package/time)
+http://hackage.haskell.org/package/time
 
 DONE RC1: Use released `1.6`.
 
@@ -144,25 +144,25 @@ TODO RC2/FINAL: Use yet to be released `1.6.0.1` containing minor tweaks
 
 ### `transformers`
 
-[](http://hackage.haskell.org/package/transformers)
+http://hackage.haskell.org/package/transformers
 
 DONE The tagged `transformers-0.5.0.0` version is intended to be used for GHC 8.0
 
 ### `unix`
 
-[](http://hackage.haskell.org/package/unix)
+http://hackage.haskell.org/package/unix
 
 TODO current plan: use unreleased patch-level v2.7.1.1 containing only fixes but no API changes; release 2.7.1.1 with GHC8 RC2
 
 ### `Win32`
 
-[](http://hackage.haskell.org/package/Win32)
+http://hackage.haskell.org/package/Win32
 
 DONE The tagged `v2.3.1.1` version is to be used for GHC 8.0.1
 
 ### `xhtml`
 
-[](http://hackage.haskell.org/package/xhtml)
+http://hackage.haskell.org/package/xhtml
 
 DONE use existing `xhtml-3000.2.1` release
 
