@@ -3,7 +3,7 @@
 
 here is a picture of the type checker
 
-[](/trac/ghc/attachment/wiki/TypeChecker/diag.png)
+![](type-checker/diag.png)
 
 
 Next paragraph
