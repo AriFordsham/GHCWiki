@@ -26,13 +26,13 @@ GHC HQ controlled `base`/`array`/`integer-gmp`/`template-haskell`/etc. are not l
 
 ### `Cabal`
 
-[](http://hackage.haskell.org/package/Cabal)
+http://hackage.haskell.org/package/Cabal
 
 TODO
 
 ### `binary`
 
-[](http://hackage.haskell.org/package/binary)
+http://hackage.haskell.org/package/binary
 
 
 
@@ -43,7 +43,7 @@ Should bundle version 0.9.0.0.
 
 
 
-[](http://hackage.haskell.org/package/bytestring)
+http://hackage.haskell.org/package/bytestring
 
 
 
@@ -54,7 +54,7 @@ TODO
 
 
 
-[](http://hackage.haskell.org/package/containers)
+http://hackage.haskell.org/package/containers
 
 
 
@@ -65,7 +65,7 @@ TODO
 
 
 
-[](http://hackage.haskell.org/package/deepseq)
+http://hackage.haskell.org/package/deepseq
 
 
 
@@ -76,7 +76,7 @@ TODO
 
 
 
-[](http://hackage.haskell.org/package/directory)
+http://hackage.haskell.org/package/directory
 
 
 
@@ -85,73 +85,73 @@ DONE `directory-1.3.0.0` should be used.
 
 ### `filepath`
 
-[](http://hackage.haskell.org/package/filepath)
+http://hackage.haskell.org/package/filepath
 
 TODO
 
 ### `haskeline`
 
-[](http://hackage.haskell.org/package/haskeline)
+http://hackage.haskell.org/package/haskeline
 
 TODO
 
 ### `hoopl`
 
-[](http://hackage.haskell.org/package/hoopl)
+http://hackage.haskell.org/package/hoopl
 
 TODO
 
 ### `hpc`
 
-[](http://hackage.haskell.org/package/hpc)
+http://hackage.haskell.org/package/hpc
 
 TODO
 
 ### `pretty`
 
-[](http://hackage.haskell.org/package/pretty)
+http://hackage.haskell.org/package/pretty
 
 TODO
 
 ### `process`
 
-[](http://hackage.haskell.org/package/process)
+http://hackage.haskell.org/package/process
 
 TODO
 
 ### `terminfo`
 
-[](http://hackage.haskell.org/package/terminfo)
+http://hackage.haskell.org/package/terminfo
 
 TODO
 
 ### `time`
 
-[](http://hackage.haskell.org/package/time)
+http://hackage.haskell.org/package/time
 
 TODO
 
 ### `transformers`
 
-[](http://hackage.haskell.org/package/transformers)
+http://hackage.haskell.org/package/transformers
 
 TODO
 
 ### `unix`
 
-[](http://hackage.haskell.org/package/unix)
+http://hackage.haskell.org/package/unix
 
 TODO
 
 ### `Win32`
 
-[](http://hackage.haskell.org/package/Win32)
+http://hackage.haskell.org/package/Win32
 
 TODO
 
 ### `xhtml`
 
-[](http://hackage.haskell.org/package/xhtml)
+http://hackage.haskell.org/package/xhtml
 
 TODO
 
