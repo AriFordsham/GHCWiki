@@ -68,7 +68,7 @@ Case studies:
 
 Here is a block diagram of its top-level structure:
 
-[](/trac/ghc/attachment/wiki/Commentary/Compiler/ghc-top.png)
+![](compiler/ghc-top.png)
 
 
 
