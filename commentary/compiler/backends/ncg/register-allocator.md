@@ -115,9 +115,9 @@ circo -Tpng niceGraph.dot -o niceGraph.png
 
   * Here's two from `nofib/real/compress2/Encode` compiled with `-O2 -prof`:
 
-    * [graph.dot](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph.dot) -\> [graph.png](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph.png)
+    * [graph.dot](register-allocator/graph.dot) -\> [graph.png](register-allocator/graph.png)
 
-    * [graph-colored.dot](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph-colored.dot) -\> [graph-colored.png](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/graph-colored.png)
+    * [graph-colored.dot](register-allocator/graph-colored.dot) -\> [graph-colored.png](register-allocator/graph-colored.png)
 
 - **checkSpills**
   [checkSpills.hs](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/checkSpills.hs) is a nasty, throw away script which can be used to automate the comparison of allocation algorithms. Copy it and a list of test like [checkSpills.tests](/trac/ghc/attachment/wiki/Commentary/Compiler/Backends/NCG/RegisterAllocator/checkSpills.tests) to the top level nofib directory, compile and run. It will build the nofib benchmarks in the list 6 times each, once each with each of the allocators to extract spill counts, and then once again to get compile timings which are unperterbed by the space leaks introduced by compiling with debugging turned on. It's only needed if you're hacking on the allocator, parses the nofib make output directly, and is likely to rot - which is why it isn't included in the main source tree.
