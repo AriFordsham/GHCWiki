@@ -194,7 +194,7 @@ together into the testsuite repository.
 Currently GHC installs a set of packages by default, the so-called
 **GHC Boot Packages**. They are graphed here, with arrows representing
 dependencies between them:
-[](/trac/ghc/attachment/wiki/Commentary/Packages/PackageReorg/packagegraph.png)
+![](package-reorg/packagegraph.png)
 
 
 These are exactly the libraries required to build GHC.
