@@ -11,9 +11,9 @@ consolidation: fixing bugs and solidifying what we have.
 
 These graphs show "tickets" which include bugs, feature requests, and tasks.  Of the "open tickets", about half are bugs.  Notice the big spike in "closed tickets" just before the 6.8.1 release!
 
-[](/trac/ghc/attachment/wiki/Status/Nov07/rolling_average.png)
+![](nov07/rolling_average.png)
 
-[](/trac/ghc/attachment/wiki/Status/Nov07/totals.png)
+![](nov07/totals.png)
 
 
 The major new features of 6.8.1 were described in the last issue
