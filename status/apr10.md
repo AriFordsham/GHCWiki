@@ -11,7 +11,7 @@ GHC 6.12.2 will also be included in the upcoming Haskell Platform release ([http
 
 Meanwhile, in the HEAD, the last 6 months have seen more than 1000 patches pushed from more than a dozen contributors. As the following graph shows, tickets are still being opened faster than we can close them, with the total open tickets growing from around 700 to almost 800. We will be looking in the near future at improving the effectiveness of the way we use the bug tracker.
 
-[](/trac/ghc/attachment/wiki/Status/Apr10/GHC_trac_tickets.png)
+![](apr10/GHC_trac_tickets.png)
 
 ### Language changes
 
