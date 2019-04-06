@@ -5,7 +5,7 @@ This wiki discusses how bringing [Nix](https://nixos.org/nix/)-style package man
 
 ## Breaking re-installations
 
-[](http://www.well-typed.com/blog/aux/images/cabal-hell/install-example1.png)
+![](http://www.well-typed.com/blog/aux/images/cabal-hell/install-example1.png)
 
 
 There are situations where Cabal's chosen solution would involve reinstalling an existing version of a package but built with different dependencies.
@@ -13,7 +13,7 @@ In this example, after installing app-1.1, app-1.0 and other-0.1 will be broken.
 
 ## Type errors when using packages together
 
-[](http://www.well-typed.com/blog/aux/images/cabal-hell/install-example2.png)
+![](http://www.well-typed.com/blog/aux/images/cabal-hell/install-example2.png)
 
 
 The second, orthogonal, problem is that it is possible to install two packages and then load them both in GHCi and find that you get type errors when composing things defined in the two different packages. Effectively you cannot use these two particular installed packages together.
