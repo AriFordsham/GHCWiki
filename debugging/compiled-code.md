@@ -35,7 +35,7 @@ Usually you want to do something along these lines:
 
 - Use runtime debugging options to help narrow down the fault (see also the [relevant User Manual section](http://www.haskell.org/ghc/docs/latest/html/users_guide/runtime_control.html#rts-options-debugging)).
 
-- Grab our [gdb macros](/trac/ghc/attachment/wiki/Debugging/CompiledCode/.gdbinit).
+- Grab our [gdb macros](./compiled-code/.gdbinit).
 
 - Run the program in gdb until it crashes, type `where` to find
   out whether the crash is in the RTS or in Haskell code.  Hopefully
@@ -286,7 +286,7 @@ looking at heap & stack objects in a running program.
 
 
 You can display memory in gdb with something like `x/4a` to
-display 4 words of memory, or using our [gdb macros](/trac/ghc/attachment/wiki/Debugging/CompiledCode/.gdbinit) you get slightly
+display 4 words of memory, or using our [gdb macros](./compiled-code/.gdbinit) you get slightly
 nicer output:
 
 ```wiki
