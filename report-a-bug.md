@@ -1,5 +1,12 @@
 # Reporting bugs in GHC
 
+---
+
+**TODO** This page is possibly outdated. Update to the latest information. 
+
+See also [Issue conventions](https://gitlab.haskell.org/ghc/ghc/wikis/gitlab/issues)
+
+---
 
 Glasgow Haskell is a changing system so there are sure to be bugs in it.
 
@@ -8,8 +15,8 @@ To report a bug, either:
 
 - Preferred:
 
-  - [register](/trac/ghc/register) an account on this Trac
-  - Create a [new bug](/trac/ghc/newticket?type=bug), and enter your bug report. You can also search the bug database here to make sure your bug hasn't already been reported (if it has, it might still help to add information from your experience to the existing report).
+  - register an account on this GitLab instance
+  - Create a [new bug](https://gitlab.haskell.org/ghc/ghc/issues), and enter your bug report. You can also search the bug database here to make sure your bug hasn't already been reported (if it has, it might still help to add information from your experience to the existing report).
 - Less preferred:
 
   - To submit an anonymous bug: use login "guest", password "guest"
@@ -18,7 +25,7 @@ To report a bug, either:
 
 - **Is it a bug at all?**.  Take a look at the [FAQ](http://haskell.org/haskellwiki/GHC/FAQ) and [What to do when something goes wrong](http://www.haskell.org/ghc/docs/latest/html/users_guide/gone_wrong.html) from the GHC User's Guide, which will give you some guidance as to whether the behaviour you're seeing is really a bug or not.
 
-- **Duplicate bug reports**.  Please search for existing tickets on the [bug tracker](http://hackage.haskell.org/trac/ghc) (search box in top right hand corner) or [ Google](http://www.google.com/?q=site:ghc.haskell.org/trac/ghc/ticket%20).  If your problem has already been reported, it saves time to have all the manifestations of the same bug gathered together.  If you get an error message from GHC, a good search key is usually the non-program-specific part of the error message.
+- **Duplicate bug reports**.  Please search for existing tickets on the [bug tracker](https://gitlab.haskell.org/ghc/ghc/issues) (search box in top right hand corner) or [ Google](http://www.google.com/?q=site:ghc.haskell.org/trac/ghc/ticket%20).  If your problem has already been reported, it saves time to have all the manifestations of the same bug gathered together.  If you get an error message from GHC, a good search key is usually the non-program-specific part of the error message.
 
   If you do find an existing ticket that seems to describe the same problem, then
 
