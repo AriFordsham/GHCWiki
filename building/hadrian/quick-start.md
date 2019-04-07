@@ -7,7 +7,7 @@ Below are quick instructions for building GHC with Hadrian.
 The following instructions assume that you have [got the sources](building/getting-the-sources) and [installed the necessary tools](building/preparation).  In particular for Windows users, all the commands below must be executed in the MinGW shell, not Command Prompt or PowerShell. The commands given below should be executed from the root of ghc's source tree.
 
 
-Hadrian is much younger than GHC's Make-based build system. If you need a feature supported by the Make build system but not by Hadrian, or more generally if you encounter any problem, please let us know [on the issue tracker](https://ghc.haskell.org/trac/ghc/newticket).
+Hadrian is much younger than GHC's Make-based build system. If you need a feature supported by the Make build system but not by Hadrian, or more generally if you encounter any problem, please let us know [on the issue tracker](https://gitlab.haskell.org/ghc/ghc/issues).
 
 ## tl;dr
 
