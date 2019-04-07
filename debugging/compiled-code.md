@@ -97,75 +97,33 @@ There's a great tool called `rr` for reverse debugging. Try it out - if you're l
   1-tagged object, eg. a cons cell), `stg_ap_p_info` (the apply
   code for a single pointer argument).
 
->
-> >
-> >
-> > `break stg_upd_frame_info`
-> >
-> >
->
+  - `break stg_upd_frame_info`
 
 - Ignore that breakpoint for ever
 
->
-> >
-> >
-> > `ignore 1 9999999`
-> >
-> >
->
+  - `ignore 1 9999999`
 
 - Run the program
 
->
-> >
-> >
-> > `run`
-> >
-> >
->
+  - `run`
 
 - Find out how many times the breakpoint was hit
 
->
-> >
-> >
-> > `info break`
-> >
-> >
->
+  - `info break`
 
 - Suppose it was hit 4325 times, then next time we'll ignore it
   for 4324 times (i.e. subtract one), which will stop on the 4325th
   time, just before the crash.
 
->
-> >
-> >
-> > `ignore 1 4324`
-> >
-> >
->
+  - `ignore 1 4324`
 
 - Run the program
 
->
-> >
-> >
-> > `run`
-> >
-> >
->
+  - `run`
 
 - Single step until the crash happens
 
->
-> >
-> >
-> > `si`...
-> >
-> >
->
+  - `si`...
 
 - If the crash doesn't happen for a long time, try picking another
   break point (e.g. something you stepped through this time). You
@@ -253,21 +211,13 @@ in the final binary.
 For example:
 
 
->
->
-> `GHCziBase_ZMZN_closure`
->
->
+- `GHCziBase_ZMZN_closure`
 
 
 Means the static closure for `[]` in module `GHC.Base`.
 
 
->
->
-> `DataziList_foldlzq_info`
->
->
+- `DataziList_foldlzq_info`
 
 
 Means the entry code (or info table) for `Data.List.foldl'`.
