@@ -5,7 +5,7 @@
 We welcome your involvement in making GHC able to do more. Here's how to do it. Note that proposals for a change to the libraries (including base) should be send to the [libraries mailinglist](http://haskell.org/haskellwiki/Library_submissions).
 
 
-1. Open a [feature request](https://ghc.haskell.org/trac/ghc/newticket?type=feature+request) **ticket** on Trac.
+1. Open a [feature request](https://gitlab.haskell.org/ghc/ghc/issues) **issue** on GitLab issue tracker.
 
   - *Alternatively*: Create a Pull Request on [GitHub (ghc-proposals)](https://github.com/ghc-proposals/ghc-proposals/). 
 
@@ -13,7 +13,7 @@ We welcome your involvement in making GHC able to do more. Here's how to do it. 
 
 1. Get **feedback** by emailing a suitable list (`ghc-devs` for nitty-gritty GHC internals, `glasgow-haskell-users` for user-visible features). Often you'll get useful ideas. Update the wiki page as needed. 
 
-1. Put a link and a **summary** to the discussion in the Trac ticket.
+1. Put a link and a **summary** to the discussion in the GitLab issue.
 
 1. For language extensions, **wait for approval** by GHC HQ.
 
