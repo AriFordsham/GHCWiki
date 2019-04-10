@@ -27,6 +27,15 @@ Travis CI is a free-for-open-source continuous integration service. When your pa
 ### Locally
 
 - Get a repository containing the latest HEAD, the patches you want to push, and no other patches or unrecorded changes.
+
+- (Optional) Create a git worktree and cd there, so that your future non-validation builds are not affected and don't need to run from scratch:
+   
+   ```
+   ~/ghc $ git worktree add ../ghc-validate -b validation-branch
+   ~/ghc $ cd ../ghc-validate
+   ~/ghc-validate $
+   ```
+
 - In the root directory of the tree, run
 
   ```wiki
