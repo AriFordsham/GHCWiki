@@ -44,7 +44,6 @@ Here's how to submit a bug fix to GHC. For [changing the documentation](working-
 
 1. **Test your commits** using the [validation script or Travis](testing-patches).
 1. **Create a Merge Request** in [GitLab](https://gitlab.haskell.org/).
-1. **Update the Trac ticket.** Syntax: `Phab:D123`. 
 1. **Wait** for the reviewers to look at your patches. If this takes more than a week, complain! 
 1. **Wait** for the release manager to land your patches. If this takes more than a week, complain!
 
