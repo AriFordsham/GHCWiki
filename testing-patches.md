@@ -9,12 +9,7 @@ First, [add a new test](building/running-tests/adding), and [run it](building/ru
 ## How to validate patches
 
 
-There are three ways to validate your patch.
-
-### Phabricator
-
-
-Any patch submitted to [Phabricator](phabricator) is automatically validated by [Harbormaster](phabricator/harbormaster).
+There are two ways to validate your patch.
 
 ### Travis
 
