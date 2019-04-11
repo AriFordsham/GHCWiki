@@ -7,13 +7,13 @@ The root page for codegen stuff is [Commentary/Compiler/CodeGen](commentary/comp
 The goal of the code generator is to convert program from [STG](commentary/compiler/generated-code) representation to [Cmm](commentary/compiler/cmm-type) representation. STG is a functional language with explicit stack. Cmm is a low-level imperative language - something between C and assembly - that is suitable for machine code generation. Note that terminology might be a bit confusing here: the term "code generator" can refer both to STG-\>Cmm pass and the whole STG-\>Cmm-\>assembly pass. The Cmm-\>assembly conversion is performed by one the backends, eg. NCG (Native Code Generator or LLVM.
 
 
-The top-most entry point to the codegen is located in [compiler/main/HscMain.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/main/HscMain.hs) in the `doCodeGen` function. Code generation is done in two stages:
+The top-most entry point to the codegen is located in [compiler/main/HscMain.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/main/HscMain.hs) in the `doCodeGen` function. Code generation is done in two stages:
 
-1. Convert STG to Cmm with implicit stack, and native Cmm calls. This whole stage lives in [compiler/codeGen](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/codeGen) directory with the entry point being `codeGen` function in [compiler/codeGen/StgCmm.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmm.hs) module.
-1. Optimise the Cmm, and CPS-convert it to have an explicit stack, and no native calls. This lives in [compiler/cmm](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/cmm) directory with the `cmmPipeline` function from [compiler/cmm/CmmPipeline.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmPipeline.hs) module being the entry point.
+1. Convert STG to Cmm with implicit stack, and native Cmm calls. This whole stage lives in [compiler/codeGen](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/codeGen) directory with the entry point being `codeGen` function in [compiler/codeGen/StgCmm.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/codeGen/StgCmm.hs) module.
+1. Optimise the Cmm, and CPS-convert it to have an explicit stack, and no native calls. This lives in [compiler/cmm](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/cmm) directory with the `cmmPipeline` function from [compiler/cmm/CmmPipeline.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/cmm/CmmPipeline.hs) module being the entry point.
 
 
-The CPS-converted Cmm is fed to one of the backends. This is done by `codeOutput` function ([compiler/main/CodeOutput.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/main/CodeOutput.hs)) called from `hscGenHardCode` after returning from `doCodeGen`.
+The CPS-converted Cmm is fed to one of the backends. This is done by `codeOutput` function ([compiler/main/CodeOutput.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/main/CodeOutput.hs)) called from `hscGenHardCode` after returning from `doCodeGen`.
 
 ## First stage: STG to Cmm conversion
 
@@ -29,7 +29,7 @@ The CPS-converted Cmm is fed to one of the backends. This is done by `codeOutput
 ## Second stage: the Cmm pipeline
 
 
-The core of the Cmm pipeline is implemented by the `cpsTop` function in [compiler/cmm/CmmPipeline.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/cmm/CmmPipeline.hs) module. Below is a high-level overview of the pipeline. See source code comments in respective modules for a more in-depth explanation of each pass.
+The core of the Cmm pipeline is implemented by the `cpsTop` function in [compiler/cmm/CmmPipeline.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/cmm/CmmPipeline.hs) module. Below is a high-level overview of the pipeline. See source code comments in respective modules for a more in-depth explanation of each pass.
 
 - **Control Flow Optimisations**, implemented in `CmmContFlowOpt`, simplifies the control flow graph by:
 
