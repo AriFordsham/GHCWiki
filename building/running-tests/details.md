@@ -1,7 +1,7 @@
 # Testsuite Details
 
 
-The testsuite is designed largely as follows, where we take the root of the testsuite to be `testsuite/`. Firstly we have the individual test cases to run. Each test case though can be run in multiple ways. These different ways (which are simply called ```ways```) correspond to things like different optimisation levels, using the threaded RTS or not... ect. Some test cases can be run in any way while others are specific to certain ways. The general layout of the testsuite is this:
+The testsuite is designed largely as follows, where we take the root of the testsuite to be `testsuite/`. Firstly we have the individual test cases to run. Each test case though can be run in multiple ways. These different ways (which are simply called ```ways```) correspond to things like different optimisation levels, using the threaded RTS or not... etc. Some test cases can be run in any way while others are specific to certain ways. The general layout of the testsuite is this:
 
 - `config`: Contains the definition of the different ways supported. The only file of relevance here is `ghc`. No other Haskell compiler is actually supported by the testsuite.
 - `driver`: Contains the python source code that forms the testsuite framework.
