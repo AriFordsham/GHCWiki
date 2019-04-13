@@ -1,61 +1,6 @@
 # View patterns: lightweight views for Haskell
 
-
-
-
-    
-
-1. 
-1. 
-          [Basic view patterns](#Basicviewpatterns)
-          
-
-  1. 
-  1. 
-                [Semantics](#Semantics)
-              
-  1. 
-  1. 
-                [Examples](#Examples)
-              
-  1. 
-
-
-        
-1. 
-1. 
-          [Further Syntactic Extensions](#FurtherSyntacticExtensions)
-          
-
-  1. 
-  1. 
-                [Implicit Maybe](#ImplicitMaybe)
-              
-  1. 
-  1. 
-                [Implicit View Functions](#ImplicitViewFunctions)
-              
-  1. 
-
-
-        
-1. 
-1. 
-          [Compilation](#Compilation)
-        
-1. 
-1. 
-          [Features views can have](#Featuresviewscanhave)
-        
-1. 
-1. 
-          [Related work](#Relatedwork)
-        
-1. 
-
-
-
-
+[[_TOC_]]
 
 View patterns were introduced in GHC 6.10.  This page has been revised to reflect what we've implemented.  
 
