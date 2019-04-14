@@ -1,7 +1,7 @@
 # Sanity Checking
 
 
-Source code: [rts/sm/Sanity.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/sm/Sanity.c), [rts/sm/Sanity.h](/trac/ghc/browser/ghc/rts/sm/Sanity.h).
+Source code: [rts/sm/Sanity.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/sm/Sanity.c), [rts/sm/Sanity.h](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/sm/Sanity.h).
 
 
 The purpose of sanity checking is to catch bugs in the RTS as early as possible; if the program is going to crash, we want it to crash as soon as possible after the error occurred.  The problem with debugging the RTS is that heap corruption can go unnoticed through several GC cycles, making it particularly difficult to trace back to the erroneous code.

@@ -7,7 +7,7 @@ Starting with version 7.2, GHC has three new primitives for copying/setting bloc
 
 
 
-The primitives are implemented as three [Cmm language](commentary/compiler/cmm-type) [CallishMachOp\`s](commentary/compiler/cmm-type#operators-and-primitive-operations), defined in [compiler/cmm/CmmMachOp.hs](/trac/ghc/browser/ghc/compiler/cmm/CmmMachOp.hs). The code generator generates calls to these `CallishMachOp`s using three utility functions: `emitMemcpyCall`, `emitMemmoveCall`, and `emitMemsetCall`, defined in [compiler/codeGen/StgCmmPrim.hs](/trac/ghc/browser/ghc/compiler/codeGen/StgCmmPrim.hs). The helper functions take an extra parameter that indicates the alignment of the arguments, which is used as a optimization hint by the backends.
+The primitives are implemented as three [Cmm language](commentary/compiler/cmm-type) [CallishMachOp\`s](commentary/compiler/cmm-type#operators-and-primitive-operations), defined in [compiler/cmm/CmmMachOp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmMachOp.hs). The code generator generates calls to these `CallishMachOp`s using three utility functions: `emitMemcpyCall`, `emitMemmoveCall`, and `emitMemsetCall`, defined in [compiler/codeGen/StgCmmPrim.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/codeGen/StgCmmPrim.hs). The helper functions take an extra parameter that indicates the alignment of the arguments, which is used as a optimization hint by the backends.
 
 
 

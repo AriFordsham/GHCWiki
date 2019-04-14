@@ -9,7 +9,7 @@ Esa Ilari Vuokko, who at one time attempted to replace GMP with [LibTomMath](htt
 
 
 
-The most insidious and unique feature of the GHC implementation with GMP is memory management.  GHC uses the special memory functions in GMP ( `mp_set_memory_functions( (*alloc)(), (*realloc)(), (*dealloc)()` ) to let GMP use GHC's own garbage collector.  The memory functions are implemented in [rts/sm/Storage.c](/trac/ghc/browser/ghc/rts/sm/Storage.c) as:
+The most insidious and unique feature of the GHC implementation with GMP is memory management.  GHC uses the special memory functions in GMP ( `mp_set_memory_functions( (*alloc)(), (*realloc)(), (*dealloc)()` ) to let GMP use GHC's own garbage collector.  The memory functions are implemented in [rts/sm/Storage.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/sm/Storage.c) as:
 
 
 ```wiki
@@ -58,7 +58,7 @@ GHC adds its own functions for string conversion, least common multiple (lcm) an
 
 
 
-The real problem (no pun intended) is conversion to doubles and floats.  The `__encodeDouble` function, in [rts/StgPrimFloat.c](/trac/ghc/browser/ghc/rts/StgPrimFloat.c), may overflow:
+The real problem (no pun intended) is conversion to doubles and floats.  The `__encodeDouble` function, in [rts/StgPrimFloat.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/StgPrimFloat.c), may overflow:
 
 
 ```wiki
@@ -132,7 +132,7 @@ Compare the problem section in `__encodeDouble` to the exponent check in the int
 
 
 
-There is no check in the Haskell code *using* `__encodeFloat` or `__encodeDouble`, in [libraries/base/GHC/Float.lhs](/trac/ghc/browser/ghc/libraries/base/GHC/Float.lhs).  For example, the `encodeFloat` Haskell function under class `RealFloat` uses `__encodeDouble` directly:
+There is no check in the Haskell code *using* `__encodeFloat` or `__encodeDouble`, in [libraries/base/GHC/Float.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/libraries/base/GHC/Float.lhs).  For example, the `encodeFloat` Haskell function under class `RealFloat` uses `__encodeDouble` directly:
 
 
 ```
@@ -159,7 +159,7 @@ A replacement library for GMP might use the GMP strategies of including a specia
 
 
 
-As for printing GMP numbers, [libraries/base/GHC/Num.lhs](/trac/ghc/browser/ghc/libraries/base/GHC/Num.lhs) defines a special internal function `jtos` to handle `showsPrec` and `showList` for `Integer` as an instance of the class `Show`.  The `jtos` function uses the primitive GMP-based function `quotRemInteger` and performs many conversions from Integer to Int.  This is not as efficient as the internal GMP functions, especially for large numbers, because each conversion allocates extra storage for GMP as noted in [Replacing GMP -- Optimisation Opportunities](replacing-gmp-notes#).
+As for printing GMP numbers, [libraries/base/GHC/Num.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/libraries/base/GHC/Num.lhs) defines a special internal function `jtos` to handle `showsPrec` and `showList` for `Integer` as an instance of the class `Show`.  The `jtos` function uses the primitive GMP-based function `quotRemInteger` and performs many conversions from Integer to Int.  This is not as efficient as the internal GMP functions, especially for large numbers, because each conversion allocates extra storage for GMP as noted in [Replacing GMP -- Optimisation Opportunities](replacing-gmp-notes#).
 
 
 ### GMP Library Implementation

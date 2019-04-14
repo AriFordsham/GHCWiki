@@ -139,15 +139,15 @@ run `make clean` so the build system will pick up changes to the generated `GHC.
 In addition, if new primtypes are being added, the following files need to be updated:
 
 
-- [utils/genprimopcode/Main.hs](/trac/ghc/browser/ghc/utils/genprimopcode/Main.hs) -- extend ppType :: Type -\> String function
+- [utils/genprimopcode/Main.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/utils/genprimopcode/Main.hs) -- extend ppType :: Type -\> String function
 
 
   
 
 
-- [compiler/prelude/PrelNames.hs](/trac/ghc/browser/ghc/compiler/prelude/PrelNames.hs) -- add a new unique id using mkPreludeTyConUnique
+- [compiler/prelude/PrelNames.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/prelude/PrelNames.hs) -- add a new unique id using mkPreludeTyConUnique
 
-- [compiler/prelude/TysPrim.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/prelude/TysPrim.hs) -- there are a raft of changes here; you need to create `*PrimTy`, `*PrimTyCon` and  `*PrimTyConName` variables. The most important thing to make sure you get right is when you make a PrimTyCon, you pick the correct `PrimRep` for your type.  For example, if you’ve introduced a new GC'able object, you should use `PtrRep`; however, if it's a pointer that shouldn't be GC'd, you should use `AddrRep` instead.  The full list is in [compiler/types/TyCon.hs](/trac/ghc/browser/ghc/compiler/types/TyCon.hs)
+- [compiler/prelude/TysPrim.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/prelude/TysPrim.hs) -- there are a raft of changes here; you need to create `*PrimTy`, `*PrimTyCon` and  `*PrimTyConName` variables. The most important thing to make sure you get right is when you make a PrimTyCon, you pick the correct `PrimRep` for your type.  For example, if you’ve introduced a new GC'able object, you should use `PtrRep`; however, if it's a pointer that shouldn't be GC'd, you should use `AddrRep` instead.  The full list is in [compiler/types/TyCon.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/types/TyCon.hs)
 
 
 See also [AddingNewPrimitiveOperations](adding-new-primitive-operations), a blow-by-blow description of the process for adding a new out-of-line primop from someone who went through the process.

@@ -16,7 +16,7 @@ A **Wired-in thing** is fully known to GHC.  Most of these are `TyCon`s such as 
 All [primitive types](commentary/compiler/type-type#classifying-types) are wired-in things, and have wired-in `Name`s.  The primitive types (and their `Names`) are all defined in [compiler/prelude/TysPrim.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/prelude/TysPrim.hs).
 
 
-The non-primitive wired-in type constructors are defined in [compiler/prelude/TysWiredIn.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/prelude/TysWiredIn.hs).  There are a handful of wired-in `Id`s in [compiler/basicTypes/MkId.hs](/trac/ghc/browser/ghc/compiler/basicTypes/MkId.hs). There are no wired-in classes (they are too complicated). 
+The non-primitive wired-in type constructors are defined in [compiler/prelude/TysWiredIn.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/prelude/TysWiredIn.hs).  There are a handful of wired-in `Id`s in [compiler/basicTypes/MkId.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/MkId.hs). There are no wired-in classes (they are too complicated). 
 
 
 All the non-primitive wired-in things are *also* defined in GHC's libraries, because even though GHC knows about them we still need to generate code for them. For example, `Bool` is a wired-in type constructor, but it is still defined in `GHC.Base` because we need the info table etc for the data constructors.  Arbitrarily bad things will happen if the wired-in definition in [compiler/prelude/TysWiredIn.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/prelude/TysWiredIn.hs) differs from that in the library module.

@@ -171,7 +171,7 @@ The transactional record itself will have an entry for each transactional variab
 A transaction starts by initializing a new `TRec` (`stmStartTransaction`) assigning the TSO's `trec` pointer to the new `TRec` then executing the transaction's code.
 
 
-(See [rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/PrimOps.cmm)`stg_atomicallyzh` and [rts/STM.c](/trac/ghc/browser/ghc/rts/STM.c)`stmStartTransaction`).
+(See [rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/PrimOps.cmm)`stg_atomicallyzh` and [rts/STM.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/STM.c)`stmStartTransaction`).
 
 ### Reading
 
@@ -221,7 +221,7 @@ With the fine grain lock version when validation, including any read-only phase,
 Commit can proceed to increment each locked `TVar`'s `num_updates` field and unlock by writing the new value to the `current_value` field. While these updates happen one-by-one, any attempt to read from this set will spin while the lock is held. Any reads made before the lock was acquired will fail to validate as the number of updates will change.
 
 
-(See [rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/PrimOps.cmm)`stg_atomically_frame` and [rts/STM.c](/trac/ghc/browser/ghc/rts/STM.c)`stmCommitTransaction`)
+(See [rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/PrimOps.cmm)`stg_atomically_frame` and [rts/STM.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/STM.c)`stmCommitTransaction`)
 
 ### Aborting
 
@@ -237,7 +237,7 @@ Aborting is simply throwing away changes that are stored in the `TRec`.
 An exception in a transaction will only propagate outside of the transaction if the transaction can be validated. If validation fails, the whole transaction will abort and start again from the beginning. Nothing special needs to be done to support the semantics allowing the view *inside* the aborted transaction.
 
 
-(See [rts/Exception.cmm](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/Exception.cmm) which calls `stmValidateNestOfTransactions` from [rts/STM.c](/trac/ghc/browser/ghc/rts/STM.c)).
+(See [rts/Exception.cmm](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/Exception.cmm) which calls `stmValidateNestOfTransactions` from [rts/STM.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/STM.c)).
 
 ---
 
@@ -247,7 +247,7 @@ An exception in a transaction will only propagate outside of the transaction if 
 We will now introduce the blocking feature. To support this we will add a watch queue to each `TVar` where we can place a pointer to a blocked TSO. When a transaction commits we will now wake up the TSOs on watch queues for `TVar`s that are written.
 
 
-The mechanism for `retry` is similar to exception handling. In the simple case of only supporting blocking and not supporting choice, an encountered retry should validate, and if valid, add the TSO to the watch queue of every accessed `TVar` (see [rts/STM.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/STM.c)`stmWait` and `build_watch_queue_entries_for_trec`). Locks are acquired for all `TVar`s when validating to control access to the watch queues and prevent missing an update to a `TVar` before the thread is sleeping. In particular if validation is successful the locks are held after the return of `stmWait`, through the return to the scheduler, after the thread is safely paused (see [rts/HeapStackCheck.cmm](/trac/ghc/browser/ghc/rts/HeapStackCheck.cmm)`stg_block_stmwait`), and until `stmWaitUnlock` is called. This ensures that no updates to the `TVar`s are made until the TSO is ready to be woken. If validation fails, the `TRec` is discarded and the transaction is started from the beginning. (See [rts/PrimOps.cmm](/trac/ghc/browser/ghc/rts/PrimOps.cmm)`stg_retryzh`)
+The mechanism for `retry` is similar to exception handling. In the simple case of only supporting blocking and not supporting choice, an encountered retry should validate, and if valid, add the TSO to the watch queue of every accessed `TVar` (see [rts/STM.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/STM.c)`stmWait` and `build_watch_queue_entries_for_trec`). Locks are acquired for all `TVar`s when validating to control access to the watch queues and prevent missing an update to a `TVar` before the thread is sleeping. In particular if validation is successful the locks are held after the return of `stmWait`, through the return to the scheduler, after the thread is safely paused (see [rts/HeapStackCheck.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/HeapStackCheck.cmm)`stg_block_stmwait`), and until `stmWaitUnlock` is called. This ensures that no updates to the `TVar`s are made until the TSO is ready to be woken. If validation fails, the `TRec` is discarded and the transaction is started from the beginning. (See [rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/PrimOps.cmm)`stg_retryzh`)
 
 
 When a transaction is committed, each write that it makes to a `TVar` is preceded by waking up each TSO in the watch queue. Eventually these TSOs will be run, but before restarting the transaction its `TRec` is validated again if valid then nothing has changed that will allow the transaction to proceed with a different result. If invalid, some other transaction has committed and progress may be possible (note there is the additional case that some other transaction is merely holding a lock temporarily, causing validation to fail). The TSO is not removed from the watch queues it is on until the transaction is aborted (at this point we no longer need the `TRec`) and the abort happens after the failure to validate on wakeup. (See [rts/STM.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/STM.c)`stmReWait` and `stmAbortTransaction`)
@@ -266,7 +266,7 @@ How do we support a "partial abort"? This introduces the need for a nested trans
 - **Writing** -- Writes, like reads, now search the parent `TRec`s and the write is stored in the local copy.
 - **Retry** -- As described above, we now need to search the stack for a `CATCH_RETRY_FRAME` and if found, aborting the nested transaction and attempting the alternative or propagating the retry instead of immediately working on blocking.
 - **Validation** -- If we are validating in the middle of a running transaction we will need to validate the whole nest of transactions.
-  (See [rts/STM.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/STM.c)`stmValidateNestOfTransactions` and its uses in [rts/Exception.cmm](/trac/ghc/browser/ghc/rts/Exception.cmm) and [rts/Schedule.c](/trac/ghc/browser/ghc/rts/Schedule.c))
+  (See [rts/STM.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/STM.c)`stmValidateNestOfTransactions` and its uses in [rts/Exception.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Exception.cmm) and [rts/Schedule.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Schedule.c))
 - **Committing** -- Just as we now have a partial abort, we need a partial commit when we finish a branch of an `orElse`. This commit is done with `stmCommitNestedTransaction` which validates just the inner `TRec` and merges updates back into its parent. Note that an update is distinguished from a read only entry by value. This means that if a nested transaction performs a write that reverts a value this is a change and must still propagate to the parent (see ticket #7493).
 - **Aborting** -- There is another subtle issue with how choice and blocking interact. When we block we need to wake up if there is a change to *any* accessed `TVar`. Consider a transaction:
   `t = t1 `orElse` t2`

@@ -25,7 +25,7 @@ GHC draws its information about what packages are installed from one or more pac
 ## Package-related types
 
 
-Source files: [compiler/main/PackageConfig.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/main/PackageConfig.hs), [compiler/main/Packages.lhs](/trac/ghc/browser/ghc/compiler/main/Packages.lhs)
+Source files: [compiler/main/PackageConfig.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/main/PackageConfig.hs), [compiler/main/Packages.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/Packages.lhs)
 
 * **`PackageId`**
 

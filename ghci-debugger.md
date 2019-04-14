@@ -35,7 +35,7 @@ obtainTerm :: Session -> Bool -> Id -> IO (Maybe Term)
 ```
 
 
-The term datatype is defined at  [compiler/ghci/RtClosureInspect.hs](/trac/ghc/browser/ghc/compiler/ghci/RtClosureInspect.hs). This datatype represents a partially evaluated Haskell value as an annotated tree:
+The term datatype is defined at  [compiler/ghci/RtClosureInspect.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/ghci/RtClosureInspect.hs). This datatype represents a partially evaluated Haskell value as an annotated tree:
 
 
 ```wiki
@@ -157,9 +157,9 @@ The current implementation follows the paper in everything except one thing. Whe
 
 
 
-The interactive ui uses `obtainTerm` from the ghc-api, which lives at  [compiler/ghci/RtClosureInspect.hs](/trac/ghc/browser/ghc/compiler/ghci/RtClosureInspect.hs), to implement the :print and :sprint command. The difference is that :print, additionally, binds suspended values.
+The interactive ui uses `obtainTerm` from the ghc-api, which lives at  [compiler/ghci/RtClosureInspect.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/ghci/RtClosureInspect.hs), to implement the :print and :sprint command. The difference is that :print, additionally, binds suspended values.
 Thus, suspensions inside semievaluated terms are bound by `:print` to _t<sub>xx</sub> names in the interactive environment, available for the user. 
-Most of this happens at `pprintClosureCommand` in  [compiler/ghci/Debugger.hs](/trac/ghc/browser/ghc/compiler/ghci/Debugger.hs).
+Most of this happens at `pprintClosureCommand` in  [compiler/ghci/Debugger.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/ghci/Debugger.hs).
 
 
 
@@ -270,11 +270,11 @@ Note how the type of the binding `r` gets updated during the debugging session.
 
 
 We want to customize the printing of some stuff, such as Integers, Floats, Doubles, Lists, Tuples, Arrays, and so on.
-At the  [compiler/ghci/RtClosureInspect.hs](/trac/ghc/browser/ghc/compiler/ghci/RtClosureInspect.hs) module there is some infrastructure to build a custom printer, with a basic custom printer that covers the enumerated types.
+At the  [compiler/ghci/RtClosureInspect.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/ghci/RtClosureInspect.hs) module there is some infrastructure to build a custom printer, with a basic custom printer that covers the enumerated types.
 
 
 
-In  [compiler/ghci/Debugger.hs](/trac/ghc/browser/ghc/compiler/ghci/Debugger.hs) the function `pprintClosure` takes advantage of this and makes use of a custom printer that uses Show instances if available.
+In  [compiler/ghci/Debugger.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/ghci/Debugger.hs) the function `pprintClosure` takes advantage of this and makes use of a custom printer that uses Show instances if available.
 
 
 # Breakpoints

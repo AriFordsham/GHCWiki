@@ -271,7 +271,7 @@ Each of these functions has a wrapper that calls `isTrue#` and returns a `Bool`.
 
 - Other libraries that were modified to work with the new primops are: array, base, dph, ghc-prim, primitive and template-haskell.
 
-- GHC received an internal module [compiler/utils/ExtsCompat46](/trac/ghc/browser/ghc/compiler/utils/ExtsCompat46) that allows to bootstrap with GHC versions that have old primops (i.e. GHC 7.6 and GHC 7.4). This module is meant to be temporary - see #8330.
+- GHC received an internal module [compiler/utils/ExtsCompat46](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/utils/ExtsCompat46) that allows to bootstrap with GHC versions that have old primops (i.e. GHC 7.6 and GHC 7.4). This module is meant to be temporary - see #8330.
 
 ### Benchmarks
 

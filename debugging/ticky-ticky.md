@@ -336,10 +336,10 @@ When compiling with `-ticky`, the back-end emits the name-specific counters in t
 The global counters are *always* statically allocated by the RTS [includes/stg/Ticky.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/stg/Ticky.h) regardless of the compilation way.
 
 
-Some `TICK_...` C-- macros are sprinkled throughout the RTS. In the debug way (cf `ways.mk`) `TICKY_TICKY` is `defined`, so these macros expand to code that ticks the counters. The relevant compiler code is mostly in [compiler/codeGen/StgCmmTicky.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/codeGen/StgCmmTicky.hs). NB that some of these macros are expanded by [compiler/cmm/CmmParse.y](/trac/ghc/browser/ghc/compiler/cmm/CmmParse.y)!
+Some `TICK_...` C-- macros are sprinkled throughout the RTS. In the debug way (cf `ways.mk`) `TICKY_TICKY` is `defined`, so these macros expand to code that ticks the counters. The relevant compiler code is mostly in [compiler/codeGen/StgCmmTicky.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/codeGen/StgCmmTicky.hs). NB that some of these macros are expanded by [compiler/cmm/CmmParse.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmParse.y)!
 
 
-The C-- macros are defined in [includes/Cmm.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/Cmm.h). Most of them (probably all of them, at the moment) just increment counters (variables in C) that are declared in [includes/stg/Ticky.h](/trac/ghc/browser/ghc/includes/stg/Ticky.h). The latter file is likely to get out of sync with the former, so it really should be automatically generated.
+The C-- macros are defined in [includes/Cmm.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/Cmm.h). Most of them (probably all of them, at the moment) just increment counters (variables in C) that are declared in [includes/stg/Ticky.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/stg/Ticky.h). The latter file is likely to get out of sync with the former, so it really should be automatically generated.
 
 
 The code in the RTS that prints out the ticky report is in [rts/Ticky.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/Ticky.c).

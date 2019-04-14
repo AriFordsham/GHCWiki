@@ -44,7 +44,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 
 - At this point, the data flow forks.  First, the tidied program is dumped into an interface file.  This part happens in two stages:
 
-  * It is **converted to `IfaceSyn`** (defined in [compiler/iface/IfaceSyn.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/iface/IfaceSyn.hs) and [compiler/iface/IfaceType.hs](/trac/ghc/browser/ghc/compiler/iface/IfaceType.hs)).
+  * It is **converted to `IfaceSyn`** (defined in [compiler/iface/IfaceSyn.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/iface/IfaceSyn.hs) and [compiler/iface/IfaceType.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/iface/IfaceType.hs)).
   - The `IfaceSyn` is **serialised into a binary output file** ([compiler/iface/BinIface.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/iface/BinIface.hs)).
 
     The serialisation does (pretty much) nothing except serialise.  All the intelligence is in the `Core`-to-`IfaceSyn` conversion; or, rather, in the reverse of that step.

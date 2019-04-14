@@ -12,7 +12,7 @@ At the end of desugaring we run the `simpleOptPgm` function that performs some s
 
 
 
-The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` function in the [compiler/simplCore/SimplCore.hs](/trac/ghc/browser/ghc/compiler/simplCore/SimplCore.hs) module. Below is an ordered list of performed optimisations. These are enabled by default with `-O1` and `-O2` unless the description says a specific flag is required. The simplifier, which the pipeline description below often refers to, is described in detail in [the next section](commentary/compiler/core2-core-pipeline#simplifier).
+The structure of the Core-to-Core pipeline is determined in the `getCoreToDo` function in the [compiler/simplCore/SimplCore.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/simplCore/SimplCore.hs) module. Below is an ordered list of performed optimisations. These are enabled by default with `-O1` and `-O2` unless the description says a specific flag is required. The simplifier, which the pipeline description below often refers to, is described in detail in [the next section](commentary/compiler/core2-core-pipeline#simplifier).
 
 
 - **Static Argument Transformation**: tries to remove redundant arguments to recursive calls, turning them into free variables in those calls.  Only enabled with `-fstatic-argument-transformation`.  If run this pass is preceded with a "gentle" run of the simplifier.

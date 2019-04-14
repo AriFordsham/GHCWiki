@@ -1,7 +1,7 @@
 # Haskell Excecution: Registers
 
 
-Source files: [includes/stg/Regs.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/stg/Regs.h), [includes/stg/MachRegs.h](/trac/ghc/browser/ghc/includes/stg/MachRegs.h)
+Source files: [includes/stg/Regs.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/stg/Regs.h), [includes/stg/MachRegs.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/stg/MachRegs.h)
 
 
 During execution of Haskell code the following (virtual) registers are always valid:

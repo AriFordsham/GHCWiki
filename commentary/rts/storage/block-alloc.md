@@ -1,7 +1,7 @@
 # The Block Allocator
 
 
-Source: [includes/rts/storage/Block.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/rts/storage/Block.h), [rts/sm/BlockAlloc.h](/trac/ghc/browser/ghc/rts/sm/BlockAlloc.h), [rts/sm/BlockAlloc.c](/trac/ghc/browser/ghc/rts/sm/BlockAlloc.c), [includes/rts/storage/MBlock.h](/trac/ghc/browser/ghc/includes/rts/storage/MBlock.h), [rts/sm/MBlock.c](/trac/ghc/browser/ghc/rts/sm/MBlock.c).
+Source: [includes/rts/storage/Block.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/rts/storage/Block.h), [rts/sm/BlockAlloc.h](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/sm/BlockAlloc.h), [rts/sm/BlockAlloc.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/sm/BlockAlloc.c), [includes/rts/storage/MBlock.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/rts/storage/MBlock.h), [rts/sm/MBlock.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/sm/MBlock.c).
 
 
 The block allocator is where the storage manager derives much of its flexibilty.  Rather than keep our heap in a single contiguous region of memory, or one contiguous region per generation, we manage linked lists of memory blocks.  Managing contiguous regions is difficult, especially when you want to change the size of some of the areas.  A block-structured storage arrangement has several advantages:
@@ -52,7 +52,7 @@ the structure `bdescr` defined in [includes/rts/storage/Block.h](https://gitlab.
 
 The block allocator has a the following structure:
 
-- At the bottom, talking to the OS, is the megablock allocator ([rts/sm/MBlock.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/sm/MBlock.c), [includes/rts/storage/MBlock.h](/trac/ghc/browser/ghc/includes/rts/storage/MBlock.h)).
+- At the bottom, talking to the OS, is the megablock allocator ([rts/sm/MBlock.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/sm/MBlock.c), [includes/rts/storage/MBlock.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/rts/storage/MBlock.h)).
   It is responsible for delivering megablocks, correctly aligned, to the upper layers.  It is also responsible for
   implementing [HEAP_ALLOCED()](commentary/heap-alloced): the predicate that tests whether a pointer points to dynamically allocated memory
   or not.  This is implemented as a simple bitmap lookup on a 32-bit machine, and something more complex on
@@ -61,7 +61,7 @@ The block allocator has a the following structure:
   Currently, megablocks are never freed back to the OS, except at the end of the program.  This is a potential
   improvement that could be made.
 
-- Sitting on top of the megablock allocator is the block layer ([includes/rts/storage/Block.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/rts/storage/Block.h), [rts/sm/BlockAlloc.c](/trac/ghc/browser/ghc/rts/sm/BlockAlloc.c)).
+- Sitting on top of the megablock allocator is the block layer ([includes/rts/storage/Block.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/rts/storage/Block.h), [rts/sm/BlockAlloc.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/sm/BlockAlloc.c)).
   This layer is responsible for providing:
 
   ```wiki

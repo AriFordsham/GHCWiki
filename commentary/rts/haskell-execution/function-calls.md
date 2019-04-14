@@ -1,7 +1,7 @@
 # Function Calls
 
 
-Source files: [rts/Apply.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/Apply.h), [rts/Apply.cmm](/trac/ghc/browser/ghc/rts/Apply.cmm)
+Source files: [rts/Apply.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/Apply.h), [rts/Apply.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Apply.cmm)
 
 
 Dealing with calls is by far the most complicated bit of the execution model, and hence of the code generator.  GHC uses an *eval/apply* strategy for compiling function calls; all the details of the design are in the paper [Making a fast curry: push/enter vs. eval/apply for higher-order languages](http://simonmar.github.io/bib/papers/evalapplyjfp06.pdf).

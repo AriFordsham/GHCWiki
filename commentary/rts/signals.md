@@ -11,10 +11,10 @@ Source files:
 
 - POSIX signal handling:
 
-  - [rts/posix/Signals.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/posix/Signals.h), [rts/posix/Signals.c](/trac/ghc/browser/ghc/rts/posix/Signals.c)
+  - [rts/posix/Signals.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/posix/Signals.h), [rts/posix/Signals.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/posix/Signals.c)
 - Windows console events:
 
-  - [rts/win32/ConsoleHandler.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/win32/ConsoleHandler.h), [rts/win32/ConsoleHandler.c](/trac/ghc/browser/ghc/rts/win32/ConsoleHandler.c)
+  - [rts/win32/ConsoleHandler.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/win32/ConsoleHandler.h), [rts/win32/ConsoleHandler.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/win32/ConsoleHandler.c)
 
 ## Signal handling in the RTS
 
@@ -36,7 +36,7 @@ Source files:
 
 - The timer interrupt handler, and starting/stopping the timer:
 
-  - [rts/Timer.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/Timer.h), [rts/Timer.c](/trac/ghc/browser/ghc/rts/Timer.c)
+  - [rts/Timer.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/Timer.h), [rts/Timer.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Timer.c)
 - Platform-independent ticker interface, used by the timer:
 
   - [rts/Ticker.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/Ticker.h)
@@ -66,8 +66,8 @@ When the interrupt signal is received, the default behaviour of the runtime is t
 
 Source files:
 
-- POSIX: [rts/posix/Signals.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/posix/Signals.h), [rts/posix/Signals.c](/trac/ghc/browser/ghc/rts/posix/Signals.c)
-- Windows: [rts/win32/ConsoleHandler.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/win32/ConsoleHandler.h), [rts/win32/ConsoleHandler.c](/trac/ghc/browser/ghc/rts/win32/ConsoleHandler.c)
+- POSIX: [rts/posix/Signals.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/posix/Signals.h), [rts/posix/Signals.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/posix/Signals.c)
+- Windows: [rts/win32/ConsoleHandler.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/win32/ConsoleHandler.h), [rts/win32/ConsoleHandler.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/win32/ConsoleHandler.c)
 
 
 A Haskell program can ask to install signal handlers, via the `System.Posix.Signals` API, or `GHC.ConsoleHandler` on Windows.  When a signal arrives that has a Haskell handler, it is the job of the runtime to create a new Haskell thread to run the signal handler and place the new thread on the run queue of a suitable [Capability](commentary/rts/scheduler#capabilities).

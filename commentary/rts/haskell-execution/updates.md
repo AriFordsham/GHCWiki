@@ -2,7 +2,7 @@
 
 
 
-Source files: [rts/Updates.h](/trac/ghc/browser/ghc/rts/Updates.h), [rts/Updates.cmm](/trac/ghc/browser/ghc/rts/Updates.cmm)
+Source files: [rts/Updates.h](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Updates.h), [rts/Updates.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Updates.cmm)
 
 
 ---

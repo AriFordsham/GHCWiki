@@ -4,7 +4,7 @@
 
 
 
-Files [rts/Adjustor.c](/trac/ghc/browser/ghc/rts/Adjustor.c)  [rts/AdjustorAsm.S](/trac/ghc/browser/ghc/rts/AdjustorAsm.S).
+Files [rts/Adjustor.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Adjustor.c)  [rts/AdjustorAsm.S](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/AdjustorAsm.S).
 
 
 

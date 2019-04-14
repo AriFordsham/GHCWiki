@@ -22,7 +22,7 @@ Note, that "one compiler invocation" is not the same as the compilation of a sin
 
 
 
-This is also the reasons why `OccName`s are *not* ordered based on the `Unique`s of their underlying `FastString`s, but rather *lexicographically* (see [compiler/basicTypes/OccName.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/OccName.lhs) for details).
+This is also the reasons why `OccName`s are *not* ordered based on the `Unique`s of their underlying `FastString`s, but rather *lexicographically* (see [compiler/basicTypes/OccName.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/OccName.lhs) for details).
 
 
 >
@@ -134,7 +134,7 @@ mkUniqueGrimily i = MkUnique (iUnbox i)
 ```
 
 
-this separation of concerns leaked out to [compiler/basicTypes/UniqSupply.lhs](/trac/ghc/browser/ghc/compiler/basicTypes/UniqSupply.lhs), because its `Int` argument is the *entire* `Unique` and not just the integer part 'under' the domain character.
+this separation of concerns leaked out to [compiler/basicTypes/UniqSupply.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/UniqSupply.lhs), because its `Int` argument is the *entire* `Unique` and not just the integer part 'under' the domain character.
 
 
 >

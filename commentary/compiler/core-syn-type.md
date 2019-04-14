@@ -21,7 +21,7 @@ The `CoreSyn` type, and the functions that operate over it, gets an entire direc
 
 - [compiler/coreSyn/CoreLint.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/CoreLint.hs): type-check the Core program. This is an incredibly-valuable consistency check, enabled by the flag `-dcore-lint`.
 
-- [compiler/coreSyn/CoreTidy.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/CoreTidy.hs): part of the [the CoreTidy pass](commentary/compiler/hsc-main) (the rest is in [compiler/main/TidyPgm.hs](/trac/ghc/browser/ghc/compiler/main/TidyPgm.hs)).
+- [compiler/coreSyn/CoreTidy.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/CoreTidy.hs): part of the [the CoreTidy pass](commentary/compiler/hsc-main) (the rest is in [compiler/main/TidyPgm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/TidyPgm.hs)).
 - [compiler/coreSyn/CorePrep.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/CorePrep.hs): [the CorePrep pass](commentary/compiler/hsc-main)
 
 

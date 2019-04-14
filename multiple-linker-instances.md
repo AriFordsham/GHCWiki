@@ -20,7 +20,7 @@ Fixing the bytecode linker, as discussed next, seems relatively straightforward.
 
 
 
-The relevant code is in [compiler/ghci/Linker.lhs](/trac/ghc/browser/ghc/compiler/ghci/Linker.lhs). The linker's state is kept in the global variable:
+The relevant code is in [compiler/ghci/Linker.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/ghci/Linker.lhs). The linker's state is kept in the global variable:
 
 
 ```wiki
@@ -35,7 +35,7 @@ initDynLinker :: DynFlags -> IO ()
 ```
 
 
-and is (lazily) called by the exported functions `linkExpr` and `unload`. It is also called explicitly from [ghc/GhciMonad.hs](/trac/ghc/browser/ghc/ghc/GhciMonad.hs).
+and is (lazily) called by the exported functions `linkExpr` and `unload`. It is also called explicitly from [ghc/GhciMonad.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/ghc/GhciMonad.hs).
 
 
 
@@ -95,7 +95,7 @@ extendLinkEnv dl new_bindings
 
 
 
-Finally, to make the `DynLinker` available everywhere, we would have to add a field in `HscEnv` ([compiler/main/HscTypes.lhs](/trac/ghc/browser/ghc/compiler/main/HscTypes.lhs)):
+Finally, to make the `DynLinker` available everywhere, we would have to add a field in `HscEnv` ([compiler/main/HscTypes.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/HscTypes.lhs)):
 
 
 ```wiki
@@ -113,7 +113,7 @@ data HscEnv
 
 
 
-The object linker ([rts/Linker.c](/trac/ghc/browser/ghc/rts/Linker.c)) is responsible of loading and keeping track of symbols in object files and shared libraries. For object files it basically uses three global variables:
+The object linker ([rts/Linker.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Linker.c)) is responsible of loading and keeping track of symbols in object files and shared libraries. For object files it basically uses three global variables:
 
 
 ```wiki
@@ -191,7 +191,7 @@ and add to `PersistentLinkerState` a `ForeignPtr` to a malloc'd `ObjLinkerState`
 
 
 
-*Question:* There are other platform-specific global variables defined in [rts/Linker.c](/trac/ghc/browser/ghc/rts/Linker.c) that I don't know how should be handled:
+*Question:* There are other platform-specific global variables defined in [rts/Linker.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Linker.c) that I don't know how should be handled:
 
 
 - This one seems to be a constant that may be overridden during initialization:

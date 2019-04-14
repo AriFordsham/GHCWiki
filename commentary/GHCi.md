@@ -67,7 +67,7 @@ dataExecResult=ExecComplete{ execResult ::EitherSomeException[Name], execAllocat
 ```
 
 
-Normally what happens is that `execStmt` forks a new thread to handle the evaluation of the expression. It calls `evalStmt` ([compiler/ghci/GHCi.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/ghci/GHCi.hs) in both remote and normal mode) to create an `EvalStmt``Message`. This message is processed by the `evalStmt` ([libraries/ghci/GHCi/Run.hs](/trac/ghc/browser/ghc/libraries/ghci/GHCi/Run.hs)  in normal mode). This in turns calls the `sandboxIO` to do `forkIO`. It then blocks on an `MVar` and waits for the thread to finish.
+Normally what happens is that `execStmt` forks a new thread to handle the evaluation of the expression. It calls `evalStmt` ([compiler/ghci/GHCi.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/ghci/GHCi.hs) in both remote and normal mode) to create an `EvalStmt``Message`. This message is processed by the `evalStmt` ([libraries/ghci/GHCi/Run.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/libraries/ghci/GHCi/Run.hs)  in normal mode). This in turns calls the `sandboxIO` to do `forkIO`. It then blocks on an `MVar` and waits for the thread to finish.
 
 
 This `MVar` is (now) called `statusMVar`, because it carries the execution status of the computation which is being evaluated. We will discuss its type shortly. When the thread finishes it fills in `statusMVar`, which wakes up `execStmt`, and it returns a `ExecResult`.
