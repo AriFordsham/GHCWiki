@@ -129,6 +129,7 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
   - `#3553` links to issue 3553
   - `!883` links to merge request 883
+  - "@fred" mentions Fred.  You don't need to remember their user-id; you can just start typing their real name and auto-complete stuff will pop up.  The main reason to mention Fred is to ensure that he sees your comment.  For example you might asking him for a review.
 
   The [full markdown guide](https://about.gitlab.com/handbook/product/technical-writing/markdown-guide/).
 
