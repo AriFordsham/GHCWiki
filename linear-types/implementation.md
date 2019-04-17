@@ -562,6 +562,34 @@ At least the unboxed tuples used by core should have such a type. It can also be
 
 At the moment, however, CPR is simply restricted to the case where the constructor only has linear field, precluding some optimisation, but being less intrusive.
 
+#### Common subexpression elimination
+
+When CSE encounters a binder, it will check whether it is unrestricted (or alias). If it isn't, no CSE-rule is added.
+
+Indeed, it doesn't make sense to do CSE for a binding which can't be freely
+shared or dropped. In particular linear bindings, but this is true for
+any binding whose multiplicity contains a variable.
+
+This shows up, in particular, when performing a substitution
+
+```
+CSE[let x # 'One = y in x]
+==> let x # 'One = y in CSE[x[x\y]]
+==> let x # 'One = y in y
+```
+
+Here `x` doesn't appear in the body, but it is required by linearity!
+Also `y` appears shared, while we expect it to be a linear variable.
+
+This is usually not a problem with let-binders because their multiplicity
+is set to `Alias` in prior phases. But we don't have such luxury for case
+binders. Still, substitution of the case binder by the scrutinee happens
+routinely in CSE to discover more CSE opportunities (this particular point is explained in `Note [CSE for case expressions]`).
+
+It's alright, though! Because there is never a need to share linear
+definitions.
+
+
 ## Debugging
 
 
