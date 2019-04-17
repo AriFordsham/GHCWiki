@@ -14,6 +14,8 @@ Authors or the implementation are:
 
 The implementation is supported by a [document formalising (a simplified version) of linear core](https://ghc.haskell.org/trac/ghc/attachment/wiki/LinearTypes/Implementation/minicore.2.pdf). This is more complete than the paper. It is work in progress.
 
+*Table of contents*
+
 [[_TOC_]]
 
 ## Very high-level summary
