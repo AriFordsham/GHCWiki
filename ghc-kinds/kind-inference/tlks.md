@@ -1,3 +1,5 @@
+# Top level kind signatures – Tricky examples
+
 Top-level kind signatures (TLKSs) are introduced in [GHC Proposal #36](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0036-kind-signatures.rst) as a replacement for CUSKs. However, there are some design questions not covered by the proposal which are discussed here.
 
 See also [GhcKinds/KindInference](ghc-kinds/kind-inference/) for a broader context.
