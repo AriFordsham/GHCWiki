@@ -111,10 +111,10 @@ Now `[ListList]` is a perfectly fine type.  The downside is that you have to wra
 Here are some useful papers about type inference for impredicative polymorphism;
   
 
-- [FPH : First-class Polymorphism for Haskell (2008)](http://research.microsoft.com/en-us/um/people/simonpj/papers/boxy/)
-- [Boxy types: type inference for higher rank and impredicativity (2006)](http://research.microsoft.com/en-us/um/people/simonpj/papers/boxy/)  We implemented this in GHC, but it was Just Too Complicated.
-- [QML: Explicit first-class polymorphism for ML (2009)](http://research.microsoft.com/en-us/um/people/crusso/qml/) A much simpler, and less ambitious, approach.
-- [MLF: Raising ML to the power of System F (2003)](http://gallium.inria.fr/~remy/publications.html) The other end of the spectrum from QML: a very sophisticated approach.
+- [FPH : First-class Polymorphism for Haskell (2008)](https://www.microsoft.com/en-us/research/publication/fph-first-class-polymorphism-for-haskell/)
+- [Boxy types: type inference for higher rank and impredicativity (2006)](https://www.microsoft.com/en-us/research/publication/boxy-type-inference-for-higher-rank-types-and-impredicativity/)  We implemented this in GHC, but it was Just Too Complicated.
+- [QML: Explicit first-class polymorphism for ML (2009)](https://www.microsoft.com/en-us/research/publication/qml-explicit-first-class-polymorphism-for-ml/) A much simpler, and less ambitious, approach.
+- [MLF: Raising ML to the power of System F (2003)](http://gallium.inria.fr/~remy/work/mlf/icfp.pdf) The other end of the spectrum from QML: a very sophisticated approach.
 
 ### The way forward
 
