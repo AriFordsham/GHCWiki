@@ -8,6 +8,8 @@ Though originally written with respect to #9200, there are more issues at play h
 
 See also [GhcKinds/KindInference/Examples](ghc-kinds/kind-inference/examples) for a growing set of examples to consider when evaluating any new algorithm.
 
+The design of TLKSs (top-level kind signatures) is discussed at [GhcKinds/KindInference/TLKS](ghc-kinds/kind-inference/tlks).
+
 ## Simplifying `getInitialKinds` (#15142)
 
 
