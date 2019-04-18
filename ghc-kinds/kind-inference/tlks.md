@@ -135,7 +135,9 @@ type D :: forall j. j -> Type
 type D = Ap TypeRep
 ```
 
-Do we allow `D`? Currently, allow `D2` but disallow `D3`:
+### Q1: Do we allow `D`?
+
+Currently, allow `D2` but disallow `D3`:
 
 ```
 type D2 = (Ap TypeRep :: j -> Type)
@@ -167,3 +169,102 @@ type D2 @j = Ap TypeRep
 ```
 
 This assigns arity=1 to `D2` because of the `@j` binder on the LHS, which might as well be `@_` as it is unused on the RHS.
+
+
+### Q2: When do we want to generalize over implicit variables?
+
+Consider this type family:
+
+```
+type family F :: k where
+  F = Int
+  F = Maybe
+```
+
+At first glance it seems we have duplicate clauses, but in reality we generalize over `k` and the definition is equivalent to:
+
+```
+type family F @k :: k where
+  F @Type = Int
+  F @(Type -> Type) = Maybe
+```
+
+This behavior may lead to unintuitive behavior at use sites:
+
+1. Getting stuck instead of producing a kind error
+2. Being unusable at higher rank kinds
+
+#### Getting stuck instead of producing a kind error
+
+The first type of unintuitive behavior can be demonstrated with `F2`:
+
+```
+type family F2 a :: k where
+  F2 Int = Maybe
+  F2 Bool = Either
+
+f :: F2 Int -> F2 Int
+```
+
+Naively, one would expect `F2 Int` to reduce to `Maybe`, and `f :: Maybe -> Maybe` to result in a kind error. Instead `F2 Int` gets stuck. This happens because we generalize over `k`:
+
+```
+type family F2 @k a :: k where
+  F2 @(Type -> Type) Int = Maybe
+  F2 @(Type -> Type -> Type) Bool = Either
+
+f :: F2 @Type Int -> F2 @Type Int
+```
+
+Sure enough, `F2 @Type Int` has no defining clause.
+
+On one hand, these examples suggest we shouldn't add implicit variables on the LHS. On the other hand, the following example looks reasonable because `k` is mentioned syntactically on the LHS:
+
+```
+type family F3 (a :: k) where
+  F3 Maybe = Int
+  F3 Either = Bool
+```
+
+Here we generalize over `k` and it does not lead to any unintuitive results:
+
+```
+type family F3 @k (a :: k) where
+  F3 @(Type -> Type) Maybe = Int
+  F3 @(Type -> Type -> Type) Either = Bool
+```
+
+However, a syntactic check might not be sufficient because of non-injective type families:
+
+```
+type family F4 (a :: G k) :: k where
+```
+
+In `F4`, `k` is mentioned syntactically on the LHS, but it is an argument to a non-injective type family `G`, so this definition is likely to exhibit unintuitive behavior at use sites if we generalize over `k`.
+
+#### Being unusable at higher rank kinds
+
+The second type of unintuitive behavior is inability to use type families and type synonyms in higher rank positions.
+
+Let us define a class with a higher rank parameter and a few synonyms for `Proxy`:
+
+```
+class HR (x :: forall k. k -> Type) where ...
+
+type ProxySyn1 (a :: k) = Proxy (a :: k)
+type ProxySyn2 = (Proxy :: forall j. j -> Type)
+type ProxySyn3 = Proxy
+```
+
+* `HR Proxy` is well-kinded. 
+* `HR ProxySyn1` is ill-kinded because type synonyms may not be used unsaturated.
+* `HR ProxySyn2` is well-kinded (arity=0)
+* `HR ProxySyn3` is ill-kinded. Why?
+
+The reason `HR ProxySyn3` fails is that by default we instantiate and generalize over implicit type variables:
+
+```
+type ProxySyn3 @k = Proxy @k
+```
+
+This means `ProxySyn3` gets arity=1 and `HR ProxySyn3` is an unsaturated use of `ProxySyn3`.
