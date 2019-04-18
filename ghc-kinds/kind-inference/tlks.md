@@ -126,6 +126,22 @@ Question: Do we allow the use of `k` in `a :: k` here, even though it is not men
 
 Vlad: yes, if `-XScopedTypeVariables` are enabled then the TLKS brings `k` into scope. (Despite the proposal saying otherwise, it needs to be amended).
 
+Even trickier, does `-XScopedTypeVariables` bring into scope type variables that aren't in TLKSs? The following is possible at the term level, for instance:
+
+```hs
+-- f :: [a -> Either a ()]
+f = [Left @a :: forall a. a -> Either a ()]
+```
+
+Does this suggest that this should work?
+
+```hs
+-- type F :: [a -> Either a ()]
+type F = [Left @a :: forall a. Either a ()]
+```
+
+Vlad: yes.
+
 ## Matchability and arity inference
 
 #16571 arose from this example:
