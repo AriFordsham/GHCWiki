@@ -161,7 +161,7 @@ Does this suggest that this should work?
 
 ```hs
 -- type F :: [a -> Either a ()]
-type F = [Left @a :: forall a. Either a ()]
+type F = '[Left @a :: forall a. Either a ()]
 ```
 
 Vlad and RAE: yes.
