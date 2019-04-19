@@ -39,6 +39,17 @@ This implies that comments under that proposal apply to kind signatures as well.
 
 The unification of `k_top` and `k_local` (via e.g. `unifyKind`) will result in a `Coercion`. What happens to this coercion next, do we discard it, or do we save it in the AST and make some use of it later?
 
+Here is an example:
+
+```hs
+type family F a where
+  F Bool = Type
+type T :: F Bool -> F Bool
+data T a = MkT a
+```
+
+`T` really comes into scope with the kind `F Bool -> F Bool`. The LHS of the `data` declaration is effectively redundant with a TLKS. RAE proposes we check it for consistency (and bring vars into scope, etc.), but we don't use it in desugaring the declaration. On the other hand, the RHS is relevant. Here, I would expect `MkT :: forall (a :: F Bool). (a |> axF) -> T a`, where `axF` is a coercion derived by unification. We might have to look at the different declaration forms independently and figure out the right answer for each one. (But before doing this, RAE requests further input from others.)
+
 ## Type variables without binders
 
 ```
@@ -60,6 +71,15 @@ data T2 (a :: Type) :: Type where
 
 Note that `T1` and `T2` have a different amount of binders, but their kinds are the same.
 
+RAE: I object strenuously. Yes, `T1` and `T2` have different numbers of binders, but **their kinds are the same** (emphasis mine). In the `T` example, the kinds are **not** the same. Allowing this strikes me as tantamount to allowing
+
+```hs
+f :: Int -> Bool
+f = True
+```
+
+where we simply assume an ignored argument of type `Int` to `f`. End RAE.
+
 We can rewrite these examples with TLKSs to make this clear:
 
 ```
@@ -72,6 +92,8 @@ data T2 a where
   MkT2 :: Int -> T2 a
 ```
 
+RAE: Admittedly, with GADT syntax, where the variable names in the head have a very limited scope, this makes a touch more sense. But I still don't like it. End RAE.
+
 Note that `T1` and `T2` already differ only in the amount of binders. Of course, there is no reason to limit this to GADT syntax:
 
 ```
@@ -81,6 +103,8 @@ data T1 = MkT1 Int
 type T2 :: Type -> Type
 data T2 a = MkT2 Int
 ```
+
+RAE: Do you intend to have `T1` and `T2` mean the same thing? End RAE.
 
 ### Q2: Do we ascribe any semantics to the amount of binders?
 
@@ -113,7 +137,7 @@ type W :: forall (a :: forall k. k -> Type) -> a Int -> a Maybe -> Type
 data W x (y :: x Int) (z :: x Maybe)
 ```
 
-`x` must be generalized right away because we instantiate `k ~ Type` in `x Int` and `k ~ (Type -> Type)` in `x Maybe`.
+`x` must have a polykind from the start because we instantiate `k ~ Type` in `x Int` and `k ~ (Type -> Type)` in `x Maybe`.
 
 ## Scoped kind variables
 
@@ -124,7 +148,7 @@ data T a = MkT (Proxy (a :: k))
 
 Question: Do we allow the use of `k` in `a :: k` here, even though it is not mentioned in the declaration header?
 
-Vlad: yes, if `-XScopedTypeVariables` are enabled then the TLKS brings `k` into scope. (Despite the proposal saying otherwise, it needs to be amended).
+Vlad and RAE: yes, if `-XScopedTypeVariables` are enabled then the TLKS brings `k` into scope. (Despite the proposal saying otherwise, it needs to be amended).
 
 Even trickier, does `-XScopedTypeVariables` bring into scope type variables that aren't in TLKSs? The following is possible at the term level, for instance:
 
@@ -140,7 +164,7 @@ Does this suggest that this should work?
 type F = [Left @a :: forall a. Either a ()]
 ```
 
-Vlad: yes.
+Vlad and RAE: yes.
 
 ## Matchability and arity inference
 
@@ -284,3 +308,5 @@ type ProxySyn3 @k = Proxy @k
 ```
 
 This means `ProxySyn3` gets arity=1 and `HR ProxySyn3` is an unsaturated use of `ProxySyn3`.
+
+RAE: This is a mess! (But it's great having all the examples in one place.) I am at a loss as to how to clean this up at the moment.
