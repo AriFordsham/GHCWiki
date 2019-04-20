@@ -11,15 +11,15 @@ The GHC API is the interface exported by [compiler/main/GHC.hs](https://gitlab.h
   is implemented directly on top of [HscMain](commentary/compiler/hsc-main), since it compiles only one file at a
   time.  In fact, this is all that GHC consisted of prior to version 5.00 when GHCi and `--make` were introduced.
 
-- GHCi, the interactive environment, is implemented in [compiler/ghci/InteractiveUI.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/ghci/InteractiveUI.hs) and sits squarely on top
+- GHCi, the interactive environment, is implemented in [ghc/GHCi/UI.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/ghc/GHCi/UI.hs) and sits squarely on top
   of the GHC API.
 
-- `--make` is almost a trivial client of the GHC API, and is implemented in [compiler/main/Main.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/Main.hs).
+- `--make` is almost a trivial client of the GHC API, and is implemented in [ghc/Main.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/ghc/Main.hs).
 
 - `-M`, the Makefile dependency generator, is also a client of the GHC API and is implemented in 
   [compiler/main/DriverMkDepend.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/DriverMkDepend.hs).
 
 
-Note that since GHC is packaged as a single binary, all of these front-ends are present, and there is a single command-line interface implemented in [compiler/main/Main.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/Main.hs).
+Note that since GHC is packaged as a single binary, all of these front-ends are present, and there is a single command-line interface implemented in [ghc/Main.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/ghc/Main.hs).
 
 
