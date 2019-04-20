@@ -6,16 +6,16 @@ Video: [Types and Classes](http://www.youtube.com/watch?v=pN9rhQHcfCo&list=PLBkR
 
 For each kind of Haskell entity (identifier, type variable, type constructor, data constructor, class) GHC has a data type to represent it.  Here they are:
 
-- **Type constructors** are represented by the `TyCon` type ([compiler/types/TyCon.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/types/TyCon.hs)).
-- **Classes** are represented by the `Class` type ([compiler/types/Class.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/types/Class.hs)).
-- **Data constructors** are represented by the `DataCon` type ([compiler/basicTypes/DataCon.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/DataCon.hs)).
-- **Pattern synonyms** are represented by the `PatSyn` type ([compiler/basicTypes/PatSyn.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/PatSyn.hs)).
-- **Term variables**`Id` and **type variables**`TyVar` are both represented by the `Var` type ([compiler/basicTypes/Var.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/Var.hs)).
+- **Type constructors** are represented by the `TyCon` type ([compiler/types/TyCon.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/types/TyCon.hs)).
+- **Classes** are represented by the `Class` type ([compiler/types/Class.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/types/Class.hs)).
+- **Data constructors** are represented by the `DataCon` type ([compiler/basicTypes/DataCon.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/DataCon.hs)).
+- **Pattern synonyms** are represented by the `PatSyn` type ([compiler/basicTypes/PatSyn.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/PatSyn.hs)).
+- **Term variables**`Id` and **type variables**`TyVar` are both represented by the `Var` type ([compiler/basicTypes/Var.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/Var.hs)).
 
 
 All of these entities have a `Name`, but that's about all they have in common.  However they are sometimes treated uniformly:
 
-- A **`TyThing`** ([compiler/types/TypeRep.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/types/TypeRep.hs)) is simply the sum of all four:
+- A **`TyThing`** ([compiler/types/TypeRep.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/types/TypeRep.hs)) is simply the sum of all four:
 
   ```wiki
   data TyThing = AnId     Id
@@ -37,7 +37,7 @@ So you can see that the GHC data structures for entities is a *graph* not tree: 
 ## Type variables and term variables
 
 
-Type variables and term variables are represented by a single data type, `Var`, thus ([compiler/basicTypes/Var.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/Var.hs)):
+Type variables and term variables are represented by a single data type, `Var`, thus ([compiler/basicTypes/Var.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/Var.hs)):
 
 ```wiki
 type Id    = Var
@@ -51,7 +51,7 @@ It's incredibly convenient to use a single data type for both, rather than using
 - We only need one lambda constructor in Core: `Lam :: Var -> CoreExpr -> CoreExpr`.
 
 
-The `Var` type distinguishes the two sorts of variable; indeed, it makes somewhat finer distinctions ([compiler/basicTypes/Var.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/Var.hs)):
+The `Var` type distinguishes the two sorts of variable; indeed, it makes somewhat finer distinctions ([compiler/basicTypes/Var.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/Var.hs)):
 
 ```wiki
 data Var
@@ -124,7 +124,7 @@ All the value bindings in the module being compiled (whether top level or not) a
 
 ## `GlobalIdDetails` and implict Ids
 
-`GlobalId`s are further classified by their `GlobalIdDetails`.  This type is defined in [compiler/basicTypes/IdInfo.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/IdInfo.hs), because it mentions other structured types such as `DataCon`. Unfortunately it is *used* in Var.hs so there's a hi-boot knot to get it there. Anyway, here's the declaration (elided a little):
+`GlobalId`s are further classified by their `GlobalIdDetails`.  This type is defined in [compiler/basicTypes/IdInfo.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/IdInfo.hs), because it mentions other structured types such as `DataCon`. Unfortunately it is *used* in Var.hs so there's a hi-boot knot to get it there. Anyway, here's the declaration (elided a little):
 
 ```wiki
 data GlobalIdDetails

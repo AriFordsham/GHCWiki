@@ -56,7 +56,7 @@ These primitives aren't directly exposed to the user at this time. Instead the p
 - `freezeArray#`
 - `thawArray#`
 
-The latter four allow the user to efficiently clone an array without first setting all elements to some dummy element, which would be required to e.g. implement `cloneArray#` in terms of `newArray#` and `copyArray#`. The implementation of these primitive operations are in [compiler/codeGen/StgCmmPrim.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/codeGen/StgCmmPrim.hs).
+The latter four allow the user to efficiently clone an array without first setting all elements to some dummy element, which would be required to e.g. implement `cloneArray#` in terms of `newArray#` and `copyArray#`. The implementation of these primitive operations are in [compiler/codeGen/StgCmmPrim.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/codeGen/StgCmmPrim.hs).
 
 ## Test API
 

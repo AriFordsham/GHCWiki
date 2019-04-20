@@ -160,25 +160,25 @@ There are several problems with the current GMP implementation:
 
 Note: references are relative to the main directory of the source distribution; links below are to the darcs repository at [http://darcs.haskell.org/ghc](http://darcs.haskell.org/ghc), created with the `[[GhcFile(path/to/file)]]` script (see [Commentary](commentary)).
 
-- [configure.ac](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/configure.ac) (*Modify*: remove GMP related material; replace with MP library requirements)
+- [configure.ac](https://gitlab.haskell.org/ghc/ghc/blob/master/configure.ac) (*Modify*: remove GMP related material; replace with MP library requirements)
 
-- [compiler/prelude/primops.txt.pp](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/prelude/primops.txt.pp)   (*Modify*: Integer material)
-- [compiler/prelude/PrelNames.lhs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/prelude/PrelNames.lhs) (*Reference*: integerTyConName and similar)
+- [compiler/prelude/primops.txt.pp](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/prelude/primops.txt.pp)   (*Modify*: Integer material)
+- [compiler/prelude/PrelNames.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/prelude/PrelNames.lhs) (*Reference*: integerTyConName and similar)
 - \[\[GhcFile(compiler/prelude/TysPrim.lhs)\]   (*Reference*)
 
-- [includes/Cmm.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/Cmm.h) (*Modify*: cpp test for `#if SIZEOF_mp_limb_t != SIZEOF_VOID_P `)
-- [includes/MachRegs.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/MachRegs.h) (*Reference*: general; unrelated to GMP: may be starting point for vectorized Cmm (currently only -fvia-c allows auto-vectorization))
-- [includes/mkDerivedConstants.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/mkDerivedConstants.c) (*Modify*: references to GMP `__mpz_struct`: `struct_size(MP_INT)`, `struct_field(MP_INT,_mp_alloc)`, `struct_field(MP_INT,_mp_size)`, `struct_field(MP_INT,_mp_d)` and `ctype(mp_limb_t)`.  Note: mp_limb_t generally == unsigned long)
-- [includes/Regs.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/Regs.h) (*Modify*: references to MP_INT, `#include "gmp.h"`; Reference: Stg registers, etc.)
-- [includes/Rts.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/Rts.h) (*Modify*: reference to `#include "gmp.h"`, `extern` declarations to `__decodeDouble` and `__decodeFloat`; References to various Stg types and macros)
-- [includes/StgMiscClosures.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/StgMiscClosures.h) (*Modify*: references to `RTS_FUN(...Integer)` PrimOps; *Reference*: Weak Pointers, other Stg closures)
+- [includes/Cmm.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/Cmm.h) (*Modify*: cpp test for `#if SIZEOF_mp_limb_t != SIZEOF_VOID_P `)
+- [includes/MachRegs.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/MachRegs.h) (*Reference*: general; unrelated to GMP: may be starting point for vectorized Cmm (currently only -fvia-c allows auto-vectorization))
+- [includes/mkDerivedConstants.c](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/mkDerivedConstants.c) (*Modify*: references to GMP `__mpz_struct`: `struct_size(MP_INT)`, `struct_field(MP_INT,_mp_alloc)`, `struct_field(MP_INT,_mp_size)`, `struct_field(MP_INT,_mp_d)` and `ctype(mp_limb_t)`.  Note: mp_limb_t generally == unsigned long)
+- [includes/Regs.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/Regs.h) (*Modify*: references to MP_INT, `#include "gmp.h"`; Reference: Stg registers, etc.)
+- [includes/Rts.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/Rts.h) (*Modify*: reference to `#include "gmp.h"`, `extern` declarations to `__decodeDouble` and `__decodeFloat`; References to various Stg types and macros)
+- [includes/StgMiscClosures.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/StgMiscClosures.h) (*Modify*: references to `RTS_FUN(...Integer)` PrimOps; *Reference*: Weak Pointers, other Stg closures)
 
-- [rts/Linker.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/Linker.c) (*Modify*: `SymX(__gmpn...)` and related GMP functions)
-- [rts/Makefile](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/Makefile) (*Modify*: building GMP library)
-- [rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/PrimOps.cmm) (*Modify*: remove GMP references; NOTE: optimisation of `/* ToDo: this is shockingly inefficient */`, see discussion below)
-- [rts/StgPrimFloat.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/StgPrimFloat.c) (*Modify*: `__encodeDouble`, `__encodeFloat` and `decode` versions defined here refer to GMP; might optimise with bitwise conversion instead of union; conversion depends on whether replacement MP library uses floating point, etc.)
-- [rts/sm/Storage.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/sm/Storage.c) (*Modify*: `stgAllocForGMP`, `stgReallocForGMP` and `stgDeallocForGMP`; `mp_set_memory_functions(...)`; functions on lines 811, 833, 835, 848; may use as reference for implementation if replacement MP library uses GHC-garbage collected memory)
-- [rts/gmp/](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/gmp/) (directory) (*Modify*: recommended to remove entirely, i.e., do not add conditional compilation for users who want to keep on using GMP)
+- [rts/Linker.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Linker.c) (*Modify*: `SymX(__gmpn...)` and related GMP functions)
+- [rts/Makefile](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Makefile) (*Modify*: building GMP library)
+- [rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/PrimOps.cmm) (*Modify*: remove GMP references; NOTE: optimisation of `/* ToDo: this is shockingly inefficient */`, see discussion below)
+- [rts/StgPrimFloat.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/StgPrimFloat.c) (*Modify*: `__encodeDouble`, `__encodeFloat` and `decode` versions defined here refer to GMP; might optimise with bitwise conversion instead of union; conversion depends on whether replacement MP library uses floating point, etc.)
+- [rts/sm/Storage.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/sm/Storage.c) (*Modify*: `stgAllocForGMP`, `stgReallocForGMP` and `stgDeallocForGMP`; `mp_set_memory_functions(...)`; functions on lines 811, 833, 835, 848; may use as reference for implementation if replacement MP library uses GHC-garbage collected memory)
+- [rts/gmp/](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/gmp/) (directory) (*Modify*: recommended to remove entirely, i.e., do not add conditional compilation for users who want to keep on using GMP)
 
 ### Optimisation Opportunities
 
@@ -275,7 +275,7 @@ results from initialising each struct (`mp_tmp2`, etc.) on each call, in order t
 >
 
 
-(2) Primitive Operations in [compiler/codeGen/CgPrimOp.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/codeGen/CgPrimOp.hs)
+(2) Primitive Operations in [compiler/codeGen/CgPrimOp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/codeGen/CgPrimOp.hs)
 
 
 

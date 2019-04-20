@@ -8,7 +8,7 @@ There is a picture that goes with this description, which appears at the bottom 
 You can also watch a **video** of Simon Peyton-Jones explaining the compilation pipeline here: [Compiler Pipeline II](http://www.youtube.com/watch?v=Upm_kYMgI_c&list=PLBkRCigjPwyeCSD_DFxpd246YIF7_RDDI) (10'16")
 
 
-Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called HscMain ([compiler/main/HscMain.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/main/HscMain.hs)).  Each data type's representation can be dumped for further inspection using a `-ddump-*` flag. (Consider also using `-ddump-to-file`: some of the dump outputs can be large!)  Here are the steps it goes through:
+Look at the picture first.  The yellow boxes are compiler passes, while the blue stuff on the left gives the data type that moves from one phase to the next.  The entire pipeline for a single module is run by a module called HscMain ([compiler/main/HscMain.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/HscMain.hs)).  Each data type's representation can be dumped for further inspection using a `-ddump-*` flag. (Consider also using `-ddump-to-file`: some of the dump outputs can be large!)  Here are the steps it goes through:
 
 - The **Front End** processes the program in the [big HsSyn type](commentary/compiler/hs-syn-type). `HsSyn` is parameterised over the types of the term variables it contains.  The first three passes (the front end) of the compiler work like this:
 
@@ -18,16 +18,16 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 
   These three passes can all discover programmer errors, which are sorted and reported to the user.
 
-- The **Desugarer** ([compiler/deSugar/Desugar.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/deSugar/Desugar.hs)) converts from the massive `HsSyn` type to [GHC's intermediate language, CoreSyn](commentary/compiler/core-syn-type).  This Core-language data type is unusually tiny: just eight constructors.) (`-ddump-ds`)
+- The **Desugarer** ([compiler/deSugar/Desugar.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/deSugar/Desugar.hs)) converts from the massive `HsSyn` type to [GHC's intermediate language, CoreSyn](commentary/compiler/core-syn-type).  This Core-language data type is unusually tiny: just eight constructors.) (`-ddump-ds`)
 
-  Generally speaking, the desugarer produces few user errors or warnings. But it does produce *some*.  In particular, (a) pattern-match overlap warnings are produced here; and (b) when desugaring Template Haskell code quotations, the desugarer may find that `THSyntax` is not expressive enough.  In that case, we must produce an error ([compiler/deSugar/DsMeta.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/deSugar/DsMeta.hs)).
+  Generally speaking, the desugarer produces few user errors or warnings. But it does produce *some*.  In particular, (a) pattern-match overlap warnings are produced here; and (b) when desugaring Template Haskell code quotations, the desugarer may find that `THSyntax` is not expressive enough.  In that case, we must produce an error ([compiler/deSugar/DsMeta.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/deSugar/DsMeta.hs)).
 
   This late desugaring is somewhat unusual.  It is much more common to desugar the program before typechecking, or renaming, because that presents the renamer and typechecker with a much smaller language to deal with.  However, GHC's organisation means that
 
   - error messages can display precisely the syntax that the user wrote; and 
   - desugaring is not required to preserve type-inference properties.
 
-- The **SimplCore** pass ([compiler/simplCore/SimplCore.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/simplCore/SimplCore.hs)) is a bunch of Core-to-Core passes that optimise the program; see [A transformation-based optimiser for Haskell (SCP'98)](http://research.microsoft.com/%7Esimonpj/Papers/comp-by-trans-scp.ps.gz) for a more-or-less accurate overview.  See [Commentary/Compiler/Core2CorePipeline](commentary/compiler/core-to-core-pipeline) for an overview of the Core-to-Core optimisation pipeline. The main passes are:
+- The **SimplCore** pass ([compiler/simplCore/SimplCore.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/simplCore/SimplCore.hs)) is a bunch of Core-to-Core passes that optimise the program; see [A transformation-based optimiser for Haskell (SCP'98)](http://research.microsoft.com/%7Esimonpj/Papers/comp-by-trans-scp.ps.gz) for a more-or-less accurate overview.  See [Commentary/Compiler/Core2CorePipeline](commentary/compiler/core-to-core-pipeline) for an overview of the Core-to-Core optimisation pipeline. The main passes are:
 
   - The **Simplifier**, which applies lots of small, local optimisations to the program.  The simplifier is big and complicated, because it implements a *lot* of transformations; and tries to make them cascade nicely.  The transformation-based optimiser paper gives lots of details, but two other papers are particularly relevant: [Secrets of the Glasgow Haskell Compiler inliner (JFP'02)](http://research.microsoft.com/%7Esimonpj/Papers/inlining/index.htm) and [Playing by the rules: rewriting as a practical optimisation technique in GHC (Haskell workshop 2001)](http://research.microsoft.com/%7Esimonpj/Papers/rules.htm).  (`-ddump-simpl`)
   - The **float-out** and **float-in** transformations, which move let-bindings outwards and inwards respectively.  See [Let-floating: moving bindings to give faster programs (ICFP '96)](http://research.microsoft.com/%7Esimonpj/papers/float.ps.gz).
@@ -40,27 +40,27 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 
   It makes a difference whether or not you are using `-O` at this stage.  With `-O` (or rather, with `-fomit-interface-pragmas` which is a consequence of `-O`), the tidied program (produced by `tidyProgram`) has unfoldings for Ids, and RULES.  Without `-O` the unfoldings and RULES are omitted from the tidied program.  And that, in turn, affects the interface file generated subsequently.
 
-  There are good notes at the top of the file [compiler/main/TidyPgm.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/main/TidyPgm.hs); the main function is `tidyProgram`, documented as "Plan B" ("Plan A" is a simplified tidy pass that is run when we have only typechecked, but haven't run the desugarer or simplifier).
+  There are good notes at the top of the file [compiler/main/TidyPgm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/TidyPgm.hs); the main function is `tidyProgram`, documented as "Plan B" ("Plan A" is a simplified tidy pass that is run when we have only typechecked, but haven't run the desugarer or simplifier).
 
 - At this point, the data flow forks.  First, the tidied program is dumped into an interface file.  This part happens in two stages:
 
-  * It is **converted to `IfaceSyn`** (defined in [compiler/iface/IfaceSyn.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/iface/IfaceSyn.hs) and [compiler/iface/IfaceType.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/iface/IfaceType.hs)).
-  - The `IfaceSyn` is **serialised into a binary output file** ([compiler/iface/BinIface.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/iface/BinIface.hs)).
+  * It is **converted to `IfaceSyn`** (defined in [compiler/iface/IfaceSyn.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/iface/IfaceSyn.hs) and [compiler/iface/IfaceType.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/iface/IfaceType.hs)).
+  - The `IfaceSyn` is **serialised into a binary output file** ([compiler/iface/BinIface.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/iface/BinIface.hs)).
 
     The serialisation does (pretty much) nothing except serialise.  All the intelligence is in the `Core`-to-`IfaceSyn` conversion; or, rather, in the reverse of that step.
 
 - The same, tidied Core program is now fed to the Back End.  First there is a two-stage conversion from `CoreSyn` to [GHC's intermediate language, StgSyn](commentary/compiler/stg-syn-type).
 
-  - The first step is called **CorePrep**, a Core-to-Core pass that puts the program into A-normal form (ANF).  In ANF, the argument of every application is a variable or literal; more complicated arguments are let-bound.  Actually `CorePrep` does quite a bit more: there is a detailed list at the top of the file [compiler/coreSyn/CorePrep.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/CorePrep.hs).
-  - The second step, **CoreToStg**, moves to the `StgSyn` data type ([compiler/stgSyn/CoreToStg.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/stgSyn/CoreToStg.hs)).  The output of CorePrep is carefully arranged to exactly match what `StgSyn` allows (notably ANF), so there is very little work to do. However, `StgSyn` is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by `CoreToStg`.
+  - The first step is called **CorePrep**, a Core-to-Core pass that puts the program into A-normal form (ANF).  In ANF, the argument of every application is a variable or literal; more complicated arguments are let-bound.  Actually `CorePrep` does quite a bit more: there is a detailed list at the top of the file [compiler/coreSyn/CorePrep.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/coreSyn/CorePrep.hs).
+  - The second step, **CoreToStg**, moves to the `StgSyn` data type ([compiler/stgSyn/CoreToStg.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/stgSyn/CoreToStg.hs)).  The output of CorePrep is carefully arranged to exactly match what `StgSyn` allows (notably ANF), so there is very little work to do. However, `StgSyn` is decorated with lots of redundant information (free variables, let-no-escape indicators), which is generated on-the-fly by `CoreToStg`.
 
-- Next, the **[Code Generator](commentary/compiler/code-gen)** converts the STG program to a `C--` program.  The code generator is a Big Mother, and lives in directory [compiler/codeGen](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/codeGen)
+- Next, the **[Code Generator](commentary/compiler/code-gen)** converts the STG program to a `C--` program.  The code generator is a Big Mother, and lives in directory [compiler/codeGen](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/codeGen)
 
 - Now the path forks again:
 
-  - If we are generating GHC's stylised C code, we can just pretty-print the `C--` code as stylised C ([compiler/cmm/PprC.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/cmm/PprC.hs))
-  - If we are generating native code, we invoke the native code generator.  This is another Big Mother ([compiler/nativeGen](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/nativeGen)).
-  - If we are generating LLVM code, we invoke the LLVM code generator. This is a reasonably simple code generator ([compiler/llvmGen](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/llvmGen)).
+  - If we are generating GHC's stylised C code, we can just pretty-print the `C--` code as stylised C ([compiler/cmm/PprC.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/PprC.hs))
+  - If we are generating native code, we invoke the native code generator.  This is another Big Mother ([compiler/nativeGen](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen)).
+  - If we are generating LLVM code, we invoke the LLVM code generator. This is a reasonably simple code generator ([compiler/llvmGen](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/llvmGen)).
 
 # The Diagram
 

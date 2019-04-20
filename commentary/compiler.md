@@ -1,7 +1,7 @@
 # GHC Commentary: The Compiler
 
 
-The compiler itself is written entirely in Haskell, and lives in the many sub-directories of the [compiler](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler) directory.  
+The compiler itself is written entirely in Haskell, and lives in the many sub-directories of the [compiler](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler) directory.  
 
 - [Compiler Module Dependencies](module-dependencies) (deals with the arcane mutual recursions among GHC's many data types)
 - [Coding guidelines](commentary/coding-style)
@@ -83,14 +83,14 @@ The part called [HscMain](commentary/compiler/hsc-main) deals with compiling a s
 
 - `--make` is almost a trivial client of the GHC API, and is implemented in [compiler/main/GhcMake.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/GhcMake.hs). 
 
-- `-M`, the Makefile dependency generator, is also a client of the GHC API and is implemented in [compiler/main/DriverMkDepend.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/main/DriverMkDepend.hs). 
+- `-M`, the Makefile dependency generator, is also a client of the GHC API and is implemented in [compiler/main/DriverMkDepend.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/DriverMkDepend.hs). 
 
 - The "one-shot" mode, where GHC compiles each file on the command line separately (eg. `ghc -c Foo.hs`). This mode bypasses the GHC API, and is implemented
   directly on top of [HscMain](commentary/compiler/hsc-main), since it compiles only one file at a time. In fact, this is all that   
   GHC consisted of prior to version 5.00 when GHCi and `--make` were introduced.
 
 
-GHC is packaged as a single binary in which all of these front-ends are present, selected by the command-line flags indicated above.  There is a single command-line interface implemented in [ghc/Main.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/ghc/Main.hs).
+GHC is packaged as a single binary in which all of these front-ends are present, selected by the command-line flags indicated above.  There is a single command-line interface implemented in [ghc/Main.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/ghc/Main.hs).
 
 
 In addition, GHC is compiled, without its front ends, as a *library* which can be imported by any Haskell program; see [the GHC API](commentary/compiler/api).

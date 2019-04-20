@@ -264,7 +264,7 @@ There are also a few non-functional requirements:
 ## Refactoring Ideas
 
 
-There follow some notes about desirable refactorings, mainly around [compiler/main/HscMain.lhs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/main/HscMain.lhs).  These will be important when looking at how to modify the GHC API to expose the individual compilation stages.  At the moment, the compilation stages are all hidden behind the `HscMain` interface, which in turn is hidden behind the `DriverPipeline` module, which is used by the code in `GHC`.  In order to untangle things, we need to make some changes.  Not all of these are essential, and some of them might not even end up being good ideas at all; this is just a list of things we (Simon M & Simon PJ) noticed while doing a code walkthrough.
+There follow some notes about desirable refactorings, mainly around [compiler/main/HscMain.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/HscMain.lhs).  These will be important when looking at how to modify the GHC API to expose the individual compilation stages.  At the moment, the compilation stages are all hidden behind the `HscMain` interface, which in turn is hidden behind the `DriverPipeline` module, which is used by the code in `GHC`.  In order to untangle things, we need to make some changes.  Not all of these are essential, and some of them might not even end up being good ideas at all; this is just a list of things we (Simon M & Simon PJ) noticed while doing a code walkthrough.
 
 - We should separate the action of reading the old interface from checking its usages.  Currently the two
   are mixed up in `checkOldIface`.  (in the new story with fingerprints instead of versions, we also want

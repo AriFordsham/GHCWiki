@@ -7,7 +7,7 @@ The GC does not support pinning arbitrary objects.  Only objects that have no po
 Bytestrings are currently allocated as pinned memory, so that the bytestring contents can be passed to FFI calls if necessary.
 
 
-The RTS provides an API for allocating pinned memory, in [includes/rts/storage/GC.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/rts/storage/GC.h):
+The RTS provides an API for allocating pinned memory, in [includes/rts/storage/GC.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/rts/storage/GC.h):
 
 ```wiki
 StgPtr  allocatePinned  ( Capability *cap, lnat n );

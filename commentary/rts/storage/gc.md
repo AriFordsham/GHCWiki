@@ -38,7 +38,7 @@ The GC is designed to be flexible, supporting lots of ways to tune its behaviour
 
 ## GC data structures
 
-[includes/rts/storage/GC.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/rts/storage/GC.h)
+[includes/rts/storage/GC.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/rts/storage/GC.h)
 
 ### generation
 
@@ -62,7 +62,7 @@ The main data structure is `generation`, which contains:
   the [remembered set](commentary/rts/storage/gc/remembered-sets), a list of blocks containing pointers to objects in *this* generation that point to objects in *younger* generations
 
 
-and various other administrative fields (see [includes/rts/storage/GC.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/rts/storage/GC.h) for the details).
+and various other administrative fields (see [includes/rts/storage/GC.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/rts/storage/GC.h) for the details).
 
 
 Generations are kept in the array `generations[]`, indexed by the generation number.

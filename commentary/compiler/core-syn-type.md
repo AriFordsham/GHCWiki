@@ -8,24 +8,24 @@ Video: [GHC Core language](http://www.youtube.com/watch?v=EQA69dvkQIk&list=PLBkR
 The Core language is GHC's central data types.  Core is a very small, explicitly-typed, variant of System F.  The exact variant is called [System FC](commentary/compiler/fc), which embodies equality constraints and coercions.
 
 
-The `CoreSyn` type, and the functions that operate over it, gets an entire directory [compiler/coreSyn](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn):
+The `CoreSyn` type, and the functions that operate over it, gets an entire directory [compiler/coreSyn](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/coreSyn):
 
-- [compiler/coreSyn/CoreSyn.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/CoreSyn.hs): the data type itself.
+- [compiler/coreSyn/CoreSyn.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/coreSyn/CoreSyn.hs): the data type itself.
 
-- [compiler/coreSyn/PprCore.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/PprCore.hs): pretty-printing.
-- [compiler/coreSyn/CoreFVs.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/CoreFVs.hs): finding free variables.
-- [compiler/coreSyn/CoreSubst.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/CoreSubst.hs): substitution.
-- [compiler/coreSyn/CoreUtils.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/CoreUtils.hs): a variety of other useful functions over Core.
+- [compiler/coreSyn/PprCore.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/coreSyn/PprCore.hs): pretty-printing.
+- [compiler/coreSyn/CoreFVs.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/coreSyn/CoreFVs.hs): finding free variables.
+- [compiler/coreSyn/CoreSubst.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/coreSyn/CoreSubst.hs): substitution.
+- [compiler/coreSyn/CoreUtils.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/coreSyn/CoreUtils.hs): a variety of other useful functions over Core.
 
-- [compiler/coreSyn/CoreUnfold.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/CoreUnfold.hs): dealing with "unfoldings".
+- [compiler/coreSyn/CoreUnfold.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/coreSyn/CoreUnfold.hs): dealing with "unfoldings".
 
-- [compiler/coreSyn/CoreLint.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/CoreLint.hs): type-check the Core program. This is an incredibly-valuable consistency check, enabled by the flag `-dcore-lint`.
+- [compiler/coreSyn/CoreLint.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/coreSyn/CoreLint.hs): type-check the Core program. This is an incredibly-valuable consistency check, enabled by the flag `-dcore-lint`.
 
-- [compiler/coreSyn/CoreTidy.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/CoreTidy.hs): part of the [the CoreTidy pass](commentary/compiler/hsc-main) (the rest is in [compiler/main/TidyPgm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/TidyPgm.hs)).
-- [compiler/coreSyn/CorePrep.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/CorePrep.hs): [the CorePrep pass](commentary/compiler/hsc-main)
+- [compiler/coreSyn/CoreTidy.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/coreSyn/CoreTidy.hs): part of the [the CoreTidy pass](commentary/compiler/hsc-main) (the rest is in [compiler/main/TidyPgm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/TidyPgm.hs)).
+- [compiler/coreSyn/CorePrep.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/coreSyn/CorePrep.hs): [the CorePrep pass](commentary/compiler/hsc-main)
 
 
-Here is the entire Core type [compiler/coreSyn/CoreSyn.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/CoreSyn.hs):
+Here is the entire Core type [compiler/coreSyn/CoreSyn.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/coreSyn/CoreSyn.hs):
 
 ```wiki
 type CoreExpr = Expr Var
@@ -56,7 +56,7 @@ That's it.  All of Haskell gets compiled through this tiny core.
 If you want to learn more about such AST-parametrization, I encourage you to read a blog post about it: [http://blog.ezyang.com/2013/05/the-ast-typing-problem](http://blog.ezyang.com/2013/05/the-ast-typing-problem) .
 
 
-Binder is used (as the name suggest) to bind a variable to an expression. The `Expr` data type is parametrized by the binder type. The most common one is the `type CoreBndr = Var` where `Var` comes from [compiler/basicTypes/Var.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/Var.hs), which in fact is a `Name` with some extra informations attached (like types).
+Binder is used (as the name suggest) to bind a variable to an expression. The `Expr` data type is parametrized by the binder type. The most common one is the `type CoreBndr = Var` where `Var` comes from [compiler/basicTypes/Var.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/Var.hs), which in fact is a `Name` with some extra informations attached (like types).
 
 
 Here are some notes about the individual constructors of `Expr`.
@@ -133,7 +133,7 @@ case (reverse xs) of y { DEFAULT -> f y }
 
 Case expressions have several invariants
 
-- The `res_ty` type is the same as the type of any of the right-hand sides (up to refining unification -- coreRefineTys in [compiler/types/Unify.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/types/Unify.hs) -- in pre-[FC](commentary/compiler/fc)).
+- The `res_ty` type is the same as the type of any of the right-hand sides (up to refining unification -- coreRefineTys in [compiler/types/Unify.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/types/Unify.hs) -- in pre-[FC](commentary/compiler/fc)).
 
 - If there is a `DEFAULT` alternative, it must appear first.  This makes finding a `DEFAULT` alternative easy, when it exists.
 
@@ -166,7 +166,7 @@ allowed. In other words, it is possible to come across a definition of a
 variable that has the same name (`realUnique`) as some other one that is
 already in scope. One of the possible ways to deal with that is to
 use `Subst` (substitution environment from
-[compiler/coreSyn/CoreSubst.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/CoreSubst.hs)), which maintains the list of
+[compiler/coreSyn/CoreSubst.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/coreSyn/CoreSubst.hs)), which maintains the list of
 variables in scope and makes it possible to clone (i.e. rename) only the
 variables that actually capture names of some earlier ones. For some more
 explanations about this approach see 
@@ -176,4 +176,4 @@ explanations about this approach see
 ## Human readable Core generation
 
 
-If you are interested in the way Core is translated into human readable form, you should check the sources for [compiler/coreSyn/PprCore.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/coreSyn/PprCore.hs). It is especially useful if you want to see how the Core data types are being built, especially when there is no Show instance defined for them.
+If you are interested in the way Core is translated into human readable form, you should check the sources for [compiler/coreSyn/PprCore.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/coreSyn/PprCore.hs). It is especially useful if you want to see how the Core data types are being built, especially when there is no Show instance defined for them.

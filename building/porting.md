@@ -344,7 +344,7 @@ your OS.
 
 
 The splitter is another evil Perl script
-([driver/split/ghc-split.lprl](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/driver/split/ghc-split.lprl)). Object splitting is what happens
+([driver/split/ghc-split.lprl](https://gitlab.haskell.org/ghc/ghc/blob/master/driver/split/ghc-split.lprl)). Object splitting is what happens
 when the `-split-objs` option is passed to GHC: the object file is
 split into many smaller objects. This feature is used when building
 libraries, so that a program statically linked against the library
@@ -366,7 +366,7 @@ generator is described in detail in [Commentary/Compiler/Backends/NCG](commentar
 
 
 To support GHCi, you need to port the dynamic linker
-([rts/Linker.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/Linker.c)).  The linker currently supports the
+([rts/Linker.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Linker.c)).  The linker currently supports the
 ELF and PEi386 object file formats - if your platform uses one of
 these then things will be significantly easier.  The majority of Unix
 platforms use the ELF format these days.  Even so, there are some

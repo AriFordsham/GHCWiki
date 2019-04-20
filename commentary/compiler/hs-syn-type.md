@@ -7,17 +7,17 @@ Video: [Abstract Syntax Types](http://www.youtube.com/watch?v=lw7kbUvAmK4&list=P
 The program is initially parsed into "**`HsSyn`**", a collection of data types that describe the full abstract syntax of Haskell.  `HsSyn` is a pretty big collection of types: there are 52 data types at last count.  Many are pretty trivial, but a few have a lot of constructors (`HsExpr` has 40).  `HsSyn` represents Haskell in its full glory, complete with all syntactic sugar.
 
 
-The `HsSyn` modules live in the [compiler/hsSyn](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/hsSyn) directory.  Each module declares a related group of declarations, *and* gives their pretty-printer.
+The `HsSyn` modules live in the [compiler/hsSyn](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn) directory.  Each module declares a related group of declarations, *and* gives their pretty-printer.
 
-- [compiler/hsSyn/HsSyn.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/hsSyn/HsSyn.hs): the root module.  It exports everything you need, and it's generally what you should import.
-- [compiler/hsSyn/HsBinds.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/hsSyn/HsBinds.hs): bindings.
-- [compiler/hsSyn/HsImpExp.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/hsSyn/HsImpExp.hs): imports and exports.
-- [compiler/hsSyn/HsDecls.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/hsSyn/HsDecls.hs): top-level declarations.
-- [compiler/hsSyn/HsExpr.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/hsSyn/HsExpr.hs): expressions, match expressions, comprehensions.
-- [compiler/hsSyn/HsLit.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/hsSyn/HsLit.hs): literals.
-- [compiler/hsSyn/HsPat.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/hsSyn/HsPat.hs): patterns.
-- [compiler/hsSyn/HsTypes.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/hsSyn/HsTypes.hs): types.
-- [compiler/hsSyn/HsUtils.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/hsSyn/HsUtils.hs): utility functions (no data types).
+- [compiler/hsSyn/HsSyn.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsSyn.hs): the root module.  It exports everything you need, and it's generally what you should import.
+- [compiler/hsSyn/HsBinds.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsBinds.hs): bindings.
+- [compiler/hsSyn/HsImpExp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsImpExp.hs): imports and exports.
+- [compiler/hsSyn/HsDecls.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsDecls.hs): top-level declarations.
+- [compiler/hsSyn/HsExpr.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsExpr.hs): expressions, match expressions, comprehensions.
+- [compiler/hsSyn/HsLit.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsLit.hs): literals.
+- [compiler/hsSyn/HsPat.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsPat.hs): patterns.
+- [compiler/hsSyn/HsTypes.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsTypes.hs): types.
+- [compiler/hsSyn/HsUtils.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsUtils.hs): utility functions (no data types).
 
 
 There is significant mutual recursion between modules, and hence a couple of `hs-boot` files. Look at [ModuleDependencies](module-dependencies) to see the dependencies.
@@ -77,7 +77,7 @@ The type checker adds type information to the syntax tree, otherwise leaving it 
 
 ## Source Locations
 
-`HsSyn` makes heavy use of the `Located` type ([compiler/basicTypes/SrcLoc.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/SrcLoc.hs)):
+`HsSyn` makes heavy use of the `Located` type ([compiler/basicTypes/SrcLoc.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/SrcLoc.hs)):
 
 ```wiki
 data Located e = L SrcSpan e
@@ -90,7 +90,7 @@ A `Located t` is just a pair of a `SrcSpan` (which describes the source location
 - `SrcSpan` specifes a range of source locations: (filename, start line number and character position, end line number and character position)
 
 
-More details in [compiler/basicTypes/SrcLoc.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/basicTypes/SrcLoc.hs).
+More details in [compiler/basicTypes/SrcLoc.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/SrcLoc.hs).
 
 
 Naming convention within the code: "`LHs`" means located Haskell, e.g.

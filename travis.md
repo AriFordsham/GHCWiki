@@ -38,7 +38,7 @@ It does all this in two variants
 - with `-DDEBUG`, to catch assertions.
 
 
-These settings are made in [ghc/.travis.yml](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/.travis.yml). You can conveniently experiment with different settings in a `wip/...` branch.
+These settings are made in [ghc/.travis.yml](https://gitlab.haskell.org/ghc/ghc/blob/master/.travis.yml). You can conveniently experiment with different settings in a `wip/...` branch.
 
 ## Statuses
 

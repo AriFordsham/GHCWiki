@@ -6,10 +6,10 @@
 
 The renamer, typechecker, interface-file typechecker, and desugarer all share a certain amount in common: they must report errors, handle environments, do I/O, etc.  Furthermore, because of Template Haskell we have to interleave renaming and typechecking.  So all four share a common monad, called `TcRnIf`.  This infrastructure is defined by the following modules:
 
-- [compiler/utils/IOEnv.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/utils/IOEnv.hs): extends the IO monad with an environment (just a simple reader monad).
-- [compiler/typecheck/TcRnTypes.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/typecheck/TcRnTypes.hs): builds the `TcRnIf` monad on top of `IOEnv`:
-- [compiler/typecheck/TcRnMonad.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/typecheck/TcRnMonad.hs): defines lots of access functions for the renamer, typechecker, and interface typechecker.
-- [compiler/deSugar/DsMonad.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/deSugar/DsMonad.hs): specialises the `TcRnIf` monad for the desugarer.
+- [compiler/utils/IOEnv.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/utils/IOEnv.hs): extends the IO monad with an environment (just a simple reader monad).
+- [compiler/typecheck/TcRnTypes.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/typecheck/TcRnTypes.hs): builds the `TcRnIf` monad on top of `IOEnv`:
+- [compiler/typecheck/TcRnMonad.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/typecheck/TcRnMonad.hs): defines lots of access functions for the renamer, typechecker, and interface typechecker.
+- [compiler/deSugar/DsMonad.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/deSugar/DsMonad.hs): specialises the `TcRnIf` monad for the desugarer.
 
 
 The typechecker and renamer use *exactly* the same monad, `TcRn`; the desugarer and interface-file checker use different instantiations of `TcRnIf`.  To give you the idea, here is how the `TcRn` monad looks:
@@ -37,4 +37,4 @@ type TcM  a = TcRn a		-- Historical
 ```
 
 
-The details of the global environment type `TcGblEnv` and local environment type `TcLclEnv` are also defined in [compiler/typecheck/TcRnTypes.lhs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/typecheck/TcRnTypes.lhs).  Side effecting operations, such as updating the unique supply, are done with TcRefs, which are simply a synonym for IORefs. 
+The details of the global environment type `TcGblEnv` and local environment type `TcLclEnv` are also defined in [compiler/typecheck/TcRnTypes.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/typecheck/TcRnTypes.lhs).  Side effecting operations, such as updating the unique supply, are done with TcRefs, which are simply a synonym for IORefs. 

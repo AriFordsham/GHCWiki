@@ -26,7 +26,7 @@ The CPP symbols and their corresponding command-line flags are:
 
 - **`TRACING`**
 
-  - Enables RTS tracing and event logging, see [rts/Trace.c](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/rts/Trace.c).  Implied by `DEBUG`.
+  - Enables RTS tracing and event logging, see [rts/Trace.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Trace.c).  Implied by `DEBUG`.
   - GHC option: `-eventlog`
   - RTS suffix: `l`
 

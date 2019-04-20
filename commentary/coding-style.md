@@ -235,7 +235,7 @@ To maintain compatibility, use [HsVersions.h](commentary/coding-style#) (see bel
 
 ### `HsVersions.h`
 
-`HsVersions.h` is a CPP header file containing a number of macros that help smooth out the differences between compiler versions. It defines, for example, macros for library module names which have moved between versions. Take a look [compiler/HsVersions.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/HsVersions.h).
+`HsVersions.h` is a CPP header file containing a number of macros that help smooth out the differences between compiler versions. It defines, for example, macros for library module names which have moved between versions. Take a look [compiler/HsVersions.h](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/HsVersions.h).
 
 ```c
 #include "HsVersions.h"

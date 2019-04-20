@@ -10,7 +10,7 @@ There are two types of GHC ways, RTS-only ways and full ways.
 - **Runtime system (RTS) ways** affect the way that the runtime system is built. As an example, `-threaded` is a runtime system way. When you compile a program with `-threaded`, it will be linked to a (precompiled) version of the RTS with multithreading enabled.
 
 
-Obviously, the compiler's RTS must have been built for this way (the threaded RTS is activated by default BTW). In customised builds, an RTS way can be added in the build configuration `mk/build.mk` (see [mk/build.mk.sample](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/mk/build.mk.sample)), by adding its *short name* to the variable `GhcRTSWays`.
+Obviously, the compiler's RTS must have been built for this way (the threaded RTS is activated by default BTW). In customised builds, an RTS way can be added in the build configuration `mk/build.mk` (see [mk/build.mk.sample](https://gitlab.haskell.org/ghc/ghc/blob/master/mk/build.mk.sample)), by adding its *short name* to the variable `GhcRTSWays`.
 
 - **Full ways**
 
@@ -126,7 +126,7 @@ The alert reader might have noticed that combinations like "threaded with dynami
 Some ways can be used together (most prominently, debugging can be used together with any other way), others are mutually excluding each other (like profiling with eventlog).
 
 
-The allowed combinations are defined inside the compiler, in [compiler/main/DynFlags.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/main/DynFlags.hs).
+The allowed combinations are defined inside the compiler, in [compiler/main/DynFlags.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/DynFlags.hs).
 Which brings us to discussing some of the internals.
 
 
@@ -156,7 +156,7 @@ to your `build.mk`.
 # Internals
 
 
-Ways are defined in [compiler/main/DynFlags.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/compiler/main/DynFlags.hs) as a Haskell data structure `Way`.
+Ways are defined in [compiler/main/DynFlags.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/DynFlags.hs) as a Haskell data structure `Way`.
 
 
 Function `dynamic_flags` defines the actual flag strings for the ghc invocation (like `-prof`, `-threaded`), which activate the respective `Way`.
@@ -172,7 +172,7 @@ Note `wayOptc` which sets some options for the C compiler, like `-DTRACING` for 
 However, this is not the full truth. For instance, there is no `-DDEBUG` for the debug way here, but the RTS is full of `#ifdef DEBUG`.
 
 
-In [mk/ways.mk](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/mk/ways.mk), we find all the short names and all combinations enumerated, and some more options are defined here (`WAY_*_HC_OPTS`). These definitions are for the driver script, and pass on the right (long-name) options to the Haskell compiler to activate what is inside DynFlags (like -prof for WAY_p_HC_OPTS).
+In [mk/ways.mk](https://gitlab.haskell.org/ghc/ghc/blob/master/mk/ways.mk), we find all the short names and all combinations enumerated, and some more options are defined here (`WAY_*_HC_OPTS`). These definitions are for the driver script, and pass on the right (long-name) options to the Haskell compiler to activate what is inside DynFlags (like -prof for WAY_p_HC_OPTS).
 Here we find
 ```WAY_debug_HC_OPTS= -static -optc-DDEBUG -ticky -DTICKY_TICKY```
 so we can learn that ticky profiling is activated by compiling with `debug`.

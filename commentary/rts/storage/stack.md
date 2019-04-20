@@ -23,7 +23,7 @@ The code for evaluating a `case` pushes a new stack frame representing the alter
 ## Info tables for stack frames
 
 
-The info table for a stack frame has a couple of extra fields in addition to the [basic info table layout](commentary/rts/heap-objects#info-tables).  A stack-frame info table is defined by `StgRetInfoTable` in [includes/rts/storage/InfoTables.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/rts/storage/InfoTables.h).
+The info table for a stack frame has a couple of extra fields in addition to the [basic info table layout](commentary/rts/heap-objects#info-tables).  A stack-frame info table is defined by `StgRetInfoTable` in [includes/rts/storage/InfoTables.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/rts/storage/InfoTables.h).
 
 ![](ret-itbl-no-rv.png)
 
@@ -41,7 +41,7 @@ Stack frames therefore have [bitmap layout](commentary/rts/heap-objects#bitmap-l
 ## Kinds of Stack Frame
 
 
-The constants for the different types of stack frame are defined in [includes/rts/storage/ClosureTypes.h](https://gitlab.haskell.org/ghc/ghc/tree/master/ghc/includes/rts/storage/ClosureTypes.h).  More details about the layouts are available in [includes/rts/storage/Closures.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/rts/storage/Closures.h)
+The constants for the different types of stack frame are defined in [includes/rts/storage/ClosureTypes.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/rts/storage/ClosureTypes.h).  More details about the layouts are available in [includes/rts/storage/Closures.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/rts/storage/Closures.h)
 
 - `RET_BCO`
 - `RET_SMALL`
