@@ -12,21 +12,17 @@ Everything starts with the main GHC repository (see [Building/GettingTheSources]
 
   Despite the name "package", this file contains the master list of the \*repositories\* that make up GHC. It is parsed by `./boot`.
 
-- **`tarballs`**
-
-  Lists the various tarballs (binary packages) that ghc relies on and where to unpack them during a build.
-
 - **`validate`**
 
   Run `validate` (a shell script) before committing (see [TestingPatches](testing-patches)). The script is documented in the file itself.
 
 - **Documentation files**
 
-  `README`, `ANNOUNCE`, `HACKING`, `LICENSE`, `new_tc_notes`
+  `README.md`, `ANNOUNCE`, `HACKING.md`, `LICENSE`
 
 - **GNU autoconf machinery**
 
-  `aclocal.m4`, `config.guess`, `config.sub`, `configure.ac`, `install-sh`, `config.mk.in`, `settings.in`
+  `aclocal.m4`, `config.guess`, `config.sub`, `configure.ac`, `install-sh`, `mk/config.mk.in`, `settings.in`
 
 - **`Makefile`**
 
@@ -35,7 +31,7 @@ Everything starts with the main GHC repository (see [Building/GettingTheSources]
 
 - **Make system files**
 
-  `ghc.mk`, `MAKEHELP`, `SUBMAKEHELP`
+  `ghc.mk`, `MAKEHELP`
 
 ## `libraries/`
 
@@ -53,7 +49,7 @@ The `compiler/` directory contains the ghc package, which is linked
 into an executable in the `ghc/` directory.
 
 
-There is [documentation of the intended module dependency structure](module-dependencies) of the `compiler/` directory.
+There is [documentation of the intended module dependency structure](module-structure) of the `compiler/` directory.
 
 - **`compiler/ghc.cabal.in`**: the Cabal file for GHC is generated from this. If you add a module to GHC's source code, you must add it in the `ghc.cabal.in` file too, else you'll get link errors.
 
