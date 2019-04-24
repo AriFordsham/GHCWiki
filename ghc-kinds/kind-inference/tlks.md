@@ -50,6 +50,8 @@ data T a = MkT a
 
 `T` really comes into scope with the kind `F Bool -> F Bool`. The LHS of the `data` declaration is effectively redundant with a TLKS. RAE proposes we check it for consistency (and bring vars into scope, etc.), but we don't use it in desugaring the declaration. On the other hand, the RHS is relevant. Here, I would expect `MkT :: forall (a :: F Bool). (a |> axF) -> T a`, where `axF` is a coercion derived by unification. We might have to look at the different declaration forms independently and figure out the right answer for each one. (But before doing this, RAE requests further input from others.)
 
+SPJ: yes, we should allow these coercions wherever possible.  I agree with the elaboration of `MkT`.   But there may be a few places where it is really troublesome -- your `k_local` and `ksig_local` example may be one -- because there is no natural place to put the coercion.  In those cases, we should tread carefully; either make it illegal (as you suggest) or require the coercsions to be the identity (which is a bit more friendly).
+
 ## Type variables without binders
 
 ```
@@ -58,6 +60,8 @@ data T = MkT Int
 ```
 
 ### Q1: Do we want to accept `T`?
+
+SPJ: no.  Manifestly `T :: Type`, no? How could we even consider accepting it?
 
 Vlad: yes. With GADTs, we can already say this:
 
@@ -91,6 +95,12 @@ type T2 :: Type -> Type
 data T2 a where
   MkT2 :: Int -> T2 a
 ```
+SPJ:  That's quite different to the `data T = MkT Int` decl above (in H98 style).  But even in GADT syntax, I'm not sure we want to accept a data type declaration that (on the face of it) appears to have kind `T1 :: Type`. The kind signature might be far away.  And, absent a TLKS if we say
+```
+data T1 where
+  ...
+```
+then, regardless of the `...` we'll infer a kind for `T1` ending in `Type`.  Let's be consistent with that.
 
 RAE: Admittedly, with GADT syntax, where the variable names in the head have a very limited scope, this makes a touch more sense. But I still don't like it. End RAE.
 
