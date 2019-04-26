@@ -146,7 +146,9 @@ Both of those tell us the "real" desugaring as just another pattern we could rec
 
 ## Adapting old code
 
-* Help! My code is broken because of a missing `MonadFail` instance! ''Here are your options:''
+* Help! My code is broken because of a missing `MonadFail` instance!
+
+  Here are your options:
   1. Write a `MonadFail` instance (and bring it into scope). The [http://hackage.haskell.org/package/fail fail] provides a forward-compatible `MonadFail` class for GHC versions prior to GHC 8.0
      ```haskell
      import Control.Monad
@@ -157,9 +159,10 @@ Both of those tell us the "real" desugaring as just another pattern we could rec
        (>>=) = <...bind impl...>
        -- NB: `return` defaults to `pure` since GHC 7.10
 
-       -- Monad(fail) will be removed in GHC 8.8+;
-       -- GHC may or may not ignore a definition in terms of MonadFail(fail) (decision pending)
+     #if !(MIN_VERSION_base(4,13,0))
+       -- Monad(fail) will be removed in GHC 8.8+
        fail = Fail.fail
+     #endif
 
      instance Fail.MonadFail Foo where
        fail = <...fail implementation...>
@@ -179,8 +182,9 @@ Both of those tell us the "real" desugaring as just another pattern we could rec
         stuff
      ```
      The point is you'll have to do your dirty laundry yourself now if you have a value that ''you'' know will always match, and if you don't handle the other patterns you'll get incompleteness warnings, and the compiler won't silently eat those for you.
-* Help! My code is broken because you removed `fail` from `Monad` but my class defines it! ''Delete that part of the instance definition.''
+* Help! My code is broken because you removed `fail` from `Monad` but my class defines it!
 
+  At the very least, you'll need to remove the `fail` implementation from your `Monad` instance on GHC 8.8 or later. If you wish to support older versions of GHC as well, consider guarding your `fail` implementation behind CPP, as shown in the `Monad Foo` example of above. Also consider migrating your old `Monad.fail` implementation to a new `MonadFail` instance for others' benefit.
 
 ## Esimating the breakage
 
