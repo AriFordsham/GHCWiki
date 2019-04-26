@@ -13,7 +13,7 @@ Cut release branch in June 2018. Release in August 2018.
 ## Libraries Status
 
 
-See Libraries? and [Migration/8.6](migration/8.6).
+See Libraries? and [Migration/8.6](/migration/8.6).
 
 ## Release highlights (planned)
 

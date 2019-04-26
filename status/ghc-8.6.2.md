@@ -14,7 +14,7 @@ Release in mid-October 2018.
 ## Libraries Status
 
 
-See Libraries? and [Migration/8.6](migration/8.6).
+See Libraries? and [Migration/8.6](/migration/8.6).
 
 ## Release highlights (planned)
 
