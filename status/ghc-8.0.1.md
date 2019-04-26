@@ -115,7 +115,7 @@ There's nothing here.
 
 FIXME Write the migration guide.
 
-[https://gitlab.haskell.org/trac/ghc/wiki/Migration/8.0](https://gitlab.haskell.org/trac/ghc/wiki/Migration/8.0)
+[Migration/8.0](/migration/8.0)
 
 ## Known issues with release candidate 2
 
