@@ -19,7 +19,7 @@ If you believe your favorite thing belongs in this list, but isn't there, please
 ## Libraries Status
 
 
-See Libraries? and [Migration/8.8](migration/8.8).
+See Libraries? and [Migration/8.8](/migration/8.8).
 
 ## Release highlights (planned)
 
