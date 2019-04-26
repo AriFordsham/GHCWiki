@@ -79,7 +79,7 @@ $ make ONLY_PERF_TESTS=YES
 ```
 
 
-To run everything but the performance tests:
+See [performance tests](building/running-tests/performance-tests) for more details on performance tests. To run everything but the performance tests:
 
 ```wiki
 $ make SKIP_PERF_TESTS=YES
