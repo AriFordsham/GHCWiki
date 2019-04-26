@@ -14,7 +14,7 @@ Release in February 2018. Cut release branch in November 2017.
 ## Libraries Status
 
 
-See [Libraries](status/ghc-8.4.1/libraries) and [Migration/8.4](migration/8.4).
+See [Libraries](status/ghc-8.4.1/libraries) and [Migration/8.4](/migration/8.4).
 
 ## Release highlights (planned)
 
