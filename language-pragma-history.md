@@ -9,6 +9,8 @@ See also [GHC Boot Library Version History](commentary/libraries/version-history
 
 See also [http://damianfral.github.io/ghcaniuse/](http://damianfral.github.io/ghcaniuse/).
 
+See also [Language options](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#language-options) in GHC User's Guide.
+
 ## Changes in GHC 8.6
 
 
