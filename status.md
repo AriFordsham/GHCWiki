@@ -3,6 +3,14 @@
 
 This page summarises the state of play on GHC
 
+See also
+[release annoucements](https://www.haskell.org/ghc/blog.html), 
+[migration guide](migration),
+[library version history](commentary/libraries/version-history),
+[pragma history](language-pragma-history), and
+[milestones](https://gitlab.haskell.org/ghc/ghc/milestones).
+
+
 ## Releases
 
 
