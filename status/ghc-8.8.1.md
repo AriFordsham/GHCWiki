@@ -38,7 +38,14 @@ Below are the major highlights of 8.8.
   - New codelayout algorithm for the NCG: #15124
   - Optimize based on limited static analysis: #14672
 - A late lambda lifting optimisation on STG (#9476)
-- More locations where users can write `forall`: [https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0007-instance-foralls.rst](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0007-instance-foralls.rst)
+- More locations where users can write `forall`: [GHC Proposal #7](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0007-instance-foralls.rst)
+- Visible kind applications: [GHC Proposal #15](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0015-type-level-type-applications.rst)
+- Allow ScopedTypeVariables to refer to types: [GHC Proposal #29](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0029-scoped-type-variables-types.rst)
+- Lower precedence for `{-# UNPACK #-}`: [GHC Proposal #37](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0037-unpack-pragma-precedence.rst)
+- Make rebindable `fail` work with overloaded strings: [GHC Proposal #38](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0038-fail-rebindable-with-overloaded-strings.rst)
+- The dot type operator: [GHC Proposal #39](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0039-dot-type-operator.rst)
+- Make `forall` a keyword: [GHC Proposal #43](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0043-forall-keyword.rst)
+
 
 ### Build system and miscellaneous changes
 
