@@ -3,13 +3,6 @@
 
 This page summarises the state of play on GHC
 
-See also
-[release annoucements](https://www.haskell.org/ghc/blog.html), 
-[migration guide](migration),
-[library version history](commentary/libraries/version-history),
-[pragma history](language-pragma-history), and
-[milestones](https://gitlab.haskell.org/ghc/ghc/milestones).
-
 
 ## Releases
 
@@ -45,6 +38,14 @@ For fun: the release plans for previous releases:
 - [GHC 7.8.1](status/ghc-7.8)
 - [GHC 6.12](status/ghc-6.12)
 - [GHC 6.10](status/ghc-6.10)
+
+See also
+[release annoucements](https://www.haskell.org/ghc/blog.html), 
+[migration guide](migration),
+[library version history](commentary/libraries/version-history),
+[pragma history](language-pragma-history), and
+[milestones](https://gitlab.haskell.org/ghc/ghc/milestones).
+
 
 ## Automated builds and performance testing
 
