@@ -7,6 +7,8 @@ This table lists the versions of GHC against those of its boot libraries, includ
 
 See also: [LanguagePragmaHistory](language-pragma-history), which lists the language extensions added and/or removed in each GHC version.
 
+See also [Documentation for the libraries](https://downloads.haskell.org/~ghc/latest/docs/html/libraries/index.html).
+
 <table>
 <tr><th> </th> <th><b>HEAD</b></th> <th><b>8.6.5</b></th> <th><b>8.6.4</b></th> <th><b>8.6.3</b></th> <th><b>8.6.2</b></th> <th><b>8.6.1</b></th> <th><b>8.4.4</b></th> <th><b>8.4.3</b></th> <th><b>8.4.2</b></th> <th><b>8.4.1</b></th> <th><b>8.2.2</b></th> <th><b>8.2.1</b></th> <th><b>8.0.2</b></th> <th><b>8.0.1</b></th> <th><b>7.10.3</b></th> <th><b>7.10.2</b></th> <th><b>7.10.1</b></th> <th><b>7.8.4</b></th> <th><b>7.8.3</b></th> <th><b>7.8.2</b></th> <th><b>7.8.1</b></th> <th><b>7.6.3</b></th> <th><b>7.6.2</b></th> <th><b>7.6.1</b></th> <th><b>7.4.2</b></th> <th><b>7.4.1</b></th> <th><b>7.2.2</b></th> <th><b>7.2.1</b></th> <th><b>7.0.4</b></th> <th><b>7.0.3</b></th> <th><b>7.0.2</b></th> <th><b>7.0.1</b></th></tr>
 <tr><td><tt>Cabal</tt></td> <td>2.5.0.0</td> <td colspan="5">2.4.0.1</td> <td colspan="3">2.2.0.1</td> <td>2.2.0.0</td> <td>2.0.1.0</td> <td>2.0.0.2</td> <td>1.24.2.0</td> <td>1.24.0.0</td> <td>1.22.5.0</td> <td>1.22.4.0</td> <td>1.22.2.0</td> <td>1.18.1.5</td> <td colspan="3">1.18.1.3</td> <td colspan="3">1.16.0</td> <td colspan="2">1.14.0</td> <td colspan="2">1.12.0</td> <td>1.10.2.0</td> <td colspan="2">1.10.1.0</td> <td>1.10.0.0</td> </tr>
