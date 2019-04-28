@@ -7,7 +7,8 @@ This table lists the versions of GHC against those of its boot libraries, includ
 
 See also: [LanguagePragmaHistory](language-pragma-history), which lists the language extensions added and/or removed in each GHC version.
 
-See also [Documentation for the libraries](https://downloads.haskell.org/~ghc/latest/docs/html/libraries/index.html).
+See also [index of the libraries](https://downloads.haskell.org/~ghc/latest/docs/html/libraries/index.html) and changelogs on Hackage (e.g. [base's changelog](http://hackage.haskell.org/package/base/changelog)).
+
 
 <table>
 <tr><th> </th> <th><b>HEAD</b></th> <th><b>8.6.5</b></th> <th><b>8.6.4</b></th> <th><b>8.6.3</b></th> <th><b>8.6.2</b></th> <th><b>8.6.1</b></th> <th><b>8.4.4</b></th> <th><b>8.4.3</b></th> <th><b>8.4.2</b></th> <th><b>8.4.1</b></th> <th><b>8.2.2</b></th> <th><b>8.2.1</b></th> <th><b>8.0.2</b></th> <th><b>8.0.1</b></th> <th><b>7.10.3</b></th> <th><b>7.10.2</b></th> <th><b>7.10.1</b></th> <th><b>7.8.4</b></th> <th><b>7.8.3</b></th> <th><b>7.8.2</b></th> <th><b>7.8.1</b></th> <th><b>7.6.3</b></th> <th><b>7.6.2</b></th> <th><b>7.6.1</b></th> <th><b>7.4.2</b></th> <th><b>7.4.1</b></th> <th><b>7.2.2</b></th> <th><b>7.2.1</b></th> <th><b>7.0.4</b></th> <th><b>7.0.3</b></th> <th><b>7.0.2</b></th> <th><b>7.0.1</b></th></tr>
