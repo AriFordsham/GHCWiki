@@ -9,12 +9,18 @@ can extend it, modify it, and use it to build your code.
 
 ## Contents
 
-**Getting started**
+### Getting started
 
 - [Getting the sources](building/getting-the-sources)
 - [Preparing a build environment](building/preparation)
 - [Getting ready to contribute (i.e. forking GHC)](building/fork)
 - Newcomers should also go to [Contributing](contributing).
+
+### Using the new Hadrian build system
+
+- [Building GHC with Hadrian](building/hadrian)
+
+### Using the old make-based build system
 
 **More detailed information about using the build system**
 
