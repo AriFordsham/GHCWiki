@@ -62,7 +62,7 @@ can extend it, modify it, and use it to build your code.
 
 - [FAQ: Solving common problems with building GHC](building/troubleshooting)
 
-## Contributed documentation
+### Contributed documentation
 
 
 Please feel free to add pages here.  In due course, information can be incorporated into the main documentation above.
