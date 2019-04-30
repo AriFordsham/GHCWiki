@@ -1,4 +1,5 @@
 [GHC Home](https://www.haskell.org/ghc/)  
+[GHC User's Guide](https://downloads.haskell.org/ghc/latest/docs/html/users_guide/)  
 
 ##### Joining In
 [Newcomers info](https://gitlab.haskell.org/ghc/ghc/wikis/contributing#newcomers-to-ghc)  
