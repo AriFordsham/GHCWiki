@@ -1,0 +1,15 @@
+# GHC User's Documentation
+
+## Master (HEAD) branch version
+
+- [GHC User's Guide](https://ghc.gitlab.haskell.org/ghc/doc/) (May fail build)
+
+
+## Latest release version
+
+- [GHC User's Guide](https://downloads.haskell.org/ghc/latest/docs/html/users_guide)
+- [Documentation for the libraries that come with GHC](https://downloads.haskell.org/ghc/latest/docs/html/libraries/index.html)
+
+## Previous release versions
+
+- [Index list](https://downloads.haskell.org/ghc/)
