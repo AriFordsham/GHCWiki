@@ -1,4 +1,3 @@
-
 On this page we describe the principles behind the implementation of the linear types extension as described at [LinearTypes](linear-types).
 
 
@@ -34,49 +33,41 @@ id x = x
 
 is the linear identity function.
 
-
-The syntax is all temporary.
-
 ### funTyCon and unrestrictedFunTyCon
-
 
 In the GHC, prior to linear types, `funTyCon` is the `(->)` type, of kind `forall {a b :: RuntimeRep}. TYPE a -> TYPE b -> Type`.
 
+In the linear types branch, `funTyCon` refers to a new primitive type called `FUN`, of kind `forall (m :: Multiplicity) -> forall {a b :: RuntimeRep}. TYPE a -> TYPE b -> Type`.
 
-In the linear types branch, `funTyCon` refers to a new primitive type called `FUN`, of kind `forall (m :: Multiplicity) -> forall {a b :: RuntimeRep}. TYPE a -> TYPE b -> Type`. The `(->)` arrow is represented by `unrestrictedFunTyCon` and is a type synonym for `FUN 'Omega`. Note that the kind of `(->)` stays the same. `(->)` is moved from `TysPrim` to `TysWiredIn`.
-
+The prefix `(->)` arrow is now a type synonym for `FUN 'Omega` and is available as `unrestrictedFunTyCon`. The partial application `FUN 'Omega` is pretty-printed as `(->)`, just like `TYPE 'LiftedRep` is pretty-printed as `Type` (or `*`). Currently, the ghci command `:info` does not show instances for type synonyms (issue #16475). As a workaround, we detect this fact in `orphNamesOfType`. Note that the kind of `(->)` stays the same. 
 
 There is no `(->.)` (linear arrow) type constructor yet. It will eventually be defined as a type synonym in `TysWiredIn` like `(->)`.
 
-
 The additional multiplicity parameter to `funTyCon` is the main principle behind the implementation. The rest of the implementation is essentially correctly propagating and calculating linearity information whenever a `FunTy` is created.
-
-
-The data type for multiplicities is defined in `compiler/basicTypes/Multiplicity.hs` and is called `Mult`.
-
 
 In binders, where we stored a type, we now store a pair of type and multiplicity. This is achieved with data type `Scaled` which stores a type together with a multiplicity (it's a convention similar to `Located` for storing source locations).
 
 ## Frontend
 
+### HsType
+
+We need to distinguish `a -> b`, `a ->. b` and `a -->.(m) b` in the surface syntax. The `HsFunTy` constructor has an extra field containing `HsArrow`, which stores this information:
+
+
+```
+data HsArrow pass
+  = HsUnrestrictedArrow
+    -- ^ a -> b
+  | HsLinearArrow
+    -- ^ a ->. b
+  | HsExplicitMult (LHsType pass)
+    -- ^ a -->.(m) b (very much including `a -->.(Omega) b`! This is how the
+    -- programmer wrote it). It is stored as an `HsType` so as to preserve the
+    -- syntax as written in the program.
+```
 ### Typechecking
 
-
-
-The internal representation of a multiplicity is called `Mult`. Its (slightly simplified) definition is as follows:
-
-
-```
-data Mult = One
-          | Omega
-          | MultAdd Mult Mult
-          | MultMul Mult Mult
-          | MultThing Type
-```
-
-
-Each constructor represents how many times a variable is allowed to be used.
-
+Multiplicities are stored as types (`type Mult = Type`), of kind `Multiplicity`. There are pattern synonyms `One` and `Omega` for convenient access.
 
 The checking algorithm is as follows:
 
@@ -97,30 +88,15 @@ The checking algorithm is as follows:
 
 Concretely, there are precisely two places where we check how often variables are used.
 
-1. In `TcEnv.tc_extend_local_env`, which is the function which brings local variables into scope. Upon exiting a binder, we call `tcSubMult` (via `check_binder`) to ensure that the variable usage is compatible with the declared multiplicity (if no multiplicity was declared, a fresh existential multiplicity variable is created instead).
+1. In `TcEnv.tc_extend_local_env`, which is the function which brings local variables into scope. Upon exiting a binder, we call `check_binder` to ensure that the variable usage is compatible with the declared multiplicity (if no multiplicity was declared, a fresh existential multiplicity variable is created instead). In `check_binder` there is a call to `submult` which checks for obvious cases such as `1 <= p` before we delegate to `tcSubMult`. The function `tcSubMult` should generate the constraint `π ⩽ ρ`. For now, we do not have submultiplicity constraints and generate `π ~ ρ` (`tcEqMult`) as an approximation.
 
-  - `tcSubMult` emits constraints of the form `π ⩽ ρ`. In `check_binder` there is a call to `submultMaybe` which checks for obvious cases before we delegate to `tcSubMult` which decomposes multiplication and addition constraints
+2. In `tc_sub_type_ds`, In the `FunTy` case, we unify the arrow multiplicity which can lead to the unification of multiplicity variables.
 
->
-> >
-> >
-> > before calling `tcEqMult` in order to check for precise equality of types. This function will also do unification of variables.
-> >
-> >
->
-
-1. In `tc_sub_type_ds`, In the `FunTy` case, we unify the arrow multiplicity which can lead to the unification of multiplicity variables.
-
-  - `tc_sub_type_ds` emits constraints of the form `π = ρ`, this is achieved by a call to `tcEqMult` which just calls `rigToType` on the `Rig`s before checking for equality using `tc_sub_type_ds` recursively.
-
+  - `tc_sub_type_ds` emits constraints of the form `π = ρ`, this is achieved by a call to `tcEqMult` which just calls`tc_sub_type_ds` recursively.
 
 A better implementation would probably emit a real constraint `pi <= rho` and then add logic for solving it to the constraint solver. The current ad-hoc approach reduces the task of checking the relation to checking certain equality constraints.
 
-
-In order to use the normal unification machinery, we eventually call `tc_sub_type_ds` but before that we check for domain specific rules we want to implement such as `1 <= p` which is achieved by calls to `submult` or `submultMaybe`.
-
 #### Solving constraints
-
 
 Constraint solving is not completely designed yet. The current implementation follows very simple rules, to get the implementation off the ground. Basically both equality and subsumption constraints are treated as syntactic equality unification (as opposed, in particular, to unification up to laws of multiplicities as in the proposal). There are few other rules (described below) which are necessary to type even simple linear programs:
 
@@ -136,144 +112,34 @@ This is implemented by making sure to call `submult` on the multiplicities befor
 ##### Complex constraints
 
 
-Multiplication and addition are approximated.
-
-- A constraint of the form `p1 * p2 <= q` is solved as `p1 <= q` and `p2 <= q`.
-- A constraint of the form `p1 + p2 <= q` is solved as `Omega <= q`
+Multiplication and addition are approximated.  `p1 + p2` is always simplified to `Omega`. `p1 * p2` is simplified to `Omega`, unless `p1` or `p2` is literally `One`.
 
 ### Defaulting
 
-
-Unsolved multiplicity variables are defaulted to ω by the following functions:
-
-
-Calls to `isMultiplicityVar` are used in places where we do defaulting.
+Unsolved multiplicity variables are defaulted to `Omega`. We detect them by calling `isMultiplicityVar`; this happens in :
 
 1. `TcSimplify.defaultTyVarTcS`
-1. `TcMType.defaultTyVar`
-
-### HsType
-
-
-
-We need to distinguish `a -> b`, `a ->. b` and `a -->.(m) b` in the surface syntax. The `HsFunTy` constructor has an extra field containing `HsArrow`, which stores this information:
-
-
-```
-data HsArrow pass
-  = HsUnrestrictedArrow
-    -- ^ a -> b
-  | HsLinearArrow
-    -- ^ a ->. b
-  | HsExplicitMult (LHsType pass)
-    -- ^ a -->.(m) b (very much including `a -->.(Omega) b`! This is how the
-    -- programmer wrote it). It is stored as an `HsType` so as to preserve the
-    -- syntax as written in the program.
-```
-
-### Data Constructors are polymorphic
-
-
-
-A key part of the original proposal was the type of data constructors was linear.
-
-
-```
-(,) :: a ->. b ->. (a, b)
-```
-
-
-They were then automatically η-expanded automatically when needed to be used as unrestricted types. That is
-
-
-```
-( (,) :: a -> b -> (a, b))
-```
-
-
-would typecheck because it would be elaborated into `\x y -> (x, y)`, which can be given the type `a -> b -> (a, b)`.
-
-
-
-However, besides the fact that over-eager η-expansion is undesirable (it is not perfectly preserving: `undefined `seq` True` loops, while `(\x -> undefined x) `seq` True` terminates, it also runs contrary to the [plans on polymorphism](https://www.microsoft.com/en-us/research/publication/guarded-impredicative-polymorphism/)), it was found to be also insufficient for backwards compatibility. Below are two examples of perfectly good Haskell code which would start failing with this strategy.
-
-
-#### Example 1
-
-
-```
-foo :: Identity (a -> b) -> a -> b
-foo = unIdentity
-
-foo (Identity Just)
-```
-
-
-The last line doesn’t type check because foo expects an \`Identity (a
--\> b)` but `Identity Just` is inferred to have type `Identity (a ⊸
-b)\`. The limited subtyping doesn’t handle this case. In a perfect
-world, `Identity Just` would have been elaborated to \`Identity (\\x -\>
-Just x) :: Identity (a -\> b)\`, but at the time where the application
-`Identity` Just was type-checked, it was not known that Just should
-be cast to an unrestricted arrow type.
-
-#### Example 2
-
-
-The second problem is much more obvious in retrospect: there are
-typeclasses defined on (-\>), and they can fail to apply when using
-linear function.
-
-
-```
-import Control.Category
-
-Just . Just -- fails
-```
-
-
-The latter fails because there are no `Category` instance of `(⊸)`. In
-the case of `Category`, we can write an instance, but it’s not
-necessarily the case that an instance for `(->)` will have a
-corresponding instance for `(⊸)`. Anyway, even if we have a `Category`
-instance for `(⊸)`, it is not clear what expression will typecheck:
-probably, one of the following will fail
-
-
-```
-import Control.Category
-
-(Just :: _ -> _) . Just
-Just . (Just :: _ -> _)
-```
-
-#### Polymorphic Constructors
-
-
-
-Simon suggested a solution to these problems. To make the type of linear data constructors polymorphic, when they are used as terms (their type stays linear when they are used in patterns).
-
-
-```
-(,) :: forall (p :: Multiplicity) (q :: Multiplicity). a -->.(p) b  -->.(q) -> (a, b)
-```
-
-
-Currently simplified as having a single multiplicity variable for the sake of a simpler implementation
-
-
-```
-(,) :: forall (p :: Multiplicity). a -->.(p) b -->.(p) -> (a, b)
-```
-
+2. `TcMType.defaultTyVar`
 
 We never infer multiplicity polymorphic arrows (like levity polymorphism). Any type variables which get to the top level are default to `Omega`. Thus, in most cases the multiplicity argument is defaulted to `Omega` or forced to be `Omega` by unification.
 
+### Data Constructors are polymorphic
+
+In linear types, constructors of data types are multiplicity-polymorphic. Foe example,
+
+```
+(,) :: forall {m :: Multiplicity} {n :: Multiplicity} a b. a -->.(m) b -->.(n) (a,b)
+```
+
+This is important for backwards compatibility; if we used a linear type `a ->. b ->. (a,b)`, code such as `f (,)` [where `f :: (a -> b -> (a,b)) -> c`] would break.
+
+This variable is inferred, so that there's no conflict with visible type application.
+
+When constructors are used as patterns, the fields are treated as linear (i.e. `a ->. b ->. (a,b)`).
+
 ##### Implementation
 
-
 The way this is implemented is that every data constructor is given a wrapper with very few exceptions (sole exceptions: levity polymorphic constructors (*i.e.* unboxed tuple and unboxed sum constructors) because they cannot have wrappers due to the levity-polymorphism restriction, and dictionary constructor because they don't exist in the surface syntax).
-
 
 Even internally used data types have wrappers for the moment which makes the treatment quite uniform. The most significant challenge of this endeavour was giving built-in data types wrappers as previously none of them had wrappers. This led to the refactoring of `mkDataConRep` and the
 introduction of `mkDataConRepSimple` which is a pure, simpler version of `mkDataConRep`.
@@ -282,18 +148,9 @@ introduction of `mkDataConRepSimple` which is a pure, simpler version of `mkData
 Once everything has a wrapper, you have to be quite careful with the difference between `dataConWrapId` and `dataConWorkId`. There were a few places where this used to work
 by accident as they were the same thing for builtin types.
 
-
-In particular, functions like `exprConApp_maybe` are fragile and I (Matthew) spent a while looking there.
-
-
 Other uses can be found by grepping for `omegaDataConTy` (there are very few of these left, as most of them pertained to type-class dictionaries which we reverted to have no wrapper). There are probably places where they can be removed by using `dataConWorkId` rather than `dataConWrapId`. The desugaring of `ConLikeOut` uses `dataConWrapId` though so anything in source syntax should apply the extra argument.
 
-
-As another note, be warned that the serialisation for inbuilt tuples is different from normal data constructors. I didn't know this until I printed out the uniques - ad397aa99be3aa1f46520953cb195b97e4cfaabf
-
-
 Otherwise, the implementation followed much the same path as levity polymorphism.
-
 
 As part of this implementation `dataConUserTy` has been change to reflect the extra multiplicity parameter of data constructors. However, this may have been a mistake. I (aspiwack) am beginning to think that `dataConUserTy` should stay as-the-user-type it, and the type of the wrapper should be a different type. I suspect this choice to be involved in \[a printing issue [https://github.com/tweag/ghc/issues/243](https://github.com/tweag/ghc/issues/243)\].
 
@@ -359,7 +216,7 @@ Look for `Note [Function coercions]` and grep for lists of exactly length 5 if y
 
 
 FunCo is modified to take an extra coercion argument which corresponds to coercions between multiplicities. This was added because there was a point to where `mkTyConAppCo` took a coercion as an argument and needed
-to produce a `Rig`. It was defaulted to `Omega` for a long time but eventually I changed it to `Coercion`. This seemed to work but there were some problems in CoreLint which mean the check for the role of the coercion
+to produce a `Mult`. It was defaulted to `Omega` for a long time but eventually I changed it to `Coercion`. This seemed to work but there were some problems in CoreLint which mean the check for the role of the coercion
 has been commented out for now.
 
 
@@ -599,8 +456,8 @@ definitions.
 
 If you are debugging then it is very useful to turn on the explicit printing of weights in two places.
 
-1. The outputable instance for `Weighted` in `Weight`.
-1. The weight of variables in `Var`, line 309.
+1. The Outputable instance for `Scaled` in `Multiplicity`.
+2. The multiplicity of variables in `Var`, line 309.
 
 
 There are disabled by default as they affect test output.
@@ -608,4 +465,3 @@ There are disabled by default as they affect test output.
 ## Misc
 
 - Patterns are type checked in a *context multiplicity* which scales the constructor fields, extending the `case_p` from the paper.
-- In error messages, `FUN 'Omega` is pretty-printed as `(->)`, just like `TYPE 'LiftedRep` is pretty-printed as `Type` (or `*`).
