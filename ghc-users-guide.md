@@ -12,6 +12,6 @@ This page has links to the user documentation for both current and past versions
 - [GHC User's Guide](https://downloads.haskell.org/ghc/latest/docs/html/users_guide)
 - [Documentation for the libraries that come with GHC](https://downloads.haskell.org/ghc/latest/docs/html/libraries/index.html)
 
-## Previous release versions
+## Previous release and rc/alpha versions
 
 - [Index list](https://downloads.haskell.org/ghc/)
