@@ -1,5 +1,7 @@
 # GHC User's Documentation
 
+This page has links to the user documentation for both current and past versions of GHC.
+
 ## Master (HEAD) branch version
 
 - [GHC User's Guide](https://ghc.gitlab.haskell.org/ghc/doc/) (May fail build)
