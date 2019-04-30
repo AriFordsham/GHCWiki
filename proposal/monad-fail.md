@@ -149,7 +149,7 @@ Both of those tell us the "real" desugaring as just another pattern we could rec
 * Help! My code is broken because of a missing `MonadFail` instance!
 
   Here are your options:
-  1. Write a `MonadFail` instance (and bring it into scope). The [http://hackage.haskell.org/package/fail fail] provides a forward-compatible `MonadFail` class for GHC versions prior to GHC 8.0
+  1. Write a `MonadFail` instance (and bring it into scope). The [fail package](https://hackage.haskell.org/package/fail) provides a forward-compatible `MonadFail` class for GHC versions prior to GHC 8.0
      ```haskell
      import Control.Monad
      -- Control.Monad.Fail import will become redundant in GHC 8.8+
