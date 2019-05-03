@@ -1,7 +1,7 @@
 On this page we describe the principles behind the implementation of the linear types extension as described at [LinearTypes](linear-types).
 
 
-The current implementation can be reviewed on [Phabricator](https://phabricator.haskell.org/D5401). There is also a [ GitHub repository](uploads/ceaedb9ec409555c80ae5a97cc47470e/minicore.pdf) which contains the history of the project and a list of known issues.
+The current implementation can be reviewed on [Phabricator](https://phabricator.haskell.org/D5401). There is also a [ GitHub repository](https://github.com/tweag/ghc/tree/linear-types) which contains the history of the project and a list of known issues.
 
 
 Authors or the implementation are:
@@ -11,7 +11,7 @@ Authors or the implementation are:
 - Arnaud Spiwack
 
 
-The implementation is supported by a [document formalising (a simplified version) of linear core](https://ghc.haskell.org/trac/ghc/attachment/wiki/LinearTypes/Implementation/minicore.2.pdf). This is more complete than the paper. It is work in progress.
+The implementation is supported by a [document formalising (a simplified version) of linear core](uploads/ceaedb9ec409555c80ae5a97cc47470e/minicore.pdf). This is more complete than the paper. It is work in progress.
 
 *Table of contents*
 
