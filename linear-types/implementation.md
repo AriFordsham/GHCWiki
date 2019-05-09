@@ -10,7 +10,7 @@ Authors or the implementation are:
 - Matthew Pickering
 - Arnaud Spiwack
 
-*Core specification.*  The implementation extends GHC's Core language to support linearity.  [This document](uploads/ceaedb9ec409555c80ae5a97cc47470e/minicore.pdf) formalises the extensions to Core.  It should be treated as our reference document, specifying precisely what Core is intended to be.   It is more complete than the paper. It is work in progress.
+*Core specification.*  The implementation extends GHC's Core language to support linearity.  [This document](uploads/ceaedb9ec409555c80ae5a97cc47470e/minicore.pdf) formalises the extensions to Core ([Latex source](https://github.com/tweag/linear-types/blob/master/minicore.lhs)).  It should be treated as our reference document, specifying precisely what Core is intended to be.
 
 *Table of contents*
 
