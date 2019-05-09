@@ -43,8 +43,8 @@ Exceptions to this are:
 - `gmp/gmp-*.tar.gz`, which is LGPL
 
 - All the libraries, each of which has its own license.  To find out the license for a library, check
-  the `license` field of its `.cabal` file.  Most of the libraries we ship with GHC are also under a
-  3-clause BSD license, the exception being `readline` which is GPL.
+  the `license` field of its `.cabal` file.  The libraries we ship with GHC are also under a
+  2- or 3-clause BSD license.
 
 ## Licensing contributions
 
