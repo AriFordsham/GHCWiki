@@ -10,11 +10,11 @@ Authors or the implementation are:
 - Matthew Pickering
 - Arnaud Spiwack
 
-
-The implementation is supported by a [document formalising (a simplified version) of linear core](uploads/ceaedb9ec409555c80ae5a97cc47470e/minicore.pdf). This is more complete than the paper. It is work in progress.
+*Core specification.*  The implementation extends GHC's Core language to support linearity.  [This document](uploads/ceaedb9ec409555c80ae5a97cc47470e/minicore.pdf) formalises the extensions to Core.  It should be treated as our reference document, specifying precisely what Core is intended to be.   It is more complete than the paper. It is work in progress.
 
 *Table of contents*
 
+--------------
 [[_TOC_]]
 
 ## Very high-level summary
@@ -187,6 +187,14 @@ In order to support `(>>=)` operators with varying multiplicities, function temp
 I (aspiwack) introduced a second list at a time where there wasn't a correspondence between types and multiplicities. It could be changed to return multiplicities as types in the main list. It's not much of a simplification, though.
 
 ## Core
+
+### Core specification
+
+The implementation extends GHC's Core language to support linearity.  This document:
+* [Linear Mini-Core](uploads/ceaedb9ec409555c80ae5a97cc47470e/minicore.pdf)
+formalises the extensions to Core.  It should be treated as our reference document, specifying precisely what Core is intended to be.
+
+It is more complete than the paper. It is work in progress, and needs a lot more English text to explain what is going on.
 
 ### Core Lint
 
