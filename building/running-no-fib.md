@@ -168,3 +168,7 @@ Don't try to play around with large Gen 0 or Gen 1 heaps, they make benchmarks h
 
 
 To get some insights into changes to optimisations in the backend you can compile all the programs in `codeGen/should_run` both ways (unmodified GHC HEAD and GHC HEAD + some changes that are being tested), and then compare the sizes of the corresponding object files.  Then investigate differences manually - this is a great way to get some insight into whether your optimisation is doing what you want it to do, and whether it has any unexpected consequences.  As an example, the sinking pass in the Cmm pipeline is the result of iterating this process many times until most of the cases of bad code generation had been squashed.  When you're satisfied that the optimisation is doing something sensible on these small examples, then move onto nofib and larger benchmarks.
+
+## Windows Hints
+
+nofib these days uses symlinks. So you need to setup your systems to support them properly. See eg here: https://www.joshkel.com/2018/01/18/symlinks-in-windows/
