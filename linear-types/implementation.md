@@ -192,6 +192,7 @@ I (aspiwack) introduced a second list at a time where there wasn't a corresponde
 
 The implementation extends GHC's Core language to support linearity.  This document:
 * [Linear Mini-Core](uploads/ceaedb9ec409555c80ae5a97cc47470e/minicore.pdf)
+
 formalises the extensions to Core.  It should be treated as our reference document, specifying precisely what Core is intended to be.
 
 It is more complete than the paper. It is work in progress, and needs a lot more English text to explain what is going on.
