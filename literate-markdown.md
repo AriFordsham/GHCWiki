@@ -62,10 +62,10 @@ To support literate Haskell written in markdown we need two changes:
 ### How to Recognize Code Blocks
 
 
-A new code block would be started by ````` or ````haskell` at the beginning of a line, the code starts on the next line.  The code block
-is terminated by a line that starts with `````.  For example:
+A new code block would be started by `` ``` `` or `` ```haskell`` at the beginning of a line, the code starts on the next line.  The code block
+is terminated by a line that starts with `` ``` ``.  For example:
 
-```wiki
+````wiki
 # Heading
 
 This is a comment, and next there will be some code:
@@ -74,7 +74,7 @@ This is a comment, and next there will be some code:
 x :: Int
 x  = 10
 ```
-```
+````
 
 
 Markdown supports snippets of code in different languages, which is why there is `haskell` after the ticks.
