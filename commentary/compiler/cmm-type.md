@@ -22,31 +22,31 @@ A portion of the [RTS](commentary/rts) is written in Cmm: [rts/Apply.cmm](https:
 1. [Compiling Cmm with GHC](commentary/compiler/cmm-type#compiling-cmm-with-ghc)
 1. [Basic Cmm](commentary/compiler/cmm-type#basic-cmm)
 
-  1. [Code Blocks in Cmm](commentary/compiler/cmm-type#code-blocks-in-cmm)
+   1. [Code Blocks in Cmm](commentary/compiler/cmm-type#code-blocks-in-cmm)
 
-    - [Basic Blocks and Procedures](commentary/compiler/cmm-type#basic-blocks-and-procedures)
-  1. [Variables, Registers and Types](commentary/compiler/cmm-type#variables,-registers-and-types)
+      - [Basic Blocks and Procedures](commentary/compiler/cmm-type#basic-blocks-and-procedures)
+   1. [Variables, Registers and Types](commentary/compiler/cmm-type#variables,-registers-and-types)
 
-    1. [Local Registers](commentary/compiler/cmm-type#local-registers)
-    1. [Global Registers and Hints](commentary/compiler/cmm-type#global-registers-and-hints)
-    1. [Declaration and Initialisation](commentary/compiler/cmm-type#declaration-and-initialisation)
-    1. [Memory Access](commentary/compiler/cmm-type#memory-access)
-  1. [Literals and Labels](commentary/compiler/cmm-type#literals-and-labels)
+      1. [Local Registers](commentary/compiler/cmm-type#local-registers)
+      1. [Global Registers and Hints](commentary/compiler/cmm-type#global-registers-and-hints)
+      1. [Declaration and Initialisation](commentary/compiler/cmm-type#declaration-and-initialisation)
+      1. [Memory Access](commentary/compiler/cmm-type#memory-access)
+   1. [Literals and Labels](commentary/compiler/cmm-type#literals-and-labels)
 
-    - [Labels](commentary/compiler/cmm-type#labels)
-  1. [Sections and Directives](commentary/compiler/cmm-type#sections-and-directives)
+      - [Labels](commentary/compiler/cmm-type#labels)
+   1. [Sections and Directives](commentary/compiler/cmm-type#sections-and-directives)
 
-    - [Target Directive](commentary/compiler/cmm-type#target-directive)
-  1. [Expressions](commentary/compiler/cmm-type#expressions)
+      - [Target Directive](commentary/compiler/cmm-type#target-directive)
+   1. [Expressions](commentary/compiler/cmm-type#expressions)
 
-    - [Quasi-operator Syntax](commentary/compiler/cmm-type#quasi-operator-syntax)
-  1. [Statements and Calls](commentary/compiler/cmm-type#statements-and-calls)
+      - [Quasi-operator Syntax](commentary/compiler/cmm-type#quasi-operator-syntax)
+   1. [Statements and Calls](commentary/compiler/cmm-type#statements-and-calls)
 
-    - [Cmm Calls](commentary/compiler/cmm-type#cmm-calls)
-  1. [Operators and Primitive Operations](commentary/compiler/cmm-type#operators-and-primitive-operations)
+      - [Cmm Calls](commentary/compiler/cmm-type#cmm-calls)
+   1. [Operators and Primitive Operations](commentary/compiler/cmm-type#operators-and-primitive-operations)
 
-    1. [Operators](commentary/compiler/cmm-type#operators)
-    1. [Primitive Operations](commentary/compiler/cmm-type#primitive-operations)
+      1. [Operators](commentary/compiler/cmm-type#operators)
+      1. [Primitive Operations](commentary/compiler/cmm-type#primitive-operations)
 1. [Cmm Design: Observations and Areas for Potential Improvement](commentary/compiler/cmm-type#)
 
 # The Cmm language
