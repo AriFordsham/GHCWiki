@@ -39,3 +39,5 @@ asTypeOf x _ = x
 
 There is no constraint to complain about, but the function has not the most general type.
 Is this a redundant constraint, too?
+
+ADDITION by @k-bx: it's also true for `HasCallStack` constraint that you do want to have. This has led me to put `-fno-warn-redundant-constraints` in my `.cabal` file.
