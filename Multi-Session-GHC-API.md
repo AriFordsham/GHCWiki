@@ -12,3 +12,8 @@ simpler and more efficient.
 # Desired API
 
 # Work to do
+
+# Related MRs
+
+* https://gitlab.haskell.org/ghc/ghc/merge_requests/388
+* https://gitlab.haskell.org/ghc/ghc/merge_requests/935
