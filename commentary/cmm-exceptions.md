@@ -85,6 +85,7 @@ Prelude> realToFrac (1.0/0.0)
 Infinity
 Prelude> realToFrac (1.0/0.0 :: Float)
 3.402823669209385e38
+```
 
 The IEEE 754 specification for floating point numbers defines exceptions for
 certain floating point operations, including: 
