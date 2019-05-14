@@ -48,7 +48,7 @@ If `integer-simple` is indeed fast enough, then I think that it solves all of th
 This task was started following [Task \#601](http://hackage.haskell.org/trac/ghc/ticket/601), while these Notes were requested by [ Simon Peyton-Jones](http://www.haskell.org/pipermail/glasgow-haskell-users/2006-August/010676.html).
 
 
-GHC currently implements the Integer and Fractional types by using the [The GNU MP Bignum Library](http://swox.com/gmp/) (GMP) which supports arbitrary precision mathematical calculations.  GMP is fast, memory efficient, and offers many high level signed integer functions (140 of them), as well as many rational and floating point arithmetic functions.  The current GHC implementation only uses those functions necessary for the Prelude.  
+GHC currently implements the Integer and Fractional types by using the [The GNU MP Bignum Library](https://gmplib.org/) (GMP) which supports arbitrary precision mathematical calculations.  GMP is fast, memory efficient, and offers many high level signed integer functions (140 of them), as well as many rational and floating point arithmetic functions.  The current GHC implementation only uses those functions necessary for the Prelude.  
 
 
 GMP memory is integrated with the [RunTime System's](commentary/rts) (RTS's) [Storage Manager](commentary/rts/storage) (SM)--the RTS's Garbage Collector (GC).  GMP memory is allocated from the GC heap, so values produced by GMP are under the control of the RTS and its GC.  The current implementation is memory efficient while allowing the RTS and its GC to maintain control of GMP evaluations.
