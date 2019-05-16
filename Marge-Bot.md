@@ -1,6 +1,6 @@
 [Marge Bot](https://gitlab.haskell.org/ghc/marge-bot) is the bot that we use to merge patches. 
 
-Once a patch is accepted then it is assigned to @marge-bot and she will merge your patch for you.
+Once a patch is accepted then it is assigned to @marge-bot and she will merge your patch for you. If you do not have commit access, ask someone in #ghc to assign the patch to @marge-bot for you.
 
 Marge checks every 30 minutes to see if there are at least 2 pull requests for the same branch to merge. If there is some work to do then she will create a batch, once the batch passes CI then she will 
 push each patch one at a time until they all land on master.
