@@ -2,14 +2,14 @@
 
 ## Terminology
 
-- A *lifted* type is one that contains bottom (_\|_), conversely an *unlifted* type does not contain _\|_.
+- A *lifted* type is one that contains bottom (`_|_`), conversely an *unlifted* type does not contain `_|_`.
   For example, `Array` is lifted, but `ByteArray#` is unlifted.
 
 - A *boxed* type is represented by a pointer to an object in the heap, an *unboxed* object is represented by a value.
   For example, `Int` is boxed, but `Int#` is unboxed.
 
 
-The representation of _\|_ must be a pointer: it is an object that when evaluated throws an exception or enters an infinite loop.  Therefore, only boxed types may be lifted.
+The representation of `_|_` must be a pointer: it is an object that when evaluated throws an exception or enters an infinite loop.  Therefore, only boxed types may be lifted.
 
 
 There are boxed unlifted types: eg. `ByteArray#`.  If you have a value of type `ByteArray#`, it definitely points to a heap object with type `ARR_WORDS` (see below), rather than an unevaluated thunk.
