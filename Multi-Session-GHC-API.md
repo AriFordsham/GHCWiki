@@ -21,6 +21,8 @@ No arbitrary restrictions:
  - Multiple packages per session
  - No global linker state
 
+Eventually, enough state should be removed that the notion of a "session" at all is purely optional: just for caching and code execution (ghci/TH). This, strictly speaking is out of scope of this feature, but keeping such a goal like in mind may be help in guiding efforts.
+
 # Work to do
 
 - GSOC proposal proposed focusing on multiple sessions per process
