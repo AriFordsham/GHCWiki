@@ -88,13 +88,13 @@ There are several problems with the current GMP implementation:
 
 >
 >
-> GMP is licensed under the [GNU Lesser General Public License](http://www.gnu.org/copyleft/lesser.html) (LGPL), a kind of "copyleft" license.  According to the terms of the LGPL, paragraph 5, you may distribute a program that is designed to be compiled and dynamically linked with the library under the terms of your choice (i.e., commercially) but if your program incorporates portions of the library, if it is linked statically, then your program is a "derivative"--a "work based on the library"--and according to paragraph 2, section c, you "must cause the whole of the work to be licensed" *under the terms of the LGPL* (including for free).  
+> GMP is licensed under the [GNU Lesser General Public License](http://www.gnu.org/copyleft/lesser.html) (LGPL), a copyleft license.  According to the terms of the LGPL, paragraph 5, you may distribute a program that is designed to be compiled and dynamically linked with the library under the terms of your choice (i.e., proprietary license) but if your program incorporates portions of the library *and* is linked statically, then you "also [need to] provide your application in an object (not necessarily source) format, so that a user has the opportunity to modify the library and relink the application." ([LGPL FAQ](http://www.gnu.org/licenses/gpl-faq.html#LGPLStaticVsDynamic))
 >
 >
 
 >
 >
-> The LGPL licensing for GMP is a problem for the overall licensing of binary programs compiled with GHC because most distributions (and builds) of GHC use static libraries.  (Dynamic libraries are currently distributed only for OS X.)  The LGPL licensing situation may be worse: even though [The Glasgow Haskell Compiler License](http://cvs.haskell.org/cgi-bin/cvsweb.cgi/fptools/ghc/LICENSE?rev=1.1.26.1;content-type=text%2Fplain) is essentially a "free software" license (BSD3), according to paragraph 2 of the LGPL, GHC must be distributed under the terms of the LGPL!
+> The LGPL licensing for GMP is a problem for the overall licensing of binary programs compiled with GHC because most distributions (and builds) of GHC use static libraries.  (Dynamic libraries are currently distributed only for OS X.) GHC too needs to comply where necessary with the terms of the LGPL (dynamic linking or also providing the application in object format for relinking).
 >
 >
 
