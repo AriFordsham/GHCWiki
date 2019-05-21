@@ -234,7 +234,7 @@ Taking this all into account, Richard advocates for (B), but not all that strong
 ## The new type system
 
 
-The new type system adheres rather closely to what is proposed in the original "FC with Kind Equality" paper, available [here](http://www.cis.upenn.edu/~eir/papers/2013/fckinds/fckinds-extended.pdf), with the addition of [NoSubKinds](no-sub-kinds). The type system, as implemented, is in the [ Core Specification](https://github.com/goldfirere/ghc/raw/nokinds/docs/core-spec/core-spec.pdf) document. Here are the highlights of the changes:
+The new type system adheres rather closely to what is proposed in the original "FC with Kind Equality" paper, available [here](https://web.archive.org/web/20170918030940/http://cs.brynmawr.edu/~rae/papers/2013/fckinds/fckinds-extended.pdf), with the addition of [NoSubKinds](no-sub-kinds). The type system, as implemented, is in the [ Core Specification](https://github.com/goldfirere/ghc/raw/nokinds/docs/core-spec/core-spec.pdf) document. Here are the highlights of the changes:
 
 - Two new constructors for `Type`: `CastTy :: Type -> Coercion -> Type` (which performs a kind cast) and `CoercionTy :: Coercion -> Type` which embeds coercions into types. The former eliminates kind coercions (that's the whole point of this change!) and the latter allows for the promotion of GADT data constructors, which will promote to a type taking a coercion argument.
 
