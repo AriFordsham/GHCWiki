@@ -34,6 +34,7 @@ $ ./boot
 
 <sub>This step isn't necessary if you obtained the source from a tar archive.</sub>
 
+The ghc binary is required in order to build ghc. If you don't have it, install it through [ghcup](https://www.haskell.org/ghcup/) or the [Haskell platform](https://www.haskell.org/platform/).
 
 Next, run the `./configure` script followed by `make` to start the build:
 
