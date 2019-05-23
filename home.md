@@ -71,11 +71,24 @@ Finally, the *Changes* tab shows the patch itself. This view may be restricted t
 
 ## Merging your merge request
 
-Currently we merge MRs with the aid of @marge-bot. Marge is a robot who will look after your patch, ensuring it remains up-to-date with `master` while being a candidate for merge.
-
-After your MR has been reviewed and approved by a GHC developer you can flag your it for merge by assigning it to @marge-bot using the "Assignee" field in the right sidebar:
+Currently we merge MRs with the aid of @marge-bot. After your MR has been reviewed and approved by a GHC developer you can flag it for merge by assigning it to @marge-bot using the "Assignee" field in the right sidebar:
 
 ![assigning-marge](uploads/50ccd3f10f6eaf3172a7dca081413660/assigning-marge.png)
+
+As long as your MR satisfies the following, marge will batch your MR with other MRs and attempt to merge into master:
+
+* Assigned to Marge
+* Approved by a GHC developer
+* Passing CI
+* Has no merge conflicts with master (see rebasing below)
+
+Each batch is an MR and must pass CI, so you can expect Marge to merge 2 or 3 batches per day. She will usually comment on your MR to inform you of progress, but you can also view the status of Marge's batches/MRs [on GitLab](https://gitlab.haskell.org/ghc/ghc/merge_requests?scope=all&utf8=%E2%9C%93&state=all&author_username=marge-bot).
+
+### Rebasing
+
+You generally do NOT need to rebase your MRs unless there are merge conflicts with master. Marge will automatically rebase ontop of master when batching MRs.
+
+Note GitLab usually complains that "Fast-forward merge is not possible" on your MR. If you see a green check and green "Rebase" button then there are no merge conflicts and NO action is necessary. If instead you see an exclamation mark and disabled "Merge" button, you must rebase manually and fix any merge conflicts.
 
 # Tickets
 
