@@ -8,12 +8,20 @@ Shake, Hadrian's underlying build system, has a cloud shared cache feature. This
 * **Direct Output**: All files created by a rule that are the target of the rule or are direct dependencies of other rules.
 * **Vital Dependency**: a subset of direct dependencies that excludes files whose *existence* have no affect on the vital output (i.e. cache files of external tools).
 * **Vital Output**: a subset of direct outputs that are the target of the current rule or are vital dependencies of any rule.
-* **Shallow Dependency**: A subset of the direct dependencies such that: *no change in the shallow dependencies -> no change in the vital output*. This set is not unique (the direct dependencies are trivially a set of shallow dependencies), but we try to define this as a minimal (or close to minimal) set. With respect to a rule for a haskell object file X.o, the shallow dependencies are the source file X.hs and interface files Y.hi (or Y.hi-boot) for all modules Y imported by X (see [makefile-dependencies](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/separate_compilation.html#makefile-dependencies)). These are the dependencies of X.o as reported by `ghc -M X.hs`. Note that ghc reads some transitively imported module's .hi files, but those files are deep dependencies as ghc guarantees that the shallow .hi dependencies (directly imported modules) will change if the deep .hi dependencies (transitively imported modules) change.
-* **Deep Dependency**: The direct dependencies minus the shallow dependencies. With respect to a rule for a haskell object file X.o, the deep dependencies are all hi/hi-boot files required by ghc to build X.o excluding direct dependencies. This is a subset of modules transitively imported by X. These dependencies are NOT reported by `ghc -M X.hs`
+* **Indicating Dependencies**: A subset of the direct dependencies such that "a change in the indicating dependencies implies a *possible* change in vital output" or more accurately "the only way the vital output could possibly change is if the indicating dependencies have 
+    ```
+    change in the vital output -> change in the indicating dependencies
+    ```
+    Or equivalently:
+    ```
+    no change in the indicating dependencies -> no change in the vital output
+    ```
+    This set is not unique (the direct dependencies are trivially a set of indicating dependencies), but we try to define this as a minimal (or close to minimal) set. With respect to a rule for a haskell object file X.o, the indicating dependencies are the source file X.hs and interface files Y.hi (or Y.hi-boot) for all modules Y imported by X (see [makefile-dependencies](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/separate_compilation.html#makefile-dependencies)). These are the dependencies of X.o as reported by `ghc -M X.hs`. Note that ghc reads some transitively imported module's .hi files, but those files are non-indicating dependencies as ghc guarantees that the indicating .hi dependencies (directly imported modules) will change if the non-indicating .hi dependencies (transitively imported modules) change.
+* **Non-indicating Dependencies**: The direct dependencies minus the indicating dependencies. With respect to a rule for a haskell object file X.o, the non-indicating dependencies are all hi/hi-boot files required by ghc to build X.o excluding direct dependencies. This is a subset of modules transitively imported by X. These dependencies are NOT reported by `ghc -M X.hs`
 
 Properties:
-* Shallow Dependency ∪ Deep Dependency = Direct Dependency
-* Shallow Dependency ⊆ Vital Dependency ⊆ Direct Dependency
+* Indicating Dependency ∪ Non-indicating Dependency = Direct Dependency
+* Indicating Dependency ⊆ Vital Dependency ⊆ Direct Dependency
 * Vital Output ⊆ Direct Output
 
 Consider this scenario:
@@ -29,17 +37,17 @@ In this case the rule to build A.o via `ghc -c A.hs` has:
 * Direct Outputs: A.o, A.hi  (Note the -c option also produces .hi files)
 * Vital Dependencies: A.hs, B.hi, C.hi
 * Vital outputs: A.o, A.hi  (Assuming another rule will have A.hi as a vital dependency)
-* Shallow Dependencies: A.hs, B.hi
-* Deep Dependencies: C.hi
+* Indicating Dependencies: A.hs, B.hi
+* Non-indicating Dependencies: C.hi
 
 ### Accurate Dependencies
 
 How accurate do dependencies need to be? In any given build rule, dependencies are generally expressed via the `need` function, and outputs are the target file(s) of the rule and any files passed to the `produces` function. Must we `need` all direct inputs and `produces` all direct outputs? Not really, in fact that would often be an onerous task. For a cloud build systems the following invariants must hold:
 
-* All rules need all their shallow dependencies.
+* All rules need all their indicating dependencies.
 * All rules `produces` all vital outputs excluding the rule targets(s).
 
-This implies that All shallow dependencies of all rules must match some rule target (as opposed to being passed to `produces`) or be source files (i.e. exist without needing to be built).
+This implies that All indicating dependencies of all rules must match some rule target (as opposed to being passed to `produces`) or be source files (i.e. exist without needing to be built).
 
 ### Linting with fsatrace
 
@@ -52,7 +60,7 @@ That said, fsatrace linting should capture a significant portion of issues. The 
 
 #### Lint: file used but not depended upon
 
-An external command read a file but didn't `need` it. If the file is a shallow dependency, then add a need statement. Else use `trackAllow` to silence the error, or if such files should globally be ignored then add a FilePattern to `shakeLintIgnore` in the `ShakeOptions` (and a comment justifying the decision).
+An external command read a file but didn't `need` it. If the file is a indicating dependency, then add a need statement. Else use `trackAllow` to silence the error, or if such files should globally be ignored then add a FilePattern to `shakeLintIgnore` in the `ShakeOptions` (and a comment justifying the decision).
 
 #### Lint: file depended upon after being used
 
