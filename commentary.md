@@ -74,7 +74,7 @@ The above commentary covers the source code of GHC. For material that doesn't co
 - General Notes on the GHC compiler
 
   - Ningning Xie's [literature review](https://github.com/xnning/GHC-Core-Literature-Review/blob/master/doc/doc.pdf) of various contributions to GHC's type system 
-  - Edward Yang's blog post about [the entire complilation pipeline for \`factorial\`](http://blog.ezyang.com/2011/04/tracing-the-compilation-of-hello-factorial/)
+  - Edward Yang's blog post about [the entire compilation pipeline for \`factorial\`](http://blog.ezyang.com/2011/04/tracing-the-compilation-of-hello-factorial/)
   - [New Prim Ops](adding-new-primitive-operations): How to add new primitive operations to GHC Haskell.
   - [Replacing GMP](replacing-gmp-notes): Notes from an effort to replace GMP with another Bignum library.
   - [External Core](external-core): Describes the process of bringing External Core up to speed. Once finished, this will simply describe what External Core is, and how it works. 
