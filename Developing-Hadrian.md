@@ -1,56 +1,56 @@
 ## Cloud Shared Cache Build
 
-Shake, Hadrian's underlying build system, has a cloud shared cache feature. This allows separate builds to share build artifacts stored in a cache. This can ultimately greatly speed up CI builds for example. In order to use this feature and still produce correct results, Hadrian must have accurate dependencies.
+Shake, Hadrian's underlying build system, has a cloud shared cache feature. This allows separate builds to share build artifacts stored in a cache. This can ultimately greatly speed up CI builds for example. In order to use this feature and still produce correct results, Hadrian must have accurately declare inputs and outputs.
 
 ### Terms
 
-* **Direct Dependency**: All files read by a rule are direct dependencies of that rule
-* **Direct Output**: All files created by a rule that are the target of the rule or are direct dependencies of other rules.
-* **Vital Dependency**: a subset of direct dependencies that excludes files whose *existence* have no affect on the vital output (i.e. cache files of external tools).
-* **Vital Output**: a subset of direct outputs that are the target of the current rule or are vital dependencies of any rule.
-* **Indicating Dependencies**: A subset of the direct dependencies such that "a change in the indicating dependencies implies a *possible* change in vital output" or more accurately "the only way the vital output could possibly change is if the indicating dependencies have 
+* **Direct Input**: All files read by a rule are direct inputs of that rule
+* **Direct Output**: All files created by a rule that are the target of the rule or are direct inputs of other rules.
+* **Vital Inputs**: a subset of direct inputs that excludes files whose *existence* have no affect on the vital output (i.e. cache files of external tools).
+* **Vital Output**: a subset of direct outputs that are the target of the current rule or are vital inputs of any rule.
+* **Indicating Inputs**: A subset of the direct inputs such that "a change in the indicating inputs implies a *possible* change in vital outputs" or more accurately "the only way the vital output could possibly change is if the indicating inputs have changed":
     ```
-    change in the vital output -> change in the indicating dependencies
+    change in the vital output -> change in the indicating inputs
     ```
     Or equivalently:
     ```
-    no change in the indicating dependencies -> no change in the vital output
+    no change in the indicating inputs -> no change in the vital output
     ```
-    This set is not unique (the direct dependencies are trivially a set of indicating dependencies), but we try to define this as a minimal (or close to minimal) set. With respect to a rule for a haskell object file X.o, the indicating dependencies are the source file X.hs and interface files Y.hi (or Y.hi-boot) for all modules Y imported by X (see [makefile-dependencies](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/separate_compilation.html#makefile-dependencies)). These are the dependencies of X.o as reported by `ghc -M X.hs`. Note that ghc reads some transitively imported module's .hi files, but those files are non-indicating dependencies as ghc guarantees that the indicating .hi dependencies (directly imported modules) will change if the non-indicating .hi dependencies (transitively imported modules) change.
-* **Non-indicating Dependencies**: The direct dependencies minus the indicating dependencies. With respect to a rule for a haskell object file X.o, the non-indicating dependencies are all hi/hi-boot files required by ghc to build X.o excluding direct dependencies. This is a subset of modules transitively imported by X. These dependencies are NOT reported by `ghc -M X.hs`
+    This set is not unique (the direct inputs are trivially a set of indicating inputs), but we try to define this as a minimal (or close to minimal) set. With respect to a rule for a haskell object file X.o, the indicating inputs are the source file X.hs and interface files Y.hi (or Y.hi-boot) for all modules Y imported by X (see [makefile-dependencies](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/separate_compilation.html#makefile-dependencies)). These are the dependencies (i.e. inputs) of X.o as reported by `ghc -M X.hs`. Note that ghc reads some transitively imported module's .hi files, but those files are non-indicating inputs as ghc guarantees that the indicating .hi inputs (directly imported modules) will change if the non-indicating .hi inputs (transitively imported modules) change.
+* **Non-indicating Inputs**: The direct inputs minus the indicating inputs. With respect to a rule for a haskell object file X.o, the non-indicating inputs are all hi/hi-boot files required by ghc to build X.o excluding direct inputs. This is a subset of modules transitively imported by X. These inputs are NOT reported by `ghc -M X.hs`
 
 Properties:
-* Indicating Dependency ∪ Non-indicating Dependency = Direct Dependency
-* Indicating Dependency ⊆ Vital Dependency ⊆ Direct Dependency
+* Indicating Inputs ∪ Non-indicating Inputs = Direct Inputs
+* Indicating Inputs ⊆ Vital Inputs ⊆ Direct Inputs
 * Vital Output ⊆ Direct Output
 
 Consider this scenario:
 
 * A imports B and B imports C.
 * B exports a function using some types defined in C.
-* `ghc -M A.hs` reports that A.o depends on: A.hs, B.hi.
+* `ghc -M A.hs` reports that A.o depends on i.e. had inputs: A.hs, B.hi.
 * `ghc -c A.hs` produces A.o and accesses A.hs, B.hi, and C.hi.
 
 In this case the rule to build A.o via `ghc -c A.hs` has:
 
-* Direct Dependencies: A.hs, B.hi, C.hi
+* Direct Inputs: A.hs, B.hi, C.hi
 * Direct Outputs: A.o, A.hi  (Note the -c option also produces .hi files)
-* Vital Dependencies: A.hs, B.hi, C.hi
-* Vital outputs: A.o, A.hi  (Assuming another rule will have A.hi as a vital dependency)
-* Indicating Dependencies: A.hs, B.hi
-* Non-indicating Dependencies: C.hi
+* Vital Inputs: A.hs, B.hi, C.hi
+* Vital outputs: A.o, A.hi  (Assuming another rule will have A.hi as a vital input)
+* Indicating Inputs: A.hs, B.hi
+* Non-indicating Inputs: C.hi
 
-### Accurate Dependencies
+### Accurate Inputs and Outputs
 
-How accurate do dependencies need to be? In any given build rule, dependencies are generally expressed via the `need` function, and outputs are the target file(s) of the rule and any files passed to the `produces` function. Must we `need` all direct inputs and `produces` all direct outputs? No! In fact that would often be an onerous task. For a cloud build systems the following invariants must hold:
+How accurately must be declare inputs and outputs? In any given build rule, inputs are generally expressed via the `need` function, and outputs are the target file(s) of the rule and any files passed to the `produces` function. Must we `need` all direct inputs and `produces` all direct outputs? No! In fact that would often be an onerous task. For a cloud build systems the following invariants must hold:
 
-* All rules need all their indicating dependencies.
-* All rules need enough trigger building all vital dependencies.
+* All rules `need` all their indicating inputs.
+* All rules `need` enough to trigger building all vital inputs.
 * All rules `produces` all vital outputs excluding the rule targets(s).
 
-Note not all vital dependencies must be needed. E.g. we often need just a Makefile to trigger a rule that runs `./configure` and generates many vital dependencies as well as the Makefile.
+Note, not all vital inputs must be `need`ed. E.g. we often `need` just a Makefile to trigger a rule that runs `./configure` and generates many vital inputs as well as the Makefile.
 
-Also note, this implies that All indicating dependencies of all rules must match some rule target (as opposed to being passed to `produces`) or be source files (i.e. exist without needing to be built).
+Also note, this implies that all indicating inputs of all rules must match some rule target (as opposed to being passed to `produces`) or be source files (i.e. exist without needing to be built).
 
 ### Linting with fsatrace
 
@@ -61,11 +61,11 @@ Shake provides a nice linting feature with the `--lint-fsatrace` command line op
 
 That said, fsatrace linting should capture a significant portion of issues. The linting errors are summarized bellow.
 
-#### Lint: file used but not depended upon
+#### Lint: file used but not needed
 
-An external command read a file but didn't `need` it. If the file is a indicating dependency, then add a need statement. Else use `trackAllow` to silence the error, or if such files should globally be ignored then add a FilePattern to `shakeLintIgnore` in the `ShakeOptions` (and a comment justifying the decision).
+An external command read a file but didn't `need` it. If the file is a indicating input, then add a `need` statement. Else use `trackAllow` to silence the error, or if such files should globally be ignored then add a FilePattern to `shakeLintIgnore` in the `ShakeOptions` (and a comment justifying the decision).
 
-#### Lint: file depended upon after being used
+#### Lint: file needed after being used
 
 You `need`ed a file only after it was read. Make sure to `need` the file *before* using it.
 
