@@ -42,12 +42,15 @@ In this case the rule to build A.o via `ghc -c A.hs` has:
 
 ### Accurate Dependencies
 
-How accurate do dependencies need to be? In any given build rule, dependencies are generally expressed via the `need` function, and outputs are the target file(s) of the rule and any files passed to the `produces` function. Must we `need` all direct inputs and `produces` all direct outputs? Not really, in fact that would often be an onerous task. For a cloud build systems the following invariants must hold:
+How accurate do dependencies need to be? In any given build rule, dependencies are generally expressed via the `need` function, and outputs are the target file(s) of the rule and any files passed to the `produces` function. Must we `need` all direct inputs and `produces` all direct outputs? No! In fact that would often be an onerous task. For a cloud build systems the following invariants must hold:
 
 * All rules need all their indicating dependencies.
+* All rules need enough trigger building all vital dependencies.
 * All rules `produces` all vital outputs excluding the rule targets(s).
 
-This implies that All indicating dependencies of all rules must match some rule target (as opposed to being passed to `produces`) or be source files (i.e. exist without needing to be built).
+Note not all vital dependencies must be needed. E.g. we often need just a Makefile to trigger a rule that runs `./configure` and generates many vital dependencies as well as the Makefile.
+
+Also note, this implies that All indicating dependencies of all rules must match some rule target (as opposed to being passed to `produces`) or be source files (i.e. exist without needing to be built).
 
 ### Linting with fsatrace
 
