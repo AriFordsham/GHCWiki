@@ -23,7 +23,7 @@ Here's how to submit a bug fix to GHC. For [changing the documentation](working-
     code layout, indentation, whitespace, filenames etc.  This means that
     when looking at patches later, we don't have to wade through loads of
     non-functional changes to get to the important parts of the patch. 
-   - Please try to follow the general convention for the [Git commit message structure](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html) as many Git tools rely on this. Moreover, take into account that the commit message text is interpreted as [WikiFormatting](wiki-formatting) in Trac. 
+   - Please try to follow the general convention for the [Git commit message structure](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html) as many Git tools rely on this. Moreover, take into account that the commit message text is interpreted as [GitLab Flavored Markdown](https://docs.gitlab.com/ee/user/markdown.html). 
    - include the ticket number in the form "`#NNNN`" in the commit message, e.g.
 
      ```wiki
