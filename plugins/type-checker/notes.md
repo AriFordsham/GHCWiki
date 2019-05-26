@@ -134,5 +134,7 @@ I plan to migrate more of my notes onto this wiki page.
   * Flattening
   * Zonking
   * Coercions
+  * Ambiguity checks
+  * Pattern checks (accessibility/reachability)
 
 Please contact me with suggestions: nicolas.frisby@gmail.com.
