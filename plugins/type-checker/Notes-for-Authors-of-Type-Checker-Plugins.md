@@ -1,5 +1,3 @@
-# Notes for Authors of Type Checker Plugins
-
 As of 52fc2719b93ab39be3e52eba531ee173b9134183, a type checker plugin can extend GHC in exactly one way:
 the GHC constraint solver occasionally gives each plugin a chance to modify the constraints it is working on.
 
