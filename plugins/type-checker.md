@@ -8,6 +8,8 @@
 
 - See [discussion of most recent proposed changes below](plugins/type-checker#).
 
+- See [Nicolas Frisby's notes about plugins](https://gitlab.haskell.org/ghc/ghc/wikis/plugins/type-checker/notes), esp how the constraint solver works.
+
 ## Issues
 
 See the ~"typechecker plugins" label.
