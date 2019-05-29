@@ -1,117 +1,17 @@
 # Allow for multiple instances of the GHCi linker
 
 
-This page discusses a plan to fix bug #3372.
+This page discusses a plan to fix bug #3372. Note that an MR has been merged that fixes the global state issues of the byte code linker (the Haskell portion). The object code linker, however, hasn't been adjusted yet.
+
 
 ## The problem
 
+GHC includes its own linker, used by GHCi to resolve symbols. Now, the linker is composed of two rather different parts: the byte code linker and the object linker, each with its own symbol tables (and, in the case of the object linker, global variables). The latter is part of the RTS, written in C with plenty of \#ifdefs to handle a variety of platforms, object file formats, etc.
 
-GHC includes its own linker, to be used by GHCi to resolve symbols. It is currently implemented using global variables for the symbol tables and other internals. This means one cannot have two or more instances of GHC's interpreter running simultaneously on different threads, since their entries on the symbol tables will conflict. The basic idea to solve this is to move all the global variables to a suitable datastructure and associate an instance of it to GHC's state.
+Fixing the byte code linker was relatively straight forward. There is now a single copy of the byte code linker's state in an `MVar` for each running instance of GHC. The object linker is much more fragile, however. In particular, it is harder to test since there is a lot of platform-dependent code under conditional compilation.
 
-
-Now, the linker is composed of two rather different parts: the bytecode linker and the object linker, each with its own symbol tables (and, of course, global variables). The latter is part of the RTS, written in C with plenty of \#ifdefs to handle a variety of platforms, object file formats, etc.
-
-
-Fixing the bytecode linker, as discussed next, seems relatively straightforward. The object linker is much more fragile. In particular, it is harder to test since there is a lot of platform-dependent code under conditional compilation.
-
-*Question:* Can we just leave the object linker as it is right now? If I understand correctly, in that case we will run into trouble if, for example, two instances of GHC try to load different .o files with conflicting symbols. If this may happen by attempting to load two incompatible versions of an installed package, then it might be a frequent scenario.
-
-## Plan for the bytecode linker
-
-
-
-The relevant code is in [compiler/ghci/Linker.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/ghci/Linker.lhs). The linker's state is kept in the global variable:
-
-
-```wiki
-v_PersistentLinkerState :: IORef PersistentLinkerState
-```
-
-
-There is an additional global variable `v_InitLinkerDone :: Bool` that is used to make the initialization routine idempotent. This routine is: 
-
-```wiki
-initDynLinker :: DynFlags -> IO ()
-```
-
-
-and is (lazily) called by the exported functions `linkExpr` and `unload`. It is also called explicitly from [ghc/GhciMonad.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/ghc/GhciMonad.hs).
-
-
-
-The proposed plan would be to define something along the lines of:
-
-```wiki
-newtype DynLinker = DynLinker (IORef (Maybe PersistentLinkerState))
-
-uninitializedLinker :: IO DynLinker
-uninitializedLinker = DynLinker `fmap` newIORef Nothing
-
-initDynLinker :: DynFlags -> DynLinker -> IO ()
-initDynLinker dflags DynLinker r =
-    = do s <- readIORef r
-         when (isNothing s) $
-          reallyInitDynLinker dflags r
-
-
-withLinkerState :: (MonadIO m, ExceptionMonad m) => DynLinker -> (IORef PersistentLinkerState -> m a) -> m a
-withLinkerState (DynLinker r) action
-    = do maybe_s <- readIORef r
-         case maybe_s of
-           Nothing -> panic "Dynamic linker not initialised"
-           Just s  -> do r' <- liftIO $ newIORef s
-                         action r'
-                         liftIO $ writeIORef r =<< readIORef r'
-```
-
-
-This way we keep the lazy initialization and minimize the modifications needed on the rest of the functions. For example we would turn the following exported function:
-
-```wiki
-extendLinkEnv :: [(Name,HValue)] -> IO ()
--- Automatically discards shadowed bindings
-extendLinkEnv new_bindings
-  = do	pls <- readIORef v_PersistentLinkerState
-	let new_closure_env = extendClosureEnv (closure_env pls) new_bindings
-	    new_pls = pls { closure_env = new_closure_env }
-	writeIORef v_PersistentLinkerState new_pls
-```
-
-
-into this version:
-
-```wiki
-extendLinkEnv :: DynLinker -> [(Name,HValue)] -> IO ()
--- Automatically discards shadowed bindings
-extendLinkEnv dl new_bindings
-  = withLinkerState $ \v_PersistentLinkerState -> 
-    do	pls <- readIORef v_PersistentLinkerState
-	let new_closure_env = extendClosureEnv (closure_env pls) new_bindings
-	    new_pls = pls { closure_env = new_closure_env }
-	writeIORef v_PersistentLinkerState new_pls
-```
-
-*Question:* Would it be better to use an `MVar` instead of an `IORef` in `DynLinker`?
-
-
-
-Finally, to make the `DynLinker` available everywhere, we would have to add a field in `HscEnv` ([compiler/main/HscTypes.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/HscTypes.lhs)):
-
-
-```wiki
-data HscEnv 
-  = HscEnv { 
-     ...
-#ifdef GHCI
-        hsc_dynLinker :: DynLinker,
-#endif	
-     ...
-    }
-```
 
 ## Plan for the object linker
-
-
 
 The object linker ([rts/Linker.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Linker.c)) is responsible of loading and keeping track of symbols in object files and shared libraries. For object files it basically uses three global variables:
 
