@@ -20,7 +20,9 @@ While you're free to delete notes manually via the [git notes --ref=perf](https:
 ### CI Performance Metrics
 
 
-Gitlab CI is setup to collect performance metrics and push them (again as git notes) to a separate repo: [https://gitlab.haskell.org/ghc/ghc-performance-notes.git](https://gitlab.haskell.org/ghc/ghc-performance-notes.git). You can fetch these results to the "ci/perf" ref space using the following command:
+Gitlab CI is setup to collect performance metrics and push them (again as git notes) to a separate repo: [https://gitlab.haskell.org/ghc/ghc-performance-notes.git](https://gitlab.haskell.org/ghc/ghc-performance-notes.git). This will only contain performance metrics for commits on master, and CI jobs that pass successfully (keep this in mind when analyzing CI results).
+
+You can fetch these results to the "ci/perf" ref space using the following command:
 
 ```wiki
 $ git fetch https://gitlab.haskell.org/ghc/ghc-performance-notes.git refs/notes/perf:refs/notes/ci/perf
@@ -63,20 +65,26 @@ Metric Increase:
     Test711
 ```
 
-
 Upon failing some performance tests, the test runner will output  the string required to accept all changes. First double check that you really do expect those changes! If so, you can simply copy the text into the commit message and rerun the tests to ensure they pass.
-
 
 CAUTION: make sure you maintain the correct expected changes in your commit messages when squashing commits.
 
 ## Comparing Commits
 
-
-There exists a comparison tool in perf_notes.py (located in the ghc/testsuite/driver/ directory) designed to help analyze the performance of the compiler across commits. When the testsuite is run, the performance metrics of the performance tests are saved automatically in a local git note that will be attached to the commit. To compare across multiple commits, execute the python file with the appropriate commandline arguments. One example is:
+There exists a comparison tool located at `testsuite/driver/perf_notes.py` to help analyze the performance metrics commits. Run the commandline `testsuite/driver/perf_notes.py --help` to see the available options. E.g. to see a chart of the last 100 commits as a standalone html file (omit `--char` to get simple text output to stdout):
 
 ```wiki
-$ python3 perf_notes.py HEAD 'HEAD~1' 'HEAD~5'
+$ python3 testsuite/driver/perf_notes.py --chart HEAD~100..HEAD
+$ firefox ./PerformanceChart.html
 ```
 
+This will show results of you're *local* runs of performance tests (see [above](#performance-metrics-are-logged)). You can also view results from CI using the `--ci` option. Make sure to [fetch CI results](#ci-performance-metrics) first. There are a lot of results, so you'll likely wan to filter for a specific test/environment e.g.:
 
-which will compare the HEAD's performance metrics with your previous commit and the 5th prior commit. The way the performance metrics are stored in git notes remains strictly local to the machine so performance metrics will not exist for a commit until you checkout that commit and run the testsuite (or test). 
+![Screenshot_from_2019-05-29_11-45-34](uploads/3a2783b354df3cdea54bf2c0c1575aff/Screenshot_from_2019-05-29_11-45-34.png)
+[PerformanceChart.html](uploads/a385555a89124fa049310f3d812febf7/PerformanceChart.html)
+
+```
+$ git fetch https://gitlab.haskell.org/ghc/ghc-performance-notes.git refs/notes/perf:refs/notes/ci/perf
+$ python3 testsuite/driver/perf_notes.py --chart --ci --test-name "T9630" --test-env x86_64-linux-deb9  master~100..master
+$ firefox ./PerformanceChart.html
+```
