@@ -1,7 +1,8 @@
 # Performance Tests
 
-
 The test suit contains a number of performance tests included as part of a normal run of the test suit. Performance tests measure some metric (e.g. number of bytes allocated) of ghc or generated code, then compares that metric to some baseline value. Tests will fail if the measured metric is not within some tolerance percentage of the baseline value. If you'd like to add your own test, then see [adding performance Tests](building/running-tests/adding#performance-tests). To simply run the test suit see [Running the Testsuite](building/running-tests/running) and specifically [here](building/running-tests/running#performance-test-baselines) for establishing performance test baselines.
+
+See [here](/performance/tests) for notes on the original proposal.
 
 ## Performance Metrics are Logged
 
@@ -71,7 +72,7 @@ CAUTION: make sure you maintain the correct expected changes in your commit mess
 
 ## Comparing Commits
 
-There exists a comparison tool located at `testsuite/driver/perf_notes.py` to help analyze the performance metrics commits. Run the commandline `testsuite/driver/perf_notes.py --help` to see the available options. E.g. to see a chart of the last 100 commits as a standalone html file (omit `--char` to get simple text output to stdout):
+There exists a comparison tool located at `testsuite/driver/perf_notes.py` to help analyze the performance metrics commits. Run the commandline `testsuite/driver/perf_notes.py --help` to see the available options. E.g. to see a chart of the last 100 commits as a standalone html file (omit `--chart` to get simple text output to stdout):
 
 ```wiki
 $ python3 testsuite/driver/perf_notes.py --chart HEAD~100..HEAD
