@@ -64,6 +64,8 @@ Below are the major highlights of 8.8.
 ## Tickets
 
 See the %8.8.1 milestone.
+
+See also [GHC 8.8 tracking ticket](https://gitlab.haskell.org/ghc/ghc/issues/16704).
   
   
 
