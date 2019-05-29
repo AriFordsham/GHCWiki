@@ -169,7 +169,7 @@ These labels identify user-visible language features which a bug is triggered by
  * ~exceptions: Synchronous and asynchronous exception support
  * ~FFI: The Foreign Function Interface
  * ~generics: GHC's data-type generics mechanism (e.g. `GHC.Generics`)
- * ~holes: Typed holes
+ * ~"typed holes": [Typed holes](holes)
  * ~hs-boot: Handling of `.hs-boot` files
  * ~"injective type families": Injective type family support
  * ~"levity polymorphism": Support for levity polymorphic terms
@@ -184,7 +184,6 @@ These labels identify user-visible language features which a bug is triggered by
  * ~"strings": Treatment of literal strings (~OverloadedStrings may also be relevant)
  * ~"Typeable": The `Typeable` typeclass and associated machinery
  * ~"type literals" Type-level naturals (`Nat`) and strings (`Symbol`)
- * ~"typed holes": Typed holes
  * ~"Unicode": Issues with Unicode support
  * ~"visible dependent quantification"
 
