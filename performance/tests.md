@@ -160,10 +160,8 @@ Most of the work on this was already done by Jared Weakly for the 2017 Haskell S
 - Log performance results in a git note for all test runs.
 - A simple CLI tool is provided to analyse previous results.
 - Recording and comparing performance results is always done with respect to a platform.
-
-### Remaining Work
-
 - CircleCI must push test results (git notes) to the git.haskell.com repo.
+- Plot the results locally (!996)
 
 ## Future work
 
