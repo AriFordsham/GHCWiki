@@ -19,7 +19,7 @@ The way the tag bits are used depends on the type of object pointed to:
 - If the object is a **function**, the tag bits contain the *arity* of the function, if the arity fits
   in the tag bits.
 
-- For a pointer to any other object, the tag bits are always zero.
+- For a pointer to any other object (including a PAP), the tag bits are always zero.
 
 ## Optimisations enabled by tag bits
 
