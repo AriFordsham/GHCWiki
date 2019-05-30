@@ -76,11 +76,13 @@ Where:
 - The *layout* field describes the layout of the payload for the garbage collector, and is described in more
   detail in [Types of Payload Layout](#TypesofPayloadLayout) below.
 
-- The *entry code* for the closure is usually the code that will *evaluate* the closure.  There is one exception:
-  for functions, the entry code will apply the function to the arguments given in registers or on the stack, according
+- The *entry code* for the closure is usually the code that will *evaluate* the closure.  There are exceptions to this:
+  * for functions, the entry code will apply the function to the arguments given in registers or on the stack, according
   to the calling convention.  The entry code assumes all the arguments are present - to apply a function to fewer arguments
   or to apply an unknown function, the [generic apply functions](commentary/rts/haskell-execution/function-calls#generic-apply) must
   be used.
+  * for a Partial Application (PAP), there's no entry code. These can only be applied to more arguments using the generic apply functions, as for functions.
+  * unlifted objects cannot be evaluated, and therefore have no entry code.
 
 
 Some types of object add more fields to the end of the info table, notably functions, return addresses, and thunks.
