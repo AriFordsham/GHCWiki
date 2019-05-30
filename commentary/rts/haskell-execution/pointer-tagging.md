@@ -84,6 +84,8 @@ In the second case, calling a known non-top-level function must pass the functio
 
 Pointers to top-level functions are not necessarily tagged, because we don't always know the arity of a function that resides in another module.  When optimisation is on, we do know the arities of external functions, and this information is indeed used to tag pointers to imported functions, but when optimisation is off we do not have this information.  For constructors, the interface doesn't contain information about the constructor tag, except that there may be an unfolding, but the unfolding is not necessarily reliable (the unfolding may be a constructor application, but in reality the closure may be a CAF, e.g. if any of the fields are references outside the current shared library).
 
+Pointers to PAPs are never tagged. If we tagged a PAP with its arity, then a function call with the correct number of arguments would assume that it could jump to the PAP's entry code to call the function, which is not the case - a PAP has no entry code, it can only be called via the generic `stg_ap_` apply functions.
+
 ## Compacting GC
 
 
