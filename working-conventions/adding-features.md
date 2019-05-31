@@ -17,7 +17,7 @@ We welcome your involvement in making GHC able to do more. Here's how to do it. 
 
 1. For language extensions, **wait for approval** by GHC HQ.
 
-1. Follow the instructions for **[contributing a patch](working-conventions/fixing-bugs)**.
+1. Follow the instructions for **[contributing a patch](/Contributing-a-Patch#merge-request-workflow)**.
 
 1. Include updates to the **user manual** that documents your feature. For features that introduce a new flag, at least two sections need to be updated:
 
