@@ -23,13 +23,13 @@ TODO: This workflow is not fully finalized
 
 1. If you're fixing a bug then have a look at [fixing bugs](working-conventions/fixing-bugs) else if you're adding a feature see [adding features](/working-conventions/adding-features).
 1. **Open an MR** (see [below](#opening-a-merge-request)).
-  * ~"MR::1-needs triage" label is set automatically.
+    * ~"MR::1-needs triage" label is set automatically.
 1. **Triage** can be performed by any developer including yourself (see [MR triage protocol](/gitlab/merge-requests#triage-protocol)). This should be done within 1 day.
-  * ~”MR::2-under review” label is set by the developer that performed the triage.
+    * ~”MR::2-under review” label is set by the developer that performed the triage.
 1. **Technical review** reviewers will evaluate the concept and implementation of the patch and work with the contributor (that's you) to iterate as necessary. Reviewers can use the “Approve” button to indicate they are happy with the MR.
-  * ~”MR::3-ready for merge” label is set by the contributor (that's you) once reviewers and contributor are satisfied with the MR.
-1. **Final Review** a maintainer will have a final look at the MR (TODO link needed) and add the MR to the merge queue (currently by [assigning to @marge-bot](#merging-your-merge-request).
-  * ~”MR::4-in merge queue” label is set by the maintainer.
+    * ~”MR::3-ready for merge” label is set by the contributor (that's you) once reviewers and contributor are satisfied with the MR.
+1. **Final Review** a maintainer will have a final look at the MR (TODO link needed) and add the MR to the merge queue (currently by [assigning to @marge-bot](#merging-your-merge-request)).
+    * ~”MR::4-in merge queue” label is set by the maintainer.
 1. **Post-merge cleanup** the contributor (that's you) should close and/or have a final look over the any related issues.
 
 ## Merging your merge request
