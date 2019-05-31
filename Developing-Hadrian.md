@@ -92,8 +92,18 @@ F ⊂ I  AND
 I' = I \ F  AND
 change(F) -> change(I')  AND
 change(O) -> change(I)
-  -> ( change(O) -> change(I') ) 
+  -> ( change(O) -> change(I') )
 ```
+
+### In English Please!
+
+1. Start with a know indicating inputs set (e.g. all direct inputs)
+    * e.g. `{ a, b, c, d }` are all the files used by this rule.
+2. Find a file or subset of files, `K`, in your set that when changed will always result in some change in an other subset file(s), `F` in your set.
+    * e.g. if `a` changed then there must have been some change in `b` or `c`. We have `F = { b, c }
+3. Remove F from your set and repeat to you're satisfaction
+    * My indicating inputs set is now `{ a, d }` and I'll stop there. Now I only need to `need` `a` and `d` in my rule and can ignore `c` and `d`.
+
 ### Example
 
 This reasoning is applied in the case of Haskell [.hi dependencies](Haskell-object-files-and-.hi-inputs). We are generating vital output `O = { A.o, A.hi }` and start with indicating inputs `I = { A.hs, B.hi, C.hi }` because linting errors show they are direct inputs. We know that a change in transitive `.hi` files (`F = B.hi, C.hi`) will result in a change in the immediate `.hi` file `k = A.hi`: `change(F) -> change({k})` and by `{k} ⊂ I' = I \ F` we get `change(F) -> change(I')` and by the above `change(O) -> change(I')`  we see that it is safe to remove the `need`s of the transitive `.hi` files.
