@@ -1,26 +1,27 @@
-## Cloud Shared Cache Build
+# Cloud Shared Cache Build
 
 Shake, Hadrian's underlying build system, has a cloud shared cache feature. This allows separate builds to share build artifacts stored in a cache. This can ultimately greatly speed up CI builds for example. In order to use this feature and still produce correct results, Hadrian must have accurately declare inputs and outputs.
 
-### Terms
+## Terms
 
 * **Direct Input**: All files read by a rule are direct inputs of that rule
 * **Direct Output**: All files created by a rule that are the target of the rule or are direct inputs of other rules.
 * **Vital Inputs**: a subset of direct inputs that excludes files whose *existence* have no affect on the vital output (i.e. cache files of external tools).
 * **Vital Output**: a subset of direct outputs that are the target of the current rule or are vital inputs of any rule.
-* **Indicating Inputs**: A subset of the direct inputs such that "a change in the indicating inputs implies a *possible* change in vital outputs" or more accurately "the only way the vital output could possibly change is if the indicating inputs have changed":
+* **Indicating Inputs**: A set of files such that "a change in the indicating inputs implies a *possible* change in vital outputs" or more accurately "the only way the vital output could possibly change is if the indicating inputs have changed":
     ```
-    change in the vital output -> change in the indicating inputs
+    change(X)  <->  exists x in X such that change x
+    change(vital output) -> change(indicating inputs)
     ```
     Or equivalently:
     ```
-    no change in the indicating inputs -> no change in the vital output
+    not change(indicating inputs) -> not change(vital output)
     ```
-    This set is not unique (the direct inputs are trivially a set of indicating inputs), but we try to define this as a minimal (or close to minimal) set. With respect to a rule for a haskell object file X.o, the indicating inputs are the source file X.hs and interface files Y.hi (or Y.hi-boot) for all modules Y imported by X (see [makefile-dependencies](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/separate_compilation.html#makefile-dependencies)). These are the dependencies (i.e. inputs) of X.o as reported by `ghc -M X.hs`. Note that ghc reads some transitively imported module's .hi files, but those files are non-indicating inputs as ghc guarantees that the indicating .hi inputs (directly imported modules) will change if the non-indicating .hi inputs (transitively imported modules) change.
+    * While it often is, the set need not be a subset or equal to the direct inputs i.e. it may include files outside of the direct inputs!
+    * This set is not unique (the direct inputs are trivially a set of indicating inputs), but we try to define this as a minimal (or close to minimal) set. With respect to a rule for a haskell object file X.o, the indicating inputs are the source file X.hs and interface files Y.hi (or Y.hi-boot) for all modules Y imported by X (see [makefile-dependencies](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/separate_compilation.html#makefile-dependencies)). These are the dependencies (i.e. inputs) of X.o as reported by `ghc -M X.hs`. Note that ghc reads some transitively imported module's .hi files, but those files are non-indicating inputs as ghc guarantees that the indicating .hi inputs (directly imported modules) will change if the non-indicating .hi inputs (transitively imported modules) change.
 * **Non-indicating Inputs**: The direct inputs minus the indicating inputs. With respect to a rule for a haskell object file X.o, the non-indicating inputs are all hi/hi-boot files required by ghc to build X.o excluding direct inputs. This is a subset of modules transitively imported by X. These inputs are NOT reported by `ghc -M X.hs`
 
 Properties:
-* Indicating Inputs ∪ Non-indicating Inputs = Direct Inputs
 * Indicating Inputs ⊆ Vital Inputs ⊆ Direct Inputs
 * Vital Output ⊆ Direct Output
 
@@ -38,9 +39,8 @@ In this case the rule to build A.o via `ghc -c A.hs` has:
 * Vital Inputs: A.hs, B.hi, C.hi
 * Vital outputs: A.o, A.hi  (Assuming another rule will have A.hi as a vital input)
 * Indicating Inputs: A.hs, B.hi
-* Non-indicating Inputs: C.hi
 
-### Accurate Inputs and Outputs
+## Accurate Inputs and Outputs
 
 How accurately must be declare inputs and outputs? In any given build rule, inputs are generally expressed via the `need` function, and outputs are the target file(s) of the rule and any files passed to the `produces` function. Must we `need` all direct inputs and `produces` all direct outputs? No! In fact that would often be an onerous task. For a cloud build systems the following invariants must hold:
 
@@ -52,7 +52,31 @@ Note, not all vital inputs must be `need`ed. E.g. we often `need` just a Makefil
 
 Also note, this implies that all indicating inputs of all rules must match some rule target (as opposed to being passed to `produces`) or be source files (i.e. exist without needing to be built).
 
-### Linting with fsatrace
+# Reducing the Indicating Inputs set
+
+## Picking a smaller set 
+
+Assuming you have an indicating set `I` for vital output `O` i.e. `change(O) -> change(I)`. We are wondering if some other set `I'` is also an indicating set for `O` (`I'` would often but not necessarily be a subset of `I`). One way you can be sure this is safe is to show that `I'` is an "indicating set" for `I` i.e.:
+
+```
+change(I) -> change(I')
+```
+
+By transitivity of `->` we then have `change(O) -> change(I')`. In other words the "has indicating set" relationship is transitive.
+
+In practice you may be asking a
+
+# Examples in Hadrian
+
+## Haskell object files and .hi inputs
+
+## Libffi
+
+## Haskell object files with CPP
+
+# Understanding the cost of missing dependencies 
+
+# Linting with fsatrace
 
 Shake provides a nice linting feature with the `--lint-fsatrace` command line option (Hadrian now supports this too). This requires installing [fsatrace](https://github.com/jacereda/fsatrace). This feature will use fsatrace to monitor file system accesses of external commands and issues lint errors accordingly. It's important to note that this is not a catch all solution as it does NOT consider:
 
@@ -61,12 +85,12 @@ Shake provides a nice linting feature with the `--lint-fsatrace` command line op
 
 That said, fsatrace linting should capture a significant portion of issues. The linting errors are summarized bellow.
 
-#### Lint: file used but not needed
+## Lint: file used but not needed
 
 An external command read a file but didn't `need` it. If the file is a indicating input, then add a `need` statement. Else use `trackAllow` to silence the error, or if such files should globally be ignored then add a FilePattern to `shakeLintIgnore` in the `ShakeOptions` (and a comment justifying the decision).
 
-#### Lint: file needed after being used
+## Lint: file needed after being used
 
 You `need`ed a file only after it was read. Make sure to `need` the file *before* using it.
 
-#### Lint: TODO other errors 
+## Lint: TODO other errors 
