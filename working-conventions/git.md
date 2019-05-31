@@ -1,7 +1,7 @@
 # Using git with GHC
 
 
-This page will help you to use git effectively when [contributing patches to GHC](working-conventions/fixing-bugs), and extends upon the instructions provided in [getting the sources](building/getting-the-sources).
+This page will help you to use git effectively when [contributing patches to GHC](/Contributing-a-Patch), and extends upon the instructions provided in [getting the sources](building/getting-the-sources).
 
 ## A single GHC git tree
 
