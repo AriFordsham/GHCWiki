@@ -3,12 +3,12 @@
 
 Here's how to submit a bug fix to GHC. For [changing the documentation](working-conventions/documentation-changes), there is a simpler procedure.  For [adding features](working-conventions/adding-features), there are a few extra steps to follow.
 
-1. **Make sure the bug is in Trac**.  Usually it is (that's why you are working on it), but if it's a bug you have found yourself, add it to Trac before you start work. It's important to have a ticket, because it makes sure that the bug report, discussion about the fix, the regression test that checks it, and the eventual conclusion, are all recorded together.  Comments in the code can refer to the ticket (e.g. `See Trac #2382 for an example`). And so on.  If there's no ticket, there is every chance that it'll get lost.
+1. **Make sure the bug has a GitLab issue**.  Usually it is (that's why you are working on it), but if it's a bug you have found yourself, add it to GitLab before you start work. It's important to have a ticket, because it makes sure that the bug report, discussion about the fix, the regression test that checks it, and the eventual conclusion, are all recorded together.  Comments in the code can refer to the ticket (e.g. `See issue #2382 for an example`). And so on.  If there's no ticket, there is every chance that it'll get lost.
 
 1. **[Add a test case](building/running-tests/adding)** in the [testsuite](building/running-tests) that shows up the bug. 
 
    - Name the test after the bug number - this is helpful for finding the bug again in the future. 
-   - Put the directory and name of the test in the "Test Case" field of the Trac report.
+   - Put the directory and name of the test in the issue description (on the old trac system this was the "Test Case" field of the Trac report).
 
 1. **Fix the bug**! 
 
@@ -30,7 +30,7 @@ Here's how to submit a bug fix to GHC. For [changing the documentation](working-
      withMVar family have a bug (fixes #767)
      ```
 
-     Git will then add a link to the commit from the ticket (as soon as the commit becomes reachable from the master HEAD), so that people watching the ticket can see that a fix has been committed, and in the future we can easily find the patch that addressed the ticket. When navigating the Git history on Trac, you will also be able to jump directly to the ticket from the commit. 
+     Git will then add a link to the commit from the ticket (as soon as the commit becomes reachable from the master HEAD), so that people watching the ticket can see that a fix has been committed, and in the future we can easily find the patch that addressed the ticket. When navigating the Git history on GitLab, you will also be able to jump directly to the ticket from the commit. 
    - Please make sure you have setup git to use the correct name and email for your commits. Use the same name and email on all machines you may commit from, or add an entry to the `.mailmap` file in the ghc root directory.
 
      ```wiki
