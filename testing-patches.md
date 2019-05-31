@@ -1,7 +1,7 @@
 # Validating Patches
 
 
-When you [contribute a patch](working-conventions/fixing-bugs) to GHC, it has to be validated before we push it to the master branch.
+When you [contribute a patch](/Contributing-a-Patch) to GHC, it has to be validated before we push it to the master branch.
 
 
 First, [add a new test](building/running-tests/adding), and [run it](building/running-tests/running).
