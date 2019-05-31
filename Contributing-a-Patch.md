@@ -13,8 +13,6 @@ done
 ```
 -->
 
-# THIS PAGE IS A DRAFT
-
 Submitting a patch for incorporation into the tree is done by creating a *merge request*. The merge request serves as a place to conduct code review, collect continuous integration results, and eventually merge your patch.
 
 ## Merge Request Workflow
