@@ -330,7 +330,7 @@
   * [continuous-integration](./continuous-integration)
     * [usage](./continuous-integration/usage)
   * [continuous-integration-configuration](./continuous-integration-configuration)
-  * [contributing](./contributing)
+  * [contributing a patch](./contributing-a-patch)
   * [contributors](./contributors)
   * [cross-compilation](./cross-compilation)
   * [cross-compilation-design](./cross-compilation-design)
