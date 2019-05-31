@@ -47,10 +47,4 @@ Here's how to submit a bug fix to GHC. For [changing the documentation](working-
 
 1. **Test your commits** using the [validation script or Travis](testing-patches).
 
-1. **Create a Merge Request** in [GitLab](https://gitlab.haskell.org/ghc/ghc/wikis/home#merge-requests).
-
-1. **Wait** for the reviewers to look at your patches. If this takes more than a week, complain! 
-
-1. **Queue for Merge** by assigning the MR to @Marge-bot. See [here](https://gitlab.haskell.org/ghc/ghc/wikis/home#merging-your-merge-request) for details.
-
-Then have a beer on us. We are truly grateful.
+1. **Create a Merge Request** follow the [merge request workflow](/Contributing-a-Patch#merge-request-workflow).
