@@ -19,18 +19,22 @@ Submitting a patch for incorporation into the tree is done by creating a *merge 
 
 ## Merge Request Workflow
 
+TODO: This workflow is not fully finalized
+
 1. If you're fixing a bug then have a look at [fixing bugs](working-conventions/fixing-bugs) else if you're adding a feature see [adding features](/working-conventions/adding-features).
 1. **Open an MR** (see [below](#opening-a-merge-request)).
-1. **Wait** for the reviewers to look at your patches. If this takes more than a week, complain!
-1. **Queue for Merge** by assigning the MR to @Marge-bot.
-
-TODO: what about "needs triage" label -> assigning milestone and labels.
-
-TODO: This workflow will soon change such that the MR author must label the MR as ready for "final review". This is usually done after review and approval by a developer. Then a maintainer will have a final look and approve and assign to marge.
+  * ~"MR::1-needs triage" label is set automatically.
+1. **Triage** can be performed by any developer including yourself (see [MR triage protocol](/gitlab/merge-requests#triage-protocol)). This should be done within 1 day.
+  * ~”MR::2-under review” label is set by the developer that performed the triage.
+1. **Technical review** reviewers will evaluate the concept and implementation of the patch and work with the contributor (that's you) to iterate as necessary. Reviewers can use the “Approve” button to indicate they are happy with the MR.
+  * ~”MR::3-ready for merge” label is set by the contributor (that's you) once reviewers and contributor are satisfied with the MR.
+1. **Final Review** a maintainer will have a final look at the MR (TODO link needed) and add the MR to the merge queue (currently by [assigning to @marge-bot](#merging-your-merge-request).
+  * ~”MR::4-in merge queue” label is set by the maintainer.
+1. **Post-merge cleanup** the contributor (that's you) should close and/or have a final look over the any related issues.
 
 ## Merging your merge request
 
-Currently we merge MRs with the aid of @marge-bot. After your MR has been reviewed and approved by a GHC developer you can flag it for merge by assigning it to @marge-bot using the "Assignee" field in the right sidebar:
+Currently we merge MRs with the aid of @marge-bot. A maintainer can flag your MR for merge by assigning it to @marge-bot using the "Assignee" field in the right sidebar:
 
 ![assigning-marge](uploads/50ccd3f10f6eaf3172a7dca081413660/assigning-marge.png)
 
