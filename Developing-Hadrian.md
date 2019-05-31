@@ -95,14 +95,14 @@ change(O) -> change(I)
   -> ( change(O) -> change(I') )
 ```
 
-### In English Please!
+### English Please!
 
 1. Start with a know indicating inputs set (e.g. all direct inputs)
     * e.g. `{ a, b, c, d }` are all the files used by this rule.
-2. Find a file or subset of files, `K`, in your set that when changed will always result in some change in an other subset file(s), `F` in your set.
-    * e.g. if `a` changed then there must have been some change in `b` or `c`. We have `F = { b, c }
+2. Find a file or subset of files, `K`, in your set that when changed will always result in some change in an other subset of file(s), `F`, in your set.
+    * e.g. if `a` changed then there must have been some change in `b` or `c`. We have `F = { b, c }`
 3. Remove F from your set and repeat to you're satisfaction
-    * My indicating inputs set is now `{ a, d }` and I'll stop there. Now I only need to `need` `a` and `d` in my rule and can ignore `c` and `d`.
+    * e.g. My indicating inputs set is now `{ a, d }` and I'll stop there. Now I only need to `need` `a` and `d` in my rule and can `trackAllow` `c` and `d`.
 
 ### Example
 
