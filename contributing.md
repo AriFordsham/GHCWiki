@@ -5,7 +5,7 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
 
 - [Information for newcomers](contributing#newcomers-to-ghc). This the first stop for those people who say, "I want to contribute to GHC, but I don't know quite where to begin." Begin here.
 
-- [How to contribute a patch to GHC](working-conventions/fixing-bugs). For [adding features](working-conventions/adding-features), there are a few extra steps to follow.
+- [How to contribute a patch to GHC](/Contributing-a-Patch). For [adding features](working-conventions/adding-features), there are a few extra steps to follow.
 
 - [How to propose a change to the libraries](http://haskell.org/haskellwiki/Library_submissions)
 
@@ -70,7 +70,7 @@ You can add tickets to this list by giving them the ~newcomer label.
 
 ### Advice
 
-- Read up on the steps you are expected to take for [contributing a patch to GHC](working-conventions/fixing-bugs).
+- Read up on the steps you are expected to take for [contributing a patch to GHC](/Contributing-a-Patch).
 
 - Need help? You can email the [ghc-devs](http://www.haskell.org/mailman/listinfo/ghc-devs) list, or ask on IRC in `#ghc`.
 
