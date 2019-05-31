@@ -54,11 +54,11 @@ Also note, this implies that all indicating inputs of all rules must match some 
 
 # Reducing the Indicating Inputs set
 
-As `need`ing files generally means more code. As you must `need` all indicating inputs, you often want to pick a convenient (i.e. minimal) indicating inputs set. Remember this set is not unique so you're free to pick whatever indicating input set you want, but the responsibility is on you to ensure is in fact a valid indicating set.
+`need`ing files generally means more code as you must `need` all indicating inputs. Hence you want to pick a convenient (i.e. minimal) set of indicating inputs. Remember this set is not unique so you're free to pick whatever indicating input set you want, but it is your responsibility to ensure is in fact a valid indicating set and to `need` that set in your Hadrian rule.
 
 ## Transitivity
 
-Assuming you have an indicating set `I` for vital output `O` i.e. `change(O) -> change(I)`. We are wondering if some other (possibly overlapping) set `I'` is also an indicating set for `O`. One way you can be sure this is safe is to show that `I'` is an "indicating set" for `I` i.e.:
+Say you have an indicating set `I` for vital output `O` i.e. `change(O) -> change(I)` and you are wondering if some other (possibly overlapping) set `I'` is also an indicating set for `O`. One way you can be sure is to show that `I'` is an indicating set for `I` i.e.:
 
 ```
 change(I) -> change(I')
@@ -66,15 +66,16 @@ change(I) -> change(I')
 
 By transitivity of `->` we then have `change(O) -> change(I')`. In other words the "has indicating set" relationship is transitive.
 
-## Eliminating non-indicating files
+## Eliminating Redundant Needs
 
-While writing a rule, you may suspect that a certain `need`ed file is not necessary. How can you be sure it is safe to remove? It is safe to remove if the remaining needs still form an indicating input set. Say the rule currently `need`s set `I` (`I` is your indicating inputs set) and the file you want to no longer `need` is `f ∈ I` forming a new set `I' = I \ {f}`. The question you must ask is "is `I'` a valid indicating inputs set?" i.e. it is safe to no longer `need` f if and only if:
+While writing a rule, you may suspect that a certain call to `need` is not necessary. How can you be sure it is safe to remove? It is safe to remove if the remaining `need`s still cover a valid indicating input set. Say your rule currently `need`s set `I` (`I` is your indicating inputs set) and the file you want to no longer `need` is `f ∈ I` resulting in a new set `I' = I \ {f}`. The question you must ask is "is `I'` a valid indicating inputs set?". The answer: it is safe to no longer `need` f if and only if:
 
 ```
-change(O) -> change(I \ {f})
+change(O) -> change(I \ {f})  OR EQUIVALENTLY
+change(O) -> change(I')
 ```
 
-This may be hard to answer, but there is a convenient trick you can do here. If you know that `I'` is an indicating inputs set for for `{f}` then you know `I'` is an indicating inputs set for `O` and it is safe to remove the `need` for `f`. Formally:
+But this condition may be hard to show. Luckily, there there is a more convenient trick you can do here. If you know that `I'` is an indicating input set for for `{f}` then you know `I'` is an indicating inputs set for `O` and it is safe to remove the `need` for `f`. Formally:
 
 ```
 f ∈ I  AND
@@ -93,7 +94,9 @@ change(F) -> change(I')  AND
 change(O) -> change(I)
   -> ( change(O) -> change(I') ) 
 ```
-This reasoning is applied in the case of Haskell [.hi dependencies](Haskell-object-files-and-.hi-inputs): we know that a change in transitive `.hi` files (`R`) will result in a change in the immediate `.hi` file `f`: `change(R) -> change({f})` and by `{f} ⊂ I' = I \ R` we get `change(R) -> change(I')` and by the above we see that it is safe to remove the `need`s of the transitive `.hi` files.
+### Example
+
+This reasoning is applied in the case of Haskell [.hi dependencies](Haskell-object-files-and-.hi-inputs). We are generating vital output `O = { A.o, A.hi }` and start with indicating inputs `I = { A.hs, B.hi, C.hi }` because linting errors show they are direct inputs. We know that a change in transitive `.hi` files (`F = B.hi, C.hi`) will result in a change in the immediate `.hi` file `k = A.hi`: `change(F) -> change({k})` and by `{k} ⊂ I' = I \ F` we get `change(F) -> change(I')` and by the above `change(O) -> change(I')`  we see that it is safe to remove the `need`s of the transitive `.hi` files.
 
 ### Even more general
 
