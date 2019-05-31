@@ -22,7 +22,7 @@ Submitting a patch for incorporation into the tree is done by creating a *merge 
 TODO: This workflow is not fully finalized
 
 1. If you're fixing a bug then have a look at [fixing bugs](working-conventions/fixing-bugs) else if you're adding a feature see [adding features](/working-conventions/adding-features).
-1. **Open an MR** (see [below](#opening-a-merge-request)).
+1. **Open an MR** see [merge request conventions](/merge-requests) and [below](#opening-a-merge-request) for the basics of opening an MR.
     * ~"MR::1-needs triage" label is set automatically.
 1. **Triage** can be performed by any developer including yourself (see [MR triage protocol](/gitlab/merge-requests#triage-protocol)). This should be done within 1 day.
     * ~”MR::2-under review” label is set by the developer that performed the triage.
