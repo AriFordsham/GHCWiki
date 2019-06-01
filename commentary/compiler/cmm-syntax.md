@@ -7,6 +7,7 @@ The GHC has three different syntaxes for Cmm:
 
 To improve readability of Cmm files, this page shows the hand-writing syntax defined by `CmmParse.y`.
 
+See [Code Generator][9] and [The Runtime System][10].  
 See also [cmm-type][6].
 
 
@@ -423,3 +424,5 @@ Those macros are defined in [`includes/Cmm.h`][8].
 [6]: https://gitlab.haskell.org/ghc/ghc/wikis/commentary/compiler/cmm-type
 [7]: https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmLex.x
 [8]: https://gitlab.haskell.org/ghc/ghc/blob/master/includes/Cmm.h
+[9]: https://gitlab.haskell.org/ghc/ghc/wikis/commentary/compiler/code-gen
+[10]: https://gitlab.haskell.org/ghc/ghc/wikis/commentary/rts
