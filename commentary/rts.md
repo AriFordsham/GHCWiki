@@ -35,7 +35,7 @@ Next, we try to make sense of how it all fits together.
 
 - [RTS Configurations](commentary/rts/config)
 - [The Word](commentary/rts/word)
-- [What on earth is a .cmm file?](commentary/rts/cmm)
+- [What on earth is a .cmm file?](commentary/rts/cmm) and [Cmm  syntax](commentary/compiler/cmm-syntax)
 
 ## Major subsystems
 
