@@ -11,7 +11,7 @@ On 5 May 2008, Isaac Dupree asked
 
 
 Probably not.  GHC Cmm is a sort of pidgin version of C-- 2.0, and
-true C-- kinds are explained in the [C-- specification, section 5.1](http://www.cminusminus.org/code.html).
+true C-- kinds are explained in the [C-- specification, section 5.1](https://www.cs.tufts.edu/~nr/c--/code.html).
 
 
 >
