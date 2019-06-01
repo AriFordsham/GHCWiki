@@ -4,7 +4,7 @@ TODO This page is possibly outdated. Update to the latest information.
 
 >
 >
-> See also [Code Generator](commentary/compiler/code-gen) and [compiler/cmm/cmm-notes](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/cmm-notes).
+> See also [Code Generator](commentary/compiler/code-gen), [Cmm syntax](commentary/compiler/cmm-syntax), and [compiler/cmm/cmm-notes](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/cmm-notes).
 >
 >
 
