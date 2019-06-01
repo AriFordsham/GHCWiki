@@ -6,6 +6,7 @@ This page describes code generator ("codegen") in GHC. It is meant to reflect cu
 - [Overview of the code generator](commentary/compiler/code-gen/overview)
 - [Data types and modules for the code generator](commentary/compiler/new-code-gen-modules)
 - [The STG language and how to execute it](commentary/compiler/generated-code)
+- [The Cmm language syntax](commentary/compiler/cmm-syntax)
 - [List of code-gen stupidities](commentary/compiler/new-code-gen-stupidity) (some, but not all, fixed).
 - [Clean-up ideas once the new codegen is in place (i.e. now)](commentary/compiler/new-code-gen/cleanup); not all done.
 - [Loopification](commentary/compiler/loopification) i.e. turn tail calls into loops
