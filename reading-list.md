@@ -133,6 +133,8 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 - [C--: a portable assembly language that supports garbage collection](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/ppdp.ps.gz), Simon Peyton Jones, Norman Ramsey, and Fermin Reig. Invited talk at PPDP'99. 
 
+- [The C-- Language Specification Version 2.0](https://www.cs.tufts.edu/~nr/c--/extern/man2.pdf), Norman Ramsey, Simon Peyton Jones, and Christian Lindig. 
+
 - [A Single Intermediate Language That Supports Multiple Implementations of Exceptions](http://research.microsoft.com/en-us/um/people/simonpj/papers/c--/c--exn-pldi.ps.gz), Norman Ramsey and Simon Peyton Jones, PLDI 2000.
 
 - [An LLVM Backend for GHC](https://www.davidterei.com/downloads/papers/terei:2010:llvm.pdf), David Terei and Manuel M. T. Chakravarty. Haskell Symposium 2010
