@@ -22,6 +22,7 @@ These labels describe how a ~bug manifests. Usually every bug should be bear exa
  * ~"ghc build failure": A case where GHC itself fails to build
  * ~"incorrect runtime result": A case where a program compiled by GHC produces the wrong result
  * ~"runtime crash": A case where a program compiled by GHC crashes at runtime
+ * ~"program incorrectly rejected": A case where GHC rejects a well-formed program (e.g. with a type error)
  * ~"error messages": Issues with the error messages produced by GHC
 
 # Miscellaneous
