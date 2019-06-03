@@ -78,7 +78,6 @@ You never commit directly to HEAD.  Rather, follow this workflow.
   ```wiki
   $ git push --force origin wip/spj-wibbles
   ```
-  dib dob
 
 - Before trying to commit to master, you should tidy up the MR by squashing it into one (or more in unusual cases) patch, with a good commit message.
 
