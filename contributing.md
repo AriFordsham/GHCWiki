@@ -1,7 +1,7 @@
 # Contributing to GHC
 
 
-GHC is a BSD-licensed open-source project, and we welcome your help in making it better. This page and the side bar on the left have pointers to information you'll need.
+GHC is a BSD-licensed open-source project, and we welcome your help in making it better. This page and the side bar on the right have pointers to information you'll need.
 
 - [Information for newcomers](contributing#newcomers-to-ghc). This the first stop for those people who say, "I want to contribute to GHC, but I don't know quite where to begin." Begin here.
 
