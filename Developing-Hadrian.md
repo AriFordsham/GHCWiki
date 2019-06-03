@@ -18,8 +18,7 @@ Shake, Hadrian's underlying build system, has a cloud shared cache feature. This
     not change(indicating inputs) -> not change(vital output)
     ```
     * While it often is, the set need not be a subset or equal to the direct inputs i.e. it may include files outside of the direct inputs!
-    * This set is not unique (the direct inputs are trivially a set of indicating inputs), but we try to define this as a minimal (or close to minimal) set. With respect to a rule for a haskell object file X.o, the indicating inputs are the source file X.hs and interface files Y.hi (or Y.hi-boot) for all modules Y imported by X (see [makefile-dependencies](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/separate_compilation.html#makefile-dependencies)). These are the dependencies (i.e. inputs) of X.o as reported by `ghc -M X.hs`. Note that ghc reads some transitively imported module's .hi files, but those files are non-indicating inputs as ghc guarantees that the indicating .hi inputs (directly imported modules) will change if the non-indicating .hi inputs (transitively imported modules) change.
-* **Non-indicating Inputs**: The direct inputs minus the indicating inputs. With respect to a rule for a haskell object file X.o, the non-indicating inputs are all hi/hi-boot files required by ghc to build X.o excluding direct inputs. This is a subset of modules transitively imported by X. These inputs are NOT reported by `ghc -M X.hs`
+    * This set is not unique (the direct inputs are trivially a set of indicating inputs), but we try to define this as a minimal (or close to minimal) set.
 
 Properties:
 * Vital Inputs ⊆ Direct Inputs
@@ -138,13 +137,30 @@ But I'm not quite sure if this is useful in practice.
 
 # Examples in Hadrian
 
+## Dependency Generation and Header Files
+
 ## Haskell object files and .hi inputs
+
+Consider crating a rule for a file X.o that compiles X.hs with ghc. We use `ghc -M` which returns `X.o : X.hs X.hi Y.hi`. The `Y.hi` is there because module `X` imports module `Y`. We conclude that `direct inputs = indicating inputs = { X.hs, X.hi, Y.hi } So we implement the rule like this:
+
+```
+"X.o" %> \ _ -> do
+    need ["X.hs", "X.hi", "Y.hi"]
+    buildWithGhc "X.o"
+```
+
+This seems correct, but running the rule with `--lint-fsatrace` complains that the rule used a file `Z.hi` without `need`ing it. Upon further inspection, module `Y` imports module `Z`. It turns out ghc will use a *subset* of transitively imported modules' .hi files. This means the set of direct inputs is larger than what we originally though, it contains transitive .hi files. Unfortunately there doesn't seem to be any feasible way to predict what transitive .hi files ghc will use at compile time. Fortunately we only need to `need` indicating inputs, so we can stay optimistic and try to show that transitive .hi files are not indicating inputs. As described in [reducing the Indicating Inputs set](#reducing-the-indicating-inputs-set), we can remove the transitive .hi files from the indicating inputs set by showing that:
+
+```
+  change({transitive .hi files}) -> change({current indicating inputs} \ {transitive .hi files})
+= change({ Z.hi })               -> change({ X.hs, X.hi, Y.hi })
+```
+
+With some insight from an experienced ghc developer we see that all .hi files contain "a list of the fingerprints of everything it used when it last compiled the file" (from the [user guide](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/separate_compilation.html?highlight=fingerprint#the-recompilation-checker)). Making the practical assumption that the fingerprint's hashing function is injective, we know that `change({ transitive .hi files }) -> change({ X.hi }) -> change({ X.hs, X.hi, Y.hi })` and hence it is safe to not `need` transitive .hi files. In we `need` the direct .hi files reported by `ghc -M` and `trackAllow` all other `.hi` files. We apply the same logic for .hi-boot files too.
 
 ## Libffi
 
 ## Haskell object files with CPP
-
-## Dependency Generation and Header Files
 
 # Understanding the cost of missing dependencies
 
