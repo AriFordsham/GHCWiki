@@ -10,7 +10,7 @@ Shake, Hadrian's underlying build system, has a cloud shared cache feature. This
 * **Vital Output**: a subset of direct outputs that are the target of the current rule or are vital inputs of any rule.
 * **Indicating Inputs**: A set of files such that "a change in the indicating inputs implies a *possible* change in vital outputs" or more accurately "the only way the vital output could possibly change is if the indicating inputs have changed":
     ```
-    change(X)  <->  exists x in X such that change x
+    change(X)  <->  exists x in X such that x has changed upon a full rebuild.
     change(vital output) -> change(indicating inputs)
     ```
     Or equivalently:
@@ -22,7 +22,7 @@ Shake, Hadrian's underlying build system, has a cloud shared cache feature. This
 * **Non-indicating Inputs**: The direct inputs minus the indicating inputs. With respect to a rule for a haskell object file X.o, the non-indicating inputs are all hi/hi-boot files required by ghc to build X.o excluding direct inputs. This is a subset of modules transitively imported by X. These inputs are NOT reported by `ghc -M X.hs`
 
 Properties:
-* Indicating Inputs ⊆ Vital Inputs ⊆ Direct Inputs
+* Vital Inputs ⊆ Direct Inputs
 * Vital Output ⊆ Direct Output
 
 Consider this scenario:
@@ -40,21 +40,49 @@ In this case the rule to build A.o via `ghc -c A.hs` has:
 * Vital outputs: A.o, A.hi  (Assuming another rule will have A.hi as a vital input)
 * Indicating Inputs: A.hs, B.hi
 
-## Accurate Inputs and Outputs
+## Build System Correctness
 
-How accurately must be declare inputs and outputs? In any given build rule, inputs are generally expressed via the `need` function, and outputs are the target file(s) of the rule and any files passed to the `produces` function. Must we `need` all direct inputs and `produces` all direct outputs? No! In fact that would often be an onerous task. For a cloud build systems the following invariants must hold:
+There are a varying standards of correctness here:
 
-* All rules `need` all their indicating inputs.
-* All rules `need` enough to trigger building all vital inputs.
-* All rules `produces` all vital outputs excluding the rule targets(s).
+1. **Clean Build** having run no rules yet (or having deleted all build artifacts i.e. the build directory) running a build will succeed with the correct output files.
+2. **Incremental Build** having done a full or partial build, then changing a source file, a further build will succeed with the correct output files.
+3. **Cached Build** having done a full or partial build with caching enabled (`--shared` option), then changing a source file and delete all build artifacts (but not the cache), a further build with caching enabled will succeed with the correct output files.
 
-Note, not all vital inputs must be `need`ed. E.g. we often `need` just a Makefile to trigger a rule that runs `./configure` and generates many vital inputs as well as the Makefile.
+Generally we must to track dependencies correctly in order to achieve correctness. The exact invariants are as follows:
 
-Also note, this implies that all indicating inputs of all rules must match some rule target (as opposed to being passed to `produces`) or be source files (i.e. exist without needing to be built).
+1. **Clean Build**
+    * All rules `need` enough to trigger all vital inputs to be produced (this can be via direct or transitively triggered rules).
+2. **Incremental Build**
+    * Clean build correctness
+    * All rules `need`/`needed` a valid indicating inputs set.
+3. **Cached Build**
+    * Clean and Incremental build correctness
+    * All rules `produces` all vital outputs excluding the rule targets(s) OR caching is disabled with `historyDisable`.
+
+Note: for incremental builds it is *not* sufficient for indicating inputs to be transitively needed by other rules, they must be directly `need`/`needed`.
+
+Note: for incremental builds we don't need to `need` all vital inputs, just indicating inputs. The libffi rules are a particularly good example of this.
+
+Note: this implies that all indicating inputs of all rules must either be source files (i.e. exist without needing to be built) or must match some rule target as opposed to being passed to `produces`.
 
 # Reducing the Indicating Inputs set
 
 `need`ing files generally means more code as you must `need` all indicating inputs. Hence you want to pick a convenient (i.e. minimal) set of indicating inputs. Remember this set is not unique so you're free to pick whatever indicating input set you want, but it is your responsibility to ensure is in fact a valid indicating set and to `need` that set in your Hadrian rule.
+
+### Summary
+
+To come up with a valid indicating set for a rule:
+
+1. Start with a known indicating inputs set. All direct inputs is a good starting point. You're free to overestimate: if you're not sure whether a file is a direct dependency, you can safely include it in the set any way.
+    * e.g. `{ a, b, c, d }` are all the files used by this rule.
+2. Find a file or subset of files, `K`, in your set that when changed will always imply some change in an other subset of file(s), `F`, in your set.
+    * e.g. if `a` changed then there must have been some change in `b` or `c`. We have `F = { b, c }`
+3. Remove F from your set and repeat to you're satisfaction
+    * e.g. My indicating inputs set is now `{ a, d }` and I'll stop there. Now I only need to `need` `a` and `d` in my rule and can `trackAllow` `c` and `d` to silence fsatrace lint errors.
+
+### Example
+
+This reasoning is applied in the case of Haskell [.hi dependencies](Haskell-object-files-and-.hi-inputs). We are generating vital output `O = { A.o, A.hi }` and start with indicating inputs `I = { A.hs, B.hi, C.hi }` because linting errors show they are direct inputs. We know that a change in transitive `.hi` files (`F = B.hi, C.hi`) will result in a change in the immediate `.hi` file `k = A.hi`: `change(F) -> change({k})` and by `{k} ⊂ I' = I \ F` we get `change(F) -> change(I')` and by the above `change(O) -> change(I')`  we see that it is safe to remove the `need`s of the transitive `.hi` files.
 
 ## Transitivity
 
@@ -95,19 +123,6 @@ change(O) -> change(I)
   -> ( change(O) -> change(I') )
 ```
 
-### English Please!
-
-1. Start with a know indicating inputs set (e.g. all direct inputs)
-    * e.g. `{ a, b, c, d }` are all the files used by this rule.
-2. Find a file or subset of files, `K`, in your set that when changed will always result in some change in an other subset of file(s), `F`, in your set.
-    * e.g. if `a` changed then there must have been some change in `b` or `c`. We have `F = { b, c }`
-3. Remove F from your set and repeat to you're satisfaction
-    * e.g. My indicating inputs set is now `{ a, d }` and I'll stop there. Now I only need to `need` `a` and `d` in my rule and can `trackAllow` `c` and `d`.
-
-### Example
-
-This reasoning is applied in the case of Haskell [.hi dependencies](Haskell-object-files-and-.hi-inputs). We are generating vital output `O = { A.o, A.hi }` and start with indicating inputs `I = { A.hs, B.hi, C.hi }` because linting errors show they are direct inputs. We know that a change in transitive `.hi` files (`F = B.hi, C.hi`) will result in a change in the immediate `.hi` file `k = A.hi`: `change(F) -> change({k})` and by `{k} ⊂ I' = I \ F` we get `change(F) -> change(I')` and by the above `change(O) -> change(I')`  we see that it is safe to remove the `need`s of the transitive `.hi` files.
-
 ### Even more general
 
 We can remove the requirement that `F ⊂ I` and make a more general statement:
@@ -129,7 +144,9 @@ But I'm not quite sure if this is useful in practice.
 
 ## Haskell object files with CPP
 
-# Understanding the cost of missing dependencies 
+## Dependency Generation and Header Files
+
+# Understanding the cost of missing dependencies
 
 # Linting with fsatrace
 
