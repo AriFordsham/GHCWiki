@@ -44,10 +44,9 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
 ## Newcomers to GHC
 
 
-While the [building guide](building), [working conventions](working-conventions), [commentary](commentary) and [debugging](debugging) pages (always linked from the right sidebar) have great information that can come in handy while you're working on your first, or first several patches, this section is intended to have the details you will need to get rolling.
+This section is intended to have the details you will need to get rolling. In addition, note the [building guide](building), [working conventions](working-conventions), [commentary](commentary) and [debugging](debugging) pages have great information that will come in handy while you're working on your first patch(es) and are always available from the sidebar.
 
-
-If you have any questions along the way don't hesitate to reach out to the community. There are people on the [mailing lists and IRC](mailing-lists-and-irc) who will gladly help you (although you may need to be patient). Don't forget that all GHC developers are still learning; your question is never too silly to ask.
+If you have any questions along the way don't hesitate to reach out to the community. There are people on the [mailing lists and IRC](mailing-lists-and-irc) who will gladly help you, though you may need to be patient. Don't forget all GHC developers are still learning; your question is never too silly to ask.
 
 ### First steps
 
