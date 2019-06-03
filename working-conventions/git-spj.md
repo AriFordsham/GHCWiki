@@ -25,6 +25,28 @@ Suppose you have a submodule `utils/haddock` in the main GHC repo.
 
 ## Configuration
 
+### Authentication
+
+
+* To support 'push' make sure you are using a `git@` URL for the repo, not `https`:
+```wiki
+git remote set-url origin git@gitlab.haskell.org:ghc/ghc.git
+```
+
+* If you are having trouble with authentication, this environment-variable setting will help you see what ssh is doing
+```wiki
+export GIT_SSH_COMMAND="ssh -v -v" 
+```
+
+* To test your ssh connection to the repo, do this:
+```wiki
+bash$ ssh git@gitlab.haskell.org
+setsockopt IPV6_TCLASS 16: Operation not permitted:
+PTY allocation request failed on channel 0
+Welcome to GitLab, @simonpj!
+Connection to gitlab.haskell.org closed.
+```
+
 ### Push only the current branch
 
 
@@ -62,14 +84,6 @@ Here's how to set up a global (across all your projets) `.gitignore` file.
   git config --global core.excludesfile $(HOME)/.gitignore
   ```
 
-### Authentication
-
-
-If you are having trouble with authentication, this environment-variable setting will help you see what ssh is doing
-
-```wiki
-export GIT_SSH_COMMAND="ssh -v -v" 
-```
 
 ---
 
