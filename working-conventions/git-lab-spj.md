@@ -128,8 +128,12 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 - **Markup**. In GitLab markup:
 
   - `#3553` links to issue 3553
+
   - `!883` links to merge request 883
+
   - "@fred" mentions Fred.  You don't need to remember their user-id; you can just start typing their real name and auto-complete stuff will pop up.  The main reason to mention Fred is to ensure that he sees your comment.  For example you might asking him for a review.
+
+  - In bulleted or itemized lists, if you want a new paragraph, indent two spaces.  Less obviously, if you want to put a code block _indent the triple-backticks two spaces_.  If you don't indent the triple-backticks, you terminate the current list.
 
   The [full markdown guide](https://about.gitlab.com/handbook/product/technical-writing/markdown-guide/).
 
