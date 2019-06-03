@@ -37,7 +37,6 @@ git remote set-url origin git@gitlab.haskell.org:ghc/ghc.git
 ```wiki
 export GIT_SSH_COMMAND="ssh -v -v" 
 ```
-  blah blah
 
 * To test your ssh connection to the repo, do this:
 ```wiki
