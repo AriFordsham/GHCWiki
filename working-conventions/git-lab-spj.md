@@ -135,7 +135,7 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
   - In bulleted or itemized lists, if you want a new paragraph, indent two spaces.  
 
-  Less obviously, if you want to put a code block _indent the triple-backticks two spaces_.  If you don't indent the triple-backticks, you terminate the current list.
+    Less obviously, if you want to put a code block _indent the triple-backticks two spaces_.  If you don't indent the triple-backticks, you terminate the current list.
 
   The [full markdown guide](https://about.gitlab.com/handbook/product/technical-writing/markdown-guide/).
 
