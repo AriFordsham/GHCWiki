@@ -29,4 +29,4 @@ As a last resort, please contact @bgamari with your email address.
 
 ## Tickets
 
-Most of the tickets here were carried over from GHC's previous Trac installation. See the [wiki](tickets-from-trac) for details about this migration.
+Most of the tickets here were carried over from GHC's previous Trac installation. See the [wiki](git-lab-migration) for details about this migration.
