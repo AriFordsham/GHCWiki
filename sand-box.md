@@ -5,3 +5,24 @@ This is just a page to practice and learn [GitLab Flavored Markdown](https://doc
 
 
 Go ahead, edit it freely.
+
+
+-----
+
+* first bit of text
+
+  ```
+  main :: IO ()
+  ```
+
+  Second bit of text
+
+
+
+* next item
+
+  * sub level
+
+    ```
+    main = print 1
+    ```
