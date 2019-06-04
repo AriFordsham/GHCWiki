@@ -5,7 +5,7 @@ You may wish to see the [table of contents](./index) to get a sense for what is 
 # Quick Links
 
 * [GHC Home](https://www.haskell.org/ghc/) GHC's home page
-* [GHC User's Guide](https://www.haskell.org/ghc/) Official user's guide for current and past GHC releases.
+* [GHC User's Guide](/ghc-users-guide#ghc-users-documentation) Official user's guide for current and past GHC releases.
 * Joining In
   * [Newcomers info](/contributing#newcomers-to-ghc) / [Contributing](/contributing) Get started as a contributor.
   * [Mailing Lists & IRC](/mailing-lists-and-irc) Stay up to date and chat to the community.
