@@ -172,3 +172,23 @@ There are a few possible explanations for a test being skipped run:
 - You are missing libraries required by the test (see the "Additional Packages" section above)
 - The test is a performance test yet the compiler was built with `-DDEBUG` (perhaps the tree was built with `./validate --slow` or with `BuildFlavour = devel2` in `mk/build.mk`?)
 - There was an error evaluating a `.T` file; see the output from the testsuite driver's initialization phase for hints.
+
+## Running tests in the same environments as CI
+
+It is fairly straightforward to locally reproduce the exact results that one gets when running the testsuite in one of the Linux environments that we test in CI, using Docker. There is a registry running at `registry.gitlab.haskell.org` which hosts and serves all the Linux Docker images that we use in CI. The sources of those images can be found in the [`ghc/ci-images`](https://gitlab.haskell.org/ghc/ci-images) repository.
+
+Let's take a concrete example: the `PartialDownsweep` test is failing in the `validate-x86_64-linux-deb8-hadrian` CI job. By looking at the `.gitlab-ci.yml`'s `DOCKER_REV` entry for the job's commit, you can find the `ci-images` commit that the CI job used. For our example, we will use the following commit: `ac65f31dcffb09cd7ca7aaa70f447fcbb19f427f`. You can now issue a `docker` command that pulls the image (if needed) and drops you into a corresponding shell:
+
+``` sh
+$ docker run -it registry.gitlab.haskell.org/ghc/ci-images/x86_64-linux-deb8:ac65f31dcffb09cd7ca7aaa70f447fcbb19f427f
+```
+
+Once in that shell, you can clone ghc (`git clone --recursive https://gitlab.haskell.org/ghc/ghc.git`) and run the commands from the job's script (you can find them in the corresponding section of the `.gitlab-ci.yml` file) in order to reproduce the problem you are interested in fixing. In our example:
+
+``` sh
+$ git clone --recursive https://gitlab.haskell.org/ghc/ghc.git
+$ cd ghc
+$ ./boot; ./configure; hadrian/build.sh -j test --only=PartialDownsweep
+```
+
+Windows and OS X jobs on the other hand do not run through Docker and you therefore need access to real machines running those systems in order to reproduce any problem that you observe in the corresponding CI jobs.
