@@ -115,7 +115,7 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
   - A small per-project list of super-developers.
   - The [code owners file](https://gitlab.haskell.org/ghc/ghc/blob/master/CODEOWNERS): if your patch touches code listed in this file, the corresponding users become approvers for that MR.
-  - Per-MR approvers, which you as MR author can add.  *From what list?*****
+  - Per-MR approvers, which you as MR author can add.  You can add or remove approvers by clicking on the "Edit" button of the MR.  (You can't do this via the sidebar on the right.  And you need to be a GitLab "developer", which anyone GHC contributor can ask to be.)
 
 ## Gitlab tips
 
