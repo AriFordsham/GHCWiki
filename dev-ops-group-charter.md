@@ -44,7 +44,7 @@ The GHC DevOps Group identifies the ongoing and one-off devops requirements of G
 ## Membership
 
 
-The founding members of the GHC DevOps Group are (alphabetically) 
+The members of the GHC DevOps Group are (alphabetically) 
 
 - Mathieu Boespflug (Tweag I/O), 
 - Manuel Chakravarty (Tweag I/O) \[chair\], 
@@ -57,6 +57,7 @@ The founding members of the GHC DevOps Group are (alphabetically)
 - Neil Mitchell (Digital Asset), 
 - Simon Peyton Jones (Microsoft Research),
 - Michael Snoyman (FP Complete),
+- Patrick Thomson (GitHub),
 - Greg Steuck (Google X), and
 - Ryan Trinkle (Obsidian Systems).
 
