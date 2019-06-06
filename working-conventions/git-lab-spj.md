@@ -6,6 +6,7 @@ These pages document [GHC-specific working conventions](https://gitlab.haskell.o
 * [GHC label summary](https://gitlab.haskell.org/ghc/ghc/wikis/GitLab-Labels/)
 * [GHC issue conventions](https://gitlab.haskell.org/ghc/ghc/wikis/gitlab/issues)
 * [GHC merge request conventions](https://gitlab.haskell.org/ghc/ghc/wikis/gitlab/merge-requests)
+* [Simon's GitLabl wish-list](https://docs.google.com/document/d/1sdGlDJSTiBZSH6kBU5pyn1HASE9XFqQhzILcYcH1QJQ/edit?usp=sharing)
 
 # GitLab's model
 
