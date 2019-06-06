@@ -5,14 +5,14 @@ There are a few different projects of different skills levels which I (@mpickeri
 
 [Example](http://mpickering.github.io/vega.html) 
 
-[This repo](https://github.com/mpickering/hp2pretty) is a reimplementation of `hp2pretty`, there is a new frontend which reads eventlogs and a new backend which renders the chart using a [`vega-lite`]((https://vega.github.io/vega-lite/)) specification. 
+[This repo](https://github.com/mpickering/hp2pretty) is a reimplementation of `hp2pretty`, there is a new frontend which reads eventlogs and a new backend which renders the chart using a [`vega-lite`](https://vega.github.io/vega-lite/)) specification. The resulting chart is interactive.
 
 1. (Beginner) Improve the rendering of the heap profile.
    * Display which Constructor we currently mouse over.
    * Display heap usage of the constructor/total on that position.
    * Maybe we can change the colour of the event log line when emphasising it.
    * Allow selecting a specific part of the profiled to view ([example](https://vega.github.io/vega/examples/overview-plus-detail/))
-   * Make it easy to switch between a "zero", ["normalize"](https://vega.github.io/vega-lite/examples/stacked_area_normalize.html) and "center" stack chart. This is easy to achieve statically but not dynamically using `vega-lite`. 
+   * Make it easy to switch between a "zero", ["normalize"](https://vega.github.io/vega-lite/examples/stacked_area_normalize.html) and "[center"](https://vega.github.io/vega-lite/docs/stack.html#streamgraph) stack chart. This is easy to achieve statically but not dynamically using `vega-lite`. ([vega-lite#3338](https://github.com/vega/vega-lite/issues/3338))
    * Add a title and other meta information.
 
 2. (Intermediate) Continue refactoring the internals of hp2pretty. 
