@@ -17,6 +17,7 @@ We should be clear about the dependencies between items on this list.
 
 - #16110 and #16762 refactoring of `HsImplicitBndrs`.
 - #16763: get tyvars in the right order in partial type sigs
+- #15809, #8995: use level numbers for generalisation; see Richard/Simon Slack call 7 June 19.
 
 - [Proposal 99: explicit specificity](https://github.com/ghc-proposals/ghc-proposals/pull/99).  Lets us write `T :: forall {k} (a :: k).blah`.
 
@@ -48,7 +49,6 @@ f :: T {Type} @Type Int
 
 - #15977: restructure typechecking modules. New module `KcTyClsDecls` that pulls from `TcTyClsDecls` and `TcHsType`.
 - #14873: make `typeKind` monadic in the type checker
-- #15809: use level numbers for generalisation
 
 - #14164: comments, invariant, asserts (Richard)
 - #15577: surprising coercions: see comment:5
