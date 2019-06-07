@@ -182,3 +182,7 @@ An external command read a file but didn't `need` it. If the file is a indicatin
 You `need`ed a file only after it was read. Make sure to `need` the file *before* using it.
 
 ## Lint: TODO other errors 
+
+# Relative vs. Absolute Paths
+
+Shake is sensitive to relative vs absolute paths. In general, always use relative paths for files in the source and build tree, and always use absolute paths for system files.
