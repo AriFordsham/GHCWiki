@@ -153,7 +153,10 @@ $ git checkout feature/arm64-support
 $ cd gitlab-runner
 $ make deps
 $ make build_simple
-$ make helper-docker
+# Delete any stale image to ensure that a new image is built and
+# added to Docker.
+$ rm -f out/helper-images/prebuilt-arm64.tar*
+$ make out/helper-images/prebuilt-arm64.tar.xz
 ```
 Currently we then just run `out/binaries/gitlab-runner run` in a `tmux` session.
 
