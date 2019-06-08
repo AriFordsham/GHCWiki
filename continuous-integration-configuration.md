@@ -153,7 +153,7 @@ $ git checkout feature/arm64-support
 $ cd gitlab-runner
 $ make deps
 $ make build_simple
-$ make out/helper-images/prebuilt-arm64.tar.xz
+$ make helper-docker
 ```
 Currently we then just run `out/binaries/gitlab-runner run` in a `tmux` session.
 
