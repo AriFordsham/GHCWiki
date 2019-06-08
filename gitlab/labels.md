@@ -23,6 +23,7 @@ These labels describe how a ~bug manifests. Usually every bug should be bear exa
  * ~"incorrect runtime result": A case where a program compiled by GHC produces the wrong result
  * ~"runtime crash": A case where a program compiled by GHC crashes at runtime
  * ~"program incorrectly rejected": A case where GHC rejects a well-formed program (e.g. with a type error)
+ * ~"program incorrectly accepted": A case where GHC accepts a poorly-formed program.
  * ~"error messages": Issues with the error messages produced by GHC
 
 # Miscellaneous
