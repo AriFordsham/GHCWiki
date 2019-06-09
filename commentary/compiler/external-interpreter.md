@@ -19,7 +19,7 @@ The main pieces are:
   - implementation of Template Haskell ([GHCi.TH](https://gitlab.haskell.org/ghc/ghc/blob/master/libraries/ghci/GHCi/TH.hs))
   - a few other things needed to run interpreted code
 
-- `iserv` directory at the top-level, containing the code for the external
+- `libraries/libiserv`, containing the code for the external
   server.  This is a fairly simple wrapper, most of the functionality
   is provided by modules in `libraries/ghci`.
 
