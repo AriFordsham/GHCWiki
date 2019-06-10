@@ -10,13 +10,13 @@ Please update this page freely.
 There are various architectures about memory ordering (see [here](https://en.wikipedia.org/wiki/Memory_ordering)).
 GHC needs to correspond to each sort.
 
-  * Strong memory ordering (TSO):
+  * Strong memory ordering:
     * X86, SPARC in TSO mode
 
   * Weak memory ordering:
     * ARM, PowerPC
 
-On weakly ordering machines, store-store and load-load instructions may be also reorderd.
+On weakly ordering machines, store-store and load-load instructions may be also reordered.
 So we need appropriate memory barriers.
 
 
@@ -26,9 +26,9 @@ Here is the design note about heap memory barriers in GHC:
 
   * `Note [Heap memory barriers]` in [includes/stg/SMP.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/stg/SMP.h) 
 
-Related marge request and mails are here:
+Related merge request and mails are here:
 
-  * https://gitlab.haskell.org/ghc/ghc/merge_requests/1128 (originaly https://gitlab.haskell.org/ghc/ghc/merge_requests/734)
+  * https://gitlab.haskell.org/ghc/ghc/merge_requests/1128 (originally https://gitlab.haskell.org/ghc/ghc/merge_requests/734)
   * [Cmm Memory Model (Understanding #15449)](https://mail.haskell.org/pipermail/ghc-devs/2018-November/016581.html) at ghc-devs ML.
 
 
