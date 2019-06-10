@@ -160,6 +160,19 @@ $ docker tag $src gitlab/gitlab-runner-helper:arm-7137fd54
 ```
 Currently we then just run `out/binaries/gitlab-runner run` in a `tmux` session.
 
+Unfortunately, the `clear-docker-cache` script used [above](#linux-configuration) ends up
+dropping `gitlab-runner`'s helper image. Consequently we amend the cron job accordingly,
+```sh
+#!/bin/sh -e
+
+/usr/share/gitlab-runner/clear-docker-cache
+
+hash=7137fd54
+src=$(docker import /root/gitlab-runn/out/helper-images/prebuilt-arm64.tar.xz)
+docker tag $src gitlab/gitlab-runner-helper:arm-$hash
+```
+Where `hash` needs to be updated whenever `gitlab-runner` is updated. Sigh. 
+
 Also relevant: https://gitlab.com/gitlab-org/gitlab-runner/merge_requests/725
 
 
