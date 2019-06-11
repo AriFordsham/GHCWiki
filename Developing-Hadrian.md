@@ -68,7 +68,13 @@ Note: this implies that all indicating inputs of all rules must either be source
 
 `need`ing files generally means more code as you must `need` all indicating inputs. Hence you want to pick a convenient (i.e. minimal) set of indicating inputs. Remember this set is not unique so you're free to pick whatever indicating input set you want, but it is your responsibility to ensure is in fact a valid indicating set and to `need` that set in your Hadrian rule.
 
-### Summary
+## Removing Irrelevant Inputs
+
+Some inputs intuitively have no effect on the vial outputs and can always be excluded from your indicating inputs set. Such files are "irrelevant" exactly when it is not a vital input nor transitive vital input.
+
+For example. We used to unnecessarily need all library files of all library dependencies when building .hi and .o files, but actually we only depend on relevant .hi files from our library dependencies, not the whole static/dynamic library file. We can see that the static/dynamic library file is not a vital input, nor a transitively vital input. Hence it was safe to remove the corresponding needs.
+
+## Removing Redundant Inputs
 
 To come up with a valid indicating set for a rule:
 
