@@ -144,11 +144,12 @@ Reboot to ensure changes take effect.
 
 ## AArch64 configuration
 
-On a Debian/Ubuntu machine as of Dec 2018:
+On a Debian/Ubuntu machine with Docker installed as of Dec 2018:
 
 ```
-$ sudo apt-get install ruby ruby-dev golang
-$ git clone https://gitlab.com/solidnerd/gitlab-runner.git 
+$ sudo apt-get install make git ruby ruby-dev golang
+$ git clone https://gitlab.com/solidnerd/gitlab-runner.git
+$ cd gitlab-runner
 $ git checkout feature/arm64-support
 $ cd gitlab-runner
 $ make deps
