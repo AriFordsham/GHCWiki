@@ -1,5 +1,7 @@
 # Linux distribution version matrix
 
+**N.B.** You will find https://repology.org/repositories/statistics to be extremely useful when updating this.
+
 <table><tr><th> Distribution          </th>
 <th> Release date </th>
 <th> gcc </th>
