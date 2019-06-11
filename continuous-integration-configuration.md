@@ -155,9 +155,9 @@ $ cd gitlab-runner
 $ make deps
 $ make build_simple
 $ make out/helper-images/prebuilt-arm64.tar.xz
+$ REVISION=$(git rev-parse --short=8 HEAD)
 $ src=$(docker import out/helper-images/prebuilt-arm64.tar.xz)
-$ docker tag $src gitlab/gitlab-runner-helper:arm-7137fd54 
-# (replacing target image name with  with name of image created during the build)
+$ docker tag $src gitlab/gitlab-runner-helper:arm-$REVISION
 ```
 Currently we then just run `out/binaries/gitlab-runner run` in a `tmux` session.
 
@@ -168,9 +168,9 @@ dropping `gitlab-runner`'s helper image. Consequently we amend the cron job acco
 
 /usr/share/gitlab-runner/clear-docker-cache
 
-hash=7137fd54
+REVISION=$(git -C /root/gitlab-runner rev-parse --short=8 HEAD)
 src=$(docker import /root/gitlab-runn/out/helper-images/prebuilt-arm64.tar.xz)
-docker tag $src gitlab/gitlab-runner-helper:arm-$hash
+docker tag $src gitlab/gitlab-runner-helper:arm-$REVISION
 ```
 Where `hash` needs to be updated whenever `gitlab-runner` is updated. Sigh. 
 
