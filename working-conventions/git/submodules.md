@@ -157,7 +157,7 @@ TODO show how to define a `git pushall` alias in the style of the `git pullall` 
 
 ### Validation hooks
 
-There are server-side validation hooks in place on `git.haskell.org` to make sure for non-`wip/` branches that `ghc.git` never points to non-existing commits. Also, as a safe-guard against accidental submodule reference updates, the string `submodule`**\*must occur somewhere in commit messages of commits**\* updating submodule references. So just remember that:
+GHC's CI infrastructure includes a submodule lint job which ensures that:
 
 1. If you update a submodule pointer,
 
@@ -189,4 +189,4 @@ To accomplish this we configure the submodule projects quite specifically:
  * All of the "interesting" branches we want to mirror from upstream are added as "Protected branches" (e.g. `master`, and `1.24`)
  * A push rule is added to restrict pushes to the interesting branches and `wip/.*`
 
-This ensures that commits can only be pushed to `wip/.*`, which the submodule checker hook does not consider as a root.
+This ensures that commits can only be pushed to `wip/.*`, which the submodule check linter does not consider as roots.
