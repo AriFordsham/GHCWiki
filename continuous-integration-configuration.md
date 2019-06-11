@@ -148,7 +148,7 @@ On a Debian/Ubuntu machine as of Dec 2018:
 
 ```
 $ sudo apt-get install ruby ruby-dev golang
-$ git fetch https://gitlab.com/solidnerd/gitlab-runner.git 
+$ git clone https://gitlab.com/solidnerd/gitlab-runner.git 
 $ git checkout feature/arm64-support
 $ cd gitlab-runner
 $ make deps
