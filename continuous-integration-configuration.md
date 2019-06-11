@@ -175,6 +175,9 @@ Where `hash` needs to be updated whenever `gitlab-runner` is updated. Sigh.
 
 Also relevant: https://gitlab.com/gitlab-org/gitlab-runner/merge_requests/725
 
+## ARMv7 on AArch64 configuration
+
+The `ghc-arm-2` runner supports running ARMv7 containers.
 
 ## Current Runners
 
