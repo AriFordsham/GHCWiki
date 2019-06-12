@@ -32,5 +32,6 @@ Improvements to GHC profiling (Intermediate/Advanced - knowledge of C)
 * Dynamically adjust sampling interval in proportion to time taken to GC ([#1420](https://gitlab.haskell.org/ghc/ghc/issues/1420))
 * Add eventlog events for biographical and retainer profilers ([#16766](https://gitlab.haskell.org/ghc/ghc/issues/16766))
 * Add profiling support to [`ghc-heap`](https://www.stackage.org/haddock/lts-13.24/ghc-heap-8.6.5/GHC-Exts-Heap.html)([#15375](https://gitlab.haskell.org/ghc/ghc/issues/15735))
+* LDV Profiling: Make heapCensus agree with LdcCensusForDead (#16807)
 * (Advanced) Give more detailed information about PINNED data in a heap profile
  ([#7275](https://gitlab.haskell.org/ghc/ghc/issues/7275))
