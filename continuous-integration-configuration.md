@@ -7,11 +7,12 @@ All of the Linux builders are run in Docker containers. The images for these bui
 
 The following job tags are currently defined:
 
- * `x86_64-linux`
  * `aarch64-linux`
+ * `armv7-linux`
+ * `x86_64-linux`
  * `x86_64-darwin`
  * `x86_64-windows`
- * `docker`: supports Docker-in-Docker (used by the ghc/ci-images builds)
+ * `docker`: supports [Docker-in-Docker](#configuring-docker-in-docker) (used by the ghc/ci-images> builds)
  * `lint`: a separate set of x86-64/Linux runner registrations to ensure that linters can always run with minimal latency
 
 # Environment variables
