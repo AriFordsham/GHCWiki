@@ -12,6 +12,8 @@ The following job tags are currently defined:
  * `x86_64-linux`
  * `x86_64-darwin`
  * `x86_64-windows`
+ * `head.hackage`: can run ghc/head.hackage> builds; this is limited to a subset of machines to increase cache reuse.
+ * `trusted`: is run by a trusted entity and is therefore eligible to build release binary distributions
  * `docker`: supports [Docker-in-Docker](#configuring-docker-in-docker) (used by the ghc/ci-images> builds)
  * `lint`: a separate set of x86-64/Linux runner registrations to ensure that linters can always run with minimal latency
 
