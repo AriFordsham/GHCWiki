@@ -2,6 +2,24 @@
 
 All of the Linux builders are run in Docker containers. The images for these builds can be found in the ghc/ci-images> project. They are generated via GitLab Pipelines and pushed to the `gitlab.haskell.org/ghc/ci-images` Docker repository.
 
+
+# Job tags
+
+The following job tags are currently defined:
+
+ * `x86_64-linux`
+ * `aarch64-linux`
+ * `x86_64-darwin`
+ * `x86_64-windows`
+ * `docker`: supports Docker-in-Docker (used by the ghc/ci-images builds)
+ * `lint`: a separate set of x86-64/Linux runner registrations to ensure that linters can always run with minimal latency
+
+# Environment variables
+
+The runners are configured to expose the following environment variables:
+
+ * `CPUS`: The number of CPUs the job should use.
+
 # GitLab runner configuration
 
 ## NixOS
@@ -49,17 +67,6 @@ Also add a cron job to prune things:
 ```bash
 echo "@daily root docker system prune --all --force --volumes" | sudo tee /etc/cron.d/docker-prune
 ```
-
-## Job tags
-
-The following job tags are currently defined:
-
- * `x86_64-linux`
- * `aarch64-linux`
- * `x86_64-darwin`
- * `x86_64-windows`
- * `docker`: supports Docker-in-Docker (used by the ghc/ci-images builds)
- * `lint`: a separate set of x86-64/Linux runner registrations to ensure that linters can always run with minimal latency
 
 ## Configuring docker-in-docker
 
