@@ -27,10 +27,10 @@ To get a local copy of NoFib:
 ## Benchmarking
 
 
-Firstly, the `nofib-analyse` program requires the `html` and `regex-compat` cabal packages be installed:
+Firstly, the `nofib-analyse` program requires the `regex-compat` cabal package be installed:
 
 ```wiki
-  $ cabal install html regex-compat
+  $ cabal v1-install regex-compat
 ```
 
 
