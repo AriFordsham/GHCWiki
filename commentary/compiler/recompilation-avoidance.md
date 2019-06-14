@@ -287,22 +287,35 @@ versions for each of these entities checked against the usages from
 the old interface file.  If any of these versions has changed, the
 module must be recompiled.
 
-### Example
+### Interface file invariants
 
+Often the interface file in not touched in order to avoid unnecessary recompilation of external build systems (see [make](make)). As a result, interface files may not change from the previous build, so may contain outdated information. That said, GHC guarantees that:
+
+- Interface files have an up to date ABI hash for the corresponding module
+
+### Example
 
 There are some tricky cases to consider.
 
+Assume optimizations are *not* enabled. If we add a new export `D.g` from module `D` and recompile `A`, then `A` will *not* be recompiled and `A.hi` will not be touched. It works like this:
 
-Suppose we change the definition of `D.f` in the example, and make it
+- `D` is recompiled; the exports and hence ABI hash of `D` changes.
+- `B` is considered; it imports all of `D`, so gets recompiled, and now its interface has a different interface hash, but its ABI hash has not changed as it doesn't expose any change from the newly imported `D.g`.
+- `C` is considered; it imports all of `D`, so gets recompiled, and now its interface has a different interface hash, but its ABI hash has not changed as it doesn't expose any change from the newly imported `D.g`.
+- `A` is considered (if we're using make, this is because `B.hi` changed); Though `D`'s ABI has changed, the only import `D.f` (via B) has not changed, so `A` is not recompiled and `A.hi` is not updated
 
-```wiki
+Since `A.hi` was not updated, it now contains an outdated ABI hash for module `D`, but the ABI hash for `A` itself has not changed so is till up to date.
+
+Now assume optimization *are* enabled. Suppose we change the definition of `D.f` in the example, and make it
+
+```haskell
 f x = h x + 1
 ```
 
+Assuming optimizations are disabled, A.hi will not be updated 
 
-Now, ultimately we need to recompile `A`, because it might be using
+Now, ultimately we need to recompile `A`, because it might (assuming optimizations are on) be using
 an inlined copy of the old `D.f`, which it got via `B`.
-
 
 It works like this: 
 
@@ -313,7 +326,6 @@ It works like this:
 - `A` is considered (if we're using make, this is because `B.hi`
   changed); it recorded a usage on the old `D.f`, and so gets
   recompiled.
-
 
 Now a slightly more tricky case: suppose we add an INLINE pragma to
 `D.f` (this is a trick to prevent GHC from inlining `D.h`, so that we
