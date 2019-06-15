@@ -54,6 +54,7 @@ Next, we try to make sense of how it all fits together.
 - [How Signals are handled](commentary/rts/signals)
 - [The IO Manager thread](commentary/rts/io-manager)
 - [The HEAP_ALLOCED macro](commentary/heap-alloced)
+- [Memory ordering](commentary/rts/memory-ordering)
 
 
 Also check the list of cross-cutting concerns in [Commentary](commentary).
