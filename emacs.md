@@ -403,3 +403,28 @@ If you are not working of off `master` you can `setq` `ghc-revision` to lint aga
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 ```
+
+# Spacemacs + Dante + Nix(os)
+**Description**: This section is a bit special because it applies to a very specific setup: Using Spacemacs (an Emacs configuration distribution) with `dante-mode` as editor and `nix-shell` for building GHC.
+
+Requirements:
+- Spacemacs (http://spacemacs.org/)
+- ghc.nix (https://github.com/alpmestan/ghc.nix)
+- Nix(os) (https://nixos.org/)
+
+Dante is currently only available on the `develop` branch of Spacemacs.
+```bash
+cd ~/.emacs.d
+git checkout develop
+```
+
+Create a file `.dir-locals.el` in the root folder of the GHC project (e.g. `~/src/ghc/.dir-locals.el` on my machine):
+```elisp
+((haskell-mode
+  (dante-repl-command-line . ("nix-shell" "--arg" "cores" "8" "--arg" "version" "8.9" "--arg" "withHadrianDeps" "true" "--arg" "bootghc" "\"ghc864\"" "--pure" "ghc.nix" "--run" "hadrian/ghci.sh"))))
+```
+As you easily recognize, `dante-repl-command-line` is set to running `hadrian/ghci.sh` in a `nix-shell` environment. The `--arg`s are how I use `ghc.nix`, of course you can and should adjust them to your needs.
+
+If you now open a Haskell file in the GHC project, `dante-mode` should automatically start and use `nix-shell` to call `hadrian/ghci.sh`.
+
+**ToDo**: Some features of `dante-mode` seem not to work. Maybe using `utils/ghc-in-ghci/run.sh` would lead to better results, but I haven't tested this, yet.
