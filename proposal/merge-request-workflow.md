@@ -1,4 +1,4 @@
-This is a proposal about the workflow for getting merge requests to land in GHC’s master branch.   It’s the result of some discussion at GHC HQ.  We would love to have your feedback.
+This is a proposal about the workflow for getting merge requests to land in GHC’s master branch.   It’s the result of some discussion at GHC HQ but we emphasize that it is still only a proposal.  We would love to have your feedback.
 
 # Background
 
@@ -10,26 +10,18 @@ For most of its history GHC has allowed a relatively large group of committers d
 
 There are a number of people involved in GHC development. This section gives precise names to these actors:
 
-Author
+* **Author:** This is the person who contributes the patch
 
-: This is the person who contributes the patch
+* **GHC contributors:** One of GHC’s greatest strengths is its large group of willing developers.  Almost all developers are volunteers.   We want to do everything possible to make it as frictionless as possible for GHC contributors to help make GHC great.
 
-GHC contributors.
+* **GHC developers:** These are contributors who have a “Developer role” in GitLab.  The difference is minor: being a developer is just a permissions thing; you can
 
-: One of GHC’s greatest strengths is its large group of willing developers.  Almost all developers are volunteers.   We want to do everything possible to make it as frictionless as possible for GHC contributors to help make GHC great.
-
-GHC developers
-
-: These are contributors who have a “Developer role” in GitLab.  The difference is minor: being a developer is just a permissions thing; you can
-
-   * change the label on issues and MRs
-   * push a branch to the main GHC repo (but not the `master` or stable branches!)
+  * change the label on issues and MRs
+  * push a branch to the main GHC repo (but not the `master` or stable branches!)
   
   Any contributor who is making a MR should be a developer.   (*Note:* in GitLab, only developers can edit a MR once it has been created; so to add an approver you must be a developer.)
 
-GHC maintainers
-
-: As GHC has become more mission critical to more companies, we have slowly built a small team of maintainers, whose actual day job is to look after GHC, its developers, and its ecosystem.
+* **GHC maintainers:** As GHC has become more mission critical to more companies, we have slowly built a small team of maintainers, whose actual day job is to look after GHC, its developers, and its ecosystem.
 
 # The proposed new life cycle of an MR
 
