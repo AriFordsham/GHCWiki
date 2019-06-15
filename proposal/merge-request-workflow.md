@@ -27,10 +27,10 @@ There are a number of people involved in GHC development. This section gives pre
 
 We propose the following life cycle for an MR..  A label for each MR records which step it is on; each MR should have exactly one such label.    
 
-| GitLab label | Owner   | Reasonable latency expectation    |
-| ------ | ----------- | ------- | --------------------------------- |
-| ~"Under review"   | Author |
-| cell | cell | 
+| GitLab label       | Owner       | Reasonable latency expectation    |
+| ------------------ | ----------- | --------------------------------- |
+| ~"Under review"    | Author      | |
+
 
 The steps involved are as follows:
 
@@ -58,7 +58,7 @@ Reviewers can use the "Approve" button to indicate they are happy with the MR.  
 When contributor believes that the MR is ready to go -- has had an appropriate level of review and approvers -- the contributor will add the ~"MR::2-ready for merge" label, moving the MR to the next phase of review. (NB: Step 3b, below, affirms that the maintainer agrees with the contributor’s judgment.)
 
 
-## 3. Final review:
+## 3. Final review
 
 * **GitLab Label:** ~"MR::2-ready for merge"
 * **Person responsible:** GHC Maintainers
@@ -78,7 +78,7 @@ The final review is not a complete code review: it’s a quick process review.  
 
 Finally the maintainer will add the MR to the merge queue (currently Marge) and add the ~"MR::3-in merge queue" label.
 
-## 4. In merge queue.
+## 4. In merge queue
 
 * **GitLab Label:** ~"MR::3-in merge queue"
 * **Person responsible:** @marge-bot or maintainers if things get stuck
