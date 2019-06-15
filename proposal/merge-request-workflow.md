@@ -116,17 +116,17 @@ It would be very unusual for the final sanity check to prove to be a show stoppe
 
 # FAQ
 
-How can an author know when his/her MR moves to “Post merge cleanup”?
+* How can an author know when his/her MR moves to “Post merge cleanup”?
 
-: Easy: here is a URL that searches for MRs that have the “post-merge cleanup” label and “Fred” as the author: show url
+  Easy: here is a URL that searches for MRs that have the “post-merge cleanup” label and “Fred” as the author: show url
 
-Do I need to change Assignee as well as the Label on a MR? 
+* Do I need to change Assignee as well as the Label on a MR? 
 
-: No: changing the label is enough.
+  No: changing the label is enough.
 
-What about back-porting to the most recent release branch.  Who decides?  Who is responsible?
+* What about back-porting to the most recent release branch.  Who decides?  Who is responsible?
 
-: The new process isn’t so different from the status quo. In practice small patches will likely have all three stages of review performed by the same maintainer. However, the explicit nature of the process makes it easier to ensure that reviews don’t fall through the cracks, as has happened in the past. In particular, the ~"ready for merge" label make it clear what things are waiting for intervention from maintainers. Moreover, the final review phase ensures that we have a clearly identified group responsible for overseeing what is merged to the tree.
+  The new process isn’t so different from the status quo. In practice small patches will likely have all three stages of review performed by the same maintainer. However, the explicit nature of the process makes it easier to ensure that reviews don’t fall through the cracks, as has happened in the past. In particular, the ~"ready for merge" label make it clear what things are waiting for intervention from maintainers. Moreover, the final review phase ensures that we have a clearly identified group responsible for overseeing what is merged to the tree.
 
 
 [codeowners]: https://gitlab.haskell.org/ghc/ghc/blob/master/CODEOWNERS
