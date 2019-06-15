@@ -427,4 +427,8 @@ As you easily recognize, `dante-repl-command-line` is set to running `hadrian/gh
 
 If you now open a Haskell file in the GHC project, `dante-mode` should automatically start and use `nix-shell` to call `hadrian/ghci.sh`.
 
-**ToDo**: Some features of `dante-mode` seem not to work. Maybe using `utils/ghc-in-ghci/run.sh` would lead to better results, but I haven't tested this, yet.
+**Troubleshooting**
+- Configure `dante-mode` to print debug information in a separate buffer: `Meta+x customize-group` `dante`
+- Try to run `hadrian/ghci.sh` with `nix-shell` manually to see if this works. I.e. run `nix-shell [args omitted] ghc.nix --run hadrian/ghci.sh` in your shell.
+
+**ToDo**: Some features of `dante-mode` don't seem to work. Maybe using `utils/ghc-in-ghci/run.sh` would lead to better results, but I haven't tested this, yet.
