@@ -1,7 +1,7 @@
 # Call Arity notes
 
 
-This wiki page is about the Call Arity analysis and transformation, which eta-expands definitions if we know that it is always being called with a certain number of arguments. This looks a the *uses* of a function, which is different from the the code in  CoreArity, which looks at the *definition* of a function.
+This wiki page is about the Call Arity analysis and transformation, which eta-expands definitions if we know that it is always being called with a certain number of arguments. This looks at the *uses* of a function, which is different from the the code in  CoreArity, which looks at the *definition* of a function.
 
 
 This pages does **not** document Call Arity as implemented; that documentation should be found and maintained with the code, at [source:compiler/simplCore/CallArity.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/simplCore/CallArity.hs).
