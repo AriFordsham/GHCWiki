@@ -8,7 +8,9 @@ This page describes the unlifted data types, i.e. algebraic data types which liv
 1. Provide a built-in `Force a` which is an unlifted version of `a`, with no indirection cost. (Harder.)
 
 
-See also [UnpackedSumTypes](unpacked-sum-types).
+See also 
+* [UnpackedSumTypes](unpacked-sum-types).
+* [Strictness in kinds](https://gist.github.com/andrewthad/90a4b23051870d14afb4ba064699bc5b)
 
 ## Motivation
 
