@@ -95,7 +95,7 @@ These labels identify compiler subsystems which are in some way implicated in a 
  * ~"linking": Linker issues
  * ~"LLVM backend": LLVM backend (`-fllvm`)
  * ~"NCG backend": The native code generator backend (`-fasm`)
- * ~"nonmoving-gc": The low-latency non-moving garbage collector
+ * ~"non-moving GC": The low-latency non-moving garbage collector
  * ~"NUMA":  Runtime support for Non-Uniform Memory Architecture machines
  * ~numerics: Issues with pertaining to GHC's handling of numerics, in particular floating point arithmetic
  * ~"package system": Issues pertaining to handling of packages (also see ~backpack)
