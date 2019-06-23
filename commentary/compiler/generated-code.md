@@ -95,9 +95,9 @@ This overview section is rather bare. Readers might be able to fill
 in any gaps in my explanation by using some of the following
 sources:
 
-- [The Haskell Execution Model](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Rts/HaskellExecution)
-- [Storage](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Rts/Storage)
-- [The Spineless Tagless G-machine](http://research.microsoft.com/en-us/um/people/simonpj/Papers/spineless-tagless-gmachine.ps.gz)
+- [The Haskell Execution Model](commentary/rts/haskell-execution)
+- [Storage](commentary/rts/storage)
+- [The Spineless Tagless G-machine](https://www.microsoft.com/en-us/research/wp-content/uploads/1992/04/spineless-tagless-gmachine.pdf)
   - now sadly rather out of date
 - [Faster laziness through dynamic pointer tagging](http://research.microsoft.com/en-us/um/people/simonpj/papers/ptr-tag/ptr-tagging.pdf)
 
