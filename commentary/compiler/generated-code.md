@@ -43,8 +43,8 @@ Core language. It differs in the following main respects:
    though it does know about *representation* types
 1. It is in administrative normal form (ANF), which is where every
    subexpression is given a name
-1. Every $\\lambda$, constructor application, and primitive operator
-   is $\\eta$-expanded
+1. Every $`\lambda`$, constructor application, and primitive operator
+   is $`\eta`$-expanded
 1. It is annotated with a ton of information that the code
    generator is interested in knowing
 
