@@ -51,7 +51,7 @@ register for the GHC stack, and swap to an FFI stack to handle such calls.
 
 #### TODOs
 
-##### From June 26th, 2019 Meeting
+##### From June 23th, 2019 Meeting
 
 1. Investigate the feasibility of using the native stack pointer register.
 
