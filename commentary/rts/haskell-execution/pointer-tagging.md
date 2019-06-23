@@ -95,3 +95,7 @@ Compacting GC also uses tag bits, because it needs to distinguish between a heap
 
 
 Every time we dereference a pointer to a heap object, we must first zero the tag bits.  In the RTS, this is done with the inline function (previously: macro) `UNTAG_CLOSURE()`; in `.cmm` code this is done with the `UNTAG()` macro.  Surprisingly few places needed untagging to be added.
+
+## Strict fields are NOT always tagged.
+
+One might assume that strict fields by their nature can only contain tagged pointers. This is currently not true. Especially (static) indirections can make their way into such fields. See https://gitlab.haskell.org/ghc/ghc/issues/14677
