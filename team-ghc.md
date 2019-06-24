@@ -149,7 +149,7 @@ In order to see emails below, **you must login**.
   - Independent - Sydney, Australia
   - **Trac**: erikd; **email**: erikd@…
   - **Committer since**: August, 2012.
-  - **Main areas of interest**: PPC, Arm and Arm64 support, Runtime linker
+  - **Main areas of interest**: RTS, LLVM, Runtime linker and configure system
 
 - [Edward Yang](http://ezyang.com/)
 
