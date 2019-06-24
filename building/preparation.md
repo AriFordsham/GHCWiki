@@ -14,4 +14,4 @@ This section describes how to set up your system with all the tools you need to 
 
 Reference: [list of tools needed to build GHC](building/preparation/tools)
 
-See the [Newcomers](/ghc/ghc/wikis/contributing#newcomers-to-ghc) page for how to proceed after this.
+See the [Newcomers](/contributing#newcomers-to-ghc) page for how to proceed after this.
