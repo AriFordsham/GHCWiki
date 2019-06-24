@@ -1,5 +1,16 @@
 # Loading GHC into GHCi
 
+With one command you can load GHC into GHCi.
+
+```
+./hadrian/ghci.sh
+```
+
+`ghcid` should also work without any further modifications.
+
+## Old GHC in GHCi script
+
+This section is mostly out of date but retained here until the current iteration of the ghci script supports running `:main`.
 
 This page says how you can load GHC into GHCi for more iterative development. Csongor Kiss was the first person to record this feat. The scaffolding has been added to `master` since Aug 2018, and if you have to use an older working copy, refer to the guide at the bottom ([Old GHC source tree](https://gitlab.haskell.org/trac/ghc/wiki/Building/InGhci#OldGHCsourcetree)).
 
