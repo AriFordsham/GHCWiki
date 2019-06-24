@@ -53,7 +53,7 @@ register for the GHC stack, and swap to an FFI stack to handle such calls.
 
 ##### From June 23th, 2019 Meeting
 
-1. Investigate the feasibility of using the native stack pointer register.
+1. Investigate the feasibility of using the native stack pointer register (#8272)
 
    Ideally we would use call / ret instructions. This might not be possible
    even for native code gen.
