@@ -1,20 +1,11 @@
-# Preparing a build environment
+# Preparing a build environment with Stack
 
 In order to build GHC, you need a UNIX-like environment with:
 
 * some GNU tools (autoconf, m4, gcc, etc.)
 * a GHC compiler ([bootstrap compiler](https://en.wikipedia.org/wiki/Bootstrapping_(compilers)))
 
-This can be difficult to set up on some platforms (e.g. Windows) so there are two documented ways to do it:
-
-* [automatically using Stack](#building-ghc-with-stack)
-* [manually](#configuring-a-build-environment)
-
-## Building GHC with Stack
-
-Stack can automatically setup an environment suitable to build GHC. Follow the instructions on [Stack website](https://haskellstack.org) to install Stack on your platform.
-
-Stack is particularly helpful on non UNIX platforms (e.g. Windows) as it installs GNU tools automatically by downloading and installing an [MSYS2 distribution](https://www.msys2.org/). On UNIX-like systems you are expected to install GNU tools (such as GCC) yourself.
+Setting the environment manually can be tedious on some platforms (e.g. Windows), however Stack can do it automatically. Follow the instructions on [Stack website](https://haskellstack.org) to install Stack on your platform. Stack is particularly helpful on non UNIX platforms (e.g. Windows) as it installs GNU tools automatically by downloading and installing an [MSYS2 distribution](https://www.msys2.org/). On UNIX-like systems you are expected to install GNU tools (such as GCC) yourself.
 
 Then to build GHC, you only have to execute one of the following commands:
 
@@ -35,8 +26,8 @@ Note: in the commands above we have used the "-c" flag to automatically execute 
 
 ```
 cd hadrian
-stack exec --cwd=.. boot -- <boot-params>
-stack exec --cwd=.. configure -- <configure-params>
+stack exec --cwd=.. ./boot -- <boot-params>
+stack exec --cwd=.. ./configure -- <configure-params>
 cd ..
 hadrian/build.stack.{sh,bat} -j --flavour=quick # don't use "-c" here
 ```
