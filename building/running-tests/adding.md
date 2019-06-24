@@ -119,8 +119,7 @@ test(multimod001, normal, multimod_compile_and_run, \
 ```
 
 
-This example would compile a multiple module test case where the top module is Main.hs and `-fglasgow-exts` is passed to GHC when compiling.
-
+This example would compile a multiple module test case where the top module is Main.hs and `-fglasgow-exts` is passed to GHC when compiling. **It is important that the top module is Main.hs**, while the name of the actual file can be anything we want.
 
 For a test case that should compile but you don't want run, we would put this line in all.T:
 
