@@ -407,6 +407,8 @@ If you are not working of off `master` you can `setq` `ghc-revision` to lint aga
 # Spacemacs + Dante + Nix(os)
 **Description**: This section is a bit special because it applies to a very specific setup: Using Spacemacs (an Emacs configuration distribution) with `dante-mode` as editor and `nix-shell` for building GHC.
 
+The initial setup is a bit cumbersome, but you'll gain syntax highlighting, type checking / info and navigation ("Jump to Definition").
+
 Requirements:
 - Spacemacs (http://spacemacs.org/)
 - ghc.nix (https://github.com/alpmestan/ghc.nix)
