@@ -47,6 +47,8 @@ We should be clear about the dependencies between items on this list.
 
 - [Proposal 126: Type applications in patterns](https://github.com/ghc-proposals/ghc-proposals/pull/126).
 
+- [Make equality homogeneous](https://gitlab.haskell.org/ghc/ghc/wikis/dependent-haskell/phase2)
+
 # Refactoring of existing stuff that we'd like to get done
 
 
