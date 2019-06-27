@@ -13,6 +13,8 @@ We should be clear about the dependencies between items on this list.
 
 - DONE [Proposal 81: Visible dependent quantification](https://github.com/ghc-proposals/ghc-proposals/pull/81).  Just syntax!  Lets you say `forall a -> ty` in types.  See [GhcKinds/KindInference](ghc-kinds/kind-inference) and [GhcKinds/KindInference/Examples](ghc-kinds/kind-inference/examples).
 
+- Visible type abstraction: [Original proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0050-type-lambda.rst), modified [here](https://github.com/ghc-proposals/ghc-proposals/pull/238). Also Richard & Simon Slack 27 June 19.
+
 - Stuff around #14198: inconsistent treatment of kind variables, and #16635 (making `checkExpectedKind` dumber)
 
 - #16110 and #16762 refactoring of `HsImplicitBndrs`.
