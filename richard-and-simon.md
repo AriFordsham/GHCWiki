@@ -10,9 +10,6 @@ These things are all either new features, or significant refactorings.  All aime
 
 We should be clear about the dependencies between items on this list.
 
-
-- DONE [Proposal 81: Visible dependent quantification](https://github.com/ghc-proposals/ghc-proposals/pull/81).  Just syntax!  Lets you say `forall a -> ty` in types.  See [GhcKinds/KindInference](ghc-kinds/kind-inference) and [GhcKinds/KindInference/Examples](ghc-kinds/kind-inference/examples).
-
 - Visible type abstraction: [Original proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0050-type-lambda.rst), modified [here](https://github.com/ghc-proposals/ghc-proposals/pull/238). Also Richard & Simon Slack 27 June 19.
 
 - Stuff around #14198: inconsistent treatment of kind variables, and #16635 (making `checkExpectedKind` dumber)
@@ -45,7 +42,6 @@ We should be clear about the dependencies between items on this list.
     ```
     Here `k` gets bound to `Type`.
 
-- DONE (in !361) [Proposal 103: treat kind and type variables identically in forall](https://github.com/ghc-proposals/ghc-proposals/pull/103) (depends on Proposal 83). Includes applying the "forall-or-nothing rule" to kind variables. The proposal says "wait until two releases after Proposal 83 is done (which was in 8.6)".  So we can do this in HEAD as soon as 8.8 forks.  Subsumes #14548.  See also #16110 (comments around 8 May).
 
 - #12088: SCC for kind inference: we know what to do, it's just a question of doing it. See also #7503, #14451.  This will be much easier once Proposal 54 is done.
 
@@ -163,6 +159,10 @@ data X where
 - It's terrible if we ever inspect a meta-tyvar in pure code. Something is surely awry. Add an `ASSERT` to `coreView` to stop this from happening and fix any consequences.
 
 ## Completed tasks
+
+- DONE (in !361) [Proposal 103: treat kind and type variables identically in forall](https://github.com/ghc-proposals/ghc-proposals/pull/103) (depends on Proposal 83). Includes applying the "forall-or-nothing rule" to kind variables. The proposal says "wait until two releases after Proposal 83 is done (which was in 8.6)".  So we can do this in HEAD as soon as 8.8 forks.  Subsumes #14548.  See also #16110 (comments around 8 May).
+
+- DONE [Proposal 81: Visible dependent quantification](https://github.com/ghc-proposals/ghc-proposals/pull/81).  Just syntax!  Lets you say `forall a -> ty` in types.  See [GhcKinds/KindInference](ghc-kinds/kind-inference) and [GhcKinds/KindInference/Examples](ghc-kinds/kind-inference/examples).
 
 - Remove pushing from `mkCastTy`. But see bullet above about remaining tasks.
 - Remove `solveSomeEqualities`
