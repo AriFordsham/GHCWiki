@@ -34,7 +34,7 @@ T :: forall {k} k2. k2 -> Type
 f :: T {Type} @Type Int
 ```
 
-- [Proposal 36: top-level kind signatures](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0036-kind-signatures.rst) (depends on Proposal 81). 
+- [Proposal 36: top-level kind signatures](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0036-kind-signatures.rst), ticket #16794. (depends on Proposal 81). 
   * See [this tweak](https://github.com/ghc-proposals/ghc-proposals/pull/227) for associated types.  The ticket is #16794.
 
   * Also #16734: we agreed that foralls from the signature _do not scope_ over the binding.
