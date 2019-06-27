@@ -28,11 +28,11 @@ We should be clear about the dependencies between items on this list.
   * #16320
   * Check pretty-printing for foralls with mixed req/inf/specified
   * Print invisible arguments properly (#16456)
-```
-T :: forall {k} k2. k2 -> Type
+    ```
+    T :: forall {k} k2. k2 -> Type
 
-f :: T {Type} @Type Int
-```
+    f :: T {Type} @Type Int
+    ```
 
 - [Proposal 36: top-level kind signatures](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0036-kind-signatures.rst), ticket #16794. (depends on Proposal 81). 
   * See [this tweak](https://github.com/ghc-proposals/ghc-proposals/pull/227) for associated types.  The ticket is #16794.
