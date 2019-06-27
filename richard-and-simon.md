@@ -35,6 +35,14 @@ f :: T {Type} @Type Int
 ```
 
 - [Proposal 36: top-level kind signatures](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0036-kind-signatures.rst) (depends on Proposal 81). See [this tweak](https://github.com/ghc-proposals/ghc-proposals/pull/227) for associated types.  The ticket is #16794.
+ 
+  NB: we agreed that foralls from the signature _do not scope_ over the binding.
+
+  Also (see #16726).  We agreed that kind variables in kind annotations should stand for arbitrary kinds, just like pattern type signatures.
+  ```
+  data T (a::k) = MkT a
+  ```
+  Here `k` gets bound to `Type`.
 
 - DONE (in !361) [Proposal 103: treat kind and type variables identically in forall](https://github.com/ghc-proposals/ghc-proposals/pull/103) (depends on Proposal 83). Includes applying the "forall-or-nothing rule" to kind variables. The proposal says "wait until two releases after Proposal 83 is done (which was in 8.6)".  So we can do this in HEAD as soon as 8.8 forks.  Subsumes #14548.  See also #16110 (comments around 8 May).
 
