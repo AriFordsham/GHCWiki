@@ -292,6 +292,9 @@ module must be recompiled.
 Often the interface file in not touched in order to avoid unnecessary recompilation of external build systems (see [make](make)). As a result, interface files may not change from the previous build, so may contain outdated information. That said, GHC guarantees that:
 
 - Interface files have an up to date ABI hash for the corresponding module
+  - A changed ABI hash is a necessary but not sufficient condition for recompilation of modules that depend on this module.
+- With !931 Interface files have an up to date list of home model dependencies (see `dep_mods` of `HscTypes.Dependencies`.
+  - This is important for ghci's linker to load all necessary modules (see #16511).
 
 ### Example
 
