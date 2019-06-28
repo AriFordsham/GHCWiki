@@ -16,6 +16,7 @@ We should be clear about the dependencies between items on this list.
 
 - #16110 and #16762 refactoring of `HsImplicitBndrs`.
 - #16763: get tyvars in the right order in partial type sigs
+- Finish !1132: Refactor kindGeneralize and friends
 - #15809, #8995: use level numbers for generalisation; see Richard/Simon Slack call 7 June 19.
 
 - [Proposal 99: explicit specificity](https://github.com/ghc-proposals/ghc-proposals/pull/99).  Lets us write `T :: forall {k} (a :: k).blah`.
