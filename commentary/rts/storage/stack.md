@@ -1,7 +1,7 @@
 # Layout of the stack
 
 
-Every [TSO object](commentary/rts/heap-objects#thread-state-objects) contains a stack (`tso->stackobj`).  The stack of a TSO grows downwards, with the topmost (most recently pushed) word pointed to by `tso->stackobj->sp`, and the bottom of the stack given by `tso->stackobj->stack + tso->stackobj->stack_size`.
+Every [TSO object](commentary/rts/storage/heap-objects#thread-state-objects) contains a stack (`tso->stackobj`).  The stack of a TSO grows downwards, with the topmost (most recently pushed) word pointed to by `tso->stackobj->sp`, and the bottom of the stack given by `tso->stackobj->stack + tso->stackobj->stack_size`.
 
 
 The stack consists of a sequence of *stack frames* (also sometimes called *activation records*) where each frame has the same layout as a heap object:
@@ -23,7 +23,7 @@ The code for evaluating a `case` pushes a new stack frame representing the alter
 ## Info tables for stack frames
 
 
-The info table for a stack frame has a couple of extra fields in addition to the [basic info table layout](commentary/rts/heap-objects#info-tables).  A stack-frame info table is defined by `StgRetInfoTable` in [includes/rts/storage/InfoTables.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/rts/storage/InfoTables.h).
+The info table for a stack frame has a couple of extra fields in addition to the [basic info table layout](commentary/rts/storage/heap-objects#info-tables).  A stack-frame info table is defined by `StgRetInfoTable` in [includes/rts/storage/InfoTables.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/rts/storage/InfoTables.h).
 
 ![](ret-itbl-no-rv.png)
 
@@ -36,7 +36,7 @@ The *SRT* field points to the static reference table (SRT) for this stack frame 
 Unlike heap objects which mainly have "pointers first" layout, in a stack frame the pointers and non-pointers are intermingled.  This is so that we can support "stack stubbing" whereby a live variable stored on the stack can be later marked as dead simply by pushing a new stack frame that identifies that slot as containing a non-pointer, so the GC will not follow it.
 
 
-Stack frames therefore have [bitmap layout](commentary/rts/heap-objects#bitmap-layout).
+Stack frames therefore have [bitmap layout](commentary/rts/storage/heap-objects#bitmap-layout).
 
 ## Kinds of Stack Frame
 
@@ -46,10 +46,10 @@ The constants for the different types of stack frame are defined in [includes/rt
 - `RET_BCO`
 - `RET_SMALL`
 - `RET_BIG`
-- `RET_FUN` - (Explained a bit here: [https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/CPS\#Notes](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/CPS#Notes))
+- `RET_FUN` - (Explained a bit here: [Commentary/Compiler/CPS\#Notes](commentary/compiler/cps#notes))
 - `UPDATE_FRAME`
 - `CATCH_FRAME`
-- `UNDERFLOW_FRAME` - The stack is chunked now. Connected as a linked list. (Since Dec 2010: [f30d527344db528618f64a25250a3be557d9f287](/trac/ghc/changeset/f30d527344db528618f64a25250a3be557d9f287/ghc),  [Blogpost](https://ghc.haskell.org/trac/ghc/blog/stack-chunks))
+- `UNDERFLOW_FRAME` - The stack is chunked now. Connected as a linked list. (Since Dec 2010: [f30d527344db528618f64a25250a3be557d9f287](f30d527344db528618f64a25250a3be557d9f287),  [Blogpost](https://www.haskell.org/ghc/blog/20101215-stack-chunks.html))
 - `STOP_FRAME`
 - `ATOMICALLY_FRAME`
 - `CATCH_RETRY_FRAME`
