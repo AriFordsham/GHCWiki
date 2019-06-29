@@ -21,7 +21,7 @@ This page summarises work that Norman Ramsey, Simon M, Simon PJ, and John Dias a
 
 - (Sept 12) New code generator is live.  Here's the [page listing clean-up tasks](commentary/compiler/new-code-gen/cleanup) that we can now do.
 
-- Simon M added a [Blog Post](/trac/ghc/blog/newcg-update) about the new code generator status
+- Simon M added a [Blog Post](https://www.haskell.org/ghc/blog/20120803-newcg-update.html) about the new code generator status
 
 - Link to [Krzysztof Wos's project](http://research.microsoft.com/en-us/um/people/simonpj/tmp/wos-diss-draft.pdf), in which he reports great performance improvements by turning tail recursion into loops in C--.
 
@@ -44,7 +44,7 @@ Generally we want to keep old and new pipelines working simultaneously, so that 
 
 - Make the Cmm parser (which parses `.cmm` files from the RTS) produce `CmmGADT`, and push that down the new pipeline.
 
-- Implement the many refactorings and improvements to the new pipeline described in [http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes](http://darcs.haskell.org/ghc/compiler/cmm/cmm-notes). See also: [Commentary/Compiler/NewCodeGenStupidity](commentary/compiler/new-code-gen-stupidity)
+- Implement the many refactorings and improvements to the new pipeline described in [compiler/cmm/cmm-notes](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/cmm-notes). See also: [Commentary/Compiler/NewCodeGenStupidity](commentary/compiler/new-code-gen-stupidity)
 
 - Instead of converting new Cmm to old Cmm, make the downstream code generators consume `CmmGADT`, and convert old Cmm to `CmmGADT`.
 
