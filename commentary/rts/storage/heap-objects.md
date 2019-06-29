@@ -536,7 +536,7 @@ Closure type `TSO` is a Thread State Object.  It represents the complete state o
 TSOs are ordinary objects that live in the heap, so we can use the existing allocation and garbage collection machinery to manage them.  This gives us one important benefit: the garbage collector can detect when a blocked thread is unreachable, and hence can never become runnable again.  When this happens, we can notify the thread by sending it the `BlockedIndefinitely` exception.
 
 
-GHC keeps divides stacks into stack chunks, with logic to handle stack underflow and overflow: [http://hackage.haskell.org/trac/ghc/blog/stack-chunks](http://hackage.haskell.org/trac/ghc/blog/stack-chunks)
+GHC keeps divides stacks into stack chunks, with logic to handle stack underflow and overflow: [https://www.haskell.org/ghc/blog/20101215-stack-chunks.html](https://www.haskell.org/ghc/blog/20101215-stack-chunks.html)
 
 
 The TSO structure contains several fields.  For full details see [includes/rts/storage/TSO.h](https://gitlab.haskell.org/ghc/ghc/tree/master/includes/rts/storage/TSO.h).  Some of the more important fields are:
