@@ -1,1 +1,1 @@
-Page moved to [Commentary/Rts/Storage/GC/CAFs](commentary/rts/storage/gc/ca-fs)
+Page moved to [Commentary/Rts/Storage/GC/CAFs](commentary/rts/storage/gc/cafs)
