@@ -253,13 +253,13 @@ In more detail, threads are put **in front** (`pushOnRunQueue`) if:
 
 - A stack overflow occurs;
 
-- A heap overflow occurs; (Sometimes, a heap overflow and a context switch occur simultaneously. If the thread requested a large block, we still always push it in front (because we don’t want another thread to steal our large block); however, otherwise, the context switch takes precedence and the thread is booted to the end of the queue—the context switch is checked as *late* as possible. (See commit [05881ecab/repo](/trac/ghc/changeset/05881ecab/ghc/repo)))
+- A heap overflow occurs; (Sometimes, a heap overflow and a context switch occur simultaneously. If the thread requested a large block, we still always push it in front (because we don’t want another thread to steal our large block); however, otherwise, the context switch takes precedence and the thread is booted to the end of the queue—the context switch is checked as *late* as possible. (See commit [05881ecab](05881ecab)))
 
 - A task attempts to run a thread, but it is [bound](http://hackage.haskell.org/packages/archive/base/latest/doc/html/Control-Concurrent.html#v:forkOS) and the current task is the wrong one;
 
 - A thread is associated with a black hole (a thunk that is being evaluated), and another thread, possibly on another capability, has blocked on its evaluation (see ticket #3838);
 
-- In the threaded runtime, if a thread was interrupted because another Capability needed to do a stop-the-world GC (see commit [6d18141d8/repo](/trac/ghc/changeset/6d18141d8/ghc/repo));
+- In the threaded runtime, if a thread was interrupted because another Capability needed to do a stop-the-world GC (see commit [6d18141d8](6d18141d8));
 
 - In the non-threaded runtime, when a thread waiting on IO unblocks.
 
@@ -268,7 +268,7 @@ Threads are put in **back** (`appendToRunQueue`) in the case of pre-emption, or 
 
 - A thread was pre-empted via the context switch flag (e.g. incoming message from another thread, the timer fired, the thread cooperatively yielded, etc);
 
-- It is a new thread (so large amounts of thread creation do not starve old threads, see [nofib/smp/conc004](https://gitlab.haskell.org/ghc/ghc/blob/master/nofib/smp/conc004) and commit [05881ecab/repo](/trac/ghc/changeset/05881ecab/ghc/repo));
+- It is a new thread (so large amounts of thread creation do not starve old threads, see [conc004](https://github.com/ghc/testsuite/blob/master/tests/concurrent/should_run/conc004.hs) and commit [05881ecab](05881ecab));
 
 - A thread becomes unblocked;
 
@@ -282,7 +282,7 @@ Threads are put in **back** (`appendToRunQueue`) in the case of pre-emption, or 
 Source files: [rts/Sparks.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Sparks.c), [rts/Sparks.h](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Sparks.h).
 
 
-The [par](http://www.haskell.org/ghc/docs/latest/html/libraries/base/Control-Parallel.html#v%3Apar) operator is used for annotating computations that could be evaluated in parallel.  See also [Parallel Haskell](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/parallel.html#parallel-haskell) in the GHC User's Guide.
+The [par](http://hackage.haskell.org/package/parallel/docs/Control-Parallel.html#v:par) operator is used for annotating computations that could be evaluated in parallel.  See also [Parallel Haskell](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/parallel.html#parallel-haskell) in the GHC User's Guide.
 
 
 Par itself is implemented in terms of the `par#` primop, which the code generator compiles into a call to `newSpark` in [rts/Sparks.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Sparks.c).
@@ -316,4 +316,4 @@ When making changes to the scheduler, be sure to run the `smp` nofib benchmarks,
 
 - `threads006` tests how quickly threads can be created and destroyed, as well as `throwTo` blocking performance.  It is very sensitive to the number of major GCs that occur (which can be influenced if TSO size changes).
 
-- `threads007` generates a lot of threads waiting on MVars, and then sees how shutdown behavior is affected. It was due to bad behavior in the MVar queue and fixed in [f4692220c7/repo](/trac/ghc/changeset/f4692220c7/ghc/repo).
+- `threads007` generates a lot of threads waiting on MVars, and then sees how shutdown behavior is affected. It was due to bad behavior in the MVar queue and fixed in [f4692220c7](f4692220c7).
