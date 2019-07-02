@@ -85,15 +85,18 @@ foreign import prim "int2Integerzh"
   int2Integer# :: Int# -> (# Int#, ByteArray# #)
 ```
 
-
 The string (e.g. "int2Integerzh") is the linker name of the Cmm function. Using this syntax requires the extensions `ForeignFunctionInterface`, `GHCForeignImportPrim`, `MagicHash`, `UnboxedTuples` and `UnliftedFFITypes`. The current type restriction is that all arguments and results must be unlifted types, with two additional possibilities: An argument may (since GHC 7.5) be of type `Any` (in which case the called function will receive a pointer to the heap), and the result type is allowed to be an unboxed tuple. The calling convention is exactly the same as for ordinary out-of-line primops. Currently it is not possible to specify any of the PrimOp attributes.
 
 
 The `integer-gmp` package now uses this method for all the primops that deal with GMP big integer values. The advantage of using this technique is that it is a bit more modular. The RTS does not need to include all the primops. For example in the integer case the RTS no longer needs to link against the GMP C library.
 
+### Future directions
 
-The future direction is to extend this syntax to allow PrimOp attributes to be specified. The calling convention for primops and ordinary compiled Haskell functions may be unified in future and at that time it the restriction on using only unlifted types may be lifted.
+The first step is to extend this syntax to allow PrimOp attributes to be specified. Then external-only (some PrimOps have external fallbacks and internal special-cases!) primops can be converted to use `foreign import prim`, bypassing the Compiler for interactions strictly between `base` and the `rts`.
 
+In https://gitlab.haskell.org/ghc/ghc/blob/581cbc28e143a4ed8e7f794ed1618161222a5646/compiler/deSugar/DsForeign.hs#L289-302 there is a tech debt note that `foreign import prim` is currently a hacked up foreign call. But maybe this is actually good. If they support both support all the same strictness and other metadata, maybe primops, even internal ones, are "just" another type of foreign function. This seems good for decoupling core from the backend, and insuring there are no regressions between "true" primop and `foreign import prim` functionality.
+
+Another direction is the calling convention for primops and ordinary compiled Haskell functions may be unified in future and at that time it the restriction on using only unlifted types may be lifted. [This sounds weird to @Ericson2314. Aren't primops definitionally inlined? Both they and foreign calls have wrappers that deal with lifted types. I'd want be sure when writing a primop whether I was getting an implicit wrapper, otherwise it's hard to reason about the cost and ABI.]
 
 It has been suggested that we extend this PrimOp definition and import method to cover all PrimOps, even inline ones. This would replace the current `primops.txt.pp` system of builtin PrimOps. The inline PrimOps would still be defined in the compiler but they would be imported in any module via `foreign import prim` rather than appearing magically to be exported from the `GHC.Prim` module. Hugs has used a similar system for years (with the syntax `primitive seq :: a -> b -> b`).
 
