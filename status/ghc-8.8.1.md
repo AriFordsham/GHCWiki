@@ -33,7 +33,6 @@ Below are the major highlights of 8.8.
 - More efficient code generation for nested closures (#14461)
 - Next iteration of [Trees That Grow](implementing-trees-that-grow) (tickets/patches for this?)
 - Continued focus on performance:
-
   - Some possible tickets: #15418, #15455, #14980, #14013, #15488, #15519, #14062, #14035, #15176, #15304
   - New codelayout algorithm for the NCG: #15124
   - Optimize based on limited static analysis: #14672
