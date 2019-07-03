@@ -2,6 +2,14 @@
 
 This page describes GHC's conventions for handling merge requests and code review.
 
+## Field meanings
+
+ * **Milestone:** The first release which should contain the merge request (or a backported version of it)
+ * **Labels:** This encodes a number of things including:
+    * The state of the merge request (e.g. ~"backport needed")
+    * The topical areas the merge request affects (e.g. ~simplifier)
+    * Whether the merge request affects the user-facing libraries shipped with GHC (the ~"user facing" label)
+
 ## Merge request checklist
 
 See the [merge request description template](https://gitlab.haskell.org/ghc/ghc/blob/master/.gitlab/merge_request_templates/merge-request.md) for checklist of requirements for a merge request.
