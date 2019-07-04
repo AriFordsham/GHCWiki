@@ -19,6 +19,8 @@ We should be clear about the dependencies between items on this list.
 - Finish !1132: Refactor kindGeneralize and friends
 - #15809, #8995: use level numbers for generalisation; see Richard/Simon Slack call 7 June 19.
 
+- Fix #14963, #16887: `tcSyntaxOp` refactoring
+
 - [Proposal 99: explicit specificity](https://github.com/ghc-proposals/ghc-proposals/pull/99).  Lets us write `T :: forall {k} (a :: k).blah`.
 
 - Foralls and pretty printing
