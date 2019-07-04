@@ -145,6 +145,37 @@ But I'm not quite sure if this is useful in practice.
 
 ## Dependency Generation and Header Files
 
+This is a particularly disappointing use case. Imagine we have a haskell module that uses CPP:
+
+```
+-- A.hs
+{-# LANGUAGE CPP #-}
+#include "b.h"
+```
+```
+-- B.h
+#include "c.h
+```
+```
+-- C.h
+main = putStrLn "Hello CPP"
+```
+
+Now when we build `A.hs` we must make sure to need the CPP includes i.e. building `A.hs` depends on `A.hs`, `B.h`, and `C.h`. We ideally want to descover the `.h` dependencies dynamically so that if we e.g. add new `#include` macros, we don't need to update Hadrian. In Hadrian we do this by generating a `.dependencies` file generated using GHC's `-M -include-cpp-deps` option. Naturally, this is done in a rule for the `.dependencies` file. Now the rule to build `A.hs` first `need`s the  `.dependencies` file, then dynamically needs the dependencies listed within (in this case `A.hs`, `B.h`, and `C.h`). This looks something like:
+
+```haskell
+".dependencies" %> _ -> do
+  need ["A.hs"]
+  ghcBuidDeps "A.hs"    -- Runs `ghc -M -include-cpp-deps A.hs ...`
+["A.o", "A.hi"] &%> _ -> do
+  need [".dependencies"]
+  deps <- getDepsFromFile "A.o" ".dependencies"
+  need deps
+  ghcBuild "A.hs"
+```
+
+So what is the problem here? The rule for `["A.o", "A.hi"]` is fine, it tracks the correct dependencies, but what about the `".dependencies"` rule? Running `ghc -M -include-cpp-deps A.hs ...` reads A.hs then traverses all the `#include`ed files, hence the dependencies of `.dependencies` are `A.hs`, `B.h`, and `C.h` (this indeed can't be reduced; any of those files can change the output of `.dependencies`). Well, this is awkward! The dependencies of `.dependencies` are exactly the dependencies that we are trying to discover in the first place! If we now include `D.h` from `C.h` and recompile, `A.hs` will recompile (it depends on `C.h` which has changed, but `.dependencies` will not be recalculated so `["A.o", "A.hi"]` will *not* track the new `D.h` dependency. Now change `D.h` and rebuild, `A.hs` (i.e. the `["A.o", "A.hi"]` rule) will not be rebuilt even though a dependency has changed.
+
 ## Haskell object files and .hi inputs
 
 Consider crating a rule for a file X.o that compiles X.hs with ghc. We use `ghc -M` which returns `X.o : X.hs X.hi Y.hi`. The `Y.hi` is there because module `X` imports module `Y`. We conclude that `direct inputs = indicating inputs = { X.hs, X.hi, Y.hi } So we implement the rule like this:
