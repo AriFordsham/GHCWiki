@@ -7,7 +7,7 @@ This page is a stub.
 
 - After the publication of the Hoopl paper, a contributor (sorry I have forgotten who) did quite a bit to integrate the supply of `Uniq`s into Hoopl.  (Time? Person?)
 
-- *Note that the new code generator appears about 10x slower than the old.  Slowdown attributed to Hoopl dataflow.*   See [Google Plus post by Simon Marlow](https://plus.google.com/107890464054636586545/posts/dBbewpRfw6R).
+- *Note that the new code generator appears about 10x slower than the old.  Slowdown attributed to Hoopl dataflow.*   See [Google Plus post by Simon Marlow](https://plus.google.com/107890464054636586545/posts/dBbewpRfw6R). (Urk!  As of July 2019, the post has vanished along with Google Plus.)
 
 - Fixed-point algorithm rewritten to reduce duplicate computation.  (Simon Marlow in late 2011.  Also Edward Yang in spring 2011.) Is there any more? I suggest looking at traces in the simple cases.
 
