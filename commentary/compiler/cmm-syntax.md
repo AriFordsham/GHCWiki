@@ -13,7 +13,7 @@ See also [cmm-type][6].
 
 ## Cmm hand-writing syntax
 
-Following syntax was manually extracted from [`CmmParse.y`][1] at commit 1ffee940a0.
+Following syntax was manually extracted from [`CmmParse.y`][1] at commit 11bac11545.
 
 
 ```
@@ -353,6 +353,7 @@ Built-in primitives (machOps):
 Built-in callish primitives (callishMachOps):
 
 ```
+  %read_barrier
   %write_barrier
   %memcpy
   %memset
