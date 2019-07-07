@@ -35,9 +35,9 @@ When compiling a call, there are several cases to consider, which are treated se
 
 - **Known function, saturated call**.   The function is applied to exactly the right number of arguments to satisfy its arity.  In that case, we simply load the arguments according to the standard entry convention, and tail-call (jump to) the function's entry point.  On average, about 80% of all calls fall into this category (see the eval/apply paper for measurements).
 
-- **Known function, too few arguments**.  In this case, we want to build a partial application (PAP), and return with a pointer to the PAP in the return register.  Since building a PAP is a complicated business, instead we just behave as for an unknown function call, which will end up calling into the [Generic apply](#Genericapply) code, which will build the PAP for us.
+- **Known function, too few arguments**.  In this case, we want to build a partial application (PAP), and return with a pointer to the PAP in the return register.  Since building a PAP is a complicated business, instead we just behave as for an unknown function call, which will end up calling into the [Generic apply](#generic-apply) code, which will build the PAP for us.
 
-- **Known function, too many arguments**.  We want to save the extra arguments on the stack, push a return address, and then behave just like a saturated call.  When the result comes back, we should behave like "unknown call".  However, to avoid needing to generate code for a new continuation here, the return address that we push on the stack is that of an appropriate [Generic apply](#Genericapply) function, which will perform the application of the extra arguments to the (unknown) function returned by the saturated call.
+- **Known function, too many arguments**.  We want to save the extra arguments on the stack, push a return address, and then behave just like a saturated call.  When the result comes back, we should behave like "unknown call".  However, to avoid needing to generate code for a new continuation here, the return address that we push on the stack is that of an appropriate [Generic apply](#generic-apply) function, which will perform the application of the extra arguments to the (unknown) function returned by the saturated call.
 
 ## Generic apply
 
