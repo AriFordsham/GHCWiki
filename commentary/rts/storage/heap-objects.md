@@ -558,7 +558,7 @@ The TSO structure contains several fields.  For full details see [includes/rts/s
 
   - MVar, block_info will point to the MVar.
 
-- *bound*: pointer to a [Task](commentary/rts/scheduler#) if this thread is bound
+- *bound*: pointer to a [Task](commentary/rts/scheduler#tasks) if this thread is bound
 - *cap*: the [Capability](commentary/rts/scheduler#capabilities) on which this thread resides.
 
 ### STM objects
