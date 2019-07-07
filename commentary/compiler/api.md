@@ -19,7 +19,7 @@ A typical interaction with the GHC API goes something like the following:
 - Create a new session: `newSession`
 - Set the flags: `getSessionDynFlags`, `setSessionDynFlags`.
 - Add some *targets*: `setTargets`, `addTarget`, `guessTarget`
-- Perform [Dependency Analysis](#DependencyAnalysis): `depanal`
+- Perform [Dependency Analysis](#dependency-analysis): `depanal`
 - Load (compile) the source files: `load`
 
 
