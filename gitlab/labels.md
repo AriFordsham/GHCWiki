@@ -172,6 +172,7 @@ These labels identify user-visible language features which a bug is triggered by
  * ~FFI: The Foreign Function Interface
  * ~generics: GHC's data-type generics mechanism (e.g. `GHC.Generics`)
  * ~"typed holes": [Typed holes](holes)
+ * ~"valid hole fits": Valid hole fits
  * ~hs-boot: Handling of `.hs-boot` files
  * ~"injective type families": Injective type family support
  * ~"levity polymorphism": Support for levity polymorphic terms
