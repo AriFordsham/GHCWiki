@@ -1,6 +1,7 @@
 GitLab uses labels to organize both issues and merge requests. GHC uses this
 mechanism to track a variety of information. Here we document the conventions
-we use.
+we use. For more general issue conventions, see the
+[issue conventions](https://gitlab.haskell.org/ghc/ghc/wikis/gitlab/issues) page.
 
 If you create a new label please do add it to this list, keeping the list in
 alphabetical order. Also, avoid using colors other than blue unless your
