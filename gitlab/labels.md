@@ -26,6 +26,15 @@ These labels describe how a ~bug manifests. Usually every bug should be bear exa
  * ~"program incorrectly accepted": A case where GHC accepts a poorly-formed program.
  * ~"error messages": Issues with the error messages produced by GHC
 
+# Issue priority
+
+These labels define the relative priority of issues. Priority here is determined by a combination of issue severity and prevalence.
+
+ * ~"P::low": Issues that are of low priority
+ * ~"P::normal": Issues that are of normal priority
+ * ~"P::high": Issues that are of high priority
+ * ~"P::highest": Issues that are of highest priority (e.g. a runtime crash or correctness issue affecting a large number of users)
+
 # Miscellaneous
 
  * ~"CI breakage": Denotes a bug that broke CI (this could likely be dropped; nothing should break CI now)
