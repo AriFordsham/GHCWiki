@@ -33,6 +33,7 @@ Triaging a new issue typically proceeds as follows:
 1. Apply the appropriate **priority label** for the issue's severity. Recall that GHC uses a three-level priority scale:
 
    * if the user's program crashes (~"runtime crash") or results in incorrect evaluation (~"incorrect runtime result"), the issue is ~"P::highest"
+   * if an issue is a regression in a recent release then the issue is likely ~"P::high" or ~"P::highest"
    * if the issue not a crash or incorrect result and is unlikely to affect a large number of users, set to priority ~"P::low"
 
 1. Check that the ticket includes **sufficient detail** to be reproducible. If something is missing then kindly the reporter for clarification and apply the ~"info needed" label (don't forget to remove this when the reporter responds).
