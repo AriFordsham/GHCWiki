@@ -2,8 +2,10 @@
 
 A few notes about GHC's issue tracker:
 
- * The **weight** field is a 10-point scale of issue severity.
- * Our labels are documented [here](gitlab/labels).
+ * Our labels are documented [here](gitlab/labels) and broadly fall into a few categories:
+    * the **priority** labels (e.g. ~"P::low", ~"P::normal", ~"P::high", ~"P::highest"
+    * the **type of issue** labels (e.g. ~bug, ~"feature request", ~task)
+    * the **topic** labels (e.g. ~BangPatterns, ~simplifier, ~"typed holes")
  * We define one milestone for every minor release. However, issue targetting a milestone does not necessarily mean that the issue will be fixed in that release. New tickets are generally milestoned to the next major release. If a ticket remained unfixed when that milestone arrives, it is kicked to the next major release. If after three releases the ticket is still unfixed, its milestone is unset.
  * A commit will automatically close an issue if it it contains a line which begins with text of the form `Closes #1234`. This is significantly more conservative than GitLab's default behavior, which auto-closes in response to a [much larger set](https://docs.gitlab.com/ee/administration/issue_closing_pattern.html) of patterns.
 
@@ -26,12 +28,13 @@ Triaging a new issue typically proceeds as follows:
    * if the bug looks to be an appropriate task for a newcomer, apply ~newcomer
    * if any of the [miscellaneous labels](gitlab/labels#miscellaneous) are appropriate, apply them
 
+
+1. Apply the appropriate **priority label** for the issue's severity. Recall that GHC uses a three-level priority scale:
+
+   * if the user's program crashes (~"runtime crash") or results in incorrect evaluation (~"incorrect runtime result"), the issue is ~"P::highest"
+   * if the issue not a crash or incorrect result and is unlikely to affect a large number of users, set to priority ~"P::low" or "~P::lowest"
+
 1. Check that the ticket includes **sufficient detail** to be reproducible. If something is missing then kindly the reporter for clarification and apply the ~"info needed" label (don't forget to remove this when the reporter responds).
-
-1. Set the **weight** field appropriately for the issue's severity. Recall that GHC uses a 10-point weight scale:
-
-   * if the user's program crashes (~"runtime crash") or results in incorrect evaluation (~"incorrect runtime result"), set weight to 7 or higher
-   * if the issue not a crash or incorrect result and is unlikely to affect a large number of users, set weight to 3 or lower.
 
 1. Set the **milestone** field appropriately:
 
