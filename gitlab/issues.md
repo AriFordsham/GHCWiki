@@ -6,6 +6,7 @@ A few notes about GHC's issue tracker:
     * the **priority** labels (e.g. ~"P::low", ~"P::normal", ~"P::high", ~"P::highest"
     * the **type of issue** labels (e.g. ~bug, ~"feature request", ~task)
     * the **topic** labels (e.g. ~BangPatterns, ~simplifier, ~"typed holes")
+    * the **status** labels (e.g. ~upstream, ~"backport needed")
  * We define one milestone for every minor release. However, issue targetting a milestone does not necessarily mean that the issue will be fixed in that release. New tickets are generally milestoned to the next major release. If a ticket remained unfixed when that milestone arrives, it is kicked to the next major release. If after three releases the ticket is still unfixed, its milestone is unset.
  * A commit will automatically close an issue if it it contains a line which begins with text of the form `Closes #1234`. This is significantly more conservative than GitLab's default behavior, which auto-closes in response to a [much larger set](https://docs.gitlab.com/ee/administration/issue_closing_pattern.html) of patterns.
 
