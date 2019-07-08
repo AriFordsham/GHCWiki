@@ -8,7 +8,7 @@ The ultimate goal is to speed up compile times while maintaining correctness. As
 
 ### Correctness
 
-As described in the rest of this page, the [requirements](build-system-correctness) for a correct cloud cached build is stricter than a clean build. A read through the [examples](examples-in-hadrian) section may be enough to convince you that correctness is hard to achieve. Even with the help of `--lint-fsatrace` we still only get lint errors about direct inputs rather than indicating inputs, so the presence or absence of fsatrace lint errors is not enough to establish (in)correctness.
+As described in the rest of this page, the [requirements](#build-system-correctness) for a correct cloud cached build is stricter than a clean build. A read through the [examples](#examples-in-hadrian) section may be enough to convince you that correctness is hard to achieve. Even with the help of `--lint-fsatrace` we still only get lint errors about direct inputs rather than indicating inputs, so the presence or absence of fsatrace lint errors is not enough to establish (in)correctness.
 
 ### Stage2 Cache Misses
 
@@ -24,7 +24,7 @@ On a positive note, stage 1 still takes a significant portion of time to build, 
 
 When developing, each iteration may take a significant amount of time to build ghc. Can caching help here? When using `--freeze1`, one can expect many cache hits, but in practice we usually do an incremental build instead of a clean build with each iteration. Hence caching is unhelpful: anything that would be a cache hit already exists and will not be rebuilt any way. That said, the requirements for a correct incremental build are close to those of a cloud build, so work done on cloud build correctness is usually also beneficial for incremental build correctness.
 
-What about when we change between branches and/or build flavours often. This will be able to take advantage of the cache (assuming you've done a similar build before), though keep in mind that if you'll often want to avoid `--freeze1` after changing branches/flavours, so you'll run into the same issue as [above](stage2-cache-misses) if you haven't done the exact same build before. 
+What about when we change between branches and/or build flavours often. This will be able to take advantage of the cache (assuming you've done a similar build before), though keep in mind that if you'll often want to avoid `--freeze1` after changing branches/flavours, so you'll run into the same issue as [above](#stage2-cache-misses) if you haven't done the exact same build before. 
 
 ## Terms
 
@@ -221,7 +221,7 @@ With some insight from an experienced ghc developer we see that all .hi files co
 
 ## Libffi
 
-## Haskell object files with CPP
+Hadrian builds the `libffi` library using the famiiliar configure and make pattern. Unfortunately understanding the dependencies of these steps is no easy task. This would require understanding libffi's build process in depth. Luckily, building libffi is quick, and the sources rarely change. In fact they are archived in to a `.tar.gz` file. Hence, the `.tar.gz` along with some other settings can be used as the indicating inputs for all libffi rules instead of the direct inputs as dictated by libffi's build process. There more info on this in the code note [Libffi indicating inputs].
 
 # Understanding the cost of missing dependencies
 
