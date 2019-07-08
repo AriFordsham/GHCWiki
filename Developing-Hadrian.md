@@ -1,6 +1,30 @@
 # Cloud Shared Cache Build
 
-Shake, Hadrian's underlying build system, has a cloud shared cache feature. This allows separate builds to share build artifacts stored in a cache. This can ultimately greatly speed up CI builds for example. In order to use this feature and still produce correct results, Hadrian must have accurately declare inputs and outputs.
+Shake, Hadrian's underlying build system, has a cloud shared cache feature. This allows separate builds to share build artifacts stored in a cache. The original hope was that this would greatly speed up CI builds, though this hope has largelly been [demotivated](demotivation). In order to use this feature and still produce correct results, Hadrian must have accurately declare inputs and outputs as described on this page.
+
+## Demotivation
+
+The ultimate goal is to speed up compile times while maintaining correctness. As it turns out, maintaining correctness is not easy and the benefits may not be as great as anticipated.
+
+### Correctness
+
+As described in the rest of this page, the [requirements](build-system-correctness) for a correct cloud cached build is stricter than a clean build. A read through the [examples](examples-in-hadrian) section may be enough to convince you that correctness is hard to achieve. Even with the help of `--lint-fsatrace` we still only get lint errors about direct inputs rather than indicating inputs, so the presence or absence of fsatrace lint errors is not enough to establish (in)correctness.
+
+### Stage2 Cache Misses
+
+GHC is usually built in 2 stages, the majority of the second stage is build using the ghc binary produced in the first stage. Stage 1 ghc is less feature-full than stage 2 and so takes only 1/4 to 1/3 of the total build time. Hence stage 1 is a dependency for most of stage 2. This means that any change to ghc will result in cache misses for the majority of stage 2 (See #16633). A possible solution is to use `--freeze1`, but the correctness of this is questionable:
+
+* Bugs may appear or be hidden by the frozen stage 1 compiler.
+* Stage 2 ghc is linked against base package build by stage 1 ghc. This could cause bugs or build failures if the base package or the .hi format differs between stage 1 and stage 2 ghc (i.e. when using `--freeze1`).
+![staged-compilation.svg](uploads/9d7fe6d18a45e54ea7b82ac4d596f718/staged-compilation.svg)
+
+On a positive note, stage 1 still takes a significant portion of time to build, and does not suffer from this cache miss issue.
+
+### Local Builds
+
+When developing, each iteration may take a significant amount of time to build ghc. Can caching help here? When using `--freeze1`, one can expect many cache hits, but in practice we usually do an incremental build instead of a clean build with each iteration. Hence caching is unhelpful: anything that would be a cache hit already exists and will not be rebuilt any way. That said, the requirements for a correct incremental build are close to those of a cloud build, so work done on cloud build correctness is usually also beneficial for incremental build correctness.
+
+What about when we change between branches and/or build flavours often. This will be able to take advantage of the cache (assuming you've done a similar build before), though keep in mind that if you'll often want to avoid `--freeze1` after changing branches/flavours, so you'll run into the same issue as [above](stage2-cache-misses) if you haven't done the exact same build before. 
 
 ## Terms
 
