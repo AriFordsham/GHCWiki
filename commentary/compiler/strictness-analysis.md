@@ -18,7 +18,7 @@ Also, [compiler/basicTypes/NewDemand.lhs](https://gitlab.haskell.org/ghc/ghc/blo
 Most of the demand analyzer lives in two files:
 
 - [compiler/basicTypes/NewDemand.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/NewDemand.lhs) (defines the datatypes used by the demand analyzer, and some functions on them)
-- [compiler/stranal/DmdAnal.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/stranal/DmdAnal.lhs) (the demand analyzer itself)
+- [compiler/stranal/DmdAnal.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/stranal/DmdAnal.hs) (the demand analyzer itself)
 
 
 The demand analyzer does strictness analysis, absence analysis, and box-demand analysis in a single pass. (ToDo: explain what these are.)
