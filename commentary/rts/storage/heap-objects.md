@@ -491,8 +491,9 @@ Non-pointer arrays are straightforward:
 <th> Array payload </th>
 </tr></table>
 
+SmallArrays share the same layout but keeping a count of pointers instead of bytes.
 
-Arrays with pointers are a little more complicated, they include a card table, which is used by the GC to know what segments of the array to traverse as roots (the card table is modified by the GC write barrier):
+Regular arrays with pointers are a little more complicated, they include a card table, which is used by the GC to know what segments of the array to traverse as roots (the card table is modified by the GC write barrier):
 
 <table><tr><th> Header </th>
 <th> Ptrs </th>
