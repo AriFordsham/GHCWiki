@@ -81,7 +81,7 @@
     * [getting-the-sources](./building/getting-the-sources)
       * [legacy](./building/getting-the-sources/legacy)
     * [hacking](./building/hacking)
-    * hadrian
+    * [hadrian](./building/hadrian)
       * [quick-start](./building/hadrian/quick-start)
     * [hoogle](./building/hoogle)
     * [ia64-linux](./building/ia64-linux)
