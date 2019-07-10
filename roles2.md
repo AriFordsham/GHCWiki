@@ -262,3 +262,6 @@ newtype StateT s m a = StateT (s -> m (a, s))
 >
 >
 
+## Alternate proposal
+
+https://github.com/ghc-proposals/ghc-proposals/pull/248
