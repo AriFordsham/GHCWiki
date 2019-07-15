@@ -2,7 +2,9 @@
 
 GHC runs on GitLab: https://gitlab.haskell.org/ghc/ghc
 
-A small 
+A small change is one that only changes comments, not code and is limited to one file.
+
+The continuous integration testing also has slow turnaround. Make sure not to add trailing whitespace :) but don't be afraid to submit fixes. We appreciate your contribution.
 
 ## Small change
 
@@ -10,7 +12,13 @@ The simplest way to contribute patches is using the GitLab web interface. To wri
 
 ![Screenshot_from_2019-07-15_14-17-52](uploads/8da929b4c0df53ced9d952d2fa6748b1/Screenshot_from_2019-07-15_14-17-52.png)
 
-Change the documentation, write a *descriptive commit message* and *Commit changes*. That's it!
+Change the documentation, write a *descriptive commit message* and *Commit changes*. 
+
+This takes you to **New Merge Request**: Follow the instructions and finally **Submit merge request**.
+
+
+
+That's it!
 
 ## Big change
 
