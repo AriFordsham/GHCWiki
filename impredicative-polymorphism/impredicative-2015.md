@@ -6,7 +6,7 @@ The **goal** is to build a better story for impredicative and higher-rank polymo
 
 This is the result of discussion between Alejandro Serrano Mena \<A.SerranoMena@…\>, Jurriaan Hage, Dimitrios Vytiniotis, and Simon PJ.
 
-**The most up-to-date description is available here: [Impredicativity in GHC (PDF)](/trac/ghc/attachment/wiki/ImpredicativePolymorphism/Impredicative-2015/impredicativity.pdf)**
+**The most up-to-date description is available here: [Impredicativity in GHC (PDF)](uploads/d5bbefb947e5312c88fd07df5269a05a/impredicativity.pdf)**
 
 
 
