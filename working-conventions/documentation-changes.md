@@ -2,11 +2,11 @@
 
 GHC runs on GitLab: https://gitlab.haskell.org/ghc/ghc
 
-A small change is one that only changes comments, not code and is limited to one file.
+Small changes only change comments, not code. Limited to one file.
 
 The continuous integration testing also has slow turnaround. Make sure not to add trailing whitespace :) but don't be afraid to submit fixes. We appreciate your contribution.
 
-## Small change
+## Small changes
 
 The simplest way to contribute patches is using the GitLab web interface. To write a patch for [`Control.Monad`](https://hackage.haskell.org/package/base-4.12.0.0/docs/Control-Monad.html) you would go to [`libraries/base/Control/Monad.hs`](https://gitlab.haskell.org/ghc/ghc/blob/master/libraries/base/Control/Monad.hs) where the **Edit** button takes you to an online editor:
 
@@ -16,18 +16,13 @@ Change the documentation, write a *descriptive commit message* and *Commit chang
 
 This takes you to **New Merge Request**: Follow the instructions and finally **Submit merge request**.
 
-
-
 That's it!
 
-## Big change
+## Big changes
 
-
-Updating [GHC's documentation](https://downloads.haskell.org/~ghc/latest/docs/html/libraries/) is easy, and can benefit new comers greatly !
-
+Updating [GHC's documentation](https://downloads.haskell.org/~ghc/latest/docs/html/libraries/) is easy, and can benefit newcomers greatly!
 
 GHC's documentation is included within in its source code, using [Haddock's markup](http://haskell-haddock.readthedocs.io/en/latest/markup.html).
-
 
 Here are the steps to modify it:
 
