@@ -1,5 +1,22 @@
 # How to change GHC's documentation
 
+GHC runs on GitLab: https://gitlab.haskell.org/ghc/ghc
+
+## Small change
+
+The simplest way to contribute patches is using the GitLab web interface. If you find a file under the
+
+* [*libraries*](https://gitlab.haskell.org/ghc/ghc/tree/master/libraries)
+* [*users guide*](https://gitlab.haskell.org/ghc/ghc/tree/master/docs/users_guide)
+
+like [`libraries/base/Control/Monad.hs`](https://gitlab.haskell.org/ghc/ghc/blob/master/libraries/base/Control/Monad.hs) you can click **Edit** which takes you to an online editor:
+
+![Screenshot_from_2019-07-15_14-17-52](uploads/8da929b4c0df53ced9d952d2fa6748b1/Screenshot_from_2019-07-15_14-17-52.png)
+
+Change the documentation, write a *descriptive commit message* and *Commit changes*. That's it!
+
+## Big change
+
 
 Updating [GHC's documentation](https://downloads.haskell.org/~ghc/latest/docs/html/libraries/) is easy, and can benefit new comers greatly !
 
