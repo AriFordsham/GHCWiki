@@ -48,7 +48,7 @@ If the build succeeds, you will find your stage 2 GHC at `_build/stage1/bin/ghc`
 ## Alternative build scripts
 
 
-If the default build script doesn't work on your system for some reason, you might want to give a try to another one, e.g. based on Cabal sandboxes (`hadrian/build.cabal.sh`), Stack (`hadrian/build.stack.sh`, `hadrian/build.stack.bat`, `hadrian/build.stack.nix.sh`) or the global package database (`hadrian/build.global-db.sh`, `hadrian/build.global-db.bat`).
+If the default build script doesn't work on your system for some reason, you might want to give a try to another one, e.g. based on cabal (`hadrian/build.cabal.sh`), Stack (`hadrian/build.stack.sh`, `hadrian/build.stack.bat`, `hadrian/build.stack.nix.sh`) or the global package database (`hadrian/build.global-db.sh`, `hadrian/build.global-db.bat`).
 
 
 Windows users might want to read through [building GHC on Windows using Stack](https://github.com/snowleopard/hadrian/blob/master/doc/windows.md).
