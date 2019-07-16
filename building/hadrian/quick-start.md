@@ -28,6 +28,9 @@ You can now directly jump [here](building/hadrian/quick-start#) to see the table
 
 ## Your first build
 
+```
+$ ./hadrian/build.sh -c -j
+```
 
 On Windows:
 
@@ -35,12 +38,6 @@ On Windows:
 $ hadrian\build.bat -c -j
 ```
 
-
-On other systems:
-
-```
-$ ./hadrian/build.sh -c -j
-```
 
 
 These commands should be run from the root of ghc's source tree. The `-c` flag asks Hadrian to run ghc's `boot` and `configure` scripts and can therefore be left out if you've already been building that source tree with the Make build system. The `-j` flag's meaning is the same as in the Make build system, it tells hadrian to build two or more targets in parallel, whenever possible.
