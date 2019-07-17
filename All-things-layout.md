@@ -200,4 +200,4 @@ Advantages:
 ### comments
 
 * Neat! It might even not confuse syntax highlighers that there is no closing parenthesis if they consider the `\` as escaping.. I am still a bit worried about editors getting horribly confused.   --@nomeata
-* But actually does steal syntax: `:t \( ) -> ()`
+* But actually does steal syntax unless we require a newline after the herald: `:t \( ) -> ()`
