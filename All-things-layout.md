@@ -237,7 +237,7 @@ z = f{..} with
 m = f x y with
   x = g 3
   y = case x of ...
-``
+```
 
 Advantages:
 * Looks nice
