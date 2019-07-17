@@ -194,10 +194,13 @@ complex_function (short argument) \$
 Advantages:
 
 * reuse of existing symbols: `[` for lists, `(` for tuples, `"` for strings, `{` for records, and `$` for function application, so is does not take long to figure out which herald does what
-* almost no syntax stolen (except for the `\$` operator)
 * short! just two symbols
+
+Stolen syntax:
+
+* the `\$` operator
+* unit lambda, `:t \( ) -> ()`
 
 ### comments
 
 * Neat! It might even not confuse syntax highlighers that there is no closing parenthesis if they consider the `\` as escaping.. I am still a bit worried about editors getting horribly confused.   --@nomeata
-* But actually does steal syntax unless we require a newline after the herald: `:t \( ) -> ()`
