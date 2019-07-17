@@ -206,6 +206,9 @@ Stolen syntax:
 
 * Neat! It might even not confuse syntax highlighers that there is no closing parenthesis if they consider the `\` as escaping.. I am still a bit worried about editors getting horribly confused.   --@nomeata
 
+* This is really cool! Of the stolen syntax, I'm not worried about the operator; Stackage Hoogle doesn't show any instances of `\$`. But lambda is definitely a concern, and not just for unit: also lambdas with partial matches on empty list `\[ ]` and empty/whitespace-only string `\" "`. Maybe have the parser look ahead to the next non-whitespace character, and if it's the appropriate closing brace don't enter block mode? Though _that_ might break on `\" ""` (first character in an attempted layout string is a double-quote).  
+I'm also a bit concerned about your `\"` example. How is the whitespace managed, there? If that were a normal string, the space after `\"` would be part of the string. If that's desired behavior, I think it implies that each subsequent line also begins with a space (because the block's indentation point is just past the `\"`, not under the `L`. If it's _not_ desired (i.e. first character of the string should be `L`), are we implicitly adding a space to the _end_ of each line? How do we know that's the correct separator? And what if the herald is on the previous line (my preferred style) but you also want a leading space? I believe that's impossible, since the first line sets the block indentation and the second can't be to its left. (Thinking about it, most of these problems apply to any of the strategies here; I'm not sure strings are a good fit for layout at all. Excluding them seems to make everything a lot easier.)   --@trac-tejon
+
 ## context + `with`
 
 Another idea:
