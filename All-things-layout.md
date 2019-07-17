@@ -201,6 +201,54 @@ Stolen syntax:
 * the `\$` operator
 * unit lambda, `:t \( ) -> ()`
 
+## context + `with`
+
+Another idea:
+
+```
+-- record creation or pattern
+Foo{..} with
+  x = 3
+  y = 'a'
+
+-- record definition
+data Foo = Foo{..} with
+  x :: Int
+  y :: Char
+
+-- list
+x = [..] with
+  a
+  b
+  c
+
+-- tuple
+y = (..) with
+  a
+  b
+  c
+
+-- record update
+z = f{..} with
+  x = 3
+  y = 4
+
+-- prefix let
+m = f x y with
+  x = g 3
+  y = case x of ...
+``
+
+Advantages:
+* Looks nice
+* Covers prefix `let` and the other forms
+* `with` is always a layout herald, easy for the lexer
+* `..` is already a token
+
+Disadvantages:
+* ambiguity with RecordWildCards: `Foo{..} with ...` could be a prefix-let or record creation.
+* `with` is a big keyword to steal
+
 ### comments
 
 * Neat! It might even not confuse syntax highlighers that there is no closing parenthesis if they consider the `\` as escaping.. I am still a bit worried about editors getting horribly confused.   --@nomeata
