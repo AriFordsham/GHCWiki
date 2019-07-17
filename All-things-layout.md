@@ -6,6 +6,8 @@ This might just stay a vanity idea, or evolve into a proper extensions.
 
 I (@nomeata) don’t have good idea for the layout herald yet. So I am using a new keyword `layout`, followed by what kind of things follow (`layout list`, `layout string` etc.) I actually find this the hardest question.
 
+For things that replace enumerations (e.g. `(…)`, `{…}`, `[…]`), having the opening symbol at the end of the line might work as a herald, but then you kinda also want the closing one, which is not how layout syntax works in Haskell in general (e.g. you don't need to close a `where` or a `do`).
+
 ## Lists
 
 ```
@@ -111,3 +113,23 @@ r { field1 = field1 r + 1
   , field2 = True
   }
 ```
+
+## Arguments
+
+```
+complex_function (short argument) layout arguments
+  first long argument
+  second long argument
+  foo layout argument
+    bar
+    baz
+  quuz
+```
+desugars to
+```
+complex_function (short argument)
+  (first long argument)
+  (second long argument)
+  (foo bar baz)
+  quuz
+```  
