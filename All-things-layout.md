@@ -2,7 +2,7 @@ This is a brainstorm page to see how far we can push our love for layout-based s
 
 This might just stay a vanity idea, or evolve into a proper extension.
 
-## Herald
+# Herald
 
 I (@nomeata) don’t have good idea for the layout herald yet. So I am using a new keyword `layout`, followed by what kind of things follow (`layout list`, `layout string` etc.) I actually find this the hardest question.
 
@@ -135,6 +135,56 @@ complex_function (short argument)
 ```  
 
 
-## Comments
+# Comments
 
 * Feel free to add comments here. Also of course feel free to brainstorm alternatives, variants etc.
+
+## Herald idea: Backslash+symbol
+
+```
+planets :: [String]
+planets =
+  \[ "Mercury"
+     "Venus"
+     "Earth"
+     "Mars"
+     "Jup" ++ "iter"
+     "Saturn"
+     reverse
+       "sunarU"
+     "Neptune"
+
+triple :: (String, Int, [String])
+triple =
+  \( "Foo"
+     23 + 19
+     planets
+
+lorem :: String
+lorem =
+  \" Lorem ipsum dolor sit amet, consectetur
+     adipiscing elit, sed do eiusmod tempor
+     incididunt ut labore et dolore magna aliqua
+
+data BigRec =
+  BigRec \{
+    field1 :: Int
+    field2 :: Bool
+    field3 :: String
+
+Rec \{
+  field1 = 1
+  field2 = True
+
+r \{
+  field1 = field1 r + 1
+  field2 = True
+
+complex_function (short argument) \$
+  first long argument
+  second long argument
+  foo layout argument
+    bar
+    baz
+  quuz
+```
