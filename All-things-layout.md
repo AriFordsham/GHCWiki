@@ -56,7 +56,7 @@ triple = ("Foo", 23 + 19, planets)
 
 The tuple syntax is used in more places than just term or type tuples, e.g. import and export list. These could have their own herald `layout import`. 
 
-== Strings
+## Strings
 
 Essentially, here-documents (with indentation removed!)
 
@@ -141,6 +141,8 @@ complex_function (short argument)
 
 ## Herald idea: Backslash+symbol
 
+Author: @int-index
+
 ```
 planets :: [String]
 planets =
@@ -188,3 +190,5 @@ complex_function (short argument) \$
     baz
   quuz
 ```
+
+The main advantage of this idea is that it reuses existing symbols: `[` for lists, `(` for tuples, `"` for strings, `{` for records, and `$` for function application.
