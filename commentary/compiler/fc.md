@@ -1,3 +1,5 @@
+**Warning**: This is **out of date** (as of July 2019). In particular, `Coercion` is distinct from `Type` these days. The best specification of Core is the [core-spec](https://gitlab.haskell.org/ghc/ghc/blob/master/docs/core-spec/core-spec.pdf), though that's admittedly hard to read unless you're trained in type theory.
+
 # System FC: equality constraints and coercions
 
 
