@@ -9,7 +9,7 @@ To build GHC, first make sure to:
 - [Prepare your machine](building/preparation)
 
 
-For Windows users, all the commands below must be executed in the MinGW shell, not Command Prompt or PowerShell.
+For Windows users, all the commands below must be executed in the MinGW shell, not Command Prompt nor PowerShell.
 
 
 Then, get the sources by cloning GHC's main Git repository or via an alternative method (see [Getting the Sources](building/getting-the-sources) for more details). Note: you can connect to GitLab using SSH, if you register to GitLab and upload your SSH key. In that case the following line would have "git:" instead of "https:"
