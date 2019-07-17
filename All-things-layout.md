@@ -191,4 +191,8 @@ complex_function (short argument) \$
   quuz
 ```
 
-The main advantage of this idea is that it reuses existing symbols: `[` for lists, `(` for tuples, `"` for strings, `{` for records, and `$` for function application.
+Advantages:
+
+* reuse of existing symbols: `[` for lists, `(` for tuples, `"` for strings, `{` for records, and `$` for function application, so is does not take long to figure out which herald does what
+* almost no syntax stolen (except for the `\$` operator)
+* short! just two symbols
