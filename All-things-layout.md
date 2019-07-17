@@ -1,6 +1,6 @@
 This is a brainstorm page to see how far we can push our love for layout-based syntax to fix existing problems with lists, records, multi-line strings etc.
 
-This might just stay a vanity idea, or evolve into a proper extensions.
+This might just stay a vanity idea, or evolve into a proper extension.
 
 ## Herald
 
@@ -133,3 +133,8 @@ complex_function (short argument)
   (foo bar baz)
   quuz
 ```  
+
+
+## Comments
+
+* Feel free to add comments here. Also of course feel free to brainstorm alternatives, variants etc.
