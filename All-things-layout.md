@@ -185,7 +185,7 @@ r \{
 complex_function (short argument) \$
   first long argument
   second long argument
-  foo layout argument
+  foo \$
     bar
     baz
   quuz
@@ -196,3 +196,8 @@ Advantages:
 * reuse of existing symbols: `[` for lists, `(` for tuples, `"` for strings, `{` for records, and `$` for function application, so is does not take long to figure out which herald does what
 * almost no syntax stolen (except for the `\$` operator)
 * short! just two symbols
+
+### comments
+
+* Neat! It might even not confuse syntax highlighers that there is no closing parenthesis if they consider the `\` as escaping.. I am still a bit worried about editors getting horribly confused.   --@nomeata
+* But actually does steal syntax: `:t \( ) -> ()`
