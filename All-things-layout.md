@@ -191,6 +191,7 @@ complex_function (short argument) \$
   quuz
 ```
 
+
 Advantages:
 
 * reuse of existing symbols: `[` for lists, `(` for tuples, `"` for strings, `{` for records, and `$` for function application, so is does not take long to figure out which herald does what
@@ -200,6 +201,10 @@ Stolen syntax:
 
 * the `\$` operator
 * unit lambda, `:t \( ) -> ()`
+
+### comments
+
+* Neat! It might even not confuse syntax highlighers that there is no closing parenthesis if they consider the `\` as escaping.. I am still a bit worried about editors getting horribly confused.   --@nomeata
 
 ## context + `with`
 
@@ -249,6 +254,3 @@ Disadvantages:
 * ambiguity with RecordWildCards: `Foo{..} with ...` could be a prefix-let or record creation.
 * `with` is a big keyword to steal
 
-### comments
-
-* Neat! It might even not confuse syntax highlighers that there is no closing parenthesis if they consider the `\` as escaping.. I am still a bit worried about editors getting horribly confused.   --@nomeata
