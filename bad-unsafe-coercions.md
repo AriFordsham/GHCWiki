@@ -4,33 +4,23 @@
 According to the [documentation in GHC.Prim](http://hackage.haskell.org/package/ghc-prim-0.3.1.0/docs/GHC-Prim.html#v:unsafeCoerce-35-), it is safe only for following uses:
 
 - Casting any lifted type to `Any`
-
 - Casting `Any` back to the real type
-
 - Casting an unboxed type to another unboxed type of the same size (but not coercions between floating-point and integral types)
-
 - Casting between two types that have the same runtime representation. One case is when the two types differ only in "phantom" type parameters, for example `Ptr Int` to `Ptr Float`, or `[Int]` to `[Float]` when the list is known to be empty. 
-
 - Casting between a newtype of a type `T` and `T` itself.  (**RAE:** This last usecase is subsumed by `Data.Coerce.coerce`, at least when the newtype constructor is in scope.)
 
 
-However GHC doesn't check if it's safe to use `unsafeCoerce#` as a result bugs can appear, see [9035](https://gitlab.haskell.org/ghc/ghc/issues/9035).
-In order to solve this problem a solution was proposed by Simon in [9122](https://gitlab.haskell.org/ghc/ghc/issues/9122), quote:
+However GHC doesn't check if it's safe to use `unsafeCoerce#` as a result bugs can appear, see #9035.
+In order to solve this problem a solution was proposed by Simon in #9122, quote:
 
-
->
->
 > I think it would be a great idea for Core Lint to check for uses of `unsafeCoerce` that don't obey the rules. It won't catch all cases, of course, but it would have caught #9035. 
->
->
-
 
 This proposal is about implementation of the task.
 
 ## Progress
 
 
-Current progress could be found on [D637](https://phabricator.haskell.org/D637)([ https://phabricator.haskell.org/D637](https://phabricator.haskell.org/D637)). It implements
+Current progress could be found on [D637](https://phabricator.haskell.org/D637). It implements
 proposed checks modulo few questions mentioned in this proposal. 
 
 
@@ -48,20 +38,11 @@ G |-co t1 ==>!_R t2 : t1 ~R k2 t2
 'compatibleUnBoxedTys' consists of following rules:
 
 1. Coercions between lifted and unboxed are not allowed.  Reason: casting between pointers and non-pointers is likely to cause seg-faults if the garbage collector happens to run.
-
-**SPJ** Actually it should be *unboxed* not *unlifted*.  It's wrong to cast between `Array# Int` and `Int#` because the former is a pointer and the latter is not.
-
-1. If types are unlifted then their *size* should be equal, see `primRepSizeW` in [source:compiler/types/TyCon.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/types/TyCon.hs)
-
-1. If types are unlifted then they either should be both floating or both integral.  Reason: on many architectures, floating point values are held in special registers.
-
-
-   
-
-
-1. No coercions between vector ([wiki:SIMD](simd) SIMD pages) types are allowed at all. (Reason: there is no correct rules for such coercions)
-
-1. If types are unboxed tuples then tuple `(# A_1,..,A_n #)` can be coerced to `(# B_1,..,B_m #)` if `n=m` and for each pair `A_i, B_i` rules 1-5 holds.
+    **SPJ** Actually it should be *unboxed* not *unlifted*.  It's wrong to cast between `Array# Int` and `Int#` because the former is a pointer and the latter is not.
+2. If types are unlifted then their *size* should be equal, see `primRepSizeW` in [source:compiler/types/TyCon.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/types/TyCon.hs)
+3. If types are unlifted then they either should be both floating or both integral.  Reason: on many architectures, floating point values are held in special registers.
+4. No coercions between vector ([wiki:SIMD](simd)) types are allowed at all. (Reason: there is no correct rules for such coercions)
+5. If types are unboxed tuples then tuple `(# A_1,..,A_n #)` can be coerced to `(# B_1,..,B_m #)` if `n=m` and for each pair `A_i, B_i` rules 1-5 holds.
 
 
 If any of those rules are violated then linter should produce a warning.
