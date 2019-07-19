@@ -3,7 +3,7 @@
 
 The compiler itself is written entirely in Haskell, and lives in the many sub-directories of the [compiler](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler) directory.  
 
-- [Compiler Module Dependencies](module-dependencies) (deals with the arcane mutual recursions among GHC's many data types)
+- [Compiler Module Dependencies](commentary/module-structure) (deals with the arcane mutual recursions among GHC's many data types)
 - [Coding guidelines](commentary/coding-style)
 
 - [Command line arguments](commentary/compiler/command-line-args) 
