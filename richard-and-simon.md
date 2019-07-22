@@ -71,6 +71,7 @@ We should be clear about the dependencies between items on this list.
 - #15474: (small) `Any` etc.
 - #15192: `GRefl`: still looking into perf changes
 - Better floatEqualites based on level numbers?
+- #16967: more of `Note [Let-bound skolems]`
 
 - #15479: refactoring `tcHsType` (Simon is not 100% convinced)
 
