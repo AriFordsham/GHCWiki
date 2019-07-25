@@ -18,6 +18,7 @@ We should be clear about the dependencies between items on this list.
 - #16763: get tyvars in the right order in partial type sigs
 - Finish !1132: Refactor kindGeneralize and friends
 - #15809, #8995: use level numbers for generalisation; see Richard/Simon Slack call 7 June 19.
+- #16982, to move `TcTyVar` into its own type.
 
 - Fix #14963, #16887: `tcSyntaxOp` refactoring
 - `TypeLike` constraint: #15979
