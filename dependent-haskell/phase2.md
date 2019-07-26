@@ -497,6 +497,24 @@ Just as a Wanted constraint carries with it a `TcEvDest`, a Given constraint wil
 
 **SLPJ**: can you give an example of why we need *heterogeneous* given equalities?  And also when/why we need `CoercionSource`?
 
+### Amost devoid
+
+In skimming !1487 I tripped over all the code devoted to `almostDevoidCoVarOfCo`. Yikes.  Alas, it is still necessary because we don't have type safety without it. But things change when we switch to homogeneous equality.
+
+Shouldn’t the use in ty_co_subst be an ASSERT?
+No. ty_co_subst is the implementation of the lifting lemma / substitutivity / congruence (the name changes depending on the publication, but they're all the same thing). But this lemma has not been proved when using heterogeneous equality. The ICFP'13 paper ("System FC with Explicit Kind Equality", which introduced Type : Type) has a bogus proof (as explained in my thesis), and my thesis explicitly punts because I couldn't prove the lemma (but couldn't disprove it either). It turns out that we don't need this lemma to prove type safety (as I do in my thesis), but using the lemma -- and hence ty_co_subst -- is quite a bit simpler (and likely more performant) than the workaround in my thesis.
+
+We thus want to know when we're in the failure case, both to have a counterexample to the theory and also to warn the user that they've escaped the bounds of the type system. Having an ASSERT means that only people with a DEBUG compiler will be warned. Given that the type safety of core depends on this, it seems wrong to allow non-DEBUG compiler-users to accidentally go beyond the type system. Note that it's not a bug in the implementation (caught by Core Lint), but a bug in the theory itself.
+
+If someone has measured that this check has a performance impact, I might reconsider. But until then, I want to keep it in.
+
+
+
+Can the code in TyCoRep (or TyCoFVs) simply use the regular free var finder and check for membership?  It’s only in assert/lint; does not need to be super efficient. NO: As I argue above, I don't think the check should be optional. Regardless, a normal fv finder won't work, because gathering fvs in the almost-devoid check stops at GRefl coercions, whereas a normal check wouldn't.
+
+Howevedr, with homogeneous equality, we *have* proved the lifting lemma, and so we can be sure that check will succeed. Then, it should become an ASSERT.
+
+
 ### Some other details
 
 - The three primitive equality tycons (`eqPrimTyCon`, `eqReprPrimTyCon`, and `eqPhantPrimTyCon`) all get a homogeneous kind.
