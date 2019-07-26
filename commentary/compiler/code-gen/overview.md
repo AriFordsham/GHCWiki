@@ -119,7 +119,7 @@ Currently we have two ways to run the Cmm pipeline:
   *"Cmm produced by codegen"* is emited in `HscMain` module after converting STG to Cmm. This Cmm has not been processed in any way by the Cmm pipeline. If you see that something is incorrect in that dump it means that the problem is located in the STG-\>Cmm pass. The last section, *"Output Cmm"*, is also dumped in `HscMain` but this is done after the Cmm has been processed by the whole Cmm pipeline.
 
 
-All stages of the Cmm pipeline can be dumped separately (with set of the cmm subflags) or together (when `-ddump-cmm-verbose` specified). Note, that there is still problem with output into file (see ToDo in `CmmPipeline.hs:dumpWith`).
+All stages of the Cmm pipeline can be dumped separately (with set of the cmm subflags) or together (when `-ddump-cmm-verbose-by-proc` specified). There is also an option to output each stage into a separate file - `-ddump-cmm-verbose -ddump-to-file`.
 This dump is divided into several sections:
 
 ```wiki
