@@ -21,7 +21,7 @@ We should be clear about the dependencies between items on this list.
 - #16982, to move `TcTyVar` into its own type.
 
 - Fix #14963, #16887: `tcSyntaxOp` refactoring
-- `TypeLike` constraint: #15979
+- `TypeLike` constraint: #15979, also fixes #8388
 - Refactor `Ct`: #16947
 
 - [Proposal 99: explicit specificity](https://github.com/ghc-proposals/ghc-proposals/pull/99).  Lets us write `T :: forall {k} (a :: k).blah`.
