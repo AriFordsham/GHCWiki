@@ -110,7 +110,7 @@ Building GHC requires [Alex](http://www.haskell.org/alex/) and [ Happy](http://w
 
 ```
 mkdir -p /usr/local/bin &&
-curl -L https://www.haskell.org/cabal/release/cabal-install-2.4.1.0/cabal-install-2.4.1.0-${arch}-unknown-mingw32.zip | bsdtar -xzf- -C /usr/local/bin &&
+curl -L https://downloads.haskell.org/cabal/cabal-install-2.4.1.0/cabal-install-2.4.1.0-${arch}-unknown-mingw32.zip | bsdtar -xzf- -C /usr/local/bin &&
 cabal update &&
 cabal install -j --prefix=/usr/local alex happy
 ```
