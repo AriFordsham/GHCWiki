@@ -53,7 +53,7 @@ Here a [bunch of suggestions](project-suggestions).
 ## How to apply
 
 
-You can apply ANY TIME.  Internships are not just the summer months. Contact one of us (simonpj@…, marlowsd@…) in the first instance (or another sponsor if they are more suitable).
+You can apply ANY TIME.  Internships are not just the summer months. Contact me (simonpj@…) in the first instance (or another sponsor if they are more suitable).
 
 
 To apply, follow the instructions at [http://research.microsoft.com/en-us/jobs/intern/about_uk.aspx](http://research.microsoft.com/en-us/jobs/intern/about_uk.aspx), **and email one of us to say that you have done so**. Do not omit the latter step; across MSR there are hundreds of applicants, and if we don't hear from you personally we may miss your application.  If you don't get a reply to your email, try again - the spam filter may have caught it.
@@ -85,6 +85,3 @@ So long as we have enough budget, we run the following four internship "slots":
 
 
 We usually take decisions about a particular slot three months before it begins (e.g. December, for the Apr-Jun slot).
-
-
-Simon Peyton Jones and Simon Marlow
