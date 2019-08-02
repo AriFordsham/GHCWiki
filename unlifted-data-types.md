@@ -4,6 +4,7 @@
 This page describes the unlifted data types, i.e. algebraic data types which live in kind `#` rather than kind \*. In fact, this is a collection of standalone proposals:
 
 1. Allow data types to be declared unlifted. (Should be easy; but has a harder subproposal to separate a new kind `Unlifted` from `#`)
+1. Polymorphism over a new `Unlifted` kind, a subset of levity polymorphism over a new kind `Boxed` that applies in more situations
 1. Allow newtypes over unlifted types (giving them kind `#`). (Should be easy.)
 1. Provide a built-in `Force a` which is an unlifted version of `a`, with no indirection cost. (Harder.)
 
@@ -159,6 +160,7 @@ map :: forall a (b :: Boxed). (a -> b) -> BList a -> BList b
 map f (BCons x xs) = BCons (f x) (map f xs)
 ```
 
+**SG**: After reading the following paragraph, I still don't get why we need to specialise `map` above. If `f` turned a lifted into an unlifted thing, it surely would have to evaluate it, no? IUC, after #16970 this means that it will always return a tagged pointer. Which is pretty much transparent to the `BCons` constructor.
 
 We do not know if `f x` should be evaluated strictly or lazily; it depends on whether or not `b` is unlifted or lifted. This case can be handled by specializing `map` for the lifted and unlifted cases.  The fact that the semantics of the function change depending on the type is a bit questionable (though not entirely unprecedented, c.f. type classes); additionally, there isn't any reason why we couldn't also generate copies of the code for all unboxed types, dealing with `Int#`, `Float#` and `Double#`: it's unclear when to stop generating copies. (For reference, .NET does this on the fly.)
 
