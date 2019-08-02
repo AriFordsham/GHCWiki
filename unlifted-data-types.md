@@ -442,7 +442,7 @@ Maybe :: forall (v1 :: Levity) (v2 :: Levity).
 ```
 
 
-Of course, this is all a bit of a hack. There really must be 4 datatypes under the hood. But each of the 4 make sense to have, and would, no doubt, be wanted ere long by programmers. When zonking term-level program text, we would need to squeeze out any remaining levity polymorphism so that the back-end could figure out which of the four `Maybe` types we really want here. (The four types really make a `data family`, don't they? Using data families in the implementation might simplify things a bit.)
+Of course, this is all a bit of a hack. There really must be 4 datatypes under the hood (SG is still not convinced that this must be the case. Although knowing something is unlifted means we can assume tagged pointers, but use sites that care about that could just be levity monomorphic). But each of the 4 make sense to have, and would, no doubt, be wanted ere long by programmers. When zonking term-level program text, we would need to squeeze out any remaining levity polymorphism so that the back-end could figure out which of the four `Maybe` types we really want here. (The four types really make a `data family`, don't they? Using data families in the implementation might simplify things a bit.)
 
 
 To reiterate: the levity polymorphism here is just to simplify the life of the programmer by using one name -- `Maybe` -- for all four sensible variants of an option type. Just like using levity polymorphism for `undefined` make the life easier for the programmer.
@@ -505,13 +505,13 @@ map :: forall (v1 :: Levity) (v2 :: Levity) (v3 :: Levity) (v4 :: Levity)
 
 Here, `v1` and `v2` are the levities of `a` and `b`, respectively, and `v3` and `v4` are the levities of the argument and result lists, respectively. As previously articulated, we can't have proper levity polymorphic functions, instead requiring specialization. This would mean **sixteen** `map`s. That's quite a high number. But I (Richard) think all of the variants make sense. I'd love for there to be some optimization to prevent the need to export 16 definitions here, but I don't see one. In any case, I do think this would work swimmingly for users. Is it worth the cost? That's up for debate.
 
-
+SG: IUC, the difference in operational semantics mainly comes from when we return levity polymorphic expressions from a function (in which case we might or might not need to `seq` them) and when we put them into constructor fields. To reduce specialisation obligation for the latter, I could imagine an approach `class LevityPolymorphic (v :: Levity) where mseq :: a -> b -> b` and use that instead of `seq` in constructor wrappers (well, basically anywhere we need to convert the levity polymorphic thing into an unlifted thing). Maybe we need to actually make this a binary relation (thinking about cases where we need to convert between two different levity polymorphic things here, which probably subsumes all above cases), similar to `Coercible`, but not actually zero-cost, I'm afraid. The different variants of `map` above then arise as specialisations of that. For returning levity polymorphic expressions I could imagine a worker/wrapper approach that exposes the `mseq`, so that at least the wrapper will always inline and specialise, so that the runtime overhead at monomorphic call sites should be neglible.
 
 **Conjecture:** If we take this idea to its logical extreme -- of making all functions levity polymorphic in all of the datatypes mentioned -- then RAE believes that using `!` to control kinds in datatype definitions would not break any code.
 
 ### Design questions
 
-1. Is there a way to reduce duplication in object code? If we can't find a "yes" answer, this problem may kill the idea.
+1. Is there a way to reduce duplication in object code? If we can't find a "yes" answer, this problem may kill the idea. SG: My remarks above about solving the specialisation problem through a constraint-based approach should at least allow us to control when and when not to specialise.
 
 ## Parametricity
 
@@ -531,7 +531,8 @@ data T :: forall (l :: Levity). (a :: TYPE 'Boxed l) -> TYPE 'Boxed 'Lifted wher
 
 Then `C` is genuinely parametric in `l`. It accepts a pointer to a value that is either lifted or not, stores it, and matching on it later yields a pointer to a value with the same status. It is unclear to the present author whether `C` would also be genuinely parametric if `T` were parameterized on its levity status as well.
 
-
+SG: Maybe this is why I was confused earlier: Data constructor wrappers are exactly the kinds of things I *wouldn't* expect to be levity polymorphic at zero cost, because they potentially have to evaluate their arguments! My `Coercible`-like approach above would only generate constraints when there's a potential mismatch in levity (i.e. levity `v` to `Lifted` or levity `v1` to `v2`).
+The beauty of this is that i.e. `LevityCoercible v Lifted` can immediately be discarged, and examples like the levity polymorphic `map` with levity polymorphic `f` from Proposal 2 would just not generate any such constraints, ergo no specialisation needed! The following remarks about refcells would not generate any constraints, either.
 
 There are examples beyond constructors, though. All mutable cells for boxed types have the same behavior of simply storing a pointer, so put and get operations should be genuinely parametric. They simply preserve the calling conventions of things they are fed and return. Further, this area is quite rich, and enabling these parametric uses fixes problems with duplication, type safety and efficiency in primops. Right now one must choose between:
 
