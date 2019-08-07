@@ -35,8 +35,8 @@ Matching on `App` directly is both hard to read and error prone to write.
 The proposal is to introduce a way to give patterns names:
 
 ```haskell
-   pattern Arrow t1 t2 = App "->" [t1, t2]
-   pattern Int = App "Int" []
+pattern Arrow t1 t2 = App "->" [t1, t2]
+pattern Int = App "Int" []
 ```
 
 
