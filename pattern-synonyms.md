@@ -11,21 +11,21 @@ See the ~"PatternSynonyms" label.
 
 Here is a simple representation of types
 
-```wiki
-    data Type = App String [Type]
+```haskell
+data Type = App String [Type]
 ```
 
 
 Using this representations the arrow type looks like `App "->" [t1, t2]`.
 Here are functions that collect all argument types of nested arrows and recognize the `Int` type:
 
-```wiki
-   collectArgs :: Type -> [Type]
-   collectArgs (App "->" [t1, t2]) = t1 : collectArgs t2
-   collectArgs _ = []
+```haskell
+collectArgs :: Type -> [Type]
+collectArgs (App "->" [t1, t2]) = t1 : collectArgs t2
+collectArgs _ = []
 
-   isInt (App "Int" []) = True
-   isInt _ = False
+isInt (App "Int" []) = True
+isInt _ = False
 ```
 
 
@@ -34,7 +34,7 @@ Matching on `App` directly is both hard to read and error prone to write.
 
 The proposal is to introduce a way to give patterns names:
 
-```wiki
+```haskell
    pattern Arrow t1 t2 = App "->" [t1, t2]
    pattern Int = App "Int" []
 ```
@@ -42,20 +42,20 @@ The proposal is to introduce a way to give patterns names:
 
 And now we can write
 
-```wiki
-   collectArgs :: Type -> [Type]
-   collectArgs (Arrow t1 t2) = t1 : collectArgs t2
-   collectArgs _ = []
+```haskell
+collectArgs :: Type -> [Type]
+collectArgs (Arrow t1 t2) = t1 : collectArgs t2
+collectArgs _ = []
 
-   isInt Int = True
-   isInt _ = False
+isInt Int = True
+isInt _ = False
 ```
 
 
 Here is a second example from [pigworker on Reddit](http://www.reddit.com/r/haskell/comments/1kmods/patternsynonyms_ghc_trac/).
 Your basic sums-of-products functors can be built from this kit.
 
-```wiki
+```haskell
 newtype K a        x  = K a
 newtype I          x  = I x
 newtype (:+:) f g  x  = Sum (Either (f x) (g x))
@@ -65,14 +65,14 @@ newtype (:*:) f g  x  = Prod (f x, g x)
 
 and then you can make recursive datatypes via
 
-```wiki
+```haskell
 newtype Fix f = In (f (Fix f))
 ```
 
 
 e.g.,
 
-```wiki
+```haskell
 type Tree = Fix (K () :+: (I :*: I))
 ```
 
@@ -82,7 +82,7 @@ and you can get useful generic operations cheaply because the functors in the ki
 
 You can define friendly constructors for use in expressions
 
-```wiki
+```haskell
 leaf :: Tree
 leaf = In (Sum (Left (K ())))
 node :: Tree -> Tree -> Tree
@@ -124,16 +124,16 @@ There have been several proposals for the syntax of defining pattern-only synony
 
 Pattern synonyms can be exported and imported by prefixing the *conid* with the keyword `pattern`:
 
-```wiki
-   module Foo (pattern Arrow) where ...
+```haskell
+module Foo (pattern Arrow) where ...
 ```
 
 
 This is required because pattern synonyms are in the namespace of constructors, so it's perfectly valid to have
 
-```wiki
-   data P = C
-   pattern P = 42
+```haskell
+data P = C
+pattern P = 42
 ```
 
 
@@ -147,15 +147,15 @@ You may also give a type signature for a pattern, but as with most other type si
 
 E.g.
 
-```wiki
-   pattern Arrow :: Type -> Type -> Type
-   pattern Arrow t1 t2 <- App "->" [t1, t2]
+```haskell
+pattern Arrow :: Type -> Type -> Type
+pattern Arrow t1 t2 <- App "->" [t1, t2]
 ```
 
 
 Together with [ViewPatterns](view-patterns) we can now create patterns that look like regular patterns to match on existing (perhaps abstract) types in new ways:
 
-```wiki
+```haskell
 import qualified Data.Sequence as Seq
 
 pattern Empty <- (Seq.viewl -> Seq.EmptyL)
@@ -181,9 +181,9 @@ In cases where *pat* is in the intersection of the grammars for patterns and exp
 
 For example, the following two pattern synonym definitions are rejected, because they are not bidirectional (but they would be valid as pattern-only synonyms)
 
-```wiki
-   pattern ThirdElem x = _:_:x:_
-   pattern Snd y = (x, y)
+```haskell
+pattern ThirdElem x = _:_:x:_
+pattern Snd y = (x, y)
 ```
 
 
@@ -192,9 +192,9 @@ since the right-hand side is not a closed expression of {*x*} and {*y*} respecti
 
 In contrast, the pattern synonyms for *Arrow* and *Int* above are bidirectional, so you can e.g. write:
 
-```wiki
-   arrows :: [Type] -> Type -> Type
-   arrows = flip $ foldr Arrow
+```haskell
+arrows :: [Type] -> Type -> Type
+arrows = flip $ foldr Arrow
 ```
 
 ## Explicitly-bidirectional pattern synonyms
@@ -222,17 +222,18 @@ where *cfunlhs* is like *funlhs*, except that the functions symbol is a *conid* 
 
 Example, using [ViewPatterns](view-patterns):
 
-```wiki
-   pattern Succ n <- ((\x -> (x-1) <$ guard (x > 0)) -> Just n) where
-      Succ n = n + 1
+```haskell
+pattern Succ n <- ((\x -> (x-1) <$ guard (x > 0)) -> Just n)
+ where
+  Succ n = n + 1
 ```
 
 
 The first part as is before and describes the expansion of the synonym in patterns. The second part describes the expansion in expressions.
 
-```wiki
-   fac (Succ n) = Succ n * fac n 
-   fac 0 = 1
+```haskell
+fac (Succ n) = Succ n * fac n 
+fac 0 = 1
 ```
 
 ## Associated pattern synonyms
@@ -243,23 +244,23 @@ Just like data types and type synonyms can be part of a class declaration, it wo
 
 Example:
 
-```wiki
-   class ListLike l where
-      pattern Nil :: l a
-      pattern Cons :: a -> l a -> l a
-      isNil :: l a -> Bool
-      isNil Nil = True
-      isNil (Cons _ _) = False
-      append :: l a -> l a -> l a
+```haskell
+class ListLike l where
+  pattern Nil :: l a
+  pattern Cons :: a -> l a -> l a
+  isNil :: l a -> Bool
+  isNil Nil = True
+  isNil (Cons _ _) = False
+  append :: l a -> l a -> l a
 
-   instance ListLike [] where
-      pattern Nil = []
-      pattern Cons x xs = x:xs
-      append = (++)
+instance ListLike [] where
+  pattern Nil = []
+  pattern Cons x xs = x:xs
+  append = (++)
 
-   headOf :: (ListLike l) => l a -> Maybe a
-   headOf Nil = Nothing
-   headOf (Cons x _) = Just x
+headOf :: (ListLike l) => l a -> Maybe a
+headOf Nil = Nothing
+headOf (Cons x _) = Just x
 ```
 
 
@@ -272,7 +273,7 @@ One could go one step further and leave out the `pattern` keyword to obtain *ass
 
 A unidirectional pattern synonym declaration has the form
 
-```wiki
+```haskell
 pattern P var1 var2 ... varN <- pat
 ```
 
@@ -284,7 +285,7 @@ brings the name `P` as a pattern synonym into the module-level scope.
 
 The pattern synonym `P` is assigned a *pattern type* of the form
 
-```wiki
+```haskell
 pattern P :: CProv => CReq => t1 -> t2 -> ... -> tN -> t 
 ```
 
@@ -293,7 +294,7 @@ where `t1`, ..., `tN` are the types of the parameters `var1`, ..., `varN`, `t` i
 
 `CReq` can be omitted if it is empty. If `CProv` is empty, but `CReq` is not, `()` is used. The following example shows cases:
 
-```wiki
+```haskell
 data Showable where
     MkShowable :: (Show a) => a -> Showable
 
@@ -319,7 +320,7 @@ As with function and variable types, the pattern type signature can be inferred,
 
 Here's a more complex example. Let's look at the following definition:
 
-```wiki
+```haskell
 {-# LANGUAGE PatternSynonyms, GADTs, ViewPatterns #-}
 module ShouldCompile where
 
@@ -334,21 +335,21 @@ pattern P x <- MkT (f -> True) x
 
 Here, the inferred type of `P` is
 
-```wiki
+```haskell
 pattern P :: (Eq b) => (Show a) => b -> T a
 ```
 
 
 A bidirectional pattern synonym declaration has the form
 
-```wiki
+```haskell
 pattern P var1 var2 ... varN = pat
 ```
 
 
 where both of the following are well-typed declarations:
 
-```wiki
+```haskell
 pattern P1 var1 var2 ... varN <- pat
 
 P2 = \var1 var2 ... varN -> pat
@@ -367,7 +368,7 @@ A pattern synonym occurance in a pattern is evaluated by first
 matching against the pattern synonym itself, and then on the argument
 patterns. For example, given the following definitions:
 
-```wiki
+```haskell
 pattern P x y <- [x, y]
 
 f (P True True) = True
@@ -380,7 +381,7 @@ g _            = False
 
 the behaviour of `f` is the same as
 
-```wiki
+```haskell
 f [x, y] | True <- x, True <- y = True
 f _                             = False
 ```
@@ -388,7 +389,7 @@ f _                             = False
 
 Because of this, the eagerness of `f` and `g` differ:
 
-```wiki
+```haskell
 *Main> f (False:undefined)
 *** Exception: Prelude.undefined
 *Main> g (False:undefined)
@@ -403,7 +404,7 @@ This is because we generate the matching function at the definition site.
 
 So far patterns only had *syntactic* meaning. In comparison [Ωmega](http://code.google.com/p/omega) has *typed* pattern synonyms, so they become first class values. For bidirectional pattern synonyms this seems to be the case
 
-```wiki
+```haskell
 data Nat = Z | S Nat deriving Show
 pattern Ess p = S p
 ```
@@ -411,7 +412,7 @@ pattern Ess p = S p
 
 And it works:
 
-```wiki
+```haskell
 *Main> map S [Z, Z, S Z]
 [S Z,S Z,S (S Z)]
 *Main> map Ess [Z, Z, S Z]
@@ -426,7 +427,7 @@ And it works:
 
 Sometimes you want to match against several summands of an ADT simultaneously. E.g. in a data type of potentially unbounded natural numbers:
 
-```wiki
+```haskell
 data Nat = Zero | Succ Nat
 type UNat = Maybe Nat -- Nothing meaning unbounded
 ```
@@ -437,7 +438,7 @@ Conceptually `Nothing` means *infinite*, so it makes sense to interpret it as a 
 
 I suggest *branching pattern synonyms* for this purpose:
 
-```wiki
+```haskell
 pattern S pred <- pred@Nothing | pred@(Just a <- Just (Succ a))
 pattern Z = Just Zero
 ```
@@ -448,7 +449,7 @@ Here `pred@(Just a <- Just (Succ a))` means that the pattern invocation `S pred`
 
 This means we can syntactically address unbound naturals just like bounded ones:
 
-```wiki
+```haskell
 greetTimes :: UNat -> String -> IO ()
 greetTimes Z _ = return ()
 greetTimes (S rest) message = putStrLn message >> greetTimes rest message
