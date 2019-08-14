@@ -172,6 +172,7 @@ be filed against the appropriate upstream.
 These labels identify user-visible language features which a bug is triggered by.
 
  * ~CAFs: Handling of Constant Applicative Forms
+ * ~"call stack": GHC's call stack simulation
  * ~"compact normal forms": Compact normal forms (also known as compact regions)
  * ~concurrency: GHC's threaded runtime and concurrency primitives 
  * ~CUSKs:  Complete User-Specified Kind annotations
@@ -223,6 +224,7 @@ These labels correspond to the language extensions after which they are named.
  * ~OverlappingInstances
  * ~OverloadedRecordFields
  * ~OverloadedStrings
+ * ~PackageImports
  * ~PatternSynonyms
  * ~PolyKinds
  * ~QuantifiedConstraints
