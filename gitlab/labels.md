@@ -172,7 +172,6 @@ be filed against the appropriate upstream.
 These labels identify user-visible language features which a bug is triggered by.
 
  * ~CAFs: Handling of Constant Applicative Forms
- * ~"call stack": GHC's call stack simulation
  * ~"compact normal forms": Compact normal forms (also known as compact regions)
  * ~concurrency: GHC's threaded runtime and concurrency primitives 
  * ~CUSKs:  Complete User-Specified Kind annotations
@@ -182,6 +181,7 @@ These labels identify user-visible language features which a bug is triggered by
  * ~exceptions: Synchronous and asynchronous exception support
  * ~FFI: The Foreign Function Interface
  * ~generics: GHC's data-type generics mechanism (e.g. `GHC.Generics`)
+ * ~HasCallStack: GHC's mechanism for letting users inspect a simulation of call stacks
  * ~"typed holes": [Typed holes](holes)
  * ~"valid hole fits": Valid hole fits
  * ~hs-boot: Handling of `.hs-boot` files
