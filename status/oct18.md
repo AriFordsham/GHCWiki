@@ -1,5 +1,3 @@
-```wiki
-
 # GHC Status Report (November 2018)
 
 GHC development continues with the release of 8.6.2, continued improvement in
@@ -180,5 +178,3 @@ anything in between, please come speak to us either on IRC (`#ghc` on
   * `ghc-devs` mailing list:
 
     <https://mail.haskell.org/mailman/listinfo/ghc-devs>
-
-```
