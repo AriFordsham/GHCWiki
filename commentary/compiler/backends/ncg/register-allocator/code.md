@@ -20,7 +20,7 @@ The register allocator code is split into two main sections, the register alloca
 
   Defines the linear scan allocator. Its interface is identical to the coloring allocator.
 
-- [compiler/nativeGen/RegAllocInfo.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegAllocInfo.hs) 
+- [compiler/nativeGen/Instruction.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/Instruction.hs) 
 
   Defines the register information function, `regUsage`, which takes a set of real and virtual registers and returns the actual registers used by a particular `Instr`; register allocation is in AT&T syntax order (source, destination), in an internal function, `usage`; defines the `RegUsage` data type
 
