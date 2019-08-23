@@ -88,6 +88,8 @@ g (Int# n) = case $wg n of p -> Int# p
 
 Note that for CPR for sum types to be useful, we need at least nested CPR of depth 2, which has all the same problems ([https://ghc.haskell.org/trac/ghc/ticket/12364\#comment:3](https://ghc.haskell.org/trac/ghc/ticket/12364#comment:3)) wrt. termination and analysis "direction".
 
+The old prototype for nested CPR in [D4244](https://phabricator.haskell.org/D4244) also suffers from the forward vs. backward issue when trying to analyse DataCon applications. Grep for `dmdAnalVarApp ::` to find the definition and notice how its own way of calling `dmdAnalStar` in `anal_con_args`. This will basically perform a backwards pass for demand information on arguments, then go back to the application head to reconstruct the DmdResult from the arguments' DmdResults. Yuck!
+
 ## Separation of concerns
 
 
