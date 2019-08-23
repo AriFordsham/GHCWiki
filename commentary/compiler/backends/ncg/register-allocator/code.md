@@ -28,7 +28,7 @@ The register allocator code is split into two main sections, the register alloca
 
   Defines `chooseSpill` which is responsible for selecting a virtual reg to spill to the stack when not enough real regs are available.
 
-- [compiler/nativeGen/RegSpill.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegSpill.hs) 
+- [compiler/nativeGen/RegAlloc/Graph/Spill.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegAlloc/Graph/Spill.hs) 
 
   Defines `regSpill` which takes `LiveCmmTop`s and inserts spill/reload instructions virtual regs that wouldn't fit in real regs. `regSpill`'s strategy is to simply inserts spill/reloads for every use/def of a particular virtual reg. This inefficient code is cleaned up by the spill cleaner after allocation.
 
