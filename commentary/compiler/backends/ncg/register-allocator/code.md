@@ -33,10 +33,7 @@ The register allocator code is split into two main sections, the register alloca
   Defines `regSpill` which takes `LiveCmmTop`s and inserts spill/reload instructions virtual regs that wouldn't fit in real regs. `regSpill`'s strategy is to simply inserts spill/reloads for every use/def of a particular virtual reg. This inefficient code is cleaned up by the spill cleaner after allocation.
 
 
- 
-
-
-- [compiler/nativeGen/RegSpillClean.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegSpillClean.hs) 
+- [compiler/nativeGen/RegAlloc/Graph/SpillClean.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegAlloc/Graph/SpillClean.hs) 
 
   The spill cleaner is run after real regs have been allocated. It erases spill/reload instructions inserted by `regSpill` that weren't strictly nessesary.
 
@@ -66,14 +63,14 @@ The register allocator code is split into two main sections, the register alloca
 ### Miscellanea
 
 
-- [compiler/nativeGen/RegCoalesce.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegCoalesce.hs) 
+- [compiler/nativeGen/RegAlloc/Graph/Coalesce.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegAlloc/Graph/Coalesce.hs) 
 
   Defines a function `regCoalesce` that does aggressive coalescing directly on `LiveCmmTops`, without using the graph. This isn't used at the moment but has been left in incase we want to rejig the allocator when the new CPS converter comes online.
 
-- [compiler/nativeGen/RegArchBase.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegArchBase.hs) 
+- [compiler/nativeGen/RegAlloc/Graph/ArchBase.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegAlloc/Graph/ArchBase.hs) 
 
   Defines utils for calculating whether a register in the conflict graph is trivially colorable, in a generic way which handles aliasing between register classes. This module is not used directly by GHC.
 
-- [compiler/nativeGen/RegArchX86.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegArchX86.hs) 
+- [compiler/nativeGen/RegAlloc/Graph/ArchX86.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegAlloc/Graph/ArchX86.hs) 
 
   Contains a description of the aliasing constraints between the register sets on x86. This module is not used directly by GHC.
