@@ -56,7 +56,7 @@ The register allocator code is split into two main sections, the register alloca
 
   Defines functions to perform basic operations on the graphs such as adding, deleting, and coalescing nodes.
 
-- [compiler/utils/GraphPps.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/utils/GraphPps.hs) 
+- [compiler/utils/GraphPpr.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/utils/GraphPpr.hs) 
 
   Defines functions for pretty print graphs in human readable-ish and graphviz format.
 
