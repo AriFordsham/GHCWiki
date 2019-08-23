@@ -12,11 +12,11 @@ The register allocator code is split into two main sections, the register alloca
 
   Defines `LiveInstr` and `LiveCmmTop` which carry native machine instructions annotated with register liveness information. It also provides functions to annotate native code (`NatCmmTop`) with this liveness information, and to slurp out sets of register conflicts for feeding into the coloring allocator.
 
-- [compiler/nativeGen/RegAllocColor.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegAllocColor.hs) 
+- [compiler/nativeGen/RegAlloc/Graph/Main.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegAlloc/Graph/Main.hs)
 
   Defines `regAlloc`, the main driver function for the graph coloring allocator. The driver accepts `LiveCmmTop`s which use virtual regs, and produces`NatCmmTops` which use real machine regs. This module also provides functions to help build and deep seq the register conflict graph.
 
-- [compiler/nativeGen/RegAllocLinear.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegAllocLinear.hs) 
+- [compiler/nativeGen/RegAlloc/Linear/Main.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegAlloc/Linear/Main.hs) 
 
   Defines the linear scan allocator. Its interface is identical to the coloring allocator.
 
