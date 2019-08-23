@@ -8,7 +8,7 @@ The register allocator code is split into two main sections, the register alloca
 ### The register allocator
 
 
-- [compiler/nativeGen/RegLiveness.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegLiveness.hs) 
+- [compiler/nativeGen/RegAlloc/Liveness.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegAlloc/Liveness.hs) 
 
   Defines `LiveInstr` and `LiveCmmTop` which carry native machine instructions annotated with register liveness information. It also provides functions to annotate native code (`NatCmmTop`) with this liveness information, and to slurp out sets of register conflicts for feeding into the coloring allocator.
 
