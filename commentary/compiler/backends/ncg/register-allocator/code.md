@@ -40,7 +40,7 @@ The register allocator code is split into two main sections, the register alloca
 
   The spill cleaner is run after real regs have been allocated. It erases spill/reload instructions inserted by `regSpill` that weren't strictly nessesary.
 
-- [compiler/nativeGen/RegAllocStats.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegAllocStats.hs) 
+- [compiler/nativeGen/RegAlloc/Graph/Stats.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegAlloc/Graph/Stats.hs) 
 
   Defines data types and pretty printers used for collecting statistics and debugging info from the coloring allocator.
 
