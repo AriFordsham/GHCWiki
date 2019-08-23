@@ -24,7 +24,7 @@ The register allocator code is split into two main sections, the register alloca
 
   Defines the register information function, `regUsage`, which takes a set of real and virtual registers and returns the actual registers used by a particular `Instr`; register allocation is in AT&T syntax order (source, destination), in an internal function, `usage`; defines the `RegUsage` data type
 
-- [compiler/nativeGen/RegSpillCost.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegSpillCost.hs) 
+- [compiler/nativeGen/RegAlloc/Graph/SpillCost.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/RegAlloc/Graph/SpillCost.hs) 
 
   Defines `chooseSpill` which is responsible for selecting a virtual reg to spill to the stack when not enough real regs are available.
 
