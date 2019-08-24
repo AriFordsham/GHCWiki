@@ -49,7 +49,7 @@ To understand what happens when a breakpoint is hit, it is necessary to know how
 
 When the user types in an expression (as a string) it is parsed, type checked, and compiled, and then run. In [compiler/main/InteractiveEval.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/InteractiveEval.hs) we have the function:
 
-```
+```haskell
 -- | Run a statement in the current interactive context.
 execStmt
   :: GhcMonad m
@@ -62,8 +62,9 @@ execStmt
 The `GhcMonad` carries a `Session` which contains the gobs of environmental information which is important to the compiler. The `String` is what the user typed in, and `ExecResult`, is the answer that you get back if the execution terminates. `ExecResult` is defined like so:
 (in [compiler/main/InteractiveEvalTypes.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/InteractiveEvalTypes.hs)
 
-```
-dataExecResult=ExecComplete{ execResult ::EitherSomeException[Name], execAllocation ::Word64}|ExecBreak{ breakNames ::[Name], breakInfo ::MaybeBreakInfo}
+```haskell
+data ExecResult = ExecComplete { execResult :: Either SomeException [Name], execAllocation :: Word64 }
+                | ExecBreak { breakNames :: [Name], breakInfo :: MaybeBreakInfo }
 ```
 
 
@@ -99,7 +100,7 @@ This raises a few questions:
 
 To arrange the early return of the expression thread when it hits a breakpoint we introduce a second MVar
 
-```
+```haskell
    breakMVar :: MVar ()
 ```
 
@@ -109,7 +110,7 @@ When the expression thread hits a breakpoint it waits on `breakMVar`. When the u
 
 Now we must return to `statusMVar` and look at it in more detail. We introduce a new type called `EvalStatus`
 
-```
+```haskell
 type EvalStatus a = EvalStatus_ a a
 
 data EvalStatus_ a b
@@ -144,7 +145,7 @@ The two MVars, `statusMVar` and `breakMVar`, are used like so: (This is part of 
 
 Now we turn our attention to the `EvalBreak` constructor:
 
-```
+```haskell
   | EvalBreak Bool
        HValueRef{- AP_STACK -}
        Int {- break index -}
@@ -163,7 +164,7 @@ The arguments of `EvalBreak` are as follows
 
 The `EvalBreak` get assembled by the I/O action which is executed by a thread when it hits a breakpoint. The code for the I/O action is as follows:
 
-```
+```haskell
 type BreakpointCallback = Int# -> Int# -> Bool -> HValue -> IO ()
 
    onBreak :: BreakpointCallback
@@ -189,7 +190,7 @@ Note that the I/O action proceeds to write to the `statusMVar`, which wakes up t
 
 A resume context is created to store the MVars on the execution thread inside the `onBreak` action.
 
-```
+```haskell
 data ResumeContext a = ResumeContext
   { resumeBreakMVar :: MVar ()
   , resumeStatusMVar :: MVar (EvalStatus a)
