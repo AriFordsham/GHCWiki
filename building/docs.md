@@ -53,7 +53,7 @@ BUILD_DOCBOOK_PDF  = YES/NO
 ```
 
 
-They are set to `YES` or `NO` in `mk/config.mk` by configure, depending on whether the necessary tools were detected on your system.  You can override the automatic settings in your `mk/build.mk` file.
+They are set to `YES` or `NO` in `mk/config.mk` by configure, depending on whether the necessary tools were detected on your system. If you install the tools later please run `configure` again to enable the default settings automatically. You can override the automatic settings in your `mk/build.mk` file. 
 
 
 To build a document on its own, for example the Users Guide, do this:
