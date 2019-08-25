@@ -64,7 +64,7 @@ make html
 ```
 
 
-substitute 'html' for 'pdf' or 'ps' to build other types of documentation. Note that this will still build the whole compiler if you have not already built it as some pages
+If this command fails, see the diagnostics section below. substitute 'html' for 'pdf' or 'ps' to build other types of documentation. Note that this will still build the whole compiler if you have not already built it as some pages
 of the documentation are automatically generated. 
 
 
