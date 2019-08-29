@@ -1,6 +1,12 @@
 
 Tasks discussed by Richard and Simon. This page is mostly for our own notes, but others are welcome to read it.
 
+# Tiresome bugs
+
+- #17021: type families in return kinds
+- #16995, !1496: Flattening and `coreFlattenTyFamApp`
+-
+
 # Roadmap of new stuff we want to get done
 
 
@@ -13,7 +19,8 @@ We should be clear about the dependencies between items on this list.
 - Visible type abstraction: [Original proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0050-type-lambda.rst), modified [here](https://github.com/ghc-proposals/ghc-proposals/pull/238). Also Richard & Simon Slack 27 June 19.
 
 - #17131, #17113: levity polymorphism.
-- #17021: type families in return kinds
+- #17026: `IntRep` and `WordRep`
+- #17033: kind checking recursive types
 
 - Stuff around #14198: inconsistent treatment of kind variables, and #16635 (making `checkExpectedKind` dumber)
 
