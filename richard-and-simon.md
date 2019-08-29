@@ -12,6 +12,8 @@ We should be clear about the dependencies between items on this list.
 
 - Visible type abstraction: [Original proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0050-type-lambda.rst), modified [here](https://github.com/ghc-proposals/ghc-proposals/pull/238). Also Richard & Simon Slack 27 June 19.
 
+- #17131, #17113: levity polymorphism.
+
 - Stuff around #14198: inconsistent treatment of kind variables, and #16635 (making `checkExpectedKind` dumber)
 
 - #16110 and #16762 refactoring of `HsImplicitBndrs`.
