@@ -59,6 +59,8 @@ We should be clear about the dependencies between items on this list.
 
 # Refactoring of existing stuff that we'd like to get done
 
+- #16947: refactor `Ct` and friends.
+
 - #16982: break out `TcTyVar` into its own type.
 
 - #15579: `topNormaliseType`; also #14729, #15549.  This is high priority: it's an outright bug causing Lint failures; it's not hard; and fixing it will close three tickets.
