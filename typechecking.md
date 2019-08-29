@@ -12,9 +12,9 @@ data ExpType = Check (Type0 ExpType)
 
 In other words we have a partial type with a number of holes, where pure inference is an outer `Infer ...` as before and pure checking is no `Infer ...` sub-terms. I used this in a toy compiler once and it seemed to work OK.
 
-This enforces 2 as before, but rejects 1. (Why stop at function types? Perhaps because of expected "blame" with `case` elimination?).
+This enforces 2 as before, but rejects 1. Why stop at function types? Perhaps because of expected "blame" with `case` elimination?
 
-I hope this could be used to make the code for partial type signatures more natural.
+I hope this could be used to make the code for partial type signatures more natural. Even if `case` remains the same, inferring the scrutinee's type rather than checking it against something gleaned from the constructors, partial type signatures generate richer checking cases.
 
 # Current state (August 2019)
 
