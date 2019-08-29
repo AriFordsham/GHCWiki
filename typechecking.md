@@ -1,10 +1,29 @@
 
 This page is to track thoughts about the core type-checking (constraint-generation) algorithm.
 
-# Current state (Feb 2016)
+# New Proposal (August 2019)
 
+https://gitlab.haskell.org/ghc/ghc/merge_requests/1637 adds an open recursive type. With that we can do
 
-Much of this proposal (without `ExpFun`) is now in HEAD and 8.0.
+```haskell
+data ExpType = Check (Type0 ExpType)
+             | Infer !InferResult
+```
+
+In other words we have a partial type with a number of holes, where pure inference is an outer `Infer ...` as before and pure checking is no `Infer ...` sub-terms. I used this in a toy compiler once and it seemed to work OK.
+
+This enforces 2 as before, but rejects 1. (Why stop at function types? Perhaps because of expected "blame" with `case` elimination?).
+
+I hope this could be used to make the code for partial type signatures more natural.
+
+# Current state (August 2019)
+
+Much of this proposal (without `ExpFun`) is now in HEAD and 8.0. We have a simply "hole or type"
+
+```haskell
+data ExpType = Check TcType
+             | Infer !InferResult
+```
 
 # Previous state (Oct 2015)
 
