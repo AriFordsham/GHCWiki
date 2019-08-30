@@ -6,6 +6,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - #17021: type families in return kinds
 - #16995, !1496: Flattening and `coreFlattenTyFamApp`
 - #17064: uniques for built in tyvars
+- #17011: level number bug?
 
 # Roadmap of new stuff we want to get done
 
