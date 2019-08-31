@@ -11,6 +11,20 @@ See also [http://damianfral.github.io/ghcaniuse/](http://damianfral.github.io/gh
 
 See also [Language options](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#language-options) in GHC User's Guide.
 
+## Changes in GHC 8.10
+
+Added LANGUAGE extensions:
+
+- `[No]CUSKs`
+- `[No]ImportQualifiedPost`
+- `[No]UnliftedNewtypes`
+
+
+## Changes in GHC 8.8
+
+Nothing
+
+
 ## Changes in GHC 8.6
 
 
