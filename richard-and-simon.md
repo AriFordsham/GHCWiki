@@ -7,6 +7,10 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - #16995, !1496: Flattening and `coreFlattenTyFamApp`
 - #17064: uniques for built in tyvars
 - #17011: level number bug?
+- !1236: Typeable evidence for casts
+- #16995 flattening
+- #17021: return kinds
+- #16980: meta tyvar leakage in TH
 
 # Roadmap of new stuff we want to get done
 
