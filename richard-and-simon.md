@@ -1,12 +1,21 @@
 
 Tasks discussed by Richard and Simon. This page is mostly for our own notes, but others are welcome to read it.
 
+# Active agenda
+
+
+- TLKS: lots.  RAE to discuss with Vlad
+- !1657 out of scope vars:Fail eagerly on out of scope applied to type args.  SLPJ
+- Level numbers: !1132 and (new) #17077.
+- One tuples in HsSyn !1471: RAE
+- #16512: type checker loop with injective type families.
+
+
 # Tiresome bugs
 
 - #17021: type families in return kinds
 - #16995, !1496: Flattening and `coreFlattenTyFamApp`
 - #17064: uniques for built in tyvars
-- #17011: level number bug?
 - #16442: bogus short cut for `:~:`
 - !1236: Typeable evidence for casts
 - #16995 flattening
