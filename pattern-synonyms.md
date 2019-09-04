@@ -286,24 +286,24 @@ brings the name `P` as a pattern synonym into the module-level scope.
 The pattern synonym `P` is assigned a *pattern type* of the form
 
 ```haskell
-pattern P :: CProv => CReq => t1 -> t2 -> ... -> tN -> t 
+pattern P :: CReq => CProv => t1 -> t2 -> ... -> tN -> t 
 ```
 
 
 where `t1`, ..., `tN` are the types of the parameters `var1`, ..., `varN`, `t` is the simple type (with no context) of the thing getting matched, and `CReq` and `CProv` are type contexts.
 
-`CReq` can be omitted if it is empty. If `CProv` is empty, but `CReq` is not, `()` is used. The following example shows cases:
+`CProv` can be omitted if it is empty. If `CReq` is empty, but `CProv` is not, `()` is used. The following example shows cases:
 
 ```haskell
 data Showable where
     MkShowable :: (Show a) => a -> Showable
 
--- Required context is empty
-pattern Sh :: (Show a) => a -> Showable
+-- Required context is empty, but provided context is not
+pattern Sh :: () => (Show a) => a -> Showable
 pattern Sh x <- MkShowable x
 
--- Provided context is empty, but required context is not
-pattern One :: () => (Num a, Eq a) => a
+-- Provided context is empty
+pattern One :: (Num a, Eq a) => a
 pattern One <- 1
 ```
 
@@ -336,7 +336,7 @@ pattern P x <- MkT (f -> True) x
 Here, the inferred type of `P` is
 
 ```haskell
-pattern P :: (Eq b) => (Show a) => b -> T a
+pattern P :: (Show a) => (Eq b) => b -> T a
 ```
 
 
