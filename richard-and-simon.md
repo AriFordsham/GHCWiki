@@ -31,6 +31,8 @@ These things are all either new features, or significant refactorings.  All aime
 
 We should be clear about the dependencies between items on this list.
 
+- [accepted GHC proposal 203](https://github.com/ghc-proposals/ghc-proposals/blob/8a2f26408decd4be7799179213b3d3416509eb18/proposals/0203-pointer-rep.rst), on levity polymorphism.   See #17126
+
 - Visible type abstraction: [Original proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0050-type-lambda.rst), modified [here](https://github.com/ghc-proposals/ghc-proposals/pull/238). Also Richard & Simon Slack 27 June 19.
 
 - #17131, #17113: levity polymorphism.
