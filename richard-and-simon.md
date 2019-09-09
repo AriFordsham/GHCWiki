@@ -21,6 +21,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - !1236: Typeable evidence for casts
 - #16995 flattening
 - #17021: return kinds
+- #16234: type family reduction
 - #16980: meta tyvar leakage in TH
 
 # Roadmap of new stuff we want to get done
