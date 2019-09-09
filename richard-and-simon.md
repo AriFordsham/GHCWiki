@@ -8,7 +8,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - !1657 out of scope vars:Fail eagerly on out of scope applied to type args.  SLPJ
 - Level numbers: !1132 and (new) #17077.
 - One tuples in HsSyn !1471: RAE
-- #16512: type checker loop with injective type families.  Anything to do with #17139?
+- #16512: type checker loop with injective type families.  Anything to do with #17139?  Or #15772
 
 
 # Tiresome bugs
