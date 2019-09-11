@@ -106,6 +106,8 @@ $ brew install autoconf automake python3 wget
 Install `gitlab-runner` according to
 <https://docs.gitlab.com/runner/install/osx.html>.
 
+Note that if a Darwin runner starts failing with mysterious crashes it may be that an operating system upgrade has occurred and XCode must be reinstalled (although we have no idea why)
+
 
 ## Windows configuration
 
