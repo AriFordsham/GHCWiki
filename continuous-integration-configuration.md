@@ -79,8 +79,9 @@ echo "@daily root docker system prune --all --force --volumes" | sudo tee /etc/c
    --registration-token REGISTRATION_TOKEN \
    --executor docker \
    --description "Docker-in-Docker runner" \
-   --docker-image "docker:stable" \
-   --docker-privileged
+   --docker-image "docker:19.03.1" \
+   --docker-privileged \
+   --docker-volumes "/certs/client"
 ```
 See <https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-executor>.
 
