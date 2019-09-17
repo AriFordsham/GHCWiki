@@ -197,6 +197,12 @@ The `ghc-arm-2` runner supports running ARMv7 containers.
 
 See the [Google Doc](https://docs.google.com/spreadsheets/d/1_UncQmtD5PkinLgq4DSB4Y5dy7PhOPPjPp6qnhZNA9w/edit#gid=0)
 
+## Updating bootstrap compiler
+
+To update the GHC version used as the bootstrap compiler there are a few places that need to be updated:
+
+ * for the Linux jobs: the binary distribution tarball URLs in the Dockerfiles in the ghc/ci-images> project need to be updated
+ * for the Darwin and Windows jobs: the `GHC_TARBALL` and `CABAL_TARBALL` variables in `.gitlab-ci.yml` in the ghc/ghc> project need to be updated.
 
 ## Head.hackage builds
 
