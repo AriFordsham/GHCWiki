@@ -201,7 +201,9 @@ See the [Google Doc](https://docs.google.com/spreadsheets/d/1_UncQmtD5PkinLgq4DS
 
 To update the GHC version used as the bootstrap compiler there are a few places that need to be updated:
 
- * for the Linux jobs: the binary distribution tarball URLs in the Dockerfiles in the ghc/ci-images> project need to be updated
+ * for the Linux jobs update the `Dockerfile`s in the ghc/ci-images> project:
+    * Update the binary distribution tarball URLs
+    * Update the LLVM versions and tarball URLs (N.B. in the ARM and AArch64 case there are two relevant LLVM versions: the version needed by the bootstrap compiler and the version needed by GHC `master`).
  * for the Darwin and Windows jobs: the `GHC_TARBALL` and `CABAL_TARBALL` variables in `.gitlab-ci.yml` in the ghc/ghc> project need to be updated.
 
 ## Head.hackage builds
