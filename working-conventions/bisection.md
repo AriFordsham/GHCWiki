@@ -29,7 +29,7 @@ By default the script will clean the tree for every commit. While this is likely
 ## ghc-bisect.sh
 
 
-```
+```bash
 #!/bin/bash
 
 logs=/mnt/work/ghc/tickets/T13930/logs
