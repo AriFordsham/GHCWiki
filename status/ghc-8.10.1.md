@@ -1,7 +1,7 @@
 # GHC plans for 8.10.1
 
 
-This page is our road-map for what will be in 8.10
+This page is our road-map for what will be in GHC %8.10.1.
 
 
 If you believe your favorite thing belongs in this list, but isn't there, please yell.  If it's not in the road map, it probably won't get done.  Without a lot of support, many things in the road map won't get done either, so we need your help!
@@ -54,6 +54,6 @@ Below are the major highlights of the 8.10 series.
 
 See the %8.10.1 milestone.
 
-See also [GHC 8.10 tracking ticket](https://gitlab.haskell.org/ghc/ghc/issues/16704).
+See also [GHC 8.10 tracking ticket](https://gitlab.haskell.org/ghc/ghc/issues/17214).
 
 
