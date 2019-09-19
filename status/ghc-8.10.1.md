@@ -32,6 +32,10 @@ Below are the major highlights of the 8.10 series.
 - An improved code layout algorithm (!616) (@AndreasK)
 - Standalone kind signatures (!1438) (@int-index)
 
+### Runtime system
+
+ - A new low-latency garbage collector (!972) (@bgamari and @osa1)
+
 ### Build system and miscellaneous changes
 
 - [Reinstallable lib:ghc](https://mail.haskell.org/pipermail/ghc-devs/2017-July/014424.html)
