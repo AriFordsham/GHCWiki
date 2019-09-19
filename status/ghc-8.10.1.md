@@ -31,10 +31,13 @@ Below are the major highlights of the 8.10 series.
 
 - An improved code layout algorithm (!616) (@AndreasK)
 - Standalone kind signatures (!1438) (@int-index)
+- Fix exponential typechecking time for large rational numbers (#15646)
+- Ship stage1 libraries with HIE files (!1337)
 
 ### Runtime system
 
  - A new low-latency garbage collector (!972) (@bgamari and @osa1)
+ - Implement interfaces needed by [ghc-debug](https://github.com/bgamari/ghc-debug) (!1435)
 
 ### Build system and miscellaneous changes
 
