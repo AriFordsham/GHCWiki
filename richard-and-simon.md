@@ -3,13 +3,15 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 
 # Active agenda
 
-
+- Get rid of deep-skol and deep-inst.  Needs a new ticket.  See Slack.
+- Improve doc of `ir_inst`: #17173
 - TLKS: lots.  RAE to discuss with Vlad
 - !1657 out of scope vars:Fail eagerly on out of scope applied to type args.  SLPJ
 - Level numbers: !1132 and (new) #17077.
 - One tuples in HsSyn !1471: RAE
 - #16512: type checker loop with injective type families.  Anything to do with #17139?  Or #15772.   Seond bug in #17186.
 - Function result signatures.  [Accepted proposal #228](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0228-function-result-sigs.rst), and [proposed amendment #254](https://github.com/ghc-proposals/ghc-proposals/pull/254).  Something is not quite right.  [Typing rules here](https://gitlab.haskell.org/rae/haskell)
+
 
 
 # Tiresome bugs
