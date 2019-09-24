@@ -1,9 +1,3 @@
-# Subject: Commit access and MR approval policies
-
-  
-
-Hello GHCers,
-
 This is a proposal about the workflow for getting merge requests to land in GHC’s master branch. While it is the result of some discussion at GHC HQ, this is currently just a proposal: We would love to have your feedback.
 
 ## Background
