@@ -21,8 +21,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - #17064: uniques for built in tyvars
 - #16442: bogus short cut for `:~:`
 - !1236: Typeable evidence for casts
-- #16995 flattening
-- #17021: return kinds
+- #16995 flattening (!1496)
 - #16234: type family reduction
 - #16980: meta tyvar leakage in TH
 - #17225: infelicities in the pure unifier
