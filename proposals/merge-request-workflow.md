@@ -20,14 +20,11 @@ Furthermore, many merge requests languish in code review for extended periods of
 
 ## Dramatis personae
 
-Author
-: This is the person who contributes the patch
+- **Author:** This is the person who contributes the patch
 
-GHC contributors
-: One of GHC’s greatest strengths is its large group of willing developers. Almost all developers are volunteers. We want to do everything possible to make it as frictionless as possible for GHC contributors to help make GHC great.
+- **GHC contributors:** One of GHC’s greatest strengths is its large group of willing developers. Almost all developers are volunteers. We want to do everything possible to make it as frictionless as possible for GHC contributors to help make GHC great.
 
-GHC developers
-: are contributors who have a “Developer role” in GitLab. The difference is minor: being a developer is just a permissions thing; you can
+- **GHC developers** are contributors who have a “Developer role” in GitLab. The difference is minor: being a developer is just a permissions thing; you can
     
   - change the label on issues and MRs  
   - push a branch to the main GHC repo (but not the master or stable branches!)
@@ -35,8 +32,7 @@ GHC developers
 
   Any contributor who is making a MR should be a developer. (Note: in GitLab, only developers can edit a MR once it has been created; so to add an approver you must be a developer.)
 
-GHC maintainers
-: As GHC has become more mission critical to more companies, we have slowly built a small team of maintainers, whose actual day job is to look after GHC, its developers, and its ecosystem.
+- **GHC maintainers:** As GHC has become more mission critical to more companies, we have slowly built a small team of maintainers, whose actual day job is to look after GHC, its developers, and its ecosystem.
     
 
 ## The proposed new life cycle of an MR
@@ -156,14 +152,14 @@ It would be very unusual for the final sanity check to prove to be a show stoppe
 
 ## FAQ
 
-How can an author know when his/her MR moves to “Post merge cleanup”?
-: Easy: here is a URL that searches for MRs that have the “post-merge cleanup” label and “Fred” as the author: show url
+- **How can an author know when his/her MR moves to “Post merge cleanup”?**
+  Easy: here is a URL that searches for MRs that have the “post-merge cleanup” label and “Fred” as the author: show url
     
-Do I need to change Assignee as well as the Label on a MR?
-: No: changing the label is enough.
+- **Do I need to change Assignee as well as the Label on a MR?**
+ No: changing the label is enough.
     
-What about back-porting to the most recent release branch. Who decides? Who is responsible?
-: The author is responsible for raising their patch with the release manager (`@ghc/release`)  
+- **What about back-porting to the most recent release branch. Who decides? Who is responsible?**
+  The author is responsible for raising their patch with the release manager (`@ghc/release`)  
     
 
 ## Conclusion
@@ -200,3 +196,7 @@ Finally, the MR can be added to the merge queue by assigning to `@marge-bot`
  - Respond to backport requests from contributors by:
    - If backporting is appropriate then set the backported MR's milestone appropriately and apply the `~"backport needed"` label
    - If backporting is not appropriate then explain this to the author.
+
+
+
+
