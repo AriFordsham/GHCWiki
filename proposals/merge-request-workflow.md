@@ -97,7 +97,9 @@ Here a maintainer will have a final look at the MR:
     
 7.  Does it pass the Final MR Sanity Check? See the eponymous section below.
 
-The final review is not a complete code review: it’s a quick process review. Think of it as a human version of the CI testing that every MR must pass. Moreover, it should not impose significant delay: within one working day a maintainer should either put it in the merge queue, or else push back explicitly with a comment.
+The final review is *not a complete code review*: it’s a quick process review. Think of it as a human version of the CI testing that every MR must pass.  It should take the maintainer no more than 10 or 15 minutes.
+
+Moreover, the final review should not impose significant delay: within one working day a maintainer should either put it in the merge queue, or else push it back into the "Techincal Review" stage with a comment.  Such a push-back does not imply that the MR is bad; only that for some reason it is not quite ready, and inviting the author to address the concern.
 
 Finally the maintainer will add the MR to the merge queue (currently Marge) and add the ~”MR::3-in merge queue” label.
 
