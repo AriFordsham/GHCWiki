@@ -21,10 +21,11 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - #17064: uniques for built in tyvars
 - #16442: bogus short cut for `:~:`
 - !1236: Typeable evidence for casts
-- #16995 flattening (!1496)
 - #16234: type family reduction
 - #16980: meta tyvar leakage in TH
 - #17225: infelicities in the pure unifier
+- #16835: Typeable evidence for casts
+- #16980: metavarialbe leakage in TH
 
 # Roadmap of new stuff we want to get done
 
