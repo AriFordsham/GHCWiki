@@ -17,6 +17,7 @@ Added LANGUAGE extensions:
 
 - `[No]CUSKs`
 - `[No]ImportQualifiedPost`
+- `[No]StandaloneKindSignatures`
 - `[No]UnliftedNewtypes`
 
 
