@@ -5,6 +5,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 
 - Get rid of deep-skol and deep-inst.  Needs a new ticket.  See Slack.
 - #17024: `anyRewritableTyVar` and related gubbins
+- #16726: document conclusions
 - Improve doc of `ir_inst`: #17173
 - TLKS: lots.  RAE to discuss with Vlad
 - !1657 out of scope vars:Fail eagerly on out of scope applied to type args.  SLPJ
