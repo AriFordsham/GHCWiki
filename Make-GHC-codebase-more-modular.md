@@ -90,7 +90,7 @@ Proposals by @simonpj and @rae:
     * If a distinction for "passes" is to be made, I would prefer something like `GHC.Core.Pass.XY` (2 years ago I suggested we should make the distinction between GHC.Core.{Syntax,Analyzers,Transformers} but it was deemed too verbose, which it is indeed).
 
 * Add top-level GHC.Parse, GHC.Rename, GHC.Typecheck
-    * Same argument from me: these modules operate on the "Hs" representation so to me it makes more put them under `GHC.Hs`:
+    * Same argument from me: these modules operate on the "Hs" representation so to me it makes more sense put them under `GHC.Hs`:
         * GHC.Hs.Parser: similar to other IR which have a parser
         * GHC.Hs.{Rename,Typecheck}
         * We can even extract `GHC.Hs.Derive` from the current type-checker
