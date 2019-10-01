@@ -93,7 +93,7 @@ Proposals by @simonpj and @rae:
     * Same argument from me: these modules operate on the "Hs" representation so to me it makes more put them under `GHC.Hs`:
         * GHC.Hs.Parser: similar to other IR which have a parser
         * GHC.Hs.{Rename,Typecheck}
-        * Even extract `GHC.Hs.Derive` from the current type-checker
+        * We can even extract `GHC.Hs.Derive` from the current type-checker
 
 Reduce the dependencies on DynFlags
 -----------------------------------
@@ -102,19 +102,19 @@ DynFlags is a huge (mutable) datatype that is passed to many functions in the co
 
 ```
 -- in GHC.StgToCmm.Options
-class HasStgToCmmOptions a where
+class HasOptions a where
    stgToCmmXXX :: Bool
    ...
 
-data StgToCmmOptions = StgToCmmOptions
+data Options = Options
    { _stgToCmmXXX :: Bool
    , ...
    }
 
-stgToCmm :: HasStgToCmmOptions a => a -> Stg -> Cmm
+stgToCmm :: HasOptions a => a -> Stg -> Cmm
 
 -- in GHC.Driver.Options
-instance HasStgToCmmOptions DynFlags where
+instance StgToCmm.HasOptions DynFlags where
    ...
 
 ```
