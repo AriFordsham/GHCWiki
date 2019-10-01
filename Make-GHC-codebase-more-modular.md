@@ -47,6 +47,54 @@ Goals:
 * Ensure that each IR can be used independently from the others
 * Improve the generated Haddocks (table of contents reflecting the hierarchy)
 
+Proposed hierarchy:
+```
+-- IRs
+GHC.Hs
+GHC.Core
+GHC.Stg
+GHC.Cmm
+GHC.Iface
+GHC.Bytecode
+GHC.Llvm
+
+-- Compilers
+GHC.HsToCore
+GHC.CoreToStg
+GHC.StgToCmm
+GHC.CmmToAsm
+GHC.CmmToC
+GHC.CmmToLlvm
+GHC.CoreToIface
+GHC.CoreToBytecode
+
+GHC.Driver: pipeline driver (Backpack, Finder, Main, Make, MakeDepend, etc.)
+GHC.Program: command-line parsing, GHCi UI, etc.
+
+-- shared stuff
+GHC.Builtins: primops, etc.
+GHC.Data: data structures (Bag, Graph, FiniteMap, EnumSet, etc.)
+GHC.Common (Id, Name, etc.)
+GHC.{Runtime/Interactive}: interactive evaluation stuff (Debugger, Eval, etc.)
+GHC.Plugin
+GHC.Utils: SysTools, IO stuff, Outputable, etc.
+GHC.Platform: platform description (register mapping, word-size, etc.)
+GHC.Config: Constants, DynFlags, etc.
+```
+
+Proposals by @simonpj and @rae:
+
+* Add top-level modules for IR internal transformations (e.g. GHC.CoreToCore, GHC.StgToStg).
+    * I don't understand the principle that would suggest putting these operations into specific top-level modules. As a counter example, "Subst" is also a Core-to-Core transformation but doesn't really belong in GHC.CoreToCore (or does it?).
+    *  By the "top-level module ~ package" analogy above, I would prefer if they were under the IR they operate on (GHC.Core, GHC.Stg, etc.). It is less verbose and it is obvious that modules under GHC.XX operate on XX.
+    * If a distinction for "passes" is to be made, I would prefer something like `GHC.Core.Pass.XY` (2 years ago I suggested we should make the distinction between GHC.Core.{Syntax,Analyzers,Transformers} but it was deemed too verbose, which it is indeed).
+
+* Add top-level GHC.Parse, GHC.Rename, GHC.Typecheck
+    * Same argument from me: these modules operate on the "Hs" representation so to me it makes more put them under `GHC.Hs`:
+        * GHC.Hs.Parser: similar to other IR which have a parser
+        * GHC.Hs.{Rename,Typecheck}
+        * Even extract `GHC.Hs.Derive` from the current type-checker
+
 Reduce the dependencies on DynFlags
 -----------------------------------
 
