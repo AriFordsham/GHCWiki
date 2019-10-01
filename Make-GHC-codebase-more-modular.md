@@ -76,5 +76,8 @@ Make the compiler as pure as possible
 -------------------------------------
 
 * IR-to-IR should callback into the driving code to perform IO (e.g. when they need an interface to be loaded). They can return a continuation to resume their work.
-* Don't assume that a filesystem is present (i.e. make the Finder configurable, like Java's class loaders). It will make life easier for IDEs.
+* Don't assume that a filesystem is present
+    * Abstract file loading (i.e. make the Finder configurable, like Java's class loaders).
+    * Abstract error reporting and logging (i.e. pluggable Logger)
+    * It will make life easier for IDEs and other frontends.
 * Support multi-sessions (#10827)
