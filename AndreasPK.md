@@ -66,4 +66,4 @@ Both are related to #16970, implementing #16970 will also fix both of these.
 
 ### Other smaller issues:
 
-See the issues tagged with [`pointer tagging` on the tracker](https://gitlab.haskell.org/ghc/ghc/issues?scope=all&utf8=%E2%9C%93&state=opened&label_name[]=runtime%20perf).
+See the issues tagged with [`pointer tagging` on the tracker](https://gitlab.haskell.org/ghc/ghc/issues?scope=all&utf8=%E2%9C%93&state=opened&label_name[]=pointer%20tagging).
