@@ -23,13 +23,19 @@ https://gitlab.haskell.org/ghc/ghc/issues/9660 - After/During tag inference
 * Register allocator improvements: #7063, #8048, #12232, #13051, #16243
 * Avoid certain stack checks: https://gitlab.haskell.org/ghc/ghc/issues/17092
 
-* #17238 Cmm Lookup tables
 * #9342 - Branchless Int operations
 * #17237 Cmm FloatOut - Put shared cmm statements into the common path
 * #17238 Generate lookup instead of jump tables
-
+* #17242 Use dataToTag# for Eq instances
+* #17240 Code duplication for code evaluating arguments.
 
 Most things [runtime performance related](https://gitlab.haskell.org/ghc/ghc/issues?scope=all&utf8=%E2%9C%93&state=opened&label_name[]=runtime%20perf)
+
+### Out of the above these have likely bounded time requirements
+
+* #17242 Use dataToTag# for Eq instances
+* #9342 - Branchless Int operations
+* #17238 Generate lookup instead of jump tables
 
 ### Regressions worth looking into
 
