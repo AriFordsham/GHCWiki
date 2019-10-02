@@ -35,7 +35,9 @@ We would like to introduce the following module prefixes:
 
 ![ghc_modules.svg](uploads/7917b1fb147a3d9c16b9c405e999c560/ghc_modules.svg)
 
-The boxes are the GHC.XXX top-level module prefixes. The arrows indicate allowed dependencies between groups of modules.
+The boxes are the GHC.XXX top-level module prefixes. For example, the box `Hs` stands for a module `GHC.Hs` and a collection of sub-module (e.g. `GHC.Hs.Pat`, `GHC.Hs.Expr` etc)
+
+The arrows indicate allowed dependencies between groups of modules.
 
 Principles:
 * Consider top-level modules GHC.XXX as if they were from independent packages
@@ -58,7 +60,7 @@ GHC.Iface
 GHC.Bytecode
 GHC.Llvm
 
--- Compilers
+-- Compilers, fron one IR to another
 GHC.HsToCore
 GHC.CoreToStg
 GHC.StgToCmm
