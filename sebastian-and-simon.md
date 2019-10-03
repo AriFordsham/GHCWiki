@@ -6,6 +6,9 @@ Those with an MR actually have code.
 
 - !1765: Preserve non-void constraints  
   - Should not remove inhabitation candidate stuff just yet, newtypes...
+
+- !1851: refactoring `PmPat`.
+
 - `data TmCt = ...`
 - ```
   data ClauseCoverage = Redundant | Matched RhsAccessibility
