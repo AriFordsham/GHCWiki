@@ -33,6 +33,9 @@ Below are the major highlights of the 8.10 series.
 - Standalone kind signatures (!1438) (@int-index)
 - Fix exponential typechecking time for large rational numbers (#15646)
 - Ship stage1 libraries with HIE files (!1337)
+- Tagging of large constructor families (#14373, !1742)
+- Don't emit custom TypeErrors that appear as given constraints (!1730)
+- Internal module hierarchy reorganization (#13009)
 
 ### Runtime system
 
