@@ -9,7 +9,8 @@ Those with an MR actually have code.
 
 - !1851: refactoring `PmPat`.
 
-- `data TmCt = ...`
+- `data PmCt = TyCt .. | TmCt ...`; then `addPmCt :: Delta -> PmCt -> DsM Delta`
+
 - ```
   data ClauseCoverage = Redundant | Matched RhsAccessibility
   data RhsAccessibility = RhsInaccessible | RhsAccessable
