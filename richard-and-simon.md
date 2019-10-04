@@ -116,6 +116,8 @@ We should be clear about the dependencies between items on this list.
 
 - #15479: refactoring `tcHsType` (Simon is not 100% convinced)
 
+- #17291: coercions are not expressions, and coercion variables are not Ids.
+
 # I'm unsure of the status of these things
 
 - (May 18) #14040, which I think is not fixed.  But it’s somehow linked to #15076.  And that in turn is caused by #14880.  Which Richard has a patch for that doesn’t quite work yet.  And the fix might cure #14887
