@@ -14,6 +14,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - One tuples in HsSyn !1471: RAE
 - #16512: type checker loop with injective type families.  Anything to do with #17139?  Or #15772.   Seond bug in #17186.
 - Function result signatures.  [Accepted proposal #228](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0228-function-result-sigs.rst), and [proposed amendment #254](https://github.com/ghc-proposals/ghc-proposals/pull/254).  Something is not quite right.  [Typing rules here](https://gitlab.haskell.org/rae/haskell)
+- Singletonised Outputable (RAE making a ticket); and eliminate `(a ~ GhcPass p)` constraints #17304
 
 
 
