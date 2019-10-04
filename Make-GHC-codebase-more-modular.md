@@ -33,7 +33,7 @@ Make the pipeline apparent in the module hierarchy (#13009)
 
 We would like to introduce the following module prefixes:
 
-![ghc_modules.svg](uploads/7917b1fb147a3d9c16b9c405e999c560/ghc_modules.svg)
+![ghc_modules.svg](uploads/db1b2a8fa23301b897a3e6f16dcefbab/ghc_modules.svg)
 
 The boxes are the GHC.XXX top-level module prefixes. For example, the box `Hs` stands for a module `GHC.Hs` and a collection of sub-module (e.g. `GHC.Hs.Pat`, `GHC.Hs.Expr` etc)
 
@@ -61,6 +61,8 @@ GHC.Bytecode
 GHC.Llvm
 
 -- Compilers, fron one IR to another
+GHC.Rename      -- Note that both the renamer and the typechecker work on the Hs representation
+GHC.Typecheck   -- but with a different type index (GhcPs, GhcRn, GhcTc)
 GHC.HsToCore
 GHC.CoreToStg
 GHC.StgToCmm
@@ -91,11 +93,6 @@ Proposals by @simonpj and @rae:
     *  By the "top-level module ~ package" analogy above, I would prefer if they were under the IR they operate on (GHC.Core, GHC.Stg, etc.). It is less verbose and it is obvious that modules under GHC.XX operate on XX.
     * If a distinction for "passes" is to be made, I would prefer something like `GHC.Core.Pass.XY` (2 years ago I suggested we should make the distinction between GHC.Core.{Syntax,Analyzers,Transformers} but it was deemed too verbose, which it is indeed).
 
-* Add top-level GHC.Parse, GHC.Rename, GHC.Typecheck
-    * Same argument from me: these modules operate on the "Hs" representation so to me it makes more sense put them under `GHC.Hs`:
-        * GHC.Hs.Parser: similar to other IR which have a parser
-        * GHC.Hs.{Rename,Typecheck}
-        * We can even extract `GHC.Hs.Derive` from the current type-checker
 
 Reduce the dependencies on DynFlags
 -----------------------------------
