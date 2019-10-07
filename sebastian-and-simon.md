@@ -6,7 +6,8 @@ Those with an MR actually have code.
 
 - !1851: refactoring `PmPat`.
 
-- Clean up `provideEvidenceForEquation`, define `ensureInhabited delta = null <$> provideEvidenceForEquation 1 delta`
+- Clean up `provideEvidenceForEquation`, define `ensureInhabited delta = null <$> provideEvidenceForEquation 1 delta`  
+  - Apparently, `provideEvidenceForEquation` currently assumes that every COMPLETE set is inhabited, and thus implicitly assumes that `ensureInhabited` is true for that data type. So we can't actually just re-define on in terms of the other just yet.
 
 - !1765: Preserve non-void constraints  
   - Should not remove inhabitation candidate stuff just yet, newtypes...
