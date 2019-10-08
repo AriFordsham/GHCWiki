@@ -17,6 +17,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - Function result signatures.  [Accepted proposal #228](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0228-function-result-sigs.rst), and [proposed amendment #254](https://github.com/ghc-proposals/ghc-proposals/pull/254).  Something is not quite right.  [Typing rules here](https://gitlab.haskell.org/rae/haskell)
 - Singletonised Outputable (RAE making a ticket); and eliminate `(a ~ GhcPass p)` constraints #17304
 - [Data/data family return kinds](https://gitlab.haskell.org/ghc/ghc/issues/17021#note_227290) eg #17021
+- #17323: the PKTI is not good enough
 
 
 
