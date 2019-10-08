@@ -34,10 +34,9 @@ requests will help avoid these preventable stalls.
 
 - **GHC developers** are contributors who have a “Developer role” in GitLab.
   The difference is minor: being a developer is just a permissions thing; you can
-    
+
   - change the label on issues and MRs  
   - push a branch to the main GHC repo (but not the master or stable branches!)
-    
 
   Any contributor who is making a MR should be a developer. (Note: in GitLab,
   only developers can edit a MR once it has been created; so to add an
@@ -55,14 +54,15 @@ which step it is on; each MR will have exactly one such label. Each label has a
 designated *owner* who is responsible for taking the next step on the MR.
 
   
-| Stage            | Label                    | Owner                | Reasonable latency expectation        |
-|------------------|--------------------------|----------------------|---------------------------------------|
-| Work in progress | No label                 | Author               | N/A                                   |
-| Under review     | ~"MR::1-under review"    | Author               | A week to a few months |
-| Ready to merge   | ~"MR::2-ready for merge" | Maintainers          | One working day |
-| In merge queue   | ~"MR::3-in merge queue"  | CI infrastructure    | One working day |
-| Merged           | ~"MR::4-merged"          | Author (post-merge clean-up) | |
-| Backporting      | ~"backport needed"       | Maintainer or author | A few weeks |
+| Stage            | Label                    | Owner                        | Reasonable latency expectation        |
+|------------------|--------------------------|------------------------------|---------------------------------------|
+| Work in progress | No label                 | Author                       | N/A                                   |
+| Under review     | ~"MR::1-under review"    | Author                       | A week to a few months                |
+| Ready to merge   | ~"MR::2-ready for merge" | Maintainers                  | One working day                       |
+| In merge queue   | ~"MR::3-in merge queue"  | CI infrastructure            | One working day                       |
+| Merged           | ~"MR::4-merged"          | Author (post-merge clean-up) |                                       |
+| Backporting      | ~"backport needed"       | Maintainer or author         | A few weeks                           |
+
 
 The steps involved are as follows:
 
@@ -151,13 +151,15 @@ Here a maintainer will have a final look at the MR:
 6. Does the MR regress performance (of the compiler, or of compiled code)
    significantly?
     
-7. Does it pass the Final MR Sanity Check? See the eponymous section below.
+7. Does it pass the Final MR sanity Check? See the [Final MR sanity check
+   details](#final-mr-sanity-check-details) section below.
 
 The final review is *not a complete code review*: it’s a quick process review.
 Think of it as a human version of the CI testing that every MR must pass.  It
 should take the maintainer no more than 10 or 15 minutes and should very rarely
-be a show-stopper. See the "Final MR Sanity check details" section at the end
-of this document for details on what this review entails.
+be a show-stopper. See the [Final MR Sanity check
+details](#final-mr-sanity-check-details) section at the end of this document
+for details on what this review entails.
 
 The final review should not impose significant delay: within one
 working day a maintainer should either put it in the merge queue, or else push
@@ -247,6 +249,7 @@ is merged to the tree.
 Cheers,
 
 > Ben
+
 
 
 # Appendix
