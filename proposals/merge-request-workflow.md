@@ -2,6 +2,7 @@ This is a proposal about the workflow for getting merge requests to land in
 GHC’s master branch. While it is the result of some discussion at GHC HQ, this
 is currently just a proposal: We would love to have your feedback.
 
+
 ## Background
 
 In the past years GHC has grown to be relied on by more and more users,
@@ -20,6 +21,7 @@ of time; while this is sometimes due to the unavoidable difficulty of finding
 reviewers, there are often delays due to MRs falling through the procedural
 cracks. We think that a more systematic way of tracking the state of merge
 requests will help avoid these preventable stalls.
+
 
 ## Dramatis personae
 
@@ -55,7 +57,7 @@ designated *owner* who is responsible for taking the next step on the MR.
   
 | Stage            | Label                    | Owner                | Reasonable latency expectation        |
 |------------------|--------------------------|----------------------|---------------------------------------|
-| Work in progress | None                     | Author               | N/A                                   |
+| Work in progress | No label                 | Author               | N/A                                   |
 | Under review     | ~"MR::1-under review"    | Author               | A week to a few months |
 | Ready to merge   | ~"MR::2-ready for merge" | Maintainers          | One working day |
 | In merge queue   | ~"MR::3-in merge queue"  | CI infrastructure    | One working day |
@@ -64,10 +66,11 @@ designated *owner* who is responsible for taking the next step on the MR.
 
 The steps involved are as follows:
 
-## 1. Post a WIP Merge Request
 
-**Label:** None
-**Owner:** Author  
+### 1. Post a WIP Merge Request
+
+ - **Label:** No label
+ - **Owner:** Author  
 
 To start the process off, the author creates a merge request (MR). They can do
 so as early as they desire; contributors are encouraged to create MRs early to
@@ -75,10 +78,10 @@ serve as a collecting-point for early feedback. Such work-in-progress MRs
 should be marked with the `WIP:` prefix in the merge request title.
 
 
-## 2. Technical review
+### 2. Technical review
 
-**Label:** ~"MR::1-under review"
-**Owner**: Author  
+ - **Label:** ~"MR::1-under review"
+ - **Owner**: Author  
 
 When the the author feels that the patch is ready it is their responsibility to
 identify an appropriate set of approvers; this is the group of
@@ -105,7 +108,7 @@ contributions to the review process
 
 Reviewers can use the "Approve" button to indicate they are happy with the MR.
 In a long thread, this is a useful way for a well-informed reviewer to indicate
-“this is good to go”. Additionally, developers are encouraged to edit the MR to
+"this is good to go". Additionally, developers are encouraged to edit the MR to
 add additional approvers that they think could offer input.
    
 When contributor believes that the MR is ready to go -- has had an appropriate
@@ -118,10 +121,10 @@ If more than two weeks pass without comment from an MR’s approvers the author
 is encouraged to leave a comment reminding the reviewers of the pending review.  
   
 
-## 3.  **Final review**
+### 3. **Final sanity check**
  
-**Label:** ~"MR::2-ready for merge"
-**Person responsible:** GHC Maintainers  
+ - **Label:** ~"MR::2-ready for merge"
+ - **Person responsible:** GHC Maintainers  
 
 Here a maintainer will have a final look at the MR:
 
@@ -152,9 +155,11 @@ Here a maintainer will have a final look at the MR:
 
 The final review is *not a complete code review*: it’s a quick process review.
 Think of it as a human version of the CI testing that every MR must pass.  It
-should take the maintainer no more than 10 or 15 minutes.
+should take the maintainer no more than 10 or 15 minutes and should very rarely
+be a show-stopper. See the "Final MR Sanity check details" section at the end
+of this document for details on what this review entails.
 
-Moreover, the final review should not impose significant delay: within one
+The final review should not impose significant delay: within one
 working day a maintainer should either put it in the merge queue, or else push
 it back into the "Techincal Review" stage with a comment.  Such a push-back
 does not imply that the MR is bad; only that for some reason it is not quite
@@ -163,19 +168,21 @@ ready, and inviting the author to address the concern.
 Finally the maintainer will add the MR to the merge queue (currently Marge) and
 add the ~"MR::3-in merge queue" label.
 
-## 4.  In merge queue.  
 
-**Label:** ~"MR::3-in merge queue"
-**Person responsible:** Marge Bot, or maintainers if things get stuck  
+### 4. **In merge queue**
+
+ - **Label:** ~"MR::3-in merge queue"
+ - **Person responsible:** @marge-bot, or maintainers if things get stuck  
 
 After being merged the MR will be assigned the ~"MR::4-merged" label. Ideally,
 adding this label will be part of Marge’s remit. (After Marge is retired
 in favor of GitLab’s official solution, update accordingly.)  
 
-## 5. Post-merge cleanup:  
 
-**Label:** ~"MR::4-merged"
-**Person responsible:** Author  
+### 5. **Post-merge cleanup**
+
+ - **Label:** ~"MR::4-merged"
+ - **Person responsible:** Author  
 
 After the MR has been merged, it is the author’s responsibility to have a final
 look over the MR to deal with any related issues. For example
@@ -195,10 +202,10 @@ When this step is done, change the label to ~"MR:5-completed" and close the
 MR.
 
 
-## 6. Backporting:
+### 6. **Backporting**
 
-**Label:** ~"backport needed"
-**Person responsible:** Maintainer or contributor
+ - **Label:** ~"backport needed"
+ - **Person responsible:** Maintainer or contributor
 
 If desired, the contributor can request that the release manager backports a
 patch to the stable branch. If the release manager agrees that backporting is
@@ -208,33 +215,20 @@ or the patch contributor). Once such an MR is created the ~"backport needed"
 label can be removed.
 
 
-# Rationale for the Final MR Sanity Check
-
-Every MR that lands in GHC adds a permanent joy or burden to subsequent
-developers. Moreover, for very good reasons, contributors come and go, so it’s
-essential that every MR is comprehensible and maintainable to people other than
-its author, far into the future.
-
-In the end, the maintainers get to pick up the pieces, so it makes sense to get
-them to do a final sanity check. Otherwise it would be possible for a couple of
-enthusiastic and well-meaning developers to get stuff into GHC, perhaps barely
-noticed by others, that gives us later pain. The criteria here are deliberately
-vague. The final-review step just give the maintainers an opportunity to start
-a conversation about any aspect of a MR that gives them cause for concern.
-
-It would be very unusual for the final sanity check to prove to be a show
-stopper.
-
 ## FAQ
 
 - **How can an author know when his/her MR moves to "Post merge cleanup"?**
+
   Easy: here is a URL that searches for MRs that have the "post-merge cleanup"
   label and "Fred" as the author: show url
     
 - **Do I need to change Assignee as well as the Label on a MR?**
+
   No: changing the label is enough.
     
-- **What about back-porting to the most recent release branch. Who decides? Who is responsible?**
+- **What about back-porting to the most recent release branch. Who decides? Who
+  is responsible?**
+
   The author is responsible for raising their patch with the release manager
   (`@ghc/release`)  
     
@@ -251,39 +245,45 @@ ensures that we have a clearly identified group responsible for overseeing what
 is merged to the tree.
 
 Cheers,
--   Ben
+
+> Ben
 
 
+# Appendix
 
-## Maintainer responsibilities
+## Final MR sanity check details
 
-- Once a day check for issues with the ~"needs triage" label. For each issue
-  follow the [ticket triage
-  protocol](https://gitlab.haskell.org/ghc/ghc/wikis/gitlab/issues#triage-protocol)
-    
-- Once a day check for merge requests in ~"MR::1-under review" state but
-  lacking reviewers.
-    
-- Once a day check for merge requests with the ~"MR::2-ready for merge"
-  label: For each MR follow the final review protocol
+Every MR that lands in GHC adds a permanent joy or burden to subsequent
+developers. Moreover, for very good reasons, contributors come and go, so it’s
+essential that every MR is comprehensible and maintainable to people other than
+its author, far into the future.
 
-### Final review protocol
+In the end, the maintainers get to pick up the pieces, so it makes sense to get
+them to do a final sanity check. Otherwise it would be possible for a couple of
+enthusiastic and well-meaning developers to get stuff into GHC, perhaps barely
+noticed by others, that gives us later pain. The criteria here are deliberately
+vague. The final-review step just give the maintainers an opportunity to start
+a conversation about any aspect of a MR that gives them cause for concern.
 
-Final review is to be performed by a maintainer and represents the last set of
-checks which a merge request will be subject to before it is merged. This
-includes:
+The final review checks will include:
 
-1.  Verify that the MR’s milestone is set to the release in which the change will first appear
-2.  Verify that the MR’s labels are set appropriately
-3.  Verify that the change is adequately documented in the users’ guide
-4.  Verify that the change is mentioned in the target release’s release notes, if appropriate
-5.  Verify that the changelogs of any affected core libraries mention the change
-
-Finally, the MR can be added to the merge queue by assigning to @marge-bot
-
-## Release manager responsibilities
-
- - Respond to backport requests from contributors by:
-   - If backporting is appropriate then set the backported MR's milestone appropriately and apply the ~"backport needed" label
-   - If backporting is not appropriate then explain this to the author.
+ * Are the commits logically structure? Are their commit messages descriptive?
+ * Are ticket numbers referenced as appropriate?
+ * Is a GHC release notes entry included (e.g. `docs/users_guide/*-notes.rst`)?
+ * Have changelog entries been added to any changed packages (e.g.
+   `libraries/*/changelog.md`)?
+ * Has a test case been added?
+ * Milestone and labels set as appropriate
+ * Does the patch add a significant new user-facing feature to GHC? If so
+   perhaps a GHC proposal is in order.
+ * Does the patch change GHC's core libraries (e.g. `base`, `template-haskell`,
+   `ghc-prim`)? If so:
+   * Has the core libraries committee consented?
+   * Has the user-facing label been applied?
+   * Has the `head.hackage` job been run to characterise the effect of the
+     change on user code?
+   * Changelog and release notes entries are mandatory
+   * Have package versions been bumped as appropriate?
+   * Has an entry been added to the next release's migration guide? If not, ask
+     the author to do so.
 
