@@ -1,5 +1,5 @@
 This is a proposal about the workflow for getting merge requests to land in
-GHC’s master branch. While it is the result of some discussion at GHC HQ, this
+GHC's master branch. While it is the result of some discussion at GHC HQ, this
 is currently just a proposal: We would love to have your feedback.
 
 
@@ -111,48 +111,21 @@ In a long thread, this is a useful way for a well-informed reviewer to indicate
 "this is good to go". Additionally, developers are encouraged to edit the MR to
 add additional approvers that they think could offer input.
    
-When contributor believes that the MR is ready to go -- has had an appropriate
-level of review and approvers -- the contributor will add the
-~"MR::2-ready for merge" label, moving the MR to the next phase of review.
-(N.B. Step 3b, below, affirms that the maintainer agrees with the contributor’s
-judgment).
+When contributor believes that the MR is ready to go — has had an appropriate
+level of review and approvers — the contributor will add the
+~"MR::2-ready for merge" label, moving the MR to the [Final check
+phase](#3-final-sanity-check)
 
 If more than two weeks pass without comment from an MR’s approvers the author
 is encouraged to leave a comment reminding the reviewers of the pending review.  
   
 
-### 3. **Final sanity check**
+### 3. Final sanity check
  
  - **Label:** ~"MR::2-ready for merge"
  - **Person responsible:** GHC Maintainers  
 
-Here a maintainer will have a final look at the MR:
-
-1. If it makes a user-facing change to GHC, has a [GHC
-   Proposal](https://gitlab.haskell.org/ghc/homepage/tree/master/blog) been
-   accepted? If it makes a change that would affect downstream tooling, has that
-   been discussed with the affected downstream users?
-    
-2. Has appropriate code review taken place, with appropriate reviewers?
-   ("Appropriate" because fixing a spelling error in a comment requires no review
-   and no approvers, whereas a pervasive change to the type system would deserve
-   a lot of attention, and perhaps several approvals).
-    
-3. Has the documentation (GHC user manual) and core libraries’ changelogs been
-   updated appropriately?
-    
-4. Have the milestone and labels been set appropriately?
-    
-5. Has the MR been squashed into a single commit (or, if appropriate, a
-   sequence of independent commits), with a decent commit message? The goal is
-   that the commit log that ends up in master makes sense, rather than reflecting
-   the history of the MR’s development.
-    
-6. Does the MR regress performance (of the compiler, or of compiled code)
-   significantly?
-    
-7. Does it pass the Final MR sanity Check? See the [Final MR sanity check
-   details](#final-mr-sanity-check-details) section below.
+Here a maintainer will have a final look at the MR.
 
 The final review is *not a complete code review*: it’s a quick process review.
 Think of it as a human version of the CI testing that every MR must pass.  It
@@ -163,15 +136,15 @@ for details on what this review entails.
 
 The final review should not impose significant delay: within one
 working day a maintainer should either put it in the merge queue, or else push
-it back into the "Techincal Review" stage with a comment.  Such a push-back
-does not imply that the MR is bad; only that for some reason it is not quite
-ready, and inviting the author to address the concern.
+it back into the [Techincal Review](#2-technical-review) stage with a comment.
+Such a push-back does not imply that the MR is bad; only that for some reason
+it is not quite ready, and inviting the author to address the concern.
 
 Finally the maintainer will add the MR to the merge queue (currently Marge) and
 add the ~"MR::3-in merge queue" label.
 
 
-### 4. **In merge queue**
+### 4. In merge queue
 
  - **Label:** ~"MR::3-in merge queue"
  - **Person responsible:** @marge-bot, or maintainers if things get stuck  
@@ -181,7 +154,7 @@ adding this label will be part of Marge’s remit. (After Marge is retired
 in favor of GitLab’s official solution, update accordingly.)  
 
 
-### 5. **Post-merge cleanup**
+### 5. Post-merge cleanup
 
  - **Label:** ~"MR::4-merged"
  - **Person responsible:** Author  
@@ -204,7 +177,7 @@ When this step is done, change the label to ~"MR:5-completed" and close the
 MR.
 
 
-### 6. **Backporting**
+### 6. Backporting
 
  - **Label:** ~"backport needed"
  - **Person responsible:** Maintainer or contributor
