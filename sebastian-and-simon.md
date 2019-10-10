@@ -58,8 +58,7 @@ Those with an MR actually have code.
   - SG bets a smart `CoreMap` would do
 - Maybe pattern-match check typed TH quotations? SG doesn't think this is a good idea, because they might not even end up in that form in spliced code.
 - Can we check if a clause is uniform? E.g. can be moved around (more or less) freely, up or down.  
-  - I think we can, either by comparing the Covered set after having moved a clause up
-  - ... or probably better: Try moving up the clause and see if its new Covered set has a non-empty intersection (e.g. overlaps) with the clause that was previously there. Example:  
+  - I think we can, by trying to move up the clause and see if its new Covered set has a non-empty intersection (e.g. overlaps) with the clause that was previously there. Example:  
     ```haskell
     data T = A | B | C
     f (Just False) = ()
