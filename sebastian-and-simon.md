@@ -57,6 +57,18 @@ Those with an MR actually have code.
 - Think about how to fix "regression" in T11822  
   - SG bets a smart `CoreMap` would do
 - Maybe pattern-match check typed TH quotations? SG doesn't think this is a good idea, because they might not even end up in that form in spliced code.
+- Can we check if a clause is uniform? E.g. can be moved around (more or less) freely, up or down.  
+  - I think we can, either by comparing the Covered set after having moved a clause up
+  - ... or probably better: Try moving up the clause and see if its new Covered set has a non-empty intersection (e.g. overlaps) with the clause that was previously there. Example:  
+    ```haskell
+    data T = A | B | C
+    f (Just False) = ()
+    f Nothing      = ()
+    f (Just _)     = ()
+    ```
+    If we try to move the third clause up once, it covers the left over `Just True`. The second clause covers `Nothing`, so  the two clauses don't overlap. If we try to move up the third clause to the top, it suddenly covers `Just _`, which overlaps with `Just False` from the actual first clause. So we may switch second and third clause but not move the third clause to the top.
+  - This is very similar to redundancy checking, but in redundancy checking we see if we *completely* overlap the pattern. Here, we see if their Covered sets overlap *at all* instead of seeing if one completely covers the other.
+  - I suppose this also has tricky interactions with bottom. But our existing machinery should cover it.
 
 # Separate CPR
 
