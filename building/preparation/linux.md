@@ -37,7 +37,7 @@ For building the documentation: (User's Guide and Cabal guide):
 
 ```wiki
    # GHC > 7.10
-   sudo dnf install python-sphinx
+   sudo dnf install python3-sphinx
    # GHC <= 7.10
    sudo dnf install docbook-utils docbook-utils-pdf docbook-style-xsl
 ```
