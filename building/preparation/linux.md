@@ -100,7 +100,7 @@ For building the documentation (User's Guide):
 
 ```wiki
    # GHC > 7.10:
-   sudo apt-get install python-sphinx texlive-xetex texlive-fonts-recommended fonts-lmodern texlive-latex-recommended texlive-latex-extra
+   sudo apt-get install python3-sphinx texlive-xetex texlive-fonts-recommended fonts-lmodern texlive-latex-recommended texlive-latex-extra
    # GHC <= 7.10:
    sudo apt-get install dblatex docbook-xsl docbook-utils libxml2-utils texlive-font-utils
 ```
@@ -124,7 +124,7 @@ For [validating patches](testing-patches) :
 Install the [required tools](https://gitlab.haskell.org/trac/ghc/wiki/Building/Preparation/Tools):
 
 ```wiki
-   sudo pacman -S ghc ghc-static perl gcc make happy alex cabal-install autoconf automake python python-sphinx libedit numactl
+   sudo pacman -S ghc ghc-static perl gcc make happy alex cabal-install autoconf automake python python3-sphinx libedit numactl
 ```
 
 
