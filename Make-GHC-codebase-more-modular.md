@@ -576,13 +576,6 @@ GHC.Core.Unify <= types/Unify.hs
 ? <= utils/Util.hs
 ```
 
-Proposals by @simonpj and @rae:
-
-* Add top-level modules for IR internal transformations (e.g. GHC.CoreToCore, GHC.StgToStg).
-    * I don't understand the principle that would suggest putting these operations into specific top-level modules. As a counter example, "Subst" is also a Core-to-Core transformation but doesn't really belong in GHC.CoreToCore (or does it?).
-    *  By the "top-level module ~ package" analogy above, I would prefer if they were under the IR they operate on (GHC.Core, GHC.Stg, etc.). It is less verbose and it is obvious that modules under GHC.XX operate on XX.
-    * If a distinction for "passes" is to be made, I would prefer something like `GHC.Core.Pass.XY` (2 years ago I suggested we should make the distinction between GHC.Core.{Syntax,Analyzers,Transformers} but it was deemed too verbose, which it is indeed).
-
 
 Reduce the dependencies on DynFlags
 -----------------------------------
