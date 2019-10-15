@@ -86,8 +86,9 @@ GHC.Platform: platform description (register mapping, word-size, etc.)
 GHC.Config: Constants, DynFlags, etc.
 ```
 
+* Done (can still be modified):
+
 ```
--- Done (can still be modified)
 GHC.Hs.Binds <= GHC/Hs/Binds.hs
 GHC.Hs.Decls <= GHC/Hs/Decls.hs
 GHC.Hs.Doc   <= GHC/Hs/Doc.hs
@@ -106,8 +107,29 @@ GHC.HsToCore.PmCheck.Ppr <= GHC/HsToCore/PmCheck/Ppr.hs
 GHC.HsToCore.PmCheck.Types <= GHC/HsToCore/PmCheck/Types.hs
 GHC.Hs.Types <= GHC/Hs/Types.hs
 GHC.Hs.Utils <= GHC/Hs/Utils.hs
+```
 
---TODO
+* Renamer !1899:
+
+
+```
+GHC.Rename.Binds <= rename/RnBinds.hs
+GHC.Rename.Env <= rename/RnEnv.hs
+GHC.Rename.Expr <= rename/RnExpr.hs
+GHC.Rename.Fixity <= rename/RnFixity.hs
+GHC.Rename.Doc <= rename/RnHsDoc.hs
+GHC.Rename.Names <= rename/RnNames.hs
+GHC.Rename.Pat <= rename/RnPat.hs
+GHC.Rename.Source <= rename/RnSource.hs
+GHC.Rename.Splice <= rename/RnSplice.hs
+GHC.Rename.Types <= rename/RnTypes.hs
+GHC.Rename.Unbound <= rename/RnUnbound.hs
+GHC.Rename.Utils <= rename/RnUtils.hs
+```
+
+* TODO:
+
+```
 ? <= backpack/BkpSyn.hs
 ? <= backpack/DriverBkp.hs
 ? <= backpack/NameShape.hs
@@ -398,18 +420,6 @@ GHC.Hs.Utils <= GHC/Hs/Utils.hs
 ? <= profiling/CostCentre.hs
 ? <= profiling/CostCentreState.hs
 ? <= profiling/ProfInit.hs
-? <= rename/RnBinds.hs
-? <= rename/RnEnv.hs
-? <= rename/RnExpr.hs
-? <= rename/RnFixity.hs
-? <= rename/RnHsDoc.hs
-? <= rename/RnNames.hs
-? <= rename/RnPat.hs
-? <= rename/RnSource.hs
-? <= rename/RnSplice.hs
-? <= rename/RnTypes.hs
-? <= rename/RnUnbound.hs
-? <= rename/RnUtils.hs
 ? <= simplCore/CallArity.hs
 ? <= simplCore/CoreMonad.hs
 ? <= simplCore/CSE.hs
