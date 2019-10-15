@@ -215,9 +215,51 @@ GHC.Core.Unify <= types/Unify.hs
 
 ```
 
+Cmm:
+
+```
+GHC.Cmm.BlockId <= cmm/BlockId.hs
+GHC.Cmm.CLabel <= cmm/CLabel.hs
+GHC.Cmm.BuildInfoTables <= cmm/CmmBuildInfoTables.hs
+GHC.Cmm.CallConv <= cmm/CmmCallConv.hs
+GHC.Cmm.CommonBlockElim <= cmm/CmmCommonBlockElim.hs
+GHC.Cmm.ContFlowOpt <= cmm/CmmContFlowOpt.hs
+GHC.Cmm.Expr <= cmm/CmmExpr.hs
+GHC.Cmm <= cmm/Cmm.hs
+GHC.Cmm.Switch.Implement <= cmm/CmmImplementSwitchPlans.hs
+GHC.Cmm.Info <= cmm/CmmInfo.hs
+GHC.Cmm.LayoutStack <= cmm/CmmLayoutStack.hs
+GHC.Cmm.Lint <= cmm/CmmLint.hs
+GHC.Cmm.Liveness <= cmm/CmmLive.hs
+GHC.Cmm.MachOp <= cmm/CmmMachOp.hs
+GHC.Cmm.Monad <= cmm/CmmMonad.hs
+GHC.Cmm.Node <= cmm/CmmNode.hs
+GHC.Cmm.Opt <= cmm/CmmOpt.hs
+GHC.Cmm.Pipeline <= cmm/CmmPipeline.hs
+GHC.Cmm.ProcPoint <= cmm/CmmProcPoint.hs
+GHC.Cmm.Sink <= cmm/CmmSink.hs
+GHC.Cmm.Switch <= cmm/CmmSwitch.hs
+GHC.Cmm.Type <= cmm/CmmType.hs
+GHC.Cmm.Utils <= cmm/CmmUtils.hs
+GHC.Cmm.DebugBlock <= cmm/Debug.hs
+GHC.Cmm.Dataflow.Block <= cmm/Hoopl/Block.hs
+GHC.Cmm.Dataflow.Collections <= cmm/Hoopl/Collections.hs
+GHC.Cmm.Dataflow <= cmm/Hoopl/Dataflow.hs
+GHC.Cmm.Dataflow.Graph <= cmm/Hoopl/Graph.hs
+GHC.Cmm.Dataflow.Label <= cmm/Hoopl/Label.hs
+GHC.Cmm.Graph <= cmm/MkGraph.hs
+GHC.Cmm.Pretty.Decl <= cmm/PprCmmDecl.hs
+GHC.Cmm.Pretty.Expr <= cmm/PprCmmExpr.hs
+GHC.Cmm.Pretty <= cmm/PprCmm.hs
+
+GHC.CmmToC <= cmm/PprC.hs
+```
+
 * TODO:
 
 ```
+GHC.Data.Bitmap <= cmm/Bitmap.hs
+GHC.RTS.Storage <= cmm/SMRep.hs
 ? <= backpack/BkpSyn.hs
 ? <= backpack/DriverBkp.hs
 ? <= backpack/NameShape.hs
@@ -247,42 +289,6 @@ GHC.Core.Unify <= types/Unify.hs
 ? <= basicTypes/VarEnv.hs
 ? <= basicTypes/Var.hs
 ? <= basicTypes/VarSet.hs
-? <= cmm/Bitmap.hs
-? <= cmm/BlockId.hs
-? <= cmm/CLabel.hs
-? <= cmm/CmmBuildInfoTables.hs
-? <= cmm/CmmCallConv.hs
-? <= cmm/CmmCommonBlockElim.hs
-? <= cmm/CmmContFlowOpt.hs
-? <= cmm/CmmExpr.hs
-? <= cmm/Cmm.hs
-? <= cmm/CmmImplementSwitchPlans.hs
-? <= cmm/CmmInfo.hs
-? <= cmm/CmmLayoutStack.hs
-? <= cmm/CmmLint.hs
-? <= cmm/CmmLive.hs
-? <= cmm/CmmMachOp.hs
-? <= cmm/CmmMonad.hs
-? <= cmm/CmmNode.hs
-? <= cmm/CmmOpt.hs
-? <= cmm/CmmPipeline.hs
-? <= cmm/CmmProcPoint.hs
-? <= cmm/CmmSink.hs
-? <= cmm/CmmSwitch.hs
-? <= cmm/CmmType.hs
-? <= cmm/CmmUtils.hs
-? <= cmm/Debug.hs
-? <= cmm/Hoopl/Block.hs
-? <= cmm/Hoopl/Collections.hs
-? <= cmm/Hoopl/Dataflow.hs
-? <= cmm/Hoopl/Graph.hs
-? <= cmm/Hoopl/Label.hs
-? <= cmm/MkGraph.hs
-? <= cmm/PprC.hs
-? <= cmm/PprCmmDecl.hs
-? <= cmm/PprCmmExpr.hs
-? <= cmm/PprCmm.hs
-? <= cmm/SMRep.hs
 ? <= deSugar/Coverage.hs
 ? <= deSugar/Desugar.hs
 ? <= deSugar/DsArrows.hs
