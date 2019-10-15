@@ -89,51 +89,51 @@ GHC.Config: Constants, DynFlags, etc.
 * Done (can still be modified):
 
 ```
-GHC.Hs.Binds <= GHC/Hs/Binds.hs
-GHC.Hs.Decls <= GHC/Hs/Decls.hs
-GHC.Hs.Doc   <= GHC/Hs/Doc.hs
-GHC.Hs.Dump  <= GHC/Hs/Dump.hs
-GHC.Hs.Expr  <= GHC/Hs/Expr.hs
-GHC.Hs.Extension <= GHC/Hs/Extension.hs
-GHC.Hs <= GHC/Hs.hs
-GHC.Hs.ImpExp <= GHC/Hs/ImpExp.hs
-GHC.Hs.Instances <= GHC/Hs/Instances.hs
-GHC.Hs.Lit <= GHC/Hs/Lit.hs
-GHC.Hs.Pat <= GHC/Hs/Pat.hs
-GHC.Hs.PlaceHolder <= GHC/Hs/PlaceHolder.hs
-GHC.HsToCore.PmCheck <= GHC/HsToCore/PmCheck.hs
-GHC.HsToCore.PmCheck.Oracle <= GHC/HsToCore/PmCheck/Oracle.hs
-GHC.HsToCore.PmCheck.Ppr <= GHC/HsToCore/PmCheck/Ppr.hs
-GHC.HsToCore.PmCheck.Types <= GHC/HsToCore/PmCheck/Types.hs
-GHC.Hs.Types <= GHC/Hs/Types.hs
-GHC.Hs.Utils <= GHC/Hs/Utils.hs
-GHC/Platform/ARM64.hs
-GHC/Platform/ARM.hs
-GHC/Platform/NoRegs.hs
-GHC/Platform/PPC.hs
-GHC/Platform/Regs.hs
-GHC/Platform/SPARC.hs
-GHC/Platform/X86_64.hs
-GHC/Platform/X86.hs
-GHC/StgToCmm/ArgRep.hs
-GHC/StgToCmm/Bind.hs
-GHC/StgToCmm/CgUtils.hs
-GHC/StgToCmm/Closure.hs
-GHC/StgToCmm/DataCon.hs
-GHC/StgToCmm/Env.hs
-GHC/StgToCmm/Expr.hs
-GHC/StgToCmm/ExtCode.hs
-GHC/StgToCmm/Foreign.hs
-GHC/StgToCmm/Heap.hs
-GHC/StgToCmm/Hpc.hs
-GHC/StgToCmm.hs
-GHC/StgToCmm/Layout.hs
-GHC/StgToCmm/Monad.hs
-GHC/StgToCmm/Prim.hs
-GHC/StgToCmm/Prof.hs
-GHC/StgToCmm/Ticky.hs
-GHC/StgToCmm/Utils.hs
-GHC/ThToHs.hs
+GHC.Hs.Binds
+GHC.Hs.Decls
+GHC.Hs.Doc
+GHC.Hs.Dump
+GHC.Hs.Expr
+GHC.Hs.Extension
+GHC.Hs
+GHC.Hs.ImpExp
+GHC.Hs.Instances
+GHC.Hs.Lit
+GHC.Hs.Pat
+GHC.Hs.PlaceHolder
+GHC.HsToCore.PmCheck
+GHC.HsToCore.PmCheck.Oracle
+GHC.HsToCore.PmCheck.Ppr
+GHC.HsToCore.PmCheck.Types
+GHC.Hs.Types
+GHC.Hs.Utils
+GHC.Platform.ARM64
+GHC.Platform.ARM
+GHC.Platform.NoRegs
+GHC.Platform.PPC
+GHC.Platform.Regs
+GHC.Platform.SPARC
+GHC.Platform.X86_64
+GHC.Platform.X86
+GHC.StgToCmm.ArgRep
+GHC.StgToCmm.Bind
+GHC.StgToCmm.CgUtils
+GHC.StgToCmm.Closure
+GHC.StgToCmm.DataCon
+GHC.StgToCmm.Env
+GHC.StgToCmm.Expr
+GHC.StgToCmm.ExtCode
+GHC.StgToCmm.Foreign
+GHC.StgToCmm.Heap
+GHC.StgToCmm.Hpc
+GHC.StgToCmm
+GHC.StgToCmm/Layout
+GHC.StgToCmm/Monad
+GHC.StgToCmm/Prim
+GHC.StgToCmm/Prof
+GHC.StgToCmm/Ticky
+GHC.StgToCmm/Utils
+GHC.ThToHs
 
 ```
 
