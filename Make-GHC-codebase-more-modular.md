@@ -86,6 +86,8 @@ GHC.Platform: platform description (register mapping, word-size, etc.)
 GHC.Config: Constants, DynFlags, etc.
 ```
 
+### Actual renaming
+
 * Done (can still be modified):
 
 ```
