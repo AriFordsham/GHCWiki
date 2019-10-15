@@ -107,6 +107,34 @@ GHC.HsToCore.PmCheck.Ppr <= GHC/HsToCore/PmCheck/Ppr.hs
 GHC.HsToCore.PmCheck.Types <= GHC/HsToCore/PmCheck/Types.hs
 GHC.Hs.Types <= GHC/Hs/Types.hs
 GHC.Hs.Utils <= GHC/Hs/Utils.hs
+GHC/Platform/ARM64.hs
+GHC/Platform/ARM.hs
+GHC/Platform/NoRegs.hs
+GHC/Platform/PPC.hs
+GHC/Platform/Regs.hs
+GHC/Platform/SPARC.hs
+GHC/Platform/X86_64.hs
+GHC/Platform/X86.hs
+GHC/StgToCmm/ArgRep.hs
+GHC/StgToCmm/Bind.hs
+GHC/StgToCmm/CgUtils.hs
+GHC/StgToCmm/Closure.hs
+GHC/StgToCmm/DataCon.hs
+GHC/StgToCmm/Env.hs
+GHC/StgToCmm/Expr.hs
+GHC/StgToCmm/ExtCode.hs
+GHC/StgToCmm/Foreign.hs
+GHC/StgToCmm/Heap.hs
+GHC/StgToCmm/Hpc.hs
+GHC/StgToCmm.hs
+GHC/StgToCmm/Layout.hs
+GHC/StgToCmm/Monad.hs
+GHC/StgToCmm/Prim.hs
+GHC/StgToCmm/Prof.hs
+GHC/StgToCmm/Ticky.hs
+GHC/StgToCmm/Utils.hs
+GHC/ThToHs.hs
+
 ```
 
 * Renamer !1899:
@@ -125,6 +153,66 @@ GHC.Rename.Splice <= rename/RnSplice.hs
 GHC.Rename.Types <= rename/RnTypes.hs
 GHC.Rename.Unbound <= rename/RnUnbound.hs
 GHC.Rename.Utils <= rename/RnUtils.hs
+```
+
+* Core !1773:
+
+```
+GHC.Core.Arity <= coreSyn/CoreArity.hs
+GHC.Core.FVs <= coreSyn/CoreFVs.hs
+GHC.Core.Lint <= coreSyn/CoreLint.hs
+GHC.Core.Map <= coreSyn/CoreMap.hs
+GHC.Core.SimpleOpt <= coreSyn/CoreOpt.hs
+GHC.Core.Prep <= coreSyn/CorePrep.hs
+GHC.Core.Seq <= coreSyn/CoreSeq.hs
+GHC.Core.Stats <= coreSyn/CoreStats.hs
+GHC.Core.Subst <= coreSyn/CoreSubst.hs
+GHC.Core <= coreSyn/CoreSyn.hs
+GHC.Core.Tidy <= coreSyn/CoreTidy.hs
+GHC.Core.Unfold <= coreSyn/CoreUnfold.hs
+GHC.Core.Utils <= coreSyn/CoreUtils.hs
+GHC.Core.Make <= coreSyn/MkCore.hs
+GHC.Core.Pretty <= coreSyn/PprCore.hs
+GHC.Core.OccurAnal <= simplCore/OccurAnal.hs
+GHC.Core.Rules <= specialise/Rules.hs
+
+GHC.CoreToCore.CallArity <= simplCore/CallArity.hs
+GHC.CoreToCore.Monad <= simplCore/CoreMonad.hs
+GHC.CoreToCore.CSE <= simplCore/CSE.hs
+GHC.CoreToCore.Exitify <= simplCore/Exitify.hs
+GHC.CoreToCore.FloatIn <= simplCore/FloatIn.hs
+GHC.CoreToCore.FloatOut <= simplCore/FloatOut.hs
+GHC.CoreToCore.LiberateCase <= simplCore/LiberateCase.hs
+GHC.CoreToCore.StaticArgs <= simplCore/SAT.hs
+GHC.CoreToCore.SetLevels <= simplCore/SetLevels.hs
+GHC.CoreToCore.Simplifier <= simplCore/SimplCore.hs
+GHC.CoreToCore.Simplify.Env <= simplCore/SimplEnv.hs
+GHC.CoreToCore.Simplify <= simplCore/Simplify.hs
+GHC.CoreToCore.Simplify.Monad <= simplCore/SimplMonad.hs
+GHC.CoreToCore.Simplify.Utils <= simplCore/SimplUtils.hs
+GHC.CoreToCore.SpecConstr <= specialise/SpecConstr.hs
+GHC.CoreToCore.Specialise <= specialise/Specialise.hs
+GHC.CoreToCore.DmdAnal <= stranal/DmdAnal.hs
+GHC.CoreToCore.WorkWrap <= stranal/WorkWrap.hs
+GHC.CoreToCore.WorkWrapLib <= stranal/WwLib.hs
+GHC.CoreToCore.ConstantFold <= prelude/PrelRules.hs
+
+GHC.Core.Class <= types/Class.hs
+GHC.Core.CoAxiom <= types/CoAxiom.hs
+GHC.Core.Coercion <= types/Coercion.hs
+GHC.Core.FamInstEnv <= types/FamInstEnv.hs
+GHC.Core.InstEnv <= types/InstEnv.hs
+GHC.Core.Kind <= types/Kind.hs
+GHC.Core.OptCoercion <= types/OptCoercion.hs
+GHC.Core.TyCoFVs <= types/TyCoFVs.hs
+GHC.Core.TyCon <= types/TyCon.hs
+GHC.Core.TyCoPpr <= types/TyCoPpr.hs
+GHC.Core.TyCoRep <= types/TyCoRep.hs
+GHC.Core.TyCoSubst <= types/TyCoSubst.hs
+GHC.Core.TyCoTidy <= types/TyCoTidy.hs
+GHC.Core.Type <= types/Type.hs
+GHC.Core.Unify <= types/Unify.hs
+
 ```
 
 * TODO:
@@ -195,21 +283,6 @@ GHC.Rename.Utils <= rename/RnUtils.hs
 ? <= cmm/PprCmmExpr.hs
 ? <= cmm/PprCmm.hs
 ? <= cmm/SMRep.hs
-? <= coreSyn/CoreArity.hs
-? <= coreSyn/CoreFVs.hs
-? <= coreSyn/CoreLint.hs
-? <= coreSyn/CoreMap.hs
-? <= coreSyn/CoreOpt.hs
-? <= coreSyn/CorePrep.hs
-? <= coreSyn/CoreSeq.hs
-? <= coreSyn/CoreStats.hs
-? <= coreSyn/CoreSubst.hs
-? <= coreSyn/CoreSyn.hs
-? <= coreSyn/CoreTidy.hs
-? <= coreSyn/CoreUnfold.hs
-? <= coreSyn/CoreUtils.hs
-? <= coreSyn/MkCore.hs
-? <= coreSyn/PprCore.hs
 ? <= deSugar/Coverage.hs
 ? <= deSugar/Desugar.hs
 ? <= deSugar/DsArrows.hs
@@ -238,33 +311,6 @@ GHC.Rename.Utils <= rename/RnUtils.hs
 ? <= ghci/Linker.hs
 ? <= ghci/LinkerTypes.hs
 ? <= ghci/RtClosureInspect.hs
-? <= GHC/Platform/ARM64.hs
-? <= GHC/Platform/ARM.hs
-? <= GHC/Platform/NoRegs.hs
-? <= GHC/Platform/PPC.hs
-? <= GHC/Platform/Regs.hs
-? <= GHC/Platform/SPARC.hs
-? <= GHC/Platform/X86_64.hs
-? <= GHC/Platform/X86.hs
-? <= GHC/StgToCmm/ArgRep.hs
-? <= GHC/StgToCmm/Bind.hs
-? <= GHC/StgToCmm/CgUtils.hs
-? <= GHC/StgToCmm/Closure.hs
-? <= GHC/StgToCmm/DataCon.hs
-? <= GHC/StgToCmm/Env.hs
-? <= GHC/StgToCmm/Expr.hs
-? <= GHC/StgToCmm/ExtCode.hs
-? <= GHC/StgToCmm/Foreign.hs
-? <= GHC/StgToCmm/Heap.hs
-? <= GHC/StgToCmm/Hpc.hs
-? <= GHC/StgToCmm.hs
-? <= GHC/StgToCmm/Layout.hs
-? <= GHC/StgToCmm/Monad.hs
-? <= GHC/StgToCmm/Prim.hs
-? <= GHC/StgToCmm/Prof.hs
-? <= GHC/StgToCmm/Ticky.hs
-? <= GHC/StgToCmm/Utils.hs
-? <= GHC/ThToHs.hs
 ? <= hieFile/HieAst.hs
 ? <= hieFile/HieBin.hs
 ? <= hieFile/HieDebug.hs
@@ -412,7 +458,6 @@ GHC.Rename.Utils <= rename/RnUtils.hs
 ? <= prelude/KnownUniques.hs
 ? <= prelude/PrelInfo.hs
 ? <= prelude/PrelNames.hs
-? <= prelude/PrelRules.hs
 ? <= prelude/PrimOp.hs
 ? <= prelude/THNames.hs
 ? <= prelude/TysPrim.hs
@@ -420,21 +465,6 @@ GHC.Rename.Utils <= rename/RnUtils.hs
 ? <= profiling/CostCentre.hs
 ? <= profiling/CostCentreState.hs
 ? <= profiling/ProfInit.hs
-? <= simplCore/CallArity.hs
-? <= simplCore/CoreMonad.hs
-? <= simplCore/CSE.hs
-? <= simplCore/Exitify.hs
-? <= simplCore/FloatIn.hs
-? <= simplCore/FloatOut.hs
-? <= simplCore/LiberateCase.hs
-? <= simplCore/OccurAnal.hs
-? <= simplCore/SAT.hs
-? <= simplCore/SetLevels.hs
-? <= simplCore/SimplCore.hs
-? <= simplCore/SimplEnv.hs
-? <= simplCore/Simplify.hs
-? <= simplCore/SimplMonad.hs
-? <= simplCore/SimplUtils.hs
 ? <= simplStg/RepType.hs
 ? <= simplStg/SimplStg.hs
 ? <= simplStg/StgCse.hs
@@ -444,17 +474,11 @@ GHC.Rename.Utils <= rename/RnUtils.hs
 ? <= simplStg/StgLiftLams/Transformation.hs
 ? <= simplStg/StgStats.hs
 ? <= simplStg/UnariseStg.hs
-? <= specialise/Rules.hs
-? <= specialise/SpecConstr.hs
-? <= specialise/Specialise.hs
 ? <= stgSyn/CoreToStg.hs
 ? <= stgSyn/StgFVs.hs
 ? <= stgSyn/StgLint.hs
 ? <= stgSyn/StgSubst.hs
 ? <= stgSyn/StgSyn.hs
-? <= stranal/DmdAnal.hs
-? <= stranal/WorkWrap.hs
-? <= stranal/WwLib.hs
 ? <= typecheck/ClsInst.hs
 ? <= typecheck/FamInst.hs
 ? <= typecheck/FunDeps.hs
@@ -506,21 +530,6 @@ GHC.Rename.Utils <= rename/RnUtils.hs
 ? <= typecheck/TcTypeNats.hs
 ? <= typecheck/TcUnify.hs
 ? <= typecheck/TcValidity.hs
-? <= types/Class.hs
-? <= types/CoAxiom.hs
-? <= types/Coercion.hs
-? <= types/FamInstEnv.hs
-? <= types/InstEnv.hs
-? <= types/Kind.hs
-? <= types/OptCoercion.hs
-? <= types/TyCoFVs.hs
-? <= types/TyCon.hs
-? <= types/TyCoPpr.hs
-? <= types/TyCoRep.hs
-? <= types/TyCoSubst.hs
-? <= types/TyCoTidy.hs
-? <= types/Type.hs
-? <= types/Unify.hs
 ? <= utils/AsmUtils.hs
 ? <= utils/Bag.hs
 ? <= utils/Binary.hs
