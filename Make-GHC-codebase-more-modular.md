@@ -165,7 +165,6 @@ GHC.Core.FVs <= coreSyn/CoreFVs.hs
 GHC.Core.Lint <= coreSyn/CoreLint.hs
 GHC.Core.Map <= coreSyn/CoreMap.hs
 GHC.Core.SimpleOpt <= coreSyn/CoreOpt.hs
-GHC.Core.Prep <= coreSyn/CorePrep.hs
 GHC.Core.Seq <= coreSyn/CoreSeq.hs
 GHC.Core.Stats <= coreSyn/CoreStats.hs
 GHC.Core.Subst <= coreSyn/CoreSubst.hs
@@ -214,7 +213,8 @@ GHC.Core.TyCoSubst <= types/TyCoSubst.hs
 GHC.Core.TyCoTidy <= types/TyCoTidy.hs
 GHC.Core.Type <= types/Type.hs
 GHC.Core.Unify <= types/Unify.hs
-
+GHC.Core.ConLike <= basicTypes/ConLike.hs
+GHC.Core.DataCon <= basicTypes/DataCon.hs
 ```
 
 Cmm:
@@ -262,14 +262,13 @@ GHC.CmmToC <= cmm/PprC.hs
 ```
 GHC.Data.Bitmap <= cmm/Bitmap.hs
 GHC.RTS.Storage <= cmm/SMRep.hs
+GHC.CoreToStg.Prep <= coreSyn/CorePrep.hs
 ? <= backpack/BkpSyn.hs
 ? <= backpack/DriverBkp.hs
 ? <= backpack/NameShape.hs
 ? <= backpack/RnModIface.hs
 ? <= basicTypes/Avail.hs
 ? <= basicTypes/BasicTypes.hs
-? <= basicTypes/ConLike.hs
-? <= basicTypes/DataCon.hs
 ? <= basicTypes/Demand.hs
 ? <= basicTypes/FieldLabel.hs
 ? <= basicTypes/Id.hs
