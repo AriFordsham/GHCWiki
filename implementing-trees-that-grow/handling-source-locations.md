@@ -116,87 +116,40 @@ There are also two related design choices (rather orthogonal design to the probl
     where
           LL s m =  composeSrcSpan (m , s)
   ```
-
->
->
-> so by providing instances for `HasSrcSpan` (by either Solution A or Solution B),
->
->
-
-
- 
-
-
->
->
-> for some expression `e :: HsExpr (GhcPass p)` and `span1, span2 :: SrcSpan`, we will have
->
->
-
-```
-LL span1 (HsPar noExt (LL span2 e)) :: HsExpr (GhcPass p)
-```
-
->
->
-> or at the same time, for some `p :: Pat (GhcPass p)` and `span1 , span2 :: SrcSpan` we had 
->
->
-
-```
-LL span1 (ParPat noExt (LL span2 p)) :: Pat (GhcPass p)
-```
-
->
->
-> and we could have a function like
->
->
-
-```
-sL1 :: (HasSrcSpan a , HasSrcSpan b) => a -> SrcSpanLess b -> b
-sL1 (LL sp _) = LL sp
-```
-
-
- 
-
+  so by providing instances for `HasSrcSpan` (by either Solution A or Solution B), for some expression `e :: HsExpr (GhcPass p)` and `span1, span2 :: SrcSpan`, we will have
+  ```
+  LL span1 (HsPar noExt (LL span2 e)) :: HsExpr (GhcPass p)
+  ```
+  or at the same time, for some `p :: Pat (GhcPass p)` and `span1 , span2 :: SrcSpan` we had 
+  ```
+  LL span1 (ParPat noExt (LL span2 p)) :: Pat (GhcPass p)
+  ```
+  and we could have a function like
+  ```
+  sL1 :: (HasSrcSpan a , HasSrcSpan b) => a -> SrcSpanLess b -> b
+  sL1 (LL sp _) = LL sp
+  ```
 
 - Although we assume typefamily instances are nested (to help with resolving constraint solving), we may, or may not, assume that these extension typefamily instances for GHC-specific decorations are closed.
 
->
->
-> For example, instead of a list of open type family instances
->
->
+  For example, instead of a list of open type family instances
+  ```
+  type instance XApp (GHC p) = XAppGHC p
+  type family   XAppGHC (p :: Phase)
+  type instance XAppGHC Ps = ()
+  type instance XAppGHC Rn = ()
+  type instance XAppGHC Tc = Type
+  ```
+  we can have
+  ```
+  type instance XApp (GHC p) = XAppGHC p
+  type family   XAppGHC (p :: Phase) where
+                XAppGHC Ps = ()
+                XAppGHC Rn = ()
+                XAppGHC Tc = Type
+  ```
+  The closed type family solution is elegant and solves some of the constraint solving problems in place (see the commented section in type class instance of solution B). However, the closed typed family solution couples together the code from different passes of the compiler, e.g., the definition of a parser with the type `parseExp :: String -> M (HsExpr (Ghc Ps))` (for some parsing monad `M`) refers to the closed type family `XAppGHC` which refers to the definition `Type` that is not relevant to the parsing phase. We want the parser and other machineries within GHC front-end (e.g., the pretty-printer) to not to be GHC-specific (e.g., depending on `Type`, or even core via `Tickish`!).
 
-```
-type instance XApp (GHC p) = XAppGHC p
-type family   XAppGHC (p :: Phase)
-type instance XAppGHC Ps = ()
-type instance XAppGHC Rn = ()
-type instance XAppGHC Tc = Type
-```
-
->
->
-> we can have
->
->
-
-```
-type instance XApp (GHC p) = XAppGHC p
-type family   XAppGHC (p :: Phase) where
-              XAppGHC Ps = ()
-              XAppGHC Rn = ()
-              XAppGHC Tc = Type
-```
-
->
->
-> The closed type family solution is elegant and solves some of the constraint solving problems in place (see the commented section in type class instance of solution B). However, the closed typed family solution couples together the code from different passes of the compiler, e.g., the definition of a parser with the type `parseExp :: String -> M (HsExpr (Ghc Ps))` (for some parsing monad `M`) refers to the closed type family `XAppGHC` which refers to the definition `Type` that is not relevant to the parsing phase. We want the parser and other machineries within GHC front-end (e.g., the pretty-printer) to not to be GHC-specific (e.g., depending on `Type`, or even core via `Tickish`!).
->
->
 
 ## Pros & Cons
 
