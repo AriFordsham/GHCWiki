@@ -210,28 +210,18 @@ Pros:
 - It makes it easy to store fewer locations (e.g. one location for `(f x y z)`, 
   rather than one for `(f x y z)`, one for `(f x y)`, and one for `(f x)`).
 - It's easy to add the current location to the monad
+  ```
+  f (XNew loc e) = setSrcSpan loc $ f e
+  ```
+  Simple, elegant!
 
->
->
-> `f (XNew loc e) = setSrcSpan loc $ f e`
->
->
-
->
->
-> Simple, elegant!
->
->
 
 
 Cons:
 
-- At the binding site of a variable we know that we \*always\* have a location, and we can put that in its Name.  
-  If locations were more optional, that would not be so true.
+- At the binding site of a variable we know that we \*always\* have a location, and we can put that in its Name.  If locations were more optional, that would not be so true.
 
 ### Solution B: the source locations in the new field extensions
-
-
 
 Pros:
 
@@ -243,14 +233,12 @@ Cons:
 
 - An instance of `HasSpan` should be defined per datatype which requires a large pattern matching over datatype
 - Handling of the source locations should be done once per constructor
-- When constructing/generating terms the first field of the constructors should explicitly mention the source location
-  (see the `par` function in the Solution A's code, where the first field of `Par` should have a `SrcSpan`, even though a dummy one.)
+- When constructing/generating terms the first field of the constructors should explicitly mention the source location (see the `par` function in the Solution A's code, where the first field of `Par` should have a `SrcSpan`, even though a dummy one.)
 
 ## An example to illustrate
 
 
-To explain the design choices, we use a simple language of expressions.
-Here are the base definitions in [TTG style](implementing-trees-that-grow/trees-that-grow-guidance):
+To explain the design choices, we use a simple language of expressions. Here are the base definitions in [TTG style](implementing-trees-that-grow/trees-that-grow-guidance):
 
 
 ```
