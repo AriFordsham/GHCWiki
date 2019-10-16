@@ -24,6 +24,8 @@ The key solution is to move source locations to the extension points, remove the
 
 1. We put the source locations in the new constructor extension, similar in spirit to the current `Located`.
 1. We put the source locations in the new field extensions and use a typeclass to set/get the locations.
+1. We improve on 1. by recovering the ping-pong style for its favorable type safety, still inside the same TTG encoding, by making sure that `XPat` is only possible in `LPat` and not in plain `Pat`.
+1. We call a type family in `LPat` that expands to `Located Pat` for `GhcPass`es and to `Pat` otherwise.
 
 
 In the implementation, we have settled on the solution A, mainly as it avoids the clutter: handling of source locations is done once per data type rather than once in every constructor.
@@ -173,6 +175,8 @@ Pros:
 Cons:
 
 - At the binding site of a variable we know that we \*always\* have a location, and we can put that in its Name.  If locations were more optional, that would not be so true.
+- Type safety: There are functions like `collectEvVarsPat` and `hsPatType` which return wrong results or crash when passed an `XPat`. Which the type-checker can't detect, since `type LPat = Pat`.
+- There are two indirections instead of only one for the GHC case compared to `type LPat = Located Pat`: One for the `XPat` and one for `L`.
 
 ### Solution B: the source locations in the new field extensions
 
@@ -187,6 +191,52 @@ Cons:
 - An instance of `HasSpan` should be defined per datatype which requires a large pattern matching over datatype
 - Handling of the source locations should be done once per constructor
 - When constructing/generating terms the first field of the constructors should explicitly mention the source location (see the `par` function in the Solution A's code, where the first field of `Par` should have a `SrcSpan`, even though a dummy one.)
+
+### Solution C: Improving A by re-introducing ping-pong style for type safety
+
+This is implemented in !1925. The gist was to define
+
+```haskell
+data Loc p
+type LPat p = Pat (Loc p)
+```
+
+and then have
+
+
+```haskell
+type instance XWildPat = NoExtField
+...
+type instance XPat GhcTc = NoExtCon
+
+type instance XWildPat (Loc p) = NoExtCon
+...
+type instance XPat (Loc p) = Located (Pat p)
+```
+
+Pros:
+
+- Same type safety guarantees as ping-pong style. No way to forget to attach a `SrcLoc` to an `LPat`, no way to forget to match on `XPat` in `Pat` position (think of legacy code like `collectEvVarsPat` that would be broken)
+- Mostly same performance guarantees as solution A for GHC code
+
+Cons:
+
+- Two indirections (`XPat`, `Located`) to traverse in the GHC AST. The same as solution A, but we don't have the cleverness in the `HasSrcSpan` instance that can get rid of `XPat`s wrapping a `noSrcLoc`. Also this is strictly worse than the `type LPat = Located Pat` approach.
+- An unnecessary indirection in case we re-use the AST for TH: Every `LPat` must be an `XPat`, which would just carry a `Pat` again for TH. Ping-pong without a point.
+
+### Solution D
+
+Have `type LPat = Located Pat` for GHC passes (so what we used to have) and `type LPat = Pat` for other passes, by using a type family `WrapL` that only inserts `Located` in GHC passes.
+
+Pros:
+
+- The old ping-pong style! Type safety!
+- Only one indirection in recursive `LPat` cases (the `Located` constructor) in the GHC case compared to two for solutions A and C.
+- Zero indirections for TH. No need to bother with `Located` at all.
+
+Cons:
+
+- Potential trouble with inference of type family arguments. The type family has to be injective, which can be guaranteed in practice
 
 ## An example to illustrate
 
