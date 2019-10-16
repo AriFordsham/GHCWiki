@@ -88,7 +88,7 @@ GHC.Config: Constants, DynFlags, etc.
 
 ### Actual renaming
 
-* Done (can still be modified):
+* `GHC.Hs` (done; can still be modified):
 
 ```
 GHC.Hs.Binds
@@ -103,12 +103,20 @@ GHC.Hs.Instances
 GHC.Hs.Lit
 GHC.Hs.Pat
 GHC.Hs.PlaceHolder
+GHC.Hs.Types
+GHC.Hs.Utils
+```
+
+* `GHC.HsToCore` (done; can still be modified):
+```
 GHC.HsToCore.PmCheck
 GHC.HsToCore.PmCheck.Oracle
 GHC.HsToCore.PmCheck.Ppr
 GHC.HsToCore.PmCheck.Types
-GHC.Hs.Types
-GHC.Hs.Utils
+```
+
+* `GHC.Platform` (done; can still be modified):
+```
 GHC.Platform.ARM64
 GHC.Platform.ARM
 GHC.Platform.NoRegs
@@ -117,6 +125,9 @@ GHC.Platform.Regs
 GHC.Platform.SPARC
 GHC.Platform.X86_64
 GHC.Platform.X86
+```
+* `GHC.StgToCmm` (done; can still be modified):
+```
 GHC.StgToCmm.ArgRep
 GHC.StgToCmm.Bind
 GHC.StgToCmm.CgUtils
@@ -135,8 +146,11 @@ GHC.StgToCmm/Prim
 GHC.StgToCmm/Prof
 GHC.StgToCmm/Ticky
 GHC.StgToCmm/Utils
-GHC.ThToHs
+```
 
+* `GHC.ThToHs` (done; can still be modified):
+```
+GHC.ThToHs
 ```
 
 * Renamer !1899:
@@ -157,7 +171,7 @@ GHC.Rename.Unbound <= rename/RnUnbound.hs
 GHC.Rename.Utils <= rename/RnUtils.hs
 ```
 
-* Core !1773:
+* `GHC.Core` !1773:
 
 ```
 GHC.Core.Arity <= coreSyn/CoreArity.hs
@@ -176,27 +190,6 @@ GHC.Core.Make <= coreSyn/MkCore.hs
 GHC.Core.Pretty <= coreSyn/PprCore.hs
 GHC.Core.OccurAnal <= simplCore/OccurAnal.hs
 GHC.Core.Rules <= specialise/Rules.hs
-
-GHC.CoreToCore.CallArity <= simplCore/CallArity.hs
-GHC.CoreToCore.Monad <= simplCore/CoreMonad.hs
-GHC.CoreToCore.CSE <= simplCore/CSE.hs
-GHC.CoreToCore.Exitify <= simplCore/Exitify.hs
-GHC.CoreToCore.FloatIn <= simplCore/FloatIn.hs
-GHC.CoreToCore.FloatOut <= simplCore/FloatOut.hs
-GHC.CoreToCore.LiberateCase <= simplCore/LiberateCase.hs
-GHC.CoreToCore.StaticArgs <= simplCore/SAT.hs
-GHC.CoreToCore.SetLevels <= simplCore/SetLevels.hs
-GHC.CoreToCore.Simplifier <= simplCore/SimplCore.hs
-GHC.CoreToCore.Simplify.Env <= simplCore/SimplEnv.hs
-GHC.CoreToCore.Simplify <= simplCore/Simplify.hs
-GHC.CoreToCore.Simplify.Monad <= simplCore/SimplMonad.hs
-GHC.CoreToCore.Simplify.Utils <= simplCore/SimplUtils.hs
-GHC.CoreToCore.SpecConstr <= specialise/SpecConstr.hs
-GHC.CoreToCore.Specialise <= specialise/Specialise.hs
-GHC.CoreToCore.DmdAnal <= stranal/DmdAnal.hs
-GHC.CoreToCore.WorkWrap <= stranal/WorkWrap.hs
-GHC.CoreToCore.WorkWrapLib <= stranal/WwLib.hs
-GHC.CoreToCore.ConstantFold <= prelude/PrelRules.hs
 
 GHC.Core.Class <= types/Class.hs
 GHC.Core.CoAxiom <= types/CoAxiom.hs
@@ -217,7 +210,31 @@ GHC.Core.ConLike <= basicTypes/ConLike.hs
 GHC.Core.DataCon <= basicTypes/DataCon.hs
 ```
 
-Cmm:
+* `GHC.CoreToCore` !1773
+```
+GHC.CoreToCore.CallArity <= simplCore/CallArity.hs
+GHC.CoreToCore.Monad <= simplCore/CoreMonad.hs
+GHC.CoreToCore.CSE <= simplCore/CSE.hs
+GHC.CoreToCore.Exitify <= simplCore/Exitify.hs
+GHC.CoreToCore.FloatIn <= simplCore/FloatIn.hs
+GHC.CoreToCore.FloatOut <= simplCore/FloatOut.hs
+GHC.CoreToCore.LiberateCase <= simplCore/LiberateCase.hs
+GHC.CoreToCore.StaticArgs <= simplCore/SAT.hs
+GHC.CoreToCore.SetLevels <= simplCore/SetLevels.hs
+GHC.CoreToCore.Simplifier <= simplCore/SimplCore.hs
+GHC.CoreToCore.Simplify.Env <= simplCore/SimplEnv.hs
+GHC.CoreToCore.Simplify <= simplCore/Simplify.hs
+GHC.CoreToCore.Simplify.Monad <= simplCore/SimplMonad.hs
+GHC.CoreToCore.Simplify.Utils <= simplCore/SimplUtils.hs
+GHC.CoreToCore.SpecConstr <= specialise/SpecConstr.hs
+GHC.CoreToCore.Specialise <= specialise/Specialise.hs
+GHC.CoreToCore.DmdAnal <= stranal/DmdAnal.hs
+GHC.CoreToCore.WorkWrap <= stranal/WorkWrap.hs
+GHC.CoreToCore.WorkWrapLib <= stranal/WwLib.hs
+GHC.CoreToCore.ConstantFold <= prelude/PrelRules.hs
+```
+
+* `GHC.Cmm`
 
 ```
 GHC.Cmm.BlockId <= cmm/BlockId.hs
