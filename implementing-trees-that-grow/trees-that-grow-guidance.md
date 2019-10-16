@@ -61,15 +61,13 @@ The design of TTG [HsSyn](implementing-trees-that-grow/hs-syn) follows these pri
 1. The base TTG [HsSyn](implementing-trees-that-grow/hs-syn) should have all the constructors common across all five ASTs (the *common data constructors*). These constructors should have, as payload fields, all the fields common across all five ASTs.
 
 1. Note, however, that the type of a payload field of a constructor may vary with phase.  For example, in `Lam` above, the first payload field has type `Id x`, and that may vary with phase:
-
-  ```
-  type family IdP x
-  type instance IdP GhcPs = RdrName
-  type instance IdP GhcRn = Name
-  type instance IdP GhcTc = Id
-  ```
-
-  But it is still a payload field, because every instantiation of `Exp` has a lambda with a binder; albeit the type of that binder field varies.  This happens in [HsSyn](implementing-trees-that-grow/hs-syn): for example, the type of the common (payload) field of the common constructor `HsVar`of `HsExpr x` is `IdP x` where `IdP` is a type family and `x` the phase descriptor.
+   ```
+   type family IdP x
+   type instance IdP GhcPs = RdrName
+   type instance IdP GhcRn = Name
+   type instance IdP GhcTc = Id
+   ```
+   But it is still a payload field, because every instantiation of `Exp` has a lambda with a binder; albeit the type of that binder field varies.  This happens in [HsSyn](implementing-trees-that-grow/hs-syn): for example, the type of the common (payload) field of the common constructor `HsVar`of `HsExpr x` is `IdP x` where `IdP` is a type family and `x` the phase descriptor.
 
 1. The non-payload (i.e. phase-specific) fields of a data constructor are grouped together and introduced via the extension field.  Similarly the phase-specific data constructors are introduced using the extension constructor.
 
