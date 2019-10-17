@@ -238,7 +238,8 @@ Pros:
 
 Cons:
 
-- Potential trouble with inference of type family arguments. The type family has to be injective, which can be guaranteed in practice
+- Potential trouble with inference of type family arguments. The `WrapL` type family has to be injective, which can be guaranteed in practice
+- 
 
 ## An example to illustrate
 
@@ -284,6 +285,8 @@ module BasicGHCTypes where
 data Phase = Ps | Rn | Tc
 data GHC (p :: Phase)
 
+data TH
+
 data NoExt = NoExt
 data NoNewCon
 
@@ -301,7 +304,7 @@ data SrcSpan    -- = the definition of SrcSpan
 data Located a = L SrcSpan a
 
 noSrcSpan :: SrcSpan
-noSrcSpan = ... -- an empty SrcSpan
+noSrcSpan = undefined -- an empty SrcSpan
 
 type family   XAppGHC (p :: Phase)
 type instance XAppGHC Ps = NoExt
@@ -333,7 +336,7 @@ family.
 
 
 Here is a representation of lambda expressions in the ping-pong style.
-Unfortunately, this forces us to redefine the base TTG data type,
+Unfortunately, this forces us to redefine the base TTG data type for e.g. TH,
 forcing it into ping-pong style, which is why we don't like it for the reasons mentioned above.
 
 
@@ -375,69 +378,17 @@ type instance XNew (GHC p)  = XNewGHC p
 type instance XId  (GHC p)  = XIdGHC  p
 
 -- ----------------------------------------------
--- Example Function
+-- TH-Specific Decorations
 -- ----------------------------------------------
-par :: LExp (GHC x) -> LExp (GHC x)
-par l@(L sp (App{})) = L sp (Par NoExt l)
-par l                = l
-```
+type instance WrapL TH f = f TH
 
-### Ping-pong style revamped (solution D)
-
-Here's an example for solution D:
-
-### Ping-pong style
-
-
-Here is a representation of lambda expressions in the ping-pong style.
-Unfortunately, this forces us to redefine the base TTG data type,
-forcing it into ping-pong style, which is why we don't like it for the reasons mentioned above.
-
-
-```
-{-# OPTIONS_GHC -Wall -fno-warn-unticked-promoted-constructors #-}
-{-# LANGUAGE TypeFamilies, DataKinds #-}
-
-module Original where
-
-import BasicGHCTypes
-
--- | Only wraps a `Located` around `f` when `p` is a `GhcPass`.
-type family WrapL p (f :: * -> *) = r | r -> p f where
-  WrapL (GhcPass p) f       = Located (f (GhcPass p))
-  -- This bogus instance is unfortunate, but needed for injectivity and thus
-  -- type inference.
-  WrapL p           Located = Located (Located p)
-  WrapL p           f       =          f p
-
--- ----------------------------------------------
--- AST Base
--- ----------------------------------------------
-type LExp x = WrapL x Exp
-
-data Exp x -- Notice the alternation between LExp and Exp
-  = Var (XVar x) (XId x)
-  | Abs (XAbs x) (XId x)  (LExp x)
-  | App (XApp x) (LExp x) (LExp x)
-  | Par (XPar x) (LExp x)
-  | New (XNew x) -- The extension constructor
-
-type family XVar x
-type family XAbs x
-type family XApp x
-type family XPar x
-type family XNew x
-type family XId  x
-
--- ----------------------------------------------
--- GHC-Specific Decorations
--- ----------------------------------------------
-type instance XVar (GHC _)  = NoExt
-type instance XAbs (GHC _)  = NoExt
-type instance XApp (GHC p)  = XAppGHC p
-type instance XPar (GHC _)  = NoExt
-type instance XNew (GHC p)  = XNewGHC p
-type instance XId  (GHC p)  = XIdGHC  p
+-- Or whatever the instances for TH are
+type instance XVar TH = NoExt
+type instance XAbs TH = NoExt
+type instance XApp TH = NoExt
+type instance XPar TH = NoExt
+type instance XNew TH = NoExt
+type instance XId  TH = NoExt
 
 -- ----------------------------------------------
 -- Example Function
@@ -445,6 +396,13 @@ type instance XId  (GHC p)  = XIdGHC  p
 par :: LExp (GHC x) -> LExp (GHC x)
 par l@(L sp (App{})) = L sp (Par NoExt l)
 par l                = l
+
+-- ----------------------------------------------
+-- Example Function in TH
+-- ----------------------------------------------
+parTH :: LExp TH -> LExp TH
+parTH l@(L sp (App{})) = L sp (Par NoExt l)  -- Yikes! TH doesn't care for SrcLocs...
+parTH l                = l
 ```
 
 ### The SrcSpan Accessor Typeclass
@@ -620,6 +578,85 @@ par l@(LL sp (App{})) = Par (L sp NoExt) l
                       = LL sp (Par (L noSrcSpan NoExt) l)
 -}
 par l                 = l
+```
+
+### Solution D - Example Code
+
+
+In the code below, as compared to the old ping-pong style, we have the following key changes:
+
+- `LExp` becomes `WrapL x Exp` and reduces to `Located (Exp x)` for `x ~ GHC p` and to `Exp x` for `x ~ TH`
+- That's it
+
+```
+{-# OPTIONS_GHC -Wall -fno-warn-unticked-promoted-constructors #-}
+{-# LANGUAGE TypeFamilies, TypeFamilyDependencies, DataKinds #-}
+
+module SolutionD where
+
+import BasicGHCTypes
+
+-- | We use this to only wrap a `Located` around `f` when `p` is `GHC`.
+-- Injectivity is important for inference.
+type family WrapL p (f :: * -> *) = r | r -> p f
+
+-- ----------------------------------------------
+-- AST Base
+-- ----------------------------------------------
+type LExp x = WrapL x Exp
+
+data Exp x -- Notice the alternation between LExp and Exp
+  = Var (XVar x) (XId x)
+  | Abs (XAbs x) (XId x)  (LExp x)
+  | App (XApp x) (LExp x) (LExp x)
+  | Par (XPar x) (LExp x)
+  | New (XNew x) -- The extension constructor
+
+type family XVar x
+type family XAbs x
+type family XApp x
+type family XPar x
+type family XNew x
+type family XId  x
+
+-- ----------------------------------------------
+-- GHC-Specific Decorations
+-- ----------------------------------------------
+type instance WrapL (GHC p) f = Located (f (GHC p))
+
+type instance XVar (GHC _)  = NoExt
+type instance XAbs (GHC _)  = NoExt
+type instance XApp (GHC p)  = XAppGHC p
+type instance XPar (GHC _)  = NoExt
+type instance XNew (GHC p)  = XNewGHC p
+type instance XId  (GHC p)  = XIdGHC  p
+
+-- ----------------------------------------------
+-- TH-Specific Decorations
+-- ----------------------------------------------
+type instance WrapL TH f = f TH
+
+-- Or whatever the instances for TH are
+type instance XVar TH = NoExt
+type instance XAbs TH = NoExt
+type instance XApp TH = NoExt
+type instance XPar TH = NoExt
+type instance XNew TH = NoExt
+type instance XId  TH = NoExt
+
+-- ----------------------------------------------
+-- Example Function
+-- ----------------------------------------------
+par :: LExp (GHC x) -> LExp (GHC x)
+par l@(L sp (App{})) = L sp (Par NoExt l)
+par l                = l
+
+-- ----------------------------------------------
+-- Example Function in TH
+-- ----------------------------------------------
+parTH :: LExp TH -> LExp TH
+parTH l@App{} = Par NoExt l -- Nice!
+parTH l       = l
 ```
 
 ## Implementation Details
