@@ -177,6 +177,7 @@ Cons:
 - At the binding site of a variable we know that we \*always\* have a location, and we can put that in its Name.  If locations were more optional, that would not be so true.
 - Type safety: There are functions like `collectEvVarsPat` and `hsPatType` which return wrong results or crash when passed an `XPat`. Which the type-checker can't detect, since `type LPat = Pat`.
 - There are two indirections instead of only one for the GHC case compared to `type LPat = Located Pat`: One for the `XPat` and one for `L`.
+- `HasSrcSpan` and `dL->L` view pattern business instead of just plain matching on the `L` constructor
 
 ### Solution B: the source locations in the new field extensions
 
@@ -233,6 +234,7 @@ Pros:
 - The old ping-pong style! Type safety!
 - Only one indirection in recursive `LPat` cases (the `Located` constructor) in the GHC case compared to two for solutions A and C.
 - Zero indirections for TH. No need to bother with `Located` at all.
+- Since this is just the old ping-pong style, there's no need for `HasSrcSpan`/`dL->L` view patterns, which I consider a boon. It's just plain matching on the `L` constructor again!
 
 Cons:
 
@@ -347,6 +349,71 @@ import BasicGHCTypes
 -- AST Base
 -- ----------------------------------------------
 type LExp x = Located (Exp x)
+
+data Exp x -- Notice the alternation between LExp and Exp
+  = Var (XVar x) (XId x)
+  | Abs (XAbs x) (XId x)  (LExp x)
+  | App (XApp x) (LExp x) (LExp x)
+  | Par (XPar x) (LExp x)
+  | New (XNew x) -- The extension constructor
+
+type family XVar x
+type family XAbs x
+type family XApp x
+type family XPar x
+type family XNew x
+type family XId  x
+
+-- ----------------------------------------------
+-- GHC-Specific Decorations
+-- ----------------------------------------------
+type instance XVar (GHC _)  = NoExt
+type instance XAbs (GHC _)  = NoExt
+type instance XApp (GHC p)  = XAppGHC p
+type instance XPar (GHC _)  = NoExt
+type instance XNew (GHC p)  = XNewGHC p
+type instance XId  (GHC p)  = XIdGHC  p
+
+-- ----------------------------------------------
+-- Example Function
+-- ----------------------------------------------
+par :: LExp (GHC x) -> LExp (GHC x)
+par l@(L sp (App{})) = L sp (Par NoExt l)
+par l                = l
+```
+
+### Ping-pong style revamped (solution D)
+
+Here's an example for solution D:
+
+### Ping-pong style
+
+
+Here is a representation of lambda expressions in the ping-pong style.
+Unfortunately, this forces us to redefine the base TTG data type,
+forcing it into ping-pong style, which is why we don't like it for the reasons mentioned above.
+
+
+```
+{-# OPTIONS_GHC -Wall -fno-warn-unticked-promoted-constructors #-}
+{-# LANGUAGE TypeFamilies, DataKinds #-}
+
+module Original where
+
+import BasicGHCTypes
+
+-- | Only wraps a `Located` around `f` when `p` is a `GhcPass`.
+type family WrapL p (f :: * -> *) = r | r -> p f where
+  WrapL (GhcPass p) f       = Located (f (GhcPass p))
+  -- This bogus instance is unfortunate, but needed for injectivity and thus
+  -- type inference.
+  WrapL p           Located = Located (Located p)
+  WrapL p           f       =          f p
+
+-- ----------------------------------------------
+-- AST Base
+-- ----------------------------------------------
+type LExp x = WrapL x Exp
 
 data Exp x -- Notice the alternation between LExp and Exp
   = Var (XVar x) (XId x)
