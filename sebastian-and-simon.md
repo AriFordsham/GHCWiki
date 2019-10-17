@@ -4,7 +4,7 @@
 
 Those with an MR actually have code.
 
-- !1851: refactoring `PmPat`.
+- #17357, #17248: Fix strictness of pattern synonyms and newtypes before thinking about refactoring the whole non-void constraint stuff
 
 - Clean up `provideEvidenceForEquation`, define `ensureInhabited delta = null <$> provideEvidenceForEquation 1 delta`
   - Apparently, `provideEvidenceForEquation` currently assumes that every COMPLETE set is inhabited, and thus implicitly assumes that `ensureInhabited` is true for that data type. So we can't actually just re-define on in terms of the other just yet.
