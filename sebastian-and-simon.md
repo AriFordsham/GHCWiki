@@ -4,7 +4,7 @@
 
 Those with an MR actually have code.
 
-- #17248, #17376, !1976: Get rid of the special case for `-XEmptyCase`. Fix handling of newtypes because of testsuite failures. Some ground work for proper non-void constraint handling.
+- #17248, #17376, !1975: Get rid of the special case for `-XEmptyCase`. Fix handling of newtypes because of testsuite failures. Some ground work for proper non-void constraint handling.
 
 - #17357: Fix strictness of pattern synonyms. We came to the agreement that it's not worth the trouble and most useful pattern synonyms are strict anyway.
 
