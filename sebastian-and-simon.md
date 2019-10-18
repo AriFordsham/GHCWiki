@@ -4,7 +4,9 @@
 
 Those with an MR actually have code.
 
-- #17357, #17248: Fix strictness of pattern synonyms and newtypes before thinking about refactoring the whole non-void constraint stuff
+- #17248, #17376, !1976: Get rid of the special case for `-XEmptyCase`. Fix handling of newtypes because of testsuite failures. Some ground work for proper non-void constraint handling.
+
+- #17357: Fix strictness of pattern synonyms. We came to the agreement that it's not worth the trouble and most useful pattern synonyms are strict anyway.
 
 - Clean up `provideEvidenceForEquation`, define `ensureInhabited delta = null <$> provideEvidenceForEquation 1 delta`
   - Apparently, `provideEvidenceForEquation` currently assumes that every COMPLETE set is inhabited, and thus implicitly assumes that `ensureInhabited` is true for that data type. So we can't actually just re-define on in terms of the other just yet.
