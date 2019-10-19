@@ -146,13 +146,12 @@ elaborate configure scripts.)
 
 - **Python**
 
-  Required for [running the testsuite](building/running-tests).
-Version 2.6 or later is needed. Python3 should also work.
-Python3 is needed for GHC 8.2.1 or later.
+  Required for [running the testsuite](building/running-tests). 
+Python version 3 is needed.
 
 - **Sphinx**
 
-  Required for building the [documentation](building/docs).
+  Required for building the [documentation](building/docs). Sphinx for Python 3 is needed. Python 2 version is not suitable for Unicode.
 
 - **LLVM**
 
