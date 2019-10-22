@@ -193,6 +193,25 @@ Also relevant: https://gitlab.com/gitlab-org/gitlab-runner/merge_requests/725
 
 The `ghc-arm-2` runner supports running ARMv7 containers.
 
+## PowerPC configuration
+
+The PowerPC box is hosted by the OSUOSL and runs Fedora 29. Installation
+
+```shell
+$ yum install golang docker
+$ git clone https://gitlab.com/bgamari/gitlab-runner.git
+$ cd gitlab-runner
+$ git checkout feature/ppc64le-support
+$ cd gitlab-runner
+$ make deps
+$ make build_simple
+$ make out/helper-images/prebuilt-ppc64le.tar.xz
+$ REVISION=$(git rev-parse --short=8 HEAD)
+$ src=$(docker import out/helper-images/prebuilt-ppc64le.tar.xz)
+$ docker tag $src gitlab/gitlab-runner-helper:arm-$REVISION
+```
+
+
 ## Current Runners
 
 See the [Google Doc](https://docs.google.com/spreadsheets/d/1_UncQmtD5PkinLgq4DSB4Y5dy7PhOPPjPp6qnhZNA9w/edit#gid=0)
