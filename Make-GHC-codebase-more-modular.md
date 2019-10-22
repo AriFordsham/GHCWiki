@@ -206,7 +206,6 @@ GHC.Core.TyCoSubst <= types/TyCoSubst.hs
 GHC.Core.TyCoTidy <= types/TyCoTidy.hs
 GHC.Core.Type <= types/Type.hs
 GHC.Core.Unify <= types/Unify.hs
-GHC.Core.ConLike <= basicTypes/ConLike.hs
 GHC.Core.DataCon <= basicTypes/DataCon.hs
 ```
 
@@ -280,6 +279,7 @@ GHC.CmmToC <= cmm/PprC.hs
 GHC.Data.Bitmap <= cmm/Bitmap.hs
 GHC.RTS.Storage <= cmm/SMRep.hs
 GHC.CoreToStg.Prep <= coreSyn/CorePrep.hs
+GHC.BasicTypes.ConLike <= basicTypes/ConLike.hs
 ? <= backpack/BkpSyn.hs
 ? <= backpack/DriverBkp.hs
 ? <= backpack/NameShape.hs
