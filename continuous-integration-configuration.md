@@ -9,6 +9,7 @@ The following job tags are currently defined:
 
  * `aarch64-linux`
  * `armv7-linux`
+ * `ppc64le-linux`
  * `x86_64-linux`
  * `x86_64-darwin`
  * `x86_64-windows`
