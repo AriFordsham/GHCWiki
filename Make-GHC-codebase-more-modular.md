@@ -233,6 +233,34 @@ GHC.CoreToCore.WorkWrapLib <= stranal/WwLib.hs
 GHC.CoreToCore.ConstantFold <= prelude/PrelRules.hs
 ```
 
+* `GHC.BasicTypes`:
+```
+GHC.BasicTypes.Avail <= basicTypes/Avail.hs
+GHC.BasicTypes <= basicTypes/BasicTypes.hs
+GHC.BasicTypes.Demand <= basicTypes/Demand.hs
+GHC.BasicTypes.FieldLabal <= basicTypes/FieldLabel.hs
+GHC.BasicTypes.Id <= basicTypes/Id.hs
+GHC.BasicTypes.IdInfo <= basicTypes/IdInfo.hs
+GHC.BasicTypes.Lexeme <= basicTypes/Lexeme.hs
+GHC.BasicTypes.Literal <= basicTypes/Literal.hs
+GHC.BasicTypes.MkId <= basicTypes/MkId.hs
+GHC.BasicTypes.Module <= basicTypes/Module.hs
+GHC.BasicTypes.NameCache <= basicTypes/NameCache.hs
+GHC.BasicTypes.NameEnv <= basicTypes/NameEnv.hs
+GHC.BasicTypes.Name <= basicTypes/Name.hs
+GHC.BasicTypes.NameSet <= basicTypes/NameSet.hs
+GHC.BasicTypes.OccName <= basicTypes/OccName.hs
+GHC.BasicTypes.PatSyn <= basicTypes/PatSyn.hs
+GHC.BasicTypes.RdrName <= basicTypes/RdrName.hs
+GHC.BasicTypes.SrcLoc <= basicTypes/SrcLoc.hs
+GHC.BasicTypes.UniqSupply <= basicTypes/UniqSupply.hs
+GHC.BasicTypes.Unique <= basicTypes/Unique.hs
+GHC.BasicTypes.VarEnv <= basicTypes/VarEnv.hs
+GHC.BasicTypes.Var <= basicTypes/Var.hs
+GHC.BasicTypes.VarSet <= basicTypes/VarSet.hs
+```
+
+
 * `GHC.Cmm`
 
 ```
@@ -284,29 +312,6 @@ GHC.BasicTypes.ConLike <= basicTypes/ConLike.hs
 ? <= backpack/DriverBkp.hs
 ? <= backpack/NameShape.hs
 ? <= backpack/RnModIface.hs
-? <= basicTypes/Avail.hs
-? <= basicTypes/BasicTypes.hs
-? <= basicTypes/Demand.hs
-? <= basicTypes/FieldLabel.hs
-? <= basicTypes/Id.hs
-? <= basicTypes/IdInfo.hs
-? <= basicTypes/Lexeme.hs
-? <= basicTypes/Literal.hs
-? <= basicTypes/MkId.hs
-? <= basicTypes/Module.hs
-? <= basicTypes/NameCache.hs
-? <= basicTypes/NameEnv.hs
-? <= basicTypes/Name.hs
-? <= basicTypes/NameSet.hs
-? <= basicTypes/OccName.hs
-? <= basicTypes/PatSyn.hs
-? <= basicTypes/RdrName.hs
-? <= basicTypes/SrcLoc.hs
-? <= basicTypes/UniqSupply.hs
-? <= basicTypes/Unique.hs
-? <= basicTypes/VarEnv.hs
-? <= basicTypes/Var.hs
-? <= basicTypes/VarSet.hs
 ? <= deSugar/Coverage.hs
 ? <= deSugar/Desugar.hs
 ? <= deSugar/DsArrows.hs
