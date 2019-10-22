@@ -208,7 +208,7 @@ $ make build_simple
 $ make out/helper-images/prebuilt-ppc64le.tar.xz
 $ REVISION=$(git rev-parse --short=8 HEAD)
 $ src=$(docker import out/helper-images/prebuilt-ppc64le.tar.xz)
-$ docker tag $src gitlab/gitlab-runner-helper:arm-$REVISION
+$ docker tag $src gitlab/gitlab-runner-helper:ppc64le-$REVISION
 ```
 
 
