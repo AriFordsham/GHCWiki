@@ -196,7 +196,9 @@ The `ghc-arm-2` runner supports running ARMv7 containers.
 
 ## PowerPC configuration
 
-The PowerPC box is hosted by the OSUOSL and runs Fedora 29. Installation
+The PowerPC box is hosted by the OSUOSL and runs Fedora 29.
+
+### GitLab runner installation
 
 ```shell
 $ yum install golang docker
@@ -212,6 +214,16 @@ $ src=$(docker import out/helper-images/prebuilt-ppc64le.tar.xz)
 $ docker tag $src gitlab/gitlab-runner-helper:ppc64le-$REVISION
 ```
 
+### Docker-in-docker image build
+
+N.B. the latest static Docker build available from <https://download.docker.com/linux/static/stable/ppc64le/> is currently 18.06.
+```shell
+$ git clone https://github.com/docker-library/docker.git
+$ cd docker/
+$ git checkout 08e48bcb07e3edeff5399676924c42d18f894df6 # last commit with support for 18.06
+$ docker build 18.06/
+$ docker build 18.06/dind/
+```
 
 ## Current Runners
 
