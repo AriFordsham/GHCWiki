@@ -25,6 +25,7 @@ AndreasK, Ideally we would handle LLVM toolchain the same way we handle GHC and 
 #16977 - Check simons suggestion - Done by osa - verify it solved the issue. 
 #17092 - Implement stack check elision  - TODO
 #7741 - NCG-SIMD  - TODO
+!1224 - Maybe help out
 
 ## Things to do in the near future:
 
