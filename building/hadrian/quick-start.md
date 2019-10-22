@@ -4,7 +4,7 @@
 Below are quick instructions for building GHC with Hadrian.
 
 
-The following instructions assume that you have [got the sources](building/getting-the-sources) and [installed the necessary tools](building/preparation).  In particular for Windows users, all the commands below must be executed in the MinGW shell, not Command Prompt or PowerShell. The commands given below should be executed from the root of ghc's source tree.
+**The following instructions assume that you have [got the sources](building/getting-the-sources) and [installed the necessary tools](building/preparation).**  In particular for Windows users, all the commands below must be executed in the MinGW shell, not Command Prompt or PowerShell. The commands given below should be executed from the root of ghc's source tree.
 
 
 Hadrian is much younger than GHC's Make-based build system. If you need a feature supported by the Make build system but not by Hadrian, or more generally if you encounter any problem, please let us know [on the issue tracker](https://gitlab.haskell.org/ghc/ghc/issues).
@@ -112,6 +112,14 @@ Below is an equivalence table between make and hadrian commands, with a short de
 <th> <tt>build test --only=abcd</tt> </th>
 <th> Run only the test named <tt>abcd</tt> 
 </th></tr>
+<tr><th> <tt>make binary-dist</tt> </th>
+<th> <tt>build binary-dist</tt> </th>
+<th> Build a complete binary distribution
+</th></tr>
+<tr><th> <tt>make source-dist</tt> </th>
+<th> <tt>build source-dist</tt> </th>
+<th> Build a complete source distribution
+</th></tr>
 <tr><th> N/A </th>
 <th> <tt>build --build-root=ghc-T9999</tt> </th>
 <th> Build a complete stage2 compiler under a user specified build root (<tt>./ghc-T9999/</tt> here). Hadrian places all build artifacts under that directory 
@@ -171,21 +179,4 @@ currently supports several many others, among which the important ones described
 The equivalent of `mk/build.mk` in the make build system is the `hadrian/src/UserSettings.hs` module, where you can customise Hadrian to define a custom build flavour tailored to your needs, change the command line options passed to the various build tools under some specific circumstances, define new packages to be built, enable/disable profiling ways and much more.
 
 
-Hadrian has an entire document dedicated to this topic, with various examples. You can find it [here](https://github.com/snowleopard/hadrian/blob/master/doc/user-settings.md).
-
-## Build targets to be documented
-
-```
-# phony target for producing a binary distribution
-# note: they are not as complete as the ones the make build
-#       system produces yet.
-$ build binary-dist
-
-# phony target for producing a source distribution
-$ build source-dist
-
-# phony target for running validate
-# note: those are quite incomplete and buggy at the moment,
-#       see https://github.com/snowleopard/hadrian/issues/187 
-$ build validate
-```
+Hadrian has an entire document dedicated to this topic, with various examples. You can find it [here](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/user-settings.md).
