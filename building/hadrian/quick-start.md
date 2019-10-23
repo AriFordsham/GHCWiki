@@ -9,38 +9,23 @@ Below are quick instructions for building GHC with Hadrian.
 
 Hadrian is much younger than GHC's Make-based build system. If you need a feature supported by the Make build system but not by Hadrian, or more generally if you encounter any problem, please let us know [on the issue tracker](https://gitlab.haskell.org/ghc/ghc/issues).
 
-## tl;dr
-
-
-For GHC hackers already used to the Make build system, here is what you need to know:
-
-- You can still boot and configure yourself.
-- Use `hadrian/build.{sh, bat}` instead of `make`. It supports `-j`.
-- Add the `-c` flag if you want hadrian to boot and configure the source tree for you.
-- Build products are not in `inplace` anymore, but `_build` by default. Your stage 2 GHC would then be at `_build/stage1/bin/ghc` (because it's built by stage1).
-- The build root is configurable with `--build-root` or `-o`.
-- You can pick the build flavour with `--flavour=X` where X is `perf`, `prof`, etc.
-- You can run tests with `build test`, and specific ones by adding `--only="T12345 T11223"` for example.
-- GHCs built by Hadrian are now relocatable. This means you can move the `<build root>/stage1/{lib, bin}` directories around and GHC will still happily work, as long as both directories stay next to each other.
-
-
-You can now directly jump [here](building/hadrian/quick-start#) to see the table listing usual make commands and their hadrian equivalents.
-
 ## Your first build
 
+On Linux/OS X:
+
 ```
-$ ./hadrian/build.sh -c -j
+$ ./boot && ./configure && ./hadrian/build.sh -j
 ```
 
 On Windows:
 
 ```
-$ hadrian\build.bat -c -j
+$ ./boot && ./configure && hadrian\build.bat -j
 ```
 
 
 
-These commands should be run from the root of ghc's source tree. The `-c` flag asks Hadrian to run ghc's `boot` and `configure` scripts and can therefore be left out if you've already been building that source tree with the Make build system. The `-j` flag's meaning is the same as in the Make build system, it tells hadrian to build two or more targets in parallel, whenever possible.
+These commands should be run from the root of ghc's source tree. The `-j` flag's meaning is the same as in the Make build system, it tells hadrian to build two or more targets in parallel, whenever possible.
 
 
 If the build succeeds, you will find your stage 2 GHC at `_build/stage1/bin/ghc`. More generally, everything generated and built by the stage 0 (resp. stage 1) compiler lives under `_build/stage0/` (resp `_build/stage1/`)
@@ -50,13 +35,22 @@ If the build succeeds, you will find your stage 2 GHC at `_build/stage1/bin/ghc`
 
 If the default build script doesn't work on your system for some reason, you might want to give a try to another one, e.g. based on cabal (`hadrian/build.cabal.sh`), Stack (`hadrian/build.stack.sh`, `hadrian/build.stack.bat`, `hadrian/build.stack.nix.sh`) or the global package database (`hadrian/build.global-db.sh`, `hadrian/build.global-db.bat`).
 
-
-Windows users might want to read through [building GHC on Windows using Stack](https://github.com/snowleopard/hadrian/blob/master/doc/windows.md).
+Windows users might want to read through [building GHC on Windows using Stack](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/windows.md).
 
 **From now on, this page assumes you have found a build script that works for you and will refer to it as just `build`.**
 
 ## Migrating from the Make build system
 
+For GHC hackers already used to the Make build system, here is what you need to know to get started with Hadrian:
+
+- You can still boot and configure yourself.
+- Use `hadrian/build.{sh, bat}` instead of `make`. It supports `-j`.
+- Add the `-c` flag if you want hadrian to boot and configure the source tree for you.
+- Build products are not in `inplace` anymore, but `_build` by default. Your stage 2 GHC would then be at `_build/stage1/bin/ghc` (because it's built by stage1).
+- The build root is configurable with `--build-root` or `-o`.
+- You can pick the build flavour with `--flavour=X` where X is `perf`, `prof`, etc.
+- You can run tests with `build test`, and specific ones by adding `--only="T12345 T11223"` for example.
+- GHCs built by Hadrian are now relocatable. This means you can move the `<build root>/stage1/{lib, bin}` directories around and GHC will still happily work, as long as both directories stay next to each other.
 
 Below is an equivalence table between make and hadrian commands, with a short description of what the commands do.
 
@@ -128,7 +122,6 @@ Below is an equivalence table between make and hadrian commands, with a short de
 
 ## Command line options
 
-
 In addition to standard Shake flags (try `--help`), the build system
 currently supports several many others, among which the important ones described below. Please refer to `build --help` for a complete listing of the command line arguments supported by hadrian.
 
@@ -161,22 +154,36 @@ currently supports several many others, among which the important ones described
 
 - `--verbose`: run Hadrian in verbose mode. In particular this prints diagnostic messages by Shake oracles, useful when debugging hadrian.
 
+- `--docs[=TARGET]`: strip down docs targets to build (possible values: `none`, `no-haddocks`, `no-sphinx[-{html, pdfs, man}]`).
+
 - `--test-compiler[=TEST_COMPILER]`: use the given compiler (default is stage2) for running the testsuite, when executing the `test` target. `TEST_COMPILER` can be `stage1, stage2` or even the path to some arbitrary ghc executable.
 
 - `--only[=TESTS]`: only run the given test cases, e.g `--only="T123 T456"`.
 
 - `--skip-perf`: skip performance tests.
 
+- `--only-perf`: only run performance tests.
+
 - `--test-speed[=SPEED]`: `fast`, `slow` or `normal` (Normal by default). They respectively correspond to `make fasttest`, `make slowtest` and `make test`.
 
-- `--summary[=TEST_SUMMARY]`: where to output the test summary file.
+- `--summary[=TEST_SUMMARY]`: where to output the textual testsuite summary
 
 - `--test-way[=TEST_WAY]`: only run these test ways, e.g `--test-way=threaded2`. 
 
+- `-a` or `--test-accept`: accept new output of tests (by updating the appropriate `.stdout`/`.stderr` files)
+
+- `--test-verbose[=TEST_VERBOSE]`: a verbosity value between 0 and 5. 0 is silent, 4 and higher activates extra output from the testsuite driver.
+
+- `--summary-junit[=TEST_SUMMARY_JUNIT]`: where to output the XML test summary file (JUnit format)
+
+- `--test-root-dirs[=DIR1:[DIR2:...:DIRn]]`: directories to scan for `all.T` files, in which all our tests are declared (default: all directories).
+
+- `-k` or `--keep-test-files`: keep all the files generated when running the testsuite.
+
+Hadrian can also take user settings as CLI arguments, see [the documentation](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/user-settings.md#key-value-and-key-value-style-settings) for more details about them.
+
 ## User settings
 
+The Hadrian equivalent of `mk/build.mk` in the make build system is the `hadrian/src/UserSettings.hs` module, where you can customise Hadrian to define a custom build flavour tailored to your needs, change the command line options passed to the various build tools under some specific circumstances, define new packages to be built, enable/disable profiling ways and much more. Hadrian alternatively supplies a key-value style interface to those settings, allowing users to customise builds by specifying a few key-value expressions from the Hadrian command itself or a dedicated file, à là `mk/build.mk`.
 
-The equivalent of `mk/build.mk` in the make build system is the `hadrian/src/UserSettings.hs` module, where you can customise Hadrian to define a custom build flavour tailored to your needs, change the command line options passed to the various build tools under some specific circumstances, define new packages to be built, enable/disable profiling ways and much more.
-
-
-Hadrian has an entire document dedicated to this topic, with various examples. You can find it [here](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/user-settings.md).
+Both approaches are documented with various examples [here](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/user-settings.md).
