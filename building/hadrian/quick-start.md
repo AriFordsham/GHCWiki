@@ -54,71 +54,31 @@ For GHC hackers already used to the Make build system, here is what you need to 
 
 Below is an equivalence table between make and hadrian commands, with a short description of what the commands do.
 
-<table><tr><th> make command </th>
-<th> hadrian command </th>
-<th> description 
-</th></tr>
-<tr><th> <tt>make</tt>         </th>
-<th> <tt>build</tt>           </th>
-<th> Build a complete stage2 compiler with libraries and with the default flavour (<tt>perf</tt>) 
-</th></tr>
-<tr><th> <tt>make inplace/bin/ghc-stage1</tt> </th>
-<th> <tt>build _build/stage0/bin/ghc</tt> </th>
-<th> Build a stage1 GHC executable 
-</th></tr>
-<tr><th> <tt>make inplace/bin/ghc-stage2</tt> </th>
-<th> <tt>build _build/stage1/bin/ghc</tt> </th>
-<th> Build a stage2 GHC executable 
-</th></tr>
-<tr><th> <tt>make inplace/lib/package.conf.d/text-1.2.3.0.conf</tt> </th>
-<th> <tt>build _build/stage1/lib/package.conf.d/text-1.2.3.0.conf</tt> </th>
-<th> Build and register text-1.2.3.0.conf with the stage2 haskell compiler 
-</th></tr>
-<tr><th> <tt>make inplace/lib/platformConstants</tt> </th>
-<th> <tt>build _build/stage{0,1}/lib/platformConstants</tt> </th>
-<th> Generate the <tt>platformConstants</tt> file to be used for stage 1 or stage 2 GHC 
-</th></tr>
-<tr><th> <tt>make libraries/base/dist-install/build/libHSbase-4.12.0.0.a</tt> </th>
-<th> <tt>build _build/stage1/libraries/base/build/libHSbase-4.12.0.0.a</tt> </th>
-<th> Build static library for <tt>base</tt> with the stage 1 compiler 
-</th></tr>
-<tr><th> <tt>make docs</tt> </th>
-<th> <tt>build docs</tt> </th>
-<th> Generate haddocks, user guide and more 
-</th></tr>
-<tr><th> N/A </th>
-<th> <tt>build _build/docs/html/libraries/index.html</tt> </th>
-<th> Generate haddocks only 
-</th></tr>
-<tr><th> <tt>make clean ; make boot ; make 2>&1 | tee nofib-log</tt> </th>
-<th> <tt>build nofib</tt> </th>
-<th> Run the nofib suite (building a compiler if necessary) 
-</th></tr>
-<tr><th> <i>Setting <tt>BuildFlavour=quickest</tt> in build.mk</i> </th>
-<th> <tt>build --flavour=quickest</tt> </th>
-<th> Build a <tt>quickest</tt>-flavoured stage 2 compiler 
-</th></tr>
-<tr><th> <tt>make test</tt> </th>
-<th> <tt>build test</tt> </th>
-<th> Run the testsuite 
-</th></tr>
-<tr><th> <tt>make test TEST=abcd</tt> </th>
-<th> <tt>build test --only=abcd</tt> </th>
-<th> Run only the test named <tt>abcd</tt> 
-</th></tr>
-<tr><th> <tt>make binary-dist</tt> </th>
-<th> <tt>build binary-dist</tt> </th>
-<th> Build a complete binary distribution
-</th></tr>
-<tr><th> <tt>make source-dist</tt> </th>
-<th> <tt>build source-dist</tt> </th>
-<th> Build a complete source distribution
-</th></tr>
-<tr><th> N/A </th>
-<th> <tt>build --build-root=ghc-T9999</tt> </th>
-<th> Build a complete stage2 compiler under a user specified build root (<tt>./ghc-T9999/</tt> here). Hadrian places all build artifacts under that directory 
-</th></tr></table>
+| make command | hadrian command | description |
+|--------------|-----------------|-------------|
+| `make`       | `build`         | Build a complete stage2 compiler with libraries and with the default flavour (`perf`) |
+| `make inplace/bin/ghc-stage1` | `build _build/stage0/bin/ghc` | Build a stage1 GHC executable |
+| `make inplace/bin/ghc-stage2` | `build _build/stage1/bin/ghc` | Build a stage2 GHC executable  |
+|`make inplace/lib/package.conf.d/text-1.2.3.0.conf` | `build _build/stage1/lib/package.conf.d/text-1.2.3.0.conf` | Build and register text-1.2.3.0.conf with the stage2 haskell compiler |
+| `make inplace/lib/platformConstants` | `build _build/stage1/lib/platformConstants` | Generate the `platformConstants` file to be used for stage 2 GHC |
+| `make libraries/base/dist-install/build/libHSbase-4.12.0.0.a` | `build _build/stage1/libraries/base/build/libHSbase-4.12.0.0.a` | Build static library for <tt>base</tt> with the stage 1 compiler |
+| `make docs` | `build docs` | Generate haddocks, user guide and more |
+| `make BUILD_SPHINX_HTML=NO BUILD_SPHINX_PDF=NO` | `build _build/docs/html/libraries/index.html` | Generate haddocks only |
+| `cd nofib; make clean ; make boot ; make 2>&1 \| tee nofib-log` | `build nofib` | Run the nofib suite |
+| `make BuildFlavour=quickest` | `build --flavour=quickest` | Build a `quickest`-flavoured stage 2 compiler |
+| `make test` | `build test` | Run the testsuite |
+| `make test TEST=abcd` | `build test --only=abcd` | Run only the test named `abcd` |
+| `make binary-dist` | `build binary-dist` | Build a complete binary distribution |
+| `make source-dist` | `build source-dist` | Build a complete source distribution |
+| N/A | `build --build-root=ghc-T9999` | Build a complete stage2 compiler under a user specified build root (`./ghc-T9999/` here). Hadrian places all build artifacts under that directory |
 
+Note that `build test` is quite flexible and can take various arguments, to accomplish all the tasks that the Make build system's `test` rule can handle. Head to [this document](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/testsuite.md) for more on Hadrian's `test` rule.
+
+## User settings
+
+The Hadrian equivalent of `mk/build.mk` in the make build system is the `hadrian/src/UserSettings.hs` module, where you can customise Hadrian to define a custom build flavour tailored to your needs, change the command line options passed to the various build tools under some specific circumstances, define new packages to be built, enable/disable profiling ways and much more. Hadrian alternatively supplies a key-value style interface to those settings, allowing users to customise builds by specifying a few key-value expressions from the Hadrian command itself or a dedicated file, à là `mk/build.mk`.
+
+Both approaches are documented with various examples [here](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/user-settings.md).
 
 ## Command line options
 
@@ -182,8 +142,6 @@ currently supports several many others, among which the important ones described
 
 Hadrian can also take user settings as CLI arguments, see [the documentation](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/user-settings.md#key-value-and-key-value-style-settings) for more details about them.
 
-## User settings
+## Contributing
 
-The Hadrian equivalent of `mk/build.mk` in the make build system is the `hadrian/src/UserSettings.hs` module, where you can customise Hadrian to define a custom build flavour tailored to your needs, change the command line options passed to the various build tools under some specific circumstances, define new packages to be built, enable/disable profiling ways and much more. Hadrian alternatively supplies a key-value style interface to those settings, allowing users to customise builds by specifying a few key-value expressions from the Hadrian command itself or a dedicated file, à là `mk/build.mk`.
-
-Both approaches are documented with various examples [here](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/user-settings.md).
+Hadrian is part of [the main GHC git repository](https://gitlab.haskell.org/ghc/ghc) and lives under the `hadrian/` directory. You can therefore file Hadrian bug reports or feature requests [on GHC's issue tracker](https://gitlab.haskell.org/ghc/ghc/issues) (with the ~hadrian tag) and [contribute patches](https://gitlab.haskell.org/ghc/ghc/wikis/Contributing-a-Patch) as for any other part of GHC.
