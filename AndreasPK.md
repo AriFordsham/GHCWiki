@@ -17,15 +17,15 @@ Also include it in CI:
 AndreasK, Ideally we would handle LLVM toolchain the same way we handle GHC and xcabal-install
 3:59 PM see .gitlab/win32-init.sh
 
-!1990 - Waiting on CI
-!1636 - Waiting on CI
-!1742 - Waiting on gabor
-#1990 - Use dataToTag - needs work
-#16970 - Tag inference work  - First do #17004
-#16977 - Check simons suggestion - Done by osa - verify it solved the issue. 
-#17092 - Implement stack check elision  - TODO
-#7741 - NCG-SIMD  - TODO
-!1224 - Maybe help out
+* !1990 - Waiting on CI
+* !1636 - Waiting on CI
+* !1742 - Waiting on gabor
+* #1990 - Use dataToTag - needs work
+* #16970 - Tag inference work  - First do #17004
+* #16977 - Check simons suggestion - Done by osa - verify it solved the issue. 
+* #17092 - Implement stack check elision  - TODO
+* #7741 - NCG-SIMD  - TODO
+* !1224 - Maybe help out
 
 ## Things to do in the near future:
 
