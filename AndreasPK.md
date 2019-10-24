@@ -10,7 +10,7 @@ https://gitlab.haskell.org/ghc/ghc/issues/9660 - After/During tag inference
 
 ## Current agenda:
 
-Backport !1953 - MR against 8.8 branch.
+Backport !1953 - MR against 8.8 branch. - Done in !2001, wait for CI
 
 #16354 - LLVM broken on windows - TODO
 
@@ -19,7 +19,6 @@ AndreasK, Ideally we would handle LLVM toolchain the same way we handle GHC and 
 3:59 PM see .gitlab/win32-init.sh
 
 * !1990 - Waiting on CI
-* !1636 - Waiting on CI
 * !1742 - Waiting on gabor
 * #1990 - Use dataToTag - needs work
 * #16970 - Tag inference work  - First do #17004
