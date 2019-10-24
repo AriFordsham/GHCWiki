@@ -32,14 +32,36 @@ If the build succeeds, you will find your stage 2 GHC at `_build/stage1/bin/ghc`
 
 ## Alternative build scripts
 
-
 If the default build script doesn't work on your system for some reason, you might want to give a try to another one, e.g. based on cabal (`hadrian/build.cabal.sh`), Stack (`hadrian/build.stack.sh`, `hadrian/build.stack.bat`, `hadrian/build.stack.nix.sh`) or the global package database (`hadrian/build.global-db.sh`, `hadrian/build.global-db.bat`).
 
 Windows users might want to read through [building GHC on Windows using Stack](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/windows.md).
 
 **From now on, this page assumes you have found a build script that works for you and will refer to it as just `build`.**
 
-## Migrating from the Make build system
+## Anatomy of a GHC build
+
+GHC is a self-hosted compiler and consequently the build proceeds in several
+stages:
+
+1. The build begins with a user-provided installation of GHC called the
+   stage0 (or bootstrap) compiler which is used (via the `build.*.sh` scripts)
+   to build Hadrian.
+2. Hadrian uses the stage0 compiler to build a stage1 compiler (found in `_build/stage0
+   /bin/ghc`, because it's built by the stage0 compiler), linking against the stage0
+   compiler's core libraries (e.g. `base`).
+3. The stage1 compiler is used to build new core libraries (found in
+   `_build/stage1/lib`).
+4. The stage1 compiler is used to build a stage2 compiler (found in
+   `_build/stage1/bin/ghc`), linking against these new core libraries.
+
+Note that the stage directories in the `_build` directory can be thought of as
+named after the stage that was used to *build* the artifacts in each directory.
+
+These stages can be summarized graphically:
+
+![an overview of the stages of a Hadrian compilation](https://gitlab.haskell.org/ghc/ghc/raw/9a2798e139e3d20183b59bb5a66012db495c66c7/hadrian/doc/staged-compilation.svg)
+
+## Important commands
 
 For GHC hackers already used to the Make build system, here is what you need to know to get started with Hadrian:
 
@@ -52,9 +74,9 @@ For GHC hackers already used to the Make build system, here is what you need to 
 - You can run tests with `build test`, and specific ones by adding `--only="T12345 T11223"` for example.
 - GHCs built by Hadrian are now relocatable. This means you can move the `<build root>/stage1/{lib, bin}` directories around and GHC will still happily work, as long as both directories stay next to each other.
 
-Below is an equivalence table between make and hadrian commands, with a short description of what the commands do.
+Below is a list of Hadrian commands and the description of what they do. We also give the equivalent Make command whenever possible in the first column, as it will be familiar to all the GHC developers used to the Make build system.
 
-| make command | hadrian command | description |
+| Make command | Hadrian command | description |
 |--------------|-----------------|-------------|
 | `make`       | `build`         | Build a complete stage2 compiler with libraries and with the default flavour (`perf`) |
 | `make inplace/bin/ghc-stage1` | `build _build/stage0/bin/ghc` | Build a stage1 GHC executable |
@@ -73,6 +95,19 @@ Below is an equivalence table between make and hadrian commands, with a short de
 | N/A | `build --build-root=ghc-T9999` | Build a complete stage2 compiler under a user specified build root (`./ghc-T9999/` here). Hadrian places all build artifacts under that directory |
 
 Note that `build test` is quite flexible and can take various arguments, to accomplish all the tasks that the Make build system's `test` rule can handle. Head to [this document](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/testsuite.md) for more on Hadrian's `test` rule.
+
+## Loading GHC in GHCi (fast feedback loop)
+
+Hadrian comes with a script that lets you load the `ghc` library as well as the code for the executable, at `hadrian/ghci.sh`. This is a lot less work than a complete build, and you can pass arguments like `-j` to that script to distribute the work for the initial module loading. Note however that this only typechecks the code and you therefore cannot run any function from GHC in that ghci session.
+
+``` sh
+# for example:
+$ hadrian/ghci.sh -j4
+```
+
+You can then edit the source code and type `:r` in ghci whenever you want to see if your changes typecheck.
+
+
 
 ## User settings
 
@@ -144,4 +179,20 @@ Hadrian can also take user settings as CLI arguments, see [the documentation](ht
 
 ## Contributing
 
-Hadrian is part of [the main GHC git repository](https://gitlab.haskell.org/ghc/ghc) and lives under the `hadrian/` directory. You can therefore file Hadrian bug reports or feature requests [on GHC's issue tracker](https://gitlab.haskell.org/ghc/ghc/issues) (with the ~hadrian tag) and [contribute patches](https://gitlab.haskell.org/ghc/ghc/wikis/Contributing-a-Patch) as for any other part of GHC.
+Hadrian is part of [the main GHC git repository](https://gitlab.haskell.org/ghc/ghc) and lives under the `hadrian/` directory. You can therefore file Hadrian bug reports or feature requests [on GHC's issue tracker](https://gitlab.haskell.org/ghc/ghc/issues) (with the ~hadrian tag) and [contribute patches](https://gitlab.haskell.org/ghc/ghc/wikis/Contributing-a-Patch) as for any other part of GHC. This section provides a brief introduction to Hadrian and gives pointers to help you find the information you need.
+
+Hadrian is a build system for GHC, written in Haskell, around Shake ([website](https://shakebuild.com/), [hackage](https://hackage.haskell.org/package/Shake), [paper](https://ndmitchell.com/downloads/paper-shake_before_building-10_sep_2012.pdf)), a library for writing build systems. It might be useful for potential Hadrian contributors to take at least a quick look at the documentation or the paper to get an idea of what Shake build systems look like, on simple examples, since Hadrian uses this library all over the place.
+
+Many modules in Hadrian are about declaring rules to build or generate a certain type of file (object files, static or shared libraries, executables, ...) using specific tools (C compiler, GHC, Haddock, ...) that we refer to as "builders". These modules live under `hadrian/src/Rules/`. These rules are also where the various dependencies between rules/files are declared, using the `need` function from Shake. For instance, `hadrian/src/Rules/Library.hs` contains the rules that specify how static/shared/ghci libraries should be built, and as part of this specification require the object files of the said libraries to be built (the library files therefore depend on the object files). Those object files in turn depend on the corresponding source files. Looking for all calls to Shake's `need` function should reveal all the places where we record dependencies from things that we are trying to produce (generated files, object files, libraries, executables, package database entries, testsuite run, ...) on things that are required to produce them.
+
+We separated the code that calls the builders (`hadrian/src/Rules/...`) from the code that computes the command line arguments the said builders are going to receive from Hadrian. You can find the latters under `hadrian/src/Settings/`, in particular `hadrian/src/Settings/Builders/` and `hadrian/src/Settings/Packages.hs`. Finally, the flavours are defined under `hadrian/src/Settings/Flavours/`, except for the default flavour (the one Hadrian uses if you don't specify any `--flavour` argument on the command line) which is defined in `hadrian/src/Settings/Default.hs`.
+
+A few additional comments to wrap up this introduction to Hadrian:
+
+- Hadrian has a small EDSL for conditionally emitting command line arguments, predicated on various pieces of a given build context (package, stage, way, ...). It lies at the heart of the `hadrian/src/Settings/*` modules and is covered in depth by [a dedicated document](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/expressions.md).
+
+- All the packages that Hadrian knows about are defined in `hadrian/src/Packages.hs`.
+
+- Hadrian picks up a bunch of information from the `configure` script by having `./configure` turn `hadrian/cfg/system.cfg.in` into `hadrian/cfg/system.cfg`. This is how Hadrian learns about the path to various tools, information about host/target platforms and much more.
+
+- The modules under `hadrian/src/Hadrian/Haskell/` handle the extraction of package descriptions from `.cabal` files, and their use for configuring, copying and registering packages (but not building -- this is handled by Hadrian itself).
