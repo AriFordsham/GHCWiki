@@ -56,7 +56,12 @@ Those with an MR actually have code.
 ## Epics
 
 - Paper  
-  - Type-set checking function, commit to syntax for Delta
+  - Type-set checking function
+  - Commit to syntax for Delta
+    - à la Refinement type? But then we aren't in DNF (i.e. union only on the top-level).
+    - But if we have the "\Theta = union of \theta" idea, then how does \theta look? -> Just a list of constraints, of course (which are `all` true at the same time). Then \oplus just lifts adding a constraint over all the thetas.
+    - How do we call the empty \theta? \epsilon (neutral element of constraint list) seems misleading compared to \emptyset (neutral element of union).
+  - What are FV (the things we bind in Gamma) of Theta? Only the match variables or also let-bound stuff? We don't have any binding constructs in our representation of theta, so probably the latter? That is quite weird, because Gamma will bind stuff from other closed lexical scopes. See `h` in #17378, where in the second equation, Gamma would have to bind `y` although it's only a thing in the first equation.
 - Think about how to fix "regression" in T11822  
   - SG bets a smart `CoreMap` would do
 - Maybe pattern-match check typed TH quotations? SG doesn't think this is a good idea, because they might not even end up in that form in spliced code.
