@@ -33,6 +33,7 @@ Those with an MR actually have code.
   ```
   And then define `pmc` in terms of that. `liftDelta` for ops like `addTmCt`.  
     - Also we can finally get rid of `n_siblings` for the throttling function, it's just `length Delta` now
+    - It turns out that it's not so easy to implement throttling in a satisfying manner. By handling all `Delta`s in one bulk, we lose the connection between original Delta and offspring Deltas, e.g. the branching factor. So we somehow need to retain that connection, without leaking the details into the Oracle... So we basically handle a `[Theta]` in the checking function, not great. ARgh
 
 - ```
   data Clause = AtRhs
