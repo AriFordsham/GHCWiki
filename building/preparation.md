@@ -9,7 +9,7 @@ This section describes how to set up your system with all the tools you need to 
 - [Preparation Solaris](building/preparation/solaris) and [Building under Solaris](building/solaris)
 - [Illumos](building/preparation/illumos) (SmartOS, OpenIndiana, etc.)
 - [Raspberry Pi](building/preparation/raspberry-pi) (cross-compiling from Linux)
-- [Preparing and Building OpenBSD](building/preparation/open-bsd)
+- [Preparing and Building OpenBSD](building/preparation/openbsd)
 - [Preparation Stack (platform agnostic)](building/preparation/stack)
 
 Reference: [list of tools needed to build GHC](building/preparation/tools)
