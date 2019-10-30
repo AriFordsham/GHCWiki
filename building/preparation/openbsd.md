@@ -12,7 +12,7 @@ note: The wxallow setting will reduce your security (From OpenBSD's point of vie
 
 You can either set it by editing the `/etc/fstab` like so: 
 
-```wiki
+```
 01020304050607.h /usr/local ffs rw,nodev,wxallowed 1 2 
 ```
 
@@ -20,14 +20,14 @@ You can either set it by editing the `/etc/fstab` like so:
 and rebooting, or you can temporary set a mount as wxallowed by running this command: `mount -uo wxallowed /usr/local`. (where /usr/local is the partition you'd like to affected, run `mount` to see them all)
 See [https://www.openbsd.org/faq/upgrade60.html](https://www.openbsd.org/faq/upgrade60.html) for a more detailed explanation.
 
-- The login class for the user you will be performed the build as needs to have a sufficiently large 'datasize' (datasize-cur: 4096M has been known to work)
+- The login class for the user you will be performed the build as needs to have a sufficiently large 'datasize' (set in `/etc/login.conf`; `datasize-cur: 4096M` has been known to work)
 
 ## Required Tools
 
 
 Install the [required tools](https://gitlab.haskell.org/trac/ghc/wiki/Building/Preparation/Tools):
 
-```wiki
+```
 doas pkg_add ghc gmake autoconf%2.69 automake%1.15 gmp libiconv alex happy git python%3
 ```
 
