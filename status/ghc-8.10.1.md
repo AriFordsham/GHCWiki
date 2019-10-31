@@ -36,6 +36,7 @@ Below are the major highlights of the 8.10 series.
 - Tagging of large constructor families (#14373, !1742)
 - Don't emit custom TypeErrors that appear as given constraints (!1730)
 - Internal module hierarchy reorganization (#13009)
+- Fix obscure but awful bug affecting compacting GC (#17088, !1747; depends upon !1742)
 
 ### Runtime system
 
