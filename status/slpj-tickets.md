@@ -60,6 +60,7 @@
 - [The new pattern-match overlap/exhaustiveness checker](pattern-match-check)
 
 - [Code generation](commentary/compiler/code-gen)
+  * Optimising closure representation #14461
 
 ## Compile-time performance
 
