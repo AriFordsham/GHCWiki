@@ -229,6 +229,8 @@ test('prog013', extra_files(['Bad.hs','Good.hs']), ghci_script,['prog013.script'
 
 - **req_profiling**         requires profiling
 
+- **req_interp**            require the interpreter (i.e. one of ghci, annotations, TH, etc)
+
 - **ignore_stdout**         don't try to compare stdout output
 - **ignore_stderr**         don't try to compare stderr output
 - **normalise_errmsg_fun(f)**  pass the stderr through `f` before comparing
