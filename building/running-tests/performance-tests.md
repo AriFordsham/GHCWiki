@@ -46,7 +46,7 @@ While a tolerance percentage is specified manually in `*.T`, the baseline (i.e. 
 ## Expected Performance Changes
 
 
-In many cases, a new commit has expected performance changes. In order to allow the test suit to pass, these changes must be documented in the commit message in the format
+In many cases, a new commit has expected performance changes. In order to allow the test suite to pass, these changes must be documented in the commit message in the format
 
 ```wiki
 Metric (In|De)crease <metric(s)> <options>:
@@ -79,7 +79,7 @@ $ python3 testsuite/driver/perf_notes.py --chart HEAD~100..HEAD
 $ firefox ./PerformanceChart.html
 ```
 
-This will show results of you're *local* runs of performance tests (see [above](#performance-metrics-are-logged)). You can also view results from CI using the `--ci` option. Make sure to [fetch CI results](#ci-performance-metrics) first. There are a lot of results, so you'll likely wan to filter for a specific test/environment e.g.:
+This will show results of you're *local* runs of performance tests (see [above](#performance-metrics-are-logged)). You can also view results from CI using the `--ci` option. Make sure to [fetch CI results](#ci-performance-metrics) first. There are a lot of results, so you'll likely want to filter for a specific test/environment e.g.:
 
 ![Screenshot_from_2019-05-29_11-45-34](uploads/3a2783b354df3cdea54bf2c0c1575aff/Screenshot_from_2019-05-29_11-45-34.png)
 [PerformanceChart.html](uploads/a385555a89124fa049310f3d812febf7/PerformanceChart.html)
