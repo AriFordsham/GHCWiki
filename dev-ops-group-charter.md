@@ -46,6 +46,7 @@ The GHC DevOps Group identifies the ongoing and one-off devops requirements of G
 
 The members of the GHC DevOps Group are (alphabetically) 
 
+- Moritz Angermann (IOHK), 
 - Mathieu Boespflug (Tweag I/O), 
 - Manuel Chakravarty (Tweag I/O) \[chair\], 
 - Duncan Coutts (Well Typed),
