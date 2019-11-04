@@ -159,13 +159,7 @@ Python version 3 is needed.
 
 - **[libedit](http://www.thrysoee.dk/editline/)**
 
-  If libedit is installed, ghci will be built with a nice interactive line-editing interface.  
-Version 2.6.9 and later are known to work; note that the libeditline package listed on some distros is too old.
-If a suitable version of libedit cannot be found, ghc/ghci will still build fine, just without the nice line-editing capabilities.
-
-  If your installation does not have libedit by default, you may either download and build it yourself from the link above, or else install your distro's relevant package (sometimes called "libedit-devel" or "libedit-dev").
-
-  GHC does not use libedit on Windows; instead, it uses the console's default line editor.
+When building versions of GHC older than 6.10.3 for platforms other than Windows, the presence of libedit in source form will enable interactive line editing when running GHCi in a terminal. Since version 6.10.3, GHC uses Haskeline and not editline.
 
 - **[libffi](http://sourceware.org/libffi/)**
 
