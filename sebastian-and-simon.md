@@ -4,13 +4,15 @@
 
 Those with an MR actually have code.
 
-- #17248, #17376, !1975: Get rid of the special case for `-XEmptyCase`. Fix handling of newtypes because of testsuite failures. Some ground work for proper non-void constraint handling.
+- #17248, #17376, !1975: Get rid of the special case for `-XEmptyCase`. Fix handling of newtypes because of testsuite failures. Some ground work for proper non-void constraint handling. Currently blocked on a potentially spurious metric regression in `T10370`, which measures maximum residency (sigh). Side note: SG thinks we should refactor the testsuite to use `+RTS -h -i0.05 -A100k` instead of `+RTS -G1` for accurate measurements. At least `Note [residency]` suggests that.
 
 - #17357: Fix strictness of pattern synonyms. We came to the agreement that it's not worth the trouble and most useful pattern synonyms are strict anyway.
 
-- Clean up `provideEvidenceForEquation`, define `ensureInhabited delta = null <$> provideEvidenceForEquation 1 delta`
-  - Apparently, `provideEvidenceForEquation` currently assumes that every COMPLETE set is inhabited, and thus implicitly assumes that `ensureInhabited` is true for that data type. So we can't actually just re-define on in terms of the other just yet.
-  - `provideEvidence*` is a strange beast: It tries to provide positive evidence for an equation that can be presented to the user. But at the same time it isn't concerned with testing whether Delta is inhabited at all: In fact it just blindly assumes so (see last point) and preserves that invariant by calling `refineToAltCon`/`addRefutableAltCon`.
+- Clean up `provideEvidence`, define `ensureInhabited delta = null <$> provideEvidence 1 delta`
+  - !1975 features a rewrite, which makes for better warning messages
+  - But `provideEvidence` currently assumes that every COMPLETE set is inhabited, and thus implicitly assumes that `ensureInhabited` is true for that data type. So we can't actually just re-define it in terms of the other just yet.
+  - `provideEvidence` currently picks the smallest residual COMPLETE set for reports. But it doesn't consider type information! So it may indeed happen that we pick a residual COMPLETE set that looks smaller (say, size 2) and is still inhabited in favor of one that disregarding type info looks bigger (size 3) but actually only 1 is inhabited. For the same reason, we can't use `provideEvidence` as a replacement for `ensureInhabited`.
+  - It *is* possible to make `provideEvidence` behave appropriately to replace `ensureInhabited`, but it's not very efficient. Also `ensureInhabited` is entirely orthogonal to what `provideEvidence` does. Think of recursive data types, for example: `provideEvidence` doesn't attempt to recurse *at all*. It just doesn't make for good warning messages.
 
 - !1765: Preserve non-void constraints  
   - Should not remove inhabitation candidate stuff just yet, newtypes...
