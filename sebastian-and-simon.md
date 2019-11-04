@@ -4,17 +4,17 @@
 
 Those with an MR actually have code.
 
-- #17248, #17376, !1975: Get rid of the special case for `-XEmptyCase`. Fix handling of newtypes because of testsuite failures. Some ground work for proper non-void constraint handling. Currently blocked on a potentially spurious metric regression in `T10370`, which measures maximum residency (sigh). Side note: SG thinks we should refactor the testsuite to use `+RTS -h -i0.05 -A100k` instead of `+RTS -G1` for accurate measurements. At least `Note [residency]` suggests that.
-
-- #17357: Fix strictness of pattern synonyms. We came to the agreement that it's not worth the trouble and most useful pattern synonyms are strict anyway.
-
 - Clean up `provideEvidence`, define `ensureInhabited delta = null <$> provideEvidence 1 delta`
   - !1975 features a rewrite, which makes for better warning messages
   - But `provideEvidence` currently assumes that every COMPLETE set is inhabited, and thus implicitly assumes that `ensureInhabited` is true for that data type. So we can't actually just re-define it in terms of the other just yet.
   - `provideEvidence` currently picks the smallest residual COMPLETE set for reports. But it doesn't consider type information! So it may indeed happen that we pick a residual COMPLETE set that looks smaller (say, size 2) and is still inhabited in favor of one that disregarding type info looks bigger (size 3) but actually only 1 is inhabited. For the same reason, we can't use `provideEvidence` as a replacement for `ensureInhabited`.
   - It *is* possible to make `provideEvidence` behave appropriately to replace `ensureInhabited`, but it's not very efficient. Also `ensureInhabited` is entirely orthogonal to what `provideEvidence` does. Think of recursive data types, for example: `provideEvidence` doesn't attempt to recurse *at all*. It just doesn't make for good warning messages.
 
-- https://gitlab.haskell.org/ghc/ghc/tree/wip/ext-arity: Rebased Zach's implementation of the extensionality paper
+- https://gitlab.haskell.org/ghc/ghc/tree/wip/pmcheck-refactor-deltas:
+  ```
+  data Delta = Empty | And Delta PmCt | Or Delta Delta
+  ```
+  And then define `pmCheck` in terms of that.
 
 - #17378, !1765: Preserve non-void constraints  
   - Should not remove inhabitation candidate stuff just yet, newtypes...
@@ -31,16 +31,6 @@ Those with an MR actually have code.
   data PmResult       = PR  { uncovered :: [Delta]
                             , clauses :: [ClauseCoverage] }
   ```
-- https://gitlab.haskell.org/ghc/ghc/tree/wip/pmcheck-refactor-deltas:
-  ```
-  newtype Delta = Delta (Bag Theta) deriving (Functor, Foldable, Traversable)
-  liftDelta :: Monad m => (Theta-> m (Maybe Theta)) -> Delta -> m Delta
-  liftDelta f = fmap catBagsMaybe . traverse f
-  ```
-  And then define `pmc` in terms of that. `liftDelta` for ops like `addTmCt`.  
-    - Also we can finally get rid of `n_siblings` for the throttling function, it's just `length Delta` now
-    - It turns out that it's not so easy to implement throttling in a satisfying manner. By handling all `Delta`s in one bulk, we lose the connection between original Delta and offspring Deltas, e.g. the branching factor. So we somehow need to retain that connection, without leaking the details into the Oracle... So we basically handle a `[Theta]` in the checking function, not great. ARgh
-
 - ```
   data Clause = AtRhs
               | Guard PmGrd Clause
@@ -109,3 +99,15 @@ Those with an MR actually have code.
 - integerConstantFolding: `CONSTANT_FOLDED` on `decodeDoubleInteger`, but gets WW'd because of nested `Int64`
   - We can't really just return the unboxed Int#, because that's platform dependent. BUT we could return Int64# instead
   - Alternatively, inline `decodeIntegerDouble` and recognise the PrimOp, seems like the much saner behavior?!
+
+# On hold
+
+- https://gitlab.haskell.org/ghc/ghc/tree/wip/ext-arity: Rebased Zach's implementation of the extensionality paper  
+  - Wait for levity polymorphism and matchability polymorphism to work out
+
+# Done
+
+- #17248, #17376, !1975: Get rid of the special case for `-XEmptyCase`. Fix handling of newtypes because of testsuite failures. Some ground work for proper non-void constraint handling.
+- #17357: Fix strictness of pattern synonyms. We came to the agreement that it's not worth the trouble and most useful pattern synonyms are strict anyway.
+
+
