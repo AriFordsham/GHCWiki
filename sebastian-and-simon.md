@@ -16,7 +16,7 @@ Those with an MR actually have code.
 
 - https://gitlab.haskell.org/ghc/ghc/tree/wip/ext-arity: Rebased Zach's implementation of the extensionality paper
 
-- !1765: Preserve non-void constraints  
+- #17378, !1765: Preserve non-void constraints  
   - Should not remove inhabitation candidate stuff just yet, newtypes...
   - Perhpas postpone test until get to RHS (pmc []), and then ask for `not (null (provideEvidence 1 delta))`
 
