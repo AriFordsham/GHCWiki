@@ -14,11 +14,14 @@ Those with an MR actually have code.
   - `provideEvidence` currently picks the smallest residual COMPLETE set for reports. But it doesn't consider type information! So it may indeed happen that we pick a residual COMPLETE set that looks smaller (say, size 2) and is still inhabited in favor of one that disregarding type info looks bigger (size 3) but actually only 1 is inhabited. For the same reason, we can't use `provideEvidence` as a replacement for `ensureInhabited`.
   - It *is* possible to make `provideEvidence` behave appropriately to replace `ensureInhabited`, but it's not very efficient. Also `ensureInhabited` is entirely orthogonal to what `provideEvidence` does. Think of recursive data types, for example: `provideEvidence` doesn't attempt to recurse *at all*. It just doesn't make for good warning messages.
 
+- https://gitlab.haskell.org/ghc/ghc/tree/wip/ext-arity: Rebased Zach's implementation of the extensionality paper
+
 - !1765: Preserve non-void constraints  
   - Should not remove inhabitation candidate stuff just yet, newtypes...
   - Perhpas postpone test until get to RHS (pmc []), and then ask for `not (null (provideEvidence 1 delta))`
 
-- `data PmCt = TyCt .. | TmCt ...`; then `addPmCt :: Delta -> PmCt -> DsM Delta`
+- `data PmCt = TyCt .. | TmCt ...`; then `addPmCt :: Delta -> PmCt -> DsM Delta`  
+  - Type evidence only in bulk lists, so `addPmCt` doesn't really make sense. It should be `addPmCts`, taking a bag of `PmCt`s.
 
 - ```
   data ClauseCoverage = Redundant | Matched RhsAccessibility
@@ -28,7 +31,8 @@ Those with an MR actually have code.
   data PmResult       = PR  { uncovered :: [Delta]
                             , clauses :: [ClauseCoverage] }
   ```
-- ```
+- https://gitlab.haskell.org/ghc/ghc/tree/wip/pmcheck-refactor-deltas:
+  ```
   newtype Delta = Delta (Bag Theta) deriving (Functor, Foldable, Traversable)
   liftDelta :: Monad m => (Theta-> m (Maybe Theta)) -> Delta -> m Delta
   liftDelta f = fmap catBagsMaybe . traverse f
