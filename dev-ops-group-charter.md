@@ -54,7 +54,7 @@ The members of the GHC DevOps Group are (alphabetically)
 - Alexander Green (Standard Chartered Bank),
 - Andres Löh (Well Typed),
 - Simon Marlow (Facebook), 
-- Neil Mitchell (Digital Asset), 
+- Moritz Kiefer (Digital Asset), 
 - Simon Peyton Jones (Microsoft Research),
 - Michael Snoyman (FP Complete),
 - Patrick Thomson (GitHub),
