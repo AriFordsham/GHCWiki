@@ -18,6 +18,15 @@ Also include it in CI:
 AndreasK, Ideally we would handle LLVM toolchain the same way we handle GHC and xcabal-install
 3:59 PM see .gitlab/win32-init.sh
 
+!2001 !!!!
+
+!2091 #17437  
+#17429  
+
+
+
+
+
 * !1990 - Waiting on CI
 * !1742 - Waiting on gabor
 * #1990 - Use dataToTag - needs work
