@@ -4,6 +4,8 @@
 
 - `hs-boot` files: [Commentary/Compiler/TyingTheKnot](commentary/compiler/tying-the-knot)
 
+- [Trees That Grow (TTG)](https://gitlab.haskell.org/ghc/ghc/wikis/implementing-trees-that-grow)
+
 - **Language features**
 
   - [ArrowNotation](arrow-notation)
