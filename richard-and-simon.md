@@ -45,6 +45,7 @@ We should be clear about the dependencies between items on this list.
 
 - #17443: way of injecting levity polymorpihc bindings
 - #17441: ensure that tcView and coreView can inline
+- #17440: seqId magic
 
 - #17173: lazy instantiation and VTA
 
