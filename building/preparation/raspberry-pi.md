@@ -47,7 +47,7 @@ ln -s arm-linux-gnueabihf-ld $tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bi
 Now we can configure with:
 
 ```wiki
-CC=arm-linux-gnueabihf-gcc-4.9.3 ./configure --target=arm-linux-gnueabihf --enable-unregisterised
+CC=arm-linux-gnueabihf-gcc-4.9.3-gnu11 ./configure --target=arm-linux-gnueabihf --enable-unregisterised
 ```
 
 Edit build.mk to look like this:
