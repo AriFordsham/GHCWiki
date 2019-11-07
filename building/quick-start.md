@@ -20,7 +20,7 @@ cd ghc/
 ```
 
 
-Unless you want to build the latest development version of GHC, [checkout a stable release](building/quick-start#).
+Unless you want to build the latest development version of GHC, [checkout a stable release](building/quick-start#check-out-a-stable-release).
 
 
 Optionally, you can customize your build by creating the file `mk/build.mk` using `mk/build.mk.sample` as a template and e.g. removing the comment marker \# on the line "BuildFlavour = devel2".
