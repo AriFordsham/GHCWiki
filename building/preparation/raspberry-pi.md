@@ -7,6 +7,7 @@ To build a cross-compiler from Linux to Raspberry Pi (running Raspbian), first g
 git clone https://github.com/raspberrypi/tools.git
 ```
 
+See below for GHC 8.8.1.
 
 Let's say this created a directory `$tools`.  Now add the tools to your path:
 
@@ -32,6 +33,34 @@ You'll need to use `integer-simple`, because the cross-compilation environment d
 
 
 The build should go successfully all the way to stage 2.  You can then use the stage 1 compiler on the host as a cross-compiler.
+
+## Raspberry PI Tools (gcc 4.9.3) with GHC 8.8.1
+
+The raspberry pi tools are not by default c99 compliant.  Unfortunately, simply adding 'CFLAGS=-std=gnu99' doesn't work because some part of the build system doesn't pass the flag where it's needed.  So we have to make a shell script.
+
+```wiki
+PATH=$PATH:$tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin
+echo 'arm-linux-gnueabihf-gcc-4.9.3 -std=gnu11 $@' > $tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc-4.9.3-gnu11
+ln -s arm-linux-gnueabihf-ld $tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-ld-gnu11
+```
+
+Now we can configure with:
+
+```wiki
+CC=arm-linux-gnueabihf-gcc-4.9.3 ./configure --target=arm-linux-gnueabihf --enable-unregisterised
+```
+
+Edit build.mk to look like this:
+
+```wiki
+Stage1Only = YES
+HADDOCK_DOCS = NO
+INTEGER_LIBRARY = integer-simple
+WITH_TERMINFO = NO
+BuildFlavour = quick
+```
+
+Now follow the instructions in [Building/CrossCompiling](building/cross-compiling).
 
 ## Using LLVM
 
