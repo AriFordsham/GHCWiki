@@ -13,8 +13,8 @@
   - `cabal install alex happy haddock`
 1.  Install tools for building the docs:
 
-  - `sudo easy_install pip`
-  - `sudo pip install sphinx`
+  - `sudo easy_install pip3`
+  - `sudo pip3 install sphinx`
   - Make sure `xelatex` is on your PATH, and works (if you installed MacTeX from [https://www.tug.org/mactex/downloading.html](https://www.tug.org/mactex/downloading.html), it includes `xelatex`)
   - Download and install (e.g., via `Font Book.app`) DEJAVU fonts Sans, Sans Mono, and Serif from, e.g., [https://www.fontsquirrel.com/fonts/list/foundry/dejavu-fonts](https://www.fontsquirrel.com/fonts/list/foundry/dejavu-fonts) 
 1. Done!
@@ -129,14 +129,14 @@ GHC 7.8 and older does not support LLVM \>=3.5, which is the default version of 
 To build the documentation you need Sphinx. 
 
 ```wiki
-sudo pip install sphinx
+sudo pip3 install sphinx
 ```
 
 
-If you are using the Apple provided version of Python you will need to install `pip` before the above command works:
+If you are using the Apple provided version of Python you will need to install `pip3` before the above command works:
 
 ```wiki
-sudo easy_install pip
+sudo easy_install pip3
 ```
 
 ### GHC 7.10 and earlier
