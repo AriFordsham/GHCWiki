@@ -39,7 +39,7 @@ Event logging can produce "observer effects". In particular, programs can pause 
 
 - EventLog framework is located in ghc_root/rts/eventlog/
 - A [ghc-events](http://hackage.haskell.org/package/ghc-events) library to parse EventLog files for any visualizer, which relies upon the Data.Binary library.
-- Visualizer: [ThreadScope](http://raintown.org/?page_id=132)
+- Visualizer: [ThreadScope](https://wiki.haskell.org/ThreadScope)
 
 ## Code repository
 
