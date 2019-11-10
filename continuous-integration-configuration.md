@@ -180,10 +180,11 @@ dropping `gitlab-runner`'s helper image. Consequently we amend the cron job acco
 ```sh
 #!/bin/sh -e
 
-/usr/share/gitlab-runner/clear-docker-cache
+gitlab_runner=/root/gitlab-runner
+$gitlab_runner/packaging/root/usr/share/gitlab-runner/clear-docker-cache
 
-REVISION=$(git -C /root/gitlab-runner rev-parse --short=8 HEAD)
-src=$(docker import /root/gitlab-runn/out/helper-images/prebuilt-arm64.tar.xz)
+REVISION=$(git -C $gitlab-runner rev-parse --short=8 HEAD)
+src=$(docker import $gitlab-runner/out/helper-images/prebuilt-arm64.tar.xz)
 docker tag $src gitlab/gitlab-runner-helper:arm-$REVISION
 ```
 Where `hash` needs to be updated whenever `gitlab-runner` is updated. Sigh. 
