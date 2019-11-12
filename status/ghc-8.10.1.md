@@ -37,6 +37,7 @@ Below are the major highlights of the 8.10 series.
 - Don't emit custom TypeErrors that appear as given constraints (!1730)
 - Internal module hierarchy reorganization (#13009)
 - Fix obscure but awful bug affecting compacting GC (#17088, !1747; depends upon !1742)
+- Unlifted newtypes (#15219, !364)
 
 ### Runtime system
 
