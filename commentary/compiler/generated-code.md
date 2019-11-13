@@ -472,7 +472,7 @@ and decide how the available arguments should be applied to it.
 There are three cases the generic apply functions have to deal
 with:
 
-1. The function's arity (recorder in the function closure's info
+1. The function's arity (recorded in the function closure's info
    table) exactly matches the number of arguments available on the
    stack
 
