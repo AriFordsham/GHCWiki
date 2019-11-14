@@ -20,6 +20,8 @@ AndreasK, Ideally we would handle LLVM toolchain the same way we handle GHC and 
 
 !2001 !!!!
 
+IO Manager: https://gitlab.haskell.org/ghc/ghc/merge_requests/1224/diffs
+
 !2091 #17437  
 #17429  
 
