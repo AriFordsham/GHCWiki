@@ -54,7 +54,7 @@ instance UpdateField "x" T T Int where
 There is substantial bikeshedding to be done about the details of these classes (names, parameter number and order, whether to use functional dependencies or type families), but it should not substantially alter the proposal. Note that these classes correspond to the `FieldOwner` class in the `record` library.
 
 
-GHC will solve a constraint `HasField "x" (T p q r) t` or `UpdateField "x" (T p q r) (T p' q' r') t` when T has a field `x` that has a rank-0 type containing no existential variables. It will constraint `t` to be equal to the type of the field `x`. (Rank-1 types are out, because they violate the functional dependency on `HasField`, and higher ranks would need impredicative polymorphism.)
+GHC will solve a constraint `HasField "x" (T p q r) t` or `UpdateField "x" (T p q r) (T p' q' r') t` when T has a field `x` that has a rank-0 type containing no existential variables. It will constrain `t` to be equal to the type of the field `x`. (Rank-1 types are out, because they violate the functional dependency on `HasField`, and higher ranks would need impredicative polymorphism.)
 
 
 
