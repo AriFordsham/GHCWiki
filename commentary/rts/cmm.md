@@ -11,7 +11,7 @@ We use the C preprocessor on `.cmm` files, making extensive use of macros to mak
 
 Reading material for learning Cmm is somewhat scattered, so I (Arash) have created a list of useful links. Since the Cmm language is changing as GHC changes, I have prioritized resources that are not too old. (*Feel free to add/remove/modify this list! :)*)
 
-- An overview of Cmm is given in [David Terei's bachelor thesis](https://davidterei.com/downloads/papers/terei:2009:honours_thesis.pdf) (chapter 2.4.3).
+- An overview of Cmm is given in [David Terei's bachelor thesis](https://llvm.org/pubs/2009-10-TereiThesis.pdf) (chapter 2.4.3).
 - The comments in the beginning of [compiler/cmm/CmmParse.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmParse.y) is super-useful and kept up to date. The rest of the file contains the *grammar* of the language. Afraid of grammars? Edward Yang wrote this fantastic [blog post](http://blog.ezyang.com/2013/07/no-grammar-no-problem/) on how to understand the constructs of Cmm by using the grammar.  
 - Cmm has a preprocessor like the one in C and many of the macros are defined in [includes/Cmm.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/Cmm.h). 
 - In 2012, Simon Marlow extended the Cmm language by adding a new high-level syntax which can be used when you don't need low-level access (like registers). The [commit](https://github.com/ghc/ghc/commit/a7c0387d20c1c9994d1100b14fbb8fb4e28a259e) explains the details.
