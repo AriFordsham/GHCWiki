@@ -117,6 +117,8 @@ Note: In the case of Windows builders it is important that we run only one build
 
 Start with Windows Server GCE image.
 
+Enable long file path support by setting the registry key `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem\LongPathsEnabled` to `0x1`.
+
 Install [Git for Windows](https://git-scm.com/download/win). When prompted
 select `Git from the command line and also from 3rd-party software`. Also,
 ensure `core.autocrlf` is set to `false` (this can be set during installation or
