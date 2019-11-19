@@ -19,6 +19,25 @@ Those with an MR actually have code.
   pmc :: Clause -> Deltas -> DsM 
   ```
   only that `Clause` is the skeleton for 3 different kinds of trees. 
+  - In !2192 Seb proposed
+    ```haskell
+    data ClauseTree many branch rhs
+      = Many   !many           [ClauseTree many branch rhs]
+      | Branch !branch         !(ClauseTree many branch rhs)
+      | AtRhs  !(Located SDoc) !rhs
+
+    --                             many   branch      rhs
+    type GrdTree      = ClauseTree GrdVec Void        GrdVec
+    type CtTree       = ClauseTree PmCts  BranchPmCts PmCts
+    type DigestedTree = ClauseTree ()     Diverged    Covered
+    ```
+    The `Clause` data type above has the advantage that there is only a single
+    location where we annotate `PmGrd`s. But this data type is better suited to
+    express the semantics for `PmCt`s: `Branch` will be annotated with
+    diverging and uncovered constraints and thus captures fall-through
+    semantics. Maybe we do both in separate data types?
+    Anyway, converting one into the other is simple, but needs continuation passing style for wrapping `Branch`es.
+  - Maybe we should have separate data types for `GrdTree` and `CtTree`/`DigestedTree`?
 
 - Clean up `provideEvidence`, define `ensureInhabited delta = null <$> provideEvidence 1 delta`
   - !1975 featured a rewrite, which makes for better warning messages
