@@ -40,7 +40,8 @@ IO Manager: https://gitlab.haskell.org/ghc/ghc/merge_requests/1224/diffs
 
 ## Things to do in the near future:
 
-* #16977
+* #16977 
+* #17495 - precomputed closures should work for Word and others as well
 * SIMD
 * Branch likelyhood: #14672
 * Register allocator improvements: #7063, #8048, #12232, #13051, #16243
