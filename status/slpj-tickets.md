@@ -92,6 +92,8 @@ Code-size blowup when using `deriving`; see tickets with keyword `deriving-perf`
 
 [Run time perf page](performance/runtime)
 
+- #15167: Adding superclass `Monad m =>` makes the program 100x slower.
+
 - The notorious state hack, and `replicateM` in particular
 
   - #1168 has a list of related tickets
