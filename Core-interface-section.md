@@ -8,6 +8,8 @@ There are a few common considerations:
     - Some of these projects want to run independently of normal code generation, so any mechanism should not affect how normal code generation proceeds.
 - Completeness
     - Every definition in the original Haskell program is present, and all of its code is present.
+- Precision
+    - No additional definitions are present that are not in the original Haskell program.
 
 # Examples
 
@@ -67,7 +69,7 @@ There are already plans to make interface files extensible, so we can just add a
 
 ## What goes in?
 
-At least: the post-desugar but pre-optimization Core for every binding in the module.
+At least: the post-desugar but pre-optimization Core for every binding in the module, and the definitions of any instance methods (and dictionaries?) defined in the module.
 
 In particular, we must not do any cross-module inlining, as the inlined unfolding will have been optimized (this is particularly important since that may violate "Platform-agnostic Core"). Moreover, this can affect "Completeness", as declarations can be removed or split up.
 
