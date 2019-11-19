@@ -4,8 +4,24 @@
 
 Those with an MR actually have code.
 
+- !2192: Reflect tree structure of clauses and gaurds in the syntax we check. A variant of the following:
+  ```
+  data ClauseCoverage = Redundant | Matched RhsAccessibility
+  data RhsAccessibility = RhsInaccessible | RhsAccessable
+  data PmClauseResult = PCR { uncovered :: [Delta]
+                            , coverage :: Clause  }
+  data PmResult       = PR  { uncovered :: [Delta]
+                            , clauses :: [ClauseCoverage] }
+
+  data Clause = AtRhs
+              | Guard PmGrd Clause
+              | Many [Clause]
+  pmc :: Clause -> Deltas -> DsM 
+  ```
+  only that `Clause` is the skeleton for 3 different kinds of trees. 
+
 - Clean up `provideEvidence`, define `ensureInhabited delta = null <$> provideEvidence 1 delta`
-  - !1975 features a rewrite, which makes for better warning messages
+  - !1975 featured a rewrite, which makes for better warning messages
   - But `provideEvidence` currently assumes that every COMPLETE set is inhabited, and thus implicitly assumes that `ensureInhabited` is true for that data type. So we can't actually just re-define it in terms of the other just yet.
   - `provideEvidence` currently picks the smallest residual COMPLETE set for reports. But it doesn't consider type information! So it may indeed happen that we pick a residual COMPLETE set that looks smaller (say, size 2) and is still inhabited in favor of one that disregarding type info looks bigger (size 3) but actually only 1 is inhabited. For the same reason, we can't use `provideEvidence` as a replacement for `ensureInhabited`.
   - It *is* possible to make `provideEvidence` behave appropriately to replace `ensureInhabited`, but it's not very efficient. Also `ensureInhabited` is entirely orthogonal to what `provideEvidence` does. Think of recursive data types, for example: `provideEvidence` doesn't attempt to recurse *at all*. It just doesn't make for good warning messages.
@@ -23,20 +39,6 @@ Those with an MR actually have code.
 - `data PmCt = TyCt .. | TmCt ...`; then `addPmCt :: Delta -> PmCt -> DsM Delta`  
   - Type evidence only in bulk lists, so `addPmCt` doesn't really make sense. It should be `addPmCts`, taking a bag of `PmCt`s.
 
-- ```
-  data ClauseCoverage = Redundant | Matched RhsAccessibility
-  data RhsAccessibility = RhsInaccessible | RhsAccessable
-  data PmClauseResult = PCR { uncovered :: [Delta]
-                            , coverage :: ClauseCoverage }
-  data PmResult       = PR  { uncovered :: [Delta]
-                            , clauses :: [ClauseCoverage] }
-  ```
-- ```
-  data Clause = AtRhs
-              | Guard PmGrd Clause
-              | Many [Clause]
-  pmc :: Clause -> Deltas -> DsM 
-  ```
 
 - When we have `Delta = Delta (Bag Theta)`, we can actually use the Covered set as a `Delta` for "long distance info"  
   - No more just positive info and the `computeCovered` duplication can go away
