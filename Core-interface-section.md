@@ -6,6 +6,8 @@ There are a few common considerations:
     - Obviously CPP and explicit references to machine types and operations will still be there. 
 - Non-interference
     - Some of these projects want to run independently of normal code generation, so any mechanism should not affect how normal code generation proceeds.
+- Completeness
+    - Every definition in the original Haskell program is present, and all of its code is present.
 
 # Examples
 
@@ -20,6 +22,7 @@ Desiderata:
     - Compiles to a completely different "platform".
 - Non-interference
     - Only parts of the program are compiled specially, the normal Haskell program is used.
+- Completeness
 
 ## Liquid Haskell
 
@@ -30,6 +33,7 @@ Desiderata:
     - Things like machine arithmetic probably make LH's life harder.
 - Non-interference
     - Programs analyzed with LH are supposed to be compiled normally, so you don't want it to interfere with normal codegen.
+- Completeness
 
 ## Clash
 
@@ -55,6 +59,7 @@ The [Staged TH](https://github.com/ghc-proposals/ghc-proposals/pull/243) proposa
 
 Desiderata:
 - Platform-agnostic Core
+- Completeness? Might be fine to just have the exported definitions for evaluation.
 
 # Proposal: add a Core section to interface files
 
@@ -64,7 +69,7 @@ There are already plans to make interface files extensible, so we can just add a
 
 At least: the post-desugar but pre-optimization Core for every binding in the module.
 
-In particular, we must not do any cross-module inlining, as the inlined unfolding will have been optimized (this is particularly important since that may violate "Platform-agnostic Core"). Intra-module inlining is probably fine but it might be safest to just not do anything.
+In particular, we must not do any cross-module inlining, as the inlined unfolding will have been optimized (this is particularly important since that may violate "Platform-agnostic Core"). Moreover, this can affect "Completeness", as declarations can be removed or split up.
 
 Possibly we should add more than this. If we added essentially the entire `ModGuts`, then we could support *resumable* compilation. We might also need to preserve some `DynFlags`, or require them to be passed identically again.
 
