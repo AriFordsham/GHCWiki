@@ -253,17 +253,20 @@ end
 $script = <<-SCRIPT
 mkdir -p /usr/local/etc/pkg/repos/
 echo 'FreeBSD: { url: "pkg+http://pkg.FreeBSD.org/${ABI}/latest" }' > /usr/local/etc/pkg/repos/FreeBSD.conf
-pkg install -y git bash gitlab-runner gmake curl wget libiconv autoconf automake python3 py36-sphinx
+pkg install -y git bash gitlab-runner gmake curl wget libiconv autoconf automake python3 py36-sphinx ghc
 
 git clone https://github.com/haskell/cabal
 cd cabal
 git checkout cabal-install-v3.0.0.0
 cd cabal-install
-setenv NO_DOCUMENTATION YES
+export NO_DOCUMENTATION=YES
 ./bootstrap.sh
 
 $HOME/.cabal/bin/cabal update
 $HOME/.cabal/bin/cabal install alex happy
+
+adduser ghc
+echo ghcGHCghc | passwd ghc
 SCRIPT
 ```
 Initial configuration looks something like this:
@@ -273,11 +276,9 @@ $ cat >Vagrantfile <<EOF
 [Past Vagrantfile above]
 EOF
 $ vagrant up --provision
-$ VBoxManage list vms
-"test_default_1574207270101_39557" {782acbdf-e50a-4322-9a49-725a9c06da90}
-
-$ VBoxManage controlvm "{782acbdf-e50a-4322-9a49-725a9c06da90}" poweroff
-$ VBoxManage clonevm "{782acbdf-e50a-4322-9a49-725a9c06da90}" --name "ghc-ci-base"
+$ vm=$(VBoxManage list vms | cut -f 2 -d ' ')
+$ VBoxManage controlvm $vm poweroff
+$ VBoxManage clonevm $vm --name "ghc-ci-base"
 ```
 And add an entry to `/etc/nixos/configuration.nix`:
 ```nix
