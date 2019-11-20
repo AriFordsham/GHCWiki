@@ -28,7 +28,7 @@ The runners are configured to expose the following environment variables:
 
 ## NixOS
 
-See the `ci-worker.nix` expression in the `ghc-servers` repository. This module can be dropped in `/etc/nixos/` and the following added to `/etc/nixos/configuration.nix`:
+See the `ci-worker.nix` expression in the ghc/ghc-servers> repository. This module can be dropped in `/etc/nixos/` and the following added to `/etc/nixos/configuration.nix`:
 ```nix
     import = [
       (import ./ghc-ci-worker.nix {name = "NAME"; cores = CORES; token = "TOKEN";})
@@ -228,6 +228,53 @@ $ docker build 18.06/
 $ docker build 18.06/dind/
 ```
 
+## FreeBSD
+
+We use `gitlab-runner`'s VirtualBox executor to test on FreeBSD. The base VM is built with Vagrant and the following configurations:
+```ruby
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "freebsd/FreeBSD-11.3-RELEASE"
+  #config.vm.box = "freebsd/FreeBSD-12.0-RELEASE"
+
+  config.vm.guest = :freebsd
+
+  config.ssh.shell = "sh"
+
+  config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+
+  config.vm.boot_timeout = 600
+
+  config.vm.provision "shell",
+    inline: $script
+end
+
+$script = <<-SCRIPT
+mkdir -p /usr/local/etc/pkg/repos/
+echo 'FreeBSD: { url: "pkg+http://pkg.FreeBSD.org/${ABI}/latest" }' > /usr/local/etc/pkg/repos/FreeBSD.conf
+pkg install -y git bash gitlab-runner
+SCRIPT
+```
+Initial configuration looks something like this:
+```
+$ mkdir test
+$ cat >Vagrantfile <<EOF
+[Past Vagrantfile above]
+EOF
+$ vagrant up --provision
+$ VBoxManage list vms
+"test_default_1574207270101_39557" {782acbdf-e50a-4322-9a49-725a9c06da90}
+
+$ VBoxManage controlvm "{782acbdf-e50a-4322-9a49-725a9c06da90}" poweroff
+$ VBoxManage clonevm "{782acbdf-e50a-4322-9a49-725a9c06da90}" --name "ghc-ci-base"
+```
+And add an entry to `/etc/nixos/configuration.nix`:
+```nix
+  imports = [
+    (import ./ghc-ci-vbox.nix {name = "ghc-ci-m1-vbox"; cores = 8; token = "tXBbomTiwnzJJR1q3-Lk"; vmName = "ghc-ci-base"; })
+    ...
+  ];
+```
 ## Current Runners
 
 See the [Google Doc](https://docs.google.com/spreadsheets/d/1_UncQmtD5PkinLgq4DSB4Y5dy7PhOPPjPp6qnhZNA9w/edit#gid=0)
