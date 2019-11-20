@@ -265,8 +265,7 @@ export NO_DOCUMENTATION=YES
 $HOME/.cabal/bin/cabal update
 $HOME/.cabal/bin/cabal install alex happy
 
-adduser ghc
-echo ghcGHCghc | passwd ghc
+echo "ghc::::::GHC builder::/bin/sh:" | adduser -f -
 SCRIPT
 ```
 Initial configuration looks something like this:
