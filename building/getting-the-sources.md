@@ -19,17 +19,17 @@ GHC uses [Git](http://git-scm.com/) for revision control (version 1.7.8 or newer
 
 **Important:** on Windows you must configure Git to check out Unix-style line endings before executing the following commands (the default behaviour is to check out Windows-style line endings) otherwise you will likely encounter issues during the build. This can be changed using the following command: ``git config --global core.autocrlf false`` (set it to "true" the same way to restore the default behavior).
 
-The main GHC repository is located on a Gitlab instance on haskell.org and a complete GHC source tree can be obtained (located in `ghc`) by running the following command:
+The main GHC repository is located on a Gitlab instance on haskell.org and a complete GHC source tree can be obtained (located in `ghc/ghc`) by running the following command:
 
 ```
-git clone --recursive https://gitlab.haskell.org/ghc/ghc
+git clone --recurse-submodules https://gitlab.haskell.org/ghc/ghc
 cd ghc # ensure you are in the ghc source tree for the following commands
 ```
 
-Notice that we need the unusual "--recursive" flag because GHC uses the "submodule" feature of Git. Using the "--recursive" flag ensures that submodules are cloned too (e.g. into ``libraries/..``). If you forgot the flag, you can perform the same operation later on with the following command:
+Notice that we need the "--recurse-submodules" flag because GHC uses Git submodules to fetch the libraries needed to compile GHC. The "--recurse-submodules" flag ensures that submodules are cloned too (e.g. into ``libraries/..``). If you forgot the flag, you can perform the same operation later on with the following command:
 
 ```
-git submodule update --init
+git submodule update --init --recursive
 ```
 
 The above instructions will checkout the HEAD (or "master"), the main trunk of GHC development. There is also a branch for each stable release line, as well as branches for development of major new features. You can list the available branches with:
@@ -42,7 +42,7 @@ and switch between branches with:
 
 ```
 git checkout <other-branchname>
-git submodule update --init
+git submodule update --init --recursive
 ```
 
 You can update your fork of the repository with:
@@ -76,5 +76,5 @@ git config --global url."git@github.com:ghc/packages-".insteadOf       git@githu
 and then simply proceed by
 
 ```
-git clone --recursive git://github.com/ghc/ghc
+git clone --recurse-submodules git://github.com/ghc/ghc
 ```
