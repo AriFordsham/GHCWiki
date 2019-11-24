@@ -648,7 +648,7 @@ Buffer switched - ignoring response. Method textDocument/hover
 
 ##### *\*lsp-log\*: hie: [SESSION_NUMBER]
 
-If you've enabled message tracing (see above), these buffers contain all requests and responses of the Language Server Protocol regarding one session.
+If you've enabled message tracing (see above), these buffers contain all requests and responses of the *Language Server Protocol* regarding one session.
 
 ## Shortcomings
-Sometimes you have to be patient. "Hover" information is currently known to be slow. An creating the nix-environment for the first time might feel like you're downloading the whole internet... :wink: 
+Sometimes you have to be patient. "Hover" information is currently known to be slow. And creating the nix-environment for the first time might feel like you're downloading the whole internet... :wink: 
