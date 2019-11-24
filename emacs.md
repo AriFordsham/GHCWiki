@@ -426,7 +426,7 @@ How to use `ghcide` with Spacemacs and Nix(os).
 
 ## How to enable
 The rough plan is:
-- Get `ghcide` via `ghc.nix`
+- Get `ghcide` via `ghc.nix`.
 - Configure Spacemacs to use `ghcide` with `nix-shell` for `haskell-mode`.
 - Teach Spacemacs that `compiler/` and `hadrian/` are two distinct projects.
 - Configure different `ghcide` command line arguments for the two.
@@ -434,7 +434,7 @@ The rough plan is:
 ### Get `ghcide` via `ghc.nix`
 To use `ghcide` you have to make sure that it's in your environment. `ghc.nix` provides a parameter - `withIde` - for this.
 
-Later we'll see that we need it in a `nix-shell` environment. So, add two `shell.nix` files whith `withIde = true`. 
+Later we'll see that we need it in a `nix-shell` environment. So, add two `shell.nix` files with `withIde = true`. 
 
 `./shell.nix`:
 ```nix
@@ -456,7 +456,7 @@ import ../ghc.nix/default.nix {
 }
 ```
 
-The other parameters are optional and only provided as examples that you can configure much more with `ghc.nix` and have different configurations for hadrian and the compiler. However, I would recommend to use the same compiler version (`bootghc`); using different GHC versions on the same project sounds like a call for trouble ... :wink:
+The other parameters are optional and only provided as examples that you can configure much more with `ghc.nix` and have different configurations for hadrian and the compiler. However, I would recommend to use the same compiler version (`bootghc`); using different GHC versions on the same project sounds like asking for trouble ... :wink:
 
 ### Configure Spacemacs to use `ghcide` with `nix-shell`
 
@@ -507,7 +507,7 @@ dotspacemacs-configuration-layers
 
 And load the `nix-sandbox` package on statup:
 
-```
+```elisp
 ...
 
    ;; List of additional packages that will be installed without being
@@ -523,17 +523,17 @@ And load the `nix-sandbox` package on statup:
 ...
 ```
 
-The `direnv` package is optional for this tutorial, but very useful for working with emacs and `nix-shell` environments in general. [`direnv`](https://direnv.net/) is a command line tool, that automatically loads an environment defined by a `.envrc` file, when you visit an directory that itself contains or has a parent folder that contains one.
+The `direnv` package is optional for this tutorial, but very useful for working with Emacs and `nix-shell` environments in general. [`direnv`](https://direnv.net/) is a command line tool, that automatically loads an environment defined by a `.envrc` file, when you visit an directory that itself contains or has a parent folder that contains one.
 
 `.envrc` can simply redirect to `nix`:
 ```
 use_nix
 ```
 
-That way the appropriate `nix` environemt is automatically loaded in the shell and - with the package `direnv` - in emacs.
+That way the appropriate `nix` environemt is automatically loaded in the shell and - with the package `direnv` - in Emacs.
 I always drop one `.envrc` into the root of my Haskell projects. Regarding GHC I've `./.envrc` and `hadrian/.envrc`.
 
-## `compiler/` and `hadrian/` are two distinct projects
+### `compiler/` and `hadrian/` are two distinct projects
 
 Unfortunately [`projectile`](https://projectile.readthedocs.io/en/latest/) recognizes GHC and hadrian as **one** project.
 
@@ -541,7 +541,7 @@ To switch to the appropriate `nix`-environment for each Haskell source file, the
 
 Adding an empty `hadrian/.projectile` file does the job.
 
-## Configure different `ghcide` command line arguments
+### Configure different `ghcide` command line arguments
 
 To test if `ghcide` works, you can call it directly.
 
@@ -596,3 +596,59 @@ To configure different `ghcide` parameters per source folder, we can use `.dir-l
 (Replace `/home/sven/src/ghc` with the path to your GHC source directory.)
 
 `--cwd` (*Current Working Directory*) makes sure that `ghcide` runs on the root of the project and not in the directory of the file.
+
+The settings for `indent-tabs-mode`, `fill-column` and `buffer-file-coding-system` are those preferred by the GHC project. "dir-local" variables are inherited from parent directories to their childs.
+
+## Troubleshooting
+
+This setup is pretty complicated. To find errors, you can check several layers.
+
+I would propose this order:
+1. **Nix** - *Can I correctly instantiate the nix-environment?* *Does it contain `ghcide`?*
+1. **ghcide** - *Can `ghcide` be run on the command line?*
+1. **lsp-mode (Emacs)** - *Are there any error messages in the `lsp` buffers?*
+
+### Nix
+```bash
+nix-shell --pure shell.nix --command "which ghcide"
+nix-shell --pure hadrian/shell.nix --command "which ghcide"
+```
+
+### ghcide
+```
+nix-shell --pure shell.nix --command "ghcide compiler"
+nix-shell --pure hadrian/shell.nix --command "ghcide --cwd hadrian ."
+```
+
+### lsp-mode (Emacs)
+
+#### Enable message tracing
+`M-x customize-mode` :arrow_right_hook: `lsp-mode`
+Menu entry: *Lsp Server Trace*
+
+#### Increase response timeout
+`M-x customize-mode` :arrow_right_hook: `lsp-mode`
+Menu entry: *Lsp Response Timeout*
+
+#### Buffers
+
+##### \*lsp-log\*
+Shows how `ghcide` is called.
+
+For example:
+```
+Command "nix-shell -I . --pure --command ghcide --lsp --cwd /home/sven/src/ghc compiler /home/sven/src/ghc/shell.nix" is present on the path.
+Found the following clients for /home/sven/src/ghc/compiler/simplCore/CoreMonad.hs: (server-id hie, priority 0)
+The following clients were selected based on priority: (server-id hie, priority 0)
+Command "nix-shell -I . --pure --command ghcide --lsp --cwd /home/sven/src/ghc/hadrian . /home/sven/src/ghc/hadrian/shell.nix" is present on the path.
+Found the following clients for /home/sven/src/ghc/hadrian/UserSettings.hs: (server-id hie, priority 0)
+The following clients were selected based on priority: (server-id hie, priority 0)
+Buffer switched - ignoring response. Method textDocument/hover
+```
+
+##### *\*lsp-log\*: hie: [SESSION_NUMBER]
+
+If you've enabled message tracing (see above), these buffers contain all requests and responses of the Language Server Protocol regarding one session.
+
+## Shortcomings
+Sometimes you have to be patient. "Hover" information is currently known to be slow. An creating the nix-environment for the first time might feel like you're downloading the whole internet... :wink: 
