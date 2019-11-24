@@ -413,3 +413,186 @@ If you now open a Haskell file in the GHC project, `dante-mode` should automatic
 - Try to run `hadrian/ghci.sh` with `nix-shell` manually to see if this works. I.e. run `nix-shell [args omitted] ghc.nix --run hadrian/ghci.sh` in your shell.
 
 **ToDo**: Some features of `dante-mode` don't seem to work. Maybe using `utils/ghc-in-ghci/run.sh` would lead to better results, but I haven't tested this, yet.
+
+# Spacemacs + ghcide + Nix(os)
+
+## Description
+How to use `ghcide` with Spacemacs and Nix(os).
+
+### Requirements:
+- Spacemacs (http://spacemacs.org/)
+- ghc.nix (https://github.com/alpmestan/ghc.nix)
+- Nix(os) (https://nixos.org/)
+
+## How to enable
+The rough plan is:
+- Get `ghcide` via `ghc.nix`
+- Configure Spacemacs to use `ghcide` with `nix-shell` for `haskell-mode`.
+- Teach Spacemacs that `compiler/` and `hadrian/` are two distinct projects.
+- Configure different `ghcide` command line arguments for the two.
+
+### Get `ghcide` via `ghc.nix`
+To use `ghcide` you have to make sure that it's in your environment. `ghc.nix` provides a parameter - `withIde` - for this.
+
+Later we'll see that we need it in a `nix-shell` environment. So, add two `shell.nix` files whith `withIde = true`. 
+
+`./shell.nix`:
+```nix
+import ./ghc.nix/default.nix {
+  bootghc = "ghc865";
+  withIde = true;
+  withHadrianDeps = true;
+  cores = 8;
+}
+```
+
+`hadrian/shell.nix`:
+```nix
+import ../ghc.nix/default.nix {
+  bootghc = "ghc865";
+  withIde = true;
+  withHadrianDeps = true;
+  cores = 8;
+}
+```
+
+The other parameters are optional and only provided as examples that you can configure much more with `ghc.nix` and have different configurations for hadrian and the compiler. However, I would recommend to use the same compiler version (`bootghc`); using different GHC versions on the same project sounds like a call for trouble ... :wink:
+
+### Configure Spacemacs to use `ghcide` with `nix-shell`
+
+Support for the `lsp` backend in the `haskell`-layer is currently only available on the `develop`-branch.
+https://github.com/syl20bnr/spacemacs/tree/develop/layers/+lang/haskell#lsp
+
+To get it, you need to check it out. The Spacemacs code usually resides in `~/.emacs.d`.
+
+```bash
+cd ~/.emacs.d
+git checkout --track origin/develop
+git pull
+``` 
+
+If Spacemacs is already running, restart it and update all packages.
+
+Now you'll configure two layers, `lsp` and `haskell`, to use `ghcide` in a `nix-shell` environment:
+
+```elisp
+...
+
+;; List of configuration layers to load.
+dotspacemacs-configuration-layers
+'(
+  (lsp :variables
+       default-nix-wrapper (lambda (args)
+                             (append
+                              (append (list "nix-shell" "-I" "." "--pure" "--command" )
+                                      (list (mapconcat 'identity args " "))
+                                      )
+                              (list (nix-current-sandbox))
+                              )
+                             )
+
+       lsp-haskell-process-wrapper-function default-nix-wrapper
+       lsp-haskell-process-path-hie "ghcide"
+       lsp-haskell-process-args-hie '()
+       )
+
+  (haskell :variables
+           haskell-enable-hindent t
+           haskell-completion-backend 'lsp
+           haskell-process-type 'cabal-new-repl
+           )
+
+...
+```
+
+And load the `nix-sandbox` package on statup:
+
+```
+...
+
+   ;; List of additional packages that will be installed without being
+   ;; wrapped in a layer. If you need some configuration for these
+   ;; packages, then consider creating a layer. You can also put the
+   ;; configuration in `dotspacemacs/user-config'.
+   ;; To use a local version of a package, use the `:location' property:
+   ;; '(your-package :location "~/path/to/your-package/")
+   ;; Also include the dependencies as they will not be resolved automatically.
+   dotspacemacs-additional-packages '(direnv nix-sandbox)
+
+
+...
+```
+
+The `direnv` package is optional for this tutorial, but very useful for working with emacs and `nix-shell` environments in general. [`direnv`](https://direnv.net/) is a command line tool, that automatically loads an environment defined by a `.envrc` file, when you visit an directory that itself contains or has a parent folder that contains one.
+
+`.envrc` can simply redirect to `nix`:
+```
+use_nix
+```
+
+That way the appropriate `nix` environemt is automatically loaded in the shell and - with the package `direnv` - in emacs.
+I always drop one `.envrc` into the root of my Haskell projects. Regarding GHC I've `./.envrc` and `hadrian/.envrc`.
+
+## `compiler/` and `hadrian/` are two distinct projects
+
+Unfortunately [`projectile`](https://projectile.readthedocs.io/en/latest/) recognizes GHC and hadrian as **one** project.
+
+To switch to the appropriate `nix`-environment for each Haskell source file, the distinction between GHC and hadrian is important.
+
+Adding an empty `hadrian/.projectile` file does the job.
+
+## Configure different `ghcide` command line arguments
+
+To test if `ghcide` works, you can call it directly.
+
+For GHC:
+```bash
+nix-shell shell.nix --command "ghcide compiler"
+```
+
+You should see a lot of output and finally a success message:
+```
+...
+
+Files that worked: 469
+Files that failed: 0
+Done
+```
+
+For hadrian:
+```bash
+cd hadrian
+nix-shell shell.nix --command "ghcide ."
+```
+
+```
+Files that worked: 96
+Files that failed: 0
+Done
+```
+
+To configure different `ghcide` parameters per source folder, we can use `.dir-locals.el` files.
+
+`.dir-locals.el`:
+```elisp
+((nil
+  (indent-tabs-mode . nil)
+  (fill-column . 80)
+  (buffer-file-coding-system . utf-8-unix))
+
+ (haskell-mode
+   (lsp-haskell-process-args-hie .
+                                 ("--cwd /home/sven/src/ghc compiler")))
+ )
+```
+(Replace `/home/sven/src/ghc` with the path to your GHC source directory.)
+
+`hadrian/.dir-locals.el`:
+```elisp
+ ((haskell-mode
+  (lsp-haskell-process-args-hie .
+                                ("--cwd /home/sven/src/ghc/hadrian ."))))
+```
+(Replace `/home/sven/src/ghc` with the path to your GHC source directory.)
+
+`--cwd` (*Current Working Directory*) makes sure that `ghcide` runs on the root of the project and not in the directory of the file.
