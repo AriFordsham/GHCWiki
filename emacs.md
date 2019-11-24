@@ -361,29 +361,6 @@ A few things to note here:
   (setq default-directory ghc-location))
 ```
 
-## Lint GHC
-
-
-
-Runs `arc lint` and in the GHC source dir and outputs it in a navigatable buffer similar to above compilation.
-
-
-```
-(defun lint-ghc ()
-  (interactive)
-  (let ((revision (if (boundp 'ghc-revision)
-                      (ghc-revision)
-                    "master")))
-    (compile (concat "cd " ghc-location "; arc lint --output compiler --rev " revision)))
-  (set-buffer "*compilation*")
-  (setq default-directory ghc-location))
-
-
-```
-
-
-If you are not working of off `master` you can `setq` `ghc-revision` to lint against your choosen commit.
-
 
 ## Make the quotes in GHC error messages display nicely
 
