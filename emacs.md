@@ -242,6 +242,8 @@ When Emacs is already running you can modify this setting with `C-x f` or `M-x s
 
 ## ghc-mod
 
+:warning: This section is very likely outdated. See https://github.com/DanielG/ghc-mod#legacy for details.
+
 **Description**: Extends haskell-mode. Features include: building on the fly with flymake, hlint integration, auto-completion of keywords. See [here](http://www.mew.org/~kazu/proj/ghc-mod/en/emacs.html) for a complete list.
 
 **How to enable**: See installation instructions [here](http://www.mew.org/~kazu/proj/ghc-mod/en/).
