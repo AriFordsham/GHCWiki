@@ -1,8 +1,4 @@
-# Pattern-match checking
-
-## Patches
-
-Those with an MR actually have code.
+# Agenda
 
 - !2192: Reflect tree structure of clauses and gaurds in the syntax we check. A variant of the following:
   ```
@@ -19,25 +15,25 @@ Those with an MR actually have code.
   pmc :: Clause -> Deltas -> DsM 
   ```
   only that `Clause` is the skeleton for 3 different kinds of trees. 
-  - In !2192 Seb proposed
-    ```haskell
-    data ClauseTree many branch rhs
-      = Many   !many           [ClauseTree many branch rhs]
-      | Branch !branch         !(ClauseTree many branch rhs)
-      | AtRhs  !(Located SDoc) !rhs
+  - Leads to regressions in 4 test cases. Yuck
 
-    --                             many   branch      rhs
-    type GrdTree      = ClauseTree GrdVec Void        GrdVec
-    type CtTree       = ClauseTree PmCts  BranchPmCts PmCts
-    type DigestedTree = ClauseTree ()     Diverged    Covered
-    ```
-    The `Clause` data type above has the advantage that there is only a single
-    location where we annotate `PmGrd`s. But this data type is better suited to
-    express the semantics for `PmCt`s: `Branch` will be annotated with
-    diverging and uncovered constraints and thus captures fall-through
-    semantics. Maybe we do both in separate data types?
-    Anyway, converting one into the other is simple, but needs continuation passing style for wrapping `Branch`es.
-  - Maybe we should have separate data types for `GrdTree` and `CtTree`/`DigestedTree`?
+- Paper 
+  - `T[r]` OK?
+
+- !2218 Unlifted data types: Just works!
+
+- #15532: Levity polymorphism and ANF
+
+- #17270: `Origin` annotations should be consistent about TH  
+  - Faintly related: #14838, #14899. Should we warn about TH? Probably guard it behind a flag. Off by default? SG thinks so. This code is generated potentially in another library by a different user. Also compiler performance
+- #17503: Allow data family instances with type family apps in result kind
+- (no number): `BoxedRep` in https://github.com/ghc-proposals/ghc-proposals/pull/203
+
+# Pattern-match checking
+
+## Patches
+
+Those with an MR actually have code.
 
 - Clean up `provideEvidence`, define `ensureInhabited delta = null <$> provideEvidence 1 delta`
   - !1975 featured a rewrite, which makes for better warning messages
@@ -68,17 +64,9 @@ Those with an MR actually have code.
 
 ## Issues
 
-- #17270: `Origin` annotations should be consistent about TH  
-  - Faintly related: #14838, #14899. Should we warn about TH? Probably guard it behind a flag. Off by default? SG thinks so. This code is generated potentially in another library by a different user. Also compiler performance
 
 ## Epics
 
-- Paper  
-  - Type-set checking function
-  - Commit to syntax for Delta
-    - Like in the presentation: Have a "value set" that is a refinement of the type of the value vector, Delta ::= { Gamma | Constraints }
-  - Gamma binds only match vars. This implies that Constraint trees have the notion of scoping, like list comprehensions
-  - Having the condensed form `Redundant | Inaccessible | Reachable` is inconsequential, because then we need to concern `pmcheck` with inhabitation testing (\cup_C and \cup_D, for example), when in the rest of the checking function we don't test for inhabitants eagerly. I think we should commit to either early or late inhabitation testing, not this in-between stuff. Also we need the Covered set for long distance info anyway. But where should we attach Gamma then? To the ClauseResult triple? To the incoming uncovered set? Both need it. But for `pmcheck` we can just take Gamma as a parameter, so we should be fine. But also Gamma is specific to each theta. Yuck!!!
 - Think about how to fix "regression" in T11822  
   - SG bets a smart `CoreMap` would do
 - Maybe pattern-match check typed TH quotations? SG doesn't think this is a good idea, because they might not even end up in that form in spliced code.
