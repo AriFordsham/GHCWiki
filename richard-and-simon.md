@@ -12,13 +12,13 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - #17024: `anyRewritableTyVar` and related gubbins
 - #16726: document conclusions
 - Improve doc of `ir_inst`: #17173
-- TLKS: lots.  RAE to discuss with Vlad
 - !1657 out of scope vars:Fail eagerly on out of scope applied to type args.  SLPJ
 - Level numbers: !1132 and (new) #17077.
 - One tuples in HsSyn !1471: RAE
 - #16512: type checker loop with injective type families.  Anything to do with #17139?  Or #15772.   Seond bug in #17186.  Counter in `normaliseType` (#17306)
 - Function result signatures.  [Accepted proposal #228](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0228-function-result-sigs.rst), and [proposed amendment #254](https://github.com/ghc-proposals/ghc-proposals/pull/254).  Something is not quite right.  [Typing rules here](https://gitlab.haskell.org/rae/haskell)
 - Singletonised Outputable (RAE making a ticket); and eliminate `(a ~ GhcPass p)` constraints #17304
+- #17295 Confluence of constraint solving
 - [Data/data family return kinds](https://gitlab.haskell.org/ghc/ghc/issues/17021#note_227290) eg #17021
 
 
