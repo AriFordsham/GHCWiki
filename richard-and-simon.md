@@ -5,7 +5,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 
 - Move levity poly checks from zonker to desugarer
 - #17295 (confluence in solver) badly needs execution.
-- #17323 and !2042: the PKTI is not good enough
+- #17323 and !2042: the PKTI is not good enough. Also #17223 (Refl zapping)
 - Get rid of deep-skol and deep-inst.  Needs a new ticket.  See Slack.
 - !1711: injectivity checking patch.  Reduction depth especially.
 - #16775: don't zap naughty quantification candidates
