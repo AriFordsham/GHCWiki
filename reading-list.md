@@ -157,6 +157,8 @@ Please add: System FC, GADTs, kind polymorphism etc
 
 ## The run-time system, garbage collector, profiling, FFI
 
+- [A Concurrent Garbage Collector for the Glasgow Haskell Compiler](https://www.well-typed.com/blog/aux/files/nonmoving-gc/design.pdf), Ben Gamari, 2019
+
 - [Parallel Generational-Copying Garbage Collection with a Block-Structured Heap](http://simonmar.github.io/bib/papers/parallel-gc.pdf) (Simon Marlow, Tim Harris, Roshan P. James, Simon Peyton Jones) In ISMM '08: Proceedings of the 7th international symposium on Memory management, Tucson, Arizona, ACM, June 2008
 
 - [Efficient communication and collection with compact normal forms](http://ezyang.com/papers/ezyang15-cnf.pdf) (Edward Z. Yang, Giovanni Campagna, Ömer S. Ağacan, Ahmed El-Hassany, Abhishek Kulkarni, Ryan R. Newton), ICFP 2015.
