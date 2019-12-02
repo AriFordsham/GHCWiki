@@ -50,7 +50,7 @@ Linking only against Haskell packages should be supported in the dynamic case an
 ### Proposal
 
 1. An object file must be compiled as position independent code (`-fPIC`).
-1. A temporary dynamic library is produced by `ld` with no other inputs. Undefined symbols are ignored.
+1. From the object file a temporary dynamic library is produced by `ld` with no other inputs. Undefined symbols are ignored.
 1. Link all temporary dynamic libraries and all packages loaded and all command line libraries into one large dummy dynamic library. The order on the link command line must be observed so it is possible to override symbols defined in a library loaded earlier. The order is reverse loading order, i.e. most recently loaded first. **Note:** The transitive closure of all dependencies is not required here, only direct dependencies (Haskell dynamic libraries and C dynamic libraries) are needed.
 1. The previously loaded dummy dynamic library is closed to free up resources (file descriptors).
 
