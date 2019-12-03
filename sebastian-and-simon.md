@@ -19,6 +19,7 @@
 
 - Paper 
   - `T[r]` OK?
+  - \ctcon binds term names only. Should we also bind type vars? What about type constraints? The latter become constraints on their own.
 
 - !2218 Unlifted data types: Just works!
 
