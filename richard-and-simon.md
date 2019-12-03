@@ -4,6 +4,8 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 # Active agenda
 
 - Move levity poly checks from zonker to desugarer
+- https://gitlab.haskell.org/rae/ghc/tree/pred, #17536
+- #17131, #17113, #17201: levity polymorphism.
 - #17295 (confluence in solver) badly needs execution.
 - #17323 and !2042: the PKTI is not good enough. Also #17223 (Refl zapping)
 - Get rid of deep-skol and deep-inst.  Needs a new ticket.  See Slack.
@@ -18,7 +20,6 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - #16512: type checker loop with injective type families.  Anything to do with #17139?  Or #15772.   Seond bug in #17186.  Counter in `normaliseType` (#17306)
 - Function result signatures.  [Accepted proposal #228](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0228-function-result-sigs.rst), and [proposed amendment #254](https://github.com/ghc-proposals/ghc-proposals/pull/254).  Something is not quite right.  [Typing rules here](https://gitlab.haskell.org/rae/haskell)
 - Singletonised Outputable (RAE making a ticket); and eliminate `(a ~ GhcPass p)` constraints #17304
-- #17295 Confluence of constraint solving
 - [Data/data family return kinds](https://gitlab.haskell.org/ghc/ghc/issues/17021#note_227290) eg #17021
 
 
@@ -56,7 +57,6 @@ We should be clear about the dependencies between items on this list.
 
 - Visible type abstraction: [Original proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0050-type-lambda.rst), modified [here](https://github.com/ghc-proposals/ghc-proposals/pull/238). Also Richard & Simon Slack 27 June 19.
 
-- #17131, #17113, #17201: levity polymorphism.
 - #17026: `IntRep` and `WordRep`
 - #17033: kind checking recursive types
 
