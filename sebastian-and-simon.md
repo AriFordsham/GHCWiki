@@ -10,6 +10,7 @@
 - Paper 
   - \ctcon binds term names only. Should we also bind type vars? What about type constraints? The latter become constraints on their own.
   - It's unfortunate that constructor patterns are strict, because we have to duplicate divergence checks...
+    - Yes, do it
   - DNF or not?
     - Without DNF, we can't estaimte complexity and throttle. But that's just an implementation detail?!
     - It might have repercussions on the oracle implementation, but it also might not.
@@ -18,9 +19,16 @@
   - Notation: and+or   OR   union+,?
     - The way we use Delta/Nabla, it's more like a formula than a refinement type
     - Refinement type semantics emerge when combined with Gamma. Gamma is the part left of the |, Delta/Nabla the predicate on the right
+  - Use semicolon, sequence
+  - Implementation
 
 - !2218 Unlifted data types
   - Introduces top-level unlifted bindings for data con wrappers of nullary constructors, which appear to have been properly tagged.
+    - Extend CoreLint
+    - Poitner tagging fails for lifted top-level things in some cases. Does it work for unlifted things? Provide test case!
+    - Make sure by always providing Unfolding -- but that is too large! Just tag would be enough. But then we can do it for lifted types, too. Maybe just displace the address in the table rather than displacing every occurrence?
+    - Might also do this for functions! But for lifted things it's an optimisation, for unlifted things it's an invariant!
+    - What about `Array#`? Algebraic data types don't need to be tagged, I think. "Properly tagged" does only concern algebraic unlifted data types
   - Related, because we allow it with -XUnliftedNewtypes: #17503 Allow data family instances with type family apps in result kind
 
 # Pattern-match checking
