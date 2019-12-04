@@ -5,18 +5,23 @@
   - Simon suggested to go straight from `GrdTree` to `DigestedTree`, so to drop `CtTree`  
     - Seb thinks that `CtTree` is a useful abstraction, but explaining the
       semantics is additional overhead. Also due to a limitation with the type
-      oracle, we need to `collectRefines` now.
+      oracle, we need to `collectRefines` now. So yes, better just drop it.
 
 - Paper 
-  - `T[r]` OK?
   - \ctcon binds term names only. Should we also bind type vars? What about type constraints? The latter become constraints on their own.
+  - It's unfortunate that constructor patterns are strict, because we have to duplicate divergence checks...
+  - DNF or not?
+    - Without DNF, we can't estaimte complexity and throttle. But that's just an implementation detail?!
+    - It might have repercussions on the oracle implementation, but it also might not.
+  - Gamma in Nabla 
+    - Seems unnecessary: U is purely syntactical, no Gamma needed. Gamma remains constant throughout A. Both only construct formulas, not refinement types.
+  - Notation: and+or   OR   union+,?
+    - The way we use Delta/Nabla, it's more like a formula than a refinement type
+    - Refinement type semantics emerge when combined with Gamma. Gamma is the part left of the |, Delta/Nabla the predicate on the right
 
-- !2218 Unlifted data types: Just works!
-
-- #17270: `Origin` annotations should be consistent about TH  
-  - Faintly related: #14838, #14899. Should we warn about TH? Probably guard it behind a flag. Off by default? SG thinks so. This code is generated potentially in another library by a different user. Also compiler performance
-- #17503: Allow data family instances with type family apps in result kind
-- (no number): `BoxedRep` in https://github.com/ghc-proposals/ghc-proposals/pull/203
+- !2218 Unlifted data types
+  - Introduces top-level unlifted bindings for data con wrappers of nullary constructors, which appear to have been properly tagged.
+  - Related, because we allow it with -XUnliftedNewtypes: #17503 Allow data family instances with type family apps in result kind
 
 # Pattern-match checking
 
@@ -56,6 +61,9 @@ Those with an MR actually have code.
 - #15532: Levity polymorphism and ANF  
   - We talked about it with Richard and came to the understanding that it would probably work, but entail refactorings of Core to Core passes which assume they can just let-bind everything.
   - Also we shouldn't worry about it until we need it. But it's a logical next step after we have unlifted datatypes, otherwise there is no chance of code re-use.
+
+- #17270: `Origin` annotations should be consistent about TH  
+  - Faintly related: #14838, #14899. Should we warn about TH? Probably guard it behind a flag. Off by default? SG thinks so. This code is generated potentially in another library by a different user. Also compiler performance
 
 ## Epics
 
