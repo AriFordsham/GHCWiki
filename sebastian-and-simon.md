@@ -1,29 +1,17 @@
 # Agenda
 
 - !2192: Reflect tree structure of clauses and gaurds in the syntax we check. A variant of the following:
-  ```
-  data ClauseCoverage = Redundant | Matched RhsAccessibility
-  data RhsAccessibility = RhsInaccessible | RhsAccessable
-  data PmClauseResult = PCR { uncovered :: [Delta]
-                            , coverage :: Clause  }
-  data PmResult       = PR  { uncovered :: [Delta]
-                            , clauses :: [ClauseCoverage] }
-
-  data Clause = AtRhs
-              | Guard PmGrd Clause
-              | Many [Clause]
-  pmc :: Clause -> Deltas -> DsM 
-  ```
-  only that `Clause` is the skeleton for 3 different kinds of trees. 
   - Leads to regressions in 4 test cases. Yuck
+  - Simon suggested to go straight from `GrdTree` to `DigestedTree`, so to drop `CtTree`  
+    - Seb thinks that `CtTree` is a useful abstraction, but explaining the
+      semantics is additional overhead. Also due to a limitation with the type
+      oracle, we need to `collectRefines` now.
 
 - Paper 
   - `T[r]` OK?
   - \ctcon binds term names only. Should we also bind type vars? What about type constraints? The latter become constraints on their own.
 
 - !2218 Unlifted data types: Just works!
-
-- #15532: Levity polymorphism and ANF
 
 - #17270: `Origin` annotations should be consistent about TH  
   - Faintly related: #14838, #14899. Should we warn about TH? Probably guard it behind a flag. Off by default? SG thinks so. This code is generated potentially in another library by a different user. Also compiler performance
@@ -65,6 +53,9 @@ Those with an MR actually have code.
 
 ## Issues
 
+- #15532: Levity polymorphism and ANF  
+  - We talked about it with Richard and came to the understanding that it would probably work, but entail refactorings of Core to Core passes which assume they can just let-bind everything.
+  - Also we shouldn't worry about it until we need it. But it's a logical next step after we have unlifted datatypes, otherwise there is no chance of code re-use.
 
 ## Epics
 
