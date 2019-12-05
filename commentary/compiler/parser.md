@@ -100,3 +100,11 @@ Many syntactic features must be enabled with a `LANGUAGE` flag, since they could
 
 
 To add a new syntax extension, add a constructor to `ExtBits` and set the bit appropriately in `mkPState`.
+
+## Tips for development
+
+If you're working on the lexer, it can be useful to have a function `lex :: String -> [Token]`. Copying the following into GHCi will do the trick, though it doesn't do error handling:
+
+```Haskell
+lex str = case Lexer.lexTokenStream (StringBuffer.stringToStringBuffer str) (SrcLoc.mkRealSrcLoc (FastString.fsLit "") 0 0) DynFlags.unsafeGlobalDynFlags of Lexer.POk _ a -> Prelude.map (\l -> case l of (SrcLoc.L _ e) -> e) a
+```
