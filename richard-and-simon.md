@@ -9,7 +9,6 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - #17295 (confluence in solver) badly needs execution.
 - #17323 and !2042: the PKTI is not good enough. Also #17223 (Refl zapping)
 - Get rid of deep-skol and deep-inst.  Needs a new ticket.  See Slack.
-- !1711: injectivity checking patch.  Reduction depth especially.
 - #16775: don't zap naughty quantification candidates
 - #17024: `anyRewritableTyVar` and related gubbins
 - #16726: document conclusions
