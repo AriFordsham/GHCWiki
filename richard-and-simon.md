@@ -5,7 +5,8 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 
 - Move levity poly checks from zonker to desugarer
 - https://gitlab.haskell.org/rae/ghc/tree/pred, #17536
-- #17131, #17113, #17201: levity polymorphism.
+- `TypeLike` and `KnownRuntimeRep` constraints: #17201, #15979, also fixes #8388.  And #17201, #17113, #13105.
+- #17201: levity polymorphism defaulting; also to fix #13105 (about 
 - #17295 (confluence in solver) badly needs execution.
 - #17323 and !2042: the PKTI is not good enough. Also #17223 (Refl zapping)
 - Get rid of deep-skol and deep-inst.  Needs a new ticket.  See Slack.
@@ -66,7 +67,6 @@ We should be clear about the dependencies between items on this list.
 - #16982, to move `TcTyVar` into its own type.
 
 - Fix #14963, #16887: `tcSyntaxOp` refactoring
-- `TypeLike` and `KnownRuntimeRep` constraints: #17201, #15979, also fixes #8388.  And #17201, #17113, #13105.
 
 - [Proposal 99: explicit specificity](https://github.com/ghc-proposals/ghc-proposals/pull/99).  Lets us write `T :: forall {k} (a :: k).blah`.
 
