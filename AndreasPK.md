@@ -73,7 +73,7 @@ See also the "pointer tagging" tag: [issues](https://gitlab.haskell.org/ghc/ghc/
 
 Instead of tagging large families with a flag indicating evaluation, tag them with the tag if possible and the flag only for constructors not fitting in the tag.
 
-This is a project of Gabor Greif and he indicated he still want's to finish this recently (@ICFP 2019)
+This is a project of [Gabor Greif](GaborGreif) and he indicated he still want's to finish this recently (@ICFP 2019)
 
 He stated this is blocked on #15155 in the past but I did not look into why/how.
 
