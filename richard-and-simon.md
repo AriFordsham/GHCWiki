@@ -6,8 +6,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - Move levity poly checks from zonker to desugarer
 - PredTree stuff (RAE).   https://gitlab.haskell.org/rae/ghc/tree/pred, #17536
 - `TypeLike` and `KnownRuntimeRep` constraints: #17201, #15979, also fixes #8388.  And #17201, #17113, #13105. #17131 is another example.  Blocked on PredTree stuff
-- #17201: levity polymorphism defaulting; also to fix #13105 (about 
-- #17295 (confluence in solver) badly needs execution.
+- #17295 (confluence in solver) badly needs execution.  We have a plan.  RAE.
 - #17323 and !2042: the PKTI is not good enough. Also #17223 (Refl zapping)
 - Get rid of deep-skol and deep-inst.  Needs a new ticket.  See Slack.
 - #16775: don't zap naughty quantification candidates
