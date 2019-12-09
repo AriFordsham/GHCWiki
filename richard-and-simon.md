@@ -9,7 +9,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - #17295 (confluence in solver) badly needs execution.  We have a plan.  RAE.
 - #17323 and !2042: the PKTI is not good enough. Also #17223 (Refl zapping)
 - Get rid of deep-skol and deep-inst.  Done on the impredicativity branch.  Needs review/action.
-- #16775: don't zap naughty quantification candidates
+- #16775: don't zap naughty quantification candidates.  RAE.
 - #17024: `anyRewritableTyVar` and related gubbins
 - #16726: document conclusions
 - Improve doc of `ir_inst`: #17173
