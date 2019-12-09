@@ -7,6 +7,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - PredTree stuff (RAE).   https://gitlab.haskell.org/rae/ghc/tree/pred, #17536
 - `TypeLike` and `KnownRuntimeRep` constraints: #17201, #15979, also fixes #8388.  And #17201, #17113, #13105. #17131 is another example.  Blocked on PredTree stuff
 - #17295 (confluence in solver) badly needs execution.  We have a plan.  RAE.
+- #17202, #16502: bug in the superclass expansion of quantified constraints; also we need to eagerly expand superclasses for quantified constraints to fix [this comment](https://gitlab.haskell.org/ghc/ghc/issues/16502#note_189978) in #16502.  Richard has !2283 in progress
 - #17323 and !2042: the PKTI is not good enough. Also #17223 (Refl zapping)
 - Get rid of deep-skol and deep-inst.  Done on the impredicativity branch.  Needs review/action.
 - #16775: don't zap naughty quantification candidates.  RAE.
