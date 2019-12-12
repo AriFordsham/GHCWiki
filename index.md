@@ -135,6 +135,7 @@
   * [burning-bridges-slowly](./burning-bridges-slowly)
   * [c-structures](./c-structures)
   * [CAFs](./CAFs)
+  * [CafInfo rework](./CafInfo-rework)
   * [cabal-dependency](./cabal-dependency)
   * [call-arity](./call-arity)
   * [camel-case](./camel-case)
