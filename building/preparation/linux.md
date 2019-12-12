@@ -71,8 +71,7 @@ You can make sure you have all dependencies by
 But this might install some packages you do not use in your system (e.g. Sphinx).  Alternatively install the following:
 
 ```wiki
-   sudo apt-get install git autoconf automake libtool make gcc g++ \
-     libgmp-dev ncurses-dev libtinfo-dev python3 xz-utils
+   sudo apt-get install build-essential git autoconf python3 libgmp-dev libncurses-dev
 ```
 
 
