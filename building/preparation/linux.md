@@ -9,7 +9,7 @@ If you're on a recent Linux system, then you should be able to get a working bui
 If you are familiar with docker and comfortable doing all your work in the docker container with a default bash shell. This is a 1 step install for a development image (ghc build requirements plus a few development related tools). The runghc binary can not be run outside of the docker container because GHC will be compiled with paths only available in the container.
 First cd into your ghc directory that you should check out according to [Building/GettingTheSources](building/getting-the-sources), then
 
-```wiki
+```shell
    sudo docker run --rm -i -t -v `pwd`:/home/ghc gregweber/ghc-haskell-dev /bin/bash
 ```
 
@@ -27,7 +27,7 @@ Send pull requests to [https://github.com/gregwebs/ghc-docker-dev](https://githu
 
 Install the [required tools](https://gitlab.haskell.org/trac/ghc/wiki/Building/Preparation/Tools) using the following command for Fedora 22 and later (for earlier versions of Fedora, use `yum` instead of `dnf`):
 
-```wiki
+```shell
    sudo dnf install glibc-devel ncurses-devel gmp-devel autoconf automake libtool gcc gcc-c++ make perl python ghc happy alex git
 ```
 
@@ -35,7 +35,7 @@ Install the [required tools](https://gitlab.haskell.org/trac/ghc/wiki/Building/P
 For building the documentation: (User's Guide and Cabal guide):
 (optional)
 
-```wiki
+```shell
    # GHC > 7.10
    sudo dnf install python3-sphinx
    # GHC <= 7.10
@@ -46,7 +46,7 @@ For building the documentation: (User's Guide and Cabal guide):
 other  packages that are useful for development:
 (optional)
 
-```wiki
+```shell
    sudo dnf install strace patch
 ```
 
@@ -63,15 +63,16 @@ For a quickstart, follow the commands listed under:
 
 You can make sure you have all dependencies by
 
-```wiki
+```shell
    sudo apt-get build-dep ghc
 ```
 
 
 But this might install some packages you do not use in your system (e.g. Sphinx).  Alternatively install the following:
 
-```wiki
+```shell
    sudo apt-get install build-essential git autoconf python3 libgmp-dev libncurses-dev
+   cabal v2-install alex happy
 ```
 
 
@@ -81,23 +82,9 @@ But this might install some packages you do not use in your system (e.g. Sphinx)
 Optional: install LLVM from \<[http://apt.llvm.org](http://apt.llvm.org)\> (only necessary to make the `-fllvm` flag work). [Commentary/Compiler/Backends/LLVM/Installing](commentary/compiler/backends/llvm/installing#llvm-support) will tell you which version to install.
 
 
-Due to the nature of Debian, you may have difficulty building GHC \>7.6 due to version incompatibilities with the Happy and Alex packages.  To alleviate this issue simply install both packages using the `haskell-platform` provided `cabal`.
-
-```wiki
-   cabal install alex happy
-```
-
-
-If you install alex and happy using cabal as shown above, you will need to add the cabal installation directory to PATH before running the `configure` script.
-
-```wiki
-   export PATH=$HOME/.cabal/bin:$PATH
-```
-
-
 For building the documentation (User's Guide):
 
-```wiki
+```shell
    # GHC > 7.10:
    sudo apt-get install python3-sphinx texlive-xetex texlive-fonts-recommended fonts-lmodern texlive-latex-recommended texlive-latex-extra
    # GHC <= 7.10:
@@ -107,7 +94,7 @@ For building the documentation (User's Guide):
 
 other packages that are useful for development:
 
-```wiki
+```shell
    sudo apt-get install linux-tools-generic xutils-dev
 ```
 
@@ -122,7 +109,7 @@ For [validating patches](testing-patches) :
 
 Install the [required tools](https://gitlab.haskell.org/trac/ghc/wiki/Building/Preparation/Tools):
 
-```wiki
+```shell
    sudo pacman -S ghc ghc-static perl gcc make happy alex cabal-install autoconf automake python python3-sphinx libedit numactl
 ```
 
@@ -140,7 +127,7 @@ The recommended way to create an environment in which to build GHC is to use Alp
 
 You can then perform a build by running
 
-```wiki
+```shell
 configurePhase
 buildPhase
 ```
@@ -148,6 +135,6 @@ buildPhase
 
 Enable parallel builds in the nix build environment:
 
-```wiki
+```shell
    export NIX_BUILD_CORES=4
 ```
