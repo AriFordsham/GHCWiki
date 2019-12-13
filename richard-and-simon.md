@@ -1,6 +1,8 @@
 
 Tasks discussed by Richard and Simon. This page is mostly for our own notes, but others are welcome to read it.
 
+[Our google doc, with easy to edit notes](https://docs.google.com/document/d/1MAXhZmrCDq_zRF_-Rt4ZMLeeSLPF4VmFlBLMZUrc2P8/edit#).
+
 # Active agenda
 
 - Move levity poly checks from zonker to desugarer
