@@ -67,7 +67,7 @@ We should be clear about the dependencies between items on this list.
 
 - Fix #14963, #16887: `tcSyntaxOp` refactoring
 
-- [Proposal 99: explicit specificity](https://github.com/ghc-proposals/ghc-proposals/pull/99).  Lets us write `T :: forall {k} (a :: k).blah`.
+- [Proposal 99: explicit specificity](https://github.com/ghc-proposals/ghc-proposals/pull/99).  Lets us write `T :: forall {k} (a :: k).blah`. #16393
 
 - Foralls and pretty printing
   * Point 1 of [Proposal 179: tweak printing of foralls](https://github.com/ghc-proposals/ghc-proposals/pull/179)
