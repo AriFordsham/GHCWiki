@@ -8,6 +8,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - #17580: remove roles from the flattener
 - #17581: swap sense of coercion in the flattener
 - #17582: re-engineer rebindable syntax
+- [Proposal 99: explicit specificity](https://github.com/ghc-proposals/ghc-proposals/pull/99).  Lets us write `T :: forall {k} (a :: k).blah`. #16393, #17569
 - Move levity poly checks from zonker to desugarer
 - PredTree stuff (RAE).   https://gitlab.haskell.org/rae/ghc/tree/pred, #17536
 - `TypeLike` and `KnownRuntimeRep` constraints: #17201, #15979, also fixes #8388.  And #17201, #17113, #13105. #17131 is another example.  Blocked on PredTree stuff
@@ -71,8 +72,6 @@ We should be clear about the dependencies between items on this list.
 - #16982, to move `TcTyVar` into its own type.
 
 - Fix #14963, #16887: `tcSyntaxOp` refactoring
-
-- [Proposal 99: explicit specificity](https://github.com/ghc-proposals/ghc-proposals/pull/99).  Lets us write `T :: forall {k} (a :: k).blah`. #16393, #17569
 
 - Foralls and pretty printing
   * Point 1 of [Proposal 179: tweak printing of foralls](https://github.com/ghc-proposals/ghc-proposals/pull/179)
