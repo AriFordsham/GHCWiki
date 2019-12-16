@@ -5,6 +5,9 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 
 # Active agenda
 
+- #17580: remove roles from the flattener
+- #17581: swap sense of coercion in the flattener
+- #17582: re-engineer rebindable syntax
 - Move levity poly checks from zonker to desugarer
 - PredTree stuff (RAE).   https://gitlab.haskell.org/rae/ghc/tree/pred, #17536
 - `TypeLike` and `KnownRuntimeRep` constraints: #17201, #15979, also fixes #8388.  And #17201, #17113, #13105. #17131 is another example.  Blocked on PredTree stuff
