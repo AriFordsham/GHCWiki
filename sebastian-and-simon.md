@@ -23,13 +23,10 @@
   - Implementation
 
 - !2218 Unlifted data types
-  - Introduces top-level unlifted bindings for data con wrappers of nullary constructors, which appear to have been properly tagged.
-    - Extend CoreLint
-    - Poitner tagging fails for lifted top-level things in some cases. Does it work for unlifted things? Provide test case!
-    - Make sure by always providing Unfolding -- but that is too large! Just tag would be enough. But then we can do it for lifted types, too. Maybe just displace the address in the table rather than displacing every occurrence?
-    - Might also do this for functions! But for lifted things it's an optimisation, for unlifted things it's an invariant!
-    - What about `Array#`? Algebraic data types don't need to be tagged, I think. "Properly tagged" does only concern algebraic unlifted data types
-  - Related, because we allow it with -XUnliftedNewtypes: #17503 Allow data family instances with type family apps in result kind
+  - #17521: Introduces top-level unlifted bindings for data con wrappers of nullary constructors, which appear to have been properly tagged.
+    - `IND_STATIC` and unlifted top-level bindings are fundamentally incompatible: The former doesn't allow tags, the latter needs the tag
+    - So it's not enough to augment interface files with tagging info (cf. #17004/!1530), because we can never apply it to `IND_STATIC`
+    - Hence we have to get rid of `IND_STATIC` altogether. At least for unlifted bindings, but then we can also do it for lifted ones. Andreas has an idea in https://gitlab.haskell.org/ghc/ghc/issues/16831#note_217397: Simply export the thing that we eventually point to, so that the indirection is eliminated at compile-time already.
 
 # Pattern-match checking
 
