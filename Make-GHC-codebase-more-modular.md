@@ -424,6 +424,7 @@ GHC.Interface.Load <= iface/LoadIface.hs
 GHC.Interface.Utils <= iface/MkIface.hs
 GHC.Interface.Tc <= iface/TcIface.hs
 GHC.Interface.Rename <= backpack/RnModIface.hs
+GHC.Interface.Tidy <= main/TidyPgm.hs
 
 GHC.CoreToInterface <= iface/ToIface.hs
 ```
@@ -470,6 +471,21 @@ GHC.Runtime.Eval <= main/InteractiveEval.hs
 GHC.Runtime.Eval.Types <= main/InteractiveEvalTypes.hs
 ```
 
+* `GHC.Driver`:
+
+```
+GHC.Driver.Backpack.Syntax <= backpack/BkpSyn.hs
+GHC.Driver.Backpack <= backpack/DriverBkp.hs
+GHC.Driver.CmdLine <= main/CmdLineParser.hs
+GHC.Driver.CodeOutput <= main/CodeOutput.hs
+GHC.Driver.Finder <= main/Finder.hs
+GHC.Driver.MakeDepend <= main/DriverMkDepend.hs
+GHC.Driver.Phases <= main/DriverPhases.hs
+GHC.Driver.Pipeline <= main/DriverPipeline.hs
+GHC.Driver.PipelineMonad <= main/PipelineMonad.hs
+GHC.Driver.Main <= main/HscMain.hs
+```
+
 * TODO:
 
 ```
@@ -480,8 +496,6 @@ GHC.BasicTypes.ConLike <= basicTypes/ConLike.hs
 GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
 ? <= iface/FlagChecker.hs
 ? <= iface/BinFingerprint.hs
-? <= backpack/BkpSyn.hs
-? <= backpack/DriverBkp.hs
 ? <= backpack/NameShape.hs
 ? <= hieFile/HieAst.hs
 ? <= hieFile/HieBin.hs
@@ -491,18 +505,12 @@ GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
 ? <= main/Annotations.hs
 ? <= main/Ar.hs
 ? <= main/CliOption.hs
-? <= main/CmdLineParser.hs
-? <= main/CodeOutput.hs
 ? <= main/Constants.hs
-? <= main/DriverMkDepend.hs
-? <= main/DriverPhases.hs
-? <= main/DriverPipeline.hs
 ? <= main/DynFlags.hs
 ? <= main/Elf.hs
 ? <= main/ErrUtils.hs
 ? <= main/FileCleanup.hs
 ? <= main/FileSettings.hs
-? <= main/Finder.hs
 ? <= main/GHC.hs
 ? <= main/GhcMake.hs
 ? <= main/GhcMonad.hs
@@ -510,12 +518,10 @@ GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
 ? <= main/GhcPlugins.hs
 ? <= main/HeaderInfo.hs
 ? <= main/Hooks.hs
-? <= main/HscMain.hs
 ? <= main/HscStats.hs
 ? <= main/HscTypes.hs
 ? <= main/PackageConfig.hs
 ? <= main/Packages.hs
-? <= main/PipelineMonad.hs
 ? <= main/PlatformConstants.hs
 ? <= main/Plugins.hs
 ? <= main/PprTyThing.hs
@@ -529,7 +535,6 @@ GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
 ? <= main/SysTools/Settings.hs
 ? <= main/SysTools/Tasks.hs
 ? <= main/SysTools/Terminal.hs
-? <= main/TidyPgm.hs
 ? <= main/ToolSettings.hs
 ? <= nativeGen/AsmCodeGen.hs
 ? <= nativeGen/BlockLayout.hs
