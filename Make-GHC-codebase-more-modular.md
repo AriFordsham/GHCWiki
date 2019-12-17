@@ -427,6 +427,35 @@ GHC.Interface.Rename <= backpack/RnModIface.hs
 
 GHC.CoreToInterface <= iface/ToIface.hs
 ```
+* `GHC.ByteCode`:
+
+```
+GHC.ByteCode.Asm <= ghci/ByteCodeAsm.hs
+GHC.ByteCode.Instr <= ghci/ByteCodeInstr.hs
+GHC.ByteCode.InfoTable <= ghci/ByteCodeItbls.hs
+GHC.ByteCode.Linker <= ghci/ByteCodeLink.hs
+GHC.ByteCode.Types <= ghci/ByteCodeTypes.hs
+
+GHC.CoreToByteCode <= ghci/ByteCodeGen.hs
+```
+
+* `GHC.Llvm`:
+
+```
+GHC.Llvm.MetaData <= llvmGen/Llvm/MetaData.hs
+GHC.Llvm.Pretty <= llvmGen/Llvm/PpLlvm.hs
+GHC.Llvm.Types <= llvmGen/Llvm/Types.hs
+GHC.Llvm.Syntax <= llvmGen/Llvm/AbsSyn.hs
+GHC.Llvm <= llvmGen/Llvm.hs
+
+GHC.CmmToLlvm <= llvmGen/LlvmCodeGen.hs
+GHC.CmmToLlvm.Mangler <= llvmGen/LlvmMangler.hs
+GHC.CmmToLlvm.Base <= llvmGen/LlvmCodeGen/Base.hs
+GHC.CmmToLlvm.CodeGen <= llvmGen/LlvmCodeGen/CodeGen.hs
+GHC.CmmToLlvm.Data <= llvmGen/LlvmCodeGen/Data.hs
+GHC.CmmToLlvm.Pretty <= llvmGen/LlvmCodeGen/Ppr.hs
+GHC.CmmToLlvm.Regs <= llvmGen/LlvmCodeGen/Regs.hs
+```
 
 * TODO:
 
@@ -441,12 +470,6 @@ GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
 ? <= backpack/BkpSyn.hs
 ? <= backpack/DriverBkp.hs
 ? <= backpack/NameShape.hs
-? <= ghci/ByteCodeAsm.hs
-? <= ghci/ByteCodeGen.hs
-? <= ghci/ByteCodeInstr.hs
-? <= ghci/ByteCodeItbls.hs
-? <= ghci/ByteCodeLink.hs
-? <= ghci/ByteCodeTypes.hs
 ? <= ghci/Debugger.hs
 ? <= ghci/GHCi.hs
 ? <= ghci/Linker.hs
@@ -457,18 +480,6 @@ GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
 ? <= hieFile/HieDebug.hs
 ? <= hieFile/HieTypes.hs
 ? <= hieFile/HieUtils.hs
-? <= llvmGen/Llvm/AbsSyn.hs
-? <= llvmGen/LlvmCodeGen/Base.hs
-? <= llvmGen/LlvmCodeGen/CodeGen.hs
-? <= llvmGen/LlvmCodeGen/Data.hs
-? <= llvmGen/LlvmCodeGen.hs
-? <= llvmGen/LlvmCodeGen/Ppr.hs
-? <= llvmGen/LlvmCodeGen/Regs.hs
-? <= llvmGen/Llvm.hs
-? <= llvmGen/LlvmMangler.hs
-? <= llvmGen/Llvm/MetaData.hs
-? <= llvmGen/Llvm/PpLlvm.hs
-? <= llvmGen/Llvm/Types.hs
 ? <= main/Annotations.hs
 ? <= main/Ar.hs
 ? <= main/CliOption.hs
