@@ -49,44 +49,7 @@ Goals:
 * Ensure that each IR can be used independently from the others
 * Improve the generated Haddocks (table of contents reflecting the hierarchy)
 
-Proposed hierarchy:
-```
--- IRs
-GHC.Hs
-GHC.Core
-GHC.Stg
-GHC.Cmm
-GHC.Iface
-GHC.Bytecode
-GHC.Llvm
-
--- Compilers, fron one IR to another
-GHC.Rename      -- Note that both the renamer and the typechecker work on the Hs representation
-GHC.Typecheck   -- but with a different type index (GhcPs, GhcRn, GhcTc)
-GHC.HsToCore
-GHC.CoreToStg
-GHC.StgToCmm
-GHC.CmmToAsm
-GHC.CmmToC
-GHC.CmmToLlvm
-GHC.CoreToIface
-GHC.CoreToBytecode
-
-GHC.Driver: pipeline driver (Backpack, Finder, Main, Make, MakeDepend, etc.)
-GHC.Program: command-line parsing, GHCi UI, etc.
-
--- shared stuff
-GHC.Builtins: primops, etc.
-GHC.Data: data structures (Bag, Graph, FiniteMap, EnumSet, etc.)
-GHC.Common (Id, Name, etc.)
-GHC.{Runtime/Interactive}: interactive evaluation stuff (Debugger, Eval, etc.)
-GHC.Plugin
-GHC.Utils: SysTools, IO stuff, Outputable, etc.
-GHC.Platform: platform description (register mapping, word-size, etc.)
-GHC.Config: Constants, DynFlags, etc.
-```
-
-### Actual renaming
+### Proposed renaming
 
 * `GHC.Hs` (done; can still be modified):
 
@@ -258,6 +221,7 @@ GHC.BasicTypes.Unique <= basicTypes/Unique.hs
 GHC.BasicTypes.VarEnv <= basicTypes/VarEnv.hs
 GHC.BasicTypes.Var <= basicTypes/Var.hs
 GHC.BasicTypes.VarSet <= basicTypes/VarSet.hs
+GHC.BasicTypes.NameShape <= backpack/NameShape.hs
 ```
 
 
@@ -484,6 +448,7 @@ GHC.Driver.Phases <= main/DriverPhases.hs
 GHC.Driver.Pipeline <= main/DriverPipeline.hs
 GHC.Driver.PipelineMonad <= main/PipelineMonad.hs
 GHC.Driver.Main <= main/HscMain.hs
+GHC.Driver.Make <= main/GhcMake.hs
 ```
 
 * `GHC.CmmToAsm`:
@@ -597,6 +562,39 @@ GHC.Data.Unique.FM <= utils/UniqFM.hs
 GHC.Data.Unique.Map <= utils/UniqMap.hs
 GHC.Data.Unique.Set <= utils/UniqSet.hs
 ```
+* `GHC.Utils`:
+
+```
+GHC.Utils.Asm <= utils/AsmUtils.hs
+GHC.Utils.Binary <= utils/Binary.hs
+GHC.Utils.BufWrite <= utils/BufWrite.hs
+GHC.Utils.Exception <= utils/Exception.hs
+GHC.Utils.IO.Unsafe <= utils/FastFunctions.hs
+GHC.Utils.Prelude <= utils/GhcPrelude.hs
+GHC.Utils.Monad.IOEnv <= utils/IOEnv.hs
+GHC.Utils.Json <= utils/Json.hs
+GHC.Utils.Monad.Utils <= utils/MonadUtils.hs
+GHC.Utils.Outputable <= utils/Outputable.hs
+GHC.Utils.Panic <= utils/Panic.hs
+GHC.Utils.PlainPanic <= utils/PlainPanic.hs
+GHC.Utils.Pretty.Colour <= utils/PprColour.hs
+GHC.Utils.pretty <= utils/Pretty.hs
+GHC.Utils.Monad.State <= utils/State.hs
+GHC.Utils.Misc <= utils/Util.hs
+```
+
+* `GHC.SysTools`:
+
+```
+GHC.SysTools.BaseDir <= main/SysTools/BaseDir.hs
+GHC.SysTools.ExtraObj <= main/SysTools/ExtraObj.hs
+GHC.SysTools <= main/SysTools.hs
+GHC.SysTools.Info <= main/SysTools/Info.hs
+GHC.SysTools.Process <= main/SysTools/Process.hs
+GHC.SysTools.Settings <= main/SysTools/Settings.hs
+GHC.SysTools.Tasks <= main/SysTools/Tasks.hs
+GHC.SysTools.Terminal <= main/SysTools/Terminal.hs
+```
 
 * TODO:
 
@@ -605,9 +603,9 @@ GHC.RTS.Storage <= cmm/SMRep.hs
 GHC.CoreToStg.Prep <= coreSyn/CorePrep.hs
 GHC.BasicTypes.ConLike <= basicTypes/ConLike.hs
 GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
+GHC.Config.Flags.FingerPrint <= utils/Fingerprint.hs
 ? <= iface/FlagChecker.hs
 ? <= iface/BinFingerprint.hs
-? <= backpack/NameShape.hs
 ? <= hieFile/HieAst.hs
 ? <= hieFile/HieBin.hs
 ? <= hieFile/HieDebug.hs
@@ -623,7 +621,6 @@ GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
 ? <= main/FileCleanup.hs
 ? <= main/FileSettings.hs
 ? <= main/GHC.hs
-? <= main/GhcMake.hs
 ? <= main/GhcMonad.hs
 ? <= main/GhcNameVersion.hs
 ? <= main/GhcPlugins.hs
@@ -638,14 +635,6 @@ GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
 ? <= main/PprTyThing.hs
 ? <= main/Settings.hs
 ? <= main/StaticPtrTable.hs
-? <= main/SysTools/BaseDir.hs
-? <= main/SysTools/ExtraObj.hs
-? <= main/SysTools.hs
-? <= main/SysTools/Info.hs
-? <= main/SysTools/Process.hs
-? <= main/SysTools/Settings.hs
-? <= main/SysTools/Tasks.hs
-? <= main/SysTools/Terminal.hs
 ? <= main/ToolSettings.hs
 ? <= parser/ApiAnnotation.hs
 ? <= parser/HaddockUtils.hs
@@ -655,24 +644,7 @@ GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
 ? <= profiling/CostCentreState.hs
 ? <= profiling/ProfInit.hs
 ? <= simplStg/RepType.hs
-? <= utils/AsmUtils.hs
-? <= utils/Binary.hs
-? <= utils/BufWrite.hs
-? <= utils/Exception.hs
-? <= utils/FastFunctions.hs
-? <= utils/Fingerprint.hs
 ? <= utils/FV.hs
-? <= utils/GhcPrelude.hs
-? <= utils/IOEnv.hs
-? <= utils/Json.hs
-? <= utils/MonadUtils.hs
-? <= utils/Outputable.hs
-? <= utils/Panic.hs
-? <= utils/PlainPanic.hs
-? <= utils/PprColour.hs
-? <= utils/Pretty.hs
-? <= utils/State.hs
-? <= utils/Util.hs
 ```
 
 
