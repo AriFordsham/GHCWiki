@@ -399,6 +399,35 @@ GHC.Stg.Syntax <= stgSyn/StgSyn.hs
 GHC.CoreToStg <= stgSyn/CoreToStg.hs
 ```
 
+* Builtin
+
+```
+GHC.Builtin.Uniques <= prelude/KnownUniques.hs
+GHC.Builtin.Utils <= prelude/PrelInfo.hs
+GHC.Builtin.Names <= prelude/PrelNames.hs
+GHC.Builtin.Names.TH <= prelude/THNames.hs
+GHC.Builtin.PrimOps <= prelude/PrimOp.hs
+GHC.Builtin.PrimTypes <= prelude/TysPrim.hs
+GHC.Builtin.Types <= prelude/TysWiredIn.hs
+GHC.Builtin.Types.Nats <= typecheck/TcTypeNats.hs
+```
+
+* `GHC.Interface`
+
+```
+GHC.Interface.Binary <= iface/BinIface.hs
+GHC.Interface.BuildTyCl <= iface/BuildTyCl.hs
+GHC.Interface.Env <= iface/IfaceEnv.hs
+GHC.Interface.Syntax <= iface/IfaceSyn.hs
+GHC.Interface.Type <= iface/IfaceType.hs
+GHC.Interface.Load <= iface/LoadIface.hs
+GHC.Interface.Utils <= iface/MkIface.hs
+GHC.Interface.Tc <= iface/TcIface.hs
+GHC.Interface.Rename <= backpack/RnModIface.hs
+
+GHC.CoreToInterface <= iface/ToIface.hs
+```
+
 * TODO:
 
 ```
@@ -407,11 +436,11 @@ GHC.RTS.Storage <= cmm/SMRep.hs
 GHC.CoreToStg.Prep <= coreSyn/CorePrep.hs
 GHC.BasicTypes.ConLike <= basicTypes/ConLike.hs
 GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
-GHC.Builtin.TypeNats <= typecheck/TcTypeNats.hs
+? <= iface/FlagChecker.hs
+? <= iface/BinFingerprint.hs
 ? <= backpack/BkpSyn.hs
 ? <= backpack/DriverBkp.hs
 ? <= backpack/NameShape.hs
-? <= backpack/RnModIface.hs
 ? <= ghci/ByteCodeAsm.hs
 ? <= ghci/ByteCodeGen.hs
 ? <= ghci/ByteCodeInstr.hs
@@ -428,17 +457,6 @@ GHC.Builtin.TypeNats <= typecheck/TcTypeNats.hs
 ? <= hieFile/HieDebug.hs
 ? <= hieFile/HieTypes.hs
 ? <= hieFile/HieUtils.hs
-? <= iface/BinFingerprint.hs
-? <= iface/BinIface.hs
-? <= iface/BuildTyCl.hs
-? <= iface/FlagChecker.hs
-? <= iface/IfaceEnv.hs
-? <= iface/IfaceSyn.hs
-? <= iface/IfaceType.hs
-? <= iface/LoadIface.hs
-? <= iface/MkIface.hs
-? <= iface/TcIface.hs
-? <= iface/ToIface.hs
 ? <= llvmGen/Llvm/AbsSyn.hs
 ? <= llvmGen/LlvmCodeGen/Base.hs
 ? <= llvmGen/LlvmCodeGen/CodeGen.hs
@@ -567,13 +585,6 @@ GHC.Builtin.TypeNats <= typecheck/TcTypeNats.hs
 ? <= parser/HaddockUtils.hs
 ? <= parser/RdrHsSyn.hs
 ? <= prelude/ForeignCall.hs
-? <= prelude/KnownUniques.hs
-? <= prelude/PrelInfo.hs
-? <= prelude/PrelNames.hs
-? <= prelude/PrimOp.hs
-? <= prelude/THNames.hs
-? <= prelude/TysPrim.hs
-? <= prelude/TysWiredIn.hs
 ? <= profiling/CostCentre.hs
 ? <= profiling/CostCentreState.hs
 ? <= profiling/ProfInit.hs
