@@ -12,8 +12,8 @@ If you believe your favorite thing belongs in this list, but isn't there, please
  - October  25 2019:  ghc-8.10 branch cut
  - November 24 2019:  8.10.1-alpha1
  - December 11 2019:  8.10.1-alpha2
- - December 6  2019:  8.10.1-alpha3
- - January  2  2019:  8.10.1-rc1
+ - December 26 2019:  8.10.1-alpha3
+ - January  2  2020:  8.10.1-rc1
  - January  12 2020:  Final 8.10.1 release
 
 
