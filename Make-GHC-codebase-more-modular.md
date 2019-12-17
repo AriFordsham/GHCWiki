@@ -103,12 +103,12 @@ GHC.StgToCmm.Foreign
 GHC.StgToCmm.Heap
 GHC.StgToCmm.Hpc
 GHC.StgToCmm
-GHC.StgToCmm/Layout
-GHC.StgToCmm/Monad
-GHC.StgToCmm/Prim
-GHC.StgToCmm/Prof
-GHC.StgToCmm/Ticky
-GHC.StgToCmm/Utils
+GHC.StgToCmm.Layout
+GHC.StgToCmm.Monad
+GHC.StgToCmm.Prim
+GHC.StgToCmm.Prof
+GHC.StgToCmm.Ticky
+GHC.StgToCmm.Utils
 ```
 
 * `GHC.ThToHs` (done; can still be modified):
