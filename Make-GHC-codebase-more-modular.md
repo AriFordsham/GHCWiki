@@ -301,6 +301,63 @@ GHC.Cmm.Pretty <= cmm/PprCmm.hs
 GHC.CmmToC <= cmm/PprC.hs
 ```
 
+* `GHC.Tc`
+
+```
+GHC.Tc.Deriv <= typecheck/TcDeriv.hs
+GHC.Tc.Deriv.Constraints <= typecheck/TcDerivInfer.hs
+GHC.Tc.Deriv.Utils <= typecheck/TcDerivUtils.hs
+GHC.Tc.Deriv.BasicClasses <= typecheck/TcGenDeriv.hs
+GHC.Tc.Deriv.Functor <= typecheck/TcGenFunctor.hs
+GHC.Tc.Deriv.Generics <= typecheck/TcGenGenerics.hs
+GHC.Tc.Deriv.Typeable <= typecheck/TcTypeable.hs
+
+GHC.Tc.Solver.Interact <= typecheck/TcInteract.hs
+GHC.Tc.Solver.Monad <= typecheck/TcSMonad.hs
+GHC.Tc.Solver.Canonical <= typecheck/TcCanonical.hs
+GHC.Tc.Solver.Flatten <= typecheck/TcFlatten.hs
+
+GHC.Tc.Utils <= typecheck/TcRnTypes.hs
+GHC.Tc.Utils.Monadic <= typecheck/TcMType.hs
+GHC.Tc.Utils.CoreType <= typecheck/TcType.hs
+
+GHC.Tc.ClsInst <= typecheck/ClsInst.hs
+GHC.Tc.FamInst <= typecheck/FamInst.hs
+GHC.Tc.FunDeps <= typecheck/FunDeps.hs
+GHC.Tc.Inst <= typecheck/Inst.hs
+GHC.Tc.Annotations <= typecheck/TcAnnotations.hs
+GHC.Tc.Arrows <= typecheck/TcArrows.hs
+GHC.Tc.Backpack <= typecheck/TcBackpack.hs
+GHC.Tc.Binds <= typecheck/TcBinds.hs
+GHC.Tc.ClassDcl <= typecheck/TcClassDcl.hs
+GHC.Tc.Defaults <= typecheck/TcDefaults.hs
+GHC.Tc.Env <= typecheck/TcEnv.hs
+GHC.Tc.Errors <= typecheck/TcErrors.hs
+GHC.Tc.Evidence <= typecheck/TcEvidence.hs
+GHC.Tc.EvTerm <= typecheck/TcEvTerm.hs
+GHC.Tc.Expr <= typecheck/TcExpr.hs
+GHC.Tc.Foreign <= typecheck/TcForeign.hs
+GHC.Tc.Hole.Errors <= typecheck/TcHoleErrors.hs
+GHC.Tc.Hole.FitTypes <= typecheck/TcHoleFitTypes.hs
+GHC.Tc.Syntax <= typecheck/TcHsSyn.hs
+GHC.Tc.Type <= typecheck/TcHsType.hs
+GHC.Tc.InstDcls <= typecheck/TcInstDcls.hs
+GHC.Tc.Match <= typecheck/TcMatches.hs
+GHC.Tc.Pat <= typecheck/TcPat.hs
+GHC.Tc.PatSyn <= typecheck/TcPatSyn.hs
+GHC.Tc.Module <= typecheck/TcRnDriver.hs
+GHC.Tc.Export <= typecheck/TcRnExports.hs
+GHC.Tc.Monad <= typecheck/TcRnMonad.hs
+GHC.Tc.Rule <= typecheck/TcRules.hs
+GHC.Tc.Sigs <= typecheck/TcSigs.hs
+GHC.Tc.Simplify <= typecheck/TcSimplify.hs
+GHC.Tc.Splice <= typecheck/TcSplice.hs
+GHC.Tc.TyClsDecls <= typecheck/TcTyClsDecls.hs
+GHC.Tc.TyDecls <= typecheck/TcTyDecls.hs
+GHC.Tc.Unify <= typecheck/TcUnify.hs
+GHC.Tc.Validity <= typecheck/TcValidity.hs
+```
+
 * TODO:
 
 ```
@@ -308,6 +365,8 @@ GHC.Data.Bitmap <= cmm/Bitmap.hs
 GHC.RTS.Storage <= cmm/SMRep.hs
 GHC.CoreToStg.Prep <= coreSyn/CorePrep.hs
 GHC.BasicTypes.ConLike <= basicTypes/ConLike.hs
+GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
+GHC.Builtin.TypeNats <= typecheck/TcTypeNats.hs
 ? <= backpack/BkpSyn.hs
 ? <= backpack/DriverBkp.hs
 ? <= backpack/NameShape.hs
@@ -508,57 +567,6 @@ GHC.BasicTypes.ConLike <= basicTypes/ConLike.hs
 ? <= stgSyn/StgLint.hs
 ? <= stgSyn/StgSubst.hs
 ? <= stgSyn/StgSyn.hs
-? <= typecheck/ClsInst.hs
-? <= typecheck/FamInst.hs
-? <= typecheck/FunDeps.hs
-? <= typecheck/Inst.hs
-? <= typecheck/TcAnnotations.hs
-? <= typecheck/TcArrows.hs
-? <= typecheck/TcBackpack.hs
-? <= typecheck/TcBinds.hs
-? <= typecheck/TcCanonical.hs
-? <= typecheck/TcClassDcl.hs
-? <= typecheck/TcDefaults.hs
-? <= typecheck/TcDeriv.hs
-? <= typecheck/TcDerivInfer.hs
-? <= typecheck/TcDerivUtils.hs
-? <= typecheck/TcEnv.hs
-? <= typecheck/TcErrors.hs
-? <= typecheck/TcEvidence.hs
-? <= typecheck/TcEvTerm.hs
-? <= typecheck/TcExpr.hs
-? <= typecheck/TcFlatten.hs
-? <= typecheck/TcForeign.hs
-? <= typecheck/TcGenDeriv.hs
-? <= typecheck/TcGenFunctor.hs
-? <= typecheck/TcGenGenerics.hs
-? <= typecheck/TcHoleErrors.hs
-? <= typecheck/TcHoleFitTypes.hs
-? <= typecheck/TcHsSyn.hs
-? <= typecheck/TcHsType.hs
-? <= typecheck/TcInstDcls.hs
-? <= typecheck/TcInteract.hs
-? <= typecheck/TcMatches.hs
-? <= typecheck/TcMType.hs
-? <= typecheck/TcPat.hs
-? <= typecheck/TcPatSyn.hs
-? <= typecheck/TcPluginM.hs
-? <= typecheck/TcRnDriver.hs
-? <= typecheck/TcRnExports.hs
-? <= typecheck/TcRnMonad.hs
-? <= typecheck/TcRnTypes.hs
-? <= typecheck/TcRules.hs
-? <= typecheck/TcSigs.hs
-? <= typecheck/TcSimplify.hs
-? <= typecheck/TcSMonad.hs
-? <= typecheck/TcSplice.hs
-? <= typecheck/TcTyClsDecls.hs
-? <= typecheck/TcTyDecls.hs
-? <= typecheck/TcTypeable.hs
-? <= typecheck/TcType.hs
-? <= typecheck/TcTypeNats.hs
-? <= typecheck/TcUnify.hs
-? <= typecheck/TcValidity.hs
 ? <= utils/AsmUtils.hs
 ? <= utils/Bag.hs
 ? <= utils/Binary.hs
