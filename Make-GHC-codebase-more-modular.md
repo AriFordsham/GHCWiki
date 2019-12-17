@@ -457,6 +457,19 @@ GHC.CmmToLlvm.Pretty <= llvmGen/LlvmCodeGen/Ppr.hs
 GHC.CmmToLlvm.Regs <= llvmGen/LlvmCodeGen/Regs.hs
 ```
 
+* `GHC.Runtime`:
+
+```
+GHC.Runtime.ClosureInspect <= ghci/RtClosureInspect.hs
+GHC.Runtime.Debugger <= ghci/Debugger.hs
+GHC.Runtime.Interpreter <= ghci/GHCi.hs
+GHC.Runtime.Linker <= ghci/Linker.hs
+GHC.Runtime.Linker.Types <= ghci/LinkerTypes.hs
+GHC.Runtime.DynamicLoading <= main/DynamicLoading.hs
+GHC.Runtime.Eval <= main/InteractiveEval.hs
+GHC.Runtime.Eval.Types <= main/InteractiveEvalTypes.hs
+```
+
 * TODO:
 
 ```
@@ -470,11 +483,6 @@ GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
 ? <= backpack/BkpSyn.hs
 ? <= backpack/DriverBkp.hs
 ? <= backpack/NameShape.hs
-? <= ghci/Debugger.hs
-? <= ghci/GHCi.hs
-? <= ghci/Linker.hs
-? <= ghci/LinkerTypes.hs
-? <= ghci/RtClosureInspect.hs
 ? <= hieFile/HieAst.hs
 ? <= hieFile/HieBin.hs
 ? <= hieFile/HieDebug.hs
@@ -489,7 +497,6 @@ GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
 ? <= main/DriverMkDepend.hs
 ? <= main/DriverPhases.hs
 ? <= main/DriverPipeline.hs
-? <= main/DynamicLoading.hs
 ? <= main/DynFlags.hs
 ? <= main/Elf.hs
 ? <= main/ErrUtils.hs
@@ -506,8 +513,6 @@ GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
 ? <= main/HscMain.hs
 ? <= main/HscStats.hs
 ? <= main/HscTypes.hs
-? <= main/InteractiveEval.hs
-? <= main/InteractiveEvalTypes.hs
 ? <= main/PackageConfig.hs
 ? <= main/Packages.hs
 ? <= main/PipelineMonad.hs
