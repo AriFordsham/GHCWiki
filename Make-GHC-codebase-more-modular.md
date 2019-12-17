@@ -486,6 +486,83 @@ GHC.Driver.PipelineMonad <= main/PipelineMonad.hs
 GHC.Driver.Main <= main/HscMain.hs
 ```
 
+* `GHC.CmmToAsm`:
+
+```
+GHC.CmmToAsm.CodeGen <= nativeGen/AsmCodeGen.hs
+GHC.CmmToAsm.Blocklayout <= nativeGen/BlockLayout.hs
+GHC.CmmToAsm.CFG <= nativeGen/CFG.hs
+GHC.CmmToAsm.Prim <= nativeGen/CPrim.hs
+GHC.CmmToAsm.Dwarf.Constants <= nativeGen/Dwarf/Constants.hs
+GHC.CmmToAsm.Dwarf <= nativeGen/Dwarf.hs
+GHC.CmmToAsm.Dwarf.Types <= nativeGen/Dwarf/Types.hs
+GHC.CmmToAsm.Format <= nativeGen/Format.hs
+GHC.CmmToAsm.Instr <= nativeGen/Instruction.hs
+GHC.CmmToAsm.Monad <= nativeGen/NCGMonad.hs
+GHC.CmmToAsm.PIC <= nativeGen/PIC.hs
+
+GHC.CmmToAsm.Pretty <= nativeGen/PprBase.hs
+
+GHC.CmmToAsm.Reg.Graph.ArchBase <= nativeGen/RegAlloc/Graph/ArchBase.hs
+GHC.CmmToAsm.Reg.Graph.ArchX86 <= nativeGen/RegAlloc/Graph/ArchX86.hs
+GHC.CmmToAsm.Reg.Graph.Coalesce <= nativeGen/RegAlloc/Graph/Coalesce.hs
+GHC.CmmToAsm.Reg.Graph <= nativeGen/RegAlloc/Graph/Main.hs
+GHC.CmmToAsm.Reg.Graph.SpillClean <= nativeGen/RegAlloc/Graph/SpillClean.hs
+GHC.CmmToAsm.Reg.Graph.SpillCost <= nativeGen/RegAlloc/Graph/SpillCost.hs
+GHC.CmmToAsm.Reg.Graph.Spill <= nativeGen/RegAlloc/Graph/Spill.hs
+GHC.CmmToAsm.Reg.Graph.Stats <= nativeGen/RegAlloc/Graph/Stats.hs
+GHC.CmmToAsm.Reg.Graph.TrivColorable <= nativeGen/RegAlloc/Graph/TrivColorable.hs
+
+GHC.CmmToAsm.Reg.Linear.Base <= nativeGen/RegAlloc/Linear/Base.hs
+GHC.CmmToAsm.Reg.Linear.JoinToTargets <= nativeGen/RegAlloc/Linear/JoinToTargets.hs
+GHC.CmmToAsm.Reg.Linear <= nativeGen/RegAlloc/Linear/Main.hs
+GHC.CmmToAsm.Reg.Linear.StackMap <= nativeGen/RegAlloc/Linear/StackMap.hs
+GHC.CmmToAsm.Reg.Linear.State <= nativeGen/RegAlloc/Linear/State.hs
+GHC.CmmToAsm.Reg.Linear.Stats <= nativeGen/RegAlloc/Linear/Stats.hs
+GHC.CmmToAsm.Reg.Linear.FreeRegs <= nativeGen/RegAlloc/Linear/FreeRegs.hs
+GHC.CmmToAsm.Reg.Linear.FreeRegs.PPC <= nativeGen/RegAlloc/Linear/PPC/FreeRegs.hs
+GHC.CmmToAsm.Reg.Linear.FreeRegs.SPARC <= nativeGen/RegAlloc/Linear/SPARC/FreeRegs.hs
+GHC.CmmToAsm.Reg.Linear.FreeRegs.X86_64 <= nativeGen/RegAlloc/Linear/X86_64/FreeRegs.hs
+GHC.CmmToAsm.Reg.Linear.FreeRegs.X86 <= nativeGen/RegAlloc/Linear/X86/FreeRegs.hs
+
+GHC.CmmToAsm.Reg <= nativeGen/Reg.hs
+GHC.CmmToAsm.Reg.Liveness <= nativeGen/RegAlloc/Liveness.hs
+GHC.CmmToAsm.Reg.Class <= nativeGen/RegClass.hs
+GHC.CmmToAsm.Reg.Target <= nativeGen/TargetReg.hs
+
+GHC.CmmToAsm.PPC.CodeGen <= nativeGen/PPC/CodeGen.hs
+GHC.CmmToAsm.PPC.Cond <= nativeGen/PPC/Cond.hs
+GHC.CmmToAsm.PPC.Instr <= nativeGen/PPC/Instr.hs
+GHC.CmmToAsm.PPC.Pretty <= nativeGen/PPC/Ppr.hs
+GHC.CmmToAsm.PPC.RegInfo <= nativeGen/PPC/RegInfo.hs
+GHC.CmmToAsm.PPC.Regs <= nativeGen/PPC/Regs.hs
+
+GHC.CmmToAsm.SPARC.AddrMode <= nativeGen/SPARC/AddrMode.hs
+GHC.CmmToAsm.SPARC.Base <= nativeGen/SPARC/Base.hs
+GHC.CmmToAsm.SPARC.CodeGen.Amode <= nativeGen/SPARC/CodeGen/Amode.hs
+GHC.CmmToAsm.SPARC.CodeGen.Base <= nativeGen/SPARC/CodeGen/Base.hs
+GHC.CmmToAsm.SPARC.CodeGen.Cond <= nativeGen/SPARC/CodeGen/CondCode.hs
+GHC.CmmToAsm.SPARC.CodeGen.Expand <= nativeGen/SPARC/CodeGen/Expand.hs
+GHC.CmmToAsm.SPARC.CodeGen.Gen32 <= nativeGen/SPARC/CodeGen/Gen32.hs
+GHC.CmmToAsm.SPARC.CodeGen.Gen64 <= nativeGen/SPARC/CodeGen/Gen64.hs
+GHC.CmmToAsm.SPARC.CodeGen <= nativeGen/SPARC/CodeGen.hs
+GHC.CmmToAsm.SPARC.CodeGen.Sanity <= nativeGen/SPARC/CodeGen/Sanity.hs
+GHC.CmmToAsm.SPARC.Cond <= nativeGen/SPARC/Cond.hs
+GHC.CmmToAsm.SPARC.Imm <= nativeGen/SPARC/Imm.hs
+GHC.CmmToAsm.SPARC.Instr <= nativeGen/SPARC/Instr.hs
+GHC.CmmToAsm.SPARC.Pretty <= nativeGen/SPARC/Ppr.hs
+GHC.CmmToAsm.SPARC.Regs <= nativeGen/SPARC/Regs.hs
+GHC.CmmToAsm.SPARC.ShortcutJump <= nativeGen/SPARC/ShortcutJump.hs
+GHC.CmmToAsm.SPARC.Stack <= nativeGen/SPARC/Stack.hs
+
+GHC.CmmToAsm.X86 <= nativeGen/X86/CodeGen.hs
+GHC.CmmToAsm.X86.Cond <= nativeGen/X86/Cond.hs
+GHC.CmmToAsm.X86.Inst <= nativeGen/X86/Instr.hs
+GHC.CmmToAsm.X86.Pretty <= nativeGen/X86/Ppr.hs
+GHC.CmmToAsm.X86.RegInfo <= nativeGen/X86/RegInfo.hs
+GHC.CmmToAsm.X86.Regs <= nativeGen/X86/Regs.hs
+```
+
 * TODO:
 
 ```
@@ -536,71 +613,6 @@ GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
 ? <= main/SysTools/Tasks.hs
 ? <= main/SysTools/Terminal.hs
 ? <= main/ToolSettings.hs
-? <= nativeGen/AsmCodeGen.hs
-? <= nativeGen/BlockLayout.hs
-? <= nativeGen/CFG.hs
-? <= nativeGen/CPrim.hs
-? <= nativeGen/Dwarf/Constants.hs
-? <= nativeGen/Dwarf.hs
-? <= nativeGen/Dwarf/Types.hs
-? <= nativeGen/Format.hs
-? <= nativeGen/Instruction.hs
-? <= nativeGen/NCGMonad.hs
-? <= nativeGen/PIC.hs
-? <= nativeGen/PPC/CodeGen.hs
-? <= nativeGen/PPC/Cond.hs
-? <= nativeGen/PPC/Instr.hs
-? <= nativeGen/PPC/Ppr.hs
-? <= nativeGen/PPC/RegInfo.hs
-? <= nativeGen/PPC/Regs.hs
-? <= nativeGen/PprBase.hs
-? <= nativeGen/RegAlloc/Graph/ArchBase.hs
-? <= nativeGen/RegAlloc/Graph/ArchX86.hs
-? <= nativeGen/RegAlloc/Graph/Coalesce.hs
-? <= nativeGen/RegAlloc/Graph/Main.hs
-? <= nativeGen/RegAlloc/Graph/SpillClean.hs
-? <= nativeGen/RegAlloc/Graph/SpillCost.hs
-? <= nativeGen/RegAlloc/Graph/Spill.hs
-? <= nativeGen/RegAlloc/Graph/Stats.hs
-? <= nativeGen/RegAlloc/Graph/TrivColorable.hs
-? <= nativeGen/RegAlloc/Linear/Base.hs
-? <= nativeGen/RegAlloc/Linear/FreeRegs.hs
-? <= nativeGen/RegAlloc/Linear/JoinToTargets.hs
-? <= nativeGen/RegAlloc/Linear/Main.hs
-? <= nativeGen/RegAlloc/Linear/PPC/FreeRegs.hs
-? <= nativeGen/RegAlloc/Linear/SPARC/FreeRegs.hs
-? <= nativeGen/RegAlloc/Linear/StackMap.hs
-? <= nativeGen/RegAlloc/Linear/State.hs
-? <= nativeGen/RegAlloc/Linear/Stats.hs
-? <= nativeGen/RegAlloc/Linear/X86_64/FreeRegs.hs
-? <= nativeGen/RegAlloc/Linear/X86/FreeRegs.hs
-? <= nativeGen/RegAlloc/Liveness.hs
-? <= nativeGen/RegClass.hs
-? <= nativeGen/Reg.hs
-? <= nativeGen/SPARC/AddrMode.hs
-? <= nativeGen/SPARC/Base.hs
-? <= nativeGen/SPARC/CodeGen/Amode.hs
-? <= nativeGen/SPARC/CodeGen/Base.hs
-? <= nativeGen/SPARC/CodeGen/CondCode.hs
-? <= nativeGen/SPARC/CodeGen/Expand.hs
-? <= nativeGen/SPARC/CodeGen/Gen32.hs
-? <= nativeGen/SPARC/CodeGen/Gen64.hs
-? <= nativeGen/SPARC/CodeGen.hs
-? <= nativeGen/SPARC/CodeGen/Sanity.hs
-? <= nativeGen/SPARC/Cond.hs
-? <= nativeGen/SPARC/Imm.hs
-? <= nativeGen/SPARC/Instr.hs
-? <= nativeGen/SPARC/Ppr.hs
-? <= nativeGen/SPARC/Regs.hs
-? <= nativeGen/SPARC/ShortcutJump.hs
-? <= nativeGen/SPARC/Stack.hs
-? <= nativeGen/TargetReg.hs
-? <= nativeGen/X86/CodeGen.hs
-? <= nativeGen/X86/Cond.hs
-? <= nativeGen/X86/Instr.hs
-? <= nativeGen/X86/Ppr.hs
-? <= nativeGen/X86/RegInfo.hs
-? <= nativeGen/X86/Regs.hs
 ? <= parser/ApiAnnotation.hs
 ? <= parser/Ctype.hs
 ? <= parser/HaddockUtils.hs
