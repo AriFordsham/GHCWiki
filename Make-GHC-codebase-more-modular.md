@@ -358,6 +358,47 @@ GHC.Tc.Unify <= typecheck/TcUnify.hs
 GHC.Tc.Validity <= typecheck/TcValidity.hs
 ```
 
+* `GHC.HsToCore`
+
+```
+GHC.HsToCore <= deSugar/Desugar.hs
+GHC.HsToCore.Coverage <= deSugar/Coverage.hs
+GHC.HsToCore.Arrows <= deSugar/DsArrows.hs
+GHC.HsToCore.Binds <= deSugar/DsBinds.hs
+GHC.HsToCore.ForeignCall <= deSugar/DsCCall.hs
+GHC.HsToCore.Expr <= deSugar/DsExpr.hs
+GHC.HsToCore.ForeignCallDecl <= deSugar/DsForeign.hs
+GHC.HsToCore.GuardedRHSs <= deSugar/DsGRHSs.hs
+GHC.HsToCore.ListComp <= deSugar/DsListComp.hs
+GHC.HsToCore.Splice <= deSugar/DsMeta.hs
+GHC.HsToCore.Monad <= deSugar/DsMonad.hs
+GHC.HsToCore.Usage <= deSugar/DsUsage.hs
+GHC.HsToCore.Utils <= deSugar/DsUtils.hs
+GHC.HsToCore.Docs <= deSugar/ExtractDocs.hs
+GHC.HsToCore.Match <= deSugar/Match.hs
+GHC.HsToCore.Match.Constructor <= deSugar/MatchCon.hs
+GHC.HsToCore.Match.Literal <= deSugar/MatchLit.hs
+```
+
+* Stg
+
+```
+GHC.Stg.Pipeline <= simplStg/SimplStg.hs
+GHC.Stg.CSE <= simplStg/StgCse.hs
+GHC.Stg.LiftLams.Analysis <= simplStg/StgLiftLams/Analysis.hs
+GHC.Stg.LiftLams <= simplStg/StgLiftLams.hs
+GHC.Stg.LiftLams.Monad <= simplStg/StgLiftLams/LiftM.hs
+GHC.Stg.LiftLams.Trans <= simplStg/StgLiftLams/Transformation.hs
+GHC.Stg.Stats <= simplStg/StgStats.hs
+GHC.Stg.Unarise <= simplStg/UnariseStg.hs
+GHC.Stg.FVs <= stgSyn/StgFVs.hs
+GHC.Stg.Lint <= stgSyn/StgLint.hs
+GHC.Stg.Subst <= stgSyn/StgSubst.hs
+GHC.Stg.Syntax <= stgSyn/StgSyn.hs
+
+GHC.CoreToStg <= stgSyn/CoreToStg.hs
+```
+
 * TODO:
 
 ```
@@ -371,23 +412,6 @@ GHC.Builtin.TypeNats <= typecheck/TcTypeNats.hs
 ? <= backpack/DriverBkp.hs
 ? <= backpack/NameShape.hs
 ? <= backpack/RnModIface.hs
-? <= deSugar/Coverage.hs
-? <= deSugar/Desugar.hs
-? <= deSugar/DsArrows.hs
-? <= deSugar/DsBinds.hs
-? <= deSugar/DsCCall.hs
-? <= deSugar/DsExpr.hs
-? <= deSugar/DsForeign.hs
-? <= deSugar/DsGRHSs.hs
-? <= deSugar/DsListComp.hs
-? <= deSugar/DsMeta.hs
-? <= deSugar/DsMonad.hs
-? <= deSugar/DsUsage.hs
-? <= deSugar/DsUtils.hs
-? <= deSugar/ExtractDocs.hs
-? <= deSugar/MatchCon.hs
-? <= deSugar/Match.hs
-? <= deSugar/MatchLit.hs
 ? <= ghci/ByteCodeAsm.hs
 ? <= ghci/ByteCodeGen.hs
 ? <= ghci/ByteCodeInstr.hs
@@ -554,19 +578,6 @@ GHC.Builtin.TypeNats <= typecheck/TcTypeNats.hs
 ? <= profiling/CostCentreState.hs
 ? <= profiling/ProfInit.hs
 ? <= simplStg/RepType.hs
-? <= simplStg/SimplStg.hs
-? <= simplStg/StgCse.hs
-? <= simplStg/StgLiftLams/Analysis.hs
-? <= simplStg/StgLiftLams.hs
-? <= simplStg/StgLiftLams/LiftM.hs
-? <= simplStg/StgLiftLams/Transformation.hs
-? <= simplStg/StgStats.hs
-? <= simplStg/UnariseStg.hs
-? <= stgSyn/CoreToStg.hs
-? <= stgSyn/StgFVs.hs
-? <= stgSyn/StgLint.hs
-? <= stgSyn/StgSubst.hs
-? <= stgSyn/StgSyn.hs
 ? <= utils/AsmUtils.hs
 ? <= utils/Bag.hs
 ? <= utils/Binary.hs
