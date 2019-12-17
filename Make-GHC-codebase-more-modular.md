@@ -54,66 +54,66 @@ Goals:
 * `GHC.Hs` (done; can still be modified):
 
 ```
-GHC.Hs.Binds
-GHC.Hs.Decls
-GHC.Hs.Doc
-GHC.Hs.Dump
-GHC.Hs.Expr
-GHC.Hs.Extension
-GHC.Hs
-GHC.Hs.ImpExp
-GHC.Hs.Instances
-GHC.Hs.Lit
-GHC.Hs.Pat
-GHC.Hs.PlaceHolder
-GHC.Hs.Types
-GHC.Hs.Utils
+GHC.Hs.Binds <= hsSyn/HsBinds.hs
+GHC.Hs.Decls <= hsSyn/HsDecls.hs
+GHC.Hs.Doc <= hsSyn/HsDoc.hs
+GHC.Hs.Dump <= hsSyn/HsDumpAst.hs
+GHC.Hs.Expr <= hsSyn/HsExpr.hs
+GHC.Hs.Extension <= hsSyn/HsExtension.hs
+GHC.Hs <= hsSyn/HsSyn.hs
+GHC.Hs.ImpExp <= hsSyn/HsImpExp.hs
+GHC.Hs.Instances <= hsSyn/HsInstances.hs
+GHC.Hs.Lit <= hsSyn/HsLit.hs
+GHC.Hs.Pat <= hsSyn/HsPat.hs
+GHC.Hs.PlaceHolder <= hsSyn/PlaceHolder.hs
+GHC.Hs.Types <= hsSyn/HsTypes.hs
+GHC.Hs.Utils <= hsSyn/HsUtils.hs
 ```
 
 * `GHC.HsToCore` (done; can still be modified):
 ```
-GHC.HsToCore.PmCheck
-GHC.HsToCore.PmCheck.Oracle
-GHC.HsToCore.PmCheck.Ppr
-GHC.HsToCore.PmCheck.Types
+GHC.HsToCore.PmCheck <= deSugar/Check.hs
+GHC.HsToCore.PmCheck.Oracle <= deSugar/PmOracle.hs
+GHC.HsToCore.PmCheck.Ppr <= deSugar/PmPpr.hs
+GHC.HsToCore.PmCheck.Types <= deSugar/PmTypes.hs
 ```
 
 * `GHC.Platform` (done; can still be modified):
 ```
-GHC.Platform.ARM64
-GHC.Platform.ARM
-GHC.Platform.NoRegs
-GHC.Platform.PPC
-GHC.Platform.Regs
-GHC.Platform.SPARC
-GHC.Platform.X86_64
-GHC.Platform.X86
+GHC.Platform.ARM64 <= codeGen/CodeGen/Platform/ARM64.hs
+GHC.Platform.ARM <= codeGen/CodeGen/Platform/ARM.hs
+GHC.Platform.NoRegs <= codeGen/CodeGen/Platform/NoRegs.hs
+GHC.Platform.PPC <= codeGen/CodeGen/Platform/PPC.hs
+GHC.Platform.Regs <= codeGen/CodeGen/Platform.hs
+GHC.Platform.SPARC <= codeGen/CodeGen/Platform/SPARC.hs
+GHC.Platform.X86_64 <= codeGen/CodeGen/Platform/X86_64.hs
+GHC.Platform.X86 <= codeGen/CodeGen/Platform/X86.hs
 ```
 * `GHC.StgToCmm` (done; can still be modified):
 ```
-GHC.StgToCmm.ArgRep
-GHC.StgToCmm.Bind
-GHC.StgToCmm.CgUtils
-GHC.StgToCmm.Closure
-GHC.StgToCmm.DataCon
-GHC.StgToCmm.Env
-GHC.StgToCmm.Expr
-GHC.StgToCmm.ExtCode
-GHC.StgToCmm.Foreign
-GHC.StgToCmm.Heap
-GHC.StgToCmm.Hpc
-GHC.StgToCmm
-GHC.StgToCmm.Layout
-GHC.StgToCmm.Monad
-GHC.StgToCmm.Prim
-GHC.StgToCmm.Prof
-GHC.StgToCmm.Ticky
-GHC.StgToCmm.Utils
+GHC.StgToCmm.ArgRep <= codeGen/StgCmmArgRep.hs
+GHC.StgToCmm.Bind <= codeGen/StgCmmBind.hs
+GHC.StgToCmm.CgUtils <= codeGen/CgUtils.hs
+GHC.StgToCmm.Closure <= codeGen/StgCmmClosure.hs
+GHC.StgToCmm.DataCon <= codeGen/StgCmmCon.hs
+GHC.StgToCmm.Env <= codeGen/StgCmmEnv.hs
+GHC.StgToCmm.Expr <= codeGen/StgCmmExpr.hs
+GHC.StgToCmm.ExtCode <= codeGen/StgCmmExtCode.hs
+GHC.StgToCmm.Foreign <= codeGen/StgCmmForeign.hs
+GHC.StgToCmm.Heap <= codeGen/StgCmmHeap.hs
+GHC.StgToCmm.Hpc <= codeGen/StgCmmHpc.hs
+GHC.StgToCmm <= codeGen/StgCmm.hs
+GHC.StgToCmm.Layout <= codeGen/StgCmmLayout.hs
+GHC.StgToCmm.Monad <= codeGen/StgCmmMonad.hs
+GHC.StgToCmm.Prim <= codeGen/StgCmmPrim.hs
+GHC.StgToCmm.Prof <= codeGen/StgCmmProf.hs
+GHC.StgToCmm.Ticky <= codeGen/StgCmmTicky.hs
+GHC.StgToCmm.Utils <= codeGen/StgCmmUtils.hs
 ```
 
 * `GHC.ThToHs` (done; can still be modified):
 ```
-GHC.ThToHs
+GHC.ThToHs <= hsSync/Convert.hs
 ```
 
 * Renamer !1899:
