@@ -22,6 +22,12 @@
   - Use semicolon, sequence
   - Implementation
 
+- https://github.com/ghc-proposals/ghc-proposals/pull/43 Or patterns: Potential bachelor's thesis?
+  - osa1 ultimately after a long and tedious discussion gave up.
+  - Why? What's needed? A formal Specification? Which part? Static or dynamic semantics?
+  - Also how much? Whole pattern language or just enough of a fragment to explain or patterns?
+  - I see there is https://gitlab.haskell.org/rae/haskell as a starting point, but it seems to focus entirely on static semantics. But probably the document to complete?
+
 - !2218 Unlifted data types
   - #17521: Introduces top-level unlifted bindings for data con wrappers of nullary constructors, which appear to have been properly tagged.
     - `IND_STATIC` and unlifted top-level bindings are fundamentally incompatible: The former doesn't allow tags, the latter needs the tag
