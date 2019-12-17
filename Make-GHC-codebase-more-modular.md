@@ -563,10 +563,44 @@ GHC.CmmToAsm.X86.RegInfo <= nativeGen/X86/RegInfo.hs
 GHC.CmmToAsm.X86.Regs <= nativeGen/X86/Regs.hs
 ```
 
-* TODO:
+* `GHC.Data`:
 
 ```
 GHC.Data.Bitmap <= cmm/Bitmap.hs
+GHC.Data.Bag <= utils/Bag.hs
+GHC.Data.BooleanFormula <= utils/BooleanFormula.hs
+GHC.Data.EnumSet <= utils/EnumSet.hs
+GHC.Data.FastMutInt <= utils/FastMutInt.hs
+GHC.Data.FastStringEnv <= utils/FastStringEnv.hs
+GHC.Data.FastString <= utils/FastString.hs
+GHC.Data.Graph.Base <= utils/GraphBase.hs
+GHC.Data.Graph.Color <= utils/GraphColor.hs
+GHC.Data.Graph.Directed <= utils/Digraph.hs
+GHC.Data.Graph.Ops <= utils/GraphOps.hs
+GHC.Data.Graph.Pretty <= utils/GraphPpr.hs
+GHC.Data.Graph.UnVar <= utils/UnVarGraph.hs
+GHC.Data.List.SetOps <= utils/ListSetOps.hs
+GHC.Data.Maybe <= utils/Maybes.hs
+GHC.Data.FiniteMap <= utils/FiniteMap.hs
+GHC.Data.OrdList <= utils/OrdList.hs
+GHC.Data.Pair <= utils/Pair.hs
+GHC.Data.Stream <= utils/Stream.hs
+GHC.Data.StringBuffer <= utils/StringBuffer.hs
+GHC.Data.TrieMap <= utils/TrieMap.hs
+
+GHC.Data.Char.Encoding <= utils/Encoding.hs
+GHC.Data.Char.Class <= parser/Ctype.hs
+
+GHC.Data.Unique.DFM <= utils/UniqDFM.hs
+GHC.Data.Unique.DSet <= utils/UniqDSet.hs
+GHC.Data.Unique.FM <= utils/UniqFM.hs
+GHC.Data.Unique.Map <= utils/UniqMap.hs
+GHC.Data.Unique.Set <= utils/UniqSet.hs
+```
+
+* TODO:
+
+```
 GHC.RTS.Storage <= cmm/SMRep.hs
 GHC.CoreToStg.Prep <= coreSyn/CorePrep.hs
 GHC.BasicTypes.ConLike <= basicTypes/ConLike.hs
@@ -614,7 +648,6 @@ GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
 ? <= main/SysTools/Terminal.hs
 ? <= main/ToolSettings.hs
 ? <= parser/ApiAnnotation.hs
-? <= parser/Ctype.hs
 ? <= parser/HaddockUtils.hs
 ? <= parser/RdrHsSyn.hs
 ? <= prelude/ForeignCall.hs
@@ -623,48 +656,22 @@ GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
 ? <= profiling/ProfInit.hs
 ? <= simplStg/RepType.hs
 ? <= utils/AsmUtils.hs
-? <= utils/Bag.hs
 ? <= utils/Binary.hs
-? <= utils/BooleanFormula.hs
 ? <= utils/BufWrite.hs
-? <= utils/Digraph.hs
-? <= utils/Encoding.hs
-? <= utils/EnumSet.hs
 ? <= utils/Exception.hs
 ? <= utils/FastFunctions.hs
-? <= utils/FastMutInt.hs
-? <= utils/FastStringEnv.hs
-? <= utils/FastString.hs
 ? <= utils/Fingerprint.hs
-? <= utils/FiniteMap.hs
 ? <= utils/FV.hs
 ? <= utils/GhcPrelude.hs
-? <= utils/GraphBase.hs
-? <= utils/GraphColor.hs
-? <= utils/GraphOps.hs
-? <= utils/GraphPpr.hs
 ? <= utils/IOEnv.hs
 ? <= utils/Json.hs
-? <= utils/ListSetOps.hs
-? <= utils/Maybes.hs
 ? <= utils/MonadUtils.hs
-? <= utils/OrdList.hs
 ? <= utils/Outputable.hs
-? <= utils/Pair.hs
 ? <= utils/Panic.hs
 ? <= utils/PlainPanic.hs
 ? <= utils/PprColour.hs
 ? <= utils/Pretty.hs
 ? <= utils/State.hs
-? <= utils/Stream.hs
-? <= utils/StringBuffer.hs
-? <= utils/TrieMap.hs
-? <= utils/UniqDFM.hs
-? <= utils/UniqDSet.hs
-? <= utils/UniqFM.hs
-? <= utils/UniqMap.hs
-? <= utils/UniqSet.hs
-? <= utils/UnVarGraph.hs
 ? <= utils/Util.hs
 ```
 
