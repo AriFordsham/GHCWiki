@@ -141,23 +141,21 @@ GHC.Rename.Utils <= rename/RnUtils.hs
 ```
 GHC.Core.Arity <= coreSyn/CoreArity.hs
 GHC.Core.FVs <= coreSyn/CoreFVs.hs
-GHC.Core.Lint <= coreSyn/CoreLint.hs
 GHC.Core.Map <= coreSyn/CoreMap.hs
 GHC.Core.SimpleOpt <= coreSyn/CoreOpt.hs
 GHC.Core.Seq <= coreSyn/CoreSeq.hs
 GHC.Core.Stats <= coreSyn/CoreStats.hs
 GHC.Core.Subst <= coreSyn/CoreSubst.hs
 GHC.Core.Syntax <= coreSyn/CoreSyn.hs
-GHC.Core.Tidy <= coreSyn/CoreTidy.hs
 GHC.Core.Unfold <= coreSyn/CoreUnfold.hs
 GHC.Core.Utils <= coreSyn/CoreUtils.hs
 GHC.Core.Make <= coreSyn/MkCore.hs
 GHC.Core.Pretty <= coreSyn/PprCore.hs
-GHC.Core.OccurAnal <= simplCore/OccurAnal.hs
 GHC.Core.Rules <= specialise/Rules.hs
 
 GHC.Core.Class <= types/Class.hs
 GHC.Core.Coercion <= types/Coercion.hs
+GHC.Core.ConLike <= basicTypes/ConLike.hs
 GHC.Core.FamInstEnv <= types/FamInstEnv.hs
 GHC.Core.InstEnv <= types/InstEnv.hs
 GHC.Core.Kind <= types/Kind.hs
@@ -165,6 +163,7 @@ GHC.Core.TyCon <= types/TyCon.hs
 GHC.Core.Type <= types/Type.hs
 GHC.Core.Unify <= types/Unify.hs
 GHC.Core.DataCon <= basicTypes/DataCon.hs
+GHC.Core.PatSyn <= basicTypes/PatSyn.hs
 GHC.Core.Predicate <= basicTypes/Predicate.hs
 
 GHC.Core.TyCo.FVs <= types/TyCoFVs.hs
@@ -175,30 +174,30 @@ GHC.Core.TyCo.Tidy <= types/TyCoTidy.hs
 
 GHC.Core.Coercion.Axiom <= types/CoAxiom.hs
 GHC.Core.Coercion.Opt <= types/OptCoercion.hs
-```
 
-* `GHC.CoreToCore` !1773
-```
-GHC.CoreToCore.CallArity <= simplCore/CallArity.hs
-GHC.CoreToCore.Monad <= simplCore/CoreMonad.hs
-GHC.CoreToCore.CSE <= simplCore/CSE.hs
-GHC.CoreToCore.Exitify <= simplCore/Exitify.hs
-GHC.CoreToCore.FloatIn <= simplCore/FloatIn.hs
-GHC.CoreToCore.FloatOut <= simplCore/FloatOut.hs
-GHC.CoreToCore.LiberateCase <= simplCore/LiberateCase.hs
-GHC.CoreToCore.StaticArgs <= simplCore/SAT.hs
-GHC.CoreToCore.SetLevels <= simplCore/SetLevels.hs
-GHC.CoreToCore.Simplify.Driver <= simplCore/SimplCore.hs
-GHC.CoreToCore.Simplify.Env <= simplCore/SimplEnv.hs
-GHC.CoreToCore.Simplify <= simplCore/Simplify.hs
-GHC.CoreToCore.Simplify.Monad <= simplCore/SimplMonad.hs
-GHC.CoreToCore.Simplify.Utils <= simplCore/SimplUtils.hs
-GHC.CoreToCore.SpecConstr <= specialise/SpecConstr.hs
-GHC.CoreToCore.Specialise <= specialise/Specialise.hs
-GHC.CoreToCore.DmdAnal <= stranal/DmdAnal.hs
-GHC.CoreToCore.WorkWrap <= stranal/WorkWrap.hs
-GHC.CoreToCore.WorkWrapLib <= stranal/WwLib.hs              RAE: GHC.CoreToCore.WorkWrap.Lib
-GHC.CoreToCore.ConstantFold <= prelude/PrelRules.hs
+GHC.Core.Op.CallArity <= simplCore/CallArity.hs
+GHC.Core.Op.Monad <= simplCore/CoreMonad.hs
+GHC.Core.Op.CSE <= simplCore/CSE.hs
+GHC.Core.Op.Exitify <= simplCore/Exitify.hs
+GHC.Core.Op.FloatIn <= simplCore/FloatIn.hs
+GHC.Core.Op.FloatOut <= simplCore/FloatOut.hs
+GHC.Core.Op.LiberateCase <= simplCore/LiberateCase.hs
+GHC.Core.Op.OccurAnal <= simplCore/OccurAnal.hs
+GHC.Core.Op.StaticArgs <= simplCore/SAT.hs
+GHC.Core.Op.SetLevels <= simplCore/SetLevels.hs
+GHC.Core.Op.Simplify.Driver <= simplCore/SimplCore.hs
+GHC.Core.Op.Simplify.Env <= simplCore/SimplEnv.hs
+GHC.Core.Op.Simplify <= simplCore/Simplify.hs
+GHC.Core.Op.Simplify.Monad <= simplCore/SimplMonad.hs
+GHC.Core.Op.Simplify.Utils <= simplCore/SimplUtils.hs
+GHC.Core.Op.SpecConstr <= specialise/SpecConstr.hs
+GHC.Core.Op.Specialise <= specialise/Specialise.hs
+GHC.Core.Op.DmdAnal <= stranal/DmdAnal.hs
+GHC.Core.Op.WorkWrap <= stranal/WorkWrap.hs
+GHC.Core.Op.WorkWrap.Lib <= stranal/WwLib.hs
+GHC.Core.Op.ConstantFold <= prelude/PrelRules.hs
+GHC.Core.Op.Tidy <= coreSyn/CoreTidy.hs
+GHC.Core.Op.Lint <= coreSyn/CoreLint.hs
 ```
 
 * `GHC.BasicTypes          RAE: GHC.Types`:
@@ -219,7 +218,6 @@ GHC.BasicTypes.NameEnv <= basicTypes/NameEnv.hs            RAE: GHC.Types.Name.E
 GHC.BasicTypes.Name <= basicTypes/Name.hs
 GHC.BasicTypes.NameSet <= basicTypes/NameSet.hs            RAE: GHC.Types.Name.Set
 GHC.BasicTypes.OccName <= basicTypes/OccName.hs
-GHC.BasicTypes.PatSyn <= basicTypes/PatSyn.hs              RAE: GHC.Core.PatSyn   -- this is like DataCon
 GHC.BasicTypes.RdrName <= basicTypes/RdrName.hs
 GHC.BasicTypes.SrcLoc <= basicTypes/SrcLoc.hs
 GHC.BasicTypes.UniqSupply <= basicTypes/UniqSupply.hs      RAE: GHC.Data.Unique.Supply
@@ -228,7 +226,6 @@ GHC.BasicTypes.VarEnv <= basicTypes/VarEnv.hs              RAE: GHC.Types.Var.En
 GHC.BasicTypes.Var <= basicTypes/Var.hs
 GHC.BasicTypes.VarSet <= basicTypes/VarSet.hs              RAE: GHC.Types.Var.Set
 GHC.BasicTypes.NameShape <= backpack/NameShape.hs          RAE: GHC.Types.Name.Shape
-GHC.BasicTypes.ConLike <= basicTypes/ConLike.hs            RAE: GHC.Core.ConLike
 ```
 
 
