@@ -157,22 +157,24 @@ GHC.Core.OccurAnal <= simplCore/OccurAnal.hs
 GHC.Core.Rules <= specialise/Rules.hs
 
 GHC.Core.Class <= types/Class.hs
-GHC.Core.CoAxiom <= types/CoAxiom.hs           RAE: GHC.Core.Coercion.Axiom
 GHC.Core.Coercion <= types/Coercion.hs
 GHC.Core.FamInstEnv <= types/FamInstEnv.hs
 GHC.Core.InstEnv <= types/InstEnv.hs
 GHC.Core.Kind <= types/Kind.hs
-GHC.Core.OptCoercion <= types/OptCoercion.hs   RAE: GHC.Core.Coercion.Opt
-GHC.Core.TyCoFVs <= types/TyCoFVs.hs           RAE: GHC.Core.TyCo.FVs
 GHC.Core.TyCon <= types/TyCon.hs
-GHC.Core.TyCoPpr <= types/TyCoPpr.hs           RAE: GHC.Core.TyCo.Pretty
-GHC.Core.TyCoRep <= types/TyCoRep.hs           RAE: GHC.Core.TyCo.Rep
-GHC.Core.TyCoSubst <= types/TyCoSubst.hs       RAE: GHC.Core.TyCo.Subst
-GHC.Core.TyCoTidy <= types/TyCoTidy.hs         RAE: GHC.Core.TyCo.Tidy
 GHC.Core.Type <= types/Type.hs
 GHC.Core.Unify <= types/Unify.hs
 GHC.Core.DataCon <= basicTypes/DataCon.hs
-                                               RAE: GHC.Core.Predicate <= basicTypes/Predicate.hs
+GHC.Core.Predicate <= basicTypes/Predicate.hs
+
+GHC.Core.TyCo.FVs <= types/TyCoFVs.hs
+GHC.Core.TyCo.Pretty <= types/TyCoPpr.hs
+GHC.Core.TyCo.Rep <= types/TyCoRep.hs
+GHC.Core.TyCo.Subst <= types/TyCoSubst.hs
+GHC.Core.TyCo.Tidy <= types/TyCoTidy.hs
+
+GHC.Core.Coercion.Axiom <= types/CoAxiom.hs
+GHC.Core.Coercion.Opt <= types/OptCoercion.hs
 ```
 
 * `GHC.CoreToCore` !1773
