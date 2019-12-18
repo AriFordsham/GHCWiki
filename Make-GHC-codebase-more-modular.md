@@ -325,6 +325,7 @@ GHC.Tc.TyClsDecls <= typecheck/TcTyClsDecls.hs       RAE: GHC.Tc.TyCl
 GHC.Tc.TyDecls <= typecheck/TcTyDecls.hs             RAE: GHC.Tc.TyCl.Utils
 GHC.Tc.Unify <= typecheck/TcUnify.hs
 GHC.Tc.Validity <= typecheck/TcValidity.hs
+GHC.Tc.TyCl.Build <= iface/BuildTyCl.hs
 ```
 
 * `GHC.HsToCore`
@@ -381,27 +382,26 @@ GHC.Builtin.Types <= prelude/TysWiredIn.hs
 GHC.Builtin.Types.Nats <= typecheck/TcTypeNats.hs
 ```
 
-* `GHC.Interface      RAE: GHC.Iface`
+* `GHC.Iface`
 
 ```
-GHC.Interface.Binary <= iface/BinIface.hs
-GHC.Interface.BuildTyCl <= iface/BuildTyCl.hs       RAE: GHC.Tc.TyCl.Build
-GHC.Interface.Env <= iface/IfaceEnv.hs
-GHC.Interface.Syntax <= iface/IfaceSyn.hs
-GHC.Interface.Type <= iface/IfaceType.hs
-GHC.Interface.Load <= iface/LoadIface.hs
-GHC.Interface.Utils <= iface/MkIface.hs
-GHC.Interface.Tc <= iface/TcIface.hs                RAE: GHC.IfaceToCore
-GHC.Interface.Rename <= backpack/RnModIface.hs
-GHC.Interface.Tidy <= main/TidyPgm.hs
+GHC.Iface.Binary <= iface/BinIface.hs
+GHC.Iface.Env <= iface/IfaceEnv.hs
+GHC.Iface.Syntax <= iface/IfaceSyn.hs
+GHC.Iface.Type <= iface/IfaceType.hs
+GHC.Iface.Load <= iface/LoadIface.hs
+GHC.Iface.Utils <= iface/MkIface.hs
+GHC.Iface.Rename <= backpack/RnModIface.hs
+GHC.Iface.Tidy <= main/TidyPgm.hs
 
-GHC.Interface.Ext.Ast <= hieFile/HieAst.hs
-GHC.Interface.Ext.Binary <= hieFile/HieBin.hs
-GHC.Interface.Ext.Debug <= hieFile/HieDebug.hs
-GHC.Interface.Ext.Types <= hieFile/HieTypes.hs
-GHC.Interface.Ext.Utils <= hieFile/HieUtils.hs
+GHC.Iface.Ext.Ast <= hieFile/HieAst.hs
+GHC.Iface.Ext.Binary <= hieFile/HieBin.hs
+GHC.Iface.Ext.Debug <= hieFile/HieDebug.hs
+GHC.Iface.Ext.Types <= hieFile/HieTypes.hs
+GHC.Iface.Ext.Utils <= hieFile/HieUtils.hs
 
-GHC.CoreToInterface <= iface/ToIface.hs             RAE: GHC.CoreToIface
+GHC.IfaceToCore <= iface/TcIface.hs
+GHC.CoreToIface <= iface/ToIface.hs
 ```
 * `GHC.ByteCode`:
 
