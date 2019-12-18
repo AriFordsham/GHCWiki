@@ -51,6 +51,8 @@ Goals:
 
 ### Proposed renaming
 
+@rae has added suggestions marked with `RAE:`
+
 * `GHC.Hs` (done; can still be modified):
 
 ```
@@ -155,21 +157,22 @@ GHC.Core.OccurAnal <= simplCore/OccurAnal.hs
 GHC.Core.Rules <= specialise/Rules.hs
 
 GHC.Core.Class <= types/Class.hs
-GHC.Core.CoAxiom <= types/CoAxiom.hs
+GHC.Core.CoAxiom <= types/CoAxiom.hs           RAE: GHC.Core.Coercion.Axiom
 GHC.Core.Coercion <= types/Coercion.hs
 GHC.Core.FamInstEnv <= types/FamInstEnv.hs
 GHC.Core.InstEnv <= types/InstEnv.hs
 GHC.Core.Kind <= types/Kind.hs
-GHC.Core.OptCoercion <= types/OptCoercion.hs
-GHC.Core.TyCoFVs <= types/TyCoFVs.hs
+GHC.Core.OptCoercion <= types/OptCoercion.hs   RAE: GHC.Core.Coercion.Opt
+GHC.Core.TyCoFVs <= types/TyCoFVs.hs           RAE: GHC.Core.TyCo.FVs
 GHC.Core.TyCon <= types/TyCon.hs
-GHC.Core.TyCoPpr <= types/TyCoPpr.hs
-GHC.Core.TyCoRep <= types/TyCoRep.hs
-GHC.Core.TyCoSubst <= types/TyCoSubst.hs
-GHC.Core.TyCoTidy <= types/TyCoTidy.hs
+GHC.Core.TyCoPpr <= types/TyCoPpr.hs           RAE: GHC.Core.TyCo.Pretty
+GHC.Core.TyCoRep <= types/TyCoRep.hs           RAE: GHC.Core.TyCo.Rep
+GHC.Core.TyCoSubst <= types/TyCoSubst.hs       RAE: GHC.Core.TyCo.Subst
+GHC.Core.TyCoTidy <= types/TyCoTidy.hs         RAE: GHC.Core.TyCo.Tidy
 GHC.Core.Type <= types/Type.hs
 GHC.Core.Unify <= types/Unify.hs
 GHC.Core.DataCon <= basicTypes/DataCon.hs
+                                               RAE: GHC.Core.Predicate <= basicTypes/Predicate.hs
 ```
 
 * `GHC.CoreToCore` !1773
@@ -192,38 +195,38 @@ GHC.CoreToCore.SpecConstr <= specialise/SpecConstr.hs
 GHC.CoreToCore.Specialise <= specialise/Specialise.hs
 GHC.CoreToCore.DmdAnal <= stranal/DmdAnal.hs
 GHC.CoreToCore.WorkWrap <= stranal/WorkWrap.hs
-GHC.CoreToCore.WorkWrapLib <= stranal/WwLib.hs
+GHC.CoreToCore.WorkWrapLib <= stranal/WwLib.hs              RAE: GHC.CoreToCore.WorkWrap.Lib
 GHC.CoreToCore.ConstantFold <= prelude/PrelRules.hs
 ```
 
-* `GHC.BasicTypes`:
+* `GHC.BasicTypes          RAE: GHC.Types`:
 ```
 GHC.BasicTypes.Annotation <= main/Annotations.hs
 GHC.BasicTypes.Avail <= basicTypes/Avail.hs
-GHC.BasicTypes <= basicTypes/BasicTypes.hs
+GHC.BasicTypes <= basicTypes/BasicTypes.hs                 RAE: GHC.Types.Basic
 GHC.BasicTypes.Demand <= basicTypes/Demand.hs
 GHC.BasicTypes.FieldLabal <= basicTypes/FieldLabel.hs
 GHC.BasicTypes.Id <= basicTypes/Id.hs
-GHC.BasicTypes.IdInfo <= basicTypes/IdInfo.hs
+GHC.BasicTypes.IdInfo <= basicTypes/IdInfo.hs              RAE: GHC.Types.Id.Info
 GHC.BasicTypes.Lexeme <= basicTypes/Lexeme.hs
 GHC.BasicTypes.Literal <= basicTypes/Literal.hs
-GHC.BasicTypes.MkId <= basicTypes/MkId.hs
+GHC.BasicTypes.MkId <= basicTypes/MkId.hs                  RAE: GHC.Types.Id.Make
 GHC.BasicTypes.Module <= basicTypes/Module.hs
-GHC.BasicTypes.NameCache <= basicTypes/NameCache.hs
-GHC.BasicTypes.NameEnv <= basicTypes/NameEnv.hs
+GHC.BasicTypes.NameCache <= basicTypes/NameCache.hs        RAE: GHC.Types.Name.Cache
+GHC.BasicTypes.NameEnv <= basicTypes/NameEnv.hs            RAE: GHC.Types.Name.Env
 GHC.BasicTypes.Name <= basicTypes/Name.hs
-GHC.BasicTypes.NameSet <= basicTypes/NameSet.hs
+GHC.BasicTypes.NameSet <= basicTypes/NameSet.hs            RAE: GHC.Types.Name.Set
 GHC.BasicTypes.OccName <= basicTypes/OccName.hs
-GHC.BasicTypes.PatSyn <= basicTypes/PatSyn.hs
+GHC.BasicTypes.PatSyn <= basicTypes/PatSyn.hs              RAE: GHC.Core.PatSyn   -- this is like DataCon
 GHC.BasicTypes.RdrName <= basicTypes/RdrName.hs
 GHC.BasicTypes.SrcLoc <= basicTypes/SrcLoc.hs
-GHC.BasicTypes.UniqSupply <= basicTypes/UniqSupply.hs
-GHC.BasicTypes.Unique <= basicTypes/Unique.hs
-GHC.BasicTypes.VarEnv <= basicTypes/VarEnv.hs
+GHC.BasicTypes.UniqSupply <= basicTypes/UniqSupply.hs      RAE: GHC.Data.Unique.Supply
+GHC.BasicTypes.Unique <= basicTypes/Unique.hs              RAE: GHC.Data.Unique
+GHC.BasicTypes.VarEnv <= basicTypes/VarEnv.hs              RAE: GHC.Types.Var.Env
 GHC.BasicTypes.Var <= basicTypes/Var.hs
-GHC.BasicTypes.VarSet <= basicTypes/VarSet.hs
-GHC.BasicTypes.NameShape <= backpack/NameShape.hs
-GHC.BasicTypes.ConLike <= basicTypes/ConLike.hs
+GHC.BasicTypes.VarSet <= basicTypes/VarSet.hs              RAE: GHC.Types.Var.Set
+GHC.BasicTypes.NameShape <= backpack/NameShape.hs          RAE: GHC.Types.Name.Shape
+GHC.BasicTypes.ConLike <= basicTypes/ConLike.hs            RAE: GHC.Core.ConLike
 ```
 
 
@@ -273,7 +276,7 @@ GHC.CmmToC <= cmm/PprC.hs
 GHC.Tc.Deriv <= typecheck/TcDeriv.hs
 GHC.Tc.Deriv.Constraints <= typecheck/TcDerivInfer.hs
 GHC.Tc.Deriv.Utils <= typecheck/TcDerivUtils.hs
-GHC.Tc.Deriv.BasicClasses <= typecheck/TcGenDeriv.hs
+GHC.Tc.Deriv.BasicClasses <= typecheck/TcGenDeriv.hs    RAE: GHC.Tc.Deriv.Generate
 GHC.Tc.Deriv.Functor <= typecheck/TcGenFunctor.hs
 GHC.Tc.Deriv.Generics <= typecheck/TcGenGenerics.hs
 GHC.Tc.Deriv.Typeable <= typecheck/TcTypeable.hs
@@ -285,7 +288,7 @@ GHC.Tc.Solver.Flatten <= typecheck/TcFlatten.hs
 
 GHC.Tc.Utils <= typecheck/TcRnTypes.hs
 GHC.Tc.Utils.Monadic <= typecheck/TcMType.hs
-GHC.Tc.Utils.CoreType <= typecheck/TcType.hs
+GHC.Tc.Utils.CoreType <= typecheck/TcType.hs          RAE: GHC.Tc.Utils.Type
 
 GHC.Tc.ClsInst <= typecheck/ClsInst.hs
 GHC.Tc.FamInst <= typecheck/FamInst.hs
@@ -295,7 +298,7 @@ GHC.Tc.Annotations <= typecheck/TcAnnotations.hs
 GHC.Tc.Arrows <= typecheck/TcArrows.hs
 GHC.Tc.Backpack <= typecheck/TcBackpack.hs
 GHC.Tc.Binds <= typecheck/TcBinds.hs
-GHC.Tc.ClassDcl <= typecheck/TcClassDcl.hs
+GHC.Tc.ClassDcl <= typecheck/TcClassDcl.hs            RAE: GHC.Tc.TyCl.Class
 GHC.Tc.Defaults <= typecheck/TcDefaults.hs
 GHC.Tc.Env <= typecheck/TcEnv.hs
 GHC.Tc.Errors <= typecheck/TcErrors.hs
@@ -303,11 +306,11 @@ GHC.Tc.Evidence <= typecheck/TcEvidence.hs
 GHC.Tc.EvTerm <= typecheck/TcEvTerm.hs
 GHC.Tc.Expr <= typecheck/TcExpr.hs
 GHC.Tc.Foreign <= typecheck/TcForeign.hs
-GHC.Tc.Hole.Errors <= typecheck/TcHoleErrors.hs
+GHC.Tc.Hole.Errors <= typecheck/TcHoleErrors.hs       RAE: GHC.Tc.Hole
 GHC.Tc.Hole.FitTypes <= typecheck/TcHoleFitTypes.hs
 GHC.Tc.Syntax <= typecheck/TcHsSyn.hs
 GHC.Tc.Type <= typecheck/TcHsType.hs
-GHC.Tc.InstDcls <= typecheck/TcInstDcls.hs
+GHC.Tc.InstDcls <= typecheck/TcInstDcls.hs            RAE: GHC.Tc.TyCl.Instance
 GHC.Tc.Match <= typecheck/TcMatches.hs
 GHC.Tc.Pat <= typecheck/TcPat.hs
 GHC.Tc.PatSyn <= typecheck/TcPatSyn.hs
@@ -318,8 +321,8 @@ GHC.Tc.Rule <= typecheck/TcRules.hs
 GHC.Tc.Sigs <= typecheck/TcSigs.hs
 GHC.Tc.Simplify <= typecheck/TcSimplify.hs
 GHC.Tc.Splice <= typecheck/TcSplice.hs
-GHC.Tc.TyClsDecls <= typecheck/TcTyClsDecls.hs
-GHC.Tc.TyDecls <= typecheck/TcTyDecls.hs
+GHC.Tc.TyClsDecls <= typecheck/TcTyClsDecls.hs       RAE: GHC.Tc.TyCl
+GHC.Tc.TyDecls <= typecheck/TcTyDecls.hs             RAE: GHC.Tc.TyCl.Utils
 GHC.Tc.Unify <= typecheck/TcUnify.hs
 GHC.Tc.Validity <= typecheck/TcValidity.hs
 ```
@@ -373,22 +376,22 @@ GHC.Builtin.Utils <= prelude/PrelInfo.hs
 GHC.Builtin.Names <= prelude/PrelNames.hs
 GHC.Builtin.Names.TH <= prelude/THNames.hs
 GHC.Builtin.PrimOps <= prelude/PrimOp.hs
-GHC.Builtin.PrimTypes <= prelude/TysPrim.hs
+GHC.Builtin.PrimTypes <= prelude/TysPrim.hs     RAE: GHC.Builtin.Types.Prim
 GHC.Builtin.Types <= prelude/TysWiredIn.hs
 GHC.Builtin.Types.Nats <= typecheck/TcTypeNats.hs
 ```
 
-* `GHC.Interface`
+* `GHC.Interface      RAE: GHC.Iface`
 
 ```
 GHC.Interface.Binary <= iface/BinIface.hs
-GHC.Interface.BuildTyCl <= iface/BuildTyCl.hs
+GHC.Interface.BuildTyCl <= iface/BuildTyCl.hs       RAE: GHC.Tc.TyCl.Build
 GHC.Interface.Env <= iface/IfaceEnv.hs
 GHC.Interface.Syntax <= iface/IfaceSyn.hs
 GHC.Interface.Type <= iface/IfaceType.hs
 GHC.Interface.Load <= iface/LoadIface.hs
 GHC.Interface.Utils <= iface/MkIface.hs
-GHC.Interface.Tc <= iface/TcIface.hs
+GHC.Interface.Tc <= iface/TcIface.hs                RAE: GHC.IfaceToCore
 GHC.Interface.Rename <= backpack/RnModIface.hs
 GHC.Interface.Tidy <= main/TidyPgm.hs
 
@@ -398,7 +401,7 @@ GHC.Interface.Ext.Debug <= hieFile/HieDebug.hs
 GHC.Interface.Ext.Types <= hieFile/HieTypes.hs
 GHC.Interface.Ext.Utils <= hieFile/HieUtils.hs
 
-GHC.CoreToInterface <= iface/ToIface.hs
+GHC.CoreToInterface <= iface/ToIface.hs             RAE: GHC.CoreToIface
 ```
 * `GHC.ByteCode`:
 
@@ -588,7 +591,7 @@ GHC.Utils.Outputable <= utils/Outputable.hs
 GHC.Utils.Panic <= utils/Panic.hs
 GHC.Utils.PlainPanic <= utils/PlainPanic.hs
 GHC.Utils.Pretty.Colour <= utils/PprColour.hs
-GHC.Utils.pretty <= utils/Pretty.hs
+GHC.Utils.Pretty <= utils/Pretty.hs
 GHC.Utils.Monad.State <= utils/State.hs
 GHC.Utils.Misc <= utils/Util.hs
 GHC.Utils.StaticPtrTable <= main/StaticPtrTable.hs
