@@ -200,32 +200,33 @@ GHC.Core.Op.Tidy <= coreSyn/CoreTidy.hs
 GHC.Core.Op.Lint <= coreSyn/CoreLint.hs
 ```
 
-* `GHC.BasicTypes          RAE: GHC.Types`:
+* `GHC.Types`:
 ```
-GHC.BasicTypes.Annotation <= main/Annotations.hs
-GHC.BasicTypes.Avail <= basicTypes/Avail.hs
-GHC.BasicTypes <= basicTypes/BasicTypes.hs                 RAE: GHC.Types.Basic
-GHC.BasicTypes.Demand <= basicTypes/Demand.hs
-GHC.BasicTypes.FieldLabal <= basicTypes/FieldLabel.hs
-GHC.BasicTypes.Id <= basicTypes/Id.hs
-GHC.BasicTypes.IdInfo <= basicTypes/IdInfo.hs              RAE: GHC.Types.Id.Info
-GHC.BasicTypes.Lexeme <= basicTypes/Lexeme.hs
-GHC.BasicTypes.Literal <= basicTypes/Literal.hs
-GHC.BasicTypes.MkId <= basicTypes/MkId.hs                  RAE: GHC.Types.Id.Make
-GHC.BasicTypes.Module <= basicTypes/Module.hs
-GHC.BasicTypes.NameCache <= basicTypes/NameCache.hs        RAE: GHC.Types.Name.Cache
-GHC.BasicTypes.NameEnv <= basicTypes/NameEnv.hs            RAE: GHC.Types.Name.Env
-GHC.BasicTypes.Name <= basicTypes/Name.hs
-GHC.BasicTypes.NameSet <= basicTypes/NameSet.hs            RAE: GHC.Types.Name.Set
-GHC.BasicTypes.OccName <= basicTypes/OccName.hs
-GHC.BasicTypes.RdrName <= basicTypes/RdrName.hs
-GHC.BasicTypes.SrcLoc <= basicTypes/SrcLoc.hs
-GHC.BasicTypes.UniqSupply <= basicTypes/UniqSupply.hs      RAE: GHC.Data.Unique.Supply
-GHC.BasicTypes.Unique <= basicTypes/Unique.hs              RAE: GHC.Data.Unique
-GHC.BasicTypes.VarEnv <= basicTypes/VarEnv.hs              RAE: GHC.Types.Var.Env
-GHC.BasicTypes.Var <= basicTypes/Var.hs
-GHC.BasicTypes.VarSet <= basicTypes/VarSet.hs              RAE: GHC.Types.Var.Set
-GHC.BasicTypes.NameShape <= backpack/NameShape.hs          RAE: GHC.Types.Name.Shape
+GHC.Types.Annotation <= main/Annotations.hs
+GHC.Types.Avail <= basicTypes/Avail.hs
+GHC.Types.Basic <= basicTypes/BasicTypes.hs
+GHC.Types.Demand <= basicTypes/Demand.hs
+GHC.Types.FieldLabal <= basicTypes/FieldLabel.hs
+GHC.Types.Lexeme <= basicTypes/Lexeme.hs
+GHC.Types.Literal <= basicTypes/Literal.hs
+GHC.Types.Module <= basicTypes/Module.hs
+GHC.Types.OccName <= basicTypes/OccName.hs
+GHC.Types.RdrName <= basicTypes/RdrName.hs
+GHC.Types.SrcLoc <= basicTypes/SrcLoc.hs
+
+GHC.Types.Var <= basicTypes/Var.hs
+GHC.Types.Var.Set <= basicTypes/VarSet.hs
+GHC.Types.Var.Env <= basicTypes/VarEnv.hs
+
+GHC.Types.Id <= basicTypes/Id.hs
+GHC.Types.Id.Info <= basicTypes/IdInfo.hs
+GHC.Types.Id.Make <= basicTypes/MkId.hs
+
+GHC.Types.Name <= basicTypes/Name.hs
+GHC.Types.Name.Set <= basicTypes/NameSet.hs
+GHC.Types.Name.Shape <= backpack/NameShape.hs
+GHC.Types.Name.Cache <= basicTypes/NameCache.hs
+GHC.Types.Name.Env <= basicTypes/NameEnv.hs
 ```
 
 
@@ -570,6 +571,8 @@ GHC.Data.TrieMap <= utils/TrieMap.hs
 GHC.Data.Char.Encoding <= utils/Encoding.hs
 GHC.Data.Char.Class <= parser/Ctype.hs
 
+GHC.Data.Unique <= basicTypes/Unique.hs
+GHC.Data.Unique.Supply <= basicTypes/UniqSupply.hs
 GHC.Data.Unique.DFM <= utils/UniqDFM.hs
 GHC.Data.Unique.DSet <= utils/UniqDSet.hs
 GHC.Data.Unique.FM <= utils/UniqFM.hs
