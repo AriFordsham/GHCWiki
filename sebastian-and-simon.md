@@ -2,10 +2,6 @@
 
 - !2192: Reflect tree structure of clauses and gaurds in the syntax we check. A variant of the following:
   - Leads to regressions in 4 test cases. Yuck
-  - Simon suggested to go straight from `GrdTree` to `DigestedTree`, so to drop `CtTree`  
-    - Seb thinks that `CtTree` is a useful abstraction, but explaining the
-      semantics is additional overhead. Also due to a limitation with the type
-      oracle, we need to `collectRefines` now. So yes, better just drop it.
 
 - Paper 
   - \ctcon binds term names only. Should we also bind type vars? What about type constraints? The latter become constraints on their own.
@@ -21,6 +17,14 @@
     - Refinement type semantics emerge when combined with Gamma. Gamma is the part left of the |, Delta/Nabla the predicate on the right
   - Use semicolon, sequence
   - Implementation
+  - V  
+    - judgment seems like the best option
+    - generate-and-test style (with a little guidance by Delta for instantiating to the right cons?)
+    - Without guidance potentially diverges, because we might keep on instantiating i.e. the cons constructor
+    - Fuel-based? We don't generally terminate anyway, so we need some kind of termination criterion
+    - For error messages, we want to enumerate breadth-first style, and mostly not recursively (so `_:_` instead of `_:[]`, `_:_:[]`, etc.). But for inhabitation testing that mostly doesn't matter, I think. We just have to be "sure" that there is an inhabitant.
+
+- #915: Specialisation through type classes/defunctionalisation
 
 - https://github.com/ghc-proposals/ghc-proposals/pull/43 Or patterns: Potential bachelor's thesis?
   - osa1 ultimately after a long and tedious discussion gave up.
