@@ -198,6 +198,7 @@ GHC.CoreToCore.ConstantFold <= prelude/PrelRules.hs
 
 * `GHC.BasicTypes`:
 ```
+GHC.BasicTypes.Annotation <= main/Annotations.hs
 GHC.BasicTypes.Avail <= basicTypes/Avail.hs
 GHC.BasicTypes <= basicTypes/BasicTypes.hs
 GHC.BasicTypes.Demand <= basicTypes/Demand.hs
@@ -222,6 +223,7 @@ GHC.BasicTypes.VarEnv <= basicTypes/VarEnv.hs
 GHC.BasicTypes.Var <= basicTypes/Var.hs
 GHC.BasicTypes.VarSet <= basicTypes/VarSet.hs
 GHC.BasicTypes.NameShape <= backpack/NameShape.hs
+GHC.BasicTypes.ConLike <= basicTypes/ConLike.hs
 ```
 
 
@@ -390,6 +392,12 @@ GHC.Interface.Tc <= iface/TcIface.hs
 GHC.Interface.Rename <= backpack/RnModIface.hs
 GHC.Interface.Tidy <= main/TidyPgm.hs
 
+GHC.Interface.Ext.Ast <= hieFile/HieAst.hs
+GHC.Interface.Ext.Binary <= hieFile/HieBin.hs
+GHC.Interface.Ext.Debug <= hieFile/HieDebug.hs
+GHC.Interface.Ext.Types <= hieFile/HieTypes.hs
+GHC.Interface.Ext.Utils <= hieFile/HieUtils.hs
+
 GHC.CoreToInterface <= iface/ToIface.hs
 ```
 * `GHC.ByteCode`:
@@ -449,6 +457,8 @@ GHC.Driver.Pipeline <= main/DriverPipeline.hs
 GHC.Driver.PipelineMonad <= main/PipelineMonad.hs
 GHC.Driver.Main <= main/HscMain.hs
 GHC.Driver.Make <= main/GhcMake.hs
+GHC.Driver.Hooks <= main/Hooks.hs
+GHC.Driver.Session <= main/DynFlags.hs
 ```
 
 * `GHC.CmmToAsm`:
@@ -581,6 +591,10 @@ GHC.Utils.Pretty.Colour <= utils/PprColour.hs
 GHC.Utils.pretty <= utils/Pretty.hs
 GHC.Utils.Monad.State <= utils/State.hs
 GHC.Utils.Misc <= utils/Util.hs
+GHC.Utils.StaticPtrTable <= main/StaticPtrTable.hs
+GHC.Utils.Error <= main/ErrUtils.hs
+GHC.Utils.CliOption <= main/CliOption.hs
+GHC.Utils.FV <= utils/FV.hs
 ```
 
 * `GHC.SysTools`:
@@ -594,6 +608,9 @@ GHC.SysTools.Process <= main/SysTools/Process.hs
 GHC.SysTools.Settings <= main/SysTools/Settings.hs
 GHC.SysTools.Tasks <= main/SysTools/Tasks.hs
 GHC.SysTools.Terminal <= main/SysTools/Terminal.hs
+GHC.SysTools.Ar <= main/Ar.hs
+GHC.SysTools.Elf <= main/Elf.hs
+GHC.SysTools.FileCleanup <= main/FileCleanup.hs
 ```
 
 * TODO:
@@ -601,31 +618,17 @@ GHC.SysTools.Terminal <= main/SysTools/Terminal.hs
 ```
 GHC.RTS.Storage <= cmm/SMRep.hs
 GHC.CoreToStg.Prep <= coreSyn/CorePrep.hs
-GHC.BasicTypes.ConLike <= basicTypes/ConLike.hs
 GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
 GHC.Config.Flags.FingerPrint <= utils/Fingerprint.hs
 ? <= iface/FlagChecker.hs
 ? <= iface/BinFingerprint.hs
-? <= hieFile/HieAst.hs
-? <= hieFile/HieBin.hs
-? <= hieFile/HieDebug.hs
-? <= hieFile/HieTypes.hs
-? <= hieFile/HieUtils.hs
-? <= main/Annotations.hs
-? <= main/Ar.hs
-? <= main/CliOption.hs
 ? <= main/Constants.hs
-? <= main/DynFlags.hs
-? <= main/Elf.hs
-? <= main/ErrUtils.hs
-? <= main/FileCleanup.hs
 ? <= main/FileSettings.hs
 ? <= main/GHC.hs
 ? <= main/GhcMonad.hs
 ? <= main/GhcNameVersion.hs
 ? <= main/GhcPlugins.hs
 ? <= main/HeaderInfo.hs
-? <= main/Hooks.hs
 ? <= main/HscStats.hs
 ? <= main/HscTypes.hs
 ? <= main/PackageConfig.hs
@@ -634,7 +637,6 @@ GHC.Config.Flags.FingerPrint <= utils/Fingerprint.hs
 ? <= main/Plugins.hs
 ? <= main/PprTyThing.hs
 ? <= main/Settings.hs
-? <= main/StaticPtrTable.hs
 ? <= main/ToolSettings.hs
 ? <= parser/ApiAnnotation.hs
 ? <= parser/HaddockUtils.hs
@@ -644,7 +646,6 @@ GHC.Config.Flags.FingerPrint <= utils/Fingerprint.hs
 ? <= profiling/CostCentreState.hs
 ? <= profiling/ProfInit.hs
 ? <= simplStg/RepType.hs
-? <= utils/FV.hs
 ```
 
 
