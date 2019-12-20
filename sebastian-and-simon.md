@@ -25,6 +25,15 @@
     - For error messages, we want to enumerate breadth-first style, and mostly not recursively (so `_:_` instead of `_:[]`, `_:_:[]`, etc.). But for inhabitation testing that mostly doesn't matter, I think. We just have to be "sure" that there is an inhabitant.
 
 - #915: Specialisation through type classes/defunctionalisation
+  - #17592: Specialisation for call patterns is quite unreliable.
+  - Why not do specialisation of recursive functions instead of inlining them, as part of the simplifier? Consider separate pragma `{-# SPECIALISABLE #-}` or something
+  - Pros:
+    - No complicated and brittle reliance on rewrite rules
+    - Like `INLINE`, the pragma is persisted throughout transformations
+    - It seems like the logical way to do inlining for recursive functions
+  - Cons:
+    - Probably quirky for complicated recursion schemes
+    - How does this work for rewriting recursive call sites? Seems impossible without RULEs and thus SpecConstr. OK, that won't work
 
 - https://github.com/ghc-proposals/ghc-proposals/pull/43 Or patterns: Potential bachelor's thesis?
   - osa1 ultimately after a long and tedious discussion gave up.
