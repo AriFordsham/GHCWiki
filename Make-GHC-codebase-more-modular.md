@@ -212,8 +212,6 @@ GHC.Types.FieldLabal <= basicTypes/FieldLabel.hs
 GHC.Types.Lexeme <= basicTypes/Lexeme.hs
 GHC.Types.Literal <= basicTypes/Literal.hs
 GHC.Types.Module <= basicTypes/Module.hs
-GHC.Types.OccName <= basicTypes/OccName.hs
-GHC.Types.RdrName <= basicTypes/RdrName.hs
 GHC.Types.Rep <= simplStg/RepType.hs
 GHC.Types.SrcLoc <= basicTypes/SrcLoc.hs
 GHC.Types.ForeignCall <= prelude/ForeignCall.hs
@@ -227,6 +225,8 @@ GHC.Types.Id.Info <= basicTypes/IdInfo.hs
 GHC.Types.Id.Make <= basicTypes/MkId.hs
 
 GHC.Types.Name <= basicTypes/Name.hs
+GHC.Types.Name.OccName <= basicTypes/OccName.hs
+GHC.Types.Name.RdrName <= basicTypes/RdrName.hs
 GHC.Types.Name.Set <= basicTypes/NameSet.hs
 GHC.Types.Name.Shape <= backpack/NameShape.hs
 GHC.Types.Name.Cache <= basicTypes/NameCache.hs
