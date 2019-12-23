@@ -214,6 +214,7 @@ GHC.Types.Literal <= basicTypes/Literal.hs
 GHC.Types.Module <= basicTypes/Module.hs
 GHC.Types.OccName <= basicTypes/OccName.hs
 GHC.Types.RdrName <= basicTypes/RdrName.hs
+GHC.Types.Rep <= simplStg/RepType.hs
 GHC.Types.SrcLoc <= basicTypes/SrcLoc.hs
 GHC.Types.ForeignCall <= prelude/ForeignCall.hs
 
@@ -456,6 +457,7 @@ GHC.Runtime.Linker.Types <= ghci/LinkerTypes.hs
 GHC.Runtime.DynamicLoading <= main/DynamicLoading.hs
 GHC.Runtime.Eval <= main/InteractiveEval.hs
 GHC.Runtime.Eval.Types <= main/InteractiveEvalTypes.hs
+GHC.Runtime.Layout <= cmm/SMRep.hs
 ```
 
 * `GHC.Driver`:
@@ -479,6 +481,8 @@ GHC.Driver.Pipeline.Monad <= main/PipelineMonad.hs
 GHC.Driver.Plugins <= main/Plugins.hs
 GHC.Driver.Monad <= main/GhcMonad.hs
 GHC.Driver.Types <= main/HscTypes.hs
+
+GHC.Plugins <= main/GhcPlugins.hs -- module imported by plugins
 ```
 
 * `GHC.CmmToAsm`:
@@ -657,15 +661,6 @@ GHC.Config.Version <= main/GhcNameVersion.hs
 GHC.Config.FingerPrint <= utils/Fingerprint.hs
 GHC.Config.FingerPrint.Binary <= iface/BinFingerprint.hs
 GHC.Config.FingerPrint.Flags <= iface/FlagChecker.hs
-```
-
-* TODO:
-
-```
-GHC.RTS.Storage <= cmm/SMRep.hs
-GHC.Plugins <= main/GhcPlugins.hs
-
-? <= simplStg/RepType.hs
 ```
 
 
