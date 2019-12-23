@@ -51,11 +51,10 @@ Goals:
 
 ### Proposed renaming
 
-@rae has added suggestions marked with `RAE:`
-
-* `GHC.Hs` (done; can still be modified):
+* `GHC.Hs`
 
 ```
+GHC.Hs.Annotation <= parser/ApiAnnotation.hs
 GHC.Hs.Binds <= hsSyn/HsBinds.hs
 GHC.Hs.Decls <= hsSyn/HsDecls.hs
 GHC.Hs.Doc <= hsSyn/HsDoc.hs
@@ -70,9 +69,10 @@ GHC.Hs.Pat <= hsSyn/HsPat.hs
 GHC.Hs.PlaceHolder <= hsSyn/PlaceHolder.hs
 GHC.Hs.Types <= hsSyn/HsTypes.hs
 GHC.Hs.Utils <= hsSyn/HsUtils.hs
+GHC.Hs.Stats <= main/HscStats.hs
 ```
 
-* `GHC.HsToCore` (done; can still be modified):
+* `GHC.HsToCore`
 ```
 GHC.HsToCore.PmCheck <= deSugar/Check.hs
 GHC.HsToCore.PmCheck.Oracle <= deSugar/PmOracle.hs
@@ -80,7 +80,7 @@ GHC.HsToCore.PmCheck.Ppr <= deSugar/PmPpr.hs
 GHC.HsToCore.PmCheck.Types <= deSugar/PmTypes.hs
 ```
 
-* `GHC.Platform` (done; can still be modified):
+* `GHC.Platform`
 ```
 GHC.Platform.ARM64 <= codeGen/CodeGen/Platform/ARM64.hs
 GHC.Platform.ARM <= codeGen/CodeGen/Platform/ARM.hs
@@ -91,7 +91,7 @@ GHC.Platform.SPARC <= codeGen/CodeGen/Platform/SPARC.hs
 GHC.Platform.X86_64 <= codeGen/CodeGen/Platform/X86_64.hs
 GHC.Platform.X86 <= codeGen/CodeGen/Platform/X86.hs
 ```
-* `GHC.StgToCmm` (done; can still be modified):
+* `GHC.StgToCmm`
 ```
 GHC.StgToCmm.ArgRep <= codeGen/StgCmmArgRep.hs
 GHC.StgToCmm.Bind <= codeGen/StgCmmBind.hs
@@ -113,7 +113,8 @@ GHC.StgToCmm.Ticky <= codeGen/StgCmmTicky.hs
 GHC.StgToCmm.Utils <= codeGen/StgCmmUtils.hs
 ```
 
-* `GHC.ThToHs` (done; can still be modified):
+* `GHC.ThToHs`
+
 ```
 GHC.ThToHs <= hsSync/Convert.hs
 ```
@@ -151,6 +152,7 @@ GHC.Core.Unfold <= coreSyn/CoreUnfold.hs
 GHC.Core.Utils <= coreSyn/CoreUtils.hs
 GHC.Core.Make <= coreSyn/MkCore.hs
 GHC.Core.Pretty <= coreSyn/PprCore.hs
+GHC.Core.Pretty.TyThing <= main/PprTyThing.hs
 GHC.Core.Rules <= specialise/Rules.hs
 
 GHC.Core.Class <= types/Class.hs
@@ -213,6 +215,7 @@ GHC.Types.Module <= basicTypes/Module.hs
 GHC.Types.OccName <= basicTypes/OccName.hs
 GHC.Types.RdrName <= basicTypes/RdrName.hs
 GHC.Types.SrcLoc <= basicTypes/SrcLoc.hs
+GHC.Types.ForeignCall <= prelude/ForeignCall.hs
 
 GHC.Types.Var <= basicTypes/Var.hs
 GHC.Types.Var.Set <= basicTypes/VarSet.hs
@@ -327,6 +330,8 @@ GHC.Tc.Splice <= typecheck/TcSplice.hs
 GHC.Tc.Unify <= typecheck/TcUnify.hs
 GHC.Tc.Validity <= typecheck/TcValidity.hs
 
+GHC.Tc.Plugin <= typecheck/TcPluginM.hs
+
 GHC.Tc.TyCl <= typecheck/TcTyClsDecls.hs
 GHC.Tc.TyCl.Instance <= typecheck/TcInstDcls.hs
 GHC.Tc.TyCl.Utils <= typecheck/TcTyDecls.hs
@@ -372,8 +377,8 @@ GHC.Stg.Lift <= simplStg/StgLiftLams.hs merged with simplStg/StgLiftLams/Transfo
 GHC.Stg.Lift.Analysis <= simplStg/StgLiftLams/Analysis.hs
 GHC.Stg.Lift.Monad <= simplStg/StgLiftLams/LiftM.hs
 
-
 GHC.CoreToStg <= stgSyn/CoreToStg.hs
+GHC.CoreToStg.Prep <= coreSyn/CorePrep.hs
 ```
 
 * Builtin
@@ -462,16 +467,18 @@ GHC.Driver.Backpack <= backpack/DriverBkp.hs
 GHC.Driver.CmdLine <= main/CmdLineParser.hs
 GHC.Driver.CodeOutput <= main/CodeOutput.hs
 GHC.Driver.Finder <= main/Finder.hs
-GHC.Driver.MakeDepend <= main/DriverMkDepend.hs
-GHC.Driver.Phases <= main/DriverPhases.hs
-GHC.Driver.Pipeline <= main/DriverPipeline.hs
-GHC.Driver.PipelineMonad <= main/PipelineMonad.hs
+GHC.Driver.MakeFile <= main/DriverMkDepend.hs
 GHC.Driver.Main <= main/HscMain.hs
 GHC.Driver.Make <= main/GhcMake.hs
 GHC.Driver.Hooks <= main/Hooks.hs
 GHC.Driver.Session <= main/DynFlags.hs
 GHC.Driver.Packages <= main/Packages.hs
+GHC.Driver.Phases <= main/DriverPhases.hs
+GHC.Driver.Pipeline <= main/DriverPipeline.hs
+GHC.Driver.Pipeline.Monad <= main/PipelineMonad.hs
+GHC.Driver.Plugins <= main/Plugins.hs
 GHC.Driver.Monad <= main/GhcMonad.hs
+GHC.Driver.Types <= main/HscTypes.hs
 ```
 
 * `GHC.CmmToAsm`:
@@ -628,32 +635,36 @@ GHC.SysTools.Elf <= main/Elf.hs
 GHC.SysTools.FileCleanup <= main/FileCleanup.hs
 ```
 
+* `GHC.Parser`:
+
+```
+GHC.Parser.Utils <= parser/HaddockUtils.hs
+GHC.Parser.HeaderInfo <= main/HeaderInfo.hs
+GHC.Parser.Syntax <= parser/RdrHsSyn.hs
+```
+
+* `GHC.Config`:
+
+```
+GHC.Config.Constants <= main/Constants.hs
+GHC.Config.Settings <= main/Settings.hs
+GHC.Config.Files <= main/FileSettings.hs
+GHC.Config.Packages <= main/PackageConfig.hs
+GHC.Config.Platform <= main/PlatformConstants.hs
+GHC.Config.Tools <= main/ToolSettings.hs
+GHC.Config.Version <= main/GhcNameVersion.hs
+
+GHC.Config.FingerPrint <= utils/Fingerprint.hs
+GHC.Config.FingerPrint.Binary <= iface/BinFingerprint.hs
+GHC.Config.FingerPrint.Flags <= iface/FlagChecker.hs
+```
+
 * TODO:
 
 ```
 GHC.RTS.Storage <= cmm/SMRep.hs
-GHC.CoreToStg.Prep <= coreSyn/CorePrep.hs
-GHC.Plugin.TypeChecker <= typecheck/TcPluginM.hs
-GHC.Config.Flags.FingerPrint <= utils/Fingerprint.hs
-? <= iface/FlagChecker.hs
-? <= iface/BinFingerprint.hs
-? <= main/Constants.hs
-? <= main/FileSettings.hs
-? <= main/GhcNameVersion.hs
-? <= main/GhcPlugins.hs
-? <= main/HeaderInfo.hs
-? <= main/HscStats.hs
-? <= main/HscTypes.hs
-? <= main/PackageConfig.hs
-? <= main/PlatformConstants.hs
-? <= main/Plugins.hs
-? <= main/PprTyThing.hs
-? <= main/Settings.hs
-? <= main/ToolSettings.hs
-? <= parser/ApiAnnotation.hs
-? <= parser/HaddockUtils.hs
-? <= parser/RdrHsSyn.hs
-? <= prelude/ForeignCall.hs
+GHC.Plugins <= main/GhcPlugins.hs
+
 ? <= simplStg/RepType.hs
 ```
 
