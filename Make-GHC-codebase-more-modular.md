@@ -154,6 +154,7 @@ GHC.Core.Make <= coreSyn/MkCore.hs
 GHC.Core.Pretty <= coreSyn/PprCore.hs
 GHC.Core.Pretty.TyThing <= main/PprTyThing.hs
 GHC.Core.Rules <= specialise/Rules.hs
+GHC.Core.Lint <= coreSyn/CoreLint.hs
 
 GHC.Core.Class <= types/Class.hs
 GHC.Core.Coercion <= types/Coercion.hs
@@ -199,7 +200,6 @@ GHC.Core.Op.WorkWrap <= stranal/WorkWrap.hs
 GHC.Core.Op.WorkWrap.Lib <= stranal/WwLib.hs
 GHC.Core.Op.ConstantFold <= prelude/PrelRules.hs
 GHC.Core.Op.Tidy <= coreSyn/CoreTidy.hs
-GHC.Core.Op.Lint <= coreSyn/CoreLint.hs       RAE: GHC.Core.Lint   -- this is not a core-to-core operation
 ```
 
 * `GHC.Types`:
@@ -212,7 +212,7 @@ GHC.Types.FieldLabel <= basicTypes/FieldLabel.hs
 GHC.Types.Lexeme <= basicTypes/Lexeme.hs
 GHC.Types.Literal <= basicTypes/Literal.hs
 GHC.Types.Module <= basicTypes/Module.hs
-GHC.Types.Rep <= simplStg/RepType.hs          RAE: GHC.Types.RepType    -- the "Types" in the GHC.Types prefix is about types in GHC; the "Type" in "RepType" is about types in the program we're compiling
+GHC.Types.RepType <= simplStg/RepType.hs
 GHC.Types.SrcLoc <= basicTypes/SrcLoc.hs
 GHC.Types.ForeignCall <= prelude/ForeignCall.hs
 
@@ -297,11 +297,13 @@ GHC.Tc.Solver.Flatten <= typecheck/TcFlatten.hs
 GHC.Tc.Utils <= typecheck/TcRnTypes.hs
 GHC.Tc.Utils.Monadic <= typecheck/TcMType.hs
 GHC.Tc.Utils.Type <= typecheck/TcType.hs
+    RAE: GHC.Tc.Constraint <= typecheck/Constraint.hs    -- could also be under GHC.Tc.Utils
+    RAE: GHC.Tc.Origin <= typecheck/TcOrigin.hs          -- could also be under GHC.Tc.Utils
 
-GHC.Tc.ClsInst <= typecheck/ClsInst.hs       RAE: GHC.Tc.Instance.Class <= typecheck/ClsInst.hs
-GHC.Tc.FamInst <= typecheck/FamInst.hs       RAE: GHC.Tc.Instance.Family <= typecheck/FamInst.hs
+GHC.Tc.Instance.Class <= typecheck/ClsInst.hs
+GHC.Tc.Instance.Family <= typecheck/FamInst.hs
 GHC.Tc.FunDeps <= typecheck/FunDeps.hs
-GHC.Tc.Inst <= typecheck/Inst.hs             RAE: GHC.Tc.Instantiate   -- NB: not "instance" !
+GHC.Tc.Instantiate <= typecheck/Inst.hs             RAE: NB: not "instance" !
 GHC.Tc.Annotations <= typecheck/TcAnnotations.hs
 GHC.Tc.Arrows <= typecheck/TcArrows.hs
 GHC.Tc.Backpack <= typecheck/TcBackpack.hs
@@ -330,9 +332,6 @@ GHC.Tc.Simplify <= typecheck/TcSimplify.hs
 GHC.Tc.Splice <= typecheck/TcSplice.hs
 GHC.Tc.Unify <= typecheck/TcUnify.hs
 GHC.Tc.Validity <= typecheck/TcValidity.hs
-
-    RAE: GHC.Tc.Constraint <= typecheck/Constraint.hs    -- could also be under GHC.Tc.Utils
-    RAE: GHC.Tc.Origin <= typecheck/TcOrigin.hs          -- could also be under GHC.Tc.Utils
 
 GHC.Tc.Plugin <= typecheck/TcPluginM.hs
 
@@ -647,9 +646,8 @@ GHC.SysTools.FileCleanup <= main/FileCleanup.hs
 ```
 GHC.Parser <= parse/Parser.y
 GHC.Parser.Lexer <= parse/Lexer.x
-GHC.Parser.HeaderInfo <= main/HeaderInfo.hs     RAE: GHC.Parser.Header
-GHC.Parser.Syntax <= parser/RdrHsSyn.hs         RAE: GHC.Parser.PostProcess
-GHC.Parser.Utils <= parser/HaddockUtils.hs      RAE: fold into what is currently RdrHsSyn... or GHC.Parser.Haddock
+GHC.Parser.Header <= main/HeaderInfo.hs
+GHC.Parser.PostProcess <= parser/RdrHsSyn.hs merged with parser/HaddockUtils
 ```
 
 * `GHC.Config`:
