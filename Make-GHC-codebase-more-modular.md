@@ -642,9 +642,11 @@ GHC.SysTools.FileCleanup <= main/FileCleanup.hs
 * `GHC.Parser`:
 
 ```
-GHC.Parser.Utils <= parser/HaddockUtils.hs
+GHC.Parser <= parse/Parser.y
+GHC.Parser.Lexer <= parse/Lexer.x
 GHC.Parser.HeaderInfo <= main/HeaderInfo.hs
 GHC.Parser.Syntax <= parser/RdrHsSyn.hs
+GHC.Parser.Utils <= parser/HaddockUtils.hs
 ```
 
 * `GHC.Config`:
