@@ -227,6 +227,10 @@ GHC.Types.Name.Set <= basicTypes/NameSet.hs
 GHC.Types.Name.Shape <= backpack/NameShape.hs
 GHC.Types.Name.Cache <= basicTypes/NameCache.hs
 GHC.Types.Name.Env <= basicTypes/NameEnv.hs
+
+GHC.Types.CostCentre <= profiling/CostCentre.hs
+GHC.Types.CostCentre.State <= profiling/CostCentreState.hs
+GHC.Types.CostCentre.Init <= profiling/ProfInit.hs
 ```
 
 
@@ -452,6 +456,7 @@ GHC.Runtime.Eval.Types <= main/InteractiveEvalTypes.hs
 * `GHC.Driver`:
 
 ```
+GHC.Driver <= main/GHC.hs
 GHC.Driver.Backpack.Syntax <= backpack/BkpSyn.hs
 GHC.Driver.Backpack <= backpack/DriverBkp.hs
 GHC.Driver.CmdLine <= main/CmdLineParser.hs
@@ -465,6 +470,8 @@ GHC.Driver.Main <= main/HscMain.hs
 GHC.Driver.Make <= main/GhcMake.hs
 GHC.Driver.Hooks <= main/Hooks.hs
 GHC.Driver.Session <= main/DynFlags.hs
+GHC.Driver.Packages <= main/Packages.hs
+GHC.Driver.Monad <= main/GhcMonad.hs
 ```
 
 * `GHC.CmmToAsm`:
@@ -632,15 +639,12 @@ GHC.Config.Flags.FingerPrint <= utils/Fingerprint.hs
 ? <= iface/BinFingerprint.hs
 ? <= main/Constants.hs
 ? <= main/FileSettings.hs
-? <= main/GHC.hs
-? <= main/GhcMonad.hs
 ? <= main/GhcNameVersion.hs
 ? <= main/GhcPlugins.hs
 ? <= main/HeaderInfo.hs
 ? <= main/HscStats.hs
 ? <= main/HscTypes.hs
 ? <= main/PackageConfig.hs
-? <= main/Packages.hs
 ? <= main/PlatformConstants.hs
 ? <= main/Plugins.hs
 ? <= main/PprTyThing.hs
@@ -650,9 +654,6 @@ GHC.Config.Flags.FingerPrint <= utils/Fingerprint.hs
 ? <= parser/HaddockUtils.hs
 ? <= parser/RdrHsSyn.hs
 ? <= prelude/ForeignCall.hs
-? <= profiling/CostCentre.hs
-? <= profiling/CostCentreState.hs
-? <= profiling/ProfInit.hs
 ? <= simplStg/RepType.hs
 ```
 
