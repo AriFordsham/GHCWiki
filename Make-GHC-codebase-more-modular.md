@@ -357,16 +357,17 @@ GHC.HsToCore.Match.Literal <= deSugar/MatchLit.hs
 ```
 GHC.Stg.Pipeline <= simplStg/SimplStg.hs
 GHC.Stg.CSE <= simplStg/StgCse.hs
-GHC.Stg.LiftLams.Analysis <= simplStg/StgLiftLams/Analysis.hs
-GHC.Stg.LiftLams <= simplStg/StgLiftLams.hs
-GHC.Stg.LiftLams.Monad <= simplStg/StgLiftLams/LiftM.hs
-GHC.Stg.LiftLams.Trans <= simplStg/StgLiftLams/Transformation.hs
 GHC.Stg.Stats <= simplStg/StgStats.hs
 GHC.Stg.Unarise <= simplStg/UnariseStg.hs
 GHC.Stg.FVs <= stgSyn/StgFVs.hs
 GHC.Stg.Lint <= stgSyn/StgLint.hs
 GHC.Stg.Subst <= stgSyn/StgSubst.hs
 GHC.Stg.Syntax <= stgSyn/StgSyn.hs
+
+GHC.Stg.Lift <= simplStg/StgLiftLams.hs merged with simplStg/StgLiftLams/Transformation.hs
+GHC.Stg.Lift.Analysis <= simplStg/StgLiftLams/Analysis.hs
+GHC.Stg.Lift.Monad <= simplStg/StgLiftLams/LiftM.hs
+
 
 GHC.CoreToStg <= stgSyn/CoreToStg.hs
 ```
