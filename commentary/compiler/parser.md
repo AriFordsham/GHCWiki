@@ -112,5 +112,5 @@ lex str = case Lexer.lexTokenStream (StringBuffer.stringToStringBuffer str) (Src
 It is also possible to get a function that takes a list of active extensions:
 
 ```Haskell
-lex exts str = case Lexer.lexTokenStream (StringBuffer.stringToStringBuffer str) (SrcLoc.mkRealSrcLoc (FastString.fsLit "") 0 0) (Data.List.foldl' xopt_set DynFlags.unsafeGlobalDynFlags exts) of Lexer.POk _ a -> Prelude.map (\l -> case l of (SrcLoc.L _ e) -> e) a
+lex exts str = case Lexer.lexTokenStream (StringBuffer.stringToStringBuffer str) (SrcLoc.mkRealSrcLoc (FastString.fsLit "") 0 0) (Data.List.foldl' DynFlags.xopt_set DynFlags.unsafeGlobalDynFlags exts) of Lexer.POk _ a -> Prelude.map (\l -> case l of (SrcLoc.L _ e) -> e) a
 ```
