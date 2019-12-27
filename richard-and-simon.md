@@ -40,6 +40,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - #17225: infelicities in the pure unifier
 - #16835: Typeable evidence for casts
 - #16980: metavarialbe leakage in TH
+- #16436: incompleteness with injectivity: we might need `GD` constraints similar to `WD` ones.
 
 # Roadmap of new stuff we want to get done
 
