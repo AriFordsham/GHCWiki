@@ -448,6 +448,12 @@ file. The possible test functions are:
   --interactive and using the specified
   script as standard input.
 
+- **makefile_test**
+  Run `make` with the first argument as the target, or if
+  no argument is given, use the name of the test as the target.
+  Works like **run_command** otherwise.
+
+
 ## Sample output files
 
 
