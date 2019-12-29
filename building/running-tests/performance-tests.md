@@ -72,20 +72,20 @@ CAUTION: make sure you maintain the correct expected changes in your commit mess
 
 ## Comparing Commits
 
-There exists a comparison tool located at `testsuite/driver/perf_notes.py` to help analyze the performance metrics commits. Run the commandline `testsuite/driver/perf_notes.py --help` to see the available options. E.g. to see a chart of the last 100 commits as a standalone html file (omit `--chart` to get simple text output to stdout):
+There exists a comparison tool located at `testsuite/driver/perf_notes.py` to help analyze the performance metrics commits. Run the commandline `testsuite/driver/perf_notes.py --help` to see the available options. E.g. to see a chart of the last 100 commits as a standalone html file (omit `--chart` to get simple text output to `stdout`):
 
 ```wiki
-$ python3 testsuite/driver/perf_notes.py --chart HEAD~100..HEAD
-$ firefox ./PerformanceChart.html
+$ python3 testsuite/driver/perf_notes.py --chart chart.html HEAD~100..HEAD
+$ firefox ./chart.html
 ```
 
 This will show results of your *local* runs of performance tests (see [above](#performance-metrics-are-logged)). You can also view results from CI using the `--ci` option. Make sure to [fetch CI results](#ci-performance-metrics) first. There are a lot of results, so you'll likely want to filter for a specific test/environment e.g.:
 
 ![Screenshot_from_2019-05-29_11-45-34](uploads/3a2783b354df3cdea54bf2c0c1575aff/Screenshot_from_2019-05-29_11-45-34.png)
-[PerformanceChart.html](uploads/a385555a89124fa049310f3d812febf7/PerformanceChart.html)
+[chart.html](uploads/a385555a89124fa049310f3d812febf7/PerformanceChart.html)
 
 ```
 $ git fetch https://gitlab.haskell.org/ghc/ghc-performance-notes.git refs/notes/perf:refs/notes/ci/perf
-$ python3 testsuite/driver/perf_notes.py --chart --ci --test-name "T9630" --test-env x86_64-linux-deb9  master~100..master
-$ firefox ./PerformanceChart.html
+$ python3 testsuite/driver/perf_notes.py --chart chart.html --ci --test-name "T9630" --test-env x86_64-linux-deb9  master~100..master
+$ firefox ./chart.html
 ```
