@@ -72,14 +72,6 @@ GHC.Hs.Utils <= hsSyn/HsUtils.hs
 GHC.Hs.Stats <= main/HscStats.hs
 ```
 
-* `GHC.HsToCore`
-```
-GHC.HsToCore.PmCheck <= deSugar/Check.hs
-GHC.HsToCore.PmCheck.Oracle <= deSugar/PmOracle.hs
-GHC.HsToCore.PmCheck.Ppr <= deSugar/PmPpr.hs
-GHC.HsToCore.PmCheck.Types <= deSugar/PmTypes.hs
-```
-
 * `GHC.Platform`
 ```
 GHC.Platform.ARM64 <= codeGen/CodeGen/Platform/ARM64.hs
@@ -345,6 +337,11 @@ GHC.Tc.TyCl.Class <= typecheck/TcClassDcl.hs
 * `GHC.HsToCore`
 
 ```
+GHC.HsToCore.PmCheck <= deSugar/Check.hs
+GHC.HsToCore.PmCheck.Oracle <= deSugar/PmOracle.hs
+GHC.HsToCore.PmCheck.Ppr <= deSugar/PmPpr.hs
+GHC.HsToCore.PmCheck.Types <= deSugar/PmTypes.hs
+
 GHC.HsToCore <= deSugar/Desugar.hs
 GHC.HsToCore.Coverage <= deSugar/Coverage.hs
 GHC.HsToCore.Arrows <= deSugar/DsArrows.hs
