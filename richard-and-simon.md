@@ -15,6 +15,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - #17295 (confluence in solver) badly needs execution.  We have a plan.  RAE.
 - #17202, #16502: bug in the superclass expansion of quantified constraints; also we need to eagerly expand superclasses for quantified constraints to fix [this comment](https://gitlab.haskell.org/ghc/ghc/issues/16502#note_189978) in #16502.  Richard has !2283 in progress
 - #17323 and !2042: the PKTI is not good enough. Also #17223 (Refl zapping)
+- #17644 about loop in the solver and vars in kinds
 - Get rid of deep-skol and deep-inst.  Done on the impredicativity branch.  Needs review/action.
 - #16775: don't zap naughty quantification candidates.  RAE.
 - #17024: `anyRewritableTyVar` and related gubbins
