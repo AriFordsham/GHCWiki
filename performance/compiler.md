@@ -23,6 +23,8 @@ Some programs can produce very deeply nested types of non-linear size. See [Scra
 
   - Types in Core blowing up quadratically (as seen in `-ddump-ds` output)
 
+- #16382: 
+
 ### Coercion pile-up
 
 
