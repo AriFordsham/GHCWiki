@@ -266,6 +266,8 @@ GHC.Cmm.Graph <= cmm/MkGraph.hs
 GHC.Cmm.Pretty.Decl <= cmm/PprCmmDecl.hs
 GHC.Cmm.Pretty.Expr <= cmm/PprCmmExpr.hs
 GHC.Cmm.Pretty <= cmm/PprCmm.hs
+GHC.Cmm.Lexer <= cmm/CmmLex.x
+GHC.Cmm.Parser <= cmm/CmmParse.y
 
 GHC.CmmToC <= cmm/PprC.hs
 ```
