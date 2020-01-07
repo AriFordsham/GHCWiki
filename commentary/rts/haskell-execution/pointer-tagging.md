@@ -13,8 +13,9 @@ The way the tag bits are used depends on the type of object pointed to:
 
 - If the object is a **constructor**, the tag bits contain the *constructor tag*, if the number of
   constructors in the datatype is less than 4 (less than 8 on a 64-bit platform).  If the number of
-  constructors in the datatype is equal to or more than 4 (resp 8), then the tag bits have the value 1, and the constructor tag
-  is extracted from the constructor's info table instead.
+  constructors in the datatype is equal to or more than 4 (resp 8), then the first three tags represent
+  a constructor, with the highest tag indicating that the constructor tag must be
+  extracted from the constructor's info table instead.
 
 - If the object is a **function**, the tag bits contain the *arity* of the function, if the arity fits
   in the tag bits.
@@ -42,7 +43,7 @@ Pointer-tagging is a fairly significant optimisation: we measured 10-14% dependi
 ## Garbage collection with tagged pointers
 
 
-The [garbage collector](commentary/rts/storage/gc) maintains tag bits on the pointers it traverses.  This is easier, it turns out, than *reconstructing* tag bits.  Reconstructing tag bits would require that the GC knows not only the tag of the constructor (which is in the info table), but also the family size (which is currently not in the info table), since a constructor from a large family should always have tag 1.  To make this practical we would probably need different closure types for "small family" and "large family" constructors, and we already subdivide the constructor closures types by their layout.
+The [garbage collector](commentary/rts/storage/gc) maintains tag bits on the pointers it traverses.  This is easier, it turns out, than *reconstructing* tag bits.  Reconstructing tag bits would require that the GC knows not only the tag of the constructor (which is in the info table), but also the family size (which is currently not in the info table). This is because for a large family the encoding is slightly different than for small families. To make this practical we would probably need different closure types for "small family" and "large family" constructors, and we already subdivide the constructor closures types by their layout.
 
 
 Additionally, when the GC eliminates an indirection it takes the tag bits from the pointer inside the indirection.  Pointers to indirections always have zero tag bits.
@@ -86,6 +87,23 @@ Pointers to top-level functions are not necessarily tagged, because we don't alw
 
 Pointers to PAPs are never tagged. If we tagged a PAP with its arity, then a function call with the correct number of arguments would assume that it could jump to the PAP's entry code to call the function, which is not the case - a PAP has no entry code, it can only be called via the generic `stg_ap_` apply functions.
 
+### Tagging of large and small families
+
+In the past small families where tagged with their constructor while large families, if tagged, where always `1` indicating an evaluate value.
+
+This was changed recently, now we tag representing the constructor if it's small enough to be encoded. With the highest tag reserved to indicate any other constructor. See #14373 for more details.
+
+Here is a table showing the difference for a platform with two bit sized tags.
+
+| Constructor No. | Tag Small Family | Tag Large Family (8.10) | Tag Large Family (8.8) |
+| ---:     |  --:  | --: | --: |
+| Thunk | 0 | 0 | 0
+| Con1   | 1   | 1 | 1 |
+| Con2   | 2   | 2 | 1 |
+| Con3   | 3   | 3 | 1 |
+| Con4   | -   | 3 | 1 |
+
+
 ## Compacting GC
 
 
@@ -96,6 +114,22 @@ Compacting GC also uses tag bits, because it needs to distinguish between a heap
 
 Every time we dereference a pointer to a heap object, we must first zero the tag bits.  In the RTS, this is done with the inline function (previously: macro) `UNTAG_CLOSURE()`; in `.cmm` code this is done with the `UNTAG()` macro.  Surprisingly few places needed untagging to be added.
 
-## Strict fields are NOT always tagged.
+## Pointers to constructors are not always tagged - #14677
 
-One might assume that strict fields by their nature can only contain tagged pointers. This is currently not true. Especially (static) indirections can make their way into such fields. See https://gitlab.haskell.org/ghc/ghc/issues/14677
+Since pointer tagging is an important optimization GHC makes sure to apply it often. However there are a few cases where this surprisingly doesn't hold. This surfed among other things in the issues #15155 and #14677
+
+### Failure to tag imported bindings
+
+When a module refers to a top level binding from a different module this *won't* be tagged except for trivial cases where we reference nullary constructors with an available unfolding.
+
+This was documented in #14677. !1530 is a WIP but is currently stalled on not directly related work.
+
+### Strict fields containing untagged pointers - #15155
+
+One might assume that strict fields by their nature can only contain tagged pointers. This is however not true as they only require to uphold their semantics which allows indirections (or even thunks in theory).
+
+In particular we can (and do) end up with indirections in strict fields. This is discussed in #15155.
+
+Changing this would be beneficial for performance it allows avoidance of the "check and enter" code accessing strict fields.
+
+!1472 is a WIP patch for one approach to changing this working at the STG level. In extreme cases like set lookups for Data.Set this improved performance by >10%. However the implementations is also far from trivial so it's not yet clear if this is the best approach.
