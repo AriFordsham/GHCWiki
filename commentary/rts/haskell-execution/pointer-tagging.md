@@ -13,9 +13,10 @@ The way the tag bits are used depends on the type of object pointed to:
 
 - If the object is a **constructor**, the tag bits contain the *constructor tag*, if the number of
   constructors in the datatype is less than 4 (less than 8 on a 64-bit platform).  If the number of
-  constructors in the datatype is equal to or more than 4 (resp 8), then the first three tags represent
-  a constructor, with the highest tag indicating that the constructor tag must be
-  extracted from the constructor's info table instead.
+  constructors in the datatype is equal to or more than 4 (resp 8), then the highest tag value
+  indicates that the constructor tag must be extracted from the constructor's info table. The other
+  tag values work the same as for small families (representing the constructor tag).
+  See the table below under `Tagging of large and small  families` for an example.
 
 - If the object is a **function**, the tag bits contain the *arity* of the function, if the arity fits
   in the tag bits.
@@ -95,13 +96,17 @@ This was changed recently, now we tag representing the constructor if it's small
 
 Here is a table showing the difference for a platform with two bit sized tags.
 
-| Constructor No. | Tag Small Family | Tag Large Family (8.10) | Tag Large Family (8.8) |
-| ---:     |  --:  | --: | --: |
-| Thunk | 0 | 0 | 0
-| Con1   | 1   | 1 | 1 |
-| Con2   | 2   | 2 | 1 |
-| Con3   | 3   | 3 | 1 |
-| Con4   | -   | 3 | 1 |
+We can see how in the old scheme large families when evaluated where always tagged with `1` and the constructors tag had to be fetched from the info table.
+
+In the new scheme this is only the case if we can't encode the constructor tag in the tag bits (while reserving the highest tag to indicate a tag needed to be fetched from the info table).
+
+| Pointing to | Tag Small Family | Tag Large Family (8.10) | Tag Large Family (8.8) |
+| ---:     |  :--  | :-- | :-- | 
+| Thunk | 0 | 0 | 0 | 
+| Con1   | 1   | 1 | 1 - ConTag in info table | 
+| Con2   | 2   | 2 | 1 - ConTag in info table | 
+| Con3   | 3   | 3 - ConTag in info table | 1 - ConTag in info table | 
+| Con4   | -   | 3 - ConTag in info table | 1 - ConTag in info table |
 
 
 ## Compacting GC
@@ -114,9 +119,9 @@ Compacting GC also uses tag bits, because it needs to distinguish between a heap
 
 Every time we dereference a pointer to a heap object, we must first zero the tag bits.  In the RTS, this is done with the inline function (previously: macro) `UNTAG_CLOSURE()`; in `.cmm` code this is done with the `UNTAG()` macro.  Surprisingly few places needed untagging to be added.
 
-## Pointers to constructors are not always tagged - #14677
+## Gotchas where we surprisingly don't have tagged pointers.
 
-Since pointer tagging is an important optimization GHC makes sure to apply it often. However there are a few cases where this surprisingly doesn't hold. This surfed among other things in the issues #15155 and #14677
+Since pointer tagging is an important optimization GHC makes sure to apply it often. However there are a few cases where this surprisingly doesn't hold. This surfaced among other things in the issues #15155 and #14677
 
 ### Failure to tag imported bindings
 
