@@ -96,11 +96,7 @@ This was changed recently, now we tag representing the constructor if it's small
 
 Here is a table showing the difference for a platform with two bit sized tags.
 
-We can see how in the old scheme large families when evaluated where always tagged with `1` and the constructors tag had to be fetched from the info table.
-
-In the new scheme this is only the case if we can't encode the constructor tag in the tag bits (while reserving the highest tag to indicate a tag needed to be fetched from the info table).
-
-| Pointing to | Tag Small Family | Tag Large Family (8.10) | Tag Large Family (8.8) |
+| Pointing to | Tag Small Family | Tag Large Family (GHC 8.10 onwards) | Tag Large Family (GHC 8.8) |
 | ---:     |  :--  | :-- | :-- | 
 | Thunk | 0 | 0 | 0 | 
 | Con1   | 1   | 1 | 1 - ConTag in info table | 
@@ -108,6 +104,9 @@ In the new scheme this is only the case if we can't encode the constructor tag i
 | Con3   | 3   | 3 - ConTag in info table | 1 - ConTag in info table | 
 | Con4   | -   | 3 - ConTag in info table | 1 - ConTag in info table |
 
+We can see how in the old scheme large families when evaluated where always tagged with `1` and the constructors tag had to be fetched from the info table.
+
+In the new scheme this is only the case if we can't encode the constructor tag in the tag bits (while reserving the highest tag to indicate a tag needed to be fetched from the info table).
 
 ## Compacting GC
 
