@@ -147,4 +147,4 @@ In particular we can (and do) end up with indirections in strict fields. This is
 
 Changing this would be beneficial for performance it allows avoidance of the "check and enter" code accessing strict fields.
 
-!1472 is a WIP patch for one approach to changing this working at the STG level. In extreme cases like set lookups for Data.Set this improved performance by >10%. However the implementations is also far from trivial so it's not yet clear if this is the best approach.
+!1472 is a WIP patch for one approach to changing this working at the STG level. In extreme cases like set lookups for Data.Set this improved performance by >10%. However the implementations is also far from trivial so it's not yet clear if this is the best approach. See also the related [ticket](https://gitlab.haskell.org/ghc/ghc/issues/16970#strict-fields)
