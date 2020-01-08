@@ -61,13 +61,11 @@ The presence of tag bits enables certain optimisations:
 
 Pointer-tagging is a fairly significant optimisation: we measured 10-14% depending on platform.  A large proportion of this comes from eliminating the indirect jumps in a case expression, which are hard to predict by branch-prediction.  The paper has full results and analysis.
 
-## Garbage collection with tagged pointers
+### Dealing with tags in the code
 
 
-The [garbage collector](commentary/rts/storage/gc) maintains tag bits on the pointers it traverses.  This is easier, it turns out, than *reconstructing* tag bits.  Reconstructing tag bits would require that the GC knows not only the tag of the constructor (which is in the info table), but also the family size (which is currently not in the info table). This is because for a large family the encoding is slightly different than for small families. To make this practical we would probably need different closure types for "small family" and "large family" constructors, and we already subdivide the constructor closures types by their layout.
+Every time we dereference a pointer to a heap object, we must first zero the tag bits.  In the RTS, this is done with the inline function (previously: macro) `UNTAG_CLOSURE()`; in `.cmm` code this is done with the `UNTAG()` macro.  Surprisingly few places needed untagging to be added.
 
-
-Additionally, when the GC eliminates an indirection it takes the tag bits from the pointer inside the indirection.  Pointers to indirections always have zero tag bits.
 
 ## Invariants
 
@@ -108,17 +106,28 @@ Pointers to top-level functions are not necessarily tagged, because we don't alw
 
 Pointers to PAPs are never tagged. If we tagged a PAP with its arity, then a function call with the correct number of arguments would assume that it could jump to the PAP's entry code to call the function, which is not the case - a PAP has no entry code, it can only be called via the generic `stg_ap_` apply functions.
 
+## Interaction with garbage collection
+
+### Garbage collection with tagged pointers
+
+The [garbage collector](commentary/rts/storage/gc) *preserves* tag bits on the pointers it traverses. It is crucial that it does not lose tagging information, both for performance (tagged pointers are faster) but also for correctness: see "Invariants" above.
+
+Additionally, when the GC eliminates an indirection it takes the tag bits from the pointer inside the indirection.  Pointers to indirections always have zero tag bits.
+
+The paper (section 6.1.4) suggests that the garbage collection could turn an untagged pointer to a constructor or function closure into a tagged pointer, since it is traversing the heap anyway.  However *we do not do this* for several reasons.
+
+* Reconstructing tag bits would require that the GC knows not only the tag of the constructor (which is in the info table), but also the family size (which is currently not in the info table); see "Tagging of large and small families" above. To make this practical we would probably need different closure types for "small family" and "large family" constructors, and we already subdivide the constructor closures types by their layout.
+
+* It is vanishingly rare to find an untagged pointer to a contructor.  [This comment](https://gitlab.haskell.org/ghc/ghc/merge_requests/1692#note_245358) found only 14 out of 18M such pointers were untagged.
 
 
-## Compacting GC
+
+### Compacting GC
 
 
 Compacting GC also uses tag bits, because it needs to distinguish between a heap pointer and an info pointer quickly.  The compacting GC has a complicated scheme to ensure that pointer tags are retained, see the comments in [rts/sm/Compact.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/sm/Compact.c).
 
-## Dealing with tags in the code
 
-
-Every time we dereference a pointer to a heap object, we must first zero the tag bits.  In the RTS, this is done with the inline function (previously: macro) `UNTAG_CLOSURE()`; in `.cmm` code this is done with the `UNTAG()` macro.  Surprisingly few places needed untagging to be added.
 
 ## Gotchas where we surprisingly don't have tagged pointers.
 
