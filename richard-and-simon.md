@@ -128,7 +128,7 @@ We should be clear about the dependencies between items on this list.
 
 - #15479: refactoring `tcHsType` (Simon is not 100% convinced)
 
-- #17291: coercions are not expressions, and coercion variables are not Ids.
+- #17291: coercions are not expressions, and coercion variables are not Ids.  The horrible `eq_sel` and `coercible_sel`.
 
 # I'm unsure of the status of these things
 
