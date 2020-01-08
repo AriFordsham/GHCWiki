@@ -23,6 +23,26 @@ The way the tag bits are used depends on the type of object pointed to:
 
 - For a pointer to any other object (including a PAP), the tag bits are always zero.
 
+### Tagging of large and small families
+
+In the past small families where tagged with their constructor while large families, if tagged, where always `1` indicating an evaluate value.
+
+This was changed recently, now we tag representing the constructor if it's small enough to be encoded. With the highest tag reserved to indicate any other constructor. See #14373 for more details.
+
+Here is a table showing the difference for a platform with two bit sized tags.
+
+| Pointing to | Tag Small Family | Tag Large Family (GHC 8.10 onwards) | Tag Large Family (GHC 8.8) |
+| ---:     |  :--  | :-- | :-- | 
+| Thunk | 0 | 0 | 0 | 
+| Con1   | 1   | 1 | 1 - ConTag in info table | 
+| Con2   | 2   | 2 | 1 - ConTag in info table | 
+| Con3   | 3   | 3 - ConTag in info table | 1 - ConTag in info table | 
+| Con4   | -   | 3 - ConTag in info table | 1 - ConTag in info table |
+
+We can see how in the old scheme large families when evaluated where always tagged with `1` and the constructors tag had to be fetched from the info table.
+
+In the new scheme this is only the case if we can't encode the constructor tag in the tag bits (while reserving the highest tag to indicate a tag needed to be fetched from the info table).
+
 ## Optimisations enabled by tag bits
 
 
@@ -88,25 +108,7 @@ Pointers to top-level functions are not necessarily tagged, because we don't alw
 
 Pointers to PAPs are never tagged. If we tagged a PAP with its arity, then a function call with the correct number of arguments would assume that it could jump to the PAP's entry code to call the function, which is not the case - a PAP has no entry code, it can only be called via the generic `stg_ap_` apply functions.
 
-### Tagging of large and small families
 
-In the past small families where tagged with their constructor while large families, if tagged, where always `1` indicating an evaluate value.
-
-This was changed recently, now we tag representing the constructor if it's small enough to be encoded. With the highest tag reserved to indicate any other constructor. See #14373 for more details.
-
-Here is a table showing the difference for a platform with two bit sized tags.
-
-| Pointing to | Tag Small Family | Tag Large Family (GHC 8.10 onwards) | Tag Large Family (GHC 8.8) |
-| ---:     |  :--  | :-- | :-- | 
-| Thunk | 0 | 0 | 0 | 
-| Con1   | 1   | 1 | 1 - ConTag in info table | 
-| Con2   | 2   | 2 | 1 - ConTag in info table | 
-| Con3   | 3   | 3 - ConTag in info table | 1 - ConTag in info table | 
-| Con4   | -   | 3 - ConTag in info table | 1 - ConTag in info table |
-
-We can see how in the old scheme large families when evaluated where always tagged with `1` and the constructors tag had to be fetched from the info table.
-
-In the new scheme this is only the case if we can't encode the constructor tag in the tag bits (while reserving the highest tag to indicate a tag needed to be fetched from the info table).
 
 ## Compacting GC
 
