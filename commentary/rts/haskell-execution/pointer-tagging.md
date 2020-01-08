@@ -1,15 +1,13 @@
 # Pointer Tagging
 
-
-
-
-
 In GHC we "tag" pointers to heap objects with information about the object they point to.  The tag goes in the low 2 bits (3 bits on a 64-bit platform) of the pointer, which would normally be zero since heap objects are always [word](commentary/rts/word)-aligned.
 
 Key material
 * Paper: [Faster laziness using dynamic pointer tagging](http://research.microsoft.com/en-us/um/people/simonpj/papers/ptr-tag/ptr-tagging.pdf)
 
 * [List of pointer-tagging tickets](https://gitlab.haskell.org/ghc/ghc/issues?label_name%5B%5D=pointer+tagging), labelled with "pointer tagging".
+
+* (2020) Andreas K's pointer-tagging agenda](https://gitlab.haskell.org/ghc/ghc/wikis/AndreasPK#pointer-tagging-in-ghc)
 
 ## Meaning of the tag bits
 
