@@ -7,7 +7,8 @@ https://gitlab.haskell.org/ghc/ghc/issues/9660 - After/During tag inference
 
 ## Current agenda:
 
-IO Manager: https://gitlab.haskell.org/ghc/ghc/merge_requests/1224/diffs
+IO Manager: https://gitlab.haskell.org/ghc/ghc/merge_requests/1224/diffs  
+This is currently my main focus. Things below are on my list but not neccesarily listed by priority.
 
 #16354 - LLVM broken on windows - TODO
 
