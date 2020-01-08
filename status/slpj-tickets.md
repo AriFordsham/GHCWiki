@@ -63,6 +63,7 @@
 
 - [Code generation](commentary/compiler/code-gen)
   * Optimising closure representation #14461
+  * [Pointer tagging](https://gitlab.haskell.org/ghc/ghc/wikis/commentary/rts/haskell-execution/pointer-tagging)
 
 ## Compile-time performance
 
