@@ -143,7 +143,7 @@ This was documented in #14677. !1530 is a WIP but is currently stalled on not di
 
 One might assume that strict fields by their nature can only contain tagged pointers. This is however not true as they only require to uphold their semantics which allows indirections (or even thunks in theory).
 
-In particular we can (and do) end up with indirections in strict fields. This is discussed in #15155.
+In particular we can (and do) end up with indirections in strict fields. This is discussed in #15155. But imported top level bindings could also end up (untagged) inside strict fields.
 
 Changing this would be beneficial for performance it allows avoidance of the "check and enter" code accessing strict fields.
 
