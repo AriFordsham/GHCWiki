@@ -7,7 +7,7 @@ Key material
 
 * [List of pointer-tagging tickets](https://gitlab.haskell.org/ghc/ghc/issues?label_name%5B%5D=pointer+tagging), labelled with "pointer tagging".
 
-* (2020) Andreas K's pointer-tagging agenda](https://gitlab.haskell.org/ghc/ghc/wikis/AndreasPK#pointer-tagging-in-ghc)
+* (2020) [Andreas K's pointer-tagging agenda](https://gitlab.haskell.org/ghc/ghc/wikis/AndreasPK#pointer-tagging-in-ghc)
 
 ## Meaning of the tag bits
 
