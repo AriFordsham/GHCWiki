@@ -2,15 +2,12 @@ This is a scrap page, so things might be duplicated and those kinds of things.
 
 Tickets I'm interested in:
 
-https://gitlab.haskell.org/ghc/ghc/issues/16977 - Possibly a quick fix.
-
 https://gitlab.haskell.org/ghc/ghc/issues/9660 - After/During tag inference
-
 
 
 ## Current agenda:
 
-Backport !1953 - MR against 8.8 branch. - Done in !2001, wait for CI
+IO Manager: https://gitlab.haskell.org/ghc/ghc/merge_requests/1224/diffs
 
 #16354 - LLVM broken on windows - TODO
 
@@ -18,25 +15,15 @@ Also include it in CI:
 AndreasK, Ideally we would handle LLVM toolchain the same way we handle GHC and xcabal-install
 3:59 PM see .gitlab/win32-init.sh
 
-!2001 !!!!
-
-IO Manager: https://gitlab.haskell.org/ghc/ghc/merge_requests/1224/diffs
-
-!2091 #17437  
-#17429  
+Pointer tagging in GHC (various tickets, see below).
 
 
-
-
-
-* !1990 - Waiting on CI
-* !1742 - Waiting on gabor
+* !1990 - TODO
 * #1990 - Use dataToTag - needs work
 * #16970 - Tag inference work  - First do #17004
 * #16977 - Check simons suggestion - Done by osa - verify it solved the issue. 
 * #17092 - Implement stack check elision  - TODO
 * #7741 - NCG-SIMD  - TODO
-* !1224 - Maybe help out
 
 ## Things to do in the near future:
 
