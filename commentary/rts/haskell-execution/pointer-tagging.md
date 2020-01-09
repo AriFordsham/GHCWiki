@@ -148,6 +148,23 @@ One might assume that strict fields by their nature can only contain tagged poin
 
 In particular we can (and do) end up with indirections in strict fields. This is discussed in #15155. But imported top level bindings could also end up (untagged) inside strict fields.
 
-Changing this would be beneficial for performance it allows avoidance of the "check and enter" code accessing strict fields.
+So the (known) sources of untagged pointers in strict fields are:
+* Untagged static constructor pointers (see `Failure to tag imported bindings` on this page).
+* Static indirections which are the result of things like coercions. See #16831 for an example.
+* Indirections resulting from float out.
+
+The last one comes from code code like this:
+
+```
+bar = <thunk>
+foo = SJust bar
+
+baz = case bar of
+   _ -> ... foo ...
+```
+
+Clearly bar *is* evaluated before `foo` is demanded. But `foo` will still only contain an indirection to `bar`, and we never tag indirections.
+
+Changing this would be beneficial for performance as it allows avoidance of the "check tag and enter" code when accessing strict fields.
 
 !1472 is a WIP patch for one approach to changing this working at the STG level. In extreme cases like set lookups for Data.Set this improved performance by >10%. However the implementations is also far from trivial so it's not yet clear if this is the best approach. See also the related [ticket](https://gitlab.haskell.org/ghc/ghc/issues/16970#strict-fields)
