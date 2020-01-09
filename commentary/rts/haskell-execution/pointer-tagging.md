@@ -136,6 +136,14 @@ Compacting GC also uses tag bits, because it needs to distinguish between a heap
 
 Since pointer tagging is an important optimization GHC makes sure to apply it often. However there are a few cases where this surprisingly doesn't hold. This surfaced among other things in the issues #15155 and #14677
 
+There are two different issues here:
+
+1. Suppose a pointer P points to a constructor object. Then I would like the invariant that P is properly tagged -- eg it never has tag 0 meaning "thunk". I believe this is very nearly the case today, (see [this commeent](https://gitlab.haskell.org/ghc/ghc/merge_requests/1692#note_245358) in !1692, and may be the case *always* once we have nailed #17004.
+
+1. Suppose a data constructor has a pointer Q in a strict field of type T, where T is a data type. Then Q is a properly-tagged pointer to a data constructor (of type T). This is what #15155 is about.
+
+These are not the same! We could have (1) without (2) or (2) without (1).
+
 ### Failure to tag imported bindings
 
 When a module refers to a top level binding from a different module this *won't* be tagged except for trivial cases where we reference nullary constructors with an available unfolding.
