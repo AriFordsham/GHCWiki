@@ -11,6 +11,7 @@ In this page, we discuss the overall plan and details of implementing Trees that
 - [Potential use for adding IDE support](implementing-trees-that-grow/ide-support)
 - [A set of advises for GHC developers on how to work with TTG](implementing-trees-that-grow/trees-that-grow-guidance)
 - [Handling Source Locations](implementing-trees-that-grow/handling-source-locations)
+- [Handling API Annotations via TTG](https://gitlab.haskell.org/ghc/ghc/wikis/implementing-trees-that-grow/in-tree-api-annotations)
 
 
 Main protagonists: Shayan Najd and Alan Zimmerman. 
