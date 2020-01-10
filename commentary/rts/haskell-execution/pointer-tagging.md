@@ -119,7 +119,7 @@ Additionally, when the GC eliminates an indirection it takes the tag bits from t
 
 The paper (section 6.1.4) suggests that the garbage collection could turn an untagged pointer to a constructor or function closure into a tagged pointer, since it is traversing the heap anyway.  However *we do not do this* for several reasons.
 
-* Reconstructing tag bits would require that the GC knows not only the tag of the constructor (which is in the info table), but also the family size (which is currently not in the info table); see "Tagging of large and small families" above. To make this practical we would probably need different closure types for "small family" and "large family" constructors, and we already subdivide the constructor closures types by their layout.
+* Reconstructing tag bits would require that the GC knows not only the tag of the constructor (which is in the info table), but also the family size (which is currently not in the info table); see "Tagging of large and small families" above. To make this practical we would probably need different closure types for "small family" and "large family" constructors, and we already subdivide the constructor closures types by their layout. (Suggestion from SG: Encode small/large in a tag bit in the constructor tag field of the info table. But given the impact on mutator code and the next point, this is not worthwhile to pursue.)
 
 * It is vanishingly rare to find an untagged pointer to a contructor.  [This comment](https://gitlab.haskell.org/ghc/ghc/merge_requests/1692#note_245358) found only 14 out of 18M such pointers were untagged.
 
