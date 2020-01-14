@@ -143,8 +143,8 @@ GHC.Core.Syntax <= coreSyn/CoreSyn.hs
 GHC.Core.Unfold <= coreSyn/CoreUnfold.hs
 GHC.Core.Utils <= coreSyn/CoreUtils.hs
 GHC.Core.Make <= coreSyn/MkCore.hs
-GHC.Core.Pretty <= coreSyn/PprCore.hs
-GHC.Core.Pretty.TyThing <= main/PprTyThing.hs
+GHC.Core.Ppr <= coreSyn/PprCore.hs
+GHC.Core.Ppr.TyThing <= main/PprTyThing.hs
 GHC.Core.Rules <= specialise/Rules.hs
 GHC.Core.Lint <= coreSyn/CoreLint.hs
 
@@ -162,7 +162,7 @@ GHC.Core.PatSyn <= basicTypes/PatSyn.hs
 GHC.Core.Predicate <= basicTypes/Predicate.hs
 
 GHC.Core.TyCo.FVs <= types/TyCoFVs.hs
-GHC.Core.TyCo.Pretty <= types/TyCoPpr.hs
+GHC.Core.TyCo.Ppr <= types/TyCoPpr.hs
 GHC.Core.TyCo.Rep <= types/TyCoRep.hs
 GHC.Core.TyCo.Subst <= types/TyCoSubst.hs
 GHC.Core.TyCo.Tidy <= types/TyCoTidy.hs
@@ -263,9 +263,9 @@ GHC.Cmm.Dataflow <= cmm/Hoopl/Dataflow.hs
 GHC.Cmm.Dataflow.Graph <= cmm/Hoopl/Graph.hs
 GHC.Cmm.Dataflow.Label <= cmm/Hoopl/Label.hs
 GHC.Cmm.Graph <= cmm/MkGraph.hs
-GHC.Cmm.Pretty.Decl <= cmm/PprCmmDecl.hs
-GHC.Cmm.Pretty.Expr <= cmm/PprCmmExpr.hs
-GHC.Cmm.Pretty <= cmm/PprCmm.hs
+GHC.Cmm.Ppr.Decl <= cmm/PprCmmDecl.hs
+GHC.Cmm.Ppr.Expr <= cmm/PprCmmExpr.hs
+GHC.Cmm.Ppr <= cmm/PprCmm.hs
 GHC.Cmm.Lexer <= cmm/CmmLex.x
 GHC.Cmm.Parser <= cmm/CmmParse.y
 
@@ -433,7 +433,7 @@ GHC.CoreToByteCode <= ghci/ByteCodeGen.hs
 
 ```
 GHC.Llvm.MetaData <= llvmGen/Llvm/MetaData.hs
-GHC.Llvm.Pretty <= llvmGen/Llvm/PpLlvm.hs
+GHC.Llvm.Ppr <= llvmGen/Llvm/PpLlvm.hs
 GHC.Llvm.Types <= llvmGen/Llvm/Types.hs
 GHC.Llvm.Syntax <= llvmGen/Llvm/AbsSyn.hs
 GHC.Llvm <= llvmGen/Llvm.hs
@@ -443,7 +443,7 @@ GHC.CmmToLlvm.Mangler <= llvmGen/LlvmMangler.hs
 GHC.CmmToLlvm.Base <= llvmGen/LlvmCodeGen/Base.hs
 GHC.CmmToLlvm.CodeGen <= llvmGen/LlvmCodeGen/CodeGen.hs
 GHC.CmmToLlvm.Data <= llvmGen/LlvmCodeGen/Data.hs
-GHC.CmmToLlvm.Pretty <= llvmGen/LlvmCodeGen/Ppr.hs
+GHC.CmmToLlvm.Ppr <= llvmGen/LlvmCodeGen/Ppr.hs
 GHC.CmmToLlvm.Regs <= llvmGen/LlvmCodeGen/Regs.hs
 ```
 
@@ -501,7 +501,7 @@ GHC.CmmToAsm.Instr <= nativeGen/Instruction.hs
 GHC.CmmToAsm.Monad <= nativeGen/NCGMonad.hs
 GHC.CmmToAsm.PIC <= nativeGen/PIC.hs
 
-GHC.CmmToAsm.Pretty <= nativeGen/PprBase.hs
+GHC.CmmToAsm.Ppr <= nativeGen/PprBase.hs
 
 GHC.CmmToAsm.Reg.Graph.ArchBase <= nativeGen/RegAlloc/Graph/ArchBase.hs
 GHC.CmmToAsm.Reg.Graph.ArchX86 <= nativeGen/RegAlloc/Graph/ArchX86.hs
@@ -533,7 +533,7 @@ GHC.CmmToAsm.Reg.Target <= nativeGen/TargetReg.hs
 GHC.CmmToAsm.PPC.CodeGen <= nativeGen/PPC/CodeGen.hs
 GHC.CmmToAsm.PPC.Cond <= nativeGen/PPC/Cond.hs
 GHC.CmmToAsm.PPC.Instr <= nativeGen/PPC/Instr.hs
-GHC.CmmToAsm.PPC.Pretty <= nativeGen/PPC/Ppr.hs
+GHC.CmmToAsm.PPC.Ppr <= nativeGen/PPC/Ppr.hs
 GHC.CmmToAsm.PPC.RegInfo <= nativeGen/PPC/RegInfo.hs
 GHC.CmmToAsm.PPC.Regs <= nativeGen/PPC/Regs.hs
 
@@ -550,7 +550,7 @@ GHC.CmmToAsm.SPARC.CodeGen.Sanity <= nativeGen/SPARC/CodeGen/Sanity.hs
 GHC.CmmToAsm.SPARC.Cond <= nativeGen/SPARC/Cond.hs
 GHC.CmmToAsm.SPARC.Imm <= nativeGen/SPARC/Imm.hs
 GHC.CmmToAsm.SPARC.Instr <= nativeGen/SPARC/Instr.hs
-GHC.CmmToAsm.SPARC.Pretty <= nativeGen/SPARC/Ppr.hs
+GHC.CmmToAsm.SPARC.Ppr <= nativeGen/SPARC/Ppr.hs
 GHC.CmmToAsm.SPARC.Regs <= nativeGen/SPARC/Regs.hs
 GHC.CmmToAsm.SPARC.ShortcutJump <= nativeGen/SPARC/ShortcutJump.hs
 GHC.CmmToAsm.SPARC.Stack <= nativeGen/SPARC/Stack.hs
@@ -558,7 +558,7 @@ GHC.CmmToAsm.SPARC.Stack <= nativeGen/SPARC/Stack.hs
 GHC.CmmToAsm.X86 <= nativeGen/X86/CodeGen.hs
 GHC.CmmToAsm.X86.Cond <= nativeGen/X86/Cond.hs
 GHC.CmmToAsm.X86.Instr <= nativeGen/X86/Instr.hs
-GHC.CmmToAsm.X86.Pretty <= nativeGen/X86/Ppr.hs
+GHC.CmmToAsm.X86.Ppr <= nativeGen/X86/Ppr.hs
 GHC.CmmToAsm.X86.RegInfo <= nativeGen/X86/RegInfo.hs
 GHC.CmmToAsm.X86.Regs <= nativeGen/X86/Regs.hs
 ```
@@ -577,7 +577,7 @@ GHC.Data.Graph.Base <= utils/GraphBase.hs
 GHC.Data.Graph.Color <= utils/GraphColor.hs
 GHC.Data.Graph.Directed <= utils/Digraph.hs
 GHC.Data.Graph.Ops <= utils/GraphOps.hs
-GHC.Data.Graph.Pretty <= utils/GraphPpr.hs
+GHC.Data.Graph.Ppr <= utils/GraphPpr.hs
 GHC.Data.Graph.UnVar <= utils/UnVarGraph.hs
 GHC.Data.List.SetOps <= utils/ListSetOps.hs
 GHC.Data.Maybe <= utils/Maybes.hs
@@ -613,8 +613,8 @@ GHC.Utils.Monad.Utils <= utils/MonadUtils.hs
 GHC.Utils.Outputable <= utils/Outputable.hs
 GHC.Utils.Panic <= utils/Panic.hs
 GHC.Utils.PlainPanic <= utils/PlainPanic.hs
-GHC.Utils.Pretty.Colour <= utils/PprColour.hs
-GHC.Utils.Pretty <= utils/Pretty.hs
+GHC.Utils.Ppr.Colour <= utils/PprColour.hs
+GHC.Utils.Ppr <= utils/Pretty.hs
 GHC.Utils.Monad.State <= utils/State.hs
 GHC.Utils.Misc <= utils/Util.hs
 GHC.Utils.StaticPtrTable <= main/StaticPtrTable.hs
