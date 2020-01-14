@@ -10,10 +10,9 @@ Current open questions are
 
 From https://gitlab.haskell.org/ghc/ghc/issues/17638#note_245760 pointing out !2315, consider using `XRec`.
 
-## Doodling
+## Adding API Annotations to `Located RdrName`, 
 
-For `Located RdrName`, 
-
+Possible approach
 
 ```haskell
 type family XRec p (f :: * -> *) = r | r -> p f
@@ -25,21 +24,47 @@ type LocatedA = GenLocated SrcSpanAnn
 
 data SrcSpanAnn = SrcSpanAnn { ann :: ApiAnn, loc :: SrcSpan }
 
-type family IdP p :: * -> *
-type instance IdP GhcPs   = RdrName
-type instance IdP GhcRn   = Name
-type instance IdP GhcTc   = Id
-type instance IdP GhcTcId = Id
+---------------
+-- Add an (unused) type parameter to each name type, so it can be used in `XRec`
+data RdrName p = RdrName String
+data Name    p = Name String
+data Id      p = Id String
 
-type LIdP p = XRec p (IdP p)
+-- | Maps the "normal" id type for a given pass
+type family IdPP p :: * -> *
+type instance IdPP GhcPs   = RdrName
+type instance IdPP GhcRn   = Name
+type instance IdPP GhcTc   = Id
+type instance IdPP GhcTcId = Id
+
+type IdP p = IdPP p p
+
+-----------------
+-- So, for an example data type
+
+data Exp p = Exp1 (LIdP p)
+           | Exp2 (LIdP p) (LIdP p)
+
+type LIdP p = XRec p (IdPP p)
+type LExp p = XRec p Exp
+
+-- Monomorphic stuff is straightforward
+doFooR :: LIdP GhcRn -> LExp GhcRn
+doFooR ln = noLoc (Exp1 ln)
+
+doFooP :: IdP GhcPs -> LExp GhcPs
+doFooP n = noLocP (Exp1 (noLocP n))
+
+noLocP :: a GhcPs -> XRec GhcPs a
+noLocP e = L (SrcSpanAnn ApiAnnNotUsed noSrcSpan) e
+
+-- --------------------------
+
+-- This is messy
+baz :: XRec (GhcPass p) Exp ~ GenLocated l (Exp (GhcPass p))
+    => LExp (GhcPass p) -> Int
+baz (L _ (Exp1 ln)) = 4
+
 ```
 
-To make this work, there needs to be a phantom parameter for the pass to `RdrName`, `Name`, and `Id`.
 
-```haskell
-data RdrName p
-  = Unqual OccName
-...
-```
-
-Could this work?
