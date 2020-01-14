@@ -607,7 +607,6 @@ GHC.Utils.Binary <= utils/Binary.hs
 GHC.Utils.BufWrite <= utils/BufWrite.hs
 GHC.Utils.Exception <= utils/Exception.hs
 GHC.Utils.IO.Unsafe <= utils/FastFunctions.hs
-GHC.Utils.Prelude <= utils/GhcPrelude.hs
 GHC.Utils.Monad.IOEnv <= utils/IOEnv.hs
 GHC.Utils.Json <= utils/Json.hs
 GHC.Utils.Monad.Utils <= utils/MonadUtils.hs
@@ -622,6 +621,8 @@ GHC.Utils.StaticPtrTable <= main/StaticPtrTable.hs
 GHC.Utils.Error <= main/ErrUtils.hs
 GHC.Utils.CliOption <= main/CliOption.hs
 GHC.Utils.FV <= utils/FV.hs
+
+GHC.Prelude <= utils/GhcPrelude.hs
 ```
 
 * `GHC.SysTools`:
