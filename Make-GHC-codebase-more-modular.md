@@ -557,7 +557,7 @@ GHC.CmmToAsm.SPARC.Stack <= nativeGen/SPARC/Stack.hs
 
 GHC.CmmToAsm.X86 <= nativeGen/X86/CodeGen.hs
 GHC.CmmToAsm.X86.Cond <= nativeGen/X86/Cond.hs
-GHC.CmmToAsm.X86.Inst <= nativeGen/X86/Instr.hs
+GHC.CmmToAsm.X86.Instr <= nativeGen/X86/Instr.hs
 GHC.CmmToAsm.X86.Pretty <= nativeGen/X86/Ppr.hs
 GHC.CmmToAsm.X86.RegInfo <= nativeGen/X86/RegInfo.hs
 GHC.CmmToAsm.X86.Regs <= nativeGen/X86/Regs.hs
