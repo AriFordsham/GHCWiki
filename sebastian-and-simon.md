@@ -3,6 +3,7 @@
 - Paper 
   - \ctcon binds term names only. Should we also bind type vars? What about type constraints? The latter become constraints on their own.  
     - Really depends on whether we assume `Delta` to be in prenex form. We have to convert anyway when we go to nabla!
+    - The difference in scoping between Delta and Nabla means we actually have to thread aroudn two Gammas. Very weird!
     - Hence I propose to have `x ~ K as ys` as the constructor constraint. No `Theta`, no bindinig occurrences.
   - Notation: and+or   OR   union+,?
     - The way we use Delta/Nabla, it's more like a formula than a refinement type
