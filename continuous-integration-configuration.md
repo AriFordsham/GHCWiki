@@ -124,7 +124,7 @@ select `Git from the command line and also from 3rd-party software`. Also,
 ensure `core.autocrlf` is set to `false` (this can be set during installation or
 in `C:\ProgramData\Git\gitconfig` thereafter).
 
-Install msys2.
+Install both 32- and 64-bit [msys2](https://www.msys2.org/) toolchains. Under a mingw64 shell (for the 64-bit toolchain) and mingw32 shell (for the 32-bit toolchain), run the following:
 
 ```
 $ pacman -Syuu
