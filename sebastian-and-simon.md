@@ -1,32 +1,28 @@
 # Agenda
 
-- !2192: Reflect tree structure of clauses and gaurds in the syntax we check. A variant of the following:
-  - Leads to regressions in 4 test cases. Yuck
-
 - Paper 
-  - \ctcon binds term names only. Should we also bind type vars? What about type constraints? The latter become constraints on their own.
-  - It's unfortunate that constructor patterns are strict, because we have to duplicate divergence checks...
-    - Yes, do it
-  - DNF or not?
-    - Without DNF, we can't estaimte complexity and throttle. But that's just an implementation detail?!
-    - It might have repercussions on the oracle implementation, but it also might not.
-  - Gamma in Nabla 
-    - Seems unnecessary: U is purely syntactical, no Gamma needed. Gamma remains constant throughout A. Both only construct formulas, not refinement types.
+  - \ctcon binds term names only. Should we also bind type vars? What about type constraints? The latter become constraints on their own.  
+    - Really depends on whether we assume `Delta` to be in prenex form. We have to convert anyway when we go to nabla!
+    - Hence I propose to have `x ~ K as ys` as the constructor constraint. No `Theta`, no bindinig occurrences.
   - Notation: and+or   OR   union+,?
     - The way we use Delta/Nabla, it's more like a formula than a refinement type
-    - Refinement type semantics emerge when combined with Gamma. Gamma is the part left of the |, Delta/Nabla the predicate on the right
-  - Use semicolon, sequence
-  - Implementation
-  - V  
-    - judgment seems like the best option
-    - generate-and-test style (with a little guidance by Delta for instantiating to the right cons?)
-    - Without guidance potentially diverges, because we might keep on instantiating i.e. the cons constructor
-    - Fuel-based? We don't generally terminate anyway, so we need some kind of termination criterion
-    - For error messages, we want to enumerate breadth-first style, and mostly not recursively (so `_:_` instead of `_:[]`, `_:_:[]`, etc.). But for inhabitation testing that mostly doesn't matter, I think. We just have to be "sure" that there is an inhabitant.
+
+- #17676: Consolidate when to apply IO hack. Maybe rename it
 
 - #915: Specialisation through type classes/defunctionalisation
-  - #17592: Specialisation for call patterns is quite unreliable.
-  - Why not do specialisation of recursive functions instead of inlining them, as part of the simplifier? Consider separate pragma `{-# SPECIALISABLE #-}` or something
+  - #17592: Specialisation for call patterns is quite unreliable:
+    ```hs
+    f :: Maybe Bool -> Int -> Int
+    f (Just True) 0 = 1
+    f (Just True) n = f (Just True) (n-1)
+    f _ 0 = 2
+    f x n = f x (n-1)
+    
+    g x n = f (Just x) n
+    h n = g True n
+    ```
+    There are situations in which `g` has not been inlined into `h` by the time SpecConstr runs. SpecConstr will then create two specialisations: One for `(Just True, _)` (`f1`) and one for `(Just _, _)` (`f2`), the former of which is a strict specialisation of the latter. The simplifier will then rewrite the call site in `g` to `f2`. Now, at some point `g` will be inlined and we see the call site `f2 True n`, which we *could* rewrite to `f1`. But all specialisation rules only apply to `f`, so we can't do the rewrite. The solution is simply to attach a derived specialisation rule to `f2`.
+  - (Obsolete) Why not do specialisation of recursive functions instead of inlining them, as part of the simplifier? Consider separate pragma `{-# SPECIALISABLE #-}` or something
   - Pros:
     - No complicated and brittle reliance on rewrite rules
     - Like `INLINE`, the pragma is persisted throughout transformations
@@ -59,12 +55,6 @@ Those with an MR actually have code.
   - `provideEvidence` currently picks the smallest residual COMPLETE set for reports. But it doesn't consider type information! So it may indeed happen that we pick a residual COMPLETE set that looks smaller (say, size 2) and is still inhabited in favor of one that disregarding type info looks bigger (size 3) but actually only 1 is inhabited. For the same reason, we can't use `provideEvidence` as a replacement for `ensureInhabited`.
   - It *is* possible to make `provideEvidence` behave appropriately to replace `ensureInhabited`, but it's not very efficient. Also `ensureInhabited` is entirely orthogonal to what `provideEvidence` does. Think of recursive data types, for example: `provideEvidence` doesn't attempt to recurse *at all*. It just doesn't make for good warning messages.
 
-- https://gitlab.haskell.org/ghc/ghc/tree/wip/pmcheck-refactor-deltas:
-  ```
-  data Delta = Empty | And Delta PmCt | Or Delta Delta
-  ```
-  And then define `pmCheck` in terms of that.
-
 - #17378, !1765: Preserve non-void constraints  
   - Should not remove inhabitation candidate stuff just yet, newtypes...
   - Perhpas postpone test until get to RHS (pmc []), and then ask for `not (null (provideEvidence 1 delta))`
@@ -72,8 +62,7 @@ Those with an MR actually have code.
 - `data PmCt = TyCt .. | TmCt ...`; then `addPmCt :: Delta -> PmCt -> DsM Delta`  
   - Type evidence only in bulk lists, so `addPmCt` doesn't really make sense. It should be `addPmCts`, taking a bag of `PmCt`s.
 
-
-- When we have `Delta = Delta (Bag Theta)`, we can actually use the Covered set as a `Delta` for "long distance info"  
+- When we have `newtype Deltas = Deltas (Bag Delta)`, we can actually use the Covered set as a `Delta` for "long distance info"  
   - No more just positive info and the `computeCovered` duplication can go away
   - Performance-wise, we should be fine with !1752
 
@@ -85,9 +74,6 @@ Those with an MR actually have code.
 - #15532: Levity polymorphism and ANF  
   - We talked about it with Richard and came to the understanding that it would probably work, but entail refactorings of Core to Core passes which assume they can just let-bind everything.
   - Also we shouldn't worry about it until we need it. But it's a logical next step after we have unlifted datatypes, otherwise there is no chance of code re-use.
-
-- #17270: `Origin` annotations should be consistent about TH  
-  - Faintly related: #14838, #14899. Should we warn about TH? Probably guard it behind a flag. Off by default? SG thinks so. This code is generated potentially in another library by a different user. Also compiler performance
 
 ## Epics
 
@@ -137,6 +123,9 @@ Those with an MR actually have code.
 
 # Done
 
+- !2192: Reflect tree structure of clauses and gaurds in the syntax we check.
+- #17270: `Origin` annotations should be consistent about TH  
+  - Faintly related: #14838, #14899. Should we warn about TH? Probably guard it behind a flag. Off by default? SG thinks so. This code is generated potentially in another library by a different user. Also compiler performance
 - #17248, #17376, !1975: Get rid of the special case for `-XEmptyCase`. Fix handling of newtypes because of testsuite failures. Some ground work for proper non-void constraint handling.
 - #17357: Fix strictness of pattern synonyms. We came to the agreement that it's not worth the trouble and most useful pattern synonyms are strict anyway.
 
