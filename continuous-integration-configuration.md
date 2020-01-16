@@ -155,6 +155,9 @@ Install the cleanup scheduled task using [this script](https://gitlab.haskell.or
 * To improve IO performance disable creation of 8.3 filenames: `fsutil 8dot3name set 1`.
 * To improve IO performance disable last-accessed timestaping: `fsutil behavior set disablelastaccess 1`.
 * To allow the testsuite driver to use symbolic links grant `SeCreateSymbolicLinkPrivilege` to the `gitlab` user (using the `Local Security Policy` tool)
+* Add Windows Defender exclusions for the following directories:
+   * `C:\msys64`
+   * `C:\GitLabRunner`
 
 Reboot to ensure changes take effect.
 
