@@ -32,6 +32,9 @@
     - Probably quirky for complicated recursion schemes
     - How does this work for rewriting recursive call sites? Seems impossible without RULEs and thus SpecConstr. OK, that won't work
 
+- #17673: Eta-expansion, WW and NOINLINE, #17690: WW for coercions
+  - Far future: Have one unified WW for eta expansion (based on `CoreArity`), coercions (no analysis info needed) and unboxing (Strictness/CPR)?
+
 - https://github.com/ghc-proposals/ghc-proposals/pull/43 Or patterns: Potential bachelor's thesis?
   - osa1 ultimately after a long and tedious discussion gave up.
   - Why? What's needed? A formal Specification? Which part? Static or dynamic semantics?
@@ -39,10 +42,6 @@
   - I see there is https://gitlab.haskell.org/rae/haskell as a starting point, but it seems to focus entirely on static semantics. But probably the document to complete?
 
 - !2218 Unlifted data types
-  - #17521: Introduces top-level unlifted bindings for data con wrappers of nullary constructors, which appear to have been properly tagged.
-    - `IND_STATIC` and unlifted top-level bindings are fundamentally incompatible: The former doesn't allow tags, the latter needs the tag
-    - So it's not enough to augment interface files with tagging info (cf. #17004/!1530), because we can never apply it to `IND_STATIC`
-    - Hence we have to get rid of `IND_STATIC` altogether. At least for unlifted bindings, but then we can also do it for lifted ones. Andreas has an idea in https://gitlab.haskell.org/ghc/ghc/issues/16831#note_217397: Simply export the thing that we eventually point to, so that the indirection is eliminated at compile-time already.
 
 # Pattern-match checking
 
