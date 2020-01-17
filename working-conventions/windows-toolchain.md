@@ -6,10 +6,10 @@ On Windows, GHC binary distributions ship with a full C compiler/linker toolchai
 
 # Building the jailbreak utility
 
-The following assumes a Windows machine with both `msys32` and msys64` installed, each with a GCC toolchain:
+The following assumes a Windows machine with 32- and 64-bit toolchains installed:
 ```
-MSYSTEM=MINGW64 PATH=/mingw64/bin:$PATH bash -c "pacman -Suy mingw-w64-x86_64-gcc"
-MSYSTEM=MINGW32 PATH=/mingw32/bin:$PATH bash -c "pacman -Suy mingw-w64-i686-gcc"
+$ MSYSTEM=MINGW64 bash --login -c "pacman -Suy mingw-w64-x86_64-gcc"
+$ MSYSTEM=MINGW32 bash --login -c "pacman -Suy mingw-w64-i686-gcc"
 ```
 
 In an msys2 shell
@@ -18,8 +18,16 @@ In an msys2 shell
 2. `cd ghc-jailbreak`
 3. In a mingw64 shell: `make`
 4. In a mingw32 shell: `make`
-4. `tar -czf ghc-jailbreak.tar.gz {x86_64,i686}/{muxcrt.dll,phxcrt.dll,iat-patcher.exe}`
+4. `tar -czf ghc-jailbreak.tar.gz x86_64 i686`
 
 # Building the toolchain tarballs
 
-There are two pieces necessary to generate a toolchain tarball
+GHC's source tree contains a script, `mk/get-win32-tarballs.sh`, which is used to build and fetch GHC's toolchain tarballs. To build the toolchain tarballs,
+```
+$ mk/get-win32-tarballs.sh grab all
+$ rm -f ghc-tarballs/mingw-w64/*/*-phyx.*
+$ mk/get-win32-tarballs.sh patch
+$ mk/get-win32-tarballs.sh hash > mk/win32-tarballs.md5sum
+$ vim mk/get/win32-tarballs.sh
+# [edit download_tarballs() to reflect the new version numbers]
+```
