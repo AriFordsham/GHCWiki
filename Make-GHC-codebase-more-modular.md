@@ -450,7 +450,6 @@ GHC.CmmToLlvm.Regs <= llvmGen/LlvmCodeGen/Regs.hs
 * `GHC.Runtime`:
 
 ```
-GHC.Runtime.ClosureInspect <= ghci/RtClosureInspect.hs
 GHC.Runtime.Debugger <= ghci/Debugger.hs
 GHC.Runtime.Interpreter <= ghci/GHCi.hs
 GHC.Runtime.Linker <= ghci/Linker.hs
@@ -458,7 +457,8 @@ GHC.Runtime.Linker.Types <= ghci/LinkerTypes.hs
 GHC.Runtime.DynamicLoading <= main/DynamicLoading.hs
 GHC.Runtime.Eval <= main/InteractiveEval.hs
 GHC.Runtime.Eval.Types <= main/InteractiveEvalTypes.hs
-GHC.Runtime.Layout <= cmm/SMRep.hs
+GHC.Runtime.Heap.Layout <= cmm/SMRep.hs
+GHC.Runtime.Heap.Inspect <= ghci/RtClosureInspect.hs
 ```
 
 * `GHC.Driver`:
