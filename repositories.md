@@ -366,16 +366,6 @@ Here are the submodules we use, and where their upstreams point:
 
 The table above is maintained manually and can sometimes get out of sync. If in doubt, the primary data source is  the [packages](http://git.haskell.org/ghc.git/blob_plain/HEAD:/packages) file in the top-level `ghc.git` repo folder.
 
-## Testing changes
-
-The submodule references in the GHC tree pull from a set of mirrors maintained at <https://gitlab.haskell.org/ghc/packages>. Members of the `ghc` group (i.e. most GHC developers) can push branches with the prefix `wip/` to these mirrors to test their changes without merging them upstream. For instance, one might test changes in the `haddock` submodule via,
-```
-$ cd utils/contain
-$ git checkout -b wip/my-changes
-$ git remote add origin-push git@gitlab.haskell.org:ghc/haddock
-$ git push origin-push wip/my-changes
-```
-One can then push a GHC branch needing `wip/my-changes` and CI will find the commits. Note, however, that this is only for testing purposing. Before the GHC branch can be merged any submodule updates much be first merged upstream.
 
 ## `transformers`
 
