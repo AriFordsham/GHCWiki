@@ -90,6 +90,7 @@ This means that everywhere that enters either a case continuation or a non-top-l
   GC.  In this case, our re-entry arranges to enter the constructor, so we get the correct tag by
   virtue of going through the constructor entry code.
 
+## Functions (FUN closures)
 
 For a non-top-level function, the cases are:
 
@@ -107,7 +108,45 @@ In the second case, calling a known non-top-level function must pass the functio
 
 Pointers to top-level functions are not necessarily tagged, because we don't always know the arity of a function that resides in another module.  When optimisation is on, we do know the arities of external functions, and this information is indeed used to tag pointers to imported functions, but when optimisation is off we do not have this information.  For constructors, the interface doesn't contain information about the constructor tag, except that there may be an unfolding, but the unfolding is not necessarily reliable (the unfolding may be a constructor application, but in reality the closure may be a CAF, e.g. if any of the fields are references outside the current shared library).
 
-Pointers to PAPs are never tagged. If we tagged a PAP with its arity, then a function call with the correct number of arguments would assume that it could jump to the PAP's entry code to call the function, which is not the case - a PAP has no entry code, it can only be called via the generic `stg_ap_` apply functions.
+## Partial applications (PAP closures)
+
+See also the [function calls wiki page](https://gitlab.haskell.org/ghc/ghc/wikis/commentary/rts/haskell-execution/function-calls).
+
+A partial application closure (PAP) represents an unsaturated
+application of a function to one or more arguments.
+The layout of a PAP is described in the [Layout of Heap Objects](https://gitlab.haskell.org/ghc/ghc/wikis/commentary/rts/storage/heap-objects) wiki page.
+
+However PAPs are unusual in the following ways:
+
+* The info pointer of a PAP points, as always, to an info table; but
+  the entry code is "crash".  That is, a PAP should never be entered;
+  it can be called only via the generic `stg_ap_pp` functions, which
+  in turn call `stg_PAP_apply` (in `Apply.cmm`).
+
+* A pointer to a PAP is always tagged 000 in its tag-bits; that is, we
+  do not attempt to record, in the pointer, the evaluated-ness of the
+  object.
+
+A pointer to a PAP is always tagged 000.  We reserve 001, 010 etc
+for pointers to FUN closures, with the tag encoding the arity.
+The compiled code for
+```
+  revApp a f = f a
+```
+will call `stg_ap_p` (passing f and a).  This RTS function will dispatch
+on the tag of f: if it finds 001, it assumes that f points to FUN with arity 1,
+so it pust the argument in the correct register and jumps to the function's
+code.
+
+PAPs are tagged 000. So `stg_ap_p` looks in the info table to see if
+it is a thunk or a PAP (or possibly an un-tagged FUN); and behaves
+accordingly.  For a PAP it jumps to `stg_PAP_apply` in `Apply.cmm`.
+
+An alternative would be to use 111 for tagging PAPs, and make
+that an illegal tag for FUN closures.
+
+A wrinkle: see `Note [avoid intermediate PAPs]` in `GHC.StgToCmm.Layout`.
+
 
 ## Interaction with garbage collection
 
