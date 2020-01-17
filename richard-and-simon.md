@@ -106,6 +106,8 @@ We should be clear about the dependencies between items on this list.
 
 # Refactoring of existing stuff that we'd like to get done
 
+- #17698: `coVarsOfType` is almost certainly wrong
+
 - #16947: refactor `Ct` and friends.
 
 - #16982: break out `TcTyVar` into its own type.
