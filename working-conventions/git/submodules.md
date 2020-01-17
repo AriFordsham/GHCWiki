@@ -178,15 +178,27 @@ Check out the [Repositories](repositories) page for a full breakdown of all the 
 
 ## Mirror configuration
 
-GHC maintains mirrors of its core libraries in the GHC/Packages> namespace. There are a few goals for these mirrors:
+GHC maintains mirrors of its core libraries in the GHC/Packages> namespace. There are a few reasons for these mirrors:
 
- * allowing GHC contributors a place other than upstream to push their changes for testing in CI
- * allowing 
+ * to provide GHC contributors with a place other than upstream to push their changes for testing in CI
+ * to provide a level of safety against forced pushes by upstream
+ * to provide a single trusted source for GHC and its dependencies
 
-To accomplish this we configure the submodule projects quite specifically:
+To accomplish this we configure the submodule projects as follows:
 
  * The submodule project is configured with pull mirroring from the upstream repository with the "Only mirror protected branches" option enabled
  * All of the "interesting" branches we want to mirror from upstream are added as "Protected branches" (e.g. `master`, and `1.24`)
  * A push rule is added to restrict pushes to the interesting branches and `wip/.*`
 
 This ensures that commits can only be pushed to `wip/.*`, which the submodule check linter does not consider as roots.
+
+## Testing submodule changes
+
+The submodule references in the GHC tree pull from a set of mirrors maintained at <https://gitlab.haskell.org/ghc/packages>. Members of the `ghc` group (i.e. most GHC developers) can push branches with the prefix `wip/` to these mirrors to test their changes without merging them upstream. For instance, one might test changes in the `haddock` submodule via,
+```
+$ cd utils/contain
+$ git checkout -b wip/my-changes
+$ git remote add origin-push git@gitlab.haskell.org:ghc/haddock
+$ git push origin-push wip/my-changes
+```
+One can then push a GHC branch needing `wip/my-changes` and CI will find the commits. Note, however, that this is only for testing purposing. Before the GHC branch can be merged any submodule updates much be first merged upstream.
