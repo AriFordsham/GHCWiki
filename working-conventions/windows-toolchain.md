@@ -16,8 +16,9 @@ In an msys2 shell
 
 1. `git clone https://github.com/Mistuke/ghc-jailbreak`
 2. `cd ghc-jailbreak`
-3. `PATH=/mingw64/bin:$PATH bash -c make`
-4. `PATH=/mingw32/bin:$PATH bash -c make`
+3. In a mingw64 shell: `make`
+4. In a mingw32 shell: `make`
+4. `tar -czf ghc-jailbreak.tar.gz {x86_64,i686}/{muxcrt.dll,phxcrt.dll,iat-patcher.exe}`
 
 # Building the toolchain tarballs
 
