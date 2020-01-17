@@ -115,7 +115,7 @@ Note that if a Darwin runner starts failing with mysterious crashes it may be th
 
 Note: In the case of Windows builders it is important that we run only one build per machine. Unfortunately concurrent builds are simply too fragile under Windows' file locking semantics.
 
-Start with Windows Server GCE image.
+Start with Windows Server GCE image with at least 150GB of disk space.
 
 Enable long file path support by setting the registry key `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem\LongPathsEnabled` to `0x1`.
 
