@@ -42,7 +42,8 @@ These labels define the relative priority of issues. Priority here is determined
  * ~"user-facing": Denotes a merge request which changes the interface exposed by GHC or its core libraries in a user-noticeable way. Merge requests so-marked trigger the head.hackage build jobs.
  * ~"broken test": An issue due to which one or more tests in the testsuite are marked as `expect_broken`
  * ~"Trac import": Issues imported from GHC's old Trac instance
- * ~"report impact": Issues affect adherance to the [Haskell Report](/haskell-report)
+ * ~"report impact": Issues affect GHC's adherence to the [Haskell Report](/haskell-report)
+ * ~"needs CLC feedback": Issues which require feedback from the [Core Libraries Committee](https://gitlab.haskell.org/ghc/ghc/merge_requests/2479#note_247171)
 
 # Issue lifecycle
 
