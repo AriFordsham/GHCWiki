@@ -129,11 +129,14 @@ Install both 32- and 64-bit [msys2](https://www.msys2.org/) toolchains. Under a 
 ```
 $ pacman -Syuu
 $ pacman -S \
-    git tar bsdtar unzip binutils autoconf make xz \
-    curl libtool automake python python3 p7zip patch ca-certificates \
+    winpty git tar bsdtar unzip binutils autoconf make xz \
+    curl libtool automake p7zip patch ca-certificates \
     mingw-w64-$(uname -m)-gcc mingw-w64-$(uname -m)-python3-sphinx \
-    mingw-w64-$(uname -m)-tools-git
+    mingw-w64-$(uname -m)-tools-git \
+    python3 python3-pip
+$ pip install requests
 ```
+(`requests` is required for ghc/win32-tarballs> builds)
 
 Create a `gitlab` user with a password.
 [Grant](https://docs.gitlab.com/runner/faq/README.html#the-service-did-not-start-due-to-a-logon-failure-error-when-starting-service-on-windows)
