@@ -106,7 +106,9 @@ We should be clear about the dependencies between items on this list.
 
 # Refactoring of existing stuff that we'd like to get done
 
-- Consider adding breadcrumbs to `CtLoc` to record how the constraint came to be (its proof path) and, for unsolved constraints, why unsolved.  Example: matches more than one Given quantified constraint.
+- #17717: Refactor `mapType` to be like `foldType`. Should improve performance.
+
+- Consider adding breadcrumbs to `CtLoc` to record how the constraint came to be (its proof path) and, for unsolved constraints, why unsolved.  Example: matches more than one Given quantified constraint. #17718
 
 - #17698: `coVarsOfType` is almost certainly wrong
 
