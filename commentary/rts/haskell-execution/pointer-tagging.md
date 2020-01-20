@@ -127,13 +127,13 @@ However PAPs are unusual in the following ways:
   do not attempt to record, in the pointer, the evaluated-ness of the
   object.
 
-A pointer to a PAP is always tagged 000.  We reserve 001, 010 etc
-for pointers to FUN closures, with the tag encoding the arity.
+When calling a function, if the function's closure has a non-zero tag, it therefore *must* be a FUN object and we can call it by loading the arguments into registers and jumping to the closure's entry code. The tag encodes the arity.
+
 The compiled code for
 ```
   revApp a f = f a
 ```
-will call `stg_ap_p` (passing f and a).  This RTS function will dispatch
+will call `stg_ap_p_fast` (passing f and a).  This RTS function will dispatch
 on the tag of f: if it finds 001, it assumes that f points to FUN with arity 1,
 so it pust the argument in the correct register and jumps to the function's
 code.
