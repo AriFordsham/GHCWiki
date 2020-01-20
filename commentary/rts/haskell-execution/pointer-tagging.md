@@ -127,7 +127,7 @@ However PAPs are unusual in the following ways:
   do not attempt to record, in the pointer, the evaluated-ness of the
   object.
 
-When calling a function, if the function's closure has a non-zero tag, it therefore *must* be a FUN object and we can call it by loading the arguments into registers and jumping to the closure's entry code. The tag encodes the arity.
+**Invariant**: when calling a function, if the function's closure has a non-zero tag, it *must* be a FUN object (not a PAP), and the tag encodes the arity.  So we can call it by loading the arguments into registers and jumping to the closure's entry code.
 
 The compiled code for
 ```
