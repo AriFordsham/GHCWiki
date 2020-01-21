@@ -12,7 +12,21 @@ From https://gitlab.haskell.org/ghc/ghc/issues/17638#note_245760 pointing out !2
 
 ## Adding API Annotations to `Located RdrName`, 
 
-Possible approach
+### Option: GenLocated with the annotations in the location
+
+```haskell
+data ApiAnn = ApiAnn [AddApiAnn] -- ^ Annotations added by the Parser
+            | ApiAnnNotUsed      -- ^ No Annotation for generated code,
+                                 -- e.g. from TH, deriving, etc.
+        deriving (Data, Show, Eq, Ord)
+
+type LocatedA = GenLocated SrcSpanAnn
+
+data SrcSpanAnn = SrcSpanAnn { ann :: ApiAnn, locA :: SrcSpan }
+        deriving (Data, Show, Eq, Ord)
+```
+
+### Option: Pass-Specific Annotations via a phantom parameter on RdrName etc 
 
 ```haskell
 type family XRec p (f :: * -> *) = r | r -> p f
