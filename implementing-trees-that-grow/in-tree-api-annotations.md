@@ -115,9 +115,10 @@ So the above example annotations are represented as
 ```haskell
 type instance XCase          GhcPs = ApiAnn ApiAnnHsCase
 
-data ApiAnnHsCase { hsCaseAnnCase :: SrcSpan
-                  , hsCaseAnnOf   :: SrcSpan
-                  }
+data ApiAnnHsCase = ApiAnnHsCase
+      { hsCaseAnnCase :: SrcSpan
+      , hsCaseAnnOf   :: SrcSpan
+      } deriving Data
 
 data ApiAnn a = ApiAnn a         -- ^ Annotations added by the Parser
               | ApiAnnNotUsed    -- ^ No Annotation for generated code,
