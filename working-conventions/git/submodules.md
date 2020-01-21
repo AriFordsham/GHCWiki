@@ -194,7 +194,7 @@ This ensures that commits can only be pushed to `wip/.*`, which the submodule ch
 
 ## Testing submodule changes
 
-The submodule references in the GHC tree pull from a set of mirrors maintained at <https://gitlab.haskell.org/ghc/packages>. Members of the `ghc` [group](https://gitlab.haskell.org/ghc) (i.e. most GHC developers; if you are not currently a member just [ask](https://gitlab.haskell.org/ghc/ghc/wikis/mailing-lists-and-irc#mailing-lists-and-irc)) can push branches with the prefix `wip/` to these mirrors to test their changes without merging them upstream. For instance, one might test changes in the `haddock` submodule via,
+The submodule references in the GHC tree pull from a set of mirrors maintained at <https://gitlab.haskell.org/ghc/packages> (except for Haddock, which is at `https://gitlab.haskell.org/ghc/haddock` directly; no `packages`). Members of the `ghc` [group](https://gitlab.haskell.org/ghc) (i.e. most GHC developers; if you are not currently a member just [ask](https://gitlab.haskell.org/ghc/ghc/wikis/mailing-lists-and-irc#mailing-lists-and-irc)) can push branches with the prefix `wip/` to these mirrors to test their changes without merging them upstream. For instance, one might test changes in the `haddock` submodule via,
 ```
 $ cd utils/contain
 $ git checkout -b wip/my-changes
