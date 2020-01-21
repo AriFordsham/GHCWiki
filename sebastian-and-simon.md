@@ -8,7 +8,20 @@
   - Notation: and+or   OR   union+,?
     - The way we use Delta/Nabla, it's more like a formula than a refinement type
 
-- #17676: Consolidate when to apply IO hack. Maybe rename it
+- #17676: Consolidate when to apply IO hack. Maybe rename it  
+  - Does it make sense to re-use `expr_ok`? It returns `False` for `Tickish` things, for example.
+  - Also the check for the right type is already pretty sensitive and will rule out many false positives.
+
+- Newtypes and ⊥ constraints: Is `⊥ ~ NT _` `Disjoint` or `PossiblyOverlap`ping? Probably the latter.
+  - But we only ever add `x ~ ⊥` when checking for divergence, after which don't pass the resulting Delta on. Thus we never have to preserve it, because there is no way we would add `x /~ ⊥` *after* we added `x ~ ⊥`.
+  - The other way round is very much possible, though. So we need to preserve `x /~ ⊥`. But for newtypes, satisfiability of that constraint depends on the field. so if we have `x ~ NT y`, `x /~ ⊥`, we might not detect that `y ~ ⊥` is impossible!
+
+- !1427:
+  - What is there left to do? For review:
+      1. Show `Cpr` module
+      2. See how it simplifies `Demand`, but also means we have the bottom of `Divergence` separate from the bottom of `Cpr`
+      3. No need for the `TopLevelFlat` in `DmdAnal` anymore. Also gets rid of some trimming logic, which ends up in `CprAnal`. TODO: There is probably room left for more simplification to `DmdAnal`
+      4. `WorkWrap` functions need to consider `Divergence` and `CprResult` separately
 
 - #915: Specialisation through type classes/defunctionalisation
   - #17592: Specialisation for call patterns is quite unreliable:
