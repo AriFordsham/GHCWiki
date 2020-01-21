@@ -10,9 +10,9 @@ Current open questions are
 
 From https://gitlab.haskell.org/ghc/ghc/issues/17638#note_245760 pointing out !2315, consider using `XRec`.
 
-## Adding API Annotations to `Located RdrName`, 
+## Adding API Annotations to `Located RdrName`
 
-### Option: GenLocated with the annotations in the location
+### Option: AL - GenLocated with the annotations in the location
 
 ```haskell
 data ApiAnn = ApiAnn [AddApiAnn] -- ^ Annotations added by the Parser
@@ -26,7 +26,7 @@ data SrcSpanAnn = SrcSpanAnn { ann :: ApiAnn, locA :: SrcSpan }
         deriving (Data, Show, Eq, Ord)
 ```
 
-### Option: Pass-Specific Annotations via a phantom parameter on RdrName etc 
+### Option: BL - Pass-Specific Annotations via a phantom parameter on RdrName etc 
 
 ```haskell
 type family XRec p (f :: * -> *) = r | r -> p f
@@ -82,3 +82,46 @@ baz (L _ (Exp1 ln)) = 4
 ```
 
 See the origin (standalone) file for this at [Extension.hs](uploads/d8c2264fbabafa75275ffd52f9de4dbf/Extension.hs). It can be loaded with a `hie.yaml` containing `cradle: {direct: { arguments: ["-package ghc"]} }`.
+
+## How to represent annotations on TTG Extension points
+
+### Option AX - Use same mechanism as now, a list of annotations
+
+```haskell
+data HsExpr p
+...
+  | HsCase      (XCase p)
+                (LHsExpr p)
+                (MatchGroup p (LHsExpr p))
+
+type instance XCase          GhcPs = ApiAnn
+
+data ApiAnn = ApiAnn [AddApiAnn] -- ^ Annotations added by the Parser
+            | ApiAnnNotUsed      -- ^ No Annotation for generated code,
+                                 -- e.g. from TH, deriving, etc.
+        deriving (Data, Show, Eq, Ord)
+
+data AddApiAnn = AddApiAnn AnnKeywordId SrcSpan
+```
+
+In the parser we add `ApiAnn [AddApiAnn AnnCase loc1, AddApiAnn AnnOf loc2]` to the `HsCase` `(XCase p)` extension point.
+
+This approach has the advantage of allowing uniform treatment of the annotations. Which may not be particularly useful in practice.
+
+### Option BX - use additional data types for the extension point annotations.
+
+So the above example annotations are represented as
+
+```haskell
+type instance XCase          GhcPs = ApiAnn ApiAnnHsCase
+
+data ApiAnnHsCase { hsCaseAnnCase :: SrcSpan
+                  , hsCaseAnnOf   :: SrcSpan
+                  }
+
+data ApiAnn a = ApiAnn a         -- ^ Annotations added by the Parser
+              | ApiAnnNotUsed    -- ^ No Annotation for generated code,
+                                 -- e.g. from TH, deriving, etc.
+```
+
+I think the AL / BX combination is probably the most sensible.  What other options?
