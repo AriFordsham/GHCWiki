@@ -22,7 +22,7 @@ In order to be able to build GHC from source, the following ports have to be ins
 - [devel/hs-happy](http://www.freshports.org/devel/hs-happy) (happy)
 - [ftp/curl](http://www.freshports.org/ftp/curl) (HTTP support for git)
 - [lang/ghc](http://www.freshports.org/lang/ghc) (bootstrap compiler, usually tracking Haskell Platform specifications)
-- [lang/python37](http://www.freshports.org/lang/python27) (Python, for the test suite)
+- [lang/python37](http://www.freshports.org/lang/python37) (Python, for the test suite)
 - [math/gmp](http://www.freshports.org/math/gmp) (GNU GMP)
 
 
