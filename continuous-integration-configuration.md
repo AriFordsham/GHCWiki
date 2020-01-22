@@ -37,35 +37,29 @@ See the `ci-worker.nix` expression in the ghc/ghc-servers> repository. This modu
 where `NAME` is a descriptive name, `CORES` is the core count of the machine, and `TOKEN` is a runner token produced by `gitlab-runner register`.
 
 ## Non-NixOS
-A sample configuration:
-```toml
-concurrent = 1                    # <---- Set
-check_interval = 0
 
-[session_server]
-  session_timeout = 1800
+You will need to determine the following things before registering your runner:
 
-[[runners]]
-  name = "centriq.haskell.org"    # <---- Set
-  url = "https://gitlab.haskell.org/"
-  token = "TOKEN"                 # <---- Set
-  executor = "docker"
-  environment = ["CPUS=16"]       # <---- Set
-  output_limit = 16000            # <---- Set
-  [runners.docker]
-    tls_verify = false
-    image = "ghcci/aarch64-linux-deb9:0.1"
-    privileged = false
-    disable_entrypoint_overwrite = false
-    oom_kill_disable = false
-    disable_cache = false
-    volumes = ["/cache"]
-    shm_size = 0
-  [runners.cache]
-    [runners.cache.s3]
-    [runners.cache.gcs]
+* `$name`: a friendly name of the runner; typically either a fully-qualified hostname or something like `gce-windows-3`
+* `$jobs`: how many concurrent jobs the runner should run at once
+* `$cores`: how many cores each of these jobs should take. `$cores * $jobs` should be less than or equal to the logical core count of the machine.
+* `$token`: the current GitLab registration token. Note that these can be used only once. You can ask @bgamari for this.
+* `$tags`: the set of [tags](#job-tags) which apply to the runner.
 
+With this information in hand (and `gitlab-runner` installed) you can register your runner by running:
 ```
+$ gitlab-runner register \
+    --non-interactive \
+    --registration-token $token \
+    --output-limit 16000 \
+    --url https://gitlab.haskell.org/ \
+    --tag-list $tags \
+    --env CORES=$cores \
+    --request-concurrency $jobs \
+    --executor docker \
+    --docker-image debian/stretch
+```
+
 
 Also add a cron job to prune things:
 ```bash
