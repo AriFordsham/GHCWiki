@@ -22,8 +22,7 @@ In order to be able to build GHC from source, the following ports have to be ins
 - [devel/hs-happy](http://www.freshports.org/devel/hs-happy) (happy)
 - [ftp/curl](http://www.freshports.org/ftp/curl) (HTTP support for git)
 - [lang/ghc](http://www.freshports.org/lang/ghc) (bootstrap compiler, usually tracking Haskell Platform specifications)
-- [lang/perl5.16](http://www.freshports.org/lang/perl5.16) (Perl)
-- [lang/python27](http://www.freshports.org/lang/python27) (Python, for the test suite)
+- [lang/python37](http://www.freshports.org/lang/python27) (Python, for the test suite)
 - [math/gmp](http://www.freshports.org/math/gmp) (GNU GMP)
 
 
@@ -41,14 +40,10 @@ In addition to the required ones, there are some further ports to install for ex
 - [devel/hs-hasktags](http://www.freshports.org/devel/hs-hasktags) (for generating HTAGS files)
 - [devel/ncurses](http://www.freshports.org/devel/ncurses) (for a more up-to-date version for the `terminfo` library, see Notes)
 - [lang/gcc](http://www.freshports.org/lang/gcc) (for GCC 4.6 or later, see Notes)
-- [print/dvipsk-tetex](http://www.freshports.org/print/dvipsk-tetex) (for PDF documentation)
 - [print/hs-hscolour](http://www.freshports.org/print/hs-hscolour) (for HsColourized Haddock documentation)
-- [textproc/dblatex](http://www.freshports.org/textproc/dblatex) (for PDF documentation)
-- [textproc/docbook-xsl](http://www.freshports.org/textproc/docbook-xsl) (for XML documentation)
-- [textproc/libxslt](http://www.freshports.org/textproc/libxslt) (for XML documentation)
+- [py37-sphinx](http://www.freshports.org/devel/py37-sphinx) (for the users guide)
 
 ## Running `configure`
-
 
 FreeBSD stores locally installed third-party software (i.e. the ports mentioned above) under a separate prefix, called `LOCALBASE` here, which is `/usr/local/` by default.  Thus the preferred way of invoking the `configure` script is as follows.
 
