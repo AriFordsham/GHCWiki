@@ -47,7 +47,7 @@ check_interval = 0
 
 [[runners]]
   name = "centriq.haskell.org"    # <---- Set
-  url = "https://gitlab.staging.haskell.org/"
+  url = "https://gitlab.haskell.org/"
   token = "TOKEN"                 # <---- Set
   executor = "docker"
   environment = ["CPUS=16"]       # <---- Set
