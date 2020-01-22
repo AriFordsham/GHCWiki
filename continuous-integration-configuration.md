@@ -49,7 +49,7 @@ You will need to determine the following things before registering your runner:
 With this information in hand (and `gitlab-runner` installed) you can register your runner by running:
 ```
 $ gitlab-runner register \
-    --description $name
+    --description $name \
     --non-interactive \
     --registration-token $token \
     --output-limit 16000 \
