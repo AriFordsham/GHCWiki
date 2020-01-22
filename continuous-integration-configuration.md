@@ -44,7 +44,7 @@ You will need to determine the following things before registering your runner:
 * `$jobs`: how many concurrent jobs the runner should run at once
 * `$cores`: how many cores each of these jobs should take. `$cores * $jobs` should be less than or equal to the logical core count of the machine.
 * `$token`: the current GitLab registration token. Note that these can be used only once. You can ask @bgamari for this.
-* `$tags`: the set of [tags](#job-tags) which apply to the runner.
+* `$tags`: the set of [tags](#job-tags) which apply to the runner (probably `x86_64-linux`)
 
 With this information in hand (and `gitlab-runner` installed) you can register your runner by running:
 ```
