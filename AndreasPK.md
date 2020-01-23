@@ -86,3 +86,9 @@ Both are related to #16970, implementing #16970 will also fix both of these.
 ### Other smaller issues:
 
 See the issues tagged with [`pointer tagging` on the tracker](https://gitlab.haskell.org/ghc/ghc/issues?scope=all&utf8=%E2%9C%93&state=opened&label_name[]=pointer%20tagging).
+
+## GHC API
+
+### Using the API to compile a String to Core
+
+https://gist.github.com/AndreasPK/0c7ec8a6f01974c92271e54133a7aad0
