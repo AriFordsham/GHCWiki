@@ -41,6 +41,7 @@ Pointer tagging in GHC (various tickets, see below).
 * #17242 Use dataToTag# for Eq instances
 * #17240 Code duplication for code evaluating arguments.
 * #1257 - Support unboxed tuples in GHCi/bytecode.
+* #13763 - Runtime (register alloc?) regression
 
 Most things [runtime performance related](https://gitlab.haskell.org/ghc/ghc/issues?scope=all&utf8=%E2%9C%93&state=opened&label_name[]=runtime%20perf)
 
