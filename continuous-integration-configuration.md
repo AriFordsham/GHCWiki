@@ -100,6 +100,8 @@ Install Homebrew.
 $ brew install autoconf automake python3 wget
 ```
 
+Note that we require `sphinx >= 2.3.1` under Python 3.
+
 Install `gitlab-runner` according to
 <https://docs.gitlab.com/runner/install/osx.html>.
 
