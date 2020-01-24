@@ -11,6 +11,8 @@
 - #17676: Consolidate when to apply IO hack. Maybe rename it  
   - Does it make sense to re-use `expr_ok`? It returns `False` for `Tickish` things, for example.
   - Also the check for the right type is already pretty sensitive and will rule out many false positives.
+  - And ad-hoc thing seems like the best solution, until we can infer `x` results in strictness analysis
+  - New lattice: `b < <nothing> < x`
 
 - Newtypes and ⊥ constraints: Is `⊥ ~ NT _` `Disjoint` or `PossiblyOverlap`ping? Probably the latter.
   - But we only ever add `x ~ ⊥` when checking for divergence, after which don't pass the resulting Delta on. Thus we never have to preserve it, because there is no way we would add `x /~ ⊥` *after* we added `x ~ ⊥`.
