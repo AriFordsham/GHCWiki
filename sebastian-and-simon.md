@@ -16,6 +16,7 @@
   - But we only ever add `x ~ ⊥` when checking for divergence, after which don't pass the resulting Delta on. Thus we never have to preserve it, because there is no way we would add `x /~ ⊥` *after* we added `x ~ ⊥`.
   - The other way round is very much possible, though. So we need to preserve `x /~ ⊥`. But for newtypes, satisfiability of that constraint depends on the field. so if we have `x ~ NT y`, `x /~ ⊥`, we might not detect that `y ~ ⊥` is impossible! #17725
   -  I think we should rather store the coercion in the `SharedIdEnv`
+  - Problem: How to solve `x ~ y` when `r1 <| co1` represents `x` and `r2 <| co2` represents `y`?
 
 - !1427:
   - What is there left to do? For review:
