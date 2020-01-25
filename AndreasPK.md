@@ -43,6 +43,13 @@ Pointer tagging in GHC (various tickets, see below).
 * #1257 - Support unboxed tuples in GHCi/bytecode.
 * #13763 - Runtime (register alloc?) regression
 
+#### Maybe eventually list
+
+* #15808 GHC Linker woes
+* #16351 Constant folding for bit operations
+
+
+
 Most things [runtime performance related](https://gitlab.haskell.org/ghc/ghc/issues?scope=all&utf8=%E2%9C%93&state=opened&label_name[]=runtime%20perf)
 
 ### Out of the above these have likely bounded time requirements
