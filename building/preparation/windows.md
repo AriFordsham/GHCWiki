@@ -99,7 +99,7 @@ Run
 ```
 arch=x86_64 # or i386
 bitness=64 # or 32
-curl -L https://downloads.haskell.org/~ghc/8.6.5/ghc-8.6.5-${arch}-unknown-mingw32.tar.xz | tar -xJ -C /mingw${bitness} --strip-components=1
+curl -L https://downloads.haskell.org/~ghc/8.8.2/ghc-8.8.2-${arch}-unknown-mingw32.tar.xz | tar -xJ -C /mingw${bitness} --strip-components=1
 ```
 
 
@@ -108,12 +108,22 @@ Note: `--strip-components=1` places everything within the archive's `ghc-8.6.5` 
 
 Building GHC requires [Alex](http://www.haskell.org/alex/) and [ Happy](http://www.haskell.org/happy/).  They can be installed using `cabal-install`. We will also put them in `/usr/local/bin`, which is by default included in `PATH` in MSYS.
 
+For newer Cabal 3.* using v2-style install
 ```
-mkdir -p /usr/local/bin &&
-curl -L https://downloads.haskell.org/cabal/cabal-install-2.4.1.0/cabal-install-2.4.1.0-${arch}-unknown-mingw32.zip | bsdtar -xzf- -C /usr/local/bin &&
-cabal update &&
+mkdir -p /usr/local/bin
+curl -L https://downloads.haskell.org/cabal/cabal-install-3.0.0.0/cabal-install-3.0.0.0-${arch}-unknown-mingw32.zip | bsdtar -xzf- -C /usr/local/bin
+cabal update
+cabal install -j --installdir=/usr/local/bin --install-method=copy alex happy
+```
+
+For older Cabal 2.* using v1-style install
+```
+mkdir -p /usr/local/bin
+curl -L https://downloads.haskell.org/cabal/cabal-install-2.4.1.0/cabal-install-2.4.1.0-${arch}-unknown-mingw32.zip | bsdtar -xzf- -C /usr/local/bin
+cabal update
 cabal install -j --prefix=/usr/local alex happy
 ```
+
 
 ## V. Build!
 
