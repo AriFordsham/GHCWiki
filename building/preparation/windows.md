@@ -113,7 +113,7 @@ For newer Cabal 3.* using v2-style install
 mkdir -p /usr/local/bin
 curl -L https://downloads.haskell.org/cabal/cabal-install-3.0.0.0/cabal-install-3.0.0.0-${arch}-unknown-mingw32.zip | bsdtar -xzf- -C /usr/local/bin
 cabal update
-cabal install -j --installdir=/usr/local/bin --install-method=copy alex happy
+cabal install -j --installdir=/usr/local/bin --install-method=copy alex happy hscolour
 ```
 
 For older Cabal 2.* using v1-style install
@@ -121,8 +121,10 @@ For older Cabal 2.* using v1-style install
 mkdir -p /usr/local/bin
 curl -L https://downloads.haskell.org/cabal/cabal-install-2.4.1.0/cabal-install-2.4.1.0-${arch}-unknown-mingw32.zip | bsdtar -xzf- -C /usr/local/bin
 cabal update
-cabal install -j --prefix=/usr/local alex happy
+cabal install -j --prefix=/usr/local alex happy hscolour
 ```
+
+hscolour is optional for building documentation with source links.
 
 
 ## V. Build!
