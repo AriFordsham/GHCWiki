@@ -1,756 +1,143 @@
 # Handling of Source Locations in Trees that Grow
 
-- Relevant ticket: #15495
+This wikipage describes a design for putting source locations inside an *extension point* of TTG.
 
-## Problem
+The short summary is: We don't always need exactly `SrcLoc` (`Located`), so it must live inside an extension point. This extension point is realized as a type family `XRec`.
 
+This wiki page was overhauled. If you came here via a link, a very similar design to this was called 'Solution D' in the previous version (see the version history).
 
-The current design of [TTG HsSyn AST](https://gitlab.haskell.org/trac/ghc/wiki/ImplementingTreesThatGrow/TreesThatGrowGuidance) in GHC stores source locations for terms of a datatype `Exp` in a separate wrapper datatype `LExp` which is mutually recursive with `Exp` such that every recursive reference to `Exp` is done **indirectly**, via a reference to the wrapper datatype `LExp` (see the example code below). We refer to this style of storing source locations as the ping-pong style.
+## Design
 
+We model this extension point as a type family we call `XRec`:
+```hs
+type family XRec p a
+type instance XRec (GhcPass p) a = Located a
+-- possibly in the future:
+type instance XRec TemplateHaskell a = a
+```
+(Note: This type family doesn't do any recursion, despite the name. For name bikeshedding, see #17587.)
 
-Besides the indirection and the resulting complications of the ping-pong style, there are two key problems with it: 
+Wherever we used `Located` in the AST previously, we now use `XRec pass`:
+```diff
+-type LConDecl pass = Located (ConDecl pass)
++type LConDecl pass = XRec pass (ConDecl pass)
 
-1. It bakes-in the source locations in the base TTG AST, forcing all instances to store source locations, even if they don't need them.
-  For example, TH AST does not carry source locations. 
-
-1. It results in a form of conceptual redundancy: source locations are tree decorations and they belong in the extension points.
-  (see [TTG Guidance](https://gitlab.haskell.org/trac/ghc/wiki/ImplementingTreesThatGrow/TreesThatGrowGuidance))
-
-## Solutions
-
-
-The key solution is to move source locations to the extension points, remove the indirection (e.g., the wrapper datatype `LExp`) altogether, and update the related code (e.g., functions over `Exp`) accordingly. There are a couple of ways to implement such a solution:
- 
-
-1. We put the source locations in the new constructor extension, similar in spirit to the current `Located`.
-1. We put the source locations in the new field extensions and use a typeclass to set/get the locations.
-1. We improve on 1. by recovering the ping-pong style for its favorable type safety, still inside the same TTG encoding, by making sure that `XPat` is only possible in `LPat` and not in plain `Pat`.
-1. We call a type family in `LPat` that expands to `Located Pat` for `GhcPass`es and to `Pat` otherwise.
-
-
-In the implementation, we have settled on the solution A, mainly as it avoids the clutter: handling of source locations is done once per data type rather than once in every constructor.
-A list of the pros and cons, a sample code demonstrating the problem and the two solutions follows.
-
-
-There are also two related design choices (rather orthogonal design to the problem of where to store the locations):
-
-- The old wrapper `Located a` with the constructor `L :: SrcSpan -> a -> Located a` can no longer be used to wrap syntactic entities (expressions, patterns, etc) with locations, what should be done instead?
-  For example, before, in the ping-pong style,  for some expression `e :: HsExpr p` and `span1, span2 :: SrcSpan` we had 
-
-  ```
-  L span1 (HsPar noExt (L span2 e)) :: Located (HsExpr p)
-  ```
-
-  or at the same time, for some `p :: Pat p` and `span1 , span2 :: SrcSpan` we had 
-
-  ```
-  L span1 (ParPat noExt (L span2 p)) :: Located (Pat p)
-  ```
-
-  and we could have a function like
-
-  ```
-  sL1 :: Located a -> b -> Located b
-  sL1 (L sp _) = L sp
-  ```
-
-  Notice how `L` in the ping-pong style above is used to generically wrap both expressions and patterns with source locations. 
-  Such a generic use of `L` in the ping-pong style is possible as we hard-coded `Located` into the definition of the trees, that we specifically want to avoid such hardcodings in the trees.
-  For example, before, in the ping-pong style, we had
-
-  ```
-  data HsExpr p = ... | HsPar (XPar p) (Located (HsExpr p)) | ...
-  ```
-
-  and 
-
-  ```
-  data Pat p = ... | ParPat (XParPat p) (Located (Pat p)) | ...
-  ```
-
-  In the TTG style (both solutions A and B), we won't have such a generic data constructor `L`, as`Located` won't be baked into the definition of trees.
-  For example, we will have
-
-  ```
-  data HsExpr p = ... | HsPar (XPar p) (HsExpr p) | ...
-  ```
-
-  and 
-
-  ```
-  data Pat p = ... | ParPat (XParPat p) (Pat p) | ...
-  ```
-
-  and to retain the genericity offered by baking-in `Located` (e.g., to be able to write generic functions like `sL1`, that are many), we need to resort to overloading either by directly
-  using methods of a setter/getter typeclass, that we refer to as `HasSrcSpan`, or a pattern synonym to simulate `L` using the setter/getter methods.
-  For example, we will have a typeclass
-
-  ```
-  type family SrcSpanLess a
-  class HasSrcSpan a where
-    composeSrcSpan   :: (SrcSpanLess a , SrcSpan) -> a
-    decomposeSrcSpan :: a -> (SrcSpanLess a , SrcSpan)
-    {- laws:
-       composeSrcSpan . decomposeSrcSpan = id
-       decomposeSrcSpan . composeSrcSpan = id
-    -}  
-  ```
-
-  (or, 
-
-  ```
-  type family SrcSpaned a
-  class HasSrcSpan a where
-    composeSrcSpan   :: (a , SrcSpan) -> SrcSpaned a
-    decomposeSrcSpan :: SrcSpaned a -> (a , SrcSpan)
-    {- laws:
-       composeSrcSpan . decomposeSrcSpan = id
-       decomposeSrcSpan . composeSrcSpan = id
-    -}  
-  ```
-
-  )
-  and possibly a pattern synonym
-
-  ```
-  pattern LL :: HasSrcSpan a => SrcSpan -> SrcSpanLess a -> a
-  pattern LL s m <- (decomposeSrcSpan -> (m , s))
-    where
-          LL s m =  composeSrcSpan (m , s)
-  ```
-  so by providing instances for `HasSrcSpan` (by either Solution A or Solution B), for some expression `e :: HsExpr (GhcPass p)` and `span1, span2 :: SrcSpan`, we will have
-  ```
-  LL span1 (HsPar noExt (LL span2 e)) :: HsExpr (GhcPass p)
-  ```
-  or at the same time, for some `p :: Pat (GhcPass p)` and `span1 , span2 :: SrcSpan` we had 
-  ```
-  LL span1 (ParPat noExt (LL span2 p)) :: Pat (GhcPass p)
-  ```
-  and we could have a function like
-  ```
-  sL1 :: (HasSrcSpan a , HasSrcSpan b) => a -> SrcSpanLess b -> b
-  sL1 (LL sp _) = LL sp
-  ```
-
-- Although we assume typefamily instances are nested (to help with resolving constraint solving), we may, or may not, assume that these extension typefamily instances for GHC-specific decorations are closed.
-
-  For example, instead of a list of open type family instances
-  ```
-  type instance XApp (GHC p) = XAppGHC p
-  type family   XAppGHC (p :: Phase)
-  type instance XAppGHC Ps = ()
-  type instance XAppGHC Rn = ()
-  type instance XAppGHC Tc = Type
-  ```
-  we can have
-  ```
-  type instance XApp (GHC p) = XAppGHC p
-  type family   XAppGHC (p :: Phase) where
-                XAppGHC Ps = ()
-                XAppGHC Rn = ()
-                XAppGHC Tc = Type
-  ```
-  The closed type family solution is elegant and solves some of the constraint solving problems in place (see the commented section in type class instance of solution B). However, the closed typed family solution couples together the code from different passes of the compiler, e.g., the definition of a parser with the type `parseExp :: String -> M (HsExpr (Ghc Ps))` (for some parsing monad `M`) refers to the closed type family `XAppGHC` which refers to the definition `Type` that is not relevant to the parsing phase. We want the parser and other machineries within GHC front-end (e.g., the pretty-printer) to not to be GHC-specific (e.g., depending on `Type`, or even core via `Tickish`!).
-
-
-## Pros & Cons
-
-### Solution A: the source locations in the new constructor extension
-
-
-Pros:
-
-- It makes it easy to omit locations altogether (see the notes about "Generated" code).
-  This is a Good Thing.
-- It makes it easy to store fewer locations (e.g. one location for `(f x y z)`, 
-  rather than one for `(f x y z)`, one for `(f x y)`, and one for `(f x)`).
-- It's easy to add the current location to the monad
-  ```
-  f (XNew loc e) = setSrcSpan loc $ f e
-  ```
-  Simple, elegant!
-
-
-
-Cons:
-
-- At the binding site of a variable we know that we \*always\* have a location, and we can put that in its Name.  If locations were more optional, that would not be so true.
-- Type safety: There are functions like `collectEvVarsPat` and `hsPatType` which return wrong results or crash when passed an `XPat`. Which the type-checker can't detect, since `type LPat = Pat`.
-- There are two indirections instead of only one for the GHC case compared to `type LPat = Located Pat`: One for the `XPat` and one for `L`.
-- `HasSrcSpan` and `dL->L` view pattern business instead of just plain matching on the `L` constructor
-
-### Solution B: the source locations in the new field extensions
-
-Pros:
-
-
-- TODO 
-
-
-Cons:
-
-- An instance of `HasSpan` should be defined per datatype which requires a large pattern matching over datatype
-- Handling of the source locations should be done once per constructor
-- When constructing/generating terms the first field of the constructors should explicitly mention the source location (see the `par` function in the Solution A's code, where the first field of `Par` should have a `SrcSpan`, even though a dummy one.)
-
-### Solution C: Improving A by re-introducing ping-pong style for type safety
-
-This is implemented in !1925. The gist was to define
-
-```haskell
-data Loc p
-type LPat p = Pat (Loc p)
+data ConDecl pass
+  = ConDeclGADT { ... }
+  | ConDeclH98
+      { ...
+-      , con_name :: Located (IdP pass)
++      , con_name :: XRec pass (IdP pass)
+      ...
+      }
 ```
 
-and then have
+When we have an `LHsDecl (GhcPass p)` this yields the same AST as before, which makes refactoring much easier.
 
+The idea of this refactoring is that `XRec pass` really just replaces the usage of `Located` across the AST everywhere,
+this can be inside the `LHs*` type synonyms or record fields.
+Remember: We have to replace every `Located` in the AST to achieve the goal of moving `SrcLoc`s to an extension point.
 
-```haskell
-type instance XWildPat = NoExtField
-...
-type instance XPat GhcTc = NoExtCon
+---
 
-type instance XWildPat (Loc p) = NoExtCon
-...
-type instance XPat (Loc p) = Located (Pat p)
+Here are some other usecases of `XRec` across the AST:
+```hs
+type HsDeriving pass = XRec pass [LHsDerivingClause pass]
+
+type LHsDerivingClause pass = XRec pass (HsDerivingClause pass)
+
+-- essentially expanding to:
+type HsDeriving pass = XRec pass [XRec pass (HsDerivingClause pass)]
 ```
+(`Located` could be interlieved with other functors (e.g. `[]`) before wrapping anything GHC AST again.)
 
-Pros:
-
-- Same type safety guarantees as ping-pong style. No way to forget to attach a `SrcLoc` to an `LPat`, no way to forget to match on `XPat` in `Pat` position (think of legacy code like `collectEvVarsPat` that would be broken)
-- Mostly same performance guarantees as solution A for GHC code
-
-Cons:
-
-- Two indirections (`XPat`, `Located`) to traverse in the GHC AST. The same as solution A, but we don't have the cleverness in the `HasSrcSpan` instance that can get rid of `XPat`s wrapping a `noSrcLoc`. Also this is strictly worse than the `type LPat = Located Pat` approach.
-- An unnecessary indirection in case we re-use the AST for TH: Every `LPat` must be an `XPat`, which would just carry a `Pat` again for TH. Ping-pong without a point.
-
-### Solution D
-
-Have `type LPat = Located Pat` for GHC passes (so what we used to have) and `type LPat = Pat` for other passes, by using a type family `WrapL` that only inserts `Located` in GHC passes.
-
-Pros:
-
-- The old ping-pong style! Type safety!
-- Only one indirection in recursive `LPat` cases (the `Located` constructor) in the GHC case compared to two for solutions A and C.
-- Zero indirections for TH. No need to bother with `Located` at all.
-- Since this is just the old ping-pong style, there's no need for `HasSrcSpan`/`dL->L` view patterns, which I consider a boon. It's just plain matching on the `L` constructor again!
-
-Cons:
-
-- Potential trouble with inference of type family arguments. The `WrapL` type family has to be injective, which can be guaranteed in practice
-- 
-
-## An example to illustrate
-
-
-To explain the design choices, we use a simple language of expressions. Here are the base definitions in [TTG style](implementing-trees-that-grow/trees-that-grow-guidance):
-
-
+```hs
+data HsDataDefn pass
+  = HsDataDefn { ...
+                 dd_cType  :: Maybe (XRec pass CType),
+                 ...
+               }
 ```
-{-# OPTIONS_GHC -Wall #-}
-{-# LANGUAGE TypeFamilies #-}
-module TTG where
+(`Located` was sometimes wrapped around non-AST data like `CType` or simply `Bool`)
 
--- ----------------------------------------------
--- AST Base
--- ----------------------------------------------
-data Exp x
-  = Var (XVar x) (XId x)
-  | Abs (XAbs x) (XId x) (Exp x)
-  | App (XApp x) (Exp x) (Exp x)
-  | Par (XPar x) (Exp x)
-  | New (XNew x) -- The extension constructor
+---
 
-type family XVar x
-type family XAbs x
-type family XApp x
-type family XPar x
-type family XNew x
-type family XId  x
-```
+## Motivation
 
+* We want to have an AST that can be used for both TH and normal Hs, for example. This means we need to store source locations in an extension point of TTG ([trees that grow](https://gitlab.haskell.org/ghc/ghc/wikis/implementing-trees-that-grow)).
+* In #15495 we agreed that the currently available extension points in TTG don't suffice to annotate the AST with `SrcLoc`s in a satisfyingly type-safe manner: Something akin to ['Ping-pong' style](#ping-pong-style) is desireable.
+* Using a type family `XRec` instead of `Located` enables the extension points to carry source locations, or not, or even something else, everywhere that `Located` would be used today.
 
-with some basic GHC-specific types defined as
-
-
-```
-{-# OPTIONS_GHC -Wall -fno-warn-unticked-promoted-constructors #-}
-{-# LANGUAGE TypeFamilies , DataKinds, EmptyDataDeriving, EmptyCase #-}
-module BasicGHCTypes where
-
--- ----------------------------------------------
--- GHC-Specific Declarations
--- ----------------------------------------------
-data Phase = Ps | Rn | Tc
-data GHC (p :: Phase)
-
-data TH
-
-data NoExt = NoExt
-data NoNewCon
-
-noNewCon :: NoNewCon -> a
-noNewCon x = case x of {}
-
-data RdrName    -- = the definition of RdrName
-data Name       -- = the definition of Name
-data Id         -- = the definition of Id
-data Type       -- = the definition of SrcSpan
-data UnboundVar -- = the definition of UnboundVar
-data SrcSpan    -- = the definition of SrcSpan
-  deriving Eq
-
-data Located a = L SrcSpan a
-
-noSrcSpan :: SrcSpan
-noSrcSpan = undefined -- an empty SrcSpan
-
-type family   XAppGHC (p :: Phase)
-type instance XAppGHC Ps = NoExt
-type instance XAppGHC Rn = NoExt
-type instance XAppGHC Tc = Type
-
-type family   XNewGHC (p :: Phase)
-type instance XNewGHC Ps = NoNewCon
-type instance XNewGHC Rn = UnboundVar
-type instance XNewGHC Tc = UnboundVar
-
-type family   XIdGHC  (p :: Phase)
-type instance XIdGHC  Ps = RdrName
-type instance XIdGHC  Rn = Name
-type instance XIdGHC  Tc = Id
-
--- NB: if GHC later wants to add extension fields to (say)
--- XAbs, we can just redefine XAbs (GHC p) to be more like
--- the XApp case
-```
-
-
-Notice that the payload of the `Var` constructor is of type `XId x`. For
-GHC, `x` will be instantiated to `GHC p`, and `XId` has a `type instance` that
-delegates to `XIdGHC p`.  The latter can be defined by a nice *closed* type
-family.
-
-### Ping-pong style
-
-
-Here is a representation of lambda expressions in the ping-pong style.
-Unfortunately, this forces us to redefine the base TTG data type for e.g. TH,
-forcing it into ping-pong style, which is why we don't like it for the reasons mentioned above.
-
-
-```
-{-# OPTIONS_GHC -Wall -fno-warn-unticked-promoted-constructors #-}
-{-# LANGUAGE TypeFamilies, DataKinds #-}
-
-module Original where
-
-import BasicGHCTypes
-
--- ----------------------------------------------
--- AST Base
--- ----------------------------------------------
-type LExp x = Located (Exp x)
-
-data Exp x -- Notice the alternation between LExp and Exp
-  = Var (XVar x) (XId x)
-  | Abs (XAbs x) (XId x)  (LExp x)
-  | App (XApp x) (LExp x) (LExp x)
-  | Par (XPar x) (LExp x)
-  | New (XNew x) -- The extension constructor
-
-type family XVar x
-type family XAbs x
-type family XApp x
-type family XPar x
-type family XNew x
-type family XId  x
-
--- ----------------------------------------------
--- GHC-Specific Decorations
--- ----------------------------------------------
-type instance XVar (GHC _)  = NoExt
-type instance XAbs (GHC _)  = NoExt
-type instance XApp (GHC p)  = XAppGHC p
-type instance XPar (GHC _)  = NoExt
-type instance XNew (GHC p)  = XNewGHC p
-type instance XId  (GHC p)  = XIdGHC  p
-
--- ----------------------------------------------
--- TH-Specific Decorations
--- ----------------------------------------------
-type instance WrapL TH f = f TH
-
--- Or whatever the instances for TH are
-type instance XVar TH = NoExt
-type instance XAbs TH = NoExt
-type instance XApp TH = NoExt
-type instance XPar TH = NoExt
-type instance XNew TH = NoExt
-type instance XId  TH = NoExt
-
--- ----------------------------------------------
--- Example Function
--- ----------------------------------------------
-par :: LExp (GHC x) -> LExp (GHC x)
-par l@(L sp (App{})) = L sp (Par NoExt l)
-par l                = l
-
--- ----------------------------------------------
--- Example Function in TH
--- ----------------------------------------------
-parTH :: LExp TH -> LExp TH
-parTH l@(L sp (App{})) = L sp (Par NoExt l)  -- Yikes! TH doesn't care for SrcLocs...
-parTH l                = l
-```
-
-### The SrcSpan Accessor Typeclass
-
-
-
-Here is a complete definition of the `HasSrcSpan` typeclass mentioned earlier:
-
-
-```
-{-# OPTIONS_GHC -Wall #-}
-{-# LANGUAGE TypeFamilies, PatternSynonyms, ViewPatterns #-}
-module HasSrcSpan where
-
-import BasicGHCTypes
-
-type family SrcSpanLess a
-class HasSrcSpan a where
-  composeSrcSpan   :: (SrcSpanLess a , SrcSpan) -> a
-  decomposeSrcSpan :: a -> (SrcSpanLess a , SrcSpan)
-  {- laws (isomorphic relation):
-     composeSrcSpan . decomposeSrcSpan = id
-     decomposeSrcSpan . composeSrcSpan = id
-  -}
-
-
-unSrcSpan :: HasSrcSpan a => a -> SrcSpanLess a
-unSrcSpan = fst . decomposeSrcSpan
-
-getSrcSpan :: HasSrcSpan a => a -> SrcSpan
-getSrcSpan = snd . decomposeSrcSpan
-
-setSrcSpan :: HasSrcSpan a => a -> SrcSpan -> a
-setSrcSpan e sp = composeSrcSpan (unSrcSpan e , sp)
-
-type instance SrcSpanLess (Located a) = a
-instance HasSrcSpan (Located a) where
-  composeSrcSpan   (e , sp) = L sp e
-  decomposeSrcSpan (L sp e) = (e , sp)
-
-type instance SrcSpanLess SrcSpan = SrcSpan
-instance HasSrcSpan SrcSpan where
-  composeSrcSpan   (_ , sp) = sp
-  decomposeSrcSpan sp       = (sp , sp)
-
-type instance SrcSpanLess NoNewCon = NoNewCon
-instance HasSrcSpan NoNewCon where
-  composeSrcSpan   (n , _) = noNewCon n
-  decomposeSrcSpan n       = noNewCon n
-
-
-pattern LL :: HasSrcSpan a => SrcSpan -> SrcSpanLess a -> a
-pattern LL s m <- (decomposeSrcSpan -> (m , s))
-  where
-        LL s m =  composeSrcSpan (m , s)
-```
-
-### Solution A - Example Code
-
-
-
-In the code below, as compared to the ping-pong style above, we have the following key changes:
-
-
-- `LExp` is replaced with `Exp`
-- a new constructor extension is introduced to wrap `Exp` with a `SrcSpan` 
-- a pattern synonym `LL` is introduced using the new constructor
-
-```
-{-# OPTIONS_GHC -Wall -fno-warn-unticked-promoted-constructors
-                -fno-warn-orphans #-}
-{-# LANGUAGE TypeFamilies, PatternSynonyms, DataKinds, FlexibleInstances #-}
-module SolutionA where
-
-import BasicGHCTypes
-
-import TTG
-import HasSrcSpan
-
--- ----------------------------------------------
--- GHC-Specific Decorations
--- ----------------------------------------------
-type instance XVar (GHC _)  = NoExt
-type instance XAbs (GHC _)  = NoExt
-type instance XApp (GHC p)  = XAppGHC p
-type instance XPar (GHC _)  = NoExt
-type instance XNew (GHC p)  = Either (Located (Exp (GHC p)))
-                                     (XNewGHC p)
-type instance XId  (GHC p)  = XIdGHC  p
-
--- ----------------------------------------------
--- HasSrcSpan Instance
--- ----------------------------------------------
-
-type instance SrcSpanLess (Exp (GHC p)) = Exp (GHC p)
-instance HasSrcSpan (Exp (GHC p)) where
-  composeSrcSpan (m , sp) = if noSrcSpan == sp
-                            then m
-                            else New (Left (L sp m))
-  decomposeSrcSpan (New (Left (L sp m))) = (m , sp)
-  decomposeSrcSpan m                     = (m , noSrcSpan)
-
--- ----------------------------------------------
--- Example Function
--- ----------------------------------------------
-par :: Exp (GHC p) -> Exp (GHC p)
-par l@(LL sp (App{})) = LL sp (Par NoExt l)
-par l                 = l
-```
-
-### Solution B - Example Code
-
-
-In the code below, as compared to the ping-pong style above, we have the following key changes:
-
-- `LExp` is replaced with `Exp`
-- field extensions are set to have a `SrcSpan` paired (via `Located`)
-  with a closed type family specialised for GHC phases
-- a setter/getter function pair is introduced by a typeclass
-- a pattern synonym `LL` is introduced using the setter/getter function pair
-
-```
-{-# OPTIONS_GHC -Wall -fno-warn-unticked-promoted-constructors
-                -fno-warn-orphans #-}
-{-# LANGUAGE TypeFamilies, PatternSynonyms, DataKinds, FlexibleInstances #-}
-module SolutionB where
-
-import BasicGHCTypes
-import TTG
-import HasSrcSpan
-
--- ----------------------------------------------
--- GHC-Specific Decorations
--- ----------------------------------------------
-type instance XVar (GHC _)  = Located NoExt
-type instance XAbs (GHC _)  = Located NoExt
-type instance XApp (GHC p)  = Located (XAppGHC p)
-type instance XPar (GHC _)  = Located NoExt
-type instance XNew (GHC p)  = Located (XNewGHC p)
-type instance XId  (GHC p)  = XIdGHC p
-
--- ----------------------------------------------
--- HasSrcSpan Instance
--- ----------------------------------------------
-
-type instance SrcSpanLess (Exp (GHC p)) = Exp (GHC p)
-instance HasSrcSpan (Exp (GHC p)) where
-{- or,
-type ForallX (p :: * -> Constraint) x
-  = ( p (XVar x) , p (XAbs x) , p (XApp x) , p (XPar x)
-    , p (XNew x) )
-
-instance ForallX HasSrcSpan x => HasSrcSpan (Exp x) where
--}
-  composeSrcSpan (Var ex x   , sp) = Var (setSrcSpan ex sp) x
-  composeSrcSpan (Abs ex x n , sp) = Abs (setSrcSpan ex sp) x n
-  composeSrcSpan (App ex l m , sp) = App (setSrcSpan ex sp) l m
-  composeSrcSpan (Par ex m   , sp) = Par (setSrcSpan ex sp) m
-  composeSrcSpan (New ex     , sp) = New (setSrcSpan ex sp)
-
-  decomposeSrcSpan m@(Var ex _)    = (m , getSrcSpan ex)
-  decomposeSrcSpan m@(Abs ex _ _)  = (m , getSrcSpan ex)
-  decomposeSrcSpan m@(App ex _ _)  = (m , getSrcSpan ex)
-  decomposeSrcSpan m@(Par ex _)    = (m , getSrcSpan ex)
-  decomposeSrcSpan m@(New ex)      = (m , getSrcSpan ex)
-
--- ----------------------------------------------
--- Example Function
--- ----------------------------------------------
-par :: Exp (GHC p) -> Exp (GHC p)
-par l@(LL sp (App{})) = Par (L sp NoExt) l
-{- or,
-                      = LL sp (Par (L noSrcSpan NoExt) l)
--}
-par l                 = l
-```
-
-### Solution D - Example Code
-
-
-In the code below, as compared to the old ping-pong style, we have the following key changes:
-
-- `LExp` becomes `WrapL x Exp` and reduces to `Located (Exp x)` for `x ~ GHC p` and to `Exp x` for `x ~ TH`
-- That's it
-
-```
-{-# OPTIONS_GHC -Wall -fno-warn-unticked-promoted-constructors #-}
-{-# LANGUAGE TypeFamilies, TypeFamilyDependencies, DataKinds #-}
-
-module SolutionD where
-
-import BasicGHCTypes
-
--- | We use this to only wrap a `Located` around `f` when `p` is `GHC`.
--- Injectivity is important for inference.
-type family WrapL p (f :: * -> *) = r | r -> p f
-
--- ----------------------------------------------
--- AST Base
--- ----------------------------------------------
-type LExp x = WrapL x Exp
-
-data Exp x -- Notice the alternation between LExp and Exp
-  = Var (XVar x) (XId x)
-  | Abs (XAbs x) (XId x)  (LExp x)
-  | App (XApp x) (LExp x) (LExp x)
-  | Par (XPar x) (LExp x)
-  | New (XNew x) -- The extension constructor
-
-type family XVar x
-type family XAbs x
-type family XApp x
-type family XPar x
-type family XNew x
-type family XId  x
-
--- ----------------------------------------------
--- GHC-Specific Decorations
--- ----------------------------------------------
-type instance WrapL (GHC p) f = Located (f (GHC p))
-
-type instance XVar (GHC _)  = NoExt
-type instance XAbs (GHC _)  = NoExt
-type instance XApp (GHC p)  = XAppGHC p
-type instance XPar (GHC _)  = NoExt
-type instance XNew (GHC p)  = XNewGHC p
-type instance XId  (GHC p)  = XIdGHC  p
-
--- ----------------------------------------------
--- TH-Specific Decorations
--- ----------------------------------------------
-type instance WrapL TH f = f TH
-
--- Or whatever the instances for TH are
-type instance XVar TH = NoExt
-type instance XAbs TH = NoExt
-type instance XApp TH = NoExt
-type instance XPar TH = NoExt
-type instance XNew TH = NoExt
-type instance XId  TH = NoExt
-
--- ----------------------------------------------
--- Example Function
--- ----------------------------------------------
-par :: LExp (GHC x) -> LExp (GHC x)
-par l@(L sp (App{})) = L sp (Par NoExt l)
-par l                = l
-
--- ----------------------------------------------
--- Example Function in TH
--- ----------------------------------------------
-parTH :: LExp TH -> LExp TH
-parTH l@App{} = Par NoExt l -- Nice!
-parTH l       = l
-```
-
-## Implementation Details
-
-### General Plan
-
-
-We implement Solution A as follows.
-
-1. With one patch per [HsSyn](implementing-trees-that-grow/hs-syn) datatype `E`, we mechanically do the following.
-
-  1. We replace uses of `L` pattern and constructor for `LE` (located `E`) by the `dL` view pattern and the `cL` function.
-  1. We replace `type LE p = Located (E p)` with `type LE p = E p`
-  1. We define `instance HasSrcSpan (LE (GhcPass p))` 
-  1. We update some type annotation necessarily (e.g., `E p` --\> `E (GhcPass p)`)
-  1. We update `instance XXE (GhcPass p) = NoNew` to `instance XXE (GhcPass p) = (SrcSpan , E (GhcPass p))`
-  1. We update a few (so far only `Outputable` and `Functor`) class instances so that `XE` case behaves as the one on `Located` (e.g., `ppr` of the old `L sp e` should behave as the new `cl sp e`)
-1. With one patch per a moderate set of modules, we make the code more idiomatic by [the following](implementing-trees-that-grow/handling-source-locations#making-code-more-idiomatic) rewrites. 
-
-### Making Code More Idiomatic
-
-TODO
-
-## Extra Notes
-
-
-Here are some extra notes:
-
-- We also currently have sections of AST without source locations, such as those generated when converting TH AST to hsSyn AST, or for GHC derived code.
-  We can perhaps deal with these by either defining an additional pass, so
-
-```
-data Pass = Parsed | Renamed | Typechecked | Generated
-  deriving (Data)
-```
-
->
->
-> or by making the extra information status dependent on an additional parameter, so
->
->
-
-```
-data GhcPass (l :: Location) (c :: Pass)
-deriving instance Eq (GhcPass c)
-deriving instance (Typeable l,Typeable c) => Data (GhcPass l c)
-
-data Pass = Parsed | Renamed | Typechecked
-  deriving (Data)
-
-data Location = Located | UnLocated
-```
-
->
->
-> Thanks to Zubin Duggal for bringing the unlocated problem up on IRC.
->
->
-
-- The setter/getter functions can be generalised to set/get anything:
-
+Applications for this include:
+* Using the GHC TTG AST for TemplateHaskell. TH doesn't have any `SrcLoc`s attached to it, so it would use
+  ```hs
+  type instance XRec TemplateHaskell a = a
   ```
-  type family Without b a
-  class Has b a where
-    compose   :: (Without b a , b) -> a
-    decompose :: a -> (Without b a , b)
-    {- laws (isomorphic relation):
-       compose . decompose = id
-       decompose . compose = id
-    -}
-  ```
+* Attaching [api annotations]() to the GHC TTG AST directly, instead of through the [`pm_annotations` field](https://gitlab.haskell.org/ghc/ghc/blob/3dae006fc424e768bb43fc73851a08fefcb732a5/compiler/main/GHC.hs#L813) in `ParsedModule`. This is outlined as one possible approach in the wiki page ['in tree api annotations'](https://gitlab.haskell.org/ghc/ghc/wikis/implementing-trees-that-grow/in-tree-api-annotations).
 
-- The API Annotations are similar to the `SrcSpan`, in that they are additional decorations, and also currently appear wherever there is a `SrcSpan`.
-  The API Annotations can be accommodated via a straightforward extension of the type class approach, by defining
+## Changes
 
-  ```
-    data Extra = Extra SrcSpan [(SrcSpan,AnnKeywordId)]
+### In GHC
 
-    type HasExtra a = Has Extra a
+GHC's functions' bodies will mostly **not need to change** (with some exceptions). This refactor pretty much only touches the types.
+Some of GHC's functions used `unLoc :: Located a -> a`, but were polymorphic in the pass before:
+```diff
+-isForeignImport :: LForeignDecl pass -> Bool
++isForeignImport :: LForeignDecl (GhcPass p) -> Bool
+isForeignImport (L _ (ForeignImport {})) = True
+isForeignImport _                        = False
+```
 
-    getSpan :: HasExtra a => a -> SrcSpan
-    getSpan = ...
+And lastly, some instance declarations that used `TypeSynonymInstances` now need to be expanded, now that we're using type families inside those type synonyms.
 
-    setSpan :: HasExtra a => a -> SrcSpan -> a
-    setSpan = ...
-   
-    getApiAnns :: HasExtra a => a -> [(SrcSpan,AnnKeywordId)]
-    getApiAnns = ...
-    
-    setApiAnns :: HasExtra a => a -> [(SrcSpan,AnnKeywordId)] -> a
-    setApiAnns = ...
-  ```
+### In Hackage
+
+Hackage doesn't use `GhcPass p`, but it uses source locations and GHC's AST heavily. Luckily we can just define an `XRec` instance for their pass datakind: `DocNameI`:
+
+```hs
+type instance XRec DocNameI a = Located a
+```
+
+All functions that both GHC and Haddock depend on need to be polymorphic over the `pass` type variable however. Luckily again, there are not many of these functions, they mostly live in `Ghc/Hs/Utils.hs`. They will need another constraint: `XRec pass (Match pass) ~ Located (Match pass)`, for example.
+
+## Appendix
+
+### Status
+
+The design described here is not merged into GHC as of yet. Current status is:
+* An older variant of the design (pre #17587) is implemented and merged for `Pat.hs`.
+* The newer variant for `Pat.hs` is implemented in !2315
+* The design is applied throughout GHC in !2315, but that is still WIP.
+
+For previous status/discussions, see the older version of this file or the related issues.
+
+### Related Issues / MRs
+
+- Initial discussion: #15495
+  -> Discussion settles in the design of !1970 (From now on referred to as the '`LPat` experiment')
+- Follow up ticket: #17587 -> Simplifies extension point design and makes it more flexible
+- Follow up merge request: !2315 (Expanding the '`LPat` experiment' across the compiler)
+- Relevant applications for this:
+  1. !2182
+  1. [In tree Api annotations](https://gitlab.haskell.org/ghc/ghc/wikis/implementing-trees-that-grow/in-tree-api-annotations) see #17638
 
 
-   
+### 'Ping-pong style'
 
+Say we have an expression type `Expr`. Ping-pong style refers to the recursion being made through a type synonym `LExpr`, for example, which would allow adding source locations easily:
+```hs
+data Expr
+  = Add LExpr LExpr
+  | Mul LExpr LExpr
+  | Num Int
 
+type LExpr = Located Expr
+
+newtype Located a = ...
+```
+
+This way it is possible to distinguish an expression which has source locations attached and one which doesn't have source locations attached on the type level. `LExpr` doesn't unify with `Expr`.
+
+If this were done with the constructor extension point of TTG, then one would lose some type safety: There would no longer be a guaruntee that there will always be a `Located` layer between the `Expr` layers in our huge expression sandwich.
+
+There are [two very relevant comments](https://gitlab.haskell.org/ghc/ghc/issues/15495#note_227959) in #15495.
