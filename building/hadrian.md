@@ -28,7 +28,7 @@ $ hadrian/build.bat -j
 
 We will refer to the right `hadrian/build.*` script for your system as just `build` from now on.
 
-All build artifacts are put under _build, which we refer to as the build root. You can change it using the --build-root=some/path or -osome/path command line flags. The build command will build stage 1 and stage 2 (which are essentially different flavours of ghc). Stage 2 is the final build, which is placed in the _build/stage1 directory because all things build by stage 1 are in the stage 1 directory. The stage 2 ghc compiler at _build/stage1/bin/ghc is ready to be used right away. It's package database is in _build/stage1/lib/package.conf.d/
+All build artifacts are put under `_build`, which we refer to as the build root. You can change it using the `--build-root=some/path` or `-osome/path` command line flags. The build command will build stage 1 and stage 2 (which are essentially different flavours of ghc). Stage 2 is the final build, which is placed in the `_build/stage1` directory because all things build by stage 1 are in the stage 1 directory. The stage 2 ghc compiler at `_build/stage1/bin/ghc` is ready to be used right away. It's package database is in `_build/stage1/lib/package.conf.d/`
 
 The resulting GHC is built in the default flavour. You can use the `--flavour=<flavour name>` flag to build with any other flavour, such as `devel2`, `perf`, `prof`, `quick`, `quickest` to name just a few; see [`hadrian/doc/flavours.md`](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/flavours.md) for more details about each flavour. To learn about defining your own flavours or customizing existing ones, see [`hadrian/doc/user-settings.md`](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/user-settings.md).
 
