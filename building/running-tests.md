@@ -13,6 +13,7 @@ GHC includes a comprehensive testsuite for catching any regressions.
 - [Updating test case results](building/running-tests/updating)
 - [Adding new test cases](building/running-tests/adding)
 - [Testsuite implementation details](building/running-tests/details)
+- [Details about performance tests](building/running-tests/performance-tests)
 
 ## Using the Testsuite as a user
 
