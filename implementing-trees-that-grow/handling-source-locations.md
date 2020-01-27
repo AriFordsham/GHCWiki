@@ -90,9 +90,9 @@ isForeignImport _                        = False
 
 And lastly, some instance declarations that used `TypeSynonymInstances` now need to be expanded, now that we're using type families inside those type synonyms.
 
-### In Hackage
+### In Haddock
 
-Hackage doesn't use `GhcPass p`, but it uses source locations and GHC's AST heavily. Luckily we can just define an `XRec` instance for their pass datakind: `DocNameI`:
+Haddock doesn't use `GhcPass p`, but it uses source locations and GHC's AST heavily. Luckily we can just define an `XRec` instance for their pass datakind: `DocNameI`:
 
 ```hs
 type instance XRec DocNameI a = Located a
