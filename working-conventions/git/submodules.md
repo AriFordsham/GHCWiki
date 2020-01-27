@@ -205,4 +205,4 @@ One can then push a GHC branch needing `wip/my-changes` and CI will find the com
 
 ## Merging submodule changes
 
-The CI pipeline of ghc/ghc> includes a linting step to ensure that all submodules refer only to "persistent" commits of the upstream repositories (e.g. not `wip/` branches, which may disappear in the future). Specifically, the linter checks that any submodules refer to commits that are reachable by at least one branch that doesn't begin with the prefix `wip/`. Consequently, you must ensure that any submodule changes introduced in a ghc/ghc> merge request are merged upstream before the merge request is added to the merge queue.
+The CI pipeline of GHC includes a linting step to ensure that all submodules refer only to "persistent" commits of the upstream repositories (e.g. not `wip/` branches, which may disappear in the future). Specifically, the linter checks that any submodules refer to commits that are reachable by at least one branch that doesn't begin with the prefix `wip/`. The linter is allowed to fail for merge requests but must pass in the final pipeline before the merge request is added to the merge queue.
