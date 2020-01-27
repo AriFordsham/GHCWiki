@@ -4,6 +4,33 @@ The test suite contains a number of performance tests included as part of a norm
 
 See [here](/performance/tests) for notes on the original proposal.
 
+## Quick Start / Example
+
+You want to run the performance tests locally on 2 commits and compare the results. Do this:
+
+```bash
+# Checkout the first commit
+git checkout a12b34c56 && git submodule update --init
+# Check that the working tree is clean (else metrics will not be saved automatically).
+git status
+# Run the test suite (optionally use --only-perf to only run performance tests).
+# Performance metrics are automatically saved using git notes.
+./hadrian/build.sh test
+
+# Checkout the second commit
+git checkout x98y76z54 && git submodule update --init
+# Check that the working tree is clean (else metrics will not be saved automatically).
+git status
+# Run the test suite (optionally use --only-perf to only run performance tests).
+# Performance metrics are automatically saved using git notes.
+./hadrian/build.sh test
+
+# Generate a chart of results for the 2 commits.
+python3 testsuite/driver/perf_notes.py --chart ./chart.html --test-env local a12b34c56 x98y76z54
+firefox ./chart.html
+```
+Note the final arguments of the python script are the commit hashes. You may use more that 2 hashes if you wish, or you can use a commit range e.g. `a12b34c56..HEAD`. See `python3 testsuite/driver/perf_notes.py --help` to seem more options for generating the chart.
+
 ## Performance Metrics are Logged
 
 
