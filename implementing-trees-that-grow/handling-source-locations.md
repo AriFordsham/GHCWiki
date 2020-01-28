@@ -21,10 +21,10 @@ data Expr p = Var (XVar p) (Var p)
             | Lam (XLam p) (Var p) (Expr p)
             | XExpr (XXExpr p)
 
-tyep family XVar p
-tyep family XApp p
-tyep family XLam p
-tyep family XXExpr p
+type family XVar p
+type family XApp p
+type family XLam p
+type family XXExpr p
 ```
 Here the type index is `p`; the extension constructor is `XExpr`; and
 the extension fields are `XVar p`, `XApp p`, etc (i.e. the first field
