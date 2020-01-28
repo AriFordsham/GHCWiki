@@ -50,7 +50,7 @@ Connection to gitlab.haskell.org closed.
 ### Push only the current branch
 
 
-When you say `git push` (with no arguments), push only only patches on
+When you say `git push` (with no arguments), push only patches on
 the *current branch*.  If you have un-pushed commits on other branches, leave them be.
 
 ```wiki
@@ -86,6 +86,16 @@ Here's how to set up a global (across all your projets) `.gitignore` file.
 
 
 ---
+
+## Clean everything
+
+Sometimes your tree has leftover gubbins that confuses the build system.  To get back to a "just checked out" state use
+```
+git clean -dfxq && git submodule foreach git clean -dfxq
+```
+NB: this deletes all untracked files, so use `git status` first to list the untracked files.
+
+------------
 
 ## Looking at the current state of affairs
 
