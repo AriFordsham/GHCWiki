@@ -48,7 +48,7 @@ Again, `XRec` is typically a type family.  For some indices (say `Vanilla`)
 we can easily elide all these `XRec` wrappers:
 ```
 type instance XRec Vanilla a = a
-
+```
 But for GHC we can use it to add a source location for each `XRec`:
 ```
 type instance XRec (GhcPass p) a = Located a
