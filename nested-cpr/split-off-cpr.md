@@ -7,14 +7,14 @@ This page collects some illustrative arguments. Here's the summary:
 Pro
 
 - Demand Analysis is a backwards analysis, CPR is a forward analysis. This notion of direction stems from the order in which we analyse the parts of a `case` expression. Forward -> scrutinee first, Backward -> alts first. See [Forward vs. Backward Analysis](#forward-vs-backward-analysis)
-- Separation of concerns: Strictness/usage analysis is independent of CPR, while CPR relies on strictness info to be present. Makes you ask at every line of code "Is this relevant to CPR?" + Virgin run
-
+- Separation of concerns: Strictness/usage analysis is independent of CPR, while CPR relies on strictness info to be present. Makes you ask at every line of code "Is this relevant to CPR?" + Virgin run. Other examples: IO hack (irrelvant to CPR), annotating lambda and case binders (only relevant to CPR)
+- Efficiency: Running CPR as part of demand analysis means one additional virgin run for each top-level binding. Also we run CPR as part of the final demand analysis run, which only important for identifying single-entry thunks.
+- Precision: See the forward vs. backward argument; no compromises to precision to satisfy both directions. Also aborting fixed-point iteration due to e.g. usage analysis also means discarding a possibly perfectly valid CPR signature.
 
 Cons
 
-- Possible code duplication. Counter-argument: Extract overlapping logic into a "projection-based analysis" skeleton, instantiate with demand/CPR
+- Possible code duplication. Counter-argument: Could extract overlapping logic into a "projection-based analysis" skeleton, instantiate with demand/CPR
 - CPR and strictness feel like they are dual to another, hence it makes sense to compute them together. Counter-argument: Strictness can be computed independent of CPR, CPR analysis needs a sound approximation of strictness info. Also the whole point about forward vs. backward analysis
-- Compiler performance: An additional pass slows things down. Counter-argument: The whole additional non-virgin run thing just hides that CPR analysis depends on strictness analysis. We unnecessarily recompute CPR information on unsound approximations of strictness info, until strictness info hits a fixed point. We need to recompute CPR information then anyway, so all the prior attempts at coming up with CPR info based on unsound strictness approximations seems unnecessary.
 
 ## Forward vs. Backward analysis
 
