@@ -1,23 +1,68 @@
 # Handling of Source Locations in Trees that Grow
 
-This wikipage describes a design for putting source locations inside an *extension point* of TTG.
+This wikipage describes a design for putting source locations inside a new *extension point* of TTG.
+The motivation is to allow GHC to sprinkle source locations across many nodes of the syntax tree,
+without forcing every client of `HsSyn` to do so.  For example Template Haskell probably does not want to.
 
-The short summary is: We don't always need exactly `SrcLoc` (`Located`), so it must live inside an extension point. This extension point is realized as a type family `XRec`.
-
-This wiki page was overhauled. If you came here via a link, a very similar design to this was called 'Solution D' in the previous version (see the version history).
+(NB: This wiki page was overhauled in Jan 2020. If you came here via a link, a very similar design to this was called 'Solution D' in the previous version: see the version history.)
 
 ## Design
 
-We model this extension point as a type family we call `XRec`:
-```hs
-type family XRec p a
-type instance XRec (GhcPass p) a = Located a
--- possibly in the future:
-type instance XRec TemplateHaskell a = a
-```
-(Note: This type family doesn't do any recursion, despite the name. For name bikeshedding, see #17587.)
+Recall that [the TTG paper](http://www.jucs.org/jucs_23_1/trees_that_grow/jucs_23_01_0042_0062_najd.pdf) 
+indexes each data type with a *type index*, and defines types with two extension points:
 
-Wherever we used `Located` in the AST previously, we now use `XRec pass`:
+1. **Each data type has an *extension constructor*.**
+2. **Each data construcutor has an *extension field*.**
+
+For example:
+```
+data Expr p = Var (XVar p) (Var p)
+            | App (XApp p) (Expr p) (Expr p)
+            | Lam (XLam p) (Var p) (Expr p)
+            | XExpr (XXExpr p)
+
+tyep family XVar p
+tyep family XApp p
+tyep family XLam p
+tyep family XXExpr p
+```
+Here the type index is `p`; the extension constructor is `XExpr`; and
+the extension fields are `XVar p`, `XApp p`, etc (i.e. the first field
+of each constructor).  The types `XVar`, `XApp` etc are type families,
+that can be extended with new instances as you add new indexing types.
+
+We add a third extension point:
+
+3. **Selected fields, often the recursive uses, have an *extension wrapper*, `XRec`.**
+
+Thus:
+```
+data Expr p = Var (XVar p) (Var p)
+            | App (XApp p) (XRec p (Expr p)) (XRec p (Expr p))
+            | Lam (XLam p) (XRec p (Var p)) (XRec p (Expr p))
+            | XExpr (XXExpr p)
+
+type family XRec p a
+```
+Again, `XRec` is typically a type family.  For some indices (say `Vanilla`)
+we can easily elide all these `XRec` wrappers:
+```
+type instance XRec Vanilla a = a
+
+But for GHC we can use it to add a source location for each `XRec`:
+```
+type instance XRec (GhcPass p) a = Located a
+```
+Note: There is nothing inherently recursive about `XRec`. It has that name
+because it is often
+used to wrap recursive fields, such as the arguments to `App` above.
+But it is also used to wrap non-recursive fields, such as the `XRec p (Var p)` field of
+`Lam`.
+For name bikeshedding, see #17587.)
+
+## Using XRec in GHC
+
+Becoming specific to GHC, wherever we used `Located` in the AST previously, we now use `XRec pass`:
 ```diff
 -type LConDecl pass = Located (ConDecl pass)
 +type LConDecl pass = XRec pass (ConDecl pass)
@@ -62,7 +107,8 @@ data HsDataDefn pass
 
 ---
 
-## Motivation
+## Some of the thinking
+
 
 * We want to have an AST that can be used for both TH and normal Hs, for example. This means we need to store source locations in an extension point of TTG ([trees that grow](https://gitlab.haskell.org/ghc/ghc/wikis/implementing-trees-that-grow)).
 * In #15495 we agreed that the currently available extension points in TTG don't suffice to annotate the AST with `SrcLoc`s in a satisfyingly type-safe manner: Something akin to ['Ping-pong' style](#ping-pong-style) is desireable.
