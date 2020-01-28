@@ -16,18 +16,18 @@ indexes each data type with a *type index*, and defines types with two extension
 
 For example:
 ```
-data Expr p = Var (XVar p) (Var p)
-            | App (XApp p) (Expr p) (Expr p)
-            | Lam (XLam p) (Var p) (Expr p)
-            | XExpr (XXExpr p)
+data Expr x = Var (XVar x) (Var x)
+            | App (XApp x) (Expr x) (Expr x)
+            | Lam (XLam x) (Var x) (Expr x)
+            | XExpr (XXExpr x)
 
-type family XVar p
-type family XApp p
-type family XLam p
-type family XXExpr p
+type family XVar x
+type family XApp x
+type family XLam x
+type family XXExpr x
 ```
-Here the type index is `p`; the extension constructor is `XExpr`; and
-the extension fields are `XVar p`, `XApp p`, etc (i.e. the first field
+Here the type index is `x`; the extension constructor is `XExpr`; and
+the extension fields are `XVar x`, `XApp x`, etc (i.e. the first field
 of each constructor).  The types `XVar`, `XApp` etc are type families,
 that can be extended with new instances as you add new indexing types.
 
@@ -37,19 +37,19 @@ We add a third extension point:
 
 Thus:
 ```
-data Expr p = Var (XVar p) (Var p)
-            | App (XApp p) (XRec p (Expr p)) (XRec p (Expr p))
-            | Lam (XLam p) (XRec p (Var p)) (XRec p (Expr p))
-            | XExpr (XXExpr p)
+data Expr x = Var (XVar x) (Var x)
+            | App (XApp x) (XRec x (Expr x)) (XRec x (Expr x))
+            | Lam (XLam x) (XRec x (Var x)) (XRec x (Expr x))
+            | XExpr (XXExpr x)
 
-type family XRec p a
+type family XRec x a
 ```
 Again, `XRec` is typically a type family.  For some indices (say `Vanilla`)
 we can easily elide all these `XRec` wrappers:
 ```
 type instance XRec Vanilla a = a
 ```
-But for GHC we can use it to add a source location for each `XRec`:
+But for GHC, with type index `GhcPass p`, we can use it to add a source location for each `XRec`:
 ```
 type instance XRec (GhcPass p) a = Located a
 ```
