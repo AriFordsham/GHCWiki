@@ -56,7 +56,7 @@ type instance XRec (GhcPass p) a = Located a
 Note: There is nothing inherently recursive about `XRec`. It has that name
 because it is often
 used to wrap recursive fields, such as the arguments to `App` above.
-But it is also used to wrap non-recursive fields, such as the `XRec p (Var p)` field of
+But it is also used to wrap non-recursive fields, such as the `XRec x (Var x)` field of
 `Lam`.
 For name bikeshedding, see #17587.)
 
