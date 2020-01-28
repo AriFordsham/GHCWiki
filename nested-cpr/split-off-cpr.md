@@ -4,27 +4,25 @@
 This page collects some illustrative arguments. Here's the summary:
 
 
-Pro
+### Pro
 
 - Demand Analysis is a backwards analysis, CPR is a forward analysis. This notion of direction stems from the order in which we analyse the parts of a `case` expression. Forward -> scrutinee first, Backward -> alts first. See [Forward vs. Backward Analysis](#forward-vs-backward-analysis)
 - Separation of concerns: Strictness/usage analysis is independent of CPR, while CPR relies on strictness info to be present. Makes you ask at every line of code "Is this relevant to CPR?" + Virgin run. Other examples: IO hack (irrelvant to CPR), annotating lambda and case binders (only relevant to CPR)
 - Efficiency: Running CPR as part of demand analysis means one additional virgin run for each top-level binding. Also we run CPR as part of the final demand analysis run, which only important for identifying single-entry thunks.
 - Precision: See the forward vs. backward argument; no compromises to precision to satisfy both directions. Also aborting fixed-point iteration due to e.g. usage analysis also means discarding a possibly perfectly valid CPR signature.
 
-Cons
+### Cons
 
 - Possible code duplication. Counter-argument: Could extract overlapping logic into a "projection-based analysis" skeleton, instantiate with demand/CPR
 - CPR and strictness feel like they are dual to another, hence it makes sense to compute them together. Counter-argument: Strictness can be computed independent of CPR, CPR analysis needs a sound approximation of strictness info. Also the whole point about forward vs. backward analysis
 
 ## Forward vs. Backward analysis
 
-
 [Joachim was probably the first to realise this](https://gitlab.haskell.org/ghc/ghc/issues/12364#note_122038), but CPR analysis is a forward analysis. That led to a reeeeeeally complicated, duplicated `Case` case in his take on nested CPR analysis: [ https://phabricator.haskell.org/D4244\#inline-35408](https://phabricator.haskell.org/D4244#inline-35408). For that reason, I feel strongly about splitting off CPR before we try this again.
-
 
 Note that this isn't an issue for non-nested CPR (at least I couldn't come up with an example). But `Note [CPR in a product case alternative]` seems we already suffer in a similar way. The idea is the following:
 
-```wiki
+```hs
 module Foo where
 
 f :: Int -> (Int, Int)
@@ -37,11 +35,9 @@ g n = case f n of
 {-# NOINLINE g #-}
 ```
 
-
 Imagine we'd do nested CPR. The current approach would compute a CPR signature for `f` of `m(tm(t),tm(t))`, stating that it constructs a pair of constructed (and terminating) `Int`s.
 
-
-So far, so good! Now look at the call site in `g`. The demand analyser handles the `case` backwards, because there might be worthwhile strictness info to be unleashed on the scrutinee. However, that's bad for CPR when the scrutinee is an application, as the example demonstrates: At the time we see `a` in the alt of the case, we don't know that `a` really has the CPR property once we WW'd `f`. Hence, `g` itself doesn't have the CPR property, rendering the whole business of CPRing `f` useless:
+So far, so good! Now look at the call site in `g`. The demand analyser handles the `case` backwards, because there might be worthwhile strictness info to be unleashed on the scrutinee. However, that's bad for CPR when the scrutinee is an application, as the example demonstrates: At the time we see `a` in the alt of the case, we don't know that `a` really has the CPR property once we WW'd `f`. Hence, `g` itself doesn't get the CPR property, and after inlining we get:
 
 ```
 $wf :: Int# -> (# Int#, Int# #)
@@ -55,7 +51,7 @@ f (Int# n) = case $wf n of
 
 -- wrapper for g's strict argument omitted
 g :: Int -> Int
-g (Int# n) = case f n of
+g (Int# n) = case $wf n of
   (# a, _ #) -> Int# a
 {-# NOINLINE g #-}
 ```
@@ -75,7 +71,7 @@ f (Int# n) = case $wf n of
 {-# INLINE f #-}
 
 $wg :: Int# -> Int#
-$wg n# = case f n# of
+$wg n# = case $wf n# of
   (# a, _ #) -> a
 {-# NOINLINE $wg #-}
 
