@@ -1,12 +1,15 @@
 # Agenda
 
 - Paper 
+  - Bring Ryan on board
+  - 
   - \ctcon binds its fields. Do we want it to be that way?  
-    - Really depends on whether we assume `Delta` to be in prenex form. We have to convert anyway when we go to nabla!
-    - The difference in scoping between Delta and Nabla means we actually have to thread around two Gammas. Very weird!
-    - Hence I propose to have `x ~ K as ys` as the constructor constraint. No `Theta`, no bindinig occurrences.
-  - Notation: and+or   OR   union+,?
-    - The way we use Delta/Nabla, it's more like a formula than a refinement type
+    - We need *all* variables (including those "bound" by a constructor) when adding a type constraitn to the inert set, in which case we have to check all of them for inhabitants
+    - So we need an additional language for simple constraints. Done.
+  - Possible extensions:
+    - CoreMap/semantic equality (Just add additional constraint and widen domain of \rep{\Phi})
+    - Pattern synonyms + COMPLETE pragmas
+    - (Overloaded) literals
 
 - #17676: Consolidate when to apply IO hack. Maybe rename it  
   - Does it make sense to re-use `expr_ok`? It returns `False` for `Tickish` things, for example.
