@@ -53,6 +53,7 @@ stages:
    `_build/stage1/lib`).
 4. The stage1 compiler is used to build a stage2 compiler (found in
    `_build/stage1/bin/ghc`), linking against these new core libraries.
+5. Optionally the stage2 compiler can build a stage3 compiler, this is useful if you want to profile GHC while compiling GHC. Be sure to build the stage2 compiler with profiling enabled.
 
 Note that the stage directories in the `_build` directory can be thought of as
 named after the stage that was used to *build* the artifacts in each directory.
