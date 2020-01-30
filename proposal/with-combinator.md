@@ -122,9 +122,13 @@ with#_ret() {
 ```
 
 However, this is suboptimal as it requires that the continuation be stack
-allocated. It turns out that several existing primops (e.g. `catch`,
+allocated.
+
+It turns out that several existing primops (e.g. `catch`,
 `atomically`) follow a similar continuation-passing style and suffer from
-this same poor code generation.
+this same suboptimal code generation. Consequently, there have been a few
+proposals (largely orthgonal to the present `with#` proposal) on improving the
+state of affairs here.
 
 Improved code generation for continuation primops
 -------------------------------------------------
