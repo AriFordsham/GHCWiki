@@ -161,4 +161,4 @@ Where `with#_prim` is a primop known by the STG-to-Cmm pass which lowers to
 pushing the same `with#_ret` stack frame seen above.
 
 This gives us the same efficient code generation without losing the advantages
-offered by ANF.
+offered by ANF (albeit with the disadvantage of blatantly violating the STG abstraction).
