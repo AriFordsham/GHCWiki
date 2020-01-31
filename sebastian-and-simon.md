@@ -2,14 +2,48 @@
 
 - Paper 
   - Bring Ryan on board
-  - 
+  - The VarVar case will need to re-check compatibility of a renamed Phi with all the other constraints. I don't want to duplicate \addinert for \varphi constraints. What to do?  
+    - Write conversion function from Delta to Phi? But also needs Gamma... At which point we have a nabla that isn't necessarily consistent, which is the whole point about calling it the inert set
+    - Converting from Phi to Delta is... ugly. Also we have to cough up type binders and dictionaries etc. for constructors. Or maybe we don't, but then it's kind of untyped.
   - \ctcon binds its fields. Do we want it to be that way?  
     - We need *all* variables (including those "bound" by a constructor) when adding a type constraitn to the inert set, in which case we have to check all of them for inhabitants
     - So we need an additional language for simple constraints. Done.
-  - Possible extensions:
-    - CoreMap/semantic equality (Just add additional constraint and widen domain of \rep{\Phi})
-    - Pattern synonyms + COMPLETE pragmas
-    - (Overloaded) literals
+  - Outline:
+    - Introduction
+    - Problem statement  
+      - Complexity of previous impl, maintenance burden
+      - No mixing of pattern guards and pattern matching
+      - Bad story for guards in general
+      - Laziness/Bang patterns/strict fields
+      - (Overloaded) literals
+      - Pattern synonyms + COMPLETE pragmas
+      - Efficiency, graceful degradation for predictable performance
+      - Unsatisfying story around Newtype pattern matches (they are not strict)
+      - Long distance info
+      - (And all other stuff that was solved as part of GADTs MTM, like type info) 
+    - Our solution
+      - (GADTs MTM does this by first introducing the concepts intuitively by way of examples, and then giving the formalism in the next chapter. Maybe we should do that, too?)
+      - Desugaring of source syntax pattern matching to simple guard tree language
+      - Pattern-match checking as a function on guard trees, producing uncovered patterns and clause tree annotated with redundancy info
+      - Constraint solving/generating inhabitants
+    - Possible extensions:
+      - CoreMap/semantic equality (Just add additional constraint and widen domain of \rep{\Phi})
+      - Pattern synonyms + COMPLETE pragmas
+      - (Overloaded) literals
+      - Newtypes through coercions
+      - Maybe regard type info as an extension, too?
+    - Implementation
+      - Interleaving U and A, skip Delta and add to nabla directly, so that we share work for checking the incoming nabla
+      - Throttling for graceful degradation (needs DNF of nablas from previous hack, otherwise actual complexity not easily predictable), argue for soundness
+    - Evaluation
+      - Check a couple of packages
+      - Issues closed?
+    - Related Work
+      - GADTs MTM (mine their Related Work)
+      - Maranget's work; tries to account for laziness, but wrongly so
+      - Compare to "Elaborating dependent (co)pattern matching", which is essentially GADTs MTM with more type foo going on
+      - Compare to refinement types
+      - Compare to "Structural and semantic pattern matching analysis in Haskell", which uses an SMT solver as the oracle in the GADTMTM formalism. We could extend nabla with reasoning about booleans and arithmetic to achieve something similar
 
 - #17676: Consolidate when to apply IO hack. Maybe rename it  
   - Does it make sense to re-use `expr_ok`? It returns `False` for `Tickish` things, for example.
