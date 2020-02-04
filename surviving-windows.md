@@ -89,4 +89,5 @@ Linux on Windows (also known as the Windows Subsystem for Linux, WSL, or Drawbri
    * `DebugView` allows one to view debug output from the system (e.g. the loader snaps mentioned above) without Windbg
    * Process Explorer provides a nice view onto the process tree and process state
    * [Process Monitor](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) provides an `strace`-like view of system calls
-   * 
+* Windows Performance Record/Analyzer is another mechanism capable of tracing system calls
+
