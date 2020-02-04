@@ -70,7 +70,7 @@ The Microsoft Visual C runtime. This is the `libc` of the Windows world. It also
 
 ## `mintty`
 
-`mintty` is a terminal emulator shipped with the `msys2` distribution (and Cygwin). It's not so great; you probably want to use something else (e.g. [ConEmu](https://conemu.github.io/).
+`mintty` is a terminal emulator shipped with the `msys2` distribution (and Cygwin). It's not so great; you probably want to use something else (e.g. [ConEmu](https://conemu.github.io/)).
 
 ## Linux on Windows
 
@@ -90,4 +90,4 @@ Linux on Windows (also known as the Windows Subsystem for Linux, WSL, or Drawbri
    * Process Explorer provides a nice view onto the process tree and process state
    * [Process Monitor](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) provides an `strace`-like view of system calls
 * Windows Performance Record/Analyzer is another mechanism capable of tracing system calls
-
+* [ConEmu](https://conemu.github.io/) is a decent terminal emulator for Windows
