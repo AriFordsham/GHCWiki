@@ -83,4 +83,10 @@ Linux on Windows (also known as the Windows Subsystem for Linux, WSL, or Drawbri
 * In the [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive):
    * the `gflags.exe` tool can be used to enable "loader snaps" for a particular executable. When enabled, the dynamic linker will emit debug output when the executable is run under `windbg`
    * `windbg` is the Windows debugger, apparently last updated circa 1992
+* The [version](https://www.microsoft.com/en-us/p/windbg-preview/9pgjgd53tn86?activetab=pivot:overviewtab) of `windbg` in the Windows Store appears to be much better than that in the SDK
 * [`x64dbg`](https://x64dbg.com/#start) is an alternative FOSS debugger
+* The [sysinternals tools](https://docs.microsoft.com/en-us/sysinternals/)
+   * `DebugView` allows one to view debug output from the system (e.g. the loader snaps mentioned above) without Windbg
+   * Process Explorer provides a nice view onto the process tree and process state
+   * Process Monitor provides an `strace`-like view of system calls
+   * 
