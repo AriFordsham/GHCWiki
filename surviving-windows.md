@@ -83,3 +83,4 @@ Linux on Windows (also known as the Windows Subsystem for Linux, WSL, or Drawbri
 * In the [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive):
    * the `gflags.exe` tool can be used to enable "loader snaps" for a particular executable. When enabled, the dynamic linker will emit debug output when the executable is run under `windbg`
    * `windbg` is the Windows debugger, apparently last updated circa 1992
+* [`x64dbg`](https://x64dbg.com/#start) is an alternative FOSS debugger
