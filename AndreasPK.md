@@ -28,12 +28,19 @@ Pointer tagging in GHC (various tickets, see below).
 
 ## Things to do in the near future:
 
-* #16977 
-* #17495 - precomputed closures should work for Word and others as well
 * SIMD
 * Branch likelyhood: #14672
 * Register allocator improvements: #7063, #8048, #12232, #13051, #16243
 * Avoid certain stack checks: https://gitlab.haskell.org/ghc/ghc/issues/17092
+
+* #17784 lookupIdSubst fails because bindings are not in dep order.
+* #13535 Simplifier choking on vector test suite
+* !2580 - Update RULES for elem
+* !2575 - MR to enable fdicts-strict by default. Seems to be correct, needs perf analysis.
+* !2574- Refactor DataCon codegen - needs review
+* #17759 investigate base functions which currently fail to specialize
+
+
 
 * #9342 - Branchless Int operations
 * #17237 Cmm FloatOut - Put shared cmm statements into the common path
