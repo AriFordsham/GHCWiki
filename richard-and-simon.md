@@ -5,6 +5,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 
 # Active agenda
 
+- Eager vs lazy instantiation, and `ir_inst`: #17173
 - #17580: remove roles from the flattener
 - #17581: swap sense of coercion in the flattener
 - #17582: re-engineer rebindable syntax
@@ -20,7 +21,6 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 - #16775: don't zap naughty quantification candidates.  RAE.
 - #17024: `anyRewritableTyVar` and related gubbins
 - #16726: document conclusions
-- Improve doc of `ir_inst`: #17173
 - #16512: type checker loop with injective type families.  Anything to do with #17139?  Or #15772.   Seond bug in #17186.  Counter in `normaliseType` (#17306)
 - Function result signatures.  [Accepted proposal #228](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0228-function-result-sigs.rst), and [proposed amendment #254](https://github.com/ghc-proposals/ghc-proposals/pull/254).  Something is not quite right.  [Typing rules here](https://gitlab.haskell.org/rae/haskell)
 - Singletonised Outputable (RAE making a ticket); and eliminate `(a ~ GhcPass p)` constraints #17304
