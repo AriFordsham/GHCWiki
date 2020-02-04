@@ -134,6 +134,7 @@ These labels identify compiler subsystems which are in some way implicated in a 
  * ~"specialisation":  Support for type specialisation of bindings (e.g. via `SPECIALISE` pragmas or automatic specialisation of unfolding) 
  * ~"static argument transformation":  The static argument transformation optimization
  * ~"typechecker": Issues with GHC's typechecker
+ * ~"pointer tagging": Pointer tagging
 
 ## Non-compiler subsystems
 
