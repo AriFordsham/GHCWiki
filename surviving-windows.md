@@ -66,7 +66,7 @@ Note that GHC uses neither `mingw` nor `msys`; rather we use `mingw-w64` and `ms
 ## `msvcrt`
 
 
-The Microsoft Visual C runtime. This is the `libc` of the Windows world.
+The Microsoft Visual C runtime. This is the `libc` of the Windows world. It also offers a number of POSIX compatibility routines (e.g. `exec`) which aren't POSIX compliant.
 
 ## `mintty`
 
@@ -74,5 +74,12 @@ The Microsoft Visual C runtime. This is the `libc` of the Windows world.
 
 ## Linux on Windows
 
+Linux on Windows (also known as the Windows Subsystem for Linux, WSL, or Drawbridge) is a project undertaken by Microsoft seeking to add a Windows subsystem to the Windows kernel, allowing full user-mode emulation of a Linux environment. Currently we don't use LoW for GHC development.
 
-Linux on Windows (also known as the Windows Subsystem for Linux or Drawbridge) is a project undertaken by Microsoft seeking to add a Windows subsystem to the Windows kernel, allowing full user-mode emulation of a Linux environment. Currently we don't use LoW for GHC development.
+## Useful tools
+
+* [Dependencies](https://github.com/lucasg/Dependencies) is a very useful tool for diagnosing dynamic linking issues
+* [CFF Explorer](https://ntcore.com/?page_id=388) is useful for exploring the structure of portable executable objects
+* In the [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive):
+   * the `gflags.exe` tool can be used to enable "loader snaps" for a particular executable. When enabled, the dynamic linker will emit debug output when the executable is run under `windbg`
+   * `windbg` is the Windows debugger, apparently last updated circa 1992
