@@ -1,5 +1,7 @@
 # Replacing `touch#` with the `with#` combinator
 
+See the discussion on #17760
+
 Today GHC offers `touch#` to ensure object liveness in the presence of
 references living outside of the heap:
 
