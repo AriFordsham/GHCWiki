@@ -1,32 +1,27 @@
 # Agenda
 
 - Paper 
-  - Bring Ryan on board
-  - The VarVar case will need to re-check compatibility of a renamed Phi with all the other constraints. I don't want to duplicate \addinert for \varphi constraints. What to do?  
-    - Write conversion function from Delta to Phi? But also needs Gamma... At which point we have a nabla that isn't necessarily consistent, which is the whole point about calling it the inert set
-    - Converting from Phi to Delta is... ugly. Also we have to cough up type binders and dictionaries etc. for constructors. Or maybe we don't, but then it's kind of untyped.
-  - \ctcon binds its fields. Do we want it to be that way?  
-    - We need *all* variables (including those "bound" by a constructor) when adding a type constraitn to the inert set, in which case we have to check all of them for inhabitants
-    - So we need an additional language for simple constraints. Done.
   - Outline:
     - Introduction
     - Problem statement  
       - Complexity of previous impl, maintenance burden
-      - No mixing of pattern guards and pattern matching
+      - No mixing of pattern guards and pattern matching (can be combined with the following point)
       - Bad story for guards in general
-      - Laziness/Bang patterns/strict fields
+      - (Laziness)/Bang patterns/strict fields
       - (Overloaded) literals
       - Pattern synonyms + COMPLETE pragmas
-      - Efficiency, graceful degradation for predictable performance
+      - New implementation has favorable efficiency, graceful degradation for predictable performance
       - Unsatisfying story around Newtype pattern matches (they are not strict)
       - Long distance info
       - (And all other stuff that was solved as part of GADTs MTM, like type info) 
     - Our solution
       - (GADTs MTM does this by first introducing the concepts intuitively by way of examples, and then giving the formalism in the next chapter. Maybe we should do that, too?)
+      - Make a Figure 1
       - Desugaring of source syntax pattern matching to simple guard tree language
       - Pattern-match checking as a function on guard trees, producing uncovered patterns and clause tree annotated with redundancy info
       - Constraint solving/generating inhabitants
     - Possible extensions:
+      - Long distance info
       - CoreMap/semantic equality (Just add additional constraint and widen domain of \rep{\Phi})
       - Pattern synonyms + COMPLETE pragmas
       - (Overloaded) literals
@@ -48,8 +43,6 @@
 - #17676: Consolidate when to apply IO hack. Maybe rename it  
   - Does it make sense to re-use `expr_ok`? It returns `False` for `Tickish` things, for example.
   - Also the check for the right type is already pretty sensitive and will rule out many false positives.
-  - And ad-hoc thing seems like the best solution, until we can infer `x` results in strictness analysis
-  - New lattice: `b < <nothing> < x`
 
 - Newtypes and ⊥ constraints: Is `⊥ ~ NT _` `Disjoint` or `PossiblyOverlap`ping? Probably the latter.
   - But we only ever add `x ~ ⊥` when checking for divergence, after which don't pass the resulting Delta on. Thus we never have to preserve it, because there is no way we would add `x /~ ⊥` *after* we added `x ~ ⊥`.
