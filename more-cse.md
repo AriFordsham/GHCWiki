@@ -35,3 +35,29 @@ More floating and/or CSE is tricky, as there are a few way this can make things 
 
 
 It might be worth trying to implement a very careful floating/CSE pass that will make sure that only expressions that are going to be allocated in every case (i.e. because they are in a strict context, or arguments to functions in strict context) can be CSEd. There might be some small gains to achieve without too many regressions.
+
+## Speculation
+
+There are expressions which:  
+* Perform work
+* Don't allocate (much or at all)
+* Are used by all branches
+
+CSE on expression of this form should almost always be useful, as no work is wasted, more work is shared and allocations don't suffer.
+
+This is in particular true of dictionary selectors. Consider these two functions:
+
+```haskell
+inlined :: C a => a -> a -> a
+inlined x y =
+     op1 x `op2` op1 y
+
+shared :: C a => a -> a -> a
+shared x y =
+    let o = op1
+    in o x `op2` o y
+```
+
+Here we might benefit from sharing the work of extracting the selector. However if we end up storing the instance methods versus just a reference to the class in a thunk it might still increase allocations.
+
+It's quite tricky to get right.
