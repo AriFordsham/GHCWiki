@@ -81,14 +81,15 @@ To fix the issue it has been proposed (#14375, !2566) to make the `with#`
 function above a primop of this form:
 
 ```haskell
-with# :: a
+with# :: forall (r :: RuntimeRep) (a :: TYPE r).
+         a
          -- ^ the value to preserve
       -> (State# s -> (# State s, r #))
          -- ^ the continuation in which the value will be preserved
       -> State# s -> (# State# s, r #)
 ```
 
-`with# a k` evaluates `k`, ensuring that `a` remains alive throughout the evaluation. 
+`with# a k` evaluates `k a`, ensuring that `a` remains alive throughout the evaluation.
 
 If we rewrite the `test` example above with `with#`, we get:
 
@@ -102,7 +103,7 @@ test = do
 This construction the compiler can't mangle as there is no continuation to drop.
 
 Naive code generation of `with#`
------------------------------------
+--------------------------------
 
 The next question is what code should `with#` produce.
 
@@ -126,14 +127,28 @@ with#_ret() {
 However, this is suboptimal as it requires that the continuation be stack
 allocated.
 
-It turns out that several existing primops (e.g. `catch`,
-`atomically`) follow a similar continuation-passing style and suffer from
-this same suboptimal code generation. Consequently, there have been a few
-proposals (largely orthgonal to the present `with#` proposal) on improving the
-state of affairs here.
+A slightly better code generation strategy
+------------------------------------------
+
+One way to eliminate the cost added by `with#` is to rewrite it to the existing `touch#` primitive (which has no runtime cost) late enough in the compilation process that the simplifier can't drop it (avoiding #14375). For instance, we might give `with#` a similar treatment to that of `runRW#`, which is lowered in `CorePrep` to an application of `realWorld#`.
+
+Under such a scheme, `CorePrep` would look for applications of the form `with# x k s` and rewrite them to,
+```haskell
+case k s of (# s', y #) ->
+case touch# x s' of s'' ->
+(# s'', y #)
+```
+With out current STG-to-STG pipeline the `touch#` here should have
+the desired effect of keeping `x` alive until `k` has finished.
 
 Improved code generation for continuation primops
 -------------------------------------------------
+
+It turns out that several existing primops (e.g. `catch#`,
+`atomically#`) have a continuation-passing structure similar to that of `with#` and suffer from
+this same suboptimal code generation. Consequently, there have been a few
+proposals (largely orthgonal to the present `with#` proposal) on improving the
+state of code generation for these operations.
 
 Issue #16098 proposes an strategy (with an implementation in !2567) for
 improving code generation for the above-mentioned continuation-passing primops.
@@ -152,14 +167,35 @@ While discussing the proposal in #16098 on IRC, @andreask raised the concern
 that dropping ANF will inevitably complicate passes that work with STG.
 He suggested this alternative:
 
+We introduce a magic primop, used only in STG:
+```haskell
+pushWith# :: forall (r :: RuntimeRep) (a :: TYPE r).
+             a -> State# s -> State# s
+```
+
 In Core-to-STG we rather lower `with# x cont` as:
 ```haskell
-case with#_prim x of () { _ ->
+case pushWith# x of () { _ ->
   let join j = cont
   in jump j
 }
 ```
-Where `with#_prim` is a primop known by the STG-to-Cmm pass which lowers to
+Finally, the STG-to-C-- pass will have special logic for lowering case analyses on `pushWith#`, essentially unfolding its C-- definition into the use-site. Such a case analysis will result in C-- like:
+```c
+// Push a pushWith_ret stack frame carrying a reference to `x`
+W_[Sp] = stg_pushWith_ret;
+W_[Sp+WDS(1)] = R1;
+
+// Jump to the continuation `cont`
+jump j;
+```
+The return code for the `stg_pushWith_ret` frame would be defined in the RTS thusly:
+```c
+stg_pushWith_ret() {
+    Sp += WDS(2);  // Pop the pushWith frame
+    return;        // Return to the next frame
+}
+```
 pushing the same `with#_ret` stack frame seen above.
 
 This gives us the same efficient code generation without losing the advantages
