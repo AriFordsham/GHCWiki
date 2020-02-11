@@ -39,6 +39,8 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
 
 - If you use Emacs, see [Emacs](emacs) for some useful stuff to put in your `.emacs` file.
 
+- If you use Spacemacs and Nix: [Spacemacs](spacemacs) explains for how to use it as an IDE.
+
 - If you have lots of Haskell installations, you may find Edsko's blog post [Comprehensive Haskell Sandboxes](http://www.edsko.net/2013/02/10/comprehensive-haskell-sandboxes/) useful.
 
 - [ghc-artefact-nix](https://github.com/mpickering/ghc-artefact-nix) is a Nix expression, which downloads a recent artifact from gitlab.haskell.org and enters a nix shell with the artefact available. This is a quick way to try some code out on a recent `HEAD` or a merge request.
