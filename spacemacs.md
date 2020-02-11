@@ -1,8 +1,8 @@
-Spacemacs is an Emacs (configuration) distribution. It mainly consists of pre-configured sets of packages that are organized in layers (e.g. the is a `haskell` layer). With Spacemacs you can relatively quickly get an "IDE experience" for GHC development.
+[Spacemacs](https://www.spacemacs.org/) is an Emacs (configuration) distribution. It mainly consists of pre-configured sets of packages that are organized in layers (e.g. the is a `haskell` layer). With Spacemacs you can relatively quickly get an "IDE experience" for GHC development.
 
 Topics regarding Emacs configuration in general can be found here: [Emacs](emacs)
 
-# Spacemacs + ghcide + Nix(os)
+# ghcide + Nix(os)
 
 ## Description
 How to use `ghcide` with Spacemacs and Nix(os).
@@ -238,10 +238,7 @@ Buffer switched - ignoring response. Method textDocument/hover
 
 If you've enabled message tracing (see above), these buffers contain all requests and responses of the *Language Server Protocol* regarding one session.
 
-## Shortcomings
-Sometimes you have to be patient. "Hover" information is currently known to be slow. And creating the nix-environment for the first time might feel like you're downloading the whole internet... :wink: 
-
-# Spacemacs + Dante + Nix(os)
+# Dante + Nix(os)
 :warning: `ghcide` support is pretty good now and the project is gaining momentum. If you aren't sure that you want to use `dante`, you probably want to use `ghcide` (at least for GHC development).
 
 The author of this section (@supersven) switched to `ghcide`, so it might be outdated.
