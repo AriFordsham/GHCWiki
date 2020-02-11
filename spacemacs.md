@@ -1,25 +1,25 @@
-[Spacemacs](https://www.spacemacs.org/) is an Emacs (configuration) distribution. It mainly consists of pre-configured sets of packages that are organized in layers (e.g. the is a `haskell` layer). With Spacemacs you can relatively quickly get an "IDE experience" for GHC development.
+[Spacemacs](https://www.spacemacs.org/) is an Emacs (configuration) distribution. It mainly consists of pre-configured sets of packages that are organized in layers (e.g. there is a `haskell` layer). With Spacemacs you can relatively quickly get an "IDE experience" for GHC development.
 
 Topics regarding Emacs configuration in general can be found here: [Emacs](emacs)
 
-# ghcide + Nix(os)
+This page assumes that you are using and [`nix`](https://nixos.org/) and [`ghc.nix`](https://github.com/alpmestan/ghc.nix).
 
-## Description
-How to use `ghcide` with Spacemacs and Nix(os).
+# Haskell
 
-### Requirements:
-- Spacemacs (http://spacemacs.org/)
-- ghc.nix (https://github.com/alpmestan/ghc.nix)
-- Nix(os) (https://nixos.org/)
+## ghcide
 
-## How to enable
+[`ghcide`](https://github.com/digital-asset/ghcide) implements the [Language Server Protocol (LSP)](https://microsoft.github.io/language-server-protocol/). It is a tool that provides IDE features like type checking, symbol navigation and information on hover.
+
+In simple words: Emacs doesn't understand Haskell, ghcide does. :smile:  
+
+### How to enable
 The rough plan is:
 - Get `ghcide` via `ghc.nix`.
 - Configure Spacemacs to use `ghcide` with `nix-shell` for `haskell-mode`.
 - Teach Spacemacs that `compiler/` and `hadrian/` are two distinct projects.
 - Configure different `ghcide` command line arguments for the two.
 
-### Get `ghcide` via `ghc.nix`
+#### Get `ghcide` via `ghc.nix`
 To use `ghcide` you have to make sure that it's in your environment. `ghc.nix` provides a parameter - `withIde` - for this.
 
 Later we'll see that we need it in a `nix-shell` environment. So, add two `shell.nix` files with `withIde = true`. 
@@ -46,7 +46,7 @@ import ../ghc.nix/default.nix {
 
 The other parameters are optional and only provided as examples that you can configure much more with `ghc.nix` and have different configurations for hadrian and the compiler. However, I would recommend to use the same compiler version (`bootghc`); using different GHC versions on the same project sounds like asking for trouble ... :wink:
 
-### Configure Spacemacs to use `ghcide` with `nix-shell`
+#### Configure Spacemacs to use `ghcide` with `nix-shell`
 
 Support for the `lsp` backend in the `haskell`-layer is currently only available on the `develop`-branch.
 https://github.com/syl20bnr/spacemacs/tree/develop/layers/+lang/haskell#lsp
@@ -121,7 +121,7 @@ use_nix
 That way the appropriate `nix` environemt is automatically loaded in the shell and - with the package `direnv` - in Emacs.
 I always drop one `.envrc` into the root of my Haskell projects. Regarding GHC I've `./.envrc` and `hadrian/.envrc`.
 
-### `compiler/` and `hadrian/` are two distinct projects
+#### `compiler/` and `hadrian/` are two distinct projects
 
 Unfortunately [`projectile`](https://projectile.readthedocs.io/en/latest/) recognizes GHC and hadrian as **one** project.
 
@@ -129,7 +129,7 @@ To switch to the appropriate `nix`-environment for each Haskell source file, the
 
 Adding an empty `hadrian/.projectile` file does the job.
 
-### Configure different `ghcide` command line arguments
+#### Configure different `ghcide` command line arguments
 
 To test if `ghcide` works, you can call it directly.
 
@@ -187,7 +187,7 @@ To configure different `ghcide` parameters per source folder, we can use `.dir-l
 
 The settings for `indent-tabs-mode`, `fill-column` and `buffer-file-coding-system` are those preferred by the GHC project. "dir-local" variables are inherited from parent directories to their childs.
 
-## Troubleshooting
+### Troubleshooting
 
 This setup is pretty complicated. To find errors, you can check several layers.
 
@@ -196,31 +196,31 @@ I would propose this order:
 1. **ghcide** - *Can `ghcide` be run on the command line?*
 1. **lsp-mode (Emacs)** - *Are there any error messages in the `lsp` buffers?*
 
-### Nix
+#### Nix
 ```bash
 nix-shell --pure shell.nix --command "which ghcide"
 nix-shell --pure hadrian/shell.nix --command "which ghcide"
 ```
 
-### ghcide
+#### ghcide
 ```
 nix-shell --pure shell.nix --command "ghcide compiler"
 nix-shell --pure hadrian/shell.nix --command "ghcide --cwd hadrian ."
 ```
 
-### lsp-mode (Emacs)
+#### lsp-mode (Emacs)
 
-#### Enable message tracing
+##### Enable message tracing
 `M-x customize-mode` :arrow_right_hook: `lsp-mode`
 Menu entry: *Lsp Server Trace*
 
-#### Increase response timeout
+##### Increase response timeout
 `M-x customize-mode` :arrow_right_hook: `lsp-mode`
 Menu entry: *Lsp Response Timeout*
 
-#### Buffers
+##### Buffers
 
-##### \*lsp-log\*
+###### \*lsp-log\*
 Shows how `ghcide` is called.
 
 For example:
@@ -234,11 +234,11 @@ The following clients were selected based on priority: (server-id hie, priority 
 Buffer switched - ignoring response. Method textDocument/hover
 ```
 
-##### *\*lsp-log\*: hie: [SESSION_NUMBER]
+###### *\*lsp-log\*: hie: [SESSION_NUMBER]
 
 If you've enabled message tracing (see above), these buffers contain all requests and responses of the *Language Server Protocol* regarding one session.
 
-# Dante + Nix(os)
+## Dante
 :warning: `ghcide` support is pretty good now and the project is gaining momentum. If you aren't sure that you want to use `dante`, you probably want to use `ghcide` (at least for GHC development).
 
 The author of this section (@supersven) switched to `ghcide`, so it might be outdated.
@@ -248,11 +248,6 @@ The author of this section (@supersven) switched to `ghcide`, so it might be out
 **Description**: This section is a bit special because it applies to a very specific setup: Using Spacemacs (an Emacs configuration distribution) with `dante-mode` as editor and `nix-shell` for building GHC.
 
 The initial setup is a bit cumbersome, but you'll gain syntax highlighting, type checking / info and navigation ("Jump to Definition").
-
-Requirements:
-- Spacemacs (http://spacemacs.org/)
-- ghc.nix (https://github.com/alpmestan/ghc.nix)
-- Nix(os) (https://nixos.org/)
 
 Dante is currently only available on the `develop` branch of Spacemacs.
 ```bash
