@@ -2,7 +2,22 @@
 
 Topics regarding Emacs configuration in general can be found here: [Emacs](emacs)
 
+# Prerequisites
 This page assumes that you are using and [`nix`](https://nixos.org/) and [`ghc.nix`](https://github.com/alpmestan/ghc.nix).
+
+Support for the `lsp` backend in the `haskell`-layer is currently only available on the `develop`-branch.
+https://github.com/syl20bnr/spacemacs/tree/develop/layers/+lang/haskell#lsp
+
+To get it, you need to check it out. The Spacemacs code usually resides in `~/.emacs.d`.
+
+```bash
+cd ~/.emacs.d
+git checkout --track origin/develop
+git pull
+``` 
+
+If Spacemacs is already running, restart it and update all packages.
+
 
 # Haskell
 
@@ -48,20 +63,7 @@ The other parameters are optional and only provided as examples that you can con
 
 #### Configure Spacemacs to use `ghcide` with `nix-shell`
 
-Support for the `lsp` backend in the `haskell`-layer is currently only available on the `develop`-branch.
-https://github.com/syl20bnr/spacemacs/tree/develop/layers/+lang/haskell#lsp
-
-To get it, you need to check it out. The Spacemacs code usually resides in `~/.emacs.d`.
-
-```bash
-cd ~/.emacs.d
-git checkout --track origin/develop
-git pull
-``` 
-
-If Spacemacs is already running, restart it and update all packages.
-
-Now you'll configure two layers, `lsp` and `haskell`, to use `ghcide` in a `nix-shell` environment:
+Configure two layers, `lsp` and `haskell`, to use `ghcide` in a `nix-shell` environment:
 
 ```elisp
 ...
@@ -106,7 +108,6 @@ And load the `nix-sandbox` package on statup:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(nix-sandbox)
-
 
 ...
 ```
