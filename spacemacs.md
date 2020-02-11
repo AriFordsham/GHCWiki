@@ -229,6 +229,49 @@ Buffer switched - ignoring response. Method textDocument/hover
 
 If you've enabled message tracing (see above), these buffers contain all requests and responses of the *Language Server Protocol* regarding one session.
 
+# C
+
+There are three LSP backends for C to choose from: `clangd` (default in Spacemacs), `ccls` and `cquery`.
+
+The `cquery` project seems to be abondoned. 
+
+Both, `clangd` and `ccls` (can) use a [`compile_commands.json`](https://clang.llvm.org/docs/JSONCompilationDatabase.html) (*JSON Compilcation Database*) file as configuration.
+
+Because I (@supersven) got the best results with `ccls` (it was able to handle header files better), we'll continue with it. But configuring `clangd` should be very simple, too.
+
+## Install `ccls`
+
+```shell
+nix-env -i ccls
+```
+
+## Generate compile_commands.json
+
+```shell
+nix-shell -p bear
+bear hadrian/build.sh -j12 --freeze1 --flavour=Devel2 stage2:lib:rts
+```
+
+[`bear`](https://github.com/rizsotto/Bear) intercepts all calls to the C compiler. This way it can write a `compile_commands.json` that contains all compilation arguments and flags needed for each C file.
+
+## Configure `c-c++` layer
+
+In `.spacemacs`:
+```elisp
+   ;; List of configuration layers to load.
+   dotspacemacs-configuration-layers
+   '(
+...
+     (c-c++ :variables c-c++-backend 'lsp-ccls)
+...
+     )
+
+```
+
+For more details about LSP backend configuration, please see: https://develop.spacemacs.org/layers/+lang/c-c++/README.html#backends
+
+
+# Historial
 ## Dante
 :warning: `ghcide` support is pretty good now and the project is gaining momentum. If you aren't sure that you want to use `dante`, you probably want to use `ghcide` (at least for GHC development).
 
