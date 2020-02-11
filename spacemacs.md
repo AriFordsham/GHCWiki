@@ -233,7 +233,7 @@ If you've enabled message tracing (see above), these buffers contain all request
 
 There are three LSP backends for C to choose from: `clangd` (default in Spacemacs), `ccls` and `cquery`.
 
-The `cquery` project seems to be abondoned. 
+The `cquery` project seems to be abandoned. 
 
 Both, `clangd` and `ccls` (can) use a [`compile_commands.json`](https://clang.llvm.org/docs/JSONCompilationDatabase.html) (*JSON Compilcation Database*) file as configuration.
 
