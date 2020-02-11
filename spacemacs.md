@@ -105,21 +105,11 @@ And load the `nix-sandbox` package on statup:
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(direnv nix-sandbox)
+   dotspacemacs-additional-packages '(nix-sandbox)
 
 
 ...
 ```
-
-The `direnv` package is optional for this tutorial, but very useful for working with Emacs and `nix-shell` environments in general. [`direnv`](https://direnv.net/) is a command line tool, that automatically loads an environment defined by a `.envrc` file, when you visit an directory that itself contains or has a parent folder that contains one.
-
-`.envrc` can simply redirect to `nix`:
-```
-use_nix
-```
-
-That way the appropriate `nix` environemt is automatically loaded in the shell and - with the package `direnv` - in Emacs.
-I always drop one `.envrc` into the root of my Haskell projects. Regarding GHC I've `./.envrc` and `hadrian/.envrc`.
 
 #### `compiler/` and `hadrian/` are two distinct projects
 
