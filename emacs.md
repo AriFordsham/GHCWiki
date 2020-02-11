@@ -384,6 +384,12 @@ A few things to note here:
 ```
 
 # Spacemacs + Dante + Nix(os)
+:warning: `ghcide` support is pretty good now and the project is gaining momentum. If you aren't sure that you want to use `dante`, you probably want to use `ghcide` (at least for GHC development).
+
+The author of this section (@supersven) switched to `ghcide`, so it might be outdated.
+
+---
+
 **Description**: This section is a bit special because it applies to a very specific setup: Using Spacemacs (an Emacs configuration distribution) with `dante-mode` as editor and `nix-shell` for building GHC.
 
 The initial setup is a bit cumbersome, but you'll gain syntax highlighting, type checking / info and navigation ("Jump to Definition").
