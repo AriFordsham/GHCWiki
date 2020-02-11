@@ -35,7 +35,7 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
 
 - [Loading GHC into GHCi](building/in-ghci) can provide a more iterative development experience. 
 
-- To have an easier time looking up tickets and searching trac, use [the browser tips page](browser-tips) to make your search and lookups for Trac tickets substantially easier.
+- To have an easier time looking up tickets and searching GitLab, use [the browser tips page](browser-tips) to make your search and lookups for GitLab tickets substantially easier.
 
 - If you use Emacs, see [Emacs](emacs) for some useful stuff to put in your `.emacs` file.
 
@@ -52,7 +52,7 @@ If you have any questions along the way don't hesitate to reach out to the commu
 
 ### First steps
 
-- See [Building/QuickStart](building/quick-start) to get started building GHC. Expect it all to take roughly between 30 minutes and a couple of hours, depending on your CPU speed, and the number of jobs you can run in parallel. Note that [building older versions of GHC may require having an older version of GHC on your path](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Tools).
+- See [Building/QuickStart](building/quick-start) to get started building GHC. Expect it all to take roughly between 30 minutes and a couple of hours, depending on your CPU speed, and the number of jobs you can run in parallel. Note that [building older versions of GHC may require having an older version of GHC on your path](https://gitlab.haskell.org/ghc/ghc/wikis/building/preparation/tools).
 
 - While you are waiting for your build to finish, orient yourself to the general architecture of GHC. This [article](http://www.aosabook.org/en/ghc.html) is written by two of the chief architects of GHC, Simon Marlow and Simon Peyton-Jones, is excellent and current (2012).
 
@@ -62,7 +62,7 @@ If you have any questions along the way don't hesitate to reach out to the commu
 
 
 
-Now that you can build GHC, let's get hacking. But first, you'll need to identify a goal. GHC's Trac tickets are a great place to find starting points. You are encouraged to ask for a starting point on IRC or the `ghc-devs` [mailing list](mailing-lists-and-irc). There someone familiar with the process can help you find a ticket that matches your expertise and help you when you get stuck.
+Now that you can build GHC, let's get hacking. But first, you'll need to identify a goal. GHC's GitLab tickets are a great place to find starting points. You are encouraged to ask for a starting point on IRC or the `ghc-devs` [mailing list](mailing-lists-and-irc). There someone familiar with the process can help you find a ticket that matches your expertise and help you when you get stuck.
 
 If you want to get a taste for possible starting tasks, the ~newcomer label collects tickets that appear to be "low-hanging fruit" -- things that might be reasonable for a newcomer to GHC hacking. Of course, we can't ever be sure of how hard a task is before doing it, so apologies if one of these is too hard.
 
