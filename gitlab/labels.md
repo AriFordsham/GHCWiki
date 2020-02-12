@@ -3,6 +3,13 @@ mechanism to track a variety of information. Here we document the conventions
 we use. For more general issue conventions, see the
 [issue conventions](https://gitlab.haskell.org/ghc/ghc/wikis/gitlab/issues) page.
 
+Here is 
+* [the definitive list of all labels used in the GHC project](https://gitlab.haskell.org/ghc/ghc/-/labels)
+
+**Super-imoprtant note.**  In the definitive list, there are two links for each label: one for the issues with that label, and one for the merge requests with that label.
+
+**Markup**: the markup `~debugger` or `~"debugger"` renders to a clickable label ~debugger leading to the issues with that label.   (Question: what markup leads to MRs with that label?)
+
 If you create a new label please do add it to this list, keeping the list in
 alphabetical order. Also, avoid using colors other than blue unless your
 label really needs to be noticed.
