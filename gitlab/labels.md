@@ -6,9 +6,15 @@ we use. For more general issue conventions, see the
 Here is 
 * [the definitive list of all labels used in the GHC project](https://gitlab.haskell.org/ghc/ghc/-/labels)
 
-**Super-imoprtant note.**  In the definitive list, there are two links for each label: one for the issues with that label, and one for the merge requests with that label.
+This list is machine-generated and always up to date, but it is long, and not semantically grouped.
+
+**Super-important note.**  In the definitive list, there are two links for each label: one for the issues with that label, and one for the merge requests with that label.
 
 **Markup**: the markup `~debugger` or `~"debugger"` renders to a clickable label ~debugger leading to the issues with that label.   (Question: what markup leads to MRs with that label?)
+
+# Classifying labels
+
+The rest of this page describes the semantics of our label usage in GHC.  It is human-written, and hence may not mention every label.
 
 If you create a new label please do add it to this list, keeping the list in
 alphabetical order. Also, avoid using colors other than blue unless your
