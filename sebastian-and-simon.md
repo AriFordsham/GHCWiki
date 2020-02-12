@@ -1,6 +1,16 @@
 # Agenda
 
 - Paper 
+  - Think about the refinement type narrative  
+    - It's a good analogy for motivating the generate-and-test approach
+    - But notationally and algorithmically, we are mostly interested in the constraints
+    - Even the new definition of U doesn't really care for refinement types. It
+      made more sense when we were giving the set of reaching values as input
+      to the function, though. But a refinement type would need scoping, too.
+    - Actually, calling Delta (together with a Gamma) a refinement type makes
+      sense from the standpoint of narrative: We turn it into actual
+      constraints/oracle/inert set/whatever when we generate-and-test. Now
+      there's a clear separation between refinement type and inert set.
   - Outline:
     - Introduction
     - Problem statement  
@@ -14,19 +24,25 @@
       - Unsatisfying story around Newtype pattern matches (they are not strict)
       - Long distance info
       - (And all other stuff that was solved as part of GADTs MTM, like type info) 
-    - Our solution
-      - (GADTs MTM does this by first introducing the concepts intuitively by way of examples, and then giving the formalism in the next chapter. Maybe we should do that, too?)
-      - Make a Figure 1
-      - Desugaring of source syntax pattern matching to simple guard tree language
-      - Pattern-match checking as a function on guard trees, producing uncovered patterns and clause tree annotated with redundancy info
-      - Constraint solving/generating inhabitants
+    - Our approach
+      - Introduce Syntax and informally introduce how algorithm works by way of examples  
+        - "Figure 1": Show how values flow through the clause tree
+        - Explain why redundancy can't be decided locally (so C and D are no longer direct outputs) and we have to return an annotated tree
+      - Explain the formalism  
+        - (Desugaring to clause trees? Maybe just assume as given)
+        - Pattern-match checking as a function on guard trees, producing uncovered patterns and clause tree annotated with redundancy info
+        - Constraint solving/generating inhabitants
     - Possible extensions:
       - Long distance info
+      - EmptyCase
       - CoreMap/semantic equality (Just add additional constraint and widen domain of \rep{\Phi})
       - Pattern synonyms + COMPLETE pragmas
       - (Overloaded) literals
       - Newtypes through coercions
       - Maybe regard type info as an extension, too?
+      - Maybe regard Laziness as an extension, too? Or maybe regard strictness as an extension and show what can be omitted
+        - Without it, A returning an annotated tree seems pointless, it could just return the redundant RHSs directly.
+        - Otherwise, it's just handling of bang patterns, (non-)bot constraints and the additional rule in the inhabitance test
     - Implementation
       - Interleaving U and A, skip Delta and add to nabla directly, so that we share work for checking the incoming nabla
       - Throttling for graceful degradation (needs DNF of nablas from previous hack, otherwise actual complexity not easily predictable), argue for soundness
@@ -34,11 +50,11 @@
       - Check a couple of packages
       - Issues closed?
     - Related Work
-      - GADTs MTM (mine their Related Work)
+      - GMTM (mine their Related Work)
       - Maranget's work; tries to account for laziness, but wrongly so
       - Compare to "Elaborating dependent (co)pattern matching", which is essentially GADTs MTM with more type foo going on
       - Compare to refinement types
-      - Compare to "Structural and semantic pattern matching analysis in Haskell", which uses an SMT solver as the oracle in the GADTMTM formalism. We could extend nabla with reasoning about booleans and arithmetic to achieve something similar
+      - Compare to "Structural and semantic pattern matching analysis in Haskell", which uses an SMT solver as the oracle in the GMTM formalism. We could extend nabla with reasoning about booleans and arithmetic to achieve something similar
 
 - #17676: Consolidate when to apply IO hack. Maybe rename it  
   - Does it make sense to re-use `expr_ok`? It returns `False` for `Tickish` things, for example.
