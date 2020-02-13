@@ -17,13 +17,14 @@
       - Complexity of previous impl, maintenance burden
       - No mixing of pattern guards and pattern matching (can be combined with the following point)
       - Bad story for guards in general
+      - View patterns 
       - (Laziness)/Bang patterns/strict fields
       - (Overloaded) literals
       - Pattern synonyms + COMPLETE pragmas
       - New implementation has favorable efficiency, graceful degradation for predictable performance
       - Unsatisfying story around Newtype pattern matches (they are not strict)
       - Long distance info
-      - (And all other stuff that was solved as part of GADTs MTM, like type info) 
+      - (And all other stuff that was solved as part of GMTM, like type info) 
     - Our approach
       - Introduce Syntax and informally introduce how algorithm works by way of examples  
         - "Figure 1": Show how values flow through the clause tree
