@@ -2,6 +2,8 @@
 
 Topics regarding Emacs configuration in general can be found here: [Emacs](emacs)
 
+If you want to see, what you may get, there is a Docker-based showcase with a Spacemacs environment that is fully configured for GHC development: [github.com/supersven/ghc-spacemacs-docker](https://github.com/supersven/ghc-spacemacs-docker)
+
 # Prerequisites
 This page assumes that you are using and [`nix`](https://nixos.org/) and [`ghc.nix`](https://github.com/alpmestan/ghc.nix).
 
