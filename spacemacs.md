@@ -29,10 +29,11 @@ In simple words: Emacs doesn't understand Haskell, ghcide does. :smile:
 
 ### How to enable
 The rough plan is:
-- Get `ghcide` via `ghc.nix`.
-- Configure Spacemacs to use `ghcide` with `nix-shell` for `haskell-mode`.
-- Teach Spacemacs that `compiler/` and `hadrian/` are two distinct projects.
-- Configure different `ghcide` command line arguments for the two.
+- Get `ghcide` via `ghc.nix`
+  - Enable `cachix` (optional)
+- Configure Spacemacs to use `ghcide` with `nix-shell` for `haskell-mode`
+- Teach Spacemacs that `compiler/` and `hadrian/` are two distinct projects
+- Configure different `ghcide` command line arguments for the two
 
 #### Get `ghcide` via `ghc.nix`
 To use `ghcide` you have to make sure that it's in your environment. `ghc.nix` provides a parameter - `withIde` - for this.
@@ -60,6 +61,18 @@ import ../ghc.nix/default.nix {
 ```
 
 The other parameters are optional and only provided as examples that you can configure much more with `ghc.nix` and have different configurations for hadrian and the compiler. However, I would recommend to use the same compiler version (`bootghc`); using different GHC versions on the same project sounds like asking for trouble ... :wink:
+
+##### Cachix
+You can save a lot of compilation time by using a pre-built ("cached") `ghcide`.
+
+To enable the `cachix` cache for `ghcide`:
+
+```shell
+nix-env -iA cachix -f https://cachix.org/api/v1/install
+cachix use ghcide-nix
+```
+
+Of course, you only need the first line if `cachix` isn't already installed.
 
 #### Configure Spacemacs to use `ghcide` with `nix-shell`
 
