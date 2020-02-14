@@ -11,8 +11,7 @@ Some animations to demonstrate what you can expect:
 ![C - Hover & Error](uploads/160b19edec2d0b40789afd23f65e1cb4/peek_vscode_c_hover_error.gif)
 
 
-# Plan
-
+# Table of contents
 [[_TOC_]]
 
 # Install [`ghc.nix`](https://github.com/alpmestan/ghc.nix)
@@ -104,3 +103,7 @@ You have to set them per workspace, i.e. `hic.arguments` differs for the GHC com
 | Hadrian      | `--lsp .`        | `ghcide`             |
 
 ![vscode_ghcide_config_compiler](uploads/444828858073add12000ae9f524eb041/vscode_ghcide_config_compiler.png)
+
+# Troubleshooting
+
+Please have a look at [spacemacs/Troubleshooting](spacemacs#troubleshooting). The first analysis steps are editor-agnostic.
