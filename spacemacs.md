@@ -4,6 +4,9 @@ Topics regarding Emacs configuration in general can be found here: [Emacs](emacs
 
 If you want to see, what you may get, there is a Docker-based showcase with a Spacemacs environment that is fully configured for GHC development: [github.com/supersven/ghc-spacemacs-docker](https://github.com/supersven/ghc-spacemacs-docker)
 
+# Table of Contents
+[[_TOC_]]
+
 # Prerequisites
 ## ghc.nix
 This page assumes that you are using [`nix`](https://nixos.org/) and [`ghc.nix`](https://github.com/alpmestan/ghc.nix).
@@ -40,17 +43,10 @@ If Spacemacs is already running, restart it and update all packages.
 In simple words: Emacs doesn't understand Haskell, ghcide does. :smile:  
 
 ### How to enable
-The rough plan is:
-- Get `ghcide` via `ghc.nix`
-  - Enable `cachix` (optional)
-- Configure Spacemacs to use `ghcide` with `nix-shell` for `haskell-mode`
-- Teach Spacemacs that `compiler/` and `hadrian/` are two distinct projects
-- Configure different `ghcide` command line arguments for the two
-
 #### Get `ghcide` via `ghc.nix`
 To use `ghcide` you have to make sure that it's in your environment. `ghc.nix` provides a parameter - `withIde` - for this.
 
-Later we'll see that we need it in a `nix-shell` environment. So, add two `shell.nix` files with `withIde = true`. 
+Later we'll see that we need it in a `nix-shell` environment. So, add a `shell.nix` file with `withIde = true`. 
 
 `./shell.nix`:
 ```nix
@@ -59,20 +55,11 @@ import ./ghc.nix/default.nix {
   withIde = true;
   withHadrianDeps = true;
   cores = 8;
+  withDocs = false;
 }
 ```
 
-`hadrian/shell.nix`:
-```nix
-import ../ghc.nix/default.nix {
-  bootghc = "ghc865";
-  withIde = true;
-  withHadrianDeps = true;
-  cores = 8;
-}
-```
-
-The other parameters are optional and only provided as examples that you can configure much more with `ghc.nix` and have different configurations for hadrian and the compiler. However, I would recommend to use the same compiler version (`bootghc`); using different GHC versions on the same project sounds like asking for trouble ... :wink:
+The other parameters are optional and only provided as examples that you can configure much more with `ghc.nix`.
 
 ##### Cachix
 You can save a lot of compilation time by using a pre-built ("cached") `ghcide`.
@@ -143,7 +130,7 @@ Unfortunately [`projectile`](https://projectile.readthedocs.io/en/latest/) recog
 
 To switch to the appropriate `nix`-environment for each Haskell source file, the distinction between GHC and hadrian is important.
 
-Adding an empty `hadrian/.projectile` file does the job.
+Add an empty `hadrian/.projectile` file.
 
 #### Configure different `ghcide` command line arguments
 
@@ -151,7 +138,7 @@ To test if `ghcide` works, you can call it directly.
 
 For GHC:
 ```bash
-nix-shell shell.nix --command "ghcide compiler"
+nix-shell --command "ghcide compiler"
 ```
 
 You should see a lot of output and finally a success message:
@@ -165,8 +152,7 @@ Done
 
 For hadrian:
 ```bash
-cd hadrian
-nix-shell shell.nix --command "ghcide ."
+nix-shell --command "ghcide --cwd hadrian ."
 ```
 
 ```
@@ -201,7 +187,11 @@ To configure different `ghcide` parameters per source folder, we can use `.dir-l
 
 `--cwd` (*Current Working Directory*) makes sure that `ghcide` runs on the root of the project and not in the directory of the file.
 
-The settings for `indent-tabs-mode`, `fill-column` and `buffer-file-coding-system` are those preferred by the GHC project. "dir-local" variables are inherited from parent directories to their childs.
+The settings for [`indent-tabs-mode`](https://www.gnu.org/software/emacs/manual/html_node/eintr/Indent-Tabs-Mode.html), [`fill-column`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Fill-Commands.html) and [`buffer-file-coding-system`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Text-Coding.html) are those preferred by the GHC project. "dir-local" variables are inherited from parent directories to their childs.
+
+#### Starting
+
+Please make sure that you open first a Haskell file under `hadrian/` and then a file under `compiler/`. Otherwise Spacemacs will automatically assume, that files under `hadrian/` belong to the same workspace as `compiler/`.
 
 ### Troubleshooting
 
@@ -215,13 +205,12 @@ I would propose this order:
 #### Nix
 ```bash
 nix-shell --pure shell.nix --command "which ghcide"
-nix-shell --pure hadrian/shell.nix --command "which ghcide"
 ```
 
 #### ghcide
 ```
 nix-shell --pure shell.nix --command "ghcide compiler"
-nix-shell --pure hadrian/shell.nix --command "ghcide --cwd hadrian ."
+nix-shell --pure shell.nix --command "ghcide --cwd hadrian ."
 ```
 
 #### lsp-mode (Emacs)
