@@ -53,7 +53,7 @@ nix-shell -p bear --command 'bear hadrian/build.sh -j12 --freeze1 --flavour=Deve
 ## Start VSCode in a ghc.nix/nix-shell environment
 
 ```bash
-nix-shell -p vscode
+nix-shell -p vscode ccls
 ```
 
 ## Install `ghcide` and `ccls` plugins
