@@ -4,13 +4,7 @@ The whole procedure is very similar to that described for [Spacemacs](spacemacs)
 
 # Plan
 
-- Install [`ghc.nix`](https://github.com/alpmestan/ghc.nix)
-  - Configure it with a `shell.nix` file
-- Install other dependencies
-- Start and configure VSCode
-  - Start VSCode in a ghc.nix/nix-shell environment
-  - Create workspaces for `compiler/` and `hadrian/`
-  - Install and configure the `ghcide` plugin
+[[_TOC_]]
 
 # Install [`ghc.nix`](https://github.com/alpmestan/ghc.nix)
 
