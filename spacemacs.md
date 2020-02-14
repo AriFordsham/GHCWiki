@@ -128,9 +128,12 @@ And load the `nix-sandbox` package on statup:
 
 Unfortunately [`projectile`](https://projectile.readthedocs.io/en/latest/) recognizes GHC and hadrian as **one** project.
 
-To switch to the appropriate `nix`-environment for each Haskell source file, the distinction between GHC and hadrian is important.
+To make calls to `ghcide` with different parameters, the distinction between GHC and hadrian is important.
 
-Add an empty `hadrian/.projectile` file.
+Add an empty `hadrian/.projectile` file:
+```
+touch hadrian/.projectile
+```
 
 #### Configure different `ghcide` command line arguments
 
@@ -262,8 +265,7 @@ nix-env -i ccls
 ## Generate compile_commands.json
 
 ```shell
-nix-shell -p bear
-bear hadrian/build.sh -j12 --freeze1 --flavour=Devel2 stage2:lib:rts
+nix-shell -p bear --command 'bear hadrian/build.sh -j12 --freeze1 --flavour=Devel2 stage2:lib:rts'
 ```
 
 [`bear`](https://github.com/rizsotto/Bear) intercepts all calls to the C compiler. This way it can write a `compile_commands.json` that contains all compilation arguments and flags needed for each C file.
