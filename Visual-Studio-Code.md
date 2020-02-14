@@ -2,6 +2,15 @@ This page describes how to easily setup [Visual Studio Code](https://code.visual
 
 The whole procedure is very similar to that described for [Spacemacs](spacemacs). If you miss somethings here, it might be on that other page. However, this page should be self-contained (with some links to other pages to reduce duplication in the wiki).
 
+Some animations to demonstrate what you can expect:
+
+![Haskell - Hover](uploads/8d364182c4feec961cbbf0eeb7a4e2ca/peek_vscode_haskell_hover.gif)
+
+![Haskell - Quickfix](uploads/49faab281021bcc257e9ba490df8cccc/peek_vscode_haskell_quickfix.gif) 
+
+![C - Hover & Error](uploads/160b19edec2d0b40789afd23f65e1cb4/peek_vscode_c_hover_error.gif)
+
+
 # Plan
 
 [[_TOC_]]
@@ -75,15 +84,6 @@ The folder of your GHC compiler workspace is the source root of the cloned GHC r
 So, e.g. if your GHC source folder has the path `/home/sven/src/ghc`, then the two folders are:
 - **`/home/sven/src/ghc`** for GHC
 - **`/home/sven/src/ghc/hadrian`** for Hadrian
-
-Some animations to demonstrate what you can expect:
-
-![Haskell - Hover](uploads/8d364182c4feec961cbbf0eeb7a4e2ca/peek_vscode_haskell_hover.gif)
-
-![Haskell - Quickfix](uploads/49faab281021bcc257e9ba490df8cccc/peek_vscode_haskell_quickfix.gif) 
-
-![C - Hover & Error](uploads/160b19edec2d0b40789afd23f65e1cb4/peek_vscode_c_hover_error.gif)
-
 
 ## Plugin configuration
 
