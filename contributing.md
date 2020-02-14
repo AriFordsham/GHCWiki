@@ -39,7 +39,7 @@ GHC is a BSD-licensed open-source project, and we welcome your help in making it
 
 - If you use Emacs, see [Emacs](emacs) for some useful stuff to put in your `.emacs` file.
 
-- If you use Spacemacs and Nix: [Spacemacs](spacemacs) explains for how to use it as an IDE.
+- If you use Spacemacs or VSCode and Nix: The [Spacemacs](spacemacs) and [Visual Studio Code](Visual-Studio-Code) pages explain how to use them as an IDE.
 
 - If you have lots of Haskell installations, you may find Edsko's blog post [Comprehensive Haskell Sandboxes](http://www.edsko.net/2013/02/10/comprehensive-haskell-sandboxes/) useful.
 
