@@ -1,6 +1,6 @@
-This page describes how to easily setup Visual Studio Code (VSCode) for GHC development. This includes Language Server Protocol (LSP) support for Haskell and C files. The former is accomplished by using [`ghcide`](https://github.com/digital-asset/ghcide), the latter by [`ccls`](https://github.com/MaskRay/ccls).
+This page describes how to easily setup [Visual Studio Code](https://code.visualstudio.com/) (VSCode) for GHC development. This includes [Language Server Protocol](https://microsoft.github.io/language-server-protocol/) (LSP) support for Haskell and C files. The former is accomplished by using [`ghcide`](https://github.com/digital-asset/ghcide), the latter by [`ccls`](https://github.com/MaskRay/ccls).
 
-The whole procedure is very similar to that described for [Spacemacs](spacemacs). If you miss somethings here, it might be on that other page. However, this page should be self-contained.
+The whole procedure is very similar to that described for [Spacemacs](spacemacs). If you miss somethings here, it might be on that other page. However, this page should be self-contained (with some links to other pages to reduce duplication in the wiki).
 
 # Plan
 
