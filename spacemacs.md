@@ -252,7 +252,7 @@ There are three LSP backends for C to choose from: `clangd` (default in Spacemac
 
 The `cquery` project seems to be abandoned. 
 
-Both, `clangd` and `ccls` (can) use a [`compile_commands.json`](https://clang.llvm.org/docs/JSONCompilationDatabase.html) (*JSON Compilcation Database*) file as configuration.
+Both, `clangd` and `ccls` (can) use a [`compile_commands.json`](https://clang.llvm.org/docs/JSONCompilationDatabase.html) (*JSON Compilation Database*) file as configuration.
 
 Because I (@supersven) got the best results with `ccls` (it was able to handle header files better), we'll continue with it. But configuring `clangd` should be very simple, too.
 
@@ -287,7 +287,7 @@ In `.spacemacs`:
 For more details about LSP backend configuration, please see: https://develop.spacemacs.org/layers/+lang/c-c++/README.html#backends
 
 
-# Historial
+# Historical
 ## Dante
 :warning: `ghcide` support is pretty good now and the project is gaining momentum. If you aren't sure that you want to use `dante`, you probably want to use `ghcide` (at least for GHC development).
 
