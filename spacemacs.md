@@ -5,8 +5,19 @@ Topics regarding Emacs configuration in general can be found here: [Emacs](emacs
 If you want to see, what you may get, there is a Docker-based showcase with a Spacemacs environment that is fully configured for GHC development: [github.com/supersven/ghc-spacemacs-docker](https://github.com/supersven/ghc-spacemacs-docker)
 
 # Prerequisites
-This page assumes that you are using and [`nix`](https://nixos.org/) and [`ghc.nix`](https://github.com/alpmestan/ghc.nix).
+## ghc.nix
+This page assumes that you are using [`nix`](https://nixos.org/) and [`ghc.nix`](https://github.com/alpmestan/ghc.nix).
 
+The installation of Nix depends on your system. Please see https://nixos.org/nix/manual/#ch-installing-binary .
+
+`ghc.nix` is "installed" by cloning it into your GHC source folder, e.g.
+
+```
+cd /home/sven/src/ghc
+git clone https://github.com/alpmestan/ghc.nix.git
+```
+
+## Spacemacs on `develop` branch
 Support for the `lsp` backend in the `haskell`-layer is currently only available on the `develop`-branch.
 https://github.com/syl20bnr/spacemacs/tree/develop/layers/+lang/haskell#lsp
 
@@ -19,7 +30,6 @@ git pull
 ``` 
 
 If Spacemacs is already running, restart it and update all packages.
-
 
 # Haskell
 
