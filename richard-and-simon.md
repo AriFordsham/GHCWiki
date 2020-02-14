@@ -60,10 +60,6 @@ We should be clear about the dependencies between items on this list.
 - #17441: ensure that tcView and coreView can inline
 - #17440: seqId magic
 
-- #17173: lazy instantiation and VTA
-
-
-
 - Visible type abstraction: [Original proposal](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0050-type-lambda.rst), modified [here](https://github.com/ghc-proposals/ghc-proposals/pull/238). Also Richard & Simon Slack 27 June 19.
 
 - #17026: `IntRep` and `WordRep`
