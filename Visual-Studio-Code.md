@@ -37,6 +37,8 @@ For the context of this page, only the argument `withIde = true;` matters. It ma
 
 ## Build GHC with `ghc.nix`
 
+:exclamation: The first time you call `nix-shell` in the ghc source folder, all dependencies are downloaded and (if needed) built. Building `ghcide` takes much time. Consider to enable `cachix`, a binary cache for Nix packages: [spacemacs/cachix](spacemacs#cachix)
+
 Some source code files are generated during build.
 
 Build GHC in the context defined by `ghc.nix` and `shell.nix`, e.g.
