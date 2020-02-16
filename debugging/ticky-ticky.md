@@ -182,7 +182,7 @@ Below is an excerpt from a ticky report. The executable was compiled with all of
 
 - **Allocs:** the number of bytes allocated by the code for this closure.
 
-- **Allod'd:** the number of bytes allocated that have this closure's info pointer.  You need `-ticky-allocd` to activate this column.  (Otherwise it shows up as all zeros)
+- **Alloc'd:** the number of bytes allocated that have this closure's info pointer.  You need `-ticky-allocd` to activate this column.  (Otherwise it shows up as all zeros)
 
 - **Non-void arguments:** gives a short summary of the named things's non-void arguments: how many there are and a terse description of each, according to the following table.
 
