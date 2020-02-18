@@ -464,7 +464,6 @@ GHC.Runtime.Heap.Inspect <= ghci/RtClosureInspect.hs
 * `GHC.Driver`:
 
 ```
-GHC.Driver <= main/GHC.hs
 GHC.Driver.Backpack.Syntax <= backpack/BkpSyn.hs
 GHC.Driver.Backpack <= backpack/DriverBkp.hs
 GHC.Driver.CmdLine <= main/CmdLineParser.hs
@@ -484,6 +483,7 @@ GHC.Driver.Monad <= main/GhcMonad.hs
 GHC.Driver.Types <= main/HscTypes.hs          RAE: this 3,200-line file is imported by low-level things. I suppose it will have to be broken up.
 
 GHC.Plugins <= main/GhcPlugins.hs -- module imported by plugins
+GHC <= main/GHC.hs -- imported by GHC API users (could need some cleanup)
 ```
 
 * `GHC.CmmToAsm`:
