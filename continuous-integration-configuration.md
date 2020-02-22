@@ -107,6 +107,9 @@ Install `gitlab-runner` according to
 
 Note that if a Darwin runner starts failing with mysterious crashes it may be that an operating system upgrade has occurred and XCode must be reinstalled (although we have no idea why)
 
+### Administering the runners
+
+Our Darwin Runners are currently hosted by MacStadium. They are accessible via SSH and VNC. Speak to Carter or Ben for access. Note that when using VNC you need to connect with 24-bit colour depth.
 
 ## Windows configuration
 
