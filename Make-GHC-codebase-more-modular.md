@@ -526,9 +526,10 @@ GHC.CmmToAsm.Reg.Linear.SPARC <= nativeGen/RegAlloc/Linear/SPARC/FreeRegs.hs
 GHC.CmmToAsm.Reg.Linear.X86_64 <= nativeGen/RegAlloc/Linear/X86_64/FreeRegs.hs
 GHC.CmmToAsm.Reg.Linear.X86 <= nativeGen/RegAlloc/Linear/X86/FreeRegs.hs
 
-GHC.CmmToAsm.Reg <= nativeGen/Reg.hs
+GHC.Platform.Reg <= nativeGen/Reg.hs
+GHC.Platform.Reg.Class <= nativeGen/RegClass.hs
+
 GHC.CmmToAsm.Reg.Liveness <= nativeGen/RegAlloc/Liveness.hs
-GHC.CmmToAsm.Reg.Class <= nativeGen/RegClass.hs
 GHC.CmmToAsm.Reg.Target <= nativeGen/TargetReg.hs
 
 GHC.CmmToAsm.PPC.CodeGen <= nativeGen/PPC/CodeGen.hs
