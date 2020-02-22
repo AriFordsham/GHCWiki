@@ -492,6 +492,7 @@ GHC <= main/GHC.hs -- imported by GHC API users (could need some cleanup)
 GHC.CmmToAsm <= nativeGen/AsmCodeGen.hs
 GHC.CmmToAsm.BlockLayout <= nativeGen/BlockLayout.hs
 GHC.CmmToAsm.CFG <= nativeGen/CFG.hs
+GHC.CmmToAsm.CFG.Dominators <= utils/Dominators.hs
 GHC.CmmToAsm.CPrim <= nativeGen/CPrim.hs
 GHC.CmmToAsm.Dwarf.Constants <= nativeGen/Dwarf/Constants.hs
 GHC.CmmToAsm.Dwarf <= nativeGen/Dwarf.hs
