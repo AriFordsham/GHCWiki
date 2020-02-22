@@ -489,7 +489,7 @@ GHC <= main/GHC.hs -- imported by GHC API users (could need some cleanup)
 * `GHC.CmmToAsm`:
 
 ```
-GHC.CmmToAsm.CodeGen <= nativeGen/AsmCodeGen.hs
+GHC.CmmToAsm <= nativeGen/AsmCodeGen.hs
 GHC.CmmToAsm.BlockLayout <= nativeGen/BlockLayout.hs
 GHC.CmmToAsm.CFG <= nativeGen/CFG.hs
 GHC.CmmToAsm.CPrim <= nativeGen/CPrim.hs
