@@ -555,7 +555,7 @@ GHC.CmmToAsm.SPARC.Regs <= nativeGen/SPARC/Regs.hs
 GHC.CmmToAsm.SPARC.ShortcutJump <= nativeGen/SPARC/ShortcutJump.hs
 GHC.CmmToAsm.SPARC.Stack <= nativeGen/SPARC/Stack.hs
 
-GHC.CmmToAsm.X86 <= nativeGen/X86/CodeGen.hs
+GHC.CmmToAsm.X86.CodeGen <= nativeGen/X86/CodeGen.hs
 GHC.CmmToAsm.X86.Cond <= nativeGen/X86/Cond.hs
 GHC.CmmToAsm.X86.Instr <= nativeGen/X86/Instr.hs
 GHC.CmmToAsm.X86.Ppr <= nativeGen/X86/Ppr.hs
