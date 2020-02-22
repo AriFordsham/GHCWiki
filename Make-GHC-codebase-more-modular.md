@@ -490,7 +490,7 @@ GHC <= main/GHC.hs -- imported by GHC API users (could need some cleanup)
 
 ```
 GHC.CmmToAsm.CodeGen <= nativeGen/AsmCodeGen.hs
-GHC.CmmToAsm.Blocklayout <= nativeGen/BlockLayout.hs
+GHC.CmmToAsm.BlockLayout <= nativeGen/BlockLayout.hs
 GHC.CmmToAsm.CFG <= nativeGen/CFG.hs
 GHC.CmmToAsm.Prim <= nativeGen/CPrim.hs
 GHC.CmmToAsm.Dwarf.Constants <= nativeGen/Dwarf/Constants.hs
@@ -503,8 +503,8 @@ GHC.CmmToAsm.PIC <= nativeGen/PIC.hs
 
 GHC.CmmToAsm.Ppr <= nativeGen/PprBase.hs
 
-GHC.CmmToAsm.Reg.Graph.ArchBase <= nativeGen/RegAlloc/Graph/ArchBase.hs
-GHC.CmmToAsm.Reg.Graph.ArchX86 <= nativeGen/RegAlloc/Graph/ArchX86.hs
+GHC.CmmToAsm.Reg.Graph.Base <= nativeGen/RegAlloc/Graph/ArchBase.hs
+GHC.CmmToAsm.Reg.Graph.X86 <= nativeGen/RegAlloc/Graph/ArchX86.hs
 GHC.CmmToAsm.Reg.Graph.Coalesce <= nativeGen/RegAlloc/Graph/Coalesce.hs
 GHC.CmmToAsm.Reg.Graph <= nativeGen/RegAlloc/Graph/Main.hs
 GHC.CmmToAsm.Reg.Graph.SpillClean <= nativeGen/RegAlloc/Graph/SpillClean.hs
@@ -520,10 +520,10 @@ GHC.CmmToAsm.Reg.Linear.StackMap <= nativeGen/RegAlloc/Linear/StackMap.hs
 GHC.CmmToAsm.Reg.Linear.State <= nativeGen/RegAlloc/Linear/State.hs
 GHC.CmmToAsm.Reg.Linear.Stats <= nativeGen/RegAlloc/Linear/Stats.hs
 GHC.CmmToAsm.Reg.Linear.FreeRegs <= nativeGen/RegAlloc/Linear/FreeRegs.hs
-GHC.CmmToAsm.Reg.Linear.FreeRegs.PPC <= nativeGen/RegAlloc/Linear/PPC/FreeRegs.hs
-GHC.CmmToAsm.Reg.Linear.FreeRegs.SPARC <= nativeGen/RegAlloc/Linear/SPARC/FreeRegs.hs
-GHC.CmmToAsm.Reg.Linear.FreeRegs.X86_64 <= nativeGen/RegAlloc/Linear/X86_64/FreeRegs.hs
-GHC.CmmToAsm.Reg.Linear.FreeRegs.X86 <= nativeGen/RegAlloc/Linear/X86/FreeRegs.hs
+GHC.CmmToAsm.Reg.Linear.PPC <= nativeGen/RegAlloc/Linear/PPC/FreeRegs.hs
+GHC.CmmToAsm.Reg.Linear.SPARC <= nativeGen/RegAlloc/Linear/SPARC/FreeRegs.hs
+GHC.CmmToAsm.Reg.Linear.X86_64 <= nativeGen/RegAlloc/Linear/X86_64/FreeRegs.hs
+GHC.CmmToAsm.Reg.Linear.X86 <= nativeGen/RegAlloc/Linear/X86/FreeRegs.hs
 
 GHC.CmmToAsm.Reg <= nativeGen/Reg.hs
 GHC.CmmToAsm.Reg.Liveness <= nativeGen/RegAlloc/Liveness.hs
