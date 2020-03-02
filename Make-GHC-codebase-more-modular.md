@@ -153,7 +153,6 @@ GHC.Core.Coercion <= types/Coercion.hs
 GHC.Core.ConLike <= basicTypes/ConLike.hs
 GHC.Core.FamInstEnv <= types/FamInstEnv.hs
 GHC.Core.InstEnv <= types/InstEnv.hs
-GHC.Core.Kind <= types/Kind.hs
 GHC.Core.TyCon <= types/TyCon.hs
 GHC.Core.Type <= types/Type.hs
 GHC.Core.Unify <= types/Unify.hs
