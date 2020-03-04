@@ -5,7 +5,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 
 # Active agenda
 
-- Eager vs lazy instantiation, and `ir_inst`: #17173, #17790, and the latter part of the dicussion thread for [287: simplify susbumption](https://github.com/ghc-proposals/ghc-proposals/pull/287)
+- Eager vs lazy instantiation, and `ir_inst`: #17173, #17873, #17790, and the latter part of the dicussion thread for [287: simplify susbumption](https://github.com/ghc-proposals/ghc-proposals/pull/287)
 - #11602, 11371: exponential `promoteCoercion`
 - #11084, #6234: instance loading for type families
 - #17580: remove roles from the flattener
