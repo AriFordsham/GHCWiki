@@ -4,6 +4,7 @@ This page describes GHC's conventions for handling merge requests and code revie
 
 ## Field meanings
 
+ * **Title:** GitLab maintains a convention where MRs whose title begins with `WIP:` are marked as work-in-progress. This marker is understood to mean that review is not yet required. Perhaps a contributor will offer a review regardless, and contributors of WIP patches can request reviews from individuals. But if you mark your patch as WIP and it gets no reviews, that is why.
  * **Milestone:** The first release which should contain the merge request (or a backported version of it)
  * **Labels:** This encodes a number of things including:
     * The state of the merge request (e.g. ~"backport needed")
