@@ -100,7 +100,7 @@ We should be clear about the dependencies between items on this list.
 
 - #12088: SCC for kind inference: we know what to do, it's just a question of doing it. See also #7503, #14451.  This will be much easier once Proposal 54 is done.
 
-- [Proposal 126: Type applications in patterns](https://github.com/ghc-proposals/ghc-proposals/pull/126).   #11350, and dup #15530
+- [Proposal 126: Type applications in patterns](https://github.com/ghc-proposals/ghc-proposals/pull/126).   #11350, and dup #15530, MR !2464
 
 - [Make equality homogeneous](https://gitlab.haskell.org/ghc/ghc/wikis/dependent-haskell/phase2)
 
