@@ -3,8 +3,8 @@ See the [root page for exceptions](exceptions)
 
 
 
-As of Jan 2019, this is rather obsolete. #14998 figured out that we don't really need the whole `ExnStr` business and that the benefits of making `catch#` `strictApply1Dmd` in its argument doesn't bring any performance benefits.
-There probably still are some good ideas on this page, just ignore the bits about `ExnStr`. Joining the demand types of the two arguments to `catch#` like two alts of a case sounds reasonable, for example, but I'm not sold there are actual benefits in doing so. SG
+SG: In Jan 2019, we tackled a whole bunch of exception issues in #14998. There we determined that we don't really need `ExnStr` and removed it. But what I didn't know was that the whole time, T13380 from #13380 was broken! This came up again when formulating the IO hack in a more robust manner, then reverting that change because of #17653, and then finally implementing a solution that introduces something quite similar to `ExnStr` to achieve all the goals of this wiki page. See !2525 and the new `Note [Precise exceptions and strictness analysis]` in DmdAnal.
+The rest of this wiki page is obsolete.
 
 
 ## Fixing demand analysis for exceptions
