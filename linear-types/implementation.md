@@ -1,3 +1,5 @@
+[core-spec]: uploads/ceaedb9ec409555c80ae5a97cc47470e/minicore.pdf
+
 On this page we describe the principles behind the implementation of the linear types extension as described at [LinearTypes](linear-types).
 
 The current implementation can be reviewed on [Gitlab (!852)](https://gitlab.haskell.org/ghc/ghc/merge_requests/852). There is also a [ GitHub repository](https://github.com/tweag/ghc/tree/linear-types) which contains the history of the project and a list of known issues.
@@ -9,7 +11,7 @@ Authors or the implementation are:
 - Matthew Pickering
 - Arnaud Spiwack
 
-*Core specification.*  The implementation extends GHC's Core language to support linearity.  [This document](uploads/ceaedb9ec409555c80ae5a97cc47470e/minicore.pdf) formalises the extensions to Core ([Latex source](https://github.com/tweag/linear-types/blob/master/minicore.lhs)).  It should be treated as our reference document, specifying precisely what Core is intended to be.
+*Core specification.*  The implementation extends GHC's Core language to support linearity.  [This document][core-spec] formalises the extensions to Core ([Latex source](https://github.com/tweag/linear-types/blob/master/minicore.lhs)).  It should be treated as our reference document, specifying precisely what Core is intended to be.
 
 *Table of contents*
 
@@ -160,7 +162,7 @@ I (aspiwack) introduced a second list at a time where there wasn't a corresponde
 ### Core specification
 
 The implementation extends GHC's Core language to support linearity.  This document:
-* [Linear Mini-Core](uploads/ceaedb9ec409555c80ae5a97cc47470e/minicore.pdf)
+* [Linear Mini-Core][core-spec]
 
 formalises the extensions to Core.  It should be treated as our reference document, specifying precisely what Core is intended to be.
 
