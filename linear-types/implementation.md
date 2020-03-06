@@ -98,7 +98,7 @@ A better implementation would probably emit a real constraint `pi <= rho` and th
 
 #### Solving constraints
 
-Constraint solving is not completely designed yet. The current implementation follows very simple rules, to get the implementation off the ground. Basically both equality and subsumption constraints are treated as syntactic equality unification (as opposed, in particular, to unification up to laws of multiplicities as in the proposal). There are few other rules (described below) which are necessary to type even simple linear programs:
+Constraint solving is not completely designed yet. The current implementation follows very simple rules, to get the implementation off the ground. Basically both equality and subsumption constraints are treated as syntactic equality unification (as opposed, in particular, to unification up to laws of multiplicities as in the proposal). There are a few other rules (described below) which are necessary to type even simple linear programs:
 
 ##### The 1 \<= p rule
 
