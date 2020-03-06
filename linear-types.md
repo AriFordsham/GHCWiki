@@ -120,6 +120,8 @@ oops x =
     (\_ -> return $ Unrestricted ())
 ```
 
+See also [this blog post](https://www.tweag.io/posts/2020-02-19-linear-type-exception.html) which elaborates on the logical foundations of a linear type system with exceptions.
+
 # Don't linear guarantees degrade to affine in the presence of exceptions?
 
 
