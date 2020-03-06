@@ -128,7 +128,7 @@ See also [this blog post](https://www.tweag.io/posts/2020-02-19-linear-type-exce
 When an exception is raised during the consumption of `f u`, `u` may not have been fully consumed. Functions whose argument is consumed *at most* once when their result is consumed exactly once are called affine.
 
 
-Linear functions do have the property that: /if their result is consumed at most once, then their argument is consumed at most once/. This is a more relevant phenomenon in case exceptions are raised: exceptions interrupt the consumption of the result, which is only partial.
+Linear functions do have the property that: _if their result is consumed at most once, then their argument is consumed at most once_. This is a more relevant phenomenon in case exceptions are raised: exceptions interrupt the consumption of the result, which is only partial.
 
 
 
