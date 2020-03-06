@@ -218,7 +218,7 @@ extend :: (a ->. m b) -> (m a ->. m b)
 Which is right? The latter type is actually not very useful, but it would feel uncomfortable if the former type was not backed by well-known mathematics.
 
 
-Fortunately, it is: it is the type of an enriched monad over the self-enrichment of the base category. Briefly:
+Fortunately, it is. This type of functors and monads is described in [this blog post](https://www.tweag.io/posts/2020-01-16-data-vs-control.html). To recapitulate briefly the mathematical function: the definition of monads used in the proposal is the type of an enriched monad over the self-enrichment of the base category.
 
 - An [enriched category](https://en.wikipedia.org/wiki/Enriched_category) is a category whose hom-sets are taken to be objects in another category (which must be monoidal).
 - Any closed symmetric monoidal category is enriched over itself.
@@ -226,4 +226,4 @@ Fortunately, it is: it is the type of an enriched monad over the self-enrichment
 - Monads of LHask for which the unit and join are maps in LHask are called enriched monads.
 
 
-This is related to the often overlooked fact that monads must be [strong](https://en.wikipedia.org/wiki/Strong_monad), both in Moggi's theory of effects, and as a programming language construct. It is easy to overlook because (self-)enriched monads are necessarily strong. And all monads in Hask are, naturally, self-enriched. See [ this discussion](https://ncatlab.org/nlab/show/tensorial+strength) for more details.
+This is the same as the often overlooked fact that monads must be [strong](https://en.wikipedia.org/wiki/Strong_monad), both in Moggi's theory of effects, and as a programming language construct. It is easy to overlook because (self-)enriched monads are necessarily strong. And all monads in Hask are, naturally, self-enriched. See [this discussion](https://ncatlab.org/nlab/show/tensorial+strength) for more details.
