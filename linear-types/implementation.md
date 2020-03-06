@@ -144,27 +144,6 @@ The way this is implemented is that data constructors, when desugared, are eta-e
 
 Because no variable can have a levity-polymorphic argument, this instantiates the runtime-representation variables of unboxed tuples and sum. Which prevents visible type application on the runtime-representation variables of unboxed tuples and sum. We haven't found any example of use of this feature yet. So it shouldn't break any code.
 
-#### Rules and Wrappers
-
-
-Giving data constructors wrappers makes RULES mentioning data constructors not work as well. Mentioning a data constructor in a RULE currently means the wrapper, which is often inlined without hesitation and hence means that rule will not fire at a later point. We solve this by inlining the wrapper late (in phase 0); see #15840 and [https://phabricator.haskell.org/D5400](https://phabricator.haskell.org/D5400).
-
-#### `magicDict`
-
-
-A specific point of pain was `magicDict` which is a special identifier which does not exist at runtime. It relies on an inbuilt RULE in order to eliminate it.
-The rule is defined at `match_magicDict`.
-
-
-If you don't eliminate it then you will get a linker error like
-
-```wiki
-/root/ghc-leap/libraries/base/dist-install/build/libHSbase-4.12.0.0-ghc8.5.so: undefined reference to `ghczmprim_GHCziPrim_magicDict_closure
-```
-
-[I (Matthew) made the matching more robust](https://github.com/tweag/ghc/pull/92/commits/c18ab3d533dbc871f5afe8fe4d2a9d8f8213f8b4) in the two places in base by using a function as the argument to `magicDict` rather than a data constructor
-as the builtin rule only uses that information for the type of the function.
-
 ### Do-notation/rebindable syntax
 
 
