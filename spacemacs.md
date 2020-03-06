@@ -265,10 +265,16 @@ nix-env -i ccls
 ## Generate compile_commands.json
 
 ```shell
-nix-shell --command 'bear hadrian/build.sh -j12 --freeze1 --flavour=Devel2'
+nix-shell --command 'bear hadrian/build.sh -j12 --flavour=Devel2'
 ```
 
 [`bear`](https://github.com/rizsotto/Bear) intercepts all calls to the C compiler. This way it can write a `compile_commands.json` that contains all compilation arguments and flags needed for each C file.
+
+The `--flavour` doesn't really matter, but you need to run a full (re-)build. Run 
+```shell
+hadrian/build.sh clean
+```
+before, if you've already built GHC.
 
 ## Configure `c-c++` layer
 
