@@ -123,6 +123,8 @@ Unsolved multiplicity variables are defaulted to `Omega`. We detect them by call
 
 We never infer multiplicity polymorphic arrows (like levity polymorphism). Any type variables which get to the top level are default to `Omega`. Thus, in most cases the multiplicity argument is defaulted to `Omega` or forced to be `Omega` by unification.
 
+Incidentally, this lead for a proposal for an improved defaulting strategy. See [Gitlab issue #17201](https://gitlab.haskell.org/ghc/ghc/issues/17201).
+
 ### Data Constructors are polymorphic
 
 In linear types, constructors of data types are multiplicity-polymorphic. Foe example,
