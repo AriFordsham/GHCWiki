@@ -1,6 +1,5 @@
 On this page we describe the principles behind the implementation of the linear types extension as described at [LinearTypes](linear-types).
 
-
 The current implementation can be reviewed on [Gitlab (!852)](https://gitlab.haskell.org/ghc/ghc/merge_requests/852). There is also a [ GitHub repository](https://github.com/tweag/ghc/tree/linear-types) which contains the history of the project and a list of known issues.
 
 
@@ -127,7 +126,7 @@ Incidentally, this lead for a proposal for an improved defaulting strategy. See 
 
 ### Data Constructors are polymorphic
 
-In linear types, constructors of data types are multiplicity-polymorphic. Foe example,
+In linear types, constructors of data types are multiplicity-polymorphic. For example,
 
 ```
 (,) :: forall {m :: Multiplicity} {n :: Multiplicity} a b. a # m -> b # n -> (a,b)
