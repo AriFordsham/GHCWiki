@@ -112,7 +112,7 @@ This is implemented by making sure to call `submult` on the multiplicities befor
 ##### Complex constraints
 
 
-Multiplication and addition are approximated.  `p1 + p2` is always simplified to `Omega`. `p1 * p2` is simplified to `Omega`, unless `p1` or `p2` is literally `One`.
+Multiplication and addition are approximated.  `p1 + p2` is always simplified to `Omega`. `p1 * p2 ≤ p` is simplified to `p1 ≤ p ∧ p2 ≤ p`.
 
 ### Defaulting
 
