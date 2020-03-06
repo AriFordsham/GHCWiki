@@ -168,6 +168,207 @@ formalises the extensions to Core.  It should be treated as our reference docume
 
 It is more complete than the paper. It is work in progress, and needs a lot more English text to explain what is going on.
 
+### The big difference: usages on lets
+
+In the paper (and in the frontend type system), all binders have a
+multiplicity, and the body of the binder must abide by it. So you'd
+have an error in
+
+```haskell
+let_1 x = u in
+case v of
+  C {} -> … x …
+  D {} -> 0
+```
+
+Because a linear `let` requires `x` to appear linearly in both `C` and
+`D`.
+
+But, in Core, this form can naturally occur. In many ways.
+
+#### Problem #1: Join-points
+
+The most obvious, perhaps, is because of join-point creation: when
+duplicating a case (in the case-of-case transformation), to avoid code
+explosion, the branches of the case are first made into join points:
+
+```haskell
+case e of
+  Pat1 -> u
+  Pat2 -> v
+~~>
+let j1 = u in
+let j2 = v in
+case e of
+  Pat1 -> j1
+  Pat2 -> j2
+```
+
+If there is any linear variable in `u` and `v`, then the standard
+`let` rule above will fail (since `j1` occurs only in one branch, and
+so does `j2`).
+
+#### Problem #2: Float out
+
+In float out, let bindings are moved upwards in the expression
+tree. In particular
+
+```haskell
+case e of
+  Pat1 -> let x = u in v
+  Pat2 -> w
+~~>
+let x = u in
+case e of
+  Pat1 -> v
+  Pat2 -> w
+```
+
+Now `x` only appear in `v`. If `let x` is a linear let, this would
+fail to lint.
+
+Besides the actual float out part, there are other transformation
+(most notably the simplifier) which do float some lets out
+
+#### Problem #3: inlining
+
+Inlining finds individual use site of a `let`-bound variable, and
+will replace the variable by the right-hand side. This transformation
+occurs for a variety of reasons, the simplifier uses it in the
+case-of-known-constructor transformation (to see through definition
+for opportunities). Crucially, not all use site update all the time.
+
+```haskell
+let x = u in
+case e of
+  Pat1 -> … x …
+  Pat2 -> … x …
+~~>
+let x = u in
+case e of
+  Pat1 -> … u …
+  Pat2 -> … x …
+```
+
+Again, `x` appears in one branch and not the other, which would break
+for a linear let.
+
+#### This also occurs for recursive lets
+
+Less obviously, we can have a similar pattern occurring in a recursive let.
+
+The main culprit for this is the case-of-case rule for join points:
+
+```haskell
+case join j = u in v of {…}
+~~>
+join j = case u of {…} in case v of {…}
+```
+
+```haskell
+case jump j … of {…}
+~~>
+jump j …
+```
+
+Now consider the following example, where `<branches>` capture some
+linear variables `y`
+
+```haskell
+case join rec j n = case e of
+       Pat1 -> jump j (n-1)
+       Pat2 -> x
+     in …
+of
+{ <branches> }
+~~>
+join rec j n = case e of
+  Pat1 -> jump j (n-1)
+  Pat2 -> case x of { <branches> }
+in …
+```
+
+Now `y` appears in the second branch, and not the first!
+
+A similar phenomenon can happen on regular (non-join point) recursive
+lets via the Static Argument Transformation. Whereby
+
+```haskell
+let rec f x n =
+  if n = 0 then x
+  else f x (n-1)
+~~>
+let f x =
+  let rec loop n =
+    if n = 0 then x
+    else loop (n-1)
+```
+
+#### The solution
+
+As we've seen above, `let`-binders, in Core, are much more mobile than
+linear lets can afford. Deactivating these rules for linear lets is
+out of the question. For each of the individual problem we could try
+and partially fix the rewrite rules. But better, especially with the
+accumulation of problematic rules, is to change the typing rule of
+`let` to accommodate this transformation.
+
+The goal, then, is to understand patterns such as
+
+```haskell
+let x = (y, z) in
+case e of
+  Pat1 -> … x …
+  Pat2 -> … y … z …
+```
+
+The idea is to notice that using `x` and using both `y` and `z` is the
+same thing. After all, The only thing that we need to guarantee is
+that if the expression is consumed exactly once, then `y` and `z` are
+consumed exactly once. In a sense, we don't want to count `let x = (y,
+z)` as consuming `y` and `z`, but the call of `x` itself.
+
+##### A model
+
+We can model this without changing the language: it suffices to
+lambda-lift `x` (at least with respect to its non-unrestricted
+variables).
+
+```haskell
+let x y' z' = (y', z') in
+case e of
+  Pat1 -> … x y z …
+  Pat2 -> … y … z …
+```
+
+Since `y` and `z` only appear at the use site they are consumed by the
+use site. And `x` has now become an unrestricted `let`-binder, it can
+move wherever.
+
+##### Internalising the rules
+
+The problem with lambda-lifting is that it is, generally speaking,
+slower. There are exceptions, but GHC prefers avoiding lambda-lifting
+(static argument transformation is really the opposite of
+lambda-lifting, for instance).
+
+But we can type lets _as if_ they were lambda-lifted.
+
+We annotate let-binders with a so-called usage annotation: it records
+all the variables which we would need to lambda-lift over. And, at
+use-site, we count the usage of these variables. Our example becomes
+
+```haskell
+let_𝛥 x = (y, z) in
+case e of
+  Pat1 -> … x …
+  Pat2 -> … y … z …
+```
+
+With `𝛥=[y :-> 1, z :-> 1]`. And the `Pat1 -> … x …` branch would
+count as consuming `y` and `z` once (but not `x`, which would be
+unrestricted under the lambda-lifted interpretation).
+
 ### Core Lint
 
 
