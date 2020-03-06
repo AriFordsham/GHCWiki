@@ -20,13 +20,13 @@ Authors or the implementation are:
 ## Very high-level summary
 
 
-The linear types branch adds a new extension `-XLinearTypes`. This allows programs to use the linear arrow `a ->. b` and the multiplicity-polymorphic arrow `a -->.(m) b`, where `m` is any type which belongs to the new Multiplicity kind, with two types `One` and `Omega`.  The linear arrow `⊸` is available when compiling with `-XUnicodeSyntax`. The final syntax is not decided yet and subject to change.
+The linear types branch adds a new extension `-XLinearTypes`. This allows programs to use the linear arrow `a #-> b` and the multiplicity-polymorphic arrow `FUN m a b` (`FUN` is to come with a mix-fix syntax: `a # m -> b`), where `m` is any type which belongs to the new `Multiplicity` kind, with two types `One` and `Omega`.  The linear arrow `⊸` is available when compiling with `-XUnicodeSyntax`.
 
 
 Example:
 
 ```wiki
-id :: a -->.(One) a   -- or: id :: a ->. a
+id :: a # One -> a   -- or: id :: a #-> a
 id x = x
 ```
 
@@ -41,7 +41,7 @@ In the linear types branch, `funTyCon` refers to a new primitive type called `FU
 
 The prefix `(->)` arrow is now a type synonym for `FUN 'Omega` and is available as `unrestrictedFunTyCon`. The partial application `FUN 'Omega` is pretty-printed as `(->)`, just like `TYPE 'LiftedRep` is pretty-printed as `Type` (or `*`). Currently, the ghci command `:info` does not show instances for type synonyms (issue #16475). As a workaround, we detect this fact in `orphNamesOfType`. Note that the kind of `(->)` stays the same. 
 
-There is no `(->.)` (linear arrow) type constructor yet. It will eventually be defined as a type synonym in `TysWiredIn` like `(->)`.
+There is no `(#->)` (linear arrow) type constructor yet. It will eventually be defined as a type synonym in `TysWiredIn` like `(->)`.
 
 The additional multiplicity parameter to `funTyCon` is the main principle behind the implementation. The rest of the implementation is essentially correctly propagating and calculating linearity information whenever a `FunTy` is created.
 
@@ -51,7 +51,7 @@ In binders, where we stored a type, we now store a pair of type and multiplicity
 
 ### HsType
 
-We need to distinguish `a -> b`, `a ->. b` and `a -->.(m) b` in the surface syntax. The `HsFunTy` constructor has an extra field containing `HsArrow`, which stores this information:
+We need to distinguish `a -> b`, `a #-> b` and `a # m -> b` in the surface syntax. The `HsFunTy` constructor has an extra field containing `HsArrow`, which stores this information:
 
 
 ```
@@ -59,9 +59,9 @@ data HsArrow pass
   = HsUnrestrictedArrow
     -- ^ a -> b
   | HsLinearArrow
-    -- ^ a ->. b
+    -- ^ a #-> b
   | HsExplicitMult (LHsType pass)
-    -- ^ a -->.(m) b (very much including `a -->.(Omega) b`! This is how the
+    -- ^ a # m -> b (very much including `a # Omega -> b`! This is how the
     -- programmer wrote it). It is stored as an `HsType` so as to preserve the
     -- syntax as written in the program.
 ```
@@ -76,7 +76,7 @@ The checking algorithm is as follows:
 
   - `U1` is the usage environment output by `u`
   - `U2` is the usage environment output by `v`
-  - `u :: _ -->.(p) _`
+  - `u :: _ # p -> _`
 - Adding a new variable `x` with multiplicity `p` to the context to typecheck `u` is performed as
 
   - `x` is added to the context
@@ -128,14 +128,14 @@ We never infer multiplicity polymorphic arrows (like levity polymorphism). Any t
 In linear types, constructors of data types are multiplicity-polymorphic. Foe example,
 
 ```
-(,) :: forall {m :: Multiplicity} {n :: Multiplicity} a b. a -->.(m) b -->.(n) (a,b)
+(,) :: forall {m :: Multiplicity} {n :: Multiplicity} a b. a # m -> b # n -> (a,b)
 ```
 
-This is important for backwards compatibility; if we used a linear type `a ->. b ->. (a,b)`, code such as `f (,)` [where `f :: (a -> b -> (a,b)) -> c`] would break.
+This is important for backwards compatibility; if we used a linear type `a #-> b #-> (a,b)`, code such as `f (,)` [where `f :: (a -> b -> (a,b)) -> c`] would break.
 
 This variable is inferred, so that there's no conflict with visible type application.
 
-When constructors are used as patterns, the fields are treated as linear (i.e. `a ->. b ->. (a,b)`).
+When constructors are used as patterns, the fields are treated as linear (i.e. `a #-> b #-> (a,b)`).
 
 ##### Implementation
 
@@ -336,7 +336,7 @@ However, this can't always be done when multiplicities are involved: the multipl
 
 
 ```
--- Assuming co :: (Int -> ()) ~ (Int ->. ())
+-- Assuming co :: (Int -> ()) ~ (Int #-> ())
 
 fun x ::(1) Int -> (fun _ -> () |> co) x  ~~>  fun x ::(1) Int -> (fun _ ::(ω) Int -> ()) x
 ```
