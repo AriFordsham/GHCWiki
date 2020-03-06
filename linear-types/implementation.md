@@ -140,20 +140,9 @@ When constructors are used as patterns, the fields are treated as linear (i.e. `
 
 ##### Implementation
 
-The way this is implemented is that every data constructor is given a wrapper with very few exceptions (sole exceptions: levity polymorphic constructors (*i.e.* unboxed tuple and unboxed sum constructors) because they cannot have wrappers due to the levity-polymorphism restriction, and dictionary constructor because they don't exist in the surface syntax).
+The way this is implemented is that data constructors, when desugared, are eta-expanded with multiplicity-polymorphic binders. Which is done by adding `WpFun` wrappers in `tc_infer_id` (look for `Note [Linear fields generalization]`).
 
-Even internally used data types have wrappers for the moment which makes the treatment quite uniform. The most significant challenge of this endeavour was giving built-in data types wrappers as previously none of them had wrappers. This led to the refactoring of `mkDataConRep` and the
-introduction of `mkDataConRepSimple` which is a pure, simpler version of `mkDataConRep`.
-
-
-Once everything has a wrapper, you have to be quite careful with the difference between `dataConWrapId` and `dataConWorkId`. There were a few places where this used to work
-by accident as they were the same thing for builtin types.
-
-Other uses can be found by grepping for `omegaDataConTy` (there are very few of these left, as most of them pertained to type-class dictionaries which we reverted to have no wrapper). There are probably places where they can be removed by using `dataConWorkId` rather than `dataConWrapId`. The desugaring of `ConLikeOut` uses `dataConWrapId` though so anything in source syntax should apply the extra argument.
-
-Otherwise, the implementation followed much the same path as levity polymorphism.
-
-As part of this implementation `dataConUserTy` has been change to reflect the extra multiplicity parameter of data constructors. However, this may have been a mistake. I (aspiwack) am beginning to think that `dataConUserTy` should stay as-the-user-type it, and the type of the wrapper should be a different type. I suspect this choice to be involved in \[a printing issue [https://github.com/tweag/ghc/issues/243](https://github.com/tweag/ghc/issues/243)\].
+Because no variable can have a levity-polymorphic argument, this instantiates the runtime-representation variables of unboxed tuples and sum. Which prevents visible type application on the runtime-representation variables of unboxed tuples and sum. We haven't found any example of use of this feature yet. So it shouldn't break any code.
 
 #### Rules and Wrappers
 
