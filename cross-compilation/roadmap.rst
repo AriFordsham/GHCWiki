@@ -1,5 +1,7 @@
-Cross-compilation with GHC
-==========================
+Roadmap
+=======
+
+*Taken from `<https://github.com/hsyl20/ghc-cross-compilation/>`_*
 
 Wouldn't it be awesome if GHC was able to cross-compile Haskell code to
 WebAssembly, JavaScript, Java bytecode, etc.? Sadly it can't be done directly
