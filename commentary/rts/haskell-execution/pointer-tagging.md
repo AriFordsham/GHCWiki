@@ -189,6 +189,13 @@ When a module refers to a top level binding from a different module this *won't*
 
 This was documented in #14677. !1530 is a WIP but is currently stalled on not directly related work.
 
+Fixing this via export of LFInfo would have the following benefits:
+
+* We can omit code to enter closures if we know statically they are evaluated constructors.
+* We avoid entering closures dynamically since more closures will be appropriately tagged.
+* We can omit entry code for all constructors. If we can ensure all references to constructors are tagged there is never a reason to enter them.
+* We can use a more efficient calling convention in some places, as LFInfo allows us to replace slow calls with more efficient variants.
+
 ### Strict fields containing untagged pointers - #15155
 
 One might assume that strict fields by their nature can only contain tagged pointers. This is however not true as they only require to uphold their semantics which allows indirections (or even thunks in theory).
