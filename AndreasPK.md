@@ -89,6 +89,12 @@ The benefits are that we can:
 * Tag certain bindings which do not have an unfolding otherwise. 
 * Get accurate information about arity *after all transformations have been applied*
 
+The benefits of this are:
+* We can omit code to enter closures if we know statically they are evaluated constructors.
+* We avoid entering closures since more closures will be appropriately tagged
+* We can omit entry code for all constructors. If we can ensure all references to constructors are tagged there is never a reason to enter them.
+* We can use a more efficient calling convention in some places, as LFInfo allows us to replace slow calls with more efficient variants.
+
 ### Untagged pointers find their way into strict fields.
 
 There are two tickets about this currently:
