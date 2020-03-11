@@ -4,7 +4,7 @@
 
 - #17900: primop traits
 
-- #17676, !2525: Consolidate when to apply IO hack. Maybe rename it  
+- #17676, !2525; and #5775: Consolidate when to apply IO hack. Maybe rename it  
   - Does it make sense to re-use `expr_ok`? It returns `False` for `Tickish` things, for example.
   - Also the check for the right type is already pretty sensitive and will rule out many false positives.
 
