@@ -186,7 +186,7 @@ Because a linear `let` requires `x` to appear linearly in both `C` and
 
 But, in Core, this form can naturally occur. In many ways.
 
-#### Problem #1: Join-points
+#### Problem 1: Join-points
 
 The most obvious, perhaps, is because of join-point creation: when
 duplicating a case (in the case-of-case transformation), to avoid code
@@ -208,7 +208,7 @@ If there is any linear variable in `u` and `v`, then the standard
 `let` rule above will fail (since `j1` occurs only in one branch, and
 so does `j2`).
 
-#### Problem #2: Float out
+#### Problem 2: Float out
 
 In float out, let bindings are moved upwards in the expression
 tree. In particular
@@ -230,7 +230,7 @@ fail to lint.
 Besides the actual float out part, there are other transformation
 (most notably the simplifier) which do float some lets out
 
-#### Problem #3: inlining
+#### Problem 3: inlining
 
 Inlining finds individual use site of a `let`-bound variable, and
 will replace the variable by the right-hand side. This transformation
