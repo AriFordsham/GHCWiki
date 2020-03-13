@@ -447,13 +447,13 @@ case_(𝜋𝜇) u of { Pat_i -> case_𝜋 v_i of { … } }
 
 For the original discussion see: [https://github.com/tweag/ghc/issues/78](https://github.com/tweag/ghc/issues/78) and [ https://github.com/tweag/ghc/pull/87](https://github.com/tweag/ghc/pull/87)
 
-###### Implementation overview
+##### Implementation overview
 
 Case-of-case is implemented in the simplifier. There we have a term to simplify, and an evaluation context (aka continuation in the simplifier's code), from which the term comes from. When simplifying a `case` expression, case-of-case is implemented by simplifying the branches under said evaluation context.
 
 Therefore we need to know how much scaling factor must be applied by commuting thus with the evaluation context. Which we compute recursively on the structure of the evaluation context using the `contHoleScaling` function.
 
-###### Interaction with case-of-known-constructor
+##### Interaction with case-of-known-constructor
 
 In the simplifier, case-of-case is combined with case-of-known constructor, so an expression such as
 
