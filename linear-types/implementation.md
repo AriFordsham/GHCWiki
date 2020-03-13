@@ -628,6 +628,141 @@ routinely in CSE to discover more CSE opportunities (this particular point is ex
 It's alright, though! Because there is never a need to share linear
 definitions.
 
+#### Binder swap
+
+Binder swap is the following transformation:
+
+```haskell
+case x of y { p_i -> u_i}
+⤳
+case x of y { p_i -> let x = y in u_i}
+```
+
+Binder-swap occurs mainly in occurrence analysis. But also in a
+handful of other passes.
+
+##### The problem
+
+Consider this linear `case` expression
+
+```haskell
+case_1 x of y { _ -> (y,x)}
+```
+
+It's a correct expression, which has the peculiarity of using a
+`case_1` on a variable which is unrestricted.
+
+Binder swap would change it to
+
+```haskell
+case_1 x of y { _ -> let x = y in (y, x) }
+```
+
+This is not linear in `y`, hence violates the Core typing rules.
+
+The example may look pathological, but such situation has been
+observed in practice. This was due to wrappers for strict data
+constructors using linear cases [I (aspiwack) don't remember the
+original example].
+
+##### The solution
+
+We deactivate binder swap when the `case` doesn't have multiplicity 𝜔.
+
+##### Limits and plans
+
+Deactivating binder swap on non-𝜔 `case` expression does have
+performance consequences. Even on pre-linear-types code. Indeed, as
+mentioned above wrappers for strict data constructor use linear a
+`case`. Not doing binder swap does prevent optimisations that were
+there before.
+
+The good news is that when binder-swap is relevant, then `x` was
+unrestricted all along! So the plan is to promote `case_𝜋 x` to
+`case_𝜔 x` when we can observe (during occurrence analysis) that `x`
+is really unrestricted. Todo: what is the criterion to decide that a
+let-bound `x` (hence carrying a usage annotation) is unrestricted?
+
+##### Reverse binder swap
+
+In float out, the inverse transformation occurs
+
+```haskell
+case x of y { _ -> u[y]}
+⤳
+case x of y { _ -> u[x]}
+```
+
+It has similar issues with linear types:
+
+```haskell
+\ x # 1 -> case_1 x of y { _ -> y }
+⤳
+\ x # 1 -> case_1 x of y { _ -> x }
+```
+
+The former is valid according to the typing rules of Core, the latter
+isn't.
+
+It is similarly deactivated for non-𝜔 `case` expressions. We don't
+know whether this has an observable impact on performance, but it will
+be solved by the mechanism which addresses the normal binder swap
+anyway.
+
+#### Lambda-lifting
+
+Ironically, because we conceptually internalise lambda-lifting
+let-bound variables, lambda-lifting itself becomes more complex.
+
+At the core of lambda-lifting is 𝛽-expansion:
+
+```haskell
+u[x] ⤳ (\x -> u[x]) x
+```
+
+Now consider:
+
+```haskell
+\ y # 1 ->
+let_[y :-> 1] x = y in
+case b of
+  True -> x
+  False -> y
+```
+
+This is well-typed because the call to `x` counts as a call to
+`y`. But if we try to 𝛽-expand the `case` expression over `x`:
+
+```haskell
+\ y # 1 ->
+let_[y :-> 1] x = y in
+(\x -> case b of
+  True -> x
+  False -> y) x
+```
+
+This is not well-typed: ignoring the thorny question of finding a
+multiplicity for `\ x ->`, `y` is not used in the `True` branch, hence
+not used linearly, as far as the typing rules are concerned.
+
+On the other hand, 𝛽-expanding over a let-bound variable (such as `x`,
+here) is just as easy as in the non-linear case.
+
+This limitation hasn't been observed to cause any issue, yet. GHC is
+rather parsimonious with lambda-lifting.
+
+If we were to need to 𝛽-expand over a let-bound variable, it is not
+clear what strategy would work best. So we would have to work from the
+concrete situation. But a strawman possibility is to 𝛽-expand the
+let-bound variable:
+
+```haskell
+\ y # 1 ->
+let_[] x y = x in
+(\x -> case b of
+  True -> x y
+  False -> y) x
+```
 
 ## Debugging
 
