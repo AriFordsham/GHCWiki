@@ -372,16 +372,13 @@ unrestricted under the lambda-lifted interpretation).
 ### Core Lint
 
 
-Core variables are changed to carry a multiplicity. The multiplicity annotation on the case, as in the paper, is the multiplicity of the case-binder.
+Core variables are changed to carry either a multiplicity if the are bound by a `let` or a `case`, or a usage annotation (`𝛥` above) if they are bound by a let. The multiplicity annotation on the case, from the paper, is the represented as the multiplicity of the case-binder.
 
-
-In Core, non-recursive lets are changed compared to the paper (see Core-to-core passes below): instead of carrying a multiplicity, their multiplicity is type-checked as is they were inline at the usage point. To represent this, variables, in actuality, either carry a multiplicity (`Regular`) or they are what we've been calling in the code, an alias-like variable (`Alias`). (recursive let binders always have multiplicity `Omega`)
-
+(As of writing this section, the usage annotation is only partially implemented)
 
 The linter is modified in two ways to account for linearity. First the main loop (`lintCoreExpr`) returns a usage environment in addition to a type. This is like the surface-language type checker. In addition, the environment in the `LintM` monad is modified to carry a mapping from alias-like variables to the usage environment of their right-hand side.
 
-
-When a variable `x` is linted, if `x` is `Regular`, then it emits the usage environment `[x :-> 1]`. If it's `Alias`, it instead retrieves it's right-hand side usage environment from the `LintM` environment, and emits that instead.
+When the call-site of a variable `x` is linted, if `x` has a multiplicity, then it emits the usage environment `[x :-> 1]`. If it has a usage environment, it emits, instead, the usage environment computed at the call site (essentially the same as the usage annotation on `x`, up to some substitutions).
 
 ### FunTyCon
 
