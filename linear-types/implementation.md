@@ -115,6 +115,22 @@ This is implemented by making sure to call `submult` on the multiplicities befor
 
 Multiplication and addition are approximated.  `p1 + p2` is always simplified to `Omega`. `p1 * p2 ≤ p` is simplified to `p1 ≤ p ∧ p2 ≤ p`.
 
+#### Type checking nested patterns
+
+Patterns are type checked in a *context multiplicity* which scales the constructor fields, extending the `case_p` from the paper. This context multiplicity is, initially, given by the type signature of a function (or, when it is implemented, the multiplicity on the `case`-expression), then it is scaled by the multiplicity of the fields that we have traversed to get to the current (nested) pattern.
+
+Consider
+
+```haskell
+f :: Unrestricted [a] #-> Maybe a
+f (Unrestricted []) = Nothing
+f (Unrestricted (a : _)) = Just a
+```
+
+- The pattern `Unrestricted (a : _)` is typechechecked in the context multiplicity `1`, since `f`-s signature has a linear arrow there.
+- The one field of `Unrestricted` has multiplicity `𝜔`, therefore the pattern `a : _` is typechecked at multiplicity `𝜔 * 1 = 𝜔`.
+- Both fields of `(:)` has multiplicity `1`, therefore, the pattern `_` is typechecked at multiplicity `1 * 𝜔 * 1 = 𝜔`, which lets us drop the variable.
+
 ### Defaulting
 
 Unsolved multiplicity variables are defaulted to `Omega`. We detect them by calling `isMultiplicityVar`; this happens in :
@@ -623,7 +639,3 @@ If you are debugging then it is very useful to turn on the explicit printing of 
 
 
 There are disabled by default as they affect test output.
-
-## Misc
-
-- Patterns are type checked in a *context multiplicity* which scales the constructor fields, extending the `case_p` from the paper.
