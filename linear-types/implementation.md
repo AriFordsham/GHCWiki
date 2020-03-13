@@ -408,84 +408,68 @@ either `splitFunTy` is called and then we must keep track of the additional info
 
 ### Core to core passes
 
-#### Rebuilding expressions in the optimiser
+#### Case-of-case
 
+##### The case-of-case rule
 
-This subsection is somewhat out of date because let-binders now have alias-like quality to be able to float out. However, everything here still apply for the case-of-case transformation.
+We have to be careful with the case multiplicity during case-of-case:
 
-
-There are situations in the optimiser where lets more through cases when case of case is applied.
-
-
-The simplifier creates let bindings under certain circumstances which
-are then inserted later. These are returned in `SimplFloats`.
-
-
-However, we have to be somewhat careful here when it comes to linearity
-as if we create a floating binding x in the scrutinee position.
-
-
-```
-case_w (let x[1] = "Foo" in Qux x) of
+```haskell
+case_𝜔 (case_1 u of { Foo x -> x }) of
   Qux _ -> "Bar"
 ```
 
+A naive case-of-case might change this into
 
-then the let will end up outside the `case` if we perform KnownBranch or
-the case of case optimisation.
-
-
-```
-let x[1] = "Foo"
-in "Bar"
+```haskell
+case_1 u of 
+  Foo x -> case_𝜔 x of
+    Qux _ -> "Bar"
 ```
 
+Oops! `x` is bound linearly by the outer-case, but consumed by a `case_𝜔`.
 
-So we get a linearity failure as the one usage of x is eliminated.
-However, because the ambient context is an Omega context, we know that
-we will use the scrutinee Omega times and hence all bindings inside it
-Omega times as well. The failure was that we created a \[1\] binding
-whilst inside this context and it then escaped without being scaled.
+We need to scale the newly outer `case` by to account for the commutation.
 
-
-
-We also have to be careful as if we have a \[1\] case
-
-
-```
-case_1 (let x[1] = "Foo" in Qux x) of
-  Qux x -> x
+```haskell
+case_𝜔 u of 
+  Foo x -> case_𝜔 x of
+    Qux _ -> "Bar"
 ```
 
+More generally, the transformation is
 
-then the binding maintains the correct linearity once it is floated rom
-the case and KnownBranch is performed.
-
-
-```
-let x[1] = "Foo"
-in x
+```haskell
+case_𝜋 (case_𝜇 u of { Pat_i -> v_i } ) of { … }
+⤳
+case_(𝜋𝜇) u of { Pat_i -> case_𝜋 v_i of { … } } 
 ```
 
+For the original discussion see: [https://github.com/tweag/ghc/issues/78](https://github.com/tweag/ghc/issues/78) and [ https://github.com/tweag/ghc/pull/87](https://github.com/tweag/ghc/pull/87)
 
-The difficulty mainly comes from that we only discover this context
-at a later point once we have rebuilt the continuation. So, whilst rebuilding
-a continuation we keep track of how many case-of-case like opportunities
-take place and hence how much we have to scale lets floated from the scrutinee.
-This is achieved by adding a Writer like effect to the SimplM data type.
-It seems to work in practice, at least for T12944 which originally highlighted
-this problem.
+###### Implementation overview
 
+Case-of-case is implemented in the simplifier. There we have a term to simplify, and an evaluation context (aka continuation in the simplifier's code), from which the term comes from. When simplifying a `case` expression, case-of-case is implemented by simplifying the branches under said evaluation context.
 
-Why do we do this scaling afterwards rather than when the binding is
-created? It is possible the binding comes from a point deep inside the
-expression. It wasn't clear to me that we know enough about the context
-at the point we make the binding due to the SimplCont type. It might
-be thread this information through to get it right at definition site.
-For now, I leave warnings and this message to my future self.
+Therefore we need to know how much scaling factor must be applied by commuting thus with the evaluation context. Which we compute recursively on the structure of the evaluation context using the `contHoleScaling` function.
 
+###### Interaction with case-of-known-constructor
 
-For an in-depth discussion see: [https://github.com/tweag/ghc/issues/78](https://github.com/tweag/ghc/issues/78) and [ https://github.com/tweag/ghc/pull/87](https://github.com/tweag/ghc/pull/87)
+In the simplifier, case-of-case is combined with case-of-known constructor, so an expression such as
+
+```haskell
+case_𝜔 (case_1 u of Foo x -> Qux x) of
+  Qux _ -> "Bar"
+```
+
+will be simplified to
+
+```haskell
+case_𝜔 u of
+  Foo x -> "Bar"
+```
+
+It needs to be a `case_𝜔`, since `x` is not used. Despite the fact that the outside `case` has disapeared. It's readily handled by the implementation above, it is worth noting however, since it may make debuggint the multiplicities in the simplifier harder.
 
 #### Pushing function-type coercions
 
