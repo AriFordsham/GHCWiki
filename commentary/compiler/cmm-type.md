@@ -4,7 +4,7 @@ TODO This page is possibly outdated. Update to the latest information.
 
 >
 >
-> See also [Code Generator](commentary/compiler/code-gen), [Cmm syntax](commentary/compiler/cmm-syntax), and [compiler/cmm/cmm-notes](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/cmm-notes).
+> See also [Code Generator](commentary/compiler/code-gen), [Cmm syntax](commentary/compiler/cmm-syntax), and [compiler/cmm/cmm-notes](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/cmm-notes).
 >
 >
 
@@ -14,7 +14,7 @@ TODO This page is possibly outdated. Update to the latest information.
 This page was written with more detail than usual since you may need to know how to work with Cmm as a programming language.  Cmm is the basis for the future of GHC, Native Code Generation, and if you are interested in hacking Cmm at least this page might help reduce your learning curve.  As a finer detail, if you read the [Compiler pipeline](commentary/compiler/hsc-main) wiki page or glanced at the diagram there you may have noticed that whether you are working backward from an `intermediate C` (Haskell-C "HC", `.hc`) file or an Assembler file you get to Cmm before you get to the STG language, the Simplifier or anything else.  In other words, for really low-level debugging you may have an easier time if you know what Cmm is about.  Cmm also has opportunities for implementing small and easy hacks, such as little optimisations and implementing new Cmm Primitive Operations.
 
 
-A portion of the [RTS](commentary/rts) is written in Cmm: [rts/Apply.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Apply.cmm), [rts/Exception.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Exception.cmm), [rts/HeapStackCheck.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/HeapStackCheck.cmm), [rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/PrimOps.cmm), [rts/StgMiscClosures.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/StgMiscClosures.cmm), [rts/StgStartup.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/StgStartup.cmm) and [rts/StgStdThunks.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/StgStdThunks.cmm).  (For notes related to `PrimOps.cmm` see the [PrimOps](commentary/prim-ops) page; for much of the rest, see the [HaskellExecution](commentary/rts/haskell-execution) page.)  Cmm is optimised before GHC outputs either HC or Assembler.  The C compiler (from HC, pretty printed by [compiler/cmm/PprC.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/PprC.hs)) and the [Native Code Generator](commentary/compiler/backends/ncg) (NCG) [Backends](commentary/compiler/backends) are closely tied to data representations and transformations performed in Cmm.  In GHC, Cmm roughly performs a function similar to the intermediate [Register Transfer Language (RTL)](http://gcc.gnu.org/onlinedocs/gccint/RTL.html) in GCC.
+A portion of the [RTS](commentary/rts) is written in Cmm: [rts/Apply.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Apply.cmm), [rts/Exception.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Exception.cmm), [rts/HeapStackCheck.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/HeapStackCheck.cmm), [rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/PrimOps.cmm), [rts/StgMiscClosures.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/StgMiscClosures.cmm), [rts/StgStartup.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/StgStartup.cmm) and [rts/StgStdThunks.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/StgStdThunks.cmm).  (For notes related to `PrimOps.cmm` see the [PrimOps](commentary/prim-ops) page; for much of the rest, see the [HaskellExecution](commentary/rts/haskell-execution) page.)  Cmm is optimised before GHC outputs either HC or Assembler.  The C compiler (from HC, pretty printed by [compiler/GHC/CmmToC.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/CmmToC.hs)) and the [Native Code Generator](commentary/compiler/backends/ncg) (NCG) [Backends](commentary/compiler/backends) are closely tied to data representations and transformations performed in Cmm.  In GHC, Cmm roughly performs a function similar to the intermediate [Register Transfer Language (RTL)](http://gcc.gnu.org/onlinedocs/gccint/RTL.html) in GCC.
 
 # Table of Contents
 
@@ -53,19 +53,19 @@ A portion of the [RTS](commentary/rts) is written in Cmm: [rts/Apply.cmm](https:
 
 `Cmm` is the GHC implementation of the `C--` language; it is also the extension of Cmm source code files: `.cmm` (see [What the hell is a .cmm file?](commentary/rts/cmm)).  The GHC [Code Generator](commentary/compiler/code-gen) (`CodeGen`) compiles the STG program into `C--` code, represented by the `Cmm` data type.  This data type follows the [definition of \`C--\`](https://www.cs.tufts.edu/~nr/c--/) pretty closely but there are some remarkable differences.  For a discussion of the Cmm implementation noting most of those differences, see the [Basic Cmm](commentary/compiler/cmm-type#basic-cmm) section, below.
 
-- [compiler/cmm/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/Cmm.hs): the main data type definition.
-- [compiler/cmm/CmmMachOp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmMachOp.hs): data types defining the machine operations (e.g. floating point divide) provided by `Cmm`.
-- [compiler/cmm/CLabel.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CLabel.hs): data type for top-level `Cmm` labels.
+- [compiler/GHC/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm.hs): the main data type definition.
+- [compiler/GHC/Cmm/CmmMachOp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/MachOp.hs): data types defining the machine operations (e.g. floating point divide) provided by `Cmm`.
+- [compiler/GHC/Cmm/CLabel.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/CLabel.hs): data type for top-level `Cmm` labels.
 
-- [compiler/cmm/PprCmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/PprCmm.hs): pretty-printer for `Cmm`.
-- [compiler/cmm/CmmUtils.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmUtils.hs): operations over `Cmm`
+- [compiler/GHC/Cmm/Ppr.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Ppr.hs): pretty-printer for `Cmm`.
+- [compiler/GHC/Cmm/Utils.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Utils.hs): operations over `Cmm`
 
-- [compiler/cmm/CmmLint.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmLint.hs): a consistency checker.
-- [compiler/cmm/CmmOpt.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmOpt.hs): an optimiser for `Cmm`.
+- [compiler/GHC/Cmm/Lint.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Lint.hs): a consistency checker.
+- [compiler/GHC/Cmm/Opt.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Opt.hs): an optimiser for `Cmm`.
 
-- [compiler/cmm/CmmParse.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmParse.y), [compiler/cmm/CmmLex.x](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmLex.x): parser and lexer for [.cmm files](commentary/rts/cmm).
+- [compiler/GHC/Cmm/Parser.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Parser.y), [compiler/GHC/Cmm/Lexer.x](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Lexer.x): parser and lexer for [.cmm files](commentary/rts/cmm).
 
-- [compiler/cmm/PprC.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/PprC.hs): pretty-print `Cmm` in C syntax, when compiling via C.
+- [compiler/GHC/CmmToC.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/CmmToC.hs): pretty-print `Cmm` in C syntax, when compiling via C.
 
 ## Additions in Cmm
 
@@ -124,7 +124,7 @@ __stginit_Main_() {	// parse error `('
 ```
 
 
-The Cmm procedure names in [rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/PrimOps.cmm) are not followed by a (possibly empty) parenthetical list of arguments; all their arguments are Global (STG) Registers, anyway, see [Variables, Registers and Types](commentary/compiler/cmm-type#variables,-registers-and-types), below.  Don't be confused by the procedure definitions in other handwritten `.cmm` files in the RTS, such as [rts/Apply.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Apply.cmm): all-uppercase procedure invocations are special reserved tokens in [compiler/cmm/CmmLex.x](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmLex.x) and [compiler/cmm/CmmParse.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmParse.y).  For example, `INFO_TABLE` is parsed as one of the tokens in the Alex `info` predicate:
+The Cmm procedure names in [rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/PrimOps.cmm) are not followed by a (possibly empty) parenthetical list of arguments; all their arguments are Global (STG) Registers, anyway, see [Variables, Registers and Types](commentary/compiler/cmm-type#variables,-registers-and-types), below.  Don't be confused by the procedure definitions in other handwritten `.cmm` files in the RTS, such as [rts/Apply.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Apply.cmm): all-uppercase procedure invocations are special reserved tokens in [compiler/GHC/Cmm/Lexer.x](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Lexer.x) and [compiler/GHC/Cmm/Parser.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Parser.y).  For example, `INFO_TABLE` is parsed as one of the tokens in the Alex `info` predicate:
 
 ```wiki
 info	:: { ExtFCode (CLabel, [CmmLit],[CmmLit]) }
@@ -314,7 +314,7 @@ For a list of references with information on `Unique`, see the [Basic Blocks and
 
 
 
-A `MachRep`, the type of a machine register, is defined in [compiler/cmm/CmmMachOp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmMachOp.hs):
+A `MachRep`, the type of a machine register, is defined in [compiler/GHC/Cmm/MachOp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/MachOp.hs):
 
 
 ```
@@ -333,7 +333,7 @@ data MachRep
 
 
 
-There is currently no register for floating point vectors, such as `F128`.  The types of Cmm variables are defined in the Happy parser file [compiler/cmm/CmmParse.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmParse.y) and the Alex lexer file [compiler/cmm/CmmLex.x](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmLex.x).  (Happy and Alex will compile these into `CmmParse.hs` and `CmmLex.hs`, respectively.)  Cmm recognises the following `C--` types as parseable tokens, listed next to their corresponding `define`s in [includes/Cmm.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/Cmm.h) and their STG types:
+There is currently no register for floating point vectors, such as `F128`.  The types of Cmm variables are defined in the Happy parser file [compiler/GHC/Cmm/Parser.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Parser.y) and the Alex lexer file [compiler/GHC/Cmm/Lexer.x](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Lexer.x).  (Happy and Alex will compile these into `Parser.hs` and `Lexer.hs`, respectively.)  Cmm recognizes the following `C--` types as parseable tokens, listed next to their corresponding `define`s in [includes/Cmm.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/Cmm.h) and their STG types:
 
 
 <table><tr><th> <b>Cmm Token</b> </th>
@@ -372,7 +372,7 @@ There is currently no register for floating point vectors, such as `F128`.  The 
 **Note**: Even Cmm types that are not explicit variables (Cmm literals and results of Cmm expressions) have implicit `MachRep`s, in the same way as you would use temporary registers to hold labelled constants or intermediate values in assembler functions.  See:
 
 - [Literals and Labels](commentary/compiler/cmm-type#literals-and-labels) for information related to the Cmm literals `CmmInt` and `CmmFloat`; and,
-- [Expressions](commentary/compiler/cmm-type#expressions), regarding the `cmmExprRep` function defined in [compiler/cmm/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/Cmm.hs).
+- [Expressions](commentary/compiler/cmm-type#expressions), regarding the `cmmExprRep` function defined in [compiler/cmm/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm.hs)(?).
 
 #### Global Registers and Hints
 
@@ -426,7 +426,7 @@ data GlobalReg
 
 
 
-For a description of the `Hp` and `Sp` *virtual registers*, see [The Haskell Execution Model](commentary/rts/haskell-execution) page.  General `GlobalReg`s are clearly visible in Cmm code according to the following syntax defined in [compiler/cmm/CmmLex.x](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmLex.x):
+For a description of the `Hp` and `Sp` *virtual registers*, see [The Haskell Execution Model](commentary/rts/haskell-execution) page.  General `GlobalReg`s are clearly visible in Cmm code according to the following syntax defined in [compiler/GHC/Cmm/Lexer.x](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Lexer.x):
 
 
 <table><tr><th> <b><tt>GlobalReg</tt> Constructor</b> </th>
@@ -456,7 +456,7 @@ General `GlobalRegs` numbers are decimal integers, see the `parseInteger` functi
 
 `GlobalRegs` are a very special case in Cmm, partly because they must conform to the STG register convention and the target C calling convention.  That the Cmm parser recognises `R1` and `F3` as `GlobalRegs` is only the first step.  The main files to look at for more information on this delicate topic are:
 
-- [compiler/codeGen/CgCallConv.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/codeGen/CgCallConv.hs) (the section on "Register assignment")
+- [compiler/GHC/Cmm/CgCallConv.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/CgCallConv.hs) (the section on "Register assignment")
 - [includes/stg/Regs.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/stg/Regs.h) (defining STG registers)
 - [includes/stg/MachRegs.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/stg/MachRegs.h) (target-specific mapping of machine registers for *registerised* builds of GHC)
 - [rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/PrimOps.cmm) (examples of `GlobalReg` register usage for out-of-line primops)
@@ -477,7 +477,7 @@ foreign "C" labelThread(R1 "ptr", R2 "ptr") [];
 ```
 
 
-Hints are represented in Haskell as `MachHint`s, defined near `MachRep` in [compiler/cmm/CmmMachOp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmMachOp.hs):
+Hints are represented in Haskell as `MachHint`s, defined near `MachRep` in [compiler/GHC/Cmm/MachOp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/MachOp.hs):
 
 
 ```
@@ -493,12 +493,12 @@ data MachHint
 Although the C-- specification does not allow the C-- type system to statically distinguish between floats, signed ints, unsigned ints or pointers, Cmm does. Cmm `MachRep`s carry the float or int kind of a variable, either within a local block or in a global register.  `GlobalReg` includes separate constructors for `Vanilla`, `Float`, `Double` and `Long`.  Cmm still does not distinguish between signed ints, unsigned ints and pointers (addresses) at the register level, as these are given *hint* pseudo-types or their real type is determined as they run through primitive operations.  `MachHint`s still follow the C-- specification and carry kind information as an aide to the backend optimisers.  
 
 
-Global Registers in Cmm currently have a problem with inlining: because neither [compiler/cmm/PprC.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/PprC.hs) nor the NCG are able to keep Global Registers from clashing with C argument passing registers, Cmm expressions that contain Global Registers cannot be inlined into an argument position of a foreign call.  For more thorough notes on inlining, see the comments in [compiler/cmm/CmmOpt.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmOpt.hs).
+Global Registers in Cmm currently have a problem with inlining: because neither [compiler/GHC/CmmToC.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/CmmToC.hs) nor the NCG are able to keep Global Registers from clashing with C argument passing registers, Cmm expressions that contain Global Registers cannot be inlined into an argument position of a foreign call.  For more thorough notes on inlining, see the comments in [compiler/GHC/Cmm/Opt.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Opt.hs).
 
-#### Declaration and Initialisation
+#### Declaration and Initialization
 
 
-Cmm variables hold the same values registers do in assembly languages but may be declared in a similar way to variables in C.  As in C--, they may actually be declared anywhere in the scope for which they are visible (a block or file)--for Cmm, this is done by the `loopDecls` function in [compiler/cmm/CmmParse.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmParse.y).  In [compiler/rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/rts/PrimOps.cmm), you will see Cmm variable declarations like this one:
+Cmm variables hold the same values registers do in assembly languages but may be declared in a similar way to variables in C.  As in C--, they may actually be declared anywhere in the scope for which they are visible (a block or file)--for Cmm, this is done by the `loopDecls` function in [compiler/GHC/Cmm/Parser.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Parser.y).  In [compiler/rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/rts/PrimOps.cmm), you will see Cmm variable declarations like this one:
 
 ```wiki
 W_ w, code, val;  // W_ is a cpp #define for StgWord, 
@@ -506,11 +506,11 @@ W_ w, code, val;  // W_ is a cpp #define for StgWord,
 ```
 
 
-Remember that Cmm code is run through the C preprocessor.  `W_` will be transformed into `bits32`, `bits64` or whatever is the `bits`*size* of the machine word, as defined in [includes/Cmm.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/Cmm.h).  In Haskell code, you may use the [compiler/cmm/CmmMachOp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmMachOp.hs) functions `wordRep` and `halfWordRep` to dynamically determine the machine word size.  For a description of word sizes in GHC, see the [Word](commentary/rts/word) page.
+Remember that Cmm code is run through the C preprocessor.  `W_` will be transformed into `bits32`, `bits64` or whatever is the `bits`*size* of the machine word, as defined in [includes/Cmm.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/Cmm.h).  In Haskell code, you may use the [compiler/GHC/Cmm/MachOp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/MachOp.hs) functions `wordRep` and `halfWordRep` to dynamically determine the machine word size.  For a description of word sizes in GHC, see the [Word](commentary/rts/word) page.
 
 
 
-The variables `w`, `code` and `val` should be real registers. With the above declaration the variables are uninitialised.  Initialisation requires an assignment *statement*.  Cmm does not recognise C-- "`{` *literal*, ... `}`" initialisation syntax, such as `bits32{10}` or `bits32[3] {1, 2, 3}`.  Cmm does recognise initialisation with a literal:
+The variables `w`, `code` and `val` should be real registers. With the above declaration the variables are uninitialized.  Initialization requires an assignment *statement*.  Cmm does not recognize C-- "`{` *literal*, ... `}`" initialization syntax, such as `bits32{10}` or `bits32[3] {1, 2, 3}`.  Cmm does recognize initialization with a literal:
 
 
 ```wiki
@@ -520,7 +520,7 @@ variable_num:	bits32 10::bits32;
 ```
 
 
-The typical method seems to be to declare variables and then initialise them just before their first use.  (Remember that you may declare a variable anywhere in a procedure and use it in an expression before it is initialised but you must initialise it before using it anywhere else--statements, for example.)
+The typical method seems to be to declare variables and then initialise them just before their first use.  (Remember that you may declare a variable anywhere in a procedure and use it in an expression before it is initialized but you must initialise it before using it anywhere else--statements, for example.)
 
 #### Memory Access
 
@@ -568,7 +568,7 @@ mov	al, [ebx + eax]
 ```
 
 
-You will generally not see this type of syntax in either handwritten or GHC-produced Cmm code, although it is allowed; it simply shows up in macros.  C-- also allows the `*` (multiplication) operator in addressing expressions, for an approximation of *scaled* addressing (`[base * (2^n)]`); for example, `n` (the "scale") must be `0`, `1`, `2` or `4`.  C-- itself would not enforce alignment or limits on the scale.  Cmm, however, could not process it: since the NCG currently outputs GNU Assembler syntax, the Cmm or NCG optimisers would have to reduce `n` in (`* n`) to an absolute address or relative offset, or to an expression using only `+` or `-`.  This is not currently the case and would be difficult to implement where one of the operands to the `*` is a relative address not visible in the code block.  [includes/Cmm.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/Cmm.h) defines macros to perform the calculation with a constant.  For example:
+You will generally not see this type of syntax in either handwritten or GHC-produced Cmm code, although it is allowed; it simply shows up in macros.  C-- also allows the `*` (multiplication) operator in addressing expressions, for an approximation of *scaled* addressing (`[base * (2^n)]`); for example, `n` (the "scale") must be `0`, `1`, `2` or `4`.  C-- itself would not enforce alignment or limits on the scale.  Cmm, however, could not process it: since the NCG currently outputs GNU Assembler syntax, the Cmm or NCG optimizers would have to reduce `n` in (`* n`) to an absolute address or relative offset, or to an expression using only `+` or `-`.  This is not currently the case and would be difficult to implement where one of the operands to the `*` is a relative address not visible in the code block.  [includes/Cmm.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/Cmm.h) defines macros to perform the calculation with a constant.  For example:
 
 ```wiki
 /* Converting quantities of words to bytes */
@@ -583,7 +583,7 @@ is used in:
 ```
 
 
-The function `cmmMachOpFold` in [compiler/cmm/CmmOpt.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmOpt.hs) will reduce the resulting expression `Sp + (n * SIZEOF_W)` to `Sp + N`, where `N` is a constant.  A very large number of macros for accessing STG struct fields and the like are produced by [utils/deriveConstants](https://gitlab.haskell.org/ghc/ghc/blob/master/utils/deriveConstants) and output into the file `includes/DerivedConstants.h` when GHC is compiled.
+The function `cmmMachOpFold` in [compiler/GHC/Cmm/Opt.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmOpt.hs) will reduce the resulting expression `Sp + (n * SIZEOF_W)` to `Sp + N`, where `N` is a constant.  A very large number of macros for accessing STG struct fields and the like are produced by [utils/deriveConstants](https://gitlab.haskell.org/ghc/ghc/blob/master/utils/deriveConstants) and output into the file `includes/DerivedConstants.h` when GHC is compiled.
 
 
 Of course, all this also holds true for the reverse (when an assignment is made to a memory address):
@@ -620,7 +620,7 @@ I32[frame + SIZEOF_StgHeader + 0] = R1;
 
 
 
-Cmm literals are exactly like C-- literals, including the Haskell-style type syntax, for example: `0x00000001::bits32`.  Cmm literals may be used for initialisation by assignment or in expressions. The `CmmLit` and `CmmStatic` data types, defined in [compiler/cmm/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/Cmm.hs) together represent Cmm literals, static information and Cmm labels:
+Cmm literals are exactly like C-- literals, including the Haskell-style type syntax, for example: `0x00000001::bits32`.  Cmm literals may be used for initialization by assignment or in expressions. The `CmmLit` and `CmmStatic` data types, defined in [compiler/GHC/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm.hs) together represent Cmm literals, static information and Cmm labels:
 
 
 ```
@@ -647,14 +647,14 @@ data CmmLit
 ```
 
 
-Note how the `CmmLit` constructor `CmmInt Integer MachRep` contains sign information in the `Integer`, the representation of the literal itself: this conforms to the C-- specification, where integral literals contain sign information. For an example of a function using `CmmInt` sign information, see `cmmMachOpFold` in [compiler/cmm/CmmOpt.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmOpt.hs), where sign-operations are performed on the `Integer`.
+Note how the `CmmLit` constructor `CmmInt Integer MachRep` contains sign information in the `Integer`, the representation of the literal itself: this conforms to the C-- specification, where integral literals contain sign information. For an example of a function using `CmmInt` sign information, see `cmmMachOpFold` in [compiler/GHC/Cmm/Opt.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Opt.hs), where sign-operations are performed on the `Integer`.
 
 
-The `MachRep` of a literal, such as `CmmInt Integer MachRep` or `CmmFloat Rational MachRep` may not always require the size defined by `MachRep`.  The NCG optimiser, [compiler/nativeGen/MachCodeGen.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/MachCodeGen.hs), will test a literal such as `1::bits32` (in Haskell, `CmmInt (1::Integer) I32`) for whether it would fit into the bit-size of Assembler instruction literals on that particular architecture with a function defined in [compiler/nativeGen/MachRegs.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/MachRegs.lhs), such as `fits16Bits` on the PPC.  If the Integer literal fits, the function `makeImmediate` will truncate it to the specified size if possible and store it in a NCG data type, `Imm`, specifically `Maybe Imm`.  (These are also defined in [compiler/nativeGen/MachRegs.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/MachRegs.lhs).)
+The `MachRep` of a literal, such as `CmmInt Integer MachRep` or `CmmFloat Rational MachRep` may not always require the size defined by `MachRep`.  The NCG optimizer, [compiler/nativeGen/MachCodeGen.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/MachCodeGen.hs)(broken link), will test a literal such as `1::bits32` (in Haskell, `CmmInt (1::Integer) I32`) for whether it would fit into the bit-size of Assembler instruction literals on that particular architecture with a function defined in [compiler/nativeGen/MachRegs.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/MachRegs.lhs)(broken link), such as `fits16Bits` on the PPC.  If the Integer literal fits, the function `makeImmediate` will truncate it to the specified size if possible and store it in a NCG data type, `Imm`, specifically `Maybe Imm`.  (These are also defined in [compiler/nativeGen/MachRegs.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/MachRegs.lhs)(broken link).)
 
 
 
-The Haskell representation of Cmm separates unchangeable Cmm values into a separate data type, `CmmStatic`, defined in [compiler/cmm/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/Cmm.hs):
+The Haskell representation of Cmm separates unchangeable Cmm values into a separate data type, `CmmStatic`, defined in [compiler/GHC/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm.hs):
 
 
 ```
@@ -673,7 +673,7 @@ data CmmStatic
 ```
 
 
-Note the `CmmAlign` constructor: this maps to the assembler directive `.align N` to set alignment for a data item (hopefully one you remembered to label).  This is the same as the `align` directive noted in Section 4.5 of the [C-- specification (PDF)](https://www.cs.tufts.edu/~nr/c--/extern/man2.pdf).  In the current implementation of Cmm the `align` directive seems superfluous because [compiler/nativeGen/PprMach.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/PprMach.hs) translates `Section`s to assembler with alignment directives corresponding to the target architecture (see [Sections and Directives](commentary/compiler/cmm-type#sections-and-directives), below).
+Note the `CmmAlign` constructor: this maps to the assembler directive `.align N` to set alignment for a data item (hopefully one you remembered to label).  This is the same as the `align` directive noted in Section 4.5 of the [C-- specification (PDF)](https://www.cs.tufts.edu/~nr/c--/extern/man2.pdf).  In the current implementation of Cmm the `align` directive seems superfluous because [compiler/nativeGen/PprMach.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/PprMach.hs)(broken link) translates `Section`s to assembler with alignment directives corresponding to the target architecture (see [Sections and Directives](commentary/compiler/cmm-type#sections-and-directives), below).
 
 #### Labels
 
@@ -687,7 +687,7 @@ Remember that C--/Cmm names consist of a string where the first character is:
 - a commercial at:  `@` .
 
 
-Cmm labels conform to the C-- specification.  C--/Cmm uses labels to refer to memory locations in code--if you use a data directive but do not give it a label, you will have no means of referring to the memory!  For `GlobalReg`s (transformed to assembler `.globl`), labels serve as both symbols and labels (in the assembler meaning of the terms).  The Haskell representation of Cmm Labels is contained in the `CmmLit` data type, see [Literals](commentary/compiler/cmm-type#) section, above.  Note how Cmm Labels are `CLabel`s with address information.  The `Clabel` data type, defined in [compiler/cmm/CLabel.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CLabel.hs), is used throughout the Compiler for symbol information in binary files.  Here it is:
+Cmm labels conform to the C-- specification.  C--/Cmm uses labels to refer to memory locations in code--if you use a data directive but do not give it a label, you will have no means of referring to the memory!  For `GlobalReg`s (transformed to assembler `.globl`), labels serve as both symbols and labels (in the assembler meaning of the terms).  The Haskell representation of Cmm Labels is contained in the `CmmLit` data type, see [Literals](commentary/compiler/cmm-type#) section, above.  Note how Cmm Labels are `CLabel`s with address information.  The `Clabel` data type, defined in [compiler/GHC/Cmm/CLabel.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/CLabel.hs), is used throughout the Compiler for symbol information in binary files.  Here it is:
 
 
 ```
@@ -768,7 +768,7 @@ data CLabel
 
 
 
-The Haskell representation of Cmm Section directives, in [compiler/cmm/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/Cmm.hs) as the first part of the "Static Data" section, is:
+The Haskell representation of Cmm Section directives, in [compiler/GHC/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm.hs) as the first part of the "Static Data" section, is:
 
 
 ```
@@ -785,7 +785,7 @@ data Section
 
 
 
-Cmm supports the following directives, corresponding to the assembler directives pretty-printed by the `pprSectionHeader` function in [compiler/nativeGen/PprMach.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/PprMach.hs):
+Cmm supports the following directives, corresponding to the assembler directives pretty-printed by the `pprSectionHeader` function in [compiler/nativeGen/PprMach.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/PprMach.hs)(broken link):
 
 
 <table><tr><th> <b><tt>Section</tt> Constructor</b> </th>
@@ -880,7 +880,7 @@ Expressions in Cmm follow the C-- specification.  They have:
 - one result: 
 
   - a *k*-bit value
-    --these expressions map to the `MachOp` data type, defined in [compiler/cmm/CmmMachOp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmMachOp.hs), see [Operators and Primitive Operations](commentary/compiler/cmm-type#operators-and-primitive-operations), the *k*-bit value may be:
+    --these expressions map to the `MachOp` data type, defined in [compiler/GHC/Cmm/MachOp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/MachOp.hs), see [Operators and Primitive Operations](commentary/compiler/cmm-type#operators-and-primitive-operations), the *k*-bit value may be:
 
     - a Cmm literal (`CmmLit`); or,
     - a Cmm variable (`CmmReg`, see [Variables, Registers and Types](commentary/compiler/cmm-type#variables,-registers-and-types));
@@ -892,11 +892,11 @@ Cmm expressions may include
 
 - a literal or a name (`CmmLit` contains both, see [Literals and Labels](commentary/compiler/cmm-type#literals-and-labels), above);
 - a memory reference (`CmmLoad` and `CmmReg`, see [Memory Access](commentary/compiler/cmm-type#memory-access), above);
-- an operator (a `MachOp`, in `CmmMachOp`, below); or,
+- an operator (a `MachOp`, in `MachOp`, below); or,
 - another expression (a `[CmmExpr]`, in `CmmMachOp`, below).
 
 
-These are all included as constructors in the `CmmExpr` data type, defined in [compiler/cmm/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/Cmm.hs):
+These are all included as constructors in the `CmmExpr` data type, defined in [compiler/GHC/Cmm/Expr.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/Cmm.hs):
 
 
 ```
@@ -938,7 +938,7 @@ This condition mapping does have an unfortunate consequence: conditional express
 
 
 
-Boolean conditions include: `&&`, `||`, `!` and parenthetical combinations of boolean conditions.  The `if expr { }` and `if expr { } else { }` statements contain boolean conditions.  The C-- type produced by conditional expressions is `bool`, in Cmm, type `BoolExpr` in [compiler/cmm/CmmParse.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmParse.y):
+Boolean conditions include: `&&`, `||`, `!` and parenthetical combinations of boolean conditions.  The `if expr { }` and `if expr { } else { }` statements contain boolean conditions.  The C-- type produced by conditional expressions is `bool`, in Cmm, type `BoolExpr` in [compiler/GHC/Cmm/Parser.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Parser.y):
 
 
 ```
@@ -951,7 +951,7 @@ data BoolExpr
 ```
 
 
-The type `BoolExpr` maps to the `CmmCondBranch` or `CmmBranch` constructors of type `CmmStmt`, defined in [compiler/cmm/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/Cmm.hs), see [Statements and Calls](commentary/compiler/cmm-type#statements-and-calls).
+The type `BoolExpr` maps to the `CmmCondBranch` or `CmmBranch` constructors of type `CmmStmt`, defined in [compiler/GHC/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm.hs), see [Statements and Calls](commentary/compiler/cmm-type#statements-and-calls).
 
 
 
