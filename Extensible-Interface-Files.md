@@ -23,15 +23,14 @@ Currently, interface files are stuctured as:
 
 https://gitlab.haskell.org/ghc/ghc/wikis/Core-interface-section motivates the case for including core in interface files, to make it available via `loadCore :: ModIface -> m (Maybe ModGuts)`, to be used by examples such as Liquid Haskell, resumable compilation, and plugins including Plutus.
 
-In addition to their primary purpose for IDE-like uses, HIE files can we used for dead code elimination. A weeder re-implementation (https://github.com/ocharles/weeder) does this.
+In addition to their primary purpose for IDE-like uses, HIE files can we used for dead code elimination. Weeder (https://hackage.haskell.org/package/weeder-2.0.0) does this. By including the HIE data in the interface file instead of a separate file, other tools gain the opacity of a single file.
 
 In the same way that plugins would like to access core data, it would also be useful to make it possible for them to write their own information, and access it later.
 
 ## Extensible Interface Files
 
 We propose to extend interface files into a sectioned format that can store arbitrary
-metadata for keys, to allow for a maximum flexibility.
-(more technical details on how this API looks)
+metadata for keys, to allow for a maximum flexibility. Sectioning is already used by certain `.o` file formats, for example ELF (https://en.wikipedia.org/wiki/Executable_and_Linkable_Format), and Mach-O (https://en.wikipedia.org/wiki/Mach-O#Mach-O_file_layout).
 
 From the user's perspective, such an API would look like:
 ```haskell
@@ -77,19 +76,73 @@ Since interface files are written later in the build process, this doesn't prope
 
 `Name` and `FastString` have a special handling in interface files, in which they are written to the end of an interface file in a lookup table, and referenced within the serialised interface payload by their table indicies. There are currently minorly different implementations for how this is done with interfaces, HIE, and Haddock. Since additional fields that are serialised from the GHC pipeline will contain these two types, it's probably a good time to generalise this behaviour.
 
-One possibility to solve this could be to define something like `data InterfaceData a`, and have the `Binary` instance for this handle the lookup tables, such that `a` is the payload - for example `InterfaceData ModIface`.
+To solve this, we can define wrapper functions to `put`/`get` a `Binary` payload, including the pointers before it, and the tables after it. 
+
+```haskell
+putWithTable :: Binary a => BinHandle -> a -> IO ()
+getWithTable :: Binary a => BinHandle      -> IO a
+```
+
+## Implementation
+
+### Extensible `ModIface`
+
+The starting step for implementation would include:
+*  Adding `ExtensibleFields` to the `ModIface` record
+*  Define the sectioned fields header format in the `Binary` instance of `ExtensibleFields`
+*  `read`/`write`/`detele` functions for the fields
+*  Generalised lookup table serialisation functions (`putWithTable`/`getWithTable`)
+
+### Core Field
+
+With the new lookup table serialisation functions, we can define the core field:
+*  `IfaceSyn` versions of the parts of `ModGuts` that aren't currently used in the `ModIface`
+*  Missing instances
+
+### HIE Field
+
+To write the HIE Field, we can reuse the existing HIE file functions by changing them to take a `BinHandle` as an argument.
+
+### Refactoring Existing File Formats
+
+`.hi` and `.hie` formats handle the `NameCache` in a fairly straightforward way, using an `IO` `NameCacheUpdater` in the case of interface files:
+```haskell
+newtype NameCacheUpdater
+      = NCU { updateNameCache :: forall c. (NameCache -> (NameCache, c)) -> IO c }
+```
+
+ While the HIE file handling inlines this in its read signature:
+```haskell
+readHieFileWithVersion :: (HieHeader -> Bool) -> NameCache -> FilePath -> IO (Either HieHeader (HieFileResult, NameCache))
+```
+
+However, Haddock is more general in its monad:
+```haskell
+type NameCacheAccessor m = (m NameCache, NameCache -> m ())
+```
+and defines its own equivalent of `updateNameCache`:
+```haskell
+with_name_cache :: forall a.
+                   ((forall b.
+                             (NameCache -> IO (NameCache, b))
+                             -> IO b)
+                    -> m a)
+                -> m a
+```
+
+Generalising these should be possible, but it may not be worth it to include Haddock's use case.
 
 ## Conclusion
 
-Extensible interface files carry the advantage over custom additional files in that tooling doesn't need to know about the existence of the additional data, with use cases such as:
-* Core:
-..* Resumable compilation
-..* Plutus (plugin)
-..* Liquid Haskell
-* HIE:
-..* IDEs
-..* Weeder
-* Custom data:
-..* Plugins
-..* IDEs
-..* Build tools
+Extensible interface files carry the advantage over custom additional files in that tooling doesn't need to know about the existence of the additional data, and sectioned object formats see common use elsewhere, with use cases such as:
+*  Core:
+   *  Resumable compilation
+   *  Plutus (plugin)
+   *  Liquid Haskell
+*  HIE:
+   *  IDEs
+   *  Weeder
+*  Custom data:
+   *  Plugins
+   *  IDEs
+   *  Build tools
