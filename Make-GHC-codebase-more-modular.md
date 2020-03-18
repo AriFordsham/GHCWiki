@@ -198,6 +198,7 @@ GHC.Core.Op.Tidy <= coreSyn/CoreTidy.hs
 GHC.Types.Annotation <= main/Annotations.hs
 GHC.Types.Avail <= basicTypes/Avail.hs
 GHC.Types.Basic <= basicTypes/BasicTypes.hs
+GHC.Types.Cpr <= basicTypes/Cpr.hs
 GHC.Types.Demand <= basicTypes/Demand.hs
 GHC.Types.FieldLabel <= basicTypes/FieldLabel.hs
 GHC.Types.Lexeme <= basicTypes/Lexeme.hs
