@@ -226,6 +226,14 @@ GHC.Types.Name.Env <= basicTypes/NameEnv.hs
 GHC.Types.CostCentre <= profiling/CostCentre.hs
 GHC.Types.CostCentre.State <= profiling/CostCentreState.hs
 GHC.Types.CostCentre.Init <= profiling/ProfInit.hs
+
+GHC.Types.Unique <= basicTypes/Unique.hs
+GHC.Types.Unique.Supply <= basicTypes/UniqSupply.hs
+GHC.Types.Unique.DFM <= utils/UniqDFM.hs
+GHC.Types.Unique.DSet <= utils/UniqDSet.hs
+GHC.Types.Unique.FM <= utils/UniqFM.hs
+GHC.Types.Unique.Map <= utils/UniqMap.hs
+GHC.Types.Unique.Set <= utils/UniqSet.hs
 ```
 
 
@@ -591,15 +599,8 @@ GHC.Data.TrieMap <= utils/TrieMap.hs
 
 GHC.Data.Char.Encoding <= utils/Encoding.hs
 GHC.Data.Char.Class <= parser/Ctype.hs
-
-GHC.Data.Unique <= basicTypes/Unique.hs
-GHC.Data.Unique.Supply <= basicTypes/UniqSupply.hs
-GHC.Data.Unique.DFM <= utils/UniqDFM.hs
-GHC.Data.Unique.DSet <= utils/UniqDSet.hs
-GHC.Data.Unique.FM <= utils/UniqFM.hs
-GHC.Data.Unique.Map <= utils/UniqMap.hs
-GHC.Data.Unique.Set <= utils/UniqSet.hs
 ```
+
 * `GHC.Utils`:
 
 ```
