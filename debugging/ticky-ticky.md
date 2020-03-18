@@ -81,6 +81,8 @@ Here is what I do:
 
   The column to focus on initially is `Alloc`, which gives the bytes allocated by the code fragment named under `STG Name`.  I generally sort both files by the `Alloc` column (using Unix command `sort -k2 -nr` on that region).
 
+  bgamari/ghc-utils> contains a [utility](https://gitlab.haskell.org/bgamari/ghc-utils/tree/master/compare-ticks) for comparing ticky output from multiple runs.
+
 - If your change is small, the two tables will look pretty similar, so you can just run your eye down until you find a difference.  Then go look in `x2n1.dump` for the unique (e.g `r6vW`) in the `STG Name`.  Look initially in the `STG Syntax` dump, but having found the right place I generally back up to the `Tidy Core` section which is far more readable.
 
 - Now you can compare the two sections of Core code.
