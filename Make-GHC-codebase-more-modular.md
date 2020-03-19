@@ -299,13 +299,13 @@ GHC.Tc.Solver.Flatten <= typecheck/TcFlatten.hs
 GHC.Tc.Utils <= typecheck/TcRnTypes.hs
 GHC.Tc.Utils.Monadic <= typecheck/TcMType.hs
 GHC.Tc.Utils.Type <= typecheck/TcType.hs
-    RAE: GHC.Tc.Constraint <= typecheck/Constraint.hs    -- could also be under GHC.Tc.Utils
-    RAE: GHC.Tc.Origin <= typecheck/TcOrigin.hs          -- could also be under GHC.Tc.Utils
+GHC.Tc.Utils.Constraint <= typecheck/Constraint.hs
+GHC.Tc.Utils.Origin <= typecheck/TcOrigin.hs
 
 GHC.Tc.Instance.Class <= typecheck/ClsInst.hs
 GHC.Tc.Instance.Family <= typecheck/FamInst.hs
 GHC.Tc.FunDeps <= typecheck/FunDeps.hs
-GHC.Tc.Instantiate <= typecheck/Inst.hs             RAE: NB: not "instance" !
+GHC.Tc.Instantiate <= typecheck/Inst.hs
 GHC.Tc.Annotations <= typecheck/TcAnnotations.hs
 GHC.Tc.Arrows <= typecheck/TcArrows.hs
 GHC.Tc.Backpack <= typecheck/TcBackpack.hs
