@@ -284,12 +284,11 @@ GHC.CmmToC <= cmm/PprC.hs
 
 ```
 GHC.Tc.Deriv <= typecheck/TcDeriv.hs
-GHC.Tc.Deriv.Constraints <= typecheck/TcDerivInfer.hs
+GHC.Tc.Deriv.Infer <= typecheck/TcDerivInfer.hs
 GHC.Tc.Deriv.Utils <= typecheck/TcDerivUtils.hs
 GHC.Tc.Deriv.Generate <= typecheck/TcGenDeriv.hs
 GHC.Tc.Deriv.Functor <= typecheck/TcGenFunctor.hs
 GHC.Tc.Deriv.Generics <= typecheck/TcGenGenerics.hs
-GHC.Tc.Deriv.Typeable <= typecheck/TcTypeable.hs
 
 GHC.Tc.Solver.Interact <= typecheck/TcInteract.hs
 GHC.Tc.Solver.Monad <= typecheck/TcSMonad.hs
@@ -304,6 +303,7 @@ GHC.Tc.Utils.Origin <= typecheck/TcOrigin.hs
 
 GHC.Tc.Instance.Class <= typecheck/ClsInst.hs
 GHC.Tc.Instance.Family <= typecheck/FamInst.hs
+GHC.Tc.Typeable <= typecheck/TcTypeable.hs
 GHC.Tc.FunDeps <= typecheck/FunDeps.hs
 GHC.Tc.Instantiate <= typecheck/Inst.hs
 GHC.Tc.Annotations <= typecheck/TcAnnotations.hs
