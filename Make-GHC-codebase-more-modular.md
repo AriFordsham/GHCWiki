@@ -217,8 +217,8 @@ GHC.Types.Id.Info <= basicTypes/IdInfo.hs
 GHC.Types.Id.Make <= basicTypes/MkId.hs
 
 GHC.Types.Name <= basicTypes/Name.hs
-GHC.Types.Name.OccName <= basicTypes/OccName.hs
-GHC.Types.Name.RdrName <= basicTypes/RdrName.hs
+GHC.Types.Name.Occurrence <= basicTypes/OccName.hs
+GHC.Types.Name.Reader <= basicTypes/RdrName.hs
 GHC.Types.Name.Set <= basicTypes/NameSet.hs
 GHC.Types.Name.Shape <= backpack/NameShape.hs
 GHC.Types.Name.Cache <= basicTypes/NameCache.hs
@@ -233,8 +233,8 @@ GHC.Types.Unique.Supply <= basicTypes/UniqSupply.hs
 GHC.Types.Unique.DFM <= utils/UniqDFM.hs
 GHC.Types.Unique.DSet <= utils/UniqDSet.hs
 GHC.Types.Unique.FM <= utils/UniqFM.hs
-GHC.Types.Unique.Map <= utils/UniqMap.hs
 GHC.Types.Unique.Set <= utils/UniqSet.hs
+/dev/null <= utils/UniqMap.hs
 ```
 
 
