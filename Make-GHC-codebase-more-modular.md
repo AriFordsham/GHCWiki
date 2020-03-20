@@ -201,7 +201,6 @@ GHC.Types.Basic <= basicTypes/BasicTypes.hs
 GHC.Types.Cpr <= basicTypes/Cpr.hs
 GHC.Types.Demand <= basicTypes/Demand.hs
 GHC.Types.FieldLabel <= basicTypes/FieldLabel.hs
-GHC.Types.Lexeme <= basicTypes/Lexeme.hs
 GHC.Types.Literal <= basicTypes/Literal.hs
 GHC.Types.Module <= basicTypes/Module.hs
 GHC.Types.RepType <= simplStg/RepType.hs
@@ -235,6 +234,8 @@ GHC.Types.Unique.DSet <= utils/UniqDSet.hs
 GHC.Types.Unique.FM <= utils/UniqFM.hs
 GHC.Types.Unique.Set <= utils/UniqSet.hs
 /dev/null <= utils/UniqMap.hs
+
+GHC.Utils.Lexeme <= basicTypes/Lexeme.hs
 ```
 
 
