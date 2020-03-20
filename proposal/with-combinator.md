@@ -102,8 +102,8 @@ test = do
 
 This construction the compiler can't mangle as there is no continuation to drop.
 
-Naive code generation of `with#`
---------------------------------
+Option A: Naive code generation of `with#`
+------------------------------------------
 
 The next question is what code should `with#` produce.
 
@@ -127,8 +127,8 @@ with#_ret() {
 However, this is suboptimal as it requires that the continuation be stack
 allocated.
 
-A slightly better code generation strategy
-------------------------------------------
+Option B: A slightly better code generation strategy
+----------------------------------------------------
 
 One way to eliminate the cost added by `with#` is to rewrite it to the existing `touch#` primitive (which has no runtime cost) late enough in the compilation process that the simplifier can't drop it (avoiding #14375). For instance, we might give `with#` a similar treatment to that of `runRW#`, which is lowered in `CorePrep` to an application of `realWorld#`.
 
@@ -141,8 +141,8 @@ case touch# x s' of s'' ->
 With out current STG-to-STG pipeline the `touch#` here should have
 the desired effect of keeping `x` alive until `k` has finished.
 
-Improved code generation for continuation primops
--------------------------------------------------
+Option C: Improved code generation for continuation primops
+-----------------------------------------------------------
 
 It turns out that several existing primops (e.g. `catch#`,
 `atomically#`) have a continuation-passing structure similar to that of `with#` and suffer from
@@ -160,8 +160,8 @@ The STG-to-Cmm pass could then lower this application by emitting code to push
 a catch stack-frame, then proceed immediately to emit the code for the
 continuation.
 
-A better improved code generation approach
-------------------------------------------
+Option D: A better improved code generation approach
+----------------------------------------------------
 
 While discussing the proposal in #16098 on IRC, @andreask raised the concern
 that dropping ANF will inevitably complicate passes that work with STG.
