@@ -70,6 +70,10 @@ For a tool to jump quickly to its required field, there should then we a header 
 * Field 1 payload
 * Field 2 payload
 
+## Compatibility
+
+The current format maintains header compatibility up to the version field, which is checked when deserialising, so these changes are within what different versions of GHC expect to see.
+
 ## Complications
 
 Since interface files are written later in the build process, this doesn't properly enable us to store outputs of early stages in the compiler, without completing enough of the build. For example, this technique would be inappropriate for an IDE to capture a parsed AST, to use for syntax highlighting, so failed type checking would prevent the interface file, and therefore its additonal data, being written. Of course, the GHC API could be used instead in this example, and potentially for other early build output use cases.
