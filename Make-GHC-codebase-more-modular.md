@@ -225,7 +225,7 @@ GHC.Types.Name.Env <= basicTypes/NameEnv.hs
 
 GHC.Types.CostCentre <= profiling/CostCentre.hs
 GHC.Types.CostCentre.State <= profiling/CostCentreState.hs
-GHC.Types.CostCentre.Init <= profiling/ProfInit.hs
+Merged into GHC.Driver.CodeOutput <= profiling/ProfInit.hs
 
 GHC.Types.Unique <= basicTypes/Unique.hs
 GHC.Types.Unique.Supply <= basicTypes/UniqSupply.hs
