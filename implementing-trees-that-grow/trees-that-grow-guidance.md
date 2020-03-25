@@ -146,12 +146,12 @@ type family XNew x
 
 type family XId  x
 
-data NoExt = NoExt -- no field extension
+data NoExtField = NoExtField -- no field extension
 
-data NoNewCon      -- no constructor extension
+data NoExtCon      -- no constructor extension
 
-noNewCon :: NoNewCon -> a
-noNewCon x = case x of {}
+noExtCon :: NoExtCon -> a
+noExtCon x = case x of {}
 ```
 
 
@@ -170,10 +170,10 @@ data Ps
 
 type ExpPs = Exp Ps
 
-type instance XVar Ps = NoExt
-type instance XAbs Ps = NoExt
-type instance XApp Ps = NoExt
-type instance XNew Ps = NoNewCon
+type instance XVar Ps = NoExtField
+type instance XAbs Ps = NoExtField
+type instance XApp Ps = NoExtField
+type instance XNew Ps = NoExtCon
 
 type instance XId  Ps = RdrName
 ```
@@ -191,9 +191,9 @@ data Rn
 
 type ExpRn = Exp Rn
 
-type instance XVar Rn = NoExt
-type instance XAbs Rn = NoExt
-type instance XApp Rn = NoExt
+type instance XVar Rn = NoExtField
+type instance XAbs Rn = NoExtField
+type instance XApp Rn = NoExtField
 type instance XNew Rn = UnboundVar
 
 type instance XId  Rn = Name
@@ -213,8 +213,8 @@ data Tc
 
 type ExpTc = Exp Tc
 
-type instance XVar Tc = NoExt
-type instance XAbs Tc = NoExt
+type instance XVar Tc = NoExtField
+type instance XAbs Tc = NoExtField
 type instance XApp Tc = Type
 type instance XNew Tc = UnboundVar
 
@@ -222,4 +222,19 @@ type instance XId  Tc = Id
 ```
 
 
-Note that we define a specific pair of datatypes to mark and handle empty extension fields and constructors.
+Note that we define a specific pair of datatypes to mark and handle empty extension fields and constructors (#15247). For example,
+
+```
+-- construction:
+x1 :: ExpPs String
+x1 = Var NoExtField (RdrName "x")
+
+-- pattern matching:
+process :: ExpPs -> ExpPs
+process (Var _ x) = ...
+process (Lam _ i e) = ... -- could use Var NoExtField v to create a new Var
+process (App _ f a) = ...
+process (New x) = noExtCon x  -- this is possible, because type instance XNew Ps = NoExtCon
+```
+
+Using `noExtCon`, we can match on all possible constructors without writing a panic in the code. If we ever change `XNew`, we will have to update the sites where `noExtCon` is called.
