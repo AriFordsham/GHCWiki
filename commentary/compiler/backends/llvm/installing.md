@@ -15,6 +15,8 @@ For instructions on building GHC go [here](http://hackage.haskell.org/trac/ghc/w
 
 <table><tr><th> </th>
 <th> <b>HEAD</b> </th>
+<th> <b>8.10</b> </th>
+<th> <b>8.8</b> </th>
 <th> <b>8.6</b> </th>
 <th> <b>8.4</b> </th>
 <th> <b>8.2</b> </th>
@@ -27,6 +29,8 @@ For instructions on building GHC go [here](http://hackage.haskell.org/trac/ghc/w
 <th> <b>7.0</b> 
 </th></tr>
 <tr><th> LLVM version </th>
+<th> 9.0 </th>
+<th> 9.0 </th>
 <th> 7.0 </th>
 <th> 6.0 </th>
 <th> 5.0 </th>
