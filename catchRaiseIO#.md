@@ -37,7 +37,12 @@ catchThrowIO m f = IO $ \s ->
     good -> good
 ```
 
+So, looking at #11555, `catchRaiseIO# undefined` throws an exception that is not caught;
+and `catchRaiseIO# (putStr x) h s` is strict in `x`.
+
 SG: How would imprecise exceptions play into this? What is the spec for `throw`/`catch`? Why do we reify precise but not imprecise exceptions? Imprecise exceptions would correspond to a layer of [`Validation`](http://hackage.haskell.org/package/validation-1.1/docs/Data-Validation.html), I guess.
+
+
 
 # Implementation
 
