@@ -19,7 +19,6 @@ It's very low level stuff, but in exchange:
 
 - You can mix modules compiled with `-ticky` and modules compiled without.
 
-
 To *really* see everything you need to compile all the libraries with `-ticky`.  To do that in a standard build tree, here are some flag settings in `build.mk` that work:
 
 ```wiki
@@ -28,6 +27,19 @@ GhcLibHcOpts += -ticky
 
 # Currently ticky is incompatible with threading
 GhcThreaded = NO
+```
+
+The equivalent for Hadrian would be a `<build_root>/hadrian.settings` (e.g. `_build/hadrian.settings`) file with the following contents:
+
+```
+# The .settings parser doesn't really allow for comments, so strip these.
+# The following adds -ticky to everything compiled by the stage1 compiler:
+stage1.*.ghc.hs.opts += -ticky
+
+# The following just links stage2 GHC with -ticky (for the -ticky/-debug runtime)
+# and assumes that you have annotated the modules that you want to profile
+# individually with `{-# OPTIONS_GHC -ticky -#}`
+stage1.ghc-bin.ghc.link.opts += -ticky
 ```
 
 ## Ticky-ticky quick start
