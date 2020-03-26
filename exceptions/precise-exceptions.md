@@ -1,13 +1,13 @@
 # The semantics of precise exceptions
 
 
-This page captures some thinking about the semantics of exceptions (early 2017)
+This page captures some thinking about the semantics of exceptions (early 2017, updated Mar 2020)
 
 
 See
 
 - The main wiki page: [Exceptions](exceptions).
-- The [FixingExceptions](fixing-exceptions) discussion.
+- The [FixingPreciseExceptions](fixing-precise-exceptions) discussion.
 
 ## Precise and imprecise exceptions
 
@@ -60,7 +60,7 @@ raiseIO# exn s = (# s, Left exn #)
 
 with `>>=` being defined in the obvious way (composition with `Either`/`Error`s monad instance).
 
-There is more to say; see `catchThrowIO` in [FixingExceptions](fixing-exceptions).
+There is more to say; see `catchThrowIO` in [FixingPreciseExceptions](fixing-precise-exceptions).
 
 ### Precise exceptions and strictness
 
