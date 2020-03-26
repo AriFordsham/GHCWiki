@@ -110,7 +110,7 @@ For [validating patches](testing-patches) :
 Install the [required tools](https://gitlab.haskell.org/trac/ghc/wiki/Building/Preparation/Tools):
 
 ```shell
-   sudo pacman -S ghc ghc-static perl gcc make happy alex cabal-install autoconf automake python python3-sphinx libedit numactl
+   sudo pacman -S ghc ghc-static perl gcc make happy alex cabal-install autoconf automake python python-sphinx libedit numactl
 ```
 
 
