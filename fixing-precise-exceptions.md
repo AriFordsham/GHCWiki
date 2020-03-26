@@ -1,141 +1,48 @@
+See the [root page for precise exceptions](https://gitlab.haskell.org/ghc/ghc/-/wikis/exceptions/precise-exceptions).
 
-See the [root page for precise exceptions](https://gitlab.haskell.org/ghc/ghc/-/wikis/exceptions/precise-exceptions)
+# Fixing precise exceptions in strictness analysis
 
+Precise exception semantics are really sensitive to transformations changing evaluation order. The prime example of a transformation that changes evaluation order is the worker/wrapper transformation, which feeds on information from strictness analysis to turn call-by-need into call-by-value.
 
+## Problem
 
-SG: In Jan 2019, we tackled a whole bunch of exception issues in #14998. There we determined that we don't really need `ExnStr` and removed it. But what I didn't know was that the whole time, T13380 from #13380 was broken! This came up again when formulating the IO hack in a more robust manner, then reverting that change because of #17653, and then finally implementing a solution that introduces something quite similar to `ExnStr` to achieve all the goals of this wiki page. See !2525 and the new `Note [Precise exceptions and strictness analysis]` in Demand.
-The rest of this wiki page is pretty much obsolete, as long as I don't see any convincing arguments for the introduction of `catchRaiseIO#`.
+#13380 shows that we can't treat precise exceptions as just any kind of divergence wrt. strictness analysis. It turns out that we were eagerly evaluating a variable (`y`) that we shouldn't actually be strict in as per precise exception semantics. 
 
+Here we describe the measures taken to fix that ticket (along with #148, #1592 and #17676).
 
-## Fixing demand analysis for exceptions
+## Solution: Make `defaultFvDmd` of `raiseIO#` lazy to preserve precise exceptions, hackily
 
+`raiseIO#` used to have a `Divergence` of `botDiv`. This means that it is strict in any free variable (such as `y`) and easily fixed by giving it `topDiv`.
 
-There are a couple different problems we have to deal with.
+But that leads to a lot of dead code when a `raiseIO#` appliction occurs as a case scrutinee, as the Simplifier fails to eliminate `raiseIO#`'s continuation (e.g. its alts) as it could before. There's a simple solution: Treat `raiseIO#` specially in the simplifier, so that we drop its continuation although it has `topDiv`. That's the hack.
 
-1. #13330 was caused by an ugly and somewhat broken hack trying to analyze `catch#` as stricter than it really is. It would be very nice if the *good ideas* that went into that ugly hack could be extracted and repaired to produce a more aggressive analysis that's still correct.
+So all that really needs to be done to fix #17676 and #13380 is
+1. Change `raiseIO#` to have `topDiv`
+2. Give it special treatment in `mkArgInfo`, treating it as if it had `botDiv`.
 
-1. #13380 reveals something of a disagreement about how we should view the result of `raiseIO#` (used to implement `throwIO`). Simon Marlow and David Feuer feel pretty strongly that `throwIO` should be viewed as producing an entirely deterministic, well-behaved `IO` action, and that the exception resulting from it should never be mixed up with an imprecise exception. Reid Barton and Simon Peyton Jones seem to wonder if that precision is worth the potential performance cost.
+This is implemented in !2956.
 
+## Replacing hacks by principled program analyses
 
-Assuming that I (David F.) and Simon M. win this debate, the key problem here is that we analyze `raiseIO# e s` as `ThrowsExn`, the same way we analyze something that either diverges or throws an imprecise exception. Assuming we change this, we want to take some care to recover dead code elimination that the current analysis allows. In particular, given
+### Dead code elimination for `raiseIO#` with `isDeadEndDiv`, introducing `ExnOrDiv`
 
+Special casing on `raiseIO#` in the Simplifier is gross, and only needed because it now has `topDiv` for its lazy default free variable demand (`defaultFvDmd`). We can fix that by introducing `ExnOrDiv` to `Divergence`, denoting that evaluation will diverge(, throw an imprecise exception) or throw a precise exception, but surely never converge. The `defaultFvDmd` of `exnDiv` then is as lazy as for `topDiv`. But entering an expression for which we infer such a `Divergence` will never return, thus is a dead end. Thus we rename `isBotDiv` to `isDeadEndDiv`, similarly all functions that use it and can delete the special case for `raiseIO#` in `SimplUtils.mkArgInfo`.
 
-```
-case raiseIO# e s of
-  (# s', a #) -> EXPR
-```
+The only analysis that I recognise plays a little fast and loose with `exnDiv` vs. `botDiv` probably is `CoreArity` (which will turn `exnDiv` into `botDiv` in `exprBotStrictness_maybe`), but I guess we'll fix that when it has bitten us.
 
+### Turn the "IO hack" into the proper analysis it should have been, introducing `ConOrDiv`
 
-we surely want to consider `EXPR` to be dead code, even though we don't want to consider `raiseIO# e s` to be precisely bottom.
+(In hindsight, this improvement is quite independent of #17676 and #13380, but similarly revolves around precise exceptions)
 
-### Important conventions below
+[The "IO hack"](https://gitlab.haskell.org/ghc/ghc/-/blob/5ac04eed98056e82d9648c39bacd477aac8b49ff/compiler/GHC/Core/Utils.hs#L1036) (which should rather be called `scrutineeMayThrowPreciseException`) is incredibly imprecise (as a program analysis) because it's so syntactic and just assumes that any composite `IO` action throws a precise exception. At the same time, it is unsound: For example, it will only recognise `IO` happening when the `case` matches on `(# State# RealWorld, a #)`, not `State# RealWorld` (an action ultimately calling `writeMutVar#`) or `(# State# RealWorld, Int#, Int#, Int# #)` (an action ending in `threadStatus#`). I imagine that when we have nested CPR, there will be a lot more variants of these unboxed tuples returning a `State# RealWorld` token.
 
+We can easily be more precise by extending the `Divergence` lattice with `ConOrDiv`, signifying that an expression may diverge(, throw an imprecise exception) or converge, but not throw a precise exception. Every converging primop except `raiseIO#` would have this new `conDiv`. Thus we can see whether an expression may throw a precise exception by checking its inferred demand type.
 
-In the rest of this page, I will squash all `Exception` types down to `SomeException`, to avoid all the conversion mess. So instead of `Exception e => ...`, I will simply assume that `e` is `SomeException`.
+As for soundness: It turns out that such an analysis, while sound, is too imprecise and would give `error` `topDiv`, ironically inferring that it might throw a precise exception (see https://gitlab.haskell.org/ghc/ghc/-/merge_requests/2525#note_260430). Thus, to be useful, we have to make the assumption that only `IO` code can throw a precise exception (so we disregard `unsafePerformIO` and `realWorld#`). Or, more specifically, any code that constructs a `State RealWorld#` token. This analysis is now done by [`forcesRealWorld`](https://gitlab.haskell.org/ghc/ghc/-/blob/28ed3fb4fed153f97237600c2839d76d6de0f701/compiler/stranal/DmdAnal.hs#L345), which is consulted in the new [`mayThrowPreciseException` check](https://gitlab.haskell.org/ghc/ghc/-/blob/28ed3fb4fed153f97237600c2839d76d6de0f701/compiler/stranal/DmdAnal.hs#L334). And whenever we annotate a strictness signature, we [try to clear the exception flag](https://gitlab.haskell.org/ghc/ghc/-/blob/28ed3fb4fed153f97237600c2839d76d6de0f701/compiler/stranal/DmdAnal.hs#L369), so that the precise exception "taint" is contained as much as possible. Why is that? Consider
 
-
-Furthermore, for the sake of readability, I uniformly substitute `Either a b` in place of `(# a | b #)`.
-
-
-By a **precise** exception, I mean an exception produced by `raiseIO#` (the primop version of `throwIO`).
-
-
-By an **imprecise** exception, I basically mean an exception produced by `throw` (as described in [A Semantics for Imprecise Exceptions](https://www.microsoft.com/en-us/research/publication/a-semantics-for-imprecise-exceptions/)).
-
-### Semantics of precise exceptions
-
-
-
-I (David Feuer) believe that precise exceptions should implement the following model.
-
-
-```
-newtype IO a = IO {unIO :: State# RealWorld -> (# State# RealWorld, Either SomeException a #)
-instance Monad IO where
-  return a = IO $ \s -> (# s, Right a #)
-  m >>= f = IO $ \s -> case unIO m s of
-    (# s', Left e #) -> (# s', Left e #)
-    (# s', Right a #) -> unIO (f a) s'
-
-throwIO :: SomeException -> IO a
-throwIO e = IO $ \s -> (# s, Left e #)
-
--- The name 'catchIO' is, sadly, taken by a less interesting function already
-catchThrowIO :: IO a -> (SomeException -> IO a) -> IO a
-catchThrowIO m f = IO $ \s ->
-  case unIO m s of
-    (# s', Left e #) -> unIO (f e) s'
-    good -> good
+```hs
+let err = error "boom" -- has topDiv
+in case writeMutVar# var err of s -> x
 ```
 
-
-Notes
-
-SG: I find the whole `catchThrowIO` idea rather obsolete. I don't see any reason to add it. This only makes sense if you want to have a catch-all for *precise* exceptions, for which I can't think of scenario where it is useful. And when you know you want to catch only a particular precise exception, just add a new exception and always throw it precisely.
-
-- I believe we likely should expose an actual *catchThrowIO* function. Since it doesn't catch imprecise exceptions, it can be treated much more aggressively. For example, `catchThrowIO (putStrLn x) (\_ -> print 2)` can safely be analyzed as strict in `x`, whereas the equivalent expression using `catch` cannot. SG: I don't get this point. Even with `catch`, that action is clearly strict in `x`; if `putStrLn` diverges or throws an imprecise exception, then that is just bottom and still strict in `x`. Whether or not the exception handler is called is unimportant. Also `putStrLn` might throw a precise exception, so it is never strict in its argument. Maybe there is a better example?
-
-- With the above semantics it is clear that this function (#13380 comment:4) whoudl be lazy in `y`:
-
-  ```wiki
-  f :: Int -> Int -> IO Int
-  f x y | x>0       = throwIO (userError "What")
-        | y>0       = return 1
-        | otherwise = return 2
-  ```
-
-- See `Note [IO hack in the demand analyser]` in `DmdAnal`.  This note would make much more sense with the above semantics for the IO monad. SG: It's called `Note [Precise exceptions and strictness analysis]` now in Demand.hs for that reason.
-
-
-The "I/O hack" in the demand analyzer actually does something very important that the note doesn't mention. The note begins
-
-
->
->
-> There's a hack here for I/O operations.  Consider
->
->
-> >
-> >
-> > `case foo x s of { (# s, r #) -> y }`
-> >
-> >
->
->
-> Is this strict in `y`?  Normally yes, but what if `foo` is an I/O
-> operation that simply terminates the program (not in an erroneous way)?
->
->
-
-
-In fact, we have to worry about this under *all interesting* conditions. For example, consider
-
-
-```
-case unIO (putStrLn "About to run y") s of
-  (# s', r #) -> y
-```
-
-
-Is this strict in `y`? No! `y` could turn out to be undefined; if we force it early then we'll never see the message. So I think we can really only consider this strict in `y` in the very special case where the `IO` action is `pure x`. SG: We (me and I recall SPJ agreed in a call) established in point 3 of https://gitlab.haskell.org/ghc/ghc/issues/17676#note_246256 that write effects shouldn't be lazy in their continuation. But `putStrLn` actually might throw a precise exception internally (which we want to preserve!), so this is quite a bad example. If the example used `writeMutVar#` as an observable effect, then we argue that code should still be strict in `y`. Otherwise we regress badly in existing code, #17653 gives a small taste.
-
-- Consider`throwIO exn >>= BIG`.  Just inlining shows us that we can discard `BIG`.  Currently (GHC 8) inlining turns this into `case throwIO# exn sn of (# s#, r #) -> BIG r`, which allows us to discard `BIG` because `throwIO#` is treated as diverging.  But #13380, comment:4 suggests that it should not. SG: This is fixed by !2956 (and will have a proper analysis as of !2525 or its successor).
-
-## Concrete ideas
-
-
-I think, first, that we should draw a clear line between imprecise exceptions, generally produced by `raise#`, and precise exceptions, produced by `raiseIO#`.
-
-
-Operationally, we need `raise#` and `raiseIO#` to set some flag to allow `catchRaiseIO#` to see which exceptions it should handle. SG: Why? I guess I first need to be convinced that `catchRaiseIO#`/`catchThrowIO#`/whatever is useful.
-
-
-
-I believe we want `unsafePerformIO` and `unsafeInterleaveIO` to convert precise exceptions into imprecise ones. That is, they should effectively catch any precise exceptions and rethrow them as imprecise ones. Perhaps we can do this in `runRW#`. Currently, `unsafeInterleaveIO` doesn't *use* `runRW#`, but I think we can and probably should change that.
-
-
-
-I strongly suspect there is something to be gained by treating expressions using `catch#` or `catchRaiseIO#` specially in the demand analyzer, but I don't know enough to say just how. I suspect the "result domain" does need to be expanded from the classical one, but in a slightly different direction than what we have now; we want to be able to express that certain things certainly will or certainly won't throw imprecise or precise exceptions. SG: We will have that with !2525 (or its successor). I still don't get how that knowledge is useful for `catch#`.
-
-
-We seem to take some advantage of `has_side_effects` to avoid applying the I/O demand analysis hack too broadly, but perhaps we could do a better job by propagating side effect information as we do demand information. I don't know. SG: Yes, a proper analysis as in !2525 could be a bit more precise than what we have currently, but I don't expect to see any break-throughs.
+Is this strict in `x`? I'd Yes, very much! But considering that we fail to prove (for the above reasons) that the `err` can't throw a precise exception, without our measures to limit taint based on type (which clears `err` to `conDiv`), the answer produced by the analysis will be No: Although `writeMutVar#` in itself doesn't throw a precise exception, it *might* evaluate its argument, which has `topDiv`. This taints the whole IO computation and we come out lazy in `x`.
