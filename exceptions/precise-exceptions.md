@@ -28,7 +28,7 @@ David helpfully divides exceptions into
 >
 >
 
-- **Precise**:  raised in the IO monad, by `throwIO :: Exception -> IO a`, or perhaps by an exception thrown by a foreign function call.
+- **Precise**:  raised in the IO monad, by `throwIO :: Exception -> IO a`.
 
 >
 >
