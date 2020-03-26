@@ -10,7 +10,7 @@ getLine >>= print . read @Int
 
 David: Catching precise exceptions means you'll catch problems reading from stdin or writing to stdout, but not exceptions thrown from another thread or errors thrown by read. But my real reason for wanting it is simply that I like the idea of pretending that the precise exception mechanism layers EitherT into the IO type. If we only have a catch-everything `catch#`, we don't get that.
 
-SG: Then why not catch the precise exceptions you are interested in directly? That would be much more explicit.
+Sebastian G: Then why not catch the precise exceptions you are interested in directly? That would be much more explicit.
 The only scenario in which I would find this useful is when an exception is thrown both precisely and imprecisely, which arguably seems like bad design. Wanting to catch all precise exceptions implies that we don't know in advance which precise exceptions can be thrown from an action, and that the information that we catched a precise exception rather than an imprecise one somehow matters in that context.
 
 # Semantics
@@ -42,3 +42,5 @@ SG: How would imprecise exceptions play into this? What is the spec for `throw`/
 # Implementation
 
 The RTS must flag exceptions thrown by `raiseIO#` and catch only those by `catchRaiseIO#`.
+
+David believes we want `unsafePerformIO` and `unsafeInterleaveIO` to convert precise exceptions into imprecise ones. That is, they should effectively catch any precise exceptions and rethrow them as imprecise ones. Perhaps we can do this in `runRW#`. Currently, `unsafeInterleaveIO` doesn't *use* `runRW#`, but I think we can and probably should change that.
