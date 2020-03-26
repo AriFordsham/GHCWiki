@@ -42,12 +42,11 @@ Asynchronous exceptions are an orthogonal concept: the notion of precision doesn
 ## The semantics of precise exceptions
 
 
-One way to give a semantics to precise exceptions is by using an operational semantics, as described in [Tackling the awkward squad](https://www.microsoft.com/en-us/research/publication/tackling-awkward-squad-monadic-inputoutput-concurrency-exceptions-foreign-language-calls-haskell/).  But GHC does not reflect that operational semantics internally; instead it expresses IO using state-token-passing.  That makes an awkward discontinuity when tryign to reason about GHC optimisations.
-
+One way to give a semantics to precise exceptions is by using an operational semantics, as described in [Tackling the awkward squad](https://www.microsoft.com/en-us/research/publication/tackling-awkward-squad-monadic-inputoutput-concurrency-exceptions-foreign-language-calls-haskell/).  But GHC does not reflect that operational semantics internally; instead it expresses IO using state-token-passing and leans on the RTS for efficient exceptions.  That makes an awkward discontinuity when trying to reason about GHC optimisations, because exceptional control flow semantics aren't embedded into expression semantics.
 
 Another, suggested by David, is this: regard the IO monad as if it were implemented by an exception monad:
 
-```wiki
+```hs
 type IO a = State# RealWorld -> (# State# RealWorld, Either Exception a #)
 ```
 
@@ -55,10 +54,11 @@ type IO a = State# RealWorld -> (# State# RealWorld, Either Exception a #)
 We won't *actually* do this, but we could *behave as if* we did.
 In particular, `raiseIO#` does *not* return bottom; it behaves as if it was defined thus
 
-```wiki
+```hs
 raiseIO# exn s = (# s, Left exn #)
 ```
 
+with `>>=` being defined in the obvious way (composition with `Either`/`Error`s monad instance).
 
 There is more to say; see `catchThrowIO` in [FixingExceptions](fixing-exceptions).
 
@@ -70,14 +70,14 @@ This view of precise exceptions gives us a principled way to answer questions ab
 
 For example, something like
 
-```wiki
+```hs
 f x = throwIO exn >> x
 ```
 
 
 would mean
 
-```wiki
+```hs
 f1 x s = case raiseIO# exn s of
           (s', Left exn) -> (s', Left exn)
           (s', Right _)  -> x s'
@@ -87,14 +87,14 @@ f1 x s = case raiseIO# exn s of
 which is obviously non-strict in `x`.
 On the other hand
 
-```wiki
+```hs
 f2 x = error "foo" >> x
 ```
 
 
 would turn into
 
-```wiki
+```hs
 f2 x = case raise# exn of
           (s', Left exn) -> (s', Left exn)
           (s', Right _)  -> x s'
@@ -107,9 +107,9 @@ and that *is* strict in `x` because `raise#` *does* return bottom, just as descr
 ### Catching exceptions
 
 
-David argues that we should have a new primop `catchIO#`, which catches only precise exceptions.  It behaves as if it was defined like this (with the same type as `catch#`:
+David argues that we should have a new primop `catchIO#`, which catches only precise exceptions.  It behaves as if it was defined like this (with the same type as `catch#`):
 
-```wiki
+```hs
 catchIO# :: (State# RealWorld -> (# State# RealWorld, Either Exception a #) )
          -> (b -> State# RealWorld -> (# State# RealWorld, Either Exception a #) )
          -> State# RealWorld
@@ -151,7 +151,7 @@ we'd still need to give `catchIO#` a custom demand signature.
 
 Is this function strict in `x`?
 
-```wiki
+```hs
 fRead :: IO a -> IO a
 fRead x = readMutVar r >> x
 ```
@@ -159,7 +159,7 @@ fRead x = readMutVar r >> x
 
 We can make a choice here.  Reading a mutable varaible can't fail (in the IO monad).  So we could define the primop (i.e. make it behave) like this:
 
-```wiki
+```hs
 readMutVar# :: MutVar# s a -> State# s -> (# State# s, a #)
 
 readMutVar :: MutVar (State# RealWorld) a -> IO a
@@ -174,7 +174,7 @@ Now `fRead x` woudl be strict in `x`.
 
 Alternatively , we could define the primop like this
 
-```wiki
+```hs
 readMutVar# :: MutVar# s a -> State# s -> (# State# s, Either Exception a #)
 ```
 
@@ -191,7 +191,7 @@ Simon PJ strongly prefers the former, but it's a free choice.
 How do we want to deal with `evaluate`? I (David) believe that `evaluate` should convert imprecise exceptions into precise ones. That is, we should have something like
 
 
-```
+```hs
 evaluate v = IO $ \s ->
   catch# (seq# v) (\e -> s' -> raiseIO# e s') s
 ```
@@ -280,7 +280,7 @@ restore the original meaning of `has_side_effects`, and make sure to apply
 the hack to any primop that has (observable) side effects but not to others.
 If we have
 
-```
+```hs
 case writeMutVar# r v s of
   s' -> e s'
 ```
@@ -289,7 +289,7 @@ case writeMutVar# r v s of
 then I think we want to consider this lazy in `e s'`. But if we have
 
 
-```
+```hs
 case readMutVar# r s of
   (# s', v #) -> e s'
 ```
@@ -302,7 +302,7 @@ then we want to consider this strict in `e s'`.
 I'm not sure how useful this is, but we can also safely discard non-side-effecting primops. If we have
 
 
-```
+```hs
 case readMutVar# v s of
   (# s', x #) -> e -- where x is unused in e
 ```
