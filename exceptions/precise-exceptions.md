@@ -8,13 +8,13 @@ See
 
 - The main wiki page: [Exceptions](exceptions).
 - The [FixingPreciseExceptions](fixing-precise-exceptions) discussion.
+- The [`catchRaiseIO#`](catchRaiseIO%23) discussion.
 
 ## Precise and imprecise exceptions
 
+[Section 5 of Tackling the awkward squad](https://www.microsoft.com/en-us/research/publication/tackling-awkward-squad-monadic-inputoutput-concurrency-exceptions-foreign-language-calls-haskell/) gives a good introduction to precise and imprecise exception. Similarly, David helpfully divides exceptions into
 
-David helpfully divides exceptions into
-
-- **Imprecise**: just as described by [A Semantics for Imprecise Exceptions](https://www.microsoft.com/en-us/research/publication/a-semantics-for-imprecise-exceptions/).  An imprecise exception can be raised anywhere, by `raise# :: Exception -> a`, or by failures like divide-by-zero.  (I'm going to ignore the structure of exception values, call them all `Exception`.)
+- **Imprecise**: just as described by [A Semantics for Imprecise Exceptions](https://www.microsoft.com/en-us/research/publication/a-semantics-for-imprecise-exceptions/) or [section 5.2 of Tackling the awkward squad](https://www.microsoft.com/en-us/research/publication/tackling-awkward-squad-monadic-inputoutput-concurrency-exceptions-foreign-language-calls-haskell/).  An imprecise exception can be raised anywhere, by `raise# :: Exception -> a`, or by failures like divide-by-zero.  (I'm going to ignore the structure of exception values, call them all `Exception`.)
 
 >
 >
@@ -28,7 +28,7 @@ David helpfully divides exceptions into
 >
 >
 
-- **Precise**:  raised in the IO monad, by `throwIO :: Exception -> IO a`.
+- **Precise**:  raised in the IO monad, by `throwIO :: Exception -> IO a`, semantics as per [Tackling the awkward squad](https://www.microsoft.com/en-us/research/publication/tackling-awkward-squad-monadic-inputoutput-concurrency-exceptions-foreign-language-calls-haskell/).
 
 >
 >
@@ -44,7 +44,7 @@ Asynchronous exceptions are an orthogonal concept: the notion of precision doesn
 
 One way to give a semantics to precise exceptions is by using an operational semantics, as described in [Tackling the awkward squad](https://www.microsoft.com/en-us/research/publication/tackling-awkward-squad-monadic-inputoutput-concurrency-exceptions-foreign-language-calls-haskell/).  But GHC does not reflect that operational semantics internally; instead it expresses IO using state-token-passing and leans on the RTS for efficient exceptions.  That makes an awkward discontinuity when trying to reason about GHC optimisations, because exceptional control flow semantics aren't embedded into expression semantics.
 
-Another, suggested by David, is this: regard the IO monad as if it were implemented by an exception monad:
+Still, we can reify precise exception semantics into the IO monad, as suggested by David: regard the IO monad as if it were implemented by an exception monad:
 
 ```hs
 type IO a = State# RealWorld -> (# State# RealWorld, Either Exception a #)
@@ -103,48 +103,10 @@ f2 x = case raise# exn of
 
 and that *is* strict in `x` because `raise#` *does* return bottom, just as described in the imprecise-exceptions paper.
 
+# Rest of this page
 
-### Catching exceptions
+Sebastian G can't really make sense of what the rest of this wiki page has to do with precise exceptions.
 
-
-David argues that we should have a new primop `catchIO#`, which catches only precise exceptions.  It behaves as if it was defined like this (with the same type as `catch#`):
-
-```hs
-catchIO# :: (State# RealWorld -> (# State# RealWorld, Either Exception a #) )
-         -> (b -> State# RealWorld -> (# State# RealWorld, Either Exception a #) )
-         -> State# RealWorld
-         -> (# State# RealWorld, Either Exception a #)
-catchIO# m f s = case m s of
-                    (# s', Left e #) -> f e s'
-                    good             -> good
-```
-
-
-Its behaviour if `m s` throws an imprecise exception is defined by the
-original imprecise-exceptions paper: the exception propagates without
-being caught.
-
-
-So, looking at #11555, `catchIO# undefined` throws an exception that is not caught;
-and `catchIO# (putStr x) h s` is strict in `x`.
-
-
-We still have the original `catch#` primop, which catches both sorts
-of exceptions.  It catches the imprecise sort exactly as described in the paper,
-and the precise sort by matching on `Left`.
-
-
-So `catch# undefined h s` calls the handler `h`.  And, for the
-reasons discussed in #11555, `catch#` should be lazy so that `catch# (f x)` does not
-look strict in `x` and hence perhaps evaluate `x` prematurely.
-
-
-It wouldn't hurt to offer a `catchVerbosely#` that catches all exceptions and passes
-the handler an indication (`0#` or `1#`) of whether the exception was precise or imprecise, or perhaps
-even `0#`, `1#`, or `2#` for precise, imprecise synchronous, or asynchronous.
-We could actually implement both `catch#` and `catchIO#` (as well as the
-less-obviously-useful `catchImprecise#`) using `catchVerbosely#`, although
-we'd still need to give `catchIO#` a custom demand signature.
 
 ### Primops that cannot fail
 
