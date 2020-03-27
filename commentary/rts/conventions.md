@@ -73,7 +73,7 @@ external header file).
 
 ### Other portability conventions
 
-- char can be signed or unsigned - always say which you mean
+- char can be signed or unsigned - always say which you mean.
 
 - Our POSIX policy: try to write code that only uses POSIX
   ([IEEE Std 1003.1](http://www.opengroup.org/onlinepubs/009695399/toc.htm))
@@ -155,8 +155,8 @@ Anyone who has tried to debug a garbage collector or code generator
 will tell you: "If a program is going to crash, it should crash as
 soon, as noisily and as often as possible."  There's nothing worse
 than trying to find a bug which only shows up when running GHC on
-itself and doesn't manifest itself until 10 seconds after the actual
-cause of the problem.
+itself and finding that it doesn't manifest until 10 seconds after
+the actual cause of the problem.
 
 
 We put all our debugging code inside `#ifdef DEBUG`.  The
@@ -246,9 +246,9 @@ Particular guidelines for writing robust code:
 
   - Omitting braces and parens leads to very hard to spot bugs - especially if you use macros (and you might have noticed that GHC does this a lot!)
 
-  - In particular, put braces round the body of for loops, while loops, if statements, etc.  even if they "aren't needed" because it's really hard to find the resulting bug if you mess up.  Indent them any way you like but put them in there!
+  - In particular, put braces around the body of for loops, while loops, if statements, etc.  even if they "aren't needed" because it's really hard to find the resulting bug if you mess up.  Indent them any way you like but put them in there!
 
-- When defining a macro, always put parens round args - just in case.
+- When defining a macro, always put parens around args - just in case.
   For example, write:
 
   ```wiki
