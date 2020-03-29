@@ -99,11 +99,11 @@ Run
 ```
 arch=x86_64 # or i386
 bitness=64 # or 32
-curl -L https://downloads.haskell.org/~ghc/8.8.2/ghc-8.8.2-${arch}-unknown-mingw32.tar.xz | tar -xJ -C /mingw${bitness} --strip-components=1
+curl -L https://downloads.haskell.org/~ghc/8.8.3/ghc-8.8.3-${arch}-unknown-mingw32.tar.xz | tar -xJ -C /mingw${bitness} --strip-components=1
 ```
 
 
-Note: `--strip-components=1` places everything within the archive's `ghc-8.6.5` folder directly into the target directory.
+Note: `--strip-components=1` places everything within the archive's `ghc-8.8.3` folder directly into the target directory.
 
 
 Building GHC requires [Alex](http://www.haskell.org/alex/) and [ Happy](http://www.haskell.org/happy/).  They can be installed using `cabal-install`. We will also put them in `/usr/local/bin`, which is by default included in `PATH` in MSYS.
