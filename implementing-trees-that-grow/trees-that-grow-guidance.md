@@ -91,7 +91,7 @@ noExtCon :: NoExtCon -> a
 noExtCon x = case x of {}
 ```
 
-**Ryan (or someone): can you say here why we make it strict.  And what noExtCon is used for.**
+**Ryan (or someone): can you say here why we make it strict.  And what noExtCon is used for.**   cf #17992
 
 ## Example
 
