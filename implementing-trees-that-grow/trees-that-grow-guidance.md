@@ -39,16 +39,16 @@ data Exp x
   = Var (XVar x) (IdP x)
   | Lam (XLam x) (IdP x) (Exp x)
   | App (XApp x) (Exp x) (Exp x)
-  | New (XNew x)
+  | XExp !(XXExp x)
 
-type family XVar x
-type family XLam x
-type family XApp x
-type family XNew x
+type family XVar  x
+type family XLam  x
+type family XApp  x
+type family XXExp x
 ```
 
 
-Here the phase descriptor is `x`.  The first field of each constructor (of type `XVar x` etc) are the extension fields.  The data constructor `XNew` is the extension constructor.
+Here the phase descriptor is `x`.  The first field of each constructor (of type `XVar x` etc) are the extension fields.  The data constructor `XExp` is the extension constructor.
 
 
 All fields of the data constructors except the first (extension) field are called *payload fields*.  They are present in every instantiation of the data type.
@@ -83,15 +83,29 @@ In general you should say
 ```
 data Exp x
   = ...
-  | New !(XNew x)   -- Note strict!
+  | XExp !(XXExp x)   -- Note strict!
 
 data NoExtCon      -- no constructor extension
+
+type instance XExp (GhcPass _) = NoExtCon
 
 noExtCon :: NoExtCon -> a
 noExtCon x = case x of {}
 ```
 
-**Ryan (or someone): can you say here why we make it strict.  And what noExtCon is used for.**   cf #17992
+Why make the extension constructor's field strict? Consider a function which consumes an `Exp`:
+
+```hs
+expPass :: Exp (GhcPass p) -> Exp (GhcPass p)
+...
+expPass (XExp nec) = noExtCon nec
+```
+
+Having to write a case for `XExp` each time is tedious, as the right-hand side always uses `noExtCon`. Morally, these cases are unreachable code, as you should not be able to construct a value of `NoExtCon`. You might object "but what about `⊥ :: NoExtCon"? This is where making the field strict comes into play. If the field is strict, then passing `XExp ⊥` to `expPass` will diverge before the right-hand side of the `noExtCon` case can be reached. In other words, making the field strict makes that case truly unreachable.
+
+In GHC 8.8 and up, the pattern-match coverage checker is actually smart enough to perform this kind of reasoning about strict fields of uninhabited types (such as `NoExtCon`), so if you were to try and write the last case of `expPass`, it would emit a warning. See #17992.
+
+Bottom line: make extension constructors have a strict field!
 
 ## Example
 
@@ -150,12 +164,12 @@ data Exp x
   = Var (XVar x) (XId x)
   | Abs (XAbs x) (XId x) (Exp x)
   | App (XApp x) (Exp x) (Exp x)
-  | New (XNew x)
+  | XExp (XXExp x)
 
-type family XVar x
-type family XAbs x
-type family XApp x
-type family XNew x
+type family XVar  x
+type family XAbs  x
+type family XApp  x
+type family XXExp x
 
 type family XId  x
 
@@ -183,10 +197,10 @@ data Ps
 
 type ExpPs = Exp Ps
 
-type instance XVar Ps = NoExtField
-type instance XAbs Ps = NoExtField
-type instance XApp Ps = NoExtField
-type instance XNew Ps = NoExtCon
+type instance XVar  Ps = NoExtField
+type instance XAbs  Ps = NoExtField
+type instance XApp  Ps = NoExtField
+type instance XXExp Ps = NoExtCon
 
 type instance XId  Ps = RdrName
 ```
@@ -204,10 +218,10 @@ data Rn
 
 type ExpRn = Exp Rn
 
-type instance XVar Rn = NoExtField
-type instance XAbs Rn = NoExtField
-type instance XApp Rn = NoExtField
-type instance XNew Rn = UnboundVar
+type instance XVar  Rn = NoExtField
+type instance XAbs  Rn = NoExtField
+type instance XApp  Rn = NoExtField
+type instance XXExp Rn = UnboundVar
 
 type instance XId  Rn = Name
 ```
@@ -226,10 +240,10 @@ data Tc
 
 type ExpTc = Exp Tc
 
-type instance XVar Tc = NoExtField
-type instance XAbs Tc = NoExtField
-type instance XApp Tc = Type
-type instance XNew Tc = UnboundVar
+type instance XVar  Tc = NoExtField
+type instance XAbs  Tc = NoExtField
+type instance XApp  Tc = Type
+type instance XXExp Tc = UnboundVar
 
 type instance XId  Tc = Id
 ```
@@ -247,7 +261,6 @@ process :: ExpPs -> ExpPs
 process (Var _ x) = ...
 process (Lam _ i e) = ...
 process (App _ f a) = ...
-process (New x) = noExtCon x  -- this is possible, because type instance XNew Ps = NoExtCon
 ```
 
-Using `noExtCon`, we can match on all possible constructors without writing a panic in the code. If we ever change `XNew`, we will have to update the sites where `noExtCon` is called.
+Note how we didn't need to write a case for `XNew`. See section "The extension constructor".
