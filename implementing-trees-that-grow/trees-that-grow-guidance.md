@@ -164,7 +164,7 @@ data Exp x
   = Var (XVar x) (XId x)
   | Abs (XAbs x) (XId x) (Exp x)
   | App (XApp x) (Exp x) (Exp x)
-  | XExp (XXExp x)
+  | XExp !(XXExp x)
 
 type family XVar  x
 type family XAbs  x
