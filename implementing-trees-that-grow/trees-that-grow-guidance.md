@@ -71,14 +71,27 @@ The design of TTG [HsSyn](implementing-trees-that-grow/hs-syn) follows these pri
 
 1. The non-payload (i.e. phase-specific) fields of a data constructor are grouped together and introduced via the extension field.  Similarly the phase-specific data constructors are introduced using the extension constructor.
 
-1. The instantiation of TTG [HsSyn](implementing-trees-that-grow/hs-syn), for a particular phase, should result in a tree that has no redundant fields and constructors.
+1. The instantiation of TTG [HsSyn](implementing-trees-that-grow/hs-syn), for a particular phase, should result in a tree that has no redundant fields and constructors.  For example, the `HsExpr GhsPs` expressions of AST GhcPs should not have the constructor `HsUnboundVar` of the post-renaming phases, or its `HsMultiIf` constructor should also not have an unused field (of the type `Type`) to store the related type produced in the typechecking phase.
 
-   For example, the `HsExpr GhsPs` expressions of AST GhcPs should not have the constructor `HsUnboundVar` of the post-renaming phases, or its `HsMultiIf` constructor should also not have an unused field (of the type `Type`) to store the related type produced in the typechecking phase.
+   As a result, the instantiated TTG [HsSyn](implementing-trees-that-grow/hs-syn) should not depend on the code from the other phases. Hence, the base (uninstantiated) TTG [HsSyn](implementing-trees-that-grow/hs-syn) should not depend on any GHC/TH/HSE-specific code.  For example, if `HsExpr GhsPs` expressions of AST GhcPs had the constructor `HsUnboundVar` then it had to depend on the code defining `UnboundVar` (a field of `HsUnboundVar`) in the renaming phase, or if its constructor `MultiIf` had a field of type `Type` then it had to depend on the code defining `Type` in the typechecking phase.
 
-   As a result, the instantiated TTG [HsSyn](implementing-trees-that-grow/hs-syn) should not depend on the code from the other phases. Hence, the base (uninstantiated) TTG [HsSyn](implementing-trees-that-grow/hs-syn) should not depend on any GHC/TH/HSE-specific code.
+1. The extension constructor should be strict; see section "The extension constructor"
 
-   For example, if `HsExpr GhsPs` expressions of AST GhcPs had the constructor `HsUnboundVar` then it had to depend on the code defining `UnboundVar` (a field of `HsUnboundVar`) in the renaming phase, or if its constructor `MultiIf` had a field of type `Type` then it had to depend on the code defining `Type` in the typechecking phase.
+## The extension constructor
 
+In general you should say
+```
+data Exp x
+  = ...
+  | New !(XNew x)   -- Note strict!
+
+data NoExtCon      -- no constructor extension
+
+noExtCon :: NoExtCon -> a
+noExtCon x = case x of {}
+```
+
+**Ryan (or someone): can you say here why we make it strict.  And what noExtCon is used for.**
 
 ## Example
 
