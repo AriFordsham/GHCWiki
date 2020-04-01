@@ -296,15 +296,19 @@ GHC.Tc.Solver.Monad <= typecheck/TcSMonad.hs
 GHC.Tc.Solver.Canonical <= typecheck/TcCanonical.hs
 GHC.Tc.Solver.Flatten <= typecheck/TcFlatten.hs
 
-GHC.Tc.Utils <= typecheck/TcRnTypes.hs
+GHC.Tc.Types <= typecheck/TcRnTypes.hs
+GHC.Tc.Types.Constraint <= typecheck/Constraint.hs
+GHC.Tc.Types.Origin <= typecheck/TcOrigin.hs
+GHC.Tc.Types.Evidence <= typecheck/TcEvidence.hs
+GHC.Tc.Types.EvTerm <= typecheck/TcEvTerm.hs
+
 GHC.Tc.Utils.Monadic <= typecheck/TcMType.hs
 GHC.Tc.Utils.Type <= typecheck/TcType.hs
-GHC.Tc.Utils.Constraint <= typecheck/Constraint.hs
-GHC.Tc.Utils.Origin <= typecheck/TcOrigin.hs
 
 GHC.Tc.Instance.Class <= typecheck/ClsInst.hs
 GHC.Tc.Instance.Family <= typecheck/FamInst.hs
-GHC.Tc.Typeable <= typecheck/TcTypeable.hs
+GHC.Tc.Instance.Typeable <= typecheck/TcTypeable.hs
+
 GHC.Tc.FunDeps <= typecheck/FunDeps.hs
 GHC.Tc.Instantiate <= typecheck/Inst.hs
 GHC.Tc.Annotations <= typecheck/TcAnnotations.hs
@@ -312,10 +316,8 @@ GHC.Tc.Arrows <= typecheck/TcArrows.hs
 GHC.Tc.Backpack <= typecheck/TcBackpack.hs
 GHC.Tc.Binds <= typecheck/TcBinds.hs
 GHC.Tc.Defaults <= typecheck/TcDefaults.hs
-GHC.Tc.Env <= typecheck/TcEnv.hs
+GHC.Tc.Monad.Env <= typecheck/TcEnv.hs
 GHC.Tc.Errors <= typecheck/TcErrors.hs
-GHC.Tc.Evidence <= typecheck/TcEvidence.hs
-GHC.Tc.EvTerm <= typecheck/TcEvTerm.hs
 GHC.Tc.Expr <= typecheck/TcExpr.hs
 GHC.Tc.Foreign <= typecheck/TcForeign.hs
 GHC.Tc.Errors.Hole <= typecheck/TcHoleErrors.hs
