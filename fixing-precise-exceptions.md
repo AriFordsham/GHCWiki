@@ -12,6 +12,8 @@ Here we describe the measures taken to fix that ticket (along with #148, #1592 a
 
 ## Solution: Make `defaultFvDmd` of `raiseIO#` lazy to preserve precise exceptions, hackily
 
+This was implemented in !2956.
+
 `raiseIO#` used to have a `Divergence` of `botDiv`. This means that it is strict in any free variable (such as `y`) and easily fixed by giving it `topDiv`.
 
 But that leads to a lot of dead code when a `raiseIO#` appliction occurs as a case scrutinee, as the Simplifier fails to eliminate `raiseIO#`'s continuation (e.g. its alts) as it could before. There's a simple solution: Treat `raiseIO#` specially in the simplifier, so that we drop its continuation although it has `topDiv`. That's the hack.
@@ -20,9 +22,9 @@ So all that really needs to be done to fix #17676 and #13380 is
 1. Change `raiseIO#` to have `topDiv`
 2. Give it special treatment in `mkArgInfo`, treating it as if it had `botDiv`.
 
-This is implemented in !2956.
-
 ## Replacing hacks by principled program analyses
+
+This was implemented in !3014.
 
 ### Dead code elimination for `raiseIO#` with `isDeadEndDiv`, introducing `ExnOrDiv`
 
