@@ -48,31 +48,6 @@ When running on an SMP, we begin by creating the number of OS threads specified 
 The RTS provides a platform-independent abstraction layer for OS
 threads in [includes/rts/OSThreads.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/rts/OSThreads.h).
 
-## Haskell threads
-
-
-A Haskell thread is represented by a Thread State Object
-([TSO](commentary/rts/storage/heap-objects#thread-state-objects)). These objects are *garbage-collected*, like other closures in Haskell.  The TSO, along with the stack allocated with it (STACK), constitute the primary memory overhead of a thread.  Default stack size, in particular, is controlled by the GC flag `-ki`, and is 1k by default (Actually, your usable stack will be a little smaller than that because this size also includes the size of the `StgTSO` struct, so that a lot of allocated threads will fit nicely into a single block.)  There are
-two kinds of Haskell thread:
-
-- A *bound* thread is created as the result of a *call-in* from
-  outside Haskell; that is, a call to `foreign export` or
-  `foreign import "wrapper"`.  A bound thread is tied to the
-  OS thread that made the call; all further foreign calls made by
-  this Haskell thread are made in the same OS thread.  (this is part
-  of the design of the FFI, described in the paper 
-  [Extending the Haskell Foreign Function Inteface with Concurrency](http://simonmar.github.io/bib/papers/conc-ffi.pdf)).
-
-- An *unbound* thread is created by
-  `Control.Concurrent.forkIO`.  Foreign calls made by an unbound
-  thread are made by an arbitrary OS thread.
-
-
-Initialization of TSOs is handled in `createThread` in [rts/Threads.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Threads.c); this function is in turn invoked by `createGenThread`, `createIOThread` and `createStrictIOThread` in [rts/RtsAPI.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/RtsAPI.c). These functions setup the initial stack state, which controls what the thread executes when it actually gets run. These functions are the ones invoked by the `fork#` and other primops (recall entry-points for primops are located in [rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/PrimOps.cmm)).
-
-
-Being garbage collected has two major implications for TSOs. First, TSOs are not GC roots, so they will get GC'd if there is nothing holding on to them (e.g. [in the case of deadlock](http://blog.ezyang.com/2011/07/blockedindefinitelyonmvar)), and their space is not automatically reclaimed when they finish executing (so `ThreadId` can cause memory leaks}}}. Usually, a TSO will be retained by a Capability’s run queue (a GC root), or in the list of waiting threads of some concurrency variable, e.g. an MVar. Second, a TSO must be considered a mutable object, and is thus subject to the conventional GC write barriers necessary for any mutable object in a generational garbage collector. The `dirty` bit tracks whether or not a TSO has been modified; it is always set when a thread is run and also when any of the pointer fields on a TSO are modified.
-
 ## Tasks
 
 
@@ -102,8 +77,11 @@ The important components of a Task are:
 
 ## InCalls
 
+In calls happen when we are calling into haskell code from C. 
 
-When an in-call is made, a Task is allocated (unless the current OS thread already has a Task), and an `InCall` structure is allocated for the call.  The `InCall` structure contains
+When an in-call is made, a Task is allocated (unless the current OS thread already has a Task), and an `InCall` structure is allocated for the call. This happens in `rts_lock`. The C code can then trigger evaluation using any of the rts_eval* functions.
+
+The `InCall` structure contains
 
 - a pointer to the `Task` that made the in-call
 - a pointer to the `TSO` that is executing the call
@@ -118,6 +96,31 @@ When a `TSO` makes a foreign call, the current `InCall` is placed on a queue att
 
 
 A task has a small cache of spare `InCall` structures so that it can allocate a fresh one quickly and without taking any locks; this is important for in-call performance.
+
+## Haskell threads
+
+
+A Haskell thread is represented by a Thread State Object
+([TSO](commentary/rts/storage/heap-objects#thread-state-objects)). These objects are *garbage-collected*, like other closures in Haskell.  The TSO, along with the stack allocated with it (STACK), constitute the primary memory overhead of a thread.  Default stack size, in particular, is controlled by the GC flag `-ki`, and is 1k by default (Actually, your usable stack will be a little smaller than that because this size also includes the size of the `StgTSO` struct, so that a lot of allocated threads will fit nicely into a single block.)  There are
+two kinds of Haskell thread:
+
+- A *bound* thread is created as the result of a *call-in* from
+  outside Haskell; that is, a call to `foreign export` or
+  `foreign import "wrapper"`.  A bound thread is tied to the
+  OS thread that made the call; all further foreign calls made by
+  this Haskell thread are made in the same OS thread.  (this is part
+  of the design of the FFI, described in the paper 
+  [Extending the Haskell Foreign Function Inteface with Concurrency](http://simonmar.github.io/bib/papers/conc-ffi.pdf)).
+
+- An *unbound* thread is created by
+  `Control.Concurrent.forkIO`.  Foreign calls made by an unbound
+  thread are made by an arbitrary OS thread.
+
+
+Initialization of TSOs is handled in `createThread` in [rts/Threads.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Threads.c); this function is in turn invoked by `createGenThread`, `createIOThread` and `createStrictIOThread` in [rts/RtsAPI.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/RtsAPI.c). These functions setup the initial stack state, which controls what the thread executes when it actually gets run. These functions are the ones invoked by the `fork#` and other primops (recall entry-points for primops are located in [rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/PrimOps.cmm)).
+
+
+Being garbage collected has two major implications for TSOs. First, TSOs are not GC roots, so they will get GC'd if there is nothing holding on to them (e.g. [in the case of deadlock](http://blog.ezyang.com/2011/07/blockedindefinitelyonmvar)), and their space is not automatically reclaimed when they finish executing (so `ThreadId` can cause memory leaks}}}. Usually, a TSO will be retained by a Capability’s run queue (a GC root), or in the list of waiting threads of some concurrency variable, e.g. an MVar. Second, a TSO must be considered a mutable object, and is thus subject to the conventional GC write barriers necessary for any mutable object in a generational garbage collector. The `dirty` bit tracks whether or not a TSO has been modified; it is always set when a thread is run and also when any of the pointer fields on a TSO are modified.
 
 ## Capabilities
 
