@@ -98,11 +98,9 @@ I'll list the commits in the order of their logical progression,
 
 ## The Patches for 8.0
 
-
-Below is a listing of relevant patches which were merged for GHC 8.0.1.
+Below is a listing of Ben's DWARF patches were merged for GHC 8.0.1.
 
 ### Basic DWARF support
-
 
 These preparatory commits address a few bugs and deficiencies in the
 current DWARF production implementation,
