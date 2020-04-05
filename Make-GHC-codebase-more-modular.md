@@ -115,7 +115,7 @@ GHC.ThToHs <= hsSync/Convert.hs
 
 
 ```
-GHC.Rename.Binds <= rename/RnBinds.hs
+GHC.Rename.Bind <= rename/RnBinds.hs
 GHC.Rename.Env <= rename/RnEnv.hs
 GHC.Rename.Expr <= rename/RnExpr.hs
 GHC.Rename.Fixity <= rename/RnFixity.hs
@@ -124,7 +124,7 @@ GHC.Rename.Names <= rename/RnNames.hs
 GHC.Rename.Pat <= rename/RnPat.hs
 GHC.Rename.Module <= rename/RnSource.hs
 GHC.Rename.Splice <= rename/RnSplice.hs
-GHC.Rename.Types <= rename/RnTypes.hs
+GHC.Rename.HsType <= rename/RnTypes.hs
 GHC.Rename.Unbound <= rename/RnUnbound.hs
 GHC.Rename.Utils <= rename/RnUtils.hs
 ```
@@ -291,6 +291,7 @@ GHC.Tc.Deriv.Generate <= typecheck/TcGenDeriv.hs
 GHC.Tc.Deriv.Functor <= typecheck/TcGenFunctor.hs
 GHC.Tc.Deriv.Generics <= typecheck/TcGenGenerics.hs
 
+GHC.Tc.Solver <= typecheck/TcSimplify.hs
 GHC.Tc.Solver.Interact <= typecheck/TcInteract.hs
 GHC.Tc.Solver.Monad <= typecheck/TcSMonad.hs
 GHC.Tc.Solver.Canonical <= typecheck/TcCanonical.hs
@@ -302,49 +303,48 @@ GHC.Tc.Types.Origin <= typecheck/TcOrigin.hs
 GHC.Tc.Types.Evidence <= typecheck/TcEvidence.hs
 GHC.Tc.Types.EvTerm <= typecheck/TcEvTerm.hs
 
-GHC.Tc.Utils.TcMType <= typecheck/TcMType.hs
-GHC.Tc.Utils.Type <= typecheck/TcType.hs
+GHC.Tc.Utils.Backpack <= typecheck/TcBackpack.hs
 GHC.Tc.Utils.Env <= typecheck/TcEnv.hs
+GHC.Tc.Utils.Instantiate <= typecheck/Inst.hs
 GHC.Tc.Utils.Monad <= typecheck/TcRnMonad.hs
+GHC.Tc.Utils.TcMType <= typecheck/TcMType.hs
+GHC.Tc.Utils.TcType <= typecheck/TcType.hs
+GHC.Tc.Utils.Unify <= typecheck/TcUnify.hs
+GHC.Tc.Utils.Zonk <= typecheck/TcHsSyn.hs
 
 GHC.Tc.Instance.Class <= typecheck/ClsInst.hs
 GHC.Tc.Instance.Family <= typecheck/FamInst.hs
 GHC.Tc.Instance.Typeable <= typecheck/TcTypeable.hs
+GHC.Tc.Instance.FunDeps <= typecheck/FunDeps.hs
 
-GHC.Tc.FunDeps <= typecheck/FunDeps.hs
-GHC.Tc.Instantiate <= typecheck/Inst.hs
-GHC.Tc.Annotations <= typecheck/TcAnnotations.hs
-GHC.Tc.Arrows <= typecheck/TcArrows.hs
-GHC.Tc.Backpack <= typecheck/TcBackpack.hs
-GHC.Tc.Binds <= typecheck/TcBinds.hs
-GHC.Tc.Defaults <= typecheck/TcDefaults.hs
+GHC.Tc.Gen.Annotation <= typecheck/TcAnnotations.hs
+GHC.Tc.Gen.Arrow <= typecheck/TcArrows.hs
+GHC.Tc.Gen.Bind <= typecheck/TcBinds.hs
+GHC.Tc.Gen.Default <= typecheck/TcDefaults.hs
+GHC.Tc.Gen.Export <= typecheck/TcRnExports.hs
+GHC.Tc.Gen.Expr <= typecheck/TcExpr.hs
+GHC.Tc.Gen.Foreign <= typecheck/TcForeign.hs
+GHC.Tc.Gen.HsType <= typecheck/TcHsType.hs
+GHC.Tc.Gen.Match <= typecheck/TcMatches.hs
+GHC.Tc.Gen.Pat <= typecheck/TcPat.hs
+GHC.Tc.Gen.Rule <= typecheck/TcRules.hs
+GHC.Tc.Gen.Sig <= typecheck/TcSigs.hs
+GHC.Tc.Gen.Splice <= typecheck/TcSplice.hs
+
 GHC.Tc.Errors <= typecheck/TcErrors.hs
-GHC.Tc.Expr <= typecheck/TcExpr.hs
-GHC.Tc.Foreign <= typecheck/TcForeign.hs
 GHC.Tc.Errors.Hole <= typecheck/TcHoleErrors.hs
 GHC.Tc.Errors.Hole.FitTypes <= typecheck/TcHoleFitTypes.hs
-GHC.Tc.Zonk <= typecheck/TcHsSyn.hs
-GHC.Tc.Type <= typecheck/TcHsType.hs
-
-GHC.Tc.Match <= typecheck/TcMatches.hs
-GHC.Tc.Pat <= typecheck/TcPat.hs
-GHC.Tc.PatSyn <= typecheck/TcPatSyn.hs
-GHC.Tc.Module <= typecheck/TcRnDriver.hs
-GHC.Tc.Export <= typecheck/TcRnExports.hs
-GHC.Tc.Rule <= typecheck/TcRules.hs
-GHC.Tc.Sigs <= typecheck/TcSigs.hs
-GHC.Tc.Solver <= typecheck/TcSimplify.hs
-GHC.Tc.Splice <= typecheck/TcSplice.hs
-GHC.Tc.Unify <= typecheck/TcUnify.hs
-GHC.Tc.Validity <= typecheck/TcValidity.hs
-
-GHC.Tc.Plugin <= typecheck/TcPluginM.hs
 
 GHC.Tc.TyCl <= typecheck/TcTyClsDecls.hs
-GHC.Tc.TyCl.Instance <= typecheck/TcInstDcls.hs
-GHC.Tc.TyCl.Utils <= typecheck/TcTyDecls.hs
 GHC.Tc.TyCl.Build <= iface/BuildTyCl.hs
 GHC.Tc.TyCl.Class <= typecheck/TcClassDcl.hs
+GHC.Tc.TyCl.Instance <= typecheck/TcInstDcls.hs
+GHC.Tc.TyCl.PatSyn <= typecheck/TcPatSyn.hs
+GHC.Tc.TyCl.Utils <= typecheck/TcTyDecls.hs
+
+GHC.Tc.Module <= typecheck/TcRnDriver.hs
+GHC.Tc.Validity <= typecheck/TcValidity.hs
+GHC.Tc.Plugin <= typecheck/TcPluginM.hs
 ```
 
 * `GHC.HsToCore`
