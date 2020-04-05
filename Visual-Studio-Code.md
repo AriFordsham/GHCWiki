@@ -11,6 +11,12 @@ Some animations to demonstrate what you can expect:
 ![C - Hover & Error](uploads/160b19edec2d0b40789afd23f65e1cb4/peek_vscode_c_hover_error.gif)
 
 
+---
+
+**:warning:** Currently `ghcide` (ghc.nix argument: `withIde = true;`) is not supported by `ghc.nix`: https://github.com/alpmestan/ghc.nix#using-ghcide-%EF%B8%8F-currently-unavailable . Most of this page still applies, but you have to provide your own `ghcide` and `bear` binaries. `ghcide` must have been built with exactly the same GHC version you use to build your GHC project. 
+
+---
+
 # Table of contents
 [[_TOC_]]
 
