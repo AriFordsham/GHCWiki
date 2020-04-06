@@ -89,6 +89,8 @@ getWithTable :: Binary a => BinHandle      -> IO a
 
 ## Complete Interface File Format
 
+File format:
+
 * File header
   * [32 bits] Magic number, which signals that it should be a real `.hi` file
   * [32/64 bits] Legacy empty field
@@ -111,9 +113,10 @@ getWithTable :: Binary a => BinHandle      -> IO a
     * [64 bits] size of the field in bytes
     * [x bytes] field data
 
-* String format
-  * [64 bit Int] number of list elements
-  * [n * 32 bit] list elements
+
+String format:
+* [64 bit Int] number of list elements
+* [n * 32 bit] list elements
 
 ## Implementation
 
