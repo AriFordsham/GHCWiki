@@ -93,10 +93,10 @@ File format:
 
 * File header
   * [32 bits] Magic number, which signals that it should be a real `.hi` file
-  * [32/64 bits] Legacy empty field
+  * [32 bits] File format version (taken from previously empty legacy field)
+  * [0/32 bits] Remainder of legacy field
   * [String] Payload format version
   * [String] Way descriptor
-  * [32 bits] File format version
   * [32 bits] Extensible fields header pointer
   * [32 bits] `FastString` dictionary pointer
   * [32 bits] `Name` symbol table pointer
