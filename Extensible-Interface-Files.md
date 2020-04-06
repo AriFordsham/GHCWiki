@@ -87,6 +87,34 @@ putWithTable :: Binary a => BinHandle -> a -> IO ()
 getWithTable :: Binary a => BinHandle      -> IO a
 ```
 
+## Complete Interface File Format
+
+* File header
+  * [32 bits] Magic number, which signals that it should be a real `.hi` file
+  * [32/64 bits] Legacy empty field
+  * [String] Payload format version
+  * [String] Way descriptor
+  * [32 bits] File format version
+  * [32 bits] Extensible fields header pointer
+  * [32 bits] `FastString` dictionary pointer
+  * [32 bits] `Name` symbol table pointer
+* GHC interface payload (payload version dependent)
+  * Actual interface data
+  * Symbol table
+  * Dictionary
+* Extensible fields header
+  * [64 bits] number of extensible fields
+  * n extensible field header entries
+    * [String] field name
+    * [32 bits] field pointer
+  * n extensible field data entries
+    * [64 bits] size of the field in bytes
+    * [x bytes] field data
+
+* String format
+  * [64 bit Int] number of list elements
+  * [n * 32 bit] list elements
+
 ## Implementation
 
 ### Extensible `ModIface`
