@@ -1,7 +1,14 @@
-# Replacing `touch#` with the `with#` combinator
+# Replacing `touch#` with the `keepAlive#` combinator
 
-See the discussion on #17760
+There are a collection of related tickets;
 
+* #17760 is the one about `keepAlive#`
+* #13104 is about `runRW#` and join points
+* #15127 is similar, also `runRW#`
+
+
+Background
+------------
 Today GHC offers `touch#` to ensure object liveness in the presence of
 references living outside of the heap:
 
@@ -62,11 +69,11 @@ A way to mitigate the issue is to ensure that functions using `touch#` can't be 
 withForeignPtr fo io
   = let !(ForeignPtr addr r) = fo
         IO fio               = io (Ptr addr)
-    in IO $ \s -> with# r fio s
+    in IO $ \s -> keepAlive# r fio s
 
-{-# NOINLINE with# #-}
-with# :: a -> (State# RealWorld -> (# State# RealWorld, b #)) -> State# RealWorld -> (# State# RealWorld, b #)
-with# a m s =
+{-# NOINLINE keepAlive# #-}
+keepAlive# :: a -> (State# RealWorld -> (# State# RealWorld, b #)) -> State# RealWorld -> (# State# RealWorld, b #)
+keepAlive# a m s =
   case m s of
     (# s', r #) -> (# touch# a s', r #)
 
@@ -74,14 +81,14 @@ with# a m s =
 
 
 
-Fixing the issue properly with a new `with#` primop?
+Fixing the issue properly with a new `keepAlive#` primop?
 ----------------------------------------------------
 
-To fix the issue it has been proposed (#14375, !2566) to make the `with#`
+To fix the issue it has been proposed (#14375, !2566) to make the `keepAlive#`
 function above a primop of this form:
 
 ```haskell
-with# :: forall (r :: RuntimeRep) (a :: TYPE r).
+keepAlive# :: forall (r :: RuntimeRep) (a :: TYPE r).
          a
          -- ^ the value to preserve
       -> (State# s -> (# State s, r #))
@@ -89,37 +96,37 @@ with# :: forall (r :: RuntimeRep) (a :: TYPE r).
       -> State# s -> (# State# s, r #)
 ```
 
-`with# a k` evaluates `k a`, ensuring that `a` remains alive throughout the evaluation.
+`keepAlive# a k` evaluates `k a`, ensuring that `a` remains alive throughout the evaluation.
 
-If we rewrite the `test` example above with `with#`, we get:
+If we rewrite the `test` example above with `keepAlive#`, we get:
 
 ```haskell
 test :: IO ()
 test = do
     arr <- newPinnedByteArray 42
-    with# arr (unIO (doSomething (byteArrayContents arr)))
+    keepAlive# arr (unIO (doSomething (byteArrayContents arr)))
 ```
 
 This construction the compiler can't mangle as there is no continuation to drop.
 
-Option A: Naive code generation of `with#`
+Option A: Naive code generation of `keepAlive#`
 ------------------------------------------
 
-The next question is what code should `with#` produce.
+The next question is what code should `keepAlive#` produce.
 
-One simple strategy would be to lower `with#` as an out-of-line primop of the form:
+One simple strategy would be to lower `keepAlive#` as an out-of-line primop of the form:
 
 ```c
-// the out-of-line entry code for with#:
-with#_entry(closure, cont) {
+// the out-of-line entry code for keepAlive#:
+keepAlive#_entry(closure, cont) {
     W_[Sp-0] = closure;
-    W_[Sp-8] = with#_ret;
+    W_[Sp-8] = keepAlive#_ret;
     Sp -= 16;
     ENTER(cont);
 }
 
-// the return code for the stack frame pushed by with#:
-with#_ret() {
+// the return code for the stack frame pushed by keepAlive#:
+keepAlive#_ret() {
     Sp += 16;
 }
 ```
@@ -130,9 +137,9 @@ allocated.
 Option B: A slightly better code generation strategy
 ----------------------------------------------------
 
-One way to eliminate the cost added by `with#` is to rewrite it to the existing `touch#` primitive (which has no runtime cost) late enough in the compilation process that the simplifier can't drop it (avoiding #14375). For instance, we might give `with#` a similar treatment to that of `runRW#`, which is lowered in `CorePrep` to an application of `realWorld#`.
+One way to eliminate the cost added by `keepAlive#` is to rewrite it to the existing `touch#` primitive (which has no runtime cost) late enough in the compilation process that the simplifier can't drop it (avoiding #14375). For instance, we might give `keepAlive#` a similar treatment to that of `runRW#`, which is lowered in `CorePrep` to an application of `realWorld#`.
 
-Under such a scheme, `CorePrep` would look for applications of the form `with# x k s` and rewrite them to,
+Under such a scheme, `CorePrep` would look for applications of the form `keepAlive# x k s` and rewrite them to,
 ```haskell
 case k s of (# s', y #) ->
 case touch# x s' of s'' ->
@@ -145,15 +152,15 @@ Option C: Improved code generation for continuation primops
 -----------------------------------------------------------
 
 It turns out that several existing primops (e.g. `catch#`,
-`atomically#`) have a continuation-passing structure similar to that of `with#` and suffer from
+`atomically#`) have a continuation-passing structure similar to that of `keepAlive#` and suffer from
 this same suboptimal code generation. Consequently, there have been a few
-proposals (largely orthgonal to the present `with#` proposal) on improving the
+proposals (largely orthgonal to the present `keepAlive#` proposal) on improving the
 state of code generation for these operations.
 
 Issue #16098 proposes an strategy (with an implementation in !2567) for
 improving code generation for the above-mentioned continuation-passing primops.
 Specifically, we extend STG to allow the continuation arguments of such primops
-to non-ANF form. For instance, `with# x (\s -> expr)` would be a valid
+to non-ANF form. For instance, `keepAlive# x (\s -> expr)` would be a valid
 application.
 
 The STG-to-Cmm pass could then lower this application by emitting code to push
@@ -169,18 +176,18 @@ He suggested this alternative:
 
 We introduce a magic primop, used only in STG:
 ```haskell
-pushWith# :: forall (r :: RuntimeRep) (a :: TYPE r).
+pushKeepAlive# :: forall (r :: RuntimeRep) (a :: TYPE r).
              a -> State# s -> State# s
 ```
 
-In Core-to-STG we rather lower `with# x cont` as:
+In Core-to-STG we rather lower `keepAlive# x cont` as:
 ```haskell
-case pushWith# x of () { _ ->
+case pushKeepAlive# x of () { _ ->
   let join j = cont
   in jump j
 }
 ```
-Finally, the STG-to-C-- pass will have special logic for lowering case analyses on `pushWith#`, essentially unfolding its C-- definition into the use-site. Such a case analysis will result in C-- like:
+Finally, the STG-to-C-- pass will have special logic for lowering case analyses on `pushKeepAlive#`, essentially unfolding its C-- definition into the use-site. Such a case analysis will result in C-- like:
 ```c
 // Push a pushWith_ret stack frame carrying a reference to `x`
 W_[Sp] = stg_pushWith_ret;
@@ -196,7 +203,8 @@ stg_pushWith_ret() {
     return;        // Return to the next frame
 }
 ```
-pushing the same `with#_ret` stack frame seen above.
+pushing the same `keepAlive#_ret` stack frame seen above.
 
 This gives us the same efficient code generation without losing the advantages
 offered by ANF (albeit with the disadvantage of weakening the separation of concerns provided by the STG abstraction).
+
