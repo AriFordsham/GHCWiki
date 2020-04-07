@@ -40,3 +40,23 @@ The resulting GHC is built in the default flavour. You can use the `--flavour=<f
 - `hadrian/ghci.sh` loads all of GHC's code in ghci; it only typechecks the module though, so it is not possible to run the functions from the REPL.
 - `build test` lets you run the testsuite; see [`hadrian/doc/testsuite.md`](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/testsuite.md) for detailed explanations about the `test` rule and the options it supports.
 - Hadrian supports `build docs`, `build source-dist`, `build binary-dist`, `build stage<N>:lib:<library name>`, `build stage<N>:exe:<executable name>`, `build clean`, `build nofib` and more. See `build --help` for a more detailed listing, as well as all the aforementionned documents for detailed explanations about the build rules and command line options supported by Hadrian.
+
+## Hadrian.settings
+
+As described in [`hadrian/doc/user-settings.md`](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/user-settings.md) the configuration of the build can be modified via `_build/hadrian.settings`. Here are a few useful snippets to accomplish common tasks:
+
+### Enabling DWARF debug symbols
+
+```
+stage1.*.ghc.hs.opts += -g3
+stage1.*.cabal.configure.opts += --disable-library-stripping --disable-executable-stripping
+```
+
+### Building a ticky-enabled stage2 compiler
+
+Here we also dump STG syntax since this is necessary to interpret the profile:
+```
+stage1.*.ghc.hs.opts += -ddump-to-file -ddump-simpl -ddump-stg
+stage1.*.ghc.hs.opts += -ticky -ticky-allocd
+stage1.*.ghc.link.opts += -ticky
+```
