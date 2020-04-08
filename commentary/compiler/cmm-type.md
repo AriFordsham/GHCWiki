@@ -201,7 +201,7 @@ The Haskell representation of Cmm separates contiguous code into:
 Cmm modules contain static data elements (see [Literals and Labels](commentary/compiler/cmm-type#literals-and-labels)) and [Basic Blocks](commentary/compiler/cmm-type#), collected together in `Cmm`, a type synonym for `GenCmm`, defined in [compiler/cmm/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/Cmm.hs):
 
 
-```
+```haskell
 
 newtype GenCmm d i = Cmm [GenCmmTop d i]
 
@@ -244,7 +244,7 @@ the static data in `[d]` is \[`CmmStatic`\] from the type synonym `Cmm`;
 Cmm procedures are represented by the first constructor in `GenCmmTop d i`:
 
 
-```
+```haskell
 
     CmmProc [d] CLabel [LocalReg] [GenBasicBlock i]
 ```
@@ -257,7 +257,7 @@ For a description of Cmm labels and the `CLabel` data type, see the subsection [
 Cmm Basic Blocks are labeled blocks of Cmm code ending in an explicit jump.  Sections (see [Sections and Directives](commentary/compiler/cmm-type#sections-and-directives)) have no jumps--in Cmm, Sections cannot contain nested Procedures (see, e.g., [Compiling Cmm with GHC](commentary/compiler/cmm-type#compiling-cmm-with-ghc)).  Basic Blocks encapsulate parts of Procedures.  The data type `GenBasicBlock` and the type synonym `CmmBasicBlock` encapsulate Basic Blocks; they are defined in [compiler/cmm/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/Cmm.hs):
 
 
-```
+```haskell
 
 data GenBasicBlock i = BasicBlock BlockId [i]
 
@@ -287,7 +287,7 @@ Like other high level assembly languages, all variables in C-- are machine regis
 C-- and Cmm hide the actual number of registers available on a particular machine by assuming an "infinite" supply of registers.  A backend, such as the NCG or C compiler on GHC, will later optimise the number of registers used and assign the Cmm variables to actual machine registers; the NCG temporarily stores any overflow in a small memory stack called the *spill stack*, while the C compiler relies on C's own runtime system.  Haskell handles Cmm registers with three data types: `LocalReg`, `GlobalReg` and `CmmReg`.  `LocalReg`s and `GlobalRegs` are collected together in a single `Cmm` data type:
 
 
-```
+```haskell
 
 data CmmReg 
   = CmmLocal  LocalReg
@@ -303,7 +303,7 @@ data CmmReg
 Local Registers exist within the scope of a Procedure:
 
 
-```
+```haskell
 
 data LocalReg
   = LocalReg !Unique MachRep
@@ -317,7 +317,7 @@ For a list of references with information on `Unique`, see the [Basic Blocks and
 A `MachRep`, the type of a machine register, is defined in [compiler/GHC/Cmm/MachOp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/MachOp.hs):
 
 
-```
+```haskell
 
 data MachRep
   = I8		-- integral type, 8 bits wide (a byte)
@@ -381,7 +381,7 @@ There is currently no register for floating point vectors, such as `F128`.  The 
 These are universal both to a Cmm module and to the whole compiled program.  Variables are global if they are declared at the top-level of a compilation unit (outside any procedure).  Global Variables are marked as external symbols with the `.globl` assembler directive.  In Cmm, global registers are used for special STG registers and specific registers for passing arguments and returning values.  The Haskell representation of Global Variables (Registers) is the `GlobalReg` data type, defined in [compiler/cmm/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/Cmm.hs):
 
 
-```
+```haskell
 
 data GlobalReg
   -- Argument and return registers
@@ -480,7 +480,7 @@ foreign "C" labelThread(R1 "ptr", R2 "ptr") [];
 Hints are represented in Haskell as `MachHint`s, defined near `MachRep` in [compiler/GHC/Cmm/MachOp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/MachOp.hs):
 
 
-```
+```haskell
 
 data MachHint
   = NoHint	-- string: "NoHint"	Cmm syntax: [empty]
@@ -623,7 +623,7 @@ I32[frame + SIZEOF_StgHeader + 0] = R1;
 Cmm literals are exactly like C-- literals, including the Haskell-style type syntax, for example: `0x00000001::bits32`.  Cmm literals may be used for initialization by assignment or in expressions. The `CmmLit` and `CmmStatic` data types, defined in [compiler/GHC/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm.hs) together represent Cmm literals, static information and Cmm labels:
 
 
-```
+```haskell
 
 data CmmLit
   = CmmInt Integer  MachRep
@@ -657,7 +657,7 @@ The `MachRep` of a literal, such as `CmmInt Integer MachRep` or `CmmFloat Ration
 The Haskell representation of Cmm separates unchangeable Cmm values into a separate data type, `CmmStatic`, defined in [compiler/GHC/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm.hs):
 
 
-```
+```haskell
 
 data CmmStatic
   = CmmStaticLit CmmLit	
@@ -690,7 +690,7 @@ Remember that C--/Cmm names consist of a string where the first character is:
 Cmm labels conform to the C-- specification.  C--/Cmm uses labels to refer to memory locations in code--if you use a data directive but do not give it a label, you will have no means of referring to the memory!  For `GlobalReg`s (transformed to assembler `.globl`), labels serve as both symbols and labels (in the assembler meaning of the terms).  The Haskell representation of Cmm Labels is contained in the `CmmLit` data type, see [Literals](commentary/compiler/cmm-type#) section, above.  Note how Cmm Labels are `CLabel`s with address information.  The `Clabel` data type, defined in [compiler/GHC/Cmm/CLabel.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/CLabel.hs), is used throughout the Compiler for symbol information in binary files.  Here it is:
 
 
-```
+```haskell
 
 data CLabel
   = IdLabel	    		-- A family of labels related to the
@@ -771,7 +771,7 @@ data CLabel
 The Haskell representation of Cmm Section directives, in [compiler/GHC/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm.hs) as the first part of the "Static Data" section, is:
 
 
-```
+```haskell
 
 data Section
   = Text
@@ -899,7 +899,7 @@ Cmm expressions may include
 These are all included as constructors in the `CmmExpr` data type, defined in [compiler/GHC/Cmm/Expr.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/Cmm.hs):
 
 
-```
+```haskell
 
 data CmmExpr
   = CmmLit CmmLit               -- Literal or Label (name)
@@ -914,7 +914,7 @@ data CmmExpr
 Note that `CmmRegOff reg i` is only shorthand for a specific `CmmMachOp` application:
 
 
-```
+```haskell
 
 CmmMachOp (MO_Add rep) [(CmmReg reg),(CmmLit (CmmInt i rep))]
 	where rep = cmmRegRep reg
@@ -941,7 +941,7 @@ This condition mapping does have an unfortunate consequence: conditional express
 Boolean conditions include: `&&`, `||`, `!` and parenthetical combinations of boolean conditions.  The `if expr { }` and `if expr { } else { }` statements contain boolean conditions.  The C-- type produced by conditional expressions is `bool`, in Cmm, type `BoolExpr` in [compiler/GHC/Cmm/Parser.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Parser.y):
 
 
-```
+```haskell
 
 data BoolExpr
   = BoolExpr `BoolAnd` BoolExpr
@@ -958,7 +958,7 @@ The type `BoolExpr` maps to the `CmmCondBranch` or `CmmBranch` constructors of t
 The `CmmExpr` constructor `CmmMachOp MachOp [CmmExpr]` is the core of every operator-based expression; the key here is `MachOp`, which in turn depends on the type of `MachRep` for each operand.  See [Fundamental and PrimitiveOperators](commentary/compiler/cmm-type#).  In order to process `CmmExpr`s, the data type comes with a deconstructor function to obtain the relevant `MachRep`s, defined in [compiler/cmm/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/Cmm.hs):
 
 
-```
+```haskell
 
 cmmExprRep :: CmmExpr -> MachRep
 cmmExprRep (CmmLit lit)      = cmmLitRep lit
@@ -989,7 +989,7 @@ res = first + second;
 Remember that the assignment operator, `=`, is a statement since it has the "side effect" of modifying the value in `res`.  The `+` expression in the above statement, for a 32-bit architecture, would be represented in Haskell as:
 
 
-```
+```haskell
 
 CmmMachOp (MO_Add I32) [CmmReg (CmmLocal uniq I32), CmmReg (CmmLocal uniq I32)]
 ```
@@ -1148,7 +1148,7 @@ In the above macros, `P` stands for `PtrArg` and `N` stands for `NonPtrArg`; bot
 The Haskell representation of Cmm Statements is the data type `CmmStmt`, defined in [compiler/cmm/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/Cmm.hs):
 
 
-```
+```haskell
 
 data CmmStmt
   = CmmNop
@@ -1216,7 +1216,7 @@ Cmm calls include both calls to foreign functions and calls to Cmm quasi-operato
 The data type, `CmmCallTarget` is defined in [compiler/cmm/Cmm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/Cmm.hs) as:
 
 
-```
+```haskell
 
 data CmmCallTarget
   = CmmForeignCall		-- Call to a foreign function
@@ -1266,7 +1266,7 @@ Both Cmm Operators and Primitive Operations are handled in Haskell as [Inline Pr
 #### Operators
 
 
-```
+```haskell
 
 data MachOp
 
@@ -1322,7 +1322,7 @@ Each `MachOp` generally corresponds to a machine instruction but may have its va
 Primitive Operations generally involve more than one machine instruction and may not always be inlined.  
 
 
-```
+```haskell
 
 -- These MachOps tend to be implemented by foreign calls in some backends,
 -- so we separate them out.  In Cmm, these can only occur in a
