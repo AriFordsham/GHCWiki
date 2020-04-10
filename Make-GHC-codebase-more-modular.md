@@ -424,6 +424,9 @@ GHC.Iface.Ext.Debug <= hieFile/HieDebug.hs
 GHC.Iface.Ext.Types <= hieFile/HieTypes.hs
 GHC.Iface.Ext.Utils <= hieFile/HieUtils.hs
 
+GHC.Iface.Recomp.Binary <= iface/BinFingerprint.hs
+GHC.Iface.Recomp.Flags <= iface/FlagChecker.hs
+
 GHC.IfaceToCore <= iface/TcIface.hs
 GHC.CoreToIface <= iface/ToIface.hs
 ```
@@ -610,6 +613,7 @@ GHC.Utils.Asm <= utils/AsmUtils.hs
 GHC.Utils.Binary <= utils/Binary.hs
 GHC.Utils.BufWrite <= utils/BufWrite.hs
 GHC.Utils.Exception <= utils/Exception.hs
+GHC.Utils.FingerPrint <= utils/Fingerprint.hs
 GHC.Utils.IO.Unsafe <= utils/FastFunctions.hs
 GHC.Utils.Monad.IOEnv <= utils/IOEnv.hs
 GHC.Utils.Json <= utils/Json.hs
@@ -666,10 +670,6 @@ GHC.Config.Packages <= main/PackageConfig.hs
 GHC.Config.Platform <= main/PlatformConstants.hs
 GHC.Config.Tools <= main/ToolSettings.hs
 GHC.Config.Version <= main/GhcNameVersion.hs
-
-GHC.Config.FingerPrint <= utils/Fingerprint.hs
-GHC.Config.FingerPrint.Binary <= iface/BinFingerprint.hs
-GHC.Config.FingerPrint.Flags <= iface/FlagChecker.hs
 ```
 
 
