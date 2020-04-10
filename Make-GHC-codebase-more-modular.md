@@ -665,10 +665,13 @@ GHC.Parser.PostProcess <= parser/RdrHsSyn.hs merged with parser/HaddockUtils
 GHC.Settings <= main/Settings.hs
 GHC.Settings.Constants <= main/Constants.hs
 GHC.Settings.Files <= main/FileSettings.hs
-GHC.Settings.Platform <= main/PlatformConstants.hs
+GHC.Settings.Platform.Constants <= main/PlatformConstants.hs
 GHC.Settings.Tools <= main/ToolSettings.hs
 GHC.Settings.Version <= main/GhcNameVersion.hs
 GHC.Settings.IO <= main/SysTools/Settings.hs
+
+in ghc-boot:
+GHC.Settings.{Platform,Utils} <= GHC.Settings
 ```
 
 
