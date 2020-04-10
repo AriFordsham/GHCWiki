@@ -151,7 +151,7 @@ fn (Lookup "five" n) = n
 ```
 
 ```wiki
-ghci> fn (Map.fromList [("four", 4), ("five", 5)]
+ghci> fn do Map.fromList [("four", 4), ("five", 5)]
 5
 ```
 
