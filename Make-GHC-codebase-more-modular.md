@@ -641,7 +641,6 @@ GHC.SysTools.ExtraObj <= main/SysTools/ExtraObj.hs
 GHC.SysTools <= main/SysTools.hs
 GHC.SysTools.Info <= main/SysTools/Info.hs
 GHC.SysTools.Process <= main/SysTools/Process.hs
-GHC.SysTools.Settings <= main/SysTools/Settings.hs
 GHC.SysTools.Tasks <= main/SysTools/Tasks.hs
 GHC.SysTools.Terminal <= main/SysTools/Terminal.hs
 GHC.SysTools.Ar <= main/Ar.hs
@@ -669,6 +668,7 @@ GHC.Settings.Files <= main/FileSettings.hs
 GHC.Settings.Platform <= main/PlatformConstants.hs
 GHC.Settings.Tools <= main/ToolSettings.hs
 GHC.Settings.Version <= main/GhcNameVersion.hs
+GHC.Settings.IO <= main/SysTools/Settings.hs
 ```
 
 
