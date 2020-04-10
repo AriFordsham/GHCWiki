@@ -660,16 +660,15 @@ GHC.Parser.Header <= main/HeaderInfo.hs
 GHC.Parser.PostProcess <= parser/RdrHsSyn.hs merged with parser/HaddockUtils
 ```
 
-* `GHC.Config`:
+* `GHC.Settings`:
 
 ```
-GHC.Config.Constants <= main/Constants.hs
-GHC.Config.Settings <= main/Settings.hs
-GHC.Config.Files <= main/FileSettings.hs
-GHC.Config.Packages <= main/PackageConfig.hs
-GHC.Config.Platform <= main/PlatformConstants.hs
-GHC.Config.Tools <= main/ToolSettings.hs
-GHC.Config.Version <= main/GhcNameVersion.hs
+GHC.Settings <= main/Settings.hs
+GHC.Settings.Constants <= main/Constants.hs
+GHC.Settings.Files <= main/FileSettings.hs
+GHC.Settings.Platform <= main/PlatformConstants.hs
+GHC.Settings.Tools <= main/ToolSettings.hs
+GHC.Settings.Version <= main/GhcNameVersion.hs
 ```
 
 
