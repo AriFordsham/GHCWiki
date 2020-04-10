@@ -60,3 +60,28 @@ stage1.*.ghc.hs.opts += -ddump-to-file -ddump-simpl -ddump-stg
 stage1.*.ghc.hs.opts += -ticky -ticky-allocd
 stage1.*.ghc.link.opts += -ticky
 ```
+
+## Shell aliases
+
+Typing `hadrian/build.sh -j8` is a pain to remember and to write, even when you can scroll your command history. Therefore I found it useful to define a bunch of shell aliases. Here's an excerpt from my home-manager config:
+
+```
+      hb = "hadrian/build -j$(($(ncpus) +1))";
+      hbq = "hb --flavour=quick";
+      hbqs = "hbq --skip='//*.mk' --skip='stage1:lib:rts'";
+      hbqf = "hbqs --freeze1";
+      hbv = "hb --flavour=validate --build-root=_validate";
+      hbvs = "hbv --skip='//*.mk' --skip='stage1:lib:rts'";
+      hbvf = "hbvs --freeze1";
+      hbt = "mkdir -p _ticky; [ -e _ticky/hadrian.settings ] || echo 'stage1.*.ghc.hs.opts += -ticky\\nstage1.ghc-bin.ghc.link.o
+pts += -ticky' > _ticky/hadrian.settings; hb --flavour=validate --build-root=_ticky";
+      hbts = "hbt --skip='//*.mk' --skip='stage1:lib:rts'";
+      hbtf = "hbts --freeze1";
+```
+
+Note how this even allows for a Ticky-enabled build through creation of a `hadrian.settings` file (see also the previous section). The mnemonics are:
+
+- `hb..` for `hadrian/build`
+- `..{q,v,t,...}.` for quick, validate and ticky (similarly prof and devel2) flavours
+- `...{s,f,}` for a build where we only want to rebuild the stage1 compiler (takes ~10s instead of 30s on my machine), where we only want to rebuild the stage2 compiler without recompiling stage1 or the RTS, or a complete rebuild.
+
