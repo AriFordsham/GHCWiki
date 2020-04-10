@@ -1,6 +1,6 @@
 # Hadrian
 
-Hadrian is GHC's new build system, written in Haskell and based on the [Shake](http://hackage.haskell.org/package/Shake) library. It lives under the `hadrian/` directory in GHC's source tree.
+Hadrian is GHC's new build system, written in Haskell and based on the [Shake](http://hackage.haskell.org/package/shake) library. It lives under the `hadrian/` directory in GHC's source tree.
 
 Hadrian is a replacement for the Make build system, and therefore replaces `make` commands in the GHC developer's workflow. You can still run `./boot` and `./configure` as usual (see [here](https://gitlab.haskell.org/ghc/ghc/wikis/building/using) for more).
 
