@@ -54,7 +54,6 @@ Goals:
 * `GHC.Hs`
 
 ```
-GHC.Hs.Annotation <= parser/ApiAnnotation.hs
 GHC.Hs.Binds <= hsSyn/HsBinds.hs
 GHC.Hs.Decls <= hsSyn/HsDecls.hs
 GHC.Hs.Doc <= hsSyn/HsDoc.hs
@@ -651,6 +650,7 @@ GHC.SysTools.FileCleanup <= main/FileCleanup.hs
 
 ```
 GHC.Parser <= parse/Parser.y
+GHC.Parser.Annotation <= parser/ApiAnnotation.hs
 GHC.Parser.Lexer <= parse/Lexer.x
 GHC.Parser.Header <= main/HeaderInfo.hs
 GHC.Parser.PostProcess <= parser/RdrHsSyn.hs merged with parser/HaddockUtils
