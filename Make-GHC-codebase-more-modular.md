@@ -403,7 +403,7 @@ GHC.Builtin.Names <= prelude/PrelNames.hs
 GHC.Builtin.Names.TH <= prelude/THNames.hs
 GHC.Builtin.PrimOps <= prelude/PrimOp.hs
 GHC.Builtin.Types <= prelude/TysWiredIn.hs
-GHC.Builtin.Types.Nats <= typecheck/TcTypeNats.hs
+GHC.Builtin.Types.Literals <= typecheck/TcTypeNats.hs
 GHC.Builtin.Types.Prim <= prelude/TysPrim.hs
 ```
 
