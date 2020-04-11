@@ -16,7 +16,7 @@ To build a complete stage 2 compiler with the default build flavour:
 
 ```
 $ ./boot && ./configure
-$ hadrian/build.sh -j
+$ hadrian/build -j
 ```
 
 or on Windows:
@@ -37,7 +37,7 @@ The resulting GHC is built in the default flavour. You can use the `--flavour=<f
 - You can see a summary of Hadrian's features in [its README](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/README.md).
 - A cheatsheet for all GHC developers who are used to the Make build system can be found under [`hadrian/doc/make.md`](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/make.md).
 - The make build system's `mk/build.mk` file for customizing GHC builds is replaced by Hadrian's user settings mechanism, documented at [`hadrian/doc/user-settings.md`](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/user-settings.md).
-- `hadrian/ghci.sh` loads all of GHC's code in ghci; it only typechecks the module though, so it is not possible to run the functions from the REPL.
+- `hadrian/ghci` loads all of GHC's code in ghci; it only typechecks the module though, so it is not possible to run the functions from the REPL.
 - `build test` lets you run the testsuite; see [`hadrian/doc/testsuite.md`](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/testsuite.md) for detailed explanations about the `test` rule and the options it supports.
 - Hadrian supports `build docs`, `build source-dist`, `build binary-dist`, `build stage<N>:lib:<library name>`, `build stage<N>:exe:<executable name>`, `build clean`, `build nofib` and more. See `build --help` for a more detailed listing, as well as all the aforementionned documents for detailed explanations about the build rules and command line options supported by Hadrian.
 
@@ -63,7 +63,7 @@ stage1.*.ghc.link.opts += -ticky
 
 ## Shell aliases
 
-Typing `hadrian/build.sh -j8` is a pain to remember and to write, even when you can scroll your command history. Therefore I found it useful to define a bunch of shell aliases. Here's an excerpt from my home-manager config:
+Typing `hadrian/build -j8` is a pain to remember and to write, even when you can scroll your command history. Therefore I found it useful to define a bunch of shell aliases. Here's an excerpt from my home-manager config:
 
 ```
       hb = "hadrian/build -j$(($(ncpus) +1))";
