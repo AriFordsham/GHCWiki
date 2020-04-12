@@ -656,7 +656,8 @@ GHC.Parser.Annotation <= parser/ApiAnnotation.hs
 GHC.Parser.CharClass <= parser/Ctype.hs
 GHC.Parser.Lexer <= parse/Lexer.x
 GHC.Parser.Header <= main/HeaderInfo.hs
-GHC.Parser.PostProcess <= parser/RdrHsSyn.hs merged with parser/HaddockUtils
+GHC.Parser.PostProcess <= parser/RdrHsSyn.hs
+GHC.Parser.PostProcess.Haddock <= parser/HaddockUtils
 ```
 
 * `GHC.Settings`:
