@@ -240,8 +240,8 @@ In `GHC.CmmToAsm`, we just have to drop every Cmm `keepAlive#` instruction: the
 code-generator would have ensured that its argument is alive down to this
 instruction and that's exactly what we want.
 
-Transformations
-~~~~~~~~~~~~~~~
+### Transformations
+
 
 Most transformations are unchanged (we will need to check them when we will add
 the keep-alive field). We need to take the keep-alive set into account (e.g. to
@@ -263,8 +263,7 @@ case {k} x of e { DEFAULT -> alt }  ==> case {k} void# of _ { DEFAULT -> let e =
 ```
 
 
-Improving `runRW#`
-~~~~~~~~~~~~~~~~~~
+### Improving `runRW#`
 
 runRW# allows us to conjure a `State# s` token out of thin air (e.g. to
 implement `unsafePerformIO`). The problem is that we drop the final state:
@@ -354,8 +353,7 @@ case foo5 of I# i -> I# (efficientStuff i)
 ```
 
 
-"Using" primops
-~~~~~~~~~~~~~~~
+### "Using" primops
 
 In #4096 a `use#` primop very similar to our `keepAlive#` primop is suggested.
 The issue was: "I don't know how to implement this, though, because use# would
@@ -365,8 +363,7 @@ doesn't really seem to support this.".
 With our desugaring of `keepAlive#` into Core Case-expressions, we don't have
 this issue as the primop never reaches the code generator.
 
-`withForeignPtr`
-~~~~~~~~~~~~~~~~
+### `withForeignPtr`
 
 `withForeignPtr` currently provides an unsafe interface (#17746):
 
