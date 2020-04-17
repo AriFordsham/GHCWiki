@@ -63,7 +63,11 @@ This is not considered a major issue.
 
 ## The `TyClGroup` Story
 
-The renamer works one `HsGroup` at a time. It collects the identifiers bound by every LHS, brings them into scope, and then does another pass over the AST. The type-checker (kind-checker, really) cannot work this way. It needs to process declarations in a specific order, with mutually-recursive declarations grouped together. So within every `HsGroup`, after renaming and before type-checking, we perform dependency analysis, producing `TyClGroup`s.
+The renamer works one `HsGroup` at a time. It collects the identifiers bound by every LHS, brings them into scope, and then does name resolution in another pass over the `HsGroup`.
+
+The type-checker (kind-checker, really) cannot work this way. It cannot bring every type constructor into scope ahead of time because their kinds are not known yet. It needs to process declarations in a specific order, with mutually-recursive declarations grouped together.
+
+So within every `HsGroup`, after renaming and before type-checking, we perform dependency analysis, producing `TyClGroup`s.
 
 A `TyClGroup` is defined thus:
 
