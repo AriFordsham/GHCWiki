@@ -273,13 +273,13 @@ To produce the edges, we will start with the following simple rules:
 
 We thus produce the following dependency graph:
 
-<img src="uploads/345b4da56aa2bc4eb6b935c29359f94e/image.png" width="250px"/>
+<img src="uploads/c3993a32b29797b62933574a27a780c1/SigDefDiagram.svg" width="300px"/>
 
 However, this is not sufficient to fix this example. We introduce one more rule, proposed by Richard Eisenberg:
 
 * For any edge `A:sig -> B:sig`, add another edge `A:def -> B:def`.
 
-<img src="uploads/18014e6722b2f21e02183ded30aa2a89/image.png" width="250px"/>
+<img src="uploads/0924579fef129ac5d727a6d2bd85c207/RichardsEdge.svg" width="300px"/>
 
 This set of rules results in the following `TyClGroup`s:
 
