@@ -187,5 +187,117 @@ As of GHC 8.10, the dependency analysis that builds `TyClGroup`s works as follow
 
    At this stage we also handle role annotations and standalone kind signatures in a manner similar to instances, adding them after the graph has already been built.
 
+## Instances in Kind-Checking, #12088
+
+The `TyClGroup` analysis in 8.10 has a fatal flaw: it does not account for type family instances during dependency analysis, adding them at a later step.
+
+However, those instances might be required to kind-check declarations. Consider this example:
+
+```
+{-# LANGUAGE KindSignatures, PolyKinds, DataKinds, TypeFamilies #-}
+
+import Data.Kind (Type)
+
+type family IxKind (m :: Type) :: Type
+type family Value (m :: Type) :: IxKind m -> Type
+data T (k :: Type) (f :: k -> Type) = MkT
+type instance IxKind (T k f) = k
+type instance Value (T k f) = f
+```
+
+Here, we build the following dependency graph:
+```mermaid
+graph RL;
+  Value --> IxKind
+  T
+```
+
+We then produce the following `TyClGroup`s:
+
+1. ```haskell
+   type family IxKind (m :: Type) :: Type
+   ```
+2. ```haskell
+   type family Value (m :: Type) :: IxKind m -> Type
+   ```
+3. ```haskell
+   data T (k :: Type) (f :: k -> Type)
+   type instance IxKind (T k f) = k
+   type instance Value (T k f) = f
+   ```
+
+The issue here is that kind-checking `type instance Value` requires the `type instance IxKind` to be already in the environment. To see why, let's write out the kind signature on the right-hand side:
+
+```haskell
+type instance Value (T k f) = (f :: k -> Type)
+```
+
+However, the kind signature of `Value` is such that it must return `f :: IxKind (T k f) -> Type` here. So we unify `IxKind (T k f) ~ k`.
+
+To make progress now, we need to reduce `IxKind`, and for this we need `type instance IxKind (T k f) = k`. But it's not available because it does not come from a preceding `TyClGroup`.
+
+The question is: how can we account for instances during dependency analysis to make this (and other, more complicated cases) work correctly?
 
 
+## The `:sig` and `:def` Notation
+
+To answer this question, we will first introduce the idea of *signatures* and *definitions*. Roughly speaking, a signature corresponds to the left-hand side of a declaration, giving the kind of a `TyCon`, whereas the definition corresponds to the right-hand side and gives all the other information about it:
+
+```haskell
+data Either a b = Left a | Right b
+     ^^^^^^^^^^   ^^^^^^^^^^^^^^^^
+      sig            def
+
+type family F a; type instance F Int = Bool;
+                 type instance F Bool = Int;
+  ^^^^^^^^^^^^^                ^^^^^^^^^^^^ 
+    sig                           def              
+```
+
+In the dependency analysis, we want to produce separate nodes for the signatures and definitions. Recall the `IxKind` example:
+
+```haskell
+{- IxKind:sig -} type family IxKind (m :: Type) :: Type
+{-  Value:sig -} type family Value (m :: Type) :: IxKind m -> Type
+{-      T:sig -} data T (k :: Type) (f :: k -> Type)
+{-      T:def -}   = MkT                   
+{- IxKind:def -} type instance IxKind (T k f) = k
+{-  Value:def -} type instance Value (T k f) = f
+```
+
+To produce the edges, we will start with the following simple rules:
+
+* Every `:def` depends on the corresponding `:sig`
+* Referencing a type constructor adds a dependency on its `:sig`
+* Referencing a promoted data constructor adds a dependency on its parent's `:def` (not demonstrated in this example)
+
+We thus produce the following dependency graph:
+
+<img src="uploads/345b4da56aa2bc4eb6b935c29359f94e/image.png" width="250px"/>
+
+However, this is not sufficient to fix this example. We introduce one more rule, proposed by Richard Eisenberg:
+
+* For any edge `A:sig -> B:sig`, add another edge `A:def -> B:def`.
+
+<img src="uploads/18014e6722b2f21e02183ded30aa2a89/image.png" width="250px"/>
+
+This set of rules results in the following `TyClGroup`s:
+
+1. ```haskell
+   {- IxKind:sig -} type family IxKind (m :: Type) :: Type
+   ```
+2. ```haskell
+   {-  Value:sig -} type family Value (m :: Type) :: IxKind m -> Type
+   ```
+3. ```haskell
+   {-      T:sig -} data T (k :: Type) (f :: k -> Type)
+   ```
+4. ```haskell
+   {-      T:def -}   = MkT 
+   ```
+5. ```haskell
+   {- IxKind:def -} type instance IxKind (T k f) = k
+   ```
+6. ```haskell
+   {-  Value:def -} type instance Value (T k f) = f
+   ```
