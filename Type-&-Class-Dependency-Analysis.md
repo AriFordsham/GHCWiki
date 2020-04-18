@@ -63,11 +63,23 @@ This is not considered a major issue.
 
 ## The `TyClGroup` Story
 
-The renamer works one `HsGroup` at a time. It collects the identifiers bound by every LHS, brings them into scope, and then does name resolution in another pass over the `HsGroup`.
+Within one `HsGroup`, the order of declarations should not matter. These programs should both work:
 
-The type-checker (kind-checker, really) cannot work this way. It cannot bring every type constructor into scope ahead of time because their kinds are not known yet. It needs to process declarations in a specific order, with mutually-recursive declarations grouped together.
+```
+data X = MkX
+data Y (a :: X)
+```
 
-So within every `HsGroup`, after renaming and before type-checking, we perform dependency analysis, producing `TyClGroup`s.
+```
+data Y (a :: X)
+data X = MkX
+```
+
+The definition of `Y` depends on `X`. Both examples are valid, even though in the latter one `X` is defined after `Y`. This works because the renamer handles the entire `HsGroup` at once. It collects the identifiers bound by every LHS, brings them into scope, and then does name resolution in another pass over the declarations.
+
+The type-checker (kind-checker, really) cannot work this way. In the example above, kind-checking `Y` requires an already kind-checked `TyCon` for `X`. So the kind-checker needs to process declarations in a specific order, with mutually-recursive declarations grouped together.
+
+That's why within every `HsGroup`, after renaming and before type-checking, we perform dependency analysis, producing `TyClGroup`s.
 
 A `TyClGroup` is defined thus:
 
