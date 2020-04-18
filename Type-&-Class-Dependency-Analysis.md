@@ -129,4 +129,63 @@ Then the `TyClGroup`s are:
 
 Kind-checking `Y` requires the type constructor `X`, so `X` must be put into a preceding `TyClGroup`.
 
+## Dependency Analysis in GHC 8.10
+
+As of GHC 8.10, the dependency analysis that builds `TyClGroup`s works as follows:
+
+1. Build a directed graph where the nodes are `TyClDecl`s, the keys identifying those nodes are `Name`s, and the edges are free variables.
+
+    For example:
+
+    ```
+    data A = MkA1 B | MkA2
+    data B = MkB (Y A)
+    type family F a
+    type instance F (Y _) = Bool
+    data Y a = MkY (F a)
+    ```
+
+
+    ```mermaid
+    graph RL;
+      A --> B
+      B --> A
+      B --> Y
+      Y --> F
+    ```
+
+    Note that the type family instance is not subject to dependency analysis at this stage of the pipeline.
+
+2. Do the SCC (strongly-connected component) analysis on the graph, producing `[[TyClDecl GhcRn]]`:
+
+   1. ```haskell
+      type family F a
+      ```
+   2. ```haskell
+      data Y a = MkY (F a)
+      ```
+   3. ```haskell
+      data A = MkA1 B | MkA2
+      data B = MkB (Y A)
+      ```
+
+3. Go over these `[[TyClDecl GhcRn]]`, adding instances as soon as all of their free variables are available. For example, `type instance F (Y _) = Bool` has free variables `Y`, `Bool`, so it will be added to the group which introduces `Y`.
+
+   At this point we produce the final `[TyClGroup]`:
+
+   1. ```haskell
+      type family F a
+      ```
+   2. ```haskell
+      data Y a = MkY (F a)
+      type instance F (Y _) = Bool
+      ```
+   3. ```haskell
+      data A = MkA1 B | MkA2
+      data B = MkB (Y A)
+      ```
+
+   At this stage we also handle role annotations and standalone kind signatures in a manner similar to instances, adding them after the graph has already been built.
+
+
 
