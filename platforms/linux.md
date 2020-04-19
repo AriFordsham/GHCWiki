@@ -2,6 +2,8 @@
 
 **N.B.** You will find https://repology.org/repositories/statistics to be extremely useful when updating this.
 
+https://gitlab.haskell.org/bgamari/ghc-utils/-/tree/master/rel-eng%2Fdistro-versions is also helpful.
+
 <table><tr><th> Distribution          </th>
 <th> Release date </th>
 <th> gcc </th>
