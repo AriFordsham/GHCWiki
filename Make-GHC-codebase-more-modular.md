@@ -417,6 +417,7 @@ GHC.Iface.Load <= iface/LoadIface.hs
 GHC.Iface.Utils <= iface/MkIface.hs
 GHC.Iface.Rename <= backpack/RnModIface.hs
 GHC.Iface.Tidy <= main/TidyPgm.hs
+GHC.Iface.Tiday.StaticPtrTable <= main/StaticPtrTable.hs
 
 GHC.Iface.Ext.Ast <= hieFile/HieAst.hs
 GHC.Iface.Ext.Binary <= hieFile/HieBin.hs
@@ -625,7 +626,6 @@ GHC.Utils.Ppr.Colour <= utils/PprColour.hs
 GHC.Utils.Ppr <= utils/Pretty.hs
 GHC.Utils.Monad.State <= utils/State.hs
 GHC.Utils.Misc <= utils/Util.hs
-GHC.Utils.StaticPtrTable <= main/StaticPtrTable.hs
 GHC.Utils.Error <= main/ErrUtils.hs
 GHC.Utils.CliOption <= main/CliOption.hs
 GHC.Utils.FV <= utils/FV.hs
