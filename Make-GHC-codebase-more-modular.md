@@ -613,7 +613,7 @@ GHC.Data.Char.Encoding <= utils/Encoding.hs
 ```
 GHC.Utils.Asm <= utils/AsmUtils.hs
 GHC.Utils.Binary <= utils/Binary.hs
-GHC.Utils.BufWrite <= utils/BufWrite.hs
+GHC.Utils.BufHandle <= utils/BufWrite.hs
 GHC.Utils.Exception <= utils/Exception.hs
 GHC.Utils.FingerPrint <= utils/Fingerprint.hs
 GHC.Utils.IO.Unsafe <= utils/FastFunctions.hs
