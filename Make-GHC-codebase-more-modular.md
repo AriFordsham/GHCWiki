@@ -417,7 +417,8 @@ GHC.Iface.Load <= iface/LoadIface.hs
 GHC.Iface.Utils <= iface/MkIface.hs
 GHC.Iface.Rename <= backpack/RnModIface.hs
 GHC.Iface.Tidy <= main/TidyPgm.hs
-GHC.Iface.Tiday.StaticPtrTable <= main/StaticPtrTable.hs
+GHC.Iface.Tidy.StaticPtrTable <= main/StaticPtrTable.hs
+GHC.Iface.UpdateCafInfos <= main/UpdateCafInfos.hs
 
 GHC.Iface.Ext.Ast <= hieFile/HieAst.hs
 GHC.Iface.Ext.Binary <= hieFile/HieBin.hs
