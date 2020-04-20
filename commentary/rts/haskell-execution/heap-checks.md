@@ -1,21 +1,28 @@
 # Heap and Stack checks
 
 
-Source files: [rts/HeapStackCheck.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/HeapStackCheck.cmm)
-
-
+## General overview
 
 When allocating a heap object, we bump `Hp` and compare to `HpLim`. If the test fails we branch to ???.  Usually this code tests an interrupt flag (to see if execution should be brought tidily to a halt); grabs the next block of allocation space; makes `Hp` point to it and `HpLim` to its end; and returns.  If there are no more allocation-space blocks, garbage collection is triggered.
 
----
+Source files: [rts/HeapStackCheck.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/HeapStackCheck.cmm)
 
-# Heap Check Placement
+-------
 
-The purpose of this Wiki page is to track ideas/work related to placement of stack/heap checks.
+## Improving Heap Check Placement
 
-### Compiling `Case/Alts`
+Deciding whether to a put heap in the alternative branch is quite a delicate process.  
 
-Deciding whether to a put heap in the alternative branch is quite a delicate process. The `GcPlan`
+**Relevant Tickets:**
+
+  * Improving Placement of Heap Checks - Avoiding Slowdowns in Hot Code #16064
+  * Optimisation: eliminate unnecessary heap check in recursive function #1498
+  * Place heap checks common in case alternatives before the case #8326. There is good discussion in this ticket.
+  * Eliminate redundant heap allocations/deallocations #12231
+  * Extending the idea to stack checks: [this comment](https://gitlab.haskell.org/ghc/ghc/issues/14791#note_150481) in #14791
+
+
+The `GcPlan`
 datatype from [GHC.StgToCmm.Expr](https://gitlab.haskell.org/ghc/ghc/-/blob/master/compiler/GHC/StgToCmm/Expr.hs) embodies this decision. Given this program:
 
 ```
@@ -120,16 +127,6 @@ Tricky bit: even if there are multiple branches that allocate, if the branches t
 hot ones, we still might want to duplicate that heap check into the cold branches. We don't know 
 which branches are hot, so we'll have to make do with an approximation.
 
-1. Relevant Tickets:
-
-  * Optimisation: eliminate unnecessary heap check in recursive function
-    https://gitlab.haskell.org/ghc/ghc/issues/1498
-  * Place heap checks common in case alternatives before the case
-    https://gitlab.haskell.org/ghc/ghc/issues/8326
-  * Eliminate redundant heap allocations/deallocations
-    https://gitlab.haskell.org/ghc/ghc/issues/12231
-  * Improving Placement of Heap Checks - Avoiding Slowdowns in Hot Code
-    https://gitlab.haskell.org/ghc/ghc/issues/16064
 
 ### Notes of Interest
 
