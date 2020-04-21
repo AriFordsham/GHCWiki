@@ -3,6 +3,7 @@
 There are a collection of related tickets;
 
 * #17760 is the one about `keepAlive#`
+* !2961 (a first attempt) has useful commentary
 * #17746, #18061: `withForeignPtr` is unsafe
 * #18040 is a bit similar: swapping unsafe operations with `touch#`
 * #13104 is about `runRW#` and join points
