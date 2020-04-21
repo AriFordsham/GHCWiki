@@ -615,7 +615,6 @@ GHC.Utils.BufHandle <= utils/BufWrite.hs
 GHC.Utils.Encoding <= utils/Encoding.hs
 GHC.Utils.Exception <= utils/Exception.hs
 GHC.Utils.FingerPrint <= utils/Fingerprint.hs
-GHC.Utils.IO.Unsafe <= utils/FastFunctions.hs
 GHC.Utils.Json <= utils/Json.hs
 GHC.Utils.Outputable <= utils/Outputable.hs
 GHC.Utils.Panic <= utils/Panic.hs
@@ -627,7 +626,9 @@ GHC.Utils.Error <= main/ErrUtils.hs
 GHC.Utils.CliOption <= main/CliOption.hs
 GHC.Utils.FV <= utils/FV.hs
 
-GHC.Utils.Monad.IOEnv <= utils/IOEnv.hs
+GHC.Utils.IO.Unsafe <= utils/FastFunctions.hs
+GHC.Utils.IO.Env <= utils/IOEnv.hs
+
 GHC.Utils.Monad.Utils <= utils/MonadUtils.hs
 GHC.Utils.Monad.State <= utils/State.hs
 
