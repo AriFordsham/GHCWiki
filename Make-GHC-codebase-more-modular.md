@@ -633,6 +633,8 @@ GHC.Utils.Monad.Utils <= utils/MonadUtils.hs
 GHC.Utils.Monad.State <= utils/State.hs
 
 GHC.Prelude <= utils/GhcPrelude.hs
+
+GHC.Unit.Info <= main/UnitInfo.hs
 ```
 
 * `GHC.SysTools`:
