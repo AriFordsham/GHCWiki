@@ -11,7 +11,7 @@ Source files: [rts/HeapStackCheck.cmm](https://gitlab.haskell.org/ghc/ghc/blob/m
 
 ## Improving Heap Check Placement
 
-Deciding whether to a put heap in the alternative branch is quite a delicate process.  
+Deciding whether to a put heap in case alternative branch is quite a delicate process.  
 
 **Relevant Tickets:**
 
