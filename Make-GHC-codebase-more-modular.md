@@ -588,7 +588,7 @@ GHC.Data.Bag <= utils/Bag.hs
 GHC.Data.BooleanFormula <= utils/BooleanFormula.hs
 GHC.Data.EnumSet <= utils/EnumSet.hs
 GHC.Data.FastMutInt <= utils/FastMutInt.hs
-GHC.Data.FastStringEnv <= utils/FastStringEnv.hs
+GHC.Data.FastString.Env <= utils/FastStringEnv.hs
 GHC.Data.FastString <= utils/FastString.hs
 GHC.Data.Graph.Base <= utils/GraphBase.hs
 GHC.Data.Graph.Color <= utils/GraphColor.hs
@@ -604,8 +604,6 @@ GHC.Data.Pair <= utils/Pair.hs
 GHC.Data.Stream <= utils/Stream.hs
 GHC.Data.StringBuffer <= utils/StringBuffer.hs
 GHC.Data.TrieMap <= utils/TrieMap.hs
-
-GHC.Data.Char.Encoding <= utils/Encoding.hs
 ```
 
 * `GHC.Utils`:
@@ -614,22 +612,24 @@ GHC.Data.Char.Encoding <= utils/Encoding.hs
 GHC.Utils.Asm <= utils/AsmUtils.hs
 GHC.Utils.Binary <= utils/Binary.hs
 GHC.Utils.BufHandle <= utils/BufWrite.hs
+GHC.Utils.Encoding <= utils/Encoding.hs
 GHC.Utils.Exception <= utils/Exception.hs
 GHC.Utils.FingerPrint <= utils/Fingerprint.hs
 GHC.Utils.IO.Unsafe <= utils/FastFunctions.hs
-GHC.Utils.Monad.IOEnv <= utils/IOEnv.hs
 GHC.Utils.Json <= utils/Json.hs
-GHC.Utils.Monad.Utils <= utils/MonadUtils.hs
 GHC.Utils.Outputable <= utils/Outputable.hs
 GHC.Utils.Panic <= utils/Panic.hs
 GHC.Utils.PlainPanic <= utils/PlainPanic.hs
 GHC.Utils.Ppr.Colour <= utils/PprColour.hs
 GHC.Utils.Ppr <= utils/Pretty.hs
-GHC.Utils.Monad.State <= utils/State.hs
 GHC.Utils.Misc <= utils/Util.hs
 GHC.Utils.Error <= main/ErrUtils.hs
 GHC.Utils.CliOption <= main/CliOption.hs
 GHC.Utils.FV <= utils/FV.hs
+
+GHC.Utils.Monad.IOEnv <= utils/IOEnv.hs
+GHC.Utils.Monad.Utils <= utils/MonadUtils.hs
+GHC.Utils.Monad.State <= utils/State.hs
 
 GHC.Prelude <= utils/GhcPrelude.hs
 ```
