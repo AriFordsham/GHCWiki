@@ -308,14 +308,14 @@ This set of rules results in the following `TyClGroup`s:
 
 In the last example, we split a single declaration into two parts:
 
-```
+```haskell
 {-      T:sig -} data T (k :: Type) (f :: k -> Type)
 {-      T:def -}   = MkT 
 ```
 
 The result is that `T:sig` and `T:def` end up in different `TyClGroup`s. However, it is not always valid to do this split. Sometimes, we expect the RHS to influence the kind of the type constructor via kind inference:
 
-```
+```haskell
 data T a = MkT a
 ```
 
@@ -325,14 +325,14 @@ We can safely put `T:sig` into a separate group only when the kind can be determ
 
 This means that in absence of a CUSK, we must keep both the LHS and the RHS as part of `T:def`, and we cannot extract a standalone `T:sig`:
 
-```
+```haskell
 {- T:sig -}
 {- T:def -} data T a = MkT a
 ```
 
 However, other declarations may have edges to `T:sig`:
 
-```
+```haskell
 data T a = MkT a
 data X = MkX (T Int)
 ```
@@ -364,7 +364,7 @@ When we build the final `TyClGroup`s, a phantom node will not contribute any add
 
 Another tricky case is associated types. Consider the following declaration:
 
-```
+```haskell
 class C a where   -- C:def
   type F a        -- F:sig
   type G a        -- G:sig
@@ -383,15 +383,15 @@ The entire payload will be contained in the `C:def` node, whereas `F:sig` and `G
 
 But what about instances?
 
-```
+```haskell
 instance C Int where
   type F Int = Bool     -- F:def
   type G Int = String   -- G:def
 ```
 
-Here, `F:def` and `G:def` are part of an instance of `C`. To handle this case, we need to introduce a new type of nodes, `:inst` nodes:
+Here, `F:def` and `G:def` are part of an instance of `C`. To handle this case, we need to introduce a new type of nodes for class instances, `:inst` nodes:
 
-```
+```haskell
 instance C Int where    -- C:inst
   type F Int = Bool     -- F:def
   type G Int = String   -- G:def
@@ -411,7 +411,7 @@ The entire payload is contained in the `C:inst` node, whereas `F:def` and `G:def
 
 Consider this program:
 
-```
+```haskell
 {-# LANGUAGE StandaloneKindSignatures, DataKinds #-}
 
 import Data.Kind (Type)
@@ -421,7 +421,7 @@ data E = MkE T
 data T
 ```
 
-We generate the following TyClGroups:
+We generate the following `TyClGroup`s:
 
 1. `type T :: Type`
 2. `data E = MkE T`
@@ -441,3 +441,45 @@ Furthermore, checking `data T` in the last group requires a `TcTyCon`. So, after
 Open type families and data families do not suffer from this issue, as processing their headers results in a proper `TyCon`. That's when the `:sig` and `:def` separation works great. However, for other varieties of declarations, the type checker is unable to process them separately.
 
 Until this issue is resolved in the type checker, the dependency analysis mustn't make separate `:sig` and `:def` nodes for most declarations.
+
+## Instance Dependencies
+
+In `testsuite/tests/dependent/should_compile/T14991.hs`, we have the following type families:
+
+```haskell
+type family Demote (k :: Type) :: Type
+type family DemoteX (a :: k) :: Demote k
+```
+
+And the `Demote` type family has the following instances:
+
+```
+type instance Demote Type = Type
+type instance Demote (a ~> b) = DemoteX a -> DemoteX b
+```
+
+During dependency analysis, they are grouped together under the label of `Demote:def`.
+
+However, it is crucial to have the first instance added to the type-checking context before checking the second instance.
+
+When GHC kind-checks `DemoteX a -> DemoteX b`, it checks that the LHS and RHS of the `(->)` are both of kind `Type`.
+
+Therefore, it requires:
+* `DemoteX a :: Type`
+* `DemoteX b :: Type`
+
+However, from the kind signature of `DemoteX`, it can only conclude the following:
+* `DemoteX a :: Demote Type` because `a :: Type`
+* `DemoteX b :: Demote Type` because `b :: Type`
+
+We thus need to know that `Demote Type ~ Type` to proceed.
+
+In GHC 8.10, this example is accepted. It so happens that the `TyClGroup`s produced by the existing algorithm (described in the "Dependency Analysis in GHC 8.10" section of this Wiki page) are in the right order to make this particular example type check. But of course this algorithm is not sufficient to make other examples type check, or else we wouldn’t have #12088!
+
+Hence we have the following options:
+
+1. Reject this example. Unsatisfactory because it breaks existing programs, including the [`singleton-gadts`](https://github.com/RyanGlScott/singleton-gadts) package.
+
+2. Discover dependencies between instances. Unsatisfactory because doing this properly must be interleaved with type checking; anything before the typechecker will be a fragile heuristic.
+
+3. Check instances in the order they are written by the user in the source code. Unsatisfactory because ordered processing is somewhat un-Haskelly. Probably the least bad option for now.
