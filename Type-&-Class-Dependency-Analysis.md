@@ -406,3 +406,38 @@ graph RL;
 ```
 
 The entire payload is contained in the `C:inst` node, whereas `F:def` and `G:def` are phantom.
+
+## The `TcTyCon` Issue
+
+Consider this program:
+
+```
+{-# LANGUAGE StandaloneKindSignatures, DataKinds #-}
+
+import Data.Kind (Type)
+
+type T :: Type
+data E = MkE T
+data T
+```
+
+We generate the following TyClGroups:
+
+1. `type T :: Type`
+2. `data E = MkE T`
+3. `data T`
+
+The problem is that checking `MkE T` expects a proper `TyCon` for `T`, not a `TcTyCon`. But checking the signature only gives a `TcTyCon`. This manifests as the following error:
+
+```
+ ghc: panic! (the 'impossible' happened)
+   (GHC version 8.11.0.20200401:
+   tcLookupGlobalOnly
+   T
+```
+
+Furthermore, checking `data T` in the last group requires a `TcTyCon`. So, after checking the signature, we need to produce both a `TcTyCon` and a `TyCon`, and somehow add both to the environment.
+
+Open type families and data families do not suffer from this issue, as processing their headers results in a proper `TyCon`. That's when the `:sig` and `:def` separation works great. However, for other varieties of declarations, the type checker is unable to process them separately.
+
+Until this issue is resolved in the type checker, the dependency analysis mustn't make separate `:sig` and `:def` nodes for most declarations.
