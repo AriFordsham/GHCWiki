@@ -254,6 +254,8 @@ type family F a; type instance F Int = Bool;
     sig                           def              
 ```
 
+Notably, this model implies grouping together all instances of a given type/data family or class, and treating them as a single unit. In the example above, `F:def` includes both `type instance F Int` and `type instance F Bool`.
+
 In the dependency analysis, we want to produce separate nodes for the signatures and definitions. Recall the `IxKind` example:
 
 ```haskell
