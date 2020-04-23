@@ -358,7 +358,7 @@ We'll call such `:sig` nodes phantom. That is, a **phantom node** is an empty no
 
 When we build the final `TyClGroup`s, a phantom node will not contribute any additional data. It is only useful during dependency analysis. Effectively, it turns any `... -> T:sig` edge into a `... -> T:def` edge by utilizing transitivity. You can think of them as redirects.
 
-## Associated Types
+## Associated Types and `:inst` Nodes
 
 Another tricky case is associated types. Consider the following declaration:
 
