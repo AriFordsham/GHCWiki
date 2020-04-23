@@ -301,3 +301,59 @@ This set of rules results in the following `TyClGroup`s:
 6. ```haskell
    {-  Value:def -} type instance Value (T k f) = f
    ```
+
+## CUSKs and Phantom Nodes
+
+In the last example, we split a single declaration into two parts:
+
+```
+{-      T:sig -} data T (k :: Type) (f :: k -> Type)
+{-      T:def -}   = MkT 
+```
+
+The result is that `T:sig` and `T:def` end up in different `TyClGroup`s. However, it is not always valid to do this split. Sometimes, we expect the RHS to influence the kind of the type constructor via kind inference:
+
+```
+data T a = MkT a
+```
+
+If we did the split here, we would infer `T :: forall k. k -> Type` by considering `T:sig` alone. And then we would reject `T:def` because it expects `a :: Type`, not `a :: k`.
+
+We can safely put `T:sig` into a separate group only when the kind can be determined without inference, by looking at the so-called [Complete User-Supplied Kind](https://downloads.haskell.org/~ghc/8.10.1/docs/html/users_guide/glasgow_exts.html#complete-user-supplied-kind-signatures-and-polymorphic-recursion) (CUSK).
+
+This means that in absence of a CUSK, we must keep both the LHS and the RHS as part of `T:def`, and we cannot extract a standalone `T:sig`:
+
+```
+{- T:sig -}
+{- T:def -} data T a = MkT a
+```
+
+However, other declarations may have edges to `T:sig`:
+
+```
+data T a = MkT a
+data X = MkX (T Int)
+```
+
+Normally, we would build the following dependency graph:
+
+```mermaid
+graph RL;
+  T:def --> T:sig
+  X:def --> X:sig
+  X:def --> T:sig
+```
+
+But since `T` has no CUSK, there's nothing we can put into its `T:sig` node! As a workaround, we generate an empty `:sig` node with an edge to the `:def` node:
+
+```mermaid
+graph RL;
+  T:def --> T:sig
+  T:sig --> T:def
+  X:def --> X:sig
+  X:def --> T:sig
+```
+
+We'll call such `:sig` nodes phantom. That is, a **phantom node** is an empty `T:sig` node with an edge to the corresponding `T:def` node. Phantom nodes are created for any declarations that require kind inference and cannot have proper standalone `:sig` nodes.
+
+When we build the final `TyClGroup`s, a phantom node will not contribute any additional data. It is only useful during dependency analysis. Effectively, it turns any `... -> T:sig` edge into a `... -> T:def` edge by utilizing transitivity.
