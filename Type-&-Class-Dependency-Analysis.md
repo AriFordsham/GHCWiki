@@ -354,6 +354,53 @@ graph RL;
   X:def --> T:sig
 ```
 
-We'll call such `:sig` nodes phantom. That is, a **phantom node** is an empty `T:sig` node with an edge to the corresponding `T:def` node. Phantom nodes are created for any declarations that require kind inference and cannot have proper standalone `:sig` nodes.
+We'll call such `:sig` nodes phantom. That is, a **phantom node** is an empty node with an edge to the node with actual content. Phantom `:sig` nodes are created for any declarations that require kind inference and cannot have proper standalone `:sig` nodes.
 
-When we build the final `TyClGroup`s, a phantom node will not contribute any additional data. It is only useful during dependency analysis. Effectively, it turns any `... -> T:sig` edge into a `... -> T:def` edge by utilizing transitivity.
+When we build the final `TyClGroup`s, a phantom node will not contribute any additional data. It is only useful during dependency analysis. Effectively, it turns any `... -> T:sig` edge into a `... -> T:def` edge by utilizing transitivity. You can think of them as redirects.
+
+## Associated Types
+
+Another tricky case is associated types. Consider the following declaration:
+
+```
+class C a where   -- C:def
+  type F a        -- F:sig
+  type G a        -- G:sig
+```
+
+`F:sig` and `G:sig` are part of `C:def` and will not be processed separately. This is another use case for phantom nodes:
+```mermaid
+graph RL;
+  F:sig --> C:def
+  G:sig --> C:def
+  C:def --> F:sig
+  C:def --> G:sig
+```
+
+The entire payload will be contained in the `C:def` node, whereas `F:sig` and `G:sig` will simply redirect to it.
+
+But what about instances?
+
+```
+instance C Int where
+  type F Int = Bool     -- F:def
+  type G Int = String   -- G:def
+```
+
+Here, `F:def` and `G:def` are part of an instance of `C`. To handle this case, we need to introduce a new type of nodes, `:inst` nodes:
+
+```
+instance C Int where    -- C:inst
+  type F Int = Bool     -- F:def
+  type G Int = String   -- G:def
+```
+
+```mermaid
+graph RL;
+  F:def --> C:inst
+  G:def --> C:inst
+  C:inst --> F:def
+  C:inst --> G:def
+```
+
+The entire payload is contained in the `C:inst` node, whereas `F:def` and `G:def` are phantom.
