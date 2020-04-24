@@ -156,7 +156,7 @@ As of GHC 8.10, the dependency analysis that builds `TyClGroup`s works as follow
 
     Note that the type family instance is not subject to dependency analysis at this stage of the pipeline.
 
-2. Do the SCC (strongly-connected component) analysis on the graph, producing `[[TyClDecl GhcRn]]`:
+2. Perform SCC (strongly-connected component) analysis on the graph, producing `[[TyClDecl GhcRn]]`:
 
    1. ```haskell
       type family F a
