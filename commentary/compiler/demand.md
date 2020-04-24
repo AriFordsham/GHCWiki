@@ -41,7 +41,7 @@ indicates that the function has one parameter, which is used lazily (hence `<L,U
 
 ### Grammar
 
-This a simple grammar extracted from the `Outputable` definition as of GHC 8.11:
+This a simple grammar extracted from the `Outputable` instances as of GHC 8.11:
 ```python
 DmdType    := JointDmd* Divergence
 
