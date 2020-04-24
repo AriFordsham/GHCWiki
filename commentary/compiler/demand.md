@@ -48,7 +48,7 @@ JointDmd := '<' StrDmd ',' UseDmd '>'
 # Strictness demands
 StrDmd   := 'B'                          # HyperStr: Diverges if forced (bottom of lattice)
           | 'C' '(' StrDmd ')'           # SCall: Call demand
-          | 'S' '(' ArgDmd* ')'          # SProd: Product demand
+          | 'S' '(' ArgStr* ')'          # SProd: Product demand
           | 'S'                          # HeadStr: Forced only to WHNF
 
 # Argument strictness
