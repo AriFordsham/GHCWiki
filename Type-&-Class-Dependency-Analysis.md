@@ -31,7 +31,7 @@ Consider the following program:
 
 ```
 data Nat = Zero | Succ Nat
-$(genSingletons [''Nat])
+$(genSingletons [''Nat]) -- Generates `data SNat :: Nat -> Type where ...`
 data SomeNat = forall n. SomeNat (SNat n)
 ```
 
