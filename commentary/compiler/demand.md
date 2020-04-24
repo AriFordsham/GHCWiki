@@ -43,40 +43,48 @@ indicates that the function has one parameter, which is used lazily (hence `<L,U
 
 This a simple grammar extracted from the `Outputable` definition as of GHC 8.11:
 ```python
-DmdType  := JointDmd* Divergence
+DmdType    := JointDmd* Divergence
 
 # Joint strictness/usage demand
-JointDmd := '<' StrDmd ',' UseDmd '>'
+JointDmd   := '<' StrDmd ',' UseDmd '>'
 
 # Strictness demands
-StrDmd   := 'B'                          # HyperStr: Diverges if forced (bottom of lattice)
-          | 'C' '(' StrDmd ')'           # SCall: Call demand
-          | 'S' '(' ArgStr* ')'          # SProd: Product demand
-          | 'S'                          # HeadStr: Forced only to WHNF
+StrDmd     := 'B'                          # HyperStr: Diverges if forced (bottom of lattice)
+            | 'C' '(' StrDmd ')'           # SCall: Call demand
+            | 'S' '(' ArgStr* ')'          # SProd: Product demand
+            | 'S'                          # HeadStr: Forced only to WHNF
 
 # Argument strictness
-ArgStr   := 'L'                          # Lazy: Argument not necessarily demanded
-          | StrDmd                       # Strict: Places given strictness demand on argument
+ArgStr     := 'L'                          # Lazy: Argument not necessarily demanded
+            | StrDmd                       # Strict: Places given strictness demand on argument
 
 
 # Usage demands
-UseDmd   := 'U'                          # Used: Top of lattice
-          | 'U' '(' (ArgUse ',')* ')'    # UProd: Used only for values of product type
-          | 'C' Count '(' UseDmd ')'     # UCall: Used only for values of function type
-          | 'H'                          # UHead: Used, but only to WHNF; components definitely not used
+UseDmd     := 'U'                          # Used: Top of lattice
+            | 'U' '(' (ArgUse ',')* ')'    # UProd: Used only for values of product type
+            | 'C' Count '(' UseDmd ')'     # UCall: Used only for values of function type
+            | 'H'                          # UHead: Used, but only to WHNF; components definitely not used
 
 # Argument usage
-ArgUse   := 'A'                          # Abs: Definitely unused (bottom of lattice)
-          | '1*' UseDmd                  # Use Once: Used with the given usage demand exactly once
-          | UseDmd                       # Use Many: Used with the given usage demand more than once
+ArgUse     := 'A'                          # Abs: Definitely unused (bottom of lattice)
+            | '1*' UseDmd                  # Use Once: Used with the given usage demand exactly once
+            | UseDmd                       # Use Many: Used with the given usage demand more than once
 
 # Usage cardinality
-Count    := '1'                          # Once
-          | ''                           # Many times
+Count      := '1'                          # Once
+            | ''                           # Many times
 
 # Divergence
-Divergence := 'b'                        # Diverges: Definitely divergences
-            | ''                         # Dunno: May or may not diverge
+Divergence := 'b'                          # Diverges: Definitely divergences
+            | ''                           # Dunno: May or may not diverge
+
+# Constructed Product Result types
+CprType    := Arity CprResult              # The arity is the number of value arguments necessary
+                                           # for the expression to reduce to CprResult.
+
+CprResult  := ''                           # NoCPR: No CPR information (top of lattice)
+            | 'm' ConTag                   # ConCPR: The result is the constructor identified by ConTag
+            | 'b'                          # BotCPR: Evaluation bottoms (bottom of lattice)
 ```
 
 ### Demand descriptions
