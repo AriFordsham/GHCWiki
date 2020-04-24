@@ -1,3 +1,0 @@
-== Semigroup/Monoid Proposal
-
-`Semigroup` is now a superclass of `Monoid`. See [[https://prime.haskell.org/wiki/Libraries/Proposals/SemigroupMonoid|the proposal]] for details.
