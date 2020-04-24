@@ -2,6 +2,8 @@
 
 On this page we describe the principles behind the implementation of the linear types extension as described at [LinearTypes](linear-types).
 
+- Here is a [talk by Arnaud Spiwack at the Haskell Implementors Worshop 2018](https://www.youtube.com/watch?v=uxv62QQajx8). A number of things changed since, including our understanding. But it can serve as a starting point.
+
 The current implementation can be reviewed on [Gitlab (!852)](https://gitlab.haskell.org/ghc/ghc/merge_requests/852). There is also a [ GitHub repository](https://github.com/tweag/ghc/tree/linear-types) which contains the history of the project and a list of known issues.
 
 
