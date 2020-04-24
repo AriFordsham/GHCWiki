@@ -1,3 +1,5 @@
+[[_TOC_]]
+
 # Type & Class Dependency Analysis
 
 ## Background: The `HsGroup` Story
@@ -19,7 +21,7 @@ The first `HsGroup` contains `data A` and `x = 5`, and the second `HsGroup` cont
 
 It is impossible to refer to a name defined in a later `HsGroup`: 
 
-```
+```haskell
 data A = MkA B  -- error, B is not visible here
 $(return [])
 data B
@@ -29,7 +31,7 @@ The boundary this creates has significant implications for the Template Haskell 
 
 Consider the following program:
 
-```
+```haskell
 data Nat = Zero | Succ Nat
 $(genSingletons [''Nat]) -- Generates `data SNat :: Nat -> Type where ...`
 data SomeNat = forall n. SomeNat (SNat n)
@@ -39,7 +41,7 @@ Here, `genSingletons` can reify a declaration from a preceding group (`Nat`), an
 
 Swapping these lines would break the program:
 
-```
+```haskell
 data SomeNat = forall n. SomeNat (SNat n)  -- Error: SNat not available here.
 $(genSingletons [''Nat])                   -- Error: Nat not available here.
 data Nat = Zero | Succ Nat
@@ -49,14 +51,14 @@ In other words, when it comes to `HsGroup`s, GHC does not try to be smart and re
 
 This is simple and predictable. However, it can also be inconvenient. For example:
 
-```
+```haskell
 data Foo = MkFoo { ... }
-makeLenses ''Foo
+$(makeLenses ''Foo)
 
 fn a b c = ... -- Cannot use `Bar` lenses here! :-(
 
 data Bar = MkBar { ... }
-makeLenses ''Bar
+$(makeLenses ''Bar)
 ```
 
 This is not considered a major issue.
@@ -65,12 +67,12 @@ This is not considered a major issue.
 
 Within one `HsGroup`, the order of declarations should not matter. These programs should both work:
 
-```
+```haskell
 data X = MkX
 data Y (a :: X)
 ```
 
-```
+```haskell
 data Y (a :: X)
 data X = MkX
 ```
@@ -83,7 +85,7 @@ That's why within every `HsGroup`, after renaming and before type-checking, we p
 
 A `TyClGroup` is defined thus:
 
-```
+```haskell
 -- | Type or Class Group
 data TyClGroup pass  -- See Note [TyClGroups and dependency analysis]
   = TyClGroup { group_ext    :: XCTyClGroup pass
@@ -117,7 +119,7 @@ The purpose of the type and class dependency analysis is to take a list of decla
 
 For example, if the user writes:
 
-```
+```haskell
 data Y (a :: X)
 data X = MkX
 ```
@@ -137,7 +139,7 @@ As of GHC 8.10, the dependency analysis that builds `TyClGroup`s works as follow
 
     For example:
 
-    ```
+    ```haskell
     data A = MkA1 B | MkA2
     data B = MkB (Y A)
     type family F a
@@ -193,7 +195,7 @@ The `TyClGroup` analysis in 8.10 has a fatal flaw: it does not account for type 
 
 However, those instances might be required to kind-check declarations. Consider this example:
 
-```
+```haskell
 {-# LANGUAGE KindSignatures, PolyKinds, DataKinds, TypeFamilies #-}
 
 import Data.Kind (Type)
@@ -405,9 +407,53 @@ graph RL;
   C:inst --> G:def
 ```
 
-The entire payload is contained in the `C:inst` node, whereas `F:def` and `G:def` are phantom.
+The entire payload is contained in the `C:inst` node, whereas `F:def` and `G:def` are phantom. All instances of `C` are grouped under `C:inst`, just like all instances of `F` would be grouped under `F:def`.
 
-## The `TcTyCon` Issue
+`C:inst` itself is grouped under `C:def`, as shown in the full dependency graph below:
+
+```mermaid
+graph RL;
+  subgraph " "
+  F:sig --> C:def
+  G:sig --> C:def
+  C:def --> F:sig
+  C:def --> G:sig
+  end
+  subgraph " "
+  F:def --> C:inst
+  G:def --> C:inst
+  C:inst --> F:def
+  C:inst --> G:def
+  end
+  C:inst --> C:def
+```
+
+Note that `F:sig` and `G:sig` will be grouped under `C:def` regardless of whether `C` has a CUSK or not. In the example above, `C` does not have a CUSK, but if it did, the only difference is that there would be an additional `C:sig` node:
+
+
+```mermaid
+graph RL;
+  subgraph " "
+  F:sig --> C:def
+  G:sig --> C:def
+  C:def --> F:sig
+  C:def --> G:sig
+  C:def --> C:sig
+  end
+  subgraph " "
+  F:def --> C:inst
+  G:def --> C:inst
+  C:inst --> F:def
+  C:inst --> G:def
+  end
+  C:inst --> C:def
+```
+
+## Problems with the `:sig`/`:def` Algorithm
+
+There are two major remaining issues with this new algorithm: GHC's reliance on `TcTyCon`s when kind-checking, and instance dependencies.
+
+### The `TcTyCon` Issue
 
 Consider this program:
 
@@ -427,7 +473,7 @@ We generate the following `TyClGroup`s:
 2. `data E = MkE T`
 3. `data T`
 
-The problem is that checking `MkE T` expects a proper `TyCon` for `T`, not a `TcTyCon`. But checking the signature only gives a `TcTyCon`. This manifests as the following error:
+The problem is that checking `MkE T` expects a proper `TyCon` for `T`, not a `TcTyCon`. But checking the signature only gives a `TcTyCon`. As a result, this is what happens if you try to typecheck the above code using an experimental GHC branch that implements the new algorithm:
 
 ```
  ghc: panic! (the 'impossible' happened)
@@ -442,7 +488,7 @@ Open type families and data families do not suffer from this issue, as processin
 
 Until this issue is resolved in the type checker, the dependency analysis mustn't make separate `:sig` and `:def` nodes for most declarations.
 
-## Instance Dependencies
+### Instance Dependencies
 
 In `testsuite/tests/dependent/should_compile/T14991.hs`, we have the following type families:
 
@@ -453,7 +499,7 @@ type family DemoteX (a :: k) :: Demote k
 
 And the `Demote` type family has the following instances:
 
-```
+```haskell
 type instance Demote Type = Type
 type instance Demote (a ~> b) = DemoteX a -> DemoteX b
 ```
@@ -474,12 +520,31 @@ However, from the kind signature of `DemoteX`, it can only conclude the followin
 
 We thus need to know that `Demote Type ~ Type` to proceed.
 
-In GHC 8.10, this example is accepted. It so happens that the `TyClGroup`s produced by the existing algorithm (described in the "Dependency Analysis in GHC 8.10" section of this Wiki page) are in the right order to make this particular example type check. But of course this algorithm is not sufficient to make other examples type check, or else we wouldn’t have #12088!
+In GHC 8.10, this example is accepted by sheer luck. It so happens that the `TyClGroup`s produced by the existing algorithm (described in the "Dependency Analysis in GHC 8.10" section of this Wiki page) are in the right order to make this particular example type check. Under the proposed `:sig`/`:def` algorithm, however, we are not as lucky. This algorithm would put all `Demote` instances under a single `Demote:def` node, and since instances within a single node cannot depend on each other, we fail to kind-check the `Demote Type = Type` instance before the `Demote (a ~> b) = DemoteX a -> DemoteX b` instance.
 
-Hence we have the following options:
+Another example that neither the algorithm in GHC 8.10 nor the proposed algorithm would fix is from https://gitlab.haskell.org/ghc/ghc/issues/12088#note_131528:
 
-1. Reject this example. Unsatisfactory because it breaks existing programs, including the [`singleton-gadts`](https://github.com/RyanGlScott/singleton-gadts) package.
+```haskell
+{-# LANGUAGE DataKinds, TypeFamilies, PolyKinds, UndecidableInstances, StandaloneKindSignatures, RankNTypes #-}
 
-2. Discover dependencies between instances. Unsatisfactory because doing this properly must be interleaved with type checking; anything before the typechecker will be a fragile heuristic.
+type family Open a
+type instance Open Int = Bool
+type instance Open Char = F Float
+type instance Open Float = Type
 
-3. Check instances in the order they are written by the user in the source code. Unsatisfactory because ordered processing is somewhat un-Haskelly. Probably the least bad option for now.
+type F :: forall a -> Open a
+type family F a
+type instance F Int = True
+type instance F Char = '[True]
+type instance F Float = [Bool]
+```
+
+This style of code is used heavily in the [`singleton-gadts`](https://github.com/RyanGlScott/singleton-gadts) library, which can be thought of as an elaborate dependency analysis stress test.
+
+How should we handle programs like the ones above? We have the following options:
+
+1. Reject these examples. This is definitely the simplest option, but arguably the most unsatisfactory, especially since it breaks existing programs (e.g., `singleton-gadts`). We could conceivably add a workaround that allows users to explicitly separate `HsGroup`s (much like `$(return [])`, but without the need for Template Haskell) in order to guide the dependency analysis.
+
+2. Discover dependencies between instances. This is unsatisfactory because doing this properly must be interleaved with type checking; anything before the typechecker will be a fragile heuristic.
+
+3. Check instances in the order they are written by the user in the source code. This is unsatisfactory because ordered processing is somewhat un-Haskelly, but it is probably the least bad option for now.
