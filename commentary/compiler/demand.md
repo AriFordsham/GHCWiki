@@ -48,7 +48,10 @@ DmdType    := JointDmd* Divergence
 # Joint strictness/usage demand
 JointDmd   := '<' StrDmd ',' UseDmd '>'
 
+####################################
 # Strictness demands
+####################################
+
 StrDmd     := 'B'                          # HyperStr: Diverges if forced (bottom of lattice)
             | 'C' '(' StrDmd ')'           # SCall: Call demand
             | 'S' '(' ArgStr* ')'          # SProd: Product demand
@@ -58,8 +61,10 @@ StrDmd     := 'B'                          # HyperStr: Diverges if forced (botto
 ArgStr     := 'L'                          # Lazy: Argument not necessarily demanded
             | StrDmd                       # Strict: Places given strictness demand on argument
 
-
+####################################
 # Usage demands
+####################################
+
 UseDmd     := 'U'                          # Used: Top of lattice
             | 'U' '(' (ArgUse ',')* ')'    # UProd: Used only for values of product type
             | 'C' Count '(' UseDmd ')'     # UCall: Used only for values of function type
@@ -78,7 +83,10 @@ Count      := '1'                          # Once
 Divergence := 'b'                          # Diverges: Definitely divergences
             | ''                           # Dunno: May or may not diverge
 
+####################################
 # Constructed Product Result types
+####################################
+
 CprType    := Arity CprResult              # The arity is the number of value arguments necessary
                                            # for the expression to reduce to CprResult.
 
