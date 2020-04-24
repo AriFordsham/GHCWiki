@@ -62,6 +62,11 @@ UseDmd   := 'U'                          # Used: Top of lattice
           | 'C' Count '(' UseDmd ')'     # UCall: Used only for values of function type
           | 'H'                          # UHead: Used, but only to WHNF; components definitely not used
 
+# Argument usage
+ArgUse   := 'A'                          # Abs: Definitely unused (bottom of lattice)
+          | '1*' UseDmd                  # Use Once: Used with the given usage demand exactly once
+          | UseDmd                       # Use Many: Used with the given usage demand more than once
+
 # Usage cardinality
 Count    := '1'                          # Once
           | ''                           # Many times                                                                                         
