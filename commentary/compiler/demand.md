@@ -43,6 +43,9 @@ indicates that the function has one parameter, which is used lazily (hence `<L,U
 
 This a simple grammar extracted from the `Outputable` definition as of GHC 8.11:
 ```python
+DmdType  := JointDmd* Divergence
+
+# Joint strictness/usage demand
 JointDmd := '<' StrDmd ',' UseDmd '>'
 
 # Strictness demands
@@ -69,7 +72,11 @@ ArgUse   := 'A'                          # Abs: Definitely unused (bottom of lat
 
 # Usage cardinality
 Count    := '1'                          # Once
-          | ''                           # Many times                                                                                         
+          | ''                           # Many times
+
+# Divergence
+Divergence := 'b'                        # Diverges: Definitely divergences
+            | ''                         # Dunno: May or may not diverge
 ```
 
 ### Demand descriptions
