@@ -39,6 +39,33 @@ Str=DmdType <L,U> {skY-><S,U>}
 
 indicates that the function has one parameter, which is used lazily (hence `<L,U>`), however, when its result is used strictly, the free variable `skY` in its body is also used strictly.
 
+### Grammar
+
+This a simple grammar extracted from the `Outputable` definition as of GHC 8.11:
+```
+JointDmd := '<' StrDmd ',' UseDmd '>'
+
+# Strictness demands
+StrDmd   := 'B'                          # HyperStr: Diverges if forced (bottom of lattice)
+          | 'C' '(' StrDmd ')'           # SCall: Call demand
+          | 'S' '(' ArgDmd* ')'          # SProd: Product demand
+          | 'S'                          # HeadStr: Forced only to WHNF
+
+# Argument strictness
+ArgStr   := 'L'                          # Lazy: Argument not necessarily demanded
+          | StrDmd                       # Strict: Places given strictness demand on argument
+
+
+# Usage demands
+UseDmd   := 'U'                          # Used: Top of lattice
+          | 'U' '(' (ArgUse ',')* ')'    # UProd: Used only for values of product type
+          | 'C' Count '(' UseDmd ')'     # UCall: Used only for values of function type
+          | 'H'                          # UHead: Used, but only to WHNF; components definitely not used
+
+# Usage cardinality
+Count    := '1'                          # Once
+          | ''                           # Many times                                                                                         
+```
 ### Demand descriptions
 
 
