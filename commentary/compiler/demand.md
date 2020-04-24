@@ -42,7 +42,7 @@ indicates that the function has one parameter, which is used lazily (hence `<L,U
 ### Grammar
 
 This a simple grammar extracted from the `Outputable` definition as of GHC 8.11:
-```
+```python
 JointDmd := '<' StrDmd ',' UseDmd '>'
 
 # Strictness demands
@@ -66,6 +66,7 @@ UseDmd   := 'U'                          # Used: Top of lattice
 Count    := '1'                          # Once
           | ''                           # Many times                                                                                         
 ```
+
 ### Demand descriptions
 
 
