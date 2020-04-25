@@ -52,13 +52,25 @@ stage1.*.ghc.hs.opts += -g3
 stage1.*.cabal.configure.opts += --disable-library-stripping --disable-executable-stripping
 ```
 
+### Building RTS with debug symbols
+
+Typically the `-debug` RTS is built with debug symbols enabled. However, it also includes 
+```
+stage1.rts.ghc.c.opts += -optc-ggdb
+```
+
 ### Building a ticky-enabled stage2 compiler
 
 Here we also dump STG syntax since this is necessary to interpret the profile:
 ```
 stage1.*.ghc.hs.opts += -ddump-to-file -ddump-simpl -ddump-stg
 stage1.*.ghc.hs.opts += -ticky -ticky-allocd
-stage1.*.ghc.link.opts += -ticky
+stage1.*.ghc-bin.link.opts += -ticky
+```
+
+### Building an eventlog-enabled stage2 compiler
+```
+stage1.*.ghc-bin.link.opts += -eventlog
 ```
 
 ## Shell aliases
