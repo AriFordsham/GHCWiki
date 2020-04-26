@@ -13,8 +13,8 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 <th>Win7</th>
 <th>Win8</th>
 <th>Win10 Creators</th>
-<th>Win10 
-</th></tr>
+<th>Win10</th></tr>
+
 <tr><th>7.8</th>
 <th></th>
 <th>✔</th>
@@ -23,8 +23,8 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 <th>✔</th>
 <th></th>
 <th></th>
-<th>
-</th></tr>
+<th></th></tr>
+
 <tr><th>7.10</th>
 <th></th>
 <th></th>
@@ -33,8 +33,8 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 <th>✔</th>
 <th>✔</th>
 <th></th>
-<th>
-</th></tr>
+<th></th></tr>
+
 <tr><th>8.0</th>
 <th></th>
 <th></th>
@@ -43,8 +43,8 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 <th>✔</th>
 <th>✔</th>
 <th>✔ (Note 1)</th>
-<th>✔      
-</th></tr>
+<th>✔</th></tr>
+
 <tr><th>8.2</th>
 <th></th>
 <th></th>
@@ -53,8 +53,8 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 <th>✔</th>
 <th>✔</th>
 <th>✔</th>
-<th>✔      
-</th></tr>
+<th>✔</th></tr>
+
 <tr><th>8.4</th>
 <th></th>
 <th></th>
@@ -63,8 +63,8 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 <th>✔</th>
 <th>✔</th>
 <th>✔</th>
-<th>✔      
-</th></tr>
+<th>✔</th></tr>
+
 <tr><th>8.6</th>
 <th></th>
 <th></th>
@@ -73,10 +73,8 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 <th>✔</th>
 <th>✔</th>
 <th>✔</th>
-<th>✔      
-</th></tr>
+<th>✔</th></tr>
 </table>
-
 
 **Note 1**: Only distributions specifically advertising support the Creator's
 Update will work with Windows 10 Creator's Update and later. 
@@ -93,8 +91,8 @@ compiler.
 
 ## Building 64-bit Windows programs
 
-Releases of GHC since 7.6.1 also provide a 64bit Windows version for building
-64bit programs on Windows. It ships with a
+Releases of GHC since 7.6.1 also provide a 64-bit Windows version for building
+64-bit programs on Windows. It ships with a
 [MinGW-w64](http://mingw-w64.sourceforge.net/) system bundled, which provides
 tools (such as a C compiler, linker and assembler) that are used by the
 compiler.
