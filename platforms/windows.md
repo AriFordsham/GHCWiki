@@ -4,77 +4,16 @@ GHC on Windows is supported by the [Windows Task Force](windows-task-force).
 
 ## Versions supported
 
-<table>
-<tr><th>GHC Version</th>
-<th>&lt;= WinNT4</th>
-<th>Win2k</th>
-<th>WinXP</th>
-<th>Vista</th>
-<th>Win7</th>
-<th>Win8</th>
-<th>Win10 Creators</th>
-<th>Win10</th></tr>
-
-<tr><th>7.8</th>
-<th></th>
-<th>✔</th>
-<th>✔</th>
-<th>✔</th>
-<th>✔</th>
-<th></th>
-<th></th>
-<th></th></tr>
-
-<tr><th>7.10</th>
-<th></th>
-<th></th>
-<th>✔</th>
-<th>✔</th>
-<th>✔</th>
-<th>✔</th>
-<th></th>
-<th></th></tr>
-
-<tr><th>8.0</th>
-<th></th>
-<th></th>
-<th></th>
-<th>✔</th>
-<th>✔</th>
-<th>✔</th>
-<th>✔ (Note 1)</th>
-<th>✔</th></tr>
-
-<tr><th>8.2</th>
-<th></th>
-<th></th>
-<th></th>
-<th>✔</th>
-<th>✔</th>
-<th>✔</th>
-<th>✔</th>
-<th>✔</th></tr>
-
-<tr><th>8.4</th>
-<th></th>
-<th></th>
-<th></th>
-<th>✔</th>
-<th>✔</th>
-<th>✔</th>
-<th>✔</th>
-<th>✔</th></tr>
-
-<tr><th>8.6</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th>✔</th>
-<th>✔</th>
-<th>✔</th>
-<th>✔</th></tr>
-</table>
+| GHC Version   | \<= WinNT4   | Win2k   | WinXP   | Vista   | Win7   | Win8   | Win10 Creators   | Win10    |
+| ------------- | ------------ | ------- | ------- | ------- | ------ | ------ | ---------------- | -------  |
+| 7.8           |              | ✔       | ✔       | ✔       | ✔      |        |                  |          |
+| 7.10          |              |         | ✔       | ✔       | ✔      | ✔      |                  |          |
+| 8.0           |              |         |         | ✔       | ✔      | ✔      | ✔ (Note 1)       | ✔        |
+| 8.2           |              |         |         | ✔       | ✔      | ✔      | ✔                | ✔        |
+| 8.4           |              |         |         | ✔       | ✔      | ✔      | ✔                | ✔        |
+| 8.6           |              |         |         |         | ✔      | ✔      | ✔                | ✔        |
+| 8.8           |              |         |         |         | ✔      | ✔      | ✔                | ✔        |
+| 8.10          |              |         |         |         | ✔      | ✔      | ✔                | ✔        |
 
 **Note 1**: Only distributions specifically advertising support the Creator's
 Update will work with Windows 10 Creator's Update and later. 
