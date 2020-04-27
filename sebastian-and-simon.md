@@ -19,6 +19,10 @@
 - #17673: Eta-expansion, WW and NOINLINE, #17690: WW for coercions
   - Far future: Have one unified WW for eta expansion (based on `CoreArity`),
     coercions (no analysis info needed) and unboxing (Strictness/CPR)?
+  - I think Arity analysis and CPR analysis share the same underlying
+    principle: Unwrap constructors (/ lambdas!) while it is still cheap doing so.
+    Maybe we could unify this into one transformation that does eta-expansion, CPR
+    expansion and coercion expansion at the same time?
 
 - #17881, #17896: eta reduction based on Demand
 
