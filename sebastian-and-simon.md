@@ -1,49 +1,46 @@
 # Agenda
 
-- #17900: primop traits
+- #18049, !3087: pick up `EvVar`s in `HsWrapper`s for long-distance info
+  - Needs a more lazy approach, but it's a bit tricky to do so without losing
+    sharing. It's on my radar.
+  - Also related: #17676, !2525; and #5775, #3207:
 
-- #17896: eta reduction based on Demand
+- !3014: Precise exceptions in DmdAnal
+  - I think we should go for the `ExnOrDiv` only solution, see the three
+    consecutive posts in https://gitlab.haskell.org/ghc/ghc/-/merge_requests/3014#note_265707
+  - TODO: Now that we have a prototype for Nested CPR, check out if `T13380e`
+    really is a problem!
 
+- #17900, !3013: primop traits
+
+- #1600, !1866: Nested CPR
+  - See below
+  
 - #17673: Eta-expansion, WW and NOINLINE, #17690: WW for coercions
-  - Far future: Have one unified WW for eta expansion (based on `CoreArity`), coercions (no analysis info needed) and unboxing (Strictness/CPR)?
+  - Far future: Have one unified WW for eta expansion (based on `CoreArity`),
+    coercions (no analysis info needed) and unboxing (Strictness/CPR)?
 
-- #17676, !2525; and #5775, #3207: Consolidate when to apply IO hack
+- #17881, #17896: eta reduction based on Demand
 
-- Newtypes and ⊥ constraints: Is `⊥ ~ NT _` `Disjoint` or `PossiblyOverlap`ping? Probably the latter.
-  - But we only ever add `x ~ ⊥` when checking for divergence, after which don't pass the resulting Delta on. Thus we never have to preserve it, because there is no way we would add `x /~ ⊥` *after* we added `x ~ ⊥`.
-  - The other way round is very much possible, though. So we need to preserve `x /~ ⊥`. But for newtypes, satisfiability of that constraint depends on the field. so if we have `x ~ NT y`, `x /~ ⊥`, we might not detect that `y ~ ⊥` is impossible! #17725
-  -  I think we should rather store the coercion in the `SharedIdEnv`
-  - Problem: How to solve `x ~ y` when `r1 <| co1` represents `x` and `r2 <| co2` represents `y`?
+# Nested CPR
 
-- #915: Specialisation through type classes/defunctionalisation
-  - #17592: Specialisation for call patterns is quite unreliable:
-    ```hs
-    f :: Maybe Bool -> Int -> Int
-    f (Just True) 0 = 1
-    f (Just True) n = f (Just True) (n-1)
-    f _ 0 = 2
-    f x n = f x (n-1)
-    
-    g x n = f (Just x) n
-    h n = g True n
-    ```
-    There are situations in which `g` has not been inlined into `h` by the time SpecConstr runs. SpecConstr will then create two specialisations: One for `(Just True, _)` (`f1`) and one for `(Just _, _)` (`f2`), the former of which is a strict specialisation of the latter. The simplifier will then rewrite the call site in `g` to `f2`. Now, at some point `g` will be inlined and we see the call site `f2 True n`, which we *could* rewrite to `f1`. But all specialisation rules only apply to `f`, so we can't do the rewrite. The solution is simply to attach a derived specialisation rule to `f2`.
-  - (Obsolete) Why not do specialisation of recursive functions instead of inlining them, as part of the simplifier? Consider separate pragma `{-# SPECIALISABLE #-}` or something
-  - Pros:
-    - No complicated and brittle reliance on rewrite rules
-    - Like `INLINE`, the pragma is persisted throughout transformations
-    - It seems like the logical way to do inlining for recursive functions
-  - Cons:
-    - Probably quirky for complicated recursion schemes
-    - How does this work for rewriting recursive call sites? Seems impossible without RULEs and thus SpecConstr. OK, that won't work
+#1600, !1866.
 
-- https://github.com/ghc-proposals/ghc-proposals/pull/43 Or patterns: Potential bachelor's thesis?
-  - osa1 ultimately after a long and tedious discussion gave up.
-  - Why? What's needed? A formal Specification? Which part? Static or dynamic semantics?
-  - Also how much? Whole pattern language or just enough of a fragment to explain or patterns?
-  - I see there is https://gitlab.haskell.org/rae/haskell as a starting point, but it seems to focus entirely on static semantics. But probably the document to complete?
+- CPR of DataCon wrappers
+  - Possibly relevant if re-exported (but maybe not, stuff only cancels away if
+    we inline everything)
+  - Hard to infer Nested CPR without actually calling the analysis on the RHS.
+    But impact of import cycle would probably be huge.
+  - Maybe just top-level `#c1(*)`?
+- `divergeCpr` is strange, but probably correct  
+  - We never really use `botCpr` (no well-typed expr will ever have this as a
+    denotation!), thus we don't export it.
+- CPR transformers based on strictness signatures. This is the logical
+  extension of `Note [CPR for binders that will be unboxed]`. Specifically
+  > It's sound (doesn't change strictness) to give it the CPR property
+  > because by the time 'x' is returned (case A above), it'll have been
+  > evaluated (by the wrapper of 'h' in the example).
 
-- !2218 Unlifted data types
 
 # Pattern-match checking
 
@@ -87,10 +84,6 @@ Those with an MR actually have code.
   - This is very similar to redundancy checking, but in redundancy checking we see if we *completely* overlap the pattern. Here, we see if their Covered sets overlap *at all* instead of seeing if one completely covers the other.
   - I suppose this also has tricky interactions with bottom. But our existing machinery should cover it.
 
-# Nested CPR
-
-- Mostly working prototype at https://gitlab.haskell.org/ghc/ghc/tree/wip/nested-cpr-2019
-
 ## Roadblocks 
 
 - Nested CPR of DataCon wrappers needs to look at RHS of wrapper (think of `data T = T !(Int, Int)`) 
@@ -105,6 +98,37 @@ Those with an MR actually have code.
 
 - https://gitlab.haskell.org/ghc/ghc/tree/wip/ext-arity: Rebased Zach's implementation of the extensionality paper  
   - Wait for levity polymorphism and matchability polymorphism to work out
+
+- #915: Specialisation through type classes/defunctionalisation
+  - #17592: Specialisation for call patterns is quite unreliable:
+    ```hs
+    f :: Maybe Bool -> Int -> Int
+    f (Just True) 0 = 1
+    f (Just True) n = f (Just True) (n-1)
+    f _ 0 = 2
+    f x n = f x (n-1)
+    
+    g x n = f (Just x) n
+    h n = g True n
+    ```
+    There are situations in which `g` has not been inlined into `h` by the time SpecConstr runs. SpecConstr will then create two specialisations: One for `(Just True, _)` (`f1`) and one for `(Just _, _)` (`f2`), the former of which is a strict specialisation of the latter. The simplifier will then rewrite the call site in `g` to `f2`. Now, at some point `g` will be inlined and we see the call site `f2 True n`, which we *could* rewrite to `f1`. But all specialisation rules only apply to `f`, so we can't do the rewrite. The solution is simply to attach a derived specialisation rule to `f2`.
+  - (Obsolete) Why not do specialisation of recursive functions instead of inlining them, as part of the simplifier? Consider separate pragma `{-# SPECIALISABLE #-}` or something
+  - Pros:
+    - No complicated and brittle reliance on rewrite rules
+    - Like `INLINE`, the pragma is persisted throughout transformations
+    - It seems like the logical way to do inlining for recursive functions
+  - Cons:
+    - Probably quirky for complicated recursion schemes
+    - How does this work for rewriting recursive call sites? Seems impossible without RULEs and thus SpecConstr. OK, that won't work
+
+- https://github.com/ghc-proposals/ghc-proposals/pull/43 Or patterns: Potential bachelor's thesis?
+  - osa1 ultimately after a long and tedious discussion gave up.
+  - Why? What's needed? A formal Specification? Which part? Static or dynamic semantics?
+  - Also how much? Whole pattern language or just enough of a fragment to explain or patterns?
+  - I see there is https://gitlab.haskell.org/rae/haskell as a starting point, but it seems to focus entirely on static semantics. But probably the document to complete?
+
+- !2218 Unlifted data types
+  - Wait for BoxedRep !2249
 
 # Done
 
