@@ -548,3 +548,23 @@ How should we handle programs like the ones above? We have the following options
 2. Discover dependencies between instances. This is unsatisfactory because doing this properly must be interleaved with type checking; anything before the typechecker will be a fragile heuristic.
 
 3. Check instances in the order they are written by the user in the source code. This is unsatisfactory because ordered processing is somewhat un-Haskelly, but it is probably the least bad option for now.
+
+### The algorithm infers too many dependencies
+
+The extra-magical Richard's Edge is sometimes not needed. For example:
+
+```hs
+type T :: Type
+data T where
+  MkT :: Proxy @(F a) True -> T
+
+type F :: T -> Type
+type family F a where
+  F _ = Bool
+```
+
+Here, we have that `F:sig` depends on `T:sig`. The extra Richard's Edge gives us that `F:def` must depend on `T:def`. But that's not true here. And indeed inferring this extra dependency causes the example to be rejected, because we need the inverse dependency for this to be accepted.
+
+### The algorithm infers too few dependencies
+
+Even without the magical Richard's Edge, the example above is rejected, because there is nothing to say that `T:def` depends on `F:def`, which it needs to be accepted. At a first glance, we could look for the usage of `F` "one level up" as an indication that something depends on `F:def`, but that's bogus: in the presence of e.g. visible dependent quantification, there's no way to be sure what's one level up and what isn't.
