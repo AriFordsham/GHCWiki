@@ -21,6 +21,7 @@ Deciding whether to a put heap in case alternative branch is quite a delicate pr
   * Eliminate redundant heap allocations/deallocations #12231
   * Extending the idea to stack checks: [this comment](https://gitlab.haskell.org/ghc/ghc/issues/14791#note_150481) in #14791
 
+### Current strategy 
 
 The `GcPlan`
 datatype from [GHC.StgToCmm.Expr](https://gitlab.haskell.org/ghc/ghc/-/blob/master/compiler/GHC/StgToCmm/Expr.hs) embodies this decision. Given this program:
@@ -46,6 +47,8 @@ Things that affect this decision:
    runtime for the heap check in the case where the heap-free alternative is taken.
 
 ---
+
+### What's wrong with the current strategy
 
 Now let's consider this program:
 
