@@ -103,6 +103,13 @@ instructions). There is an illuminating discussion in `Note [Compiling case expr
 Our goal is to get the heap check out of the "hot" path - we would like to put it in the `DEFAULT`
 branch only; the 1# branch does not allocate.
 
+### Proposed new strategy
+
+The idea of the new strategy is this:
+* If one or more of the case alternatives does not allocate,
+* AND upstream does not allocate
+* THEN put the heap check in the alternatives (obviously just the ones that do)
+
 Knowing whether it allocates is pretty simple. Perhaps we could also accurately predict how much it 
 allocates, which would reduce the tricky getHeapUsage plumbing in the `FCode` monad. That is quite an 
 attractive thought too... The basic idea is that 
