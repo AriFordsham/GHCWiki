@@ -41,7 +41,7 @@ Things that affect this decision:
    upstream anyway. In that case, don't do one in the alterantives too. The single check might 
    allocate too much space, but the alternatives that use less space simply move `Hp` back down 
    again, which only costs one instruction
- * Otherwise, if there no heap alloation upstream, put heap checks in each alternative. The reasoning
+ * Otherwise, if there no heap allocation upstream, put heap checks in each alternative. The reasoning
    here was that if one alternative needs heap and the other one doesn't we don't want to pay the 
    runtime for the heap check in the case where the heap-free alternative is taken.
 
