@@ -10,7 +10,7 @@ Precise exception semantics are really sensitive to transformations changing eva
 
 Here we describe the measures taken to fix that ticket (along with #148, #1592 and #17676).
 
-## Solution: Make `defaultFvDmd` of `raiseIO#` lazy to preserve precise exceptions, hackily
+## Solution: Make `defaultFvDmd` of `raiseIO#` lazy to preserve precise exceptions, hackily (Step 1)
 
 This was implemented in !2956.
 
@@ -22,17 +22,19 @@ So all that really needs to be done to fix #17676 and #13380 is
 1. Change `raiseIO#` to have `topDiv`
 2. Give it special treatment in `mkArgInfo`, treating it as if it had `botDiv`.
 
-## Replacing hacks by principled program analyses
+## Replacing hacks by principled program analyses (Step 2)
 
-This was implemented in !3014.
+This was fully implemented in !3014. But it ended in a complicated mess, so we only implemented Step 2.1 in !3171.
 
-### Dead code elimination for `raiseIO#` with `isDeadEndDiv`, introducing `ExnOrDiv`
+### Dead code elimination for `raiseIO#` with `isDeadEndDiv`, introducing `ExnOrDiv` (Step 2.1)
 
 Special casing on `raiseIO#` in the Simplifier is gross, and only needed because it now has `topDiv` for its lazy default free variable demand (`defaultFvDmd`). We can fix that by introducing `ExnOrDiv` to `Divergence`, denoting that evaluation will diverge(, throw an imprecise exception) or throw a precise exception, but surely never converge. The `defaultFvDmd` of `exnDiv` then is as lazy as for `topDiv`. But entering an expression for which we infer such a `Divergence` will never return, thus is a dead end. Thus we rename `isBotDiv` to `isDeadEndDiv`, similarly all functions that use it and can delete the special case for `raiseIO#` in `SimplUtils.mkArgInfo`.
 
 The only analysis that I recognise plays a little fast and loose with `exnDiv` vs. `botDiv` probably is `CoreArity` (which will turn `exnDiv` into `botDiv` in `exprBotStrictness_maybe`), but I guess we'll fix that when it has bitten us.
 
-### Turn the "IO hack" into the proper analysis it should have been, introducing `ConOrDiv`
+### Turn the "IO hack" into the proper analysis it should have been, introducing `ConOrDiv` (Step 2.2)
+
+We implemented this in !3014, but it had difficult to predict implications on performance, bugs and was very complicated. So this didn't make it into master.
 
 (In hindsight, this improvement is quite independent of #17676 and #13380, but similarly revolves around precise exceptions)
 
