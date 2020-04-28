@@ -16,7 +16,7 @@ Deciding whether to a put heap in case alternative branch is quite a delicate pr
 **Relevant Tickets:**
 
   * Improving Placement of Heap Checks - Avoiding Slowdowns in Hot Code #16064
-  * Optimisation: eliminate unnecessary heap check in recursive function #1498
+  * Optimization: eliminate unnecessary heap check in recursive function #1498
   * Place heap checks common in case alternatives before the case #8326. There is good discussion in this ticket.
   * Eliminate redundant heap allocations/deallocations #12231
   * Extending the idea to stack checks: [this comment](https://gitlab.haskell.org/ghc/ghc/issues/14791#note_150481) in #14791
@@ -38,10 +38,10 @@ Things that affect this decision:
    at the start of `f` is irrelevant to the branches. They must do their own checks.
  * If there is just one alternative, then it's always good to amalgamate
  * If there is heap allocation in the code before the case, then we are going to do a heap-check 
-   upstream anyway. In that case, don't do one in the alterantives too. The single check might 
+   upstream anyway. In that case, don't do one in the alternatives too. The single check might 
    allocate too much space, but the alternatives that use less space simply move `Hp` back down 
    again, which only costs one instruction
- * Otherwise, if there no heap allocation upstream, put heap checks in each alternative. The reasoning
+ * Otherwise, if there is no heap allocation upstream, put heap checks in each alternative. The reasoning
    here was that if one alternative needs heap and the other one doesn't we don't want to pay the 
    runtime for the heap check in the case where the heap-free alternative is taken.
 
@@ -94,7 +94,7 @@ This will produce the following Cmm(with `-O`):
 Currently we put a heap check before the `case`. In that particular scenario we do that because
 our scrutinee is a PrimOp (see `Note [GC for conditionals]`). Advantage: a single heap check will
 do for all alternatives that allocate, which may save code space. (A heap check takes quite a few
-instructions). There is an illuminating dicussion in `Note [Compiling case expressions]` in 
+instructions). There is an illuminating discussion in `Note [Compiling case expressions]` in 
 [GHC.StgToCmm.Expr](https://gitlab.haskell.org/ghc/ghc/-/blob/master/compiler/GHC/StgToCmm/Expr.hs).
 
 Our goal is to get the heap check out of the "hot" path - we would like to put it in the `DEFAULT`
