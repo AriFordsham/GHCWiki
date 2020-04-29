@@ -57,9 +57,45 @@ graph TD
 
 # Observable graph reduction
 
-Graph reduction is done behind the scene by the runtime system. Most of the time, Haskell programmers don't have to worry about it. Nevertheless we sometimes want to get some control on graph reduction to optimize some programs or to produce faster code.
+Graph reduction is done behind the scene by the runtime system. Most of the time Haskell programmers don't have to worry about it. Nevertheless they sometimes want to get some control on graph reduction to optimize memory usage and performance or to interact with external resources.
 
 GHC provides several mechanisms for this:
 1. finalizers: callbacks executed when a closure is collected
 2. `seq# a b`: control evaluation order: this expression evaluates to `b` but it evaluates `a` before returning `b`.
 3. `keepAlive# a f`: closure `a` is kept-alive (not collected) while `f` hasn't been evaluated
+
+Examples:
+
+* Release a foreign resources (memory, file descriptor...) when it isn't used anymore:
+
+```haskell
+let x = ForeignPtr p
+addFinalizer x (free p) 
+-- ... use x
+```
+
+* Evalute a big expression to a small result before storing it in a structure to avoid memory leak
+
+```haskell
+do
+  big <- read BIGARRAY
+  let r = indexArray 10 big
+  return (r `seq` MyValue r)
+  -- we don't want to keep `big` alive because of the thunk of `r`
+  -- which evaluates to a small value and is cheap to compute, hence we
+  -- force the evaluation of `r` before storing it in `MyValue` "box"
+```
+
+* Keep a memory region alive:
+
+```haskell
+do
+  addr <- mallocBytes 1000 -- return an Addr#
+  -- we can't add a finalizer to `addr`: it's not a closure but a usual pointer (a number)
+  -- so we add it to a `Ptr` closure boxing it:
+  let p = Ptr addr
+  addFinalizer p (free addr)
+  -- now we want to use `addr` directly (for performance reason)
+  -- but we must also keep the box `p` alive so that the finalizer isn't run!
+  keepAlive# p (performWorkWith addr)
+```
