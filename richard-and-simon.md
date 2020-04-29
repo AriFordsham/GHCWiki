@@ -5,6 +5,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 
 # Active agenda
 
+- #12088: SCC for kind inference: we know what to do, it's just a question of doing it. See also #7503, #14451.  [Here is the wiki page](https://gitlab.haskell.org/ghc/ghc/-/wikis/Type-&-Class-Dependency-Analysis)
 - Casts might get in the way of instantiation: #18062
 - #11602, 11371: exponential `promoteCoercion`
 - #11084, #6234: instance loading for type families
@@ -97,8 +98,6 @@ We should be clear about the dependencies between items on this list.
     ```
     Here `k` gets bound to `Type`.
 
-
-- #12088: SCC for kind inference: we know what to do, it's just a question of doing it. See also #7503, #14451.  This will be much easier once Proposal 54 is done.
 
 - [Proposal 126: Type applications in patterns](https://github.com/ghc-proposals/ghc-proposals/pull/126).   #11350, and dup #15530, MR !2464
 
