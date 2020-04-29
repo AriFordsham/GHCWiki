@@ -3,7 +3,7 @@
 With one command you can load GHC into GHCi (assuming a configured source tree: `./boot && ./configure`):
 
 ```
-./hadrian/ghci.sh
+./hadrian/ghci
 ```
 
 `ghcid` should also work without any further modifications.
