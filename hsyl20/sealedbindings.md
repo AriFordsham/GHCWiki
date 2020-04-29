@@ -124,15 +124,44 @@ If we inline `chp`, we lose this behavior:
 ```haskell
 let chp = E
 in E `seq#` f chp
--- `chp` isn't evaluated before we start evaluating `f chp`
+-- BAD: `chp` isn't evaluated before we start evaluating `f chp`
 
 let chp = E
 in chp `seq#` f E
--- `E` isn't evaluated before we start evaluating `f E`.
+-- BAD: `E` isn't evaluated before we start evaluating `f E`.
 -- `chp` is but it misses the whole point of the original expression as `chp` isn't used in `f E` anymore
 -- (we've lost sharing)
 
 let chp = E
 in E `seq#` f E
--- same as above
+-- BAD: same as above
+```
+
+2. Inlining and `keepAlive#` + finalizers
+
+In the following code, the intent is to keep `p` alive as long as `addr` is used: when `p` is collected, its finalizer frees the memory pointed by `addr`. We can't attach the finalizer to `addr` because it's not a closure.
+
+```haskell
+do
+  addr <- mallocBytes 1000
+  let p = Ptr addr
+  addFinalizer p (free addr)
+  keepAlive# p $ doSomethingWith addr
+```
+
+If we inline `p`, we lose the expected behavior:
+
+```haskell
+do
+  addr <- mallocBytes 1000
+  let p = Ptr addr
+  addFinalizer (Ptr addr) (free addr) -- BAD: finalizer is not added to `p`
+  keepAlive# p $ doSomethingWith addr
+
+do
+  addr <- mallocBytes 1000
+  let p = Ptr addr
+  addFinalizer p (free addr)
+  keepAlive# (Ptr addr) $ doSomethingWith addr -- BAD: we don't keep `p` alive but another (anonymous) closure
+                                               -- p`s finalizer may free the memory pointed by `addr` too soon and segfault ensues
 ```
