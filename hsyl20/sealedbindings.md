@@ -86,7 +86,7 @@ do
   -- force the evaluation of `r` before storing it in `MyValue` "box"
 ```
 
-* Keep a memory region alive:
+* Keep a memory region alive
 
 ```haskell
 do
@@ -99,3 +99,7 @@ do
   -- but we must also keep the box `p` alive so that the finalizer isn't run!
   keepAlive# p (performWorkWith addr)
 ```
+
+Note: this mechanism is also used for GHC managed `ByteArrays#`. When the `ByteArray#` is pinned we can get its memory address and use it like an external memory region: pass it to FFI functions, use efficient pointer operations (vector instructions), etc.
+
+# Issues
