@@ -103,3 +103,36 @@ do
 Note: this mechanism is also used for GHC managed `ByteArrays#`. When the `ByteArray#` is pinned we can get its memory address and use it like an external memory region: pass it to FFI functions, use efficient pointer operations (vector instructions), etc.
 
 # Issues
+
+In Haskell we can declare named closures with bindings (`let`/`where` clauses or top-level bindings). But Haskell programs are transformed *a lot* during compilation and currently we have no guaranty that the transformed code behave as we expect at runtime. Let's see some example of wrong transformations:
+
+## Inlining
+
+Inlining consists in replacing a binder occurrence (i.e. a variable) by a binder unfolding (i.e. the expression associated to the binder). The risk is to duplicate work because we lose sharing. But by doing this we may simplify/optimize the code at the occurrence site and maybe avoid the creation of the closure at all.
+
+1. Inlining + `seq#` (#2273)
+
+In the following code, the intent is to evaluate `chp` before evaluating `f chp` (which can be any expression using `chp`):
+
+```haskell
+let chp = E -- cheap expression
+in chp `seq#` f chp
+```
+
+If we inline `chp`, we lose this behavior:
+
+```haskell
+let chp = E
+in E `seq#` f chp
+-- `chp` isn't evaluated before we start evaluating `f chp`
+
+let chp = E
+in chp `seq#` f E
+-- `E` isn't evaluated before we start evaluating `f E`.
+-- `chp` is but it misses the whole point of the original expression as `chp` isn't used in `f E` anymore
+-- (we've lost sharing)
+
+let chp = E
+in E `seq#` f E
+-- same as above
+```
