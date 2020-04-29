@@ -586,3 +586,17 @@ type family El u where
 ```
 
 We need to go in this order: `U:sig, El:sig, U:def, El:def`
+
+**Induction-recursion** (but the other way around):
+
+```hs
+type T :: Type
+data T where
+  MkT :: Proxy @(F a) True -> T
+
+type F :: T -> Type
+type family F a where
+  F _ = Bool
+```
+
+We need to go in this order: `T:sig, F:sig, F:def, T:def`
