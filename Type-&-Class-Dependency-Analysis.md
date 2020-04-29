@@ -568,3 +568,21 @@ Here, we have that `F:sig` depends on `T:sig`. The extra Richard's Edge gives us
 ### The algorithm infers too few dependencies
 
 Even without the magical Richard's Edge, the example above is rejected, because there is nothing to say that `T:def` depends on `F:def`, which it needs to be accepted. At a first glance, we could look for the usage of `F` "one level up" as an indication that something depends on `F:def`, but that's bogus: in the presence of e.g. visible dependent quantification, there's no way to be sure what's one level up and what isn't.
+
+## Examples of things we would like to have
+
+**Induction-recursion**:
+
+```hs
+type U :: Type
+data U where
+  Nat :: U
+  Pi  :: forall (u :: U) -> El u -> U
+
+type El :: U -> Type
+type family El u where
+  El Nat      = Integer
+  El (Pi u e) = El u    -- not quite right for a real implementation
+```
+
+We need to go in this order: `U:sig, El:sig, U:def, El:def`
