@@ -411,7 +411,7 @@ You will sometimes see sets of counters with names of the form `$NAME_$suffix`. 
 <th> Total number of global heap allocations       
 </th></tr>
 <tr><th> <tt>ALLOC_PRIM_ctr</tt>                </th>
-<th> ?             </th>
+<th> Number of allocations done by primops (anything emitted by GHC.StgToCmm.Prim) </th>
 <th> 
 </th></tr>
 <tr><th> <tt>ALLOC_PRIM_adm</tt>                </th>
