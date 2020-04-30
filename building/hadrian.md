@@ -70,7 +70,7 @@ stage1.*.ghc-bin.link.opts += -ticky
 
 ### Building an eventlog-enabled stage2 compiler
 ```
-stage1.*.ghc-bin.link.opts += -eventlog
+stage1.ghc-bin.ghc.link.opts += -eventlog
 ```
 
 ## Shell aliases
