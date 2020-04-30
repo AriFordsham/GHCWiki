@@ -680,4 +680,28 @@ This effectively forces the sig and def to be in the same SCC.
 Thus the final algorithm is:
 
 1. Do sig/def analysis, using the 5 edge types described in this section.
-(saving; will continue later)
+
+2. For each SCC, visited in dependency order:
+
+    a. Infer missing sigs (today's algorithm):
+
+        i. Infer initial kinds for all definitions without sigs
+        ii. With the inferred initial kinds in scope: process the RHSs of these definitions and solve constraints, unifying metavariables
+        iii. Generalize kinds
+        iv. Place the now-inferred sigs at the top of the current SCC
+
+    b. Process the SCC in order from top to bottom
+
+This should be backward compatible. Today, the fact that sigs and defs are treated together is like having an edge from every sig to its def. All we do here is trim this unnecessary edge. Within an SCC, the new algorithm proceeds top-to-bottom. But if the new algorithm ever groups a sig with its def, then today's algorithm would reject the program with `APromotionErr`. So sigs should always be processed before defs, and all will be well in the world.
+
+The algorithm as described above processes unsig'd declarations twice: one to infer the missing sig, and one to actually do type-checking. This is actually just as it is today. But we can do better by caching some information from the first pass. As long as the inferred kinds are correct (they should be), we'll be OK.
+
+This algorithm also naturally allows us to separate out definitions to enhance polymorphism. For example:
+
+```hs
+type F :: ...
+type family F .....  ..... G .....
+type family G .....  ..... F .....
+```
+
+We want to infer `G`'s kind without looking at `F`'s right-hand side. But because we don't infer `F`'s kind in the algorithm above, this will happen without further dispensation.
