@@ -121,7 +121,7 @@ To add a new primop, you currently need to update the following files:
 
   - [includes/stg/MiscClosures.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/stg/MiscClosures.h) (just add the declaration),
   - [rts/PrimOps.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/PrimOps.cmm) (implement it here)
-  - [rts/Linker.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Linker.c) (declare the symbol for GHCi)
+  - [rts/Linker.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Linker.c) (declare the symbol for GHCi. Note that many are actually declared in `rts/RtsSymbols.c` and `#include`d into `rts/Linker.c`)
 
 - for a foreign out-of-line primop You do not need to modify the rts or compiler at all.
 
