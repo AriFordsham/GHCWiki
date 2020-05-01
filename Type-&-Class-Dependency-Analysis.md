@@ -614,7 +614,10 @@ The idea broadly starts in the same place as the proposal above about sig/def an
 3. Referencing a non-generative type constructor adds a dependency on its `:def`
 4. Referencing a data constructor adds a dependency on its parent's `:def`
 
-That's it. No magical Richard's edge. The new special cause is the differentiation between generative types and non-generative types, where the only non-generative type in GHC today is a type family. The idea is that once we mention a type family, we have no way of knowing whether we'll need its equations -- so we conservatively assume "yes". A generative type, on the other hand, is witnessed via constructors. So there's no need to add a dependency on a generative type's `:def` unless we actually spot a data constructor in use. (This is handled by (4), above.)
+That's it. No magical Richard's edge. The new special cause is the differentiation between generative types and non-generative types, where the only non-generative type in GHC today is a type family. The idea is this:
+* If a `:sig` for T refers to a data type D (generative), we know we can kind-check T's signature knowing only the *kind* (`:sig`) of D.  Of course if the `:sig` for T refers to one of D's data constructors, then we depend on D's `:def` -- that's (4) above.
+* If a `:sig` for T refers to a type family F (non-generative), we may need the *equations* (`:def`) of F simply to kind-check the signature for T.  The kind of F alone may be enough, but we conservative assume we need its equations, and depend on F's `:def`.
+
 
 After we perform the dependency analysis according to this algorithm, we may end up with strongly connected components (SCCs). Here is an example:
 
