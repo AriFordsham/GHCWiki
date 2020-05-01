@@ -641,7 +641,7 @@ Note that this works just fine with normal mutually recursive type families, say
 
 If someone writes `type T :: T -> Type`, then that will be in an SCC all by itself. So far, so good. Then, however, when checking the type of `T`, `T` won't be available, and we'll issue an error -- just as we should. (This is quite similar to the `APromotionErr` we handle today.)
 
-A further advantage of this approach is that it allows us to type-check instances in order, which allows more than the original sig/def plan would. For example (:
+The spec "process all components in an SCC in source order" means processing each individual declaration, *one by one*.  In particular, treat each individual `type instance` equation separately, adding it to the type-instance environment as we go.  (In contrast, the previous plan implied checking all the instance of a single type family together, and only then adding them to the environment.)  This would allow us to typecheck more than before:
 
 ```hs
 type family Open a
