@@ -677,7 +677,8 @@ This extra analysis is optional, and may not be worth it in terms of both specif
 All of the discussion so far has centered on definitions with sigs. But, of course, Haskell does not require sigs. (We consider CUSKs to be sigs written in a strange syntax. So a type without a sig is also one without a CUSK.) The idea here is that GHC already has an algorithm for inferring the kind of a type without a sig. So, the goal is just to use that algorithm.
 
 More concretely, we add a new edge
- 5. A type without a syntactic sig induces a (strong) dependency from its `:sig` to its `:def`.
+
+5. A type without a syntactic sig induces a (strong) dependency from its `:sig` to its `:def`.
 
 This effectively forces the sig and def to be in the same SCC.
 
