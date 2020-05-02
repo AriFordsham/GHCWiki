@@ -20,6 +20,7 @@ Deciding whether to a put heap in case alternative branch is quite a delicate pr
   * Place heap checks common in case alternatives before the case #8326. There is good discussion in this ticket.
   * Eliminate redundant heap allocations/deallocations #12231
   * Extending the idea to stack checks: [this comment](https://gitlab.haskell.org/ghc/ghc/issues/14791#note_150481) in #14791
+  * Optimisation: eliminate unnecessary heap check in recursive function #1498
 
 ### Current strategy 
 
@@ -33,24 +34,24 @@ datatype from [GHC.StgToCmm.Expr](https://gitlab.haskell.org/ghc/ghc/-/blob/mast
                   DEFAULT -> <rhs2>
 ```
 Things that affect this decision:
-
+ * If the scrutinee is a boolean condition then do the heap check before - See Note [GC for conditionals] 
  * If the scrutinee `<scrut>` requires any non-trivial work, we MUST `GcInAlts`. For example if 
    `<scrut>` was `(g x)`, then calling `g` might result in lots of allocation, so any heap check done 
    at the start of `f` is irrelevant to the branches. They must do their own checks.
- * If there is just one alternative, then it's always good to amalgamate
+ * If there is just one alternative, then it's always good to amalgamate.
  * If there is heap allocation in the code before the case, then we are going to do a heap-check 
    upstream anyway. In that case, don't do one in the alternatives too. The single check might 
    allocate too much space, but the alternatives that use less space simply move `Hp` back down 
-   again, which only costs one instruction
+   again, which only costs one instruction(TODO: Does it do it now? Check it)
  * Otherwise, if there is no heap allocation upstream, put heap checks in each alternative. The reasoning
    here was that if one alternative needs heap and the other one doesn't we don't want to pay the 
    runtime for the heap check in the case where the heap-free alternative is taken.
 
 ---
 
-### What's wrong with the current strategy
+### Current setting
 
-Now let's consider this program:
+Consider this program:
 
 ```
 data X a = X { runX :: !a }
@@ -100,15 +101,19 @@ do for all alternatives that allocate, which may save code space. (A heap check 
 instructions). There is an illuminating discussion in `Note [Compiling case expressions]` in 
 [GHC.StgToCmm.Expr](https://gitlab.haskell.org/ghc/ghc/-/blob/master/compiler/GHC/StgToCmm/Expr.hs).
 
-Our goal is to get the heap check out of the "hot" path - we would like to put it in the `DEFAULT`
-branch only; the 1# branch does not allocate.
+Our goal is to get the heap check out of the "hot" path - we would like to put it in alts. It should be possible to make this decision when:
+
+1. A primitive case with no allocation upstream from it.
+1. One alternative that performs no allocation.
+
+Under such circumstances the stack/heap checks can be moved from being performed on every iteration to being performed just prior to the allocation itself.
 
 ### Proposed new strategy
 
 The idea of the new strategy is this:
 * If one or more of the case alternatives does not allocate,
 * AND upstream does not allocate
-* THEN put the heap check in the alternatives (obviously just the ones that do)
+* THEN put the heap check in the alternatives
 
 Knowing whether it allocates is pretty simple. Perhaps we could also accurately predict how much it 
 allocates, which would reduce the tricky getHeapUsage plumbing in the `FCode` monad. That is quite an 
@@ -124,13 +129,13 @@ attractive thought too... The basic idea is that
 ## Implementation Plan
 
 The idea would be to attach to each case alternative a single boolean saying "does this alternative 
-allocate (at all)?".  Then the code generator could consult that boolean to decide the GCPlan, and we
+allocate?".  Then the code generator could consult that boolean to decide the GCPlan, and we
 could try different GC plans very easily.
 
 1) Augment GenStgAlt with extra boolean flag to carry "does it allocate" info
-2) Before codegen, perhaps in `annTopBindingsFreeVars`, determine for each case alternative in STG
+2) Before codegen, in `annTopBindingsFreeVars`, determine for each case alternative in STG
 whether it allocates.
-3) During codegen, use that info, plus info about whether any allocation has taken place prior to 
+3) During code generation use that info, plus info about whether any allocation has taken place prior to 
 the case, to decide on the `GcPlan`.
 
 Tricky bit: even if there are multiple branches that allocate, if the branches that do not are the 
