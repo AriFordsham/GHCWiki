@@ -28,7 +28,7 @@
 
 # Nested CPR
 
-#1600, !1866.
+Main ticket: #18174, MR !1866.
 
 - CPR of DataCon wrappers
   - Possibly relevant if re-exported (but maybe not, stuff only cancels away if
