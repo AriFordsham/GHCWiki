@@ -135,6 +135,7 @@ These labels identify compiler subsystems which are in some way implicated in a 
 
 ## Optimisations
 
+ * ~"Arity": Arity analysis (`GHC.Core.Arity`) figures out how many value arguments a function eats before doing real work
  * ~"CPR analysis": Constructed Product Result analysis
  * ~"CSE": Common Subexpression Elimination optimisation
  * ~"demand analysis": Demand (strictness) analysis
