@@ -66,10 +66,10 @@ Should you want to debug or enhance the benchmark harness, look into `mk/boilerp
 
 
 To compare the results of multiple runs, use the program
-[nofib/nofib-analyse](https://git.haskell.org/nofib.git/tree/HEAD:/nofib-analyse).  Something like this:
+[nofib/nofib-analyse/nofib-analyse](https://git.haskell.org/nofib.git/tree/HEAD:/nofib-analyse).  Something like this:
 
 ```wiki
-  $ nofib-analyse nofib-log-6.4.2 nofib-log-6.6
+  $ nofib-analyse/nofib-analyse nofib-log-6.4.2 nofib-log-6.6
 ```
 
 
