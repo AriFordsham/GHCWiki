@@ -172,3 +172,11 @@ To get some insights into changes to optimisations in the backend you can compil
 ## Windows Hints
 
 nofib these days uses symlinks. So you need to setup your systems to support them properly. See eg here: https://www.joshkel.com/2018/01/18/symlinks-in-windows/
+
+## OS X Hints
+
+If you are getting this error:
+```
++warning: no debug symbols in executable (-arch x86_64)
+```
+See https://gitlab.haskell.org/ghc/nofib/issues/7
