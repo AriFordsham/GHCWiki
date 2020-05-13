@@ -1,11 +1,11 @@
 # Cmm syntax
 
 The GHC has three different syntaxes for Cmm:
-  * Hand-writing syntax by [`CmmParse.y`][1] (e.g. [`PrimOps.cmm`][2])
-  * Pretty-printing syntax by [`PprCmm.hs`][3] (as [`ghc --ddump-cmm`][4])
-  * Intermediate representation in [`Cmm.hs`][5]
+  * Hand-writing syntax by [`GHC/Cmm/Parser.y`][1] (e.g. [`PrimOps.cmm`][2])
+  * Pretty-printing syntax by [`GHC/Cmm/Ppr.hs`][3] (as [`ghc --ddump-cmm`][4])
+  * Intermediate representation in [`GHC/Cmm.hs`][5]
 
-To improve readability of Cmm files, this page shows the hand-writing syntax defined by `CmmParse.y`.
+To improve readability of Cmm files, this page shows the hand-writing syntax defined by `GHC/Cmm/Parser.y`.
 
 See [Code Generator][9] and [The Runtime System][10].  
 See also [cmm-type][6].
@@ -13,7 +13,7 @@ See also [cmm-type][6].
 
 ## Cmm hand-writing syntax
 
-Following syntax was manually extracted from [`CmmParse.y`][1] at commit 11bac11545.
+Following syntax was manually extracted from [`GHC/Cmm/Parser.y`][1] at commit 11bac11545.
 
 
 ```
@@ -241,7 +241,7 @@ typenot8 →  'bits16'
           | 'gcptr'
 ```
 
-See also [`CmmLex.x`][7] for lexical tokens. For instance:
+See also [`GHC/Cmm/Lexer.x`][7] for lexical tokens. For instance:
 
 ```
 GLOBALREG →  P@decimal
@@ -265,7 +265,7 @@ GLOBALREG →  P@decimal
 
 ## Built-in macros and primitives
 
-Some built-in macros and primitives are defined for Cmm hand-writing syntax in [`CmmParse.y`][1].
+Some built-in macros and primitives are defined for Cmm hand-writing syntax in [`GHC/Cmm/Parser.y`][1].
 
 Built-in expression macros (exprMacros):
 
@@ -417,13 +417,13 @@ Those macros are defined in [`includes/Cmm.h`][8].
 
 
 
-[1]: https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmParse.y
+[1]: https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Parser.y
 [2]: https://gitlab.haskell.org/ghc/ghc/blob/master/rts/PrimOps.cmm
-[3]: https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/PprCmm.hs
+[3]: https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Ppr.hs
 [4]: https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/debugging.html#c-representation
-[5]: https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/Cmm.hs
+[5]: https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm.hs
 [6]: https://gitlab.haskell.org/ghc/ghc/wikis/commentary/compiler/cmm-type
-[7]: https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmLex.x
+[7]: https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Lexer.x
 [8]: https://gitlab.haskell.org/ghc/ghc/blob/master/includes/Cmm.h
 [9]: https://gitlab.haskell.org/ghc/ghc/wikis/commentary/compiler/code-gen
 [10]: https://gitlab.haskell.org/ghc/ghc/wikis/commentary/rts
