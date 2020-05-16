@@ -40,20 +40,20 @@ The idea behind #6018 is to allow users to declare that a type family is
 injective.  We have identified three forms of injectivity:
 
 1. Injectivity in all the arguments, where knowing the result (right-hand
-  side) of a type family determines all the arguments on the left-hand
-  side. Examples:
+   side) of a type family determines all the arguments on the left-hand
+   side. Examples:
 
-```haskell
-type family Id a where
-     Id a = a
-```
+   ```haskell
+   type family Id a where
+        Id a = a
+   ```
 
-```haskell
-type family F a b c
-type instance F Int  Char Bool = Bool
-type instance F Char Bool Int  = Int
-type instance F Bool Int  Char = Char
-```
+   ```haskell
+   type family F a b c
+   type instance F Int  Char Bool = Bool
+   type instance F Char Bool Int  = Int
+   type instance F Bool Int  Char = Char
+   ```
 
 1. Injectivity in some of the arguments, where knowing the RHS of a type
    family determines only some of the arguments on the LHS. Example:
