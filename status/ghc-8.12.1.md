@@ -34,6 +34,7 @@ Below are the major highlights of the 8.12 series.
 * [x] Refactoring of GHC module hierarchy
 * [ ] New Darwin packaging (#17418, #17854, @trac-conradwt)
 * [ ] New Windows packaging? (#18104)
+* [ ] WinIO IO manager for Windows (@Phyx, @AndreasK)
 
 ### Runtime system
 
