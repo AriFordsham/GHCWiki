@@ -23,32 +23,26 @@ Below are the major highlights of the 8.12 series.
 
 ### Compiler
 
-
-* `QualifiedDo` (@matt, [Proposal #216](https://github.com/ghc-proposals/ghc-proposals/pull/216))
-* Signalling NaNs (@carter, #16519)
-* NCG register allocation improvements (@AndreasK)
-* Documentation improvements (@Kleidukos)
-* Simplified subsumption (@simonpj)
-* 
+* [ ] `QualifiedDo` (@matt, [Proposal #216](https://github.com/ghc-proposals/ghc-proposals/pull/216))
+* [ ] Signalling NaNs (@carter, #16519)
+* [ ] NCG register allocation improvements (@AndreasK)
+* [ ] Various documentation improvements (@Kleidukos)
+* [x] Simplified subsumption (@simonpj)
+* [x] Explicit specificity in type variable binders (@gertjan423, #16393)
+* [ ] `keepAlive#` (#17760, @bgamari)
+* [ ] Improvements in code generation for `runRW#` (#15127, @bgamari)
+* [x] Refactoring of GHC module hierarchy
+* [ ] New Darwin packaging (#17418, #17854, @trac-conradwt)
+* [ ] New Windows packaging? (#18104)
 
 ### Runtime system
 
- - Further improvements to the low-latency garbage collector (@bgamari)
- - Implement interfaces needed by [ghc-debug](https://github.com/bgamari/ghc-debug) (!1435)
+ - [ ] Further improvements to the low-latency garbage collector (@bgamari)
+ - [ ] Implement interfaces needed by [ghc-debug](https://github.com/bgamari/ghc-debug) (!1435)
 
 ### Build system and miscellaneous changes
 
-- [Reinstallable lib:ghc](https://mail.haskell.org/pipermail/ghc-devs/2017-July/014424.html)
 - The Hadrian build system will hopefully become the default
-
-## Landed in `master` branch
-
-
-### Library changes
-
-
-### Build system and miscellaneous changes
-
 
 ## Tickets
 
