@@ -4,7 +4,7 @@
 PrimOps are functions that cannot be implemented in Haskell, and are provided natively by GHC.  For example, adding two `Int#` values is provided as the PrimOp `+#`, and allocating a new mutable array is the PrimOp `newArray#`.
 
 
-PrimOps are made available to Haskell code through the virtual module `GHC.Prim`.  This module has no implementation, and its interface never resides on disk: if `GHC.Prim` is imported, we use a built-in `ModIface` value - see `ghcPrimIface` in [compiler/iface/LoadIface.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/iface/LoadIface.hs).
+PrimOps are made available to Haskell code through the virtual module `GHC.Prim`.  This module has no implementation, and its interface never resides on disk: if `GHC.Prim` is imported, we use a built-in `ModIface` value - see `ghcPrimIface` in [compiler/GHC/Iface/Load.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Iface/Load.hs).
 
 
 It would also be useful to look at the [Wired-in and known-key things](commentary/compiler/wired-in) wiki page to understand this topic.
@@ -12,7 +12,7 @@ It would also be useful to look at the [Wired-in and known-key things](commentar
 ## The primops.txt.pp file
 
 
-The file [compiler/prelude/primops.txt.pp](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/prelude/primops.txt.pp) includes all the information the compiler needs to know about a PrimOp, bar its actual implementation.  For each PrimOp, `primops.txt.pp` lists:
+The file [compiler/GHC/Builtin/primops.txt.pp](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Builtin/primops.txt.pp) includes all the information the compiler needs to know about a PrimOp, bar its actual implementation.  For each PrimOp, `primops.txt.pp` lists:
 
 - Its name, as it appears in Haskell code (eg. int2Integer\#)
 - Its type
@@ -32,7 +32,7 @@ primop   IntegerMulOp   "timesInteger#" GenPrimOp
 
 The `primops.txt.pp` file is processed first by CPP, and then by the `genprimopcode` program (see [utils/genprimopcode](https://gitlab.haskell.org/ghc/ghc/blob/master/utils/genprimopcode)).  `genprimopcode` generates the following bits from `primops.txt.pp`:
 
-- Various files that are `#include`d into [compiler/prelude/PrimOp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/prelude/PrimOp.hs),
+- Various files that are `#include`d into [compiler/GHC/Builtin/PrimOps.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Builtin/PrimOps.hs),
   containing declarations of data types and functions describing the PrimOps.  See
   [compiler/Makefile](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/Makefile).
 
@@ -57,7 +57,7 @@ PrimOps are divided into two categories for the purposes of implementation: inli
 ### Inline PrimOps
 
 
-Inline PrimOps are operations that can be compiled into a short sequence of code that never needs to allocate, block, or return to the scheduler for any reason.  An inline PrimOp is compiled directly into [Cmm](commentary/rts/cmm) by the [code generator](commentary/compiler/code-gen).  The code for doing this is in [compiler/codeGen/StgCmmPrim.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/codeGen/StgCmmPrim.hs).
+Inline PrimOps are operations that can be compiled into a short sequence of code that never needs to allocate, block, or return to the scheduler for any reason.  An inline PrimOp is compiled directly into [Cmm](commentary/rts/cmm) by the [code generator](commentary/compiler/code-gen).  The code for doing this is in [compiler/GHC/StgToCmm/Prim.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/StgToCmm/Prim.hs).
 
 ### Out-of-line PrimOps
 
@@ -73,7 +73,7 @@ All other PrimOps are classified as out-of-line, and are implemented by hand-wri
   C-- code for these PrimOps: we don't have to write code for multiple calling conventions.
 
 
-It's possible to provide inline versions of out-of-line PrimOps. This is useful when we have enough static information to generated a short, more efficient inline version. For example, a call to `newArray# 8# init` can be implemented more efficiently as an inline PrimOp as the heap check for the array allocation can be combined with the heap check for the surrounding code. See `shouldInlinePrimOp` in [compiler/codeGen/StgCmmPrim.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/codeGen/StgCmmPrim.hs).
+It's possible to provide inline versions of out-of-line PrimOps. This is useful when we have enough static information to generated a short, more efficient inline version. For example, a call to `newArray# 8# init` can be implemented more efficiently as an inline PrimOp as the heap check for the array allocation can be combined with the heap check for the surrounding code. See `shouldInlinePrimOp` in [compiler/GHC/StgToCmm/Prim.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/StgToCmm/Prim.hs).
 
 ### Foreign out-of-line PrimOps and `foreign import prim`
 
@@ -105,12 +105,12 @@ It has been suggested that we extend this PrimOp definition and import method to
 
 To add a new primop, you currently need to update the following files:
 
-- [compiler/prelude/primops.txt.pp](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/prelude/primops.txt.pp), which includes the
+- [compiler/GHC/Builtin/primops.txt.pp](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Builtin/primops.txt.pp), which includes the
   type of the primop, and various other properties.  Syntax and
   examples are in the file.
 
 - if the primop is inline, then:
-  [compiler/codeGen/StgCmmPrim.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/codeGen/StgCmmPrim.hs) defines the translation of
+  [compiler/GHC/StgToCmm/Prim.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/StgToCmm/Prim.hs) defines the translation of
   the primop into `Cmm`.
 
 
@@ -148,9 +148,9 @@ In addition, if new primtypes are being added, the following files need to be up
   
 
 
-- [compiler/prelude/PrelNames.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/prelude/PrelNames.hs) -- add a new unique id using mkPreludeTyConUnique
+- [compiler/GHC/Builtin/Names.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Builtin/Names.hs) -- add a new unique id using mkPreludeTyConUnique
 
-- [compiler/prelude/TysPrim.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/prelude/TysPrim.hs) -- there are a raft of changes here; you need to create `*PrimTy`, `*PrimTyCon` and  `*PrimTyConName` variables. The most important thing to make sure you get right is when you make a PrimTyCon, you pick the correct `PrimRep` for your type.  For example, if you’ve introduced a new GC'able object, you should use `PtrRep`; however, if it's a pointer that shouldn't be GC'd, you should use `AddrRep` instead.  The full list is in [compiler/types/TyCon.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/types/TyCon.hs)
+- [compiler/GHC/Builtin/Types/Prim.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Builtin/Types/Prim.hs) -- there are a raft of changes here; you need to create `*PrimTy`, `*PrimTyCon` and  `*PrimTyConName` variables. The most important thing to make sure you get right is when you make a PrimTyCon, you pick the correct `PrimRep` for your type.  For example, if you’ve introduced a new GC'able object, you should use `PtrRep`; however, if it's a pointer that shouldn't be GC'd, you should use `AddrRep` instead.  The full list is in [compiler/GHC/Core/TyCon.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Core/TyCon.hs)
 
 
 See also [AddingNewPrimitiveOperations](adding-new-primitive-operations), a blow-by-blow description of the process for adding a new out-of-line primop from someone who went through the process.
