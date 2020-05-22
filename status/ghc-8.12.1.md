@@ -13,9 +13,9 @@ If you believe your favorite thing belongs in this list, but isn't there, please
 * 25 September 2020: Final 8.12.1 release
 
 
-## Libraries Status
+## Migration details
 
-See Libraries? and [Migration/8.12](/migration/8.12).
+See [Migration/8.12](/migration/8.12).
 
 ## Release highlights (planned)
 
@@ -23,6 +23,7 @@ Below are the major highlights of the 8.12 series.
 
 ### Compiler
 
+* [ ] Linear Types (@aspiwack, !852, #15981) 
 * [ ] `QualifiedDo` (@matt, [Proposal #216](https://github.com/ghc-proposals/ghc-proposals/pull/216))
 * [ ] Signalling NaNs (@carter, #16519)
 * [ ] NCG register allocation improvements (@AndreasK)
