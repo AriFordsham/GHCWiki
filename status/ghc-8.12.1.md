@@ -35,6 +35,9 @@ Below are the major highlights of the 8.12 series.
 * [ ] New Darwin packaging (#17418, #17854, @trac-conradwt)
 * [ ] New Windows packaging? (#18104)
 * [ ] WinIO IO manager for Windows (@Phyx, @AndreasK)
+* [ ] Reduce `FastString` memory consumption (!1675, @dxld)
+* [ ] Improved GC behavior due to `ModIface` in compact region (@mpickering)
+* [ ] Make `Q (TExp a)` a newtype (@mpickering, [Proposal 195](https://github.com/ghc-proposals/ghc-proposals/pull/216))
 
 ### Runtime system
 
@@ -50,5 +53,3 @@ Below are the major highlights of the 8.12 series.
 See the %8.12.1 milestone.
 
 See also [GHC 8.12 tracking ticket](https://gitlab.haskell.org/ghc/ghc/issues/18216).
-
-
