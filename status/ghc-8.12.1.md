@@ -32,7 +32,7 @@ Below are the major highlights of the 8.12 series.
 * [x] Explicit specificity in type variable binders (@gertjan423, #16393)
 * [ ] `keepAlive#` (#17760, @bgamari)
 * [ ] Improvements in code generation for `runRW#` (#15127, @bgamari)
-* [x] Refactoring of GHC module hierarchy
+* [x] Refactoring of GHC module hierarchy (#13009, @hsyl20)
 * [ ] New Darwin packaging (#17418, #17854, @trac-conradwt)
 * [ ] New Windows packaging? (#18104)
 * [ ] WinIO IO manager for Windows (@Phyx, @AndreasK)
