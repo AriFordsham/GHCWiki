@@ -40,6 +40,7 @@ Below are the major highlights of the 8.12 series.
 * [ ] Improved GC behavior due to `ModIface` in compact region (@mpickering)
 * [ ] Make `Q (TExp a)` a newtype (@mpickering, [Proposal 195](https://github.com/ghc-proposals/ghc-proposals/pull/216))
 * [ ] AArch64 linker fixes (@angerman)
+* [ ] unified ghc-bignum package (!2231, @hsyl20)
 
 ### Runtime system
 
