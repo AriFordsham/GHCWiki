@@ -213,7 +213,7 @@ data PmPat :: PatTy -> * where
             , pm_con_tvs     :: [TyVar]
             , pm_con_dicts   :: [EvVar]
             , pm_con_args    :: [PmPat t] } -> PmPat t
-            -- For PmCon arguments' meaning see @ConPatOut@ in hsSyn/HsPat.hs
+            -- For PmCon arguments' meaning see @ConPatOut@ in GHC/Hs/Pat.hs
   PmVar  :: { pm_var_id   :: Id    } -> PmPat t
   PmLit  :: { pm_lit_lit  :: PmLit } -> PmPat t -- See Note [Literals in PmPat]
   PmNLit :: { pm_lit_id   :: Id
@@ -227,7 +227,7 @@ Literal patterns are not essential for the algorithm to work, but it is
 more efficient to treat them more like constructors by matching against them eagerly than
 generating equality constraints to feed the term oracle with (as we do in the paper). Additionally,
 we use negative patterns (constructor `PmNLit`), for efficiency also. `PmCon` contains several
-fields, effectively copying constructor `ConPatOut` of type `Pat` (defined in `hsSyn/HsPat.hs`).
+fields, effectively copying constructor `ConPatOut` of type `Pat` (defined in `GHC/Hs/Pat.hs`).
 Since the algorithm runs post-typechecking, we have a lot of information available for the
 treatment of GADTs.
 
@@ -288,7 +288,7 @@ empty or not afterwards, we check on the fly and use just a boolean for each.
 
 The algorithm process as follows:
 
-- Translate a clause (which contains `Pat`s, defined in `hsSyn/HsPat.hs`) to `PatVec`s (`translatePat`
+- Translate a clause (which contains `Pat`s, defined in `GHC/Hs/Pat.hs`) to `PatVec`s (`translatePat`
   is the workhorse):
 
   ```

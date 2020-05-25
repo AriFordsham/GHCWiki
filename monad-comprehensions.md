@@ -119,7 +119,7 @@ Note that the actual implementation is **not** using the `do`-Notation, it's onl
 ## Implementation details
 
 
-Monad comprehensions had to change the `StmtLR` data type in the `hsSyn/HsExpr.lhs` file in order to be able to lookup and store all functions required to desugare monad comprehensions correctly (e.g. `return`, `(>>=)`, `guard` etc). Renaming is done in `rename/RnExpr.lhs` and typechecking in `typecheck/TcMatches.lhs`. The main desugaring is done in `deSugar/DsListComp.lhs`. If you want to start hacking on monad comprehensions I'd look at those files first.
+Monad comprehensions had to change the `StmtLR` data type in the `GHC/Hs/Expr.lhs` file in order to be able to lookup and store all functions required to desugare monad comprehensions correctly (e.g. `return`, `(>>=)`, `guard` etc). Renaming is done in `rename/RnExpr.lhs` and typechecking in `typecheck/TcMatches.lhs`. The main desugaring is done in `deSugar/DsListComp.lhs`. If you want to start hacking on monad comprehensions I'd look at those files first.
 
 
 Some things you might want to be aware of:

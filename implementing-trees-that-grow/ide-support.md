@@ -44,7 +44,7 @@ This can be achieved by making use of the mechanics listed below. If it turns ou
 
 
 
-`hsSyn/HsExtension.hs` would be extended to
+`GHC/Hs/Extension.hs` would be extended to
 
 
 ```

@@ -313,8 +313,8 @@ Below is a list of primary source code locations that implement injectivity:
 
 Relevant source code notes are:
 
-- `Note [FamilyResultSig]` in [compiler/hsSyn/HsDecls.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsDecls.hs)
-- `Note [Injectivity annotation]` in [compiler/hsSyn/HsDecls.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsDecls.hs)
+- `Note [FamilyResultSig]` in [compiler/GHC/Hs/Decls.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs/Decls.hs)
+- `Note [Injectivity annotation]` in [compiler/GHC/Hs/Decls.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs/Decls.hs)
 - `Note [Injective type families]` in [compiler/types/TyCon.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/types/TyCon.hs)
 - `Note [Renaming injectivity annotation]` in [compiler/rename/RnSource.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/rename/RnSource.hs)
 - `Note [Verifying injectivity annotation]` in [compiler/types/FamInstEnv.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/types/FamInstEnv.hs)

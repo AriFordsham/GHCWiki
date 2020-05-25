@@ -19,7 +19,7 @@ By "subsume" we mean that it should be possible to instantiate TTG [HsSyn](imple
 
 The subsumption of above five ASTs is done by providing instances for the extension type families.
 For instance, the AST for GHC's parsing, renaming, and typechecking are defined by providing instances of the extension type families using accordingly the indices `GhcPs`, `GhcRn`, and `GhcTc`.
-[Here](https://github.com/ghc/ghc/blob/master/compiler/hsSyn/HsExpr.hs#L737-L835) is the actual code providing such instances for the `HsExpr` datatype of expressions in the TTG [HsSyn](implementing-trees-that-grow/hs-syn).
+[Here](https://github.com/ghc/ghc/blob/master/compiler/GHC/Hs/Expr.hs#L737-L835) is the actual code providing such instances for the `HsExpr` datatype of expressions in the TTG [HsSyn](implementing-trees-that-grow/hs-syn).
 
 ## General pattern for TTG
 

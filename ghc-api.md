@@ -26,7 +26,7 @@ tool writers to use the GHC API.
 
 >
 >
-> In the past it was difficult to work with the GHC AST as any generic traversals had to carefully tiptoe around an assortment of panic and undefined expressions. These have now been removed, by uses of `PostRn`, `PostTc`, etc, allowing standard traversal libraries to be used.  See module `hsSyn/PlaceHolder`.
+> In the past it was difficult to work with the GHC AST as any generic traversals had to carefully tiptoe around an assortment of panic and undefined expressions. These have now been removed, by uses of `PostRn`, `PostTc`, etc, allowing standard traversal libraries to be used.  See module `GHC/Hs/PlaceHolder`.
 >
 >
 

@@ -9,15 +9,15 @@ The program is initially parsed into "**`HsSyn`**", a collection of data types t
 
 The `HsSyn` modules live in the [compiler/hsSyn](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn) directory.  Each module declares a related group of declarations, *and* gives their pretty-printer.
 
-- [compiler/hsSyn/HsSyn.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsSyn.hs): the root module.  It exports everything you need, and it's generally what you should import.
-- [compiler/hsSyn/HsBinds.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsBinds.hs): bindings.
-- [compiler/hsSyn/HsImpExp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsImpExp.hs): imports and exports.
-- [compiler/hsSyn/HsDecls.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsDecls.hs): top-level declarations.
-- [compiler/hsSyn/HsExpr.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsExpr.hs): expressions, match expressions, comprehensions.
-- [compiler/hsSyn/HsLit.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsLit.hs): literals.
-- [compiler/hsSyn/HsPat.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsPat.hs): patterns.
-- [compiler/hsSyn/HsTypes.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsTypes.hs): types.
-- [compiler/hsSyn/HsUtils.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn/HsUtils.hs): utility functions (no data types).
+- [compiler/GHC/Hs.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs.hs): the root module.  It exports everything you need, and it's generally what you should import.
+- [compiler/GHC/Hs/Binds.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs/Binds.hs): bindings.
+- [compiler/GHC/Hs/ImpExp.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs/ImpExp.hs): imports and exports.
+- [compiler/GHC/Hs/Decls.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs/Decls.hs): top-level declarations.
+- [compiler/GHC/Hs/Expr.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs/Expr.hs): expressions, match expressions, comprehensions.
+- [compiler/GHC/Hs/Lit.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs/Lit.hs): literals.
+- [compiler/GHC/Hs/Pat.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs/Pat.hs): patterns.
+- [compiler/GHC/Hs/Type.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs/Type.hs): types.
+- [compiler/GHC/Hs/Utils.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs/Utils.hs): utility functions (no data types).
 
 
 There is significant mutual recursion between modules, and hence a couple of `hs-boot` files. Look at [ModuleDependencies](module-dependencies) to see the dependencies.
