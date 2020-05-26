@@ -230,214 +230,53 @@ And that it gets desugared into the following Core:
 
 ```haskell
 keepAlive# (Var k) b ===> case {k} b of b' -> { DEFAULT -> b' }
-keepAlive# a       b ===> case a of k -> { DEFAULT -> case {k} b of b' -> { DEFAULT -> b' } }
+keepAlive# a       b ===> compile time error
 ```
 
-Where `{k}` in `case {k} scrut of ...` is a set of variable names to keep
-alive while evaluating `scrut`. Let's call it the keep-alive set.
+Where `{k}` in `case {k} scrut of ...` is a set of variable **names** to keep alive while evaluating `scrut`. Let's call it the keep-alive set.
 
-Most Core optimizations work as before: we just have to take into account that
-variables in keep-alive sets are free variables of case-expressions.
+**The semantics is clear: variables in the keep-alive set must be kept alive until the scrutinee is evaluated.**
 
-We carry keep-alive sets into STG's case-expressions.
+Compilation is straightforward:
+- STG: keep-alive sets are carried into STG's case-expressions exactly like in Core
+- Cmm: keep-alive sets are desugared into `touch#` pseudo-instructions placed just after case scrutinee evaluation code
+- CmmToAsm: we drop `touch#` pseudo-ops as we currently do
 
-In Cmm we can have a `void keepAlive#(StgClosure * a)` pseudo-instruction. In
-`GHC.StgToCmm.Expr.cgCase`, we generate `keepAlive#` instructions just after the
-evaluation of the scrutinee.
+Advantages of this approach:
+1. most optimizations (case-of-case, case-of-known constructor, w/w...) can work as before. BUT we need to tweak them a little to take keep-alive sets into account (see below)
+2. we don't have to deal with a continuation as would be the case if we kept `keepAlive#` as a magic function in Core
+3. performance is as good as it is today (no stack frame, most optimizations still work, cf 1) 
+4. most changes to the compiler are located into GHC.Core.Opt.*
 
-In `GHC.CmmToAsm`, we just have to drop every Cmm `keepAlive#` instruction: the
-code-generator would have ensured that its argument is alive down to this
-instruction and that's exactly what we want.
+A drawback of this approach is that Core transformations have to be reviewed to check that they are still valid when we take keep-alive sets into account. BUT we would probably have to do this anyway for other approaches because we really really want to perform some Core transformations over `keepAlive#`.
 
-### Transformations
+Let's review some analyzes and transformations:
 
+1. freevars: freeVars(case {k} scrut of alts) = k + freeVars(case scrut of alts)
 
-Most transformations are unchanged (we will need to check them when we will add
-the keep-alive field). We need to take the keep-alive set into account (e.g. to
-avoid floating in a binding bounding one of the keep-alive variable).
+2. case-of-case
 
-One change is that we can't discard case-expressions with non empty keep-alive
-sets. E.g.
+```haskell
+case {k} (case {k2} x of .. -> a; ... -> b) of
+  C0 .. -> e1
+  C1 .. -> e2
+
+===>
+
+case {k,k2} x of
+   ... -> case {k} a of { C0 .. -> e1; C1 ... -> e2 }
+   ... -> case {k} b of { C0 .. -> e1; C1 ... -> e2 }
+```
+
+3. case-of-known-constructor (or anything in WHNF)
+
+```haskell
+case {k} whnf of ... ===> case whnf of ...
+```
+
+4. Note that we can't discard case-expressions with non-empty keep-alive sets. E.g.
 
 ```haskell
 -- x is in WHNF, has no side effects, etc. (cf GHC.Core.Opt.Simplify.rebuildCase)
 case {k} x of e { DEFAULT -> alt }  ====/===> let e = x in alt
-```
-
-Instead we provide a new `kept-alive-whnf-single-case` transformation:
-
-```haskell
--- x is in WHNF, has no side-effects, etc. and is not void#
-case {k} x of e { DEFAULT -> alt }  ==> case {k} void# of _ { DEFAULT -> let e = x in alt}
-```
-
-
-### Improving `runRW#`
-
-runRW# allows us to conjure a `State# s` token out of thin air (e.g. to
-implement `unsafePerformIO`). The problem is that we drop the final state:
-
-```haskell
-
-unsafePerformIO :: IO a -> a
-unsafePerformIO m = unsafeDupablePerformIO (noDuplicate >> m)
-
-unsafeDupablePerformIO  :: IO a -> a
-unsafeDupablePerformIO (IO m) = case runRW# m of (# _, a #) -> a
-```
-
-So if we inlined `runRW#` too early, we would discard some effects:
-
-```haskell
-foo5 = unsafeDupablePerformIO (print "Foo" >> return 5)
-==> case runRW# (print "Foo" >> return 5) of (# s, a #) -> a
-==> case runRW# (\s -> case print' "Foo" s of s' -> (# s', 5 #)) of (# s, a #) -> a
-
--- inlining runRW#
-==> case (case print' "Foo" RealWorld of s' -> (# s', 5 #)) of (# s, a #) -> a
-
--- case-of-case
-==> case print' "Foo" RealWorld of s' -> case (# s', 5 #) of (# s, a #) -> a
-
--- case-of-WHNF-thing
-==> case print' "Foo" RealWorld of _ -> 5
-
--- dead code elimination
-==> 5 -- BAD: we don't print anymore
-```
-
-So currently we don't do it. Hence codes using `runRW#` lack many optimizations.
-See https://gitlab.haskell.org/ghc/ghc/issues/15127
-
-But now with `keepAlive#` we could make the final state alive and directly
-expose a Core Case-expression amenable to optimizations:
-
-```haskell
--- New definition with keepAlive#
-unsafeDupablePerformIO  :: IO a -> a
-unsafeDupablePerformIO (IO m) = case runRW# m of (# s, a #) -> keepAlive# s a
-
-foo5 = unsafeDupablePerformIO (print "Foo" >> return 5)
-==> case runRW# (print "Foo" >> return 5) of (# s, a #) -> a
-==> case runRW# (\s -> case print' "Foo" s of s' -> (# s', 5 #)) of (# s, a #) -> keepAlive# s a
-
--- inlining runRW#
-==> case (case print' "Foo" RealWorld of s' -> (# s', 5 #)) of (# s, a #) -> keepAlive# s a
-
--- case-of-case
-==> case print' "Foo" RealWorld of s' -> case (# s', 5 #) of (# s, a #) -> keepAlive# s a
-
--- case-of-known-constructor
-==> case print' "Foo" RealWorld of s -> keepAlive# s 5
-
--- by definition of keepAlive# in Core
-==> case print' "Foo" RealWorld of s -> case {s} 5 of b -> b
-
--- kept-alive-whnf-single-case
-==> case print' "Foo" RealWorld of s -> case {s} void# of _ { DEFAULT -> 5 }
-```
-
-Now suppose we would case on the result of a `runRW#` application (cf #15217):
-
-```haskell
-case foo5 of I# i -> I# (efficientStuff i)
-```
-
-With the late inlining of `runRW#` we couldn't optimize this code. But now we
-can:
-
-```haskell
-case foo5 of I# i -> I# (efficientStuff i)
-
-==> case (case print' "Foo" RealWorld of s -> case {s} void# of _ { DEFAULT -> 5}) of I# i -> I# (efficientStuff i)
-
--- case-of-case
-==> case print' "Foo" RealWorld of s -> case (case {s} void# of _ { DEFAULT -> 5}) of I# i -> I# (efficientStuff i)
-
--- case-of-case
-==> case print' "Foo" RealWorld of s -> case {s} void# of _ { DEFAULT -> case 5 of I# i -> I# (efficientStuff i) }
-
--- case-of-known-constructor
-==> case print' "Foo" RealWorld of s -> case {s} void# of _ { DEFAULT -> I# (efficientStuff 5#) }
-```
-
-
-### "Using" primops
-
-In #4096 a `use#` primop very similar to our `keepAlive#` primop is suggested.
-The issue was: "I don't know how to implement this, though, because use# would
-have to be able to return arbitrary (unboxed) types and the code generator
-doesn't really seem to support this.".
-
-With our desugaring of `keepAlive#` into Core Case-expressions, we don't have
-this issue as the primop never reaches the code generator.
-
-### `withForeignPtr`
-
-`withForeignPtr` currently provides an unsafe interface (#17746):
-
-```haskell
-withForeignPtr :: ForeignPtr a -> (Ptr a -> IO b) -> IO b
-withForeignPtr fo io
-  = do r <- io (unsafeForeignPtrToPtr fo)
-       touchForeignPtr fo
-       return r
-```
-
-The problem is that if "io" is detected to never return (e.g. infinite
-"forever" loop exited with an exception), `touchForeignPtr` is discarded and the
-GC is free to collect "fo" while its internal pointer is used by `io`.
-
-Suppose we rewrite it as follow:
-
-```haskell
-withForeignPtr :: ForeignPtr a -> (Ptr a -> IO b) -> IO b
-withForeignPtr fo io = IO $ \s -> keepAlive# fo (unIO (io (unsafeForeignPtrToPtr fo)) s)
-```
-
-It would get desugared into:
-
-```haskell
-withForeignPtr fo io
-= IO $ \s -> keepAlive# fo (unIO (io (unsafeForeignPtrToPtr fo)) s)
-
-==> IO $ \s -> case {fo} unIO (io (unsafeForeignPtrToPtr fo)) s of r { DEFAULT -> r}
-
--- float-out
-==> let p      = unsafeForeignPtrToPtr fo
-        IO act = io p
-    in IO $ \s -> case {fo} act s of r { DEFAULT -> r}
-
--- `act s` can't escape the `case {fo}` if it performs side-effects
-```
-
-So even if we used forever on it, it wouldn't collect the foreign pointer too
-early:
-
-```haskell
-forever :: IO a -> IO b
-forever a = let a' = a `thenIO` a' in a'
-
-thenIO :: IO a -> IO b -> IO b
-thenIO (IO m) k = IO (\ s -> case m s of (# new_s, _ #) -> unIO k new_s)
-
-forever (withForeignPtr fo io)
-
--- inline & float-out
-==> let p      = unsafeForeignPtrToPtr fo
-        IO act = io p
-        a'     = IO $ \s -> case (case {fo} act s of r { DEFAULT -> r}) of (# new_s, _ #) -> unIO a' new_s
-    in a'
-
--- case-of-case
-==> let p      = unsafeForeignPtrToPtr fo
-        IO act = io p
-        a'     = IO $ \s -> case {fo} act s of r { DEFAULT -> case r of (# new_s, _ #) -> unIO a' new_s }
-    in a'
-
--- simplify
-==> let p      = unsafeForeignPtrToPtr fo
-        IO act = io p
-        a'     = IO $ \s -> case {fo} act s of (# new_s, _ #) -> unIO a' new_s
-    in a'
 ```
