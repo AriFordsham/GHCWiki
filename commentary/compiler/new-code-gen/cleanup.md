@@ -14,25 +14,7 @@ The new codegen was enabled by default in [832077ca5393d298324cb6b0a2cb501e27209
 
 - Remove live-var and CAF lists from `StgSyn`, and then clean up `CoreToStg`
 
-- DONE Remove the SRT pass in `simplStg/SRT.lhs`
-
-- DONE remove RET_DYN from the RTS
-
-- DONE remove `-fnew-codegen`, related `HscMain` bits and the `CodeGen` module.
-
-- DONE remove `CmmOpt.cmmMiniInline`, it is not used any more
-
-- Fix the layering: `cmm` modules should not depend on `codeGen/StgCmm*`
-
-## Towards removing codeGen/Cg\*
-
-
-- DONE `CmmParse` should produce new `Cmm`. 
-
-  - We will probably want two kinds of `.cmm` file, one that is to be fed through `CmmLayoutStack` and one that isn't.
-  - primops will be fed through `CmmLayoutStack`, and will use the native calling convention, with the code generator inserting the copyin/copyout for us.
-
-- DONE Remove all the `Cg*` modules
+- Fix the layering: `GHC.Cmm.*` modules should not depend on `GHC.StgToCmm.*`
 
 ## Towards removing `OldCmm`
 

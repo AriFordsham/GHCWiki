@@ -9,7 +9,7 @@ The goal of the code generator is to convert program from [STG](commentary/compi
 
 The top-most entry point to the codegen is located in [compiler/main/HscMain.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/main/HscMain.hs) in the `doCodeGen` function. Code generation is done in two stages:
 
-1. Convert STG to Cmm with implicit stack, and native Cmm calls. This whole stage lives in [compiler/codeGen](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/codeGen) directory with the entry point being `codeGen` function in [compiler/codeGen/StgCmm.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/codeGen/StgCmm.hs) module.
+1. Convert STG to Cmm with implicit stack, and native Cmm calls. This whole stage lives in [compiler/codeGen](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/codeGen) directory with the entry point being `codeGen` function in [compiler/GHC/StgToCmm.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/GHC/StgToCmm.hs) module.
 1. Optimise the Cmm, and CPS-convert it to have an explicit stack, and no native calls. This lives in [compiler/cmm](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/cmm) directory with the `cmmPipeline` function from [compiler/cmm/CmmPipeline.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/cmm/CmmPipeline.hs) module being the entry point.
 
 

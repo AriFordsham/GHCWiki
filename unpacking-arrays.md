@@ -134,6 +134,6 @@ This would make a constructor with the given info table.  The primop can tell ho
 This list is likely to be non-exhaustive...
 
 - Add primops, new primitive types (`prelude/primops.txt`, `prelude/TysPrim.lhs`)
-- Implement primops, (`codeGen/CgPrimOp.lhs`, `codeGen/StgCmmPrim.lhs`)
-- Add desugaring of unpacked array types in argument and field positions, and `indexUnpackedArray#` to `indexInteriorArray#` (somewhere under `desugar/` probably)
-- Add code generation for case alternatives on constructors containing interior arrays, they have to bind variables to the `InteriorArrayContainer#` and offset (`codeGen/CgCase.lhs`, `codeGen/StgCmmCase.lhs`).
+- Implement primops, (`GHC/StgToCmm/Prim.hs`)
+- Add desugaring of unpacked array types in argument and field positions, and `indexUnpackedArray#` to `indexInteriorArray#` (somewhere under `GHC.HsToCore` probably)
+- Add code generation for case alternatives on constructors containing interior arrays, they have to bind variables to the `InteriorArrayContainer#` and offset (`codeGen/StgCmmCase.hs`).

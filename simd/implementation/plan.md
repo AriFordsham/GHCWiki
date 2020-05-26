@@ -71,10 +71,10 @@ Modifications to add support to the compiler for the new types.  Look to individ
 
 - ./compiler/codeGen/CgCallConv.hs
 - ./compiler/codeGen/CgPrimOp.hs
-- ./compiler/codeGen/CgUtils.hs
+- ./compiler/GHC/StgToCmm/CgUtils.hs
 - ./compiler/codeGen/SMRep.lhs
-- ./compiler/codeGen/StgCmmLayout.hs
-- ./compiler/codeGen/StgCmmPrim.hs
+- ./compiler/GHC/StgToCmm/Layout.hs
+- ./compiler/GHC/StgToCmm/Prim.hs
 
 
 More modifications to the Cmm portion of the compiler chain.

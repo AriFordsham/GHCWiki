@@ -30,7 +30,7 @@ I need to add *inline* primops since `addIntC#` & co. are all inline.
 So, I only need to touch these files:
 
 - `compiler/prelude/primops.txt.pp`
-- `compiler/codeGen/StgCmmPrim.hs`
+- `compiler/GHC/StgToCmm/Prim.hs`
 
 
 There's also a tutorial on adding an *out-of-line* primop, but some
@@ -41,7 +41,7 @@ bits of it may be useful (e.g., building GHC after making changes):
 
 
 For `addIntC#`, it's done in the already mentioned
-`compiler/codeGen/StgCmmPrim.hs` file:
+`compiler/GHC/StgToCmm/Prim.hs` file:
 
 ```wiki
 callishPrimOpSupported :: DynFlags -> PrimOp -> Either CallishMachOp GenericOp
