@@ -1,1 +1,0 @@
-Page moved to [Commentary/ModuleStructure](commentary/module-structure)
