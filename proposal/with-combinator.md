@@ -277,6 +277,5 @@ case {k} whnf of ... ===> case whnf of ...
 4. Note that we can't discard case-expressions with non-empty keep-alive sets. E.g.
 
 ```haskell
--- x is in WHNF, has no side effects, etc. (cf GHC.Core.Opt.Simplify.rebuildCase)
 case {k} x of e { DEFAULT -> alt }  ====/===> let e = x in alt
 ```
