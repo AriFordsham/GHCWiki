@@ -7,7 +7,7 @@ Video: [Abstract Syntax Types](http://www.youtube.com/watch?v=lw7kbUvAmK4&list=P
 The program is initially parsed into "**`HsSyn`**", a collection of data types that describe the full abstract syntax of Haskell.  `HsSyn` is a pretty big collection of types: there are 52 data types at last count.  Many are pretty trivial, but a few have a lot of constructors (`HsExpr` has 40).  `HsSyn` represents Haskell in its full glory, complete with all syntactic sugar.
 
 
-The `HsSyn` modules live in the [compiler/hsSyn](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn) directory.  Each module declares a related group of declarations, *and* gives their pretty-printer.
+The `HsSyn` modules live in the [compiler/GHC/Hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs) directory.  Each module declares a related group of declarations, *and* gives their pretty-printer.
 
 - [compiler/GHC/Hs.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs.hs): the root module.  It exports everything you need, and it's generally what you should import.
 - [compiler/GHC/Hs/Binds.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs/Binds.hs): bindings.
@@ -20,7 +20,7 @@ The `HsSyn` modules live in the [compiler/hsSyn](https://gitlab.haskell.org/ghc/
 - [compiler/GHC/Hs/Utils.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs/Utils.hs): utility functions (no data types).
 
 
-There is significant mutual recursion between modules, and hence a couple of `hs-boot` files. Look at [ModuleDependencies](module-dependencies) to see the dependencies.
+There is significant mutual recursion between modules, and hence a couple of `hs-boot` files.
 
 ## Decorating `HsSyn` with type information
 
