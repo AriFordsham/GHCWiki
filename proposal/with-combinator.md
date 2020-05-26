@@ -171,6 +171,11 @@ The STG-to-Cmm pass could then lower this application by emitting code to push
 a catch stack-frame, then proceed immediately to emit the code for the
 continuation.
 
+Producing this lowering in STG-to-Cmm is a bit tricky since we work exclusively
+with abstract stack areas. We essentially need to treat the `keepAlive#` frame as
+an update frame, pushing it above everything else in the `Old` stack region. However
+it appears that this may break invariants within the code generator.
+
 Option D: A better improved code generation approach
 ----------------------------------------------------
 
