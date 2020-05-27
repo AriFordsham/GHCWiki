@@ -32,6 +32,12 @@ All build artifacts are put under `_build`, which we refer to as the build root.
 
 The resulting GHC is built in the default flavour. You can use the `--flavour=<flavour name>` flag to build with any other flavour, such as `devel2`, `perf`, `prof`, `quick`, `quickest` to name just a few; see [`hadrian/doc/flavours.md`](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/flavours.md) for more details about each flavour. To learn about defining your own flavours or customizing existing ones, see [`hadrian/doc/user-settings.md`](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/doc/user-settings.md).
 
+## Subsequent Builds
+
+To speed up subsequent builds, you will often want to avoid rebuilding the stage 1 compiler by passing `--freeze1` to `hadrian/build`.
+
+After pulling upstream changes, you may need to update the submodules via `git submodule update --recursive --remote`.
+
 ## Going further
 
 - You can see a summary of Hadrian's features in [its README](https://gitlab.haskell.org/ghc/ghc/blob/master/hadrian/README.md).
