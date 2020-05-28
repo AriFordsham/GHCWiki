@@ -36,6 +36,9 @@ The equivalent for Hadrian would be a `<build_root>/hadrian.settings` (e.g. `_bu
 # The following adds -ticky to everything compiled by the stage1 compiler:
 stage1.*.ghc.hs.opts += -ticky
 
+# You will also want STG dumps so you can interpret the resulting profiles:
+stage1.*.ghc.hs.opts += -ddump-to-file -ddump-simpl -ddump-stg
+
 # The following just links stage2 GHC with -ticky (for the -ticky/-debug runtime)
 # and assumes that you have annotated the modules that you want to profile
 # individually with `{-# OPTIONS_GHC -ticky -#}`
