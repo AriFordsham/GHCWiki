@@ -1,5 +1,8 @@
 # Agenda
 
+- #18202, #18231: eta expansion
+- #18238: state hack
+- #18154: CPR for data con apps
 - #18049, !3087: pick up `EvVar`s in `HsWrapper`s for long-distance info
   - Needs a more lazy approach, but it's a bit tricky to do so without losing
     sharing. It's on my radar.
