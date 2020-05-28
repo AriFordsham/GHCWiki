@@ -19,7 +19,9 @@ $ ./boot && ./configure
 $ hadrian/build -j
 ```
 
-or on Windows:
+Depending on your system setup (typically on Mac), the above will fail due to missing GMP libraries. In that case you need to run `./configure --with-intree-gmp`.
+
+On Windows:
 
 ``` sh
 $ ./boot && ./configure --enable-tarballs-autodownload
