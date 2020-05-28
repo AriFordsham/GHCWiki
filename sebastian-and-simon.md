@@ -3,29 +3,22 @@
 - #18202, #18231: eta expansion
 - #18238: state hack
 - #18154: CPR for data con apps
-- #18049, !3087: pick up `EvVar`s in `HsWrapper`s for long-distance info
-  - Needs a more lazy approach, but it's a bit tricky to do so without losing
-    sharing. It's on my radar.
-  - Also related: #17676, !2525; and #5775, #3207:
+- !2938: Detecting redundant bangs: A new extension for LYGs! Inspires need for unlifted types.
+- #18249: Support for unlifted types in PmCheck
+  - Solution: Add PmCtNotBot at *binding sites*
+  - We lack a way to identify them reliably, because we didn't need to
+  - It's the same mechanism we use for strict fields
+  - So we have to add constraints when
+    1. we start the pattern match checker and we initialise Deltas, for the match variables
+    2. We `checkGrdTree` a `PmLet` guard for the bound thing
+    3. We add a `PmCon` guard for the field bindings
+  - The latter case overlaps with what we do for strict fields in the oracle
+    (`mkOneConFull` etc.). Now we should also do the same for unlifted fields.
+    It feels wrong to duplicate the logic between the checker invokation, `checkGrdTree` and the oracle.
+- #17900, !3013: primop effects
 
-- !3014: Precise exceptions in DmdAnal
-  - I think we should go for the `ExnOrDiv` only solution, see the three
-    consecutive posts in https://gitlab.haskell.org/ghc/ghc/-/merge_requests/3014#note_265707
-  - TODO: Now that we have a prototype for Nested CPR, check out if `T13380e`
-    really is a problem!
-
-- #17900, !3013: primop traits
-
-- #1600, !1866: Nested CPR
+- #18174, !1866: Nested CPR
   - See below
-  
-- #17673: Eta-expansion, WW and NOINLINE, #17690: WW for coercions
-  - Far future: Have one unified WW for eta expansion (based on `CoreArity`),
-    coercions (no analysis info needed) and unboxing (Strictness/CPR)?
-  - I think Arity analysis and CPR analysis share the same underlying
-    principle: Unwrap constructors (/ lambdas!) while it is still cheap doing so.
-    Maybe we could unify this into one transformation that does eta-expansion, CPR
-    expansion and coercion expansion at the same time?
 
 - #17881, #17896: eta reduction based on Demand
 
@@ -33,12 +26,7 @@
 
 Main ticket: #18174, MR !1866.
 
-- CPR of DataCon wrappers
-  - Possibly relevant if re-exported (but maybe not, stuff only cancels away if
-    we inline everything)
-  - Hard to infer Nested CPR without actually calling the analysis on the RHS.
-    But impact of import cycle would probably be huge.
-  - Maybe just top-level `#c1(*)`?
+- #18154: CPR of DataCon wrappers (see above)
 - `divergeCpr` is strange, but probably correct  
   - We never really use `botCpr` (no well-typed expr will ever have this as a
     denotation!), thus we don't export it.
@@ -93,8 +81,6 @@ Those with an MR actually have code.
 
 ## Roadblocks 
 
-- Nested CPR of DataCon wrappers needs to look at RHS of wrapper (think of `data T = T !(Int, Int)`) 
-- Do nested CPR for KindReps/TypeReps/Modules? Horrendeous signatures in T7360 and T8274, but stats only improve overall
 - T9291: unsafePtrEquality checks for STG CSE  
   - `bar x = (Right x, Right x)` gets CPR'd, `$wbar x = (# x, x #)` can't CSE at call site. Fixed testcase with `lazy`, but is that the right thing to do?
 - integerConstantFolding: `CONSTANT_FOLDED` on `decodeDoubleInteger`, but gets WW'd because of nested `Int64`
@@ -133,6 +119,7 @@ Those with an MR actually have code.
   - Why? What's needed? A formal Specification? Which part? Static or dynamic semantics?
   - Also how much? Whole pattern language or just enough of a fragment to explain or patterns?
   - I see there is https://gitlab.haskell.org/rae/haskell as a starting point, but it seems to focus entirely on static semantics. But probably the document to complete?
+  - We talked about it; it's a matter of pushing the proposal forward rather than investing actual elbow grease into an impl.
 
 - !2218 Unlifted data types
   - Wait for BoxedRep !2249
@@ -141,9 +128,3 @@ Those with an MR actually have code.
 
 - !1427: Separate CPR
 - !2192: Reflect tree structure of clauses and gaurds in the syntax we check.
-- #17270: `Origin` annotations should be consistent about TH  
-  - Faintly related: #14838, #14899. Should we warn about TH? Probably guard it behind a flag. Off by default? SG thinks so. This code is generated potentially in another library by a different user. Also compiler performance
-- #17248, #17376, !1975: Get rid of the special case for `-XEmptyCase`. Fix handling of newtypes because of testsuite failures. Some ground work for proper non-void constraint handling.
-- #17357: Fix strictness of pattern synonyms. We came to the agreement that it's not worth the trouble and most useful pattern synonyms are strict anyway.
-
-
