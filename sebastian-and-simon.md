@@ -1,9 +1,8 @@
 # Agenda
 
 -  #18231: eta expansion. Mysteries remain.  See also #18202
-- #18086: precise exceptions
-- #18238: state hack
 - #18154: CPR for data con apps.  More to do here.
+- #18238: state hack
 - !2938: Detecting redundant bangs: A new extension for LYGs! Inspires need for unlifted types.
 - #18249: Support for unlifted types in PmCheck
   - Solution: Add PmCtNotBot at *binding sites*
