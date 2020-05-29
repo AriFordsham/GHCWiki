@@ -1,4 +1,4 @@
-[core-spec]: uploads/ceaedb9ec409555c80ae5a97cc47470e/minicore.pdf
+[core-spec]: uploads/355cd9a03291a852a518b0cb42f960b4/minicore.pdf
 
 On this page we describe the principles behind the implementation of the linear types extension as described at [LinearTypes](linear-types).
 
