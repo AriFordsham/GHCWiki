@@ -1,6 +1,6 @@
 # Agenda
 
-- #18202, #18231: eta expansion
+-  #18231: eta expansion. Mysteries remain.  See also #18202
 - #18086: precise exceptions
 - #18238: state hack
 - #18154: CPR for data con apps
