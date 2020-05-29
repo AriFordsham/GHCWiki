@@ -71,4 +71,5 @@ Always warn (because ... ?)
 We never warn for:
 * Lazy patterns
 * View Patterns
-* 
+* Splice Patterns
+* Numeric Patterns
