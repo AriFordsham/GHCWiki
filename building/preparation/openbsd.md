@@ -62,13 +62,15 @@ see [Getting the sources](building/getting-the-sources)
 
 ```wiki
 ./boot
-./configure --with-iconv-libraries=/usr/local/lib \
---with-iconv-includes=/usr/local/include \
---with-gmp-libraries=/usr/local/lib \
---with-gmp-includes=/usr/local/include \
---with-ffi-libraries=/usr/local/lib \
---with-ffi-includes=/usr/local/include \
---with-system-libffi
+./configure \
+  --with-iconv-libraries=/usr/local/lib \
+  --with-iconv-includes=/usr/local/include \
+  --with-gmp-libraries=/usr/local/lib \
+  --with-gmp-includes=/usr/local/include \
+  --with-ffi-libraries=/usr/local/lib \
+  --with-ffi-includes=/usr/local/include \
+  --with-system-libffi \
+  CC=clang
 gmake
 ```
 
