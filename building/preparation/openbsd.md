@@ -24,18 +24,23 @@ See [https://www.openbsd.org/faq/upgrade60.html](https://www.openbsd.org/faq/upg
 
 ## Required Tools
 
-
 Install the [required tools](https://gitlab.haskell.org/trac/ghc/wiki/Building/Preparation/Tools):
 
 ```
 doas pkg_add ghc gmake autoconf%2.69 automake%1.15 gmp libiconv alex happy git python%3
 ```
 
-
 to also (optionally) build the docs
 
 ```wiki
 doas pkg_add py3-sphinx
+```
+
+### Hadrian
+
+For Hadrian you need a few more:
+```
+doas pkg_add cabal-install
 ```
 
 ## Some required environment variables
