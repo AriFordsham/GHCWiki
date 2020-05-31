@@ -35,7 +35,7 @@ doas pkg_add ghc gmake autoconf%2.69 automake%1.15 gmp libiconv alex happy git p
 to also (optionally) build the docs
 
 ```wiki
-doas pkg_add py-sphinx
+doas pkg_add py3-sphinx
 ```
 
 ## Some required environment variables
