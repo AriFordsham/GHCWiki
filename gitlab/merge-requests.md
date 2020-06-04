@@ -37,7 +37,7 @@ When reviewing a merge request here are a few things to check for:
 
 ## Backports
 
-After a patch has made it to `master` it might be appropriate to backport it to the stable branch (e.g. `ghc-8.8`). If backporting is desired first ensure that the issue is milestoned for the next minor release and mark the merge request containing the fix with the ~"backport needed" label.
+After a patch has made it to `master` it might be appropriate to backport it to the stable branch (e.g. `ghc-8.8`). If backporting is desired first ensure that the issue is milestoned for the next minor release and mark the merge request containing the fix with the appropriate "backport needed" label(s) (e.g. ~"backport needed:8.8").
 
 While the release manager can perform the backport on your behalf, it is appreciated if you open a merge request with the backported patches yourself. There are two ways to backport a merge request:
 
