@@ -70,7 +70,9 @@ These indicate various stages in the lifecycle of an issue.
 
 These labels are to do with backporting of fixes to stable release branches.
 
- * ~"backport needed": This denotes a merge request which should be backported to a stable branch before the next release.
+ * ~"backport needed:8.8": This denotes a merge request which should be backported to a 8.8 branch before the next release.
+ * ~"backport needed:8.10": This denotes a merge request which should be backported to a 8.10 branch before the next release.
+ * ~"backport needed:8.12": This denotes a merge request which should be backported to a 8.12 branch before the next release.
  * ~"backport": This denotes a merge request which backports a merge request to a stable branch. The merge request description should link to the MR or issue from which the backported patch came
 
 # Bug environmental scope
