@@ -38,7 +38,7 @@ The resulting GHC is built in the default flavour. You can use the `--flavour=<f
 
 To speed up subsequent builds, you will often want to avoid rebuilding the stage 1 compiler by passing `--freeze1` to `hadrian/build`.
 
-After pulling upstream changes, you may need to update the submodules via `git submodule update --recursive --remote`.
+After pulling upstream changes, you may need to update the submodules via `git submodule update --init --recursive`.
 
 ## Going further
 
