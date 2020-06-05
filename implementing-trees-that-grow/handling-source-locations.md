@@ -126,13 +126,14 @@ Applications for this include:
 ### In GHC
 
 GHC's functions' bodies will mostly **not need to change** (with some exceptions). This refactor pretty much only touches the types.
-Some of GHC's functions used `unLoc :: Located a -> a`, but were polymorphic in the pass before:
+For example:
 ```diff
 -isForeignImport :: LForeignDecl pass -> Bool
 +isForeignImport :: LForeignDecl (GhcPass p) -> Bool
 isForeignImport (L _ (ForeignImport {})) = True
 isForeignImport _                        = False
 ```
+This function uses locations (the pattern match on `L`), so it is GHC-specific, and this fact is now reflected in its type `LForeignDecl (GhcPass p) -> Bool`.
 
 And lastly, some instance declarations that used `TypeSynonymInstances` now need to be expanded, now that we're using type families inside those type synonyms.
 
