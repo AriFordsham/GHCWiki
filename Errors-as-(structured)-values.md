@@ -9,6 +9,7 @@ type Messages        = (WarningMessages, ErrorMessages)
 type WarningMessages = Bag WarnMsg
 type ErrorMessages   = Bag ErrMsg
 
+type WarnMsg = ErrMsg
 data ErrMsg = ErrMsg {
     errMsgSpan        :: SrcSpan,
     errMsgContext     :: PrintUnqualified,
