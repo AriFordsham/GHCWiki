@@ -1,7 +1,7 @@
 # Calling Convention
 
 
-Entry conventions are very conventional: the first N argumements in registers and the rest on the stack.
+Entry conventions are very conventional: the first N arguments in registers and the rest on the stack.
 
 # Return Convention
 
