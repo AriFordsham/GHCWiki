@@ -14,7 +14,7 @@ Although interface files are kept in binary format, you can print them in human-
 ```
 
 
-This textual format is not particularly designed for machine parsing.  Doing so might be possible, but if you want to read GHC interface files you are almost certainly better off using the [GHC API](commentary/compiler/api) to do so. If you are wondering how some particular language feature is represented in the interface file, this command is really useful! Cross-reference its output with the `Outputable` instance defined in [compiler/iface/LoadIface.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/iface/LoadIface.hs)
+This textual format is not particularly designed for machine parsing.  Doing so might be possible, but if you want to read GHC interface files you are almost certainly better off using the [GHC API](commentary/compiler/api) to do so. If you are wondering how some particular language feature is represented in the interface file, this command is really useful! Cross-reference its output with the `Outputable` instance defined in [compiler/GHC/Iface/Load.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Iface/Load.hs)
 
 
 Here are some of the things stored in an interface file `M.hi`
@@ -27,7 +27,7 @@ Here are some of the things stored in an interface file `M.hi`
 - Imports and usages from those imports. This information is crucial for [recompilation avoidance](commentary/compiler/recompilation-avoidance).
 
 
-The contents of an interface file is the result of serialising the **`IfaceSyn`** family of data types.  The data types are in [compiler/iface/IfaceSyn.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/iface/IfaceSyn.hs) and [compiler/iface/IfaceType.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/iface/IfaceType.hs); the binary serialisation code is in [compiler/iface/BinIface.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/iface/BinIface.hs). The definition of a module interface is the **`ModIface`** data type in [compiler/main/HscTypes.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/HscTypes.hs).
+The contents of an interface file is the result of serialising the **`IfaceSyn`** family of data types.  The data types are in [compiler/GHC/Iface/Syntax.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Iface/Syntax.hs) and [compiler/GHC/Iface/Type.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Iface/Type.hs); the binary serialisation code is in [compiler/GHC/Iface/Binary.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Iface/Binary.hs). The definition of a module interface is the **`ModIface`** data type in [compiler/GHC/Driver/Types.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Driver/Types.hs).
 
 
 Details of some of the types involved in GHC's representation of Modules and Interface files can be found [here](commentary/compiler/module-types).

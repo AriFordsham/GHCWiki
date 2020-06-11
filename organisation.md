@@ -4,7 +4,7 @@
 
 
 
-The GHC API is the interface exported by [compiler/main/GHC.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/GHC.hs).  To compile a Haskell module that uses the GHC API, use the flag `-package ghc` (in GHC 6.6 and later).  GHC itself contains a few front-ends:
+The GHC API is the interface exported by [compiler/GHC.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC.hs).  To compile a Haskell module that uses the GHC API, use the flag `-package ghc` (in GHC 6.6 and later).  GHC itself contains a few front-ends:
 
 
 - The "one-shot" mode, where GHC compiles each file on the command line separately (eg. `ghc -c Foo.hs`).  This mode
@@ -17,7 +17,7 @@ The GHC API is the interface exported by [compiler/main/GHC.hs](https://gitlab.h
 - `--make` is almost a trivial client of the GHC API, and is implemented in [ghc/Main.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/ghc/Main.hs).
 
 - `-M`, the Makefile dependency generator, is also a client of the GHC API and is implemented in 
-  [compiler/main/DriverMkDepend.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/DriverMkDepend.hs).
+  [compiler/GHC/Driver/MakeFile.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Driver/MakeFile.hs).
 
 
 Note that since GHC is packaged as a single binary, all of these front-ends are present, and there is a single command-line interface implemented in [ghc/Main.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/ghc/Main.hs).

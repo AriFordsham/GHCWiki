@@ -145,7 +145,7 @@ Gdb's `list` command is useful for this, if the code was compiled with `-g`:
 
 ```wiki
 (gdb) list *s5aO_info
-0x7ffff5762138 is in s5aO_info (compiler/basicTypes/NameCache.hs:95).
+0x7ffff5762138 is in s5aO_info (compiler/GHC/Types/Name/Cache.hs:95).
 90	        Just occ_env -> lookupOccEnv occ_env occ
 91	
 92	extendOrigNameCache :: OrigNameCache -> Name -> OrigNameCache
@@ -165,8 +165,8 @@ The `list` command can also be used with a raw address, like `list *0x7ffff57621
 To go in the opposite direction, use `info line`:
 
 ```wiki
-(gdb) info line compiler/basicTypes/NameCache.hs:95
-Line 95 of "compiler/basicTypes/NameCache.hs"
+(gdb) info line compiler/GHC/Types/Name/Cache.hs:95
+Line 95 of "compiler/GHC/Types/Name/Cache.hs"
    starts at address 0x7ffff5762138 <s5aO_info>
    and ends at 0x7ffff5762141 <s5aO_info+9>.
 ```
@@ -175,7 +175,7 @@ Line 95 of "compiler/basicTypes/NameCache.hs"
 
 
 Symbols in GHC are encoded using something called the [Z-encoding](commentary/compiler/symbol-names) (see
-[compiler/utils/Encoding.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/utils/Encoding.hs)).  Basically special symbols are replaced by sequences
+[compiler/GHC/Utils/Encoding.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Utils/Encoding.hs)).  Basically special symbols are replaced by sequences
 beginning with `z` or `Z`.  eg. `state#` becomes
 `statezh`.  The letter `z` itself is replaced by `zz`.
 
@@ -200,7 +200,7 @@ symbol relates to, and *kind* is the kind of symbol:
 </th></tr></table>
 
 
-(see [compiler/cmm/CLabel.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CLabel.hs)
+(see [compiler/GHC/Cmm/CLabel.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/CLabel.hs)
 for a table of these).  Note that if you're matching up assembly with
 C-- and (info) tables next to code is enabled (as it is by default),
 then code that is named `entry` is equivalent to `info` symbols

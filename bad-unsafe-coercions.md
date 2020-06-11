@@ -39,7 +39,7 @@ G |-co t1 ==>!_R t2 : t1 ~R k2 t2
 
 1. Coercions between lifted and unboxed are not allowed.  Reason: casting between pointers and non-pointers is likely to cause seg-faults if the garbage collector happens to run.
     **SPJ** Actually it should be *unboxed* not *unlifted*.  It's wrong to cast between `Array# Int` and `Int#` because the former is a pointer and the latter is not.
-2. If types are unlifted then their *size* should be equal, see `primRepSizeW` in [source:compiler/types/TyCon.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/types/TyCon.hs)
+2. If types are unlifted then their *size* should be equal, see `primRepSizeW` in [source:compiler/GHC/Core/TyCon.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/GHC/Core/TyCon.hs)
 3. If types are unlifted then they either should be both floating or both integral.  Reason: on many architectures, floating point values are held in special registers.
 4. No coercions between vector ([wiki:SIMD](simd)) types are allowed at all. (Reason: there is no correct rules for such coercions)
 5. If types are unboxed tuples then tuple `(# A_1,..,A_n #)` can be coerced to `(# B_1,..,B_m #)` if `n=m` and for each pair `A_i, B_i` rules 1-5 holds.
@@ -119,7 +119,7 @@ GHC has 2 different sizes: word aligned size of values, and active size in bytes
 
 
 Term 'active size' is used to describe number of bytes that value actually use, at this moment such numbers are used
-in Vectors, see `primElemRepSizeB` in ([source:compiler/types/TyCon.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/types/TyCon.hs)). The reasons about forbidding coercions between
+in Vectors, see `primElemRepSizeB` in ([source:compiler/GHC/Core/TyCon.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/GHC/Core/TyCon.hs)). The reasons about forbidding coercions between
 values with a different active size is that in the rest bytes there will be garbage:
 
 

@@ -77,7 +77,7 @@ The type checker adds type information to the syntax tree, otherwise leaving it 
 
 ## Source Locations
 
-`HsSyn` makes heavy use of the `Located` type ([compiler/basicTypes/SrcLoc.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/SrcLoc.hs)):
+`HsSyn` makes heavy use of the `Located` type ([compiler/GHC/Types/SrcLoc.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Types/SrcLoc.hs)):
 
 ```wiki
 data Located e = L SrcSpan e
@@ -90,7 +90,7 @@ A `Located t` is just a pair of a `SrcSpan` (which describes the source location
 - `SrcSpan` specifes a range of source locations: (filename, start line number and character position, end line number and character position)
 
 
-More details in [compiler/basicTypes/SrcLoc.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/SrcLoc.hs).
+More details in [compiler/GHC/Types/SrcLoc.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Types/SrcLoc.hs).
 
 
 Naming convention within the code: "`LHs`" means located Haskell, e.g.

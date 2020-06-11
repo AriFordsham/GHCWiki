@@ -38,11 +38,11 @@ Just like the original Haddock, we support "next" and "previous"-type comments, 
 
 
 
-The doc tokens appear in a lot of places in the grammar and having a look at [compiler/parser/Parser.y.pp](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/parser/Parser.y.pp) is probably the best way to get an overview of this.   
+The doc tokens appear in a lot of places in the grammar and having a look at [compiler/GHC/Parser.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Parser.y) is probably the best way to get an overview of this.
 
 
 
-When a doc token is encountered by the parser, it tries to parse the content of the token. This is done by invoking a special Alex lexer ([compiler/parser/HaddockLex.x](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/parser/HaddockLex.x)) and Happy parser ([compiler/parser/HaddockParse.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/parser/HaddockParse.y)), taken directly from the original Haddock sources. This process turns the token into a value of type `HsDoc RdrName`, representing the (internal structure of the) comment. It can then be stored in the Haskell AST by the parser at the appropriate place. A lot of places (constructors) in the AST definition ([compiler/hsSyn](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/hsSyn)) allow `HsDoc`s, and more can be added.
+When a doc token is encountered by the parser, it tries to parse the content of the token. This is done by invoking a special Alex lexer ([compiler/parser/HaddockLex.x](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/parser/HaddockLex.x)) and Happy parser ([compiler/parser/HaddockParse.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/parser/HaddockParse.y)), taken directly from the original Haddock sources. This process turns the token into a value of type `HsDoc RdrName`, representing the (internal structure of the) comment. It can then be stored in the Haskell AST by the parser at the appropriate place. A lot of places (constructors) in the AST definition ([compiler/GHC/Hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs)) allow `HsDoc`s, and more can be added.
 
 
 # Binding groups

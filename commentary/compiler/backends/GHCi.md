@@ -40,7 +40,7 @@ $1 = void
 
   In this case the enquired-about address is `PrelBase_ZMZN_static_entry`. If no symbols are close to the given addr, nothing is printed. Not a great mechanism, but better than nothing.
 
-- We have had various problems in the past due to the bytecode generator (compiler/ghci/ByteCodeGen.lhs) being confused about the true set of free variables of an expression. The compilation scheme for `let`s applies the BCO for the RHS of the `let` to its free variables, so if the free-var annotation is wrong or misleading, you end up with code which has wrong stack offsets, which is usually fatal.
+- We have had various problems in the past due to the bytecode generator (compiler/GHC/CoreToByteCode.hs) being confused about the true set of free variables of an expression. The compilation scheme for `let`s applies the BCO for the RHS of the `let` to its free variables, so if the free-var annotation is wrong or misleading, you end up with code which has wrong stack offsets, which is usually fatal.
 
 - Following the traces is often problematic because execution hops back and forth between the interpreter, which is traced, and compiled code, which you can't see. Particularly annoying is when the stack looks OK in the interpreter, then compiled code runs for a while, and later we arrive back in the interpreter, with the stack corrupted, and usually in a completely different place from where we left off.
 

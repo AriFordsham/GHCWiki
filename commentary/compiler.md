@@ -75,15 +75,15 @@ Here is a block diagram of its top-level structure:
 The part called [HscMain](commentary/compiler/hsc-main) deals with compiling a single module.  On top of this is built the **compilation manager** (in blue) that manages the compilation of multiple modules.  It exports an interface called the **GHC API**.  On top of this API are four small front ends:
 
 
-- GHCi, the interactive environment, is implemented in [ghc/GHCi/UI.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/ghc/GHCi/UI.hs) and [compiler/main/InteractiveEval.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/InteractiveEval.hs). It sits squarely on top of the GHC API.
+- GHCi, the interactive environment, is implemented in [ghc/GHCi/UI.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/ghc/GHCi/UI.hs) and [compiler/GHC/Runtime/Eval.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Runtime/Eval.hs). It sits squarely on top of the GHC API.
 
 
  
 
 
-- `--make` is almost a trivial client of the GHC API, and is implemented in [compiler/main/GhcMake.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/GhcMake.hs). 
+- `--make` is almost a trivial client of the GHC API, and is implemented in [compiler/GHC/Driver/Make.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Driver/Make.hs). 
 
-- `-M`, the Makefile dependency generator, is also a client of the GHC API and is implemented in [compiler/main/DriverMkDepend.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/DriverMkDepend.hs). 
+- `-M`, the Makefile dependency generator, is also a client of the GHC API and is implemented in [compiler/GHC/Driver/MakeFile.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Driver/MakeFile.hs). 
 
 - The "one-shot" mode, where GHC compiles each file on the command line separately (eg. `ghc -c Foo.hs`). This mode bypasses the GHC API, and is implemented
   directly on top of [HscMain](commentary/compiler/hsc-main), since it compiles only one file at a time. In fact, this is all that   

@@ -22,7 +22,7 @@ Note, that "one compiler invocation" is not the same as the compilation of a sin
 
 
 
-This is also the reasons why `OccName`s are *not* ordered based on the `Unique`s of their underlying `FastString`s, but rather *lexicographically* (see [compiler/basicTypes/OccName.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/OccName.lhs) for details).
+This is also the reasons why `OccName`s are *not* ordered based on the `Unique`s of their underlying `FastString`s, but rather *lexicographically* (see [compiler/GHC/Types/Name/Occurrence.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Types/Name/Occurrence.hs) for details).
 
 
 >
@@ -53,7 +53,7 @@ A hundred or two library entities (types, classes, functions) are so-called "kno
 ### Interface files
 
 
-Entities in a interface file (.hi file) are, for the most part, stored in a symbol table, and referred to (from elsewhere in the same interface file) by an index into that table.  Here are the details from [compiler/iface/BinIface.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/iface/BinIface.lhs):
+Entities in a interface file (.hi file) are, for the most part, stored in a symbol table, and referred to (from elsewhere in the same interface file) by an index into that table.  Here are the details from [compiler/GHC/Iface/Binary.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Iface/Binary.hs):
 
 ```wiki
 -- Note [Symbol table representation of names]
@@ -118,7 +118,7 @@ making automatic derivation of such type class instances hard. There was already
 ### Status Quo (pre redesign)
 
 
-A `Unique` has a domain (`TyCon`, `DataCon`, `PrelName`, `Builtin`, etc.) that was codified by a character. The remainder of the `Unique` was an integer that should be unique for said domain. This **was** once guaranteed through the export list of [compiler/basicTypes/Unique.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/Unique.lhs), where direct access to the domain-character was hidden, i.e.
+A `Unique` has a domain (`TyCon`, `DataCon`, `PrelName`, `Builtin`, etc.) that was codified by a character. The remainder of the `Unique` was an integer that should be unique for said domain. This **was** once guaranteed through the export list of [compiler/GHC/Types/Unique.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Types/Unique.hs), where direct access to the domain-character was hidden, i.e.
 
 ```wiki
 mkUnique :: Char -> Int -> Unique
@@ -126,7 +126,7 @@ unpkUnique :: Unique -> (Char,Int)
 ```
 
 
-were not exported. This should have guaranteed that every domain was assigned its own unique character, because only in [compiler/basicTypes/Unique.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/Unique.lhs) could those `Char`s be assigned. However, through
+were not exported. This should have guaranteed that every domain was assigned its own unique character, because only in [compiler/GHC/Types/Unique.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Types/Unique.hs) could those `Char`s be assigned. However, through
 
 ```wiki
 mkUniqueGrimily :: Int -> Unique
@@ -134,7 +134,7 @@ mkUniqueGrimily i = MkUnique (iUnbox i)
 ```
 
 
-this separation of concerns leaked out to [compiler/basicTypes/UniqSupply.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/basicTypes/UniqSupply.lhs), because its `Int` argument is the *entire* `Unique` and not just the integer part 'under' the domain character.
+this separation of concerns leaked out to [compiler/GHC/Types/Unique/Supply.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Types/Unique/Supply.hs), because its `Int` argument is the *entire* `Unique` and not just the integer part 'under' the domain character.
 
 
 >

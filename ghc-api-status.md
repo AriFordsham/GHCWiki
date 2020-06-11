@@ -233,7 +233,7 @@ There are also a few non-functional requirements:
 - **binary incompatibility of GHC versions**
 
   - this also affects GHC Api clients, see [the Haddock 2 in GHC build issues](http://www.haskell.org/pipermail/cvs-ghc/2008-July/043568.html) for an infamous example
-- From `compiler/main/GHC.hs`:
+- From `compiler/GHC.hs`:
 
   ```wiki
   -- NOTE:

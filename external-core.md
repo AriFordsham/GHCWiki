@@ -58,10 +58,10 @@ The main source files related to External Core:
 
 Other files that contain some reference to External Core or are otherwise relevant:
 
-- [compiler/coreSyn/PprCore.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/coreSyn/PprCore.lhs): Some code to pretty-print the Core data type.
+- [compiler/GHC/Core/Ppr.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Core/Ppr.hs): Some code to pretty-print the Core data type.
 - [compiler/GHC/Hs.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs.hs): Top-level syntax tree representations for various things GHC can read, including External Core.
-- [compiler/main/DriverPhases.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/DriverPhases.hs): Includes code to decide how to parse things based on file extension.
-- [compiler/main/HscMain.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/HscMain.lhs): The main compiler pipeline.
+- [compiler/GHC/Driver/Phases.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Driver/Phases.hs): Includes code to decide how to parse things based on file extension.
+- [compiler/GHC/Driver/Main.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Driver/Main.hs): The main compiler pipeline.
 
 ## Documentation
 

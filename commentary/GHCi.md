@@ -19,10 +19,10 @@ This document provides details of working of GHCi primarily for the normal mode 
 When a source code is loaded in ghci or the user enters an expression, at the front end of the compiler, we annotate the source code with **ticks**, based on the program coverage tool of Andy Gill and Colin Runciman. Ticks are uniquely numbered with respect to a particular module. Ticks are annotations on expressions, so each tick is associated with a source span, which identifies the start and end locations of the ticked expression.
 
 
-The instrumentation is implemented in [compiler/deSugar/Coverage.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/deSugar/Coverage.hs). For details on the heuristics of this instrumentation, see the use of `TickForBreakPoints`. (It would be nice to have this documented properly)
+The instrumentation is implemented in [compiler/GHC/HsToCore/Coverage.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/HsToCore/Coverage.hs). For details on the heuristics of this instrumentation, see the use of `TickForBreakPoints`. (It would be nice to have this documented properly)
 
 
-For each module we also allocate an array of breakpoint flags, with one entry for each tick in that module. This array is managed by the GHC storage manager, so it can be garbage collected if the module is re-loaded and re-ticked. We retain this array inside the `ModGuts` data structure, which is defined in [compiler/main/HscTypes.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/HscTypes.hs). This array is stored inside something called `ModBreaks`, which also stores an association list of source spans and ticks.
+For each module we also allocate an array of breakpoint flags, with one entry for each tick in that module. This array is managed by the GHC storage manager, so it can be garbage collected if the module is re-loaded and re-ticked. We retain this array inside the `ModGuts` data structure, which is defined in [compiler/GHC/Driver/Types.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Driver/Types.hs). This array is stored inside something called `ModBreaks`, which also stores an association list of source spans and ticks.
 
 ### Byte code generation
 
@@ -47,7 +47,7 @@ To understand what happens when a breakpoint is hit, it is necessary to know how
 ### Execution of an Expression in GHCi
 
 
-When the user types in an expression (as a string) it is parsed, type checked, and compiled, and then run. In [compiler/main/InteractiveEval.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/InteractiveEval.hs) we have the function:
+When the user types in an expression (as a string) it is parsed, type checked, and compiled, and then run. In [compiler/GHC/Runtime/Eval.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Runtime/Eval.hs) we have the function:
 
 ```haskell
 -- | Run a statement in the current interactive context.
@@ -60,7 +60,7 @@ execStmt
 
 
 The `GhcMonad` carries a `Session` which contains the gobs of environmental information which is important to the compiler. The `String` is what the user typed in, and `ExecResult`, is the answer that you get back if the execution terminates. `ExecResult` is defined like so:
-(in [compiler/main/InteractiveEvalTypes.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/InteractiveEvalTypes.hs)
+(in [compiler/GHC/Runtime/Eval/Types.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Runtime/Eval/Types.hs)
 
 ```haskell
 data ExecResult = ExecComplete { execResult :: Either SomeException [Name], execAllocation :: Word64 }
@@ -68,7 +68,7 @@ data ExecResult = ExecComplete { execResult :: Either SomeException [Name], exec
 ```
 
 
-Normally what happens is that `execStmt` forks a new thread to handle the evaluation of the expression. It calls `evalStmt` ([compiler/ghci/GHCi.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/ghci/GHCi.hs) in both remote and normal mode) to create an `EvalStmt``Message`. This message is processed by the `evalStmt` ([libraries/ghci/GHCi/Run.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/libraries/ghci/GHCi/Run.hs)  in normal mode). This in turns calls the `sandboxIO` to do `forkIO`. It then blocks on an `MVar` and waits for the thread to finish.
+Normally what happens is that `execStmt` forks a new thread to handle the evaluation of the expression. It calls `evalStmt` ([compiler/GHC/Runtime/Interpreter.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Runtime/Interpreter.hs) in both remote and normal mode) to create an `EvalStmt``Message`. This message is processed by the `evalStmt` ([libraries/ghci/GHCi/Run.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/libraries/ghci/GHCi/Run.hs)  in normal mode). This in turns calls the `sandboxIO` to do `forkIO`. It then blocks on an `MVar` and waits for the thread to finish.
 
 
 This `MVar` is (now) called `statusMVar`, because it carries the execution status of the computation which is being evaluated. We will discuss its type shortly. When the thread finishes it fills in `statusMVar`, which wakes up `execStmt`, and it returns a `ExecResult`.

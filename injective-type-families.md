@@ -280,28 +280,28 @@ Again, we use a special variant of the unification algorithm.
 
 Below is a list of primary source code locations that implement injectivity:
 
-- [compiler/rename/RnSource.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/rename/RnSource.hs).`rnInjectivityAnn`: checks
+- [compiler/GHC/Rename/Module.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Rename/Module.hs).`rnInjectivityAnn`: checks
   correctness of injectivity annotation (mostly variable scoping).
 
-- [compiler/typecheck/FamInst.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/typecheck/FamInst.hs).`checkForInjectivityConflicts` is
+- [compiler/GHC/Tc/Instance/Family.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Tc/Instance/Family.hs).`checkForInjectivityConflicts` is
   an entry point for injectivity check of open type families.
 
-- [compiler/typecheck/TcTyClsDecls.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/typecheck/TcTyClsDecls.hs).`checkValidClosedCoAxiom` is
+- [compiler/GHC/Tc/TyCl.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Tc/TyCl.hs).`checkValidClosedCoAxiom` is
   an entry point for injectivity check of closed type families.
 
-- [compiler/types/FamInstEnv.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/types/FamInstEnv.hs).`injectiveBranches` checks that a
+- [compiler/GHC/Core/FamInstEnv.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Core/FamInstEnv.hs).`injectiveBranches` checks that a
   pair of type family axioms does not violate injectivity annotation.
 
-- [compiler/types/FamInstEnv.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/types/FamInstEnv.hs).`lookupFamInstEnvInjectivityConflicts`
+- [compiler/GHC/Core/FamInstEnv.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Core/FamInstEnv.hs).`lookupFamInstEnvInjectivityConflicts`
   implements condition (4) of injectivity check.
 
-- [compiler/typecheck/TcTyClsDecls.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/typecheck/TcTyClsDecls.hs).`checkValidClosedCoAxiom.check_injectivity.gather_conflicts`
+- [compiler/GHC/Tc/TyCl.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Tc/TyCl.hs).`checkValidClosedCoAxiom.check_injectivity.gather_conflicts`
   implements condition (5) of injectivity check.
 
-- [compiler/types/Unify.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/types/Unify.hs).`tcUnifyTyWithTFs` is our special
+- [compiler/GHC/Core/Unify.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Core/Unify.hs).`tcUnifyTyWithTFs` is our special
   variant of a unification algorithm.
 
-- [compiler/typecheck/FamInst.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/typecheck/FamInst.hs).`makeInjectivityErrors` checks
+- [compiler/GHC/Tc/Instance/Family.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Tc/Instance/Family.hs).`makeInjectivityErrors` checks
   conditions (1), (2) and (3) of the injectivity check.  It also takes as an
   argument results of check (4) or (5) and constructs error messages, if
   necessary.
@@ -315,10 +315,10 @@ Relevant source code notes are:
 
 - `Note [FamilyResultSig]` in [compiler/GHC/Hs/Decls.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs/Decls.hs)
 - `Note [Injectivity annotation]` in [compiler/GHC/Hs/Decls.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs/Decls.hs)
-- `Note [Injective type families]` in [compiler/types/TyCon.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/types/TyCon.hs)
-- `Note [Renaming injectivity annotation]` in [compiler/rename/RnSource.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/rename/RnSource.hs)
-- `Note [Verifying injectivity annotation]` in [compiler/types/FamInstEnv.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/types/FamInstEnv.hs)
-- `Note [Type inference for type families with injectivity]` in [compiler/typecheck/TcInteract.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/typecheck/TcInteract.hs)
+- `Note [Injective type families]` in [compiler/GHC/Core/TyCon.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Core/TyCon.hs)
+- `Note [Renaming injectivity annotation]` in [compiler/GHC/Rename/Module.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Rename/Module.hs)
+- `Note [Verifying injectivity annotation]` in [compiler/GHC/Core/FamInstEnv.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Core/FamInstEnv.hs)
+- `Note [Type inference for type families with injectivity]` in [compiler/GHC/Tc/Solver/Interact.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Tc/Solver/Interact.hs)
 
 
 Implementation discussion and progress was recorded in

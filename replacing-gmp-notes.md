@@ -53,7 +53,7 @@ If you want to help with replacing GMP or do it yourself, you will have to work 
 - makefiles and configuration scripts.
 
 
-A guide to GHC primitives is available (in an unformatted version) in [/compiler/prelude/primops.txt.pp](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/prelude/primops.txt.pp); there is a formatted version (from the latest build) at [http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html).  (See [The (new) GHC Commentary](commentary) [PrimOps](commentary/prim-ops) page for an excellent description of how primitive operations are implemented.  A highly recommended introduction directly related to GMP is [AddingNewPrimitiveOperations](adding-new-primitive-operations).) In primops.txt.pp--better yet, [GHC.Prim](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html)--you might want to search for the text `"section "The word size story.""`, and especially the text `"section "Integer#""` or just go to [The word size story](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html#1) and [Integer](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html#8).   The Haskell definition of the Integer data type is in [/packages/base/GHC/Num.lhs](http://darcs.haskell.org/packages/base/GHC/Num.lhs).
+A guide to GHC primitives is available (in an unformatted version) in [/compiler/GHC/Builtin/primops.txt.pp](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Builtin/primops.txt.pp); there is a formatted version (from the latest build) at [http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html).  (See [The (new) GHC Commentary](commentary) [PrimOps](commentary/prim-ops) page for an excellent description of how primitive operations are implemented.  A highly recommended introduction directly related to GMP is [AddingNewPrimitiveOperations](adding-new-primitive-operations).) In primops.txt.pp--better yet, [GHC.Prim](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html)--you might want to search for the text `"section "The word size story.""`, and especially the text `"section "Integer#""` or just go to [The word size story](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html#1) and [Integer](http://www.haskell.org/ghc/dist/current/docs/libraries/base/GHC-Prim.html#8).   The Haskell definition of the Integer data type is in [/packages/base/GHC/Num.lhs](http://darcs.haskell.org/packages/base/GHC/Num.lhs).
 
 
 
@@ -154,7 +154,7 @@ Note: references are relative to the main directory of the source distribution; 
 
 - [configure.ac](https://gitlab.haskell.org/ghc/ghc/blob/master/configure.ac) (*Modify*: remove GMP related material; replace with MP library requirements)
 
-- [compiler/prelude/primops.txt.pp](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/prelude/primops.txt.pp)   (*Modify*: Integer material)
+- [compiler/GHC/Builtin/primops.txt.pp](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Builtin/primops.txt.pp)   (*Modify*: Integer material)
 - [compiler/prelude/PrelNames.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/prelude/PrelNames.lhs) (*Reference*: integerTyConName and similar)
 - \[\[GhcFile(compiler/prelude/TysPrim.lhs)\]   (*Reference*)
 

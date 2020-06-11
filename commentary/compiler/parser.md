@@ -6,9 +6,9 @@
 
 The parser is written using
 
-- [Alex](http://www.haskell.org/alex/), for lexical analysis.  Source file [compiler/parser/Lexer.x](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/parser/Lexer.x)
-- [Happy](http://www.haskell.org/happy/), for the parser itself.  Source file [compiler/parser/Parser.y](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/parser/Parser.y).
-- `RdrHsSyn`, for Haskell support functions.  Source file [compiler/parser/RdrHsSyn.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/parser/RdrHsSyn.hs)
+- [Alex](http://www.haskell.org/alex/), for lexical analysis.  Source file [compiler/GHC/Parser/Lexer.x](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/GHC/Parser/Lexer.x)
+- [Happy](http://www.haskell.org/happy/), for the parser itself.  Source file [compiler/GHC/Parser.y](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/GHC/Parser.y).
+- `RdrHsSyn`, for Haskell support functions.  Source file [compiler/GHC/Parser/PostProcess.hs](https://gitlab.haskell.org/ghc/ghc/tree/master/compiler/GHC/Parser/PostProcess.hs)
 - Read [Shayne Fletcher's great blog post](https://blog.shaynefletcher.org/2020/04/syntactic-ambiguity-resolution-in-ghc.html) about how GHC deals with ambiguous situations, and the `DisambECP` class.
 
 ## Principles

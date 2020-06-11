@@ -32,10 +32,10 @@ Here is an expanded version of what needs to be done in step 5 and 6 to get a re
 1. Will need to change a few things in LLVM code gen.
 
 
-5.1 'compiler/llvmGen/LlvmCodeGen/Ppr.hs' defines a platform specific string that is included in all generated llvm code. Add one for your platform. This string specifies the datalayout parameters for the platform (e.g pointer size, word size..). If you don't include one llvm should still work but wont optimise as aggressively.
+5.1 'compiler/GHC/CmmToLlvm/Ppr.hs' defines a platform specific string that is included in all generated llvm code. Add one for your platform. This string specifies the datalayout parameters for the platform (e.g pointer size, word size..). If you don't include one llvm should still work but wont optimise as aggressively.
 
 
-5.2 'compiler/llvmGen/LlvmCodeGen/CodeGen.hs' has some platform specific code on how write barriers should be handled.
+5.2 'compiler/GHC/CmmToLlvm/CodeGen.hs' has some platform specific code on how write barriers should be handled.
 
 1. Probably some stuff elsewhere in ghc that needs to be changed (most likely in the main/ subfolder which is where most the compiler driver lives or in codegen/ which is the Cmm code generator).
 

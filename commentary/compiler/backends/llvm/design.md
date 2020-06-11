@@ -6,7 +6,7 @@ The current design tries to fit into GHC's pipeline stages as an alternative to 
 
 The LLVM pipeline works as follows:
 
-- New path for LLVM generation, separate from C and NCG. (path forks at compiler/main/CodeOutput.lhs, same place where C and NCG fork).
+- New path for LLVM generation, separate from C and NCG. (path forks at compiler/GHC/Driver/CodeOutput.hs, same place where C and NCG fork).
 - LLVM code generation will output LLVM assembly code.
 - The LLVM assembly code is translated to an object file as follows
 

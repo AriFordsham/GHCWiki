@@ -1,7 +1,7 @@
 # GHC Commentary: The C code generator
 
 
-Source: [compiler/cmm/PprC.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/PprC.hs)
+Source: [compiler/GHC/CmmToC.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/CmmToC.hs)
 
 
 This phase takes [Cmm](commentary/compiler/cmm-type) and generates plain C code. The C code generator is very simple these days, in fact it can almost be considered pretty-printing. It is only used for unregisterised compilers.

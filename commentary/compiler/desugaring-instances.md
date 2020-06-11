@@ -340,4 +340,4 @@ My current difficulty is that I see no way to get all the good things
 at once.
 
 
-PS: see also the comments at the start of `compiler/typecheck/TcInstDcls.lhs`, which cover some of the same ground.
+PS: see also the comments at the start of `compiler/GHC/Tc/TyCl/Instance.hs`, which cover some of the same ground.

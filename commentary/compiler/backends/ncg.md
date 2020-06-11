@@ -19,21 +19,21 @@ NOTE! The native code generator was largely rewritten as part of the C-- backend
 ### Files, Parts
 
 
-After GHC has produced [Cmm](commentary/compiler/cmm-type) (use -ddump-cmm or -ddump-opt-cmm to view), the Native Code Generator (NCG) transforms Cmm into architecture-specific assembly code.  The NCG is located in [compiler/nativeGen](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen) and is separated into eight modules:
+After GHC has produced [Cmm](commentary/compiler/cmm-type) (use -ddump-cmm or -ddump-opt-cmm to view), the Native Code Generator (NCG) transforms Cmm into architecture-specific assembly code.  The NCG is located in [compiler/GHC/CmmToAsm](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/CmmToAsm) and is separated into eight modules:
 
-- [compiler/nativeGen/AsmCodeGen.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/AsmCodeGen.hs)
+- [compiler/GHC/CmmToAsm.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/CmmToAsm.hs)
 
-  top-level module for the NCG, imported by [compiler/main/CodeOutput.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/CodeOutput.hs); also defines the Monad for optimising generic Cmm code, `CmmOptM`
+  top-level module for the NCG, imported by [compiler/GHC/Driver/CodeOutput.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Driver/CodeOutput.hs); also defines the Monad for optimising generic Cmm code, `CmmOptM`
 - [compiler/nativeGen/MachCodeGen.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/MachCodeGen.hs)
 
   generates architecture-specific instructions (a Haskell-representation of assembler) from Cmm code
 - [compiler/nativeGen/MachInstrs.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/MachInstrs.hs)
 
   contains data definitions and some functions (comparison, size, simple conversions) for machine instructions, mostly carried out through the `Instr` data type, defined here
-- [compiler/nativeGen/NCGMonad.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/NCGMonad.hs)
+- [compiler/GHC/CmmToAsm/Monad.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/CmmToAsm/Monad.hs)
 
   defines the the main monad in the NCG: the Native code Machine instruction Monad, `NatM`, and related functions.  *Note: the NCG switches between two monads at times, especially in `AsmCodeGen`: `NatM` and the `UniqSM` Monad used throughout the compiler.*
-- [compiler/nativeGen/PIC.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/PIC.hs)
+- [compiler/GHC/CmmToAsm/PIC.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/CmmToAsm/PIC.hs)
 
   handles generation of position independent code and issues related to dynamic linking in the NCG; related to many other modules outside the NCG that handle symbol import, export and references, including `CLabel`, `Cmm`, `codeGen` and the RTS, and the Mangler
 - [compiler/nativeGen/PprMach.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/nativeGen/PprMach.hs)

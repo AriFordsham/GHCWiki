@@ -59,7 +59,7 @@ in [compiler/codeGen/CgTicky.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/
 Other relevant functions: `emitTickyCounter` in [compiler/codeGen/CgTicky.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/codeGen/CgTicky.hs) (called by `closureCodeBody` in [compiler/codeGen/CgClosure.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/codeGen/CgClosure.lhs)).
 
 
-Argh! I spent days tracking down this bug: `idInfoLabelType` in [compiler/cmm/CLabel.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CLabel.hs) needs to return `DataLabel` for labels of type `RednCount` (i.e., labels for ticky counters.) By default, it was returning `CodeLabel`, which caused the ticky counter labels to get declared with the wrong type in the generated C, which caused C compiler errors.
+Argh! I spent days tracking down this bug: `idInfoLabelType` in [compiler/GHC/Cmm/CLabel.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/CLabel.hs) needs to return `DataLabel` for labels of type `RednCount` (i.e., labels for ticky counters.) By default, it was returning `CodeLabel`, which caused the ticky counter labels to get declared with the wrong type in the generated C, which caused C compiler errors.
 
 ## Declarations for ticky counters
 
@@ -96,7 +96,7 @@ f x =
 ```
 
 
-where `stuff` doesn't depend on `x`. Demand analysis says that `foo` has a strict demand placed on it. Later, `foo` gets floated to the top level because it doesn't depend on `x` (in reality it's more complicated because in this case `foo` probably would have gotten floated out before demand analysis, but bear with me). `foo` still has a strict demand signature, which a top-level binding isn't allowed to have. Currently this manifests itself as an assertion failure in [compiler/simplCore/SimplEnv.lhs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/simplCore/SimplEnv.lhs).
+where `stuff` doesn't depend on `x`. Demand analysis says that `foo` has a strict demand placed on it. Later, `foo` gets floated to the top level because it doesn't depend on `x` (in reality it's more complicated because in this case `foo` probably would have gotten floated out before demand analysis, but bear with me). `foo` still has a strict demand signature, which a top-level binding isn't allowed to have. Currently this manifests itself as an assertion failure in [compiler/GHC/Core/Opt/Simplify/Env.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Core/Opt/Simplify/Env.hs).
 
 
 There are two possible easy solutions: don't float out bindings for strict things, or "both" the demand for a binder with Lazy when its binding gets floated out. The question is, is it better to do the let-floating and lose the strictness into or to evaluate something strictly but lose sharing?

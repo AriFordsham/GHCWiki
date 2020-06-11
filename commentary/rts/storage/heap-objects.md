@@ -578,7 +578,7 @@ Forwarding pointers appear temporarily during [garbage collection](commentary/rt
 There are two “levels” at which a new object can be added. The simplest way to add a new object is to simply define a custom new info table:
 
 - [includes/stg/MiscClosures.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/stg/MiscClosures.h): Declare your info table with `RTS_ENTRY`.
-- [rts/StgMiscClosures.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/StgMiscClosures.cmm): Define the info table, also, provide entry points if they represent runnable code (though this is pretty uncommon if you’re not also adding a new closure type; most just error).  To find out what `INFO_TABLE` and all its variants do, check the C-- parser at [compiler/cmm/CmmParse.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/cmm/CmmParse.y) The most important thing is to pick the correct closure type.
+- [rts/StgMiscClosures.cmm](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/StgMiscClosures.cmm): Define the info table, also, provide entry points if they represent runnable code (though this is pretty uncommon if you’re not also adding a new closure type; most just error).  To find out what `INFO_TABLE` and all its variants do, check the C-- parser at [compiler/GHC/Cmm/Parser.y](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Cmm/Parser.y) The most important thing is to pick the correct closure type.
 
 
 You also will need to define primops to manipulate your new object type, if you want to manipulate it from Haskell-land (and not have it be RTS-only).  See [wiki:Commentary/PrimOps](commentary/prim-ops) for more details.

@@ -4,7 +4,7 @@
 GHC's many flavours of command line flags make the code interpreting them rather involved. The following provides a brief overview of the processing of these options. Since the addition of the interactive front-end to GHC, there are two kinds of flags: static and dynamic. Static flags can only be set once on the command line. They remain the same throughout the whole GHC session (so for example you cannot change them within GHCi using `:set` or with `OPTIONS_GHC` pragma in the source code). Dynamic flags are the opposite: they can be changed in GHCi sessions using `:set` command or `OPTIONS_GHC` pragma in the source code. There are few static flags and it is likely that in the future there will be even less. Thus, you won't see many static flag references in the source code, but you will see a lot of functions that use dynamic flags.
 
 
-Command line flags are described by Flag data type defined in [compiler/main/CmdLineParser.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/CmdLineParser.hs):
+Command line flags are described by Flag data type defined in [compiler/GHC/Driver/CmdLine.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Driver/CmdLine.hs):
 
 ```wiki
 data Flag m = Flag
@@ -31,7 +31,7 @@ In [compiler/main/StaticFlags.hs](https://gitlab.haskell.org/ghc/ghc/blob/master
 ## Dynamic flags
 
 
-They are managed by functions in [compiler/main/DynFlags.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/DynFlags.hs) file. Looking from the top you will find data types used to described enabled dynamic flags: `DumpFlag`, `GeneralFlag`, `WarningFlag`, `Language`, `SafeHaskellMode`, `ExtensionFlag` and finally `DynFlags`. Function `defaultDynFlags :: Settings -> DynFlags` initializes some of the flags to default values. Available dynamic flags and their respective actions are defined by `dynamic_flags :: [Flag (CmdLineP DynFlags)]`. Also, `fWarningFlags :: [FlagSpec WarningFlag]`, `fFlags :: [FlagSpec GeneralFlag]`, `xFlags :: [FlagSpec ExtensionFlag]` and a few more smaller functions define even more flags needed for example for language extensions, warnings and other things. These flags are descibred by the data type `FlagSpec f`:
+They are managed by functions in [compiler/GHC/Driver/Session.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Driver/Session.hs) file. Looking from the top you will find data types used to described enabled dynamic flags: `DumpFlag`, `GeneralFlag`, `WarningFlag`, `Language`, `SafeHaskellMode`, `ExtensionFlag` and finally `DynFlags`. Function `defaultDynFlags :: Settings -> DynFlags` initializes some of the flags to default values. Available dynamic flags and their respective actions are defined by `dynamic_flags :: [Flag (CmdLineP DynFlags)]`. Also, `fWarningFlags :: [FlagSpec WarningFlag]`, `fFlags :: [FlagSpec GeneralFlag]`, `xFlags :: [FlagSpec ExtensionFlag]` and a few more smaller functions define even more flags needed for example for language extensions, warnings and other things. These flags are descibred by the data type `FlagSpec f`:
 
 ```wiki
 type FlagSpec flag

@@ -23,7 +23,7 @@ The main pieces are:
   server.  This is a fairly simple wrapper, most of the functionality
   is provided by modules in `libraries/ghci`.
 
-- The [GHCi](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/ghci/GHCi.hs) module in `compiler/ghci` which provides the interface to the server used
+- The [GHCi](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Runtime/Interpreter.hs) module in `compiler/GHC/Runtime` which provides the interface to the server used
   by the rest of GHC.
 
 ## Implementation overview
@@ -34,13 +34,13 @@ interpreted code is run by the `iserv` binary.  Without the flag,
 interpreted code is run in the same process as GHC.
 
 
-With `-fexternal-interpreter`, the first time we need to run some interpreted code, we start the `iserv` server. This is done by `withIServ` in [GHCi](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/ghci/GHCi.hs).
+With `-fexternal-interpreter`, the first time we need to run some interpreted code, we start the `iserv` server. This is done by `withIServ` in [GHCi](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Runtime/Interpreter.hs).
 
 
 GHC and `iserv` communicate over a pair of pipes, one for sending messages and one for receiving.
 
 
-All communication is done using messages serialized using the `binary` package.  The main message type is `Message` in [GHCi.Message](https://gitlab.haskell.org/ghc/ghc/blob/master/libraries/ghci/GHCi/Message.hs).  To send a message from GHC, use `iservCmd` in [GHCi](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/ghci/GHCi.hs).  There are wrappers for common message types.
+All communication is done using messages serialized using the `binary` package.  The main message type is `Message` in [GHCi.Message](https://gitlab.haskell.org/ghc/ghc/blob/master/libraries/ghci/GHCi/Message.hs).  To send a message from GHC, use `iservCmd` in [GHCi](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Runtime/Interpreter.hs).  There are wrappers for common message types.
 
 
 There are multiple versions of `iserv`: plain `iserv`, `iserv_p`, and `iserv_dyn`.  The latter two are compiled with `-prof` and `-dynamic` respectively.  One big advantage of `-fexternal-interpreter` is that we can run interpreted code in `-prof` mode without GHC itself being compiled with `-prof`; in order to do that, we invoke `iserv_p` rather than `iserv`.
@@ -73,7 +73,7 @@ Any compiled packages and object files are linked into the `iserv` process using
 This is a bit more tricky, because the communication is two way: we send the TH code to `iserv`, but during execution the TH code may make requests back to GHC, e.g. to look up a `Name`.  
 
 
-The set of operations that TH code can perform is defined by the `Quasi` class in [Language.Haskell.TH.Syntax](https://gitlab.haskell.org/ghc/ghc/blob/master/libraries/template-haskell/Language/Haskell/TH/Syntax.hs).  Under `-fexternal-interpreter`, each of these operations results in a message sent back from `iserv` to GHC, and a response to the message sent from GHC back to `iserv`.  The `iserv` side of this communication is in [GHCi.TH](https://gitlab.haskell.org/ghc/ghc/blob/master/libraries/ghci/GHCi/TH.hs), and the GHC side is in `runRemoteTH` in [TcSplice.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/typecheck/TcSplice.hs).
+The set of operations that TH code can perform is defined by the `Quasi` class in [Language.Haskell.TH.Syntax](https://gitlab.haskell.org/ghc/ghc/blob/master/libraries/template-haskell/Language/Haskell/TH/Syntax.hs).  Under `-fexternal-interpreter`, each of these operations results in a message sent back from `iserv` to GHC, and a response to the message sent from GHC back to `iserv`.  The `iserv` side of this communication is in [GHCi.TH](https://gitlab.haskell.org/ghc/ghc/blob/master/libraries/ghci/GHCi/TH.hs), and the GHC side is in `runRemoteTH` in [TcSplice.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Tc/Gen/Splice.hs).
 
 
 

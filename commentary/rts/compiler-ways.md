@@ -126,7 +126,7 @@ The alert reader might have noticed that combinations like "threaded with dynami
 Some ways can be used together (most prominently, debugging can be used together with any other way), others are mutually excluding each other (like profiling with eventlog).
 
 
-The allowed combinations are defined inside the compiler, in [compiler/main/DynFlags.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/DynFlags.hs).
+The allowed combinations are defined inside the compiler, in [compiler/GHC/Driver/Session.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Driver/Session.hs).
 Which brings us to discussing some of the internals.
 
 
@@ -156,7 +156,7 @@ to your `build.mk`.
 # Internals
 
 
-Ways are defined in [compiler/main/DynFlags.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/main/DynFlags.hs) as a Haskell data structure `Way`.
+Ways are defined in [compiler/GHC/Driver/Session.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Driver/Session.hs) as a Haskell data structure `Way`.
 
 
 Function `dynamic_flags` defines the actual flag strings for the ghc invocation (like `-prof`, `-threaded`), which activate the respective `Way`.

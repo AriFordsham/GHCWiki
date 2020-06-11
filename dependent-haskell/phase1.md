@@ -126,7 +126,7 @@ This feature will not carry over to data families (which for reasons beyond the 
 ## Visibility changes in types
 
 
-GHC tracks three different levels of visibility: `Invisible` binders are never user-written, `Specified` ones are available for visible type applications, and `Visible` ones are always user-written. See `Note [TyBinders and VisibilityFlags]` in [TyCoRep](https://github.com/ghc/ghc/blob/master/compiler/types/TyCoRep.hs).
+GHC tracks three different levels of visibility: `Invisible` binders are never user-written, `Specified` ones are available for visible type applications, and `Visible` ones are always user-written. See `Note [TyBinders and VisibilityFlags]` in [TyCoRep](https://github.com/ghc/ghc/blob/master/compiler/GHC/Core/TyCo/Rep.hs).
 
 
 
