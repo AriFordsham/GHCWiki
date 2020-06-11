@@ -12,4 +12,7 @@ Agenda:
 - pick up some work from HaL (Darwin dead-code-stripping avoidance optimisation)
 
 Memory optimisations
-- avoid having more than 7 tag appliers per compilation unit (`-O2`). These probably arise for each datatype now, and get invoked when a constructor is entered (i.e. never?). 
+- avoid having more than 7 tag appliers per compilation unit (`-O2`). These probably arise for each datatype now, and get invoked when a constructor is entered (i.e. never?).
+
+Code size optimisations
+- closure allocation cold path: don't pass the entry point, but just jump to the GC handler, and compute the return address from there. Also jump back to the place where the `Hp` is already incremented, behind the `HpLim` check.
