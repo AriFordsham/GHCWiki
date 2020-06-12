@@ -80,7 +80,8 @@ Count      := '1'                          # Once
             | ''                           # Many times
 
 # Divergence
-Divergence := 'b'                          # Diverges: Definitely divergences
+Divergence := 'b'                          # Diverges: Definitely divergences but *doesn't* throw a precise exception.
+            | 'x'                          # ExnOrDiv: Definitely diverges or throws a precise exception.
             | ''                           # Dunno: May or may not diverge
 
 ####################################
