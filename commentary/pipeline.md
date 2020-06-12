@@ -20,7 +20,7 @@ Here's an overview of the module structure of the top levels of GHC library.   (
                     /                  \
                    /                    \
  |------------------------|    |------------------------|
- |        GhcMake         |    |    InteractiveEval     |
+ |    GHC.Driver.Make     |    |   GHC.Runtime.Eval     |
  | Implements --make      |    | Stuff to support the   |
  | Deals with compiling   |    | GHCi interactive envt  |
  |    multiple modules    |    |                        |
@@ -28,12 +28,12 @@ Here's an overview of the module structure of the top levels of GHC library.   (
            |                                |
            |                                |
            |      --------------------      |
-- - - - - -| - - -|     GhcMonad     |- - - | - - - - - - - -
+- - - - - -| - - -| GHC.Driver.Monad |- - - | - - - - - - - -
            |      --------------------      |
            |                                |
            |                                |
  |-------------------------|                |
- |   DriverPipeline        |                |
+ |  GHC.Driver.Pipeline    |                |
  | Deals with compiling    |                |
  |  *a single module*      |                |
  | through all its stages  |                |
@@ -44,7 +44,7 @@ Here's an overview of the module structure of the top levels of GHC library.   (
                \                            |
                 \                           |  
          |----------------------------------------------|
-         |                    HscMain                   |
+         |               GHC.Driver.Main                |
          | Compiling a single module (or expression or  |
          | stmt) to bytecode, or to a M.hc or M.s file  |
          |----------------------------------------------|
@@ -53,13 +53,13 @@ Here's an overview of the module structure of the top levels of GHC library.   (
 ```
 
 
-There are some important functions if you are tracing how things get from GHC to HscMain.
+There are some important functions if you are tracing how things get from GHC to GHC.Driver.Main (formerly known as HscMain).
 
-- `compileOne` is the compilation entry point for `--make` mode (it's invoked by `upsweep_mod` in GhcMake).  It calls `hscIncrementalCompile`, and then fires up the `DriverPipeline` to finish up code generation.
+- `compileOne` is the compilation entry point for `--make` mode (it's invoked by `upsweep_mod` in GHC.Driver.Make).  It calls `hscIncrementalCompile`, and then fires up the `GHC.Driver.Pipeline` to finish up code generation.
 
 - `runPhase` is the compilation entry point for `-c` mode. It successfully processes files until we have an `Hsc` input file, at which point it calls `hscIncrementalCompile`. The rest of the pipeline is handled automatically by the driver.
 
-- `hscIncrementalCompile` is the primary entrypoint for `HscMain`.  It calls `hscIncrementalFrontend`, and if typechecking was necessary, it also runs the simplifier and desugarer, and writes out the interface file.
+- `hscIncrementalCompile` is the primary entrypoint for `GHC.Driver.Main`.  It calls `hscIncrementalFrontend`, and if typechecking was necessary, it also runs the simplifier and desugarer, and writes out the interface file.
 
 - `hscIncrementalFrontend` is the recompilation checker: it checks if we actually need to compile the file in question; if so it calls `genericHscFrontend` to actually parse and typecheck. (Note that this does NOT do any backend stuff: that will be handled by `hscIncrementalCompile`.)
 
