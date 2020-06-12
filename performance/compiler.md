@@ -13,6 +13,23 @@ Identify tickets by using ~"compiler perf" label.
 
 ---
 
+### Simon's hit-list (June 2020)
+
+* #13253.  Fixed by !3497 (StrictArg)
+* #10421.  Fixed by !3497 (StrictArg)
+* #15630.  Fixed, I think, by the ufKeenessFactor fix.  ACTION: add regression test
+* #17516.  Apparently fixed.  ACTION: bisect to find out how; and add regression test
+* #18140.  Fixed by !3497 (StrictArg)
+* #18282.  Fixed by !3426, which includes a regression test.
+
+
+Still unresolved
+* #15488.  f calls g twice; g calls h twice; etc.  Simple unfolding blows up. Not sure what to do here.  Not fixed by !3497, for example.
+* #15751.  Something about zipWith in the `accelerate` library
+* #15455.  Involves `jsaddle-dom` which is hard to build
+* #18101.  Involves `pandoc` which is hard to build
+
+
 
 ### Type pile-up
 
