@@ -24,6 +24,7 @@ Identify tickets by using ~"compiler perf" label.
 
 
 Still unresolved
+* #18223.  The specialiser causes a big blow up. But even with `-fno-specialise` something non-linear seems to be happening.
 * #15488.  f calls g twice; g calls h twice; etc.  Simple unfolding blows up. Not sure what to do here.  Not fixed by !3497, for example.
 * #15751.  Something about zipWith in the `accelerate` library
 * #15455.  Involves `jsaddle-dom` which is hard to build
