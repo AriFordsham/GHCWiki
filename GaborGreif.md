@@ -37,7 +37,7 @@ orbits = [
       ]
 ```
 
-- hours like this:
+- horrors like this:
 ``` asm
      142: 0f 85 00 00 00 00             jne     0 <_Lr89Q_info+0x28>
      148: ff 23                         jmpq    *(%rbx)
