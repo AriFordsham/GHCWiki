@@ -36,3 +36,14 @@ orbits = [
 	"H4Z)TC6",
       ]
 ```
+
+- hours like this:
+``` asm
+     142: 0f 85 00 00 00 00             jne     0 <_Lr89Q_info+0x28>
+     148: ff 23                         jmpq    *(%rbx)
+```
+More than 780 bytes wasted:
+```
+$ llvm-objdump _build/stage1/compiler/build/GHC/Stg/CSE.o -d | grep ': 0f 85 00 00 00 00' | wc -l
+131
+```
