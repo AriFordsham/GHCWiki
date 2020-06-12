@@ -1,6 +1,5 @@
 # Compiling one module: GHC.Driver.Main
-
-Historical note: GHC.Driver.Main was formerly known as HscMain.
+(Historical note: GHC.Driver.Main was formerly known as HscMain.)
 
 
 Here we are going to look at the compilation of a single module.
