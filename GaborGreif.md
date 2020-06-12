@@ -16,3 +16,23 @@ Memory optimisations
 
 Code size optimisations
 - closure allocation cold path: don't pass the entry point, but just jump to the GC handler, and compute the return address from there. Also jump back to the place where the `Hp` is already incremented, behind the `HpLim` check.
+
+- stack allocation cold path, same issue, but this is already pretty compact...
+
+- very repetitive assembly:
+
+``` haskell
+module AoC6 (orbits) where
+
+orbits = [
+
+	"S5F)4L5",
+	"7BP)2V1",
+	"DHC)KGY",
+	"JZG)PN7",
+	"RV4)123",
+	"2DJ)LPW",
+	"19G)31B",
+	"H4Z)TC6",
+      ]
+```
