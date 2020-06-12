@@ -46,4 +46,7 @@ More than 780 bytes wasted:
 ```
 $ llvm-objdump _build/stage1/compiler/build/GHC/Stg/CSE.o -d | grep ': 0f 85 00 00 00 00' | wc -l
 131
+$ ls -l _build/stage1/compiler/build/GHC/Stg/CSE.o
+-rw-r--r-- 1 ggreif staff 84356 Jun 12 13:52 _build/stage1/compiler/build/GHC/Stg/CSE.o
 ```
+almost 1%!
