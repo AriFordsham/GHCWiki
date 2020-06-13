@@ -19,7 +19,7 @@ Code size optimisations
 
 - stack allocation cold path, same issue, but this is already pretty compact...
 
-- very repetitive assembly:
+- very repetitive assembly (https://gitlab.haskell.org/ghc/ghc/-/merge_requests/3012) :
 
 ``` haskell
 module AoC6 (orbits) where
@@ -50,3 +50,5 @@ $ ls -l _build/stage1/compiler/build/GHC/Stg/CSE.o
 -rw-r--r-- 1 ggreif staff 84356 Jun 12 13:52 _build/stage1/compiler/build/GHC/Stg/CSE.o
 ```
 almost 1%!
+
+Turns out these are relocations! :-/
