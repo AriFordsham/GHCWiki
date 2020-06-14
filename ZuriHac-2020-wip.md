@@ -1,1 +1,0 @@
-moved to https://github.com/nfrisby/tcplugins-zurihac2020/blob/master/outline.md for ease of collaboration, we'll move it back to the wiki once it's ready
