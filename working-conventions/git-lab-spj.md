@@ -126,6 +126,8 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
   There does not seem to be any way to change the sort order of the results. I don't know what the sort order actually is.
 
+   Also try Google: `site:gitlab.haskell.org  blah blah`
+
 - **Markup**. In GitLab markup:
 
   - `#3553` links to issue 3553
