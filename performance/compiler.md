@@ -17,8 +17,8 @@ Identify tickets by using ~"compiler perf" label.
 
 * #13253.  Fixed by !3497 (StrictArg)
 * #10421.  Fixed by !3497 (StrictArg)
-* #15630.  Fixed, I think, by the ufKeenessFactor fix.  ACTION: add regression test
-* #17516.  Apparently fixed.  ACTION: bisect to find out how; and add regression test
+* #15630.  Fixed, I think, by the ufKeenessFactor fix.  Regression test added !3509
+* #17516.  Fixed (apparently by accident) by #17901/!2843.   Regression test added !3519
 * #18140.  Fixed by !3497 (StrictArg)
 * #18282.  Fixed by !3426, which includes a regression test.
 
