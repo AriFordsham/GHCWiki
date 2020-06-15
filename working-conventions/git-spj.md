@@ -120,6 +120,13 @@ git log `git merge-base master my-test`..my-test
 
 The `git merge-base b1 b2` thing returns the name of the commit that is the common ancestor of branches `b1` and `b2`.
 
+### Show commits affecting a particular file
+
+```
+git log -4 --follow compiler/GHC/Core/Opt/Specialise.hs
+```
+shows the most recent 4 commits to that file.  It accounts for file renamings.
+
 ---
 
 ## Working with branches
