@@ -127,6 +127,8 @@ git log -4 --follow compiler/GHC/Core/Opt/Specialise.hs
 ```
 shows the most recent 4 commits to that file.  It accounts for file renamings.
 
+Maybe use `-M` too.  See [this post](https://kgrz.io/use-git-log-follow-for-file-history.html).
+
 ---
 
 ## Working with branches
