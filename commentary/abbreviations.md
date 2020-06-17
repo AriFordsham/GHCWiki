@@ -53,7 +53,7 @@ Certain abbreviations are used pervasively throughout the GHC source code. This 
 
 - **Occ**: Occurrence
 
-  - However, in the context of [OccName](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Compiler/RdrNameType#TheOccNametype), "occurrence" actually means "classified (i.e. as a type name, value name, etc) but not qualified and not yet resolved"
+  - However, in the context of [OccName](commentary/compiler/rdr-name-type#the-occname-type), "occurrence" actually means "classified (i.e. as a type name, value name, etc) but not qualified and not yet resolved"
 
 - **PId**: Package ID
 
@@ -75,7 +75,7 @@ Certain abbreviations are used pervasively throughout the GHC source code. This 
 
 - **Tc**: TypeCheck{ing,er}
 
-- **TSO**: [Thread State Object](https://gitlab.haskell.org/trac/ghc/wiki/Commentary/Rts/Storage/HeapObjects#ThreadStateObjects)
+- **TSO**: [Thread State Object](commentary/rts/storage/heap-objects#thread-state-objects)
 
 - **TyCon**: Type constructor
 
