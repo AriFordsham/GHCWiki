@@ -1,8 +1,26 @@
 # Agenda
 
--  #18231: eta expansion. Mysteries remain.  See also #18202
+- #18231: eta expansion. Mysteries remain.
+  - In particular, we wondered whether (or when, rather) `etaExpand` has to expose lambdas manifestly. Makes a difference for PAPs (special case: trivial exprs?)
+  - We investigated call sites of `etaExpand` and concluded that the only call site that really needs lambdas manifestly is CoreToStg.Prep
+  - On inlining PAPs: Makes sense operationally (so do it before STG), but keeping PAPs makes bindings much more likely to inline
+  - (Apparently, CoreToStg.Prep has its own eta expander)
+  - SPJ: "in mkLam I think it'd be fine not to eta-expand a trivial exprssion" (despite Note [Eta expanding lambdas])
 - #18154: CPR for data con apps.  More to do here.
-- #18238: state hack
+  - SPJ: Suggestion: don't produce CPR info for NOINLINE zero-arity things, OR for zero-arity expandable things
+- #18202, #18238: state hack
+  - We don't care to preserve one-shot-ness in the compiler. But it's also only use site info, so that should be fine
+  - e.g. `exprEtaExpandArity` only returns `Arity`, not `ArityType`, and so on
+  - Also eta reduction (for e.g. trivial expressions) loses one-shot-ness
+  - Idea: Preserve one-shot-ness in the pipeline (for eta contraction in particular!), only do full eta contraction in CorePrep
+  - Thought: one-shot is like call-by-name, cf. "Kinds are Calling conventions", then `multiShot (a ~> b) -> (a -> b)` and `oneShot` other way around
+  - We floated around the idea of having an explicit `MultiShot` annotation for lambdas, but that isn't effective
+    - Think about `multiShot expensive ==> let f = expensive in \x{ms}. f x`. What if `expensive = \y{os}. e`? Then we will inline into `e`! Bad
+  - Fundamental: `let f y{ms} = e in \x{os}. f x`
+    - eta reduce, then inline ==> `\y{ms}.e`
+    - inline, then beta reduce ==> `\x{os}.e[x/y]`
+    - In some situations, we want one, in some we want the other!
+    - Idea: No eta reduction whenever there's os or ms, only if there is no annotation
 - !2938: Detecting redundant bangs: A new extension for LYGs! Inspires need for unlifted types.
 - #18249: Support for unlifted types in PmCheck
   - Solution: Add PmCtNotBot at *binding sites*
