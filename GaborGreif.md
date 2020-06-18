@@ -65,3 +65,4 @@ why not
                                         add c1 %r8, %rdi
                                         add c2 %r8, %rsi (or: add c3 %rdi, %rsi)
 ```
+Again, these are actually relocations, so only the linker could know `c1` etc. Would need to rewrite other instructions to shorter forms.
