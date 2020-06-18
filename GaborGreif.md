@@ -52,3 +52,16 @@ $ ls -l _build/stage1/compiler/build/GHC/Stg/CSE.o
 almost 1%!
 
 Turns out these are relocations! :-/
+
+- same file
+```
+    84ac: 4c 8d 05 03 00 00 00         	leaq	3(%rip), %r8
+    84b3: 48 8d 3d 03 00 00 00         	leaq	3(%rip), %rdi
+    84ba: 48 8d 35 01 00 00 00         	leaq	1(%rip), %rsi
+```
+why not
+```
+    84ac: 4c 8d 05 03 00 00 00         	leaq	3(%rip), %r8
+                                        add c1 %r8, %rdi
+                                        add c2 %r8, %rsi (or: add c3 %rdi, %rsi)
+```
