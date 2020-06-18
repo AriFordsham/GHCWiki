@@ -42,6 +42,7 @@ Still unresolved
 * #15751.  Something about zipWith in the `accelerate` library
 * #15455.  Involves `jsaddle-dom` which is hard to build
 * #18101.  Involves `pandoc` which is hard to build
+* #13535.  `vector` test suite
 
 
 
