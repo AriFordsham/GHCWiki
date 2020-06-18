@@ -15,6 +15,16 @@ Identify tickets by using ~"compiler perf" label.
 
 ### Simon's hit-list (June 2020)
 
+MRs in flight
+* !3548 Perf tweaks in Coercion
+* !3497 StrictArg
+* !3531 (a) eta expansion for join points #18328 and (b) eta expansion and one-shot-ness #18355
+* !3426 conSize discount.  Depends on !3548, !3531
+
+Tickets:
+
+* #18354.  Compiler perf tweaks
+
 * #13253.  Fixed by !3497 (StrictArg)
 * #10421.  Fixed by !3497 (StrictArg)
 * #15630.  Fixed, I think, by the ufKeenessFactor fix.  Regression test added !3509
