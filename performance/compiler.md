@@ -18,8 +18,9 @@ Identify tickets by using ~"compiler perf" label.
 MRs in flight
 * !3548 Perf tweaks in Coercion
 * !3497 StrictArg
+* !3503 Eta expand in Unify monad
 * !3531 (a) eta expansion for join points #18328 and (b) eta expansion and one-shot-ness #18355
-* !3426 conSize discount.  Depends on !3548, !3531
+* !3426 conSize discount.  Depends on !3548, !3531, !3503
 
 Tickets:
 
