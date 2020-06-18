@@ -27,8 +27,7 @@ MRs in flight
 Tickets:
 
 * #18354.  Compiler perf tweaks
-
-* #13253.  Fixed by !3497 (StrictArg)
+* #13253.  Fixed by !3497 (StrictArg).  But I think there are some unfixed SpecConstr variants in the comment stream.
 * #10421.  Fixed by !3497 (StrictArg)
 * #15630.  Fixed, I think, by the ufKeenessFactor fix.  Regression test added !3509.  See [this comment](https://gitlab.haskell.org/ghc/ghc/issues/15488#note_160687) for an analysis of what is happening.
 * #17516.  Fixed (apparently by accident) by #17901/!2843.   Regression test added !3519
