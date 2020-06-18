@@ -53,7 +53,7 @@ almost 1%!
 
 Turns out these are relocations! :-/
 
-- same file
+- same file (`CSE.o`)
 ```
     84ac: 4c 8d 05 03 00 00 00         	leaq	3(%rip), %r8
     84b3: 48 8d 3d 03 00 00 00         	leaq	3(%rip), %rdi
