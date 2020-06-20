@@ -19,7 +19,7 @@ Look at the picture first.  The yellow boxes are compiler passes, while the blue
 
   These three passes can all discover programmer errors, which are sorted and reported to the user.
 
-- The **Desugarer** ([compiler/GHC/HsToCore.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/HsToCore.hs)) converts from the massive `HsSyn` type to [GHC's intermediate language, CoreSyn](commentary/compiler/core-syn-type).  This Core-language data type is unusually tiny: just eight constructors.) (`-ddump-ds`)
+- The **Desugarer** ([compiler/GHC/HsToCore.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/HsToCore.hs)) converts from the massive `HsSyn` type to [GHC's intermediate language, CoreSyn](commentary/compiler/core-syn-type).  This Core-language data type is unusually tiny: just ten constructors.) (`-ddump-ds`)
 
   Generally speaking, the desugarer produces few user errors or warnings. But it does produce *some*.  In particular, (a) pattern-match overlap warnings are produced here; and (b) when desugaring Template Haskell code quotations, the desugarer may find that `THSyntax` is not expressive enough.  In that case, we must produce an error ([compiler/GHC/HsToCore/Quote.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/HsToCore/Quote.hs)).
 

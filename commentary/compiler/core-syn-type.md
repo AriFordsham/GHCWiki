@@ -40,6 +40,7 @@ data Expr b	-- "b" for the type of binders,
   | Cast  (Expr b) Coercion
   | Tick  (Tickish Id) (Expr b)
   | Type  Type
+  | Coercion Coercion
 
 type Arg b = Expr b
 type Alt b = (AltCon, [b], Expr b)
@@ -74,6 +75,8 @@ Here are some notes about the individual constructors of `Expr`.
 - `Cast` is used for an [FC cast expression](commentary/compiler/fc).  `Coercion` is a synonym for `Type`.
 
 - `Tick` is used to represent all the kinds of source annotation we support: profiling SCCs, HPC ticks, and GHCi breakpoints. Was named `Note` some time ago.
+
+- `Coercion` is distinct from `Type` these days.  (ToDo: Update to the latest information)
 
 ## Case expressions
 
