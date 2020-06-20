@@ -41,13 +41,13 @@ data NameSort
 
 * **`Internal`, `System`**
 
-  An `Internal``Name` has only an occurrence name. Distinct `Internal``Names` may have the same occurrence name; the `n_uniq` distinguishes them.  
+  An `Internal` Name has only an occurrence name. Distinct `Internal` Names may have the same occurrence name; the `n_uniq` distinguishes them.  
 
   There is only a tiny difference between `Internal` and `System`; the former simply remembers that the name was originally written by the programmer, which helps when generating error messages.
 
 * **`External`**
 
-  An `External``Name` has a globally-unique (module, occurrence name) pair, namely the original name of the entity, that describes where the thing was originally defined. So for example, if we have 
+  An `External` Name has a globally-unique (module, occurrence name) pair, namely the original name of the entity, that describes where the thing was originally defined. So for example, if we have 
 
   ```haskell
   module M where
@@ -66,7 +66,7 @@ data NameSort
 
 * **`WiredIn`**
 
-  A `WiredIn``Name` is a special sort of `External``Name`, one that is completely known to the compiler (e.g. the `Bool` type constructor).  See [Commentary/Compiler/WiredIn](commentary/compiler/wired-in).
+  A `WiredIn` Name is a special sort of `External` Name, one that is completely known to the compiler (e.g. the `Bool` type constructor).  See [Commentary/Compiler/WiredIn](commentary/compiler/wired-in).
 
   * The `BuiltInSyntax` field is just a boolean yes/no flag that identifies entities that are denoted by built-in syntax, such as `[]` for the empty list.  These `Names` aren't "in scope" as such, and we occasionally need to know that.
 
