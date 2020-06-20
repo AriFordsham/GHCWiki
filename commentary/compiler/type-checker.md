@@ -7,7 +7,7 @@ Probably the most important phase in the frontend is the type checker, which is 
 GHC defines the abstract syntax of Haskell programs in [compiler/GHC/Hs.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Hs.hs) using a structure that abstracts over the concrete representation of bound occurences of identifiers and patterns. The module [compiler/GHC/Tc/Utils/Zonk.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Tc/Utils/Zonk.hs) defines a number of helper function required by the type checker. Note that the type [compiler/GHC/Tc/Types.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Tc/Types.hs).`TcId` used to represent identifiers in some signatures during type checking is, in fact, nothing but a synonym for a [plain Id](commentary/compiler/entity-types#type-variables-and-term-variables).
 
 
-It is also noteworthy, that the representations of types changes during type checking from `HsType` to `TypeRep.Type`. The latter is a [hybrid type](commentary/compiler/type-type) representation that is used to type Core, but still contains sufficient information to recover source types. In particular, the type checker maintains and compares types in their `Type` form.
+It is also noteworthy, that the representations of types changes during type checking from `HsType` to `GHC.Core.TyCo.Rep.Type`. The latter is a [hybrid type](commentary/compiler/type-type) representation that is used to type Core, but still contains sufficient information to recover source types. In particular, the type checker maintains and compares types in their `Type` form.
 
 ## The Overall Flow of Things
 
@@ -77,7 +77,7 @@ Now, finally, toplevel value declarations (including derived ones) are type chec
 Type and class declarations are type checked in a couple of phases that contain recursive dependencies - aka *knots*. The first knot encompasses almost the whole type checking of these declarations and forms the main piece of `TcTyClsDecls.tcTyAndClassDecls`.
 
 
-Inside this big knot, the first main operation is kind checking, which again involves a knot. It is implemented by `kcTyClDecls`, which performs kind checking of potentially recursively-dependent type and class declarations using kind variables for initially unknown kinds. During processing the individual declarations some of these variables will be instantiated depending on the context; the rest gets by default kind \* (during *zonking* of the kind signatures). Type synonyms are treated specially in this process, because they can have an unboxed type, but they cannot be recursive. Hence, their kinds are inferred in dependency order. Moreover, in contrast to class declarations and other type declarations, synonyms are not entered into the global environment as a global `TyThing`. (`TypeRep.TyThing` is a sum type that combines the various flavours of typish entities, such that they can be stuck into type environments and similar.)
+Inside this big knot, the first main operation is kind checking, which again involves a knot. It is implemented by `kcTyClDecls`, which performs kind checking of potentially recursively-dependent type and class declarations using kind variables for initially unknown kinds. During processing the individual declarations some of these variables will be instantiated depending on the context; the rest gets by default kind \* (during *zonking* of the kind signatures). Type synonyms are treated specially in this process, because they can have an unboxed type, but they cannot be recursive. Hence, their kinds are inferred in dependency order. Moreover, in contrast to class declarations and other type declarations, synonyms are not entered into the global environment as a global `TyThing`. (`GHC.Core.TyCo.Rep.TyThing` is a sum type that combines the various flavours of typish entities, such that they can be stuck into type environments and similar.)
 
 ## More Details
 
@@ -92,7 +92,7 @@ All type variables that may be instantiated (those in signatures may not), but h
 ### Type Representation
 
 
-The representation of types is fixed in the module [TypeRep](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/types/TypeRep.lhs) (TODO Update to the latest information) and exported as the data type `Type`. Read the comments in the `TypeRep` module!  A couple of points:
+The representation of types is fixed in the module [GHC.Core.TyCo.Rep](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Core/TyCo/Rep.hs) (TODO Update to the latest information) and exported as the data type `Type`. Read the comments in the `GHC.Core.TyCo.Rep` module!  A couple of points:
 
 - Type synonym applications are represented as a `TyConApp` with a `TyCon` that contains the expansion.  The expansion is done on-demand by `Type.coreView`.  Unexpanded type synonyms are useful for generating comprehensible error messages.
 

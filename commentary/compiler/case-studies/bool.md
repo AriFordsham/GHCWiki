@@ -170,7 +170,7 @@ Note that `boolTyCon` is on the list of wired in type constructors created by `w
 
 ### A side note on functions generating type and data constructors
 
-[compiler/types/TypeRep.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/types/TypeRep.hs), lines 281-282:
+[compiler/GHC/Core/TyCo/Rep.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Core/TyCo/Rep.hs), lines 1049-1050:
 
 ```wiki
 mkTyConTy :: TyCon -> Type
