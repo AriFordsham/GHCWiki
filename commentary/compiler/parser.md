@@ -25,7 +25,7 @@ Here are some examples:
 
 - The context of a type is parsed as a type, and then converted into a context by `RdrHsSyn.checkContext`.  For example, when parsing
 
-  ```wiki
+  ```haskell
   f :: (Read a, Num a) => a -> a
   ```
 

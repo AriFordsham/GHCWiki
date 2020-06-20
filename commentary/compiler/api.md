@@ -25,7 +25,7 @@ A typical interaction with the GHC API goes something like the following:
 
 Warning:  Initializing GHC is tricky!  Here is a template that seems to initialize GHC and a session.  Derived from ghc's Main.main function.
 
-```wiki
+```haskell
 import DynFlags
 import GHC
 

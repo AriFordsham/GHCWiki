@@ -74,7 +74,7 @@ The semantics of a transaction require that when a `TVar` is read in a transacti
 
 As a simple example we can consider a transaction that transfers value between two accounts:
 
-```wiki
+```haskell
 transfer :: Int -> TVar Int -> TVar Int -> STM ()
 transfer v a b = do
     x <- readTVar a
@@ -94,7 +94,7 @@ Transactions can choose to block until changes are made to `TVar`s that allow it
 
 Continuing the example, we can choose to block when there are insufficient funds:
 
-```wiki
+```haskell
 transferBlocking :: Int -> TVar Int -> TVar Int -> STM ()
 transferBlocking v a b = do
     x <- readTVar a
@@ -114,7 +114,7 @@ Any blocking transaction can be composed with `orElse` to choose an alternative 
 
 We now can choose the account that has enough funds for the transfer:
 
-```wiki
+```haskell
 transferChoice :: Int -> TVar Int -> TVar Int -> TVar Int -> STM ()
 transferChoice v a a' b = do
     transferBlocking v a b `orElse` transferBlocking v a' b
@@ -128,7 +128,7 @@ Invariants support checking global data invariants beyond the atomicity transact
 
 We can use data invariants to guard against negative balances:
 
-```wiki
+```haskell
 newNonNegativeAccount :: STM (TVar Int)
 newNonNegativeAccount = do
     t <- newTVar 0
@@ -319,7 +319,7 @@ Which invariants need to be checked for a given transaction? Clearly invariants 
 
 Note that there is a `check` in the `stm` package in `Control.Monad.STM` which matches the `check` from the [beauty](http://research.microsoft.com/pubs/74063/beautiful.pdf) chapter of "Beautiful code":
 
-```wiki
+```haskell
 check :: Bool -> STM ()
 check b = if b then return () else retry
 ```

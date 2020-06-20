@@ -46,7 +46,7 @@ The point about known-key things is that GHC knows its *name*, but not its *defi
 
 When reading an interface file, GHC might come across "GHC.Base.Eq", which is the name of the `Eq` class.  How does it match up this occurrence in the interface file with `eqClassName` defined in `GHC.Builtin.Names`?  Because the global name cache maintained by the renamer is initialised with all the known-key names.  This is done by the (hard-to-find) function `Main.newHscEnv`:
 
-```wiki
+```haskell
 newHscEnv :: DynFlags -> IO HscEnv
 newHscEnv dflags
   = do { ...

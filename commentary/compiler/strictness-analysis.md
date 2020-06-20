@@ -26,7 +26,7 @@ The demand analyzer does strictness analysis, absence analysis, and box-demand a
 
 In [compiler/GHC/Core/Opt/DmdAnal.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Core/Opt/DmdAnal.hs), `dmdAnal` is the function that performs demand analysis on an expression. It has the following type:
 
-```wiki
+```haskell
 dmdAnal :: SigEnv -> Demand-> CoreExpr -> (DmdType, CoreExpr)
 ```
 
@@ -35,7 +35,7 @@ The first argument is an environment mapping variables onto demand signatures. (
 
 ## Important datatypes
 
-```wiki
+```haskell
 data Demand
   = D Usage Demands    
 ```
@@ -43,7 +43,7 @@ data Demand
 
 A demand consists of usage information, along with information about usage of the subcomponents of the expression it's associated with.
 
-```wiki
+```haskell
 data Usage
   = U Str Abs Box        
 ```
@@ -51,7 +51,7 @@ data Usage
 
 Usage information consists of a triple of three properties: strictness (or evaluation demand), usage demand, and box demand.
 
-```wiki
+```haskell
 data Str 
   = Bot                 
   | Strict       
@@ -61,7 +61,7 @@ data Str
 
 Something that is `Lazy` may or may not be evaluated. Something that is `Strict` will definitely be evaluated at least to its outermost constructor. Something that is `Bot` will be fully evaluated (e.g., in `x `seq` (error "urk")`, `x` can be said to have strictness `Bot`, because it doesn't matter how much we evaluate `x` -- this expression will diverge anyway.)
 
-```wiki
+```haskell
 data Abs
   = Zero     
   | OneOrZero     
@@ -71,7 +71,7 @@ data Abs
 
 In the context of function arguments, an argument that is `Zero` is never used by its caller (e.g., syntactically, it doesn't appear in the body of the function at all). An argument that is `OneOrZero` will be used zero or one times, but not more. Something that is `Many` may be used zero, one, or many times -- we don't know.
 
-```wiki
+```haskell
 data Box
   = Box  
   | Unpack  
@@ -80,7 +80,7 @@ data Box
 
 Again in the context of function arguments, an argument that is `Box` is a value constructed by a data constructor of a product type whose "box" is going to be needed. For example, we say that `f x = case x of { (a, b) -> x`} "uses the box", so in `f`, `x` has box-demand information `Box`. In `g x = case x of { (a, b) -> a`}, `g` doesn't "use the box" for its argument, so in `g`, `x` has box-demand information `Unpack`. When in doubt, we assume `Box`.
 
-```wiki
+```haskell
 data Demands = Poly          
             |  Prod [Demand] (Maybe Coercion)
 ```
@@ -94,7 +94,7 @@ For a compound data value, the `Demands` type describes demands on its component
 
 Though any expression can have a `Demand` associated with it, another datatype, `DmdType`, is associated with a function body.
 
-```wiki
+```haskell
 data DmdType = DmdType 
 		    DmdEnv	
 		    [Demand]	
@@ -104,7 +104,7 @@ data DmdType = DmdType
 
 A `DmdType` consists of a `DmdEnv` (which provides demands for all explicitly mentioned free variables in a functions body), a list of `Demand`s on the function's arguments, and a `DmdResult`, which indicates whether this function returns an explicitly constructed product:
 
-```wiki
+```haskell
 data DmdResult = TopRes	-- Nothing known	
 	       | RetCPR	-- Returns a constructed product
 	       | BotRes	-- Diverges or errors
@@ -113,7 +113,7 @@ data DmdResult = TopRes	-- Nothing known
 
 The `dmdTransform` function takes a strictness environment, an [Id](commentary/compiler/name-type) corresponding to a function, and a `Demand` representing demand on the function -- in a particular context -- and returns a `DmdType`, representing the function's demand type in this context.
 
-```wiki
+```haskell
 dmdTransform :: SigEnv		
 	     -> Id		
 	     -> Demand		

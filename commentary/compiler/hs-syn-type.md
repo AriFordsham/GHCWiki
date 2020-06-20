@@ -29,7 +29,7 @@ The type checker adds type information to the syntax tree, otherwise leaving it 
 
 - Some constructors have a field of type `PostTcType`, which is just a synonym for `Type`. For example:
 
-  ```wiki
+  ```haskell
   data HsExpr id = ... | ExplicitList PostTcType [LHsExpr id] | ...
 
   type PostTcType = Type
@@ -42,7 +42,7 @@ The type checker adds type information to the syntax tree, otherwise leaving it 
 
   The error thunks mean that we can't conveniently pretty-print the `PostTcType` fields, because the pretty-printer would poke the error thunks when run on pre-typchecked code.  We could have defined `PostTcType` to be `Maybe Type`, but that would have meant unwrapping lots of `Just` constructors, which is messy.  It would be nicer to parameterise `HsSyn` over the `PostTcType` fields.  Thus:
 
-  ```wiki
+  ```haskell
     type RnHsBinds = HsBinds Name ()   -- After renaming
     type TcHsBinds = HsBinds Id Type   -- After type checking
   ```
@@ -51,7 +51,7 @@ The type checker adds type information to the syntax tree, otherwise leaving it 
 
 - In a few cases, the typechecker moves from one constructor to another.  Example:
 
-  ```wiki
+  ```haskell
   data HsPat id
     = ...
     | ConPatIn	(Located id)
@@ -79,7 +79,7 @@ The type checker adds type information to the syntax tree, otherwise leaving it 
 
 `HsSyn` makes heavy use of the `Located` type ([compiler/GHC/Types/SrcLoc.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Types/SrcLoc.hs)):
 
-```wiki
+```haskell
 data Located e = L SrcSpan e
 ```
 
@@ -95,6 +95,6 @@ More details in [compiler/GHC/Types/SrcLoc.hs](https://gitlab.haskell.org/ghc/gh
 
 Naming convention within the code: "`LHs`" means located Haskell, e.g.
 
-```wiki
+```haskell
 type LHsBinds n = Located (HsBinds n)
 ```

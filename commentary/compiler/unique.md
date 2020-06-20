@@ -108,7 +108,7 @@ The redesign is to accomplish the following:
 
 In an attempt to give more of GHC's innards well-behaved instances of `Typeable`, `Data`, `Foldable`, `Traversable`, etc. the implementation of `Unique`s was a bit of a sore spot. They were implemented (20+ years earlier) using custom boxing, viz.
 
-```wiki
+```haskell
 data Unique = MkUnique Int#
 ```
 
@@ -120,7 +120,7 @@ making automatic derivation of such type class instances hard. There was already
 
 A `Unique` has a domain (`TyCon`, `DataCon`, `PrelName`, `Builtin`, etc.) that was codified by a character. The remainder of the `Unique` was an integer that should be unique for said domain. This **was** once guaranteed through the export list of [compiler/GHC/Types/Unique.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Types/Unique.hs), where direct access to the domain-character was hidden, i.e.
 
-```wiki
+```haskell
 mkUnique :: Char -> Int -> Unique
 unpkUnique :: Unique -> (Char,Int)
 ```
@@ -128,7 +128,7 @@ unpkUnique :: Unique -> (Char,Int)
 
 were not exported. This should have guaranteed that every domain was assigned its own unique character, because only in [compiler/GHC/Types/Unique.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Types/Unique.hs) could those `Char`s be assigned. However, through
 
-```wiki
+```haskell
 mkUniqueGrimily :: Int -> Unique
 mkUniqueGrimily i = MkUnique (iUnbox i)
 ```
@@ -155,7 +155,7 @@ The function `mkSplitUniqSupply` made the domain-character accessible to all the
 
 Where the intention was still to have a clean interface, the (would-be) hidden `mkUnique` is only called by functions defined in the `Unique` module with the corresponding character, e.g.
 
-```wiki
+```haskell
 mkAlphaTyVarUnique   i = mkUnique '1' i
 mkPreludeClassUnique i = mkUnique '2' i
 mkPreludeTyConUnique i = mkUnique '3' (3*i)
@@ -167,14 +167,14 @@ mkPreludeTyConUnique i = mkUnique '3' (3*i)
 
 In the new design, the domains are explicitly encoded in a sum-type `UniqueDomain`. At the very least, this should help make the code a little more self-documenting *and* prevent accidental overlap in the choice of bits to identify the domain. Since the purpose of `Unique`s is to provide *fast* comparison for different types of things, the redesign should remain performance concious. With this in mind, keeping the `UniqueDomain` and the integer-part explicitly in the type
 
-```wiki
+```haskell
 data Unique = MkUnique UniqueDomain Word
 ```
 
 
 seems unwise, but by choosing
 
-```wiki
+```haskell
 newtype Unique = MkUnique Word
 ```
 
@@ -184,7 +184,7 @@ we win the ability to automatically derive things and should also be able to tes
 
 The encoding is kept the same, i.e. the `Word` is still built up with the domain encoded in the most significant bits and the integer-part in the remaining bits. However, instead encoding the domain as a `Char` in the (internal *and* external interface), we now create an ADT (sum-type) that encodes the domain. This has two advantages. First, it prevents people from picking domain-tags ad hoc an possibly overlapping. Second, encoding in the `Word` does not rely on the assumption that the domain requires and/or fits in 8 bits. Since Haskell `Char`s are unicode, the 8-bit assumption is wrong for the old design. In other words, the above examples are changed to:
 
-```wiki
+```haskell
 data UniqueDomain
   = AlphaTyVar
   | PreludeClass
@@ -202,7 +202,7 @@ mkUnique :: UniqueDomain -> Int -> Unique -- *Can* be exported now, but all thos
 
 Ideal world scenario, the entire external interface would be:
 
-```wiki
+```haskell
  UniqueDomain(..)
  mkUnique    :: UniqueDomain -> Word -> Unique
  pprUnique   :: Unique -> SDoc
@@ -216,7 +216,7 @@ Ideal world scenario, the entire external interface would be:
 
 and the instances for `Eq`, `Ord`, `Data`, etc. For now, though, it will also have
 
-```wiki
+```haskell
  getKey :: Unique -> Int
  mkUniqueOnlyForUniqSupply :: Int -> Unique
  mkUniqueOnlyForTemplateHaskell :: FastInt -> Unique

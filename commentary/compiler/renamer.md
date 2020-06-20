@@ -3,7 +3,7 @@
 
 The renamer's Number One task is to replace [RdrNames](commentary/compiler/rdr-name-type) with [Names](commentary/compiler/name-type).  For example, consider
 
-```wiki
+```haskell
 module K where
   f x = True
 
@@ -18,7 +18,7 @@ module M where
 
 (where all the variables are `RdrName`s).  The result of renaming module M is:
 
-```wiki
+```haskell
 M.f = (M.f, M.f, K.f, \f_22 -> f_22)
 ```
 
@@ -51,7 +51,7 @@ A big part of the renamer's task is to build the **global rdr-env** for the modu
 
 You might think that the global rdr-env would be a mapping from `RdrName` to `Name`, but it isn't.  Here is what it looks like, after at least three iterations (all in [compiler/GHC/Types/Name/Reader.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Types/Name/Reader.hs)):
 
-```wiki
+```haskell
 type GlobalRdrEnv = OccEnv [GlobalRdrElt]
   -- An (OccEnv a) is a mapping from OccName to a
 
@@ -116,7 +116,7 @@ See [how the renamer reports unused imports](commentary/compiler/unused-imports)
 
 As anticipated by the variants `Orig` and `Exact` of `RdrName`, some names should not change during renaming, whereas others need to be turned into unique names. In this context, the two functions `RnEnv.newTopSrcBinder` and `RnEnv.newLocalBndrRn` are important: 
 
-```wiki
+```haskell
 newTopSrcBinder :: Module -> Maybe Name -> Located RdrName -> RnM Name
 newLocalBndrRn :: Located RdrName -> RnM Name
 ```

@@ -24,7 +24,7 @@ Papers:
 
 Kinds classify types.  So for example:
 
-```wiki
+```haskell
    Int :: *
    Int -> Int :: *
    Maybe :: * -> *
@@ -48,7 +48,7 @@ The base kinds are these:
 
 Kinds are represented by the data type `Type` (see [Commentary/Compiler/TypeType](commentary/compiler/type-type)):
 
-```wiki
+```haskell
 type Kind = Type
 ```
 
@@ -56,7 +56,7 @@ type Kind = Type
 Basic kinds are 
 represented using type constructors, e.g. the kind `*` is represented as
 
-```wiki
+```haskell
 liftedTypeKind :: Kind
 liftedTypeKind = TyConApp liftedTypeKindTyCon []
 ```
@@ -66,14 +66,14 @@ where `liftedTypeKindTyCon` is a built-in `PrimTyCon`.  The arrow type
 constructor is used as the arrow kind constructor, e.g. the kind `* -> *` 
 is represented internally as
 
-```wiki
+```haskell
 FunTy liftedTypeKind liftedTypeKind
 ```
 
 
 It's easy to extract the kind of a type, or the sort of a kind:
 
-```wiki
+```haskell
 typeKind :: Type -> Kind
 ```
 

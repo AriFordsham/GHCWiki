@@ -14,7 +14,7 @@ The renamer, typechecker, interface-file typechecker, and desugarer all share a 
 
 The typechecker and renamer use *exactly* the same monad, `TcRn`; the desugarer and interface-file checker use different instantiations of `TcRnIf`.  To give you the idea, here is how the `TcRn` monad looks:
 
-```wiki
+```haskell
 type TcRn a       = TcRnIf TcGblEnv TcLclEnv a
 type TcRnIf a b c = IOEnv (Env a b) c
 

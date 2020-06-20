@@ -3,7 +3,7 @@
 
 Every entity (type constructor, class, identifier, type variable) has a `Name`. The Name type is pervasive in GHC, and is defined in [compiler/GHC/Types/Name.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Types/Name.hs). Here is what a `Name` looks like, though it is private to the Name module:
 
-```wiki
+```haskell
 data Name = Name {
 	      n_sort :: NameSort,	-- What sort of name it is
 	      n_occ  :: !OccName,	-- Its occurrence name
@@ -22,7 +22,7 @@ data Name = Name {
 
 There are four flavours of Name: 
 
-```wiki
+```haskell
 data NameSort
   = External Module (Maybe Name)
 	-- (Just parent) => this Name is a subordinate name of 'parent'
@@ -49,7 +49,7 @@ data NameSort
 
   An `External``Name` has a globally-unique (module, occurrence name) pair, namely the original name of the entity, that describes where the thing was originally defined. So for example, if we have 
 
-  ```wiki
+  ```haskell
   module M where
     f = e1
     g = e2

@@ -17,7 +17,7 @@ All of these entities have a `Name`, but that's about all they have in common.  
 
 - A **`TyThing`** ([compiler/GHC/Core/TyCo/Rep.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Core/TyCo/Rep.hs)) is simply the sum of all four:
 
-  ```wiki
+  ```haskell
   data TyThing = AnId     Id
   	     | AConLike ConLike
   	     | ATyCon   TyCon
@@ -39,7 +39,7 @@ So you can see that the GHC data structures for entities is a *graph* not tree: 
 
 Type variables and term variables are represented by a single data type, `Var`, thus ([compiler/GHC/Types/Var.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Types/Var.hs)):
 
-```wiki
+```haskell
 type Id    = Var
 type TyVar = Var
 ```
@@ -53,7 +53,7 @@ It's incredibly convenient to use a single data type for both, rather than using
 
 The `Var` type distinguishes the two sorts of variable; indeed, it makes somewhat finer distinctions ([compiler/GHC/Types/Var.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Types/Var.hs)):
 
-```wiki
+```haskell
 data Var
   = TyVar {
 	varName    :: !Name,
@@ -103,7 +103,7 @@ Here are some per-flavour notes:
   - The `IdInfo` of a `LocalId` may change as the simplifier repeatedly bashes on it.
   - A `LocalId` carries a flag saying whether it's exported. This is useful for knowing whether we can discard it if it is not used.
 
-    ```wiki
+    ```haskell
     data LocalIdDetails 
       = NotExported	-- Not exported; may be discarded as dead code.
       | Exported	-- Exported; keep alive
@@ -126,7 +126,7 @@ All the value bindings in the module being compiled (whether top level or not) a
 
 `GlobalId`s are further classified by their `GlobalIdDetails`.  This type is defined in [compiler/GHC/Types/Id/Info.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Types/Id/Info.hs), because it mentions other structured types such as `DataCon`. Unfortunately it is *used* in Var.hs so there's a hi-boot knot to get it there. Anyway, here's the declaration (elided a little):
 
-```wiki
+```haskell
 data GlobalIdDetails
   = VanillaGlobal		-- Imported from elsewhere, a default method Id.
   | RecordSelId { ... }		-- Record selector
