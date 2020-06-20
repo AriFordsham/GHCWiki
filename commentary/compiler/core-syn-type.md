@@ -27,7 +27,7 @@ The `CoreSyn` type, and the functions that operate over it, gets an entire direc
 
 Here is the entire Core type [compiler/GHC/Core.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Core.hs):
 
-```wiki
+```haskell
 type CoreExpr = Expr Var
 
 data Expr b	-- "b" for the type of binders, 
@@ -98,7 +98,7 @@ A case expression can scrutinise
 
 A case expression is **always strict**, even if there is only one alternative, and it is `DEFAULT`.  (This differs from Haskell!)  So
 
-```wiki
+```haskell
 case error "urk" of { DEFAULT -> True }
 ```
 
@@ -111,7 +111,7 @@ The idea is that *in any right-hand side, the case binder is bound to the value 
 scrutinee was always atomic nothing would be gained, but real expressiveness is added when the scrutinee is not atomic.
 Here is a slightly contrived example:
 
-```wiki
+```haskell
 case (reverse xs) of y 
   Nil       -> Nil
   Cons x xs -> append y y
@@ -129,7 +129,7 @@ The most common application is to model call-by-value,
 by using `case` instead of `let`. For example, here is how we might compile
 the call `f (reverse xs)` if we knew that `f` was strict:
 
-```wiki
+```haskell
 case (reverse xs) of y { DEFAULT -> f y }
 ```
 
@@ -149,7 +149,7 @@ Case expressions have several invariants
 
 - The list of alternatives is **always exhaustive**, meaning that it covers **all reachable cases**.  Note, however, that an "exhaustive" case does not necessarily mention all constructors:
 
-  ```wiki
+  ```haskell
   data Foo = Red | Green | Blue
 
   ...case x of 
