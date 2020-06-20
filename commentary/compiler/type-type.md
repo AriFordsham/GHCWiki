@@ -14,7 +14,7 @@ The single data type `Type` is used to represent
 GHC's use of [coercions and equality constraints](commentary/compiler/fc) is important enough to deserve its own page.
 
 
-The module `TypeRep` exposes the representation because a few other modules (`Type`, `TcType`, `Unify`, etc) work directly on its representation.  However, you should not lightly pattern-match on `Type`; it is meant to be an abstract type.  Instead, try to use functions defined by `Type`, `TcType` etc.
+The module `GHC.Core.TyCo.Rep` exposes the representation because a few other modules (`GHC.Core.Type`, `GHC.Tc.Utils.TcType`, `GHC.Core.Unify`, etc) work directly on its representation.  However, you should not lightly pattern-match on `Type`; it is meant to be an abstract type.  Instead, try to use functions defined by `Type`, `TcType` etc.
 
 ## Views of types
 
