@@ -146,4 +146,4 @@ Some `GlobalId`s are called **implicit `Id`s**. These are `Id`s that are defined
 - The worker and wrapper Id for a data constructor
 
 
-It's easy to distinguish these Ids, because the `GlobalIdDetails` field says what kind of thing it is: `Id.isImplicitId :: Id -> Bool`.
+It's easy to distinguish these Ids, because the `GlobalIdDetails` field says what kind of thing it is: `GHC.Types.Id.isImplicitId :: Id -> Bool`.
