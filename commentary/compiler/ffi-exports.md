@@ -5,12 +5,12 @@ On this page I've collected some information about how we handle FFI exports whi
 
 
 It's incomplete but should hopefully make the journey less painful for these who follow my footsteps.
-Much of the information is in DsForeign as well but I found it hard to grep for it so here we go.
+Much of the information is in GHC.HsToCore.Foreign.Decl as well but I found it hard to grep for it so here we go.
 
 ### The Rundown
 
 
-During desugaring from HsSyn to Core we look for foreign in/exports (DsForeign.hs). If you deal with issues with FFI this is a good starting point.
+During desugaring from HsSyn to Core we look for foreign in/exports ([GHC/HsToCore/Foreign/Decl.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/HsToCore/Foreign/Decl.hs)). If you deal with issues with FFI this is a good starting point.
 
 
 After running the pipeline we get:
