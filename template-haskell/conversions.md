@@ -5,7 +5,8 @@ There are various conversions between datatypes involved in the Template Haskell
  
 
 ```wiki
-         TcSplice.reify            Convert.convertToHsDecls
+        GHC.Tc.Gen.Splice.         GHC.ThToHs.
+          reify                      convertToHsDecls
 TyThing ----------------> TH.Dec ---------------------------> HsSyn RdrName
    |                    ^   |
    |                   /    |
@@ -14,15 +15,15 @@ TyThing ----------------> TH.Dec ---------------------------> HsSyn RdrName
    v                / B     |
 HsSyn Name --------'        |
    |                        | C
-   |                        |
-   | DsMeta.dsBracket       |
+   | GHC.HsToCore.Quote.    |
+   |   dsBracket            |
    |                        |
    V                        |
  Core <---------------------'
 ```
 
 
-We currently have `TcSplice.reify` for reifying a `TyThing` into TH syntax, and `Convert` for converting TH syntax back into `HsSyn`.  Also, we have `DsMeta` for converting the contents of TH brackets into the `Core` code which generates the TH syntax for those brackets.
+We currently have `GHC.Tc.Gen.Splice.reify` for reifying a `TyThing` into TH syntax, and `GHC.ThToHs` for converting TH syntax back into `HsSyn`.  Also, we have `GHC.HsToCore.Quote` for converting the contents of TH brackets into the `Core` code which generates the TH syntax for those brackets.
 
 
 We do not have (A), (B), or (C).
@@ -34,8 +35,8 @@ We need (A), for Haddock.
 Hence, we could:
  
 
-- Refactor `TcSplice.reify` into pieces A and B.
-- implement C, and replace `DsMeta.dsBracket` with the composition `C.B`.
+- Refactor `GHC.Tc.Gen.Splice.reify` into pieces A and B.
+- implement C, and replace `GHC.HsToCore.Quote.dsBracket` with the composition `C.B`.
 
 
 Code for A is in #3355
