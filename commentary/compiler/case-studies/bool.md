@@ -139,7 +139,7 @@ false_RDR = nameRdrName falseDataConName
 true_RDR  = nameRdrName trueDataConName
 ```
 
-`nameRdrName` is defined in `basicTypes.hs` (line 203) and it simply wraps the `Name` into one of `RdrName`'s value constructors:
+`nameRdrName` is defined in [compiler/GHC/Types/Name/Reader.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Types/Name/Reader.hs) (line 215) and it simply wraps the `Name` into one of `RdrName`'s value constructors:
 
 ```wiki
 nameRdrName :: Name -> RdrName
