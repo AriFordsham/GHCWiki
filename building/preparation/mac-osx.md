@@ -5,18 +5,16 @@
 
   - Install the latest command line tools from [http://developer.apple.com/downloads](http://developer.apple.com/downloads) **or**
   - install XCode, launch XCode, open Preferences, select "Downloads" and install the command line tools
-1. Install Homebrew [http://brew.sh](http://brew.sh) (or Macports [ https://www.macports.org](https://www.macports.org) - in which case the necessary utilities would be installed via `sudo port install automake autoconf python3`, etc.)
-1. `brew install autoconf automake python3`
-1. Install a recent GHC version using your method of choice
-1. Install the necessary GHC tools
-
+2. Install Homebrew [http://brew.sh](http://brew.sh) (or Macports [ https://www.macports.org](https://www.macports.org) - in which case the necessary utilities would be installed via `sudo port install automake autoconf python3`, etc.)
+3. `brew install autoconf automake python`. as of 2020, `brew install python` uses python >= 3.7
+4. Install a recent GHC version using your method of choice
+5. Install the necessary GHC tools
   - `cabal install alex happy haddock`
-1.  Install tools for building the docs:
-
-  - `sudo easy_install pip3`
-  - `sudo pip3 install -U sphinx`
+5.  Install tools for building the docs:
+  - `pip3 install -U sphinx`
   - Make sure `xelatex` is on your PATH, and works (if you installed MacTeX from [https://www.tug.org/mactex/downloading.html](https://www.tug.org/mactex/downloading.html), it includes `xelatex`)
   - Download and install (e.g., via `Font Book.app`) DEJAVU fonts Sans, Sans Mono, and Serif from, e.g., [https://www.fontsquirrel.com/fonts/list/foundry/dejavu-fonts](https://www.fontsquirrel.com/fonts/list/foundry/dejavu-fonts) 
+  - NOTE: if configuring a machine for multi user builds, install the fonts globally, rather than per user. Otherwise only the user you used fontbook with will see that font!
 1. Done!
 
 
