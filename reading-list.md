@@ -67,7 +67,8 @@ See also [Stephen Deihl's Haskell implementation reading list](http://www.stephe
   - [Quantified class constraints](https://i.cs.hku.hk/~bruno//papers/hs2017.pdf), Gert-Jan Bottu,  Georgios Karachalias, Tom Schrijvers, Bruno C. d. S. Oliveira, Philip Wadler, Haskell Symposium 2017. (ghc-proposals [ 0018](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0018-quantified-constraints.rst))
   - [Deriving Via or, How to Turn Hand-Written Instances into an Anti-Pattern](https://www.kosmikus.org/DerivingVia/deriving-via-paper.pdf), Baldur Blöndal, Andres Löh, Ryan Scott, Haskell Symposium 2018. (ghc-proposals [ 0023](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0023-deriving-via.rst))
   - [Type variables in patterns](https://arxiv.org/abs/1806.03476), Richard Eisenberg, Joachim Breitner and Simon Peyton Jones, Haskell Symposium 2018. (ghc-proposals [ 0031](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0031-type-applications-in-patterns.rst))
-
+  - [Linear Haskell: practical linearity in a higher-order polymorphic language](https://arxiv.org/abs/1710.09756),Jean-Philippe Bernardy, Mathieu Boespflug, Ryan R. Newton, Simon Peyton Jones, Arnaud Spiwack, POPL 2018 (ghc-proposals  [0111](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0111-linear-types.rst))
+  - [A quick look at impredicativity](https://www.microsoft.com/en-us/research/publication/a-quick-look-at-impredicativity/), Alejandro Serrano, Jurriaan Hage, Simon Peyton Jones, Dimitrios Vytiniotis, ICFP 2020 (ghc-proposals  [0274](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0274-quick-look-impredicativity.rst))
 
 Please add: System FC, GADTs, kind polymorphism etc
 
