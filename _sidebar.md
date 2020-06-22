@@ -11,6 +11,7 @@
 [GHC Status Info](https://gitlab.haskell.org/ghc/ghc/wikis/status#ghc-status)  
 [Working conventions](https://gitlab.haskell.org/ghc/ghc/wikis/contributing#contributing-to-ghc)  
 [Building Guide](https://gitlab.haskell.org/ghc/ghc/wikis/building/#building-and-porting-ghc)  
+[Debugging](https://gitlab.haskell.org/ghc/ghc/-/wikis/debugging#debugging)  
 [Commentary](https://gitlab.haskell.org/ghc/ghc/wikis/commentary/#the-ghc-commentary)  
 
 ##### Wiki
