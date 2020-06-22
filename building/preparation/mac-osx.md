@@ -14,7 +14,7 @@
 1.  Install tools for building the docs:
 
   - `sudo easy_install pip3`
-  - `sudo pip3 install sphinx`
+  - `sudo pip3 install -U Sphinx`
   - Make sure `xelatex` is on your PATH, and works (if you installed MacTeX from [https://www.tug.org/mactex/downloading.html](https://www.tug.org/mactex/downloading.html), it includes `xelatex`)
   - Download and install (e.g., via `Font Book.app`) DEJAVU fonts Sans, Sans Mono, and Serif from, e.g., [https://www.fontsquirrel.com/fonts/list/foundry/dejavu-fonts](https://www.fontsquirrel.com/fonts/list/foundry/dejavu-fonts) 
 1. Done!
