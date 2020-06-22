@@ -3,7 +3,7 @@
 
 This page is about the `HEAP_ALLOCED()` macro/function in the runtime system.  See #8199 which is about getting rid of `HEAP_ALLOCED`.
 
-```wiki
+```c
 StgBool HEAP_ALLOCED(void *p);
 ```
 
@@ -45,7 +45,7 @@ foo_start:
     .ascii "A"
 ```
 
-```wiki
+```c
 // main.c
 #include <stdio.h>
 extern char foo_start;

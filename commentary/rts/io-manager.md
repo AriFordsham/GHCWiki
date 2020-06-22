@@ -9,7 +9,7 @@ ezyang: **WARNING: some of this information may be out of date**
 
 The RTS keeps a global list of pending events, unsuprising called `pendingEvents`, containing a elements of the following data type:
 
-```wiki
+```haskell
 data IOReq
   = Read   {-# UNPACK #-} !Fd {-# UNPACK #-} !(MVar ())
   | Write  {-# UNPACK #-} !Fd {-# UNPACK #-} !(MVar ())
@@ -18,7 +18,7 @@ data IOReq
 
 When a thread wants to read from a file descriptor `fd` it calls `threadWaitRead` which in turn calls `waitForReadEvent`.
 
-```wiki
+```haskell
 waitForReadEvent :: Fd -> IO ()
 waitForReadEvent fd = do
   m <- newEmptyMVar

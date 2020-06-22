@@ -56,7 +56,7 @@ Source files: [rts/Task.h](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/Ta
 
 A Task is a further layer of abstraction over an OS thread.  One `Task` structure is created for each OS thread known to the runtime.  To get the `Task` associated with with the current OS thread, use the function `myTask`:
 
-```wiki
+```c
   Task *myTask (void);
 ```
 
@@ -223,7 +223,7 @@ CPUs on which to run the worker, however).
 
 A transcript of Simon's explanation at the board:
 
-```wiki
+```c
 scheduler(cap)
 {
   for (;;) {

@@ -221,7 +221,7 @@ Symbols related to a data constructor X:
 
 A function closure represents a Haskell function.  For example:
 
-```wiki
+```haskell
   f = \x -> let g = \y -> x + y
             in g x
 ```
@@ -261,7 +261,7 @@ Symbols related to a function `f`:
 A thunk represents an expression that is not obviously in head normal 
 form.  For example, consider the following top-level definitions:
 
-```wiki
+```haskell
   range = between 1 10
   f = \x -> let ys = take x range
 	    in sum ys
@@ -310,7 +310,7 @@ The empty padding is to allow thunk update code to overwrite the target of an in
 code performs a simple selection operation from a data constructor
 drawn from a single-constructor type.  For example, the thunk
 
-```wiki
+```haskell
 x = case y of (a,b) -> a
 ```
 

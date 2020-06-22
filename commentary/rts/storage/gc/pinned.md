@@ -9,7 +9,7 @@ Bytestrings are currently allocated as pinned memory, so that the bytestring con
 
 The RTS provides an API for allocating pinned memory, in [includes/rts/storage/GC.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/rts/storage/GC.h):
 
-```wiki
+```c
 StgPtr  allocatePinned  ( Capability *cap, lnat n );
 ```
 

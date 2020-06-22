@@ -13,7 +13,7 @@ The stack consists of a sequence of *stack frames* (also sometimes called *activ
 
 There are several kinds of [stack frames](commentary/rts/storage/stack#kinds-of-stack-frame), but the most common types are those pushed when evaluating a `case` expression:
 
-```wiki
+```haskell
   case e0 of p1 -> e1; ...; pn -> en 
 ```
 

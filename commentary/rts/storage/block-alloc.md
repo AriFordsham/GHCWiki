@@ -64,7 +64,7 @@ The block allocator has a the following structure:
 - Sitting on top of the megablock allocator is the block layer ([includes/rts/storage/Block.h](https://gitlab.haskell.org/ghc/ghc/blob/master/includes/rts/storage/Block.h), [rts/sm/BlockAlloc.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/sm/BlockAlloc.c)).
   This layer is responsible for providing:
 
-  ```wiki
+  ```c
      void *allocGroup(int)
      void freeGroup(void *)
   ```

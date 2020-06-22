@@ -87,7 +87,7 @@ external header file).
   have any constraints but go faster if you align things.  These
   macros (from `ghcconfig.h`) tell you which alignment to use
 
-  ```wiki
+  ```c
   	  /* minimum alignment of unsigned int */
   	  #define ALIGNMENT_UNSIGNED_INT 4
   	
@@ -131,7 +131,7 @@ external header file).
 
 -  Avoid conditional code like this:
 
-  ```wiki
+  ```c
     #ifdef solaris_host_OS
     // do something solaris specific
     #endif
@@ -140,7 +140,7 @@ external header file).
   Instead, add an appropriate test to the configure.ac script and use
   the result of that test instead.
 
-  ```wiki
+  ```c
     #ifdef HAVE_BSD_H
     // use a BSD library
     #endif
@@ -180,7 +180,7 @@ it is doing, you would say `+RTS -Ds -RTS`.  See
 set of debugging flags.  To check one of these flags in the code,
 write:
 
-```wiki
+```c
   IF_DEBUG(gc, fprintf(stderr, "..."));
 ```
 
@@ -216,7 +216,7 @@ Particular guidelines for writing robust code:
   assumption that random pointers are more likely to point to a 0
   than to anything else.
 
-  ```wiki
+  ```c
   typedef enum
       { i_INTERNAL_ERROR  /* Instruction 0 raises an internal error */
       , i_PANIC           /* irrefutable pattern match failed! */
@@ -251,13 +251,13 @@ Particular guidelines for writing robust code:
 - When defining a macro, always put parens around args - just in case.
   For example, write:
 
-  ```wiki
+  ```c
     #define add(x,y) ((x)+(y))
   ```
 
   instead of
 
-  ```wiki
+  ```c
     #define add(x,y) x+y
   ```
 
@@ -268,7 +268,7 @@ Particular guidelines for writing robust code:
 - Don't define macros that expand to a list of statements.  You could
   just use braces as in:
 
-  ```wiki
+  ```c
     #define ASSIGN_CC_ID(ccID)              \
           {                                 \
           ccID = CC_ID;                     \
@@ -281,27 +281,27 @@ Particular guidelines for writing robust code:
 - Don't even write macros that expand to 0 statements - they can mess
   you up as well.  Use the `doNothing` macro instead.
 
-  ```wiki
+  ```c
     #define doNothing() do { } while (0)
   ```
 
 - This code
 
-  ```wiki
+  ```c
   int* p, q;
   ```
 
   looks like it declares two pointers but, in fact, only p is a pointer.
   It's safer to write this:
 
-  ```wiki
+  ```c
   int* p;
   int* q;
   ```
 
   You could also write this:
 
-  ```wiki
+  ```c
   int *p, *q;
   ```
 
@@ -315,7 +315,7 @@ Particular guidelines for writing robust code:
 
   Examples:
 
-  ```wiki
+  ```c
     typedef enum { /* N.B. Used as indexes into arrays */
      NO_HEAP_PROFILING,		
      HEAP_BY_CC,		
@@ -329,7 +329,7 @@ Particular guidelines for writing robust code:
 
   instead of
 
-  ```wiki
+  ```c
     # define NO_HEAP_PROFILING	0	/* N.B. Used as indexes into arrays */
     # define HEAP_BY_CC		1
     # define HEAP_BY_MOD	2
@@ -341,7 +341,7 @@ Particular guidelines for writing robust code:
 
   and 
 
-  ```wiki
+  ```c
     typedef enum {
      CCchar    = 'C',
      MODchar   = 'M',
@@ -354,7 +354,7 @@ Particular guidelines for writing robust code:
 
   instead of
 
-  ```wiki
+  ```c
     # define CCchar    'C'
     # define MODchar   'M'
     # define GRPchar   'G'
@@ -373,7 +373,7 @@ Particular guidelines for writing robust code:
   convention is to name the struct the same as the typedef, but add a
   leading underscore.  For example:
 
-  ```wiki
+  ```c
     typedef struct _Foo {
       ...
     } Foo;
@@ -405,7 +405,7 @@ of side effects, evaluation order, multiple evaluation, etc.
 
   However, note that macros can serve as both l-values and r-values and can be "polymorphic" as these examples show:
 
-  ```wiki
+  ```c
   // you can use this as an l-value or an r-value
   #define PROF_INFO(cl) (((StgClosure*)(cl))->header.profInfo)
 

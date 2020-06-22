@@ -12,7 +12,7 @@ Example: `reverse_closure`, the static, top level closure object for the functio
 
 Some static closures are thunks; we call these **CAFs**, or Constant Applicative Forms. Example
 
-```wiki
+```haskell
 squares :: [Int]
 squares = map square [1..]
 ```
@@ -50,7 +50,7 @@ We say that a static closure (whether a thunk or not) is CAFFY if
 
 For example
 
-```wiki
+```haskell
 foo = 1 : []
 bar = 2 : squares
 wob = 3 : bar
@@ -62,7 +62,7 @@ Here `foo` is not CAFFY, but `bar` is CAFFY because it has `squares` (a CAF) as 
 
 Now, say that we have a nested let-binding
 
-```wiki
+```haskell
 f x = let g = \y -> x + y + head squares
       in ...
 ```

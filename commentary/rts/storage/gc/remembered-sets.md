@@ -26,7 +26,7 @@ While the mutator is running, we have to add any old-to-new generation pointers 
 
 A pointer can be added to a remembered set using 
 
-```wiki
+```c
 void recordMutableCap (StgClosure *p, Capability *cap, nat gen);
 ```
 
@@ -46,7 +46,7 @@ Updating a thunk in an old generation.  This is taken care of by the update code
 
 For `MUT_VAR`, the writer must call `dirty_MUT_VAR`:
 
-```wiki
+```c
 void dirty_MUT_VAR(StgRegTable *reg, StgClosure *p);
 ```
 
@@ -58,7 +58,7 @@ is taken.
 
 `MVAR` is handled in the same way, with 
 
-```wiki
+```c
 void dirty_MVAR(StgRegTable *reg, StgClosure *p)
 ```
 
@@ -79,7 +79,7 @@ is set to non-zero if the thread's stack or any part of the TSO structure may be
 `TSO_LINK_DIRTY` in `tso->flags` which is set if the TSO's link field may be dirty.  If the thread is executed,
 then `dirty_TSO()` must be called in order to set the `tso->dirty` bit and add the TSO to the appropriate remembered set.
 
-```wiki
+```c
 void dirty_TSO (Capability *cap, StgTSO *tso);
 ```
 
@@ -87,7 +87,7 @@ void dirty_TSO (Capability *cap, StgTSO *tso);
 To set the TSO's link field, use `setTSOLink()` (from [rts/sm/Storage.c](https://gitlab.haskell.org/ghc/ghc/blob/master/rts/sm/Storage.c)) which arranges to add the TSO to
 the remembered set if necessary.
 
-```wiki
+```c
 void setTSOLink (Capability *cap, StgTSO *tso, StgTSO *target);
 ```
 

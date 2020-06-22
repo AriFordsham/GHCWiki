@@ -28,7 +28,7 @@ Slop can arise for two reasons:
 - The compiled code allocates too much memory, and only fills part of it with objects.  For example,
   when compiling code for a function like this:
 
-  ```wiki
+  ```haskell
   f = \x -> case x of
               True  -> e1
               False -> e2
