@@ -101,7 +101,7 @@ With all that information, we can give good error messages, especially in the ca
 The global rdr-env is created by [compiler/GHC/Rename/Names.hs](https://gitlab.haskell.org/ghc/ghc/blob/master/compiler/GHC/Rename/Names.hs).
 
 
-It is important to note that the global rdr-env is created  *before* the renamer actually descends into the top-level bindings of a module. In other words, before `TcRnDriver.rnTopSrcDecls` performs the renaming of a module by way of `RnSource.rnSrcDecls`, it uses `RnNames.importsFromLocalDecls` to set up the global rdr-env environment, which contains `Names` for all imported and all locally defined toplevel binders.  Hence, when the helpers of `rnSrcDecls` come across the defining occurences of a toplevel `RdrName`, they don't rename it by generating a new name, but they simply look up its name in the global rdr-env. 
+It is important to note that the global rdr-env is created  *before* the renamer actually descends into the top-level bindings of a module. In other words, before `GHC.Tc.Module.rnTopSrcDecls` performs the renaming of a module by way of `GHC.Rename.Module.rnSrcDecls`, it uses `GHC.Rename.Names.importsFromLocalDecls` to set up the global rdr-env environment, which contains `Names` for all imported and all locally defined toplevel binders.  Hence, when the helpers of `rnSrcDecls` come across the defining occurences of a toplevel `RdrName`, they don't rename it by generating a new name, but they simply look up its name in the global rdr-env.
 
 ## Unused imports
 
@@ -114,7 +114,7 @@ See [how the renamer reports unused imports](commentary/compiler/unused-imports)
 (too much detail?)
 
 
-As anticipated by the variants `Orig` and `Exact` of `RdrName`, some names should not change during renaming, whereas others need to be turned into unique names. In this context, the two functions `RnEnv.newTopSrcBinder` and `RnEnv.newLocalBndrRn` are important: 
+As anticipated by the variants `Orig` and `Exact` of `RdrName`, some names should not change during renaming, whereas others need to be turned into unique names. In this context, the two functions `GHC.Rename.Env.newTopSrcBinder` and `GHC.Rename.Utils.newLocalBndrRn` are important:
 
 ```haskell
 newTopSrcBinder :: Module -> Maybe Name -> Located RdrName -> RnM Name
@@ -135,8 +135,8 @@ In Haskell when one writes "3" one gets "fromInteger 3", where "fromInteger" com
 
 This feature is implemented as follows (I always forget). 
 
-- Names that are implicitly bound by the Prelude, are marked by the type `HsExpr.SyntaxExpr`. Moreover, the association list `HsExpr.SyntaxTable` is set up by the renamer to map rebindable names to the value they are bound to. 
-- Currently, five constructs related to numerals (`HsExpr.NegApp`, `HsPat.NPat`, `HsPat.NPlusKPat`, `HsLit.HsIntegral`, and `HsLit.HsFractional`) and two constructs related to do-expressions (`HsExpr.BindStmt` and `HsExpr.ExprStmt`) have rebindable syntax. 
+- Names that are implicitly bound by the Prelude, are marked by the type `GHC.Hs.Expr.SyntaxExpr`. Moreover, the association list `GHC.Hs.Expr.SyntaxTable` is set up by the renamer to map rebindable names to the value they are bound to.
+- Currently, five constructs related to numerals (`GHC.Hs.Expr.NegApp`, `GHC.Hs.Pat.NPat`, `GHC.Hs.Pat.NPlusKPat`, `GHC.Hs.Lit.HsIntegral`, and `GHC.Hs.Lit.HsFractional`) and two constructs related to do-expressions (`GHC.Hs.Expr.BindStmt` and `GHC.Hs.Expr.ExprStmt`) have rebindable syntax.
 - When the parser builds these constructs, it puts in the built-in Prelude Name (e.g. `PrelNum.fromInteger`). 
-- When the renamer encounters these constructs, it calls `RnEnv.lookupSyntaxName`. This checks for `-fno-implicit-prelude`; if not, it just returns the same Name; otherwise it takes the occurrence name of the Name, turns it into an unqualified `RdrName`, and looks it up in the environment. The returned name is plugged back into the construct. 
+- When the renamer encounters these constructs, it calls `GHC.Rename.Env.lookupSyntaxName`. This checks for `-fno-implicit-prelude`; if not, it just returns the same Name; otherwise it takes the occurrence name of the Name, turns it into an unqualified `RdrName`, and looks it up in the environment. The returned name is plugged back into the construct.
 - The typechecker uses the `Name` to generate the appropriate typing constraints. 
