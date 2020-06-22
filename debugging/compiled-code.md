@@ -7,7 +7,7 @@ with how to use [gdb](http://www.gnu.org/software/gdb/) for debugging
 crashes in GHC-compiled programs.
 
 
-Debugging of Haskell code in gdb got better recently, as you can ask GHC to generate DWARF annotations in the compiled Haskell code, which gdb can use to provide useful backtraces in Haskell code and to map symbol names to Haskell source code location.  To get this, compile with the `-g` option. (for the best results, use GHC 8.4.1 or later).
+Debugging of Haskell code in gdb got better recently, as you can ask GHC to generate [DWARF](/dwarf) annotations in the compiled Haskell code, which gdb can use to provide useful backtraces in Haskell code and to map symbol names to Haskell source code location.  To get this, compile with the `-g` option. (for the best results, use GHC 8.4.1 or later).
 
 
 The DWARF annotations can be a bit flaky still, and then we might be left with having to debug the compiled Haskell code at the assembly level.  This can seem quite scary, but there are lots of resources on this wiki to help you understand what's going on.
@@ -17,7 +17,7 @@ The DWARF annotations can be a bit flaky still, and then we might be left with h
 
 Usually you want to do something along these lines:
 
-- Compile all the Haskell code (including libraries) `-g` to get DWARF annotations.
+- Compile all the Haskell code (including libraries) `-g` to get [DWARF](/dwarf) annotations.
 
 - Compile with `-dcore-lint` to make sure the crash isn't caused by the compiler
   generating incorrect code in a way that can be detected statically.
