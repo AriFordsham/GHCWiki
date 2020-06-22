@@ -14,6 +14,7 @@ You may wish to see the [table of contents](./index) to get a sense for what is 
   * [GHC Status Info](/status#ghc-status) How is the next release coming along?
   * [Working conventions](/contributing#contributing-to-ghc) How should I do X?
   * [Building Guide](/building/#building-and-porting-ghc) Build GHC from source.
+  * [Debugging](/debugging#debugging) How to debug the GHC.
   * [Commentary](/commentary/#the-ghc-commentary) Explaining the GHC source code.
 
 
