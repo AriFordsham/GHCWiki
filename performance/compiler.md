@@ -21,7 +21,7 @@ MRs in flight
 * !3503 Eta expand in Unify monad
 * !3531 (a) eta expansion for join points #18328 and (b) eta expansion and one-shot-ness #18355
 * !3426 conSize discount.  Depends on !3548, !3531, !3503
-* !3466 Perf hole in demand analysis #18304
+* !3558 Perf hole in demand analysis #18304, #18349
 * !3309 More eta-expansion in GHC compiler monads  DO NOT LAND.  This is WIP.
 
 Tickets:
