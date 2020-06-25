@@ -21,6 +21,7 @@ Pointer tagging in GHC (various tickets, see below).
 
 * !1990 - Use dataToTag - needs work
 * #16970 - Tag inference work
+* #18285 - GHC should keep unfoldings for recursive functions which are suitable for specialization.
 * #17238 - Generate lookup tables instead of jump tables where possible.
 * #17092 - Implement stack check elision  - TODO
 * #7741 - NCG-SIMD  - TODO
