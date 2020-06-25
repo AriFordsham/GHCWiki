@@ -1,5 +1,5 @@
 This page is to track work by @DanielG and @mpickering on making GHC work better for the interactive tooling use-case. This is part of @DanielG's GSoC 2019 project: [A stronger foundation for interactive Haskell tooling](https://summerofcode.withgoogle.com/projects/#6687588310581248), see *Section 2* in [the proposal (PDF)](http://dxld.at/gsoc19.pdf) for the original motivation.
-The page also tracks the work by @fendor, @ericson and @mpickering to enable GHC and GHCi to support multiple home packages. This is part og @fendor's GSoC 2020 project: [Multiple Home Packages for GHC](https://summerofcode.withgoogle.com/projects/#5269390116782080)
+The page also tracks the work by @fendor, @Ericson2314 and @mpickering to enable GHC and GHCi to support multiple home packages. This is part og @fendor's GSoC 2020 project: [Multiple Home Packages for GHC](https://summerofcode.withgoogle.com/projects/#5269390116782080)
 
 The primary goal is
 
