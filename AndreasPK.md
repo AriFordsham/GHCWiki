@@ -19,10 +19,8 @@ AndreasK, Ideally we would handle LLVM toolchain the same way we handle GHC and 
 Pointer tagging in GHC (various tickets, see below).
 
 
-* !1990 - TODO
-* #1990 - Use dataToTag - needs work
-* #16970 - Tag inference work  - First do #17004
-* #16977 - Check simons suggestion - Done by osa - verify it solved the issue. 
+* !1990 - Use dataToTag - needs work
+* #16970 - Tag inference work
 * #17092 - Implement stack check elision  - TODO
 * #7741 - NCG-SIMD  - TODO
 
