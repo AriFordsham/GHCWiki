@@ -1,4 +1,5 @@
 This page is to track work by @DanielG and @mpickering on making GHC work better for the interactive tooling use-case. This is part of @DanielG's GSoC 2019 project: [A stronger foundation for interactive Haskell tooling](https://summerofcode.withgoogle.com/projects/#6687588310581248), see *Section 2* in [the proposal (PDF)](http://dxld.at/gsoc19.pdf) for the original motivation.
+The page also tracks the work by @fendor, @ericson and @mpickering to enable GHC and GHCi to support multiple home packages. This is part og @fendor's GSoC 2020 project: [Multiple Home Packages for GHC](https://summerofcode.withgoogle.com/projects/#5269390116782080)
 
 The primary goal is
 
@@ -42,6 +43,8 @@ Primary goal:
 > Enable GHC and GHCi to work with multiple units at once.
 
 Most importantly to the end user, this allows development of multiple units in GHCi. There are other workflows which can benefit from such functionality, such as incremental compilation and Haskell Language Server.
+
+Original GSoC 2020 proposal: [HomePackages.pdf](uploads/4d52e9f036c25a5d33928def7deddb7b/HomePackages.pdf)
 
 ## Architectural changes
 
