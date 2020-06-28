@@ -16,6 +16,7 @@ See also [Language options](https://downloads.haskell.org/~ghc/latest/docs/html/
 Added LANGUAGE extensions:
 
 - `[No]LinearTypes`
+- `[No]QualifiedDo`
 
 ## Changes in GHC 8.10
 
