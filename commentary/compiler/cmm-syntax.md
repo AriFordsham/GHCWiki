@@ -13,7 +13,7 @@ See also [cmm-type][6].
 
 ## Cmm hand-writing syntax
 
-Following syntax was manually extracted from [`GHC/Cmm/Parser.y`][1] at commit 11bac11545.
+Following syntax was manually extracted from [`GHC/Cmm/Parser.y`][1] at commit 7750bd45.
 
 
 ```
@@ -384,6 +384,11 @@ Built-in callish primitives (callishMachOps):
   %cmpxchg16
   %cmpxchg32
   %cmpxchg64
+
+  %xchg8
+  %xchg16
+  %xchg32
+  %xchg64
 ```
 
 Built-in statement macros (stmtMacros):
@@ -398,6 +403,8 @@ Built-in statement macros (stmtMacros):
   STK_CHK_GEN_N
   LOAD_THREAD_STATE
   SAVE_THREAD_STATE
+  SAVE_REGS
+  RESTORE_REGS
   LDV_ENTER
   LDV_RECORD_CREATE
   PUSH_UPD_FRAME
