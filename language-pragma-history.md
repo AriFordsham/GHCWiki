@@ -15,6 +15,7 @@ See also [Language options](https://downloads.haskell.org/~ghc/latest/docs/html/
 
 Added LANGUAGE extensions:
 
+- `[No]LexicalNegation`
 - `[No]LinearTypes`
 - `[No]QualifiedDo`
 
