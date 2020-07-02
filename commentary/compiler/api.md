@@ -108,3 +108,9 @@ The process is made more tricky in practice for two reasons:
   to be compiled or not.
 - In GHCi, we might just be reloading the program after making some changes, so we don't even want to re-link
   modules for which no dependencies have changed.
+
+## Current maintained testsuites
+
+The GHC API may differ depending on the GHC version.
+Testsuites for GHC API, executable examples, are here: https://gitlab.haskell.org/ghc/ghc/-/tree/master/testsuite/tests/ghc-api .
+
