@@ -51,7 +51,7 @@ These labels define the relative priority of issues. Priority here is determined
 
 # Miscellaneous
 
- * ~"Developer Experience": All things related to both the bells and whistles in the development process, and the things that may hamper the usage and understanding of the codebase outside of the documentation. CI and documentation already have their own labels, so it is about the joy of programming. 
+ * ~"Developer Experience": All things related to both the bells and whistles in the development process, and the things that may hamper the usage and understanding of the codebase outside of the documentation. CI, error messages and documentation already have their own labels, you may thus tag issues that are not linked to those with this label. It is about the joy of programming.
  * ~"CI breakage": Denotes a bug that broke CI (this could likely be dropped; nothing should break CI now)
  * ~"user-facing": Denotes a merge request which changes the interface exposed by GHC or its core libraries in a user-noticeable way. Merge requests so-marked trigger the head.hackage build jobs.
  * ~"broken test": An issue due to which one or more tests in the testsuite are marked as `expect_broken`
