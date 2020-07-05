@@ -59,6 +59,7 @@ The problem with this idea comes with type families. (There are other ways to ti
 
 What to do? It turns out we need a subtler definition of type equality than what we have had. Specifically, we must differentiate between *nominal* equality and *representational* equality. Nominal equality (called C in the paper cited above) is the Haskell equality we all know and love. If two types have the same name, they are nominally equal. If they don't have the same name (expanding type synonyms), they are not nominally equal. Representational equality, on the other hand, shows that two types have the same *representation*. This is the equality that newtypes produce -- `Age` is representationally equal to `Int`, but they are not nominally equal.
 
+Note/Request: Could we please define the terms *nominal* and *representational* a bit more clearly? Nominal is defined as "having the same name" fairly obviously, but representational - is this when two types are composed of the same types, or is it more involved? Is `(Int, String)` representationally equivalent to `(String, Int)`? Is `{ one: String, two: Int }` representationally equivalent to `{ three: String, four: Int }`? Please say more about this, and define the important terms we're using.
 
 Datatypes, classes, and type synonyms can be parametric in their type arguments or not. By "parametric", I mean that they do not *inspect* the type argument. A non-parametric type variable is inspect. Here are some examples:
 
