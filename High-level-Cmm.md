@@ -4,6 +4,7 @@ This is the discussion page about a "high-level" variant of Cmm.
 
 ## Motivation
 
+### Garbage Collection
 [Asterius][asterius] is a GHC-based Haskell-to-WebAssembly compiler. Currently,
 Asterius emits WebAssembly from Cmm, and at the Cmm level, there's a lot of
 implicit convention about how the runtime works, e.g. closure representation and
@@ -29,6 +30,19 @@ properties:
 
 Such a high-level Cmm will be useful to any GHC backend which targets a managed
 runtime.
+
+### Intermediate Representations
+
+When targeting intermediate representations for assembly, e.g. LLVM's IR, the Cmm
+we have is already lowered too far.  This results in those code generators having
+to reconstruct information from the Cmm that should ideally be available to them.
+
+This is mostly around computed offsets.  Instead of getting the offset into
+structures an intermediate layer between STG and Cmm should retain offsets as
+multiples of words + bytes as needed to allow the code generator to make
+intelligent choices about instruction selection for element retrieval.  Right now
+we *have* to work with packed structs as that is what GHC internally assumes the
+layout to be. 
 
 ## Required features in high-level Cmm
 
