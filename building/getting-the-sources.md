@@ -22,7 +22,7 @@ GHC uses [Git](http://git-scm.com/) for revision control (version 1.7.8 or newer
 The main GHC repository is located on a Gitlab instance on haskell.org and a complete GHC source tree can be obtained (located in `ghc/ghc`) by running the following command:
 
 ```
-git clone --recurse-submodules https://gitlab.haskell.org/ghc/ghc
+git clone --recurse-submodules https://gitlab.haskell.org/ghc/ghc.git
 cd ghc # ensure you are in the ghc source tree for the following commands
 ```
 
