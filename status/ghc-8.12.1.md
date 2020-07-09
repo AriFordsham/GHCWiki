@@ -38,7 +38,7 @@ Below are the major highlights of the 8.12 series.
 * [ ] WinIO IO manager for Windows (@Phyx, @AndreasK)
 * [ ] Reduce `FastString` memory consumption (!1675, @dxld)
 * [ ] Improved GC behavior due to `ModIface` in compact region (@mpickering)
-* [ ] Make `Q (TExp a)` a newtype (@mpickering, [Proposal 195](https://github.com/ghc-proposals/ghc-proposals/pull/216))
+* [ ] Make `Q (TExp a)` a newtype (@mpickering, !3358, [Proposal 195](https://github.com/ghc-proposals/ghc-proposals/pull/216))
 * [ ] AArch64 linker fixes (@angerman)
 * [x] unified ghc-bignum package (!2231, @hsyl20)
 
