@@ -54,6 +54,7 @@ Pointer tagging in GHC (various tickets, see below).
 
 * #15808 GHC Linker woes
 * #16351 Constant folding for bit operations
+* #13569 Large constructor updates.
 
 
 
