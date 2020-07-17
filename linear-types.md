@@ -74,7 +74,7 @@ Our proposed type system allows you to give a linear type to list concatenation:
 
 
 ```
-(++) :: [a] ->. [a] ->. [a]
+(++) :: [a] #-> [a] #-> [a]
 ```
 
 
@@ -114,7 +114,7 @@ If, say, the body of `catch` was linear, we could write:
 
 
 ```
-oops :: a ->. IO (Unrestricted ())
+oops :: a #-> IO (Unrestricted ())
 oops x =
   catch
     (throwIO "This is bad" >> oops a)
@@ -138,9 +138,9 @@ In fact, linear functions have the property that if their result is consumed wit
 
 ```
 data Mult (p :: Multiplicity) (a :: *) where
-  Mult :: a :p-> Multp p a
+  Mult :: a #p-> Mult p a
 
-multMap :: (a ->. b) -> Mult p a -> Mult p b
+multMap :: (a #-> b) -> Mult p a -> Mult p b
 multMap f (Mult x) = Mult (f x)
 ```
 
@@ -155,7 +155,7 @@ Having affine types would makes some things easier. For instance `catch` is allo
 -- Writing A for the multiplicity of affine functions
 catch
   :: Exception e
-  => IO (Unrestricted a) :'A-> (e -> IO (Unrestricted a)) :'A-> IO (Unrestricted a)
+  => IO (Unrestricted a) #'A-> (e -> IO (Unrestricted a)) #'A-> IO (Unrestricted a)
 ```
 
 
@@ -202,8 +202,8 @@ The linear types proposal features monads with the following interface
 
 
 ```
-return :: a ->. m a
-(>>=) :: m a ->. (a ->. m b) ->. m b
+return :: a #-> m a
+(>>=) :: m a #-> (a #-> m b) #-> m b
 ```
 
 
@@ -212,7 +212,7 @@ But unfolding the definitions of the Kleisli extension and unit of a monad you w
 
 ```
 return :: a -> m a
-extend :: (a ->. m b) -> (m a ->. m b)
+extend :: (a #-> m b) -> (m a #-> m b)
 ```
 
 
