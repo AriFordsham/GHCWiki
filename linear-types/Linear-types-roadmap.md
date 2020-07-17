@@ -2,9 +2,19 @@ This page outlines the roadmap for [linear types](linear-types).
 
 #### Stage 0: the first patch
 
-- !852
+- ~~!852~~
 
 #### Stage 1: user-facing features
+
+- Syntax:
+  - Multiplicity parametric function arrow: #18459
+  - Lambdas and patterns: #18460
+  - Let binders: #18461
+  - Record fields: #18462
+- Clean up `FUN`: #18373
+- Template Haskell
+  - Prevent linear slices: #18465
+  - Reify shows inaccurate type: #18378
 
 #### Stage 2: linear Core
 
