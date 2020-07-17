@@ -17,6 +17,7 @@ Issues about linear types are gathered under the ~LinearTypes tag.
 - Template Haskell
   - Prevent linear slices: #18465
   - Reify shows inaccurate type: #18378
+- Proposal compliance: #15981
 
 #### Stage 2: linear Core
 
