@@ -3,19 +3,12 @@
 
 This page contains information on the Linear Type Proposal.
 
-## Discussion
-
-
-The Linear Type Proposal is being discussed [on the ghc proposal repository](https://github.com/ghc-proposals/ghc-proposals/pull/111). It had previously received [ a first round of review](https://github.com/ghc-proposals/ghc-proposals/pull/91).
-
 ## Source material
 
 
 The motivations, technical details and examples on the proposal are described in the article [Linear Haskell: practical linearity in a higher-order polymorphic language](https://arxiv.org/abs/1710.09756) published at POPL 2018.
 
-
-Description of the implementation strategy: [LinearTypes/Implementation](linear-types/implementation)
-
+The accepted proposal can be found as [proposal #111](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0111-linear-types.rst).
 
 Some motivating examples in the wiki: [LinearTypes/Examples](linear-types/examples)
 
@@ -30,9 +23,9 @@ Talks:
 
 ## Implementation
 
+Description of the implementation: [linear-types/implementation](linear-types/implementation)
 
-The implementation in progress can be found at [https://github.com/tweag/ghc/tree/linear-types](https://github.com/tweag/ghc/tree/linear-types) .
-
+The roadmap for the extension can be found at: [linear-types/roadmap](linear-types/roadmap).
 
 A library to serve as a central library for linearly typed program can be found at [https://github.com/tweag/linear-base/](https://github.com/tweag/linear-base/)
 
