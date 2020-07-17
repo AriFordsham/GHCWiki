@@ -4,7 +4,7 @@ Issues about linear types are gathered under the ~LinearTypes tag.
 
 #### Stage 0: the first patch
 
-- ~~!852~~
+- !852
 
 #### Stage 1: user-facing features
 
