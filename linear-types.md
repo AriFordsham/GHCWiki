@@ -82,7 +82,7 @@ So we can write
 
 
 ```
-strange :: Int ->. [Int]
+strange :: Int #-> [Int]
 strange x = (repeat 1) ++ [x]
 ```
 
