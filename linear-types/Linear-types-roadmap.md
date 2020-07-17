@@ -1,3 +1,5 @@
+**Work in progress**
+
 This page outlines the roadmap for [linear types](linear-types).
 
 Issues about linear types are gathered under the ~LinearTypes tag.
