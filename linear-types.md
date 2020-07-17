@@ -179,7 +179,7 @@ Offering affine types in addition to linear types is possible. In fact no choice
 No. Linear types only gives a type to functions that consume their argument exactly once when their result is consumed exactly once.
 
 
-Having linear types is powerful, and makes it possible to write *resource-safe abstractions*. But this is not an intrinsic quality of the type system.
+Having linear types is powerful, and makes it possible to write *resource-safe abstractions*. Here is an [example such abstraction](https://github.com/tweag/linear-base/blob/master/src/System/IO/Resource.hs). But this is not an intrinsic quality of the type system.
 
 # Will base be modified to use linear types?
 
