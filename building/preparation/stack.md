@@ -10,8 +10,8 @@ Setting the environment manually can be tedious on some platforms (e.g. Windows)
 Then to build GHC, you only have to execute one of the following commands:
 
 ```
-hadrian/build.stack.sh  -c -j --flavour=quick # on UNIX-like platforms
-hadrian\build.stack.bat -c -j --flavour=quick # on Windows platform
+hadrian/build-stack.sh  -c -j --flavour=quick # on UNIX-like platforms
+hadrian\build-stack.bat -c -j --flavour=quick # on Windows platform
 ```
 
 Upon the first build, Stack downloads and installs all the required dependencies in a Stack private directory, so you don't have to worry about messing with your system and the next builds are much faster because it is only done once.
