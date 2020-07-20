@@ -35,7 +35,7 @@ Below are the major highlights of the 8.12 series.
 * [x] Refactoring of GHC module hierarchy (#13009, @hsyl20)
 * [ ] New Darwin packaging (#17418, #17854, @trac-conradwt)
 * [ ] New Windows packaging? (#18104)
-* [ ] WinIO IO manager for Windows (@Phyx, @AndreasK)
+* [x] WinIO IO manager for Windows (@Phyx, @AndreasK)
 * [ ] Reduce `FastString` memory consumption (!1675, @dxld)
 * [ ] Improved GC behavior due to `ModIface` in compact region (@mpickering)
 * [ ] Make `Q (TExp a)` a newtype (@mpickering, !3358, [Proposal 195](https://github.com/ghc-proposals/ghc-proposals/pull/216))
