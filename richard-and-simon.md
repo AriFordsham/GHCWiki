@@ -6,6 +6,7 @@ Tasks discussed by Richard and Simon. This page is mostly for our own notes, but
 # Active agenda
 
 - #12088: SCC for kind inference: we know what to do, it's just a question of doing it. See also #7503, #14451.  [Here is the wiki page](https://gitlab.haskell.org/ghc/ghc/-/wikis/Type-&-Class-Dependency-Analysis)
+- #17567: free floating kind vars and zonking.  This is stalling !2313
 - Casts might get in the way of instantiation: #18062
 - #11602, 11371: exponential `promoteCoercion`
 - #11084, #6234: instance loading for type families
