@@ -25,4 +25,8 @@ Issues about linear types are gathered under the ~LinearTypes tag.
 #### Stage 2: linear Core
 
 - Support linear FFI functions: #18472
+
+#### Stage 3: performance
+
+- Improve CPR in presence of unrestricted field: #18490
 #### Future
