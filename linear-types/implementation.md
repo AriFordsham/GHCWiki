@@ -162,7 +162,7 @@ When constructors are used as patterns, the fields are treated as linear (i.e. `
 
 The way this is implemented is that data constructors, when desugared, are eta-expanded with multiplicity-polymorphic binders. Which is done by adding `WpFun` wrappers in `tc_infer_id` (look for `Note [Linear fields generalization]`).
 
-Because no variable can have a levity-polymorphic argument, this instantiates the runtime-representation variables of unboxed tuples and sum. Which prevents visible type application on the runtime-representation variables of unboxed tuples and sum. We haven't found any example of use of this feature yet. So it shouldn't break any code.
+The `WpFun` wrappers cause trouble with levity-polymorphic data constructors. For example, when desugaring `(#,#)` to`\(a # m :: TYPE r) (b # n :: TYPE s) -> (# a, b #)`we cannot generalize the type variables `r` and `s`, as it would violate the levity polymorphism restriction. As a simple solution, we instantiate all type variables if the kind of the result would involve illegal levity polymorphism. It would be better to merely instantiate `r` and `s`, and generalize `a`, `b`. This would fix visible type application and is covered by ticket #18481.
 
 ### Do-notation/rebindable syntax
 
