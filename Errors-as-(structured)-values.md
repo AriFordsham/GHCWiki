@@ -110,7 +110,13 @@ data GhcError
 
 With those types in place, we could begin instantiating `e` to the relevant type for all use sites of the error infrastructure. The parser could would deal with `Messages PsError` values, the renamer and typechecker would produce `Message TcRnError` values, and so on.
 
-Finally, we could start turning concrete errors into dedicated constructors of `PsError`/`TcRnError`. Starting slowly with simple [`not in scope` errors](https://gitlab.haskell.org/ghc/ghc/-/blob/master/compiler/GHC/Rename/Unbound.hs#L64) and the likes, before converting over [the entire typechecking error infrastructure](https://gitlab.haskell.org/ghc/ghc/-/blob/master/compiler/GHC/Tc/Errors.hs) and more.
+Finally, we could start turning concrete errors into dedicated constructors of `PsError`/`TcRnError`. Starting slowly with simple [`not in scope` errors](https://gitlab.haskell.org/ghc/ghc/-/blob/master/compiler/GHC/Rename/Unbound.hs#L64) and the likes, before converting over [the entire typechecking error infrastructure](https://gitlab.haskell.org/ghc/ghc/-/blob/master/compiler/GHC/Tc/Errors.hs) and more.  For example:
+```
+data TcRnError = TcRnErrorDoc ErrDoc
+  | OutOfScopeErr RdrName
+  | ...
+```
+The idea is to have one data constructor per error, so that a IDE using the GHC API would not have to parse strings to understand the errors.
 
 This might involve systematically retaining a bit more information (context lines for the typechecker, for instance) and therefore might give rise to some more generic error infrastructure constructs. This page will be updated to incorporate such details once they are figured out.
 
