@@ -109,7 +109,13 @@ At the "top level", in the driver, where we call the different subsystems to pro
 
 # Warnings
 
-`WarnMsg` would be a synonym for `ErrMsg ErrDoc` this entire time. We could later introduce subsystem specific warning types and apply a similar design as for errors, with a toplevel `GhcWarning` sum type and `WarningMessages` becoming `Bag (WarnMsg w)` in the general case, and with `w` instantiated to the appropriate type at use sites (`PsWarning`, `TcRnWarning`, `GhcWarning`, `Outputable w => WarnMsg w`). 
+
+
+Later, we plan to get rid of warnings as a separate data type; instead they'll just be an `ErrMsg` with a `Severity` that says it's a warning.   
+
+But meanwhile, `WarnMsg` will be a synonym for `ErrMsg ErrDoc` this entire time. 
+
+(Another possible later plan would be to introduce subsystem specific warning types and apply a similar design as for errors, with a toplevel `GhcWarning` sum type and `WarningMessages` becoming `Bag (WarnMsg w)` in the general case, and with `w` instantiated to the appropriate type at use sites (`PsWarning`, `TcRnWarning`, `GhcWarning`, `Outputable w => WarnMsg w`).  But that seems over-complicated compared to just getting rid of them.)
 
 # Future work
 
