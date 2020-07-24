@@ -1,6 +1,8 @@
 Following the high-level plan posted in [ghc proposal#306](https://github.com/ghc-proposals/ghc-proposals/pull/306), we have been planning on switching our error representation away from mere documents. The end goal is to have subsystem-specific error data types, where each constructor of such a data type will represent one error that this subsystem can throw. A global `GhcError` sum type would also be provided, at the driver level, so as to be able to represent any error thrown by any subsystem and provide a trivial mechanism for API users to deal with error values (namely: just hand them a bag of `GhcError` values). Below is the current plan for getting there.
 
-<details><summary>Background: the current error infrastructure (click the arrow to expand!)</summary>
+# Background: the current error infrastructure
+
+<details><summary>Current error infrastructure (click the arrow to expand!)</summary>
 
 We currently have:
 
@@ -80,8 +82,15 @@ data ErrMsg e = ErrMsg {
     errMsgReason      :: WarnReason
     }
 ```
+See below for `WarnMsg` and friends.  Here we concentrate on error messages.
 
-It would be handy to make polymorphic all the `ErrMsg` or `Messages` manipulation functions that can be, as a way to identify bulks of functions which _do_ need to know about the error type, or at least know how to do something particular with it (e.g rendering to `ErrDoc`/`SDoc`). The other functions will become usable in all subsystems error types for free, further down the road, once those are introduced. For this first step, to quickly go back to a state where GHC builds again, we could simply address all the resulting breakage by instantiating `e` to `ErrDoc` in all use sites for the error infrastructure.
+The main change is to make `ErrMsg e` polymorphic in its payload `e`, which can be instantiated to different data types for typechecker-errors, renamer-errors, etc.
+
+It would be handy to make all the `ErrMsg` or `Messages` manipulation functions as polymorphic as possible, as a way to identify functions which _do_ need to know about the error type, or at least know how to do something particular with it (e.g rendering to `ErrDoc`/`SDoc`). The other functions will become usable in all subsystems error types for free, further down the road, once those are introduced. 
+
+BY instantiating `e` to `ErrDoc` we recover the current situation, so we can move incrementally towards a new world.
+
+# Instantiating `ErrMsg`
 
 We could then get subsystems to define their own error types. For now, we would want them to be mere wrappers around `ErrDoc`, that the `e` type parameter generalizes in the aforementioned code.
 
