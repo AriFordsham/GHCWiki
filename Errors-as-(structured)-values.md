@@ -111,12 +111,9 @@ At the "top level", in the driver, where we call the different subsystems to pro
 
 
 
-Later, we plan to get rid of warnings as a separate data type; instead they'll just be an `ErrMsg` with a `Severity` that says it's a warning.   
+Later, we plan to get rid of warnings as a separate data type; instead they'll just be an `ErrMsg` with a `Severity` that says it's a warning.   We can promote a warning to become an error, if necessary, by changing its severity.
 
 But meanwhile, `WarnMsg` will be a synonym for `ErrMsg ErrDoc` this entire time. 
 
 (Another possible later plan would be to introduce subsystem specific warning types and apply a similar design as for errors, with a toplevel `GhcWarning` sum type and `WarningMessages` becoming `Bag (WarnMsg w)` in the general case, and with `w` instantiated to the appropriate type at use sites (`PsWarning`, `TcRnWarning`, `GhcWarning`, `Outputable w => WarnMsg w`).  But that seems over-complicated compared to just getting rid of them.)
 
-# Future work
-
-The definition of `Messages` as a tuple of warnings and errors, where the formers can get "promoted" to the latters, seems a bit ad-hoc. It seems like a single bag would be simpler to deal with, and where a field in `ErrMsg` could store whether it describes a warning or error, with the promotion happening when appropriate by updating this field, for example.
