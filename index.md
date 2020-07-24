@@ -143,7 +143,7 @@
   * [call-arity](./call-arity)
   * [capabilities-and-scheduling](./capabilities-and-scheduling)
   * [case-binder-generalisation](./case-binder-generalisation)
-  * [catchRaiseIO#](./catchRaiseIO#)
+  * [catchRaiseIO#](./catchRaiseIO%23)
   * [category-stub](./category-stub)
   * [closed-type-families](./closed-type-families)
   * [code-base-cleanup](./code-base-cleanup)
