@@ -1,6 +1,6 @@
-# GHC plans for 8.12.1
+# GHC plans for 9.0.1
 
-This page is our road-map for what will be in GHC %8.12.1.
+This page is our road-map for what will be in GHC %9.0.1.
 
 If you believe your favorite thing belongs in this list, but isn't there, please yell.  If it's not in the road map, it probably won't get done.  Without a lot of support, many things in the road map won't get done either, so we need your help!
 
@@ -10,16 +10,16 @@ If you believe your favorite thing belongs in this list, but isn't there, please
 * Late June 2020: Cut branch
 * July - August 2020: Alpha releases
 * 1 September 2020: Beta release
-* 25 September 2020: Final 8.12.1 release
+* 25 September 2020: Final 9.0.1 release
 
 
 ## Migration details
 
-See [Migration/8.12](/migration/8.12).
+See [Migration/9.0](/migration/9.0).
 
 ## Release highlights (planned)
 
-Below are the major highlights of the 8.12 series.
+Below are the major highlights of the 9.0 series.
 
 ### Compiler
 
@@ -53,6 +53,6 @@ Below are the major highlights of the 8.12 series.
 
 ## Tickets
 
-See the %8.12.1 milestone.
+See the %9.0.1 milestone.
 
-See also [GHC 8.12 tracking ticket](https://gitlab.haskell.org/ghc/ghc/issues/18216).
+See also [GHC 9.0 tracking ticket](https://gitlab.haskell.org/ghc/ghc/issues/18216).
