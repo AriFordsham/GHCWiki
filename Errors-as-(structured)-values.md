@@ -1,5 +1,7 @@
 Following the high-level plan posted in [ghc proposal#306](https://github.com/ghc-proposals/ghc-proposals/pull/306), we have been planning on switching our error representation away from mere documents. The end goal is to have subsystem-specific error data types, where each constructor of such a data type will represent one error that this subsystem can throw. A global `GhcError` sum type would also be provided, at the driver level, so as to be able to represent any error thrown by any subsystem and provide a trivial mechanism for API users to deal with error values (namely: just hand them a bag of `GhcError` values). Below is the current plan for getting there.
 
+The relevant ticket is #18516
+
 # Background: the current error infrastructure
 
 <details><summary>Current error infrastructure (click the arrow to expand!)</summary>
