@@ -61,7 +61,7 @@ What to do? It turns out we need a subtler definition of type equality than what
 
 Note/Request: Could we please define the terms *nominal* and *representational* a bit more clearly? Nominal is defined as "having the same name" fairly obviously, but representational - is this when two types are composed of the same types, or is it more involved? Is `(Int, String)` representationally equivalent to `(String, Int)`? Is `{ one: String, two: Int }` representationally equivalent to `{ three: String, four: Int }`? Please say more about this, and define the important terms we're using.
 
-Datatypes, classes, and type synonyms can be parametric in their type arguments or not. By "parametric", I mean that they do not *inspect* the type argument. A non-parametric type variable is inspect. Here are some examples:
+Datatypes, classes, and type synonyms can be parametric in their type arguments or not. By "parametric", I mean that they do not *inspect* the type argument. A non-parametric type variable is inspected. Here are some examples:
 
 ```haskell
 data List a = Nil | Cons a (List a)    -- parametric
@@ -108,7 +108,7 @@ The idea is that a `Coercible` instance exists allowing coercions between any tw
 The reason we need roles is to describe how these representational equalities (or, equivalently, `Coercible` instances) "lift" through other types. For example, is `[Age]` representationally equal to `[Int]`? Sure. But, is `GADT Age` representationally equal to `GADT Int`? I hope not!
 
 
-The rule is this: we have `instance Coercible a b => Coercible (T a) (T b)` if and only if the first parameter has a representational role. Thus, we have `instance Coercible a b => Coercible [a] [b]` but not `instance Coercible a b => Coercible (GADT a) (GADT b)`. This generalizes straightforwardly when there are multiple parameters, and it's worth noting that `Coercible` is always reflexive, even when nominal roles are involved.
+The rule is this: we have `instance Coercible a b => Coercible (T a) (T b)` if and only if the first parameter of `T` has a representational role. Thus, we have `instance Coercible a b => Coercible [a] [b]` but not `instance Coercible a b => Coercible (GADT a) (GADT b)`. This generalizes straightforwardly when there are multiple parameters, and it's worth noting that `Coercible` is always reflexive, even when nominal roles are involved.
 
 ## GeneralizedNewtypeDeriving implemented using `coerce`
 
