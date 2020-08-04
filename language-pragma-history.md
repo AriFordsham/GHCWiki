@@ -11,7 +11,7 @@ See also [http://damianfral.github.io/ghcaniuse/](http://damianfral.github.io/gh
 
 See also [Language options](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#language-options) in GHC User's Guide.
 
-## Changes in GHC 8.12
+## Changes in GHC 9.0
 
 Added LANGUAGE extensions:
 
