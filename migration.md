@@ -17,7 +17,7 @@ Possibly useful information can also be found in the following places:
 
 ## Version-specific Migration Guides
 
-- **[Migrating from GHC 8.10.x to GHC 8.12.x](migration/8.12)**
+- **[Migrating from GHC 8.10.x to GHC 9.0.x](migration/9.0)**
 
 - **[Migrating from GHC 8.8.x to GHC 8.10.x](migration/8.10)**
 
