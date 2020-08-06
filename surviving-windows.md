@@ -95,3 +95,4 @@ Version 2 of WSL abandons the user-space emulation approach in favor of full hyp
    * [Process Monitor](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) provides an `strace`-like view of system calls
 * Windows Performance Record/Analyzer is another mechanism capable of tracing system calls
 * [ConEmu](https://conemu.github.io/) is a decent terminal emulator for Windows
+* [this gdb fork](https://github.com/ssbssa/gdb/releases) can open minidump files, as produced by GHC's `--generate-crash-dumps` flag
