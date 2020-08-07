@@ -87,7 +87,7 @@ Version 2 of WSL abandons the user-space emulation approach in favor of full hyp
 * In the [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive):
    * the `gflags.exe` tool can be used to enable "loader snaps" for a particular executable. When enabled, the dynamic linker will emit debug output when the executable is run under `windbg`
    * `windbg` is the Windows debugger, apparently last updated circa 1992
-* The [version](https://www.microsoft.com/en-us/p/windbg-preview/9pgjgd53tn86?activetab=pivot:overviewtab) of `windbg` in the Windows Store appears to be much better than that in the SDK
+* The [version](https://www.microsoft.com/en-us/p/windbg-preview/9pgjgd53tn86?activetab=pivot:overviewtab) of `windbg` in the Windows Store appears to be much better than that in the SDK (even supporting time-travelling debugging)
 * [`x64dbg`](https://x64dbg.com/#start) is an alternative FOSS debugger
 * The [sysinternals tools](https://docs.microsoft.com/en-us/sysinternals/)
    * `DebugView` allows one to view debug output from the system (e.g. the loader snaps mentioned above) without Windbg
@@ -95,4 +95,14 @@ Version 2 of WSL abandons the user-space emulation approach in favor of full hyp
    * [Process Monitor](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) provides an `strace`-like view of system calls
 * Windows Performance Record/Analyzer is another mechanism capable of tracing system calls
 * [ConEmu](https://conemu.github.io/) is a decent terminal emulator for Windows
-* [this gdb fork](https://github.com/ssbssa/gdb/releases) can open minidump files, as produced by GHC's `--generate-crash-dumps` flag
+* [this gdb fork](https://github.com/ssbssa/gdb/releases) can open minidump files, as produced by GHC's `--generate-crash-dumps` flag.
+
+## Collecting a crash dump
+
+If you have a program that is crashing, one helpful way to attack the problem is to generate a crash dump (similar to a core dump on Unix-like operating systems) for inspection in a debugger (e.g. WinDbg). 
+
+There are a few ways to accomplish this:
+
+ * GHC itself can generate a dump in "minidump" format with the `+RTS --generate-crash-dumps` flag. This can be opened with WinDbg.
+ * the `gflags.exe` utility (specifically the "Silent Process Exit" tab) can be used to enable dumps globally on crashing processes.
+ * the `procdump.exe` [Sysinternals](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) utility can be used to collect a dump from a single process.
