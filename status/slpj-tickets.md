@@ -69,6 +69,7 @@
 
 [Compile time perf page](performance/compiler)
 
+- #18541, #18535 low hanging perf fruit
 - #11375: type synonyms slower than type families
 - #8095: very slow constraint solving; perhaps discard large constraints using `UnivCo`
 - #5642: slow constraint solving
