@@ -3,6 +3,8 @@
 
 Say you have a program `TestCase.hs` in which a rewrite rule stopped firing at some point between GHC 8.2.2 and 8.4.1. It can often be useful to know which commit introduced the regression. [Bisection](https://en.wikipedia.org/wiki/Bisection_%28software_engineering%29) is an efficient way of determining this, requiring at most `log_2(N)` commits to find the culprit among `N` commits.
 
+Bisection can be done manually of with a git command.
+
 ## Manual Bisection
 
 Start by finding out which released GHC versions pass and fail your test case.
