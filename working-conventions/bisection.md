@@ -132,6 +132,42 @@ fi
 
 ## Gotchas
 
+### HTTPS
+
+With an HTTPS clone, it is going to get tiring quickly to reenter credentials when
+prompted given the number of submodules GHC has. Better to use SSH for the clone:
+
+```diff
+-- git clone https://gitlab.haskell.org/ghc/ghc.git
+++ git clone git@gitlab.haskell.org:ghc/ghc.git
+```
+
+### Forks
+
+If you're working off a fork of GHC then submodules are not going to work with the
+script. To use the bisect script, clone of from `gitlab.haskell.org` instead:
+
+```
+$ git bisect run ./bisect.sh                                                      
+running ./bisect.sh
+Commit 2b5b9dc69e5d0af20b6e7be31638c2e3a1bb765f: submodules = git submodule update
+Cloning into '/Users/.../ghc/.arc-linters/arcanist-external-json-linter'...
+remote:
+remote: ========================================================================
+remote:
+remote: The project you were looking for could not be found.
+remote:
+remote: ========================================================================
+remote:
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights and the repository exists.
+fatal: clone of
+'git@gitlab.haskell.org:philderbeast/arcanist-external-json-linter.git' into
+submodule path '/Users/.../ghc/.arc-linters/arcanist-external-json-linter' failed
+Failed to clone '.arc-linters/arcanist-external-json-linter'. Retry scheduled
+```
+
 ### Pre-8.2
 
 
