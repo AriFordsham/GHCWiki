@@ -1,10 +1,35 @@
 # Bisection to find bad commits
 
 
-Say you have a program `TestCase.hs` in which a rewrite rule stopped firing at some point between GHC 7.10.1 and 7.10. It can often be useful to know which commit introduced the regression. [Bisection](https://en.wikipedia.org/wiki/Bisection_%28software_engineering%29) is an efficient way of determining this, requiring at most `log_2(N)` commits to find the culprit among `N` commits.
+Say you have a program `TestCase.hs` in which a rewrite rule stopped firing at some point between GHC 8.2.2 and 8.4.1. It can often be useful to know which commit introduced the regression. [Bisection](https://en.wikipedia.org/wiki/Bisection_%28software_engineering%29) is an efficient way of determining this, requiring at most `log_2(N)` commits to find the culprit among `N` commits.
 
+## Manual Bisection
+
+Start by finding out which released GHC versions pass and fail your test case.
+The tool [ghcup](https://www.haskell.org/ghcup/) can be used to switch between GHC versions. Let's say we've done this already and found out something has gone awry between GHC 8.2.2 and 8.4.1. To get the commit hashes between those release
+versions:
+
+```
+$ git show-ref -s ghc-8.2.2-release
+aa3ffbdaffb1cdfc08720ebd3a8d3663ee3293f9
+$ git show-ref -s ghc-8.4.1-release
+985d8979a02fe297d0ccf121d3207983b8de3661
+```
+
+Next grab the range of commit hashes to manually bisect:
+
+```
+$ git log aa3ffb..985d89 --format=format:"%H"
+f31c40efdc918bc9da8a325327ba5a472bd6ea9e
+6540b7113aea04ef7feb3b849861fd4be7c38f1f
+c760ae373d47a16170dab0b9ed6f1680a75d4263
+...
+```
+
+## Git Bisect Command
 
 This approach is especially appealing as git provides convenient support in the form of [\`git bisect\`](https://www.kernel.org/pub/software/scm/git/docs/git-bisect.html). `git bisect` coupled with a reliable test case and the script below (with appropriate modifications) turns the task of bisection into a relatively painless exercise.
+
 
 **Note:** Bisecting revisions before the switch to submodules (i.e. more than a couple of months prior to the GHC 7.10.1 release) is quite difficult and is generally not worth the effort. The script below probably won't work in this regime.
 
