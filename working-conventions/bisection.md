@@ -38,8 +38,8 @@ To begin, it's best to minimize the work required to build GHC. For this setting
 
 ```
 $ git bisect start
-$ git bisect good ghc-7.10.1-release   # we know the testcase worked here
-$ git bisect bad ghc-7.10.2-release    # but it fails here
+$ git bisect good ghc-8.2.2-release   # we know the testcase worked here
+$ git bisect bad ghc-8.4.1-release    # but it fails here
 $ git bisect run ghc-bisect.sh
 ```
 
