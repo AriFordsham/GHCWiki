@@ -214,8 +214,9 @@ If you've built GHC from source for another version of GHC beware of a mismatche
 ```
 $ make -j4
 ...
-ghc-pkg: Couldn't open database /Users/.../ghc/inplace/lib/package.conf.d for modification: /Users/.../ghc/inplace/lib/package.conf.d/package.cache:
-  GHC.PackageDb.readPackageDb: inappropriate type (not enough bytes)
+ghc-pkg: Couldn't open database /Users/.../ghc/inplace/lib/package.conf.d for modification:
+  /Users/.../ghc/inplace/lib/package.conf.d/package.cache:
+    GHC.PackageDb.readPackageDb: inappropriate type (not enough bytes)
 make[1]: *** [rts/dist/package.conf.inplace] Error 1
 make[1]: *** Deleting file `rts/dist/package.conf.inplace'
 make[1]: *** Waiting for unfinished jobs....
