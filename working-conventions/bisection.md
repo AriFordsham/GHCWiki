@@ -11,10 +11,33 @@ Bisection can be done manually or with a git command.
 With either bisection method, the work required to build GHC can be minimised by setting `BuildFlavour=quick`
 in `mk/build.mk` if using a `make` build.
 
+There's a variety of ways of finding out which released GHC versions pass and fail your test case.
+
+The tool [ghcup](https://www.haskell.org/ghcup/) can be used to install and switch between system GHC
+versions. Once a version has been installed with this tool it can be set as the system `ghc` or a named
+version can be used as the compiler by setting the [with-compiler](https://cabal.readthedocs.io/en/3.4/cabal-project.html?highlight=with-compiler#cfg-field-with-compiler) option:
+
+```
+# command line option
+with-compiler=ghc-8.2.2`
+
+# cabal.project file field
+with-compiler: ghc-8.2.2
+```
+
+Stack users can switch resolvers to do the same thing:
+
+```
+# command line option
+stack --resolver lts-11.22
+
+# stack.yaml file field
+resolver: lts-11.22
+```
+
 ## Manual Bisection
 
-Start by finding out which released GHC versions pass and fail your test case.
-The tool [ghcup](https://www.haskell.org/ghcup/) can be used to switch between GHC versions. Let's say we've done this already and found out something has gone awry between GHC 8.2.2 and 8.4.1. To get the commit hashes between those release versions:
+Let's say we've done this already and found out something has gone awry between GHC 8.2.2 and 8.4.1. To get the commit hashes between those release versions:
 
 ```
 $ git show-ref -s ghc-8.2.2-release
@@ -45,7 +68,7 @@ Download the script below and edit it to reflect your test-case then begin the b
 
 ```
 $ git bisect start
-$ git bisect good ghc-8.2.2-release   # we know the testcase worked here
+$ git bisect good ghc-8.2.2-release   # we know the test case worked here
 $ git bisect bad ghc-8.4.1-release    # but it fails here
 $ git bisect run ghc-bisect.sh
 ```
