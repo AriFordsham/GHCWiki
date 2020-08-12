@@ -18,7 +18,7 @@ version can be used by setting the [with-compiler](https://cabal.readthedocs.io/
 
 ```
 # command line option
-with-compiler=ghc-8.2.2
+cabal v2-build --with-compiler=ghc-8.2.2
 
 # cabal.project file field
 with-compiler: ghc-8.2.2
@@ -147,7 +147,7 @@ function run_test() {
     tree=$HOME/trees/cabal
     cd $tree
     #do_it "clean-test" rm -R dist-newstyle
-    do_it "build-test" cabal new-build cabal-install --disable-library-profiling --allow-newer=time --with-compiler=$ghc
+    do_it "build-test" cabal v2-build cabal-install --disable-library-profiling --allow-newer=time --with-compiler=$ghc
     do_it "make-links" /home/ben/.env/bin/mk-cabal-bin.sh
     do_it "run-test" timeout 10 bin/cabal configure
 
