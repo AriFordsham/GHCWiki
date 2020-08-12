@@ -207,9 +207,10 @@ submodule path '/Users/.../ghc/.arc-linters/arcanist-external-json-linter' faile
 Failed to clone '.arc-linters/arcanist-external-json-linter'. Retry scheduled
 ```
 
-### Packages
+### Starting Dirty
 
-If you've built GHC from source for another version of GHC beware of a mismatched package configuration:
+If you've built GHC from source for another version of GHC beware of dirty generated files in the
+source tree. This can manifest in various ways such as a mismatched package configuration:
 
 ```
 $ make -j4
@@ -221,6 +222,9 @@ make[1]: *** [rts/dist/package.conf.inplace] Error 1
 make[1]: *** Deleting file `rts/dist/package.conf.inplace'
 make[1]: *** Waiting for unfinished jobs....
 ```
+
+Be sure to clean before getting started on the bisection with `make clean`.
+
 
 ### Pre-8.2
 
