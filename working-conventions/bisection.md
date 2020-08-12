@@ -46,7 +46,7 @@ With a `make` build, set `BuildFlavour=quick` in `mk/build.mk`.
 
 ## Manual Bisection
 
-Let's say we've done this already and found out something has gone awry between GHC 8.2.2 and 8.4.1. To get the commit hashes between those release versions:
+Let's say something has gone awry between GHC 8.2.2 and 8.4.1. To get the commit hashes between those release versions:
 
 ```
 $ git show-ref -s ghc-8.2.2-release
