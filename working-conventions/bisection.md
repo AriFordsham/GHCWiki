@@ -25,7 +25,7 @@ with-compiler: ghc-8.2.2
 ```
 
 Stack users can switch [resolver](https://docs.haskellstack.org/en/stable/yaml_configuration/#resolver)
-or to do the same thing:
+to do the same thing:
 
 ```
 # command line option
