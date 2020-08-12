@@ -6,6 +6,11 @@ GHC 8.2.2 and 8.4.1. It can often be useful to know which commit introduced the 
 
 Bisection can be done manually or with a git command.
 
+## Preparation
+
+To begin with either bisection method, it's best to minimize the work required to build GHC. For this
+setting `BuildFlavour=quick` in `mk/build.mk` is recommended. 
+
 ## Manual Bisection
 
 Start by finding out which released GHC versions pass and fail your test case.
@@ -37,7 +42,7 @@ This approach is especially appealing as git provides convenient support in the 
 **Note:** Bisecting revisions before the switch to submodules (i.e. more than a couple of months prior to the GHC 7.10.1 release) is quite difficult and is generally not worth the effort. The script below probably won't work in this regime.
 
 
-To begin, it's best to minimize the work required to build GHC. For this setting `BuildFlavour=quick` in `mk/build.mk` is recommended. Next download the script below and edit it to reflect your test-case. Now begin the bisection,
+Download the script below and edit it to reflect your test-case then begin the bisection:
 
 ```
 $ git bisect start
