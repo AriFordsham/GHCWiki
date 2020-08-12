@@ -24,7 +24,8 @@ with-compiler=ghc-8.2.2`
 with-compiler: ghc-8.2.2
 ```
 
-Stack users can switch resolvers to do the same thing:
+Stack users can switch [resolver](https://docs.haskellstack.org/en/stable/yaml_configuration/#resolver)
+or to do the same thing:
 
 ```
 # command line option
@@ -33,6 +34,9 @@ stack --resolver lts-11.22
 # stack.yaml file field
 resolver: lts-11.22
 ```
+
+Stack's resolver specifies both stackage package set and ghc version but the ghc version
+can be set independently of resolver with the [compiler](https://docs.haskellstack.org/en/stable/yaml_configuration/#compiler) option.
 
 ### Rebuild Less
 
