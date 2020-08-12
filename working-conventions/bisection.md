@@ -18,7 +18,7 @@ version can be used by setting the [with-compiler](https://cabal.readthedocs.io/
 
 ```
 # command line option
-with-compiler=ghc-8.2.2`
+with-compiler=ghc-8.2.2
 
 # cabal.project file field
 with-compiler: ghc-8.2.2
