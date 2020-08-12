@@ -8,14 +8,13 @@ Bisection can be done manually or with a git command.
 
 ## Preparation
 
-To begin with either bisection method, it's best to minimize the work required to build GHC. For this
-setting `BuildFlavour=quick` in `mk/build.mk` is recommended. 
+With either bisection method, the work required to build GHC can be minimised by setting `BuildFlavour=quick`
+in `mk/build.mk` if using a `make` build.
 
 ## Manual Bisection
 
 Start by finding out which released GHC versions pass and fail your test case.
-The tool [ghcup](https://www.haskell.org/ghcup/) can be used to switch between GHC versions. Let's say we've done this already and found out something has gone awry between GHC 8.2.2 and 8.4.1. To get the commit hashes between those release
-versions:
+The tool [ghcup](https://www.haskell.org/ghcup/) can be used to switch between GHC versions. Let's say we've done this already and found out something has gone awry between GHC 8.2.2 and 8.4.1. To get the commit hashes between those release versions:
 
 ```
 $ git show-ref -s ghc-8.2.2-release
