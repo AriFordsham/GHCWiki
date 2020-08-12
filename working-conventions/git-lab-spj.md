@@ -134,6 +134,8 @@ You never commit directly to HEAD.  Rather, follow this workflow.
 
   - `!883` links to merge request 883
 
+  - `~CSE` or `~"CSE"` links to label CSE, thus ~CSE
+
   - "@fred" mentions Fred.  You don't need to remember their user-id; you can just start typing their real name and auto-complete stuff will pop up.  The main reason to mention Fred is to ensure that he sees your comment.  For example you might asking him for a review.
 
   - In bulleted or itemized lists, if you want a new paragraph, indent two spaces.  
