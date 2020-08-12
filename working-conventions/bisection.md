@@ -207,6 +207,20 @@ submodule path '/Users/.../ghc/.arc-linters/arcanist-external-json-linter' faile
 Failed to clone '.arc-linters/arcanist-external-json-linter'. Retry scheduled
 ```
 
+### Packages
+
+If you've built GHC from source for another version of GHC beware of a mismatched package configuration:
+
+```
+$ make -j4
+...
+ghc-pkg: Couldn't open database /Users/.../ghc/inplace/lib/package.conf.d for modification: /Users/.../ghc/inplace/lib/package.conf.d/package.cache:
+  GHC.PackageDb.readPackageDb: inappropriate type (not enough bytes)
+make[1]: *** [rts/dist/package.conf.inplace] Error 1
+make[1]: *** Deleting file `rts/dist/package.conf.inplace'
+make[1]: *** Waiting for unfinished jobs....
+```
+
 ### Pre-8.2
 
 
