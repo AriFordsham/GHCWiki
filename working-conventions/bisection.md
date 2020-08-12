@@ -8,14 +8,13 @@ Bisection can be done manually or with a git command.
 
 ## Preparation
 
-With either bisection method, the work required to build GHC can be minimised by setting `BuildFlavour=quick`
-in `mk/build.mk` if using a `make` build.
+### Version Range
 
-There's a variety of ways of finding out which released GHC versions pass and fail your test case.
+Try out released GHC versions to find out the version range between the pass and fail of your test case.
 
 The tool [ghcup](https://www.haskell.org/ghcup/) can be used to install and switch between system GHC
 versions. Once a version has been installed with this tool it can be set as the system `ghc` or a named
-version can be used as the compiler by setting the [with-compiler](https://cabal.readthedocs.io/en/3.4/cabal-project.html?highlight=with-compiler#cfg-field-with-compiler) option:
+version can be used by setting the [with-compiler](https://cabal.readthedocs.io/en/3.4/cabal-project.html?highlight=with-compiler#cfg-field-with-compiler) option:
 
 ```
 # command line option
@@ -34,6 +33,12 @@ stack --resolver lts-11.22
 # stack.yaml file field
 resolver: lts-11.22
 ```
+
+### Rebuild Less
+
+With either bisection method aim to minimise the work required to build GHC.
+
+With a `make` build, set `BuildFlavour=quick` in `mk/build.mk`.
 
 ## Manual Bisection
 
