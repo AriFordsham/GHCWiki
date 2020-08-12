@@ -13,7 +13,7 @@ Bisection can be done manually or with a git command.
 Try out released GHC versions to find out the version range between the pass and fail of your test case.
 
 The tool [ghcup](https://www.haskell.org/ghcup/) can be used to install and switch between system GHC
-versions. Once a version has been installed with this tool it can be set as the system `ghc` or a named
+versions. Once a version has been installed with this tool it can be set as the system GHC or a named
 version can be used by setting the [with-compiler](https://cabal.readthedocs.io/en/3.4/cabal-project.html?highlight=with-compiler#cfg-field-with-compiler) option:
 
 ```
@@ -35,7 +35,7 @@ stack --resolver lts-11.22
 resolver: lts-11.22
 ```
 
-Stack's resolver specifies both stackage package set and ghc version but the ghc version
+Stack's resolver specifies both stackage package set and GHC version. The GHC version
 can be set independently of resolver with the [compiler](https://docs.haskellstack.org/en/stable/yaml_configuration/#compiler) option.
 
 ### Rebuild Less
