@@ -1,0 +1,48 @@
+* GHC Release Maintainers
+
+This documentent listes the maintainers for each GHC version.  Ideally
+we have at least two people who feel passionate about a specific GHC
+version and will help with backporting bugfixes.  Do note that we will
+not backport language features.  If you'd like to help out, please
+send a message to the ghc-devs mailinglist, hop onto #ghc on
+irc.freenode.net!
+
+| Version | Maintainers      |
+|---------+------------------|
+|    HEAD | Ben Gamari       |
+|     9.x | Ben Gamari       |
+|  8.10.x | Ben Gamari       |
+|   8.8.x | Ben Gamari       |
+|   8.6.x | Moritz Angermann |
+|   8.4.x |                  |
+|   8.2.x | Herbert Riedel   |
+
+
+** Release/Backport Matrix
+
+The Release/Bacport Matrix lists the releases, as well as the Merge
+Requests that were backported.
+
+|        |   |
+|--------+---|
+| 8.10.2 |   |
+| 8.10.1 |   |
+|--------+---|
+|  8.8.4 |   |
+|  8.8.3 |   |
+|  8.8.2 |   |
+|  8.8.1 |   |
+|--------+---|
+|  8.6.5 |   |
+|  8.6.4 |   |
+|  8.6.3 |   |
+|  8.6.2 |   |
+|  8.6.1 |   |
+|--------+---|
+|  8.4.4 |   |
+|  8.4.3 |   |
+|  8.4.2 |   |
+|  8.4.1 |   |
+|--------+---|
+|  8.2.2 |   |
+|  8.2.1 |   |
