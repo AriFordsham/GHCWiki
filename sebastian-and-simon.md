@@ -1,5 +1,7 @@
 # Agenda
 
+## State hack/Eta expansion
+
 - #18231: eta expansion. Mysteries remain.
   - In particular, we wondered whether (or when, rather) `etaExpand` has to expose lambdas manifestly. Makes a difference for PAPs (special case: trivial exprs?)
   - We investigated call sites of `etaExpand` and concluded that the only call site that really needs lambdas manifestly is CoreToStg.Prep
@@ -21,7 +23,12 @@
     - inline, then beta reduce ==> `\x{os}.e[x/y]`
     - In some situations, we want one, in some we want the other!
     - Idea: No eta reduction whenever there's os or ms, only if there is no annotation
-- !2938: Detecting redundant bangs: A new extension for LYGs! Inspires need for unlifted types.
+
+## PmCheck
+
+- #18565: Index `GrdTree` data type by a `Skeleton` (or `Shape`) type  
+  - Quite a nice design, I think, reflecting modern, type-safe Haskell
+- !2938: Detecting redundant bangs: A new extension for LYGs! Inspires need for unlifted types (#18249)
 - #18249: Support for unlifted types in PmCheck
   - Solution: Add PmCtNotBot at *binding sites*
   - We lack a way to identify them reliably, because we didn't need to
@@ -33,12 +40,14 @@
   - The latter case overlaps with what we do for strict fields in the oracle
     (`mkOneConFull` etc.). Now we should also do the same for unlifted fields.
     It feels wrong to duplicate the logic between the checker invokation, `checkGrdTree` and the oracle.
+- #18341: Strict fields are unlifted
+
+## Misc
+
 - #17900, !3013: primop effects
+- #17881, #17896: eta reduction (based on usage Demand)
 
-- #18174, !1866: Nested CPR
-  - See below
-
-- #17881, #17896: eta reduction based on Demand
+- #18174, !1866: Nested CPR. See below
 
 # Nested CPR
 
