@@ -46,18 +46,30 @@ With a `make` build, set `BuildFlavour=quick` in `mk/build.mk`.
 
 ## Manual Bisection
 
-Let's say something has gone awry between GHC 8.2.2 and 8.4.1. To get the commit hashes between those release versions:
+Let's say something has gone awry between GHC 8.2.2 and 8.4.1. We can do a manual bisection where we let git
+pick the commit to try and we let git know whether this is a good one or a bad one.
+
+```
+$ git bisect start
+$ git bisect good ghc-8.2.2-release
+$ git bisect bad ghc-8.4.1-release
+Bisecting: a merge base must be tested
+warning: unable to rmdir 'hadrian': Directory not empty
+warning: unable to rmdir 'libraries/mtl': Directory not empty
+warning: unable to rmdir 'libraries/parsec': Directory not empty
+warning: unable to rmdir 'libraries/text': Directory not empty
+[2b5b9dc69e5d0af20b6e7be31638c2e3a1bb765f] Fix typo in base changelog
+# do your testing then report back to git whether it's good or bad
+$ git bisect bad
+```
+
+If for some reason you want to get the commit hashes between the initial good and bad versions:
 
 ```
 $ git show-ref -s ghc-8.2.2-release
 aa3ffbdaffb1cdfc08720ebd3a8d3663ee3293f9
 $ git show-ref -s ghc-8.4.1-release
 985d8979a02fe297d0ccf121d3207983b8de3661
-```
-
-Next grab the range of commit hashes to manually bisect:
-
-```
 $ git log aa3ffb..985d89 --format=format:"%H"
 f31c40efdc918bc9da8a325327ba5a472bd6ea9e
 6540b7113aea04ef7feb3b849861fd4be7c38f1f
