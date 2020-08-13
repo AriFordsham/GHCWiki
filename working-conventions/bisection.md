@@ -46,8 +46,8 @@ With a `make` build, set `BuildFlavour=quick` in `mk/build.mk`.
 
 ## Manual Bisection
 
-Let's say something has gone awry between GHC 8.2.2 and 8.4.1. We can do a manual bisection where we let git
-pick the commit to try and we let git know whether this is a good one or a bad one.
+Let's say something has gone awry between GHC 8.2.2 and 8.4.1. We can do a manual bisection where git
+picks the commit to try and we manually report back to git on how the test case went.
 
 ```
 $ git bisect start
