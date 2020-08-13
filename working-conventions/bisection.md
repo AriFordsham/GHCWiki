@@ -219,6 +219,19 @@ submodule path '/Users/.../ghc/.arc-linters/arcanist-external-json-linter' faile
 Failed to clone '.arc-linters/arcanist-external-json-linter'. Retry scheduled
 ```
 
+### Unhappy Happy
+
+Errors with the stage1 parser like the following can be worked around by
+downgrading to `happy-1.19.9` or older, see #18571 for more on this.
+
+```
+compiler/stage1/build/Parser.hs:1445:48: error:
+    Not in scope: type variable ‘a’
+     |
+1445 | newtype HappyWrap205 = HappyWrap205 (([Located a],Bool))
+     |
+```
+
 ### Starting Dirty
 
 If you've built GHC from source for another version of GHC beware of dirty generated files in the
