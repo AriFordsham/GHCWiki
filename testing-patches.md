@@ -59,14 +59,6 @@ If you hit a hadrian bug or want to specifically use the make build system to bu
 
 ## More details on the validate script
 
-### Make mode (`--legacy`) configuration
-
-`validate` usually starts by `make maintainer-clean` to make sure that everything builds from scratch.  Furthermore, it ignores the build settings you have put in `mk/build.mk`, and instead uses those in `mk/flavours/validate.mk`.
-
-You may want to validate a different configuration, e.g. with `GhcLibWays = p`. To do that, create a new file `mk/validate.mk` and put those settings in there. Settings in `mk/validate.mk` override those from `mk/flavours/validate.mk` (which in turn override those from `mk/config.mk`).
-
-After you run `validate --legacy` your tree will continue to use the same settings. The way to get back to using your own `build.mk` is to run `make distclean`.  Less brutally, simply remove the file `mk/are-validating.mk`.
-
 ### Flags
 
 
@@ -80,8 +72,16 @@ In order to save time while debugging problems revealed by validate, the validat
 - **`--dph`**: set `BUILD_DPH=YES`.
 - **`--quiet`**: show less output. By default all shell commands are shown so you can copy/paste and rerun them on failures.
 - **`--help`**: show help.
+- **`--legacy`**: use the legacy 'make' system, rather than Hadrian, to build GHC.  See "Make mode (`--legacy`) configuration" below. 
 
 
+### Make mode (`--legacy`) configuration
+
+`validate` usually starts by `make maintainer-clean` to make sure that everything builds from scratch.  Furthermore, it ignores the build settings you have put in `mk/build.mk`, and instead uses those in `mk/flavours/validate.mk`.
+
+You may want to validate a different configuration, e.g. with `GhcLibWays = p`. To do that, create a new file `mk/validate.mk` and put those settings in there. Settings in `mk/validate.mk` override those from `mk/flavours/validate.mk` (which in turn override those from `mk/config.mk`).
+
+After you run `validate --legacy` your tree will continue to use the same settings. The way to get back to using your own `build.mk` is to run `make distclean`.  Less brutally, simply remove the file `mk/are-validating.mk`.
 ### Validate has failing tests without any local patches; what do I do?
 
 
