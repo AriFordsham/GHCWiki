@@ -46,6 +46,8 @@ With a `make` build, set `BuildFlavour=quick` in `mk/build.mk`.
 
 ## Manual Bisection
 
+Manual bisection allows for intervention at each step in the search to workaround problems in the build of GHC or your test case. Also if we see that a commit is trivial we can exclude it with skip without having to wait for anything to build.
+
 Let's say something has gone awry between GHC 8.2.2 and 8.4.1. We can do a manual bisection where git
 picks the commit to try and we manually report back to git on how the test case went.
 
