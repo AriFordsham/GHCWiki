@@ -4,7 +4,7 @@
 Say you have a program that fails to build or a test suite that fails at some point between
 GHC 8.2.2 and 8.4.1. It can often be useful to know which commit introduced the regression. [Bisection](https://en.wikipedia.org/wiki/Bisection_%28software_engineering%29) is an efficient way of determining this, requiring at most `log_2(N)` commits to find the culprit among `N` commits assuming GHC and your test case builds at each commit which in practice may not be the case. 
 
-Bisection can be done manually or with a git command.
+We can do [manual](#manual bisection) or [scripted](#scripted bisection) bisection.
 
 ## Preparation
 
@@ -77,7 +77,7 @@ c760ae373d47a16170dab0b9ed6f1680a75d4263
 ...
 ```
 
-## Git Bisect Command
+## Scripted Bisection
 
 This approach is especially appealing as git provides convenient support in the form of [\`git bisect\`](https://www.kernel.org/pub/software/scm/git/docs/git-bisect.html). `git bisect` coupled with a reliable test case and the script below (with appropriate modifications) turns the task of bisection into a relatively painless exercise.
 
