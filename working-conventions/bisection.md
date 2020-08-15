@@ -2,7 +2,7 @@
 
 
 Say you have a program that fails to build or a test suite that fails at some point between
-GHC 8.2.2 and 8.4.1. It can often be useful to know which commit introduced the regression. [Bisection](https://en.wikipedia.org/wiki/Bisection_%28software_engineering%29) is an efficient way of determining this, requiring at most `log_2(N)` commits to find the culprit among `N` commits assuming GHC and your test case builds at each commit which in practice may not be the case. 
+GHC 8.2.2 and 8.4.1. It can often be useful to know which commit introduced the regression. [Bisection](https://en.wikipedia.org/wiki/Bisection_%28software_engineering%29) is an efficient way of determining this, requiring at most `log_2(N)` commits to find the culprit among `N` commits assuming GHC and your test case builds at each commit tried in the search which in practice may not be the case. 
 
 We can do [manual](#manual bisection) or [scripted](#scripted bisection) bisection. This approach to finding a problem commit is especially appealing as git provides convenient support of binary search with [git bisect](https://www.kernel.org/pub/software/scm/git/docs/git-bisect.html). 
 
