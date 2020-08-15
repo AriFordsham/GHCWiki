@@ -253,8 +253,7 @@ compiler/stage1/build/Parser.hs:1445:48: error:
 
 ### Starting Dirty
 
-If you've built GHC from source for another version of GHC beware of dirty generated files in the
-source tree. This can manifest in various ways such as a mismatched package configuration:
+If you've built GHC from source for another version of GHC beware of dirty generated files in the source tree. This can manifest in various ways such as a mismatched package configuration:
 
 ```
 > make -j4
@@ -269,6 +268,21 @@ make[1]: *** Waiting for unfinished jobs....
 
 Be sure to clean before getting started on the bisection with `make clean`.
 
+### Base Library Changes
+
+If a library maintained alongside GHC changes in ways your test case or its dependencies doesn't expect then you may not be able to build your test case. It may be possible to adjust your dependency by referencing it locally and making a local edit:
+
+```
+uom-plugin> git submodule add https://github.com/tibbe/hashable.git
+```
+
+On the GHC 8.3 branch, a local edit of `./hashable/Data.Hashable/Class.hs` enabled the `uom-plugin:units` test-suite's hashable dependency to build:
+
+
+```diff
+-- import Type.Reflection.Unsafe (typeRepFingerprint)
+++ import Type.Reflection (typeRepFingerprint
+```
 
 ### Pre-8.2
 
