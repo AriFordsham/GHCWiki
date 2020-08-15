@@ -42,7 +42,7 @@ can be set independently of resolver with the [compiler](https://docs.haskellsta
 
 With either bisection method aim to minimise the work required to build GHC.
 
-With a `make` build, set `BuildFlavour=quick` in `mk/build.mk`.
+With a `make` build, set `BuildFlavour=quick` in `mk/build.mk`. This file, copied from `mk/build.mk.sample` for your own build, will stick around as commits change. It's ignored.
 
 ## Manual Bisection
 
