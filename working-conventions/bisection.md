@@ -18,7 +18,7 @@ version can be used by setting the [with-compiler](https://cabal.readthedocs.io/
 
 ```
 # command line option
-cabal v2-build --with-compiler=ghc-8.2.2
+> cabal v2-build --with-compiler=ghc-8.2.2
 
 # cabal.project file field
 with-compiler: ghc-8.2.2
@@ -29,7 +29,7 @@ to do the same thing:
 
 ```
 # command line option
-stack --resolver lts-11.22
+> stack --resolver lts-11.22
 
 # stack.yaml file field
 resolver: lts-11.22
@@ -52,27 +52,44 @@ Let's say something has gone awry between GHC 8.2.2 and 8.4.1. We can do a manua
 picks the commit to try and we manually report back to git on how the test case went.
 
 ```
-$ git bisect start
-$ git bisect good ghc-8.2.2-release
-$ git bisect bad ghc-8.4.1-release
+> git bisect start
+> git bisect good ghc-8.2.2-release
+> git bisect bad ghc-8.4.1-release
 Bisecting: a merge base must be tested
 warning: unable to rmdir 'hadrian': Directory not empty
 warning: unable to rmdir 'libraries/mtl': Directory not empty
 warning: unable to rmdir 'libraries/parsec': Directory not empty
 warning: unable to rmdir 'libraries/text': Directory not empty
 [2b5b9dc69e5d0af20b6e7be31638c2e3a1bb765f] Fix typo in base changelog
-# do your testing then report back to git whether it's good or bad
-$ git bisect bad
+# Do your testing (see below) then report back to git whether it's good or bad.
+> git bisect bad
+```
+
+For each step in the search, build GHC and run your test case. Here's a real world example, finding when exactly a typechecker plugin stopped working with GHC, [uom-plugin#43](https://github.com/adamgundry/uom-plugin/issues/43):
+
+```
+ghc> make clean
+ghc> git submodule update --init
+ghc> ./boot
+ghc> ./configure
+ghc> make -j4
+ghc> cd ../uom-plugin
+uom-plugin> cabal new-build uom-plugin:units --enable-tests
+  --with-compiler=/Users/pdejoux/dev/src/haskell/ghc/inplace/bin/ghc-stage2
+# The test case is can we build the units test-suite.
+# Let's say this time it was good so we'll report that back to git bisect.
+uom-plugin> cd ../ghc
+ghc> git bisect good
 ```
 
 If for some reason you want to get the commit hashes between the initial good and bad versions:
 
 ```
-$ git show-ref -s ghc-8.2.2-release
+> git show-ref -s ghc-8.2.2-release
 aa3ffbdaffb1cdfc08720ebd3a8d3663ee3293f9
-$ git show-ref -s ghc-8.4.1-release
+> git show-ref -s ghc-8.4.1-release
 985d8979a02fe297d0ccf121d3207983b8de3661
-$ git log aa3ffb..985d89 --format=format:"%H"
+> git log aa3ffb..985d89 --format=format:"%H"
 f31c40efdc918bc9da8a325327ba5a472bd6ea9e
 6540b7113aea04ef7feb3b849861fd4be7c38f1f
 c760ae373d47a16170dab0b9ed6f1680a75d4263
@@ -90,10 +107,10 @@ Coupling a reliable test case and the script below (with appropriate modificatio
 Download the script below and edit it to reflect your test-case then begin the bisection:
 
 ```
-$ git bisect start
-$ git bisect good ghc-8.2.2-release   # we know the test case worked here
-$ git bisect bad ghc-8.4.1-release    # but it fails here
-$ git bisect run ghc-bisect.sh
+> git bisect start
+> git bisect good ghc-8.2.2-release   # we know the test case worked here
+> git bisect bad ghc-8.4.1-release    # but it fails here
+> git bisect run ghc-bisect.sh
 ```
 
 
@@ -201,7 +218,7 @@ If you're working off a fork of GHC then submodules are not going to work with t
 script. To use the bisect script, clone of from `gitlab.haskell.org` instead:
 
 ```
-$ git bisect run ./bisect.sh                                                      
+> git bisect run ./bisect.sh                                                      
 running ./bisect.sh
 Commit 2b5b9dc69e5d0af20b6e7be31638c2e3a1bb765f: submodules = git submodule update
 Cloning into '/Users/.../ghc/.arc-linters/arcanist-external-json-linter'...
@@ -240,7 +257,7 @@ If you've built GHC from source for another version of GHC beware of dirty gener
 source tree. This can manifest in various ways such as a mismatched package configuration:
 
 ```
-$ make -j4
+> make -j4
 ...
 ghc-pkg: Couldn't open database /Users/.../ghc/inplace/lib/package.conf.d for modification:
   /Users/.../ghc/inplace/lib/package.conf.d/package.cache:
