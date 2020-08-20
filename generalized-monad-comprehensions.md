@@ -83,9 +83,20 @@ class Functor f => FunctorZip f where
     funzip fab = (fmap fst fab, fmap snd fab)
 ```
 
-
 I noticed this in particular when I wanted to use length-indexed lists with a monad comprehension using *only* the (trivially defined) `Applicative` and `FunctorZip` instances, but was forced to define the `Monad` instance that was of no use for my particular case.
 
+Note that `FunctorZip` is `Applicative` minus `pure`. This is because te fundamental operations of both is combining/accumulating. Specifically, `Applicative` accumulates a closure while`FunctorZip` accumulates a tuple, but mapping lets you covert between the two after the fact, so it doesn't matter.
+
+```
+fzip fa fb = (,) <$> fa <*> fb
+fzipWith f fa fb = f <$> fa <*> fb
+```
+
+vs
+
+```
+f <*> fa = fzipWith ($) f fa
+```
 
 ## Specification
 
