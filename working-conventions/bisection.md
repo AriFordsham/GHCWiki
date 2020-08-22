@@ -281,7 +281,7 @@ On the GHC 8.3 branch, a local edit of `./hashable/Data.Hashable/Class.hs` enabl
 
 ```diff
 -- import Type.Reflection.Unsafe (typeRepFingerprint)
-++ import Type.Reflection (typeRepFingerprint
+++ import Type.Reflection (typeRepFingerprint)
 ```
 
 ### Pre-8.2
