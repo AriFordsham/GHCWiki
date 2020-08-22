@@ -270,18 +270,38 @@ Be sure to clean before getting started on the bisection with `make clean`.
 
 ### Base Library Changes
 
-If a library maintained alongside GHC changes in ways your test case or its dependencies doesn't expect then you may not be able to build your test case. It may be possible to adjust your dependency by referencing it locally and making a local edit:
+If a library maintained alongside GHC changes in ways your test case or its dependencies doesn't expect then you may not be able to build your test case.
+
+Compiling with the 8.3 branch of GHC and the base library, I got an error building hashable, a dependency of my test case:
 
 ```
-uom-plugin> git submodule add https://github.com/tibbe/hashable.git
+Data/Hashable/Class.hs:107:32: error:
+    Module
+    ‘Type.Reflection.Unsafe’
+    does not export
+    ‘typeRepFingerprint’
+    |
+107 | import Type.Reflection.Unsafe (typeRepFingerprint)
+    |                                ^^^^^^^^^^^^^^^^^^
+cabal: Failed to build hashable-1.3.0.0 (which is required by test:units from uom-plugin-0.3.0.1).
 ```
 
-On the GHC 8.3 branch, a local edit of `./hashable/Data.Hashable/Class.hs` enabled the `uom-plugin:units` test-suite's hashable dependency to build:
-
+Here's the change needed to get `./hashable/Data.Hashable/Class.hs` compiling again:
 
 ```diff
 -- import Type.Reflection.Unsafe (typeRepFingerprint)
 ++ import Type.Reflection (typeRepFingerprint)
+```
+
+Before making that edit, I got a local version of hashable. Either git or cabal can be used to do this:
+
+```
+# Adding hashable as a git submodule gets its source.
+uom-plugin> git submodule add https://github.com/tibbe/hashable.git
+
+# We could command cabal to get the source for the version of hashable we depend on.
+uom-plugin> cabal get hashable
+Unpacking to hashable-1.3.0.0/
 ```
 
 ### Pre-8.2
