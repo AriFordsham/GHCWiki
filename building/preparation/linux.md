@@ -128,13 +128,17 @@ The recommended way to create an environment in which to build GHC is to use Alp
 You can then perform a build by running
 
 ```shell
-configurePhase
-buildPhase
-```
+# configure_ghc is supplied by ghc.nix, it is an alias for
+# ./configure $CONFIGURE_ARGS, where $CONFIGURE_ARGS contains
+# several useful arguments, in particular for making sure that
+# the resulting GHC can be used outside of the nix shell, still
+# knowing exactly where the relevant dependencies reside.
+./boot && configure_ghc
 
-
-Enable parallel builds in the nix build environment:
-
-```shell
-   export NIX_BUILD_CORES=4
+# GHC currently has two build systems: Hadrian based on Shake,
+# and a Make based one.
+# Use _ony one_ of the two commands below to build with the
+# corresponding build system.
+make -j
+hadrian/build -j
 ```
