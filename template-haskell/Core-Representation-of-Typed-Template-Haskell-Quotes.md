@@ -17,7 +17,7 @@ How does typed template haskell currently work?
 
 The representation type of expressions is `Q Exp`. 
 
-`Exp` is a representation of renamed askell expressions. When a typed quotation is typechecked, it is verified that it has the correct type before all the type information is discarded. When
+`Exp` is a representation of renamed haskell expressions. When a typed quotation is typechecked, it is verified that it has the correct type before all the type information is discarded. When
 a typed quotation is spliced in, it is type checked again to add
 back the information that was discarded. For complicated programs
 this process fails because as the code is generated, less type information is available than when the quotation was typechecked. It is essential to remember the context a quotation appeared in. 
