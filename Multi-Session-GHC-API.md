@@ -238,3 +238,4 @@ Other than that, we expect that nothing else needs to be modified to compile wit
 
 * https://gitlab.haskell.org/ghc/ghc/merge_requests/388 (Allow multiple linker instances)
 * https://gitlab.haskell.org/ghc/ghc/merge_requests/935 (Start multi-package support)
+* https://gitlab.haskell.org/ghc/ghc/-/merge_requests/3950 (Implement Multiple Home Units for GHC)
