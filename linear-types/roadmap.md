@@ -30,3 +30,4 @@ Issues about linear types are gathered under the ~LinearTypes tag.
 
 - Improve CPR in presence of unrestricted field: #18490
 #### Future
+- Having non-reflexivity multiplicity evidence is a bit of a thorny subject. There is a [dedicated wiki page](linear-types/multiplicity-evidence) to discuss the issue.
