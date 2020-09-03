@@ -26,21 +26,32 @@
 
 ## PmCheck
 
-- #18565: Index `GrdTree` data type by a `Skeleton` (or `Shape`) type  
-  - Quite a nice design, I think, reflecting modern, type-safe Haskell
-- !2938: Detecting redundant bangs: A new extension for LYGs! Inspires need for unlifted types (#18249)
+- #18565, !3937: Guard tree variants following syntactic structure
+  - No type-unsafe panics, so an improvement, I think
+- #18341, !3633: Strict fields are unlifted
+  - Performance troubles with lazy constructor pattern guards in T12227, so
+    kept what we had. Now it's even decreasing there
+- #14422, #18277, !3959: Disattach COMPLETE pragmas from TyCons
+  - This allows "polymorphic" use, for example `pattern P :: C f => f a`, `{-#
+    COMPLETE P #-}`, like what we had wanted for the now extinct `LL` pattern
+    of TTG
+  - Nice -20% metric decrease in #18478!
+- #18645, #17836, !3971: Incremental `tcCheckSatisfiability` API
+  - TODO;
+- #17340, !2938: Detecting redundant bangs: A new extension for LYGs! Inspires need for unlifted types (#18249)
 - #18249: Support for unlifted types in PmCheck
   - Solution: Add PmCtNotBot at *binding sites*
   - We lack a way to identify them reliably, because we didn't need to
-  - It's the same mechanism we use for strict fields
+  - It's the same mechanism we use for strict fields: Add an unliftedness constraint when brought into scope (Gamma)
   - So we have to add constraints when
     1. we start the pattern match checker and we initialise Deltas, for the match variables
+       (Basically any free variable, really! But I don't think we care about these until they are matched upon.)
     2. We `checkGrdTree` a `PmLet` guard for the bound thing
     3. We add a `PmCon` guard for the field bindings
   - The latter case overlaps with what we do for strict fields in the oracle
     (`mkOneConFull` etc.). Now we should also do the same for unlifted fields.
     It feels wrong to duplicate the logic between the checker invokation, `checkGrdTree` and the oracle.
-- #18341: Strict fields are unlifted
+    Although there is nothing more elementary
 
 ## Misc
 
