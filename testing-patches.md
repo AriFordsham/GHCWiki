@@ -35,7 +35,7 @@ The following commands will make a clean build of GHC and its libraries using Ha
    ```
    ~/ghc $ git worktree add ../ghc-validate -b validation-branch
    ~/ghc $ cd ../ghc-validate
-   ~/ghc $ git submodule update --init
+   ~/ghc-validate $ git submodule update --init
    ~/ghc-validate $
    ```
 
