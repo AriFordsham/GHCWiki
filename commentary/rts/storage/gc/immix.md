@@ -41,7 +41,7 @@ As only the first part of each object in memory is marked in the bitmap?, it ski
 
 The mark stack is used to ensure that the objects allocated on lines get scavenged.
 
-## Line before inscreasing block size
+## Line before increasing block size
 
 - [Generated with darcs diff -u](http://people.debian.org/~marcot/immix/order.patch)
 - [Darcs bundle](http://people.debian.org/~marcot/immix/order.dpatch)
