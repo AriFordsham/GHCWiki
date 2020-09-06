@@ -5,7 +5,7 @@ The most important type in the runtime is `StgWord`, defined in [includes/stg/Ty
 
 - **`StgWord`**
 
-  An unsiged integral type of word size
+  An unsigned integral type of word size
 
 - **`StgInt`**
 
