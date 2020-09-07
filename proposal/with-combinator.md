@@ -113,6 +113,45 @@ test = do
 
 This construction the compiler can't mangle as there is no continuation to drop.
 
+Avoiding allocations with `keepAlive#`
+--------------------------------------
+
+It turns out that `touch#` is used quite widely, especially as part of `withForeignPtr`. Moreover, many of these uses are extremely computationally light. For instance, consider `GHC.IO.Buffer.readWord8Buf`:
+
+```haskell
+readWord8Buf :: RawBuffer Word8 -> Int -> IO Word8
+readWord8Buf arr ix = withForeignPtr arr $ \p -> peekByteOff p ix
+```
+
+This is small enough to be inlined and will therefore be typically compiled to a single memory read instruction when used in a strict context. While it is trivial to implement `withForeignPtr` in terms of `keepAlive#`, it is very important that we do not add overhead to this sort of usage.
+
+Unfortunately, the naive implementation of `withForeignPtr` in terms of `keepAlive#` will prevent GHC from eliminating the allocation of an `W8#` in a strict usage of `readWord8Buf`. For instance, consider a program like this:
+```haskell
+strlen :: RawBuffer Word8 -> IO Int
+strlen = go 0
+  where
+    go !n !buf = do
+      c <- readWord8Buf buf n
+      if c == 0 then return n else go (n+1) buf
+```
+With today's `withForeignPtr` (implemented in terms of the fragile `touch#`) we get a very tight loop (although it could be tighter; see #16064) with no allocations in the hot part of the loop. However, with an implementation based upon `keepAlive#` we will end up with something like the following:
+
+```haskell
+$wgo :: Int# -> ForeignPtr Word8 -> IO Int
+$wgo n# buf = IO $ \s0 -> 
+    case keepAlive# buf (\s1 -> 
+           case readWord8OffAddr# sat_s2DI 0# of {
+             Unit# n# [Occ=Once!] -> W8# n#
+           }
+         ) of
+     W8# n# ->
+       case n# of
+         0# -> ...
+         _  -> ...
+```
+
+That is, while previously case-of-known constructor was able to eliminate the allocation of the `W8#` intermediate, with `keepAlive#` we can no longer do so. To fix this we need to somehow push the outer `case` (scrutinizing the `Word8`) into the continuation of `keepAlive#`. We recently implemented precisely this optimisation for `runRW#` in #15127. We will need to do similarly for `keepAlive#`.
+
 Option A: Naive code generation of `keepAlive#`
 ------------------------------------------
 
@@ -279,3 +318,31 @@ case {k} whnf of ... ===> case whnf of ...
 ```haskell
 case {k} x of e { DEFAULT -> alt }  ====/===> let e = x in alt
 ```
+
+Option E: `noDiv`
+=====================
+
+Another way to avoid #17760 (and implement the `keepAlive` interface described above) is to introduce a primitive to hide the fact that an expression may diverge from the simplifier.
+
+Specifically, we introduce a magic operation:
+
+```haskell
+noDiv :: forall (r :: RuntimeRep) (a :: TYPE r).
+         (State# RealWorld -> a) -> State# RealWorld -> a
+```
+
+Semantically this is an identity. However, it carries the caveat that `noDiv f s` will evaluate the result of `f s` ignoring the fact that it may diverge. This allows one to implement `keepAlive#` as follows:
+```haskell
+keepAlive :: forall a r.
+             a
+          -> (State# RealWorld -> (# State# RealWorld, r #))
+          -> State# RealWorld
+          -> (# State# RealWorld, r #)
+keepAlive x f s0 =
+  case noDiv s0 f of
+    (# s1, r #) ->
+      case touch# x s1 of
+        s2 -> (# s2, r #)
+```
+
+However, in order for this to produce reason code for common uses like `GHC.IO.Buffer.readWord8Buf`, we need some way to push 
