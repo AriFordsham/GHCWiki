@@ -84,7 +84,6 @@ keepAlive# a m s =
 ```
 
 
-
 Fixing the issue properly with a new `keepAlive#` primop?
 ----------------------------------------------------
 
@@ -113,6 +112,7 @@ test = do
 
 This construction the compiler can't mangle as there is no continuation to drop.
 
+
 Avoiding allocations with `keepAlive#`
 --------------------------------------
 
@@ -123,9 +123,15 @@ readWord8Buf :: RawBuffer Word8 -> Int -> IO Word8
 readWord8Buf arr ix = withForeignPtr arr $ \p -> peekByteOff p ix
 ```
 
-This is small enough to be inlined and will therefore be typically compiled to a single memory read instruction when used in a strict context. While it is trivial to implement `withForeignPtr` in terms of `keepAlive#`, it is very important that we do not add overhead to this sort of usage.
+This is small enough to be inlined and will therefore be typically compiled to
+a single memory read instruction when used in a strict context. While it is
+trivial to implement `withForeignPtr` in terms of `keepAlive#`, it is very
+important that we do not add overhead to this sort of usage.
 
-Unfortunately, the naive implementation of `withForeignPtr` in terms of `keepAlive#` will prevent GHC from eliminating the allocation of an `W8#` in a strict usage of `readWord8Buf`. For instance, consider a program like this:
+Unfortunately, the naive implementation of `withForeignPtr` in terms of
+`keepAlive#` will prevent GHC from eliminating the allocation of an `W8#` in a
+strict usage of `readWord8Buf`. For instance, consider a program like this:
+
 ```haskell
 strlen :: RawBuffer Word8 -> IO Int
 strlen = go 0
@@ -134,15 +140,17 @@ strlen = go 0
       c <- readWord8Buf buf n
       if c == 0 then return n else go (n+1) buf
 ```
-With today's `withForeignPtr` (implemented in terms of the fragile `touch#`) we get a very tight loop (although it could be tighter; see #16064) with no allocations in the hot part of the loop. However, with an implementation based upon `keepAlive#` we will end up with something like the following:
+
+With today's `withForeignPtr` (implemented in terms of the fragile `touch#`) we
+get a very tight loop for `go`'s worker with no allocations in the hot part of
+the loop. However, with an implementation based upon `keepAlive#` we will end
+up with something like the following:
 
 ```haskell
 $wgo :: Int# -> ForeignPtr Word8 -> IO Int
 $wgo n# buf = IO $ \s0 -> 
     case keepAlive# buf (\s1 -> 
-           case readWord8OffAddr# sat_s2DI 0# of {
-             Unit# n# [Occ=Once!] -> W8# n#
-           }
+           case readWord8OffAddr# buf 0# of { Unit# n# -> W8# n# }
          ) of
      W8# n# ->
        case n# of
@@ -150,7 +158,16 @@ $wgo n# buf = IO $ \s0 ->
          _  -> ...
 ```
 
-That is, while previously case-of-known constructor was able to eliminate the allocation of the `W8#` intermediate, with `keepAlive#` we can no longer do so. To fix this we need to somehow push the outer `case` (scrutinizing the `Word8`) into the continuation of `keepAlive#`. We recently implemented precisely this optimisation for `runRW#` in #15127. We will need to do similarly for `keepAlive#`.
+That is, while previously case-of-known constructor was able to eliminate the
+allocation of the `W8#` intermediate, with `keepAlive#` we can no longer do so.
+To fix this we need to somehow push the outer `case` (scrutinizing the `Word8`)
+into the continuation of `keepAlive#`. We recently implemented precisely this
+optimisation for `runRW#` in #15127. We will need to do similarly for
+`keepAlive#`. We call this optimisation *strict-context float-in*.
+
+Note that for this optimisation to be possible `keepAlive#` *must* be
+polymorphic in the levity of the result.
+
 
 Option A: Naive code generation of `keepAlive#`
 ------------------------------------------
@@ -180,7 +197,11 @@ allocated.
 Option B: A slightly better code generation strategy
 ----------------------------------------------------
 
-One way to eliminate the cost added by `keepAlive#` is to rewrite it to the existing `touch#` primitive (which has no runtime cost) late enough in the compilation process that the simplifier can't drop it (avoiding #14375). For instance, we might give `keepAlive#` a similar treatment to that of `runRW#`, which is lowered in `CorePrep` to an application of `realWorld#`.
+One way to eliminate the cost added by `keepAlive#` is to rewrite it to the
+existing `touch#` primitive (which has no runtime cost) late enough in the
+compilation process that the simplifier can't drop it (avoiding #14375). For
+instance, we might give `keepAlive#` a similar treatment to that of `runRW#`,
+  which is lowered in `CorePrep` to an application of `realWorld#`.
 
 Under such a scheme, `CorePrep` would look for applications of the form `keepAlive# x k s` and rewrite them to,
 ```haskell
@@ -190,6 +211,12 @@ case touch# x s' of s'' ->
 ```
 With out current STG-to-STG pipeline the `touch#` here should have
 the desired effect of keeping `x` alive until `k` has finished.
+
+
+However, there is a problem here: we have introduced a levity-polymorphic
+binder, `y`. This is disallowed by Core. That being said, operationally
+everything is fine as `touch#` is a no-op during code generation.
+
 
 Option C: Improved code generation for continuation primops
 -----------------------------------------------------------
@@ -215,6 +242,7 @@ with abstract stack areas. We essentially need to treat the `keepAlive#` frame a
 an update frame, pushing it above everything else in the `Old` stack region. However
 it appears that this may break invariants within the code generator.
 
+
 Option D: A better improved code generation approach
 ----------------------------------------------------
 
@@ -235,7 +263,9 @@ case pushKeepAlive# x of () { _ ->
   in jump j
 }
 ```
-Finally, the STG-to-C-- pass will have special logic for lowering case analyses on `pushKeepAlive#`, essentially unfolding its C-- definition into the use-site. Such a case analysis will result in C-- like:
+Finally, the STG-to-C-- pass will have special logic for lowering case analyses
+on `pushKeepAlive#`, essentially unfolding its C-- definition into the
+use-site. Such a case analysis will result in C-- like:
 ```c
 // Push a pushWith_ret stack frame carrying a reference to `x`
 W_[Sp] = stg_pushWith_ret;
@@ -254,7 +284,8 @@ stg_pushWith_ret() {
 pushing the same `keepAlive#_ret` stack frame seen above.
 
 This gives us the same efficient code generation without losing the advantages
-offered by ANF (albeit with the disadvantage of weakening the separation of concerns provided by the STG abstraction).
+offered by ANF (albeit with the disadvantage of weakening the separation of
+concerns provided by the STG abstraction).
 
 Option E: tag Core case-expression with kept-alive variables
 ------------------------------------------------------------
@@ -282,16 +313,24 @@ Compilation is straightforward:
 - CmmToAsm: we drop `touch#` pseudo-ops as we currently do
 
 Advantages of this approach:
-1. most optimizations (case-of-case, case-of-known constructor, w/w...) can work as before. BUT we need to tweak them a little to take keep-alive sets into account (see below)
-2. we don't have to deal with a continuation as would be the case if we kept `keepAlive#` as a magic function in Core
-3. performance is as good as it is today (no stack frame, most optimizations still work, cf 1) 
-4. most changes to the compiler are located into GHC.Core.Opt.*
 
-A drawback of this approach is that Core transformations have to be reviewed to check that they are still valid when we take keep-alive sets into account. BUT we would probably have to do this anyway for other approaches because we really really want to perform some Core transformations over `keepAlive#`.
+1. most optimizations (case-of-case, case-of-known constructor, w/w...) can
+   work as before. BUT we need to tweak them a little to take keep-alive sets
+   into account (see below)
+2. we don't have to deal with a continuation as would be the case if we kept
+   `keepAlive#` as a magic function in Core
+3. performance is as good as it is today (no stack frame, most optimizations
+   still work, cf (1) 
+4. most changes to the compiler are located into `GHC.Core.Opt.*`.
+
+A drawback of this approach is that Core transformations have to be reviewed to
+check that they are still valid when we take keep-alive sets into account. BUT
+we would probably have to do this anyway for other approaches because we really
+really want to perform some Core transformations over `keepAlive#`.
 
 Let's review some analyzes and transformations:
 
-1. freevars: freeVars(case {k} scrut of alts) = k + freeVars(case scrut of alts)
+1. freevars: `freeVars(case {k} scrut of alts) = k + freeVars(case scrut of alts)`
 
 2. case-of-case
 
@@ -319,30 +358,125 @@ case {k} whnf of ... ===> case whnf of ...
 case {k} x of e { DEFAULT -> alt }  ====/===> let e = x in alt
 ```
 
-Option E: `noDiv`
-=====================
+Option F: `noDiv`
+-----------------
 
-Another way to avoid #17760 (and implement the `keepAlive` interface described above) is to introduce a primitive to hide the fact that an expression may diverge from the simplifier.
+Another way to avoid #17760 (and implement the `keepAlive` interface described
+above) is to introduce a primitive to hide the fact that an expression may
+diverge from the simplifier.
 
 Specifically, we introduce a magic operation:
 
 ```haskell
 noDiv :: forall (r :: RuntimeRep) (a :: TYPE r).
          (State# RealWorld -> a) -> State# RealWorld -> a
+noDiv k s0 =
+    case {- forgetting divergence -} k s0 of r -> r
 ```
 
-Semantically this is an identity. However, it carries the caveat that `noDiv f s` will evaluate the result of `f s` ignoring the fact that it may diverge. This allows one to implement `keepAlive#` as follows:
+Semantically this is an identity. However, it carries the caveat that
+`noDiv f s` will evaluate the result of `f s` ignoring the fact that it may diverge.
+The `State` token here ensures that no effects can be floated outside of the `noDiv` scope.
+
+This primitive allows one to implement `keepAlive#` as follows:
 ```haskell
-keepAlive :: forall a r.
-             a
-          -> (State# RealWorld -> (# State# RealWorld, r #))
-          -> State# RealWorld
-          -> (# State# RealWorld, r #)
-keepAlive x f s0 =
+keepAlive# :: forall a r.
+              a
+           -> (State# RealWorld -> (# State# RealWorld, r #))
+           -> State# RealWorld
+           -> (# State# RealWorld, r #)
+keepAlive# x f s0 =
   case noDiv s0 f of
     (# s1, r #) ->
       case touch# x s1 of
         s2 -> (# s2, r #)
+{-# INLINE keepAlive #-}
+```
+Note the `INLINE` pragma here; this is perfectly safe since we rely entirely on `noDiv`
+for the safety of this operation.
+
+However, there is a wrinkle: the simplification described in the "Avoiding allocations with
+`keepAlive#`" section above poses a problem here. Let's again consider the case
+of `strlen`'s worker written in terms of `keepAlive#`:
+
+```haskell
+$wgo :: Int# -> ForeignPtr Word8 -> IO Int
+$wgo n# buf = IO $ \s0 -> 
+    case keepAlive# buf (\s1 -> 
+           case readWord8OffAddr# buf 0# of { Unit# n# -> W8# n# }
+         ) of
+     W8# n# ->
+       case n# of
+         0# -> ...
+         _  -> ...
 ```
 
-However, in order for this to produce reason code for common uses like `GHC.IO.Buffer.readWord8Buf`, we need some way to push 
+Inlining `keepAlive` we get:
+
+```haskell
+$wgo :: Int# -> ForeignPtr Word8 -> IO Int
+$wgo n# buf = IO $ \s0 -> 
+    case
+      (case
+         noDiv s0 (\s1 -> case readWord8OffAddr# buf 0# of { Unit# n# -> W8# n# })
+       of
+         (# s1, r #) -> case touch# x s1 of s2 -> (# s2, r #)
+      )
+    of
+      W8# n# ->
+        case n# of
+          0# -> ...
+          _  -> ...
+```
+
+Here we see a problem: the strict-context float-in transform will push the context enclosing the `noDiv`,
+
+```haskell
+case 
+  _
+of
+  (# s1, r #) -> case touch# x s1 of s2 -> (# s2, r #)
+```
+
+*into* the `noDiv`. Consequently the `touch#` will end up *inside* the `noDiv`.
+At this point the demand analyser may conclude that the `touch#` is unreachable
+and we end up back in the situation we are trying to avoid.
+
+
+Option G: `noDivFinal`
+----------------------
+
+Here we try to fix up the issues of Option F by moving the "final" continuation
+(e.g. the `touch#`) into a separate argument of `noDiv`. We call this operation
+`noDivFinal`:
+```haskell
+noDivFinal :: forall (r :: RuntimeRep) (a :: TYPE r).
+              (State# RealWorld -> State# RealWorld)
+           -> (State# RealWorld -> (# State# RealWorld, a #))
+           -> State# RealWorld
+           -> (# State# RealWorld, a #)
+noDivFinal k final s0 =
+    case {- forgetting divergence -} k s0 of (# s1, r #) ->
+    case final s1 of s2 ->
+    (# s2, r #)
+```
+
+The definition here will be inlined during CorePrep.
+
+Errata: Skip everything below. This doesn't work for the same reason that
+Option B doesn't work: it requires a levity polymorphic binder, `r`.
+
+With this we can implement `keepAlive#` as:
+```haskell
+keepAlive# :: forall a r.
+              a
+           -> (State# RealWorld -> (# State# RealWorld, r #))
+           -> State# RealWorld
+           -> (# State# RealWorld, r #)
+keepAlive# x f s0 =
+    noDivFinal (touch# x) f s0
+```
+
+Here we can freely float strict-contexts into the `first `
+
+
