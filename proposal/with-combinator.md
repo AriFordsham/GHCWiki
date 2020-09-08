@@ -94,9 +94,9 @@ function above a primop of this form:
 keepAlive# :: forall (r :: RuntimeRep) (a :: TYPE r) b.
          b
          -- ^ the value to preserve
-      -> (State# s -> (# State s, r #))
+      -> (State# s -> (# State s, a #))
          -- ^ the continuation in which the value will be preserved
-      -> State# s -> (# State# s, r #)
+      -> State# s -> (# State# s, a #)
 ```
 
 `keepAlive# a k` evaluates `k a`, ensuring that `a` remains alive throughout the evaluation.
