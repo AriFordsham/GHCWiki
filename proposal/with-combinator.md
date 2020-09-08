@@ -221,7 +221,7 @@ Also we'd want
 ```
 K[ keepAlive x (\s.e) ]]  -->   keepAlive x (\x. K[[e]])
 ```
-rather like `runST`.
+rather like `runRW`.
 
 
 Option C: Improved code generation for continuation primops
