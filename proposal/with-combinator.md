@@ -217,6 +217,9 @@ However, there is a problem here: we have introduced a levity-polymorphic
 binder, `y`. This is disallowed by Core. That being said, operationally
 everything is fine as `touch#` is a no-op during code generation.
 
+Also we'd want K[ keepAlive x (\s.e) ]]  -->   keepAlive x (\x. K[[e]])
+rather like runST.
+
 
 Option C: Improved code generation for continuation primops
 -----------------------------------------------------------
