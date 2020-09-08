@@ -386,7 +386,7 @@ keepAlive# :: forall a r.
            -> State# RealWorld
            -> (# State# RealWorld, r #)
 keepAlive# x f s0 =
-  case noDiv s0 f of
+  case noDiv f s0 of
     (# s1, r #) ->
       case touch# x s1 of
         s2 -> (# s2, r #)
