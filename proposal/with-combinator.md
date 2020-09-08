@@ -91,8 +91,8 @@ To fix the issue it has been proposed (#14375, !2566) to make the `keepAlive#`
 function above a primop of this form:
 
 ```haskell
-keepAlive# :: forall (r :: RuntimeRep) (a :: TYPE r).
-         a
+keepAlive# :: forall (r :: RuntimeRep) (a :: TYPE r) b.
+         b
          -- ^ the value to preserve
       -> (State# s -> (# State s, r #))
          -- ^ the continuation in which the value will be preserved
