@@ -31,14 +31,14 @@
 - #18341, !3633: Strict fields are unlifted
   - Performance troubles with lazy constructor pattern guards in T12227, so
     kept what we had. Now it's even decreasing there
+  - Also fixes #18670 (and once again #17977)
 - #14422, #18277, !3959: Disattach COMPLETE pragmas from TyCons
   - This allows "polymorphic" use, for example `pattern P :: C f => f a`, `{-#
     COMPLETE P #-}`, like what we had wanted for the now extinct `LL` pattern
     of TTG
   - Nice -20% metric decrease in #18478!
 - #18645, #17836, !3971: Incremental `tcCheckSatisfiability` API
-  - TODO;
-- #17340, !2938: Detecting redundant bangs: A new extension for LYGs! Inspires need for unlifted types (#18249)
+  - Trouble with `CountParserDeps`. We need a refactoring to abstract DsM envs
 - #18249: Support for unlifted types in PmCheck
   - Solution: Add PmCtNotBot at *binding sites*
   - We lack a way to identify them reliably, because we didn't need to
@@ -52,6 +52,7 @@
     (`mkOneConFull` etc.). Now we should also do the same for unlifted fields.
     It feels wrong to duplicate the logic between the checker invokation, `checkGrdTree` and the oracle.
     Although there is nothing more elementary
+  - `mkOneConFull` should be the only "inhabitation test", but loops infinitely for some programs because we are too eager to `ensureAllInhabited`.
 
 ## Misc
 
@@ -166,3 +167,4 @@ Those with an MR actually have code.
 
 - !1427: Separate CPR
 - !2192: Reflect tree structure of clauses and gaurds in the syntax we check.
+- #17340, !2938: Detecting redundant bangs: A new extension for LYGs! Inspires need for unlifted types (#18249)
