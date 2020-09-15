@@ -526,3 +526,7 @@ keepAlive# x f s0 =
 Here we can freely float strict-contexts into the `first `
 
 
+Option H: Disabling some dead-code elimination
+------------------------------------------------
+
+Given the issues seen in the above, perhaps another option would be to rather give `keepAlive#` a normal Haskell definition (written in terms of `touch#`) and allow it to inline only late in simplification. We would then disable dead code elimination (in `rebuildCase`) during this pass.
