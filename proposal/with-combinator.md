@@ -168,6 +168,38 @@ optimisation for `runRW#` in #15127. We will need to do similarly for
 Note that for this optimisation to be possible `keepAlive#` *must* be
 polymorphic in the levity of the result.
 
+Unfortunately, there are a few wrinkles... consider this program, derived from `T9872`:
+```haskell
+writeN =
+  ...
+    case keepAlive# x s0 (\s1 -> something s1) of
+      (# s2, x #) ->
+        writeN ...
+```
+
+Note how the recursive `writeN` call here is in tail-call position. If we push the
+`case` analysis into the `keepAlive#` here we end up with:
+```haskell
+writeN = 
+  ...
+    keepAlive# x s0 (\s1 ->
+      case something s1 of (# s2, x #) ->
+        writeN ...
+```
+Which, when we inline the occurrence of `keepAlive#` will turn into:
+```haskell
+writeN = 
+  ...
+    case
+      case something s0 of (# s2, x #) ->
+        writeN ...
+    of
+      (# s3, r #) ->
+        case touch# s3 of s3 -> (# s3, r #)
+```
+
+In performing the strict-context float-in transformation we have turned a tail-call into a non-tail-call. 
+
 
 Option A: Naive code generation of `keepAlive#`
 ------------------------------------------
