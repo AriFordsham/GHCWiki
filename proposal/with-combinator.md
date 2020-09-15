@@ -60,6 +60,19 @@ garbage collector inappropriately freeing `arr`, resulting in catastrophe.
 
 It caused #14346 (`allocaBytes` and `allocaBytesAligned`) and #17746 (`withForeignPtr`).
 
+Example without FFI nor ForeignPtr
+----------------------------------
+
+```haskell
+foo :: ByteArray# -> IO ()
+foo ba = do
+  assert (isPinnedByteArray# ba)
+  addr <- byteArrayContents# ba
+  forever $ do
+    bar addr
+  touch# ba
+```
+
 Mitigation
 ----------
 
