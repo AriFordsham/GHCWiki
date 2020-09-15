@@ -198,7 +198,15 @@ writeN =
         case touch# s3 of s3 -> (# s3, r #)
 ```
 
-In performing the strict-context float-in transformation we have turned a tail-call into a non-tail-call. 
+In performing the strict-context float-in transformation we have turned a tail-call into a non-tail-call.
+This is quite unfortunate as `touch#` won't even produce any code.
+
+Avoiding this while still retaining the ability to eliminate construction/destruction around `keepAlive#` is rather tricky.
+One approach is to split each context into two pieces: one which can be floated into the `keepAlive#` and the other which will remain outside.
+For former can safely contain case analyses of trivial scrutinees, `let` expressions whereas the all applications must remain outside.
+
+
+Unfortunately, implementing this proposal is quite non-trivial, requiring that we perform rather significant reorganization of the source program.
 
 
 Option A: Naive code generation of `keepAlive#`
