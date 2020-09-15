@@ -168,6 +168,9 @@ optimisation for `runRW#` in #15127. We will need to do similarly for
 Note that for this optimisation to be possible `keepAlive#` *must* be
 polymorphic in the levity of the result.
 
+Wrinkles
+~~~~~~~~
+
 Unfortunately, there are a few wrinkles... consider this program, derived from `T9872`:
 ```haskell
 writeN =
