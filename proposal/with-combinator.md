@@ -181,6 +181,35 @@ optimisation for `runRW#` in #15127. We will need to do similarly for
 Note that for this optimisation to be possible `keepAlive#` *must* be
 polymorphic in the levity of the result.
 
+```haskell
+$wgo :: Int# -> ForeignPtr Word8 -> IO Int
+$wgo n# buf = IO $ \s0 -> 
+    keepAlive# buf s0 (\s1 -> 
+       case (
+          case readWord8OffAddr# buf 0# of { Unit# n# -> W8# n# }
+       ) of 
+         W8# n# ->
+           case n# of
+             0# -> ...
+             _  -> ...
+    )
+```
+
+After inlining `keepAlive#`:
+```haskell
+$wgo :: Int# -> ForeignPtr Word8 -> IO Int
+$wgo n# buf = IO $ \s0 ->
+     case (
+       case readWord8OffAddr# buf 0# of { Unit# n# ->
+         case n# of
+           0# -> (# s0, ... #)
+           _  -> (# s0, ... #)
+     ) of 
+       (# s1, r #) -> 
+         case touch# buf s1 of
+           s2 -> (# s2, r #)
+```
+
 Wrinkles
 ---------
 
