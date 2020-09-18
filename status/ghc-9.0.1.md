@@ -8,9 +8,9 @@ If you believe your favorite thing belongs in this list, but isn't there, please
 
 * 16 June 2020: Beginning of feature freeze
 * Late June 2020: Cut branch
-* July - August 2020: Alpha releases
-* 1 September 2020: Beta release
-* 25 September 2020: Final 9.0.1 release
+* Mid september 2020: Alpha releases
+* ~24 September 2020: Beta release
+* Week of 5th October 2020: Final release candidate
 
 
 ## Migration details
