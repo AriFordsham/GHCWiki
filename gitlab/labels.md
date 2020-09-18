@@ -51,10 +51,11 @@ These labels define the relative priority of issues. Priority here is determined
 
 # Miscellaneous
 
- * ~"Developer Experience": All things related to both the bells and whistles in the development process, and the things that may hamper the usage and understanding of the codebase outside of the documentation. CI, error messages and documentation already have their own labels, you may thus tag issues that are not linked to those with this label. It is about the joy of programming.
+ * ~"developer experience": All things related to both the bells and whistles in the development process, and the things that may hamper the usage and understanding of the code-base outside of the documentation. CI, error messages and documentation already have their own labels, you may thus tag issues that are not linked to those with this label. It is about the joy of programming.
+ * ~"code quality": Improvements to the GHC and libraries code quality. Use this label when contributing for your fellow contributors. Examples: linting, removing accumulated crust, using more appropriate abstractions, etc.
  * ~"CI breakage": Denotes a bug that broke CI (this could likely be dropped; nothing should break CI now)
  * ~"user-facing": Denotes a merge request which changes the interface exposed by GHC or its core libraries in a user-noticeable way. Merge requests so-marked trigger the head.hackage build jobs.
- * ~"broken test": An issue due to which one or more tests in the testsuite are marked as `expect_broken`
+ * ~"broken test": An issue due to which one or more tests in the test suite are marked as `expect_broken`
  * ~"Trac import": Issues imported from GHC's old Trac instance
  * ~"report impact": Issues affect GHC's adherence to the [Haskell Report](/haskell-report)
  * ~"needs CLC feedback": Issues which require feedback from the [Core Libraries Committee](https://gitlab.haskell.org/ghc/ghc/merge_requests/2479#note_247171)
