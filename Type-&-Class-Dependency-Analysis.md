@@ -571,7 +571,7 @@ Even without the magical Richard's Edge, the example above is rejected, because 
 
 ## Examples of things we would like to have
 
-**Induction-recursion**:
+**Induction-recursion (#11962)**:
 
 ```hs
 type U :: Type
