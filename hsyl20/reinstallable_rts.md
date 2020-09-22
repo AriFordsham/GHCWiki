@@ -21,17 +21,25 @@ Other generated headers in the RTS:
 These depend on the target platform and on some other things inferred by the top-level "configure".
 
 
-## What we should do
+## Put platformConstants with DerivedConstants.h
 
 platformConstants and DerivedConstants.h are almost the same thing. They should live at the same place.
 
-1. Approach 1: I've tried to put platformConstants into the rts package
-  * Cabal's "data-files" isn't suitable as GHC doesn't have access to this field
-  * we can add platformConstants into the "install-includes" list in rts.cabal, then GHC has access to it via "unitIncludeDirs"
+### Approach 1: Put platformConstants into the rts package
+
+* Cabal's "data-files" isn't suitable as GHC doesn't have access to this field
+* we can add platformConstants into the "install-includes" list in rts.cabal, then GHC has access to it via "unitIncludeDirs"
     * but GHC reads packages quite late compared to settings/platform currently. Some refactoring is needed
 
-2. Approach 2: put generated headers into GHC's libdir
-  * we will need to have one directly per supported platform anyway (for #14335), so we can implement it now
-  * step 1: put package database and platform constants into: $libdir/platforms/default/{platformConstants,package.conf.d} (default target platform)
-  * step 2: put generated headers into: $libdir/platforms/default/includes/
-  * step 3: make GHC include this directory on gcc invocations
+### Approach 2: put generated headers into GHC's libdir
+
+* we will need to have one directly per supported platform anyway (for #14335), so we can implement it now
+* step 1: put package database and platform constants into: $libdir/platforms/default/{platformConstants,package.conf.d} (default target platform)
+* step 2: put generated headers into: $libdir/platforms/default/includes/
+* step 3: make GHC include this directory on gcc invocations
+
+* Cons: a new platform is harder to bootstrap as to build the RTS package we need to derive constants and to derive constants we need the RTS package sources...
+
+## Use utils/deriveConstants in RTS's Setup?
+
+It would allow it to be built with Cabal as usual.
