@@ -15,7 +15,7 @@ Issues about linear types are gathered under the ~LinearTypes tag.
   - Lambdas and patterns: #18460
   - Let binders: #18461
   - Record fields: #18462
-- Inferring more multiplicity
+- Inferring more multiplicities
   - Functions: #18731
   - Case and lets: #18738, #18739
 - Clean up `FUN`: #18373
