@@ -28,6 +28,7 @@ Issues about linear types are gathered under the ~LinearTypes tag.
 #### Stage 2: linear Core
 
 - Support linear FFI functions: #18472
+- Multiplicity parametric unboxed tuples: #18490
 
 #### Stage 3: performance
 
