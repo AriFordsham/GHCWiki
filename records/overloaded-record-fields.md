@@ -3,12 +3,19 @@
 
 The Overloaded Record Fields family of extensions for GHC allow multiple record datatypes to share the same field names, and make it possible for type information to disambiguate selectors. In the design as implemented, there is no single `OverloadedRecordFields` extension, but there are extensions for `DuplicateRecordFields` and `OverloadedLabels`.
 
+For user-facing documentation, see the GHC user's guide:
 
-For more information, see:
+ - [DuplicateRecordFields extension](https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#duplicate-record-fields)
 
-- GHC proposals (most up to date):
+ - [Record field selector polymorphism (HasField class)](https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#record-field-selector-polymorphism) 
 
-  - [Adding setField to HasField](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0042-record-set-field.rst) (2018, not yet implemented)
+For design details and implementation status, see:
+
+- #18598: tracking ticket for most recent work related to overloaded record fields.
+
+- GHC proposals:
+
+  - [Adding setField to HasField](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0042-record-set-field.rst) (2018, being implemented for GHC 9.2, see #16232)
   - [Adding HasField class, changes to OverloadedLabels](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0002-overloaded-record-fields.rst) (2016, implemented in GHC 8.2 without `IsLabel x (r -> a)` instance)
 - [Redesigned variant involving three extensions](records/overloaded-record-fields/redesign) (2015)
 
@@ -27,16 +34,16 @@ See the ~OverloadedRecordFields label.
 
 ## Code
 
-
+- [Prototype implementation of the magic typeclasses](https://github.com/adamgundry/records-prototype)
 - [Phab:D761](https://phabricator.haskell.org/D761), [ Phab:D1391](https://phabricator.haskell.org/D1391), [ Phab:D1486](https://phabricator.haskell.org/D1486), [ Phab:D1586](https://phabricator.haskell.org/D1586), [ Phab:D1600](https://phabricator.haskell.org/D1600): `DuplicateRecordFields` extension
 - [Phab:D1331](https://phabricator.haskell.org/D1331), [ Phab:D1623](https://phabricator.haskell.org/D1623): `OverloadedLabels` extension
 - [Phab:D1687](https://phabricator.haskell.org/D1687), [ Phab:D2708](https://phabricator.haskell.org/D2708): magic classes
-- [Prototype implementation of the magic typeclasses](https://github.com/adamgundry/records-prototype)
+- !3257: extension of `HasField` class to support updates
 
 ## History
 
 
-The extension was implemented in 2013 as a Google Summer of Code project, by Adam Gundry under the mentorship of Simon Peyton Jones.
+The extension was initially implemented in 2013 as a Google Summer of Code project, by Adam Gundry under the mentorship of Simon Peyton Jones.
 
 - [Simple Overloaded Record Fields (SORF)](records/overloaded-record-fields/sorf), Simon PJ's original proposal
 - [Declared Overloaded Record Fields (DORF)](records/declared-overloaded-record-fields), a counterpoint proposal by Anthony Clayden
