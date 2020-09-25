@@ -42,3 +42,15 @@ Like with `git commit`, the above command will drop you into a text editor to co
 
 
 Here's [an example](https://git.haskell.org/packages/deepseq.git/tag/c32a156c8dafaea05e91563afe2f72ad3590f57b) of a signed Git tag object.
+
+# Branch-tracking policies
+
+This section describes GHC's policies with respect to which branches the various boot library submodules will follow on GHC's stable and `master` branches:
+
+| Package    | GHC `master`  | release branch |
+| ---------- | ------------- | -------------- |
+| `Cabal`    | stable branch | stable branch  |
+| `haddock`  | `ghc-head`    | `ghc-M.N`      |
+| all others | `master`      | stable branch  |
+
+Above *stable branch* means that GHC should track the package's last stable release branch (e.g. in the case of `Cabal` `v3.4`).
