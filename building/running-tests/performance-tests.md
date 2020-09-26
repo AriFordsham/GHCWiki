@@ -93,7 +93,7 @@ Metric Increase:
     Test711
 ```
 
-Upon failing some performance tests, the test runner will output  the string required to accept all changes. First double check that you really do expect those changes! If so, you can simply copy the text into the commit message and rerun the tests to ensure they pass.
+Upon failing some performance tests, the test runner will output  the string required to accept all changes. First double check that you really do expect those changes! If so, you can simply copy the text into the commit message and rerun the tests to ensure they pass. (Careful: there should be no whitespace before `Metric`, otherwise the [regex used to extract it from the commit](https://gitlab.haskell.org/ghc/ghc/-/blob/a1f34d37b47826e86343e368a5c00f1a4b1f2bce/testsuite/driver/perf_notes.py#L193-199) will not match.)
 
 CAUTION: make sure you maintain the correct expected changes in your commit messages when squashing commits.
 
