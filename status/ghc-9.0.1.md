@@ -50,6 +50,8 @@ Below are the major highlights of the 9.0 series.
 ### Build system and miscellaneous changes
 
 - The Hadrian build system will hopefully become the default (https://gitlab.haskell.org/ghc/ghc/-/milestones/360)
+- The GHCi prompt does not display the loaded modules by default anymore (#18702)
+
 
 ## Tickets
 
