@@ -575,3 +575,23 @@ Option H: Disabling some dead-code elimination
 ------------------------------------------------
 
 Given the issues seen in the above, perhaps another option would be to rather give `keepAlive#` a normal Haskell definition (written in terms of `touch#`) and allow it to inline only late in simplification. We would then disable dead code elimination (in `rebuildCall`) during this pass.
+
+Specifically, write:
+
+```haskell
+keepAliveLifted#                                                     
+    :: forall (arg :: TYPE 'LiftedRep) r.                            
+       arg -> (State# RealWorld -> (# State# RealWorld, r #))        
+    -> State# RealWorld                                              
+    -> (# State# RealWorld, r #)                                     
+keepAliveLifted# x k s0 =                                            
+    case k s0 of                                                     
+      (# s1, r #) ->                                                 
+        case touch# x s1 of                                          
+          s2 -> (# s2, r #)                                          
+{-# INLINE [0] keepAliveLifted# #-}                                  
+
+```
+along with an analogous unlifted version (this specialisation is necessary to allow the function to be written in pure Haskell; ofterwise we would need to bind a levity-polymorphic binder, `r`).
+
+We can then disable the case-of-bottom transform in phase 0 of the simplifier.
