@@ -1,6 +1,21 @@
 # Agenda
 
+# Nested CPR
+
+Main ticket: #18174, MR !1866. Blocked on
+
+- #18092, !3149: Inline `integerDecodeDouble`, recognise PrimOp in constant-folding instead
+  - We thought that we could fix it by making integer stuff INLINE\[0\], but
+    that's not a good idea, e.g. `integerAdd` is huge. And NOINLINE\[0\] (which
+    I did in !4163) doesn't fix the WW issue with `integerDecodeDouble`
+- #5075: Sum CPR for local bindings is blocked on eta expansion, see #18793 below
+- Interleave CPR and Termination analysis or not? See also https://gitlab.haskell.org/ghc/ghc/-/merge_requests/1866#note_304163
+
 ## State hack/Eta expansion
+
+- #18793: Arity analysis does only very naive fixed-point iteration
+  - I see no way we can improve without a refactoring of `ae_cheap_fun`, which I did in !4207.
+  - Afterwards, we can discuss whether it makes sense to also store the results of calling `arityType` on local bindings in the signature environment, which would fix the PAP scenario in #18793
 
 - #18231: eta expansion. Mysteries remain.
   - In particular, we wondered whether (or when, rather) `etaExpand` has to expose lambdas manifestly. Makes a difference for PAPs (special case: trivial exprs?)
@@ -8,8 +23,6 @@
   - On inlining PAPs: Makes sense operationally (so do it before STG), but keeping PAPs makes bindings much more likely to inline
   - (Apparently, CoreToStg.Prep has its own eta expander)
   - SPJ: "in mkLam I think it'd be fine not to eta-expand a trivial exprssion" (despite Note [Eta expanding lambdas])
-- #18154: CPR for data con apps.  More to do here.
-  - SPJ: Suggestion: don't produce CPR info for NOINLINE zero-arity things, OR for zero-arity expandable things
 - #18202, #18238: state hack
   - We don't care to preserve one-shot-ness in the compiler. But it's also only use site info, so that should be fine
   - e.g. `exprEtaExpandArity` only returns `Arity`, not `ArityType`, and so on
@@ -26,33 +39,12 @@
 
 ## PmCheck
 
-- #18565, !3937: Guard tree variants following syntactic structure
-  - No type-unsafe panics, so an improvement, I think
-- #18341, !3633: Strict fields are unlifted
-  - Performance troubles with lazy constructor pattern guards in T12227, so
-    kept what we had. Now it's even decreasing there
-  - Also fixes #18670 (and once again #17977)
 - #14422, #18277, !3959: Disattach COMPLETE pragmas from TyCons
   - This allows "polymorphic" use, for example `pattern P :: C f => f a`, `{-#
     COMPLETE P #-}`, like what we had wanted for the now extinct `LL` pattern
     of TTG
-  - Nice -20% metric decrease in #18478!
-- #18645, #17836, !3971: Incremental `tcCheckSatisfiability` API
-  - Trouble with `CountParserDeps`. We need a refactoring to abstract DsM envs
-- #18249: Support for unlifted types in PmCheck
-  - Solution: Add PmCtNotBot at *binding sites*
-  - We lack a way to identify them reliably, because we didn't need to
-  - It's the same mechanism we use for strict fields: Add an unliftedness constraint when brought into scope (Gamma)
-  - So we have to add constraints when
-    1. we start the pattern match checker and we initialise Deltas, for the match variables
-       (Basically any free variable, really! But I don't think we care about these until they are matched upon.)
-    2. We `checkGrdTree` a `PmLet` guard for the bound thing
-    3. We add a `PmCon` guard for the field bindings
-  - The latter case overlaps with what we do for strict fields in the oracle
-    (`mkOneConFull` etc.). Now we should also do the same for unlifted fields.
-    It feels wrong to duplicate the logic between the checker invokation, `checkGrdTree` and the oracle.
-    Although there is nothing more elementary
-  - `mkOneConFull` should be the only "inhabitation test", but loops infinitely for some programs because we are too eager to `ensureAllInhabited`.
+  - But doesn't actually fix #14422, which actually wants disambiguation by
+    type signatures. Also a user complains there.
 
 ## Misc
 
@@ -60,21 +52,6 @@
 - #17881, #17896: eta reduction (based on usage Demand)
 
 - #18174, !1866: Nested CPR. See below
-
-# Nested CPR
-
-Main ticket: #18174, MR !1866.
-
-- #18154: CPR of DataCon wrappers (see above)
-- `divergeCpr` is strange, but probably correct  
-  - We never really use `botCpr` (no well-typed expr will ever have this as a
-    denotation!), thus we don't export it.
-- CPR transformers based on strictness signatures. This is the logical
-  extension of `Note [CPR for binders that will be unboxed]`. Specifically
-  > It's sound (doesn't change strictness) to give it the CPR property
-  > because by the time 'x' is returned (case A above), it'll have been
-  > evaluated (by the wrapper of 'h' in the example).
-
 
 # Pattern-match checking
 
@@ -168,3 +145,5 @@ Those with an MR actually have code.
 - !1427: Separate CPR
 - !2192: Reflect tree structure of clauses and gaurds in the syntax we check.
 - #17340, !2938: Detecting redundant bangs: A new extension for LYGs! Inspires need for unlifted types (#18249)
+- #18341, !3633: Strict fields are unlifted
+
