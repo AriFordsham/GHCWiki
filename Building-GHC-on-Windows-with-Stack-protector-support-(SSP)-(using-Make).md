@@ -76,6 +76,19 @@ index a964e55070..6a5fd13d20 100644
 +              $(EXTRA_HC_OPTS) -lssp
         "$(TOUCH_CMD)" $@
  endif
+diff --git a/text.cabal b/text.cabal
+index 6b46fd6..20c1bcf 100644
+--- a/text.cabal
++++ b/text.cabal
+@@ -186,6 +186,8 @@ library
+       cpp-options: -DINTEGER_GMP
+       build-depends: integer-gmp >= 0.2 && < 1.1
+
++  extra-libraries: ssp
++
+   -- compiler specification
+   default-language: Haskell2010
+   default-extensions:
 ```
 
 Note that the build system sometimes seems to drop some of these changes. When done check that your `config.mk` contains
