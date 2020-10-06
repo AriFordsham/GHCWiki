@@ -4,18 +4,14 @@
 
 Main ticket: #18174, MR !1866. Blocked on
 
-- #18092, !3149: Inline `integerDecodeDouble`, recognise PrimOp in constant-folding instead
-  - We thought that we could fix it by making integer stuff INLINE\[0\], but
-    that's not a good idea, e.g. `integerAdd` is huge. And NOINLINE\[0\] (which
-    I did in !4163) doesn't fix the WW issue with `integerDecodeDouble`
 - #5075: Sum CPR for local bindings is blocked on eta expansion, see #18793 below
 - Interleave CPR and Termination analysis or not? See also https://gitlab.haskell.org/ghc/ghc/-/merge_requests/1866#note_304163
 
 ## State hack/Eta expansion
 
 - #18793: Arity analysis does only very naive fixed-point iteration
-  - I see no way we can improve without a refactoring of `ae_cheap_fun`, which I did in !4207.
   - Afterwards, we can discuss whether it makes sense to also store the results of calling `arityType` on local bindings in the signature environment, which would fix the PAP scenario in #18793
+  - What does the termination analysis compute? Higher-order `exprOkForSpeculation`? What is the difference to `exprIsCheap`? They conincide for primops. Is diverging stuff cheap? Should we have `myExprOkForSpeculation` in arity analysis?
 
 - #18231: eta expansion. Mysteries remain.
   - In particular, we wondered whether (or when, rather) `etaExpand` has to expose lambdas manifestly. Makes a difference for PAPs (special case: trivial exprs?)
