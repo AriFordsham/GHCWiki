@@ -34,15 +34,15 @@ datatype from [GHC.StgToCmm.Expr](https://gitlab.haskell.org/ghc/ghc/-/blob/mast
                   DEFAULT -> <rhs2>
 ```
 Things that affect this decision:
- * If the scrutinee is a boolean condition then do the heap check before - See Note [GC for conditionals] 
+ * If the scrutinee is a boolean condition then do the heap check before - See `Note [GC for conditionals]`.
  * If the scrutinee `<scrut>` requires any non-trivial work, we MUST `GcInAlts`. For example if 
    `<scrut>` was `(g x)`, then calling `g` might result in lots of allocation, so any heap check done 
    at the start of `f` is irrelevant to the branches. They must do their own checks.
- * If there is just one alternative, then it's always good to amalgamate.
+ * If there is just one alternative, then it's always good to do the check before the `case`.
  * If there is heap allocation in the code before the case, then we are going to do a heap-check 
    upstream anyway. In that case, don't do one in the alternatives too. The single check might 
    allocate too much space, but the alternatives that use less space simply move `Hp` back down 
-   again, which only costs one instruction(TODO: Does it do it now? Check it)
+   again, which only costs one instruction (TODO: Does it do it now? Check it)
  * Otherwise, if there is no heap allocation upstream, put heap checks in each alternative. The reasoning
    here was that if one alternative needs heap and the other one doesn't we don't want to pay the 
    runtime for the heap check in the case where the heap-free alternative is taken.
@@ -53,7 +53,7 @@ Things that affect this decision:
 
 Consider this program:
 
-```
+```haskell
 data X a = X { runX :: !a }
 
 slow :: Int -> Int
