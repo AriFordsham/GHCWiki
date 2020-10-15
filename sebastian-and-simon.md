@@ -4,8 +4,8 @@
 
 Main ticket: #18174, MR !1866. Blocked on
 
-- #5075: Sum CPR for local bindings is blocked on eta expansion, see #18793 below
 - Interleave CPR and Termination analysis or not? See also https://gitlab.haskell.org/ghc/ghc/-/merge_requests/1866#note_304163
+- Also my "speculation analysis" proposal. Nested CPR could be made more aggressive by looking at call sites strictness. But that probably needs a refactoring of `Demand`.
 
 ## State hack/Eta expansion
 
