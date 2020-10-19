@@ -18,7 +18,7 @@ utility in bgamari/ghc-utils> from data from [repology](https://repology.org).
   <th>Has bindist?</th>
 </tr>
 <tr>
-  <td>RedHat/Centos</td>
+  <td><b>RedHat/Centos</b></td>
   <td></td>
   <td></td>
   <td></td>
@@ -105,7 +105,7 @@ utility in bgamari/ghc-utils> from data from [repology](https://repology.org).
   <td>Fedora 28</td>
   <td></td>
   <td>8.0.1</td>
-  <td>2.30</td>
+  <td>2.29</td>
   <td>glibc 2.27</td>
   <td>6.1</td>
   <td>6.1</td>
@@ -113,6 +113,55 @@ utility in bgamari/ghc-utils> from data from [repology](https://repology.org).
   <td></td>
   <td></td>
 </tr>
+<tr>
+  <td>Fedora 29</td>
+  <td></td>
+  <td>8.2</td>
+  <td>2.31</td>
+  <td>glibc 2.28</td>
+  <td>6.1</td>
+  <td>6.1</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>Fedora 30</td>
+  <td></td>
+  <td>9.0</td>
+  <td>2.31</td>
+  <td>glibc 2.29</td>
+  <td>6.1</td>
+  <td>6.1</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>Fedora 31</td>
+  <td></td>
+  <td>9.2</td>
+  <td>2.32</td>
+  <td>glibc 2.30</td>
+  <td>6.1</td>
+  <td>6.1</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>Fedora 32</td>
+  <td></td>
+  <td>10.0</td>
+  <td>2.34</td>
+  <td>glibc 2.31</td>
+  <td>6.1</td>
+  <td>6.1</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+
 <tr>
   <td><b>Ubuntu</b></td>
   <td></td>
@@ -197,6 +246,31 @@ utility in bgamari/ghc-utils> from data from [repology](https://repology.org).
   <td></td>
   <td></td>
 </tr>
+<tr>
+  <td>Ubuntu Eoan (19.10)</td>
+  <td></td>
+  <td>9.2</td>
+  <td>2.33</td>
+  <td>glibc 2.29</td>
+  <td>6.1</td>
+  <td>6.1</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>Ubuntu Focal (20.04)</td>
+  <td></td>
+  <td>10</td>
+  <td>2.34</td>
+  <td>glibc 2.30</td>
+  <td>6.2</td>
+  <td>6.2</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+
 <tr>
   <td><b>Debian</b></td>
   <td></td>
