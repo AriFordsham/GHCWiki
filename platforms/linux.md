@@ -15,272 +15,273 @@ utility in bgamari/ghc-utils> from data from [repology](https://repology.org).
   <th>ncurses</th>
   <th>tinfo</th>
   <th>Comments</th>
-  <th>Has bindist</th>
+  <th>Has bindist?</th>
 </tr>
 <tr>
-  <th>RedHat/Centos</th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td>RedHat/Centos</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-  <th>RedHat 6</th>
-  <th></th>
-  <th>4.4</th>
-  <th>2.20</th>
-  <th>glibc 2.12</th>
-  <th>4.3</th>
-  <th>5.7</th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td>RedHat 6</td>
+  <td></td>
+  <td>4.4</td>
+  <td>2.20</td>
+  <td>glibc 2.12</td>
+  <td>4.3</td>
+  <td>5.7</td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-  <th>RedHat 7</th>
-  <th></th>
-  <th>4.8</th>
-  <th>2.25</th>
-  <th>glibc 2.17</th>
-  <th>6.0</th>
-  <th>5.9</th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td>RedHat 7</td>
+  <td></td>
+  <td>4.8</td>
+  <td>2.25</td>
+  <td>glibc 2.17</td>
+  <td>6.0</td>
+  <td>5.9</td>
+  <td></td>
+  <td></td>
+  <td></td>
  </tr>
 <tr>
-  <th><b>Fedora</b></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td><b>Fedora</b></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-  <th>Fedora 25</th>
-  <th>Nov 2016</th>
-  <th>6.4.1</th>
-  <th>2.26</th>
-  <th>glibc 2.24</th>
-  <th>6.1</th>
-  <th>6.0</th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td>Fedora 25</td>
+  <td>Nov 2016</td>
+  <td>6.4.1</td>
+  <td>2.26</td>
+  <td>glibc 2.24</td>
+  <td>6.1</td>
+  <td>6.0</td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-  <th>Fedora 26</th>
-  <th>Jul 2017</th>
-  <th>7.3.1</th>
-  <th>2.27</th>
-  <th>glibc 2.25</th>
-  <th>6.1</th>
-  <th>6.0</th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td>Fedora 26</td>
+  <td>Jul 2017</td>
+  <td>7.3.1</td>
+  <td>2.27</td>
+  <td>glibc 2.25</td>
+  <td>6.1</td>
+  <td>6.0</td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-  <th>Fedora 27</th>
-  <th>Nov 2017</th>
-  <th>7.3.1</th>
-  <th>2.29</th>
-  <th>glibc 2.26</th>
-  <th>6.1</th>
-  <th>6.0</th>
-  <th>6</th>
-  <th></th>
-  <th>✓</th>
+  <td>Fedora 27</td>
+  <td>Nov 2017</td>
+  <td>7.3.1</td>
+  <td>2.29</td>
+  <td>glibc 2.26</td>
+  <td>6.1</td>
+  <td>6.0</td>
+  <td>6</td>
+  <td></td>
+  <td>✓</td>
 </tr>
 <tr>
-  <th>Fedora 28</th>
-  <th></th>
-  <th>8.0.1</th>
-  <th>2.30</th>
-  <th>glibc 2.27</th>
-  <th>6.1</th>
-  <th>6.1</th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td>Fedora 28</td>
+  <td></td>
+  <td>8.0.1</td>
+  <td>2.30</td>
+  <td>glibc 2.27</td>
+  <td>6.1</td>
+  <td>6.1</td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-  <th><b>Ubuntu</b></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td><b>Ubuntu</b></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-  <th>Ubuntu Trusty (15.04)</th>
-  <th>Apr 2014</th>
-  <th>4.8</th>
-  <th>2.24</th>
-  <th>glibc 2.19</th>
-  <th>5.1</th>
-  <th>5.9</th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td>Ubuntu Trusty (15.04)</td>
+  <td>Apr 2014</td>
+  <td>4.8</td>
+  <td>2.24</td>
+  <td>glibc 2.19</td>
+  <td>5.1</td>
+  <td>5.9</td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-  <th>Ubuntu Xenial (16.04)</th>
-  <th>Apr 2016</th>
-  <th>5.3</th>
-  <th>2.26</th>
-  <th>glibc 2.23</th>
-  <th>6.0</th>
-  <th>6.0</th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td>Ubuntu Xenial (16.04)</td>
+  <td>Apr 2016</td>
+  <td>5.3</td>
+  <td>2.26</td>
+  <td>glibc 2.23</td>
+  <td>6.0</td>
+  <td>6.0</td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-  <th>Ubuntu Zesty (17.04)</th>
-  <th>Apr 2017</th>
-  <th>6.3</th>
-  <th>2.28</th>
-  <th>glibc 2.24</th>
-  <th>6.0</th>
-  <th>6.0</th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td>Ubuntu Zesty (17.04)</td>
+  <td>Apr 2017</td>
+  <td>6.3</td>
+  <td>2.28</td>
+  <td>glibc 2.24</td>
+  <td>6.0</td>
+  <td>6.0</td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-  <th>Ubuntu Artful (17.10)</th>
-  <th>Oct 2017</th>
-  <th>7.2</th>
-  <th>2.29</th>
-  <th>glibc 2.26</th>
-  <th>6.0</th>
-  <th>6.0</th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td>Ubuntu Artful (17.10)</td>
+  <td>Oct 2017</td>
+  <td>7.2</td>
+  <td>2.29</td>
+  <td>glibc 2.26</td>
+  <td>6.0</td>
+  <td>6.0</td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-  <th>Ubuntu Bionic (18.04)</th>
-  <th>Apr 2018</th>
-  <th>7.2</th>
-  <th>2.30</th>
-  <th>glibc 2.27</th>
-  <th>6.0</th>
-  <th>6.1</th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td>Ubuntu Bionic (18.04)</td>
+  <td>Apr 2018</td>
+  <td>7.2</td>
+  <td>2.30</td>
+  <td>glibc 2.27</td>
+  <td>6.0</td>
+  <td>6.1</td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-  <th>Ubuntu Cosmic (18.10)</th>
-  <th>Oct 2018</th>
-  <th>8.2</th>
-  <th>2.31</th>
-  <th>glibc 2.28</th>
-  <th>6.0</th>
-  <th>6.1</th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td>Ubuntu Cosmic (18.10)</td>
+  <td>Oct 2018</td>
+  <td>8.2</td>
+  <td>2.31</td>
+  <td>glibc 2.28</td>
+  <td>6.0</td>
+  <td>6.1</td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-  <th><b>Debian</b></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td><b>Debian</b></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-  <th>Debian Wheezy (7)</th>
-  <th>May 2013</th>
-  <th>4.7</th>
-  <th>2.22</th>
-  <th>glibc 2.13</th>
-  <th>5.0</th>
-  <th>5.9</th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td>Debian Wheezy (7)</td>
+  <td>May 2013</td>
+  <td>4.7</td>
+  <td>2.22</td>
+  <td>glibc 2.13</td>
+  <td>5.0</td>
+  <td>5.9</td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-  <th>Debian Jessie (8)</th>
-  <th>Apr 2015</th>
-  <th>4.9</th>
-  <th>2.25</th>
-  <th>glibc 2.19</th>
-  <th>6.0</th>
-  <th>5.9</th>
-  <th></th>
-  <th></th>
-  <th>✓</th>
+  <td>Debian Jessie (8)</td>
+  <td>Apr 2015</td>
+  <td>4.9</td>
+  <td>2.25</td>
+  <td>glibc 2.19</td>
+  <td>6.0</td>
+  <td>5.9</td>
+  <td></td>
+  <td></td>
+  <td>✓</td>
 </tr>
 <tr>
-  <th>Debian Stretch (9)</th>
-  <th>Jun 2017</th>
-  <th>6.3</th>
-  <th>2.28</th>
-  <th>glibc 2.24</th>
-  <th>6.1</th>
-  <th>6.0</th>
-  <th>5</th>
-  <th></th>
-  <th>✓</th>
+  <td>Debian Stretch (9)</td>
+  <td>Jun 2017</td>
+  <td>6.3</td>
+  <td>2.28</td>
+  <td>glibc 2.24</td>
+  <td>6.1</td>
+  <td>6.0</td>
+  <td>5</td>
+  <td></td>
+  <td>✓</td>
 </tr>
 <tr>
-  <th>Debian Buster (10)</th>
-  <th></th>
-  <th>8.2</th>
-  <th>2.31</th>
-  <th>glibc 2.27</th>
-  <th>6.1</th>
-  <th>6.1</th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td>Debian Buster (10)</td>
+  <td></td>
+  <td>8.2</td>
+  <td>2.31</td>
+  <td>glibc 2.27</td>
+  <td>6.1</td>
+  <td>6.1</td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-  <th><b>Alpine</b></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <td><b>Alpine</b></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
 </tr>
 <tr>
-<th>Alpine 3.8</th>
-<th>Dec 2018</th>
-<th>6.4</th>
-<th>2.30</th>
-<th>musl 1.1</th>
-<th>6.1</th>
-<th>6.1</th>
-<th></th>
-<th></th>
-<th></th>
-</tr></table>
+  <td>Alpine 3.8</td>
+  <td>Dec 2018</td>
+  <td>6.4</td>
+  <td>2.30</td>
+  <td>musl 1.1</td>
+  <td>6.1</td>
+  <td>6.1</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+</table>
 
 
 
