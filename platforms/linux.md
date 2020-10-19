@@ -352,7 +352,7 @@ utility in bgamari/ghc-utils>.
   <td>2.30</td>
   <td>musl 1.1</td>
   <td>6.1</td>
-  <td>6.1</td>
+  <td>5.9</td>
   <td></td>
   <td></td>
   <td></td>
