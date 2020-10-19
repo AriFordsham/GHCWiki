@@ -12,38 +12,21 @@ For instructions on building GHC go [here](http://hackage.haskell.org/trac/ghc/w
 
 ## LLVM Support
 
-
-<table><tr><th> </th>
-<th> <b>HEAD</b> </th>
-<th> <b>8.10</b> </th>
-<th> <b>8.8</b> </th>
-<th> <b>8.6</b> </th>
-<th> <b>8.4</b> </th>
-<th> <b>8.2</b> </th>
-<th> <b>8.0</b> </th>
-<th> <b>7.10</b> </th>
-<th> <b>7.8</b> </th>
-<th> <b>7.6</b> </th>
-<th> <b>7.4</b> </th>
-<th> <b>7.2</b> </th>
-<th> <b>7.0</b> 
-</th></tr>
-<tr><th> LLVM version </th>
-<th> 9.0 </th>
-<th> 9.0 </th>
-<th> 7.0 </th>
-<th> 6.0 </th>
-<th> 5.0 </th>
-<th> 3.9 </th>
-<th> 3.7 </th>
-<th> 3.5 (3.5.2 on ARM (<a href="https://gitlab.haskell.org/ghc/ghc/issues/9920">#9920</a>) </th>
-<th> ?? </th>
-<th> ?? </th>
-<th> ?? </th>
-<th> 2.9 </th>
-<th> 2.7 
-</th></tr></table>
-
+| GHC Version | LLVM Version | Notes                    |
+|-------------|--------------|--------------------------|
+| HEAD        | 10           |                          |
+| 8.1         | 9            |                          |
+| 8.8         | 7.0          |                          |
+| 8.6         | 6.0          |                          |
+| 8.4         | 5.0          |                          |
+| 8.2         | 3.9          |                          |
+| 8.0         | 3.7          |                          |
+| 7.10        | 3.5          | 3.5.2 on ARM (see #9920) |
+| 7.8         | ?            |                          |
+| 7.6         | ?            |                          |
+| 7.4         | ?            |                          |
+| 7.2         | 2.9          |                          |
+| 7.0         | 2.7          |                          |
 
 The above table lists the versions of the LLVM tools that are known to work with various GHC versions. These are not hard requirements in the sense that GHC will not immediately error if you use a different LLVM version than what is listed, but it is highly likely that using a different LLVM version can cause problems.
 
