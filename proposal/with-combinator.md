@@ -213,7 +213,7 @@ $wgo n# buf = IO $ \s0 ->
 Wrinkles
 ---------
 
-Unfortunately, there are a few wrinkles... consider this program, derived from `T9872`:
+Unfortunately, there are a few wrinkles... consider this program, derived from `T4978`:
 ```haskell
 writeN =
   ...
