@@ -93,6 +93,8 @@ This is something of an odd feature: none of our use cases require this (and the
 
 I think we should keep this in mind as a goal, and do it if it seems relatively easy.
 
+(Zubin:) This would be very useful for ghcide, since we could skip typechecking/desugaring for files for which we have the iface but need bytecode.
+
 # GHC API changes
 
 The intended consumers of this section will probably want to load the content via the GHC API. We will therefore need some such function, perhaps something like:
