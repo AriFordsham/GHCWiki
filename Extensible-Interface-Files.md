@@ -118,6 +118,32 @@ String format:
 * [64 bit Int] number of list elements
 * [n * 32 bit] list elements
 
+## V2 Zip Interface Archives
+
+Instead of extending the current format, we can use an archive format and store the current interface data (`ModIface`) as a field within that. If we use a zip format, then fields use file paths for namespacing, and the interface looks like:
+```
+Example.hi
+|- manifest
+|- ghc
+   |- ModIface
+      |- data
+      |- dictionary
+      |- symbol-table
+   |- ModGuts
+   |- CgGuts
+   |- Typecheck
+|- hie
+|- third-party-example
+```
+
+Advantages:
+* If we use zip as the archive format, then interface files can be explored by common utilities
+* The current logic that requires the serialisation to jump back to write the location of the dictionary and symbol table to the header becomes simplified because those tables can now be written as separate named fields
+* By removing the dependency on the current `ModIface` format, we can now write interface files earlier in the pipeline - where previously the interface file couldn't exist until the core pipeline had run - so now we can, for example, write an interface file early on that only contains type checking outputs
+
+Disadvantages:
+* Finding a `.hi` file on disk doesn't guarantee that it actually contains proper interface data - though the current version also doesn't in the sense that interface files produced by different versions of GHC are incompatible
+
 ## Implementation
 
 ### Extensible `ModIface`
