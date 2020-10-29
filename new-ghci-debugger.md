@@ -28,6 +28,6 @@ How does the debugger work?
 
 
 
-This has been moved to [Commentary/GHCi](commentary/gh-ci)
+This has been moved to [Commentary/GHCi](commentary/ghci)
 
 
