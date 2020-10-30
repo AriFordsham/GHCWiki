@@ -149,7 +149,7 @@ The `haskell98`, `old-time`, `old-locale` and `random` packages are mostly only 
 ## WARNING: Pattern matching in `ghc-prim`, `integer-simple`, and `integer-gmp`
 
 
-Note that `ghc-prim` and `integer-impl` are below the dependency chain from Exception (in `base`), which means they must not raise generate code to raise an exception (it's not enough that this code will never run). One particularly subtle case of GHC exception-raising code is in the case of (complete!) pattern matches. Consider the unboxed form of Integers, which has the constructor S\# or J\#.
+Note that `ghc-prim` and `integer-impl` are below the dependency chain from Exception (in `base`), which means they must not generate code to raise an exception (it's not enough that this code will never run). One particularly subtle case of GHC exception-raising code is in the case of (complete!) pattern matches. Consider the unboxed form of Integers, which has the constructor S\# or J\#.
 
 ```wiki
 f (S# _) (S# _) = ...
