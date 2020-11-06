@@ -10,7 +10,7 @@ related reddit discussion on [/r/haskell](https://www.reddit.com/r/haskell/comme
 
 
 
-With the implementation of [prime:Libraries/Proposals/SemigroupMonoid](https://prime.haskell.org/intertrac/Libraries/Proposals/SemigroupMonoid), `Semigroup` will become a superclass of `Monoid`, and consequently `Semigroup((<>))` will be re-exported alongside `Monoid` from the `Prelude` module.
+With the implementation of [prime:Libraries/Proposals/SemigroupMonoid](https://gitlab.haskell.org/haskell/prime/-/wikis/libraries/proposals/semigroup-monoid), `Semigroup` will become a superclass of `Monoid`, and consequently `Semigroup((<>))` will be re-exported alongside `Monoid` from the `Prelude` module.
 
 
 ```

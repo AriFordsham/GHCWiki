@@ -3,7 +3,7 @@
 
 This page contains some notes and ideas that predate the official **[MonadFail](design/monad-fail) Proposal (MFP)** which can be found at
 
-[prime:Libraries/Proposals/MonadFail](https://prime.haskell.org/intertrac/Libraries/Proposals/MonadFail)
+[prime:Libraries/Proposals/MonadFail](https://gitlab.haskell.org/haskell/prime/-/wikis/libraries/proposals/monad-fail)
 
 ## The Basic Idea
 

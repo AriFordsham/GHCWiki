@@ -13,7 +13,7 @@ of user-facing changes.
 
 ### Libraries, source language, and type system
 
--  Phase 2 of the [Semigroup-Monoid Proposal](https://prime.haskell.org/wiki/Libraries/Proposals/SemigroupMonoid) (Herbert Valerio Riedel)
+-  Phase 2 of the [Semigroup-Monoid Proposal](https://gitlab.haskell.org/haskell/prime/-/wikis/libraries/proposals/semigroup-monoid) (Herbert Valerio Riedel)
 
 - Further refinement of `TypeInType` including improved error messages.
 
