@@ -81,7 +81,7 @@ stage1.rts.ghc.c.opts += -optc-ggdb
 
 Here we also dump STG syntax since this is necessary to interpret the profile:
 ```
-stage1.*.ghc.hs.opts += -ddump-to-file -ddump-simpl -ddump-stg
+stage1.*.ghc.hs.opts += -ddump-to-file -ddump-simpl -ddump-stg-final
 stage1.*.ghc.hs.opts += -ticky -ticky-allocd
 stage1.ghc-bin.ghc.link.opts += -ticky
 ```
