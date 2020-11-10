@@ -1,5 +1,11 @@
 # Agenda
 
+# Demand Analysis
+
+- #18903, !4371: Interleave Strictness and usage demands
+- #18870, !4334: Make `andArityType` monotone, fix a few "Exciting arity" warnings
+- #18885: Make strictness demands relative
+
 # Nested CPR
 
 Main ticket: #18174, MR !1866. Blocked on
@@ -61,7 +67,7 @@ Those with an MR actually have code.
   - `provideEvidence` currently picks the smallest residual COMPLETE set for reports. But it doesn't consider type information! So it may indeed happen that we pick a residual COMPLETE set that looks smaller (say, size 2) and is still inhabited in favor of one that disregarding type info looks bigger (size 3) but actually only 1 is inhabited. For the same reason, we can't use `provideEvidence` as a replacement for `ensureInhabited`.
   - It *is* possible to make `provideEvidence` behave appropriately to replace `ensureInhabited`, but it's not very efficient. Also `ensureInhabited` is entirely orthogonal to what `provideEvidence` does. Think of recursive data types, for example: `provideEvidence` doesn't attempt to recurse *at all*. It just doesn't make for good warning messages.
 
-- #17378, !1765: Preserve non-void constraints  
+- #17378, !1765: Preserve non-void constraints
   - Should not remove inhabitation candidate stuff just yet, newtypes...
   - Perhpas postpone test until get to RHS (pmc []), and then ask for `not (null (provideEvidence 1 delta))`
 
@@ -70,17 +76,17 @@ Those with an MR actually have code.
 
 ## Issues
 
-- #15532: Levity polymorphism and ANF  
+- #15532: Levity polymorphism and ANF
   - We talked about it with Richard and came to the understanding that it would probably work, but entail refactorings of Core to Core passes which assume they can just let-bind everything.
   - Also we shouldn't worry about it until we need it. But it's a logical next step after we have unlifted datatypes, otherwise there is no chance of code re-use.
 
 ## Epics
 
-- Think about how to fix "regression" in T11822  
+- Think about how to fix "regression" in T11822
   - SG bets a smart `CoreMap` would do
 - Maybe pattern-match check typed TH quotations? SG doesn't think this is a good idea, because they might not even end up in that form in spliced code.
-- Can we check if a clause is uniform? E.g. can be moved around (more or less) freely, up or down.  
-  - I think we can, by trying to move up the clause and see if its new Covered set has a non-empty intersection (e.g. overlaps) with the clause that was previously there. Example:  
+- Can we check if a clause is uniform? E.g. can be moved around (more or less) freely, up or down.
+  - I think we can, by trying to move up the clause and see if its new Covered set has a non-empty intersection (e.g. overlaps) with the clause that was previously there. Example:
     ```haskell
     data T = A | B | C
     f (Just False) = ()
@@ -91,9 +97,9 @@ Those with an MR actually have code.
   - This is very similar to redundancy checking, but in redundancy checking we see if we *completely* overlap the pattern. Here, we see if their Covered sets overlap *at all* instead of seeing if one completely covers the other.
   - I suppose this also has tricky interactions with bottom. But our existing machinery should cover it.
 
-## Roadblocks 
+## Roadblocks
 
-- T9291: unsafePtrEquality checks for STG CSE  
+- T9291: unsafePtrEquality checks for STG CSE
   - `bar x = (Right x, Right x)` gets CPR'd, `$wbar x = (# x, x #)` can't CSE at call site. Fixed testcase with `lazy`, but is that the right thing to do?
 - integerConstantFolding: `CONSTANT_FOLDED` on `decodeDoubleInteger`, but gets WW'd because of nested `Int64`
   - We can't really just return the unboxed Int#, because that's platform dependent. BUT we could return Int64# instead
@@ -101,7 +107,7 @@ Those with an MR actually have code.
 
 # On hold
 
-- https://gitlab.haskell.org/ghc/ghc/tree/wip/ext-arity: Rebased Zach's implementation of the extensionality paper  
+- https://gitlab.haskell.org/ghc/ghc/tree/wip/ext-arity: Rebased Zach's implementation of the extensionality paper
   - Wait for levity polymorphism and matchability polymorphism to work out
 
 - #915: Specialisation through type classes/defunctionalisation
@@ -112,7 +118,7 @@ Those with an MR actually have code.
     f (Just True) n = f (Just True) (n-1)
     f _ 0 = 2
     f x n = f x (n-1)
-    
+
     g x n = f (Just x) n
     h n = g True n
     ```
