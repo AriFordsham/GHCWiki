@@ -37,7 +37,7 @@ can extend it, modify it, and use it to build your code.
 - [Validating Patches](testing-patches)
 - [Running the regression test suite](building/running-tests)
 - [Testing GHC against all of Hackage](hackage-testing)
-- [The NoFib benchmark suite](building/running-no-fib)
+- [The NoFib benchmark suite](building/running-nofib)
 
 **Information about libraries (= packages)**
 
