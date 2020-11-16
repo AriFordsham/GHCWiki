@@ -5,6 +5,48 @@ This page is to track design and implementation ideas around adding a form of de
 
 ***Disclaimer:*** Everything below represents a research proposal. While it is my (RAE's) hope that something resembling this all will actually make it into GHC, no one should read anything too strongly into words like "will happen".
 
+# Overview
+
+### What does adding dependent types to Haskell mean? 
+
+Like most other features in Haskell, dependent types can be understood as a set of extensions, designed to work together well, that enable a certain style of programming. Critically, it is expected that few (if any) changes due to dependent types would invalidate traditional Haskell syntax. (Exception: we may need to introduce new keywords, such as `forall` and `foreach`.) Because adding dependent types is a large project, it will evolve slowly over a number of years. When we are done, I imagine that we will have an extension `-XDependentTypes` that implies others as necessary.
+
+There are several key aspects of dependent types:
+
+* Dependency: the types of later arguments to a function (or its return type) may depend on earlier ones. We actually have this today: when I say `id @Bool True`, the expected type of `True` depends on my choice of `Bool` as the first argument. The new part is that the arguments depended on would also be relevant at runtime. An example would be a call `replicate 3 'x' :: Vec 3 Char`. Note that the result mentions the `3` passed in as an argument.
+
+* Informative pattern-match: When we pattern-match on a value that also appears in a type, the type-checker can use the matched-against pattern to refine the type. For example, consider an implementation of `replicate`:
+
+```hs
+replicate :: foreach (n :: Nat) -> a -> Vec n a
+replicate Zero     _ = Nil
+replicate (Succ n) x = x :> replicate n x
+```
+
+The right-hand side must have a type `Vec n a` -- but `n` is the first pattern to be matched against. Thus, when I write `replicate Zero _`, the right-hand side can have type `Vec Zero a`. This is the essence of informative pattern-matches (also called dependent pattern-match).
+
+* No syntactic separation between types and terms: Current Haskell uses the formidable `::` to keep types and terms separate. In a dependently typed language, there is no need or desire for such a separation. The right-hand side of the type marker `::` would be an expression of type `Type`, but the expression would be written in the same grammar as any other expression. This is a great *simplification* over the status quo.
+
+* Type erasure: Haskell's efficiency is, in part, driven by the fact that compiling Haskell erases types. In a world with dependent types, when information from types can influence runtime decisions, how would this work? Every dependent quantification would be marked as either relevant (not erasable) or irrelevant (erasable). In the current vision, this is done by using `foreach` for relevant quantification and `forall` for irrelevant quantification. (But new research suggests that the way we denote relevance should line up with the way we denote linearity. See this [POPL 2021 paper](https://arxiv.org/abs/2011.04070).) So programmers would still have to think about what information to preserve at runtime. We can imagine implementing warnings when a programmer retains unnecessary information.
+
+* Full expressiveness: One worry that some have about dependent types is that other dependently typed languages sometimes require all functions to be proved to terminate. (For example, Agda will not accept a transliteration of
+
+```hs
+step :: Natural -> Natural
+step n
+  | even n    = n `div` 2
+  | otherwise = 3 * n + 1
+
+collatz :: Natural -> Natural
+collatz 0 = 0
+collatz 1 = 0
+collatz n = 1 + collatz (step n)
+```
+
+without a proof that `collatz` terminates. Do let me know if you have such a [proof](https://en.wikipedia.org/wiki/Collatz_conjecture).) Backward compatibility (and the usefulness of not-known-to-terminate functions, such as interpreters) compels us to avoid adding this requirement to Haskell. Perhaps someday we will add a termination checker has an aid to programmers, but it will not be required for functions to terminate. Due to the way dependent types in Haskell are designed (e.g., as explained in this [ICFP'17 paper](https://richarde.dev/papers/2017/dep-haskell-spec/dep-haskell-spec.pdf)), it is not necessary to have a termination proof to support dependent types.
+
+* No more singletons: In order to cope with the lack of dependent types today, we have the [`singletons`](http://hackage.haskell.org/package/singletons) package. One marker of the arrival of dependent types is when that package can be deprecated.
+
 # Surface Language Design
 
 ## Quantifiers
