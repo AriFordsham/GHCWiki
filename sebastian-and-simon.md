@@ -3,8 +3,15 @@
 # Demand Analysis
 
 - #18903, !4371: Interleave Strictness and usage demands
-- #18870, !4334: Make `andArityType` monotone, fix a few "Exciting arity" warnings
-- #18885: Make strictness demands relative
+- #18885, !4493: Make product strictness demands relative
+  - In adding hack after hack, I felt less and less confident that it works.
+- #18894, !4494: Annotate top-level bindings with demands
+  - The naive version had quite a few (mostly compile-time) regressions
+  - Question: For which bindings do we want to record the demand? Hard to say in advance.
+- #18927: Use `SmallArray#`
+  - I have a handy small library now, just have to use it
+  - But I got distracted by trying to solve list fusion, again...
+  - Anyway: I think we want an explicit fusion framework exposed as maybe Data.Stream.FB
 
 # Nested CPR
 
