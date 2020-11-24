@@ -5,7 +5,7 @@
 - #18903, !4371: Interleave Strictness and usage demands
 - #18885, !4493: Make product strictness demands relative
   - In adding hack after hack, I felt less and less confident that it works.
-- #18971, LetUp and keepAliveDmdENv
+- #18971, LetUp and `keepAliveDmdEnv`
 - #18894, !4494: Annotate top-level bindings with demands
   - The naive version had quite a few (mostly compile-time) regressions
   - Question: For which bindings do we want to record the demand? Hard to say in advance.
