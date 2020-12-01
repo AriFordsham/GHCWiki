@@ -2,21 +2,36 @@
 
 # Demand Analysis
 
-- #18903, !4371: Interleave Strictness and usage demands
 - #18885, !4493: Make product strictness demands relative
   - In adding hack after hack, I felt less and less confident that it works.
-- #18971, LetUp and `keepAliveDmdEnv`
+  - I think we only want the product demand to apply relatively, when the outer
+    cardinality is lazy (e.g. 0). See
+    https://gitlab.haskell.org/ghc/ghc/-/issues/18885#note_315189
+    for a summary.
 - #18894, !4494: Annotate top-level bindings with demands
-  - The naive version had quite a few (mostly compile-time) regressions
-  - Question: For which bindings do we want to record the demand? Hard to say in advance.
+  - The naive version had quite a few (mostly compile-time) regressions, but
+    after fixing them there was only one in `T5642` where DmdAnal allocations
+    doubled.
+  - Question: For which bindings do we want to record the demand? I went for
+    functions only for now.
+  - The MR also fixes #18905, thus always simplifying call demands `CU(U)` to `U`.
+- #18971, LetUp and `keepAliveDmdEnv`
+- #18982: WW existentials
+  - I have a working prototype, but builds on !4494, which we should merge ASAP
+  - that prototype also fixed #18971.
+- #18983: absent unlifted coercions
+  - Blocked because we can't use `unsafeEqualityProof`
+- #18962, !4553: Not DmdAnal, but SAT: Only SAT unfoldings
+  - TBD
 - #18927: Use `SmallArray#`
   - I have a handy small library now, just have to use it
   - But I got distracted by trying to solve list fusion, again...
   - Anyway: I think we want an explicit fusion framework exposed as maybe Data.Stream.FB
+  - Stalled because I need a PrimOp introduced in 8.10
 
 # Nested CPR
 
-Main ticket: #18174, MR !1866. Blocked on
+Main ticket: #18174, MR !1866. Blocked on #18894
 
 - Interleave CPR and Termination analysis or not? See also https://gitlab.haskell.org/ghc/ghc/-/merge_requests/1866#note_304163
 - Also my "speculation analysis" proposal. Nested CPR could be made more aggressive by looking at call sites strictness. But that probably needs a refactoring of `Demand`.
