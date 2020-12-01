@@ -23,6 +23,7 @@
   - Blocked because we can't use `unsafeEqualityProof`
 - #18962, !4553: Not DmdAnal, but SAT: Only SAT unfoldings
   - TBD
+- #14816: Drop `reuseEnv` in DmdAnal, check `lazy_fvs` for equality.
 - #18927: Use `SmallArray#`
   - I have a handy small library now, just have to use it
   - But I got distracted by trying to solve list fusion, again...
