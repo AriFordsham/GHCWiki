@@ -16,7 +16,7 @@
     functions only for now.
   - The MR also fixes #18905, thus always simplifying call demands `CU(U)` to `U`.
 - #18971, LetUp and `keepAliveDmdEnv`
-- #18982: WW existentials
+- #18982, !4557: WW existentials
   - I have a working prototype, but builds on !4494, which we should merge ASAP
   - that prototype also fixed #18971.
 - #18983: absent unlifted coercions
