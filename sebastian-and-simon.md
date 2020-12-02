@@ -2,13 +2,13 @@
 
 # Demand Analysis
 
-- #18885, !4493: Make product strictness demands relative
+- #18885: Make product strictness demands relative
   - In adding hack after hack, I felt less and less confident that it works.
   - I think we only want the product demand to apply relatively, when the outer
     cardinality is lazy (e.g. 0). See
     https://gitlab.haskell.org/ghc/ghc/-/issues/18885#note_315189
     for a summary.
-- #18894, !4494: Annotate top-level bindings with demands
+- #18894, !4493: Annotate top-level bindings with demands
   - The naive version had quite a few (mostly compile-time) regressions, but
     after fixing them there was only one in `T5642` where DmdAnal allocations
     doubled.
