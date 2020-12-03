@@ -25,6 +25,9 @@
   - Doing SAT before WW introduces reboxing because the stable unfolding is not demand analysed and WW'd
   - WW'ing an SAT'd binding marks the wrapper as LoopBreaker
   - What about doing SA analysis in OccurAnal and calling `saTransform` from the Simplifier prior to inlining and unfolding?
+    1. Where to store the information for what to specialise? I think we want a new UnfoldingSource, e.g. `InlineSpecialise` or sth, which also says which args are static? Or maybe that's the wrong place to store the static args. Maybe in `UnfoldingGuidance` instead?
+    2. OccurAnal can accumulate `SATInfo` (= `[Staticness App]`) in its env pretty easily and annotate the thing afterwards. Or does that mean we have to annotate the digest of `SATInfo` somewhere in `OccInfo`? It's probably pretty cheap to represent either way, as a bit mask even. And it's only relevant for recursive things, I think. Oh, but it also might be relevant for non-recursive stuff when we ensure sharing via RULEs, but let's worry about that later on.
+
 - #14816: Drop `reuseEnv` in DmdAnal, check `lazy_fvs` for equality.
 - #18927: Use `SmallArray#`
   - I have a handy small library now, just have to use it
