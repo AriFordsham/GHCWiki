@@ -2,6 +2,8 @@
 
 # Demand Analysis
 
+- #14816, [this comment](https://gitlab.haskell.org/ghc/ghc/-/issues/14816#note_315980)
+
 - #18885: Make product strictness demands relative
   - In adding hack after hack, I felt less and less confident that it works.
   - I think we only want the product demand to apply relatively, when the outer
