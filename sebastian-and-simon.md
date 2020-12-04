@@ -2,6 +2,8 @@
 
 # Demand Analysis
 
+- #18349 Trimming of DmdAnal results
+
 - #14620 join points [this comment](https://gitlab.haskell.org/ghc/ghc/-/issues/14620#note_315900)
 
 - #19016 better syntax for demand signatures
