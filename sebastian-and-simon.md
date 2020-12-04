@@ -2,6 +2,8 @@
 
 # Demand Analysis
 
+- #19016 better syntax for demand signatures
+
 - #14816, [this comment](https://gitlab.haskell.org/ghc/ghc/-/issues/14816#note_315980)
 
 - #18885: Make product strictness demands relative
