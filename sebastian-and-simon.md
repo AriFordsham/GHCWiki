@@ -23,7 +23,8 @@
   - that prototype also fixed #18971.
 - #18983: absent unlifted coercions
   - Blocked because we can't use `unsafeEqualityProof`
-- #18962, !4553: Not DmdAnal, but SAT: Only SAT unfoldings
+
+- #18962, !4553, #9374: Not DmdAnal, but SAT: Only SAT unfoldings
   - Doing SAT before WW introduces reboxing because the stable unfolding is not demand analysed and WW'd
   - WW'ing an SAT'd binding marks the wrapper as LoopBreaker
   - What about doing SA analysis in OccurAnal and calling `saTransform` from the Simplifier prior to inlining and unfolding?
