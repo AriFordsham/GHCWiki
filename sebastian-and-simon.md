@@ -2,6 +2,8 @@
 
 # Demand Analysis
 
+- #19005: simplify call demands
+
 - #18907 Product demands 
 
 - #18349 Trimming of DmdAnal results
