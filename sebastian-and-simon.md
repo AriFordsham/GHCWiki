@@ -1,10 +1,23 @@
 # Agenda
 
+# SAT
+
+- #18962, !4553, #9374: Only SAT unfoldings
+  - Doing SAT before WW introduces reboxing because the stable unfolding is not demand analysed and WW'd
+  - WW'ing an SAT'd binding marks the wrapper as LoopBreaker
+  - What about doing SA analysis in OccurAnal and calling `saTransform` from the Simplifier prior to inlining and unfolding? Here's what I had in mind:
+    1. OccurAnal populates `occ_static_args` field of `OccInfo` with a summary of which arguments a recursive function can be specialised to. (Pretty much done, modulo refactorings)
+        - It's weird to only look at StaticArgs info from RHSs, not from the let body.
+    2. `callSiteInline` should consider unfoldings of strong loop-breakers, if that unfolding has the new `UnfoldingSource` `SpecialiseStaticArg` (naming up for debate)
+    3. The simplifier calls out to `saTransform` or something similar to actually build the unfolding, looking at `occ_static_args` to see for which arguments it can specialise
+  - I'm not dead set about where to put the `StaticArgs` information, which is basically a bit mask saying which arguments are static.
+  - I wonder if we could combine that with pre/post-inline-unconditionally. Currently, the occurrence info from the let body is completely zapped. I think we might disregard occurrences in the RHS for the annotation.
+
 # Demand Analysis
 
 - #19005: simplify call demands
 
-- #18907 Product demands 
+- #18907 Product demands
 
 - #18349 Trimming of DmdAnal results
 
@@ -13,6 +26,7 @@
 - #19016 better syntax for demand signatures
 
 - #14816, [this comment](https://gitlab.haskell.org/ghc/ghc/-/issues/14816#note_315980)
+  - Drop `reuseEnv` in DmdAnal, check `lazy_fvs` for equality.
 
 - #18885: Make product strictness demands relative
   - In adding hack after hack, I felt less and less confident that it works.
@@ -20,30 +34,16 @@
     cardinality is lazy (e.g. 0). See
     https://gitlab.haskell.org/ghc/ghc/-/issues/18885#note_315189
     for a summary.
+
 - #18894, !4493: Annotate top-level bindings with demands
-  - The naive version had quite a few (mostly compile-time) regressions, but
-    after fixing them there was only one in `T5642` where DmdAnal allocations
-    doubled.
-  - Question: For which bindings do we want to record the demand? I went for
-    functions only for now.
-  - The MR also fixes #18905, thus always simplifying call demands `CU(U)` to `U`.
+
 - #18971, LetUp and `keepAliveDmdEnv`
+
 - #18982, !4557: WW existentials
-  - I have a working prototype, but builds on !4494, which we should merge ASAP
-  - that prototype also fixed #18971.
+
 - #18983: absent unlifted coercions
-  - Blocked because we can't use `unsafeEqualityProof`
+  - Unblocked: Widen scope of RubbishLit
 
-- #18962, !4553, #9374: Not DmdAnal, but SAT: Only SAT unfoldings
-  - Doing SAT before WW introduces reboxing because the stable unfolding is not demand analysed and WW'd
-  - WW'ing an SAT'd binding marks the wrapper as LoopBreaker
-  - What about doing SA analysis in OccurAnal and calling `saTransform` from the Simplifier prior to inlining and unfolding?
-    1. Where to store the information for what to specialise?
-      - I think we want a new UnfoldingSource, e.g. `InlineSpecialise` or sth, which also says which args are static? Or maybe that's the wrong place to store the static args. Maybe in `UnfoldingGuidance` instead?
-      - Alternatively: Store it in `IAmLoopBreaker` of `OccInfo`, then the Simplifier can make sense of it as it sees fit, potentially updating the Unfolding etc.
-    2. OccurAnal can accumulate `SATInfo` (= `[Staticness App]`) in its env pretty easily and annotate the thing afterwards. Or does that mean we have to annotate the digest of `SATInfo` somewhere in `OccInfo`? It's probably pretty cheap to represent either way, as a bit mask even. And it's only relevant for recursive things, I think. Oh, but it also might be relevant for non-recursive stuff when we ensure sharing via RULEs, but let's worry about that later on.
-
-- #14816: Drop `reuseEnv` in DmdAnal, check `lazy_fvs` for equality.
 - #18927: Use `SmallArray#`
   - I have a handy small library now, just have to use it
   - But I got distracted by trying to solve list fusion, again...
