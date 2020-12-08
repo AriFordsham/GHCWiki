@@ -39,7 +39,7 @@
 
 - #18971, LetUp and `keepAliveDmdEnv`
 
-- #18982, !4557: WW existentials
+- #18982, !4557: WW existentials.  Ready for review, but not on critical path
 
 - #18983: absent unlifted coercions
   - Unblocked: Widen scope of RubbishLit
