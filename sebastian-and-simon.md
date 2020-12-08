@@ -57,7 +57,9 @@ Main ticket: #18174, MR !1866. Blocked on #18894
 - Interleave CPR and Termination analysis or not? See also https://gitlab.haskell.org/ghc/ghc/-/merge_requests/1866#note_304163
 - Also my "speculation analysis" proposal. Nested CPR could be made more aggressive by looking at call sites strictness. But that probably needs a refactoring of `Demand`.
 
-## State hack/Eta expansion
+## Eta expansion
+
+- #18993: regression in 9.1 due to eta-expansion
 
 - #18793: Arity analysis does only very naive fixed-point iteration
   - Afterwards, we can discuss whether it makes sense to also store the results of calling `arityType` on local bindings in the signature environment, which would fix the PAP scenario in #18793
