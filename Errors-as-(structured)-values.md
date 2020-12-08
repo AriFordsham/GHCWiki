@@ -153,7 +153,8 @@ As this strand of work touches a lot of modules, doing everything as a single ga
   further. This can be done by getting rid of the `errShortString` field 
   from the `ErrMsg` record, which allows us to drop an extra `DynFlag` 
   argument from a lots of functions (e.g. `mkErr`) and give us more 
-  flexibility on where to place certain error-related utility functions; 
+  flexibility on where to place certain error-related utility functions;
+  **Waiting CI/approval**: https://gitlab.haskell.org/ghc/ghc/-/merge_requests/4574
 
 - [ ] Clean-up the error hierarchy by introducing separate type parameter 
   for `WarningMessages` and `ErrorMessages`, and introduce proper data 
