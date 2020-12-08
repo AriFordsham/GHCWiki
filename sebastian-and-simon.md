@@ -2,7 +2,7 @@
 
 # SAT
 
-- #18962, !4553, #9374: Only SAT unfoldings. WIP here: 584ce1047f9aeb5f1a2e40ce0dc0249fd8180734
+- #18962, !4553, #9374: Only SAT unfoldings. WIP here: https://gitlab.haskell.org/ghc/ghc/-/tree/wip/T18962-simpl
   - Doing SAT before WW introduces reboxing because the stable unfolding is not demand analysed and WW'd
   - WW'ing an SAT'd binding marks the wrapper as LoopBreaker
   - What about doing SA analysis in OccurAnal and calling `saTransform` from the Simplifier prior to inlining and unfolding? Here's what I had in mind:
