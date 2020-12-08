@@ -139,20 +139,46 @@ But meanwhile, `WarnMsg` will be a synonym for `ErrMsg ErrDoc` this entire time.
 
 As this strand of work touches a lot of modules, doing everything as a single gargantuan MR seems highly impractical. Rather, we are considering breaking things down into atomic chunks which could be reviewed in isolation. A sketch of the plan might be the following:
 
-* Split `GHC.Driver.Env` into the former and a new `GHC.Driver.Env.Types` module to
-  avoid `.boot` modules later on.
-  Implemented: https://gitlab.haskell.org/ghc/ghc/-/merge_requests/4551
-* Rename types inside `GHC.Parser.Errors` to give them a `Ps` prefix. This is because
-  when we will have a lot of different `Warning` and `Error` types it will be better
-  to be explicit in the code to understand at glance "which is which".
-  Implemented: https://gitlab.haskell.org/ghc/ghc/-/merge_requests/4555
-* Untangle the error reporting functions from the `DynFlag` even further. This can be
-  done by getting rid of the `errShortString` field from the `ErrMsg` record, which
-  allows us to drop an extra `DynFlag` argument from a lots of functions (e.g. `mkErr`)
-  and give us more flexibility on where to place certain error-related utility
-  functions; _TODO_
-* Clean-up the error hierarchy by introducing separate type parameter for
-  `WarningMessages` and `ErrorMessages`, and introduce a proper data type for
-   `Messages` (instead of a type alias to a tuple) with proper invariants that messages
-   inserted "in the two buckets" have the right severity (i.e. either `SevWarning` or
-   `SevError`); _TODO_
+- [X] Split `GHC.Driver.Env` into the former and a new 
+  `GHC.Driver.Env.Types` module to avoid `.boot` modules later on.
+  **Implemented**: https://gitlab.haskell.org/ghc/ghc/-/merge_requests/4551
+
+- [X] Rename types inside `GHC.Parser.Errors` to give them a `Ps` prefix. 
+  This is because when we will have a lot of different `Warning` and 
+  `Error` types it will be better to be explicit in the code to understand 
+  at glance "which is which".
+  **Implemented**: https://gitlab.haskell.org/ghc/ghc/-/merge_requests/4555
+
+- [ ] Untangle the error reporting functions from the `DynFlag` even 
+  further. This can be done by getting rid of the `errShortString` field 
+  from the `ErrMsg` record, which allows us to drop an extra `DynFlag` 
+  argument from a lots of functions (e.g. `mkErr`) and give us more 
+  flexibility on where to place certain error-related utility functions; 
+
+- [ ] Clean-up the error hierarchy by introducing separate type parameter 
+  for `WarningMessages` and `ErrorMessages`, and introduce proper data 
+  types for `Messages` (instead of a type alias to a tuple), 
+  `WarningMessages` and `ErrorMessages`, with proper invariants that 
+  messages inserted "in the two buckets" have the right severity (i.e. 
+  either `SevWarning` or `SevError`). Initially both `WarningMessages` and
+  `ErrorMessages` could be parameterised over `ErrDoc`, to not change too
+  many things at once;
+
+- [ ] Introduce proper error and warning types for the different phases of 
+  the compilation pipeline (i.e. `TcRnWarning`, `TcRnError` etc) as well as
+  two umbrella `GhcError` and `GhcWarning` types which will be used in the
+  driver, at the top level, to report errors. At this stage we won't yet
+  make use of these new types;
+
+- [ ] Extend the parser error types to adhere to the new error-messages
+  architecture, and port the codebase to use these new format of errors.
+
+- [ ] Convert the `TcRn` error types to adhere to the new error-messages
+  architecture. We will also try to make use of the new `Suggestion` API
+  when reporting suggestions to users.
+
+- [ ] Convert the `Ds` error types to adhere to the new error-messages
+  architecture;
+
+- [ ] Convert the `Driver` error types to adhere to the new error-messages
+  architecture.
