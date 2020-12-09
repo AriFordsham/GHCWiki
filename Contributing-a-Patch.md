@@ -21,41 +21,22 @@ Submitting a patch for incorporation into the tree is done by creating a *merge 
 <!-- TODO: The label workflow needs to be implemented -->
 
 1. If you're fixing a bug then have a look at [fixing bugs](working-conventions/fixing-bugs) else if you're adding a feature see [adding features](/working-conventions/adding-features).
-1. **Open an MR** see [merge request conventions](/gitlab/merge-requests) and [below](#opening-a-merge-request) for the basics of opening an MR.
+1. **Open an MR:** see [merge request conventions](/gitlab/merge-requests) and [below](#opening-a-merge-request) for the basics of opening an MR.
    <!-- * ~"MR::1-needs triage" label is set automatically. -->
 1. **Triage** can be performed by any developer including yourself (see [MR triage protocol](/gitlab/merge-requests#triage-protocol)). This should be done within 1 day.
    <!-- * ~"MR::2-under review" label is set by the developer that performed the triage. -->
 1. **Technical review** reviewers will evaluate the concept and implementation of the patch and work with the contributor (that's you) to iterate as necessary. Reviewers can use the “Approve” button to indicate they are happy with the MR.
    <!-- * ~"MR::3-ready for merge" label is set by the contributor (that's you) once reviewers and contributor are satisfied with the MR. -->
-1. **Final Review** a maintainer will have a final look at the MR and add the MR to the merge queue.
+1. **Final Review:** a maintainer will have a final look at the MR and add the MR to the merge queue.
    <!-- * ~"MR::4-in merge queue" label is set by the maintainer. -->
-1. **Post-merge cleanup** the contributor (that's you) should close and/or have a final look over the any related issues.
+1. **Post-merge cleanup:** the contributor (that's you) should close and/or have a final look over the any related issues.
 
-
-## Merging your merge request
-
-We use GitLab's [merge train](https://docs.gitlab.com/ee/ci/merge_request_pipelines/pipelines_for_merged_results/merge_trains/) functionality to automatically rebase and merge branches to `master`. 
-After your merge request has been reviewed and approved it can be added to the merge queue by pressing the "Start merge train" button:
-
-![start-merge-train](uploads/fe0ffa99f68f0a9134f5292393505682/start-merge-train.png)
-
-As long as your MR satisfies the following, GitLab will batch your MR with other MRs and attempt to merge into `master`:
-
-* Approved by a GHC developer
-* Passing CI
-* Has no merge conflicts with `master `(see rebasing below)
-
-Each batch is an MR and must pass CI, so you can expect GitLab to merge two or three batches per day.
-
-### Rebasing
-
-You generally do NOT need to rebase your MRs unless there are merge conflicts with `master`. GitLab will automatically rebase on top of `master` when batching MRs.
 
 ## Opening a merge request
 
 To open a merge request:
 
-1. Push your branch. You may push either to your fork or the primary `ghc/ghc` project.
+1. Push your branch. You may push either to your fork or the primary ghc/ghc> project.
 2. Starting from the [GHC GitLab project](https://gitlab.haskell.org/ghc/ghc) click on the *Merge Requests* link in the left navigational bar.
 3. Click on the green *New Merge Request* button on the top right corner of the Merge Requests page
 4. In the left drop-down of the *Source branch* pane select the project to which you pushed your branch.
@@ -90,3 +71,23 @@ The *Commits* tab lists the commits being proposed for merge. These may be click
 The *Pipelines* tab provides a more detailed overview on the state of the various continuous integration jobs associated with the merge request.
 
 Finally, the *Changes* tab shows the patch itself. This view may be restricted to changes made by a single commit by selecting the commit in the *Commits* tab. Moreover, one may view previous iterations of the merge request using the two drop-down menus at the top of the tab. To leave an inline comment click on a line in the patch.
+
+
+## Merging your merge request
+
+We use GitLab's [merge train](https://docs.gitlab.com/ee/ci/merge_request_pipelines/pipelines_for_merged_results/merge_trains/) functionality to automatically rebase and merge branches to `master`. 
+After your merge request has been reviewed and approved it can be added to the merge queue by pressing the "Start merge train" button:
+
+![start-merge-train](uploads/fe0ffa99f68f0a9134f5292393505682/start-merge-train.png)
+
+As long as your MR satisfies the following, GitLab will batch your MR with other MRs and attempt to merge into `master`:
+
+* Approved by a GHC developer
+* Passing CI
+* Has no merge conflicts with `master `(see rebasing below)
+
+Each batch is an MR and must pass CI, so you can expect GitLab to merge two or three batches per day.
+
+### Rebasing
+
+You generally do NOT need to rebase your MRs unless there are merge conflicts with `master`. GitLab will automatically rebase on top of `master` when batching MRs.
