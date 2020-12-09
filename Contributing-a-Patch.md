@@ -26,8 +26,8 @@ Submitting a patch for incorporation into the tree is done by creating a *merge 
 1. **Triage** can be performed by any developer including yourself (see [MR triage protocol](/gitlab/merge-requests#triage-protocol)). This should be done within 1 day.
    <!-- * ~"MR::2-under review" label is set by the developer that performed the triage. -->
 1. **Technical review** reviewers will evaluate the concept and implementation of the patch and work with the contributor (that's you) to iterate as necessary. Reviewers can use the “Approve” button to indicate they are happy with the MR.
-   <!-- * ~"MR::3-ready for merge" label is set by the contributor (that's you) once reviewers and contributor are satisfied with the MR.
-1. **Final Review** a maintainer will have a final look at the MR (TODO link needed) and add the MR to the merge queue. -->
+   <!-- * ~"MR::3-ready for merge" label is set by the contributor (that's you) once reviewers and contributor are satisfied with the MR. -->
+1. **Final Review** a maintainer will have a final look at the MR and add the MR to the merge queue.
    <!-- * ~"MR::4-in merge queue" label is set by the maintainer. -->
 1. **Post-merge cleanup** the contributor (that's you) should close and/or have a final look over the any related issues.
 
