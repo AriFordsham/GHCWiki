@@ -37,7 +37,7 @@ After your merge request has been reviewed and approved it can be added to the m
 
 ![start-merge-train](uploads/fe0ffa99f68f0a9134f5292393505682/start-merge-train.png)
 
-As long as your MR satisfies the following, marge will batch your MR with other MRs and attempt to merge into `master`:
+As long as your MR satisfies the following, GitLab will batch your MR with other MRs and attempt to merge into `master`:
 
 * Approved by a GHC developer
 * Passing CI
@@ -47,7 +47,7 @@ Each batch is an MR and must pass CI, so you can expect GitLab to merge two or t
 
 ### Rebasing
 
-You generally do NOT need to rebase your MRs unless there are merge conflicts with `master`. Marge will automatically rebase on top of `master` when batching MRs.
+You generally do NOT need to rebase your MRs unless there are merge conflicts with `master`. GitLab will automatically rebase on top of `master` when batching MRs.
 
 ## Opening a merge request
 
