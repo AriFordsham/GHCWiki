@@ -1,7 +1,7 @@
 # Proposal: Syntax-Free Type Directed Name Resolution
 
 
-The original [TDNR proposal](http://hackage.haskell.org/trac/haskell-prime/wiki/TypeDirectedNameResolution) was fairly controversial, with almost all of the objections related to the new dot syntax. However, TDNR can be implemented without any changes to the syntax of Haskell and without adding any new operators.
+The original [TDNR proposal](http://web.archive.org/web/20160310052223/https://prime.haskell.org/wiki/TypeDirectedNameResolution) was fairly controversial, with almost all of the objections related to the new dot syntax. However, TDNR can be implemented without any changes to the syntax of Haskell and without adding any new operators.
 
 # Disambiguation
 
