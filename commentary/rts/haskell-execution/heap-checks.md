@@ -83,54 +83,7 @@ instructions).
 
 Unfortunately, this means that all these heap checks will make our program run slower. Our goal is to get the heap check out of the "hot" path - we would like to put it in alts.
 
-In this particular case we fall into the first branch because our program uses comparison operator (See `Note [GC for conditionals]`). We generate this Cmm for this program:
-```
-[Main.$wgo_entry() { //  [R2]
-         { info_tbls: [(c27w,
-                        label: Main.$wgo_info
-                        rep: HeapRep static { Fun {arity: 1 fun_type: ArgSpec 4} }
-                        srt: Nothing)]
-           stack_info: arg_space: 8
-         }
-     {offset
-       c27w: // global
-           _s26y::I64 = R2;
-           goto c27o;
-       c27o: // global
-           Hp = Hp + 16;
-           if (Hp > HpLim) (likely: False) goto c27A; else goto c27z;
-       c27A: // global
-           HpAlloc = 16;
-           R2 = _s26y::I64;
-           R1 = Main.$wgo_closure;
-           call (stg_gc_fun)(R2, R1) args: 8, res: 0, upd: 8;
-       c27z: // global
-           if (%MO_S_Le_W64(_s26y::I64, 0)) goto c27u; else goto c27v;
-       c27u: // global
-           I64[Hp - 8] = GHC.Types.I#_con_info;
-           I64[Hp] = _s26y::I64;
-           R1 = Hp - 7;
-           call (P64[Sp])(R1) args: 8, res: 0, upd: 8;
-       c27v: // global
-           Hp = Hp - 16;
-           _s26y::I64 = _s26y::I64 - 1;
-           goto c27o;
-     }
- },
- section ""data" . Main.$wgo_closure" {
-     Main.$wgo_closure:
-         const Main.$wgo_info;
- }]
-```
-| HEAD | GC_IN_ALTS |
-| ------ | ------ |
-| [Generated Cmm](uploads/01cba099560bdd650e3fc4ebc2b219a4/T16064.dump-cmm-HEAD) | [Generated Cmm](uploads/af64f3bb565f0494f2054813b8b9de33/T16064.dump-cmm-GC_IN_ALTS) |
-| [Compiling Cabal (Cachegrind stats)](uploads/02bb81013526792b56d0f311956d2d17/cabal-cachegrind-stats-summary-HEAD) | [Compiling Cabal (Cachegrind stats)](uploads/6997d85fe4d7950cb30cd1d2cae0cfc4/cabal-cachegrind-stats-summary-GC_IN_ALTS) |
-| [Compiling Cabal (Compiler RTS)](uploads/10b00658dc04d15a77de2aee8dc6d38b/cabal-stats-HEAD) | [Compiling Cabal (Compiler RTS)](uploads/e40570d331453aa7e1f21145dd56bfcb/cabal-stats-GC_IN_ALTS) |
-| [Ticky](uploads/73a8ec5e79476f7eb3d17ac2d20590cd/HEAD.ticky) | [Ticky](uploads/7c4b328af52d58c24ed690e4270cbf47/GC_IN_ALTS.ticky) |
-
-
-
+In this particular case we fall into the first branch because our program uses comparison operator (See `Note [GC for conditionals]`).
 
 We can push the heap check into the branch by removing the first guard in `do_gc`:
 
@@ -151,7 +104,20 @@ index eb56a6ad09..2265876a4d 100644
                      | otherwise        = True
 ```
 
-We will refer to this patch as `GcInAlts_Patch`.
+We will refer to this patch as `GC_IN_ALTS`.
+
+| HEAD | GC_IN_ALTS |
+| ------ | ------ |
+| [Generated Cmm](uploads/01cba099560bdd650e3fc4ebc2b219a4/T16064.dump-cmm-HEAD) | [Generated Cmm](uploads/af64f3bb565f0494f2054813b8b9de33/T16064.dump-cmm-GC_IN_ALTS) |
+| [Compiling Cabal (Cachegrind stats)](uploads/02bb81013526792b56d0f311956d2d17/cabal-cachegrind-stats-summary-HEAD) | [Compiling Cabal (Cachegrind stats)](uploads/6997d85fe4d7950cb30cd1d2cae0cfc4/cabal-cachegrind-stats-summary-GC_IN_ALTS) |
+| [Compiling Cabal (Compiler RTS)](uploads/10b00658dc04d15a77de2aee8dc6d38b/cabal-stats-HEAD) | [Compiling Cabal (Compiler RTS)](uploads/e40570d331453aa7e1f21145dd56bfcb/cabal-stats-GC_IN_ALTS) |
+| [Ticky](uploads/73a8ec5e79476f7eb3d17ac2d20590cd/HEAD.ticky) | [Ticky](uploads/7c4b328af52d58c24ed690e4270cbf47/GC_IN_ALTS.ticky) |
+
+| Nofib |
+|-------|
+|[Run#1](uploads/dfd13b166159e3ae1484f1b7adbcf35b/nofib-analyse-Run_1)|
+|[Run#2](uploads/f3571cd85fbb1561c8b3cb91f24125e5/nofib-analyze-Run_2)|
+
 
 ### New Proposed Strategy
 
