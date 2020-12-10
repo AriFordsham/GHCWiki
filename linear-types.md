@@ -20,6 +20,7 @@ Talks:
 - [Simon Peyton Jones at Curry On 2018](https://www.youtube.com/watch?v=t0mhvd3-60Y), longer but covers more ground.
 - [Simon Peyton Jones at Haskell Exchange 2018](https://skillsmatter.com/skillscasts/11067-keynote-linear-haskell-practical-linearity-in-a-higher-order-polymorphic-language), similar to the Curry On talk, but Arnaud speaks inaudibly in the background from time to time
 - [Divesh Otwani at Zurihac 2020](https://www.youtube.com/watch?v=I7-JuVNvz78), on [linear-base](https://github.com/tweag/linear-base/) and applications of linear to (pure!) mutable state.
+- [Facundo Domínguez at Haskell Exchange 2020](https://skillsmatter.com/skillscasts/14896-typecheck-your-memory-management-with-linear-types), describing how linear types are used in [inline-java](https://github.com/tweag/inline-java) to ensure prompt release of Java references from Haskell.
 
 ## Implementation
 
