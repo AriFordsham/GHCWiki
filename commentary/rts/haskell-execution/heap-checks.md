@@ -106,6 +106,10 @@ index eb56a6ad09..2265876a4d 100644
 
 We will refer to this patch as `GC_IN_ALTS`.
 
+### Comparing results
+
+We compile the example program with and without applied change and compare the results. We also measure the runtime performance of the GHC compiler itself in attempt to get a rough feel of this affects compilation of usual real world program.
+
 | HEAD | GC_IN_ALTS |
 | ------ | ------ |
 | [Generated Cmm](uploads/01cba099560bdd650e3fc4ebc2b219a4/T16064.dump-cmm-HEAD) | [Generated Cmm](uploads/af64f3bb565f0494f2054813b8b9de33/T16064.dump-cmm-GC_IN_ALTS) |
