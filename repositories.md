@@ -67,7 +67,7 @@ Here is the setup in more detail:
 
 Here are the submodules we use, and where their upstreams point:
 
-
+(NB this table is out of date but see the note below about the packages file for more information)
 
 <table><tr><th><b>Location in tree</b></th>
 <td> </td>
