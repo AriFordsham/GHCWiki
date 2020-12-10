@@ -106,7 +106,92 @@ We will refer to this patch as `GcInAlts_Patch`.
 
 | header | header |
 | ------ | ------ |
-| cell | cell |
+| [Main.$wgo_entry() { //  [R2]
+         { info_tbls: [(c27w,
+                        label: Main.$wgo_info
+                        rep: HeapRep static { Fun {arity: 1 fun_type: ArgSpec 4} }
+                        srt: Nothing)]
+           stack_info: arg_space: 8
+         }
+     {offset
+       c27w: // global
+           _s26y::I64 = R2;
+           goto c27o;
+       c27o: // global
+           Hp = Hp + 16;
+           if (Hp > HpLim) (likely: False) goto c27A; else goto c27z;
+       c27A: // global
+           HpAlloc = 16;
+           R2 = _s26y::I64;
+           R1 = Main.$wgo_closure;
+           call (stg_gc_fun)(R2, R1) args: 8, res: 0, upd: 8;
+       c27z: // global
+           if (%MO_S_Le_W64(_s26y::I64, 0)) goto c27u; else goto c27v;
+       c27u: // global
+           I64[Hp - 8] = GHC.Types.I#_con_info;
+           I64[Hp] = _s26y::I64;
+           R1 = Hp - 7;
+           call (P64[Sp])(R1) args: 8, res: 0, upd: 8;
+       c27v: // global
+           Hp = Hp - 16;
+           _s26y::I64 = _s26y::I64 - 1;
+           goto c27o;
+     }
+ },
+ section ""data" . Main.$wgo_closure" {
+     Main.$wgo_closure:
+         const Main.$wgo_info;
+ }] | [Main.$wgo_entry() { //  [R2]
+         { info_tbls: [(c27w,
+                        label: Main.$wgo_info
+                        rep: HeapRep static { Fun {arity: 1 fun_type: ArgSpec 4} }
+                        srt: Nothing),
+                       (c27A,
+                        label: block_c27A_info
+                        rep: StackRep [True]
+                        srt: Nothing)]
+           stack_info: arg_space: 8
+         }
+     {offset
+       c27w: // global
+           _s26y::I64 = R2;
+       c27o: // global
+           _s26z::I64 = %MO_S_Gt_W64(_s26y::I64, 0);
+           if (_s26z::I64 != 1) goto c27B; else goto c27v;
+       c27B: // global
+           Hp = Hp + 16;
+           if (Hp > HpLim) (likely: False) goto c27G; else goto c27F;
+       c27G: // global
+           HpAlloc = 16;
+           I64[Sp - 16] = c27A;
+           R1 = _s26z::I64;
+           I64[Sp - 8] = _s26y::I64;
+           Sp = Sp - 16;
+           call stg_gc_unbx_r1(R1) returns to c27A, args: 8, res: 8, upd: 8;
+       c27A: // global
+           _s26y::I64 = I64[Sp + 8];
+           Sp = Sp + 16;
+           _s26z::I64 = R1;
+           goto c27B;
+       c27F: // global
+           I64[Hp - 8] = GHC.Types.I#_con_info;
+           I64[Hp] = _s26y::I64;
+           R1 = Hp - 7;
+           call (P64[Sp])(R1) args: 8, res: 0, upd: 8;
+       c27v: // global
+           _s26y::I64 = _s26y::I64 - 1;
+           goto c27o;
+       c27x: // global
+           R2 = _s26y::I64;
+           R1 = Main.$wgo_closure;
+           call (stg_gc_fun)(R2, R1) args: 8, res: 0, upd: 8;
+     }
+ },
+ section ""data" . Main.$wgo_closure" {
+     Main.$wgo_closure:
+         const Main.$wgo_info;
+ }]         if ((Sp + -16) >= SpLim) (likely: True) goto c27o; else goto c27x;
+  |
 | cell | cell |
 
 ### New Proposed Strategy
