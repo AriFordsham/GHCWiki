@@ -47,11 +47,24 @@ Things that affect this decision:
    here was that if one alternative needs heap and the other one doesn't we don't want to pay the 
    runtime for the heap check in the case where the heap-free alternative is taken.
 
+This decision is being made in the code that compiles case expressions in [GHC.StgToCmm.Expr](https://gitlab.haskell.org/ghc/ghc/-/blob/master/compiler/GHC/StgToCmm/Expr):
+
+```haskell
+       ; let do_gc  | is_cmp_op scrut  = False  -- See Note [GC for conditionals]
+                    | not simple_scrut = True
+                    | isSingleton alts = False
+                    | up_hp_usg > 0    = False
+                    | otherwise        = True
+```
+
+If `do_gc` is True, we put heap checks at the start of each branch. If `do_gc` is False, we take the max of the branches, and do the heap check before the `case`. See `Note [Compiling case expressions]` in[GHC.StgToCmm.Expr (https://gitlab.haskell.org/ghc/ghc/-/blob/master/compiler/GHC/StgToCmm/Expr.hs).
+
 ---
 
-### Current setting
 
-Consider this program:
+### Case Study
+
+Now let's consider this program:
 
 ```haskell
 data X a = X { runX :: !a }
@@ -63,54 +76,49 @@ slow = \ !i -> runX (go i) where
         else X i
 ```
 
-This will produce the following Cmm(with `-O`):
-
-```
-[$wgo1_r2zB_entry() { //  [R2]
-     { ... }
-     {offset
-       c2BJ:  // get argument
-           _s2zT::I64 = R2;
-           goto c2BB;
-       c2BB: // <------------------ HEAP CHECK
-           Hp = Hp + 16; 
-           if (Hp > HpLim) (likely: False) goto c2BN; else goto c2BM;
-       c2BN: // GC
-           HpAlloc = 16;
-           R2 = _s2zT::I64;
-           R1 = $wgo1_r2zB_closure;
-           call (stg_gc_fun)(R2, R1) args: 8, res: 0, upd: 8;
-       c2BM: // i > 0
-           if (%MO_S_Le_W64(_s2zT::I64, 0)) goto c2BH; else goto c2BI;
-       c2BH: // <------------------ ELSE branch - return here
-           I64[Hp - 8] = GHC.Types.I#_con_info;
-           I64[Hp] = _s2zT::I64;
-           R1 = Hp - 7;
-           call (P64[Sp])(R1) args: 8, res: 0, upd: 8;
-       c2BI: // true branch (hot path)
-           Hp = Hp - 16;
-           _s2zT::I64 = _s2zT::I64 - 1;
-           goto c2BB;
-     }
- }
-```
-
 Currently we put a heap check before the `case`. In that particular scenario we do that because
-our scrutinee is a PrimOp (see `Note [GC for conditionals]`). Advantage: a single heap check will
+our scrutinee is a PrimOp (see `Note [GC for conditionals]`). The advantage of a single heap check will
 do for all alternatives that allocate, which may save code space. (A heap check takes quite a few
-instructions). There is an illuminating discussion in `Note [Compiling case expressions]` in 
-[GHC.StgToCmm.Expr](https://gitlab.haskell.org/ghc/ghc/-/blob/master/compiler/GHC/StgToCmm/Expr.hs).
+instructions). 
 
-Our goal is to get the heap check out of the "hot" path - we would like to put it in alts. It should be possible to make this decision when:
+Unfortunately, this means that all these heap checks will make our program run slower. Our goal is to get the heap check out of the "hot" path - we would like to put it in alts.
+
+In this particular case we fall into the first branch because our program uses comparison operator (See `Note [GC for conditionals]`). We can push the heap check into the branch by removing the first guard in `do_gc`:
+
+```
+diff --git a/compiler/GHC/StgToCmm/Expr.hs b/compiler/GHC/StgToCmm/Expr.hs
+index eb56a6ad09..2265876a4d 100644
+--- a/compiler/GHC/StgToCmm/Expr.hs
++++ b/compiler/GHC/StgToCmm/Expr.hs
+@@ -430,8 +430,7 @@ cgCase scrut bndr alt_type alts
+        ; let ret_bndrs = chooseReturnBndrs bndr alt_type alts
+              alt_regs  = map (idToReg platform) ret_bndrs
+        ; simple_scrut <- isSimpleScrut scrut alt_type
+-       ; let do_gc  | is_cmp_op scrut  = False  -- See Note [GC for conditionals]
+-                    | not simple_scrut = True
++       ; let do_gc  | not simple_scrut = True
+                     | isSingleton alts = False
+                     | up_hp_usg > 0    = False
+                     | otherwise        = True
+```
+
+We will refer to this patch as `GcInAlts_Patch`.
+
+| header | header |
+| ------ | ------ |
+| cell | cell |
+| cell | cell |
+
+### New Proposed Strategy
+
+It should be possible to decide when to get the heap check out of the "hot" path when:
 
 1. A primitive case with no allocation upstream from it.
 1. One alternative that performs no allocation.
 
 Under such circumstances the stack/heap checks can be moved from being performed on every iteration to being performed just prior to the allocation itself.
 
-### Proposed new strategy
-
-The idea of the new strategy is this:
+The idea of the new strategy is:
 * If one or more of the case alternatives does not allocate,
 * AND upstream does not allocate
 * THEN put the heap check in the alternatives
