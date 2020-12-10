@@ -1,0 +1,644 @@
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.80742 UTC
+
+[Main.X_entry() { //  [R2]
+         { info_tbls: [(c26Z,
+                        label: Main.X_info
+                        rep: HeapRep static { Fun {arity: 1 fun_type: ArgSpec 5} }
+                        srt: Nothing)]
+           stack_info: arg_space: 8
+         }
+     {offset
+       c26Z: // global
+           Hp = Hp + 16;
+           if (Hp > HpLim) (likely: False) goto c273; else goto c272;
+       c273: // global
+           HpAlloc = 16;
+           R2 = R2;
+           R1 = Main.X_closure;
+           call (stg_gc_fun)(R2, R1) args: 8, res: 0, upd: 8;
+       c272: // global
+           I64[Hp - 8] = Main.X_con_info;
+           P64[Hp] = R2;
+           R1 = Hp - 7;
+           call (P64[Sp])(R1) args: 8, res: 0, upd: 8;
+     }
+ },
+ section ""data" . Main.X_closure" {
+     Main.X_closure:
+         const Main.X_info;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.809904 UTC
+
+[section ""cstring" . Main.$tc'X3_bytes" {
+     Main.$tc'X3_bytes:
+         I8[] "'X"
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.810364 UTC
+
+[section ""data" . Main.$tc'X2_closure" {
+     Main.$tc'X2_closure:
+         const GHC.Types.TrNameS_con_info;
+         const Main.$tc'X3_bytes;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.810713 UTC
+
+[section ""cstring" . Main.$tcX2_bytes" {
+     Main.$tcX2_bytes:
+         I8[] "X"
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.811127 UTC
+
+[section ""data" . Main.$tcX1_closure" {
+     Main.$tcX1_closure:
+         const GHC.Types.TrNameS_con_info;
+         const Main.$tcX2_bytes;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.811485 UTC
+
+[section ""data" . $krep_r21g_closure" {
+     $krep_r21g_closure:
+         const GHC.Types.KindRepVar_con_info;
+         const 0;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.811865 UTC
+
+[section ""data" . $krep1_r24y_closure" {
+     $krep1_r24y_closure:
+         const :_con_info;
+         const $krep_r21g_closure+2;
+         const GHC.Types.[]_closure+1;
+         const 3;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.812219 UTC
+
+[section ""cstring" . Main.$trModule2_bytes" {
+     Main.$trModule2_bytes:
+         I8[] "Main"
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.812545 UTC
+
+[section ""data" . Main.$trModule1_closure" {
+     Main.$trModule1_closure:
+         const GHC.Types.TrNameS_con_info;
+         const Main.$trModule2_bytes;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.813286 UTC
+
+[section ""cstring" . Main.$trModule4_bytes" {
+     Main.$trModule4_bytes:
+         I8[] "main"
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.813631 UTC
+
+[section ""data" . Main.$trModule3_closure" {
+     Main.$trModule3_closure:
+         const GHC.Types.TrNameS_con_info;
+         const Main.$trModule4_bytes;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.814007 UTC
+
+[section ""data" . Main.$trModule_closure" {
+     Main.$trModule_closure:
+         const GHC.Types.Module_con_info;
+         const Main.$trModule3_closure+1;
+         const Main.$trModule1_closure+1;
+         const 3;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.814421 UTC
+
+[section ""data" . Main.$tcX_closure" {
+     Main.$tcX_closure:
+         const GHC.Types.TyCon_con_info;
+         const Main.$trModule_closure+1;
+         const Main.$tcX1_closure+1;
+         const GHC.Types.krep$*Arr*_closure+4;
+         const 6136962148358085538;
+         const 2047526523769221729;
+         const 0;
+         const 3;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.8149 UTC
+
+[section ""data" . $krep2_r24z_closure" {
+     $krep2_r24z_closure:
+         const GHC.Types.KindRepTyConApp_con_info;
+         const Main.$tcX_closure+1;
+         const $krep1_r24y_closure+2;
+         const 3;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.815363 UTC
+
+[section ""data" . Main.$tc'X1_closure" {
+     Main.$tc'X1_closure:
+         const GHC.Types.KindRepFun_con_info;
+         const $krep_r21g_closure+2;
+         const $krep2_r24z_closure+1;
+         const 3;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.816 UTC
+
+[section ""data" . Main.$tc'X_closure" {
+     Main.$tc'X_closure:
+         const GHC.Types.TyCon_con_info;
+         const Main.$trModule_closure+1;
+         const Main.$tc'X2_closure+1;
+         const Main.$tc'X1_closure+4;
+         const 5225325308912582631;
+         const 14983302646393556978;
+         const 1;
+         const 3;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.817312 UTC
+
+[Main.$wgo_entry() { //  [R2]
+         { info_tbls: [(c27w,
+                        label: Main.$wgo_info
+                        rep: HeapRep static { Fun {arity: 1 fun_type: ArgSpec 4} }
+                        srt: Nothing),
+                       (c27A,
+                        label: block_c27A_info
+                        rep: StackRep [True]
+                        srt: Nothing)]
+           stack_info: arg_space: 8
+         }
+     {offset
+       c27w: // global
+           _s26y::I64 = R2;
+           if ((Sp + -16) >= SpLim) (likely: True) goto c27o; else goto c27x;
+       c27o: // global
+           _s26z::I64 = %MO_S_Gt_W64(_s26y::I64, 0);
+           if (_s26z::I64 != 1) goto c27B; else goto c27v;
+       c27B: // global
+           Hp = Hp + 16;
+           if (Hp > HpLim) (likely: False) goto c27G; else goto c27F;
+       c27G: // global
+           HpAlloc = 16;
+           I64[Sp - 16] = c27A;
+           R1 = _s26z::I64;
+           I64[Sp - 8] = _s26y::I64;
+           Sp = Sp - 16;
+           call stg_gc_unbx_r1(R1) returns to c27A, args: 8, res: 8, upd: 8;
+       c27A: // global
+           _s26y::I64 = I64[Sp + 8];
+           Sp = Sp + 16;
+           _s26z::I64 = R1;
+           goto c27B;
+       c27F: // global
+           I64[Hp - 8] = GHC.Types.I#_con_info;
+           I64[Hp] = _s26y::I64;
+           R1 = Hp - 7;
+           call (P64[Sp])(R1) args: 8, res: 0, upd: 8;
+       c27v: // global
+           _s26y::I64 = _s26y::I64 - 1;
+           goto c27o;
+       c27x: // global
+           R2 = _s26y::I64;
+           R1 = Main.$wgo_closure;
+           call (stg_gc_fun)(R2, R1) args: 8, res: 0, upd: 8;
+     }
+ },
+ section ""data" . Main.$wgo_closure" {
+     Main.$wgo_closure:
+         const Main.$wgo_info;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.821121 UTC
+
+[Main.slow_go_entry() { //  [R2]
+         { info_tbls: [(c280,
+                        label: block_c280_info
+                        rep: StackRep []
+                        srt: Nothing),
+                       (c283,
+                        label: Main.slow_go_info
+                        rep: HeapRep static { Fun {arity: 1 fun_type: ArgSpec 5} }
+                        srt: Nothing),
+                       (c286,
+                        label: block_c286_info
+                        rep: StackRep []
+                        srt: Nothing)]
+           stack_info: arg_space: 8
+         }
+     {offset
+       c283: // global
+           if ((Sp + -8) < SpLim) (likely: False) goto c289; else goto c28a;
+       c289: // global
+           R2 = R2;
+           R1 = Main.slow_go_closure;
+           call (stg_gc_fun)(R2, R1) args: 8, res: 0, upd: 8;
+       c28a: // global
+           I64[Sp - 8] = c280;
+           R1 = R2;
+           Sp = Sp - 8;
+           if (R1 & 7 != 0) goto c280; else goto c281;
+       c281: // global
+           call (I64[R1])(R1) returns to c280, args: 8, res: 8, upd: 8;
+       c280: // global
+           I64[Sp] = c286;
+           R2 = I64[R1 + 7];
+           call Main.$wgo_info(R2) returns to c286, args: 8, res: 8, upd: 8;
+       c286: // global
+           Hp = Hp + 16;
+           if (Hp > HpLim) (likely: False) goto c28e; else goto c28d;
+       c28e: // global
+           HpAlloc = 16;
+           R1 = R1;
+           call stg_gc_unpt_r1(R1) returns to c286, args: 8, res: 8, upd: 8;
+       c28d: // global
+           I64[Hp - 8] = Main.X_con_info;
+           P64[Hp] = R1;
+           R1 = Hp - 7;
+           Sp = Sp + 8;
+           call (P64[Sp])(R1) args: 8, res: 0, upd: 8;
+     }
+ },
+ section ""data" . Main.slow_go_closure" {
+     Main.slow_go_closure:
+         const Main.slow_go_info;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.824455 UTC
+
+[Main.slow_entry() { //  [R2]
+         { info_tbls: [(c28q,
+                        label: block_c28q_info
+                        rep: StackRep []
+                        srt: Nothing),
+                       (c28t,
+                        label: Main.slow_info
+                        rep: HeapRep static { Fun {arity: 1 fun_type: ArgSpec 5} }
+                        srt: Nothing),
+                       (c28w,
+                        label: block_c28w_info
+                        rep: StackRep []
+                        srt: Nothing)]
+           stack_info: arg_space: 8
+         }
+     {offset
+       c28t: // global
+           if ((Sp + -8) < SpLim) (likely: False) goto c28x; else goto c28y;
+       c28x: // global
+           R2 = R2;
+           R1 = Main.slow_closure;
+           call (stg_gc_fun)(R2, R1) args: 8, res: 0, upd: 8;
+       c28y: // global
+           I64[Sp - 8] = c28q;
+           R1 = R2;
+           Sp = Sp - 8;
+           if (R1 & 7 != 0) goto c28q; else goto c28r;
+       c28r: // global
+           call (I64[R1])(R1) returns to c28q, args: 8, res: 8, upd: 8;
+       c28q: // global
+           I64[Sp] = c28w;
+           R2 = I64[R1 + 7];
+           call Main.$wgo_info(R2) returns to c28w, args: 8, res: 8, upd: 8;
+       c28w: // global
+           R1 = R1 & (-8);
+           Sp = Sp + 8;
+           call (I64[R1])(R1) args: 8, res: 0, upd: 8;
+     }
+ },
+ section ""data" . Main.slow_closure" {
+     Main.slow_closure:
+         const Main.slow_info;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.827881 UTC
+
+[Main.main2_entry() { //  [R1]
+         { info_tbls: [(c28P,
+                        label: block_c28P_info
+                        rep: StackRep []
+                        srt: Nothing),
+                       (c28R,
+                        label: block_c28R_info
+                        rep: StackRep []
+                        srt: Nothing),
+                       (c28U,
+                        label: Main.main2_info
+                        rep: HeapRep static { Thunk }
+                        srt: Nothing),
+                       (c28X,
+                        label: block_c28X_info
+                        rep: StackRep []
+                        srt: Nothing)]
+           stack_info: arg_space: 8
+         }
+     {offset
+       c28U: // global
+           if ((Sp + -24) < SpLim) (likely: False) goto c290; else goto c291;
+       c290: // global
+           R1 = R1;
+           call (stg_gc_enter_1)(R1) args: 8, res: 0, upd: 8;
+       c291: // global
+           (_c28M::I64) = call "ccall" arg hints:  [PtrHint,
+                                                    PtrHint]  result hints:  [PtrHint] newCAF(BaseReg, R1);
+           if (_c28M::I64 == 0) goto c28O; else goto c28N;
+       c28O: // global
+           call (I64[R1])() args: 8, res: 0, upd: 8;
+       c28N: // global
+           I64[Sp - 16] = stg_bh_upd_frame_info;
+           I64[Sp - 8] = _c28M::I64;
+           I64[Sp - 24] = c28P;
+           R2 = 10000000;
+           Sp = Sp - 24;
+           call Main.$wgo_info(R2) returns to c28P, args: 8, res: 8, upd: 24;
+       c28P: // global
+           I64[Sp] = c28R;
+           R1 = R1;
+           if (R1 & 7 != 0) goto c28R; else goto c28S;
+       c28S: // global
+           call (I64[R1])(R1) returns to c28R, args: 8, res: 8, upd: 24;
+       c28R: // global
+           I64[Sp] = c28X;
+           R4 = GHC.Types.[]_closure+1;
+           R3 = I64[R1 + 7];
+           R2 = 0;
+           call GHC.Show.$wshowSignedInt_info(R4,
+                                              R3,
+                                              R2) returns to c28X, args: 8, res: 8, upd: 24;
+       c28X: // global
+           Hp = Hp + 24;
+           if (Hp > HpLim) (likely: False) goto c296; else goto c295;
+       c296: // global
+           HpAlloc = 24;
+           R2 = R2;
+           R1 = R1;
+           call stg_gc_pp(R2, R1) returns to c28X, args: 8, res: 8, upd: 24;
+       c295: // global
+           I64[Hp - 16] = :_con_info;
+           P64[Hp - 8] = R1;
+           P64[Hp] = R2;
+           R1 = Hp - 14;
+           Sp = Sp + 8;
+           call (P64[Sp])(R1) args: 24, res: 0, upd: 24;
+     }
+ },
+ section ""data" . Main.main2_closure" {
+     Main.main2_closure:
+         const Main.main2_info;
+         const 0;
+         const 0;
+         const 0;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.83238 UTC
+
+[Main.main1_entry() { //  []
+         { info_tbls: [(c29l,
+                        label: Main.main1_info
+                        rep: HeapRep static { Fun {arity: 1 fun_type: ArgSpec 3} }
+                        srt: Nothing)]
+           stack_info: arg_space: 8
+         }
+     {offset
+       c29l: // global
+           R4 = GHC.Types.True_closure+2;
+           R3 = Main.main2_closure;
+           R2 = GHC.IO.Handle.FD.stdout_closure;
+           call GHC.IO.Handle.Text.hPutStr2_info(R4,
+                                                 R3,
+                                                 R2) args: 8, res: 0, upd: 8;
+     }
+ },
+ section ""data" . Main.main1_closure" {
+     Main.main1_closure:
+         const Main.main1_info;
+         const GHC.IO.Handle.Text.hPutStr2_closure;
+         const GHC.IO.Handle.FD.stdout_closure;
+         const Main.main2_closure;
+         const 0;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.833566 UTC
+
+[Main.main_entry() { //  []
+         { info_tbls: [(c29v,
+                        label: Main.main_info
+                        rep: HeapRep static { Fun {arity: 1 fun_type: ArgSpec 3} }
+                        srt: Just Main.main1_closure)]
+           stack_info: arg_space: 8
+         }
+     {offset
+       c29v: // global
+           call Main.main1_info() args: 8, res: 0, upd: 8;
+     }
+ },
+ section ""data" . Main.main_closure" {
+     Main.main_closure:
+         const Main.main_info;
+         const 0;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.834704 UTC
+
+[Main.main3_entry() { //  []
+         { info_tbls: [(c29F,
+                        label: Main.main3_info
+                        rep: HeapRep static { Fun {arity: 1 fun_type: ArgSpec 3} }
+                        srt: Nothing)]
+           stack_info: arg_space: 8
+         }
+     {offset
+       c29F: // global
+           R2 = Main.main1_closure+1;
+           call GHC.TopHandler.runMainIO1_info(R2) args: 8, res: 0, upd: 8;
+     }
+ },
+ section ""data" . Main.main3_closure" {
+     Main.main3_closure:
+         const Main.main3_info;
+         const Main.main1_closure;
+         const GHC.TopHandler.runMainIO1_closure;
+         const 0;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.835904 UTC
+
+[:Main.main_entry() { //  []
+         { info_tbls: [(c29P,
+                        label: :Main.main_info
+                        rep: HeapRep static { Fun {arity: 1 fun_type: ArgSpec 3} }
+                        srt: Just Main.main3_closure)]
+           stack_info: arg_space: 8
+         }
+     {offset
+       c29P: // global
+           call Main.main3_info() args: 8, res: 0, upd: 8;
+     }
+ },
+ section ""data" . :Main.main_closure" {
+     :Main.main_closure:
+         const :Main.main_info;
+         const 0;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.837534 UTC
+
+[Main.runX_entry() { //  [R2]
+         { info_tbls: [(c29Z,
+                        label: block_c29Z_info
+                        rep: StackRep []
+                        srt: Nothing),
+                       (c2a2,
+                        label: Main.runX_info
+                        rep: HeapRep static { Fun {arity: 1 fun_type: ArgSpec 5} }
+                        srt: Nothing)]
+           stack_info: arg_space: 8
+         }
+     {offset
+       c2a2: // global
+           if ((Sp + -8) < SpLim) (likely: False) goto c2a3; else goto c2a4;
+       c2a3: // global
+           R2 = R2;
+           R1 = Main.runX_closure;
+           call (stg_gc_fun)(R2, R1) args: 8, res: 0, upd: 8;
+       c2a4: // global
+           I64[Sp - 8] = c29Z;
+           R1 = R2;
+           Sp = Sp - 8;
+           if (R1 & 7 != 0) goto c29Z; else goto c2a0;
+       c2a0: // global
+           call (I64[R1])(R1) returns to c29Z, args: 8, res: 8, upd: 8;
+       c29Z: // global
+           R1 = P64[R1 + 7];
+           Sp = Sp + 8;
+           call stg_ap_0_fast(R1) args: 8, res: 0, upd: 8;
+     }
+ },
+ section ""data" . Main.runX_closure" {
+     Main.runX_closure:
+         const Main.runX_info;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.840117 UTC
+
+[Main.$WX_entry() { //  [R2]
+         { info_tbls: [(c2ah,
+                        label: block_c2ah_info
+                        rep: StackRep []
+                        srt: Nothing),
+                       (c2ak,
+                        label: Main.$WX_info
+                        rep: HeapRep static { Fun {arity: 1 fun_type: ArgSpec 5} }
+                        srt: Nothing)]
+           stack_info: arg_space: 8
+         }
+     {offset
+       c2ak: // global
+           if ((Sp + -8) < SpLim) (likely: False) goto c2al; else goto c2am;
+       c2al: // global
+           R2 = R2;
+           R1 = Main.$WX_closure;
+           call (stg_gc_fun)(R2, R1) args: 8, res: 0, upd: 8;
+       c2am: // global
+           I64[Sp - 8] = c2ah;
+           R1 = R2;
+           Sp = Sp - 8;
+           call stg_ap_0_fast(R1) returns to c2ah, args: 8, res: 8, upd: 8;
+       c2ah: // global
+           Hp = Hp + 16;
+           if (Hp > HpLim) (likely: False) goto c2ap; else goto c2ao;
+       c2ap: // global
+           HpAlloc = 16;
+           R1 = R1;
+           call stg_gc_unpt_r1(R1) returns to c2ah, args: 8, res: 8, upd: 8;
+       c2ao: // global
+           I64[Hp - 8] = Main.X_con_info;
+           P64[Hp] = R1;
+           R1 = Hp - 7;
+           Sp = Sp + 8;
+           call (P64[Sp])(R1) args: 8, res: 0, upd: 8;
+     }
+ },
+ section ""data" . Main.$WX_closure" {
+     Main.$WX_closure:
+         const Main.$WX_info;
+ }]
+
+
+==================== Output Cmm ====================
+2020-12-03 05:41:12.842548 UTC
+
+[Main.X_con_entry() { //  []
+         { info_tbls: [(c2aw,
+                        label: Main.X_con_info
+                        rep: HeapRep 1 ptrs { Con {tag: 0 descr:"main:Main.X"} }
+                        srt: Nothing)]
+           stack_info: arg_space: 8
+         }
+     {offset
+       c2aw: // global
+           R1 = R1 + 1;
+           call (P64[Sp])(R1) args: 8, res: 0, upd: 8;
+     }
+ }]
+
