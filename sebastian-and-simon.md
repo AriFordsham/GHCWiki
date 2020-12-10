@@ -3,15 +3,10 @@
 # SAT
 
 - #18962, !4553, #9374: Only SAT unfoldings. WIP here: https://gitlab.haskell.org/ghc/ghc/-/tree/wip/T18962-simpl
-  - Doing SAT before WW introduces reboxing because the stable unfolding is not demand analysed and WW'd
-  - WW'ing an SAT'd binding marks the wrapper as LoopBreaker
-  - What about doing SA analysis in OccurAnal and calling `saTransform` from the Simplifier prior to inlining and unfolding? Here's what I had in mind:
-    1. OccurAnal populates `occ_static_args` field of `OccInfo` with a summary of which arguments a recursive function can be specialised to. (Pretty much done, modulo refactorings)
-        - It's weird to only look at StaticArgs info from RHSs, not from the let body.
-    2. `callSiteInline` should consider unfoldings of strong loop-breakers, if that unfolding has the new `UnfoldingSource` `SpecialiseStaticArg` (naming up for debate. Do we even need that?)
-    3. The simplifier calls out to `saTransform` or something similar to actually build the unfolding (do we need a new function à la `mkInlinableUnfolding` that builds the inlinable SAT'd thing?), looking at `occ_static_args` to see for which arguments it can specialise.
-  - I'm not dead set about where to put the `StaticArgs` information, which is basically a bit mask saying which arguments are static.
-  - I wonder if we could combine that with pre/post-inline-unconditionally. Currently, the occurrence info from the let body is completely zapped. I think we might disregard occurrences in the RHS for the annotation.
+  - Do SA transform in Simplifier by attaching the SAT'd defn as an unfolding
+  - Then do callSiteInline that unfolding
+  - SA analysis just before Simplifier. Pretty simple stuff (150loc)
+  - But INLINABLE will override the unfolding with a stable one (I think?). Should we SAT that unfolding? See for example `GHC.Utils.FV.mapUnionFV`. It seems that INLINABLE is quite useless, it doesn't even specialise or anything. But zapping SA info for now.
 
 # Demand Analysis
 
