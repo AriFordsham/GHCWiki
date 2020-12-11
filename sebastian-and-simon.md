@@ -12,6 +12,7 @@
     - We have to generalise to mutually recursive groups. I'd say we only care about SAT'ing the LoopBreaker. The other bindings might inline anyway. Plus, it's exactly what is needed in the paper.
     - We have to recognise go_2 there as being static in `next`. Surprisingly, that is an argument that won't require us to reason about go_1, because `next` is only ever passed on recursively to go_2. On the other hand, go_1 might call go_2 with a different next. But that should fall under "call site inlining".
     - We have to inline the SAT'd unfolding of the loop inside go_1. Since we are talking about the loop breaker, a change to Simplification might be in order: Before we simplify any of the non-loop-breakers, attach the SAT'd unfolding to the loop breaker. Then replace it later with the SAT'd unfolding of the optimised RHS, after all RHSs have been optimised. That shouldn't be too expensive, since the unfolding is computed lazily: If we don't want to inline go_2's specialisation (or if it doesn't have static arguments, or if the binding is self-recursive in the first place), then we don't pay.
+    - PROBLEM: We have to make sure that static arguments can't escape into non-loop-breaker calls. I think we need a CFA for that in general :/
 
 # Demand Analysis
 
