@@ -25,6 +25,8 @@
 
 - #14620 join points [this comment](https://gitlab.haskell.org/ghc/ghc/-/issues/14620#note_315900)
 
+- #19050 refactor demand lattice so that it has fewer equalities
+
 - #19016 better syntax for demand signatures
 
 - #14816, [this comment](https://gitlab.haskell.org/ghc/ghc/-/issues/14816#note_315980)
