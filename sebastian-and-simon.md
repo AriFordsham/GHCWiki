@@ -23,6 +23,7 @@
 
 - #18349 Trimming of DmdAnal results. 
   * !3466 (merged) fixes #18304, but Andreas pointed out a shortcoming; !3558 (merged) fixes that; but we need a regression test for the latter; then close #18304
+  * !3516 is a failed attempt to break the loop.
 
 - #14620 join points [this comment](https://gitlab.haskell.org/ghc/ghc/-/issues/14620#note_315900)
 
