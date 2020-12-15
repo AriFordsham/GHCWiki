@@ -1,10 +1,7 @@
-# GHC Status
-
-
 This page summarises the state of play on GHC
 
 
-## Releases
+## Active releases
 
 
 Here are our [release](working-conventions/releases) plans for
@@ -14,8 +11,9 @@ Here are our [release](working-conventions/releases) plans for
 
 We release GHC on multiple platforms; the [platforms page](platforms) gives details.
 
+## Previous releases
 
-For fun: the release plans for previous releases:
+The release plans for previous releases are here:
 
 - GHC 8.10.2 (current major release)
 - [GHC 8.10.1](status/ghc-8.10.1)
