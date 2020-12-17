@@ -103,6 +103,7 @@ Main ticket: #18174, MR !1866. Blocked on #18894
 
 ## Misc
 
+- #19001: float-out and case-expressions. Quick win here?
 - #17900, !3013: primop effects
 - #17881, #17896: eta reduction (based on usage Demand)
 
