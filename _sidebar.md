@@ -8,7 +8,7 @@
 
 
 ##### Documentation
-[GHC Status Info](https://gitlab.haskell.org/ghc/ghc/wikis/status#ghc-status)  
+[GHC Status Info](https://gitlab.haskell.org/ghc/ghc/wikis/GHC-Status#ghc-status)  
 [Working conventions](https://gitlab.haskell.org/ghc/ghc/wikis/contributing#contributing-to-ghc)  
 [Building Guide](https://gitlab.haskell.org/ghc/ghc/wikis/building/#building-and-porting-ghc)  
 [Debugging](https://gitlab.haskell.org/ghc/ghc/-/wikis/debugging#debugging)  
