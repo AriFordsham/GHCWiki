@@ -2,26 +2,21 @@
 
 # SAT
 
-- #18962, !4553, #9374: Only SAT unfoldings. WIP here: https://gitlab.haskell.org/ghc/ghc/-/tree/wip/T18962-simpl
+- #18962, !4553, #9374: Only SAT unfoldings
   - Works as follows:
     1. Do SA transform in Simplifier by attaching the SAT'd defn as an unfolding
     2. Then do callSiteInline that unfolding
-    3. SA analysis just before Simplifier. Pretty simple stuff (150loc)
+    3. SA analysis just before OccurAnal. Pretty simple stuff (150loc)
   - But INLINABLE will override the unfolding with a stable one (I think?). Should we SAT that unfolding? See for example `GHC.Utils.FV.mapUnionFV`. It seems that INLINABLE is quite useless, it doesn't even specialise or anything. But zapping SA info for now.
   - We can try to "solve" stream fusion this way. See [the stream-fusion paper, section 7.2 "Static Argument Transformation"](http://fun.cs.tufts.edu/stream-fusion.pdf). The key missing features:
-    - We have to generalise to mutually recursive groups. I'd say we only care about SAT'ing the LoopBreaker. The other bindings might inline anyway. Plus, it's exactly what is needed in the paper.
-    - We have to recognise go_2 there as being static in `next`. Surprisingly, that is an argument that won't require us to reason about go_1, because `next` is only ever passed on recursively to go_2. On the other hand, go_1 might call go_2 with a different next. But that should fall under "call site inlining".
-    - We have to inline the SAT'd unfolding of the loop inside go_1. Since we are talking about the loop breaker, a change to Simplification might be in order: Before we simplify any of the non-loop-breakers, attach the SAT'd unfolding to the loop breaker. Then replace it later with the SAT'd unfolding of the optimised RHS, after all RHSs have been optimised. That shouldn't be too expensive, since the unfolding is computed lazily: If we don't want to inline go_2's specialisation (or if it doesn't have static arguments, or if the binding is self-recursive in the first place), then we don't pay.
-    - PROBLEM: We have to make sure that static arguments can't escape into non-loop-breaker calls. I think we need a CFA for that in general :/
-    - SOLUTION: "Taint analysis": Track variables potentially flowing into call site
+    - Managed to optimise that example, simply by SA analysing each binding of the mutually recursive group in isolation and then taking care not make specialisable functions loop-breakers
+    - But running into tick-exhaustions on `>>=` on `CmdM`, so I opened some unwanted back door. How to debug?
 
 # Demand Analysis
 
-- #19005: simplify call demands
-
 - #18907 Product demands
 
-- #18349 Trimming of DmdAnal results. 
+- #18349 Trimming of DmdAnal results.
   * !3466 (merged) fixes #18304, but Andreas pointed out a shortcoming; !3558 (merged) fixes that; but we need a regression test for the latter; then close #18304
   * !3516 is a failed attempt to break the loop.
   * Sebastian thinks he has a better way to detect potentially-recursive type constructors
@@ -41,12 +36,6 @@
     cardinality is lazy (e.g. 0). See
     https://gitlab.haskell.org/ghc/ghc/-/issues/18885#note_315189
     for a summary.
-
-- #18894, !4493: Annotate top-level bindings with demands
-
-- #18971, LetUp and `keepAliveDmdEnv`
-
-- #18982, !4557: WW existentials.  Ready for review, but not on critical path
 
 - #18983: absent unlifted coercions
   - Unblocked: Widen scope of RubbishLit
