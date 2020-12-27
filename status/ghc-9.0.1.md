@@ -51,7 +51,7 @@ Below are the major highlights of the 9.0 series.
 
 - The Hadrian build system will hopefully become the default (https://gitlab.haskell.org/ghc/ghc/-/milestones/360)
 - The GHCi prompt does not display the loaded modules by default anymore (#18702)
-- `maximum{,By}`, `minimum{,By}`, `product` and `sum` are now strict by default (#17867)
+- Data.Foldable methods `maximum{,By}`, `minimum{,By}`, `product` and `sum` are now strict by default, as well as the methods used in the List instance (#17867, #4675)
 
 
 ## Tickets
