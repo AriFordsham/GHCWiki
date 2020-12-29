@@ -144,7 +144,7 @@ concrete way.  Other ways of making the comment concrete are:
 ### Longer comments or architectural commentary
 
 
-Comments with a broad scope, describing the architecture or workings of more than one module, belong here in the commentary rather than in the code.  Put the URL for the relevant commentary page in a comment in the code itself, and also put URLs for all relevant commentary pages in a comment at the top of each module.
+Comments with a broad scope, describing the architecture or workings of more than one module, belong in the [GHC Commentary][https://gitlab.haskell.org/ghc/ghc/-/wikis/commentary/) rather than in the code.  Put the URL for the relevant commentary page in a comment in the code itself, and also put URLs for all relevant commentary pages in a comment at the top of each module.
 
 
 ## Sources
