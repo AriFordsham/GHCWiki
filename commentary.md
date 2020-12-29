@@ -33,6 +33,7 @@ Also try to add appropriate links to other parts of the commentary.
 
   - [Source Tree Roadmap](commentary/source-tree)
   - [Module Structure](commentary/module-structure)
+  - [Documentation Style](commentary/Documentation-Style-Guide)
   - [Coding Style](commentary/coding-style)
   - [Abbreviations in GHC](commentary/abbreviations)
   - [Platforms and their Naming Convention](commentary/platform-naming)
