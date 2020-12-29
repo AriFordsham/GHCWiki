@@ -19,9 +19,8 @@ Being an international community of contributors, many of whom coming from Engli
 
 ## Greek letters for types, Latin letters for terms
 
-The "Greek letters for types, Latin letters for terms" (GLT,LLT) convention, whilst in use in some circles, is not as widespread as one may think. In particular, it can be harder for the reader to deal with another alphabet if Latin is not their first one.
-
-This style is discouraged in the GHC documentation.
+The usage of "Greek letters for types, Latin letters for terms", whilst in use in some circles, is not as widespread as one may think. In particular, it can be harder for the reader to deal with another alphabet if Latin is not their first one. Moreover, it can potentially come off as pedantic (an image which our community struggles to avoid).  
+Thus, this style is discouraged in the GHC documentation.
 
 ## Module documentation
 
