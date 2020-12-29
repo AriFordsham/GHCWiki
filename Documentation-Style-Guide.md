@@ -1,1 +1,1 @@
-This page has moved[here](https://gitlab.haskell.org/ghc/ghc/-/wikis/commentary/Documentation-Style-Guide).
+This page has moved [here](https://gitlab.haskell.org/ghc/ghc/-/wikis/commentary/Documentation-Style-Guide).
