@@ -21,22 +21,7 @@ Being an international community of contributors, many of whom coming from Engli
 
 The "Greek letters for types, Latin letters for terms" (GLT,LLT) convention, whilst in use in some circles, is not as widespread as one may think. In particular, it can be harder for the reader to deal with another alphabet if Latin is not their first one.
 
-GLT,LLT can be used in a document, under those conditions:
-
-* The document must contain right after its introductory or summary paragraph a list of the Greek letters used below and their Latin names.
-* The use of GLT,LLT must be consistent throughout the document.
-
-Current usage has :
-
-| Greek letter | Latin name | Usage / Position | Example       |
-| ------------ | ---------- | ---------------- | ------------- |
-| α            | Alpha      | Concrete type    | id :: α -> α  |
-| β            | Beta       | Concrete type    | swap :: (α, β) -> (β, α)
-| τ            | Tau        | Functor τ        | foldr  :: Foldable τ => (α -> β -> β) -> β -> τ α -> β
-
-Due to its usage and history, λ (Lambda) should be avoided in order to prevent confusion.
-
-For ease of input, Greek letters can be written as HTML codes if the section that holds them will not be rendered outside of a browser. Introductory / summary paragraphs are expected to be rendered in non-HTML environments such as GHCi, and thus should contain Unicode characters instead of their HTML code counterparts.
+This style is discouraged in the GHC documentation.
 
 ## Module documentation
 
