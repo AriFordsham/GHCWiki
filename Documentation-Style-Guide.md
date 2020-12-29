@@ -1,4 +1,4 @@
-This document is a living, incremental style guide targeted at contributors to the `base` library's documentation. Its first and foremost purpose is to standardise our current practices when it comes to documentation writing.
+This document is a living, incremental style guide targeted at contributors to the `base` library's documentation. Its first and main purpose is to standardise our current practices when it comes to documentation writing.
 
 This guide is not a language guide on the English language. The writer should refer to the New Oxford Style Manual, the Chicago Manual of Style, or any other professional reference for any concerns pertaining to writing in the English language.
 
@@ -8,19 +8,19 @@ NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
 
 ## British vs. American spelling
 
-Being an international community of contributors, many of whom coming from English-speaking countries, there are bound to be different spelling living with each-other.  
+Being an international community of contributors, many of whom coming from English-speaking countries, there are bound to be different spelling standards living with each-other.  
 
 * If editing an existing document, consistency must be favoured. If the document is inconsistent, an arbitrary spelling can be picked in order to harmonise the document.
 * When creating a new document, the kind of spelling should be the one the author(s) are most familiar with, as to avoid potential irregularities.
 
 ## Greek letters for types, Latin letters for terms
 
-The "Greek letters for types, Latin letters for terms" (GLT,LLT) convention, whilst in use in some circles, is not as much widespread as one may think. In particular, it can be harder than desirable for the reader to deal with another alphabet if Latin is not their first one.
+The "Greek letters for types, Latin letters for terms" (GLT,LLT) convention, whilst in use in some circles, is not as widespread as one may think. In particular, it can be harder for the reader to deal with another alphabet if Latin is not their first one.
 
 GLT,LLT can be used in a document, under those conditions:
 
-* The document must contain right after its introductory or summary paragraph a list of the Greek letters in used afterwards and their Latin names.
-* The usage of GLT,LLT must be consistent throughout the document.
+* The document must contain right after its introductory or summary paragraph a list of the Greek letters used below and their Latin names.
+* The use of GLT,LLT must be consistent throughout the document.
 
 Current usage has :
 
