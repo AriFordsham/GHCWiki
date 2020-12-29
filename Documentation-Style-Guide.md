@@ -6,6 +6,8 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
 NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
 "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
+[[_TOC_]]
+
 ## British vs. American spelling
 
 Being an international community of contributors, many of whom coming from English-speaking countries, there are bound to be different spelling standards living with each-other.  
