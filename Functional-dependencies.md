@@ -2,7 +2,7 @@ This page summarises examples and issues about functional dependencies in GHC.
 
 [[_TOC_]]
 
-## Key papers
+## 1. Key papers
 
 * [Understanding functional dependencies via constraint handling rules](https://www.microsoft.com/en-us/research/publication/understanding-functional-dependencies-via-constraint-handling-rules/), Sulzmann et al, JFP 2006.
 * [Type classes with functional dependencies](https://web.cecs.pdx.edu/~mpj/pubs/fundeps.html), Mark Jones, ESOP 2000.
@@ -18,9 +18,9 @@ class C2 a b | a -> b where ...
 
 -------------------------------
 
-## Terminology
+## 2. Terminology
 
-## Confluence and termination
+### Confluence and termination
 
 **Confluence** means that:
 * A program will either typecheck or not; it can't typecheck one day and fail the next day.
@@ -115,7 +115,7 @@ there must exist a substitution T such that
 we must have that T(S(ti0)) = T(S(si0)); or equivalently S(ti0) and S(si0) are unifiable.
 
 
-## GHC today
+## 3. GHC today
 
 GHC today does this:
 
@@ -127,7 +127,7 @@ GHC today does this:
 
 -------------------------------
 
-## Some key examples
+## 4. Some key examples
 
 ### Example 1: liberal coverage breaks termination
 
@@ -200,7 +200,7 @@ Now the fundep is effectively vacuous, but if it remains we'd need LCC and LICC.
 
 But it's a bit un-satisfying to have to encode our desired behaviour like this.
 
-## A concrete proposal
+## 5. A concrete proposal
 
 To have something concrete to discuss, here's a proposal:
 
