@@ -200,6 +200,30 @@ Now the fundep is effectively vacuous, but if it remains we'd need LCC and LICC.
 
 But it's a bit un-satisfying to have to encode our desired behaviour like this.
 
+### Example 5: Even LCC is too strong
+
+We can use fundeps to support record selection in records with polymorphic fields (#18759).  Consider
+```
+class HasField (name :: Symbol) s a | name s -> a where
+  getField :: s -> a
+
+data T = MkT { fld :: forall a. [a] -> [a] }
+
+instance {-# DYSFUNCTIONAL #-} HasField "fld" T ([p] -> [p])
+  getField (MkT f) = f
+
+f x = (getField @"fld" x, True)
+```
+Here the instance doesn't even satisfy the LCC, so I've marked it DYSFUNCTIONAL.  And yet it is very useful!
+* From `f` we get `[W] HasField "fld" T alpha`.
+* Using the fundep we can get `alpha ~ ([beta] -> [beta])`, which is just what we want.
+
+In effect, the fundep gives the *shape* of `alpha` but not its complete type.  This is a pretty compelling example.
+
+### Example 6: LIBERAL can get you DYSFUNCTIONAL
+
+...still to come...
+
 ## 5. A concrete proposal
 
 To have something concrete to discuss, here's a proposal:
