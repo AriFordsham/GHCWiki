@@ -1,5 +1,7 @@
 This page summarises examples and issues about functional dependencies in GHC.
 
+[[_TOC_]]
+
 ## Key papers
 
 * [Understanding functional dependencies via constraint handling rules](https://www.microsoft.com/en-us/research/publication/understanding-functional-dependencies-via-constraint-handling-rules/), Sulzmann et al, JFP 2006.
