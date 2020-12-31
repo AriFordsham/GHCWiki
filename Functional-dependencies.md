@@ -160,8 +160,11 @@ The instance decls require LICC.  But notice that they do not overlap, because o
 From `f` we get `[W] CX Bool [alpha] beta`.
 * Now GHC takes fundeps from *both* instances, giving `beta ~ [alpha]` and `beta ~ [Maybe gamma]`
 * That leaves us with `CX Bool [Maybe gamma] [Maybe gamma]`
-* So we infer `f :: CX Bool [Maybe g] [Maybe g] => Maybe g -> [Maybe g]`
-Bizarre.  Where did that `Maybe` come from?  It's nothing to do with it.
+* So we infer
+  ```
+  f :: CX Bool [Maybe g] [Maybe g] => Maybe g -> [Maybe g]
+  ```
+  Bizarre.  Where did that `Maybe` come from?  It's nothing to do with it.
 
 One possibility: when doing improvement of a constraint against an instance decl, only do so if there is just one instance decl that can possibly match that constraint.
 
@@ -200,7 +203,7 @@ Now the fundep is effectively vacuous, but if it remains we'd need LCC and LICC.
 
 But it's a bit un-satisfying to have to encode our desired behaviour like this.
 
-### Example 5: Even LCC is too strong
+### Example 5: Even LCC is too restrictive
 
 We can use fundeps to support record selection in records with polymorphic fields (#18759).  Consider
 ```
