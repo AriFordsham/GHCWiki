@@ -219,6 +219,8 @@ Here the instance doesn't even satisfy the LCC, so I've marked it DYSFUNCTIONAL.
 
 In effect, the fundep gives the *shape* of `alpha` but not its complete type.  This is a pretty compelling example.
 
+Here is [a real-world example of someone wanting DYSFUNCTIONAL](https://stackoverflow.com/questions/65514023/how-to-require-functional-dependencies-in-kind-signature).
+
 ### Example 6: LIBERAL can get you DYSFUNCTIONAL
 
 It turns out that with LIBERAL and UNDECIDABLE you can trick GHC into lifting the coverage condition algotether, effectively achieving DYSFUNCTIONAL.  Consider, this variant of Example 5:
