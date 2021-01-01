@@ -4,10 +4,9 @@ This page summarises examples and issues about functional dependencies in GHC.
 
 ## 1. Key papers
 
-* [Understanding functional dependencies via constraint handling rules](https://www.microsoft.com/en-us/research/publication/understanding-functional-dependencies-via-constraint-handling-rules/), Sulzmann et al, JFP 2006.
-* [Type classes with functional dependencies](https://web.cecs.pdx.edu/~mpj/pubs/fundeps.html), Mark Jones, ESOP 2000.
-
-We will call the JFP paper (Sulzmann et al) the **JFP-paper**.
+* [Type classes with functional dependencies](https://web.cecs.pdx.edu/~mpj/pubs/fundeps.html), Mark Jones, ESOP 2000.  The original fundep paper.
+* [Understanding functional dependencies via constraint handling rules](https://www.microsoft.com/en-us/research/publication/understanding-functional-dependencies-via-constraint-handling-rules/), Sulzmann et al, JFP 2006.  This journal paper has a lot of examples and we cite it frequently below as "JFP-paper".
+* [Elaboration on functional dependencies](https://people.cs.kuleuven.be/~tom.schrijvers/portfolio/haskell2017a.html), Karachalias and Schrijvers, Haskell Symposium 2017.  This paper shows how to translate functional dependencies into type families.
 
 -------------------------------
 
@@ -318,3 +317,11 @@ To have something concrete to discuss, here's a proposal:
 * Abandon instance consistency altogether, except perhaps some super-liberal instance consistency check.
 * For coverage, with no modifiers use SCC; with LIBERAL use LCC.
 * When doing improvement between a constraint and an instance, do so only if only one instance can possibly match
+
+---------------
+
+## 7. Not functional dependencies in the original sense
+
+Mark Jones introduced the term "functional dependencies" by lifting it from the database world.  There if `a -> b` we really mean that `a` fully determines `b`.  That propety is essential for the translation to type families proposed by Karachalias & Schrijvers (paper link at top).
+
+All propoosals for liberal coverage conditions, and liberal (or even dropped) instance consistency, move decisively away from this story.  `a` does not fully determine `b`; translation into type families is impossible.  Fundeps guide type inference; they do not carry evidence.
