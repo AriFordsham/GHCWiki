@@ -181,7 +181,7 @@ Now suppose we are trying to solve a Wanted constraint `[W] C alpha beta (gamma,
 
 This reflects a loss of confluence.
 
-### Example 4: even LICC is too strong
+### Example 4: Even LICC is too restrictive
 
 Consider (assuming overlapping instances):
 ```
@@ -190,7 +190,7 @@ instance TypeEq a a True
 instance TypeEq a b False
 ```
 These instances satisfy SCC, but not SICC.
-And even the LICC would reject the program, because True and False are not unifiable!  But imagine we rewrote it like this:
+Nor does it satisfy the more liberal LICC, because True and False are not unifiable!  But imagine we rewrote it like this:
 ```
 instance r ~ True  => TypeEq a a r
 instance r ~ False => TypeEq a b r
@@ -198,6 +198,7 @@ instance r ~ False => TypeEq a b r
 Now the fundep is effectively vacuous, but if it remains we'd need LCC and LICC.  But the program works fine: the overlapping-instance technology will pick an instance only when it is the unique one, and that will fix `r`.
 
 But it's a bit un-satisfying to have to encode our desired behaviour like this.
+(Question: with bidirectional fundeps is this encoding even always possible?)
 
 ### Example 5: Even LCC is too restrictive
 
