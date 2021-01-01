@@ -324,4 +324,4 @@ To have something concrete to discuss, here's a proposal:
 
 Mark Jones introduced the term "functional dependencies" by lifting it from the database world.  There if `a -> b` we really mean that `a` fully determines `b`.  That propety is essential for the translation to type families proposed by Karachalias & Schrijvers (paper link at top).
 
-All propoosals for liberal coverage conditions, and liberal (or even dropped) instance consistency, move decisively away from this story.  `a` does not fully determine `b`; translation into type families is impossible.  Fundeps guide type inference; they do not carry evidence.
+All proposals for liberal coverage conditions, and liberal (or even dropped) instance consistency, move decisively away from this story.  `a` does not fully determine `b`; translation into type families is impossible.  Fundeps guide type inference; they do not carry evidence.
