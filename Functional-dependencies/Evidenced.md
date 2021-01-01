@@ -1,0 +1,121 @@
+This page seeks to elaborate the ideas of [Elaboration on functional dependencies](https://people.cs.kuleuven.be/~tom.schrijvers/portfolio/haskell2017a.html), Karachalias and Schrijvers, Haskell Symposium 2017, and further connect them to issues.
+
+The repo https://gitlab.haskell.org/obsidiansystems/efd-everywhere has some examples which should probably be worked into this wiki page.
+
+### Example 1: Injective type families, too
+
+Injective type families also benefit from this. ["Injective type families for Haskell"](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf) from The Haskell Symposium 2015 introduces two borderline type families
+
+```haskell
+type family W1 a = r | r -> a 
+type instance W1 [a] = a
+```
+
+```haskell
+type family W2 a = r | r -> a
+type instance W2 [a] = W2 a
+```
+
+The first "works" only if no new instances are added, the second "works" only if the instance is considered vacuous so `W2` in fact has an empty domain.
+
+Using the basic idea of "constrained type families" of making all type families associated so we can reason about their domains we can in fact make both of these accepted:
+
+For the first:
+
+```haskell
+{-# LANGUAGE TypeFamilies #-}
+
+-- | W1 from "Injective Type Families"
+module W1 where
+
+type family FInv a
+
+class (FInv (F a) ~ a) => FClass a where
+  type F a
+
+----
+
+type instance FInv a = [a]
+
+instance FClass [a] where
+  type F [a] = a
+```
+
+The instance head `FInv a` eloquently prevents further instances without violating any open world rules!
+
+The second fails with a translation following the above, because it needs `GInv (G a):= [a]`, which is not an instance we are allowed to define. But, we can postulate it as in instance constraint!
+
+Also, a little imagination demonstrates that if we had `μ a. [a]` as a type, `W2` could also be defined on that, and indeed, postulating `a ~ [a]` works too.
+
+```haskell
+{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE UndecidableInstances #-}
+
+-- | from "Injective Type Families"
+module W2 where
+
+type family GInv a
+
+class (GInv (G a) ~ a) => GClass a where
+  type G a
+
+instance (GInv (G a) ~ [a], GClass a) => GClass [a] where
+  type G [a] = G a
+
+-- A little thinking shows us that `μ a. [a]` would work, if we had it, and
+-- indeed GHC agrees (counterfactually):
+
+class (GInv (G a) ~ a) => G'Class a where
+  type G' a
+
+instance (a ~ [a], GClass a) => G'Class [a] where
+  type G' [a] = G a
+```
+
+This all goes to show that not only does the desugaring put functional dependencies on firmer ground thanks to the trust we have in System FC, it also makes functional dependencies more flexible with a better treatment of restricted domains and absurd reasoning. 
+
+Still, while an automated desugaring could make `W1` work, it probably shouldn't try to make `W2` work.
+
+### Example 2: LCC and LICC do weird improvement (#10675)
+
+Compare https://gitlab.haskell.org/ghc/ghc/-/wikis/Functional-dependencies#example-2-lcc-and-licc-do-weird-improvement-10675-op
+
+```haskell
+class CX x a b | a -> b where
+  op :: x -> a -> b
+instance                                CX Bool [x] [x]
+instance {-# LIBERAL #-} CX Char x y => CX Char [x] [Maybe y]
+
+f x = op True [x]
+```
+Per the issue, there are two ways to interpret this situation:
+
+1. The program should be rejected because `[x]` is mapped two different ways
+2. The program is OK, because the second instance is vacuous.
+
+The type family desugaring sides with the first one:
+
+```haskell
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE TypeFamilies #-}
+module T10675_Conflicting where
+
+type family CX_FD0 a
+
+class CX_FD0 a ~ b => CX x a b where
+  op :: x -> a -> b
+
+type instance CX_FD0 [x] = [x]
+instance CX Bool [x] [x]
+
+-- conflicting head
+type instance CX_FD0 [x] = [Maybe (CX_FD0 x)]
+instance CX Char x y => CX Char [x] [Maybe y]
+
+f x = op True [x]
+```
+Even if `CX Char x y` is unsatisfied, but we stuck with conflicting instances heads for `CX_FD0`.
+
+There are perhaps variant encoding that make this go: e.g. Making `CX_FD0 [x] ~ [Maybe (CX_FD0 x)]` and instance constraint for the second instance, but, like `W2`, this is probably best left as out of scope for an automated desugaring.
