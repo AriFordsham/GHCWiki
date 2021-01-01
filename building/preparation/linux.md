@@ -137,7 +137,7 @@ You can then perform a build by running
 
 # GHC currently has two build systems: Hadrian based on Shake,
 # and a Make based one.
-# Use _ony one_ of the two commands below to build with the
+# Use _only one_ of the two commands below to build with the
 # corresponding build system.
 make -j
 hadrian/build -j
