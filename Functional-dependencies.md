@@ -9,13 +9,6 @@ This page summarises examples and issues about functional dependencies in GHC.
 
 We will call the JFP paper (Sulzmann et al) the **JFP-paper**.
 
-## Running examples
-
-We will use these classes as running examples
-```
-class C2 a b | a -> b where ...
-```
-
 -------------------------------
 
 ## 2. Terminology
@@ -119,6 +112,8 @@ condition must hold: for any substitution S such that S(ti1; ..., tik) = S(si1; 
 there must exist a substitution T such that
 we must have that T(S(ti0)) = T(S(si0)); or equivalently S(ti0) and S(si0) are unifiable.
 
+
+-----------------------
 
 ## 3. GHC today
 
@@ -240,6 +235,9 @@ But GHC's type-class constraint solver has a long-standing trick whereby it solv
 So in priciple, LIBERAL+UNDECIDABLE lets you express DYSFUNCTIONAL (no coverage condition at all).  But it's a weird coding trick, and so we leave DYSFUNCTIONAL in our vocabulary, for now anyway, to mean "lift coverage condition".
 
 
+----------------
+
+
 ## 5. Exploring the unique-unifiable-instance idea
 
 Here is a concrete idea, triggered by Examples 2, 3, and 4:
@@ -287,11 +285,15 @@ class C2 a b | a -> b
 instance C2 Bool Bool
 ```
 Now suppose we are solving `[W] CX alpha Int beta, [W] C2 beta alpha`.
-With our new rule, both instances unify, so no fundeps are used.
+With our new rule, both instances unify, so no fundeps are used.  We are stuck.
 
-### Super-liberal instance consistence (SLICC)
+But in GHC today we take fundeps from both instances, giving `beta ~ Bool`.  Then we can get fundeps from `[W] C2 Bool alpha`, giving `alpha ~ Bool`.  Now we can solve the `CX` constraint.
 
-Can we do *any* consistency checking on instances?  These ones look pretty suspicious.
+But this is an extremely delicate setup.
+
+### Can we do *any* instance consistency checks at all?
+
+We want to weaken instance consistency, but can we do *any* consistency checking on instances?  For example, these ones look pretty suspicious.
 ```
 class C2 a b | a -> b
 instance C2 Int Bool
@@ -305,6 +307,8 @@ instance C2 Int (Mabye Bool)
 Here if we have `[W] C Int [alpha]` only one instance matches and perhaps we can improve `alpah` to `Int`.
 
 Be careful: we want to allow Example 4.
+
+----------------
 
 ## 6. A concrete proposal
 
