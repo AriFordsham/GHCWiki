@@ -2,7 +2,7 @@ This page seeks to elaborate the ideas of [Elaboration on functional dependencie
 
 The repo https://gitlab.haskell.org/obsidiansystems/efd-everywhere has some examples which should probably be worked into this wiki page.
 
-### Example 1: Injective type families, too
+### Example 0: Injective type families, too
 
 Injective type families also benefit from this. ["Injective type families for Haskell"](http://research.microsoft.com/en-us/um/people/simonpj/papers/ext-f/injective-type-families-acm.pdf) from The Haskell Symposium 2015 introduces two borderline type families
 
@@ -75,6 +75,35 @@ instance (a ~ [a], GClass a) => G'Class [a] where
 This all goes to show that not only does the desugaring put functional dependencies on firmer ground thanks to the trust we have in System FC, it also makes functional dependencies more flexible with a better treatment of restricted domains and absurd reasoning. 
 
 Still, while an automated desugaring could make `W1` work, it probably shouldn't try to make `W2` work.
+
+### Example 1: liberal coverage breaks termination
+
+See https://gitlab.haskell.org/ghc/ghc/-/wikis/Functional-dependencies#example-1-liberal-coverage-breaks-termination. We can encode this as:
+
+```haskell
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE TypeFamilies #-}
+module Nontermination where
+
+type family MulRes a b
+class MulRes a b ~ c => Mul a b c
+
+data Vec a = Vec a a a
+
+type instance MulRes a (Vec b) = Vec (MulRes a b)
+instance Mul a b c => Mul a (Vec b) (Vec c)
+
+f :: Mul alpha (Vec beta) beta => (alpha, beta)
+f = (undefined, undefined)
+
+-- solver overflows stack
+g :: (alpha, beta)
+g = f
+```
+
+And we get the same issue. This shows that getting rid of LICC is no panacea. I think that's OK. My instinct is that the wanted constrain should be "blamed" rather than the instances. Specifically, as long as the pattern restrictions are obeyed, any solution is finite, and so i think solving should remain decidable? The wanted constraint exploits the solver's weaknesses to cause the issue.
 
 ### Example 2: LCC and LICC do weird improvement (#10675)
 
