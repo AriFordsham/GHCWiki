@@ -18,7 +18,7 @@ type instance W2 [a] = W2 a
 
 The first "works" only if no new instances are added, the second "works" only if the instance is considered vacuous so `W2` in fact has an empty domain.
 
-Using the basic idea of "constrained type families" of making all type families associated so we can reason about their domains we can in fact make both of these accepted:
+Using the basic idea of ["Constrained Type Families"](https://arxiv.org/pdf/1706.09715.pdf) of making all type families associated so we can reason about their domains we can in fact make both of these accepted:
 
 For the first:
 
@@ -103,7 +103,7 @@ g :: (alpha, beta)
 g = f
 ```
 
-And we get the same issue. This shows that getting rid of LICC is no panacea. I think that's OK. My instinct is that the wanted constrain should be "blamed" rather than the instances. Specifically, as long as the pattern restrictions are obeyed, any solution is finite, and so i think solving should remain decidable? The wanted constraint exploits the solver's weaknesses to cause the issue.
+And we get the same issue. This shows that getting rid of LICC is no panacea. I think that's OK. My instinct is that the wanted constraint should be "blamed" rather than the instances. Specifically, as long as the pattern restrictions are obeyed, any solution is finite, and so i think solving should remain decidable? The wanted constraint exploits the solver's weaknesses to cause the issue.
 
 ### Example 2: LCC and LICC do weird improvement (#10675)
 
@@ -151,17 +151,32 @@ There are perhaps variant encoding that make this go: e.g. Making `CX_FD0 [x] ~ 
 
 ### Examples: Overlapping Instances not considered
 
+#### Deciding type equality
+
 The Schrijvers et al 2017 paper Definition 6.12 (Non-overlapping Instances) rules out frequently-used coding idioms, including a type-level type equality test:
 
-```
+```haskell
 class TypeEq a b (res :: Bool)  | a b -> res
 instance r ~ True  => TypeEq a a r
 instance r ~ False => TypeEq a b r
 ```
 
+Owing to the fact that this class has no methods, we can collapse into a single instance using a closed type family:
+
+```haskell
+type family TypeEqTF a b where
+  TypeEqTF a a = True
+  TypeEqTF _ _ = False
+
+class TypeEqTF a b ~ r => TypeEq a b r
+instance TypeEqTF a b ~ r => TypeEq a b r
+```
+
+#### Adding natural numbers with 3-way fun dep
+
 Here's a particularly extreme use of Overlaps+Liberal coverage+breaking Paterson+exploiting bogus FunDep Instance consistency for adding type-level Nats.
 
-```
+```haskell
 class Add a b c  | a b -> c, a c -> b, b c -> a  
     
 instance Add Z b b 
@@ -172,13 +187,13 @@ Note the three-way FunDep improvement -- a feat not usually considered possible.
 
 I [ADC] don't see how that could be automatically translated into TFs -- it at least needs closed TFs to mimic the overlap. (How would a translation know how to sequence the equations?) The improvement `a ~ S a'` would need a TF something like this, which is not allowed:
 
-```
+```haskell
 type family ForceSa a  where ForceSa a = S a'
 ```
 
 Here's my ([ADC's] working:
 
-```
+```haskell
 class (FAddab a b ~ c, FSubtac a c ~ b, FSubtbc b c ~ a) => AddTF a b c
 instance (FAddab a b ~ c, FSubtac a c ~ b, FSubtbc b c ~ a) => AddTF a b c
     
@@ -193,4 +208,8 @@ type family FSubtbc b c  where                -- subtract b from c, by type eq t
     FSubtbc b (S c') = S (FSubtbc b c')
 ```
 
-For the last TF `FSubtbc`, I've been faithful to the FunDep version by relying on a type equal match. I've not represented the `c ~ S c'` type improvement explicitly, but just built a parameter `(S c')` directly. It seems to work
+For the last TF `FSubtbc`, I've been faithful to the FunDep version by relying on a type equal match. I've not represented the `c ~ S c'` type improvement explicitly, but just built a parameter `(S c')` directly. It seems to work.
+
+For a more mechanistic translation of `{-# OVERLAPPABLE #-}`, https://arxiv.org/pdf/1706.09715.pdf has "closed type classes" which work analogously to closed type families. This works only for closed world, not open world overlapping, however.
+
+@Ericson2314 doesn't know whether that is enough for idiomatic `{-# OVERLAPS #-}`. If not, perhaps we'll need to generalize the total ordering of closed type families to a partial ordereing. We'll also have to be much more careful with cross-module overlapping instances today about consistency, as the soundness of the type system is at stake. In particular, it might be possible only have the `{-# OVERLAPPING #-}`, rather than `{-# OVERLAPPABLE #-}` instance in the upstream module, unless they agree w.r.t all fun deps.
