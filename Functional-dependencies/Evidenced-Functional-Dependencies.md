@@ -148,3 +148,49 @@ f x = op True [x]
 Even if `CX Char x y` is unsatisfied, but we stuck with conflicting instances heads for `CX_FD0`.
 
 There are perhaps variant encoding that make this go: e.g. Making `CX_FD0 [x] ~ [Maybe (CX_FD0 x)]` and instance constraint for the second instance, but, like `W2`, this is probably best left as out of scope for an automated desugaring.
+
+### Examples: Overlapping Instances not considered
+
+The Schrijvers et al 2017 paper Definition 6.12 (Non-overlapping Instances) rules out frequently-used coding idioms, including a type-level type equality test:
+
+```
+class TypeEq a b (res :: Bool)  | a b -> res
+instance r ~ True  => TypeEq a a r
+instance r ~ False => TypeEq a b r
+```
+
+Here's a particularly extreme use of Overlaps+Liberal coverage+breaking Paterson+exploiting bogus FunDep Instance consistency for adding type-level Nats.
+
+```
+class Add a b c  | a b -> c, a c -> b, b c -> a  
+    
+instance Add Z b b 
+instance {-# OVERLAPPABLE #-} (a ~ S a', c ~ S c', Add a' b c') => Add a b c
+```
+
+Note the three-way FunDep improvement -- a feat not usually considered possible. The `OVERLAPPABLE` instance relies on type improvement from bare tyvars in the instance head (which are required to ensure the head is more general) via equality constraints `a ~ S a'` -- a kinda type-level lazy pattern.
+
+I [ADC] don't see how that could be automatically translated into TFs -- it at least needs closed TFs to mimic the overlap. (How would a translation know how to sequence the equations?) The improvement `a ~ S a'` would need a TF something like this, which is not allowed:
+
+```
+type family ForceSa a  where ForceSa a = S a'
+```
+
+Here's my ([ADC's] working:
+
+```
+class (FAddab a b ~ c, FSubtac a c ~ b, FSubtbc b c ~ a) => AddTF a b c
+instance (FAddab a b ~ c, FSubtac a c ~ b, FSubtbc b c ~ a) => AddTF a b c
+    
+type family FAddab a b  where
+    FAddab Z      b = b
+    FAddab (S a') b = S (FAddab a' b)
+type family FSubtac a c  where               -- subtract a from c, by recursive descent on a
+    FSubtac Z      c      = c
+    FSubtac (S a') (S c') = FSubtac a' c'
+type family FSubtbc b c  where                -- subtract b from c, by type eq test??
+    FSubtbc b b      = Z
+    FSubtbc b (S c') = S (FSubtbc b c')
+```
+
+For the last TF `FSubtbc`, I've been faithful to the FunDep version by relying on a type equal match. I've not represented the `c ~ S c'` type improvement explicitly, but just built a parameter `(S c')` directly. It seems to work
