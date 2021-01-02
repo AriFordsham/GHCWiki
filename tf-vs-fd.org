@@ -21,6 +21,8 @@ The `Sum` class can be used to both add and substract.
 class Sum a b c | a b -> c, a c -> b, b c -> a
 ```
 
+Actually see https://gitlab.haskell.org/ghc/ghc/-/wikis/Functional-dependencies/Evidenced-Functional-Dependencies#adding-natural-numbers-with-3-way-fun-depv for why it might be possible after all.
+
 ### TF are too strict
 
 
@@ -62,12 +64,13 @@ instance (
   => Gcd a b c
 ```
 
-### Partial application
+https://gitlab.haskell.org/ghc/ghc/-/wikis/Functional-dependencies/Evidenced-Functional-Dependencies#deciding-type-equality also shows how closed type families can help.
 
+### Partial application
 
 It is possible to partially apply class predicates using constraint kinds.
 
-```wiki
+```haskell
 class F a b | a -> b
 instance F Int Char
 
@@ -77,10 +80,9 @@ instance (f a b) => FMap f (HJust a) (HJust b)
 x = undefined :: FMap F (HJust Int) a => a
 ```
 
-
 But type families cannot be partially applied (`Type synonym F' should have 1 argument, but has been given none`):
 
-```wiki
+```haskell
 type family FMap (f :: * -> *) a
 type instance FMap f (HJust a) = HJust (f a)
 
@@ -90,17 +92,35 @@ type instance F Int = Char
 x = undefined :: FMap F (HJust Int)
 ```
 
+Actually, once https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0242-unsaturated-type-families.rst is implemented this problem will go away.
+
+### Recursion with free vars
 
 The standard encoding of the above class from FD to
 superclass equalities does not work because type instances
 can't have type variables on the RHS which weren't introduced
 in the LHS:
 
-```wiki
+```haskell
 class (f :<$>: a) ~ b =>  FMap (f :: * -> * -> Constraint) a b
   where type f :<$>: a
 instance f a b => FMap f (HJust a) (HJust b)
   where type f :<$>: (HJust a) = HJust b -- error, b not available
+```
+
+@Ericson2314 doesn't think the above example is so good, because `b` really is undetermined. Clearly we want `f` to also have a fun dep, something we cannot express normally, but we can with the FD translation:
+
+```haskell
+type family f :$: a
+
+class (f :<$>: a) ~ b =>  FMap (f :: * -> * -> Constraint) a b
+  where type f :<$>: a
+instance (f a b, (f :$: a) ~ b) => FMap f (HJust a) (HJust b)
+  where type f :<$>: (HJust a) = HJust (f :$: a)
+```
+Also one can dispense using `:<$>:` very much with:
+```haskell
+type instance (FMap f) :$: a = f :<$>: a
 ```
 
 ### No overlapping type instances
@@ -348,6 +368,7 @@ Examples:
 
 ## See Also
 
+- [Evidenced Functional Dependencies](Functional-dependencies/Evidenced-Functional-Dependencies)
 - [https://ghc.haskell.org/trac/ghc/wiki/ReadingList\#TypeEqualities](https://ghc.haskell.org/trac/ghc/wiki/ReadingList#TypeEqualities)
 - [https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/jfp06.pdf](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/jfp06.pdf)
 - [TypeFunctions](type-functions)
