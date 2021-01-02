@@ -149,6 +149,23 @@ Even if `CX Char x y` is unsatisfied, but we stuck with conflicting instances he
 
 There are perhaps variant encoding that make this go: e.g. Making `CX_FD0 [x] ~ [Maybe (CX_FD0 x)]` and instance constraint for the second instance, but, like `W2`, this is probably best left as out of scope for an automated desugaring.
 
+### Example 3: LCC and LICC threaten confluence
+
+C.f. https://gitlab.haskell.org/ghc/ghc/-/wikis/Functional-dependencies#example-3-lcc-and-licc-threaten-confluence. Just like the previous example, when we translate to using type families the instances are rejected so we don't get as far as conflicting rewrites.
+
+```haskell
+type family FD a
+class FD b ~ c => D a b c
+
+-- D instances rejected as FD instances never match
+
+type instance FD Int = (Int, Int)
+instance {-# LIBERAL #-} (q ~ Int)  => D Int  p (Int,q)
+
+type instance FD Bool = (Bool, Bool)
+instance {-# LIBERAL #-} (s ~ Bool) => D Bool r (s,Bool)
+```
+
 ### Examples: Overlapping Instances not considered
 
 #### Deciding type equality
@@ -191,7 +208,7 @@ I [ADC] don't see how that could be automatically translated into TFs -- it at l
 type family ForceSa a  where ForceSa a = S a'
 ```
 
-Here's my ([ADC's] working:
+Here's my (@AntC3's) working:
 
 ```haskell
 class (FAddab a b ~ c, FSubtac a c ~ b, FSubtbc b c ~ a) => AddTF a b c
