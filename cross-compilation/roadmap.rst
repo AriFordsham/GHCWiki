@@ -179,7 +179,8 @@ support plugins while its target is JavaScript code:
 
 The task is to make GHC aware of at least two databases: plugin and 1 per
 target. Loading a plugin would be done via the plugin database and plugin would
-always be executed with the internal interpreter.
+always be executed with the internal interpreter
+(`GHC ticket <https://gitlab.haskell.org/ghc/ghc/-/issues/14335>`_).
 
 Plugins still won't work for stage 1 compilers because of ABI mismatch: the
 stage 0 compiler may produce code objects for the stage 1 compiler that are not
@@ -214,8 +215,8 @@ There are still some target dependant hard-coded information in GHC about
 `Int64#/Word64#` primops (cf `#11953
 <https://gitlab.haskell.org/ghc/ghc/issues/11953>`_, `#17375
 <https://gitlab.haskell.org/ghc/ghc/issues/17375>`_, `#17377
-<https://gitlab.haskell.org/ghc/ghc/issues/17377>`_), which @Ericson2314 attemps
-to fix in `!1102 <https://gitlab.haskell.org/ghc/ghc/merge_requests/1102>`_.
+<https://gitlab.haskell.org/ghc/ghc/issues/17377>`_), which @Ericson2314 and @hsyl20 are attempting
+to fix in `!3658 <https://gitlab.haskell.org/ghc/ghc/merge_requests/3658>`_.
 
 GHC needs to handle per-target package databases.
 
@@ -242,6 +243,9 @@ active packages.
 
 Multi-package also permits interactive (re)compilation of modules from several
 packages (cf `#10827 <https://gitlab.haskell.org/ghc/ghc/issues/10827>`_).
+
+@fendor is working on this as part of GSOC 2020.
+@Ericson2314 is one of the mentors for this.
 
 Related:
 
