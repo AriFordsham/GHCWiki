@@ -194,8 +194,7 @@ efficient compilation of sums. See `StgRubbishArg` in
 ### Unpacking
 
 
-(NOTE (osa): This part is not yet implemented, the patch is trivial and I'm
-going to submit it soon)
+The associated merge request for this feature is https://gitlab.haskell.org/ghc/ghc/-/merge_requests/4140
 
 
 Given
