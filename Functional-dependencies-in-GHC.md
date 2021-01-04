@@ -16,7 +16,7 @@ This page summarises examples and issues about functional dependencies in GHC.
 
 **Confluence** means that:
 
-* A program will either typecheck or not; it can't typecheck one day and fail the next day.
+* A program will either typecheck or not; it can't typecheck one day and fail the next day. Specifically: minor revisions to GHC (which may change the solver algorithm) cannot change the result of typechecking. Similarly, adding e.g. irrelevant constraints cannot change the result of typechecking.
 * If it typechecks, it'll have the same meaning.  (Exception: with overlapping instances and different instances in scope in different modules.)
 * You can re-order the constraints in a signature without affecting whether the program typechecks, or what it means
   ```
@@ -29,7 +29,7 @@ This page summarises examples and issues about functional dependencies in GHC.
 
 Generally,
 * We'd like to be able to guarantee both termination and confluence.
-* We are happy to risk non-termination when we ask for it; insisting on guranteed termination is very restrictive
+* We are happy to risk non-termination when we ask for it; insisting on guaranteed termination is very restrictive
 * We are extremely reluctant to risk non-confluence.
 
 ### The Paterson conditions
@@ -38,11 +38,11 @@ The Paterson conditions try to ensure that, when you use an instance decl, the s
 ```
 instance Eq a => Eq [a]
 ```
-If you are trying to solve `Eq [Maybe Int]`, you can use the instance decl to get the smaller goal `Eq (Maybe Int`.
+If you are trying to solve `Eq [Maybe Int]`, you can use the instance decl to get the smaller goal `Eq (Maybe Int)`.
 
 The Paterson conditions are described in the user manual under [Instance termination rules](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/instances.html?highlight=undecidable#instance-termination-rules).
 
-Note: the Paterson conditions subsume the Bound Varible Condition (Defn 8) of the JFP-paper.
+Note: the Paterson conditions subsume the Bound Variable Condition (Defn 8) of the JFP-paper.
 
 ### Strict coverage condition (SCC)
 
@@ -52,7 +52,7 @@ class C2 a b | a -> b
 instance C2 [p] p     -- Satisfies strict coverage
 instance C2 [p] [q]   -- Does not satisfy strict coverage
 ```
-From the class decl for `C2` the first paramters should fix the second; that is true of the first instance here, but not of the second, becuase `q` is not fixed when you fix `p`.
+From the class decl for `C2` the first parameter should fix the second; that is true of the first instance here, but not of the second, because `q` is not fixed when you fix `p`.
 
 **Liberal coverage condition (LCC)**
 
@@ -75,7 +75,7 @@ instance C2 Int Char
 ```
 They are mutually inconsistent. The fundep on `C2` says that `a` determines `b`; but if `a`=`Int`, then `b` can be both `Bool` and `Char`.
 
-The instance consistency condition ensures that instances are pair-wise consistent. It appears not to be documented in GHC's user manual, but is is Defn 6 in the JFP-paper.
+The instance consistency condition ensures that instances are pair-wise consistent. It appears not to be documented in GHC's user manual, but it is Defn 6 in the JFP-paper.
 
 ** (Strict) instance consistency condition **.  Consider a declaration for class TC, and any pair of instance declarations for that class:
 ```
@@ -117,6 +117,8 @@ we must have that T(S(ti0)) = T(S(si0)); or equivalently S(ti0) and S(si0) are u
 ## 3. GHC today
 
 GHC today does this:
+
+* By default: GHC uses the strict coverage condition and imposes the Paterson conditions.
 
 * If `UndecidableInstances` is on, GHC
   * uses the liberal (not strict) coverage condition
@@ -304,9 +306,9 @@ instance C2 Int Char
 But what about this:
 ```
 instance C2 Int [Int]
-instance C2 Int (Mabye Bool)
+instance C2 Int (Maybe Bool)
 ```
-Here if we have `[W] C Int [alpha]` only one instance matches and perhaps we can improve `alpah` to `Int`.
+Here if we have `[W] C Int [alpha]` only one instance matches and perhaps we can improve `alpha` to `Int`.
 
 Be careful: we want to allow Example 4.
 
@@ -324,6 +326,6 @@ To have something concrete to discuss, here's a proposal:
 
 ## 7. Not functional dependencies in the original sense
 
-Mark Jones introduced the term "functional dependencies" by lifting it from the database world.  There if `a -> b` we really mean that `a` fully determines `b`.  That propety is essential for the translation to type families proposed by Karachalias & Schrijvers (paper link at top).
+Mark Jones introduced the term "functional dependencies" by lifting it from the database world.  There if `a -> b` we really mean that `a` fully determines `b`.  That property is essential for the translation to type families proposed by Karachalias & Schrijvers (paper link at top).
 
 All proposals for liberal coverage conditions, and liberal (or even dropped) instance consistency, move decisively away from this story.  `a` does not fully determine `b`; translation into type families is impossible.  Fundeps guide type inference; they do not carry evidence.
