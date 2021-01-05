@@ -25,6 +25,8 @@ This page summarises examples and issues about functional dependencies in GHC.
   ```
 * You can re-order instance declarations without affecting whether the program typechecks, or what it means
 
+#18851 has some interesting examples of non-confluence.
+
 **Termination** means that type inference terminates.
 
 Generally,
