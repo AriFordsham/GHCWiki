@@ -154,16 +154,14 @@ As this strand of work touches a lot of modules, doing everything as a single ga
   from the `ErrMsg` record, which allows us to drop an extra `DynFlag` 
   argument from a lots of functions (e.g. `mkErr`) and give us more 
   flexibility on where to place certain error-related utility functions;
-  **Waiting CI/approval**: https://gitlab.haskell.org/ghc/ghc/-/merge_requests/4574
+  **In review**: https://gitlab.haskell.org/ghc/ghc/-/merge_requests/4574
 
-- [ ] Clean-up the error hierarchy by introducing separate type parameter 
-  for `WarningMessages` and `ErrorMessages`, and introduce proper data 
-  types for `Messages` (instead of a type alias to a tuple), 
-  `WarningMessages` and `ErrorMessages`, with proper invariants that 
-  messages inserted "in the two buckets" have the right severity (i.e. 
-  either `SevWarning` or `SevError`). Initially both `WarningMessages` and
-  `ErrorMessages` could be parameterised over `ErrDoc`, to not change too
-  many things at once;
+- [ ] Clean-up the error hierarchy by introducing a proper data 
+  type for `Messages` (instead of a type alias to a tuple), parameterised
+  by an error type `e`. Initially everything can be instantiated with `e = ErrDoc`
+  to not change too many things at once, and later use proper domain-specific types
+  (e.g. parser diagnostic messages, typecheck messages, etc);
+  **Waiting review**: https://gitlab.haskell.org/ghc/ghc/-/merge_requests/4728
 
 - [ ] Introduce proper error and warning types for the different phases of 
   the compilation pipeline (i.e. `TcRnWarning`, `TcRnError` etc) as well as
