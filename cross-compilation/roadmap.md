@@ -1,34 +1,35 @@
-Roadmap
-=======
+Roadmap towards better cross-compilation with GHC
+=================================================
 
-*Taken from `<https://github.com/hsyl20/ghc-cross-compilation/>`_*
+[[_TOC_]]
 
-Wouldn't it be awesome if GHC was able to cross-compile Haskell code to
-WebAssembly, JavaScript, Java bytecode, etc.? Sadly it can't be done directly
-with stock GHC. Several glorious attempts at doing cross-compilation (e.g.
-`GHCJS <https://github.com/ghcjs/ghcjs>`_, `Asterius
-<https://github.com/tweag/asterius/>`_, `Eta <https://eta-lang.org>`_) are based on GHC
-forks and rely on less glorious hacks to work.
+Motivation
+----------
 
-This document explains why cross-compiling Haskell code with GHC is so
-difficult. It also describes what would need to be done to make GHC an effective
-cross-compiler.
+We want GHC to cross-compile Haskell code to WebAssembly, JavaScript, Java bytecode, ARM platforms, etc.
 
-If there is anything unclear or wrong, please open an issue, send a pull request
-or send me an email (sylvain@haskus.fr).
+Stock GHC supports cross-compilation to some platforms with some restrictions (no compiler plugins, etc.).
+
+Some other platforms are based on GHC forks: e.g. [GHCJS](https://github.com/ghcjs/ghcjs>) for JavaScript, [Asterius](https://github.com/tweag/asterius/) for WebAssembly, [Eta](https://eta-lang.org) for the JVM.
+
+This document explains why cross-compiling Haskell code with GHC is so difficult.
+It also describes what would need to be done to remove restrictions in stock GHC cross-compilers and to merge GHC forks upstream.
+
+Background
+==========
 
 Confined mode
 -------------
 
 Historically GHC has been designed with the hypothesis that the code it produces
 is to be run on the same platform as the compiler itself. Even more than that,
-the code objects it produces (``.o``, ``.a``, ``.so``, ``.dll``, etc.) must be
+the code objects it produces (`.o`, `.a`, `.so`, `.dll`, etc.) must be
 compatible with the code objects used to build the compiler itself: boot
-libraries (``bytestring``, ``base`` and all the others in the ``libraries`` directory
+libraries (`bytestring`, `base` and several others in the `libraries` directory
 in GHC's source tree) and the compiler itself if the produced code uses the GHC
 API.
 
-To refer to this mode I will use the expression **confined mode**.
+To refer to this mode we use the expression **confined mode** in this document.
 
 In confined mode everything is simple and easy:
 
@@ -40,19 +41,20 @@ In confined mode everything is simple and easy:
   ByteCode or as normal code objects), load it like a plugin above and execute
   it.
 
-* but the code uses external libraries (libgmp, libwhatever)! No problem, we
-  can dynamically link them too.
+* if the code uses external libraries (libgmp, libwhatever), no problem, we
+  can load them too using `dlopen` or the RTS linker.
 
 * we need to interpret some code at compilation time (Template Haskell): just
-  reuse the interpreter and it's done.
+  reuse the interpreter.
 
-It's obviously not that easy to implement but conceptually it is. Sadly most of
-this breaks when we try to get out of the confined mode.
+It's obviously not that easy to implement but conceptually it is.
 
-Breach #1: stage 1 compiler
----------------------------
+Sadly most of this breaks when we try to get out of the confined mode.
 
-If confined mode was strictly enforced, GHC could only be executed on the
+Breach 1: stage 1 compiler
+--------------------------
+
+GHC is written in Haskell. If confined mode was strictly enforced, GHC could only be executed on the
 platform it was initially developed on. It's obviously not the case and it is
 the first breach in the confined mode: GHC stages.
 
@@ -66,11 +68,11 @@ nor Template Haskell).
 
 A GHC compiler trimmed of these features is called **stage 1** compiler. **stage
 0** is the GHC compiler used to build stage 1. **stage 2** is the full compiler
-built by stage 1 (potentially on a different platform than stage 0 host).
+built by stage 1 (potentially for a different platform than stage 0 host).
 
 
-Breach #2: compiler ways
-------------------------
+Breach 2: compiler ways
+-----------------------
 
 GHC can produce different code objects depending on some options. For example,
 it can produce objects that:
@@ -85,10 +87,10 @@ These options are called "compiler ways". Some of them can be combined (e.g.
 threaded + debugging).
 
 Depending on the selected way, the compiler produces and links appropriate
-objects together. These objects are identified by a suffix: e.g. ``*.p_o`` for an
-object built with profiling enabled; ``*.thr_debug_p.a`` for an archive built with
+objects together. These objects are identified by a suffix: e.g. `*.p_o` for an
+object built with profiling enabled; `*.thr_debug_p.a` for an archive built with
 multi-threading, debugging, and profiling enabled. See the gory details on the
-`wiki <https://gitlab.haskell.org/ghc/ghc/wikis/commentary/rts/compiler-ways>`_.
+[wiki](https://gitlab.haskell.org/ghc/ghc/wikis/commentary/rts/compiler-ways).
 
 Installed packages usually don't provide objects for all the possible ways as it
 would make compilation times and disk space explode for features rarely used.
@@ -101,50 +103,51 @@ GHC can build objects both for itself (i.e. using the way it has been built
 with) and for the selected target way. By doing this, it can simulate the
 confined mode by loading objects on the host that are different from the objects
 produced for the target, with the hope that the two ways have no observable
-difference. Quoting the `wiki
-<https://gitlab.haskell.org/ghc/ghc/wikis/remote-GHCi>`_: "The way this is done
+difference. Quoting the [wiki](https://gitlab.haskell.org/ghc/ghc/wikis/remote-GHCi):
+"The way this is done
 currently is inherently unsafe, because we use the profiled .hi files with the
 unprofiled object files, and hope that the two are in sync."
 
 Another solution is to use an external interpreter.
 
 
-Breach #3: external interpreter
--------------------------------
+Breach 3: external interpreter
+------------------------------
 
 The idea behind the external interpreter is to delegate the execution of the
-target code to another process (called ``iserv``). This process can then delegate
+target code to another process (called `iserv`). This process can then delegate
 to another one hosted on another platform or in a VM (e.g. NodeJS) if necessary.
 
-GHC performs two-way communication with ``iserv`` process to send ByteCode to
+GHC performs two-way communication with `iserv` process to send ByteCode to
 evaluate, to ask for package to be linked, etc. During code execution, the
-``iserv`` process may query the host GHC (e.g. when Template Haskell code is run,
-it may query information about some ``Names`` and these information live in the
+`iserv` process may query the host GHC (e.g. when Template Haskell code is run,
+it may query information about some `Names` and these information live in the
 host GHC).
 
-GHC spawns a different ``iserv`` process depending on the selected target way:
-``ghc-iserv-prof``, ``ghc-iserv-dyn``, etc. This allows the ``iserv`` process to load
+GHC spawns a different `iserv` process depending on the selected target way:
+`ghc-iserv-prof`, `ghc-iserv-dyn`, etc. This allows the `iserv` process to load
 target code objects which have not been built with the same way as GHC.
 
-A different external interpreter can be specified with the ``-pgmi`` command-line
+A different external interpreter can be specified with the `-pgmi` command-line
 option.
 
 1. Using the external interpreter in GHCi makes sense because it allows the
    execution of the code produced for the target on the compiler host (or
-   remotely but it is internal to the ``iserv`` process and GHC isn't aware of
+   remotely but it is internal to the `iserv` process and GHC isn't aware of
    it).
 
 2. Using the external interpreter to execute Template Haskell code doesn't
-   really make sense: TH code is similar to plugin code in that it has access to
-   some compiler internals (``Names``, etc.), it can modify the syntax tree and
+   really make sense even if that's what GHC does currently:
+   TH code is similar to plugin code in that it has access to
+   some compiler internals (`Names`, etc.), it can modify the syntax tree and
    it can perform IO (read files, etc.). Morally it should be built so that it
    can be linked with the compiler and executed on the host.
 
-3. Compiler plugins don't work at all with the external interpreter (see `#14335
-   <https://gitlab.haskell.org/ghc/ghc/issues/14335>`_). It is because they
-   directly depend on the ``ghc`` package and assume they are going to be linked
+3. Compiler plugins don't work at all with the external interpreter (see #14335).
+   It is because they
+   directly depend on the `ghc` package and assume they are going to be linked
    with it. Executing compiler plugins in the external interpreter would mean
-   that the communication protocol between ``iserv`` and GHC would need to be
+   that the communication protocol between `iserv` and GHC would need to be
    extended to support everything a compiler plugin can do. As compiler plugins
    can do virtually anything in the compiler, it would mean that most GHC
    datatypes would need to be serializable, most functions explicitly exposed,
@@ -169,18 +172,16 @@ This is a problem because compiler plugins have to be compatible with GHC (same
 way, same platform, etc.) but compiler plugins are looked for in target
 packages/modules.
 
-GHCJS `uses a hack
-<https://github.com/ghcjs/ghcjs/blob/e87195eaa2bc7e320e18cf10386802bc90b7c874/src/Compiler/Plugins.hs#L2>`_ to
+GHCJS [uses a hack](https://github.com/ghcjs/ghcjs/blob/e87195eaa2bc7e320e18cf10386802bc90b7c874/src/Compiler/Plugins.hs#L2>) to
 support plugins while its target is JavaScript code:
 
-- the plugin still needs to exists amongst the target modules
+- the plugin still needs to exists among the target modules
 - when loading a plugin module, instead of loading the plugin from the target
-  database, it tries to find a matching module in the host database
+  database, GHCJS tries to find a matching module in the host database
 
 The task is to make GHC aware of at least two databases: plugin and 1 per
 target. Loading a plugin would be done via the plugin database and plugin would
-always be executed with the internal interpreter
-(`GHC ticket <https://gitlab.haskell.org/ghc/ghc/-/issues/14335>`_).
+always be executed with the internal interpreter (GHC ticket #14335).
 
 Plugins still won't work for stage 1 compilers because of ABI mismatch: the
 stage 0 compiler may produce code objects for the stage 1 compiler that are not
@@ -191,8 +192,7 @@ mode. In particular, it supports loading plugins from the "home package" (the
 set of modules it is currently compiling). While GHC isn't multi-target, it
 won't be able to build its own plugins. Cross-compilers such as GHCJS or
 Asterius relies on two GHCs: one for the real target and one which targets the
-compiler host. We probably should make GHC multi-target and
-multi-package before we could get this change integrated upstream.
+compiler host. We probably should make GHC multi-target and multi-package too.
 
 Make GHC multi-target
 ---------------------
@@ -200,32 +200,43 @@ Make GHC multi-target
 GHC should be able to produce code objects for several targets:
 
 - (not available in stage 1 because of ABI mismatch) its own host platform and
-  compiler way (for plugins): ``-target self``
-- its own host platform: ``-target host``. It targets the same platform as
-  ``-target self`` by without the constraint of being linkable with GHC. Other
-  options could be applied (``-debug``,  ``-profiling``, etc.).
+  compiler way (for plugins): `-target self`
+- its own host platform: `-target host`. It targets the same platform as
+  `-target self` by without the constraint of being linkable with GHC. Other
+  options could be applied (`-debug`,  `-profiling`, etc.).
 - several other targets
 
-We need a way to configure two external toolchain information (gcc, llvm, as,
-ld, ar, strip, etc.): one for GHC plugins and another for the current target.
-A bunch of work has been done making GHC read these things from the ``settings``
-file rather than it be hard-coded at build time.
+### Per target toolchain configuration
 
-There are still some target dependant hard-coded information in GHC about
-`Int64#/Word64#` primops (cf `#11953
-<https://gitlab.haskell.org/ghc/ghc/issues/11953>`_, `#17375
-<https://gitlab.haskell.org/ghc/ghc/issues/17375>`_, `#17377
-<https://gitlab.haskell.org/ghc/ghc/issues/17377>`_), which @Ericson2314 and @hsyl20 are attempting
-to fix in `!3658 <https://gitlab.haskell.org/ghc/ghc/merge_requests/3658>`_.
+We need a way to configure external toolchains (gcc, llvm, as,
+ld, ar, strip, etc.): one for each target.
+A bunch of work has already been done making GHC read these things from the ``settings``
+file rather than it be hard-coded at build time. We need to extend this mechanism.
 
-GHC needs to handle per-target package databases.
+
+### Per target unit database
+
+GHC needs to handle per-target unit databases.
+
+Currently there is only a single global unit database.
+
+
+### Make GHC independent of any specific target
+
+There are still some target dependent hard-coded information in GHC.
+
+* Int64#/Word64# primops: cf #11953, #17375, #17377, !3658
+* !4414: dependency on the RTS way
+
+
+### Support building plugins and target code in the same session
 
 Making GHC multi-target does not make it able to produce code objects for
 multiple targets in a single GHC session. In particular it can't build plugins
 (``-target self``) and actual code objects for the real target in the same session
 yet. We need to make GHC multi-package to support this.
 
-Related: `#11470 <https://gitlab.haskell.org/ghc/ghc/issues/11470>`_
+Related: #11470
 
 Make GHC multi-package
 ----------------------
@@ -242,10 +253,7 @@ have the same package built for different targets. Hence we would have two
 active packages.
 
 Multi-package also permits interactive (re)compilation of modules from several
-packages (cf `#10827 <https://gitlab.haskell.org/ghc/ghc/issues/10827>`_).
-
-@fendor is working on this as part of GSOC 2020.
-@Ericson2314 is one of the mentors for this.
+packages (cf #10827)
 
 Related:
 
@@ -282,7 +290,7 @@ behave like standard Cabal packages.
 
 There are several subtasks to perform before we can achieve this goal:
 
-#. Rather than having global build, host, and target platforms (and ways, see
+1. Rather than having global build, host, and target platforms (and ways, see
    the next section), Hadrian should give each stage its own host
    platform. As GHC would be multi-target, we can infer the effective target of
    the ``stage n`` compiler by looking at the required host for the ``stage
@@ -304,7 +312,7 @@ There are several subtasks to perform before we can achieve this goal:
          ....
 
 
-#. GHC's configure script should be split up per-package (cf `#17191
+2. GHC's configure script should be split up per-package (cf `#17191
    <https://gitlab.haskell.org/ghc/ghc/issues/17191>`_).
    Currently, a single top-level ``configure.ac`` file is used for several
    packages and the compiler itself.
@@ -313,11 +321,11 @@ There are several subtasks to perform before we can achieve this goal:
    (because it is now multi-target), and then real ones when building the
    libraries, we should just remove `--target` from the overall one.
 
-#. Configure scripts should be avoided altogether. If we want to build GHC on
+3. Configure scripts should be avoided altogether. If we want to build GHC on
    non Unix-like hosts (like Windows without using MSYS2), we shouldn't use
    configure scripts.
 
-#. Don't generate source files with an external tool that GHC/Cabal isn't aware
+4. Don't generate source files with an external tool that GHC/Cabal isn't aware
    of. Currently Hadrian generates several files:
 
    * Parser/Lexer (via Happy/Alex): cf `#17750 <https://gitlab.haskell.org/ghc/ghc/issues/17750>`_
@@ -325,7 +333,7 @@ There are several subtasks to perform before we can achieve this goal:
    
    Related: `!490 <https://gitlab.haskell.org/ghc/ghc/merge_requests/490>`_
 
-#. Build GHC in Nix.
+5. Build GHC in Nix.
 
    Writing a build system is very hard especially because we don't want to
    mix up wrong files: e.g. wrong external files picked (``.h`` header files),
@@ -340,7 +348,7 @@ There are several subtasks to perform before we can achieve this goal:
    great to be able to build GHC using `haskell.nix
    <https://input-output-hk.github.io/haskell.nix/>`_ to benefit from it.
 
-#. Ancillary tools outside of the confined mode
+6. Ancillary tools outside of the confined mode
 
    There's lots of low hanging fruit. @angerman Fixed some silly make rules for ``hsc2hs`` and ``unlit`` in the past.
    Haddock is confused between its rigid GHC API version bound and its conventional laxed constraints on the GHC version used to build it.
@@ -367,17 +375,15 @@ Fix Template Haskell stage hygiene
 Currently Template Haskell mixes up stages because it assumes that the confined
 mode is used.
 
-We should be able to specify/detect if an ``import`` is for a top-level TH splice
+We should be able to specify/detect if an `import` is for a top-level TH splice
 or not.
 
-We should remove ``Lift`` instances for target dependent types (e.g. ``Word``,
-``Int``, linux only types, etc.).
+We should remove `Lift` instances for target dependent types (e.g. `Word`,`Int`, Linux only types, etc.).
 
 Related:
 
-- see `this proposal <https://github.com/ghc-proposals/ghc-proposals/pull/243>`_
-- `blog post
-  <http://blog.ezyang.com/2016/07/what-template-haskell-gets-wrong-and-racket-gets-right/>`_
+- see [this proposal](https://github.com/ghc-proposals/ghc-proposals/pull/243)
+- [blog post](http://blog.ezyang.com/2016/07/what-template-haskell-gets-wrong-and-racket-gets-right/)
 
 
 Don't use the external interpreter for Template Haskell
@@ -389,53 +395,49 @@ its code should be executed on the compiler host, not on the compiler target.
 It is especially true if the external interpreter use a simulator (e.g. Android,
 iOS, etc.) to run the code: TH code can perform unrestricted IO (readFile) and
 may expect to find some "source" data files. It is already an issue in confined
-mode (e.g. what is the current working directory of an executed TH splice? `it
-depends
-<https://github.com/haskus/packages/blob/fe2d5ce59e190ec54ae0f42a30c3eeed46997d45/haskus-utils-compat/src/lib/Haskus/Utils/Embed/ByteString.hs#L53>`_)
+mode (e.g. what is the current working directory of an executed TH splice? it
+depends ([example](https://hackage.haskell.org/package/file-embed-0.0.13.0/docs/Data-FileEmbed.html#v:makeRelativeToProject))
 but it is only worse with the external interpreter.
 
 A sane way would be to assume execution of TH codes on the compiler host. We
 should specify the interaction of TH splices with the filesystem. We should
-perhaps add a Cabal field similar to `data-files
-<https://www.haskell.org/cabal/users-guide/developing-packages.html#pkg-field-data-files>`_
+perhaps add a Cabal field similar to [data-files](https://www.haskell.org/cabal/users-guide/developing-packages.html#pkg-field-data-files)
 (or reuse `extra-source-files`) to indicate which files are accessible via TH
-code using a new method of the ``Quasi`` monad (e.g. ``qLookupDataFile ::
-FilePath -> Maybe ByteString``). Actually this could be done right now to avoid
+code using a new method of the `Quasi` monad (e.g. `qLookupDataFile ::
+FilePath -> Maybe ByteString`). Actually this could be done right now to avoid
 CWD related issues.
 
 TH code should have dynamic access (i.e. not via CPP) to the target platform
-properties (word size, endianness, etc.).
+properties (word size, endianess, etc.).
 
 We should provide a way for TH code to query some stuff about the target code
-via the target code (external) interpreter: e.g. ``sizeOf (undefined ::
-MyTargetSpecificData)``. It could also be used to resolve quoted identifiers
-that only exists in target code (e.g. evaluate ``'MyTargetSpecificData ::
-Name``).
+via the target code (external) interpreter: e.g. `sizeOf (undefined ::
+MyTargetSpecificData)`. It could also be used to resolve quoted identifiers
+that only exists in target code (e.g. evaluate `'MyTargetSpecificData ::
+Name`).
 
 Executing code on the compiler host in every cases should enhance speed as TH
-code is often used to perform syntactic transformations (e.g. ``makeLenses``)
+code is often used to perform syntactic transformations (e.g. `makeLenses`)
 which don't require target code evaluation.
 
 Now how would we execute TH code:
 
-#. Use the internal interpreter just like plugins.
+1. Use the internal interpreter just like plugins.
 
-   It requires a compiler with ``-target self`` support. Hence TH wouldn't be
+   It requires a compiler with `-target self` support. Hence TH wouldn't be
    supported in the stage 1 compiler and still couldn't be used in GHC source
    itself.
 
-#. Use another interpreter for host code.
+2. Use another interpreter for host code.
 
-   We could compile TH code with ``-target self`` but not all the way to producing
+   We could compile TH code with `-target self` but not all the way to producing
    code objects because we may not be able to load them (e.g. in a stage 1
    compiler). Instead we stop at a previous stage and interpret the intermediate
    representation:
 
-   - Core interpreter: compile to down to Core and evaluate it (cf `proposal
-     <https://github.com/ghc-proposals/ghc-proposals/issues/162>`_)
+   - Core interpreter: compile to down to Core and evaluate it (cf [proposal](https://github.com/ghc-proposals/ghc-proposals/issues/162)
 
-   - STG interpreter: same but for STG (e.g. `ministg
-     <http://hackage.haskell.org/package/ministg>`_)
+   - STG interpreter: same but for STG (e.g. [ministg](http://hackage.haskell.org/package/ministg))
 
    - ByteCode interpreter: same but for ByteCode. It is similar to the current
      internal interpreter but we would need to refactor it to virtualize the
@@ -450,22 +452,22 @@ Cabal
 
 Cabal should understand cross compilation and bootstrapping.
 
-#. ``Setup.hs``
+1. `Setup.hs`
 
-   Cabal packages are built by a ``Setup.hs`` program running on the compiler
+   Cabal packages are built by a `Setup.hs` program running on the compiler
    host. Most of them use the same "Simple" one but some others use custom
-   ``Setup.hs``, with dependencies specified in ``.cabal`` files.
+   `Setup.hs`, with dependencies specified in `.cabal` files.
 
-   Once GHC becomes multi-target, Stack and cabal-install could use ``-target
-   self`` (for stage >= 2 compilers) or ``-target host`` (for any stage
+   Once GHC becomes multi-target, Stack and cabal-install could use `-target
+   self` (for stage >= 2 compilers) or `-target host` (for any stage
    compiler, including stage 1) to produce the actual program for the compiler
-   host. It would ensure that ``Setup`` programs can always be built and run on
+   host. It would ensure that `Setup` programs can always be built and run on
    the host.
 
-   * ``-target self``: when it is available (stage >= 2) it allows the use of
+   * `-target self`: when it is available (stage >= 2) it allows the use of
      the same boot libraries as the compiler itself
    
-   * ``-target host``: should always be available. However with stage 1
+   * `-target host`: should always be available. However with stage 1
      compilers we can't reuse self packages (boot libraries of the compilers and
      the compiler package itself) because of ABI mismatch. There are two
      solutions:
@@ -477,11 +479,11 @@ Cabal should understand cross compilation and bootstrapping.
      * Cabal should be aware of the bootstrapping relationships between
        toolchains (next item).
 
-#. Cabal should be aware of the available toolchains
+2. Cabal should be aware of the available toolchains
 
    Currently cross-compilers such as GHCJS and Asterius use two GHC compilers:
    one for the target and another for the host (used to build the former GHC,
-   the compiler plugins and ``Setup.hs`` programs). It would be good to make
+   the compiler plugins and `Setup.hs` programs). It would be good to make
    Cabal aware of the different toolchains (including GHC compilers) at its
    disposal and their bootstrapping relation.
 
@@ -493,12 +495,12 @@ Cabal should understand cross compilation and bootstrapping.
      has the option to instead use the previous stage's compiler to build
      plugins, which will make the ABI match.
 
-   Related: `#11378 <https://gitlab.haskell.org/ghc/ghc/issues/11378>`_
+   Related: #11378
 
-#. ``Setup.hs`` should be a regular Cabal executable component built like any
+3. `Setup.hs` should be a regular Cabal executable component built like any
    other.  Cabal now is well established in its notion of distinct components
    per-package that interact just through their dependencies. What makes
-   ``Setup.hs`` component different is:
+   `Setup.hs` component different is:
 
    * the fact that other components of the package have a "this is my
      Setup.hs"-type dependency on it
@@ -506,14 +508,13 @@ Cabal should understand cross compilation and bootstrapping.
    * the fact that it is built to be executed on the compiler host, not on the
      actual target.
 
-#. Cabal needs to know the target and the dependencies of each component it
-   builds, including ``Setup.hs`` components as per the previous item.
+4. Cabal needs to know the target and the dependencies of each component it
+   builds, including `Setup.hs` components as per the previous item.
 
    cabal-install's solver already does have some understanding of disjoint
-   dependency graphs (via `qualified goals
-   <https://www.well-typed.com/blog/2015/03/qualified-goals/>`_). E.g. when
-   trying to build package ``foo`` which depends on ``base``, it tries to find a
-   ``base`` package for ``base`` and another for ``foo.setup.base`` (they may
+   dependency graphs (via [qualified goals](https://www.well-typed.com/blog/2015/03/qualified-goals/)). E.g. when
+   trying to build package `foo` which depends on `base`, it tries to find a
+   `base` package for `base` and another for `foo.setup.base` (they may
    not be the same).  We would have to extend this mechanism to consider target
    and stage information (as discussed in the context of Hadrian above).
 
@@ -521,19 +522,18 @@ Cabal should understand cross compilation and bootstrapping.
    in its build system.
 
 
-Cabal: ``configure`` build-type
--------------------------------
+Cabal: `configure` build-type
+-----------------------------
 
-Some Cabal packages use ``build-type: configure`` (see the `user manual
-<https://www.haskell.org/cabal/users-guide/developing-packages.html#system-dependent-parameters>`_).
+Some Cabal packages use `build-type: configure` (see the [user manual](https://www.haskell.org/cabal/users-guide/developing-packages.html#system-dependent-parameters)).
 During the configuration phase, the package description is amended by a
-``configure`` script producing a ``buildinfo`` file.
+`configure` script producing a `buildinfo` file.
 
 This only works on Unix-like systems and without additional parameters it
 assumes that the target is the compiler host.
 
 Portable packages (in particular boot libraries) shouldn't use this. They might
-call ``configure`` in custom ``Setup.hs`` on Unix-like platforms though, passing it
+call `configure` in custom `Setup.hs` on Unix-like platforms though, passing it
 flags to specify the actual target if necessary.
 
 But for sake of unix-only packages it wouldn't be hard to teach Cabal to use
@@ -545,15 +545,15 @@ in the 1990s.
 Remove platform specific CPP
 ----------------------------
 
-GHC should expose a virtual package (like ``ghc-prim``) with target information
+GHC should expose a virtual package (like `ghc-prim`) with target information
 (e.g. word size, endianness) as values/types instead of using CPP to include
-``MachDeps.h``.
+`MachDeps.h`.
 
 Expressions using these values would be simplified in Core.
 
 We could use Template Haskell instead of CPP in some cases. E.g.
 
-.. code:: haskell
+```haskell
 
    foo :: Int -> Int
 
@@ -580,12 +580,12 @@ We could use Template Haskell instead of CPP in some cases. E.g.
                then [e| x+y |]
                else [e| x+z |]
             )
-
+```
 
 The advantage of the latter is that both quotes must parse as valid Haskell
 code. However renaming and type-checking are performed lazily, which is what we
-want because some names may not be available (e.g. ``y`` or ``z``) depending on
-the condition (e.g. here ``ghc_version <= 806``).
+want because some names may not be available (e.g. `y` or `z`) depending on
+the condition (e.g. here `ghc_version <= 806`).
 
 Related:
 
