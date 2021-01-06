@@ -77,7 +77,7 @@ instance C2 [p] [q]   -- Does not satisfy strict coverage
 ```
 From the class decl for `C2` the first parameter should fix the second; that is true of the first instance here, but not of the second, because `q` is not fixed when you fix `p`.
 
-**Liberal coverage condition (LCC)**
+### Liberal coverage condition (LCC)
 
 The **liberal coverage condition** is more liberal because it takes into account the context of the instance.  For example
 ```
