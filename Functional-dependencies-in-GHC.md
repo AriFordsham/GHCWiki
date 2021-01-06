@@ -12,7 +12,7 @@ This page summarises examples and issues about functional dependencies in GHC.
 
 ## 2. Terminology
 
-### Confluence and termination
+### Confluence
 
 **Confluence** means that:
 
@@ -27,16 +27,25 @@ This page summarises examples and issues about functional dependencies in GHC.
 
 #18851 has some interesting examples of non-confluence.
 
-**Termination** means that type inference terminates.
+### Termination
 
-Generally,
-* We'd like to be able to guarantee both termination and confluence.
-* We are happy to risk non-termination when we ask for it; insisting on guaranteed termination is very restrictive
-* We are extremely reluctant to risk non-confluence.
+**Termination** means that type inference terminates.  For example
+```
+instance Eq a => Eq [a] where ...
+instance Eq Int where ...
+```
+If you want to solve `[W] Eq [[[Int]]]` you can use the first instance to reduce it to `[W] Eq [[Int]]`, and then again
+to `[W] Eq [Int]` and then `[W] Eq Int`.  Now use the second instance decl.
+
+But if you had
+```
+instance C [[a]] => C [a] where ...
+```
+and wanted to solve `[W] C [a]`, you could use the instance decl, to get a new sub-goal `[W] C [[a]]`.  Then repeat ad infinitum.
 
 ### The Paterson conditions
 
-The Paterson conditions try to ensure that, when you use an instance decl, the sub-goals are "smaller" than the head. E.g.
+The Paterson conditions try to ensure termination, by ensuring that, when you use an instance decl, the sub-goals are "smaller" than the head. E.g.
 ```
 instance Eq a => Eq [a]
 ```
@@ -45,6 +54,18 @@ If you are trying to solve `Eq [Maybe Int]`, you can use the instance decl to ge
 The Paterson conditions are described in the user manual under [Instance termination rules](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/instances.html?highlight=undecidable#instance-termination-rules).
 
 Note: the Paterson conditions subsume the Bound Variable Condition (Defn 8) of the JFP-paper.
+
+### The relative importance of confluence and termination
+
+Generally,
+* We'd like to be able to guarantee both termination and confluence.
+* We are happy to risk non-termination when we ask for it; insisting on guaranteed termination is very restrictive
+* We are extremely reluctant to risk non-confluence.
+
+
+-------------------------
+
+## 3. Coverage conditions
 
 ### Strict coverage condition (SCC)
 
@@ -66,6 +87,10 @@ I'm using `{-# LIBERAL #-}` to signal that the instance only satisfies the liber
 The intuition is that since `p` fixes `q` in the context, so `[p]` indirectly fixes `[q]`.
 
 See Defn 12 of the JFP-paper, which calls it the "weak coverage condition".
+
+-------------------------
+
+## 4. Instance consistency conditions
 
 ### Strict instance consistency condition (SICC)
 
@@ -113,10 +138,14 @@ condition must hold: for any substitution S such that S(ti1; ..., tik) = S(si1; 
 there must exist a substitution T such that
 we must have that T(S(ti0)) = T(S(si0)); or equivalently S(ti0) and S(si0) are unifiable.
 
+### Relevant tickets
+
+See #15632 (Undependable dependencies).
+
 
 -----------------------
 
-## 3. GHC today
+## 5. GHC today
 
 GHC today does this:
 
@@ -130,7 +159,7 @@ GHC today does this:
 
 -------------------------------
 
-## 4. Some key examples
+## 6. Some key examples
 
 ### Example 1: liberal coverage breaks termination
 
@@ -244,7 +273,7 @@ So in priciple, LIBERAL+UNDECIDABLE lets you express DYSFUNCTIONAL (no coverage 
 ----------------
 
 
-## 5. Exploring the unique-unifiable-instance idea
+## 7. Exploring the unique-unifiable-instance idea
 
 Here is a concrete idea, triggered by Examples 2, 3, and 4:
 
@@ -316,7 +345,7 @@ Be careful: we want to allow Example 4.
 
 ----------------
 
-## 6. A concrete proposal
+## 8. A concrete proposal
 
 To have something concrete to discuss, here's a proposal:
 
@@ -326,7 +355,7 @@ To have something concrete to discuss, here's a proposal:
 
 ---------------
 
-## 7. Not functional dependencies in the original sense
+## 9. Not functional dependencies in the original sense
 
 Mark Jones introduced the term "functional dependencies" by lifting it from the database world.  There if `a -> b` we really mean that `a` fully determines `b`.  That property is essential for the translation to type families proposed by Karachalias & Schrijvers (paper link at top).
 
