@@ -149,7 +149,7 @@ As this strand of work touches a lot of modules, doing everything as a single ga
   at glance "which is which".
   **Implemented**: https://gitlab.haskell.org/ghc/ghc/-/merge_requests/4555
 
-- [ ] Untangle the error reporting functions from the `DynFlag` even 
+- [X] Untangle the error reporting functions from the `DynFlag` even 
   further. This can be done by getting rid of the `errShortString` field 
   from the `ErrMsg` record, which allows us to drop an extra `DynFlag` 
   argument from a lots of functions (e.g. `mkErr`) and give us more 
