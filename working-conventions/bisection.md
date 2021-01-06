@@ -251,6 +251,8 @@ compiler/stage1/build/Parser.hs:1445:48: error:
      |
 ```
 
+Another relevant happy issue (in GHC 9.0) is #18620.
+
 ### Starting Dirty
 
 If you've built GHC from source for another version of GHC beware of dirty generated files in the source tree. This can manifest in various ways such as a mismatched package configuration:
