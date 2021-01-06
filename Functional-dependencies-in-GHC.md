@@ -102,7 +102,7 @@ These instances do not satisfy the (strict) instance consistency condition.
 Yet if they are not allowed, then the liberal coverage condition is not very useful.
 That motivates the definition of liberal instance consistency:
 
-** Liberal instance consistency condition **.  Consider a declaration for class TC, and any pair of instance declarations for that class:
+**Liberal instance consistency condition**.  Consider a declaration for class TC, and any pair of instance declarations for that class:
 ```
 class blah => TC a1 ... an | fd1; ...; fdm
 instance D1 => TC t1...tn
